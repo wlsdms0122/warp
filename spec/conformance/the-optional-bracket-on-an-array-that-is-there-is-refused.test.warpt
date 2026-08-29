@@ -1,0 +1,25 @@
+warpt 1
+{
+  expect {
+    refuses "link"
+  }
+  name "the-optional-bracket-on-an-array-that-is-there-is-refused"
+  note "`?[` expects the array's absence, and a type that admits no null leaves no absence to expect. A mark that claims what the types rule out says nothing, so the link refuses it — the same rule `?.` meets on a declared field."
+  program {
+    needs []
+    procedures {
+      entry {
+        parameters {
+          items {
+            type "array<string>"
+          }
+        }
+        result {
+          ref "items?[0]"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}

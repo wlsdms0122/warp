@@ -1,0 +1,52 @@
+warpt 1
+{
+  expect {
+    answers [
+      true
+      false
+    ]
+  }
+  name "greater-than-mirrors-less-than"
+  note "greaterThan orders two of a kind the same way lessThan does, read from the other side."
+  program {
+    needs [
+      "std.math.greaterThan"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            call {
+              arguments {
+                value 2
+              }
+              of 3
+              procedure "std.math.greaterThan"
+            }
+            id "yes"
+          }
+          {
+            call {
+              arguments {
+                value "b"
+              }
+              of "a"
+              procedure "std.math.greaterThan"
+            }
+            id "no"
+          }
+        ]
+        result [
+          {
+            ref "yes"
+          }
+          {
+            ref "no"
+          }
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}

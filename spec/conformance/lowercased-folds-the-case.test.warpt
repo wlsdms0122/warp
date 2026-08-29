@@ -1,0 +1,25 @@
+warpt 1
+{
+  expect {
+    answers "warp"
+  }
+  name "lowercased-folds-the-case"
+  note "lowercased answers new text with the case folded down, leaving what it was given unchanged."
+  program {
+    needs [
+      "std.text.lowercased"
+    ]
+    procedures {
+      entry {
+        result {
+          call {
+            of "WaRp"
+            procedure "std.text.lowercased"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}

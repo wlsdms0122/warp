@@ -1,0 +1,54 @@
+warpt 1
+{
+  expect {
+    answers [
+      2
+      4
+      6
+    ]
+  }
+  name "a-pure-map-rewrites-in-order"
+  note "std.collection.map reads each element through a pure closure and answers the rewrites in the collection's order."
+  program {
+    needs [
+      "std.collection.map"
+      "std.math.times"
+    ]
+    procedures {
+      entry {
+        result {
+          call {
+            arguments {
+              value {
+                closure {
+                  parameters {
+                    item "int"
+                  }
+                  result {
+                    call {
+                      arguments {
+                        value 2
+                      }
+                      of {
+                        ref "item"
+                      }
+                      procedure "std.math.times"
+                    }
+                  }
+                }
+              }
+            }
+            of [
+              1
+              2
+              3
+            ]
+            procedure "std.collection.map"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}

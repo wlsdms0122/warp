@@ -1,0 +1,25 @@
+warpt 1
+{
+  expect {
+    refuses "link"
+  }
+  name "an-index-into-any-is-refused"
+  note "An index says as much as a dot does — that a shape is there to read into — and `any` declares neither. The shape is named to read it, the way a dot's is."
+  program {
+    needs []
+    procedures {
+      entry {
+        parameters {
+          payload {
+            type "any"
+          }
+        }
+        result {
+          ref "payload[0]"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}

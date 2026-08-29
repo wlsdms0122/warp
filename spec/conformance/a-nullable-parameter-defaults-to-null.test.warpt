@@ -1,0 +1,26 @@
+warpt 1
+{
+  expect {
+    answers null
+  }
+  name "a-nullable-parameter-defaults-to-null"
+  note "`int?` is the declared type or null, and nothing else — so a typed parameter may default to null, and a body reads the null the caller left."
+  program {
+    needs []
+    procedures {
+      entry {
+        parameters {
+          limit {
+            default null
+            type "int?"
+          }
+        }
+        result {
+          ref "limit"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}

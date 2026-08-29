@@ -1,0 +1,33 @@
+warpt 1
+{
+  expect {
+    refuses "link"
+  }
+  name "a-type-parameter-read-two-ways-is-refused"
+  note "A declaration's type parameter read as one thing by one argument and another by the next has no answer. Widening it to any was the checker announcing it had stopped checking, silently, and the call went through."
+  program {
+    needs [
+      "std.collection.appending"
+    ]
+    procedures {
+      entry {
+        parameters {
+          names "array<string>"
+        }
+        result {
+          call {
+            arguments {
+              value 1
+            }
+            of {
+              ref "names"
+            }
+            procedure "std.collection.appending"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}

@@ -1,0 +1,26 @@
+warpt 1
+{
+  arguments {
+    ratio 1.0
+  }
+  expect {
+    refuses "run"
+  }
+  name "the-far-bound-of-a-range-may-be-left-outside"
+  note "`..<` says the far bound is outside the range — the half-open interval, which for a fraction is the one nothing can spell by moving a bound. The near bound is always inside, so there is one spelling per range."
+  program {
+    procedures {
+      entry {
+        parameters {
+          ratio "double(0.0..<1.0)"
+        }
+        result {
+          ref "ratio"
+        }
+        returns "double"
+      }
+    }
+    warp 1
+  }
+  test 1
+}

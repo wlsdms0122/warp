@@ -1,0 +1,59 @@
+warpt 1
+{
+  expect {
+    answers [
+      1
+      3
+    ]
+  }
+  name "first-and-last-read-the-ends"
+  note "first and last answer the elements at the ends of an array, in the order the array holds."
+  program {
+    needs [
+      "std.collection.first"
+      "std.collection.last"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            id "items"
+            value [
+              1
+              2
+              3
+            ]
+          }
+          {
+            call {
+              of {
+                ref "items"
+              }
+              procedure "std.collection.first"
+            }
+            id "front"
+          }
+          {
+            call {
+              of {
+                ref "items"
+              }
+              procedure "std.collection.last"
+            }
+            id "back"
+          }
+        ]
+        result [
+          {
+            ref "front"
+          }
+          {
+            ref "back"
+          }
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}

@@ -1,0 +1,36 @@
+warpt 1
+{
+  expect {
+    answers null
+  }
+  name "a-declining-branch-writes-nothing"
+  note "A bare var introduces a name holding null, and a branch whose condition declines runs nothing — the variable holds what it held."
+  program {
+    needs []
+    procedures {
+      entry {
+        body [
+          {
+            var "chosen"
+          }
+          {
+            branch {
+              then [
+                {
+                  set "chosen"
+                  value "took-then"
+                }
+              ]
+              when false
+            }
+          }
+        ]
+        result {
+          ref "chosen"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}

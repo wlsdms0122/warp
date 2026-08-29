@@ -1,0 +1,32 @@
+warpt 1
+{
+  arguments {
+    items [
+      "only"
+    ]
+  }
+  expect {
+    refuses "run"
+  }
+  name "the-optional-bracket-still-refuses-past-the-end"
+  note "`?[` expects the array's absence, not the element's. An array that arrived says how long it is, so a reading that misses it read the length wrong — past the end refuses at the run, mark or no mark."
+  program {
+    needs []
+    procedures {
+      entry {
+        parameters {
+          items {
+            default null
+            type "array<string>?"
+          }
+        }
+        result {
+          ref "items?[5]"
+        }
+        returns "string?"
+      }
+    }
+    warp 1
+  }
+  test 1
+}

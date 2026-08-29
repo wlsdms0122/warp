@@ -1,0 +1,31 @@
+warpt 1
+{
+  expect {
+    answers [
+      1
+      2
+    ]
+  }
+  name "values-answer-in-canonical-order"
+  note "values walks a record the one way a record can be walked — its canonical order, names ascending — so the same record answers the same walk on every run."
+  program {
+    needs [
+      "std.collection.values"
+    ]
+    procedures {
+      entry {
+        result {
+          call {
+            of {
+              a 1
+              b 2
+            }
+            procedure "std.collection.values"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}

@@ -1,0 +1,50 @@
+warpt 1
+{
+  arguments {
+    ready false
+  }
+  expect {
+    answers 2
+  }
+  name "a-write-both-arms-make-retypes-the-variable"
+  note "A write every finishing way makes is definite: whichever arm ran, the name holds an int, so an answer declared int links."
+  program {
+    procedures {
+      entry {
+        body [
+          {
+            var "kept"
+          }
+          {
+            branch {
+              else [
+                {
+                  set "kept"
+                  value 2
+                }
+              ]
+              then [
+                {
+                  set "kept"
+                  value 1
+                }
+              ]
+              when {
+                ref "ready"
+              }
+            }
+          }
+        ]
+        parameters {
+          ready "bool"
+        }
+        result {
+          ref "kept"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}

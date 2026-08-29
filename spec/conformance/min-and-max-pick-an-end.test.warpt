@@ -1,0 +1,53 @@
+warpt 1
+{
+  expect {
+    answers [
+      1
+      7.25
+    ]
+  }
+  name "min-and-max-pick-an-end"
+  note "min and max answer the lesser and the greater of two of a kind, by worth."
+  program {
+    needs [
+      "std.math.max"
+      "std.math.min"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            call {
+              arguments {
+                value 1
+              }
+              of 3
+              procedure "std.math.min"
+            }
+            id "low"
+          }
+          {
+            call {
+              arguments {
+                value 7.25
+              }
+              of 2.5
+              procedure "std.math.max"
+            }
+            id "high"
+          }
+        ]
+        result [
+          {
+            ref "low"
+          }
+          {
+            ref "high"
+          }
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}

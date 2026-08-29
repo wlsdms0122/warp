@@ -1,0 +1,40 @@
+warpt 1
+{
+  expect {
+    answers true
+  }
+  name "not-and-notequal-say-the-opposite"
+  note "notEqual answers what equal would deny, and not turns a truth around — the negations answer by the language's one sameness."
+  program {
+    needs [
+      "std.logic.not"
+      "std.logic.notEqual"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            call {
+              arguments {
+                value 1.0
+              }
+              of 1
+              procedure "std.logic.notEqual"
+            }
+            id "unequal"
+          }
+        ]
+        result {
+          call {
+            of {
+              ref "unequal"
+            }
+            procedure "std.logic.not"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}

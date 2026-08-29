@@ -1,0 +1,38 @@
+warpt 1
+{
+  expect {
+    answers 3
+  }
+  name "a-bare-constraint-name-finds-the-one-declaration"
+  note "A constraint name resolves the way a procedure name does: the module's own declaration first, then the one declaration in the link that answers to the bare spelling. This document writes Comparable and means std.Comparable, because nothing else in the link declares that name."
+  program {
+    needs []
+    procedures {
+      entry {
+        result {
+          call {
+            arguments {
+              value 3
+            }
+            procedure "keep"
+          }
+        }
+        returns "int"
+      }
+      keep {
+        bounds {
+          T "Comparable"
+        }
+        parameters {
+          value "some T"
+        }
+        result {
+          ref "value"
+        }
+        returns "some T"
+      }
+    }
+    warp 1
+  }
+  test 1
+}

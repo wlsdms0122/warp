@@ -1,0 +1,35 @@
+warpt 1
+{
+  expect {
+    answers [
+      0
+      1
+      2
+    ]
+  }
+  name "prepending-writes-the-front"
+  note "prepending answers a new array with the value at the front, the mirror of appending."
+  program {
+    needs [
+      "std.collection.prepending"
+    ]
+    procedures {
+      entry {
+        result {
+          call {
+            arguments {
+              value 0
+            }
+            of [
+              1
+              2
+            ]
+            procedure "std.collection.prepending"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}

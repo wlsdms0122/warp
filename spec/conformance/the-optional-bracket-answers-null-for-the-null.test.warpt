@@ -1,0 +1,27 @@
+warpt 1
+{
+  expect {
+    answers null
+  }
+  name "the-optional-bracket-answers-null-for-the-null"
+  note "`?[` expects the array's absence: the null the caller left short-circuits the whole path to null. Which element would have been read is never asked — an index past the end of an array that did arrive still refuses at the run, `?[` or not."
+  program {
+    needs []
+    procedures {
+      entry {
+        parameters {
+          items {
+            default null
+            type "array<string>?"
+          }
+        }
+        result {
+          ref "items?[0]"
+        }
+        returns "string?"
+      }
+    }
+    warp 1
+  }
+  test 1
+}

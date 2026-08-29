@@ -1,0 +1,34 @@
+warpt 1
+{
+  expect {
+    answers 7
+  }
+  name "an-answer-nobody-wrote-is-read-off-the-body"
+  note "A declaration with no `returns` still answers something, and what it answers is what its body hands back. The dot after the call is judged against that, so the shape the body already states does not have to be stated twice."
+  program {
+    needs []
+    procedures {
+      counts {
+        result {
+          total 7
+        }
+      }
+      entry {
+        body [
+          {
+            call {
+              procedure "counts"
+            }
+            id "said"
+          }
+        ]
+        result {
+          ref "said.total"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}

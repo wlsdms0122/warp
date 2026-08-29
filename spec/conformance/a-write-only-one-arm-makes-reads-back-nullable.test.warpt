@@ -1,0 +1,57 @@
+warpt 1
+{
+  arguments {
+    ready true
+  }
+  expect {
+    refuses "link"
+  }
+  name "a-write-only-one-arm-makes-reads-back-nullable"
+  note "The run either took the arm or did not, so afterwards the name holds the write or the null it started with — int?, and a slot declared int refuses it where names resolve."
+  program {
+    procedures {
+      entry {
+        body [
+          {
+            var "kept"
+          }
+          {
+            branch {
+              then [
+                {
+                  set "kept"
+                  value 1
+                }
+              ]
+              when {
+                ref "ready"
+              }
+            }
+          }
+          {
+            call {
+              arguments {
+                it {
+                  ref "kept"
+                }
+              }
+              procedure "wants"
+            }
+            id "said"
+          }
+        ]
+        parameters {
+          ready "bool"
+        }
+      }
+      wants {
+        parameters {
+          it "int"
+        }
+        result true
+      }
+    }
+    warp 1
+  }
+  test 1
+}

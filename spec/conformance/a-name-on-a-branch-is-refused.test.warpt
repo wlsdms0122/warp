@@ -1,0 +1,30 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-name-on-a-branch-is-refused"
+  note "A branch answers nothing, so its name could never bind — what an arm keeps is written to an outer variable with set."
+  program {
+    procedures {
+      entry {
+        body [
+          {
+            branch {
+              then [
+                {
+                  id "kept"
+                  value 1
+                }
+              ]
+              when true
+            }
+            id "chosen"
+          }
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}

@@ -1,0 +1,65 @@
+warpt 1
+{
+  expect {
+    answers [
+      [
+        2
+        3
+      ]
+      [
+        1
+        2
+      ]
+    ]
+  }
+  name "dropping-an-end-answers-the-rest"
+  note "dropFirst and dropLast answer the array without one end, and a new array each time."
+  program {
+    needs [
+      "std.collection.dropFirst"
+      "std.collection.dropLast"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            id "items"
+            value [
+              1
+              2
+              3
+            ]
+          }
+          {
+            call {
+              of {
+                ref "items"
+              }
+              procedure "std.collection.dropFirst"
+            }
+            id "head"
+          }
+          {
+            call {
+              of {
+                ref "items"
+              }
+              procedure "std.collection.dropLast"
+            }
+            id "tail"
+          }
+        ]
+        result [
+          {
+            ref "head"
+          }
+          {
+            ref "tail"
+          }
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}

@@ -1,0 +1,50 @@
+warpt 1
+{
+  arguments {
+    payload "not a whole number"
+  }
+  expect {
+    answers "caught"
+  }
+  name "an-attempt-catches-a-cast-that-did-not-match"
+  note "A cast is the author expecting a shape of data that came from outside, and being wrong about that is what the world does — so the refusal is a failure like any other and an `attempt` catches it."
+  program {
+    needs []
+    procedures {
+      entry {
+        body [
+          {
+            attempt {
+              body [
+                {
+                  id "read"
+                  value {
+                    as "int"
+                    of {
+                      ref "payload"
+                    }
+                  }
+                }
+              ]
+              rescue {
+                result "caught"
+              }
+            }
+            id "tried"
+          }
+        ]
+        parameters {
+          payload {
+            type "any"
+          }
+        }
+        result {
+          ref "tried"
+        }
+        returns "string"
+      }
+    }
+    warp 1
+  }
+  test 1
+}

@@ -98,7 +98,7 @@ A program computes over eight kinds of data, plus one value that is not data:
 | int | `1`, `-3` | signed, 64-bit; overflow **refuses**, it does not wrap |
 | double | `1.0`, `1e2` | IEEE-754 binary64; a document cannot carry infinity or NaN |
 | string | `"hi"` | Unicode text |
-| bytes | `x"6869"` | raw bytes; what a carrying form carries when the payload is not text |
+| bytes | `x"6869"` | `array<byte>` in a compact spelling — `byte` being `int(0...255)`, declared by `std`; what a carrying form carries when the payload is not text |
 | array | `[ … ]` | ordered |
 | record | `{ … }` | unordered fields, names unique |
 | procedure | — | code with what it captured; exists only at run time, never in a document |
@@ -106,13 +106,19 @@ A program computes over eight kinds of data, plus one value that is not data:
 **When two values are the same:**
 
 - A whole number and a fraction of the same size are the same value. Numbers
-  are compared by what they are worth, not by which of the two they are.
+  are compared by what they are worth, not by which of the two they are —
+  exactly, at **every** size: `9007199254740993` (2^53 + 1) is neither equal
+  to nor below `9007199254740992.0`, however binary64 would round it, and
+  ordering and `sorted` read the same worth equality does.
 - A fraction that is not a number is not equal to itself. There is one such
   value, no way to write it down, and the standard vocabulary never answers
   one — arithmetic with no finite answer refuses instead — so it arises only
   from a host's own word.
 - Bytes are the same when their bytes are, in order. Bytes are not text: no
-  encoding is assumed, so no Unicode rule applies.
+  encoding is assumed, so no Unicode rule applies. Beside an **array**, worth
+  unifies the way it does across numeric width: `x"6869"` and `[104, 105]`
+  are worth the same — one collection of the same whole numbers in the same
+  order, spelled two ways — and stay two values, the way `1` and `1.0` do.
 - Arrays are the same when their elements are, in order.
 - Records are the same when they hold the same names bound to the same values.
   A record has no order, so order is not part of the answer.
@@ -140,13 +146,82 @@ cannot say:
 | `procedure` | some procedure, signature unsaid |
 | `pure <procedure type>` | a procedure that answers without running effects |
 | `Task` (any declared name) | the type a module declares under that name |
-| `some T` | a hole: worked out from the call, same reading everywhere it appears |
+| `some T` | a type parameter: worked out from the call, same reading everywhere it appears; bounded when the signature's `bounds` names it |
+| `int(0...255)`, `double(0.0..<1.0)` | a number the slot admits only inside the range — the kind written out, either bound optional but not both, and `..<` leaving the far bound outside |
+| `int?` (any string spelling and `?`) | the declared type or null — the one union, and it is null-only |
 | `{ id: string, done: bool }` | a record type, written as the record it describes |
 | `{ procedure: { parameters: …, returns: … } }` | a procedure type, written as the signature it takes |
 
 Acceptance is one-way where the kinds nest: `double` accepts an `int` (a whole
 number widens to a fraction; the reverse **refuses**), `number` accepts both and
 nothing else, `any` accepts everything.
+
+**What a slot takes, exactly.** Where a value meets a declaration — an
+argument, a taken default, an answer — the settlement is one rule per shape:
+
+- `any` passes the value through untouched, null and procedures included.
+  Nothing settles, because nothing was declared.
+- A **record type** requires every field it declares and settles each against
+  its type; fields the declaration never named **ride through untouched**. A
+  record carrying more fits one that declared fewer, and the extras arrive
+  intact — a declaration says what must be there, not what may.
+- A **declared name** is an alias: settling resolves the name and judges by
+  the shape it stands for. Two names declaring one shape admit the same
+  values; there is no nominal identity.
+- A **nullable** (`T?`) passes null through and settles anything else against
+  the declared half. `T?` takes `T`, null and `T?`; a `T?` reading does not
+  fit a plain `T` slot. The `?` is written once, on the whole spelling, and
+  only where it says something new: `int??`, `null?`, `any?`, `never?` and
+  `some T?` each **refuse at the read**. A shape with no string spelling — a
+  record — has no `?` to trail; a nullable record is reached through a
+  declared name (`Task?`).
+- The numeric edge is value-independent: `int` refuses every fraction, `2.0`
+  included — taking the whole ones would make fitting depend on the value
+  rather than the type. `double` takes a whole number and settles it to the
+  fraction it names; the widening is binary64's, so digits past 2^53 round as
+  binary64 rounds. `number` passes either kind as itself — settling to one of
+  them would be the declaration picking, and it declined to.
+- A **range** (`int(0...255)`, `double(0.0..<1.0)`) is a slot's condition on a
+  number, not a kind: the value is an `int` or a `double`, and the bounds are
+  judged where a value is settled, the way `oneOf` is — at the **link** for a
+  constant argument or a default, at the **boundary** for what only the run
+  can see.
+  - **The kind is written out**, because a bound is a value of the kind it
+    bounds: `int(0...255)` writes whole numbers and `double(0.0...1.0)`
+    fractions, each in that kind's one spelling. `int(0.0...)` and
+    `double(0...)` both **refuse at the read** — neither range can be written
+    with the other's bounds. A fraction range takes a whole number the one way
+    the language widens (a `2` arriving at `double(0.0...5.0)` settles as
+    `2.0`); nothing narrows.
+  - **The far bound may be left outside.** `a...b` holds it, `a..<b` does not
+    — the half-open interval a position below a length is written against, and
+    for a fraction the one nothing can spell by moving a bound. The near bound
+    is always inside, which is the convention every half-open interval is
+    already read by; there is one spelling per range because of it. `..<` with
+    nothing after it **refuses at the read** — it says the far bound is
+    outside, and there is no far bound.
+  - Before the run, acceptance reads a range as the kind under it on either
+    side — only what is provably outside is refused early, and a reading's
+    worth is not knowable, so a call handing a declared `int` to an
+    `int(0...255)` slot links and the boundary judges. Two ranges are both the
+    text's fact, so bounds that cannot overlap are refused early, across kinds
+    as well as within one.
+  - Either bound may be open (`int(0...)`, `int(...255)`); neither may be
+    (`int(...)` says nothing and **refuses at the read**), and a range whose
+    bounds admit nothing — `int(9...1)`, or `int(5..<5)` where the far bound
+    is excluded and the near one stands on it — is a slot no call could fit,
+    **refused at the link** where the declaration wrote it, exactly as an
+    empty `oneOf` is. A whole bound must be a number an `int` holds, and a
+    padded or signed spelling (`int(007...)`, `int(+1...)`) or a bound past
+    the word both **refuse at the read**, each named as what it is.
+  - A module gives a range a name the way it names any type: `std` declares
+    `byte = int(0...255)`, and there is no separate byte kind.
+  - A bound is written as the value it is, so a fraction bound is a fraction's
+    one spelling. A host may assemble a range bounded by an infinity — it
+    orders like any other bound, and the link takes it — but no document
+    spells one, so **writing that range out refuses**, the way every shape a
+    document cannot say does, rather than coming back as something a reader
+    would reject.
 
 `never` is a real type and fits **every** slot, by never arriving: an
 expression typed `never` may be written where any value is expected — a branch
@@ -155,14 +230,62 @@ evaluation it is inside. The statement rules (no name, nothing follows) are
 statement rules; in expression position there is nothing extra to say, because
 nothing after the expression is reached at all.
 
-**Holes.** A declaration may leave a hole and let the call fill it: a word
-taking `array<some T>` and a `some T` answers what it was given. A hole read
-twice must be read the same both ways. Two readings where one accepts the other
-settle on the looser; two readings that do not fit are **refused** — appending a
-whole number to a list of text is a hole read as text and as a number, and
-there is no answer that is both. It must be a refusal rather than a silent
-widening to `any`: widening there is the checking announcing it has stopped, in
-the one place it had just found what it was looking for.
+**Type parameters.** A declaration may leave a type parameter and let the
+call fill it: a word taking `array<some T>` and a `some T` answers what it was
+given. A parameter read twice must be read the same both ways. Two readings
+where one accepts the other settle on the looser; two readings that do not fit
+are **refused** — appending a whole number to a list of text is a parameter
+read as text and as a number, and there is no answer that is both. It must be a
+refusal rather than a silent widening to `any`: widening there is the checking
+announcing it has stopped, in the one place it had just found what it was
+looking for.
+
+**Constraints.** A type parameter may be bounded: a signature declares
+`bounds: { T: Comparable }` once, its slots write `some T`, and every
+occurrence of the name takes only what the constraint admits. The signature
+owns the bound — a slot names the parameter and never the membership, so one
+bound is one claim however many slots mention the name, and there is no inline
+union for the membership to leak out through. A constraint is a **declared
+membership** — a module binds a name to the types it admits, the way it
+declares a type. Nothing is ever *of* a constraint: it bounds a parameter, and
+a slot cannot declare it as its type. The judgment is made twice, once per
+surface: at the **link**, a reading provably outside the membership refuses —
+two booleans meeting `lessThan` never run — and a reading the text says
+nothing about (`any`) passes; at the **boundary**, the value that actually
+arrived is judged against the membership, so what travelled in through `any`
+is refused where it arrives. One name takes one constraint: two claims binding
+one parameter to different constraints refuse at the link, and `bounds` naming
+a parameter no slot mentions refuses at the read. Only the declaring
+procedure writes `bounds` — a procedure *type* nested in a slot carries none,
+because its parameters are the declaring signature's own slots and the
+declaring signature owns their bounds. A constraint nobody
+declares, a constraint declared twice under one qualified name, one admitting
+nothing, and a name declared as both a type and a constraint all **refuse at
+the link**. A member is a **concrete shape**: `some`, `any` and `never` in
+member position refuse at the link — each says nothing a membership could
+hold. And a type parameter lives in a signature: a declared type writing
+`some` outside a procedure signature refuses at the link, because nothing
+there is filled by a call. A path send is judged like the call it is: the
+receiver fills the word's one slot, so `"abc".absolute` refuses at the link
+exactly as `absolute(of: "abc")` does.
+
+**Type and constraint names carry their module.** A module named `m` declaring
+type `T` declares `m.T`, the way its procedures declare `m.p`; a module with
+no name declares into the shared space. A mention resolves by the one rule
+procedure names resolve by: the writing module's own declaration first — a
+name never changes meaning because some other module in the link grew one —
+then the exact declared spelling (a shared-space declaration's bare name is
+its exact spelling), and past that, the one declaration in the link that
+answers to the spelling. A spelling that still answers to more than one
+declaration **refuses at the link** where it is mentioned: no rule could say
+which was meant, and the qualified spelling is how the author says. Types and constraints resolve each in their own space — a
+slot mentions types, a bound mentions constraints.
+
+The shared `std` module (the foundation bundle) declares the memberships the
+standard words are bounded by: `Numeric` admits `int` and `double`;
+`Comparable` admits `int`, `double` and `string`. A bundle whose signatures
+mention them — `std.math`, `std.collection` — links only with `std` in the
+link, which is the one dependency the standard bundles have.
 
 ## The document format
 
@@ -174,15 +297,23 @@ here **refuses**. Every slot marked *expression*, *block*, *statements* or
 
 | key | takes | required |
 |---|---|---|
-| `warp` | int — the language version this document is written for | no; absent reads as `1` |
+| `warp` | int — the language version this document is written for | yes |
 | `needs` | array of strings — every word the program *calls* and does not declare; words a path reaches are bounded separately, below | no |
 | `name` | string | no |
 | `description` | string | no |
 | `types` | record: name → type | no |
+| `constraints` | record: name → array of types the name admits | no |
 | `const` | record: name → expression | no |
 | `procedures` | record: name → procedure | yes, and not empty |
 
-**The version.** The current version is **1**; the earliest that ever existed is
+**The version.** Every document says it, and one that does not **refuses** — as
+not a document rather than as a malformed one. A reader that filled in a default
+would be answering, on the sender's behalf, the one question that has to be
+answerable from the bytes alone; and a file of some other shape entirely would
+get as far as having its keys judged. Nobody writes the number by hand anyway —
+a front end computes it, so a document without one did not come from one.
+
+The current version is **1**; the earliest that ever existed is
 **1** — pre-release, so the two ends of the reading range are one number. A reader must refuse a document written for a later version than it
 implements, before judging the document's shape — a later version may add keys,
 and checking shape first would turn "I am too old for this" into "this is
@@ -232,7 +363,8 @@ link's question, answered at the link by name.
 | `description` | string | no |
 | `parameters` | record: name → parameter | no |
 | `receiver` | string — the name of the parameter a path reaches this procedure through | no |
-| `returns` | type | no |
+| `returns` | type — when absent, what a call answers is read off the body | no |
+| `bounds` | record: type parameter → constraint name; refuses when it names a parameter no slot mentions | no |
 | `body` | statements | no |
 | `result` | expression — what the procedure answers | no |
 
@@ -254,13 +386,25 @@ Written as a bare string — its type — or as a record:
 **link** for a constant argument, at the run's boundary otherwise. The
 declaration itself is judged at the **link**, wherever the parameter is written
 — nested signatures included — because a declaration may lean on a declared
-type name, and only the link resolves those: a `oneOf` that admits nothing
-**refuses** — none of its candidates is a value the declared type could hold,
-the empty set being the plainest case — and so does a `default` the parameter
+type name, and only the link resolves those: a `oneOf` listing a candidate
+the declared type does not admit **refuses** — a dead candidate is a member
+no call could ever match, whether live ones stand beside it or not, the
+empty set being the plainest case. A candidate is written in a value's **one
+spelling** — the spelling a document itself writes: `007`, `+1`, and `1e0`
+are second spellings of values that already have one, and `1` on a `double`
+slot is the int's spelling, which no fraction ever wears — each of these is
+a dead candidate, because the boundary compares an arriving value's own
+spelling and would never produce theirs. The same judgement refuses a
+`default` the parameter
 itself would refuse, by its `type` or its own `oneOf`. A `default` written as
-`null` is the value the body receives, so it needs a type that admits null. A
+`null` is the value the body receives, so it needs a type that admits null —
+`any`, `null`, or a nullable `T?`, which is what lets a typed parameter say
+"this, or leave it out". A
 taken default arrives **settled**, exactly as a passed argument does. A
-parameter without a `default` is required; there is no separate optionality.
+parameter without a `default` is required — except that a `T?` parameter's
+null is one of its values, so it may be left out and omission reads as that
+null; the call check, the boundary and path reachability all answer this one
+question the same way. There is no third axis of optionality.
 
 ### A statement
 
@@ -275,8 +419,8 @@ The naming key says what the statement does to its name:
 | `set` | writes a name a `var` declared earlier |
 
 A statement with no naming key runs its construct and binds nothing — the
-answer is dropped, which is how an effect is asked for on its own. Two families
-step out of this freedom, in opposite directions:
+answer is dropped, which is how an effect is asked for on its own. Three
+families step out of this freedom, in different directions:
 
 - The constructs that bind **through** the statement's name — `loop` (its
   round), `each` over a collection (its element), `attempt`
@@ -288,7 +432,18 @@ step out of this freedom, in opposite directions:
   and a key that promises a binding that cannot happen **refuses**. The same
   rule reaches a **call**: a statement whose word declares `returns: never`
   binds nothing and takes no name — held at the **link**, because only the
-  link knows the signature, where the syntactic leaves are held at the reading.
+  link knows the signature, where the leaves the text shows are held at the
+  load.
+- A **`branch`** takes no naming key either, for the other reason: it
+  finishes, but it answers nothing and binds nothing inside — a condition
+  chooses a way through the body, not a value. What an arm keeps it writes to
+  an outer variable with `set`, and a value leaves through `return`.
+
+**A `var` may stand alone.** A statement that is only `var: name` — no
+construct key — introduces the name with nothing in it yet, and a name holding
+nothing holds null. It is the declaration a branch's arms write into; what the
+name reads as afterwards is under *what a variable reads as*, below. The other
+two spellings say something about a construct, so they still require one.
 
 **One name, several askers.** A statement's name names the statement, and every
 reader of it reads that one fact: an expression reads the value the statement
@@ -326,10 +481,14 @@ word, and it is the isolated one.
 | key | takes | required |
 |---|---|---|
 | `when` | expression — must answer a bool | yes |
-| `then` | block | yes |
-| `else` | block | no |
+| `then` | statements | yes |
+| `else` | statements | no |
 
-Both arms are checked whether or not they are taken.
+A branch is a statement: it **answers nothing**, and it **takes no name**. The
+condition chooses a way through the body — an arm is statements alone, with no
+`result` slot, because there is nowhere for a result to go. What an arm keeps
+it writes to an outer variable with `set`, and a value leaves the procedure
+through `return`. Both arms are checked whether or not they are taken.
 
 **`loop`** —
 
@@ -390,12 +549,26 @@ what the program said. A rescue with nothing in it — no statement to run for
 effect, no `result` to answer — **refuses at the check**: it would swallow a
 failure into null without a trace. This is the one exception to a block's
 optional `result`, and the failure is the reason. The statement's own name binds the failure **while the
-rescue runs** — and what it binds is a **record**: at least `type` (one word
-naming what happened — `aborted`, `concurrent_failed`) and `message` (text for
-a person), plus whatever that failure carries —
-`concurrent_failed` carries `failures`, every piece's reason keyed by the
-piece. A failure is data the moment a rescue holds it, which is why no ninth
-kind exists for it.
+rescue runs**, and what it binds is a **record declared `{ type: string,
+message: string }`** — `type` is one word naming what happened (`aborted`,
+`concurrent_failed`) and `message` is text for a person. Every failure holds
+those two by construction: a runtime assembles the payload from what a failure
+declares, so no word can hand over one without them and there is nothing here
+for a run to check.
+
+A failure may carry more — `concurrent_failed` carries `failures`, every
+piece's reason keyed by the piece — and what it carries rides through the
+boundary the way any data past a declaration does. It is not declared here,
+so it is not read by a dot here: the shape is named to read it, the way any
+undeclared shape is.
+
+```
+{ id: "reason", value: { as: { failures: object<string> }, of: { ref: "failed" } } }
+{ ref: "reason.failures" }
+```
+
+A failure is data the moment a rescue holds it, which is why no ninth kind
+exists for it.
 
 **`group`** — a block written as a statement, and nothing more: the bare
 member of the same family as a `branch` arm or a `loop` round, with the
@@ -422,8 +595,8 @@ Nothing may be written after a `return`, `break` or `continue` in the same
 body: it would never run, and the name it would bind would never bind. The same
 holds after a call whose word declares `never`, at the link. The rule reaches
 through structure, because the fact does: a `branch` both of whose arms leave
-never finishes either, so it takes no name and nothing may follow it — held at
-the **check**, since the arms are text. A construct that can finish — a branch
+never finishes either, so nothing may follow it — held at
+the **load**, since the arms are text. A construct that can finish — a branch
 with no `else`, a loop, an `attempt` (its rescue may finish normally) — is not
 a leave, however its bodies end.
 
@@ -436,7 +609,7 @@ checking it would need to understand more than a signature can say.
 
 A scalar is itself — a literal. A string is always literal text; nothing inside
 it is ever re-parsed. An array is an array of expressions. A record is a record
-of expressions — **unless** it carries one of the five form keys:
+of expressions — **unless** it carries one of the form keys:
 
 | form | means |
 |---|---|
@@ -444,11 +617,112 @@ of expressions — **unless** it carries one of the five form keys:
 | `{ value: <data> }` | the escape: exactly this data, as a literal, even if it looks like a form |
 | `{ call: <message> }` | a message where a value is wanted; same grammar as the `call` construct |
 | `{ closure: <procedure> }` | a procedure written where a value is wanted; same grammar as a procedure |
+| `{ as: <type>, of: <value> }` | read the value as that shape — the door onto what `any` declares nothing about |
+| `{ as?: <type>, of: <value> }` | the same, reading a mismatch as null rather than refusing; the answer is `T?` |
 | `{ format:, with: }` | reserved: a front-end spelling (below); **refuses** in a document |
+
+A **cast** names the shape a value is read as. The type is written the way any
+type is — a name, or the mapping a record or a signature is written as. From
+the cast on, the reading *is* that shape, so every dot after it is judged
+against it; the run is left the one question the link cannot answer, which is
+what actually arrived, and it answers it at the same boundary a parameter's
+argument passes through. A plain `as` **refuses at the run** when the value is
+not that shape — a failure like any other, so an `attempt` catches it — and
+`as?` reads that mismatch as null, which is the author saying they expected it.
+
+A cast that names the shape the reading already **is** refuses at the link, the
+way a needless `?.` does: the claim says nothing. Sameness, not admission — a
+reading of `int` cast to `int(0...10)` names something the types do not prove,
+and only the run can say whether it holds. A cast onto `any`, `never` or a type
+parameter refuses for the other half of the same reason: those name no shape to
+read.
+
+A cast between a reading and a shape **no value is both** refuses at the link
+too: it could not succeed on any run, so `as` would refuse every time and `as?`
+would answer null every time — a null that says nothing about the value. Two
+ranges are read here the way acceptance reads them: `int(0...5) as int(10...15)`
+names a value no run produces, so it is refused where it is written.
+
+A cast that names a type nothing declares **refuses at the link**, wherever it
+is written — the rule every type spelling is held to. `as?` reads a value that
+is not the named shape as null; it does not read a name that names nothing as
+null, because that is the declaration being wrong rather than the value.
 
 The form keys are fixed. A record that carries one as plain data must be
 quoted with `{ value: … }` — quotation is a fact about the document, not about
 the expression it writes.
+
+**What a dot means is decided at the link.** Every `ref` path is judged where
+names resolve, and the judgment is written into the image: a dot on a shape
+with fields is a **read**, a dot on a shape without them is a **word send**,
+and the value that arrives at run time has no say in which. Segment by
+segment:
+
+- On a **record type**, a dot reads the field the type declares. A field it
+  does not declare **refuses at the link**, `?.` or not — the type proved the
+  absence, and no spelling reads past a proof. A word on a record is written
+  as a call. Data the value carries past the declaration still rides through
+  the boundary — a record says what must be there, not all there is — but it
+  rides *through*: reading it is declaring it, by widening the record or by
+  taking `object<any>`.
+- On an **object**, a dot reads an entry; which names are there is the run's
+  fact. An absent entry **refuses at the run** — unless the segment is
+  written `?.`, which reads it as null.
+- On a kind that has no fields — text, numbers, arrays, bytes, booleans,
+  procedures — a dot is a **word send**, judged at the link exactly as the
+  written call is and spelled into the image as a send.
+- On **`any`**, a dot — or an index — **refuses at the link**. Nothing is
+  declared here, so there is nothing for the reading to be judged against — and a dot no declaration
+  proves is the one thing a run would have to decide for itself. The shape is
+  read by naming it: `{ as: <type>, of: <value> }` says what the author expects,
+  and every dot after it is judged against that.
+- On a **type parameter** (`some T`), whose shape is the call's fact, a dot
+  **reads data**: the shape is declared, at the call rather than here, so the
+  segments stand as written and what the call filled in answers them. What the
+  dot reaches is a shape the call decides too — dots go on standing after it —
+  but it is **not the parameter**: `of` is the shape the call filled in and
+  `of.a` is a field of that shape, which is a different unknown, and it carries
+  none of the parameter's bound. So a name holding `of` on one way through and
+  `of.a` on another holds neither, and one holding `of.a` twice holds one shape.
+  Which field of which parameter a walk reached is all that decides this. So
+  `of.a` and `of?.a` are one field read twice — a mark says what is expected of
+  the *value* and says nothing about where the walk landed — a name given to a
+  step along the way arrives where the unbroken walk arrives (`held` holding
+  `of.a`, then `held.b`, is `of.a.b`), and two parameters written `some T` hold
+  one shape, so the same field of either is the same field.
+- **Null is not read through.** A segment whose receiver is null — or whose
+  reading says it may be (`T?`) — **refuses**: at the link where the text
+  shows it, at the run otherwise. `?.` is the one spelling that expects
+  absence on a name: it reads the null (or the absent entry) as null for the
+  whole path, and the path's own reading is nullable for the same reason.
+  `?[` is that same mark on an index, and what it expects absent is the
+  **array itself** — never an element.
+- An **index past the end refuses at the run** — the array is there and says
+  how long it is, so a reading that misses it read the length wrong. `?[` does
+  not change this: it is `?.`'s mark on an index — it expects the **array's**
+  absence, not the element's — so `items?[0]` reads a null array as null for
+  the whole path, and still refuses past the end of one that arrived.
+- A `?.` or `?[` that could not have read past anything — on a record's
+  declared field, on a word whose receiver is proven non-null, on an array the
+  type proves is there — **refuses at the link**, the way a `?` that says
+  nothing new refuses on a type spelling. The claim of absence has to be one
+  the types leave open.
+- The **head of a path takes no mark**. A head is a name a scope holds, and
+  there is nothing before it to read past: a name that answers nothing is a
+  reading gone wrong, not an absence a mark can expect. `?.name` and `?[i]`
+  written first in a path **refuse** — wherever the path is judged, and
+  whether it was written as text or built as segments.
+
+A constant-headed path never reaches a run: it is judged first like any path
+— the constant's settled value is its declared shape, so an absent field or a
+needless `?.` refuses by the same rules — and then folds at the link to the
+value it read. A constant settles from **native words alone**: a word with a
+written body is itself still being resolved beside the constants it may read,
+so a constant that runs one would be a circle with no start, and it refuses
+at the link. An index written as a reference (`items[i]`) is a path of its
+own, judged wherever the outer walk stops: a reference that provably is not a
+whole number refuses at the link, and one that names nothing refuses at the
+run.
 
 ### Blocks
 
@@ -480,10 +754,14 @@ happened yet:
   it, or a path through them;
 - every word sent is declared by some module in the link, exactly once;
 - every call fits the declaration it reaches: arguments by name, receiver,
-  and answer, with holes bound as above;
+  and answer, with type parameters bound as above and every bound judged
+  against its constraint's membership;
 - every declared type names a type that exists;
-- a parameter's `oneOf` admits something, and its `default` is a value the
-  parameter itself admits;
+- every candidate a parameter's `oneOf` lists is written in a value's one
+  spelling, the one the declared type's own values wear — a dead candidate
+  no call could ever match refuses, the empty and the all-dead list being
+  the plainest cases — a range's bounds admit something, and a `default` is
+  a value the parameter itself admits — `type`, range and `oneOf` together;
 - a slot declared `pure` takes only a procedure that answers without running —
   worked out from a body's own sends, declared by a native word;
 - a constant is the shape it was declared as;
@@ -501,6 +779,30 @@ happened yet:
 
 The `needs` list is deliberately not on this list — it is held at *reading*,
 above, because a caller decides from it before any of this runs.
+
+**What a variable reads as.** A name a statement fixed reads as what that
+statement bound, and a variable reads as what the ways through the text could
+have left in it — the checking follows the flow the running takes:
+
+- an **unconditional** write retypes the name: after `set x` at the top of the
+  flow, `x` reads as what was written, whatever it held before;
+- a write only **some** ways make — one branch arm, a loop's round, an
+  attempt's body — joins with what the name held. Null beside a value reads
+  `T?`: after `var x` and a branch whose one arm sets an int, `x` reads
+  `int?`, because the run either took the arm or did not. Two values of
+  different kinds join to `any` — where readings disagree the slot holds
+  neither, and a join that guessed would be a refusal an author cannot act
+  on. This join is not the variable's own rule: it reads wherever two
+  readings of one slot meet — an attempt's body beside its rescue, an array
+  literal's elements — so an attempt whose rescue answers nothing reads `T?`
+  too, and `[1, null]` reads `array<int?>`;
+- a write **both** arms make is unconditional again — whichever arm ran, the
+  write happened — and an arm that **leaves** contributes nothing: no run
+  comes back from it, so the ways that finish are the only ways a reading
+  after the branch can stand on. `var x` with one arm setting an int and the
+  other returning reads `int` afterwards, plain;
+- what an arm **declares** (`id`, `var`) stays its own — declarations die with
+  the block, and only the box a `set` writes outlives it.
 
 **This is not a proof and does not pretend to be.** Whether a number will be
 zero when something divides by it is not decided by reading. What moved is the
@@ -526,6 +828,24 @@ there is no opportunity to find out by trying, because trying *is* production.
   cannot leak a value its declaration did not admit. The half the text already
   shows is held earlier: a **constant** answer that cannot fit the declaration
   refuses at the **link**, the way a constant argument does.
+- **A `returns` nobody wrote is read off the body.** A declaration with no
+  `returns` still answers something, and what it answers is what its body
+  hands back: the `result` it names, joined with every `return` that carries a
+  value out. A call site is judged against that, so a dot on what such a call
+  answers stands where the body states a shape — the shape does not have to be
+  written twice.
+  - The reading never becomes the declaration. What the author wrote is what a
+    document written back out carries and what the boundary settles against; a
+    shape read off a body is the link's own reading, and reaches exactly as far
+    as readings do.
+  - It is worked out in the **call graph's order** — each declaration read
+    after everything its answer could come from. Declarations whose answers
+    reach one another in a circle, a recursive one included, read as `any`: an
+    answer worked out from itself is not one the text states. Writing `returns`
+    says more, and removes the circle by saying it.
+  - A body no way through comes back from — one that always aborts — answers
+    `never` by this reading, and a statement binding such a call takes no name,
+    exactly as one calling a declared `returns: never` does.
 - **A run can always be stopped from outside.** Cancellation is observed
   between statements and at the entry to every round, including a round with
   an empty body. This is the receiver's one lever over consumption, and it is
@@ -594,14 +914,17 @@ program that arrives is a program nobody can debug a race in.
 
 ## The standard vocabulary
 
-Six bundles, taken separately, so a receiver grants what its programs have use
-for and no more:
+Seven bundles, taken separately, so a receiver grants what its programs have
+use for and no more. `std` is the shared ground: it declares no words, only
+the constraints the other bundles' signatures mention, and a bundle mentioning
+them (`std.math`, `std.collection`) links only with `std` in the link:
 
 | module | words |
 |---|---|
+| `std` | — declares the constraints `Numeric` and `Comparable`, and the type `byte = int(0...255)` |
 | `std.logic` | `equal` `notEqual` `not` `and` `or` |
 | `std.math` | `plus` `minus` `times` `dividedBy` `remainder` `min` `max` `absolute` `floored` `rounded` `lessThan` `greaterThan` |
-| `std.text` | `text` `startsWith` `regex` `uppercased` `lowercased` `trimmed` `split` `joined` `replacing` |
+| `std.text` | `text` `startsWith` `regex` `uppercased` `lowercased` `trimmed` `split` `joined` `replacing` `decoded` `encoded` |
 | `std.collection` | `count` `contains` `first` `last` `reversed` `appending` `prepending` `dropFirst` `dropLast` `sorted` `map` `filter` `reduce` `keys` `values` `setting` |
 | `std.control` | `abort` — declared `returns: never` |
 | `std.concurrent` | `all` `first` `map` — run closures at once |
@@ -620,15 +943,29 @@ typed `pure procedure` takes only a procedure that answers without running.
 | `not` | `of: bool` | — | `bool` |
 | `and`, `or` | `of: array<pure procedure>` | — | `bool` |
 
+`and` and `or` take procedures precisely so they need not run them all: the
+sides are read in order and the word stops at the first side that settles the
+answer — the first false, the first true. What follows the stop is never
+evaluated. `equal` and `notEqual` answer by the value model's one sameness,
+and `not` turns a `bool` around.
+
 *std.math*
 
 | word | receiver | arguments | answers |
 |---|---|---|---|
-| `plus`, `minus`, `times`, `remainder`, `min`, `max` | `of: some N` | `value: some N` | `some N` |
-| `dividedBy` | `of: some N` | `value: some N` | `double` |
-| `absolute` | `of: some N` | — | `some N` |
+| `plus`, `minus`, `times`, `remainder` | `of: some N` | `value: some N` | `some N` — bounds `N: Numeric` |
+| `min`, `max` | `of: some N` | `value: some N` | `some N` — bounds `N: Comparable` |
+| `dividedBy` | `of: some N` | `value: some N` | `double` — bounds `N: Numeric` |
+| `absolute` | `of: some N` | — | `some N` — bounds `N: Numeric` |
 | `floored`, `rounded` | `of: number` | — | `int` |
-| `lessThan`, `greaterThan` | `of: some Ordered` | `value: some Ordered` | `bool` |
+| `lessThan`, `greaterThan` | `of: some T` | `value: some T` | `bool` — bounds `T: Comparable` |
+
+`floored` goes to the nearest whole toward the smaller side, below zero too:
+`-2.1` floors to `-3`. `rounded` goes to the nearest whole, and away from zero
+at the exact halfway: `2.5` rounds to `3`, `-2.5` to `-3`. `absolute` drops
+the sign and keeps the kind it was given. Each of these answers an `int` only
+when an int holds the answer — the word's edge refuses at the run, as the
+edge rules below require.
 
 *std.text*
 
@@ -639,7 +976,29 @@ typed `pure procedure` takes only a procedure that answers without running.
 | `uppercased`, `lowercased`, `trimmed` | `of: string` | — | `string` |
 | `split` | `of: string` | `value: string` | `array<string>` |
 | `joined` | `of: array<string>` | `value: string = ""` | `string` |
+| `decoded` | `of: bytes` | `encoding: string = "utf8"`, oneOf `["utf8"]` | `string` — **refuses at the run** when the bytes are not text in that encoding |
+| `encoded` | `of: string` | `encoding: string = "utf8"`, oneOf `["utf8"]` | `bytes` |
 | `replacing` | `of: string` | `value: string`, `with: string` | `string` |
+
+`regex` answers whether the pattern matches *anywhere* in the text — a program
+asking about the whole anchors the pattern itself (`^…$`). A pattern that does
+not compile, written as a constant, refuses before the run the way any constant
+argument does. `replacing` rewrites every occurrence, not only the first. The
+words that read text — `startsWith` included — read as a person reads, under
+the value model's canonical equivalence.
+
+`text` spells a value the way a document writes it — bytes included, as `x`
+and their hex digits. What no document carries answers in the language's own
+markers, never a host formatter's: a procedure is `<procedure>`, a host's
+non-finite fraction is `<infinity>`, `<-infinity>` or `<not a number>`, and a
+container holding one shows whole as `<unencodable>`.
+
+A value's spelling does not change with how deep it sits: `text` of
+`[x"6869"]` is `["x\"6869\""]`, the same spelling quoted the way a string in
+that position is quoted. This is what `text` is for — a person reading a
+value. A carrier that has to give the value *back* is a different question,
+and one with no compact spelling writes what `bytes = array<byte>` says
+instead: the array.
 
 *std.collection*
 
@@ -648,7 +1007,8 @@ typed `pure procedure` takes only a procedure that answers without running.
 | `count` | `of: any` | — | `int` |
 | `contains` | `of: any` | `value: any` | `bool` |
 | `first`, `last` | `of: array<some Element>` | — | `some Element` |
-| `reversed`, `sorted`, `dropFirst`, `dropLast` | `of: array<some Element>` | — | `array<some Element>` |
+| `reversed`, `dropFirst`, `dropLast` | `of: array<some Element>` | — | `array<some Element>` |
+| `sorted` | `of: array<some Element>` | — | `array<some Element>` — bounds `Element: Comparable` |
 | `appending`, `prepending` | `of: array<some Element>` | `value: some Element` | `array<some Element>` |
 | `map` | `of: array<some Element>` | `value` — pure procedure, offered `item`, answering `some Answer` | `array<some Answer>` |
 | `filter` | `of: array<some Element>` | `value` — pure procedure, offered `item`, answering `bool` | `array<some Element>` |
@@ -711,15 +1071,42 @@ run over nothing is refused — a word that answers exactly one thing has no
 empty answer — and a `first` in which nothing succeeds fails the way `all`
 fails: every piece's failure reported, keyed by the piece it came from.
 
-What the vocabulary answers about **bytes**: they are a **sequence of bytes**,
-the way text is a sequence of characters — equal by content, in order, and
-counted, with no Unicode question about what "one" means. Reading an element
-answers a whole number 0–255; there is no separate byte kind. Two bytes
-*values* still do **not** order: `lessThan`, `greaterThan` and `sorted`
-refuse them, because ordering two blobs implies a reading and bytes carry
-none — the elements are numbers, the whole is not a number. Element access,
-slicing, and reading bytes *as* text in a named encoding arrive as words when
-something needs them; what is still thin is recorded below.
+What the vocabulary answers about **bytes**: `bytes = array<byte>`. Bytes are
+not a special material — they are the compact spelling of an array of small
+whole numbers, `byte` being the range `int(0...255)` that `std` declares.
+The equation is read everywhere the types are, and **the spelling is the
+value's own fact rather than the slot's**: a bytes value stands where
+`array<int>` is declared and crosses it *whole*, because the slot asked for an
+array and bytes are one — there is nothing to settle, and unpacking would
+spend an element per byte to answer questions like `first` that read one. An
+`array<…>` slot reads the bytes out one by one only where its element
+declaration would not leave a byte as it is: `array<double>` changes every one
+of them, a range narrower than `byte` has something to ask of each, and a
+fraction range (`double(0.0...255.0)`) is both — it widens every byte it takes. An
+element declared as a **bounded** type parameter asks each value for its
+membership, and a member of the constraint that takes every byte answers that
+for all of them at once — so `sorted`, whose element carries `Comparable`,
+reads a compact spelling the way `reversed` does rather than by whether its
+declaration happened to carry a bound.
+An array of byte worths standing where `bytes` is declared does settle to the
+compact spelling — the asymmetry is the declaration's: naming `bytes` names a
+spelling, naming `array<…>` names a shape bytes already have.
+
+An index reads an element out as the ordinary int it is, and the collection
+vocabulary — `count`, `first`, `contains`, `reversed`, `map`, all of it —
+applies directly. A word that answers its receiver's **own** elements —
+`reversed`, `filter`, `sorted`, `dropFirst`, `dropLast` — answers them in the
+spelling they arrived in, so bytes stay bytes; put something among them that
+is not a byte (`appending` a `300`) and the answer is the array it now is. A
+word that builds **new** elements does not: `map` answers whatever its
+procedure answered, which its declaration says by naming a second type
+parameter for it. Two bytes *values* still do **not** order, for the array
+reason rather than an opacity one: `Comparable` admits numbers and strings
+among themselves, not collections. Reading bytes *as* text is a word that
+names its encoding: `decoded` and `encoded` are the two directions of one
+mapping (`encoding: "utf8"`, the default and today the only member), and
+bytes that are not text in that encoding **refuse at the run** — completing
+a broken sequence would answer a text nobody sent.
 
 **`abort`** — fail on purpose, with a message. Declared `returns: never`, which
 is everything the checking needs: nothing runs after it, and no name binds it.
@@ -731,17 +1118,34 @@ Behaviour at the edges — where implementations quietly differ, so stated as
 requirements:
 
 - Arithmetic takes two of a kind and answers that kind: both sides and the
-  answer are one hole. A whole number added to text **refuses at the link**.
-- Ordering (`lessThan`, `greaterThan`) compares two of a kind, and text is a
-  kind.
+  answer are one type parameter, bounded by `Numeric`. A whole number added to
+  text **refuses at the link** — and so do two pieces of text, because
+  agreement is not admission.
+- Ordering (`lessThan`, `greaterThan`, `sorted`, `min`, `max`) compares two of
+  a kind under `Comparable`, and text is a kind. A kind the constraint does not admit refuses at the
+  link where the text says so, and at the boundary where the value arrives
+  through `any`.
 - Whole-number arithmetic with no whole answer **refuses at the run**. It does
-  not wrap and does not silently widen.
+  not wrap and does not silently widen. The rule covers every standard word
+  that answers an `int` and can miss it: `plus`, `minus`, `times` off the
+  word's edge, `absolute` of the word's own minimum, and `floored`/`rounded`
+  of a fraction whose whole part is past the word. `remainder` is not on the
+  list because its answer always fits — a remainder is smaller than its
+  divisor — and the one divisor that trips a machine's division instruction
+  still has one: `-9223372036854775808 remainder -1` answers `0`. These
+  run-stage refusals — overflow, and the zero divisor below — are the
+  program's own defect, not a failure of the work: an `attempt` does **not**
+  catch them, the way it does not catch an index past the end. What a rescue
+  catches is `abort` and a word's own failure.
 - Fraction arithmetic with no finite answer **refuses at the run** for the
   same reason: infinity is a value the arithmetic can reach and no document
   can carry, and a value that exists only until someone writes it down is not
   an answer.
 - `dividedBy` answers a fraction, whole or not. Division by zero **refuses at
-  the run**.
+  the run**. The quotient is binary64's own: a whole operand reads as the
+  fraction nearest it first — the same widening every mixed operation
+  performs — and the division rounds once more, so two implementations spell
+  the same quotient bit for bit.
 - A whole number where a fraction is expected widens; the reverse refuses.
 
 What a host brings beyond these — its own words, and which of them answer
@@ -754,7 +1158,11 @@ An encoding is bytes for the document tree. Whatever the encoding, three
 promises hold:
 
 1. **A whole number and a fraction are told apart.** However the encoding does
-   it, `1` and `1.0` must arrive as the values they were.
+   it, `1` and `1.0` must arrive as the values they were. They are one value
+   to a program and two byte strings here — so two documents a program cannot
+   tell apart may carry two signatures, and that is the intended order: the
+   encoding is faithful to what was written, and sameness of worth is the
+   value model's, not the bytes'.
 2. **The same document is the same bytes.** Writers are canonical: record keys
    are written in one order — **ascending by their UTF-8 bytes** — and every
    value has one spelling. This is what makes a document cacheable, comparable
@@ -831,11 +1239,12 @@ Each value is a tag byte, then its payload:
 | `0x08` | bytes | length varint, then that many raw bytes |
 
 - **Varint** is unsigned LEB128: seven bits a byte, low bits first, high bit
-  says another byte follows. At most 64 bits of payload; a tenth byte, or a
-  tenth-byte bit that would carry past bit 63, **refuses** — overflow is not
-  wrapped, masked or truncated. A trailing zero group (`0x80 0x00` for zero)
-  is a longer spelling of the same number and **refuses** — one value, one
-  spelling.
+  says another byte follows. At most 64 bits of payload — the largest
+  zigzagged word takes exactly ten bytes, the tenth carrying bit 63 alone —
+  so an eleventh byte, or a tenth-byte bit that would carry past bit 63,
+  **refuses**; overflow is not wrapped, masked or truncated. A trailing zero
+  group (`0x80 0x00` for zero) is a longer spelling of the same number and
+  **refuses** — one value, one spelling.
 - **ZigZag** maps signed to unsigned: `(n << 1) ^ (n >> 63)`.
 - Record keys are **strictly ascending** by UTF-8 bytes — which refuses a
   shuffle and a duplicate with the same rule: these are bytes the writer would
@@ -894,8 +1303,13 @@ The layout:
   exponent is a fraction; with neither it is whole** — the difference is
   grammar, not a reader's guess. A double is spelled as the shortest decimal
   that reads back to the same binary64 (a Ryū/Grisu-class rendering), with
-  the point or exponent always present; an int is spelled with no leading
-  zeros and a `-` only when negative.
+  the point or exponent always present. Which form those digits take is the
+  document's rule, not a host library's: writing the value `d.ddd…×10^k`,
+  the point form when `-5 < k < 16`, otherwise the exponent form, its
+  exponent written `e` with an explicit sign and at least two digits —
+  `0.0001` but `1e-05`, `1000000000000000.0` but `1e+16` — so one value
+  keeps one spelling down to its last character. An int is spelled with no
+  leading zeros and a `-` only when negative.
 - A string is double-quoted. Exactly `"` `\` and the five characters with
   short escapes are escaped as `\"` `\\` `\n` `\r` `\t`; every other control
   character (below U+0020) as `\uXXXX` with lowercase hex; **nothing else is
@@ -911,20 +1325,87 @@ value it read back out and comparing the bytes is enough.
 
 ## Conformance
 
-The rules above, as cases that run: `conformance/`. Each case is data — a
-document, what to run it with, and what must happen — so a runner is a small
-amount of code in whatever language an implementation is written in, and the
-questions asked are the same ones. Half the cases say what must *not* run, and
-at which stage it must stop.
+The rules above, as cases that run: `conformance/`. Prose ages against an
+implementation that keeps moving, and an implementation is the last thing that
+should be asked whether it is correct. These are the questions asked instead —
+data rather than code, so an implementation written in another language runs
+the same cases and finds out the same things.
 
-The cases are written as `.warpt`, so the first thing a new implementation
-reads with its own reader is the suite itself. The reader is proven first, by
-the golden cases above — an implementation whose reader disagrees with the
-golden bytes cannot trust anything the rest of the suite tells it.
+### What a case is
 
-A runner imports what any caller imports. One that could see inside its
-implementation could pass by agreeing with the implementation rather than with
-the specification, which is the one thing it must not do.
+One file, one question: a document, what to run it with, and what should happen.
+
+    test        int — the case format this file is written for
+    name        what the case is called
+    note        why it exists — the rule it holds an implementation to
+    program     a document
+    arguments   what the entry procedure is given, if anything
+    expect      answers <value>   it runs and answers this
+                refuses <stage>   it is refused, at load, link or run
+
+A case is **not a document**, and this is the record where that is said out
+loud. It is written in the same text — an encoding carries a tree of data and
+never learns what a tree means, so there is one of those and not two — but the
+document it asks about is nested whole under `program`, and what surrounds it
+belongs to the asking.
+
+Each format declares itself, and that is how the two are told apart: a case
+says `test`, a document says `warp`, and each is refused by the other's reader
+for **what it is** rather than for the keys it happens to carry. The `test`
+number moves for the same reason `warp` does and on its own schedule — the day
+a case may say something new is not the day a document may.
+
+`expect` holds one of `answers` or `refuses`. One slot, so "one of the two and
+exactly one" is the shape rather than a rule about two keys that could both be
+written or neither.
+
+Both kinds matter equally. **An implementation that accepts a program another
+refuses has failed in the same way as one that answers differently**, so half of
+these say what must *not* run, and where it must stop. The stage is part of the
+answer: refusing at run what another implementation refuses at link means
+something already happened before the refusal — and what already happened
+cannot be taken back, which is most of why this language checks before it runs.
+
+### What a runner does
+
+Read the file, and read `test` before the shape, for the reason a document reads
+its own version first: a later case may say something this runner has no name
+for, and "I am too old for this" is a different answer from "this is not a case".
+Then read `program` as a document. If the case expects `refuses`, check that it
+fails at that stage and no earlier or later. Otherwise link it against the
+standard vocabulary, run it with `arguments`, and compare.
+
+The cases are the files named `<name>.test.warpt`, and what else the folder holds
+is not the suite's business. A runner that refused to start over an editor's
+leftover would be answering "is this folder tidy" with the same red light as "is
+this implementation the language", and only the second is a question about a
+language.
+
+A runner reaches inside nothing and imports what any caller imports. One that
+could see inside its implementation could pass by agreeing with the
+implementation rather than with the specification, which is the one thing it
+must not do.
+
+### How a case is written
+
+Nobody composes canonical text by hand — that stays true here. A case is
+authored as any document is (a front end, a literal in a host language) and
+**dumped** through a canonical writer into the `.test.warpt` that lands in
+`conformance/`. The dump is the artifact; the authoring form is scaffolding and
+is not kept. An implementation adding cases writes its own dumper anyway — it
+is the same writer conformance already requires of it.
+
+So the suite is the first thing a new implementation reads with its own reader,
+and the reader is proven before it by the golden cases above — one whose reader
+disagrees with the golden bytes cannot trust anything the rest of the suite
+tells it.
+
+The extension is `.test.warpt` and not `.warpt`, and both halves are true at
+once: the file *is* warpt text, which is why the text reader reads it, and its
+shape is a test rather than a document, which is why nothing that runs programs
+will take it. Naming the format outright — a single extension of its own —
+would make a file that is spelled in warpt look like it is not, and every tool
+that highlights or formats warpt would have to be told about it twice.
 
 ## Known gaps
 
@@ -932,14 +1413,13 @@ Written down because a specification that hides what it has not decided is
 worse than one that admits it. Each is a place a second implementation would
 have to guess, and would be entitled to guess differently.
 
-- **The value model is stated further than it is settled.** Where `any`
-  admits, when a record carrying more fields fits one that declared fewer, and
-  what a declared name accepts are answered by the Swift implementation and
-  its tests, not yet here.
-- **A hole cannot say what it will take.** Both sides of `lessThan` are one
-  reading, but nothing says the reading must be orderable — so comparing two
-  booleans refuses at the run rather than at the check. The sameness half of
-  the idea is expressible and the constraint half is not.
+- **`needs` does not announce type or constraint dependencies.** The list
+  gathers what a program *sends*; a document leaning on a constraint another
+  module declares — `bounds: { T: Comparable }` with no declaration of its
+  own — states that dependency nowhere a caller can read before linking.
+  Whether `needs` should widen to carry unresolved type and constraint
+  mentions is undecided; until it is, that dependency surfaces only as a link
+  refusal.
 - **The text decision is cheap in Swift and dear elsewhere.** Grapheme-cluster
   counting and canonical equivalence are the platform's gift in Swift and a
   library obligation in most other languages; the decision stands, and the
@@ -948,12 +1428,12 @@ have to guess, and would be entitled to guess differently.
   transcribed from one implementation carry its blind spots; the first reader
   who implements from these tables alone, and disagrees, is worth more than
   any amount of agreement.
-- **The suite covers the constructs and samples the vocabulary.** Every
-  construct, the naming and leaving rules, the envelope, the boundary
-  settlements and the concurrency grant are held as cases; the standard words
-  are held by representatives, not word-by-word, and cancellation cannot be a
-  data case at all — it needs a caller with a lever. What a case does not pin
-  is held only by tests inside the Swift implementation.
+- **The suite covers the constructs and the vocabulary; cancellation is the
+  exception.** Every construct, the naming and leaving rules, the envelope,
+  the boundary settlements, the concurrency grant and every standard word are
+  held as cases — but cancellation cannot be a data case at all: it needs a
+  caller with a lever, so stopping is held only by tests inside the Swift
+  implementation.
 - **Two equivalences coexist, and the border is drawn.** Values compare as a
   person reads — `equal`, `contains`, ordering and `count` all read text
   under canonical equivalence, stated under the value model — where names are
@@ -961,17 +1441,6 @@ have to guess, and would be entitled to guess differently.
   `é` one way and reference it the other. What remains here is only the cost:
   an implementation whose platform compares by code unit owes a library the
   difference.
-- **Canonical bytes and value sameness pull apart at the edges.** `1` and
-  `1.0` are one value to a program and two byte strings to the encoding, so
-  two documents a program cannot tell apart carry two signatures — intended,
-  but unstated. And comparing a 64-bit whole to a binary64 fraction "by
-  worth" is exact only below 2^53; above it, what exactness is required of
-  the comparison is unstated.
-- **A field and a word can contest one path.** `a.b.count` where `b` is a
-  record that happens to carry a `count` field: which wins is unstated.
-- **The bytes vocabulary is thin.** The shape is decided: a sequence of
-  numbers 0–255, equal by content, counted, no order between two bytes
-  values. Undecided is the vocabulary over that shape — element access,
-  slicing, membership, and the words that read bytes as text in a named
-  encoding and back. Today anything beyond the decided refuses, and a second
-  implementation should not have to guess what comes next.
+- **Encodings beyond utf8.** `decoded`/`encoded` name their encoding and
+  today name one. Which others join the `oneOf` — and whether a host may
+  extend it — is undecided; the shape of the words is not.

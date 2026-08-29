@@ -1,0 +1,29 @@
+warpt 1
+{
+  expect {
+    answers "c-b-c"
+  }
+  name "replacing-swaps-every-occurrence"
+  note "replacing answers new text with every occurrence of the value rewritten, not only the first."
+  program {
+    needs [
+      "std.text.replacing"
+    ]
+    procedures {
+      entry {
+        result {
+          call {
+            arguments {
+              value "a"
+              with "c"
+            }
+            of "a-b-a"
+            procedure "std.text.replacing"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}

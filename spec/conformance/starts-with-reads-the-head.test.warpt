@@ -1,0 +1,52 @@
+warpt 1
+{
+  expect {
+    answers [
+      true
+      false
+    ]
+  }
+  name "starts-with-reads-the-head"
+  note "startsWith asks whether the text begins with the value, reading as a person reads — two spellings of one letter are one head."
+  program {
+    needs [
+      "std.text.startsWith"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            call {
+              arguments {
+                value "é"
+              }
+              of "étoile"
+              procedure "std.text.startsWith"
+            }
+            id "spelled"
+          }
+          {
+            call {
+              arguments {
+                value "arp"
+              }
+              of "warp"
+              procedure "std.text.startsWith"
+            }
+            id "elsewhere"
+          }
+        ]
+        result [
+          {
+            ref "spelled"
+          }
+          {
+            ref "elsewhere"
+          }
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}

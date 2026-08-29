@@ -1,0 +1,42 @@
+warpt 1
+{
+  expect {
+    answers true
+  }
+  name "or-does-not-ask-past-the-first-yes"
+  note "or reads its sides in order and stops at the first yes. The later sides are procedures precisely so they are not evaluated once the answer is known."
+  program {
+    needs [
+      "std.control.abort"
+      "std.logic.or"
+    ]
+    procedures {
+      entry {
+        result {
+          call {
+            of [
+              {
+                closure {
+                  result true
+                }
+              }
+              {
+                closure {
+                  result {
+                    call {
+                      of "never asked"
+                      procedure "std.control.abort"
+                    }
+                  }
+                }
+              }
+            ]
+            procedure "std.logic.or"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}

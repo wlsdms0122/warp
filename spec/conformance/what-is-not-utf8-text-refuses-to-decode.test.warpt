@@ -1,0 +1,25 @@
+warpt 1
+{
+  expect {
+    refuses "run"
+  }
+  name "what-is-not-utf8-text-refuses-to-decode"
+  note "Bytes carry no promise of being text, and completing a broken sequence with replacement characters would answer a text nobody sent. The bytes are a run-time value, so the refusal is the run's."
+  program {
+    needs [
+      "std.text.decoded"
+    ]
+    procedures {
+      entry {
+        result {
+          call {
+            of x"ff"
+            procedure "std.text.decoded"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}

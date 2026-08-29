@@ -1,0 +1,52 @@
+warpt 1
+{
+  expect {
+    answers [
+      true
+      false
+    ]
+  }
+  name "regex-finds-a-match-anywhere"
+  note "regex answers whether the pattern matches anywhere in the text — a program that asks about the whole anchors the pattern itself."
+  program {
+    needs [
+      "std.text.regex"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            call {
+              arguments {
+                value "[0-9]"
+              }
+              of "warp-1"
+              procedure "std.text.regex"
+            }
+            id "anywhere"
+          }
+          {
+            call {
+              arguments {
+                value "^[0-9]+$"
+              }
+              of "warp-1"
+              procedure "std.text.regex"
+            }
+            id "anchored"
+          }
+        ]
+        result [
+          {
+            ref "anywhere"
+          }
+          {
+            ref "anchored"
+          }
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}

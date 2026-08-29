@@ -1,0 +1,57 @@
+warpt 1
+{
+  expect {
+    answers [
+      [
+        3
+        2
+        1
+      ]
+      [
+        1
+        2
+        3
+      ]
+    ]
+  }
+  name "reversed-turns-the-order-around"
+  note "reversed answers the same elements back to front, and answers a new array rather than turning the one it was given."
+  program {
+    needs [
+      "std.collection.reversed"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            id "items"
+            value [
+              1
+              2
+              3
+            ]
+          }
+          {
+            call {
+              of {
+                ref "items"
+              }
+              procedure "std.collection.reversed"
+            }
+            id "backwards"
+          }
+        ]
+        result [
+          {
+            ref "backwards"
+          }
+          {
+            ref "items"
+          }
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}

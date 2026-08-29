@@ -1,0 +1,43 @@
+warpt 1
+{
+  expect {
+    answers 18
+  }
+  name "minus-and-times-compose-as-written"
+  note "minus and times answer the kind they were given, and compose the way the program wrote them."
+  program {
+    needs [
+      "std.math.minus"
+      "std.math.times"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            call {
+              arguments {
+                value 4
+              }
+              of 10
+              procedure "std.math.minus"
+            }
+            id "difference"
+          }
+        ]
+        result {
+          call {
+            arguments {
+              value 3
+            }
+            of {
+              ref "difference"
+            }
+            procedure "std.math.times"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}

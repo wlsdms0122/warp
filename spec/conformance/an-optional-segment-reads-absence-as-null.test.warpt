@@ -1,0 +1,26 @@
+warpt 1
+{
+  arguments {
+    data {}
+  }
+  expect {
+    answers null
+  }
+  name "an-optional-segment-reads-absence-as-null"
+  note "`?.` is the one spelling that expects absence: an entry that is not there, or a null on the way, answers null for the whole path instead of refusing."
+  program {
+    needs []
+    procedures {
+      entry {
+        parameters {
+          data "object<any>"
+        }
+        result {
+          ref "data?.missing"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}

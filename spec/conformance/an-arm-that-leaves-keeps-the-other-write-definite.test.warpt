@@ -1,0 +1,49 @@
+warpt 1
+{
+  arguments {
+    ready true
+  }
+  expect {
+    answers 1
+  }
+  name "an-arm-that-leaves-keeps-the-other-write-definite"
+  note "No run comes back from an arm that leaves, so the ways that finish all made the other arm's write — the name reads as that write alone, and an answer declared int links."
+  program {
+    procedures {
+      entry {
+        body [
+          {
+            var "kept"
+          }
+          {
+            branch {
+              else [
+                {
+                  return 0
+                }
+              ]
+              then [
+                {
+                  set "kept"
+                  value 1
+                }
+              ]
+              when {
+                ref "ready"
+              }
+            }
+          }
+        ]
+        parameters {
+          ready "bool"
+        }
+        result {
+          ref "kept"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}

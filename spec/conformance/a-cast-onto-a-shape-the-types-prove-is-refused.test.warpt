@@ -1,0 +1,29 @@
+warpt 1
+{
+  expect {
+    refuses "link"
+  }
+  name "a-cast-onto-a-shape-the-types-prove-is-refused"
+  note "A cast opens a shape the types do not prove. Where they already do, the claim says nothing — refused at the link, the way a needless `?.` is."
+  program {
+    needs []
+    procedures {
+      entry {
+        parameters {
+          count {
+            type "int"
+          }
+        }
+        result {
+          as "int"
+          of {
+            ref "count"
+          }
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}

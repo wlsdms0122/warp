@@ -1,0 +1,22 @@
+warpt 1
+{
+  expect {
+    refuses "link"
+  }
+  name "a-range-whose-bounds-meet-on-an-excluded-edge-admits-nothing"
+  note "The far bound is outside, so a near bound standing on it leaves nothing between them. A slot no call could fill is refused where the declaration wrote it, the way a range below its own floor is."
+  program {
+    procedures {
+      entry {
+        parameters {
+          level "int(5..<5)"
+        }
+        result {
+          ref "level"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}

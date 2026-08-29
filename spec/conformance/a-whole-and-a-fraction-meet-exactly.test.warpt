@@ -1,0 +1,68 @@
+warpt 1
+{
+  expect {
+    answers [
+      false
+      true
+      9007199254740993
+    ]
+  }
+  name "a-whole-and-a-fraction-meet-exactly"
+  note "Numbers compare by what they are worth at every size. 2^53 + 1 rounds to 2^53 in binary64, and neither equality, ordering, nor the picking words follow the rounding."
+  program {
+    needs [
+      "std.logic.equal"
+      "std.math.greaterThan"
+      "std.math.max"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            call {
+              arguments {
+                value 9007199254740992.0
+              }
+              of 9007199254740993
+              procedure "std.logic.equal"
+            }
+            id "same"
+          }
+          {
+            call {
+              arguments {
+                value 9007199254740992.0
+              }
+              of 9007199254740993
+              procedure "std.math.greaterThan"
+            }
+            id "over"
+          }
+          {
+            call {
+              arguments {
+                value 9007199254740992.0
+              }
+              of 9007199254740993
+              procedure "std.math.max"
+            }
+            id "kept"
+          }
+        ]
+        result [
+          {
+            ref "same"
+          }
+          {
+            ref "over"
+          }
+          {
+            ref "kept"
+          }
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}

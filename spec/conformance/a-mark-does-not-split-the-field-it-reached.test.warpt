@@ -1,0 +1,68 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-mark-does-not-split-the-field-it-reached"
+  note "A mark says what is expected of the value it reads, and says nothing about where the walk landed. So `of.inner` and `of?.inner` are one field read twice: a name holding one on the way in and the other on the way through a branch holds that one shape, and a dot on it stands. Told apart by their spelling, the same field would have become two unknowns that never meet, and the dot after them would be refused for no reason the author could see."
+  program {
+    needs []
+    procedures {
+      entry {
+        result {
+          call {
+            arguments {
+              flag true
+              of {
+                inner {
+                  count 1
+                }
+              }
+            }
+            procedure "peek"
+          }
+        }
+        returns "any"
+      }
+      peek {
+        body [
+          {
+            value {
+              ref "of.inner"
+            }
+            var "held"
+          }
+          {
+            branch {
+              then [
+                {
+                  set "held"
+                  value {
+                    ref "of?.inner"
+                  }
+                }
+              ]
+              when {
+                ref "flag"
+              }
+            }
+          }
+        ]
+        parameters {
+          flag {
+            type "bool"
+          }
+          of {
+            type "some T"
+          }
+        }
+        result {
+          ref "held.count"
+        }
+        returns "any"
+      }
+    }
+    warp 1
+  }
+  test 1
+}

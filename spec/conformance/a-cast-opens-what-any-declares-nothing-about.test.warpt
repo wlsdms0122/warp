@@ -1,0 +1,44 @@
+warpt 1
+{
+  arguments {
+    payload {
+      name "warp"
+    }
+  }
+  expect {
+    answers "warp"
+  }
+  name "a-cast-opens-what-any-declares-nothing-about"
+  note "A cast names the shape a value is read as, and from there the reading is that shape — so the dot the link refused on `any` is judged, and the run is left only the question of what arrived."
+  program {
+    needs []
+    procedures {
+      entry {
+        body [
+          {
+            id "read"
+            value {
+              as {
+                name "string"
+              }
+              of {
+                ref "payload"
+              }
+            }
+          }
+        ]
+        parameters {
+          payload {
+            type "any"
+          }
+        }
+        result {
+          ref "read.name"
+        }
+        returns "string"
+      }
+    }
+    warp 1
+  }
+  test 1
+}

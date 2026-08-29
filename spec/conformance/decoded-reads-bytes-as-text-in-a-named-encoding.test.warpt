@@ -1,0 +1,25 @@
+warpt 1
+{
+  expect {
+    answers "hi"
+  }
+  name "decoded-reads-bytes-as-text-in-a-named-encoding"
+  note "Bytes are not text and no encoding is assumed — reading them as text is a word that names its encoding. decoded and encoded are the two directions of one mapping, utf8 first."
+  program {
+    needs [
+      "std.text.decoded"
+    ]
+    procedures {
+      entry {
+        result {
+          call {
+            of x"6869"
+            procedure "std.text.decoded"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}

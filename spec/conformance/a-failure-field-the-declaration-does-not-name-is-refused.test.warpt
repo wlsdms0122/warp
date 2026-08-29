@@ -1,0 +1,42 @@
+warpt 1
+{
+  expect {
+    refuses "link"
+  }
+  name "a-failure-field-the-declaration-does-not-name-is-refused"
+  note "A rescue's name binds `{ type, message }`, and those two are read with a dot. What a failure carries on top is real but undeclared, so a dot does not reach it — the shape is named to read it, the way any undeclared shape is."
+  program {
+    needs [
+      "std.control.abort"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            attempt {
+              body [
+                {
+                  call {
+                    of "on purpose"
+                    procedure "std.control.abort"
+                  }
+                }
+              ]
+              rescue {
+                result {
+                  ref "tried.failures"
+                }
+              }
+            }
+            id "tried"
+          }
+        ]
+        result {
+          ref "tried"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}

@@ -1,0 +1,28 @@
+warpt 1
+{
+  expect {
+    refuses "link"
+  }
+  name "bytes-do-not-order"
+  note "bytes = array<byte>, and arrays do not order: Comparable admits numbers and strings among themselves, not collections. A literal is a reading the link can judge, so the refusal lands before the run."
+  program {
+    needs [
+      "std.math.lessThan"
+    ]
+    procedures {
+      entry {
+        result {
+          call {
+            arguments {
+              value x"02"
+            }
+            of x"01"
+            procedure "std.math.lessThan"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}

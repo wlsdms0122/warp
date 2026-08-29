@@ -1,0 +1,28 @@
+warpt 1
+{
+  expect {
+    refuses "link"
+  }
+  name "arithmetic-admits-only-numbers"
+  note "plus declares one parameter for both sides, so two pieces of text agree — and agreement is not admission. Numeric admits a whole number and a fraction, and text is a reading the link can refuse."
+  program {
+    needs [
+      "std.math.plus"
+    ]
+    procedures {
+      entry {
+        result {
+          call {
+            arguments {
+              value "b"
+            }
+            of "a"
+            procedure "std.math.plus"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}

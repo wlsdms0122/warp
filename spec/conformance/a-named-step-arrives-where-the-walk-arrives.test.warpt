@@ -1,0 +1,76 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-named-step-arrives-where-the-walk-arrives"
+  note "A body may hold what it read, and holding it is not reading something else: `held` holding `of.inner` and then `held.count` lands on the field `of.inner.count` lands on. What decides which shape a walk through a parameter reached is which field of which parameter it reached, so a name given to a step on the way changes nothing — the two readings meet at a join and hold that one shape, and the dot after them stands."
+  program {
+    needs []
+    procedures {
+      entry {
+        result {
+          call {
+            arguments {
+              flag true
+              of {
+                inner {
+                  count {
+                    deep 1
+                  }
+                }
+              }
+            }
+            procedure "peek"
+          }
+        }
+        returns "any"
+      }
+      peek {
+        body [
+          {
+            id "held"
+            value {
+              ref "of.inner"
+            }
+          }
+          {
+            value {
+              ref "of.inner.count"
+            }
+            var "seen"
+          }
+          {
+            branch {
+              then [
+                {
+                  set "seen"
+                  value {
+                    ref "held.count"
+                  }
+                }
+              ]
+              when {
+                ref "flag"
+              }
+            }
+          }
+        ]
+        parameters {
+          flag {
+            type "bool"
+          }
+          of {
+            type "some T"
+          }
+        }
+        result {
+          ref "seen.deep"
+        }
+        returns "any"
+      }
+    }
+    warp 1
+  }
+  test 1
+}

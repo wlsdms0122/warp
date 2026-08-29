@@ -1,0 +1,31 @@
+warpt 1
+{
+  expect {
+    answers "left early"
+  }
+  name "leaving-answers-from-the-middle"
+  note "Answering from inside a body leaves the procedure with what it carries — the statements and result after the leave never run."
+  program {
+    needs []
+    procedures {
+      entry {
+        body [
+          {
+            branch {
+              then [
+                {
+                  return "left early"
+                }
+              ]
+              when true
+            }
+          }
+        ]
+        result "went on"
+        returns "string"
+      }
+    }
+    warp 1
+  }
+  test 1
+}

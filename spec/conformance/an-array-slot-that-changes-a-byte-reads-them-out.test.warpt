@@ -1,0 +1,36 @@
+warpt 1
+{
+  expect {
+    answers [
+      104.0
+      105.0
+    ]
+  }
+  name "an-array-slot-that-changes-a-byte-reads-them-out"
+  note "The compact spelling crosses only where the element declaration would leave a byte as it is. `array<double>` widens every one of them, so the elements are read out through the equation and settle one by one — the same widening a `double` slot does to a whole number, one collection up."
+  program {
+    procedures {
+      entry {
+        result {
+          call {
+            arguments {
+              value x"6869"
+            }
+            procedure "keep"
+          }
+        }
+      }
+      keep {
+        parameters {
+          value "array<double>"
+        }
+        result {
+          ref "value"
+        }
+        returns "array<double>"
+      }
+    }
+    warp 1
+  }
+  test 1
+}

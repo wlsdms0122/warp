@@ -31,7 +31,7 @@ share code.
 | directory | what | is |
 |---|---|---|
 | [`spec/`](spec/README.md) | the language: shapes, document format, encodings, refusal rules, conformance cases | the specification |
-| [`runtime/warp-runtime-swift/`](runtime/warp-runtime-swift/README.md) | `Warp` `WarpDocument` `WarpBinary` `WarpText` | one runtime |
+| [`runtime/warp-runtime-swift/`](runtime/warp-runtime-swift/README.md) | `Warp` `WarpSyntax` `WarpSerialization` | one runtime |
 | [`frontend/warp-frontend-yaml/`](frontend/warp-frontend-yaml/README.md) | `WarpYAML` | one front end |
 
 The specification is the language. An implementation — this runtime included —
@@ -46,7 +46,7 @@ the document crossed a network or a function call:
 
 ```swift
 import WarpYAML          // authoring side
-import WarpDocument      // arriving side
+import WarpSyntax      // arriving side
 import Warp
 
 let document = try YAMLFrontend().document(from: yaml)   // → canonical document
@@ -56,5 +56,5 @@ let answer = try await Language().makeExecutor().run(image)
 ```
 
 A program that stays in Swift skips the document entirely and builds the
-shapes directly; a program that travels goes as bytes — `WarpBinary` to carry,
-`WarpText` to read.
+shapes directly; a program that travels is written down by
+`WarpSerialization` — bytes to carry it, text to read it.
