@@ -1455,12 +1455,19 @@ have to guess, and would be entitled to guess differently.
   undecided. What is decided is that a place is a fact about the **document**
   and never about the file it was authored in: a front end holds the file,
   and the document is what crossed the wire.
-- **A document that writes no `name` cannot be told from another that writes
-  none either.** `name` is optional, and a module without one declares into
-  the link's shared space. That is fine for the link, which tells two such
-  declarations apart by position — but nothing *written down* distinguishes
-  the documents, so a reader mapping a refusal back to the file it came from
-  has nothing to match on once a link carries more than one of them. Whether
-  a link should refuse a second unnamed document, or `name` should stop being
-  optional, or a reader should simply be told to name what it links, is
-  undecided.
+- **How a document is told from another document is decided; where the answer
+  belongs is not.** A `name` cannot do it — it is the namespace a module
+  declares into, two documents may share one (a module split across files),
+  and a document may write none. A file path cannot do it either, since a
+  document arrives as bytes and the wire carries no container. What is always
+  there is the document itself, so a document is identified by the **digest of
+  its canonical binary writing**, and by nothing it says about itself. It is
+  derived and never declared: there is no field for it, which is what makes it
+  impossible to write down wrongly, and two readers holding one document arrive
+  at one answer without having agreed on anything but this paragraph. The
+  digest is SHA-256 of the bytes the canonical binary writer produces — the
+  same bytes a conforming reader already has to accept exactly, so an
+  implementation that has the wire right has this right. What is undecided is
+  whether identity belongs in this specification at all or stays a fact each
+  implementation works out for itself, since nothing a program *runs* depends
+  on it.
