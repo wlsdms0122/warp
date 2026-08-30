@@ -1444,3 +1444,14 @@ have to guess, and would be entitled to guess differently.
 - **Encodings beyond utf8.** `decoded`/`encoded` name their encoding and
   today name one. Which others join the `oneOf` — and whether a host may
   extend it — is undecided; the shape of the words is not.
+- **Where a refusal points is not specified.** A case says the stage a
+  document is refused at and nothing about the sentence, so two
+  implementations agreeing on every case may still name the place
+  differently — or name none. What an author is owed is the whole of the
+  question: a refusal that does not say where sends them searching a
+  document they did not write by hand. Whether the answer belongs here — a
+  path spelled from the document's own keys, so that following it word by
+  word lands on what was typed — or stays each implementation's to give, is
+  undecided. What is decided is that a place is a fact about the **document**
+  and never about the file it was authored in: a front end holds the file,
+  and the document is what crossed the wire.
