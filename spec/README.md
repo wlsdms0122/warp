@@ -298,7 +298,7 @@ here **refuses**. Every slot marked *expression*, *block*, *statements* or
 | key | takes | required |
 |---|---|---|
 | `warp` | int — the language version this document is written for | yes |
-| `needs` | array of strings — every word the program *calls* and does not declare; words a path reaches are bounded separately, below | no |
+| `needs` | array of strings — every word the program *calls* and does not declare; words a path reaches are bounded separately, below | yes, and empty where the program sends nothing |
 | `name` | string | no |
 | `description` | string | no |
 | `types` | record: name → type | no |
@@ -344,11 +344,17 @@ what a program sends is a fact of its text alone. The list is read before the
 program and a caller grants from it, so a list saying less would be trusted and
 wrong, and a list saying more asks for a grant the program has no use for.
 
-A document that writes no list makes no claim and is held to none — the words
-it sends are still refused at the link when nothing declares them; what is lost
-is only the chance to decide before linking. The canonical writer always writes
-the list, so a document from a conforming writer always carries its claim, and
-a caller that wants one refuses a document without it.
+A document says it, and one that does not **refuses** — the way one that does
+not say its version does. Silence is not a claim a caller can act on: the list
+is read before the program and a grant is decided from it, so a reader with no
+list cannot tell a program that touches nothing from one that touches
+everything, and the empty list is what says the first. Nobody writes it by
+hand — it is computed from the program the way the version is filled in by
+whatever produced the document, and the canonical writer always writes it.
+
+It is refused after the shapes are read and not before them. A missing list is
+the least specific thing that can be wrong with a document, and refusing for it
+first would make it the only thing an author ever heard about.
 
 A path (`a.b.count`) reaches words too, and they are **not listed**. A path
 only ever reaches a word that answers without running, so nothing a path
