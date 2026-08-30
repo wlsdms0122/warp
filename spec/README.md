@@ -354,7 +354,11 @@ whatever produced the document, and the canonical writer always writes it.
 
 It is refused after the shapes are read and not before them. A missing list is
 the least specific thing that can be wrong with a document, and refusing for it
-first would make it the only thing an author ever heard about.
+first would make it the only thing an author ever heard about. That ordering is
+an implementation's to choose, though — which is why every case in the suite
+writes the list, including the ones whose programs will not read at all. A case
+with two things wrong with it is a case any reader passes for the wrong
+reason.
 
 A path (`a.b.count`) reaches words too, and they are **not listed**. A path
 only ever reaches a word that answers without running, so nothing a path
