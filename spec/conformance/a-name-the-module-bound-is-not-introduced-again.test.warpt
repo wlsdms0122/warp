@@ -1,0 +1,39 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-name-the-module-bound-is-not-introduced-again"
+  note "Linking folds a constant wherever its name is read, so a name introduced under that spelling would never be the one that answers. The rule is the whole body's rather than its outermost level: `limit` here is fixed inside a block, which is where a reader is least able to see that the spelling was already taken. Whether the name is a statement's, a parameter's, or the one a walk hands its body makes no difference."
+  program {
+    const {
+      limit 3
+    }
+    procedures {
+      entry {
+        body [
+          {
+            block {
+              body [
+                {
+                  id "limit"
+                  value 9
+                }
+              ]
+              result {
+                ref "limit"
+              }
+            }
+            id "got"
+          }
+        ]
+        result {
+          ref "got"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
