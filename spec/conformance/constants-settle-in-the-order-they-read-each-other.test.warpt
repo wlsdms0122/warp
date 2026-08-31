@@ -1,0 +1,52 @@
+warpt 1
+{
+  expect {
+    answers 6
+  }
+  name "constants-settle-in-the-order-they-read-each-other"
+  note "A constant may name another declared beside it, and what it reads is settled before it is. The order is the one the reading gives and not the one the names happen to sort in: `total` reads `doubled`, which reads `base`, and the three are declared in the reverse of that."
+  program {
+    const {
+      base 2
+      doubled {
+        call {
+          arguments {
+            value {
+              ref "base"
+            }
+          }
+          of {
+            ref "base"
+          }
+          procedure "times"
+        }
+      }
+      total {
+        call {
+          arguments {
+            value {
+              ref "base"
+            }
+          }
+          of {
+            ref "doubled"
+          }
+          procedure "plus"
+        }
+      }
+    }
+    needs [
+      "plus"
+      "times"
+    ]
+    procedures {
+      entry {
+        result {
+          ref "total"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}

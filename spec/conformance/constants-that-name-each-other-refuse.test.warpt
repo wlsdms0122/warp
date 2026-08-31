@@ -1,0 +1,28 @@
+warpt 1
+{
+  expect {
+    refuses "link"
+  }
+  name "constants-that-name-each-other-refuse"
+  note "A constant may name another declared beside it, so the order they settle in is the order they read each other. Two that read each other have no such order and neither can be first, so the link refuses rather than reading one of them as the nothing an unsettled name would be."
+  program {
+    const {
+      ceiling {
+        ref "floor"
+      }
+      floor {
+        ref "ceiling"
+      }
+    }
+    needs []
+    procedures {
+      entry {
+        result {
+          ref "floor"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
