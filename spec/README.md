@@ -298,7 +298,7 @@ here **refuses**. Every slot marked *expression*, *block*, *statements* or
 | key | takes | required |
 |---|---|---|
 | `warp` | int — the language version this document is written for | yes |
-| `needs` | array of strings — every word the program *calls* and does not declare; words a path reaches are bounded separately, below | yes, and empty where the program sends nothing |
+| `imports` | array of strings — every word the program *calls* and does not declare; words a path reaches are bounded separately, below | yes, and empty where the program sends nothing |
 | `name` | string | no |
 | `description` | string | no |
 | `types` | record: name → type | no |
@@ -336,7 +336,7 @@ that refusal being explicable is what the number buys. Forward compatibility is
 not available to anyone: what a reader can do about a version it has never
 heard of is refuse, and the point of the number is that it can.
 
-**The needs list.** What the program *sends* and does not itself declare — from
+**The imports list.** What the program *sends* and does not itself declare — from
 procedure bodies and from constants alike. The list is that set exactly, not a
 bound around it: **reading refuses** a document whose list disagrees with what
 its program sends, in either direction — a stage-1 refusal, and it can be, since
@@ -787,7 +787,7 @@ happened yet:
   spelling, so a declaration and a reference can only meet by being the same
   bytes — `é` written two ways is a refusal, not two names.
 
-The `needs` list is deliberately not on this list — it is held at *reading*,
+The `imports` list is deliberately not on this list — it is held at *reading*,
 above, because a caller decides from it before any of this runs.
 
 **What a variable reads as.** A name a statement fixed reads as what that
@@ -1423,11 +1423,11 @@ Written down because a specification that hides what it has not decided is
 worse than one that admits it. Each is a place a second implementation would
 have to guess, and would be entitled to guess differently.
 
-- **`needs` does not announce type or constraint dependencies.** The list
+- **`imports` does not announce type or constraint dependencies.** The list
   gathers what a program *sends*; a document leaning on a constraint another
   module declares — `bounds: { T: Comparable }` with no declaration of its
   own — states that dependency nowhere a caller can read before linking.
-  Whether `needs` should widen to carry unresolved type and constraint
+  Whether `imports` should widen to carry unresolved type and constraint
   mentions is undecided; until it is, that dependency surfaces only as a link
   refusal.
 - **The text decision is cheap in Swift and dear elsewhere.** Grapheme-cluster

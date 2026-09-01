@@ -6,7 +6,7 @@ warpt 1
   name "a-bare-name-two-modules-declare-refuses"
   note "A bare word resolves only while exactly one linked module declares it. `map` is declared by std.collection and std.concurrent, so its bare spelling refuses and only the qualified spellings resolve."
   program {
-    needs [
+    imports [
       "map"
     ]
     procedures {
