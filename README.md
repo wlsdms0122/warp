@@ -49,12 +49,15 @@ import WarpYAML          // authoring side
 import WarpSyntax      // arriving side
 import Warp
 
+let loader = Loader()
 let document = try YAMLFrontend().document(from: yaml)   // → canonical document
-let module = try Loader().load(                           // checked, or refused
+let module = try loader.load(                             // checked, or refused
     document,
     identity: try Identity.of(document)                   // which document, for refusals
 )
-let image = try Linker().link([module] + Module.standard, entry: "greet")
+let image = try loader.reading {                          // refusals in the
+    try Linker().link([module] + Module.standard, entry: "greet")   // document's words
+}
 let answer = try await Executor().run(image)
 ```
 
