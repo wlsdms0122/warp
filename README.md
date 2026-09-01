@@ -47,12 +47,16 @@ the document crossed a network or a function call:
 ```swift
 import WarpYAML          // authoring side
 import WarpSyntax      // arriving side
+import WarpSerialization
 import Warp
 
 let document = try YAMLFrontend().document(from: yaml)   // → canonical document
-let module = try Loader().load(document)                  // checked, or refused
-let image = try Language().link([module] + Module.standard, entry: "greet")
-let answer = try await Language().makeExecutor().run(image)
+let module = try Loader().load(                           // checked, or refused
+    document,
+    identity: try Identity.of(document)                   // which document, for refusals
+)
+let image = try Linker().link([module] + Module.standard, entry: "greet")
+let answer = try await Executor().run(image)
 ```
 
 A program that stays in Swift skips the document entirely and builds the
