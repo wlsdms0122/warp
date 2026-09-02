@@ -1,0 +1,66 @@
+warpt 1
+{
+  expect {
+    answers [
+      2
+      4
+    ]
+  }
+  name "an-isolated-closure-writes-its-own-variables"
+  note "Writing a variable the closure itself declared touches nothing outside it, so the closure is isolated and runs beside the others."
+  program {
+    imports [
+      "std.concurrent.map"
+      "std.math.times"
+    ]
+    procedures {
+      entry {
+        result {
+          call {
+            arguments {
+              by {
+                closure {
+                  body [
+                    {
+                      value {
+                        ref "item"
+                      }
+                      var "held"
+                    }
+                    {
+                      call {
+                        arguments {
+                          value 2
+                        }
+                        of {
+                          ref "held"
+                        }
+                        procedure "std.math.times"
+                      }
+                      set "held"
+                    }
+                  ]
+                  parameters {
+                    item "int"
+                  }
+                  result {
+                    ref "held"
+                  }
+                  returns "int"
+                }
+              }
+            }
+            of [
+              1
+              2
+            ]
+            procedure "std.concurrent.map"
+          }
+        }
+        returns "array<int>"
+      }
+    }
+    warp 1
+  }
+  test 1
+}

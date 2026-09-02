@@ -1,0 +1,30 @@
+warpt 1
+{
+  expect {
+    refuses "link"
+  }
+  name "a-module-variable-keeps-the-type-it-started-as"
+  note "A module variable's type is the type of its starting value, and every body of the document reads it as that. A write that does not fit refuses at the link."
+  program {
+    imports []
+    procedures {
+      entry {
+        body [
+          {
+            set "total"
+            value "many"
+          }
+        ]
+        result {
+          ref "total"
+        }
+        returns "int"
+      }
+    }
+    var {
+      total 0
+    }
+    warp 1
+  }
+  test 1
+}

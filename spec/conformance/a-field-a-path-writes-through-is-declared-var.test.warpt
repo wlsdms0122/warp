@@ -1,0 +1,43 @@
+warpt 1
+{
+  expect {
+    refuses "link"
+  }
+  name "a-field-a-path-writes-through-is-declared-var"
+  note "A declared type says which of its fields a path may write through: `var int` opens the field, and a field written without `var` stops the path at the link."
+  program {
+    imports []
+    procedures {
+      entry {
+        body [
+          {
+            value {
+              as "Account"
+              of {
+                balance 1
+                owner "kim"
+              }
+            }
+            var "a"
+          }
+          {
+            set "a.balance"
+            value 5
+          }
+        ]
+        result {
+          ref "a.balance"
+        }
+        returns "int"
+      }
+    }
+    types {
+      Account {
+        balance "int"
+        owner "string"
+      }
+    }
+    warp 1
+  }
+  test 1
+}

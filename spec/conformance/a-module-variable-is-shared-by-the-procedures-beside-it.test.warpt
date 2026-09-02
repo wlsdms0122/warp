@@ -1,0 +1,54 @@
+warpt 1
+{
+  expect {
+    answers 2
+  }
+  name "a-module-variable-is-shared-by-the-procedures-beside-it"
+  note "A module `var` is one box every procedure of the document reads and writes. What one procedure wrote, another reads."
+  program {
+    imports [
+      "std.math.plus"
+    ]
+    procedures {
+      add {
+        body [
+          {
+            call {
+              arguments {
+                value 1
+              }
+              of {
+                ref "total"
+              }
+              procedure "std.math.plus"
+            }
+            set "total"
+          }
+        ]
+      }
+      entry {
+        body [
+          {
+            call {
+              procedure "add"
+            }
+          }
+          {
+            call {
+              procedure "add"
+            }
+          }
+        ]
+        result {
+          ref "total"
+        }
+        returns "int"
+      }
+    }
+    var {
+      total 0
+    }
+    warp 1
+  }
+  test 1
+}

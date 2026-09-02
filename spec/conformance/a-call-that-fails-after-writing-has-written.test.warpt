@@ -1,0 +1,72 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-call-that-fails-after-writing-has-written"
+  note "The box is the caller's, so a write made before the callee fails is a write the caller sees after the rescue."
+  program {
+    imports [
+      "std.control.abort"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            value 0
+            var "n"
+          }
+          {
+            attempt {
+              body [
+                {
+                  call {
+                    arguments {
+                      count {
+                        ref "n"
+                      }
+                    }
+                    procedure "poke"
+                  }
+                }
+              ]
+              rescue {
+                body [
+                  {
+                    id "seen"
+                    value 1
+                  }
+                ]
+              }
+            }
+            id "tried"
+          }
+        ]
+        result {
+          ref "n"
+        }
+        returns "int"
+      }
+      poke {
+        body [
+          {
+            set "count"
+            value 1
+          }
+          {
+            call {
+              of "after writing"
+              procedure "std.control.abort"
+            }
+          }
+        ]
+        parameters {
+          count "inout int"
+        }
+        returns "never"
+      }
+    }
+    warp 1
+  }
+  test 1
+}

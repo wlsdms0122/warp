@@ -1,0 +1,40 @@
+warpt 1
+{
+  expect {
+    answers {
+      x 5
+      y 2
+    }
+  }
+  name "a-write-reaches-into-what-a-variable-holds"
+  note "A `set` names a path. The head is the variable; the rest says where inside its value the new value goes, and the rest of the value is kept."
+  program {
+    imports []
+    procedures {
+      entry {
+        body [
+          {
+            value {
+              x 1
+              y 2
+            }
+            var "p"
+          }
+          {
+            set "p.x"
+            value 5
+          }
+        ]
+        result {
+          ref "p"
+        }
+        returns {
+          x "int"
+          y "int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}

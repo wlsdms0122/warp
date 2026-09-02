@@ -1,0 +1,49 @@
+warpt 1
+{
+  expect {
+    refuses "link"
+  }
+  name "a-value-is-not-handed-in-place"
+  note "A literal has no box to write, so handing one in place refuses at the link."
+  program {
+    imports [
+      "std.math.plus"
+    ]
+    procedures {
+      bump {
+        body [
+          {
+            call {
+              arguments {
+                value 1
+              }
+              of {
+                ref "count"
+              }
+              procedure "std.math.plus"
+            }
+            set "count"
+          }
+        ]
+        parameters {
+          count "inout int"
+        }
+      }
+      entry {
+        body [
+          {
+            call {
+              arguments {
+                count 10
+              }
+              procedure "bump"
+            }
+          }
+        ]
+        returns "null"
+      }
+    }
+    warp 1
+  }
+  test 1
+}

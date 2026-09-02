@@ -1,0 +1,47 @@
+warpt 1
+{
+  expect {
+    refuses "link"
+  }
+  name "a-closure-write-keeps-the-captured-type"
+  note "A closure may write what it captured, and what it writes has to fit what the capturing body holds: the body reads the variable as the type it gave it."
+  program {
+    imports []
+    procedures {
+      entry {
+        body [
+          {
+            value 0
+            var "tally"
+          }
+          {
+            id "held"
+            value {
+              closure {
+                body [
+                  {
+                    set "tally"
+                    value "one"
+                  }
+                ]
+              }
+            }
+          }
+          {
+            invoke {
+              procedure {
+                ref "held"
+              }
+            }
+          }
+        ]
+        result {
+          ref "tally"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}

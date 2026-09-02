@@ -1,0 +1,64 @@
+warpt 1
+{
+  expect {
+    answers [
+      1
+      3
+    ]
+  }
+  name "a-path-handed-in-place-is-written-back"
+  note "A path into a variable is handed in place too. The callee writes a box holding what the path read, and the box is written back along the path when the call ends."
+  program {
+    imports [
+      "std.math.plus"
+    ]
+    procedures {
+      bump {
+        body [
+          {
+            call {
+              arguments {
+                value 1
+              }
+              of {
+                ref "count"
+              }
+              procedure "std.math.plus"
+            }
+            set "count"
+          }
+        ]
+        parameters {
+          count "inout int"
+        }
+      }
+      entry {
+        body [
+          {
+            value [
+              1
+              2
+            ]
+            var "xs"
+          }
+          {
+            call {
+              arguments {
+                count {
+                  ref "xs[1]"
+                }
+              }
+              procedure "bump"
+            }
+          }
+        ]
+        result {
+          ref "xs"
+        }
+        returns "array<int>"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
