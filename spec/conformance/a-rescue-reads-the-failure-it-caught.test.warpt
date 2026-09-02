@@ -16,27 +16,31 @@ warpt 1
       entry {
         body [
           {
-            attempt {
-              body [
-                {
-                  call {
-                    of "on purpose"
-                    procedure "std.control.abort"
+            let "tried"
+            value {
+              attempt {
+                body [
+                  {
+                    value {
+                      call {
+                        of "on purpose"
+                        procedure "std.control.abort"
+                      }
+                    }
                   }
-                }
-              ]
-              rescue {
-                result {
-                  message {
-                    ref "tried.message"
-                  }
-                  type {
-                    ref "tried.type"
+                ]
+                rescue {
+                  result {
+                    message {
+                      ref "tried.message"
+                    }
+                    type {
+                      ref "tried.type"
+                    }
                   }
                 }
               }
             }
-            id "tried"
           }
         ]
         result {
@@ -44,7 +48,7 @@ warpt 1
         }
       }
     }
-    warp 1
+    warp 2
   }
   test 1
 }

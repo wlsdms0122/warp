@@ -21,23 +21,25 @@ warpt 1
       entry {
         body [
           {
-            id "data"
+            let "data"
             value {
               a 1
             }
           }
           {
-            call {
-              arguments {
-                key "b"
-                value 2
+            let "grown"
+            value {
+              call {
+                arguments {
+                  key "b"
+                  value 2
+                }
+                of {
+                  ref "data"
+                }
+                procedure "std.collection.setting"
               }
-              of {
-                ref "data"
-              }
-              procedure "std.collection.setting"
             }
-            id "grown"
           }
         ]
         result [
@@ -50,7 +52,7 @@ warpt 1
         ]
       }
     }
-    warp 1
+    warp 2
   }
   test 1
 }

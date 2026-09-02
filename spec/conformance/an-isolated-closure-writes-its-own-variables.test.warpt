@@ -28,16 +28,18 @@ warpt 1
                       var "held"
                     }
                     {
-                      call {
-                        arguments {
-                          value 2
-                        }
-                        of {
-                          ref "held"
-                        }
-                        procedure "std.math.times"
-                      }
                       set "held"
+                      value {
+                        call {
+                          arguments {
+                            value 2
+                          }
+                          of {
+                            ref "held"
+                          }
+                          procedure "std.math.times"
+                        }
+                      }
                     }
                   ]
                   parameters {
@@ -60,7 +62,7 @@ warpt 1
         returns "array<int>"
       }
     }
-    warp 1
+    warp 2
   }
   test 1
 }

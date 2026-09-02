@@ -13,17 +13,19 @@ warpt 1
       entry {
         body [
           {
-            call {
-              of "done"
-              procedure "std.control.abort"
+            let "gone"
+            value {
+              call {
+                of "done"
+                procedure "std.control.abort"
+              }
             }
-            id "gone"
           }
         ]
         result 1
       }
     }
-    warp 1
+    warp 2
   }
   test 1
 }

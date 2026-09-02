@@ -13,29 +13,35 @@ warpt 1
       add {
         body [
           {
-            call {
-              arguments {
-                value 1
-              }
-              of {
-                ref "total"
-              }
-              procedure "std.math.plus"
-            }
             set "total"
+            value {
+              call {
+                arguments {
+                  value 1
+                }
+                of {
+                  ref "total"
+                }
+                procedure "std.math.plus"
+              }
+            }
           }
         ]
       }
       entry {
         body [
           {
-            call {
-              procedure "add"
+            value {
+              call {
+                procedure "add"
+              }
             }
           }
           {
-            call {
-              procedure "add"
+            value {
+              call {
+                procedure "add"
+              }
             }
           }
         ]
@@ -48,7 +54,7 @@ warpt 1
     var {
       total 0
     }
-    warp 1
+    warp 2
   }
   test 1
 }

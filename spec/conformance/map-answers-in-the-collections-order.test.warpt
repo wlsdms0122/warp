@@ -17,27 +17,29 @@ warpt 1
       entry {
         body [
           {
-            call {
-              arguments {
-                by {
-                  closure {
-                    parameters {
-                      item "int"
-                    }
-                    result {
-                      ref "item"
+            let "walked"
+            value {
+              call {
+                arguments {
+                  by {
+                    closure {
+                      parameters {
+                        item "int"
+                      }
+                      result {
+                        ref "item"
+                      }
                     }
                   }
                 }
+                of [
+                  1
+                  2
+                  3
+                ]
+                procedure "std.concurrent.map"
               }
-              of [
-                1
-                2
-                3
-              ]
-              procedure "std.concurrent.map"
             }
-            id "walked"
           }
         ]
         result {
@@ -45,7 +47,7 @@ warpt 1
         }
       }
     }
-    warp 1
+    warp 2
   }
   test 1
 }

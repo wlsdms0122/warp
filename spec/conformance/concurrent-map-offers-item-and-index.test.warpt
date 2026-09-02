@@ -18,49 +18,53 @@ warpt 1
       entry {
         body [
           {
-            call {
-              arguments {
-                by {
-                  closure {
-                    body [
-                      {
-                        call {
-                          of {
-                            ref "index"
+            let "tagged"
+            value {
+              call {
+                arguments {
+                  by {
+                    closure {
+                      body [
+                        {
+                          let "place"
+                          value {
+                            call {
+                              of {
+                                ref "index"
+                              }
+                              procedure "std.text.text"
+                            }
                           }
-                          procedure "std.text.text"
                         }
-                        id "place"
+                      ]
+                      parameters {
+                        index "int"
+                        item "string"
                       }
-                    ]
-                    parameters {
-                      index "int"
-                      item "string"
-                    }
-                    result {
-                      call {
-                        of [
-                          {
-                            ref "place"
-                          }
-                          {
-                            ref "item"
-                          }
-                        ]
-                        procedure "std.text.joined"
+                      result {
+                        call {
+                          of [
+                            {
+                              ref "place"
+                            }
+                            {
+                              ref "item"
+                            }
+                          ]
+                          procedure "std.text.joined"
+                        }
                       }
+                      returns "string"
                     }
-                    returns "string"
                   }
                 }
+                of [
+                  "a"
+                  "b"
+                ]
+                procedure "std.concurrent.map"
               }
-              of [
-                "a"
-                "b"
-              ]
-              procedure "std.concurrent.map"
             }
-            id "tagged"
           }
         ]
         result {
@@ -68,7 +72,7 @@ warpt 1
         }
       }
     }
-    warp 1
+    warp 2
   }
   test 1
 }

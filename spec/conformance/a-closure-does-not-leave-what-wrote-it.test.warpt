@@ -11,26 +11,30 @@ warpt 1
       entry {
         body [
           {
-            id "walked"
-            loop {
-              body [
-                {
-                  id "held"
-                  value {
-                    closure {
-                      body [
-                        {
-                          break null
-                        }
-                      ]
+            let "walked"
+            value {
+              loop {
+                body [
+                  {
+                    let "held"
+                    value {
+                      closure {
+                        body [
+                          {
+                            value {
+                              break null
+                            }
+                          }
+                        ]
+                      }
                     }
                   }
-                }
-              ]
-              where {
-                is_not 1
-                of {
-                  ref "walked.index"
+                ]
+                while {
+                  is_not 1
+                  of {
+                    ref "walked.index"
+                  }
                 }
               }
             }
@@ -41,7 +45,7 @@ warpt 1
         }
       }
     }
-    warp 1
+    warp 2
   }
   test 1
 }

@@ -22,14 +22,16 @@ warpt 1
             var "xs"
           }
           {
-            call {
-              arguments {
-                value 2
+            value {
+              call {
+                arguments {
+                  value 2
+                }
+                of {
+                  ref "xs"
+                }
+                procedure "std.collection.append"
               }
-              of {
-                ref "xs"
-              }
-              procedure "std.collection.append"
             }
           }
         ]
@@ -39,7 +41,7 @@ warpt 1
         returns "array<int>"
       }
     }
-    warp 1
+    warp 2
   }
   test 1
 }

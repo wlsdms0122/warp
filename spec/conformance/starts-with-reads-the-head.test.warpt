@@ -16,24 +16,28 @@ warpt 1
       entry {
         body [
           {
-            call {
-              arguments {
-                value "é"
+            let "spelled"
+            value {
+              call {
+                arguments {
+                  value "é"
+                }
+                of "étoile"
+                procedure "std.text.startsWith"
               }
-              of "étoile"
-              procedure "std.text.startsWith"
             }
-            id "spelled"
           }
           {
-            call {
-              arguments {
-                value "arp"
+            let "elsewhere"
+            value {
+              call {
+                arguments {
+                  value "arp"
+                }
+                of "warp"
+                procedure "std.text.startsWith"
               }
-              of "warp"
-              procedure "std.text.startsWith"
             }
-            id "elsewhere"
           }
         ]
         result [
@@ -46,7 +50,7 @@ warpt 1
         ]
       }
     }
-    warp 1
+    warp 2
   }
   test 1
 }

@@ -17,7 +17,7 @@ warpt 1
       entry {
         body [
           {
-            id "data"
+            let "data"
             value {
               a 2
               b 1
@@ -25,13 +25,15 @@ warpt 1
             }
           }
           {
-            call {
-              of {
-                ref "data"
+            let "names"
+            value {
+              call {
+                of {
+                  ref "data"
+                }
+                procedure "std.collection.keys"
               }
-              procedure "std.collection.keys"
             }
-            id "names"
           }
         ]
         result {
@@ -39,7 +41,7 @@ warpt 1
         }
       }
     }
-    warp 1
+    warp 2
   }
   test 1
 }

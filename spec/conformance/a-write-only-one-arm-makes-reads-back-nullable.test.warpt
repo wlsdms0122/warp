@@ -17,28 +17,32 @@ warpt 1
             var "kept"
           }
           {
-            branch {
-              then [
-                {
-                  set "kept"
-                  value 1
+            value {
+              branch {
+                then [
+                  {
+                    set "kept"
+                    value 1
+                  }
+                ]
+                when {
+                  ref "ready"
                 }
-              ]
-              when {
-                ref "ready"
               }
             }
           }
           {
-            call {
-              arguments {
-                it {
-                  ref "kept"
+            let "said"
+            value {
+              call {
+                arguments {
+                  it {
+                    ref "kept"
+                  }
                 }
+                procedure "wants"
               }
-              procedure "wants"
             }
-            id "said"
           }
         ]
         parameters {
@@ -52,7 +56,7 @@ warpt 1
         result true
       }
     }
-    warp 1
+    warp 2
   }
   test 1
 }

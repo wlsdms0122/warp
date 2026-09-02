@@ -17,29 +17,33 @@ warpt 1
             var "n"
           }
           {
-            attempt {
-              body [
-                {
-                  call {
-                    arguments {
-                      count {
-                        ref "n"
-                      }
-                    }
-                    procedure "poke"
-                  }
-                }
-              ]
-              rescue {
+            let "tried"
+            value {
+              attempt {
                 body [
                   {
-                    id "seen"
-                    value 1
+                    value {
+                      call {
+                        arguments {
+                          count {
+                            ref "n"
+                          }
+                        }
+                        procedure "poke"
+                      }
+                    }
                   }
                 ]
+                rescue {
+                  body [
+                    {
+                      let "seen"
+                      value 1
+                    }
+                  ]
+                }
               }
             }
-            id "tried"
           }
         ]
         result {
@@ -54,9 +58,11 @@ warpt 1
             value 1
           }
           {
-            call {
-              of "after writing"
-              procedure "std.control.abort"
+            value {
+              call {
+                of "after writing"
+                procedure "std.control.abort"
+              }
             }
           }
         ]
@@ -66,7 +72,7 @@ warpt 1
         returns "never"
       }
     }
-    warp 1
+    warp 2
   }
   test 1
 }

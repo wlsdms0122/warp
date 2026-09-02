@@ -17,15 +17,17 @@ warpt 1
       entry {
         body [
           {
-            call {
-              of [
-                3
-                1
-                2
-              ]
-              procedure "std.collection.sorted"
+            let "ordered"
+            value {
+              call {
+                of [
+                  3
+                  1
+                  2
+                ]
+                procedure "std.collection.sorted"
+              }
             }
-            id "ordered"
           }
         ]
         result {
@@ -33,7 +35,7 @@ warpt 1
         }
       }
     }
-    warp 1
+    warp 2
   }
   test 1
 }

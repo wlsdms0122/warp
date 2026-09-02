@@ -18,16 +18,18 @@ warpt 1
             var "xs"
           }
           {
-            call {
-              arguments {
-                left {
-                  ref "xs[0]"
+            value {
+              call {
+                arguments {
+                  left {
+                    ref "xs[0]"
+                  }
+                  right {
+                    ref "xs[1]"
+                  }
                 }
-                right {
-                  ref "xs[1]"
-                }
+                procedure "swap"
               }
-              procedure "swap"
             }
           }
         ]
@@ -36,7 +38,7 @@ warpt 1
       swap {
         body [
           {
-            id "held"
+            let "held"
             value {
               ref "left"
             }
@@ -60,7 +62,7 @@ warpt 1
         }
       }
     }
-    warp 1
+    warp 2
   }
   test 1
 }

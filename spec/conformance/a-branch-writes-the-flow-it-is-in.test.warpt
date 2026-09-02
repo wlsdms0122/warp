@@ -17,21 +17,23 @@ warpt 1
             var "chosen"
           }
           {
-            branch {
-              else [
-                {
-                  set "chosen"
-                  value "took-else"
+            value {
+              branch {
+                else [
+                  {
+                    set "chosen"
+                    value "took-else"
+                  }
+                ]
+                then [
+                  {
+                    set "chosen"
+                    value "took-then"
+                  }
+                ]
+                when {
+                  ref "take"
                 }
-              ]
-              then [
-                {
-                  set "chosen"
-                  value "took-then"
-                }
-              ]
-              when {
-                ref "take"
               }
             }
           }
@@ -44,7 +46,7 @@ warpt 1
         }
       }
     }
-    warp 1
+    warp 2
   }
   test 1
 }

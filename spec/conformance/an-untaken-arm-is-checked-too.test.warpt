@@ -14,23 +14,25 @@ warpt 1
       entry {
         body [
           {
-            branch {
-              else [
-                {
-                  id "missed"
-                  value {
-                    ref "nobodyEverBoundThis"
+            value {
+              branch {
+                else [
+                  {
+                    let "missed"
+                    value {
+                      ref "nobodyEverBoundThis"
+                    }
                   }
+                ]
+                then [
+                  {
+                    let "taken"
+                    value "taken"
+                  }
+                ]
+                when {
+                  ref "ready"
                 }
-              ]
-              then [
-                {
-                  id "taken"
-                  value "taken"
-                }
-              ]
-              when {
-                ref "ready"
               }
             }
           }
@@ -40,7 +42,7 @@ warpt 1
         }
       }
     }
-    warp 1
+    warp 2
   }
   test 1
 }

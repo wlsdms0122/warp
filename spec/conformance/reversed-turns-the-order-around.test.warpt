@@ -24,7 +24,7 @@ warpt 1
       entry {
         body [
           {
-            id "items"
+            let "items"
             value [
               1
               2
@@ -32,13 +32,15 @@ warpt 1
             ]
           }
           {
-            call {
-              of {
-                ref "items"
+            let "backwards"
+            value {
+              call {
+                of {
+                  ref "items"
+                }
+                procedure "std.collection.reversed"
               }
-              procedure "std.collection.reversed"
             }
-            id "backwards"
           }
         ]
         result [
@@ -51,7 +53,7 @@ warpt 1
         ]
       }
     }
-    warp 1
+    warp 2
   }
   test 1
 }

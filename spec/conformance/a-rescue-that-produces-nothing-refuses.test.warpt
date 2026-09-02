@@ -11,21 +11,23 @@ warpt 1
       entry {
         body [
           {
-            attempt {
-              body [
-                {
-                  id "work"
-                  value 1
+            let "tried"
+            value {
+              attempt {
+                body [
+                  {
+                    let "work"
+                    value 1
+                  }
+                ]
+                rescue {
+                  body []
                 }
-              ]
-              rescue {
-                body []
-              }
-              result {
-                ref "work"
+                result {
+                  ref "work"
+                }
               }
             }
-            id "tried"
           }
         ]
         result {
@@ -33,7 +35,7 @@ warpt 1
         }
       }
     }
-    warp 1
+    warp 2
   }
   test 1
 }

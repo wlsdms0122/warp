@@ -33,17 +33,19 @@ warpt 1
             var "held"
           }
           {
-            branch {
-              then [
-                {
-                  set "held"
-                  value {
-                    ref "of.inner"
+            value {
+              branch {
+                then [
+                  {
+                    set "held"
+                    value {
+                      ref "of.inner"
+                    }
                   }
+                ]
+                when {
+                  ref "flag"
                 }
-              ]
-              when {
-                ref "flag"
               }
             }
           }
@@ -62,7 +64,7 @@ warpt 1
         returns "any"
       }
     }
-    warp 1
+    warp 2
   }
   test 1
 }

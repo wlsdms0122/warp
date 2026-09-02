@@ -21,39 +21,49 @@ warpt 1
       entry {
         body [
           {
-            call {
-              of -3
-              procedure "std.math.absolute"
+            let "sized"
+            value {
+              call {
+                of -3
+                procedure "std.math.absolute"
+              }
             }
-            id "sized"
           }
           {
-            call {
-              of 2.9
-              procedure "std.math.floored"
+            let "down"
+            value {
+              call {
+                of 2.9
+                procedure "std.math.floored"
+              }
             }
-            id "down"
           }
           {
-            call {
-              of -2.1
-              procedure "std.math.floored"
+            let "below"
+            value {
+              call {
+                of -2.1
+                procedure "std.math.floored"
+              }
             }
-            id "below"
           }
           {
-            call {
-              of 2.5
-              procedure "std.math.rounded"
+            let "near"
+            value {
+              call {
+                of 2.5
+                procedure "std.math.rounded"
+              }
             }
-            id "near"
           }
           {
-            call {
-              of -2.5
-              procedure "std.math.rounded"
+            let "nearBelow"
+            value {
+              call {
+                of -2.5
+                procedure "std.math.rounded"
+              }
             }
-            id "nearBelow"
           }
         ]
         result [
@@ -75,7 +85,7 @@ warpt 1
         ]
       }
     }
-    warp 1
+    warp 2
   }
   test 1
 }
