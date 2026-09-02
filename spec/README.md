@@ -447,7 +447,11 @@ held at the **link**:
 - one call hands one variable to one parameter. Two `inout` parameters given
   paths under one head **refuse**, whether or not the two paths meet: the
   rule is static, and there is no run-time check that could let two paths
-  under `people` through by finding them apart.
+  under `people` through by finding them apart;
+- a module variable is handed in place only to a body of another document or
+  to a native word. A body declared beside it reads it by its name, so handing
+  it that variable would reach one box two ways, and that **refuses** the same
+  way two parameters under one head do.
 
 Inside the body the parameter is a variable, and `set` writes it. When the
 path is the whole variable, the callee writes the caller's box, and each
@@ -502,7 +506,8 @@ write to a whole local variable retypes it, under *what a variable reads as*
 below; a write to a module variable or to an `inout` parameter has to fit the
 type the box holds and retypes nothing. At the run the value is computed
 first, and then the box is rewritten once, so nothing observes the box
-halfway.
+halfway. An index written as a name (`xs[i]`) is read where the write stands
+and must be an int; the write lands on that one position.
 
 **A `var` may stand alone.** A statement that is only `var: name` — no
 construct key — introduces the name with nothing in it yet, and a name holding

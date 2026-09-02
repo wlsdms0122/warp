@@ -1,0 +1,43 @@
+warpt 1
+{
+  expect {
+    answers [
+      1
+      9
+      3
+    ]
+  }
+  name "a-write-indexes-with-a-name"
+  note "An index written as a name is read in the scope the write stands in, and the write lands on that one position."
+  program {
+    imports []
+    procedures {
+      entry {
+        body [
+          {
+            value [
+              1
+              2
+              3
+            ]
+            var "xs"
+          }
+          {
+            id "i"
+            value 1
+          }
+          {
+            set "xs[i]"
+            value 9
+          }
+        ]
+        result {
+          ref "xs"
+        }
+        returns "array<int>"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
