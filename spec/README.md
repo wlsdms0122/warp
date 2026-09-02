@@ -1378,7 +1378,9 @@ its own version first: a later case may say something this runner has no name
 for, and "I am too old for this" is a different answer from "this is not a case".
 Then read `program` as a document. If the case expects `refuses`, check that it
 fails at that stage and no earlier or later. Otherwise link it against the
-standard vocabulary, run it with `arguments`, and compare.
+standard vocabulary, start from `entry` spelled the way the document declares
+it (`wallet.entry` where the document is named `wallet`), run it with
+`arguments`, and compare.
 
 The cases are the files named `<name>.test.warpt`, and what else the folder holds
 is not the suite's business. A runner that refused to start over an editor's
