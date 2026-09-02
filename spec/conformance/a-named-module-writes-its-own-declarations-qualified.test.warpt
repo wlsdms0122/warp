@@ -1,0 +1,28 @@
+warpt 1
+{
+  expect {
+    answers 7
+  }
+  name "a-named-module-writes-its-own-declarations-qualified"
+  note "A document named `wallet` declares `fee`, whose spelling is `wallet.fee` inside the document too. The send names it so, and a word the document declares is not one it imports."
+  program {
+    imports []
+    name "wallet"
+    procedures {
+      entry {
+        result {
+          call {
+            procedure "wallet.fee"
+          }
+        }
+        returns "int"
+      }
+      fee {
+        result 7
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}

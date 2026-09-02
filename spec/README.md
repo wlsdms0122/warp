@@ -271,15 +271,13 @@ exactly as `absolute(of: "abc")` does.
 
 **Type and constraint names carry their module.** A module named `m` declaring
 type `T` declares `m.T`, the way its procedures declare `m.p`; a module with
-no name declares into the shared space. A mention resolves by the one rule
-procedure names resolve by: the writing module's own declaration first — a
-name never changes meaning because some other module in the link grew one —
-then the exact declared spelling (a shared-space declaration's bare name is
-its exact spelling), and past that, the one declaration in the link that
-answers to the spelling. A spelling that still answers to more than one
-declaration **refuses at the link** where it is mentioned: no rule could say
-which was meant, and the qualified spelling is how the author says. Types and constraints resolve each in their own space — a
-slot mentions types, a bound mentions constraints.
+no name declares into the shared space, where the declared name is the whole
+spelling. A mention is a declared spelling, written out, and it means the same
+declaration wherever it was written: `m.T` names `m`'s declaration and `T` names
+a shared-space one, and a module writes its own declarations the same way,
+`m.T` inside `m` too. A spelling no module in the link declares **refuses at
+the link** where it is mentioned. Types and constraints resolve each in their
+own space: a slot mentions types, a bound mentions constraints.
 
 The shared `std` module (the foundation bundle) declares the memberships the
 standard words are bounded by: `Numeric` admits `int` and `double`;
@@ -298,8 +296,8 @@ here **refuses**. Every slot marked *expression*, *block*, *statements* or
 | key | takes | required |
 |---|---|---|
 | `warp` | int — the language version this document is written for | yes |
-| `needs` | array of strings — every word the program *calls* and does not declare; words a path reaches are bounded separately, below | yes, and empty where the program sends nothing |
-| `name` | string | no |
+| `imports` | array of strings — every word the program *calls* and does not declare; words a path reaches are bounded separately, below | yes, and empty where the program sends nothing |
+| `name` | string — the namespace the declarations carry: a module named `m` declaring `p` declares `m.p`, and every mention spells it so, inside `m` too. Several documents may share one | no |
 | `description` | string | no |
 | `types` | record: name → type | no |
 | `constraints` | record: name → array of types the name admits | no |
@@ -336,9 +334,10 @@ that refusal being explicable is what the number buys. Forward compatibility is
 not available to anyone: what a reader can do about a version it has never
 heard of is refuse, and the point of the number is that it can.
 
-**The needs list.** What the program *sends* and does not itself declare — from
-procedure bodies and from constants alike. The list is that set exactly, not a
-bound around it: **reading refuses** a document whose list disagrees with what
+**The imports list.** What the program *sends* and does not itself declare — from
+procedure bodies and from constants alike, each by the spelling it is sent by,
+which is its qualified name: `std.math.plus`, never `plus`. The list is that
+set exactly, not a bound around it: **reading refuses** a document whose list disagrees with what
 its program sends, in either direction — a stage-1 refusal, and it can be, since
 what a program sends is a fact of its text alone. The list is read before the
 program and a caller grants from it, so a list saying less would be trusted and
@@ -787,7 +786,7 @@ happened yet:
   spelling, so a declaration and a reference can only meet by being the same
   bytes — `é` written two ways is a refusal, not two names.
 
-The `needs` list is deliberately not on this list — it is held at *reading*,
+The `imports` list is deliberately not on this list — it is held at *reading*,
 above, because a caller decides from it before any of this runs.
 
 **What a variable reads as.** A name a statement fixed reads as what that
@@ -1053,16 +1052,12 @@ is already the safe unit of concurrent work, and being words makes concurrency
 a permission: what a receiver does not link, a program cannot do.
 
 The names are plain words with the module carrying the context, the way
-`Array.map` and `TaskGroup.next` lean on their types. The rule under them is
-the general one: a **bare** word name resolves only while exactly one linked
-module declares it; when two do, the bare spelling **refuses at the link**,
-naming both, and only the qualified spellings resolve. `first` and `map` are
-also declared by `std.collection`, so a link carrying both bundles pays on
-*both* sides — every `first` and every `map`, the sequential ones included,
-is written qualified. That cost is taken knowingly: the qualified spelling is
-the meaning, and concurrency shows at the call site. Paths are untouched: a
-path reaches only pure words, and every word here is an effect, so `x.first`
-still means the collection's.
+`Array.map` and `TaskGroup.next` lean on their types. A call site spells the
+module, so `std.collection.first` and `std.concurrent.first` are two names, and
+a link carrying both bundles holds both: every `first` and every `map`, the
+sequential ones included, is written with its bundle, and concurrency shows at
+the call site. Paths are untouched: a path reaches only pure words, and every
+word here is an effect, so `x.first` still means the collection's.
 
 What the checking sees: `map` declares its types the way the sequential one
 does — the collection's `Element` meets the closure's parameter, and the
@@ -1383,7 +1378,9 @@ its own version first: a later case may say something this runner has no name
 for, and "I am too old for this" is a different answer from "this is not a case".
 Then read `program` as a document. If the case expects `refuses`, check that it
 fails at that stage and no earlier or later. Otherwise link it against the
-standard vocabulary, run it with `arguments`, and compare.
+standard vocabulary, start from `entry` spelled the way the document declares
+it (`wallet.entry` where the document is named `wallet`), run it with
+`arguments`, and compare.
 
 The cases are the files named `<name>.test.warpt`, and what else the folder holds
 is not the suite's business. A runner that refused to start over an editor's
@@ -1423,11 +1420,11 @@ Written down because a specification that hides what it has not decided is
 worse than one that admits it. Each is a place a second implementation would
 have to guess, and would be entitled to guess differently.
 
-- **`needs` does not announce type or constraint dependencies.** The list
+- **`imports` does not announce type or constraint dependencies.** The list
   gathers what a program *sends*; a document leaning on a constraint another
   module declares — `bounds: { T: Comparable }` with no declaration of its
   own — states that dependency nowhere a caller can read before linking.
-  Whether `needs` should widen to carry unresolved type and constraint
+  Whether `imports` should widen to carry unresolved type and constraint
   mentions is undecided; until it is, that dependency surfaces only as a link
   refusal.
 - **The text decision is cheap in Swift and dear elsewhere.** Grapheme-cluster

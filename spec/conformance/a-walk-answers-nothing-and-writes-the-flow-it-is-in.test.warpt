@@ -8,8 +8,8 @@ warpt 1
   name "a-walk-answers-nothing-and-writes-the-flow-it-is-in"
   note "A walk answers nothing, and its name is the element's alone — not readable after the walk. A round's contribution is what it writes outward: a pure mapping is std.collection.map's to say, and an effectful round with something to keep writes an outer variable."
   program {
-    needs [
-      "plus"
+    imports [
+      "std.math.plus"
     ]
     procedures {
       entry {
@@ -31,7 +31,7 @@ warpt 1
                     of {
                       ref "tally"
                     }
-                    procedure "plus"
+                    procedure "std.math.plus"
                   }
                   set "tally"
                 }

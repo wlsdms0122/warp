@@ -6,7 +6,7 @@ warpt 1
   name "what-is-not-utf8-text-refuses-to-decode"
   note "Bytes carry no promise of being text, and completing a broken sequence with replacement characters would answer a text nobody sent. The bytes are a run-time value, so the refusal is the run's."
   program {
-    needs [
+    imports [
       "std.text.decoded"
     ]
     procedures {

@@ -31,7 +31,7 @@ share code.
 | directory | what | is |
 |---|---|---|
 | [`spec/`](spec/README.md) | the language: shapes, document format, encodings, refusal rules, conformance cases | the specification |
-| [`runtime/warp-runtime-swift/`](runtime/warp-runtime-swift/README.md) | `Warp` `WarpSyntax` `WarpSerialization` | one runtime |
+| [`runtime/warp-runtime-swift/`](runtime/warp-runtime-swift/README.md) | `Warp` `WarpSyntax` | one runtime |
 | [`frontend/warp-frontend-yaml/`](frontend/warp-frontend-yaml/README.md) | `WarpYAML` | one front end |
 
 The specification is the language. An implementation — this runtime included —
@@ -49,12 +49,18 @@ import WarpYAML          // authoring side
 import WarpSyntax      // arriving side
 import Warp
 
+let loader = Loader()
 let document = try YAMLFrontend().document(from: yaml)   // → canonical document
-let module = try Loader().load(document)                  // checked, or refused
-let image = try Language().link([module] + Module.standard, entry: "greet")
-let answer = try await Language().makeExecutor().run(image)
+let module = try loader.load(                             // checked, or refused
+    document,
+    identity: try Identity.of(document)                   // which document, for refusals
+)
+let image = try loader.reading {                          // refusals in the
+    try Linker().link([module] + Module.standard, entry: "greet")   // document's words
+}
+let answer = try await Executor().run(image)
 ```
 
 A program that stays in Swift skips the document entirely and builds the
-shapes directly; a program that travels is written down by
-`WarpSerialization` — bytes to carry it, text to read it.
+shapes directly; a program that travels is written down by `WarpSyntax` —
+bytes to carry it, text to read it.
