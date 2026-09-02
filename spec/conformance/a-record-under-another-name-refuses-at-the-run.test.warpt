@@ -1,0 +1,59 @@
+warpt 1
+{
+  expect {
+    refuses "run"
+  }
+  name "a-record-under-another-name-refuses-at-the-run"
+  note "Through `any` the link cannot see the name, so the slot asks at the run: a `Vault` arriving where `Account` is declared refuses, whatever its shape."
+  program {
+    imports []
+    procedures {
+      entry {
+        body [
+          {
+            let "held"
+            value {
+              as "Vault"
+              of {
+                balance 1
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments {
+              account {
+                ref "held"
+              }
+            }
+            procedure "read"
+          }
+        }
+        returns "int"
+      }
+      read {
+        parameters {
+          account "any"
+        }
+        result {
+          as "Account"
+          of {
+            ref "account"
+          }
+        }
+        returns "int"
+      }
+    }
+    types {
+      Account {
+        balance "int"
+      }
+      Vault {
+        balance "int"
+      }
+    }
+    warp 2
+  }
+  test 1
+}
