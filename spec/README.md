@@ -353,8 +353,8 @@ answerable from the bytes alone; and a file of some other shape entirely would
 get as far as having its keys judged. Nobody writes the number by hand anyway —
 a front end computes it, so a document without one did not come from one.
 
-The current version is **2**; the earliest that ever existed is
-**2** — pre-release, so the two ends of the reading range are one number. A reader must refuse a document written for a later version than it
+The current version is **1**; the earliest that ever existed is
+**1** — pre-release, so the two ends of the reading range are one number. A reader must refuse a document written for a later version than it
 implements, before judging the document's shape — a later version may add keys,
 and checking shape first would turn "I am too old for this" into "this is
 malformed". A document claiming a version below the earliest **refuses**. The
@@ -367,7 +367,7 @@ What each version was:
 
 | version | what moved |
 |---|---|
-| 2 | the language as specified here |
+| 1 | the language as specified here |
 
 An implementation implements the **current** version only. An older document is
 read, and held to the current rules — a program that leaned on what moved is
