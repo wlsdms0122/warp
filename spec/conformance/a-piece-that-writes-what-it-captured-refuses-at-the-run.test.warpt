@@ -17,7 +17,7 @@ warpt 1
             var "tally"
           }
           {
-            id "pieces"
+            let "pieces"
             value [
               {
                 closure {
@@ -33,11 +33,13 @@ warpt 1
             ]
           }
           {
-            call {
-              of {
-                ref "pieces"
+            value {
+              call {
+                of {
+                  ref "pieces"
+                }
+                procedure "std.concurrent.all"
               }
-              procedure "std.concurrent.all"
             }
           }
         ]

@@ -13,18 +13,20 @@ warpt 1
       entry {
         body [
           {
-            call {
-              arguments {
-                value 2
+            let "held"
+            value {
+              call {
+                arguments {
+                  value 2
+                }
+                of [
+                  1
+                  2
+                  3
+                ]
+                procedure "std.collection.contains"
               }
-              of [
-                1
-                2
-                3
-              ]
-              procedure "std.collection.contains"
             }
-            id "held"
           }
         ]
         result {

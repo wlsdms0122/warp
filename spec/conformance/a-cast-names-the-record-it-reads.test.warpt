@@ -1,0 +1,31 @@
+warpt 1
+{
+  expect {
+    answers bank.Account {
+      balance 1
+    }
+  }
+  name "a-cast-names-the-record-it-reads"
+  note "`as` is the settling written out: the record it reads takes the declared name."
+  program {
+    imports []
+    procedures {
+      entry {
+        result {
+          as "bank.Account"
+          of {
+            balance 1
+          }
+        }
+        returns "any"
+      }
+    }
+    types {
+      "bank.Account" {
+        balance "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}

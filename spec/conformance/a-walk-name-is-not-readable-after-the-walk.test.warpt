@@ -11,21 +11,23 @@ warpt 1
       entry {
         body [
           {
-            each {
-              body [
-                {
-                  id "noop"
-                  value 1
-                }
-              ]
-              in [
-                1
-              ]
+            let "walk"
+            value {
+              each {
+                body [
+                  {
+                    let "noop"
+                    value 1
+                  }
+                ]
+                in [
+                  1
+                ]
+              }
             }
-            id "walk"
           }
           {
-            id "after"
+            let "after"
             value {
               ref "walk"
             }

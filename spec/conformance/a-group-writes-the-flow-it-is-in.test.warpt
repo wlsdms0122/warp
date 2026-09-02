@@ -15,15 +15,17 @@ warpt 1
             var "tally"
           }
           {
-            group {
-              body [
-                {
-                  set "tally"
-                  value 1
-                }
-              ]
+            let "grouped"
+            value {
+              group {
+                body [
+                  {
+                    set "tally"
+                    value 1
+                  }
+                ]
+              }
             }
-            id "grouped"
           }
         ]
         result {

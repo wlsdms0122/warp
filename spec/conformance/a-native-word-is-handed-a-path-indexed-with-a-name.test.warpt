@@ -32,18 +32,20 @@ warpt 1
             var "grid"
           }
           {
-            id "i"
+            let "i"
             value 1
           }
           {
-            call {
-              arguments {
-                value 9
+            value {
+              call {
+                arguments {
+                  value 9
+                }
+                of {
+                  ref "grid[i]"
+                }
+                procedure "std.collection.append"
               }
-              of {
-                ref "grid[i]"
-              }
-              procedure "std.collection.append"
             }
           }
         ]

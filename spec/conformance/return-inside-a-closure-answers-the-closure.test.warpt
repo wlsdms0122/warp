@@ -13,18 +13,22 @@ warpt 1
       entry {
         body [
           {
-            id "shout"
+            let "shout"
             value {
               closure {
                 body [
                   {
-                    branch {
-                      then [
-                        {
-                          return "inner"
-                        }
-                      ]
-                      when true
+                    value {
+                      branch {
+                        then [
+                          {
+                            value {
+                              return "inner"
+                            }
+                          }
+                        ]
+                        when true
+                      }
                     }
                   }
                 ]
@@ -34,24 +38,28 @@ warpt 1
             }
           }
           {
-            id "got"
-            invoke {
-              procedure {
-                ref "shout"
+            let "got"
+            value {
+              invoke {
+                procedure {
+                  ref "shout"
+                }
               }
             }
           }
           {
-            call {
-              of [
-                {
-                  ref "got"
-                }
-                "-and-on"
-              ]
-              procedure "std.text.joined"
+            let "after"
+            value {
+              call {
+                of [
+                  {
+                    ref "got"
+                  }
+                  "-and-on"
+                ]
+                procedure "std.text.joined"
+              }
             }
-            id "after"
           }
         ]
         result {

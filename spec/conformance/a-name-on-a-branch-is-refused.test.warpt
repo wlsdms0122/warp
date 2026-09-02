@@ -11,16 +11,18 @@ warpt 1
       entry {
         body [
           {
-            branch {
-              then [
-                {
-                  id "kept"
-                  value 1
-                }
-              ]
-              when true
+            let "chosen"
+            value {
+              branch {
+                then [
+                  {
+                    let "kept"
+                    value 1
+                  }
+                ]
+                when true
+              }
             }
-            id "chosen"
           }
         ]
       }

@@ -11,22 +11,28 @@ warpt 1
       entry {
         body [
           {
-            branch {
-              else [
-                {
-                  return 2
-                }
-              ]
-              then [
-                {
-                  return 1
-                }
-              ]
-              when true
+            value {
+              branch {
+                else [
+                  {
+                    value {
+                      return 2
+                    }
+                  }
+                ]
+                then [
+                  {
+                    value {
+                      return 1
+                    }
+                  }
+                ]
+                when true
+              }
             }
           }
           {
-            id "after"
+            let "after"
             value 3
           }
         ]

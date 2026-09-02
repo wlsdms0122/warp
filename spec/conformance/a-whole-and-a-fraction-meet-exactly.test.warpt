@@ -19,34 +19,40 @@ warpt 1
       entry {
         body [
           {
-            call {
-              arguments {
-                value 9007199254740992.0
+            let "same"
+            value {
+              call {
+                arguments {
+                  value 9007199254740992.0
+                }
+                of 9007199254740993
+                procedure "std.logic.equal"
               }
-              of 9007199254740993
-              procedure "std.logic.equal"
             }
-            id "same"
           }
           {
-            call {
-              arguments {
-                value 9007199254740992.0
+            let "over"
+            value {
+              call {
+                arguments {
+                  value 9007199254740992.0
+                }
+                of 9007199254740993
+                procedure "std.math.greaterThan"
               }
-              of 9007199254740993
-              procedure "std.math.greaterThan"
             }
-            id "over"
           }
           {
-            call {
-              arguments {
-                value 9007199254740992.0
+            let "kept"
+            value {
+              call {
+                arguments {
+                  value 9007199254740992.0
+                }
+                of 9007199254740993
+                procedure "std.math.max"
               }
-              of 9007199254740993
-              procedure "std.math.max"
             }
-            id "kept"
           }
         ]
         result [

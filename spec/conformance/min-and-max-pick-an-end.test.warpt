@@ -17,24 +17,28 @@ warpt 1
       entry {
         body [
           {
-            call {
-              arguments {
-                value 1
+            let "low"
+            value {
+              call {
+                arguments {
+                  value 1
+                }
+                of 3
+                procedure "std.math.min"
               }
-              of 3
-              procedure "std.math.min"
             }
-            id "low"
           }
           {
-            call {
-              arguments {
-                value 7.25
+            let "high"
+            value {
+              call {
+                arguments {
+                  value 7.25
+                }
+                of 2.5
+                procedure "std.math.max"
               }
-              of 2.5
-              procedure "std.math.max"
             }
-            id "high"
           }
         ]
         result [

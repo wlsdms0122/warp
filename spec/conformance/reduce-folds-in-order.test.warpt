@@ -14,40 +14,42 @@ warpt 1
       entry {
         body [
           {
-            call {
-              arguments {
-                from 0
-                value {
-                  closure {
-                    parameters {
-                      carried "int"
-                      item "int"
-                    }
-                    result {
-                      call {
-                        arguments {
-                          value {
-                            ref "item"
-                          }
-                        }
-                        of {
-                          ref "carried"
-                        }
-                        procedure "std.math.plus"
+            let "total"
+            value {
+              call {
+                arguments {
+                  from 0
+                  value {
+                    closure {
+                      parameters {
+                        carried "int"
+                        item "int"
                       }
+                      result {
+                        call {
+                          arguments {
+                            value {
+                              ref "item"
+                            }
+                          }
+                          of {
+                            ref "carried"
+                          }
+                          procedure "std.math.plus"
+                        }
+                      }
+                      returns "int"
                     }
-                    returns "int"
                   }
                 }
+                of [
+                  1
+                  2
+                  3
+                ]
+                procedure "std.collection.reduce"
               }
-              of [
-                1
-                2
-                3
-              ]
-              procedure "std.collection.reduce"
             }
-            id "total"
           }
         ]
         result {

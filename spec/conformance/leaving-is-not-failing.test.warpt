@@ -11,17 +11,21 @@ warpt 1
       entry {
         body [
           {
-            attempt {
-              body [
-                {
-                  return "left from inside"
+            let "tried"
+            value {
+              attempt {
+                body [
+                  {
+                    value {
+                      return "left from inside"
+                    }
+                  }
+                ]
+                rescue {
+                  result "the rescue ran"
                 }
-              ]
-              rescue {
-                result "the rescue ran"
               }
             }
-            id "tried"
           }
         ]
         result {

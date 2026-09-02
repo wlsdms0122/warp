@@ -100,8 +100,14 @@ A program computes over eight kinds of data, plus one value that is not data:
 | string | `"hi"` | Unicode text |
 | bytes | `x"6869"` | `array<byte>` in a compact spelling — `byte` being `int(0...255)`, declared by `std`; what a carrying form carries when the payload is not text |
 | array | `[ … ]` | ordered |
-| record | `{ … }` | unordered fields, names unique |
+| record | `{ … }`, or `Name { … }` | unordered fields, names unique; may carry the **name** of the declared type it settled to |
 | procedure | — | code with what it captured; exists only at run time, never in a document |
+
+**A record's name.** A record made by a literal, answered by a native word or
+read from a document has no name. It takes one the first time it settles into
+a slot declaring a type whose shape is a record: an argument, a default, an
+answer, a cast. From then on it carries that name wherever it goes, under
+*Types* below.
 
 **When two values are the same:**
 
@@ -120,8 +126,10 @@ A program computes over eight kinds of data, plus one value that is not data:
   are worth the same — one collection of the same whole numbers in the same
   order, spelled two ways — and stay two values, the way `1` and `1.0` do.
 - Arrays are the same when their elements are, in order.
-- Records are the same when they hold the same names bound to the same values.
-  A record has no order, so order is not part of the answer.
+- Records are the same when they hold the same field names bound to the same
+  values and the same type name, or none. A record has no order, so order is
+  not part of the answer; the name is part of what a record holds, so an
+  `Account` and a `Vault` with the same fields are two values.
 - Null is the same as null.
 - **Text is counted and compared as a person reads it**: by extended grapheme
   cluster, under Unicode canonical equivalence. A letter written as a letter
@@ -152,12 +160,24 @@ cannot say:
 | `some T` | a type parameter: worked out from the call, same reading everywhere it appears; bounded when the signature's `bounds` names it |
 | `int(0...255)`, `double(0.0..<1.0)` | a number the slot admits only inside the range — the kind written out, either bound optional but not both, and `..<` leaving the far bound outside |
 | `int?` (any string spelling and `?`) | the declared type or null — the one union, and it is null-only |
-| `{ id: string, done: bool }` | a record type, written as the record it describes |
+| `{ title: string, done: bool }` | a record type, written as the record it describes; structural, and it names nothing |
 | `{ procedure: { parameters: …, returns: … } }` | a procedure type, written as the signature it takes |
 
 Acceptance is one-way where the kinds nest: `double` accepts an `int` (a whole
 number widens to a fraction; the reverse **refuses**), `number` accepts both and
 nothing else, `any` accepts everything.
+
+**A declared record is nominal.** A type declared in `types` whose shape is a
+record is a name as well as a shape. When a nameless record settles into a slot
+declaring the type, it settles to the declared shape and takes the name; a
+record already under that name is settled again and keeps it; a record under
+another name **refuses** at the slot, whatever its shape: at the **link** where
+the link can see the name, at the **run** where the value arrived through
+`any`, and `as?` reads it as null. Two declared records of one shape under two
+names are two types, and a value fits only its own. A declared name whose
+shape is not a record, an alias such as `byte`, attaches no name. An inline
+record type, `object<T>` and `any` are structural: a named record fits them by
+shape and keeps its name on the way through.
 
 `inout` and `var` stand in front of the whole type, `?` included: `inout
 int?` is a nullable handed in place. They say something about the slot and
@@ -466,18 +486,23 @@ A procedure with an `inout` parameter is not pure.
 
 ### A statement
 
-A record carrying **at most one** naming key and **exactly one** construct key.
+A record carrying **at most one** naming key and its expression under
+**`value`**: `{ let "x" value { call {…} } }`, `{ value { loop {…} } }`. A
+construct sits inside `value` under its own key, and that is the one place a
+construct key is read; a construct written as an operand (an argument, a
+receiver, an element of an array or a record) **refuses**.
 
 The naming key says what the statement does to its name:
 
 | key | means |
 |---|---|
-| `id` | fixes the name — written once, never again |
+| `let` | fixes the name — written once, never again |
 | `var` | introduces a name that may be written again |
 | `set` | writes a path headed by a variable: one a `var` declared earlier, or a module variable. `set "p.x"` and `set "people[0].name"` write into what the head holds |
 
-A statement with no naming key runs its construct and binds nothing — the
-answer is dropped, which is how an effect is asked for on its own. Three
+A statement with no naming key, `{ value … }`, runs its expression and binds
+nothing — the answer is dropped, which is how an effect is asked for on its
+own. Three
 families step out of this freedom, in different directions:
 
 - The constructs that bind **through** the statement's name — `loop` (its
@@ -512,11 +537,11 @@ first, and then the box is rewritten once, so nothing observes the box
 halfway. An index written as a name (`xs[i]`) is read where the write stands
 and must be an int; the write lands on that one position.
 
-**A `var` may stand alone.** A statement that is only `var: name` — no
-construct key — introduces the name with nothing in it yet, and a name holding
+**A `var` may stand alone.** A statement that is only `{ var "name" }`, with
+no `value`, introduces the name with nothing in it yet, and a name holding
 nothing holds null. It is the declaration a branch's arms write into; what the
 name reads as afterwards is under *what a variable reads as*, below. The other
-two spellings say something about a construct, so they still require one.
+two spellings say something about a value, so they still require one.
 
 **One name, several askers.** A statement's name names the statement, and every
 reader of it reads that one fact: an expression reads the value the statement
@@ -530,12 +555,12 @@ body; a loop's round is readable in its condition, body and result; an
 attempt's name binds the failure only while the rescue runs — so the binding
 reading and the value reading are never live at the same place.
 
-The construct keys, each detailed below: `value`, `call`, `branch`, `loop`,
-`each`, `attempt`, `group`, `return`, `break`, `continue`.
+The construct keys, each detailed below and each written inside `value`:
+`call`, `branch`, `loop`, `each`, `attempt`, `group`, `return`, `break`,
+`continue`. `value` holding anything else holds an expression, under
+*Expressions* below.
 
 ### Statements: the constructs
-
-**`value`** — one expression; the statement binds what it evaluates to.
 
 **`call`** — a message:
 
@@ -567,12 +592,12 @@ through `return`. Both arms are checked whether or not they are taken.
 
 | key | takes | required |
 |---|---|---|
-| `where` | expression — runs another round while true | yes |
+| `while` | expression — runs another round while true | yes |
 | `body` | statements | yes |
 | `result` | expression | no |
 
 The loop's own statement name binds the round it is on, readable everywhere the
-loop is still speaking — the `where` condition, the `body`, and the `result`.
+loop is still speaking — the `while` condition, the `body`, and the `result`.
 The condition reads the state before the round it would start, so `round.index`
 there is how many rounds have finished. What a loop answers is its `result`
 read in what the last round that *finished* left behind; a round cut short
@@ -636,8 +661,8 @@ so it is not read by a dot here: the shape is named to read it, the way any
 undeclared shape is.
 
 ```
-{ id: "reason", value: { as: { failures: object<string> }, of: { ref: "failed" } } }
-{ ref: "reason.failures" }
+{ let "reason" value { as { failures "object<string>" } of { ref "failed" } } }
+{ ref "reason.failures" }
 ```
 
 A failure is data the moment a rescue holds it, which is why no ninth kind
@@ -649,8 +674,7 @@ condition left off. Like any statement it *may* take a name, and its name
 binds what its `result` answers. Because a block runs here, once, in the same
 flow — a fact the text shows, since no expression can carry a block away — a
 group may `set` the enclosing variables, exactly as a `branch` or `loop` body
-may, where a closure captures values and writes no name from outside. A fence
-for names, not a door to elsewhere. (See *two kinds of body*, under
+may. A fence for names, not a door to elsewhere. (See *two kinds of body*, under
 Concurrency.)
 
 **`return`** — answer the enclosing procedure from here. Takes an expression,
@@ -706,7 +730,10 @@ not that shape — a failure like any other, so an `attempt` catches it — and
 A cast that names the shape the reading already **is** refuses at the link, the
 way a needless `?.` does: the claim says nothing. Sameness, not admission — a
 reading of `int` cast to `int(0...10)` names something the types do not prove,
-and only the run can say whether it holds. A cast onto `any`, `never` or a type
+and only the run can say whether it holds. A cast to a declared record name is
+the settling written out: reading a nameless record as `Account` attaches the
+name, so it is never a cast of what the reading already is, and only a reading
+that is already `Account` makes it one. A cast onto `any`, `never` or a type
 parameter refuses for the other half of the same reason: those name no shape to
 read.
 
@@ -714,7 +741,9 @@ A cast between a reading and a shape **no value is both** refuses at the link
 too: it could not succeed on any run, so `as` would refuse every time and `as?`
 would answer null every time — a null that says nothing about the value. Two
 ranges are read here the way acceptance reads them: `int(0...5) as int(10...15)`
-names a value no run produces, so it is refused where it is written.
+names a value no run produces, so it is refused where it is written. So is a
+reading under one declared record name cast to another: a `Vault` is never an
+`Account`.
 
 A cast that names a type nothing declares **refuses at the link**, wherever it
 is written — the rule every type spelling is held to. `as?` reads a value that
@@ -723,7 +752,8 @@ null, because that is the declaration being wrong rather than the value.
 
 The form keys are fixed. A record that carries one as plain data must be
 quoted with `{ value: … }` — quotation is a fact about the document, not about
-the expression it writes.
+the expression it writes. A construct key under a statement's `value` is read
+as its construct; under any other `value` it is a field.
 
 **What a dot means is decided at the link.** Every `ref` path is judged where
 names resolve, and the judgment is written into the image: a dot on a shape
@@ -849,6 +879,10 @@ happened yet:
   a declared type;
 - what a closure writes into a variable it captured fits what the capturing
   body holds;
+- a value read under one declared record name fits no slot declaring another;
+  a nameless record reaching such a slot is judged by shape and takes the name
+  at the run, and a named record arriving through `any` is judged by name at
+  the run;
 - a constant is the shape it was declared as;
 - `break`/`continue` have a loop, `return` fits the declaration, nothing
   follows any of them;
@@ -886,7 +920,7 @@ have left in it — the checking follows the flow the running takes:
   comes back from it, so the ways that finish are the only ways a reading
   after the branch can stand on. `var x` with one arm setting an int and the
   other returning reads `int` afterwards, plain;
-- what an arm **declares** (`id`, `var`) stays its own — declarations die with
+- what an arm **declares** (`let`, `var`) stays its own — declarations die with
   the block, and only the box a `set` writes outlives it.
 
 **This is not a proof and does not pretend to be.** Whether a number will be
@@ -1339,6 +1373,7 @@ Each value is a tag byte, then its payload:
 | `0x06` | array | count varint, then that many values |
 | `0x07` | record | count varint, then that many of: key (length varint + UTF-8), value |
 | `0x08` | bytes | length varint, then that many raw bytes |
+| `0x09` | named record | name (length varint + UTF-8), then count and fields exactly as `0x07` writes them |
 
 - **Varint** is unsigned LEB128: seven bits a byte, low bits first, high bit
   says another byte follows. At most 64 bits of payload — the largest
@@ -1354,6 +1389,7 @@ Each value is a tag byte, then its payload:
 - A claimed length larger than the bytes that remain **refuses** before
   anything is set aside for it.
 - Invalid UTF-8 in a string **refuses**.
+- A record with no name is `0x07`; only a record carrying a name is `0x09`.
 
 The golden case (also held as a test in each implementation):
 
@@ -1417,6 +1453,10 @@ The layout:
   character (below U+0020) as `\uXXXX` with lowercase hex; **nothing else is
   escaped**, and no character that has a shorter escape may take a longer one.
 - Bytes are `x"…"` — lowercase hex, two digits a byte, no spaces.
+- A named record is the name, a space, and the record: `bank.Account {
+  balance 1 }`. In value position a bare word followed by `{` is the name; a
+  bare word that spells a scalar (`null`, `true`, `false`, a number) is never
+  one.
 
 Layout is free on the way in. A reader takes keys in any order, any
 whitespace between tokens and any indentation, because a text is written by a
@@ -1445,8 +1485,10 @@ One file, one question: a document, what to run it with, and what should happen.
     name        what the case is called
     note        why it exists — the rule it holds an implementation to
     program     a document
-    arguments   what the entry procedure is given, if anything
-    expect      answers <value>   it runs and answers this
+    arguments   what the entry procedure is given, if anything; a record
+                under a name is written as the text encoding writes one
+    expect      answers <value>   it runs and answers this, named records
+                                  written the same way
                 refuses <stage>   it is refused, at load, link or run
 
 A case is **not a document**, and this is the record where that is said out

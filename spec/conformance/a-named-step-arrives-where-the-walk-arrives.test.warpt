@@ -29,7 +29,7 @@ warpt 1
       peek {
         body [
           {
-            id "held"
+            let "held"
             value {
               ref "of.inner"
             }
@@ -41,17 +41,19 @@ warpt 1
             var "seen"
           }
           {
-            branch {
-              then [
-                {
-                  set "seen"
-                  value {
-                    ref "held.count"
+            value {
+              branch {
+                then [
+                  {
+                    set "seen"
+                    value {
+                      ref "held.count"
+                    }
                   }
+                ]
+                when {
+                  ref "flag"
                 }
-              ]
-              when {
-                ref "flag"
               }
             }
           }

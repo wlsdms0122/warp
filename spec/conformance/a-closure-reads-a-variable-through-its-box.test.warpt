@@ -15,7 +15,7 @@ warpt 1
             var "tally"
           }
           {
-            id "held"
+            let "held"
             value {
               closure {
                 result {
@@ -29,10 +29,12 @@ warpt 1
             value 5
           }
           {
-            id "called"
-            invoke {
-              procedure {
-                ref "held"
+            let "called"
+            value {
+              invoke {
+                procedure {
+                  ref "held"
+                }
               }
             }
           }

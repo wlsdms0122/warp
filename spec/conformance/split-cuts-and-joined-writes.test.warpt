@@ -14,26 +14,30 @@ warpt 1
       entry {
         body [
           {
-            call {
-              arguments {
-                value ","
+            let "pieces"
+            value {
+              call {
+                arguments {
+                  value ","
+                }
+                of "a,b,c"
+                procedure "std.text.split"
               }
-              of "a,b,c"
-              procedure "std.text.split"
             }
-            id "pieces"
           }
           {
-            call {
-              arguments {
-                value "-"
+            let "line"
+            value {
+              call {
+                arguments {
+                  value "-"
+                }
+                of {
+                  ref "pieces"
+                }
+                procedure "std.text.joined"
               }
-              of {
-                ref "pieces"
-              }
-              procedure "std.text.joined"
             }
-            id "line"
           }
         ]
         result {

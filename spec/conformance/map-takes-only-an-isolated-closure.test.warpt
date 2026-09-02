@@ -17,32 +17,34 @@ warpt 1
             var "tally"
           }
           {
-            call {
-              arguments {
-                by {
-                  closure {
-                    body [
-                      {
-                        set "tally"
-                        value {
-                          ref "item"
+            value {
+              call {
+                arguments {
+                  by {
+                    closure {
+                      body [
+                        {
+                          set "tally"
+                          value {
+                            ref "item"
+                          }
                         }
+                      ]
+                      parameters {
+                        item "int"
                       }
-                    ]
-                    parameters {
-                      item "int"
-                    }
-                    result {
-                      ref "item"
+                      result {
+                        ref "item"
+                      }
                     }
                   }
                 }
+                of [
+                  1
+                  2
+                ]
+                procedure "std.concurrent.map"
               }
-              of [
-                1
-                2
-              ]
-              procedure "std.concurrent.map"
             }
           }
         ]

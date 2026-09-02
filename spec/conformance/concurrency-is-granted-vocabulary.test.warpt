@@ -16,22 +16,24 @@ warpt 1
       entry {
         body [
           {
-            call {
-              of {
-                left {
-                  closure {
-                    result 1
+            let "both"
+            value {
+              call {
+                of {
+                  left {
+                    closure {
+                      result 1
+                    }
+                  }
+                  right {
+                    closure {
+                      result 2
+                    }
                   }
                 }
-                right {
-                  closure {
-                    result 2
-                  }
-                }
+                procedure "std.concurrent.all"
               }
-              procedure "std.concurrent.all"
             }
-            id "both"
           }
         ]
         result {

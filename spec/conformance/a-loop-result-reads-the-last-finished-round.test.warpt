@@ -13,28 +13,30 @@ warpt 1
       entry {
         body [
           {
-            id "walked"
-            loop {
-              body [
-                {
-                  id "tick"
-                  value {
-                    ref "walked.index"
+            let "walked"
+            value {
+              loop {
+                body [
+                  {
+                    let "tick"
+                    value {
+                      ref "walked.index"
+                    }
                   }
+                ]
+                result {
+                  ref "tick"
                 }
-              ]
-              result {
-                ref "tick"
-              }
-              where {
-                call {
-                  arguments {
-                    value 3
+                while {
+                  call {
+                    arguments {
+                      value 3
+                    }
+                    of {
+                      ref "walked.index"
+                    }
+                    procedure "std.math.lessThan"
                   }
-                  of {
-                    ref "walked.index"
-                  }
-                  procedure "std.math.lessThan"
                 }
               }
             }

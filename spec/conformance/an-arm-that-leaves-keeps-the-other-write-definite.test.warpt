@@ -17,20 +17,24 @@ warpt 1
             var "kept"
           }
           {
-            branch {
-              else [
-                {
-                  return 0
+            value {
+              branch {
+                else [
+                  {
+                    value {
+                      return 0
+                    }
+                  }
+                ]
+                then [
+                  {
+                    set "kept"
+                    value 1
+                  }
+                ]
+                when {
+                  ref "ready"
                 }
-              ]
-              then [
-                {
-                  set "kept"
-                  value 1
-                }
-              ]
-              when {
-                ref "ready"
               }
             }
           }

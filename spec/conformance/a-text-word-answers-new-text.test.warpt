@@ -14,20 +14,24 @@ warpt 1
       entry {
         body [
           {
-            call {
-              of " hi "
-              procedure "std.text.trimmed"
+            let "clean"
+            value {
+              call {
+                of " hi "
+                procedure "std.text.trimmed"
+              }
             }
-            id "clean"
           }
           {
-            call {
-              of {
-                ref "clean"
+            let "loud"
+            value {
+              call {
+                of {
+                  ref "clean"
+                }
+                procedure "std.text.uppercased"
               }
-              procedure "std.text.uppercased"
             }
-            id "loud"
           }
         ]
         result {

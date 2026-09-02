@@ -1,0 +1,59 @@
+warpt 1
+{
+  expect {
+    answers Account {
+      balance 1
+    }
+  }
+  name "an-inline-record-slot-takes-a-named-record"
+  note "An inline record declares no name, so it is structural: a named record fits it by shape and keeps its name on the way through."
+  program {
+    imports []
+    procedures {
+      entry {
+        body [
+          {
+            let "held"
+            value {
+              as "Account"
+              of {
+                balance 1
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments {
+              record {
+                ref "held"
+              }
+            }
+            procedure "pass"
+          }
+        }
+        returns "any"
+      }
+      pass {
+        parameters {
+          record {
+            type {
+              balance "int"
+            }
+          }
+        }
+        result {
+          ref "record"
+        }
+        returns "any"
+      }
+    }
+    types {
+      Account {
+        balance "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}

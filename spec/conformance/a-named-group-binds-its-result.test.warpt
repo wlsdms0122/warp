@@ -11,18 +11,20 @@ warpt 1
       entry {
         body [
           {
-            group {
-              body [
-                {
-                  id "inner"
-                  value 5
+            let "got"
+            value {
+              group {
+                body [
+                  {
+                    let "inner"
+                    value 5
+                  }
+                ]
+                result {
+                  ref "inner"
                 }
-              ]
-              result {
-                ref "inner"
               }
             }
-            id "got"
           }
         ]
         result {

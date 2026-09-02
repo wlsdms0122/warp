@@ -11,13 +11,17 @@ warpt 1
       entry {
         body [
           {
-            branch {
-              then [
-                {
-                  return "left early"
-                }
-              ]
-              when true
+            value {
+              branch {
+                then [
+                  {
+                    value {
+                      return "left early"
+                    }
+                  }
+                ]
+                when true
+              }
             }
           }
         ]

@@ -11,19 +11,21 @@ warpt 1
       entry {
         body [
           {
-            id "gate"
-            loop {
-              body [
-                {
-                  id "noop"
-                  value 1
-                }
-              ]
-              guard 2
-              where {
-                is_not 3
-                of {
-                  ref "gate.index"
+            let "gate"
+            value {
+              loop {
+                body [
+                  {
+                    let "noop"
+                    value 1
+                  }
+                ]
+                guard 2
+                while {
+                  is_not 3
+                  of {
+                    ref "gate.index"
+                  }
                 }
               }
             }

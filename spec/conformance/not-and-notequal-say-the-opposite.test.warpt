@@ -14,14 +14,16 @@ warpt 1
       entry {
         body [
           {
-            call {
-              arguments {
-                value 1.0
+            let "unequal"
+            value {
+              call {
+                arguments {
+                  value 1.0
+                }
+                of 1
+                procedure "std.logic.notEqual"
               }
-              of 1
-              procedure "std.logic.notEqual"
             }
-            id "unequal"
           }
         ]
         result {

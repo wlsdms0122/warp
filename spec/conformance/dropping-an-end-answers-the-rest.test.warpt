@@ -23,7 +23,7 @@ warpt 1
       entry {
         body [
           {
-            id "items"
+            let "items"
             value [
               1
               2
@@ -31,22 +31,26 @@ warpt 1
             ]
           }
           {
-            call {
-              of {
-                ref "items"
+            let "head"
+            value {
+              call {
+                of {
+                  ref "items"
+                }
+                procedure "std.collection.dropFirst"
               }
-              procedure "std.collection.dropFirst"
             }
-            id "head"
           }
           {
-            call {
-              of {
-                ref "items"
+            let "tail"
+            value {
+              call {
+                of {
+                  ref "items"
+                }
+                procedure "std.collection.dropLast"
               }
-              procedure "std.collection.dropLast"
             }
-            id "tail"
           }
         ]
         result [

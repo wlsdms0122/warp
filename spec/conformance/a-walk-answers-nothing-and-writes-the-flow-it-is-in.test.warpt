@@ -19,30 +19,34 @@ warpt 1
             var "tally"
           }
           {
-            each {
-              body [
-                {
-                  call {
-                    arguments {
-                      value {
-                        ref "walk.item"
+            let "walk"
+            value {
+              each {
+                body [
+                  {
+                    set "tally"
+                    value {
+                      call {
+                        arguments {
+                          value {
+                            ref "walk.item"
+                          }
+                        }
+                        of {
+                          ref "tally"
+                        }
+                        procedure "std.math.plus"
                       }
                     }
-                    of {
-                      ref "tally"
-                    }
-                    procedure "std.math.plus"
                   }
-                  set "tally"
-                }
-              ]
-              in [
-                1
-                2
-                3
-              ]
+                ]
+                in [
+                  1
+                  2
+                  3
+                ]
+              }
             }
-            id "walk"
           }
         ]
         result {

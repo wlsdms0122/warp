@@ -14,14 +14,16 @@ warpt 1
             var "chosen"
           }
           {
-            branch {
-              then [
-                {
-                  set "chosen"
-                  value "took-then"
-                }
-              ]
-              when false
+            value {
+              branch {
+                then [
+                  {
+                    set "chosen"
+                    value "took-then"
+                  }
+                ]
+                when false
+              }
             }
           }
         ]

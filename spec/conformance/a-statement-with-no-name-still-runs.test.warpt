@@ -15,14 +15,16 @@ warpt 1
             var "seen"
           }
           {
-            branch {
-              then [
-                {
-                  set "seen"
-                  value 1
-                }
-              ]
-              when true
+            value {
+              branch {
+                then [
+                  {
+                    set "seen"
+                    value 1
+                  }
+                ]
+                when true
+              }
             }
           }
         ]

@@ -13,16 +13,18 @@ warpt 1
       bump {
         body [
           {
-            call {
-              arguments {
-                value 1
-              }
-              of {
-                ref "count"
-              }
-              procedure "std.math.plus"
-            }
             set "count"
+            value {
+              call {
+                arguments {
+                  value 1
+                }
+                of {
+                  ref "count"
+                }
+                procedure "std.math.plus"
+              }
+            }
           }
         ]
         parameters {
@@ -32,17 +34,19 @@ warpt 1
       entry {
         body [
           {
-            id "n"
+            let "n"
             value 10
           }
           {
-            call {
-              arguments {
-                count {
-                  ref "n"
+            value {
+              call {
+                arguments {
+                  count {
+                    ref "n"
+                  }
                 }
+                procedure "bump"
               }
-              procedure "bump"
             }
           }
         ]

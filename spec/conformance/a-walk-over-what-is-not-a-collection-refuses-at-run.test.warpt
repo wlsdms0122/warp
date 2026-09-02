@@ -14,18 +14,20 @@ warpt 1
       entry {
         body [
           {
-            each {
-              body [
-                {
-                  id "noop"
-                  value 1
+            let "walk"
+            value {
+              each {
+                body [
+                  {
+                    let "noop"
+                    value 1
+                  }
+                ]
+                in {
+                  ref "stuff"
                 }
-              ]
-              in {
-                ref "stuff"
               }
             }
-            id "walk"
           }
         ]
         parameters {

@@ -14,14 +14,16 @@ warpt 1
       entry {
         body [
           {
-            call {
-              arguments {
-                value 4
+            let "difference"
+            value {
+              call {
+                arguments {
+                  value 4
+                }
+                of 10
+                procedure "std.math.minus"
               }
-              of 10
-              procedure "std.math.minus"
             }
-            id "difference"
           }
         ]
         result {
