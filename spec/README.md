@@ -341,10 +341,11 @@ same way: at the **link**, from native words alone, beside the constants and
 reading them. Its type is the type of that settled value, and every write
 into it has to fit that type. It is private to the document like a constant,
 read by the same spelling (`ref`), and written by a `set` in a procedure the
-document declares; another document changes it only through such a
-procedure. A name is a constant or a variable, not both: one declared under
-both keys **refuses** at the load. Every run starts each variable at its
-settled value, so two runs of one image never see each other.
+document declares, or through a parameter such a procedure hands it to in
+place; another document reaches it only through such a procedure. A name is
+a constant or a variable, not both: one declared under both keys **refuses**
+at the load. Every run starts each variable at its settled value, so two runs
+of one image never see each other.
 
 **The version.** Every document says it, and one that does not **refuses** — as
 not a document rather than as a malformed one. A reader that filled in a default
@@ -463,26 +464,15 @@ held at the **link**:
 
 - the path's head is a variable where the call stands. A fixed name, a
   literal and a call's answer each **refuse**;
-- the path is one a write may take, under *what a write reaches* below;
-- one call hands one variable to one parameter. Two `inout` parameters given
-  paths under one head **refuse**, whether or not the two paths meet: the
-  rule is static, and there is no run-time check that could let two paths
-  under `people` through by finding them apart;
-- a module variable is handed in place only to a native word, which reads
-  no name. Handing one, whole or in part, to a written body of any module
-  **refuses** at the link: a written body reaches the variable's own module
-  by calling it, and there the variable is read by name, so the call would
-  reach one box two ways, the same way two parameters under one head would.
-  A body changes another module's variable through a procedure declared
-  beside it.
+- the path is one a write may take, under *what a write reaches* below.
 
-Inside the body the parameter is a variable, and `set` writes it. When the
-path is the whole variable, the callee writes the caller's box, and each
-write lands as it is made. When the path reaches into the variable, the
-callee writes a box of its own, and that box is written back along the path
-when the call ends, by answering or by failing. Either way a call that fails
-after writing has written, the same as a variable written before a failure.
-A procedure with an `inout` parameter is not pure.
+Inside the body the parameter is a variable, and `set` writes it. The
+parameter holds the caller's box through the path it was handed: a read finds
+what the path holds now, and each write lands in the box as it is made. One
+box reached two ways, by a parameter and by a name or by two parameters, is
+still one box, so a write through either is seen through the other at once. A
+call that fails after writing has written, the same as a variable written
+before a failure. A procedure with an `inout` parameter is not pure.
 
 ### A statement
 
