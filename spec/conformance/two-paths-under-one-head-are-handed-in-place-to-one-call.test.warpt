@@ -1,10 +1,13 @@
 warpt 1
 {
   expect {
-    refuses "link"
+    answers [
+      2
+      1
+    ]
   }
-  name "one-variable-is-handed-in-place-once-per-call"
-  note "One call hands one variable to one parameter. Two `inout` parameters given paths under the same head refuse at the link, whether or not the paths meet; the link does not guess."
+  name "two-paths-under-one-head-are-handed-in-place-to-one-call"
+  note "Two `inout` parameters may be handed paths under one head. Both hold the same box, and each write lands in it as it is made, so swapping through them swaps the elements."
   program {
     imports []
     procedures {
@@ -33,7 +36,10 @@ warpt 1
             }
           }
         ]
-        returns "null"
+        result {
+          ref "xs"
+        }
+        returns "array<int>"
       }
       swap {
         body [

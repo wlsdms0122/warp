@@ -1,0 +1,52 @@
+warpt 1
+{
+  expect {
+    answers [
+      9
+      2
+    ]
+  }
+  name "a-module-variable-handed-in-place-is-one-box"
+  note "A module variable handed in place to a body beside it is one box reached two ways: through the parameter and by its name. A write through either is seen through the other at once."
+  program {
+    imports []
+    procedures {
+      entry {
+        result {
+          call {
+            arguments {
+              first {
+                ref "items[0]"
+              }
+            }
+            procedure "poke"
+          }
+        }
+        returns "array<int>"
+      }
+      poke {
+        body [
+          {
+            set "first"
+            value 9
+          }
+        ]
+        parameters {
+          first "inout int"
+        }
+        result {
+          ref "items"
+        }
+        returns "array<int>"
+      }
+    }
+    var {
+      items [
+        1
+        2
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
