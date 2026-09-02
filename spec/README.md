@@ -448,15 +448,13 @@ held at the **link**:
   paths under one head **refuse**, whether or not the two paths meet: the
   rule is static, and there is no run-time check that could let two paths
   under `people` through by finding them apart;
-- a shared box, which is a module variable or a parameter this body was
-  itself handed in place, is handed to a written body whole, sharing the one
-  box. A part of a shared box (`state.items`, `all.items`) is handed in place
-  only to a native word, which reads no name; handing a part to any written
-  body **refuses** at the link, since a written body reaches the box's
-  declaring module by calling it. A module variable never goes to a body of
-  the module that declares it: such a body reads the variable by name, so
-  handing it would reach one box two ways, and that **refuses** the same way
-  two parameters under one head do.
+- a module variable is handed in place only to a native word, which reads
+  no name. Handing one, whole or in part, to a written body of any module
+  **refuses** at the link: a written body reaches the variable's own module
+  by calling it, and there the variable is read by name, so the call would
+  reach one box two ways, the same way two parameters under one head would.
+  A body changes another module's variable through a procedure declared
+  beside it.
 
 Inside the body the parameter is a variable, and `set` writes it. When the
 path is the whole variable, the callee writes the caller's box, and each
