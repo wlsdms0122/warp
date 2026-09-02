@@ -3,8 +3,8 @@ warpt 1
   expect {
     answers 3
   }
-  name "a-bare-constraint-name-finds-the-one-declaration"
-  note "A constraint name resolves the way a procedure name does: the module's own declaration first, then the one declaration in the link that answers to the bare spelling. This document writes Comparable and means std.Comparable, because nothing else in the link declares that name."
+  name "a-constraint-is-named-by-its-qualified-spelling"
+  note "A constraint name is its declared spelling with the declaring module in front. `std` declares Comparable, so a bound that means it writes `std.Comparable`."
   program {
     imports []
     procedures {
@@ -21,7 +21,7 @@ warpt 1
       }
       keep {
         bounds {
-          T "Comparable"
+          T "std.Comparable"
         }
         parameters {
           value "some T"
