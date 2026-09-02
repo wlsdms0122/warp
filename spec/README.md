@@ -259,7 +259,7 @@ a parameter no slot mentions refuses at the read. Only the declaring
 procedure writes `bounds` — a procedure *type* nested in a slot carries none,
 because its parameters are the declaring signature's own slots and the
 declaring signature owns their bounds. A constraint nobody
-declares, a constraint declared twice under one qualified name, one admitting
+declares, a constraint declared twice under one spelling, one admitting
 nothing, and a name declared as both a type and a constraint all **refuse at
 the link**. A member is a **concrete shape**: `some`, `any` and `never` in
 member position refuse at the link — each says nothing a membership could
@@ -269,15 +269,17 @@ there is filled by a call. A path send is judged like the call it is: the
 receiver fills the word's one slot, so `"abc".absolute` refuses at the link
 exactly as `absolute(of: "abc")` does.
 
-**Type and constraint names carry their module.** A module named `m` declaring
-type `T` declares `m.T`, the way its procedures declare `m.p`; a module with
-no name declares into the shared space, where the declared name is the whole
-spelling. A mention is a declared spelling, written out, and it means the same
-declaration wherever it was written: `m.T` names `m`'s declaration and `T` names
-a shared-space one, and a module writes its own declarations the same way,
-`m.T` inside `m` too. A spelling no module in the link declares **refuses at
-the link** where it is mentioned. Types and constraints resolve each in their
-own space: a slot mentions types, a bound mentions constraints.
+**A name is its declared spelling.** The key a document declares a type,
+constraint or procedure under is the whole of its name: `std.math.plus` is
+declared under that key, and `wallet.Account` under that one. A mention is a
+declared spelling, written out, and it means the same declaration wherever it
+was written, inside the declaring document too. A dot is a character of the
+spelling and nothing more: the language has no namespace, no scope and no
+prefix, so what a document chooses to put before a dot is the author's
+convention, and one document may declare `wallet.fee` beside `bank.rate` while
+another declares `wallet.rate`. A spelling no module in the link declares
+**refuses at the link** where it is mentioned. Types and constraints resolve
+each in their own space: a slot mentions types, a bound mentions constraints.
 
 The shared `std` module (the foundation bundle) declares the memberships the
 standard words are bounded by: `Numeric` admits `int` and `double`;
@@ -297,7 +299,6 @@ here **refuses**. Every slot marked *expression*, *block*, *statements* or
 |---|---|---|
 | `warp` | int — the language version this document is written for | yes |
 | `imports` | array of strings — every word the program *calls* and does not declare; words a path reaches are bounded separately, below | yes, and empty where the program sends nothing |
-| `name` | string — the namespace the declarations carry: a module named `m` declaring `p` declares `m.p`, and every mention spells it so, inside `m` too. Several documents may share one | no |
 | `description` | string | no |
 | `types` | record: name → type | no |
 | `constraints` | record: name → array of types the name admits | no |
@@ -336,7 +337,7 @@ heard of is refuse, and the point of the number is that it can.
 
 **The imports list.** What the program *sends* and does not itself declare — from
 procedure bodies and from constants alike, each by the spelling it is sent by,
-which is its qualified name: `std.math.plus`, never `plus`. The list is that
+which is its declared spelling: `std.math.plus`, never `plus`. The list is that
 set exactly, not a bound around it: **reading refuses** a document whose list disagrees with what
 its program sends, in either direction — a stage-1 refusal, and it can be, since
 what a program sends is a fact of its text alone. The list is read before the
@@ -1168,13 +1169,15 @@ promises hold:
    tell apart may carry two signatures, and that is the intended order: the
    encoding is faithful to what was written, and sameness of worth is the
    value model's, not the bytes'.
-2. **The same document is the same bytes.** Writers are canonical: record keys
-   are written in one order — **ascending by their UTF-8 bytes** — and every
-   value has one spelling. This is what makes a document cacheable, comparable
-   and signable. Readers hold the same line: non-canonical bytes **refuse**,
-   they are not normalised — were a reader forgiving, one document would have
-   many byte spellings again, and what a signature was checked against could
-   differ from what the reader went on to read.
+2. **The same document is the same bytes, in binary.** Writers are canonical:
+   record keys are written in one order — **ascending by their UTF-8 bytes** —
+   and every value has one spelling. This is what makes a document cacheable,
+   comparable and signable, and the binary reader holds the same line:
+   non-canonical bytes **refuse**, they are not normalised — were that reader
+   forgiving, one document would have many byte spellings again, and what a
+   signature was checked against could differ from what the reader went on to
+   read. The text reader is the one that is forgiving, under Warp text below:
+   text is for people, and the binary is the document.
 3. **Nothing but data.** A procedure value has already run far enough to close
    over a scope; no encoding writes one, and refusing every such value rather
    than only the ones that captured nothing is the decision — it costs an
@@ -1321,12 +1324,16 @@ The layout:
   escaped**, and no character that has a shorter escape may take a longer one.
 - Bytes are `x"…"` — lowercase hex, two digits a byte, no spaces.
 
-And the rule that makes it an encoding rather than a syntax: **a text is the
-document's canonical writing or it is not a document.** One document, one text
-— byte for byte, the same promise the binary keeps — so a fraction written
-`1.50`, a key out of order, an escape spelled long, or an indent of three
-spaces all **refuse**. A reader may check this however it likes; writing the
-value it read back out and comparing the bytes is enough.
+Layout is free on the way in. A reader takes keys in any order, any
+whitespace between tokens and any indentation, because a text is written by a
+person as often as by a writer. The writer still lays a text out one way,
+keys ascending and two spaces an indent, so a text that has been through a
+writer is the same bytes everywhere, and that is the form the conformance
+cases are kept in. What is not free is the spelling of a value: a fraction
+written `1.50` and an escape spelled long **refuse**, since those are two
+texts for one value rather than two layouts of one text. Sameness of
+documents is the binary's promise, above, and a text makes it by being
+written out.
 
 ## Conformance
 
@@ -1378,9 +1385,8 @@ its own version first: a later case may say something this runner has no name
 for, and "I am too old for this" is a different answer from "this is not a case".
 Then read `program` as a document. If the case expects `refuses`, check that it
 fails at that stage and no earlier or later. Otherwise link it against the
-standard vocabulary, start from `entry` spelled the way the document declares
-it (`wallet.entry` where the document is named `wallet`), run it with
-`arguments`, and compare.
+standard vocabulary, start from the procedure declared under `entry`, run it
+with `arguments`, and compare.
 
 The cases are the files named `<name>.test.warpt`, and what else the folder holds
 is not the suite's business. A runner that refused to start over an editor's
@@ -1395,11 +1401,11 @@ must not do.
 
 ### How a case is written
 
-Nobody composes canonical text by hand — that stays true here. A case is
-authored as any document is (a front end, a literal in a host language) and
-**dumped** through a canonical writer into the `.test.warpt` that lands in
-`conformance/`. The dump is the artifact; the authoring form is scaffolding and
-is not kept. An implementation adding cases writes its own dumper anyway — it
+A case may be written by hand, since the text reader takes any layout, or
+authored as any document is (a front end, a literal in a host language). Either
+way it is run through the writer before it lands in `conformance/`, so every
+case sits in the writer's layout and a diff shows what changed rather than who
+indented it. An implementation adding cases writes its own dumper anyway — it
 is the same writer conformance already requires of it.
 
 So the suite is the first thing a new implementation reads with its own reader,
@@ -1463,9 +1469,10 @@ have to guess, and would be entitled to guess differently.
   and never about the file it was authored in: a front end holds the file,
   and the document is what crossed the wire.
 - **How a document is told from another document is decided; where the answer
-  belongs is not.** A `name` cannot do it — it is the namespace a module
-  declares into, two documents may share one (a module split across files),
-  and a document may write none. A file path cannot do it either, since a
+  belongs is not.** Nothing a document says about itself can do it: what a
+  document writes is declarations, and two documents may declare spellings
+  under one prefix (a program split across files). A file path cannot do it
+  either, since a
   document arrives as bytes and the wire carries no container. What is always
   there is the document itself, so a document is identified by the **digest of
   its canonical binary writing**, and by nothing it says about itself. It is
