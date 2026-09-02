@@ -1,0 +1,66 @@
+warpt 1
+{
+  expect {
+    refuses "link"
+  }
+  name "one-variable-is-handed-in-place-once-per-call"
+  note "One call hands one variable to one parameter. Two `inout` parameters given paths under the same head refuse at the link, whether or not the paths meet; the link does not guess."
+  program {
+    imports []
+    procedures {
+      entry {
+        body [
+          {
+            value [
+              1
+              2
+            ]
+            var "xs"
+          }
+          {
+            call {
+              arguments {
+                left {
+                  ref "xs[0]"
+                }
+                right {
+                  ref "xs[1]"
+                }
+              }
+              procedure "swap"
+            }
+          }
+        ]
+        returns "null"
+      }
+      swap {
+        body [
+          {
+            id "held"
+            value {
+              ref "left"
+            }
+          }
+          {
+            set "left"
+            value {
+              ref "right"
+            }
+          }
+          {
+            set "right"
+            value {
+              ref "held"
+            }
+          }
+        ]
+        parameters {
+          left "inout int"
+          right "inout int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}

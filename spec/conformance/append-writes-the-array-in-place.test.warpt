@@ -1,0 +1,45 @@
+warpt 1
+{
+  expect {
+    answers [
+      1
+      2
+    ]
+  }
+  name "append-writes-the-array-in-place"
+  note "`std.collection.append` takes the array as a variable handed in place and writes the longer array back through it."
+  program {
+    imports [
+      "std.collection.append"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            value [
+              1
+            ]
+            var "xs"
+          }
+          {
+            call {
+              arguments {
+                value 2
+              }
+              of {
+                ref "xs"
+              }
+              procedure "std.collection.append"
+            }
+          }
+        ]
+        result {
+          ref "xs"
+        }
+        returns "array<int>"
+      }
+    }
+    warp 1
+  }
+  test 1
+}

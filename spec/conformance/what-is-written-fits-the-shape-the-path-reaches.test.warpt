@@ -1,0 +1,33 @@
+warpt 1
+{
+  expect {
+    refuses "link"
+  }
+  name "what-is-written-fits-the-shape-the-path-reaches"
+  note "A path write is judged against the shape it reaches: writing a string where the variable holds an int refuses at the link."
+  program {
+    imports []
+    procedures {
+      entry {
+        body [
+          {
+            value {
+              x 1
+            }
+            var "p"
+          }
+          {
+            set "p.x"
+            value "five"
+          }
+        ]
+        result {
+          ref "p.x"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}

@@ -1,0 +1,58 @@
+warpt 1
+{
+  expect {
+    refuses "link"
+  }
+  name "map-takes-only-an-isolated-closure"
+  note "A closure that writes a captured variable is not isolated, and `std.concurrent.map` asks for an isolated one. The link reads the closure's text and refuses."
+  program {
+    imports [
+      "std.concurrent.map"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            value 0
+            var "tally"
+          }
+          {
+            call {
+              arguments {
+                by {
+                  closure {
+                    body [
+                      {
+                        set "tally"
+                        value {
+                          ref "item"
+                        }
+                      }
+                    ]
+                    parameters {
+                      item "int"
+                    }
+                    result {
+                      ref "item"
+                    }
+                  }
+                }
+              }
+              of [
+                1
+                2
+              ]
+              procedure "std.concurrent.map"
+            }
+          }
+        ]
+        result {
+          ref "tally"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}

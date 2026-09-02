@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    refuses "load"
+    refuses "link"
   }
-  name "a-closure-writes-no-name-from-outside"
-  note "A closure captures values, and a name it captured is a value it captured. It may run beside another or long after this body, so a write out of it is the one ordering nothing can supply — refused at the check."
+  name "a-closure-write-keeps-the-captured-type"
+  note "A closure may write what it captured, and what it writes has to fit what the capturing body holds: the body reads the variable as the type it gave it."
   program {
     imports []
     procedures {
@@ -21,12 +21,16 @@ warpt 1
                 body [
                   {
                     set "tally"
-                    value 1
+                    value "one"
                   }
                 ]
-                result {
-                  ref "tally"
-                }
+              }
+            }
+          }
+          {
+            invoke {
+              procedure {
+                ref "held"
               }
             }
           }
@@ -34,6 +38,7 @@ warpt 1
         result {
           ref "tally"
         }
+        returns "int"
       }
     }
     warp 1

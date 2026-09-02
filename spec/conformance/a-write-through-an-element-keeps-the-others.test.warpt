@@ -1,0 +1,39 @@
+warpt 1
+{
+  expect {
+    answers [
+      1
+      9
+      3
+    ]
+  }
+  name "a-write-through-an-element-keeps-the-others"
+  note "An element is written through its index, and the array around it is what it was."
+  program {
+    imports []
+    procedures {
+      entry {
+        body [
+          {
+            value [
+              1
+              2
+              3
+            ]
+            var "xs"
+          }
+          {
+            set "xs[1]"
+            value 9
+          }
+        ]
+        result {
+          ref "xs"
+        }
+        returns "array<int>"
+      }
+    }
+    warp 1
+  }
+  test 1
+}

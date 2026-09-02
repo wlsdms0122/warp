@@ -1,0 +1,58 @@
+warpt 1
+{
+  expect {
+    refuses "link"
+  }
+  name "a-fixed-name-is-not-handed-in-place"
+  note "What is handed in place is a variable. A name fixed with `id` refuses at the link."
+  program {
+    imports [
+      "std.math.plus"
+    ]
+    procedures {
+      bump {
+        body [
+          {
+            call {
+              arguments {
+                value 1
+              }
+              of {
+                ref "count"
+              }
+              procedure "std.math.plus"
+            }
+            set "count"
+          }
+        ]
+        parameters {
+          count "inout int"
+        }
+      }
+      entry {
+        body [
+          {
+            id "n"
+            value 10
+          }
+          {
+            call {
+              arguments {
+                count {
+                  ref "n"
+                }
+              }
+              procedure "bump"
+            }
+          }
+        ]
+        result {
+          ref "n"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}

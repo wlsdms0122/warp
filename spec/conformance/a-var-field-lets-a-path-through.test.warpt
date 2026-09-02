@@ -1,0 +1,43 @@
+warpt 1
+{
+  expect {
+    answers 5
+  }
+  name "a-var-field-lets-a-path-through"
+  note "The same write through a field declared `var` passes, and the field holds the inner type."
+  program {
+    imports []
+    procedures {
+      entry {
+        body [
+          {
+            value {
+              as "Account"
+              of {
+                balance 1
+                owner "kim"
+              }
+            }
+            var "a"
+          }
+          {
+            set "a.balance"
+            value 5
+          }
+        ]
+        result {
+          ref "a.balance"
+        }
+        returns "int"
+      }
+    }
+    types {
+      Account {
+        balance "var int"
+        owner "string"
+      }
+    }
+    warp 1
+  }
+  test 1
+}

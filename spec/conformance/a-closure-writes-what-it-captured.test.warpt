@@ -1,0 +1,47 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-closure-writes-what-it-captured"
+  note "A variable's box is one thing under one name everywhere the name is visible, and a closure's body is one of those places. Calling the closure writes the box the enclosing body reads."
+  program {
+    imports []
+    procedures {
+      entry {
+        body [
+          {
+            value 0
+            var "tally"
+          }
+          {
+            id "held"
+            value {
+              closure {
+                body [
+                  {
+                    set "tally"
+                    value 1
+                  }
+                ]
+              }
+            }
+          }
+          {
+            invoke {
+              procedure {
+                ref "held"
+              }
+            }
+          }
+        ]
+        result {
+          ref "tally"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}

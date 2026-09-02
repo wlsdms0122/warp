@@ -1,0 +1,65 @@
+warpt 1
+{
+  expect {
+    refuses "link"
+  }
+  name "a-name-declared-inside-a-nested-closure-does-not-cover-a-captured-one"
+  note "Isolation reads names in scope. A closure nested inside this one declares `tally` for itself alone; this closure's own `set tally` still writes the variable it captured, so it is not isolated and does not fit `map`."
+  program {
+    imports [
+      "std.concurrent.map"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            value 0
+            var "tally"
+          }
+        ]
+        result {
+          call {
+            arguments {
+              by {
+                closure {
+                  body [
+                    {
+                      id "inner"
+                      value {
+                        closure {
+                          body [
+                            {
+                              value 1
+                              var "tally"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                    {
+                      set "tally"
+                      value 1
+                    }
+                  ]
+                  parameters {
+                    item "int"
+                  }
+                  result {
+                    ref "item"
+                  }
+                }
+              }
+            }
+            of [
+              1
+            ]
+            procedure "std.concurrent.map"
+          }
+        }
+        returns "array<int>"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
