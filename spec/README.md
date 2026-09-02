@@ -342,9 +342,10 @@ reading them. Its type is the type of that settled value, and every write
 into it has to fit that type. It is private to the document like a constant,
 read by the same spelling (`ref`), and written by a `set` in a procedure the
 document declares, or through a parameter such a procedure hands it to in
-place; another document reaches it only through such a procedure. A name is a constant or a variable, not both: one declared under
-both keys **refuses** at the load. Every run starts each variable at its
-settled value, so two runs of one image never see each other.
+place; another document reaches it only through such a procedure. A name is
+a constant or a variable, not both: one declared under both keys **refuses**
+at the load. Every run starts each variable at its settled value, so two runs
+of one image never see each other.
 
 **The version.** Every document says it, and one that does not **refuses** — as
 not a document rather than as a malformed one. A reader that filled in a default
