@@ -149,8 +149,8 @@ cannot say:
 | `number` | whole or fraction — the two numeric kinds and nothing else |
 | `any` | anything |
 | `never` | never answers — the type `std.control.abort` declares, and what makes a leaving call checkable |
-| `array` / `object` | a list / map of anything |
-| `array<T>` / `object<T>` | a list / map of `T` |
+| `array` / `dictionary` | a list / map of anything |
+| `array<T>` / `dictionary<T>` | a list / map of `T` |
 | `procedure` | some procedure, signature unsaid |
 | `pure <procedure type>` | a procedure that answers without running effects |
 | `isolated <procedure type>` | a procedure that touches no name another body could touch at once; `pure isolated procedure` says both, and the reader takes the two words in either order |
@@ -176,7 +176,7 @@ the link can see the name, at the **run** where the value arrived through
 `any`, and `as?` reads it as null. Two declared records of one shape under two
 names are two types, and a value fits only its own. A declared name whose
 shape is not a record, an alias such as `byte`, attaches no name. An inline
-record type, `object<T>` and `any` are structural: a named record fits them by
+record type, `dictionary<T>` and `any` are structural: a named record fits them by
 shape and keeps its name on the way through.
 
 `inout` and `var` stand in front of the whole type, `?` included: `inout
@@ -516,7 +516,7 @@ families step out of this freedom, in different directions:
 the variable written. Every segment after the head is judged at the **link**
 against the shape the walk has reached: a field of a type declared in `types`
 is passed through only when the declaration wrote it `var`; a field of an
-inline record type, an entry of an `object<T>`, and an element of an array are
+inline record type, an entry of a `dictionary<T>`, and an element of an array are
 passed through as they are; `any` and a nullable shape are not written into,
 and an optional segment (`?.`, `?[`) is not written through, because a write
 reads no absence. What is written has to fit the shape the path reaches. A
@@ -651,7 +651,7 @@ so it is not read by a dot here: the shape is named to read it, the way any
 undeclared shape is.
 
 ```
-{ let "reason" value { as { failures "object<string>" } of { ref "failed" } } }
+{ let "reason" value { as { failures "dictionary<string>" } of { ref "failed" } } }
 { ref "reason.failures" }
 ```
 
@@ -757,8 +757,8 @@ segment:
   as a call. Data the value carries past the declaration still rides through
   the boundary — a record says what must be there, not all there is — but it
   rides *through*: reading it is declaring it, by widening the record or by
-  taking `object<any>`.
-- On an **object**, a dot reads an entry; which names are there is the run's
+  taking `dictionary<any>`.
+- On a **dictionary**, a dot reads an entry; which names are there is the run's
   fact. An absent entry **refuses at the run** — unless the segment is
   written `?.`, which reads it as null.
 - On a kind that has no fields — text, numbers, arrays, bytes, booleans,
@@ -1141,9 +1141,9 @@ instead: the array.
 | `map` | `of: array<some Element>` | `value` — pure procedure, offered `item`, answering `some Answer` | `array<some Answer>` |
 | `filter` | `of: array<some Element>` | `value` — pure procedure, offered `item`, answering `bool` | `array<some Element>` |
 | `reduce` | `of: array<some Element>` | `from: some Carried`; `value` — pure procedure, offered `carried` and `item`, answering `some Carried` | `some Carried` |
-| `keys` | `of: object<any>` | — | `array<string>` |
-| `values` | `of: object<some Entry>` | — | `array<some Entry>` |
-| `setting` | `of: object<any>` | `key: string`, `value: any` | `object<any>` |
+| `keys` | `of: dictionary<any>` | — | `array<string>` |
+| `values` | `of: dictionary<some Entry>` | — | `array<some Entry>` |
+| `setting` | `of: dictionary<any>` | `key: string`, `value: any` | `dictionary<any>` |
 
 *std.control*
 
