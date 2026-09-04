@@ -8,12 +8,11 @@ warpt 1
   }
   expect {
     answers {
-      extra 1
       id "a"
     }
   }
-  name "a-record-carrying-more-fits-what-declared-less"
-  note "A record type requires and settles the fields it declares; fields the declaration never named ride through untouched."
+  name "a-record-settles-to-the-fields-declared"
+  note "A record type says which fields there are: a value settling into it is built on that layout, so a field the declaration never named is not carried past it."
   program {
     imports []
     procedures {

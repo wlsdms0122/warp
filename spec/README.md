@@ -176,8 +176,9 @@ the link can see the name, at the **run** where the value arrived through
 `any`, and `as?` reads it as null. Two declared records of one shape under two
 names are two types, and a value fits only its own. A declared name whose
 shape is not a record, an alias such as `byte`, attaches no name. An inline
-record type, `dictionary<T>` and `any` are structural: a named record fits them by
-shape and keeps its name on the way through.
+record type and `dictionary<T>` are structural: a named record fits them by
+shape, and what settles there is built on the slot's own layout, which has no
+name. `any` declares nothing, so a value passes it as it is, name included.
 
 `inout` and `var` stand in front of the whole type, `?` included: `inout
 int?` is a nullable handed in place. They say something about the slot and
@@ -191,13 +192,14 @@ argument, a taken default, an answer — the settlement is one rule per shape:
 
 - `any` passes the value through untouched, null and procedures included.
   Nothing settles, because nothing was declared.
-- A **record type** requires every field it declares and settles each against
-  its type; fields the declaration never named **ride through untouched**. A
-  record carrying more fits one that declared fewer, and the extras arrive
-  intact — a declaration says what must be there, not what may.
-- A **declared name** is an alias: settling resolves the name and judges by
-  the shape it stands for. Two names declaring one shape admit the same
-  values; there is no nominal identity.
+- A **record type** says which fields there are. A value carrying at least
+  them fits, and what settles is built on the declared fields: each is settled
+  against its type, and a field the declaration never named is not carried
+  past it. To keep names the declaration does not have, declare
+  `dictionary<T>`, where the names are the value's own.
+- A **declared name** whose shape is not a record is an alias: settling
+  resolves the name and judges by the shape it stands for. One whose shape is
+  a record is nominal, under *a declared record is nominal* above.
 - A **nullable** (`T?`) passes null through and settles anything else against
   the declared half. `T?` takes `T`, null and `T?`; a `T?` reading does not
   fit a plain `T` slot. The `?` is written once, on the whole spelling, and
@@ -464,7 +466,11 @@ held at the **link**:
 
 - the path's head is a variable where the call stands. A fixed name, a
   literal and a call's answer each **refuse**;
-- the path is one a write may take, under *what a write reaches* below.
+- the path is one a write may take, under *what a write reaches* below;
+- the variable's declared type is the same type as the parameter's, all the
+  way in. Nothing settles here, because nothing is handed over: the body reads
+  and writes the caller's own box, so a variable of another type would be
+  written values it was not declared to hold.
 
 Inside the body the parameter is a variable, and `set` writes it. The
 parameter holds the caller's box through the path it was handed: a read finds
@@ -517,7 +523,8 @@ the variable written. Every segment after the head is judged at the **link**
 against the shape the walk has reached: a field of a type declared in `types`
 is passed through only when the declaration wrote it `var`; a field of an
 inline record type, an entry of a `dictionary<T>`, and an element of an array are
-passed through as they are; `any` and a nullable shape are not written into,
+passed through as they are, and a `dictionary<T>` entry the value does not
+hold yet is made by the write; `any` and a nullable shape are not written into,
 and an optional segment (`?.`, `?[`) is not written through, because a write
 reads no absence. What is written has to fit the shape the path reaches. A
 write to a whole local variable retypes it, under *what a variable reads as*
@@ -645,10 +652,9 @@ declares, so no word can hand over one without them and there is nothing here
 for a run to check.
 
 A failure may carry more — `concurrent_failed` carries `failures`, every
-piece's reason keyed by the piece — and what it carries rides through the
-boundary the way any data past a declaration does. It is not declared here,
-so it is not read by a dot here: the shape is named to read it, the way any
-undeclared shape is.
+piece's reason keyed by the piece. Nothing settles the payload, so what a
+failure carried arrives with it. It is not declared here, so it is not read by
+a dot here: the shape is named to read it, with `as`.
 
 ```
 { let "reason" value { as { failures "dictionary<string>" } of { ref "failed" } } }
@@ -754,10 +760,10 @@ segment:
 - On a **record type**, a dot reads the field the type declares. A field it
   does not declare **refuses at the link**, `?.` or not — the type proved the
   absence, and no spelling reads past a proof. A word on a record is written
-  as a call. Data the value carries past the declaration still rides through
-  the boundary — a record says what must be there, not all there is — but it
-  rides *through*: reading it is declaring it, by widening the record or by
-  taking `dictionary<any>`.
+  as a call. A record type says which fields there are, so there is nothing
+  else to reach: data that arrived under other names was not carried past the
+  declaration. To read names a declaration does not have, take
+  `dictionary<any>`.
 - On a **dictionary**, a dot reads an entry; which names are there is the run's
   fact. An absent entry **refuses at the run** — unless the segment is
   written `?.`, which reads it as null.
