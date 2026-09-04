@@ -880,11 +880,13 @@ happened yet:
   declares `never` — takes no name, and nothing follows it;
 - every name the program writes as a value — a statement's, a binding's (a
   loop's round, an iteration's element, an attempt's failure), a parameter's,
-  each segment of a `ref` — is **normal form C**, compared as bytes. Record
-  *keys* hold this line at the encodings; these are the names that live in
-  string values, and this is where they hold it. One name has one byte
-  spelling, so a declaration and a reference can only meet by being the same
-  bytes — `é` written two ways is a refusal, not two names.
+  each segment of a `ref` — is **written**, and is **normal form C**, compared
+  as bytes. Record *keys* hold this line at the encodings; these are the names
+  that live in string values, and this is where they hold it. One name has one
+  byte spelling, so a declaration and a reference can only meet by being the
+  same bytes — `é` written two ways is a refusal, not two names. Nothing
+  written is no name: a declaration is called something, and a reference
+  writes something, and neither is done by writing nothing.
 
 The `imports` list is deliberately not on this list — it is held at *reading*,
 above, because a caller decides from it before any of this runs.
@@ -1314,10 +1316,12 @@ and their stacks must not be the sender's to spend.
 letter, or the same letter as letter-plus-combining-mark — and a name that had
 several byte spellings would break promise 2 quietly: two fields one name, or
 one name sorted to two places. So a key must be in Unicode Normalization Form
-C, and a key that is not **refuses**. One name, one byte spelling; the
-ascending-bytes order is then an order on *names*. ASCII is NFC already, so a
-document that never leaves ASCII never meets this rule. String *values* are
-data, not names: they travel byte-for-byte as written and are never normalised.
+C, and a key that is not **refuses**. A key with nothing in it **refuses** for
+the same reason a name does: a field is called something. One name, one byte
+spelling; the ascending-bytes order is then an order on *names*. ASCII is NFC
+already, so a document that never leaves ASCII never meets this rule. String
+*values* are data, not names: they travel byte-for-byte as written and are
+never normalised.
 
 **A document is read whole.** Streaming and incremental decoding are
 deliberately not offered: a program is checked whole before any of it runs, so
