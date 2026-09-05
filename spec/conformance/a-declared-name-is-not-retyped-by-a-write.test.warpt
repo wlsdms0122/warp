@@ -1,0 +1,32 @@
+warpt 1
+{
+  expect {
+    refuses "link"
+  }
+  name "a-declared-name-is-not-retyped-by-a-write"
+  note "A name that says what it holds is fixed at that. A write into it is held to the declaration and does not retype it, the way a write into a module variable or an `inout` parameter is."
+  program {
+    imports [
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            var "held"
+            type "int"
+            value 1
+          }
+          {
+            set "held"
+            value "no"
+          }
+        ]
+        result {
+          ref "held"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}

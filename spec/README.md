@@ -504,6 +504,21 @@ The naming key says what the statement does to its name:
 | `var` | introduces a name that may be written again |
 | `set` | writes a path headed by a variable: one a `var` declared earlier, or a module variable. `set "p.x"` and `set "people[0].name"` write into what the head holds |
 
+**A name may say what it holds**, under **`type`**, written the way a
+parameter's type is: `{ let "x" type "double" value 1 }`. The declaration is
+what the name holds, and the link works out a reading only where the name
+declares none. What the statement was given has to fit the declaration, and a
+declaration naming a type nothing declares **refuses at the link**. A `set`
+reaches a name something else declared and a statement with no naming key
+introduces none, so `type` beside either **refuses at the load**.
+
+A declared name is fixed at what it says: a write into a declared `var` is held
+to the declaration and does not retype it, the way a write into a module
+variable or an `inout` parameter is. This is what lets a name be handed to an
+`inout` slot, which asks for the same type the name is — a name whose reading
+the link worked out is that reading, and a name that says what it holds is what
+it says.
+
 A statement with no naming key, `{ value … }`, runs its expression and binds
 nothing — the answer is dropped, which is how an effect is asked for on its
 own. Three
@@ -535,8 +550,8 @@ passed through as they are, and a `dictionary<T>` entry the value does not
 hold yet is made by the write; `any` and a nullable shape are not written into,
 and an optional segment (`?.`, `?[`) is not written through, because a write
 reads no absence. What is written has to fit the shape the path reaches. A
-write to a whole local variable retypes it, under *what a variable reads as*
-below; a write to a module variable or to an `inout` parameter has to fit the
+write to a whole local variable retypes it unless the variable declared what it
+holds, under *what a variable reads as* below; a write to a module variable or to an `inout` parameter has to fit the
 type the box holds and retypes nothing. At the run the value is computed
 first, and then the box is rewritten once, so nothing observes the box
 halfway. An index written as a name (`xs[i]`) is read where the write stands
@@ -912,8 +927,11 @@ above, because a caller decides from it before any of this runs.
 statement bound, and a variable reads as what the ways through the text could
 have left in it — the checking follows the flow the running takes:
 
-- an **unconditional** write retypes the name: after `set x` at the top of the
-  flow, `x` reads as what was written, whatever it held before;
+- a name that **declared** what it holds reads as that declaration, and no
+  write changes it — what is written is held to the declaration instead;
+- an **unconditional** write retypes a name that declared nothing: after `set
+  x` at the top of the flow, `x` reads as what was written, whatever it held
+  before;
 - a write only **some** ways make — one branch arm, a loop's round, an
   attempt's body — joins with what the name held. Null beside a value reads
   `T?`: after `var x` and a branch whose one arm sets an int, `x` reads

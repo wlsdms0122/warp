@@ -1,0 +1,83 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-name-says-what-it-holds"
+  note "A name may say what it holds under `type`, and the link works out a reading only where the name declares none. An `inout` slot asks for the same type the name is, and what the link derives about a closure it was never told — that this one is pure and isolated — is not what the name says. So the declaration is what lets this name be handed in place."
+  program {
+    imports [
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            var "step"
+            type {
+              procedure {
+                parameters {
+                  x "int"
+                }
+                returns "int"
+              }
+            }
+            value {
+              closure {
+                parameters {
+                  x "int"
+                }
+                result {
+                  ref "x"
+                }
+                returns "int"
+              }
+            }
+          }
+          {
+            value {
+              call {
+                arguments {
+                  step {
+                    ref "step"
+                  }
+                }
+                procedure "swap"
+              }
+            }
+          }
+        ]
+        result 1
+      }
+      swap {
+        body [
+          {
+            set "step"
+            value {
+              closure {
+                parameters {
+                  x "int"
+                }
+                result 9
+                returns "int"
+              }
+            }
+          }
+        ]
+        parameters {
+          step {
+            type {
+              "inout procedure" {
+                parameters {
+                  x "int"
+                }
+                returns "int"
+              }
+            }
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
