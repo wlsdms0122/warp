@@ -508,9 +508,19 @@ The naming key says what the statement does to its name:
 parameter's type is: `{ let "x" type "double" value 1 }`. The declaration is
 what the name holds, and the link works out a reading only where the name
 declares none. What the statement was given has to fit the declaration, and a
-declaration naming a type nothing declares **refuses at the link**. A `set`
-reaches a name something else declared and a statement with no naming key
-introduces none, so `type` beside either **refuses at the load**.
+declaration naming a type nothing declares **refuses at the link**, as does one
+naming a type parameter: what fills a parameter is a call filling the slot that
+names it, and a name inside a body is no such slot.
+
+A declaration is a boundary like a parameter's, so **what the name takes is
+settled against it** the way an argument is: a whole number given to a `double`
+is held as a fraction, a value outside a declared range **refuses at the run**,
+and a record settles to the declared layout.
+
+A `set` reaches a name something else declared and a statement with no naming
+key introduces none, so `type` beside either **refuses at the load**. So does
+`type` on a statement whose construct binds the name itself — a `loop`'s round,
+an `each`'s element, an `attempt`'s failure are the construct's to say.
 
 A declared name is fixed at what it says: a write into a declared `var` is held
 to the declaration and does not retype it, the way a write into a module
