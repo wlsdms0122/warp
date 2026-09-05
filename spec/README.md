@@ -645,21 +645,24 @@ effect, no `result` to answer — **refuses at the check**: it would swallow a
 failure into null without a trace. This is the one exception to a block's
 optional `result`, and the failure is the reason. The statement's own name binds the failure **while the
 rescue runs**, and what it binds is a **record declared `{ type: string,
-message: string }`** — `type` is one word naming what happened (`aborted`,
-`concurrent_failed`) and `message` is text for a person. Every failure holds
-those two by construction: a runtime assembles the payload from what a failure
-declares, so no word can hand over one without them and there is nothing here
-for a run to check.
+message: string, details: dictionary<any> }`** — `type` is one word naming
+what happened (`aborted`, `concurrent_failed`), `message` is text for a person,
+and `details` is what the failing word carried. Every failure holds all three
+by construction: a runtime assembles the payload from what a failure declares,
+so no word can hand over one without them and there is nothing here for a run
+to check.
 
-A failure may carry more — `concurrent_failed` carries `failures`, every
-piece's reason keyed by the piece. Nothing settles the payload, so what a
-failure carried arrives with it. It is not declared here, so it is not read by
-a dot here: the shape is named to read it, with `as`.
+The envelope is this specification's; what rides in `details` is the word's
+own. `concurrent_failed` puts `failures` there, every piece's reason keyed by
+the piece.
 
 ```
-{ let "reason" value { as { failures "dictionary<string>" } of { ref "failed" } } }
-{ ref "reason.failures" }
+{ ref "failed.details.failures" }
 ```
+
+`details` holds `any`, so a value read out of it is read as anything until a
+shape is named for it. A field the envelope does not name is not reached by a
+dot on the failure itself: `failed.failures` names nothing.
 
 A failure is data the moment a rescue holds it, which is why no ninth kind
 exists for it.

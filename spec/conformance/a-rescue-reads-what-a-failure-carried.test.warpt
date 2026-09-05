@@ -1,0 +1,83 @@
+warpt 1
+{
+  expect {
+    answers {
+      pieces [
+        "fragile"
+      ]
+      type "concurrent_failed"
+    }
+  }
+  name "a-rescue-reads-what-a-failure-carried"
+  note "The envelope is the same for every failure and `details` is the box the failing word fills. `concurrent_failed` puts every piece's reason there, keyed by the piece, and a rescue reads it with a dot through `details`."
+  program {
+    imports [
+      "std.collection.keys"
+      "std.concurrent.all"
+      "std.control.abort"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            let "tried"
+            value {
+              attempt {
+                body [
+                  {
+                    value {
+                      call {
+                        of {
+                          fine {
+                            closure {
+                              result "ok"
+                            }
+                          }
+                          fragile {
+                            closure {
+                              body [
+                                {
+                                  value {
+                                    call {
+                                      of "on purpose"
+                                      procedure "std.control.abort"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                        procedure "std.concurrent.all"
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  result {
+                    pieces {
+                      call {
+                        of {
+                          ref "tried.details.failures"
+                        }
+                        procedure "std.collection.keys"
+                      }
+                    }
+                    type {
+                      ref "tried.type"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "tried"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
