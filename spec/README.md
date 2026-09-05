@@ -16,6 +16,14 @@ a thing you can be *wrong at*.
 
 ## What Warp is
 
+A runtime compiler: a front end, an IR and a runtime, composed so that any front
+end works with any runtime. Where an ordinary language goes source to build to
+machine code, Warp is the half in front of that, and what it answers with is a
+language again. This specification is that language. Turning it into machine
+code belongs to the toolchain that built the runtime.
+
+What the language is *for*, and every property below that follows from it:
+
 A language for programs that arrive after the program running them was built.
 
 A compiled application cannot run code it did not ship with. Handed a source
