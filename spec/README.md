@@ -264,7 +264,7 @@ argument, a taken default, an answer. The settlement is one rule per shape:
     would reject.
 
 `never` is a real type and fits **every** slot, by never arriving: an
-expression typed `never` may be written where any value is expected. A branch
+expression typed `never` may be written where any value is expected. A conditional
 arm that leaves, an argument that aborts, and evaluating it ends the
 evaluation it is inside. The statement rules (no name, nothing follows) are
 statement rules; in expression position there is nothing extra to say, because
@@ -542,7 +542,7 @@ families step out of this freedom, in different directions:
   binds nothing and takes no name. Held at the **link**, because only the
   link knows the signature, where the leaves the text shows are held at the
   load.
-- A **`branch`** takes no naming key either, for the other reason: it
+- A **`conditional`** takes no naming key either, for the other reason: it
   finishes, but it answers nothing and binds nothing inside. A condition
   chooses a way through the body, not a value. What an arm keeps it writes to
   an outer variable with `set`, and a value leaves through `return`.
@@ -565,7 +565,7 @@ and must be an int; the write lands on that one position.
 
 **A `var` may stand alone.** A statement that is only `{ var "name" }`, with
 no `value`, introduces the name with nothing in it yet, and a name holding
-nothing holds null. It is the declaration a branch's arms write into; what the
+nothing holds null. It is the declaration a conditional's arms write into; what the
 name reads as afterwards is under *what a variable reads as*, below. The other
 two spellings say something about a value, so they still require one.
 
@@ -581,7 +581,7 @@ attempt's name binds the failure only while the rescue runs, so the binding
 reading and the value reading are never live at the same place.
 
 The construct keys, each detailed below and each written inside `value`:
-`call`, `branch`, `loop`, `attempt`, `group`, `return`, `break`,
+`call`, `conditional`, `loop`, `attempt`, `block`, `return`, `break`,
 `continue`. `value` holding anything else holds an expression, under
 *Expressions* below.
 
@@ -599,7 +599,7 @@ A body a word is to run travels as a **closure argument**, like any other
 value. There is no second channel for bodies: one kind of thing crosses into a
 word, and it is the isolated one.
 
-**`branch`**
+**`conditional`**
 
 | key | takes | required |
 |---|---|---|
@@ -607,7 +607,7 @@ word, and it is the isolated one.
 | `then` | statements | yes |
 | `else` | statements | no |
 
-A branch is a statement: it **answers nothing**, and it **takes no name**. The
+A conditional is a statement: it **answers nothing**, and it **takes no name**. The
 condition chooses a way through the body. An arm is statements alone, with no
 `result` slot, because there is nowhere for a result to go. What an arm keeps
 it writes to an outer variable with `set`, and a value leaves the procedure
@@ -686,12 +686,12 @@ dot on the failure itself: `failed.failures` names nothing.
 A failure is data the moment a rescue holds it, which is why no ninth kind
 exists for it.
 
-**`group`**. A block written as a statement, and nothing more: the bare
-member of the same family as a `branch` arm or a `loop` round, with the
+**`block`**. A body written as a statement, and nothing more: the bare
+member of the same family as a `conditional` arm or a `loop` round, with the
 condition left off. Like any statement it *may* take a name, and its name
 binds what its `result` answers. Because a block runs here, once, in the same
 flow. A fact the text shows, since no expression can carry a block away. A
-group may `set` the enclosing variables, exactly as a `branch` or `loop` body
+block may `set` the enclosing variables, exactly as a `conditional` or `loop` body
 may. A fence for names, not a door to elsewhere. (See *two kinds of body*, under
 Concurrency.)
 
@@ -709,9 +709,9 @@ another.
 Nothing may be written after a `return`, `break` or `continue` in the same
 body: it would never run, and the name it would bind would never bind. The same
 holds after a call whose word declares `never`, at the link. The rule reaches
-through structure, because the fact does: a `branch` both of whose arms leave
+through structure, because the fact does: a `conditional` both of whose arms leave
 never finishes either, so nothing may follow it. Held at
-the **load**, since the arms are text. A construct that can finish. A branch
+the **load**, since the arms are text. A construct that can finish. A conditional
 with no `else`, a loop, an `attempt` (its rescue may finish normally). Is not
 a leave, however its bodies end.
 
@@ -927,9 +927,9 @@ have left in it. The checking follows the flow the running takes:
 - an **unconditional** write retypes a name that declared nothing: after `set
   x` at the top of the flow, `x` reads as what was written, whatever it held
   before;
-- a write only **some** ways make. One branch arm, a loop's round, an
+- a write only **some** ways make. One arm of a conditional, a loop's round, an
   attempt's body. Joins with what the name held. Null beside a value reads
-  `T?`: after `var x` and a branch whose one arm sets an int, `x` reads
+  `T?`: after `var x` and a conditional whose one arm sets an int, `x` reads
   `int?`, because the run either took the arm or did not. Two values of
   different kinds join to `any`. Where readings disagree the slot holds
   neither, and a join that guessed would be a refusal an author cannot act
@@ -940,7 +940,7 @@ have left in it. The checking follows the flow the running takes:
 - a write **both** arms make is unconditional again, whichever arm ran, the
   write happened, and an arm that **leaves** contributes nothing: no run
   comes back from it, so the ways that finish are the only ways a reading
-  after the branch can stand on. `var x` with one arm setting an int and the
+  after the conditional can stand on. `var x` with one arm setting an int and the
   other returning reads `int` afterwards, plain;
 - what an arm **declares** (`let`, `var`) stays its own. Declarations die with
   the block, and only the box a `set` writes outlives it.
@@ -1003,7 +1003,7 @@ name. What may run beside another body is an **isolated** closure, and which
 closures are isolated the link works out, the way it works out purity:
 
 - **Two kinds of body, told apart by where they are written.** Every
-  `body`/`block` slot the document grammar has. `group`, a `branch` arm, a
+  `body`/`block` slot the document grammar has. `block`, a `conditional` arm, a
   `loop` round, an `attempt`'s body and its `rescue`, all of them,
   present and future. Holds a **block**: a body that runs here, in the flow
   that wrote it, and that is visible in the text, because no expression can
@@ -1027,7 +1027,7 @@ closures are isolated the link works out, the way it works out purity:
   it gave it.
 - **Isolation is derived.** A body is isolated when it writes no name it did
   not declare (a module variable, or a variable a closure captured), hands
-  none of those in place, calls no value (`invoke`), and calls only isolated
+  none of those in place, calls no value (`apply`), and calls only isolated
   declarations. A native word is isolated. What is pure is isolated. The
   link starts every declaration isolated and strikes bodies until nothing
   more is struck, and judges every closure literal by the same rule. A

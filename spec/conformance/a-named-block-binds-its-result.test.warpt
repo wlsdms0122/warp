@@ -3,8 +3,8 @@ warpt 1
   expect {
     answers 5
   }
-  name "a-named-group-binds-its-result"
-  note "A group is a block written as a statement; its name binds what its result answers, and what it declared inside does not escape."
+  name "a-named-block-binds-its-result"
+  note "A block is a body written as a statement; its name binds what its result answers, and what it declared inside does not escape."
   program {
     imports []
     procedures {
@@ -13,7 +13,7 @@ warpt 1
           {
             let "got"
             value {
-              group {
+              block {
                 body [
                   {
                     let "inner"

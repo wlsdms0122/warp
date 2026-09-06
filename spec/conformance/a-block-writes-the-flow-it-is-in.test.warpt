@@ -3,8 +3,8 @@ warpt 1
   expect {
     answers 1
   }
-  name "a-group-writes-the-flow-it-is-in"
-  note "A group is the non-escaping reading of a closure: a body in a grammar position runs here, once, in the same flow, and nothing can carry it away. So it may set the enclosing variable. Exactly the write a closure is refused."
+  name "a-block-writes-the-flow-it-is-in"
+  note "A block is the non-escaping reading of a closure: a body in a grammar position runs here, once, in the same flow, and nothing can carry it away. So it may set the enclosing variable. Exactly the write a closure is refused."
   program {
     imports []
     procedures {
@@ -15,9 +15,9 @@ warpt 1
             var "tally"
           }
           {
-            let "grouped"
+            let "blocked"
             value {
-              group {
+              block {
                 body [
                   {
                     set "tally"

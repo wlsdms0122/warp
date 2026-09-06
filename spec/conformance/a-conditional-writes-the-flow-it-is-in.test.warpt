@@ -6,8 +6,8 @@ warpt 1
   expect {
     answers "took-then"
   }
-  name "a-branch-writes-the-flow-it-is-in"
-  note "A branch answers nothing. The condition chooses a way through the body, and what an arm keeps it writes to an outer variable."
+  name "a-conditional-writes-the-flow-it-is-in"
+  note "A conditional answers nothing. The condition chooses a way through the body, and what an arm keeps it writes to an outer variable."
   program {
     imports []
     procedures {
@@ -18,7 +18,7 @@ warpt 1
           }
           {
             value {
-              branch {
+              conditional {
                 else [
                   {
                     set "chosen"

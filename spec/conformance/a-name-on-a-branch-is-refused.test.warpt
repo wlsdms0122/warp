@@ -3,8 +3,8 @@ warpt 1
   expect {
     refuses "load"
   }
-  name "a-name-on-a-branch-is-refused"
-  note "A branch answers nothing, so its name could never bind. What an arm keeps is written to an outer variable with set."
+  name "a-name-on-a-conditional-is-refused"
+  note "A conditional answers nothing, so its name could never bind. What an arm keeps is written to an outer variable with set."
   program {
     imports []
     procedures {
@@ -13,7 +13,7 @@ warpt 1
           {
             let "chosen"
             value {
-              branch {
+              conditional {
                 then [
                   {
                     let "kept"
