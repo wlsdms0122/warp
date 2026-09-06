@@ -197,7 +197,8 @@ slot asking `isolated` takes what the link derived as isolated. Purity is a
 separate claim and does not stand in for it.
 
 **What a slot takes, exactly.** Where a value meets a declaration. An
-argument, a taken default, an answer. The settlement is one rule per shape:
+argument, a taken default, an answer, and a write into a box that said what it
+holds. The settlement is one rule per shape:
 
 - `any` passes the value through untouched, null and procedures included.
   Nothing settles, because nothing was declared.
@@ -431,7 +432,7 @@ here **refuses**. Every slot marked *expression*, *block*, *statements* or
 **A module variable.** Its start is written like a constant and settles the
 same way: at the **link**, from native words alone, beside the constants and
 reading them. Its type is the type of that settled value, and every write
-into it has to fit that type. It is private to the document like a constant,
+into it is settled against that type. It is private to the document like a constant,
 read by the same spelling (`ref`), and written by a `set` in a procedure the
 document declares, or through a parameter such a procedure hands it to in
 place; another document reaches it only through such a procedure. A name is
@@ -639,9 +640,12 @@ inline record type, an entry of a `dictionary<T>`, and an element of an array ar
 passed through as they are, and a `dictionary<T>` entry the value does not
 hold yet is made by the write; `any` and a nullable shape are not written into,
 and an optional segment (`?.`, `?[`) is not written through, because a write
-reads no absence. What is written has to fit the shape the path reaches. A
-write to a whole local variable retypes it unless the variable declared what it
-holds, under *what a variable reads as* below; a write to a module variable or to an `inout` parameter has to fit the
+reads no absence. What is written has to fit the shape the path reaches, and
+is settled against it, so a box that said what it holds is laid out the way its
+declaration says after a write as it was after its declaration. A path that
+reaches no declared shape settles nothing and the value stands as it was
+handed. A write to a whole local variable retypes it unless the variable
+declared what it holds, under *what a variable reads as* below; a write to a module variable or to an `inout` parameter has to fit the
 type the box holds and retypes nothing. At the run the value is computed
 first, and then the box is rewritten once, so nothing observes the box
 halfway. An index written as a name (`xs[i]`) is read where the write stands
