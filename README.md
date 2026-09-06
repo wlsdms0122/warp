@@ -40,12 +40,12 @@ specification moves where the runtime shows it has to.
 ## The pieces
 
 ```
-what a person writes      YAML, a syntax of your own, …    front ends — many
+what a person writes      YAML, a syntax of your own, …    front ends. Many
         ↓
 the document              one format, defined in spec/     ← what travels
         ↓  as bytes       binary · text                    encodings
         ↓
-a runtime                 Swift today, others by spec       runtimes — many
+a runtime                 Swift today, others by spec       runtimes. Many
 ```
 
 A **front end** turns what a person wrote into a document and stops there. A
@@ -62,14 +62,14 @@ run with another, and none of them share code.
 | [`runtime/warp-runtime-swift/`](runtime/warp-runtime-swift/README.md) | `Warp` `WarpSyntax` | one runtime |
 | [`frontend/warp-frontend-yaml/`](frontend/warp-frontend-yaml/README.md) | `WarpYAML` | one front end |
 
-The specification is the language. An implementation — this runtime included —
-is complete when it does what the specification says, and no more complete for
+The specification is the language. An implementation. This runtime included. Is
+complete when it does what the specification says, and no more complete for
 doing anything else. A front end or runtime in another language starts from
 `spec/README.md` and `spec/conformance/`, not from the Swift source.
 
 ## The shortest tour
 
-Author with the front end, run with the runtime — the same two steps whether
+Author with the front end, run with the runtime. The same two steps whether
 the document crossed a network or a function call:
 
 ```swift
@@ -89,6 +89,6 @@ let image = try loader.reading {                          // refusals in the
 let answer = try await Executor().run(image)
 ```
 
-A program that stays in Swift skips the document entirely and builds the
-shapes directly; a program that travels is written down by `WarpSyntax` —
-bytes to carry it, text to read it.
+A program that stays in Swift skips the document entirely and builds the shapes
+directly; a program that travels is written down by `WarpSyntax`. Bytes to carry
+it, text to read it.
