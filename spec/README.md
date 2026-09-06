@@ -308,6 +308,46 @@ at the link, because nothing there is filled by a call. A path send is judged
 like the call it is: the receiver fills the word's one slot, so `"abc".absolute`
 refuses at the link exactly as `absolute(of: "abc")` does.
 
+**Contracts.** A membership says which shapes a name admits. A contract says
+which **words** a value answers, which is the other half of "what may stand
+here" and the half a list cannot give: the shapes that answer a word are open,
+and new ones arrive with new documents. A module declares one the way it
+declares a type: a name bound to the words, each written as a signature with no
+receiver, because the receiver is whatever satisfies the contract.
+
+A type **satisfies** a contract when, for every word in it, the link finds a
+declaration named for the type and that word (`bank.Account` and `describe`
+give `bank.Account.describe`) whose signature is the contract's with the
+receiver filled in by the type. A declaration that carries that name and does
+not fit **refuses at the link**, rather than leaving the type quietly outside:
+the naming is what says it was meant to answer. A contract asking no words
+refuses too, since every type would satisfy it. A name is a shape or a
+membership or a contract and never two of them.
+
+A signature bounds a type parameter by a contract the way it bounds one by a
+membership: `bounds: { T: app.Describable }`, and the slots write `some T`. A
+value reaching such a slot is judged twice, once per surface, the way a
+membership's is: at the **link** a reading provably outside refuses, and at the
+**boundary** the value that arrived is judged by the name it wears.
+
+A body calls a contract's word by writing the contract's name and the word's
+with a dot between them: `app.Describable.describe`. That spelling names no
+declaration, and what it means is settled by the value it is sent to, so it is
+written with a receiver in front and refuses without one. What a call hands it
+and what it answers are the contract's, not any one declaration's.
+
+**The link builds the table and the run reads it.** For every contract, the
+link gathers every type that satisfies it and lowers one call per type, each
+against the row that answers, arguments in that row's own slot order. The run
+reads the name the value wears and picks. Nothing is resolved while a program
+is running.
+
+A declaration answering a contract's word is reached **through the contract**
+and not as a bare path segment. Two types answering one word is the ordinary
+case, and `x.describe` has no way to say which is meant, which is the very
+thing the path-word rule refuses. The contract is the spelling that tells them
+apart.
+
 **A name is its declared spelling.** The key a document declares a type,
 constraint or procedure under is the whole of its name: `std.math.plus` is
 declared under that key, and `wallet.Account` under that one. A mention is a
@@ -317,9 +357,10 @@ spelling and nothing more: the language has no namespace, no scope and no
 prefix, so what a document chooses to put before a dot is the author's
 convention, and one document may declare `wallet.fee` beside `bank.rate` while
 another declares `wallet.rate`. A spelling no module in the link declares
-**refuses at the link** where it is mentioned. Types and memberships are two
-spaces and no name is in both, so a mention reaches whichever of them declares
-it: a bound names a membership, and a slot names a type or a membership.
+**refuses at the link** where it is mentioned. Types, memberships and contracts
+are three spaces and no name is in two of them, so a mention reaches whichever
+declares it: a slot names a type or a membership, and a bound names a
+membership or a contract.
 
 The shared `std` module (the foundation bundle) declares the memberships the
 standard words are bounded by: `Numeric` admits `int` and `double`;
@@ -342,6 +383,7 @@ here **refuses**. Every slot marked *expression*, *block*, *statements* or
 | `description` | string | no |
 | `types` | record: name → type | no |
 | `constraints` | record: name → array of types the name admits | no |
+| `contracts` | record: name → record: word → `{ parameters?, returns? }` | no |
 | `const` | record: name → expression | no |
 | `var` | record: name → expression; a variable every procedure beside it may read and write | no |
 | `procedures` | record: name → procedure | yes, and not empty |
@@ -909,6 +951,9 @@ happened yet:
   of a membership stands only where every one of its members would. A cast
   tells the members apart, and a cast onto a shape the membership never holds
   refuses the way any impossible cast does;
+- a parameter bounded by a contract takes only a type that answers every word
+  the contract asks, and a declaration named for a type and one of those words
+  is held to what the contract wrote;
 - every `set` writes a path headed by a variable, through fields declared
   `var` where the shape is a declared type, and what it writes fits what the
   path reaches; a write into a module variable or an `inout` parameter fits
