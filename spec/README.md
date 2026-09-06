@@ -164,10 +164,10 @@ cannot say:
 | `isolated <procedure type>` | a procedure that touches no name another body could touch at once; `pure isolated procedure` says both, and the reader takes the two words in either order |
 | `inout <type>` | a parameter handed a variable in place; written on a parameter's type and nowhere else |
 | `var <type>` | a field a path may write through; written on a field of a type declared in `types` and nowhere else |
-| `Task` (any declared name) | the type a module declares under that name |
+| `Task` (any declared name) | the type a module declares under that name, or a value of the membership it declares under that name |
 | `some T` | a type parameter: worked out from the call, same reading everywhere it appears; bounded when the signature's `bounds` names it |
 | `int(0...255)`, `double(0.0..<1.0)` | a number the slot admits only inside the range. The kind written out, either bound optional but not both, and `..<` leaving the far bound outside |
-| `int?` (any string spelling and `?`) | the declared type or null. The one union, and it is null-only |
+| `int?` (any string spelling and `?`) | the declared type or null. The one union written inline, and it is null-only. Any other is declared as a membership and named |
 | `{ title: string, done: bool }` | a record type, written as the record it describes; structural, and it names nothing |
 | `{ procedure: { parameters: …, returns: … } }` | a procedure type, written as the signature it takes |
 
@@ -286,9 +286,10 @@ name takes only what the constraint admits. The signature owns the bound. A slot
 names the parameter and never the membership, so one bound is one claim however
 many slots mention the name, and there is no inline union for the membership to
 leak out through. A constraint is a **declared membership**. A module binds a
-name to the types it admits, the way it declares a type. Nothing is ever *of* a
-constraint: it bounds a parameter, and a slot cannot declare it as its type. The
-judgment is made twice, once per surface: at the **link**, a reading provably
+name to the types it admits, the way it declares a type. A slot may also declare
+one as its type, and what stands there is a value of one of the members, which
+is how the language says **A or B**: the set is declared once under a name, and
+no slot writes an inline union. The judgment is made twice, once per surface: at the **link**, a reading provably
 outside the membership refuses. Two booleans meeting `lessThan` never run, and a
 reading the text says nothing about (`any`) passes; at the **boundary**, the
 value that actually arrived is judged against the membership, so what travelled
@@ -316,8 +317,9 @@ spelling and nothing more: the language has no namespace, no scope and no
 prefix, so what a document chooses to put before a dot is the author's
 convention, and one document may declare `wallet.fee` beside `bank.rate` while
 another declares `wallet.rate`. A spelling no module in the link declares
-**refuses at the link** where it is mentioned. Types and constraints resolve
-each in their own space: a slot mentions types, a bound mentions constraints.
+**refuses at the link** where it is mentioned. Types and memberships are two
+spaces and no name is in both, so a mention reaches whichever of them declares
+it: a bound names a membership, and a slot names a type or a membership.
 
 The shared `std` module (the foundation bundle) declares the memberships the
 standard words are bounded by: `Numeric` admits `int` and `double`;
@@ -885,6 +887,10 @@ happened yet:
 - a slot declared `pure` takes only a procedure that answers without running,
   worked out from a body's own sends, declared by a native word; a slot
   declared `isolated` takes only a procedure the link derived as isolated;
+- a slot declaring a membership takes what the membership admits, and a value
+  of a membership stands only where every one of its members would. A cast
+  tells the members apart, and a cast onto a shape the membership never holds
+  refuses the way any impossible cast does;
 - every `set` writes a path headed by a variable, through fields declared
   `var` where the shape is a declared type, and what it writes fits what the
   path reaches; a write into a module variable or an `inout` parameter fits
@@ -1041,11 +1047,11 @@ way it works out purity:
   not answer this: a word can answer without running and still answer from a
   box two callers share.
 - **A word that runs closures at once asks for isolated ones.**
-  `std.concurrent.map` declares its closure `isolated procedure`, so a closure
-  that writes a captured variable **refuses at the link** there. `all` and
-  `first` take `any`, so each piece is judged as it is started, at the
-  **run**. A piece answers a value; combining is written after the join,
-  where the names are sequential again.
+  `std.concurrent.map` declares its closure `isolated procedure`, and `all` and
+  `first` declare their pieces a membership of collections of them, so a
+  closure that writes a captured variable **refuses at the link** in all three.
+  A piece answers a value; combining is written after the join, where the names
+  are sequential again.
 - Leaving does not cross the boundary either: `return` inside a closure
   answers the closure, and `break`/`continue` aimed past one **refuse at the
   check**. The ground is the `attempt` distinction. A failure is what the
@@ -1086,13 +1092,13 @@ them (`std.math`, `std.collection`) links only with `std` in the link:
 
 | module | words |
 |---|---|
-| `std` |. Declares the constraints `Numeric` and `Comparable`, and the type `byte = int(0...255)` |
+| `std` |. Declares the memberships `Numeric` and `Comparable`, and the type `byte = int(0...255)` |
 | `std.logic` | `equal` `notEqual` `not` `and` `or` |
 | `std.math` | `plus` `minus` `times` `dividedBy` `remainder` `min` `max` `absolute` `floored` `rounded` `lessThan` `greaterThan` |
 | `std.text` | `text` `startsWith` `regex` `uppercased` `lowercased` `trimmed` `split` `joined` `replacing` `decoded` `encoded` |
 | `std.collection` | `append` `count` `contains` `first` `last` `reversed` `appending` `prepending` `dropFirst` `dropLast` `sorted` `map` `filter` `reduce` `keys` `values` `setting` |
 | `std.control` | `abort`. Declared `returns: never` |
-| `std.concurrent` | `all` `first` `map`. Run closures at once |
+| `std.concurrent` | `all` `first` `map`. Run closures at once. Declares the membership `Pieces` |
 
 **The signatures, exactly.** A second implementation writes these; it must not
 have to guess them. The *receiver* column is the parameter a path reaches the
@@ -1193,7 +1199,7 @@ instead: the array.
 
 | word | receiver | arguments | answers |
 |---|---|---|---|
-| `all`, `first` | `of: any`. A record or array of closures |. | `any` |
+| `all`, `first` | `of: Pieces`. The membership of `array<isolated procedure>` and `dictionary<isolated procedure>` |. | `any` |
 | `map` | `over: array<some Element>` | `by`. `isolated procedure`, offered `item` and `index`, answering `some Answer` | `array<some Answer>` |
 
 **`std.concurrent`**. Running closures at once. `all` takes a record or
@@ -1220,10 +1226,13 @@ What the checking sees: `map` declares its types the way the sequential one
 does. The collection's `Element` meets the closure's parameter, and the
 answer's type is the closure's answer, checked at the link. Its `by` is an
 `isolated procedure<(item: some Element, index: int) -> some Answer>`, so a
-closure that writes a captured variable refuses there before anything runs. `all` and `first`
-take and answer `any`, because "a record of closures or an array of them" is a
-union no type here can say. The precision is unsayable rather than lost, and
-what a fan-out's answer feeds is checked from `map`, not from these two.
+closure that writes a captured variable refuses there before anything runs.
+`all` and `first` take `std.concurrent.Pieces`, the membership of
+`array<isolated procedure>` and `dictionary<isolated procedure>`, so a piece
+that is not a closure and a piece that writes what it captured both refuse at
+the link. They answer `any`: the answer is shaped like what went in, and a
+membership names a set of shapes rather than tying one of them to another. What
+a fan-out's answer feeds is checked from `map`, not from these two.
 
 What the words offer their closures is one convention, shared with the
 sequential walks: a walking word **offers** names. `std.collection.map`

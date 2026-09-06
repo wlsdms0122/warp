@@ -1,0 +1,41 @@
+warpt 1
+{
+  expect {
+    refuses "link"
+  }
+  name "what-a-membership-does-not-admit-refuses"
+  note "A membership standing as a type narrows: a value provably outside the members refuses where it is handed over, which is what the slot used to have to write any and say nothing about."
+  program {
+    constraints {
+      Text [
+        "string"
+        "bytes"
+      ]
+    }
+    imports []
+    procedures {
+      entry {
+        result {
+          call {
+            arguments {
+              it 1
+            }
+            procedure "hold"
+          }
+        }
+        returns "Text"
+      }
+      hold {
+        parameters {
+          it "Text"
+        }
+        result {
+          ref "it"
+        }
+        returns "Text"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
