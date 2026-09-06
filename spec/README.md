@@ -663,7 +663,8 @@ what lets the concurrent `map` run it at once.
 A rescue catches failure. What the world did. It does not catch leaving. What
 the program said. A rescue with nothing in it. No statement to run for effect,
 no `result` to answer. **refuses at the check**: it would swallow a failure into
-null without a trace. This is the one exception to a block's optional `result`,
+null without a trace. A rescue over a body that cannot fail **refuses at the
+link** for the other half of the same reason: it is a body no run reaches. This is the one exception to a block's optional `result`,
 and the failure is the reason. The statement's own name binds the failure
 **while the rescue runs**, and what it binds is a **record declared `{ type:
 string, message: string, details: dictionary<any> }`**. `type` is one word
@@ -687,6 +688,23 @@ dot on the failure itself: `failed.failures` names nothing.
 
 A failure is data the moment a rescue holds it, which is why no ninth kind
 exists for it.
+
+**What a body may fail with is known before it runs.** The link derives it the
+way it derives purity and isolation, and the words a failure names itself by
+(`aborted`, `cast_refused`) are what it derives: a body fails with what its
+plain casts fail with (`cast_refused`, the one failure the runtime itself
+raises; `as?` reads the same mismatch as null and raises nothing), with what
+the declarations it calls fail with, and with whatever its rescues fail with,
+the body under a rescue being caught. Calling a value (`apply`) leaves the
+question open, since nothing before the run says which value.
+
+A native word says what it may fail with, the way it says whether it is
+isolated. **A word that says nothing fails nothing**, which is right for the
+many words that throw only at an author mistake, and a word that can fail says
+so. `std.control.abort` says `aborted`; `std.concurrent` says
+`concurrent_failed`, every piece's recoverable failure being gathered into
+that one. A word that fails and does not say so has broken its contract, the
+same way one that holds state and calls itself isolated has.
 
 **`block`**. A body written as a statement, and nothing more: the bare
 member of the same family as a `conditional` arm or a `loop` round, with the

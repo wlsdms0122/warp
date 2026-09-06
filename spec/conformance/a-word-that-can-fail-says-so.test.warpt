@@ -1,0 +1,42 @@
+warpt 1
+{
+  expect {
+    answers "rescued"
+  }
+  name "a-word-that-can-fail-says-so"
+  note "`std.control.abort` says it raises `aborted`, so the attempt around it stands and the rescue reads the word the failure names itself by."
+  program {
+    imports [
+      "std.control.abort"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            let "tried"
+            value {
+              attempt {
+                body []
+                result {
+                  call {
+                    of "no"
+                    procedure "std.control.abort"
+                  }
+                }
+                rescue {
+                  result "rescued"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "tried"
+        }
+        returns "string"
+      }
+    }
+    warp 1
+  }
+  test 1
+}

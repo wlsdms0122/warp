@@ -4,7 +4,7 @@ warpt 1
     answers "left from inside"
   }
   name "leaving-is-not-failing"
-  note "A rescue is for what the world did; leaving is what the program said. This is the distinction the language could not make while the only way out was to fail on purpose."
+  note "A rescue is for what the world did; leaving is what the program said. The cast is what the attempt stands over, since a rescue over a body that cannot fail refuses; the return leaves past it either way."
   program {
     imports []
     procedures {
@@ -15,6 +15,13 @@ warpt 1
             value {
               attempt {
                 body [
+                  {
+                    let "checked"
+                    value {
+                      as "number"
+                      of 0
+                    }
+                  }
                   {
                     value {
                       return "left from inside"
