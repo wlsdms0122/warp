@@ -163,6 +163,7 @@ cannot say:
 | `pure <procedure type>` | a procedure that answers without running effects |
 | `isolated <procedure type>` | a procedure that touches no name another body could touch at once; `pure isolated procedure` says both, and the reader takes the two words in either order |
 | `inout <type>` | a parameter handed a variable in place; written on a parameter's type and nowhere else |
+| `{ once: <type> }` | a type whose values are handed on exactly once; written on a type in `types` and nowhere else, and every slot naming that type carries it |
 | `var <type>` | a field a path may write through; written on a field of a type declared in `types` and nowhere else |
 | `Task` (any declared name) | the type a module declares under that name, or a value of the membership it declares under that name |
 | `some T` | a type parameter: worked out from the call, same reading everywhere it appears; bounded when the signature's `bounds` names it |
@@ -307,6 +308,45 @@ signature: a declared type writing `some` outside a procedure signature refuses
 at the link, because nothing there is filled by a call. A path send is judged
 like the call it is: the receiver fills the word's one slot, so `"abc".absolute`
 refuses at the link exactly as `absolute(of: "abc")` does.
+
+**Handed on once.** A type written `once` says the values of it are given
+away: to a word, or as a body's answer. A body holding one hands it on **on
+every way through, once**, and the link says so before anything runs. That is
+what "this resource is closed exactly once" comes to, and it is the one claim
+here that is about a value's whole life rather than about its shape.
+
+The mark is written on the declaration, so the obligation rides with the name:
+a slot naming the type has it, and nothing can take it off. Writing `once`
+anywhere else **refuses at the link**, and so does carrying such a type inside
+another shape (a list, a record, another declaration): what follows the value is
+the name holding it, and nothing follows one into a shape.
+
+What a body may do with one:
+
+- hand it to a slot that also says `once`. A slot that does not say so
+  **refuses**, since it would keep the value with no obligation on it;
+- answer it, which hands it to the caller, who owes it from there;
+- read a part of it (`handle.name`), which hands nothing on.
+
+What **refuses at the link**:
+
+- reaching the end of a body still holding one;
+- handing one on a second time;
+- handing one on in one arm of a conditional and not the other, since what a
+  body holds afterwards would depend on which arm ran;
+- handing one on inside a loop round, inside an `attempt`, in a call of a value
+  (`apply`), or capturing one in a closure. Each of those runs no fixed number
+  of times, or fails somewhere the text does not show, so "exactly once" is not
+  something the text says;
+- writing over a name still holding one.
+
+Only a word with **no body** ends the obligation. A body that takes one has to
+hand it on like any other, so the chain runs out at a native word, which is
+right: what a resource is lives outside the document, and only the side that
+made it can close it.
+
+Nothing about this survives lowering. It is proven at the link and there is
+nothing left for a run to keep.
 
 **Contracts.** A membership says which shapes a name admits. A contract says
 which **words** a value answers, which is the other half of "what may stand
@@ -954,6 +994,8 @@ happened yet:
 - a parameter bounded by a contract takes only a type that answers every word
   the contract asks, and a declaration named for a type and one of those words
   is held to what the contract wrote;
+- every value of a type written `once` is handed on exactly once on every way
+  through the body holding it, and to a slot that says `once`;
 - every `set` writes a path headed by a variable, through fields declared
   `var` where the shape is a declared type, and what it writes fits what the
   path reaches; a write into a module variable or an `inout` parameter fits

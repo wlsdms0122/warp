@@ -1,0 +1,49 @@
+warpt 1
+{
+  expect {
+    answers app.Handle {
+      name "f"
+    }
+  }
+  name "a-value-handed-on-once-is-handed-on"
+  note "A type written `once` says its values are handed on: given to a word, or answered. A body that answers one has handed it on, and its caller owes it from there. Only a word with no body ends the obligation, since what a resource is lives outside the document."
+  program {
+    imports []
+    procedures {
+      entry {
+        body [
+          {
+            let "handle"
+            value {
+              call {
+                procedure "app.open"
+              }
+            }
+          }
+        ]
+        result {
+          ref "handle"
+        }
+        returns "app.Handle"
+      }
+      "app.open" {
+        result {
+          as "app.Handle"
+          of {
+            name "f"
+          }
+        }
+        returns "app.Handle"
+      }
+    }
+    types {
+      "app.Handle" {
+        once {
+          name "string"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
