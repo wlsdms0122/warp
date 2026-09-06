@@ -192,8 +192,8 @@ name. `any` declares nothing, so a value passes it as it is, name included.
 int?` is a nullable handed in place. They say something about the slot and
 nothing about the value, so what fits the slot is judged by the type after
 the word. Writing either where it is not allowed **refuses** at the link. A
-slot asking `isolated` takes what the link derived as isolated, and a pure
-procedure fits it: what runs nothing touches nothing.
+slot asking `isolated` takes what the link derived as isolated. Purity is a
+separate claim and does not stand in for it.
 
 **What a slot takes, exactly.** Where a value meets a declaration. An
 argument, a taken default, an answer. The settlement is one rule per shape:
@@ -884,8 +884,7 @@ happened yet:
   a value the parameter itself admits. `type`, range and `oneOf` together;
 - a slot declared `pure` takes only a procedure that answers without running,
   worked out from a body's own sends, declared by a native word; a slot
-  declared `isolated` takes only a procedure the link derived as isolated,
-  or a pure one;
+  declared `isolated` takes only a procedure the link derived as isolated;
 - every `set` writes a path headed by a variable, through fields declared
   `var` where the shape is a declared type, and what it writes fits what the
   path reaches; a write into a module variable or an `inout` parameter fits
@@ -999,8 +998,9 @@ promised is that it can always be told to stop.
 
 **Concurrency is isolation, and it is granted.** Warp's values are all data,
 so the only thing two bodies running at once could contend for is a written
-name. What may run beside another body is an **isolated** closure, and which
-closures are isolated the link works out, the way it works out purity:
+name, or a box a native word holds. What may run beside another body is an
+**isolated** closure, and which closures are isolated the link works out, the
+way it works out purity:
 
 - **Two kinds of body, told apart by where they are written.** Every
   `body`/`block` slot the document grammar has. `block`, a `conditional` arm, a
@@ -1025,15 +1025,21 @@ closures are isolated the link works out, the way it works out purity:
   it captured; what it writes has to fit what the capturing body holds, held
   at the **link**, because the capturing body reads the variable as the type
   it gave it.
-- **Isolation is derived.** A body is isolated when it writes no name it did
-  not declare (a module variable, or a variable a closure captured), hands
-  none of those in place, calls no value (`apply`), and calls only isolated
-  declarations. A native word is isolated. What is pure is isolated. The
-  link starts every declaration isolated and strikes bodies until nothing
-  more is struck, and judges every closure literal by the same rule. A
-  closure value carries the purity and isolation the link derived, and a
-  slot asking for either reads them wherever the value arrives, through
-  `any` or an undeclared field included.
+- **Isolation is derived for a body and declared by a word.** A body is
+  isolated when it writes no name it did not declare (a module variable, or a
+  variable a closure captured), hands none of those in place, calls no value
+  (`apply`), and calls only isolated declarations. The link starts every body
+  isolated and strikes them until nothing more is struck, and judges every
+  closure literal by the same rule. A closure value carries the purity and
+  isolation the link derived, and a slot asking for either reads them wherever
+  the value arrives, through `any` or an undeclared field included.
+- **A native word says whether it is isolated, and is taken at its word.** The
+  link reads what a body writes and calls; what a word keeps in the host
+  language is outside the document, so the word declares it. A word that
+  declares nothing is isolated, and one that holds state between calls
+  declares otherwise, which strikes every body that reaches it. Purity does
+  not answer this: a word can answer without running and still answer from a
+  box two callers share.
 - **A word that runs closures at once asks for isolated ones.**
   `std.concurrent.map` declares its closure `isolated procedure`, so a closure
   that writes a captured variable **refuses at the link** there. `all` and
@@ -1059,12 +1065,14 @@ closures are isolated the link works out, the way it works out purity:
   rescue around a fan-out that lost twice is handed every failure, keyed by
   the piece it came from, whichever finished first.
 - **Effects are the world's, and the world is the receiver's.** Two pieces'
-  host calls interleave in an order nothing states, and two pieces reaching
-  one host-held thing. A file, a counter. Is contention the *host's* word
-  must defend, not the language. The isolation stated here is about the
-  language's names, all the way; about the world, only as far as the host's
-  own words keep their contracts. A receiver that needs an ordered meeting
-  point offers one as a host word, where it can defend it.
+  host calls interleave in an order nothing states. Two pieces reaching one
+  host-held thing, a file or a counter, is contention the *host's* word must
+  defend. What the language guarantees is that a word holding such a thing
+  declares it and the link refuses to run two of its callers at once. A word
+  that holds state and declares itself isolated has broken its contract, and
+  that is the one place the language takes a word at its word. A receiver that
+  needs an ordered meeting point offers one as a host word, where it can
+  defend it.
 
 There are no lower-level primitives. No spawn, no locks. On purpose: a
 program that arrives is a program nobody can debug a race in.
