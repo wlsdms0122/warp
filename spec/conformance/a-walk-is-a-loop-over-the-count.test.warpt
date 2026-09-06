@@ -1,0 +1,91 @@
+warpt 1
+{
+  expect {
+    answers {
+      tally 6
+    }
+  }
+  name "a-walk-is-a-loop-over-the-count"
+  note "Walking a collection is the one repetition the language has: the round read against the material's count, with the element read at that index. A round's contribution is what it writes outward. A pure mapping is std.collection.map's to say, and an effectful round with something to keep writes an outer variable."
+  program {
+    imports [
+      "std.collection.count"
+      "std.math.lessThan"
+      "std.math.plus"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            let "items"
+            value [
+              1
+              2
+              3
+            ]
+          }
+          {
+            value 0
+            var "tally"
+          }
+          {
+            let "walk"
+            value {
+              loop {
+                body [
+                  {
+                    let "item"
+                    value {
+                      ref "items[walk.index]"
+                    }
+                  }
+                  {
+                    set "tally"
+                    value {
+                      call {
+                        arguments {
+                          value {
+                            ref "item"
+                          }
+                        }
+                        of {
+                          ref "tally"
+                        }
+                        procedure "std.math.plus"
+                      }
+                    }
+                  }
+                ]
+                while {
+                  call {
+                    arguments {
+                      value {
+                        call {
+                          of {
+                            ref "items"
+                          }
+                          procedure "std.collection.count"
+                        }
+                      }
+                    }
+                    of {
+                      ref "walk.index"
+                    }
+                    procedure "std.math.lessThan"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        result {
+          tally {
+            ref "tally"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}

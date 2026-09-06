@@ -4,15 +4,25 @@ warpt 1
     answers "ac"
   }
   name "continue-skips-a-round"
-  note "`continue` ends the round and the walk goes on to the next."
+  note "`continue` ends the round and the loop goes on to the next."
   program {
     imports [
+      "std.collection.count"
       "std.logic.equal"
+      "std.math.lessThan"
       "std.text.joined"
     ]
     procedures {
       entry {
         body [
+          {
+            let "items"
+            value [
+              "a"
+              "b"
+              "c"
+            ]
+          }
           {
             value ""
             var "seen"
@@ -20,8 +30,14 @@ warpt 1
           {
             let "walk"
             value {
-              each {
+              loop {
                 body [
+                  {
+                    let "item"
+                    value {
+                      ref "items[walk.index]"
+                    }
+                  }
                   {
                     value {
                       branch {
@@ -55,7 +71,7 @@ warpt 1
                             ref "seen"
                           }
                           {
-                            ref "walk.item"
+                            ref "item"
                           }
                         ]
                         procedure "std.text.joined"
@@ -63,11 +79,24 @@ warpt 1
                     }
                   }
                 ]
-                in [
-                  "a"
-                  "b"
-                  "c"
-                ]
+                while {
+                  call {
+                    arguments {
+                      value {
+                        call {
+                          of {
+                            ref "items"
+                          }
+                          procedure "std.collection.count"
+                        }
+                      }
+                    }
+                    of {
+                      ref "walk.index"
+                    }
+                    procedure "std.math.lessThan"
+                  }
+                }
               }
             }
           }

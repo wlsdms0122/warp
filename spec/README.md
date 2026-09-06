@@ -515,8 +515,8 @@ and a record settles to the declared layout.
 
 A `set` reaches a name something else declared and a statement with no naming
 key introduces none, so `type` beside either **refuses at the load**. So does
-`type` on a statement whose construct binds the name itself. A `loop`'s round,
-an `each`'s element, an `attempt`'s failure are the construct's to say.
+`type` on a statement whose construct binds the name itself. A `loop`'s round
+and an `attempt`'s failure are the construct's to say.
 
 A declared name is fixed at what it says: a write into a declared `var` is held
 to the declaration and does not retype it, the way a write into a module
@@ -531,10 +531,10 @@ own. Three
 families step out of this freedom, in different directions:
 
 - The constructs that bind **through** the statement's name. `loop` (its
-  round), `each` over a collection (its element), `attempt`
-  (its failure). **require** one. With no name there is nothing for the body
-  to read those bindings under, and a reader that invented a name would have
-  invented a real name somewhere. Writing one nameless **refuses**.
+  round), `attempt` (its failure). **require** one. With no name there is
+  nothing for the body to read those bindings under, and a reader that
+  invented a name would have invented a real name somewhere. Writing one
+  nameless **refuses**.
 - The leaving constructs (`return`, `break`, `continue`) take **no** naming
   key at all: such a statement never finishes, so its name could never bind,
   and a key that promises a binding that cannot happen **refuses**. The same
@@ -572,17 +572,16 @@ two spellings say something about a value, so they still require one.
 **One name, several askers.** A statement's name names the statement, and every
 reader of it reads that one fact: an expression reads the value the statement
 bound; a body inside a binding construct reads the construct's own binding under
-it (`walk.item`, `round.index`, `tried.message`); a `break` or `continue` names
-the loop statement it ends. These are not three names sharing a spelling. They
-are one name, asked three questions, and which question applies is fixed by
-where the asker stands. What keeps the readings from colliding is scope, stated
-per construct: a walk's name is the element's only inside its body; a loop's
-round is readable in its condition, body and result; an attempt's name binds the
-failure only while the rescue runs, so the binding reading and the value reading
-are never live at the same place.
+it (`round.index`, `tried.message`); a `break` or `continue` names the loop
+statement it ends. These are not three names sharing a spelling. They are one
+name, asked three questions, and which question applies is fixed by where the
+asker stands. What keeps the readings from colliding is scope, stated per
+construct: a loop's round is readable in its condition, body and result; an
+attempt's name binds the failure only while the rescue runs, so the binding
+reading and the value reading are never live at the same place.
 
 The construct keys, each detailed below and each written inside `value`:
-`call`, `branch`, `loop`, `each`, `attempt`, `group`, `return`, `break`,
+`call`, `branch`, `loop`, `attempt`, `group`, `return`, `break`,
 `continue`. `value` holding anything else holds an expression, under
 *Expressions* below.
 
@@ -635,30 +634,21 @@ stopping one is the receiver's **cancellation**, under Running below. A kernel
 budget would promise neither side anything it could rely on: the author can
 already say it, and the receiver could not trust a bound the author chose.
 
-**`each`**
+Walking a collection is this construct too, and there is no second one for it.
+The round is read against the material's count and the element is read at that
+index, so what a walk needs beyond a loop is `std.collection.count`, a
+comparison and an index. All three are already there, and none of them is
+grammar.
 
-| key | takes | required |
-|---|---|---|
-| `in` | expression. A collection | yes |
-| `body` | statements | yes |
-
-Walks the collection in order and answers nothing. The statement's name binds
-the round (`walk.item`, `walk.index`) and that is all it is. Inside the body
-it is the element, and after the walk it is not readable, since the only value
-it could ever hold is null; `var` and `set` on a walk refuse the same way. A
-round's contribution is what it writes to an outer variable. A pure mapping is
-`std.collection.map`'s to say; an effectful round with something to keep
-writes outward.
-
-There is no concurrency construct. Running things at once is **vocabulary**.
-`std.concurrent`, below, because a closure is already the one body that is safe
-to run beside another, and "takes closures" is a thing a signature can say.
-`each` stays grammar for the opposite reason: its body writes the enclosing
-names, and that is exactly what no signature can say. That is also the line
-between the walks: reach for `each` when a round writes outward or leans on the
-round before it, and for a word. `std.collection.map`, `filter`,
-`std.concurrent.map`. When each element's work stands alone, which is what lets
-the concurrent `map` run it at once.
+There is no concurrency construct either. Running things at once is
+**vocabulary**. `std.concurrent`, below, because a closure is already the one
+body that is safe to run beside another, and "takes closures" is a thing a
+signature can say. A loop is grammar for the opposite reason: its body writes
+the enclosing names, and that is exactly what no signature can say. That is also
+the line between the two ways to walk. Reach for a loop when a round writes
+outward or leans on the round before it, and for a word. `std.collection.map`,
+`filter`, `std.concurrent.map`. When each element's work stands alone, which is
+what lets the concurrent `map` run it at once.
 
 **`attempt`**
 
@@ -1014,7 +1004,7 @@ closures are isolated the link works out, the way it works out purity:
 
 - **Two kinds of body, told apart by where they are written.** Every
   `body`/`block` slot the document grammar has. `group`, a `branch` arm, a
-  `loop` or `each` round, an `attempt`'s body and its `rescue`, all of them,
+  `loop` round, an `attempt`'s body and its `rescue`, all of them,
   present and future. Holds a **block**: a body that runs here, in the flow
   that wrote it, and that is visible in the text, because no expression can
   carry a block away. A block may `set` the enclosing variables. The one body

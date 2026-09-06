@@ -3,16 +3,26 @@ warpt 1
   expect {
     answers "a"
   }
-  name "break-ends-the-walk"
-  note "`break` ends the whole walk; rounds after it never start."
+  name "break-ends-the-loop"
+  note "`break` ends the whole loop; rounds after it never start."
   program {
     imports [
+      "std.collection.count"
       "std.logic.equal"
+      "std.math.lessThan"
       "std.text.joined"
     ]
     procedures {
       entry {
         body [
+          {
+            let "items"
+            value [
+              "a"
+              "b"
+              "c"
+            ]
+          }
           {
             value ""
             var "seen"
@@ -20,8 +30,14 @@ warpt 1
           {
             let "walk"
             value {
-              each {
+              loop {
                 body [
+                  {
+                    let "item"
+                    value {
+                      ref "items[walk.index]"
+                    }
+                  }
                   {
                     value {
                       branch {
@@ -55,7 +71,7 @@ warpt 1
                             ref "seen"
                           }
                           {
-                            ref "walk.item"
+                            ref "item"
                           }
                         ]
                         procedure "std.text.joined"
@@ -63,11 +79,24 @@ warpt 1
                     }
                   }
                 ]
-                in [
-                  "a"
-                  "b"
-                  "c"
-                ]
+                while {
+                  call {
+                    arguments {
+                      value {
+                        call {
+                          of {
+                            ref "items"
+                          }
+                          procedure "std.collection.count"
+                        }
+                      }
+                    }
+                    of {
+                      ref "walk.index"
+                    }
+                    procedure "std.math.lessThan"
+                  }
+                }
               }
             }
           }
