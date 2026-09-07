@@ -44,6 +44,14 @@ Everything else follows from *arrive*:
 - **The program is not trusted**, so what it can do is bounded by something the
   receiver controls.
 
+What bounds it is the vocabulary. A program does exactly what the words in its
+link let it do, and every word past the ones this specification spells is one
+the receiver put there. The language checks what a program *sends*; what
+answering a word means is the host's. So a receiver draws its line once, where
+it assembles the modules, and a module of native words it takes in reaches
+whatever host code reaches there. That is the same decision as taking in a
+library, and it is not one a document can make.
+
 ## The pieces
 
 ```
@@ -483,6 +491,16 @@ its program sends, in either direction. A stage-1 refusal, and it can be, since
 what a program sends is a fact of its text alone. The list is read before the
 program and a caller grants from it, so a list saying less would be trusted and
 wrong, and a list saying more asks for a grant the program has no use for.
+
+**A module asks and does not carry.** What the list names is supplied by
+whatever else stands in the link, and a module that shipped its own copy of a
+bundle it uses would put that bundle's declarations in the link twice, which
+the link refuses by the rule that one name has one declarer. Which modules
+are in a link is decided where the link is assembled, the same way a program's
+libraries are chosen where the program is built rather than by each library in
+it. The same holds for the types and memberships a signature mentions, which
+the list does not name: a module declares against a vocabulary and expects to
+be linked beside whatever declares it.
 
 A document says it, and one that does not **refuses**. The way one that does
 not say its version does. Silence is not a claim a caller can act on: the list
@@ -951,7 +969,8 @@ needless `?.` refuses by the same rules, and then folds at the link to the value
 it read. A constant settles from **native words alone**: a word with a written
 body is itself still being resolved beside the constants it may read, so a
 constant that runs one would be a circle with no start, and it refuses at the
-link. An index written as a reference (`items[i]`) is a path of its own, judged
+link. Settling asks those words, so a link answers native words before any of
+the program runs. An index written as a reference (`items[i]`) is a path of its own, judged
 wherever the outer walk stops: a reference that provably is not a whole number
 refuses at the link, and one that names nothing refuses at the run.
 
