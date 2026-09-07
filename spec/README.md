@@ -472,7 +472,12 @@ heard of is refuse, and the point of the number is that it can.
 
 **The imports list.** What the program *sends* and does not itself declare. From
 procedure bodies and from constants alike, each by the spelling it is sent by,
-which is its declared spelling: `std.math.plus`, never `plus`. The list is that
+which is its declared spelling: `std.math.plus`, never `plus`. A native word's
+sends are in it too. What a body sends is read off its text; a word implemented
+in the host language has no text a reader could read, so the word declares the
+words it sends and those count the same. A module whose native words send
+things its list never mentioned would understate what the module does, which is
+the one thing this list may not do. The list is that
 set exactly, not a bound around it: **reading refuses** a document whose list disagrees with what
 its program sends, in either direction. A stage-1 refusal, and it can be, since
 what a program sends is a fact of its text alone. The list is read before the
@@ -1148,13 +1153,22 @@ way it works out purity:
   closure literal by the same rule. A closure value carries the purity and
   isolation the link derived, and a slot asking for either reads them wherever
   the value arrives, through `any` or an undeclared field included.
-- **A native word says whether it is isolated, and is taken at its word.** The
-  link reads what a body writes and calls; what a word keeps in the host
-  language is outside the document, so the word declares it. A word that
-  declares nothing is isolated, and one that holds state between calls
-  declares otherwise, which strikes every body that reaches it. Purity does
-  not answer this: a word can answer without running and still answer from a
-  box two callers share.
+- **A native word says whether it is isolated, and is taken at its word for
+  what it does itself.** The link reads what a body writes and calls; what a
+  word keeps in the host language is outside the document, so the word declares
+  it. A word that declares nothing is isolated, and one that holds state
+  between calls declares otherwise, which strikes every body that reaches it.
+  Purity does not answer this: a word can answer without running and still
+  answer from a box two callers share.
+
+  What it *sends* is not outside the document, since the word declares that
+  too, so the link holds the claim to it. A word declaring it answers without
+  running and sending one that answers only by running is **refused** at the
+  link, and so is a word declaring it touches nothing shared and sending one
+  that does. Neither is something a host language can catch. What a word may
+  fail with is not held this way: a host language can catch, so a word
+  declaring it fails nothing while sending one that fails is describing itself
+  rather than contradicting itself.
 - **A word that runs closures at once asks for isolated ones.**
   `std.concurrent.map` declares its closure `isolated procedure`, and `all` and
   `first` declare their pieces a membership of collections of them, so a
