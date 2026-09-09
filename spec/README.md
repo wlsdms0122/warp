@@ -375,8 +375,11 @@ contract asks, it takes the declaration named for the type and that word
 (`bank.Account` and `describe` give `bank.Account.describe`) and holds its
 signature to the contract's with the receiver filled in by the type. A word
 with no such declaration **refuses at the claim**, and one whose signature does
-not fit **refuses at the declaration**. Two documents claiming one pair refuse,
-the way two declarations of one name do.
+not fit **refuses at the declaration**. Whether the declarations are there is a
+fact of the whole list, so both are asked once the link holds all of it, and a
+document is never refused for an answer another document in its link carries.
+Two documents claiming one pair refuse, the way two declarations of one name
+do.
 
 A declaration named for a type and a word that no claim names is that
 document's word and nothing else. So what a link declares never decides what an
