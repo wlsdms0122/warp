@@ -364,14 +364,27 @@ and new ones arrive with new documents. A module declares one the way it
 declares a type: a name bound to the words, each written as a signature with no
 receiver, because the receiver is whatever satisfies the contract.
 
-A type **satisfies** a contract when, for every word in it, the link finds a
-declaration named for the type and that word (`bank.Account` and `describe`
-give `bank.Account.describe`) whose signature is the contract's with the
-receiver filled in by the type. A declaration that carries that name and does
-not fit **refuses at the link**, rather than leaving the type quietly outside:
-the naming is what says it was meant to answer. A contract asking no words
-refuses too, since every type would satisfy it. A name is a shape or a
-membership or a contract and never two of them.
+A type **satisfies** a contract when a document says it does. The document
+writes the claim under `satisfies`, keyed by the type: `satisfies: {
+"bank.Account": ["app.Describable"] }`. Any document may make one, about a type
+it declared or about another document's, which is how a document that arrives
+later gives a shape the words a contract asks.
+
+The link holds the claim to the declarations behind it. For every word the
+contract asks, it takes the declaration named for the type and that word
+(`bank.Account` and `describe` give `bank.Account.describe`) and holds its
+signature to the contract's with the receiver filled in by the type. A word
+with no such declaration **refuses at the claim**, and one whose signature does
+not fit **refuses at the declaration**. Two documents claiming one pair refuse,
+the way two declarations of one name do.
+
+A declaration named for a type and a word that no claim names is that
+document's word and nothing else. So what a link declares never decides what an
+unrelated document may call things, and a document that names no contract links
+the same whichever documents stand beside it.
+
+A contract asking no words refuses, since every type would satisfy it. A name
+is a shape or a membership or a contract and never two of them.
 
 A signature bounds a type parameter by a contract the way it bounds one by a
 membership: `bounds: { T: app.Describable }`, and the slots write `some T`. A
@@ -433,6 +446,7 @@ here **refuses**. Every slot marked *expression*, *block*, *statements* or
 | `types` | record: name → type | no |
 | `constraints` | record: name → array of types the name admits | no |
 | `contracts` | record: name → record: word → `{ parameters?, returns? }` | no |
+| `satisfies` | record: type name → array of contract names that type answers | no |
 | `const` | record: name → expression | no |
 | `var` | record: name → expression; a variable every procedure beside it may read and write | no |
 | `procedures` | record: name → procedure | yes, and not empty |
@@ -1024,9 +1038,10 @@ happened yet:
   of a membership stands only where every one of its members would. A cast
   tells the members apart, and a cast onto a shape the membership never holds
   refuses the way any impossible cast does;
-- a parameter bounded by a contract takes only a type that answers every word
-  the contract asks, and a declaration named for a type and one of those words
-  is held to what the contract wrote;
+- a parameter bounded by a contract takes only a type some document says
+  answers it, and every claim is backed: each word the contract asks has a
+  declaration named for the type and the word, held to what the contract
+  wrote;
 - every value of a type written `once` is handed on exactly once on every way
   through the body holding it, and to a slot that says `once`;
 - every `set` writes a path headed by a variable, through fields declared

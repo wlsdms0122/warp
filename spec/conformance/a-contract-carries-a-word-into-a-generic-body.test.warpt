@@ -4,7 +4,7 @@ warpt 1
     answers "a card"
   }
   name "a-contract-carries-a-word-into-a-generic-body"
-  note "A contract is the words a value must answer. A type satisfies one by declaring them under its own name, a signature bounds a type parameter by it, and the body calls the word without knowing which type it holds. The link works out which declarations answer and the run reads one by the name the value wears."
+  note "A contract is the words a value must answer. A document says which types answer it under `satisfies`, a signature bounds a type parameter by it, and the body calls the word without knowing which type it holds. The link finds the declaration behind each claimed word and the run reads one by the name the value wears."
   program {
     contracts {
       "app.Describable" {
@@ -71,6 +71,14 @@ warpt 1
         result "a card"
         returns "string"
       }
+    }
+    satisfies {
+      "bank.Account" [
+        "app.Describable"
+      ]
+      "bank.Card" [
+        "app.Describable"
+      ]
     }
     types {
       "bank.Account" {
