@@ -428,7 +428,7 @@ here **refuses**. Every slot marked *expression*, *block*, *statements* or
 | key | takes | required |
 |---|---|---|
 | `warp` | int. The language version this document is written for | yes |
-| `imports` | array of strings. Every word the program *calls* and does not declare; words a path reaches are bounded separately, below | yes, and empty where the program sends nothing |
+| `imports` | array of strings. Every word the program uses and does not declare, whether it calls it or a path reaches it | yes, and empty where the program uses none |
 | `description` | string | no |
 | `types` | record: name → type | no |
 | `constraints` | record: name → array of types the name admits | no |
@@ -518,11 +518,16 @@ writes the list, including the ones whose programs will not read at all. A case
 with two things wrong with it is a case any reader passes for the wrong
 reason.
 
-A path (`a.b.count`) reaches words too, and they are **not listed**. A path
-only ever reaches a word that answers without running, so nothing a path
-reaches escapes the program, which is what keeps the list readable as the
-bounds of what a program may *do*, and whether such a word exists is the
-link's question, answered at the link by name.
+A path (`a.b.count`) reaches words too, and **those are listed as well**. A
+path writes the word's last segment alone, so nothing in the text says which
+declaration `count` is; the list is where the program says it. A path reaches
+only a word that answers without running, so listing one grants nothing the
+list is there to bound: it says what the program was read against, not what it
+may *do*.
+
+The link answers a path's segment among the words the program listed and the
+ones it declares, and nowhere else. Two of them reaching one last segment is a
+refusal, because no spelling a path could write would tell them apart.
 
 ### A procedure
 

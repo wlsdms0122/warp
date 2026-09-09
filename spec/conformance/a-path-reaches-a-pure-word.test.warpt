@@ -11,9 +11,11 @@ warpt 1
     answers 3
   }
   name "a-path-reaches-a-pure-word"
-  note "A path only ever reaches a word that answers without running, so nothing a path reaches escapes the program, and it needs no listing in imports."
+  note "A path only ever reaches a word that answers without running, so nothing a path reaches escapes the program. A path writes the word's last segment alone, so the document states which declaration it meant."
   program {
-    imports []
+    imports [
+      "std.collection.count"
+    ]
     procedures {
       entry {
         parameters {
