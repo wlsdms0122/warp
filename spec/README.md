@@ -373,12 +373,16 @@ later gives a shape the words a contract asks.
 The link holds the claim to the declarations behind it. For every word the
 contract asks, it takes the declaration named for the type and that word
 (`bank.Account` and `describe` give `bank.Account.describe`) and holds its
-signature to the contract's with the receiver filled in by the type. A claim
-missing one of those, or holding one whose signature does not fit, **puts its
-type under no contract**, and the reason is what the link says to whoever hands
-that type where the contract is asked. A list is assembled from what a host was
-willing to supply, so a document in it saying something the list cannot make
-good on refuses only a program that leaned on the pair.
+signature to the contract's with the receiver filled in by the type.
+
+Whether a type answers a contract is therefore a fact of the whole list, and a
+claim may be written in a document the one leaning on it never names. A
+document handing a type where a contract is asked is not judged where it is
+compiled: the pair leaves the compile unresolved, the way a word the document
+sends and does not declare leaves it, and **refuses at the call that leaned on
+it** where the link cannot answer. A claim missing a word, or holding one whose
+signature does not fit, puts its type under no contract and its reason is what
+that refusal says.
 
 A claim whose two names the list declares as something other than what the
 claim needs of them **refuses at the claim**: a contract where the type
@@ -388,14 +392,6 @@ name the list declares as nothing at all waits with the rest.
 
 Two documents claiming one pair are one claim: a claim holds nothing but the
 pair, so the second says what the first said.
-
-Whether a type answers a contract is read off the claims of the whole list, and
-a claim may be written in a document the one leaning on it never names. So a
-document handing a type where a contract is asked is not judged where it is
-compiled. The pair it leaned on leaves the compile unresolved, the way a word
-the document sends and does not declare leaves it, and the link answers for
-it: a pair no claim in the list answers **refuses at the call that leaned on
-it**.
 
 A declaration named for a type and a word that no claim names is that
 document's word and nothing else. So what a link declares never decides what an
