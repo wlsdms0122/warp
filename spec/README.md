@@ -381,10 +381,11 @@ willing to supply, so a document in it saying something the list cannot make
 good on refuses only a program that leaned on the pair.
 
 A claim whose two names the list declares as something other than what the
-claim needs of them, a type where the contract belongs or a membership in
-either place, **refuses at the claim**. One name has one declarer, so no
-document arriving later makes that right. A name the list declares as nothing
-at all waits with the rest.
+claim needs of them **refuses at the claim**: a contract where the type
+belongs, a type where the contract belongs, or a membership in either place.
+One name has one declarer, so no document arriving later makes that right. A
+name the list declares as nothing at all waits with the rest.
+
 Two documents claiming one pair are one claim: a claim holds nothing but the
 pair, so the second says what the first said.
 
