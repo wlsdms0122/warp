@@ -378,8 +378,16 @@ with no such declaration **refuses at the claim**, and one whose signature does
 not fit **refuses at the declaration**. Whether the declarations are there is a
 fact of the whole list, so both are asked once the link holds all of it, and a
 document is never refused for an answer another document in its link carries.
-Two documents claiming one pair refuse, the way two declarations of one name
-do.
+Two documents claiming one pair are one claim: a claim holds nothing but the
+pair, so the second says what the first said.
+
+Whether a type answers a contract is read off the claims of the whole list, and
+a claim may be written in a document the one leaning on it never names. So a
+document handing a type where a contract is asked is not judged where it is
+compiled. The pair it leaned on leaves the compile unresolved, the way a word
+the document sends and does not declare leaves it, and the link answers for
+it: a pair no claim in the list answers **refuses at the call that leaned on
+it**.
 
 A declaration named for a type and a word that no claim names is that
 document's word and nothing else. So what a link declares never decides what an
