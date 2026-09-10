@@ -373,11 +373,16 @@ later gives a shape the words a contract asks.
 The link holds the claim to the declarations behind it. For every word the
 contract asks, it takes the declaration named for the type and that word
 (`bank.Account` and `describe` give `bank.Account.describe`) and holds its
-signature to the contract's with the receiver filled in by the type. A word
-with no such declaration **refuses at the claim**, and one whose signature does
-not fit **refuses at the declaration**. Whether the declarations are there is a
-fact of the whole list, so both are asked once the link holds all of it, and a
-document is never refused for an answer another document in its link carries.
+signature to the contract's with the receiver filled in by the type. A claim
+missing one of those, or holding one whose signature does not fit, **puts its
+type under no contract**, and the reason is what the link says to whoever hands
+that type where the contract is asked. A list is assembled from what a host was
+willing to supply, so a document in it saying something the list cannot make
+good on refuses only a program that leaned on the pair.
+
+A claim naming something the list declares as a membership, or naming a
+membership where the type belongs, **refuses at the claim**. One name has one
+declarer, so no document arriving later makes that right.
 Two documents claiming one pair are one claim: a claim holds nothing but the
 pair, so the second says what the first said.
 
