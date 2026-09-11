@@ -1145,7 +1145,9 @@ There is no opportunity to find out by trying, because trying *is* production.
   reaches, stands at the link and is settled at the run's boundary instead. A
   body cannot leak a value its declaration did not admit either way. A
   **constant** answer is a value and not only a shape, so it is held to what
-  the declaration admits as well, the way a constant argument is.
+  the declaration admits as well, the way a constant argument is. A closure
+  literal writes a signature and a body side by side too, and is held the same
+  way where it is written.
 - **A `returns` nobody wrote is read off the body.** A declaration with no
   `returns` still answers something, and what it answers is what its body
   hands back: the `result` it names, joined with every `return` that carries a

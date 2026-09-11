@@ -4,13 +4,13 @@ warpt 1
     refuses "link"
   }
   name "an-answer-must-fit-what-was-declared"
-  note "A constant answer is a value and not only a shape, so it is held to what the declaration admits and not merely to what it reads as, the way a constant argument is."
+  note "A constant answer is a value and not only a shape. `300` reads `int`, which the range takes as a shape, and the declaration still refuses it because the value is not one the range admits, the way a constant argument is refused."
   program {
     imports []
     procedures {
       entry {
-        result "hello"
-        returns "int"
+        result 300
+        returns "int(0...255)"
       }
     }
     warp 1
