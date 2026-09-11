@@ -1,7 +1,7 @@
 warpt 1
 {
   arguments {
-    payload "not a whole number"
+    payload 1
   }
   expect {
     answers "caught"
@@ -21,13 +21,16 @@ warpt 1
                   {
                     let "read"
                     value {
-                      as "int"
+                      as "string"
                       of {
                         ref "payload"
                       }
                     }
                   }
                 ]
+                result {
+                  ref "read"
+                }
                 rescue {
                   result "caught"
                 }

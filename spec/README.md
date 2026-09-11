@@ -1138,10 +1138,14 @@ There is no opportunity to find out by trying, because trying *is* production.
 - `std.collection.keys` and `values` answer in the record's **canonical
   order**. Names ascending. For the same reason: a program that walks them
   gets the same walk on every run.
-- A procedure's answer is settled against `returns` at the boundary. A body
-  cannot leak a value its declaration did not admit. The half the text already
-  shows is held earlier: a **constant** answer that cannot fit the declaration
-  refuses at the **link**, the way a constant argument does.
+- A procedure's answer is held to `returns` where both are written. A body and
+  the declaration beside it are one document's text, so what the body reads is
+  judged at the **link**: a reading the declaration does not take refuses
+  there. A reading the text opens to `any`, which is what applying a value
+  reaches, stands at the link and is settled at the run's boundary instead. A
+  body cannot leak a value its declaration did not admit either way. A
+  **constant** answer is a value and not only a shape, so it is held to what
+  the declaration admits as well, the way a constant argument is.
 - **A `returns` nobody wrote is read off the body.** A declaration with no
   `returns` still answers something, and what it answers is what its body
   hands back: the `result` it names, joined with every `return` that carries a
