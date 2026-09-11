@@ -98,7 +98,7 @@ already happened, and what already happened cannot be taken back.
 The cases under `conformance/` name the stages **`load`**, **`build`** and
 **`run`**. `load` is reading plus the half of the checking a document answers
 alone. A document is checked as it is loaded, and to a caller the two are one
-refusal surface; `build` is the half that needs the rest of the link. Words,
+refusal surface; `build` is everything that needs the other documents. Words,
 declared type names, signatures; `run` is running. So a `ref` that resolves
 nowhere in its own document refuses at `load`, and a word no module declares
 refuses at `build`.
