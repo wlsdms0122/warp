@@ -84,7 +84,7 @@ let module = try loader.load(                             // checked, or refused
     identity: try Identity.of(document)                   // which document, for refusals
 )
 let image = try loader.reading {                          // refusals in the
-    try Linker().link([module] + Module.standard, entry: "greet")   // document's words
+    try Builder().build([module] + Module.standard, entry: "greet")  // document's words
 }
 let answer = try await Executor().run(image)
 ```
