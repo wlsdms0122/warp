@@ -1731,7 +1731,9 @@ Each format declares itself, and that is how the two are told apart: a case
 says `test`, a document says `warp`, and each is refused by the other's reader
 for **what it is** rather than for the keys it happens to carry. The `test`
 number moves for the same reason `warp` does and on its own schedule. The day
-a case may say something new is not the day a document may.
+a case may say something new is not the day a document may. The cases here are
+`test 2`: `test 1` spelled the middle stage `link`, and a runner that reads
+`build` cannot honour a case that says the other word.
 
 `expect` holds one of `answers` or `refuses`. One slot, so "one of the two and
 exactly one" is the shape rather than a rule about two keys that could both be
