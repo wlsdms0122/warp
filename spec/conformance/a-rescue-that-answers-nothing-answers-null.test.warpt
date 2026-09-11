@@ -1,0 +1,60 @@
+warpt 1
+{
+  arguments {
+    payload "not a whole number"
+  }
+  expect {
+    answers null
+  }
+  name "a-rescue-that-answers-nothing-answers-null"
+  note "A rescue runs statements for effect and need not answer. When the body fails and that rescue is the path taken, the attempt answers null, which is the value behind the `T?` the join reads."
+  program {
+    imports []
+    procedures {
+      entry {
+        body [
+          {
+            let "tried"
+            value {
+              attempt {
+                body [
+                  {
+                    let "read"
+                    value {
+                      as "int"
+                      of {
+                        ref "payload"
+                      }
+                    }
+                  }
+                ]
+                result {
+                  ref "read"
+                }
+                rescue {
+                  body [
+                    {
+                      let "noted"
+                      value 0
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        ]
+        parameters {
+          payload {
+            type "any"
+          }
+        }
+        result {
+          ref "tried"
+        }
+        returns "int?"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
