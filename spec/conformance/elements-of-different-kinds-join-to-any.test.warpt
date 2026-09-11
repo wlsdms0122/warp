@@ -1,0 +1,33 @@
+warpt 1
+{
+  expect {
+    answers [
+      1
+      "a"
+    ]
+  }
+  name "elements-of-different-kinds-join-to-any"
+  note "Two values of different kinds join to `any`. Where the readings disagree the slot holds neither, and a join that guessed would be a refusal an author cannot act on."
+  program {
+    imports []
+    procedures {
+      entry {
+        body [
+          {
+            let "items"
+            value [
+              1
+              "a"
+            ]
+          }
+        ]
+        result {
+          ref "items"
+        }
+        returns "array<any>"
+      }
+    }
+    warp 1
+  }
+  test 1
+}

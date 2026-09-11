@@ -1,0 +1,31 @@
+warpt 1
+{
+  expect {
+    refuses "link"
+  }
+  name "a-word-two-modules-declare-refuses-at-the-link"
+  note "Every word a program sends is declared by some module in the link exactly once. A spelling two documents declare is not a question of which to read first: it is a table with no answer for that name, the way two objects cannot both define one symbol."
+  program {
+    imports []
+    procedures {
+      entry {
+        result {
+          value 1
+        }
+        returns "int"
+      }
+      "std.math.plus" {
+        parameters {
+          of "int"
+          value "int"
+        }
+        result {
+          ref "of"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
