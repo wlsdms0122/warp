@@ -84,24 +84,31 @@ value, no best guess, no reading what it recognised and skipping the rest.
 Refusals happen at one of three stages, and the stage is part of the behaviour:
 
 1. **Reading**. The bytes or the tree are not a document.
-2. **Checking and linking**. The document is a document, and the program it
-   writes is not sound: a name resolves nowhere, a call does not fit the
-   declaration it reaches, a word no module provides. Nothing has run yet.
+2. **Building**. The document is a document, and the program it writes is not
+   sound: a name resolves nowhere, a call does not fit the declaration it
+   reaches, a word no module provides. Nothing has run yet.
 3. **Running**. The program was sound and the world disagreed: division by
    zero, overflow, a failure a word raised.
 
 Two implementations that run the same programs identically and disagree about
 which programs to refuse, or *where*. Are not the same language. A refusal at
-the run where another implementation refuses at the link means something already
-happened, and what already happened cannot be taken back.
+the run where another implementation refuses at the build means something
+already happened, and what already happened cannot be taken back.
 
-The cases under `conformance/` name the stages **`load`**, **`link`** and
+The cases under `conformance/` name the stages **`load`**, **`build`** and
 **`run`**. `load` is reading plus the half of the checking a document answers
 alone. A document is checked as it is loaded, and to a caller the two are one
-refusal surface; `link` is the half that needs the rest of the link. Words,
+refusal surface; `build` is the half that needs the rest of the link. Words,
 declared type names, signatures; `run` is running. So a `ref` that resolves
 nowhere in its own document refuses at `load`, and a word no module declares
-refuses at `link`.
+refuses at `build`.
+
+Building is compiling and linking, the way it is anywhere else. Compiling
+settles what each document says on its own, against the interfaces of the
+documents it reaches. Linking lays the compiled documents down together and
+answers what only the list can answer, such as which type answers which
+contract. Which of the two refused is not part of the stage, because nothing
+has run either way.
 
 ## The value model
 
@@ -188,8 +195,8 @@ nothing else, `any` accepts everything.
 record is a name as well as a shape. When a nameless record settles into a slot
 declaring the type, it settles to the declared shape and takes the name; a
 record already under that name is settled again and keeps it; a record under
-another name **refuses** at the slot, whatever its shape: at the **link** where
-the link can see the name, at the **run** where the value arrived through
+another name **refuses** at the slot, whatever its shape: at the **build** where
+the build can see the name, at the **run** where the value arrived through
 `any`, and `as?` reads it as null. Two declared records of one shape under two
 names are two types, and a value fits only its own. A declared name whose
 shape is not a record, an alias such as `byte`, attaches no name. An inline
@@ -200,8 +207,8 @@ name. `any` declares nothing, so a value passes it as it is, name included.
 `inout` and `var` stand in front of the whole type, `?` included: `inout
 int?` is a nullable handed in place. They say something about the slot and
 nothing about the value, so what fits the slot is judged by the type after
-the word. Writing either where it is not allowed **refuses** at the link. A
-slot asking `isolated` takes what the link derived as isolated. Purity is a
+the word. Writing either where it is not allowed **refuses** at the build. A
+slot asking `isolated` takes what the build derived as isolated. Purity is a
 separate claim and does not stand in for it.
 
 **What a slot takes, exactly.** Where a value meets a declaration. An
@@ -233,7 +240,7 @@ holds. The settlement is one rule per shape:
   them would be the declaration picking, and it declined to.
 - A **range** (`int(0...255)`, `double(0.0..<1.0)`) is a slot's condition on a
   number, not a kind: the value is an `int` or a `double`, and the bounds are
-  judged where a value is settled, the way `oneOf` is. At the **link** for a
+  judged where a value is settled, the way `oneOf` is. At the **build** for a
   constant argument or a default, at the **boundary** for what only the run
   can see.
   - **The kind is written out**, because a bound is a value of the kind it
@@ -253,14 +260,14 @@ holds. The settlement is one rule per shape:
   - Before the run, acceptance reads a range as the kind under it on either
     side. Only what is provably outside is refused early, and a reading's
     worth is not knowable, so a call handing a declared `int` to an
-    `int(0...255)` slot links and the boundary judges. Two ranges are both the
+    `int(0...255)` slot builds and the boundary judges. Two ranges are both the
     text's fact, so bounds that cannot overlap are refused early, across kinds
     as well as within one.
   - Either bound may be open (`int(0...)`, `int(...255)`); neither may be
     (`int(...)` says nothing and **refuses at the read**), and a range whose
     bounds admit nothing. `int(9...1)`, or `int(5..<5)` where the far bound
     is excluded and the near one stands on it. Is a slot no call could fit,
-    **refused at the link** where the declaration wrote it, exactly as an
+    **refused at the build** where the declaration wrote it, exactly as an
     empty `oneOf` is. A whole bound must be a number an `int` holds, and a
     padded or signed spelling (`int(007...)`, `int(+1...)`) or a bound past
     the word both **refuse at the read**, each named as what it is.
@@ -268,7 +275,7 @@ holds. The settlement is one rule per shape:
     `byte = int(0...255)`, and there is no separate byte kind.
   - A bound is written as the value it is, so a fraction bound is a fraction's
     one spelling. A host may assemble a range bounded by an infinity. It
-    orders like any other bound, and the link takes it, but no document
+    orders like any other bound, and the build takes it, but no document
     spells one, so **writing that range out refuses**, the way every shape a
     document cannot say does, rather than coming back as something a reader
     would reject.
@@ -299,34 +306,34 @@ leak out through. A constraint is a **declared membership**. A module binds a
 name to the types it admits, the way it declares a type. A slot may also declare
 one as its type, and what stands there is a value of one of the members, which
 is how the language says **A or B**: the set is declared once under a name, and
-no slot writes an inline union. The judgment is made twice, once per surface: at the **link**, a reading provably
+no slot writes an inline union. The judgment is made twice, once per surface: at the **build**, a reading provably
 outside the membership refuses. Two booleans meeting `lessThan` never run, and a
 reading the text says nothing about (`any`) passes; at the **boundary**, the
 value that actually arrived is judged against the membership, so what travelled
 in through `any` is refused where it arrives. One name takes one constraint: two
-claims binding one parameter to different constraints refuse at the link, and
+claims binding one parameter to different constraints refuse at the build, and
 `bounds` naming a parameter no slot mentions refuses at the read. Only the
 declaring procedure writes `bounds`. A procedure *type* nested in a slot carries
 none, because its parameters are the declaring signature's own slots and the
 declaring signature owns their bounds. A constraint nobody declares, a
 constraint declared twice under one spelling, one admitting nothing, and a name
-declared as both a type and a constraint all **refuse at the link**. A member is
+declared as both a type and a constraint all **refuse at the build**. A member is
 a **concrete shape**: `some`, `any` and `never` in member position refuse at the
-link. Each says nothing a membership could hold. And a type parameter lives in a
+build. Each says nothing a membership could hold. And a type parameter lives in a
 signature: a declared type writing `some` outside a procedure signature refuses
-at the link, because nothing there is filled by a call. A path send is judged
+at the build, because nothing there is filled by a call. A path send is judged
 like the call it is: the receiver fills the word's one slot, so `"abc".absolute`
-refuses at the link exactly as `absolute(of: "abc")` does.
+refuses at the build exactly as `absolute(of: "abc")` does.
 
 **Handed on once.** A type written `once` says the values of it are given
 away: to a word, or as a body's answer. A body holding one hands it on **on
-every way through, once**, and the link says so before anything runs. That is
+every way through, once**, and the build says so before anything runs. That is
 what "this resource is closed exactly once" comes to, and it is the one claim
 here that is about a value's whole life rather than about its shape.
 
 The mark is written on the declaration, so the obligation rides with the name:
 a slot naming the type has it, and nothing can take it off. Writing `once`
-anywhere else **refuses at the link**, and so does carrying such a type inside
+anywhere else **refuses at the build**, and so does carrying such a type inside
 another shape (a list, a record, another declaration): what follows the value is
 the name holding it, and nothing follows one into a shape.
 
@@ -337,7 +344,7 @@ What a body may do with one:
 - answer it, which hands it to the caller, who owes it from there;
 - read a part of it (`handle.name`), which hands nothing on.
 
-What **refuses at the link**:
+What **refuses at the build**:
 
 - reaching the end of a body still holding one;
 - handing one on a second time;
@@ -354,7 +361,7 @@ hand it on like any other, so the chain runs out at a native word, which is
 right: what a resource is lives outside the document, and only the side that
 made it can close it.
 
-Nothing about this survives lowering. It is proven at the link and there is
+Nothing about this survives lowering. It is proven at the build and there is
 nothing left for a run to keep.
 
 **Contracts.** A membership says which shapes a name admits. A contract says
@@ -370,7 +377,7 @@ writes the claim under `satisfies`, keyed by the type: `satisfies: {
 it declared or about another document's, which is how a document that arrives
 later gives a shape the words a contract asks.
 
-The link holds the claim to the declarations behind it. For every word the
+The build holds the claim to the declarations behind it. For every word the
 contract asks, it takes the declaration named for the type and that word
 (`bank.Account` and `describe` give `bank.Account.describe`) and holds its
 signature to the contract's with the receiver filled in by the type.
@@ -380,7 +387,7 @@ claim may be written in a document the one leaning on it never names. A
 document handing a type where a contract is asked is not judged where it is
 compiled: the pair leaves the compile unresolved, the way a word the document
 sends and does not declare leaves it, and **refuses at the call that leaned on
-it** where the link cannot answer. A claim missing a word, or holding one whose
+it** where the build cannot answer. A claim missing a word, or holding one whose
 signature does not fit, puts its type under no contract and its reason is what
 that refusal says.
 
@@ -395,7 +402,7 @@ pair, so the second says what the first said.
 
 A declaration named for a type and a word that no claim names is that
 document's word and nothing else. So what a link declares never decides what an
-unrelated document may call things, and a document that names no contract links
+unrelated document may call things, and a document that names no contract builds
 the same whichever documents stand beside it.
 
 A contract asking no words refuses, since every type would satisfy it. A name
@@ -404,7 +411,7 @@ is a shape or a membership or a contract and never two of them.
 A signature bounds a type parameter by a contract the way it bounds one by a
 membership: `bounds: { T: app.Describable }`, and the slots write `some T`. A
 value reaching such a slot is judged twice, once per surface, the way a
-membership's is: at the **link** a reading provably outside refuses, and at the
+membership's is: at the **build** a reading provably outside refuses, and at the
 **boundary** the value that arrived is judged by the name it wears.
 
 A body calls a contract's word by writing the contract's name and the word's
@@ -413,8 +420,8 @@ declaration, and what it means is settled by the value it is sent to, so it is
 written with a receiver in front and refuses without one. What a call hands it
 and what it answers are the contract's, not any one declaration's.
 
-**The link builds the table and the run reads it.** For every contract, the
-link gathers every type that satisfies it and lowers one call per type, each
+**The build builds the table and the run reads it.** For every contract, the
+build gathers every type that satisfies it and lowers one call per type, each
 against the row that answers, arguments in that row's own slot order. The run
 reads the name the value wears and picks. Nothing is resolved while a program
 is running.
@@ -434,7 +441,7 @@ spelling and nothing more: the language has no namespace, no scope and no
 prefix, so what a document chooses to put before a dot is the author's
 convention, and one document may declare `wallet.fee` beside `bank.rate` while
 another declares `wallet.rate`. A spelling no module in the link declares
-**refuses at the link** where it is mentioned. Types, memberships and contracts
+**refuses at the build** where it is mentioned. Types, memberships and contracts
 are three spaces and no name is in two of them, so a mention reaches whichever
 declares it: a slot names a type or a membership, and a bound names a
 membership or a contract.
@@ -443,7 +450,7 @@ The shared `std` module (the foundation bundle) declares the memberships the
 standard words are bounded by: `Numeric` admits `int` and `double`;
 `Comparable` admits `int`, `double` and `string`. A bundle whose signatures
 mention them. `std.math`, `std.collection`. Links only with `std` in the
-link, which is the one dependency the standard bundles have.
+build, which is the one dependency the standard bundles have.
 
 ## The document format
 
@@ -467,7 +474,7 @@ here **refuses**. Every slot marked *expression*, *block*, *statements* or
 | `procedures` | record: name → procedure | yes, and not empty |
 
 **A module variable.** Its start is written like a constant and settles the
-same way: at the **link**, from native words alone, beside the constants and
+same way: at the **build**, from native words alone, beside the constants and
 reading them. Its type is the type of that settled value, and every write
 into it is settled against that type. It is private to the document like a constant,
 read by the same spelling (`ref`), and written by a `set` in a procedure the
@@ -524,7 +531,7 @@ wrong, and a list saying more asks for a grant the program has no use for.
 **A module asks and does not carry.** What the list names is supplied by
 whatever else stands in the link, and a module that shipped its own copy of a
 bundle it uses would put that bundle's declarations in the link twice, which
-the link refuses by the rule that one name has one declarer. Which modules
+the build refuses by the rule that one name has one declarer. Which modules
 are in a link is decided where the link is assembled, the same way a program's
 libraries are chosen where the program is built rather than by each library in
 it. The same holds for the types and memberships a signature mentions, which
@@ -554,7 +561,7 @@ only a word that answers without running, so listing one grants nothing the
 list is there to bound: it says what the program was read against, not what it
 may *do*.
 
-The link answers a path's segment among the words the program listed and the
+The build answers a path's segment among the words the program listed and the
 ones it declares, and nowhere else. Two of them reaching one last segment is a
 refusal, because no spelling a path could write would tell them apart.
 
@@ -585,10 +592,10 @@ Written as a bare string. Its type, or as a record:
 | `hint` | string | no |
 
 `oneOf` is judged wherever an argument is settled against the parameter: at the
-**link** for a constant argument, at the run's boundary otherwise. The
-declaration itself is judged at the **link**, wherever the parameter is written.
+**build** for a constant argument, at the run's boundary otherwise. The
+declaration itself is judged at the **build**, wherever the parameter is written.
 Nested signatures included, because a declaration may lean on a declared type
-name, and only the link resolves those: a `oneOf` listing a candidate the
+name, and only the build resolves those: a `oneOf` listing a candidate the
 declared type does not admit **refuses**. A dead candidate is a member no call
 could ever match, whether live ones stand beside it or not, the empty set being
 the plainest case. A candidate is written in a value's **one spelling**. The
@@ -608,7 +615,7 @@ same way. There is no third axis of optionality.
 
 **A parameter handed in place.** A parameter typed `inout T` takes no value:
 it takes a variable. The argument is `{ ref: <path> }`, and all of this is
-held at the **link**:
+held at the **build**:
 
 - the path's head is a variable where the call stands. A fixed name, a
   literal and a call's answer each **refuse**;
@@ -644,9 +651,9 @@ The naming key says what the statement does to its name:
 
 **A name may say what it holds**, under **`type`**, written the way a
 parameter's type is: `{ let "x" type "double" value 1 }`. The declaration is
-what the name holds, and the link works out a reading only where the name
+what the name holds, and the build works out a reading only where the name
 declares none. What the statement was given has to fit the declaration, and a
-declaration naming a type nothing declares **refuses at the link**, as does one
+declaration naming a type nothing declares **refuses at the build**, as does one
 naming a type parameter: what fills a parameter is a call filling the slot that
 names it, and a name inside a body is no such slot.
 
@@ -664,7 +671,7 @@ A declared name is fixed at what it says: a write into a declared `var` is held
 to the declaration and does not retype it, the way a write into a module
 variable or an `inout` parameter is. This is what lets a name be handed to an
 `inout` slot, which asks for the same type the name is. A name whose reading
-the link worked out is that reading, and a name that says what it holds is what
+the build worked out is that reading, and a name that says what it holds is what
 it says.
 
 A statement with no naming key, `{ value … }`, runs its expression and binds
@@ -681,8 +688,8 @@ families step out of this freedom, in different directions:
   key at all: such a statement never finishes, so its name could never bind,
   and a key that promises a binding that cannot happen **refuses**. The same
   rule reaches a **call**: a statement whose word declares `returns: never`
-  binds nothing and takes no name. Held at the **link**, because only the
-  link knows the signature, where the leaves the text shows are held at the
+  binds nothing and takes no name. Held at the **build**, because only the
+  build knows the signature, where the leaves the text shows are held at the
   load.
 - A **`conditional`** takes no naming key either, for the other reason: it
   finishes, but it answers nothing and binds nothing inside. A condition
@@ -690,7 +697,7 @@ families step out of this freedom, in different directions:
   an outer variable with `set`, and a value leaves through `return`.
 
 **What a write reaches.** A `set` names a path, and the head of the path is
-the variable written. Every segment after the head is judged at the **link**
+the variable written. Every segment after the head is judged at the **build**
 against the shape the walk has reached: a field of a type declared in `types`
 is passed through only when the declaration wrote it `var`; a field of an
 inline record type, an entry of a `dictionary<T>`, and an element of an array are
@@ -807,7 +814,7 @@ A rescue catches failure. What the world did. It does not catch leaving. What
 the program said. A rescue with nothing in it. No statement to run for effect,
 no `result` to answer. **refuses at the check**: it would swallow a failure into
 null without a trace. A rescue over a body that cannot fail **refuses at the
-link** for the other half of the same reason: it is a body no run reaches. This is the one exception to a block's optional `result`,
+build** for the other half of the same reason: it is a body no run reaches. This is the one exception to a block's optional `result`,
 and the failure is the reason. The statement's own name binds the failure
 **while the rescue runs**, and what it binds is a **record declared `{ type:
 string, message: string, details: dictionary<any> }`**. `type` is one word
@@ -832,7 +839,7 @@ dot on the failure itself: `failed.failures` names nothing.
 A failure is data the moment a rescue holds it, which is why no ninth kind
 exists for it.
 
-**What a body may fail with is known before it runs.** The link derives it the
+**What a body may fail with is known before it runs.** The build derives it the
 way it derives purity and isolation, and the words a failure names itself by
 (`aborted`, `cast_refused`) are what it derives: a body fails with what its
 plain casts fail with (`cast_refused`, the one failure the runtime itself
@@ -871,7 +878,7 @@ another.
 
 Nothing may be written after a `return`, `break` or `continue` in the same
 body: it would never run, and the name it would bind would never bind. The same
-holds after a call whose word declares `never`, at the link. The rule reaches
+holds after a call whose word declares `never`, at the build. The rule reaches
 through structure, because the fact does: a `conditional` both of whose arms leave
 never finishes either, so nothing may follow it. Held at
 the **load**, since the arms are text. A construct that can finish. A conditional
@@ -902,13 +909,13 @@ of expressions. **unless** it carries one of the form keys:
 A **cast** names the shape a value is read as. The type is written the way any
 type is. A name, or the mapping a record or a signature is written as. From
 the cast on, the reading *is* that shape, so every dot after it is judged
-against it; the run is left the one question the link cannot answer, which is
+against it; the run is left the one question the build cannot answer, which is
 what actually arrived, and it answers it at the same boundary a parameter's
 argument passes through. A plain `as` **refuses at the run** when the value is
 not that shape. A failure like any other, so an `attempt` catches it, and
 `as?` reads that mismatch as null, which is the author saying they expected it.
 
-A cast that names the shape the reading already **is** refuses at the link, the
+A cast that names the shape the reading already **is** refuses at the build, the
 way a needless `?.` does: the claim says nothing. Sameness, not admission. A
 reading of `int` cast to `int(0...10)` names something the types do not prove,
 and only the run can say whether it holds. A cast to a declared record name is
@@ -918,7 +925,7 @@ that is already `Account` makes it one. A cast onto `any`, `never` or a type
 parameter refuses for the other half of the same reason: those name no shape to
 read.
 
-A cast between a reading and a shape **no value is both** refuses at the link
+A cast between a reading and a shape **no value is both** refuses at the build
 too: it could not succeed on any run, so `as` would refuse every time and `as?`
 would answer null every time. A null that says nothing about the value. Two
 ranges are read here the way acceptance reads them: `int(0...5) as int(10...15)`
@@ -926,7 +933,7 @@ names a value no run produces, so it is refused where it is written. So is a
 reading under one declared record name cast to another: a `Vault` is never an
 `Account`.
 
-A cast that names a type nothing declares **refuses at the link**, wherever it
+A cast that names a type nothing declares **refuses at the build**, wherever it
 is written. The rule every type spelling is held to. `as?` reads a value that
 is not the named shape as null; it does not read a name that names nothing as
 null, because that is the declaration being wrong rather than the value.
@@ -936,14 +943,14 @@ quoted with `{ value: … }`. Quotation is a fact about the document, not about
 the expression it writes. A construct key under a statement's `value` is read
 as its construct; under any other `value` it is a field.
 
-**What a dot means is decided at the link.** Every `ref` path is judged where
+**What a dot means is decided at the build.** Every `ref` path is judged where
 names resolve, and the judgment is written into the image: a dot on a shape
 with fields is a **read**, a dot on a shape without them is a **word send**,
 and the value that arrives at run time has no say in which. Segment by
 segment:
 
 - On a **record type**, a dot reads the field the type declares. A field it
-  does not declare **refuses at the link**, `?.` or not. The type proved the
+  does not declare **refuses at the build**, `?.` or not. The type proved the
   absence, and no spelling reads past a proof. A word on a record is written
   as a call. A record type says which fields there are, so there is nothing
   else to reach: data that arrived under other names was not carried past the
@@ -953,9 +960,9 @@ segment:
   fact. An absent entry **refuses at the run**, unless the segment is
   written `?.`, which reads it as null.
 - On a kind that has no fields. Text, numbers, arrays, bytes, booleans,
-  procedures. A dot is a **word send**, judged at the link exactly as the
+  procedures. A dot is a **word send**, judged at the build exactly as the
   written call is and spelled into the image as a send.
-- On **`any`**, a dot, or an index. **refuses at the link**. Nothing is
+- On **`any`**, a dot, or an index. **refuses at the build**. Nothing is
   declared here, so there is nothing for the reading to be judged against, and a dot no declaration
   proves is the one thing a run would have to decide for itself. The shape is
   read by naming it: `{ as: <type>, of: <value> }` says what the author expects,
@@ -975,7 +982,7 @@ way arrives where the unbroken walk arrives (`held` holding `of.a`, then
 `held.b`, is `of.a.b`), and two parameters written `some T` hold one shape, so
 the same field of either is the same field.
 - **Null is not read through.** A segment whose receiver is null, or whose
-  reading says it may be (`T?`). **refuses**: at the link where the text
+  reading says it may be (`T?`). **refuses**: at the build where the text
   shows it, at the run otherwise. `?.` is the one spelling that expects
   absence on a name: it reads the null (or the absent entry) as null for the
   whole path, and the path's own reading is nullable for the same reason.
@@ -988,7 +995,7 @@ the same field of either is the same field.
   the whole path, and still refuses past the end of one that arrived.
 - A `?.` or `?[` that could not have read past anything. On a record's
   declared field, on a word whose receiver is proven non-null, on an array the
-  type proves is there. **refuses at the link**, the way a `?` that says
+  type proves is there. **refuses at the build**, the way a `?` that says
   nothing new refuses on a type spelling. The claim of absence has to be one
   the types leave open.
 - The **head of a path takes no mark**. A head is a name a scope holds, and
@@ -999,14 +1006,14 @@ the same field of either is the same field.
 
 A constant-headed path never reaches a run: it is judged first like any path.
 The constant's settled value is its declared shape, so an absent field or a
-needless `?.` refuses by the same rules, and then folds at the link to the value
+needless `?.` refuses by the same rules, and then folds at the build to the value
 it read. A constant settles from **native words alone**: a word with a written
 body is itself still being resolved beside the constants it may read, so a
 constant that runs one would be a circle with no start, and it refuses at the
-link. Settling asks those words, so a link answers native words before any of
+build. Settling asks those words, so a link answers native words before any of
 the program runs. An index written as a reference (`items[i]`) is a path of its own, judged
 wherever the outer walk stops: a reference that provably is not a whole number
-refuses at the link, and one that names nothing refuses at the run.
+refuses at the build, and one that names nothing refuses at the run.
 
 ### Blocks
 
@@ -1030,7 +1037,7 @@ be running a program nobody wrote.
 
 ## What an implementation checks, and when
 
-A program is read, checked and linked before any of it runs. Including the
+A program is read, checked and built before any of it runs. Including the
 arms nobody takes. All of the following are answered while nothing has
 happened yet:
 
@@ -1048,7 +1055,7 @@ happened yet:
   a value the parameter itself admits. `type`, range and `oneOf` together;
 - a slot declared `pure` takes only a procedure that answers without running,
   worked out from a body's own sends, declared by a native word; a slot
-  declared `isolated` takes only a procedure the link derived as isolated;
+  declared `isolated` takes only a procedure the build derived as isolated;
 - a slot declaring a membership takes what the membership admits, and a value
   of a membership stands only where every one of its members would. A cast
   tells the members apart, and a cast onto a shape the membership never holds
@@ -1140,9 +1147,9 @@ There is no opportunity to find out by trying, because trying *is* production.
   gets the same walk on every run.
 - A procedure's answer is held to `returns` where both are written. A body and
   the declaration beside it are one document's text, so what the body reads is
-  judged at the **link**: a reading the declaration does not take refuses
+  judged at the **build**: a reading the declaration does not take refuses
   there. A reading the text opens to `any`, which is what applying a value
-  reaches, stands at the link and is settled at the run's boundary instead. A
+  reaches, stands at the build and is settled at the run's boundary instead. A
   body cannot leak a value its declaration did not admit either way. A
   **constant** answer is a value and not only a shape, so it is held to what
   the declaration admits as well, the way a constant argument is. A closure
@@ -1156,7 +1163,7 @@ There is no opportunity to find out by trying, because trying *is* production.
   written twice.
   - The reading never becomes the declaration. What the author wrote is what a
     document written back out carries and what the boundary settles against; a
-    shape read off a body is the link's own reading, and reaches exactly as far
+    shape read off a body is the build's own reading, and reaches exactly as far
     as readings do.
   - It is worked out in the **call graph's order**. Each declaration read
     after everything its answer could come from. Declarations whose answers
@@ -1179,7 +1186,7 @@ promised is that it can always be told to stop.
 **Concurrency is isolation, and it is granted.** Warp's values are all data,
 so the only thing two bodies running at once could contend for is a written
 name, or a box a native word holds. What may run beside another body is an
-**isolated** closure, and which closures are isolated the link works out, the
+**isolated** closure, and which closures are isolated the build works out, the
 way it works out purity:
 
 - **Two kinds of body, told apart by where they are written.** Every
@@ -1203,18 +1210,18 @@ way it works out purity:
   because the box is one thing under one name everywhere it is visible. The
   closure's body is one of those places, so a closure may `set` a variable
   it captured; what it writes has to fit what the capturing body holds, held
-  at the **link**, because the capturing body reads the variable as the type
+  at the **build**, because the capturing body reads the variable as the type
   it gave it.
 - **Isolation is derived for a body and declared by a word.** A body is
   isolated when it writes no name it did not declare (a module variable, or a
   variable a closure captured), hands none of those in place, calls no value
-  (`apply`), and calls only isolated declarations. The link starts every body
+  (`apply`), and calls only isolated declarations. The build starts every body
   isolated and strikes them until nothing more is struck, and judges every
   closure literal by the same rule. A closure value carries the purity and
-  isolation the link derived, and a slot asking for either reads them wherever
+  isolation the build derived, and a slot asking for either reads them wherever
   the value arrives, through `any` or an undeclared field included.
 - **A native word says whether it is isolated, and is taken at its word for
-  what it does itself.** The link reads what a body writes and calls; what a
+  what it does itself.** The build reads what a body writes and calls; what a
   word keeps in the host language is outside the document, so the word declares
   it. A word that declares nothing is isolated, and one that holds state
   between calls declares otherwise, which strikes every body that reaches it.
@@ -1222,9 +1229,9 @@ way it works out purity:
   answer from a box two callers share.
 
   What it *sends* is not outside the document, since the word declares that
-  too, so the link holds the claim to it. A word declaring it answers without
+  too, so the build holds the claim to it. A word declaring it answers without
   running and sending one that answers only by running is **refused** at the
-  link, and so is a word declaring it touches nothing shared and sending one
+  build, and so is a word declaring it touches nothing shared and sending one
   that does. Neither is something a host language can catch. What a word may
   fail with is not held this way: a host language can catch, so a word
   declaring it fails nothing while sending one that fails is describing itself
@@ -1232,7 +1239,7 @@ way it works out purity:
 - **A word that runs closures at once asks for isolated ones.**
   `std.concurrent.map` declares its closure `isolated procedure`, and `all` and
   `first` declare their pieces a membership of collections of them, so a
-  closure that writes a captured variable **refuses at the link** in all three.
+  closure that writes a captured variable **refuses at the build** in all three.
   A piece answers a value; combining is written after the join, where the names
   are sequential again.
 - Leaving does not cross the boundary either: `return` inside a closure
@@ -1257,7 +1264,7 @@ way it works out purity:
   host calls interleave in an order nothing states. Two pieces reaching one
   host-held thing, a file or a counter, is contention the *host's* word must
   defend. What the language guarantees is that a word holding such a thing
-  declares it and the link refuses to run two of its callers at once. A word
+  declares it and the build refuses to run two of its callers at once. A word
   that holds state and declares itself isolated has broken its contract, and
   that is the one place the language takes a word at its word. A receiver that
   needs an ordered meeting point offers one as a host word, where it can
@@ -1407,13 +1414,13 @@ word here is an effect, so `x.first` still means the collection's.
 
 What the checking sees: `map` declares its types the way the sequential one
 does. The collection's `Element` meets the closure's parameter, and the
-answer's type is the closure's answer, checked at the link. Its `by` is an
+answer's type is the closure's answer, checked at the build. Its `by` is an
 `isolated procedure<(item: some Element, index: int) -> some Answer>`, so a
 closure that writes a captured variable refuses there before anything runs.
 `all` and `first` take `std.concurrent.Pieces`, the membership of
 `array<isolated procedure>` and `dictionary<isolated procedure>`, so a piece
 that is not a closure and a piece that writes what it captured both refuse at
-the link. They answer `any`: the answer is shaped like what went in, and a
+the build. They answer `any`: the answer is shaped like what went in, and a
 membership names a set of shapes rather than tying one of them to another. What
 a fan-out's answer feeds is checked from `map`, not from these two.
 
@@ -1475,11 +1482,11 @@ requirements:
 
 - Arithmetic takes two of a kind and answers that kind: both sides and the
   answer are one type parameter, bounded by `Numeric`. A whole number added to
-  text **refuses at the link**, and so do two pieces of text, because
+  text **refuses at the build**, and so do two pieces of text, because
   agreement is not admission.
 - Ordering (`lessThan`, `greaterThan`, `sorted`, `min`, `max`) compares two of
   a kind under `Comparable`, and text is a kind. A kind the constraint does not admit refuses at the
-  link where the text says so, and at the boundary where the value arrives
+  build where the text says so, and at the boundary where the value arrives
   through `any`.
 - Whole-number arithmetic with no whole answer **refuses at the run**. It does
   not wrap and does not silently widen. The rule covers every standard word
@@ -1712,7 +1719,7 @@ One file, one question: a document, what to run it with, and what should happen.
                 under a name is written as the text encoding writes one
     expect      answers <value>   it runs and answers this, named records
                                   written the same way
-                refuses <stage>   it is refused, at load, link or run
+                refuses <stage>   it is refused, at load, build or run
 
 A case is **not a document**, and this is the record where that is said out
 loud. It is written in the same text. An encoding carries a tree of data and
@@ -1733,7 +1740,7 @@ written or neither.
 Both kinds matter equally. **An implementation that accepts a program another
 refuses has failed in the same way as one that answers differently**, so half of
 these say what must *not* run, and where it must stop. The stage is part of the
-answer: refusing at run what another implementation refuses at link means
+answer: refusing at run what another implementation refuses at build means
 something already happened before the refusal, and what already happened
 cannot be taken back, which is most of why this language checks before it runs.
 
@@ -1743,7 +1750,7 @@ Read the file, and read `test` before the shape, for the reason a document reads
 its own version first: a later case may say something this runner has no name
 for, and "I am too old for this" is a different answer from "this is not a case".
 Then read `program` as a document. If the case expects `refuses`, check that it
-fails at that stage and no earlier or later. Otherwise link it against the
+fails at that stage and no earlier or later. Otherwise build it against the
 standard vocabulary, start from the procedure declared under `entry`, run it
 with `arguments`, and compare.
 
@@ -1790,7 +1797,7 @@ have to guess, and would be entitled to guess differently.
   module declares. `bounds: { T: Comparable }` with no declaration of its
   own. States that dependency nowhere a caller can read before linking.
   Whether `imports` should widen to carry unresolved type and constraint
-  mentions is undecided; until it is, that dependency surfaces only as a link
+  mentions is undecided; until it is, that dependency surfaces only as a build
   refusal.
 - **The text decision is cheap in Swift and dear elsewhere.** Grapheme-cluster
   counting and canonical equivalence are the platform's gift in Swift and a

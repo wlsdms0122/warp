@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    refuses "link"
+    refuses "build"
   }
   name "map-takes-only-an-isolated-closure"
-  note "A closure that writes a captured variable is not isolated, and `std.concurrent.map` asks for an isolated one. The link reads the closure's text and refuses."
+  note "A closure that writes a captured variable is not isolated, and `std.concurrent.map` asks for an isolated one. The build reads the closure's text and refuses."
   program {
     imports [
       "std.concurrent.map"
