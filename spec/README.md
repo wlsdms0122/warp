@@ -979,9 +979,8 @@ the same field of either is the same field.
   the whole path, and still refuses past the end of one that arrived.
 - A `?.` or `?[` that could not have read past anything. On a record's
   declared field, on an array the type proves is there. **refuses at the
-  build**, the way a `?` that says
-  nothing new refuses on a type spelling. The claim of absence has to be one
-  the types leave open.
+  build**, the way a `?` that says nothing new refuses on a type spelling. The
+  claim of absence has to be one the types leave open.
 - The **head of a path takes no mark**. A head is a name a scope holds, and
   there is nothing before it to read past: a name that answers nothing is a
   reading gone wrong, not an absence a mark can expect. `?.name` and `?[i]`
@@ -1276,8 +1275,8 @@ them (`std.math`, `std.collection`) links only with `std` in the link:
 
 **The signatures, exactly.** A second implementation writes these; it must not
 have to guess them. The *receiver* column is the parameter a call fills by
-writing a receiver in front (the `of`/`over` key in a `call`); everything else is written
-by name under `arguments`. A parameter with a `default` may be left out. A slot
+writing a receiver in front (the `of`/`over` key in a `call`); everything else
+is written by name under `arguments`. A parameter with a `default` may be left out. A slot
 typed `pure procedure` takes only a procedure that answers without running.
 
 *std.logic*
