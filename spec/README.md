@@ -178,7 +178,7 @@ cannot say:
 | `pure <procedure type>` | a procedure that answers without running effects |
 | `isolated <procedure type>` | a procedure that touches no name another body could touch at once; `pure isolated procedure` says both, and the reader takes the two words in either order |
 | `inout <type>` | a parameter handed a variable in place; written on a parameter's type and nowhere else |
-| `{ once: <type> }` | a type whose values are handed on exactly once; written on a type in `types` and nowhere else, and every slot naming that type carries it |
+| `{ linear: <type> }` | a type whose values are handed on exactly once; written on a type in `types` and nowhere else, and every slot naming that type carries it |
 | `var <type>` | a field a path may write through; written on a field of a type declared in `types` and nowhere else |
 | `Task` (any declared name) | the type a module declares under that name, or a value of the membership it declares under that name |
 | `some T` | a type parameter: worked out from the call, same reading everywhere it appears; bounded when the signature's `bounds` names it |
@@ -323,21 +323,21 @@ build. Each says nothing a membership could hold. And a type parameter lives in 
 signature: a declared type writing `some` outside a procedure signature refuses
 at the build, because nothing there is filled by a call.
 
-**Handed on once.** A type written `once` says the values of it are given
+**Handed on once.** A type written `linear` says the values of it are given
 away: to a word, or as a body's answer. A body holding one hands it on **on
 every way through, once**, and the build says so before anything runs. That is
 what "this resource is closed exactly once" comes to, and it is the one claim
 here that is about a value's whole life rather than about its shape.
 
 The mark is written on the declaration, so the obligation rides with the name:
-a slot naming the type has it, and nothing can take it off. Writing `once`
+a slot naming the type has it, and nothing can take it off. Writing `linear`
 anywhere else **refuses at the build**, and so does carrying such a type inside
 another shape (a list, a record, another declaration): what follows the value is
 the name holding it, and nothing follows one into a shape.
 
 What a body may do with one:
 
-- hand it to a slot that also says `once`. A slot that does not say so
+- hand it to a slot that also says `linear`. A slot that does not say so
   **refuses**, since it would keep the value with no obligation on it;
 - answer it, which hands it to the caller, who owes it from there;
 - read a part of it (`handle.name`), which hands nothing on.
@@ -1047,8 +1047,8 @@ happened yet:
   answers it, and every claim is backed: each word the contract asks has a
   declaration named for the type and the word, held to what the contract
   wrote;
-- every value of a type written `once` is handed on exactly once on every way
-  through the body holding it, and to a slot that says `once`;
+- every value of a type written `linear` is handed on exactly once on every way
+  through the body holding it, and to a slot that says `linear`;
 - every `set` writes a path headed by a variable, through fields declared
   `var` where the shape is a declared type, and what it writes fits what the
   path reaches; a write into a module variable or an `inout` parameter fits
