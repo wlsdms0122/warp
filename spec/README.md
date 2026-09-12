@@ -349,7 +349,9 @@ writes neither **refuses at the build**:
 
 Silence read as taking is what hid the second one: a procedure that only wanted
 to look at a handle had no way to say so, and every slot that touched one took
-it. So silence refuses rather than defaulting.
+it. So silence refuses rather than defaulting. Writing either where nothing is
+handed on once **refuses** too, the way a `?` that says nothing new does: both
+say what a slot does with an obligation, and there is none.
 
 **No lifetime rides with a borrow.** The language has no references, so what a
 slot was handed is a value of its own and cannot outlive what it was read from.
