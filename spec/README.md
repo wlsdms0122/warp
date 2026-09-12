@@ -1195,16 +1195,16 @@ way it works out purity:
   A block may `set` the enclosing variables. The one body that becomes a value
   is the **closure**. A *procedure*, with parameters and a declared answer, and
   a value may cross into a procedure, where no signature can say when, how
-  often, or beside what the procedure runs it. So the split is Swift's
-  non-escaping/`@Sendable` line, carried by spelling instead of analysis. The
-  slot *is* the proof of non-escape, and there is nothing in between: the one
-  channel into a procedure is the isolated one. Not two flavours of one thing,
+  often, or beside what the procedure runs it. So the split is carried by
+  spelling rather than worked out by analysis: which of the two a body is, is
+  what it is written as. The slot *is* the proof, and there is nothing in
+  between: the one channel into a procedure is the isolated one. Not two flavours of one thing,
   either: a block has no parameters because a body that runs where it stands has
   nothing to be handed, and a procedure has them because crossing a boundary is
   exactly when arguments exist.
 - What a closure captures is the name as it is: a fixed name's **value**, and
-  a variable's **box**. Swift's line. Making a closure runs nothing; a
-  variable set between the making and the calling is seen by the call,
+  a variable's **box**. Making a closure runs nothing; a variable set between
+  the making and the calling is seen by the call,
   because the box is one thing under one name everywhere it is visible. The
   closure's body is one of those places, so a closure may `set` a variable
   it captured; what it writes has to fit what the capturing body holds, held
