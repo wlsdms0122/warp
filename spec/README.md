@@ -570,6 +570,45 @@ reason.
 A procedure answers what `result` names, and nothing if it names nothing. The
 value of the last statement is never the answer.
 
+### A procedure the host answers
+
+A declaration with **no body** is answered by the host. The document says what
+it is called, what it takes and what it answers; the code arrives at the link,
+in a module the receiver put there. A call reaches one of these the way it
+reaches any other declaration, and is judged against the signature the same way.
+
+What a body's text would have shown, such a procedure says instead. It says the
+**procedures it sends**, because there is no text to read them off. It says
+whether it **touches** a name another body could touch at the same time, what it
+may **fail** with, and whether it **answers without running**, because what it
+keeps and what it reaches in the host language is outside the document
+altogether.
+
+**Its sends are held to the rest of what it said.** They are in the document, so
+the build reads them. A procedure declaring it answers without running and
+sending one that answers only by running **refuses at the build**, and so does
+one declaring it touches nothing shared and sending one that does. Neither is
+something a host language can catch. What a procedure may fail with is not held
+this way, because a host language can catch: declaring it fails nothing while
+sending one that fails is describing itself rather than contradicting itself.
+
+**Nothing else about the host's code is checked, and nothing else can be.** A
+link holds the code, not the text it was written as, and there is no reading of
+a built procedure that says whether it asked the clock. So a procedure that
+reaches outside the run and says it does not has broken its contract, and the
+defect belongs to whoever put it in the link rather than to the program that
+called it, which is where the word about what it touches is taken too. A
+receiver that wants the claim closed closes it by having nothing to hand such a
+procedure that reaches outside, where it assembles the link.
+
+**What a runtime hands one is where the claim is kept.** A procedure that
+answers without running is handed what its call wrote, a way to send the
+procedures it declared, and a way to call a procedure it was handed. One that
+reaches outside is handed those and three more: what a parameter handed in place
+holds, a way to write it, and whatever the receiver keeps beside the program.
+Those three are what the first kind is refused, so a runtime hands the two kinds
+different ways in rather than one way and a flag.
+
 ### A parameter
 
 Written as a bare string. Its type, or as a record:
@@ -1227,16 +1266,8 @@ way it works out purity:
   declares it. A procedure that declares nothing is isolated, and one that holds
   state between calls declares otherwise, which strikes every body that reaches
   it. Purity does not answer this: a procedure can answer without running and
-  still answer from a box two callers share.
-
-  What it *sends* is not outside the document, since the procedure declares that
-  too, so the build holds the claim to it. A procedure declaring it answers
-  without running and sending one that answers only by running is **refused** at
-  the build, and so is a procedure declaring it touches nothing shared and
-  sending one that does. Neither is something a host language can catch. What a
-  procedure may fail with is not held this way: a host language can catch, so a
-  procedure declaring it fails nothing while sending one that fails is
-  describing itself rather than contradicting itself.
+  still answer from a box two callers share. What the build does hold this claim
+  to is what the procedure sends, under *a procedure the host answers* above.
 - **A procedure that runs closures at once asks for isolated ones.**
   `std.concurrent.map` declares its closure `isolated procedure`, and `all` and
   `first` declare their pieces a membership of collections of them, so a
