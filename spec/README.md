@@ -817,6 +817,15 @@ the piece.
 { ref "failed.details.failures" }
 ```
 
+`cast_refused` has no word behind it, so this specification names its `details`
+too: **`expected`**, the type the cast wrote, and **`actual`**, the kind the
+value arrived as, both as text. Both halves, because what was asked for is
+readable from the program and what turned up is not.
+
+```
+{ ref "failed.details.actual" }
+```
+
 `details` holds `any`, so a value read out of it is read as anything until a
 shape is named for it. A field the envelope does not name is not reached by a
 dot on the failure itself: `failed.failures` names nothing.
