@@ -60,7 +60,7 @@ what a person writes        YAML, a syntax of your own, …   front ends. Many, 
 the document                one format, this specification  ← what travels
         ↓  as bytes         binary / text                   encodings of the document
         ↓
-the shapes                  this specification              what a program is made of
+the constructs              this specification              what a program is made of
         ↓
 a runtime                   Swift, Kotlin, …                implementations. Many, replaceable
 ```
