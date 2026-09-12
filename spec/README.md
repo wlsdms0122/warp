@@ -361,7 +361,13 @@ exactly what a membership does not say.
 **A declaration whose body answers one writes `returns`.** What a declaration
 answers is read off its body where nobody wrote it, and the mark is not
 something a reading keeps, so a caller binding that answer would take an
-obligation nothing told it about. It **refuses at the build**.
+obligation nothing told it about. It **refuses at the build**, by the result
+and by every `return` that carries a value alike.
+
+**A reading that may answer nothing does not take one.** `as?` onto a type
+handed on once **refuses**, and so does writing `?` on one: what such a value
+needs is a name holding it on every way through, and a `?` says there is a way
+through where nothing is there.
 
 Silence read as taking is what hid the second one: a procedure that only wanted
 to look at a handle had no way to say so, and every slot that touched one took
