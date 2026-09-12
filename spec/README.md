@@ -369,13 +369,19 @@ handed on once **refuses**, and so does writing `?` on one: what such a value
 needs is a name holding it on every way through, and a `?` says there is a way
 through where nothing is there.
 
-**A body carried as a value does not answer one.** A procedure type whose
-`returns` is handed on once **refuses**, closure literals included, and one that
-wrote no `returns` is read by what it answers rather than let through: the rule
-does not turn on whether a key was typed. Nothing reads inside a body that
-travels as a value, so what one handed back would arrive with nothing to say it
-is owed. A declaration is not held to this: its body is text, and what it
-answers lands on the name its caller binds.
+**A closure is a procedure, and its body is held to all of this.** It is walked
+the way a declaration's body is, seeded with what the closure itself was handed:
+a closure that opens one and reaches its end still holding it is refused exactly
+as a declaration would be. What it runs an unfixed number of times is the
+*capture*, and a name the closure declared is its own.
+
+**What such a body may not do is answer one.** A procedure type whose `returns`
+is handed on once **refuses**, closure literals included, and a body that wrote
+no `returns` is held to the same rule by what the walk finds: the rule turns
+neither on whether a key was typed nor on how the answer was written. Nothing
+reads inside a body that travels as a value, so what one handed back would
+arrive with nothing to say it is owed. A declaration is not held to this: what
+it answers lands on the name its caller binds.
 
 Silence read as taking is what hid the second one: a procedure that only wanted
 to look at a handle had no way to say so, and every slot that touched one took
