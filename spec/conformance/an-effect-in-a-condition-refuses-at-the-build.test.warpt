@@ -1,0 +1,39 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "an-effect-in-a-condition-refuses-at-the-build"
+  note "A condition is read rather than run, so a procedure that answers only by running cannot stand in one. The build knows which declarations those are, so the refusal is the build's."
+  program {
+    imports [
+      "std.concurrent.all"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            value {
+              conditional {
+                then [
+                  {
+                    let "kept"
+                    value 1
+                  }
+                ]
+                when {
+                  call {
+                    of []
+                    procedure "std.concurrent.all"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+    warp 1
+  }
+  test 2
+}

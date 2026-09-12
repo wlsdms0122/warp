@@ -1,0 +1,35 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "an-effect-in-an-operand-refuses-at-the-build"
+  note "An operand is data the run reads. A procedure that answers only by running is called by a statement, and what the operand reads is the name that statement bound."
+  program {
+    imports [
+      "std.concurrent.all"
+      "std.logic.equal"
+    ]
+    procedures {
+      entry {
+        result {
+          call {
+            arguments {
+              value {
+                call {
+                  of []
+                  procedure "std.concurrent.all"
+                }
+              }
+            }
+            of 1
+            procedure "std.logic.equal"
+          }
+        }
+        returns "bool"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
