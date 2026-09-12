@@ -352,10 +352,16 @@ the build follows the value by. On `some T` it **refuses**: what fills a type
 parameter is the call's, so a body that took the obligation there would have no
 name to carry it on and the proof would end at that slot.
 
-**A membership is one when every member is.** One that admits a value handed on
-once beside one that is not **refuses where it is declared**: a value of it
-would carry an obligation on some readings and not on others, and which it was
-is exactly what a membership does not say.
+**A membership is one when every member is,** and `some T` bounded by one is
+what every member of it is. A membership that admits a value handed on once
+beside one that is not **refuses where it is declared**: a value of it would
+carry an obligation on some readings and not on others, and which it was is
+exactly what a membership does not say.
+
+**A declaration whose body answers one writes `returns`.** What a declaration
+answers is read off its body where nobody wrote it, and the mark is not
+something a reading keeps, so a caller binding that answer would take an
+obligation nothing told it about. It **refuses at the build**.
 
 Silence read as taking is what hid the second one: a procedure that only wanted
 to look at a handle had no way to say so, and every slot that touched one took
@@ -393,9 +399,9 @@ What **refuses at the build**:
   something the text says;
 - writing over a name still holding one;
 - writing one into a **list or a record**, whether it is a name still holding
-  one or a value nothing holds yet. What follows the value is the name, and a
-  name does not follow it into a type, so the obligation would be neither
-  handed on nor still held;
+  one, a value nothing holds yet, or what a cast, a block or an `attempt` hands
+  out. What follows the value is the name, and a name does not follow it into a
+  type, so the obligation would be neither handed on nor still held;
 - handing a borrowed one to a slot that says `consuming`, or answering it, or
   keeping it in a box. Each gives away what this body never took, and a box
   outlives the call that lent the value.
