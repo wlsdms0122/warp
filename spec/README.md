@@ -348,9 +348,14 @@ writes neither **refuses at the build**:
 | `borrowing <type>` | the obligation stays where it was. This body reads the value and the caller still owes it |
 
 Either is written on a slot that **names the type**, because the name is what
-the build follows the value by. On `some T` or on a membership it **refuses**:
-what fills one is the call's, so a body that took the obligation there would
-have no name to carry it on and the proof would end at that slot.
+the build follows the value by. On `some T` it **refuses**: what fills a type
+parameter is the call's, so a body that took the obligation there would have no
+name to carry it on and the proof would end at that slot.
+
+**A membership is one when every member is.** One that admits a value handed on
+once beside one that is not **refuses where it is declared**: a value of it
+would carry an obligation on some readings and not on others, and which it was
+is exactly what a membership does not say.
 
 Silence read as taking is what hid the second one: a procedure that only wanted
 to look at a handle had no way to say so, and every slot that touched one took
