@@ -1,0 +1,23 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-dot-on-a-type-with-no-fields-is-refused"
+  note "A dot reads a name the type declares, and text declares none, so there is nothing there to read. The procedure by that spelling is sent with a written call, which names the declaration it means."
+  program {
+    imports []
+    procedures {
+      entry {
+        parameters {
+          text "string"
+        }
+        result {
+          ref "text.count"
+        }
+      }
+    }
+    warp 1
+  }
+  test 2
+}

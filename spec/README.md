@@ -128,7 +128,7 @@ A program computes over eight kinds of data, plus one value that is not data:
 
 **A record's name.** A record made by a literal, answered by a native procedure
 or read from a document has no name. It takes one the first time it settles into
-a slot declaring a type whose shape is a record: an argument, a default, an
+a slot declaring a type whose structure is a record: an argument, a default, an
 answer, a cast. From then on it carries that name wherever it goes, under
 *Types* below.
 
@@ -163,7 +163,7 @@ read the same worth equality does.
 
 ## Types
 
-A type is written as a string, or as a record for the two shapes a string
+A type is written as a string, or as a record for the two forms a string
 cannot say:
 
 | written | means |
@@ -191,18 +191,19 @@ Acceptance is one-way where the kinds nest: `double` accepts an `int` (a whole
 number widens to a fraction; the reverse **refuses**), `number` accepts both and
 nothing else, `any` accepts everything.
 
-**A declared record is nominal.** A type declared in `types` whose shape is a
-record is a name as well as a shape. When a nameless record settles into a slot
-declaring the type, it settles to the declared shape and takes the name; a
-record already under that name is settled again and keeps it; a record under
-another name **refuses** at the slot, whatever its shape: at the **build** where
-the build can see the name, at the **run** where the value arrived through
-`any`, and `as?` reads it as null. Two declared records of one shape under two
-names are two types, and a value fits only its own. A declared name whose
-shape is not a record, an alias such as `byte`, attaches no name. An inline
-record type and `dictionary<T>` are structural: a named record fits them by
-shape, and what settles there is built on the slot's own layout, which has no
-name. `any` declares nothing, so a value passes it as it is, name included.
+**A declared record is nominal.** A type declared in `types` whose structure is
+a record is a name as well as a structure. When a nameless record settles into a
+slot declaring the type, it settles to the declared structure and takes the
+name; a record already under that name is settled again and keeps it; a record
+under another name **refuses** at the slot, whatever its structure: at the
+**build** where the build can see the name, at the **run** where the value
+arrived through `any`, and `as?` reads it as null. Two declared records of one
+structure under two names are two types, and a value fits only its own. A
+declared name whose structure is not a record, an alias such as `byte`, attaches
+no name. An inline record type and `dictionary<T>` are structural: a named
+record fits them by structure, and what settles there is built on the slot's own
+layout, which has no name. `any` declares nothing, so a value passes it as it
+is, name included.
 
 `inout` and `var` stand in front of the whole type, `?` included: `inout int?`
 is a nullable handed in place. They say something about the slot and nothing
@@ -213,7 +214,7 @@ separate claim and does not stand in for it.
 
 **What a slot takes, exactly.** Where a value meets a declaration. An
 argument, a taken default, an answer, and a write into a box that said what it
-holds. The settlement is one rule per shape:
+holds. The settlement is one rule per type:
 
 - `any` passes the value through untouched, null and procedures included.
   Nothing settles, because nothing was declared.
@@ -222,14 +223,14 @@ holds. The settlement is one rule per shape:
   against its type, and a field the declaration never named is not carried
   past it. To keep names the declaration does not have, declare
   `dictionary<T>`, where the names are the value's own.
-- A **declared name** whose shape is not a record is an alias: settling
-  resolves the name and judges by the shape it stands for. One whose shape is
+- A **declared name** whose structure is not a record is an alias: settling
+  resolves the name and judges by what it stands for. One whose structure is
   a record is nominal, under *a declared record is nominal* above.
 - A **nullable** (`T?`) passes null through and settles anything else against
   the declared half. `T?` takes `T`, null and `T?`; a `T?` reading does not
   fit a plain `T` slot. The `?` is written once, on the whole spelling, and
   only where it says something new: `int??`, `null?`, `any?`, `never?` and
-  `some T?` each **refuse at the read**. A shape with no string spelling. A
+  `some T?` each **refuse at the read**. A type with no string spelling. A
   record. Has no `?` to trail; a nullable record is reached through a
   declared name (`Task?`).
 - The numeric edge is value-independent: `int` refuses every fraction, `2.0`
@@ -276,7 +277,7 @@ holds. The settlement is one rule per shape:
   - A bound is written as the value it is, so a fraction bound is a fraction's
     one spelling. A host may assemble a range bounded by an infinity. It
     orders like any other bound, and the build takes it, but no document
-    spells one, so **writing that range out refuses**, the way every shape a
+    spells one, so **writing that range out refuses**, the way every type a
     document cannot say does, rather than coming back as something a reader
     would reject.
 
@@ -318,7 +319,7 @@ procedure *type* nested in a slot carries none, because its parameters are the
 declaring signature's own slots and the declaring signature owns their bounds. A
 constraint nobody declares, a constraint declared twice under one spelling, one
 admitting nothing, and a name declared as both a type and a constraint all
-**refuse at the build**. A member is a **concrete shape**: `some`, `any` and
+**refuse at the build**. A member is a **concrete type**: `some`, `any` and
 `never` in member position refuse at the build. Each says nothing a membership
 could hold. And a type parameter lives in a signature: a declared type writing
 `some` outside a procedure signature refuses at the build, because nothing there
@@ -328,13 +329,13 @@ is filled by a call.
 away: to a procedure, or as a body's answer. A body holding one hands it on **on
 every way through, once**, and the build says so before anything runs. That is
 what "this resource is closed exactly once" comes to, and it is the one claim
-here that is about a value's whole life rather than about its shape.
+here that is about a value's whole life rather than about its type.
 
 The mark is written on the declaration, so the obligation rides with the name:
 a slot naming the type has it, and nothing can take it off. Writing `linear`
 anywhere else **refuses at the build**, and so does carrying such a type inside
-another shape (a list, a record, another declaration): what follows the value is
-the name holding it, and nothing follows one into a shape.
+another type (a list, a record, another declaration): what follows the value is
+the name holding it, and nothing follows one into a type.
 
 What a body may do with one:
 
@@ -363,9 +364,9 @@ made it can close it.
 Nothing about this survives lowering. It is proven at the build and there is
 nothing left for a run to keep.
 
-**Contracts.** A membership says which shapes a name admits. A contract says
+**Contracts.** A membership says which types a name admits. A contract says
 which **procedures** a value answers, which is the other half of "what may stand
-here" and the half a list cannot give: the shapes that answer a procedure are
+here" and the half a list cannot give: the types that answer a procedure are
 open, and new ones arrive with new documents. A module declares one the way it
 declares a type: a name bound to the procedures, each written as a signature
 with no receiver, because the receiver is whatever satisfies the contract.
@@ -374,7 +375,7 @@ A type **satisfies** a contract when a document says it does. The document
 writes the claim under `satisfies`, keyed by the type: `satisfies: {
 "bank.Account": ["app.Describable"] }`. Any document may make one, about a type
 it declared or about another document's, which is how a document that arrives
-later gives a shape the procedures a contract asks.
+later gives a type the procedures a contract asks.
 
 The build holds the claim to the declarations behind it. For every procedure the
 contract asks, it takes the declaration named for the type and that procedure
@@ -405,7 +406,7 @@ what an unrelated document may call things, and a document that names no
 contract builds the same whichever documents stand beside it.
 
 A contract asking no procedures refuses, since every type would satisfy it. A
-name is a shape or a membership or a contract and never two of them.
+name is a type or a membership or a contract and never two of them.
 
 A signature bounds a type parameter by a contract the way it bounds one by a
 membership: `bounds: { T: app.Describable }`, and the slots write `some T`. A
@@ -484,17 +485,17 @@ never see each other.
 **The version.** Every document says it, and one that does not **refuses**. As
 not a document rather than as a malformed one. A reader that filled in a default
 would be answering, on the sender's behalf, the one question that has to be
-answerable from the bytes alone; and a file of some other shape entirely would
+answerable from the bytes alone; and a file of some other kind entirely would
 get as far as having its keys judged. Nobody writes the number by hand anyway. A
 front end computes it, so a document without one did not come from one.
 
 The current version is **1**; the earliest that ever existed is **1**.
 Pre-release, so the two ends of the reading range are one number. A reader must
 refuse a document written for a later version than it implements, before judging
-the document's shape. A later version may add keys, and checking shape first
+the document's keys. A later version may add keys, and checking the keys first
 would turn "I am too old for this" into "this is malformed". A document claiming
 a version below the earliest **refuses**. The number goes up when anything
-portable changes what an existing program *means*: a shape added, a shape read
+portable changes what an existing program *means*: a type added, a type read
 differently, a checking rule moved, a standard procedure answering differently.
 It does not move when a procedure is *added*, since a program that does not call
 it cannot tell, and one that does is refused by name.
@@ -545,7 +546,7 @@ everything, and the empty list is what says the first. Nobody writes it by
 hand. It is computed from the program the way the version is filled in by
 whatever produced the document, and the canonical writer always writes it.
 
-It is refused after the shapes are read and not before them. A missing list is
+It is refused after the types are read and not before them. A missing list is
 the least specific thing that can be wrong with a document, and refusing for it
 first would make it the only thing an author ever heard about. That ordering is
 an implementation's to choose, though, which is why every case in the suite
@@ -686,16 +687,16 @@ families step out of this freedom, in different directions:
 
 **What a write reaches.** A `set` names a path, and the head of the path is the
 variable written. Every segment after the head is judged at the **build**
-against the shape the walk has reached: a field of a type declared in `types` is
+against the type the walk has reached: a field of a type declared in `types` is
 passed through only when the declaration wrote it `var`; a field of an inline
 record type, an entry of a `dictionary<T>`, and an element of an array are
 passed through as they are, and a `dictionary<T>` entry the value does not hold
-yet is made by the write; `any` and a nullable shape are not written into, and
+yet is made by the write; `any` and a nullable type are not written into, and
 an optional segment (`?.`, `?[`) is not written through, because a write reads
-no absence. What is written has to fit the shape the path reaches, and is
+no absence. What is written has to fit the type the path reaches, and is
 settled against it, so a box that said what it holds is laid out the way its
 declaration says after a write as it was after its declaration. A path that
-reaches no declared shape settles nothing and the value stands as it was handed.
+reaches no declared type settles nothing and the value stands as it was handed.
 A write to a whole local variable retypes it unless the variable declared what
 it holds, under *what a variable reads as* below; a write to a module variable
 or to an `inout` parameter has to fit the type the box holds and retypes
@@ -831,7 +832,7 @@ is readable from the program and what turned up is not.
 ```
 
 `details` holds `any`, so a value read out of it is read as anything until a
-shape is named for it. A field the envelope does not name is not reached by a
+type is named for it. A field the envelope does not name is not reached by a
 dot on the failure itself: `failed.failures` names nothing.
 
 A failure is data the moment a rescue holds it, which is why no ninth kind
@@ -899,30 +900,30 @@ of expressions. **unless** it carries one of the form keys:
 | `{ value: <data> }` | the escape: exactly this data, as a literal, even if it looks like a form |
 | `{ call: <message> }` | a message where a value is wanted; same grammar as the `call` construct |
 | `{ closure: <procedure> }` | a procedure written where a value is wanted; same grammar as a procedure |
-| `{ as: <type>, of: <value> }` | read the value as that shape. The door onto what `any` declares nothing about |
+| `{ as: <type>, of: <value> }` | read the value as that type. The door onto what `any` declares nothing about |
 | `{ as?: <type>, of: <value> }` | the same, reading a mismatch as null rather than refusing; the answer is `T?` |
 | `{ format:, with: }` | reserved: a front-end spelling (below); **refuses** in a document |
 
-A **cast** names the shape a value is read as. The type is written the way any
+A **cast** names the type a value is read as. The type is written the way any
 type is. A name, or the mapping a record or a signature is written as. From
-the cast on, the reading *is* that shape, so every dot after it is judged
+the cast on, the reading *is* that type, so every dot after it is judged
 against it; the run is left the one question the build cannot answer, which is
 what actually arrived, and it answers it at the same boundary a parameter's
 argument passes through. A plain `as` **refuses at the run** when the value is
-not that shape. A failure like any other, so an `attempt` catches it, and
+not that type. A failure like any other, so an `attempt` catches it, and
 `as?` reads that mismatch as null, which is the author saying they expected it.
 
-A cast that names the shape the reading already **is** refuses at the build, the
+A cast that names the type the reading already **is** refuses at the build, the
 way a needless `?.` does: the claim says nothing. Sameness, not admission. A
 reading of `int` cast to `int(0...10)` names something the types do not prove,
 and only the run can say whether it holds. A cast to a declared record name is
 the settling written out: reading a nameless record as `Account` attaches the
 name, so it is never a cast of what the reading already is, and only a reading
 that is already `Account` makes it one. A cast onto `any`, `never` or a type
-parameter refuses for the other half of the same reason: those name no shape to
+parameter refuses for the other half of the same reason: those name no type to
 read.
 
-A cast between a reading and a shape **no value is both** refuses at the build
+A cast between a reading and a type **no value is both** refuses at the build
 too: it could not succeed on any run, so `as` would refuse every time and `as?`
 would answer null every time. A null that says nothing about the value. Two
 ranges are read here the way acceptance reads them: `int(0...5) as int(10...15)`
@@ -932,7 +933,7 @@ reading under one declared record name cast to another: a `Vault` is never an
 
 A cast that names a type nothing declares **refuses at the build**, wherever it
 is written. The rule every type spelling is held to. `as?` reads a value that
-is not the named shape as null; it does not read a name that names nothing as
+is not the named type as null; it does not read a name that names nothing as
 null, because that is the declaration being wrong rather than the value.
 
 The form keys are fixed. A record that carries one as plain data must be
@@ -961,21 +962,21 @@ spells the declaration it means. Segment by segment:
 - On **`any`**, a dot, or an index. **refuses at the build**. Nothing is
   declared here, so there is nothing for the reading to be judged against, and a
   dot no declaration proves is the one thing a run would have to decide for
-  itself. The shape is read by naming it: `{ as: <type>, of: <value> }` says
+  itself. The type is read by naming it: `{ as: <type>, of: <value> }` says
   what the author expects, and every dot after it is judged against that.
-- On a **type parameter** (`some T`), whose shape is the call's fact, a dot
-**reads data**: the shape is declared, at the call rather than here, so the
+- On a **type parameter** (`some T`), whose type is the call's fact, a dot
+**reads data**: the type is declared, at the call rather than here, so the
 segments stand as written and what the call filled in answers them. What the dot
-reaches is a shape the call decides too. Dots go on standing after it. but it is
-**not the parameter**: `of` is the shape the call filled in and `of.a` is a
-field of that shape, which is a different unknown, and it carries none of the
+reaches is a type the call decides too. Dots go on standing after it. but it is
+**not the parameter**: `of` is the type the call filled in and `of.a` is a
+field of that type, which is a different unknown, and it carries none of the
 parameter's bound. So a name holding `of` on one way through and `of.a` on
-another holds neither, and one holding `of.a` twice holds one shape. Which field
+another holds neither, and one holding `of.a` twice holds one type. Which field
 of which parameter a walk reached is all that decides this. So `of.a` and
 `of?.a` are one field read twice. A mark says what is expected of the *value*
 and says nothing about where the walk landed. A name given to a step along the
 way arrives where the unbroken walk arrives (`held` holding `of.a`, then
-`held.b`, is `of.a.b`), and two parameters written `some T` hold one shape, so
+`held.b`, is `of.a.b`), and two parameters written `some T` hold one type, so
 the same field of either is the same field.
 - **Null is not read through.** A segment whose receiver is null, or whose
   reading says it may be (`T?`). **refuses**: at the build where the text
@@ -1000,7 +1001,7 @@ the same field of either is the same field.
   whether it was written as text or built as segments.
 
 A constant-headed path never reaches a run: it is judged first like any path.
-The constant's settled value is its declared shape, so an absent field or a
+The constant's settled value is its declared type, so an absent field or a
 needless `?.` refuses by the same rules, and then folds at the build to the
 value it read. A constant settles from **native procedures alone**: a procedure
 with a written body is itself still being resolved beside the constants it may
@@ -1019,9 +1020,9 @@ block answers what its `result` names, and nothing if it names nothing.
 ## Spellings are not part of the document
 
 A front end may offer shorthands. Operator keys like `is:` in a condition
-slot, a `{ format:, with: }` template. That stand in for shapes the language
+slot, a `{ format:, with: }` template. That stand in for types the language
 already has. They are the front end's own: it spends them before the document
-leaves, and what leaves writes the shapes themselves.
+leaves, and what leaves writes the types themselves.
 
 A reader of documents **refuses** the spelled keys rather than reading them as
 data. The reserved set is exactly `format` and `with`. An operator key like
@@ -1054,7 +1055,7 @@ happened yet:
   declared `isolated` takes only a procedure the build derived as isolated;
 - a slot declaring a membership takes what the membership admits, and a value
   of a membership stands only where every one of its members would. A cast
-  tells the members apart, and a cast onto a shape the membership never holds
+  tells the members apart, and a cast onto a type the membership never holds
   refuses the way any impossible cast does;
 - a parameter bounded by a contract takes only a type some document says
   answers it, and every claim is backed: each procedure the contract asks has a
@@ -1063,7 +1064,7 @@ happened yet:
 - every value of a type written `linear` is handed on exactly once on every way
   through the body holding it, and to a slot that says `linear`;
 - every `set` writes a path headed by a variable, through fields declared
-  `var` where the shape is a declared type, and what it writes fits what the
+  `var` where the type is a declared type, and what it writes fits what the
   path reaches; a write into a module variable or an `inout` parameter fits
   what the box holds;
 - every `inout` parameter is handed a variable's path a write may take, and
@@ -1073,10 +1074,10 @@ happened yet:
 - what a closure writes into a variable it captured fits what the capturing
   body holds;
 - a value read under one declared record name fits no slot declaring another;
-  a nameless record reaching such a slot is judged by shape and takes the name
+  a nameless record reaching such a slot is judged by type and takes the name
   at the run, and a named record arriving through `any` is judged by name at
   the run;
-- a constant is the shape it was declared as;
+- a constant is the type it was declared as;
 - `break`/`continue` have a loop, `return` fits the declaration, nothing
   follows any of them;
 - a statement that never finishes. A syntactic leave, or a call whose procedure
@@ -1147,7 +1148,7 @@ There is no opportunity to find out by trying, because trying *is* production.
   there. A reading the text opens to `any`, which is what applying a value
   reaches, stands at the build and is settled at the run's boundary instead. A
   body cannot leak a value its declaration did not admit either way. A
-  **constant** answer is a value and not only a shape, so it is held to what
+  **constant** answer is a value and not only a type, so it is held to what
   the declaration admits as well, the way a constant argument is. A closure
   literal writes a signature and a body side by side too, and is held the same
   way where it is written.
@@ -1155,11 +1156,11 @@ There is no opportunity to find out by trying, because trying *is* production.
   `returns` still answers something, and what it answers is what its body
   hands back: the `result` it names, joined with every `return` that carries a
   value out. A call site is judged against that, so a dot on what such a call
-  answers stands where the body states a shape. The shape does not have to be
+  answers stands where the body states a type. The type does not have to be
   written twice.
   - The reading never becomes the declaration. What the author wrote is what a
     document written back out carries and what the boundary settles against; a
-    shape read off a body is the build's own reading, and reaches exactly as far
+    type read off a body is the build's own reading, and reaches exactly as far
     as readings do.
   - It is worked out in the **call graph's order**. Each declaration read
     after everything its answer could come from. Declarations whose answers
@@ -1417,7 +1418,7 @@ closure that writes a captured variable refuses there before anything runs.
 `array<isolated procedure>` and `dictionary<isolated procedure>`, so a piece
 that is not a closure and a piece that writes what it captured both refuse at
 the build. They answer `any`: the answer is shaped like what went in, and a
-membership names a set of shapes rather than tying one of them to another. What
+membership names a set of types rather than tying one of them to another. What
 a fan-out's answer feeds is checked from `map`, not from these two.
 
 What the procedures offer their closures is one convention, shared with the
@@ -1448,7 +1449,7 @@ element carries `Comparable`, reads a compact spelling the way `reversed` does
 rather than by whether its declaration happened to carry a bound. An array of
 byte worths standing where `bytes` is declared does settle to the compact
 spelling. The asymmetry is the declaration's: naming `bytes` names a spelling,
-naming `array<…>` names a shape bytes already have.
+naming `array<…>` names a type bytes already have.
 
 An index reads an element out as the ordinary int it is, and the collection
 vocabulary. `count`, `first`, `contains`, `reversed`, `map`, all of it. Applies
@@ -1731,7 +1732,7 @@ a case may say something new is not the day a document may. The cases here are
 `build` cannot honour a case that says the other one.
 
 `expect` holds one of `answers` or `refuses`. One slot, so "one of the two and
-exactly one" is the shape rather than a rule about two keys that could both be
+exactly one" is the record rather than a rule about two keys that could both be
 written or neither.
 
 Both kinds matter equally. **An implementation that accepts a program another
@@ -1743,9 +1744,9 @@ cannot be taken back, which is most of why this language checks before it runs.
 
 ### What a runner does
 
-Read the file, and read `test` before the shape, for the reason a document reads
-its own version first: a later case may say something this runner has no name
-for, and "I am too old for this" is a different answer from "this is not a
+Read the file, and read `test` before the record, for the reason a document
+reads its own version first: a later case may say something this runner has no
+name for, and "I am too old for this" is a different answer from "this is not a
 case". Then read `program` as a document. If the case expects `refuses`, check
 that it fails at that stage and no earlier or later. Otherwise build it against
 the standard vocabulary, start from the procedure declared under `entry`, run it
@@ -1777,11 +1778,11 @@ disagrees with the golden bytes cannot trust anything the rest of the suite
 tells it.
 
 The extension is `.test.warpt` and not `.warpt`, and both halves are true at
-once: the file *is* warpt text, which is why the text reader reads it, and its
-shape is a test rather than a document, which is why nothing that runs programs
-will take it. Naming the format outright. A single extension of its own. Would
-make a file that is spelled in warpt look like it is not, and every tool that
-highlights or formats warpt would have to be told about it twice.
+once: the file *is* warpt text, which is why the text reader reads it, and what
+it holds is a test rather than a document, which is why nothing that runs
+programs will take it. Naming the format outright. A single extension of its
+own. Would make a file that is spelled in warpt look like it is not, and every
+tool that highlights or formats warpt would have to be told about it twice.
 
 ## Known gaps
 
@@ -1819,7 +1820,7 @@ have to guess, and would be entitled to guess differently.
   difference.
 - **Encodings beyond utf8.** `decoded`/`encoded` name their encoding and
   today name one. Which others join the `enum`, and whether a host may
-  extend it. Is undecided; the shape of the procedures is not.
+  extend it. Is undecided; the type of the procedures is not.
 - **Where a refusal points is not specified.** A case says the stage a
   document is refused at and nothing about the sentence, so two
   implementations agreeing on every case may still name the place

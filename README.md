@@ -58,7 +58,7 @@ run with another, and none of them share code.
 
 | directory | what | is |
 |---|---|---|
-| [`spec/`](spec/README.md) | the language: shapes, document format, encodings, refusal rules, conformance cases | the specification |
+| [`spec/`](spec/README.md) | the language: constructs, document format, encodings, refusal rules, conformance cases | the specification |
 | [`runtime/warp-runtime-swift/`](runtime/warp-runtime-swift/README.md) | `Warp` `WarpSyntax` | one runtime |
 | [`frontend/warp-frontend-yaml/`](frontend/warp-frontend-yaml/README.md) | `WarpYAML` | one front end |
 
@@ -89,6 +89,6 @@ let image = try loader.reading {                          // refusals in the
 let answer = try await Executor().run(image)
 ```
 
-A program that stays in Swift skips the document entirely and builds the shapes
+A program that stays in Swift skips the document entirely and builds the program
 directly; a program that travels is written down by `WarpSyntax`. Bytes to carry
 it, text to read it.
