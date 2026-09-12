@@ -1,0 +1,47 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-pure-slot-refuses-a-closure-that-calls-what-runs"
+  note "What a closure sends is a fact about its text, so a slot asking `pure procedure` is answered at the build. A procedure that reaches outside the run is not one such a closure may send."
+  program {
+    imports [
+      "app.ask"
+      "std.logic.and"
+    ]
+    procedures {
+      entry {
+        result {
+          call {
+            of [
+              {
+                closure {
+                  result {
+                    call {
+                      procedure "app.ask"
+                    }
+                  }
+                  returns "bool"
+                }
+              }
+            ]
+            procedure "std.logic.and"
+          }
+        }
+        returns "bool"
+      }
+    }
+    warp 1
+  }
+  test 3
+  vocabulary {
+    procedures {
+      "app.ask" {
+        answers true
+        returns "bool"
+        runs true
+      }
+    }
+  }
+}

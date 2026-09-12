@@ -1827,6 +1827,7 @@ One file, one question: a document, what to run it with, and what should happen.
     program     a document
     arguments   what the entry procedure is given, if anything; a record
                 under a name is written as the text encoding writes one
+    vocabulary  the procedures the runner brings, if any
     expect      answers <value>   it runs and answers this, named records
                                   written the same way
                 refuses <stage>   it is refused, at load, build or run
@@ -1841,13 +1842,42 @@ Each format declares itself, and that is how the two are told apart: a case
 says `test`, a document says `warp`, and each is refused by the other's reader
 for **what it is** rather than for the keys it happens to carry. The `test`
 number moves for the same reason `warp` does and on its own schedule. The day
-a case may say something new is not the day a document may. The cases here are
-`test 2`: `test 1` spelled the middle stage `link`, and a runner that reads
-`build` cannot honour a case that says the other one.
+a case may say something new is not the day a document may.
 
 `expect` holds one of `answers` or `refuses`. One slot, so "one of the two and
 exactly one" is the record rather than a rule about two keys that could both be
 written or neither.
+
+**`vocabulary` is what the runner brings.** Most of what a document may say
+about a procedure the host answers is not something a case can write down: the
+code is the host's. So a case writes the part that is in the document, and the
+runner builds the rest.
+
+It is written as a **module**, because that is what a receiver takes in: it may
+declare `types`, `constraints`, `contracts` and `satisfies` the way any document
+does, and it declares the procedures under `procedures`. The module stands in
+front of the case's own document in the link, so what the host brings is there
+to be named. Each procedure is keyed by its name and written the way a
+declaration is, with four keys of its own beside it:
+
+    answers     what it answers, whatever it was sent. Default null
+    runs        bool. Whether it reaches outside the run. Default false,
+                which is a procedure that answers without running
+    isolated    bool. Default true
+    failing     array of strings. What it may fail with. Default empty
+
+It answers the same thing every time, because a case asks what a declaration
+permits rather than what arithmetic does. The names it may declare are `of` and
+`value`, in that order, since a procedure the host answers reads its arguments
+at fixed places and a case cannot invent a place in another runner.
+
+This is the only way a case reaches the three things answering without running
+permits, all of which need a procedure with no body: a constant settling, a
+slot asking `pure procedure`, and an operand calling one.
+
+The cases here are `test 2` where they say nothing new and `test 3` where they
+ask for a vocabulary: `test 1` spelled the middle stage `link`, and a runner
+that reads `build` cannot honour a case that says the other one.
 
 Both kinds matter equally. **An implementation that accepts a program another
 refuses has failed in the same way as one that answers differently**, so half of
@@ -1861,10 +1891,12 @@ cannot be taken back, which is most of why this language checks before it runs.
 Read the file, and read `test` before the record, for the reason a document
 reads its own version first: a later case may say something this runner has no
 name for, and "I am too old for this" is a different answer from "this is not a
-case". Then read `program` as a document. If the case expects `refuses`, check
-that it fails at that stage and no earlier or later. Otherwise build it against
-the standard vocabulary, start from the procedure declared under `entry`, run it
-with `arguments`, and compare.
+case". Then read `program` as a document. Read each entry of `vocabulary` the
+same way a declaration is read, and build the host's side of it from the four
+keys beside it. If the case expects `refuses`, check that it fails at that stage
+and no earlier or later. Otherwise build it against that vocabulary and the
+standard bundles, start from the procedure declared under `entry`, run it with
+`arguments`, and compare.
 
 The cases are the files named `<name>.test.warpt`, and what else the folder
 holds is not the suite's business. A runner that refused to start over an
