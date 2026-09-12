@@ -347,6 +347,11 @@ writes neither **refuses at the build**:
 | `consuming <type>` | the obligation moves to this slot. The caller's name is empty afterwards, and this body owes the value from here |
 | `borrowing <type>` | the obligation stays where it was. This body reads the value and the caller still owes it |
 
+Either stands wherever a value handed on once **could** arrive, which is wider
+than where one certainly does: `some T` is whatever the call fills it with, and
+a membership is whichever member arrived, so a slot naming one has something to
+say.
+
 Silence read as taking is what hid the second one: a procedure that only wanted
 to look at a handle had no way to say so, and every slot that touched one took
 it. So silence refuses rather than defaulting. Writing either where nothing is
@@ -365,8 +370,11 @@ What a body may do with one:
 - answer it, which hands it to the caller, who owes it from there;
 - read a part of it (`handle.name`), which hands nothing on.
 
-What a body may do with one it **borrowed**: read it, read a part of it, and
-pass it to another slot that borrows. That is all.
+What a body may do with one it **borrowed**: read it, read a part of it, bind
+it to another name, and pass it to another slot that borrows. That is all.
+Writing the name anywhere a value leaves by refuses, wrapping it in a list or a
+record included: that carries the whole value out rather than reading a part of
+it.
 
 What **refuses at the build**:
 
@@ -379,6 +387,9 @@ What **refuses at the build**:
   of times, or fails somewhere the text does not show, so "exactly once" is not
   something the text says;
 - writing over a name still holding one;
+- writing a name still holding one into a **list or a record**. What follows
+  the value is the name, and a name does not follow it into a type, so the
+  obligation would be neither handed on nor still held;
 - handing a borrowed one to a slot that says `consuming`, or answering it, or
   keeping it in a box. Each gives away what this body never took, and a box
   outlives the call that lent the value.
