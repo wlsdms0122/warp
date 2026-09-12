@@ -18,7 +18,12 @@ warpt 1
           word "string"
         }
         result {
-          ref "word.count"
+          call {
+            of {
+              ref "word"
+            }
+            procedure "std.collection.count"
+          }
         }
       }
     }
