@@ -3,8 +3,8 @@ warpt 1
   expect {
     refuses "build"
   }
-  name "a-oneof-no-candidate-of-which-fits-refuses-at-build"
-  note "Admitting nothing is a fact about the declared type and the candidate set together, not about the set being empty. A oneOf of words on a whole-number slot fits no call."
+  name "a-enum-no-candidate-of-which-fits-refuses-at-build"
+  note "Admitting nothing is a fact about the declared type and the candidate set together, not about the set being empty. A enum of words on a whole-number slot fits no call."
   program {
     imports []
     procedures {
@@ -14,7 +14,7 @@ warpt 1
       pick {
         parameters {
           count {
-            oneOf [
+            enum [
               "fast"
               "slow"
             ]

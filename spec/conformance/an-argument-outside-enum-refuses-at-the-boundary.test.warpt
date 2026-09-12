@@ -6,15 +6,15 @@ warpt 1
   expect {
     refuses "run"
   }
-  name "an-argument-outside-oneof-refuses-at-the-boundary"
-  note "For an argument only the run can see, `oneOf` is judged where the value is settled. At the boundary, before the body sees it."
+  name "an-argument-outside-enum-refuses-at-the-boundary"
+  note "For an argument only the run can see, `enum` is judged where the value is settled. At the boundary, before the body sees it."
   program {
     imports []
     procedures {
       entry {
         parameters {
           mode {
-            oneOf [
+            enum [
               "fast"
               "slow"
             ]

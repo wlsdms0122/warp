@@ -3,8 +3,8 @@ warpt 1
   expect {
     refuses "build"
   }
-  name "a-oneof-that-admits-nothing-refuses-at-build"
-  note "A oneOf that admits nothing is a parameter no call could ever fit."
+  name "a-enum-that-admits-nothing-refuses-at-build"
+  note "A enum that admits nothing is a parameter no call could ever fit."
   program {
     imports []
     procedures {
@@ -14,7 +14,7 @@ warpt 1
       pick {
         parameters {
           mode {
-            oneOf []
+            enum []
             type "string"
           }
         }

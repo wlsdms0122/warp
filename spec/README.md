@@ -240,7 +240,7 @@ holds. The settlement is one rule per shape:
   them would be the declaration picking, and it declined to.
 - A **range** (`int(0...255)`, `double(0.0..<1.0)`) is a slot's condition on a
   number, not a kind: the value is an `int` or a `double`, and the bounds are
-  judged where a value is settled, the way `oneOf` is. At the **build** for a
+  judged where a value is settled, the way `enum` is. At the **build** for a
   constant argument or a default, at the **boundary** for what only the run
   can see.
   - **The kind is written out**, because a bound is a value of the kind it
@@ -268,7 +268,7 @@ holds. The settlement is one rule per shape:
     bounds admit nothing. `int(9...1)`, or `int(5..<5)` where the far bound
     is excluded and the near one stands on it. Is a slot no call could fit,
     **refused at the build** where the declaration wrote it, exactly as an
-    empty `oneOf` is. A whole bound must be a number an `int` holds, and a
+    empty `enum` is. A whole bound must be a number an `int` holds, and a
     padded or signed spelling (`int(007...)`, `int(+1...)`) or a bound past
     the word both **refuse at the read**, each named as what it is.
   - A module gives a range a name the way it names any type: `std` declares
@@ -572,15 +572,15 @@ Written as a bare string. Its type, or as a record:
 | key | takes | required |
 |---|---|---|
 | `type` | type | no; absent means `any` |
-| `oneOf` | array. The values this parameter admits | no |
+| `enum` | array. The values this parameter admits | no |
 | `default` | the value used when the argument is absent | no |
 | `description` | string | no |
 
-`oneOf` is judged wherever an argument is settled against the parameter: at the
+`enum` is judged wherever an argument is settled against the parameter: at the
 **build** for a constant argument, at the run's boundary otherwise. The
 declaration itself is judged at the **build**, wherever the parameter is written.
 Nested signatures included, because a declaration may lean on a declared type
-name, and only the build resolves those: a `oneOf` listing a candidate the
+name, and only the build resolves those: a `enum` listing a candidate the
 declared type does not admit **refuses**. A dead candidate is a member no call
 could ever match, whether live ones stand beside it or not, the empty set being
 the plainest case. A candidate is written in a value's **one spelling**. The
@@ -589,7 +589,7 @@ of values that already have one, and `1` on a `double` slot is the int's
 spelling, which no fraction ever wears. Each of these is a dead candidate,
 because the boundary compares an arriving value's own spelling and would never
 produce theirs. The same judgement refuses a `default` the parameter itself
-would refuse, by its `type` or its own `oneOf`. A `default` written as `null` is
+would refuse, by its `type` or its own `enum`. A `default` written as `null` is
 the value the body receives, so it needs a type that admits null. `any`, `null`,
 or a nullable `T?`, which is what lets a typed parameter say "this, or leave it
 out". A taken default arrives **settled**, exactly as a passed argument does. A
@@ -1031,11 +1031,11 @@ happened yet:
   and answer, with type parameters bound as above and every bound judged
   against its constraint's membership;
 - every declared type names a type that exists;
-- every candidate a parameter's `oneOf` lists is written in a value's one
+- every candidate a parameter's `enum` lists is written in a value's one
   spelling, the one the declared type's own values wear. A dead candidate
   no call could ever match refuses, the empty and the all-dead list being
   the plainest cases. A range's bounds admit something, and a `default` is
-  a value the parameter itself admits. `type`, range and `oneOf` together;
+  a value the parameter itself admits. `type`, range and `enum` together;
 - a slot declared `pure` takes only a procedure that answers without running,
   worked out from a body's own sends, declared by a native word; a slot
   declared `isolated` takes only a procedure the build derived as isolated;
@@ -1320,8 +1320,8 @@ edge rules below require.
 | `uppercased`, `lowercased`, `trimmed` | `of: string` |. | `string` |
 | `split` | `of: string` | `value: string` | `array<string>` |
 | `joined` | `of: array<string>` | `value: string = ""` | `string` |
-| `decoded` | `of: bytes` | `encoding: string = "utf8"`, oneOf `["utf8"]` | `string`. **refuses at the run** when the bytes are not text in that encoding |
-| `encoded` | `of: string` | `encoding: string = "utf8"`, oneOf `["utf8"]` | `bytes` |
+| `decoded` | `of: bytes` | `encoding: string = "utf8"`, enum `["utf8"]` | `string`. **refuses at the run** when the bytes are not text in that encoding |
+| `encoded` | `of: string` | `encoding: string = "utf8"`, enum `["utf8"]` | `bytes` |
 | `replacing` | `of: string` | `value: string`, `with: string` | `string` |
 
 `regex` answers whether the pattern matches *anywhere* in the text. A program
@@ -1805,7 +1805,7 @@ have to guess, and would be entitled to guess differently.
   an implementation whose platform compares by code unit owes a library the
   difference.
 - **Encodings beyond utf8.** `decoded`/`encoded` name their encoding and
-  today name one. Which others join the `oneOf`, and whether a host may
+  today name one. Which others join the `enum`, and whether a host may
   extend it. Is undecided; the shape of the words is not.
 - **Where a refusal points is not specified.** A case says the stage a
   document is refused at and nothing about the sentence, so two

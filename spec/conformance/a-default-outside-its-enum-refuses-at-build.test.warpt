@@ -3,8 +3,8 @@ warpt 1
   expect {
     refuses "build"
   }
-  name "a-default-outside-its-oneof-refuses-at-build"
-  note "A default outside the parameter's own oneOf can never be taken by any call. The declaration is judged at the build, with every other fact a declaration states about itself."
+  name "a-default-outside-its-enum-refuses-at-build"
+  note "A default outside the parameter's own enum can never be taken by any call. The declaration is judged at the build, with every other fact a declaration states about itself."
   program {
     imports []
     procedures {
@@ -15,7 +15,7 @@ warpt 1
         parameters {
           mode {
             default "medium"
-            oneOf [
+            enum [
               "fast"
               "slow"
             ]
