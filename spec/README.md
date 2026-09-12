@@ -550,7 +550,6 @@ writes the list, including the ones whose programs will not read at all. A case
 with two things wrong with it is a case any reader passes for the wrong
 reason.
 
-
 ### A procedure
 
 | key | takes | required |
@@ -596,7 +595,8 @@ or a nullable `T?`, which is what lets a typed parameter say "this, or leave it
 out". A taken default arrives **settled**, exactly as a passed argument does. A
 parameter without a `default` is required. Except that a `T?` parameter's null
 is one of its values, so it may be left out and omission reads as that null; the
-the call check and the boundary both answer this one question the same way. There is no third axis of optionality.
+call check and the boundary both answer this one question the same way. There is
+no third axis of optionality.
 
 **A parameter handed in place.** A parameter typed `inout T` takes no value:
 it takes a variable. The argument is `{ ref: <path> }`, and all of this is
