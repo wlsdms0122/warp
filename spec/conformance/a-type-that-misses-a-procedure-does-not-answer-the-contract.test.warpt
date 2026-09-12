@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    answers "a card"
+    refuses "build"
   }
-  name "a-contract-carries-a-word-into-a-generic-body"
-  note "A contract is the words a value must answer. A document says which types answer it under `satisfies`, a signature bounds a type parameter by it, and the body calls the word without knowing which type it holds. The link finds the declaration behind each claimed word and the run reads one by the name the value wears."
+  name "a-type-that-misses-a-procedure-does-not-answer-the-contract"
+  note "What puts a type under a contract is a document saying so under `satisfies`. A type no document claims does not stand where the contract bounds a parameter, and the link says so where the value is handed over."
   program {
     contracts {
       "app.Describable" {
@@ -18,11 +18,11 @@ warpt 1
       entry {
         body [
           {
-            let "card"
+            let "plain"
             value {
-              as "bank.Card"
+              as "bank.Plain"
               of {
-                last "42"
+                note "x"
               }
             }
           }
@@ -30,7 +30,7 @@ warpt 1
         result {
           call {
             of {
-              ref "card"
+              ref "plain"
             }
             procedure "app.tell"
           }
@@ -63,20 +63,9 @@ warpt 1
         result "an account"
         returns "string"
       }
-      "bank.Card.describe" {
-        parameters {
-          of "bank.Card"
-        }
-        receiver "of"
-        result "a card"
-        returns "string"
-      }
     }
     satisfies {
       "bank.Account" [
-        "app.Describable"
-      ]
-      "bank.Card" [
         "app.Describable"
       ]
     }
@@ -84,8 +73,8 @@ warpt 1
       "bank.Account" {
         balance "int"
       }
-      "bank.Card" {
-        last "string"
+      "bank.Plain" {
+        note "string"
       }
     }
     warp 1
