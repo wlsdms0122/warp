@@ -1046,6 +1046,9 @@ happened yet:
   and answer, with type parameters bound as above and every bound judged
   against its constraint's membership;
 - every declared type names a type that exists;
+- a condition answers a `bool`. A `conditional`'s `when` and a `loop`'s
+  `while`, held where they are written, and `any` passing the way it
+  passes any other slot;
 - every candidate a parameter's `enum` lists is written in a value's one
   spelling, the one the declared type's own values wear. A dead candidate
   no call could ever match refuses, the empty and the all-dead list being

@@ -1,0 +1,28 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-loop-condition-that-is-not-a-bool-refuses"
+  note "A loop asks its condition before every round, and the answer chooses whether the round runs, so it is a bool the same way a conditional's is."
+  program {
+    imports []
+    procedures {
+      entry {
+        body [
+          {
+            let "spin"
+            value {
+              loop {
+                body []
+                while "yes"
+              }
+            }
+          }
+        ]
+      }
+    }
+    warp 1
+  }
+  test 2
+}
