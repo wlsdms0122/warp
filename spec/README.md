@@ -369,6 +369,12 @@ handed on once **refuses**, and so does writing `?` on one: what such a value
 needs is a name holding it on every way through, and a `?` says there is a way
 through where nothing is there.
 
+**A body carried as a value does not answer one.** A procedure type whose
+`returns` is handed on once **refuses**, closure literals included. Nothing
+reads inside a body that travels as a value, so what one handed back would
+arrive with nothing to say it is owed. A declaration is not held to this: its
+body is text, and what it answers lands on the name its caller binds.
+
 Silence read as taking is what hid the second one: a procedure that only wanted
 to look at a handle had no way to say so, and every slot that touched one took
 it. So silence refuses rather than defaulting. Writing either where nothing is
@@ -402,7 +408,9 @@ What **refuses at the build**:
 - handing one on inside a loop round, inside an `attempt`, in a call of a value
   (`apply`), or capturing one in a closure. Each of those runs no fixed number
   of times, or fails somewhere the text does not show, so "exactly once" is not
-  something the text says;
+  something the text says. Leaving a loop or a round is not one of these: a
+  `break` and a `continue` leave a construct, and what the body was holding it
+  holds still on the other side;
 - writing over a name still holding one;
 - writing one into a **list or a record**, whether it is a name still holding
   one, a value nothing holds yet, or what a cast, a block or an `attempt` hands
