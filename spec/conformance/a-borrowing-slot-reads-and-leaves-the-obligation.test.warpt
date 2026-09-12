@@ -1,0 +1,70 @@
+warpt 1
+{
+  expect {
+    answers app.Handle {
+      name "f"
+    }
+  }
+  name "a-borrowing-slot-reads-and-leaves-the-obligation"
+  note "A slot that writes `borrowing` reads the value and ends nothing. The body that lent it still holds it and still hands it on, which it does here by answering it, and answering a name already given away would refuse."
+  program {
+    imports []
+    procedures {
+      entry {
+        body [
+          {
+            let "handle"
+            value {
+              call {
+                procedure "app.open"
+              }
+            }
+          }
+          {
+            let "shown"
+            value {
+              call {
+                of {
+                  ref "handle"
+                }
+                procedure "app.name"
+              }
+            }
+          }
+        ]
+        result {
+          ref "handle"
+        }
+        returns "app.Handle"
+      }
+      "app.name" {
+        parameters {
+          of "borrowing app.Handle"
+        }
+        receiver "of"
+        result {
+          ref "of.name"
+        }
+        returns "string"
+      }
+      "app.open" {
+        result {
+          as "app.Handle"
+          of {
+            name "f"
+          }
+        }
+        returns "app.Handle"
+      }
+    }
+    types {
+      "app.Handle" {
+        linear {
+          name "string"
+        }
+      }
+    }
+    warp 1
+  }
+  test 2
+}

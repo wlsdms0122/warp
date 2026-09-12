@@ -179,6 +179,7 @@ cannot say:
 | `isolated <procedure type>` | a procedure that touches no name another body could touch at once; `pure isolated procedure` says both, and the reader takes the two in either order |
 | `inout <type>` | a parameter handed a variable in place; written on a parameter's type and nowhere else |
 | `{ linear: <type> }` | a type whose values are handed on exactly once; written on a type in `types` and nowhere else, and every slot naming that type carries it |
+| `consuming <type>` / `borrowing <type>` | what a parameter does with a value handed on once: takes the obligation, or reads and leaves it. Written on a parameter's type and nowhere else |
 | `var <type>` | a field a path may write through; written on a field of a type declared in `types` and nowhere else |
 | `Task` (any declared name) | the type a module declares under that name, or a value of the membership it declares under that name |
 | `some T` | a type parameter: worked out from the call, same reading everywhere it appears; bounded when the signature's `bounds` names it |
@@ -337,12 +338,33 @@ anywhere else **refuses at the build**, and so does carrying such a type inside
 another type (a list, a record, another declaration): what follows the value is
 the name holding it, and nothing follows one into a type.
 
+**A slot naming such a type says what it does with it.** Two marks, written on
+a parameter's type the way `inout` is, and a parameter that names the type and
+writes neither **refuses at the build**:
+
+| written | means |
+|---|---|
+| `consuming <type>` | the obligation moves to this slot. The caller's name is empty afterwards, and this body owes the value from here |
+| `borrowing <type>` | the obligation stays where it was. This body reads the value and the caller still owes it |
+
+Silence read as taking is what hid the second one: a procedure that only wanted
+to look at a handle had no way to say so, and every slot that touched one took
+it. So silence refuses rather than defaulting.
+
+**No lifetime rides with a borrow.** The language has no references, so what a
+slot was handed is a value of its own and cannot outlive what it was read from.
+A borrow is the one sentence above and nothing more.
+
 What a body may do with one:
 
-- hand it to a slot that also says `linear`. A slot that does not say so
-  **refuses**, since it would keep the value with no obligation on it;
+- hand it to a slot that says `consuming`, which ends the obligation here;
+- hand it to a slot that says `borrowing`, which ends nothing: the body still
+  holds it and still owes it;
 - answer it, which hands it to the caller, who owes it from there;
 - read a part of it (`handle.name`), which hands nothing on.
+
+What a body may do with one it **borrowed**: read it, read a part of it, and
+pass it to another slot that borrows. That is all.
 
 What **refuses at the build**:
 
@@ -354,7 +376,10 @@ What **refuses at the build**:
   (`apply`), or capturing one in a closure. Each of those runs no fixed number
   of times, or fails somewhere the text does not show, so "exactly once" is not
   something the text says;
-- writing over a name still holding one.
+- writing over a name still holding one;
+- handing a borrowed one to a slot that says `consuming`, or answering it, or
+  keeping it in a box. Each gives away what this body never took, and a box
+  outlives the call that lent the value.
 
 Only a procedure with **no body** ends the obligation. A body that takes one has
 to hand it on like any other, so the chain runs out at a native procedure, which
@@ -1148,7 +1173,9 @@ happened yet:
   declaration named for the type and the procedure, held to what the contract
   wrote;
 - every value of a type written `linear` is handed on exactly once on every way
-  through the body holding it, and to a slot that says `linear`;
+  through the body holding it, and to a slot that says `consuming`; every
+  parameter naming such a type says `consuming` or `borrowing`, and what a body
+  borrowed it does not give away;
 - every `set` writes a path headed by a variable, through fields declared
   `var` where the type is a declared type, and what it writes fits what the
   path reaches; a write into a module variable or an `inout` parameter fits

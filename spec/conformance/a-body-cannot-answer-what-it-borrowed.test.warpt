@@ -1,0 +1,57 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-body-cannot-answer-what-it-borrowed"
+  note "What a body answers its caller then owes. A body that only borrowed never owed it, so it has nothing to hand over."
+  program {
+    imports []
+    procedures {
+      entry {
+        body [
+          {
+            let "handle"
+            value {
+              call {
+                procedure "app.open"
+              }
+            }
+          }
+        ]
+        result {
+          ref "handle"
+        }
+        returns "app.Handle"
+      }
+      "app.leak" {
+        parameters {
+          of "borrowing app.Handle"
+        }
+        receiver "of"
+        result {
+          ref "of"
+        }
+        returns "app.Handle"
+      }
+      "app.open" {
+        result {
+          as "app.Handle"
+          of {
+            name "f"
+          }
+        }
+        returns "app.Handle"
+      }
+    }
+    types {
+      "app.Handle" {
+        linear {
+          name "string"
+        }
+      }
+    }
+    warp 1
+  }
+  test 2
+}
