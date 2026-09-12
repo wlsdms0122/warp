@@ -175,7 +175,7 @@ cannot say:
 | `array` / `dictionary` | a list / map of anything |
 | `array<T>` / `dictionary<T>` | a list / map of `T` |
 | `procedure` | some procedure, signature unsaid |
-| `pure <procedure type>` | a procedure that answers without running effects |
+| `pure <procedure type>` | a procedure that answers without running, under *what answers without running* |
 | `isolated <procedure type>` | a procedure that touches no name another body could touch at once; `pure isolated procedure` says both, and the reader takes the two in either order |
 | `inout <type>` | a parameter handed a variable in place; written on a parameter's type and nowhere else |
 | `{ linear: <type> }` | a type whose values are handed on exactly once; written on a type in `types` and nowhere else, and every slot naming that type carries it |
@@ -609,6 +609,47 @@ holds, a way to write it, and whatever the receiver keeps beside the program.
 Those three are what the first kind is refused, so a runtime hands the two kinds
 different ways in rather than one way and a flag.
 
+### What answers without running
+
+Some of what a program writes is **read** and some of it is **run**. A literal,
+a name, a record, an index, a cast: reading those is what the language does to
+data. A **construct** runs a body, and it is the only thing that does.
+
+A procedure **answers without running** when the whole of it is read:
+
+- its body holds no construct. No `conditional`, `loop`, `attempt` or `block`,
+  and no `return`, `break` or `continue`;
+- its statements bind and do nothing else. A `let`, or a statement with no
+  name, and never a `var` or a `set`;
+- it reads no module variable, whose value is the run's rather than the text's;
+- it calls no value (`apply`), since nothing before the run says which
+  procedure that would be;
+- and every procedure it sends answers without running.
+
+The build works this out over every declaration at once. It starts with all of
+them and strikes out whatever reaches something struck, so two procedures that
+call each other settle together rather than each waiting on the other. A
+procedure with **no body** says it about itself instead, and the sends it
+declared are held to what it said, under *a procedure the host answers* above.
+A closure literal is judged by the same rule, and the answer travels with the
+closure as a value, so a slot reads it wherever the value arrives.
+
+**What it permits.** Three places, and they are what the claim is for:
+
+- a **constant** and a **module variable** settle at the **build**, from these
+  procedures alone;
+- a slot may **ask** for one, writing `pure procedure`. That is how
+  `std.logic.and` takes sides it may decline to read and how
+  `std.collection.filter` takes a predicate that cannot reach the world;
+- an **operand** may call one. A call's arguments and the receiver written in
+  front, a `conditional`'s `when`, a `loop`'s `while`. Each of those is read
+  rather than run, so an operand calling anything else **refuses at the
+  build**, and so does one calling a value.
+
+Choosing among values is a procedure here rather than a construct, because a
+construct is the one thing such a body may not hold. `std.logic.select`, under
+the vocabulary.
+
 ### A parameter
 
 Written as a bare string. Its type, or as a record:
@@ -660,7 +701,8 @@ what the path holds now, and each write lands in the box as it is made. One
 box reached two ways, by a parameter and by a name or by two parameters, is
 still one box, so a write through either is seen through the other at once. A
 call that fails after writing has written, the same as a variable written
-before a failure. A procedure with an `inout` parameter is not pure.
+before a failure. A body that writes through one does not answer without
+running, by the rule that such a body writes no name.
 
 ### A statement
 
@@ -1094,8 +1136,9 @@ happened yet:
   the plainest cases. A range's bounds admit something, and a `default` is
   a value the parameter itself admits. `type`, range and `enum` together;
 - a slot declared `pure` takes only a procedure that answers without running,
-  worked out from a body's own sends, declared by a native procedure; a slot
-  declared `isolated` takes only a procedure the build derived as isolated;
+  under *what answers without running* above, and an operand calls only such a
+  procedure; a slot declared `isolated` takes only a procedure the build
+  derived as isolated;
 - a slot declaring a membership takes what the membership admits, and a value
   of a membership stands only where every one of its members would. A cast
   tells the members apart, and a cast onto a type the membership never holds
