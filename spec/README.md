@@ -1315,7 +1315,7 @@ them (`std.math`, `std.collection`) links only with `std` in the link:
 | module | procedures |
 |---|---|
 | `std` |. Declares the memberships `Numeric` and `Comparable`, and the type `byte = int(0...255)` |
-| `std.logic` | `equal` `notEqual` `not` `and` `or` |
+| `std.logic` | `equal` `notEqual` `not` `and` `or` `select` |
 | `std.math` | `plus` `minus` `times` `dividedBy` `remainder` `min` `max` `absolute` `floored` `rounded` `lessThan` `greaterThan` |
 | `std.text` | `text` `startsWith` `regex` `uppercased` `lowercased` `trimmed` `split` `joined` `replacing` `decoded` `encoded` |
 | `std.collection` | `append` `count` `contains` `first` `last` `reversed` `appending` `prepending` `dropFirst` `dropLast` `sorted` `map` `filter` `reduce` `keys` `values` `setting` |
@@ -1336,12 +1336,21 @@ running.
 | `equal`, `notEqual` | `of: any = null` | `value: any = null` | `bool` |
 | `not` | `of: bool` |. | `bool` |
 | `and`, `or` | `of: array<pure procedure>` |. | `bool` |
+| `select` | `of: bool` | `then`, `else`. Pure procedures taking nothing, each answering `some Answer` | `some Answer` |
 
 `and` and `or` take procedures precisely so they need not run them all: the
 sides are read in order and the procedure stops at the first side that settles
 the answer. The first false, the first true. What follows the stop is never
-evaluated. `equal` and `notEqual` answer by the value model's one sameness, and
-`not` turns a `bool` around.
+evaluated. `select` takes them for the same reason and asks exactly one, so a
+side that would refuse is never a refusal of the side that was chosen. `equal`
+and `notEqual` answer by the value model's one sameness, and `not` turns a
+`bool` around.
+
+**`select` is how a procedure that answers without running chooses.** A
+`conditional` answers nothing and takes no name, and a body that answers without
+running holds no construct at all, so choosing among values is a procedure here
+rather than grammar. The two sides answer one type, worked out from the call the
+way any type parameter is.
 
 *std.math*
 
