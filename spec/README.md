@@ -435,14 +435,15 @@ constraint or procedure under is the whole of its name: `std.math.plus` is
 declared under that key, and `wallet.Account` under that one. A mention is a
 declared spelling, written out, and it means the same declaration wherever it
 was written, inside the declaring document too. A dot is a character of the
-spelling and nothing more: the language has no namespace, no scope and no
+spelling and nothing more: the language has no nesting, no scope and no
 prefix, so what a document chooses to put before a dot is the author's
 convention, and one document may declare `wallet.fee` beside `bank.rate` while
 another declares `wallet.rate`. A spelling no module in the link declares
-**refuses at the build** where it is mentioned. Types, memberships and contracts
-are three spaces and no name is in two of them, so a mention reaches whichever
-declares it: a slot names a type or a membership, and a bound names a
-membership or a contract.
+**refuses at the build** where it is mentioned. There are two namespaces,
+procedures and types, and a procedure may be spelled like a type. Types,
+memberships and contracts share the second, and no name in it is two of them,
+so a mention reaches whatever declares it: a slot names a type or a membership,
+and a bound names a membership or a contract.
 
 The shared `std` module (the foundation bundle) declares the memberships the
 standard procedures are bounded by: `Numeric` admits `int` and `double`;

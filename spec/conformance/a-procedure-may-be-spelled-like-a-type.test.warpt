@@ -1,0 +1,40 @@
+warpt 1
+{
+  arguments {
+    held {
+      open true
+    }
+  }
+  expect {
+    answers true
+  }
+  name "a-procedure-may-be-spelled-like-a-type"
+  note "Procedures and types are two namespaces. A name in one says nothing about the other, so one document may declare a procedure and a type under `app.Account` at once, and each is reached by what mentions it: a call reaches the procedure, a slot reaches the type."
+  program {
+    imports []
+    procedures {
+      "app.Account" {
+        result true
+        returns "bool"
+      }
+      entry {
+        parameters {
+          held "app.Account"
+        }
+        result {
+          call {
+            procedure "app.Account"
+          }
+        }
+        returns "bool"
+      }
+    }
+    types {
+      "app.Account" {
+        open "bool"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
