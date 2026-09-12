@@ -321,9 +321,7 @@ declared as both a type and a constraint all **refuse at the build**. A member i
 a **concrete shape**: `some`, `any` and `never` in member position refuse at the
 build. Each says nothing a membership could hold. And a type parameter lives in a
 signature: a declared type writing `some` outside a procedure signature refuses
-at the build, because nothing there is filled by a call. A path send is judged
-like the call it is: the receiver fills the word's one slot, so `"abc".absolute`
-refuses at the build exactly as `absolute(of: "abc")` does.
+at the build, because nothing there is filled by a call.
 
 **Handed on once.** A type written `once` says the values of it are given
 away: to a word, or as a body's answer. A body holding one hands it on **on
@@ -426,11 +424,9 @@ against the row that answers, arguments in that row's own slot order. The run
 reads the name the value wears and picks. Nothing is resolved while a program
 is running.
 
-A declaration answering a contract's word is reached **through the contract**
-and not as a bare path segment. Two types answering one word is the ordinary
-case, and `x.describe` has no way to say which is meant, which is the very
-thing the path-word rule refuses. The contract is the spelling that tells them
-apart.
+A declaration answering a contract's word is reached **through the contract**,
+which is the spelling that says which contract is meant. Two types answering one
+word is the ordinary case.
 
 **A name is its declared spelling.** The key a document declares a type,
 constraint or procedure under is the whole of its name: `std.math.plus` is
@@ -463,7 +459,7 @@ here **refuses**. Every slot marked *expression*, *block*, *statements* or
 | key | takes | required |
 |---|---|---|
 | `warp` | int. The language version this document is written for | yes |
-| `imports` | array of strings. Every word the program uses and does not declare, whether it calls it or a path reaches it | yes, and empty where the program uses none |
+| `imports` | array of strings. Every word the program calls and does not declare | yes, and empty where the program uses none |
 | `description` | string | no |
 | `types` | record: name → type | no |
 | `constraints` | record: name → array of types the name admits | no |
@@ -554,16 +550,6 @@ writes the list, including the ones whose programs will not read at all. A case
 with two things wrong with it is a case any reader passes for the wrong
 reason.
 
-A path (`a.b.count`) reaches words too, and **those are listed as well**. A
-path writes the word's last segment alone, so nothing in the text says which
-declaration `count` is; the list is where the program says it. A path reaches
-only a word that answers without running, so listing one grants nothing the
-list is there to bound: it says what the program was read against, not what it
-may *do*.
-
-The build answers a path's segment among the words the program listed and the
-ones it declares, and nowhere else. Two of them reaching one last segment is a
-refusal, because no spelling a path could write would tell them apart.
 
 ### A procedure
 
@@ -571,7 +557,7 @@ refusal, because no spelling a path could write would tell them apart.
 |---|---|---|
 | `description` | string | no |
 | `parameters` | record: name → parameter | no |
-| `receiver` | string. The name of the parameter a path reaches this procedure through | no |
+| `receiver` | string. The name of the parameter a call fills by writing a receiver in front | no |
 | `returns` | type. When absent, what a call answers is read off the body | no |
 | `bounds` | record: type parameter → constraint name; refuses when it names a parameter no slot mentions | no |
 | `body` | statements | no |
@@ -610,8 +596,7 @@ or a nullable `T?`, which is what lets a typed parameter say "this, or leave it
 out". A taken default arrives **settled**, exactly as a passed argument does. A
 parameter without a `default` is required. Except that a `T?` parameter's null
 is one of its values, so it may be left out and omission reads as that null; the
-call check, the boundary and path reachability all answer this one question the
-same way. There is no third axis of optionality.
+the call check and the boundary both answer this one question the same way. There is no third axis of optionality.
 
 **A parameter handed in place.** A parameter typed `inout T` takes no value:
 it takes a variable. The argument is `{ ref: <path> }`, and all of this is
@@ -943,11 +928,10 @@ quoted with `{ value: … }`. Quotation is a fact about the document, not about
 the expression it writes. A construct key under a statement's `value` is read
 as its construct; under any other `value` it is a field.
 
-**What a dot means is decided at the build.** Every `ref` path is judged where
-names resolve, and the judgment is written into the image: a dot on a shape
-with fields is a **read**, a dot on a shape without them is a **word send**,
-and the value that arrives at run time has no say in which. Segment by
-segment:
+**A dot reads a name and nothing else.** Every `ref` path is judged where names
+resolve, and the judgment is written into the image; the value that arrives at
+run time has no say in it. A word is sent with a written `call`, which spells
+the declaration it means. Segment by segment:
 
 - On a **record type**, a dot reads the field the type declares. A field it
   does not declare **refuses at the build**, `?.` or not. The type proved the
@@ -960,8 +944,8 @@ segment:
   fact. An absent entry **refuses at the run**, unless the segment is
   written `?.`, which reads it as null.
 - On a kind that has no fields. Text, numbers, arrays, bytes, booleans,
-  procedures. A dot is a **word send**, judged at the build exactly as the
-  written call is and spelled into the image as a send.
+  procedures. A dot **refuses at the build**: there is no name there to read,
+  and the word by that spelling is reached by writing the call.
 - On **`any`**, a dot, or an index. **refuses at the build**. Nothing is
   declared here, so there is nothing for the reading to be judged against, and a dot no declaration
   proves is the one thing a run would have to decide for itself. The shape is
@@ -994,8 +978,8 @@ the same field of either is the same field.
   absence, not the element's, so `items?[0]` reads a null array as null for
   the whole path, and still refuses past the end of one that arrived.
 - A `?.` or `?[` that could not have read past anything. On a record's
-  declared field, on a word whose receiver is proven non-null, on an array the
-  type proves is there. **refuses at the build**, the way a `?` that says
+  declared field, on an array the type proves is there. **refuses at the
+  build**, the way a `?` that says
   nothing new refuses on a type spelling. The claim of absence has to be one
   the types leave open.
 - The **head of a path takes no mark**. A head is a name a scope holds, and
@@ -1291,8 +1275,8 @@ them (`std.math`, `std.collection`) links only with `std` in the link:
 | `std.concurrent` | `all` `first` `map`. Run closures at once. Declares the membership `Pieces` |
 
 **The signatures, exactly.** A second implementation writes these; it must not
-have to guess them. The *receiver* column is the parameter a path reaches the
-word through (and the `of`/`over` key in a `call`); everything else is written
+have to guess them. The *receiver* column is the parameter a call fills by
+writing a receiver in front (the `of`/`over` key in a `call`); everything else is written
 by name under `arguments`. A parameter with a `default` may be left out. A slot
 typed `pure procedure` takes only a procedure that answers without running.
 
@@ -1409,8 +1393,7 @@ The names are plain words with the module carrying the context, the way
 module, so `std.collection.first` and `std.concurrent.first` are two names, and
 a link carrying both bundles holds both: every `first` and every `map`, the
 sequential ones included, is written with its bundle, and concurrency shows at
-the call site. Paths are untouched: a path reaches only pure words, and every
-word here is an effect, so `x.first` still means the collection's.
+the call site.
 
 What the checking sees: `map` declares its types the way the sequential one
 does. The collection's `Element` meets the closure's parameter, and the
