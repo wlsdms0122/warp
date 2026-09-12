@@ -347,10 +347,10 @@ writes neither **refuses at the build**:
 | `consuming <type>` | the obligation moves to this slot. The caller's name is empty afterwards, and this body owes the value from here |
 | `borrowing <type>` | the obligation stays where it was. This body reads the value and the caller still owes it |
 
-Either stands wherever a value handed on once **could** arrive, which is wider
-than where one certainly does: `some T` is whatever the call fills it with, and
-a membership is whichever member arrived, so a slot naming one has something to
-say.
+Either is written on a slot that **names the type**, because the name is what
+the build follows the value by. On `some T` or on a membership it **refuses**:
+what fills one is the call's, so a body that took the obligation there would
+have no name to carry it on and the proof would end at that slot.
 
 Silence read as taking is what hid the second one: a procedure that only wanted
 to look at a handle had no way to say so, and every slot that touched one took
@@ -387,9 +387,10 @@ What **refuses at the build**:
   of times, or fails somewhere the text does not show, so "exactly once" is not
   something the text says;
 - writing over a name still holding one;
-- writing a name still holding one into a **list or a record**. What follows
-  the value is the name, and a name does not follow it into a type, so the
-  obligation would be neither handed on nor still held;
+- writing one into a **list or a record**, whether it is a name still holding
+  one or a value nothing holds yet. What follows the value is the name, and a
+  name does not follow it into a type, so the obligation would be neither
+  handed on nor still held;
 - handing a borrowed one to a slot that says `consuming`, or answering it, or
   keeping it in a box. Each gives away what this body never took, and a box
   outlives the call that lent the value.
@@ -1870,9 +1871,9 @@ It is written as a **module**, because that is what a receiver takes in: it may
 declare `types`, `constraints`, `contracts` and `satisfies` the way any document
 does, and it declares the procedures under `procedures`. It does not say `warp`
 or `imports`: which version this module is read at is the runner's, and its
-declarations send nothing. A case writing either **refuses** as a case. The module stands in
-front of the case's own document in the link, so what the host brings is there
-to be named. Each procedure is keyed by its name and written the way a
+declarations send nothing. A case writing either **refuses** as a case. The
+module stands in front of the case's own document in the link, so what the host
+brings is there to be named. Each procedure is keyed by its name and written the way a
 declaration is, with four keys of its own beside it:
 
     answers     what it answers, whatever it was sent. Default null
