@@ -1275,7 +1275,7 @@ them (`std.math`, `std.collection`) links only with `std` in the link:
 
 **The signatures, exactly.** A second implementation writes these; it must not
 have to guess them. The *receiver* column is the parameter a call fills by
-writing a receiver in front (the `of`/`over` key in a `call`); everything else
+writing a receiver in front (the `of` key in a `call`); everything else
 is written by name under `arguments`. A parameter with a `default` may be left out. A slot
 typed `pure procedure` takes only a procedure that answers without running.
 
