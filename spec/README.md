@@ -574,7 +574,7 @@ Written as a bare string. Its type, or as a record:
 | `type` | type | no; absent means `any` |
 | `oneOf` | array. The values this parameter admits | no |
 | `default` | the value used when the argument is absent | no |
-| `hint` | string | no |
+| `description` | string | no |
 
 `oneOf` is judged wherever an argument is settled against the parameter: at the
 **build** for a constant argument, at the run's boundary otherwise. The
