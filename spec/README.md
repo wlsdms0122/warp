@@ -412,7 +412,9 @@ What **refuses at the build**:
 - reaching the end of a body still holding one;
 - handing one on a second time;
 - handing one on in one arm of a conditional and not the other, since what a
-  body holds afterwards would depend on which arm ran;
+  body holds afterwards would depend on which arm ran. An arm that **leaves** is
+  not one of those arms: no run comes back from it, so the arms that finish are
+  the only ones what the body holds afterwards stands on;
 - handing one on inside a loop round, inside an `attempt`, in a call of a value
   (`apply`), or capturing one in a closure. Each of those runs no fixed number
   of times, or fails somewhere the text does not show, so "exactly once" is not
