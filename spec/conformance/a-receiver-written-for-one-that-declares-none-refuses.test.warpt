@@ -1,0 +1,33 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-receiver-written-for-one-that-declares-none-refuses"
+  note "`plain` declares no `receiver`, so it has no slot for what stands in front of the dot. A value written there would go nowhere, and the build says so rather than dropping it."
+  program {
+    imports []
+    procedures {
+      entry {
+        result {
+          call {
+            of 7
+            procedure "plain"
+          }
+        }
+        returns "int"
+      }
+      plain {
+        parameters {
+          value "int"
+        }
+        result {
+          ref "value"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
