@@ -1,0 +1,71 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-break-does-not-excuse-the-arm-it-leaves-from"
+  note "A run does come back from a break: it comes back out of the loop still holding what the arm opened, so such an arm is held to the same rule any other arm is."
+  program {
+    imports [
+      "app.open"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            let "spin"
+            value {
+              loop {
+                body [
+                  {
+                    value {
+                      conditional {
+                        then [
+                          {
+                            let "own"
+                            value {
+                              call {
+                                procedure "app.open"
+                              }
+                            }
+                          }
+                          {
+                            value {
+                              break null
+                            }
+                          }
+                        ]
+                        when true
+                      }
+                    }
+                  }
+                ]
+                while true
+              }
+            }
+          }
+        ]
+        result null
+      }
+    }
+    warp 1
+  }
+  test 3
+  vocabulary {
+    procedures {
+      "app.open" {
+        answers app.Handle {
+          name "f"
+        }
+        returns "app.Handle"
+      }
+    }
+    types {
+      "app.Handle" {
+        linear {
+          name "string"
+        }
+      }
+    }
+  }
+}
