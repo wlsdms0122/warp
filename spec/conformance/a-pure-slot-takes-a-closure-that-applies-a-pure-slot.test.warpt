@@ -1,0 +1,72 @@
+warpt 1
+{
+  expect {
+    answers true
+  }
+  name "a-pure-slot-takes-a-closure-that-applies-a-pure-slot"
+  note "A procedure that applies a name its own slot said holds a procedure answering without running answers without running itself. So a closure sending it fits a slot asking `pure procedure`."
+  program {
+    imports [
+      "std.logic.and"
+    ]
+    procedures {
+      "app.asking" {
+        body [
+          {
+            let "answered"
+            value {
+              apply {
+                procedure {
+                  ref "body"
+                }
+              }
+            }
+          }
+        ]
+        parameters {
+          body {
+            type {
+              "pure procedure" {
+                returns "bool"
+              }
+            }
+          }
+        }
+        result {
+          ref "answered"
+        }
+        returns "bool"
+      }
+      entry {
+        result {
+          call {
+            of [
+              {
+                closure {
+                  result {
+                    call {
+                      arguments {
+                        body {
+                          closure {
+                            result true
+                            returns "bool"
+                          }
+                        }
+                      }
+                      procedure "app.asking"
+                    }
+                  }
+                  returns "bool"
+                }
+              }
+            ]
+            procedure "std.logic.and"
+          }
+        }
+        returns "bool"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
