@@ -1509,6 +1509,14 @@ means differs between the engines a host would reach for, so a host brings this
 one or leaves it out, the way it grants any bundle. A document reaching for it
 is asking for something of its host rather than of the language.
 
+**A bundle stands above what it sends to.** The bundles a link lays down have to
+have an order to be compiled in, so a bundle whose procedures call another's
+cannot be called back: `std.logic` and `std.text` walk, so they send
+`std.collection.count`, and `std.collection` reaches neither of them. This is
+what an implementation is choosing between when it writes a procedure in Warp
+rather than in its own language, and it is why `contains`, which asks one
+question of a string and another of an array, is written natively here.
+
 **The signatures, exactly.** A second implementation writes these; it must not
 have to guess them. The *receiver* column is the parameter a call fills by
 writing a receiver in front (the `of` key in a `call`); everything else is
