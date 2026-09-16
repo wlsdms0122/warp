@@ -65,7 +65,7 @@ run with another, and none of them share code.
 The specification is the language. An implementation. This runtime included. Is
 complete when it does what the specification says, and no more complete for
 doing anything else. A front end or runtime in another language starts from
-`spec/README.md` and `spec/conformance/`, not from the Swift source.
+`spec/` and `spec/conformance/`, not from the Swift source.
 
 ## The shortest tour
 
