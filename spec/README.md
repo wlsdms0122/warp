@@ -1520,15 +1520,17 @@ means differs between the engines a host would reach for, so a host brings this
 one or leaves it out, the way it grants any bundle. A document reaching for it
 is asking for something of its host rather than of the language.
 
-**A bundle stands above what it sends to.** A module is compiled against the
-modules standing before it, so the modules of a link have to have an order, and
-two that send to each other have none. A bundle whose procedures call another's
-therefore cannot be called back: `std.logic` and `std.text` walk, so they send
-`std.collection.count`, and `std.collection` reaches neither of them. This is
-part of what an implementation weighs when it writes a procedure in Warp rather
-than in its own language, and it is why `contains`, which asks one question of a
-string and another of an array and so would have to tell the two apart, is
-written natively here.
+**A bundle is not a module.** A module is compiled against the modules standing
+before it, so the modules of a link have to have an order, and two that send to
+each other have none. What a bundle declares for its host to answer has no body
+and so waits for nothing; what it writes in Warp sends to whatever it needs. An
+implementation that lands both halves of a bundle in one module holds the
+builtin half to the written half's order, and two bundles whose written halves
+lean on each other then have no order at all: `std.logic` walks, so it sends
+`std.collection.count`, and a collection procedure comparing two elements sends
+`std.logic.equal`. Landing them apart is how the same set of procedures links,
+and it is what an implementation weighs when it writes a procedure in Warp
+rather than in its own language.
 
 **The signatures, exactly.** A second implementation writes these; it must not
 have to guess them. The *receiver* column is the parameter a call fills by
