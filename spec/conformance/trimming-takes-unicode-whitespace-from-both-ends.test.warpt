@@ -1,0 +1,33 @@
+warpt 1
+{
+  expect {
+    answers "warp"
+  }
+  name "trimming-takes-unicode-whitespace-from-both-ends"
+  note "What `trimmed` removes is Unicode's White_Space and not a platform's own set. A no-break space and an ideographic space are whitespace; a zero-width space is not, so one at either end stays."
+  program {
+    imports [
+      "std.text.trimmed"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            let "bare"
+            value {
+              call {
+                of " 　 warp \r\n"
+                procedure "std.text.trimmed"
+              }
+            }
+          }
+        ]
+        result {
+          ref "bare"
+        }
+      }
+    }
+    warp 1
+  }
+  test 2
+}

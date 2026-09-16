@@ -1510,9 +1510,10 @@ swapped, and both are called the same way. An implementation that wants its own
 `greaterThan` declares one under that name, and the link takes it, which is what
 every name outside the builtin set is open to.
 
-One of these is builtin only because something else is missing. `trimmed`
-would be written in Warp if anything named the characters it removes; nothing
-does, so a body written from `characters` would have to invent the list.
+One of these is builtin for a reason that is not the set it removes. `trimmed`
+names that set, and a body written from `characters` still could not answer it:
+`characters` answers characters, and whether a character is whitespace is a
+question about the code points inside it.
 
 `regex` is the one procedure `std` declares that is in neither set. It cannot be
 written in Warp and it is not required of an implementation: what a pattern
@@ -1606,6 +1607,16 @@ are two procedures because a string is not an array here: it has a `count` but
 no elements to read by position, since where the tenth character starts is only
 known by walking the nine in front of it. A program that wants a string's
 characters as a collection asks `characters` for them.
+
+`trimmed` removes the whitespace at either end and nothing from the middle. A
+character goes only if **every one of its code points** has Unicode's
+`White_Space` property, and nothing a platform adds to that set is whitespace
+here. Both halves of that rule are load-bearing: `\r\n` is one character and
+two code points, both of them `White_Space`, so it goes; a space carrying a
+combining mark is also one character and two code points, and the mark is not
+`White_Space`, so it stays where it was written. A zero-width space is not
+whitespace in Unicode and so is not trimmed, however a platform's own set
+answers.
 
 `regex` answers whether the pattern matches *anywhere* in the text. A program
 asking about the whole anchors the pattern itself (`^…$`). A pattern that does
@@ -2118,11 +2129,6 @@ have to guess, and would be entitled to guess differently.
   answer the same document differently. That is why it is required of no
   implementation, but naming a dialect would be a better answer than leaving it
   out.
-- **`trimmed` does not say what it removes.** The table says it trims and says
-  nothing about which characters are whitespace, so two hosts reading their own
-  platform's answer trim differently. Naming a set (Unicode's `White_Space` is
-  the one to name) would settle that and make the procedure writable in Warp
-  from `characters`.
 - **The text decision is cheap in Swift and dear elsewhere.** Grapheme-cluster
   counting and canonical equivalence are the platform's gift in Swift and a
   library obligation in most other languages; the decision stands, and the

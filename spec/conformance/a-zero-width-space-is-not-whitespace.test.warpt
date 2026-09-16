@@ -1,0 +1,80 @@
+warpt 1
+{
+  expect {
+    answers 5
+  }
+  name "a-zero-width-space-is-not-whitespace"
+  note "Unicode does not give a zero-width space the White_Space property, so trimming leaves one where it stands however a platform's own whitespace set answers. Written as its bytes, since a character with no width is one a document cannot show."
+  program {
+    imports [
+      "std.collection.count"
+      "std.text.characters"
+      "std.text.decoded"
+      "std.text.joined"
+      "std.text.trimmed"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            let "thin"
+            value {
+              call {
+                of x"e2808b"
+                procedure "std.text.decoded"
+              }
+            }
+          }
+          {
+            let "written"
+            value {
+              call {
+                of [
+                  " "
+                  "warp"
+                  {
+                    ref "thin"
+                  }
+                  " "
+                ]
+                procedure "std.text.joined"
+              }
+            }
+          }
+          {
+            let "bare"
+            value {
+              call {
+                of {
+                  ref "written"
+                }
+                procedure "std.text.trimmed"
+              }
+            }
+          }
+          {
+            let "held"
+            value {
+              call {
+                of {
+                  call {
+                    of {
+                      ref "bare"
+                    }
+                    procedure "std.text.characters"
+                  }
+                }
+                procedure "std.collection.count"
+              }
+            }
+          }
+        ]
+        result {
+          ref "held"
+        }
+      }
+    }
+    warp 1
+  }
+  test 2
+}
