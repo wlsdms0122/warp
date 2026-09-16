@@ -175,8 +175,8 @@ cannot say:
 | `array` / `dictionary` | a list / map of anything |
 | `array<T>` / `dictionary<T>` | a list / map of `T` |
 | `procedure` | some procedure, signature unsaid |
-| `pure <procedure type>` | a procedure that answers without running, under *what answers without running* |
-| `isolated <procedure type>` | a procedure that touches no name another body could touch at once; `pure isolated procedure` says both, and the reader takes the two in either order |
+| `const <procedure type>` | a procedure that answers without running, under *what answers without running* |
+| `isolated <procedure type>` | a procedure that touches no name another body could touch at once; `const isolated procedure` says both, and the reader takes the two in either order |
 | `inout <type>` | a parameter handed a variable in place; written on a parameter's type and nowhere else |
 | `{ linear: <type> }` | a type whose values are handed on exactly once; written on a type in `types` and nowhere else, and every slot naming that type carries it |
 | `consuming <type>` / `borrowing <type>` | what a parameter does with a value handed on once: takes the obligation, or reads and leaves it. Written on a parameter's type and nowhere else |
@@ -210,8 +210,8 @@ is, name included.
 is a nullable handed in place. They say something about the slot and nothing
 about the value, so what fits the slot is judged by the type after the
 procedure. Writing either where it is not allowed **refuses** at the build. A
-slot asking `isolated` takes what the build derived as isolated. Purity is a
-separate claim and does not stand in for it.
+slot asking `isolated` takes what the build derived as isolated. Answering
+without running is a separate claim and does not stand in for it.
 
 **What a slot takes, exactly.** Where a value meets a declaration. An
 argument, a taken default, an answer, and a write into a box that said what it
@@ -699,7 +699,7 @@ the run it was handed:
 - it reads no module variable and writes none, since what one of those holds is
   the run's rather than the text's;
 - it calls a value (`apply`) only through a name a slot declared
-  `pure procedure`. That is the one place something before the run says what
+  `const procedure`. That is the one place something before the run says what
   the value answers; on any other name nothing does. The claim is the slot's
   and so it stands wherever the name is read, a closure that **captured** the
   name included;
@@ -720,7 +720,7 @@ declared are held to what it said, under *a procedure the host answers* above.
 A closure literal is judged by the same rule, and the answer travels with the
 closure as a value, so a slot reads it wherever the value arrives. What it
 captured it is judged with: a name the enclosing scope held under a slot that
-said `pure procedure` is one the closure may apply, which is what lets a body
+said `const procedure` is one the closure may apply, which is what lets a body
 build a closure per element and hand the lot to `std.concurrent.all`.
 **Isolation reads a captured name the same way**, through a slot that said
 `isolated procedure`.
@@ -729,7 +729,7 @@ build a closure per element and hand the lot to `std.concurrent.all`.
 
 - a **constant** and a **module variable** settle at the **build**, from these
   procedures alone;
-- a slot may **ask** for one, writing `pure procedure`. That is how
+- a slot may **ask** for one, writing `const procedure`. That is how
   `std.logic.and` takes sides it may decline to read and how
   `std.collection.filter` takes a predicate that cannot reach the world;
 - an **operand** may call one. A call's arguments and the receiver written in
@@ -1022,7 +1022,7 @@ A failure is data the moment a rescue holds it, which is why no ninth kind
 exists for it.
 
 **What a body may fail with is known before it runs.** The build derives it the
-way it derives purity and isolation, and the types a failure names itself by
+way it derives constness and isolation, and the types a failure names itself by
 (`aborted`, `cast_refused`) are what it derives: a body fails with what its
 plain casts fail with (`cast_refused`, the one failure the runtime itself
 raises; `as?` reads the same mismatch as null and raises nothing), with what
@@ -1244,7 +1244,7 @@ happened yet:
   no call could ever match refuses, the empty and the all-dead list being
   the plainest cases. A range's bounds admit something, and a `default` is
   a value the parameter itself admits. `type`, range and `enum` together;
-- a slot declared `pure` takes only a procedure that answers without running,
+- a slot declared `const` takes only a procedure that answers without running,
   under *what answers without running* above; a slot declared `isolated` takes
   only a procedure the build derived as isolated;
 - a slot declaring a membership takes what the membership admits, and a value
@@ -1380,7 +1380,7 @@ promised is that it can always be told to stop.
 so the only thing two bodies running at once could contend for is a written
 name, or a box a native procedure holds. What may run beside another body is an
 **isolated** closure, and which closures are isolated the build works out, the
-way it works out purity:
+way it works out constness:
 
 - **Two kinds of body, told apart by where they are written.** Every
   `body`/`block` slot the document grammar has. `block`, a `conditional` arm, a
@@ -1410,11 +1410,11 @@ way it works out purity:
   variable a closure captured), hands none of those in place, calls a value
   (`apply`) only through a name a slot declared `isolated procedure`, and calls
   only isolated declarations. The slot's word is what says an applied value
-  writes only its own names, the same way `pure procedure` is what says an
+  writes only its own names, the same way `const procedure` is what says an
   applied value answers without running, and a closure carries the word for a
   name it captured. The build starts every body
   isolated and strikes them until nothing more is struck, and judges every
-  closure literal by the same rule. A closure value carries the purity and
+  closure literal by the same rule. A closure value carries the constness and
   isolation the build derived, and a slot asking for either reads them wherever
   the value arrives, through `any` or an undeclared field included.
 - **A native procedure says whether it is isolated, and is taken at its word for
@@ -1422,7 +1422,7 @@ way it works out purity:
   procedure keeps in the host language is outside the document, so the procedure
   declares it. A procedure that declares nothing is isolated, and one that holds
   state between calls declares otherwise, which strikes every body that reaches
-  it. Purity does not answer this: a procedure can answer without running and
+  it. `const` does not answer this: a procedure can answer without running and
   still answer from a box two callers share. What the build does hold this claim
   to is what the procedure sends, under *a procedure the host answers* above.
 - **A procedure that runs closures at once asks for isolated ones.**
@@ -1534,7 +1534,7 @@ written natively here.
 have to guess them. The *receiver* column is the parameter a call fills by
 writing a receiver in front (the `of` key in a `call`); everything else is
 written by name under `arguments`. A parameter with a `default` may be left out.
-A slot typed `pure procedure` takes only a procedure that answers without
+A slot typed `const procedure` takes only a procedure that answers without
 running.
 
 *std.logic*
@@ -1543,7 +1543,7 @@ running.
 |---|---|---|---|
 | `equal`, `notEqual` | `of: any = null` | `value: any = null` | `bool` |
 | `not` | `of: bool` |. | `bool` |
-| `and`, `or` | `of: array<pure procedure>` |. | `bool` |
+| `and`, `or` | `of: array<const procedure>` |. | `bool` |
 | `select` | `of: bool` | `then`, `else`. Pure procedures taking nothing, each answering `some Answer` | `some Answer` |
 
 `and` and `or` take procedures precisely so they need not run them all: the
@@ -2033,7 +2033,7 @@ at fixed places and a case cannot invent a place in another runner.
 
 This is the only way a case reaches the three things answering without running
 permits, all of which need a procedure with no body: a constant settling, a
-slot asking `pure procedure`, and an operand calling one.
+slot asking `const procedure`, and an operand calling one.
 
 The cases here are `test 2` where they say nothing new and `test 3` where they
 ask for a vocabulary: `test 1` spelled the middle stage `link`, and a runner

@@ -3,8 +3,8 @@ warpt 1
   expect {
     answers true
   }
-  name "a-pure-slot-takes-a-closure-that-applies-a-pure-slot"
-  note "A procedure that applies a name its own slot said holds a procedure answering without running answers without running itself. So a closure sending it fits a slot asking `pure procedure`."
+  name "a-const-slot-takes-a-closure-that-applies-a-const-slot"
+  note "A procedure that applies a name its own slot said holds a procedure answering without running answers without running itself. So a closure sending it fits a slot asking `const procedure`."
   program {
     imports [
       "std.logic.and"
@@ -26,7 +26,7 @@ warpt 1
         parameters {
           body {
             type {
-              "pure procedure" {
+              "const procedure" {
                 returns "bool"
               }
             }
