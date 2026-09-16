@@ -1,0 +1,167 @@
+warpt 1
+{
+  expect {
+    answers true
+  }
+  name "a-document-writes-startsWith-over-characters"
+  note "Text read as an array of its characters is what lets a document write the procedures that scan text. Each character is a string of its own, so the comparison is the value model's one sameness and reads as a person reads."
+  program {
+    imports [
+      "std.collection.count"
+      "std.logic.equal"
+      "std.math.lessThan"
+      "std.text.characters"
+    ]
+    procedures {
+      "app.startsWith" {
+        body [
+          {
+            let "held"
+            value {
+              call {
+                of {
+                  ref "of"
+                }
+                procedure "std.text.characters"
+              }
+            }
+          }
+          {
+            let "wanted"
+            value {
+              call {
+                of {
+                  ref "value"
+                }
+                procedure "std.text.characters"
+              }
+            }
+          }
+          {
+            value {
+              conditional {
+                then [
+                  {
+                    value {
+                      return false
+                    }
+                  }
+                ]
+                when {
+                  call {
+                    arguments {
+                      value {
+                        call {
+                          of {
+                            ref "wanted"
+                          }
+                          procedure "std.collection.count"
+                        }
+                      }
+                    }
+                    of {
+                      call {
+                        of {
+                          ref "held"
+                        }
+                        procedure "std.collection.count"
+                      }
+                    }
+                    procedure "std.math.lessThan"
+                  }
+                }
+              }
+            }
+          }
+          {
+            let "walk"
+            value {
+              loop {
+                body [
+                  {
+                    let "same"
+                    value {
+                      call {
+                        arguments {
+                          value {
+                            ref "wanted[walk.index]"
+                          }
+                        }
+                        of {
+                          ref "held[walk.index]"
+                        }
+                        procedure "std.logic.equal"
+                      }
+                    }
+                  }
+                  {
+                    value {
+                      conditional {
+                        then [
+                          {
+                            value {
+                              return false
+                            }
+                          }
+                        ]
+                        when {
+                          call {
+                            arguments {
+                              value false
+                            }
+                            of {
+                              ref "same"
+                            }
+                            procedure "std.logic.equal"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+                while {
+                  call {
+                    arguments {
+                      value {
+                        call {
+                          of {
+                            ref "wanted"
+                          }
+                          procedure "std.collection.count"
+                        }
+                      }
+                    }
+                    of {
+                      ref "walk.index"
+                    }
+                    procedure "std.math.lessThan"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        parameters {
+          of "string"
+          value "string"
+        }
+        result true
+        returns "bool"
+      }
+      entry {
+        result {
+          call {
+            arguments {
+              of "warp runtime"
+              value "warp"
+            }
+            procedure "app.startsWith"
+          }
+        }
+        returns "bool"
+      }
+    }
+    warp 1
+  }
+  test 2
+}

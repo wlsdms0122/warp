@@ -1453,7 +1453,7 @@ them (`std.math`, `std.collection`) links only with `std` in the link:
 | `std` |. Declares the memberships `Numeric` and `Comparable`, and the type `byte = int(0...255)` |
 | `std.logic` | `equal` `notEqual` `not` `and` `or` `select` |
 | `std.math` | `plus` `minus` `times` `dividedBy` `remainder` `min` `max` `absolute` `floored` `rounded` `lessThan` `greaterThan` |
-| `std.text` | `text` `startsWith` `regex` `uppercased` `lowercased` `trimmed` `split` `joined` `replacing` `decoded` `encoded` |
+| `std.text` | `text` `characters` `startsWith` `regex` `uppercased` `lowercased` `trimmed` `split` `joined` `replacing` `decoded` `encoded` |
 | `std.collection` | `append` `count` `contains` `first` `last` `reversed` `appending` `prepending` `dropFirst` `dropLast` `sorted` `map` `filter` `reduce` `keys` `values` `setting` |
 | `std.control` | `abort`. Declared `returns: never` |
 | `std.concurrent` | `all` `first` `map`. Run closures at once. Declares the membership `Pieces` |
@@ -1468,12 +1468,12 @@ and takes the rest as a Warp module, the way any other module arrives.
 |---|---|
 | `std.logic` | `equal` |
 | `std.math` | `plus` `minus` `times` `dividedBy` `remainder` `lessThan` `floored` `rounded` |
-| `std.text` | `text` `joined` `uppercased` `lowercased` `encoded` `decoded` `split` `startsWith` `trimmed` |
+| `std.text` | `text` `joined` `characters` `uppercased` `lowercased` `encoded` `decoded` `trimmed` |
 | `std.collection` | `count` `appending` `keys` `setting` |
 | `std.control` | `abort` |
 | `std.concurrent` | `all` `first` |
 
-Twenty-five, beside the memberships and the `byte` type `std` declares. What
+Twenty-four, beside the memberships and the `byte` type `std` declares. What
 makes one builtin is that the language cannot express it: arithmetic and
 ordering are the machine's, case mapping and encoding carry Unicode's tables
 with them, running at once is the host's scheduler, and `appending` is the only
@@ -1485,9 +1485,9 @@ swapped, and both are called the same way. An implementation that wants its own
 `greaterThan` declares one under that name, and the link takes it, which is what
 every name outside the builtin set is open to.
 
-Three of these are builtin only because something else is missing, and they
-name what would replace it: `split`, `startsWith` and `trimmed` would be written
-in Warp if text could be read as an array of its elements.
+One of these is builtin only because something else is missing. `trimmed`
+would be written in Warp if anything named the characters it removes; nothing
+does, so a body written from `characters` would have to invent the list.
 
 `regex` is the one procedure `std` declares that is in neither set. It cannot be
 written in Warp and it is not required of an implementation: what a pattern
@@ -1549,11 +1549,18 @@ edge rules below require.
 | `text` | `of: any` |. | `string` |
 | `startsWith`, `regex` | `of: string` | `value: string` | `bool` |
 | `uppercased`, `lowercased`, `trimmed` | `of: string` |. | `string` |
+| `characters` | `of: string` |. | `array<string>` |
 | `split` | `of: string` | `value: string` | `array<string>` |
 | `joined` | `of: array<string>` | `value: string = ""` | `string` |
 | `decoded` | `of: bytes` | `encoding: string = "utf8"`, enum `["utf8"]` | `string`. **refuses at the run** when the bytes are not text in that encoding |
 | `encoded` | `of: string` | `encoding: string = "utf8"`, enum `["utf8"]` | `bytes` |
 | `replacing` | `of: string` | `value: string`, `with: string` | `string` |
+
+`characters` answers the text as an array of its characters, each one a string
+of its own, counted the way `count` counts. Answered for the whole text rather
+than read one at a time: a character is an extended grapheme cluster, so where
+the tenth one starts is only known by walking the nine in front of it, and a
+body reading them in order would pay that walk every round.
 
 `regex` answers whether the pattern matches *anywhere* in the text. A program
 asking about the whole anchors the pattern itself (`^…$`). A pattern that does
@@ -2052,9 +2059,11 @@ have to guess, and would be entitled to guess differently.
   answer the same document differently. That is why it is required of no
   implementation, but naming a dialect would be a better answer than leaving it
   out.
-- **Text has no element access.** Three procedures are builtin because of it:
-  `split`, `startsWith` and `trimmed` would be written in Warp if text read as
-  an array of its elements. A language gap rather than a vocabulary one.
+- **`trimmed` does not say what it removes.** The table says it trims and says
+  nothing about which characters are whitespace, so two hosts reading their own
+  platform's answer trim differently. Naming a set (Unicode's `White_Space` is
+  the one to name) would settle that and make the procedure writable in Warp
+  from `characters`.
 - **The text decision is cheap in Swift and dear elsewhere.** Grapheme-cluster
   counting and canonical equivalence are the platform's gift in Swift and a
   library obligation in most other languages; the decision stands, and the
