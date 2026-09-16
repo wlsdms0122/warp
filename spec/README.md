@@ -1477,7 +1477,7 @@ bundles' signatures mention, and a bundle mentioning them (`std.math`,
 | `std` |. Declares the memberships `Numeric` and `Comparable`, and the type `byte = int(0...255)` |
 | `std.logic` | `equal` `notEqual` `not` `and` `or` `select` |
 | `std.math` | `plus` `minus` `times` `dividedBy` `remainder` `min` `max` `absolute` `floored` `rounded` `lessThan` `greaterThan` |
-| `std.text` | `text` `characters` `startsWith` `regex` `uppercased` `lowercased` `trimmed` `split` `joined` `replacing` `decoded` `encoded` |
+| `std.text` | `text` `characters` `contains` `startsWith` `regex` `uppercased` `lowercased` `trimmed` `split` `joined` `replacing` `decoded` `encoded` |
 | `std.collection` | `append` `count` `contains` `first` `last` `reversed` `appending` `prepending` `gathering` `dropFirst` `dropLast` `sorted` `map` `filter` `reduce` `keys` `values` `setting` |
 | `std.control` | `abort`. Declared `returns: never` |
 | `std.concurrent` | `all` `first` `map`. Run closures at once. Declares the membership `Pieces` |
@@ -1584,7 +1584,7 @@ edge rules below require.
 | procedure | receiver | arguments | answers |
 |---|---|---|---|
 | `text` | `of: any` |. | `string` |
-| `startsWith`, `regex` | `of: string` | `value: string` | `bool` |
+| `contains`, `startsWith`, `regex` | `of: string` | `value: string` | `bool` |
 | `uppercased`, `lowercased`, `trimmed` | `of: string` |. | `string` |
 | `characters` | `of: string` |. | `array<string>` |
 | `split` | `of: string` | `value: string` | `array<string>` |
@@ -1599,6 +1599,14 @@ than read one at a time: a character is an extended grapheme cluster, so where
 the tenth one starts is only known by walking the nine in front of it, and a
 body reading them in order would pay that walk every round.
 
+**Two bundles declare `contains`, and they ask different questions.**
+`std.collection.contains` asks whether an array holds an element;
+`std.text.contains` asks whether a string holds another string inside it. They
+are two procedures because a string is not an array here: it has a `count` but
+no elements to read by position, since where the tenth character starts is only
+known by walking the nine in front of it. A program that wants a string's
+characters as a collection asks `characters` for them.
+
 `regex` answers whether the pattern matches *anywhere* in the text. A program
 asking about the whole anchors the pattern itself (`^…$`). A pattern that does
 not compile, written as a constant, refuses before the run the way any constant
@@ -1606,8 +1614,8 @@ argument does. `replacing` rewrites every occurrence, not only the first.
 `split` keeps the empty pieces a separator at either end leaves, since dropping
 them would be an opinion about the text rather than a reading of it. Both refuse
 a separator holding no characters, which would match everywhere and consume
-nothing; the refusal is `aborted`, so an attempt around either catches it. The
-procedures that read text. `startsWith` included. Read as a person reads, under
+nothing; the refusal is `aborted`, so an attempt around either catches it. The procedures that
+read text, `contains` and `startsWith` included, read as a person reads, under
 the value model's canonical equivalence.
 
 `text` spells a value the way a document writes it. Bytes included, as `x`
@@ -1629,7 +1637,7 @@ instead: the array.
 |---|---|---|---|
 | `append` | `to: inout array<some Element>` | `value: some Element` | `null`, having written the element onto the end of the array the variable holds, in place |
 | `count` | `of: any` |. | `int` |
-| `contains` | `of: any` | `value: any` | `bool` |
+| `contains` | `of: array<some Element>` | `value: some Element` | `bool` |
 | `first`, `last` | `of: array<some Element>` |. | `some Element` |
 | `reversed`, `dropFirst`, `dropLast` | `of: array<some Element>` |. | `array<some Element>` |
 | `sorted` | `of: array<some Element>` |. | `array<some Element>`. Bounds `Element: Comparable` |

@@ -6,6 +6,7 @@ warpt 1
     "std.collection.count"
     "std.collection.gathering"
     "std.collection.keys"
+    "std.logic.equal"
     "std.math.lessThan"
     "std.math.minus"
     "std.math.plus"
@@ -38,6 +39,81 @@ warpt 1
       receiver "to"
       result null
       returns "null"
+    }
+    "std.collection.contains" {
+      body [
+        {
+          value false
+          var "found"
+        }
+        {
+          let "walk"
+          value {
+            loop {
+              body [
+                {
+                  value {
+                    conditional {
+                      then [
+                        {
+                          set "found"
+                          value true
+                        }
+                        {
+                          value {
+                            break null
+                          }
+                        }
+                      ]
+                      when {
+                        call {
+                          arguments {
+                            value {
+                              ref "value"
+                            }
+                          }
+                          of {
+                            ref "of[walk.index]"
+                          }
+                          procedure "std.logic.equal"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+              while {
+                call {
+                  arguments {
+                    value {
+                      call {
+                        of {
+                          ref "of"
+                        }
+                        procedure "std.collection.count"
+                      }
+                    }
+                  }
+                  of {
+                    ref "walk.index"
+                  }
+                  procedure "std.math.lessThan"
+                }
+              }
+            }
+          }
+        }
+      ]
+      description "Whether an array holds a value."
+      parameters {
+        of "array<some Element>"
+        value "some Element"
+      }
+      receiver "of"
+      result {
+        ref "found"
+      }
+      returns "bool"
     }
     "std.collection.dropFirst" {
       body [
