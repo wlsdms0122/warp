@@ -1544,7 +1544,7 @@ running.
 | `equal`, `notEqual` | `of: any = null` | `value: any = null` | `bool` |
 | `not` | `of: bool` |. | `bool` |
 | `and`, `or` | `of: array<const procedure>` |. | `bool` |
-| `select` | `of: bool` | `then`, `else`. Pure procedures taking nothing, each answering `some Answer` | `some Answer` |
+| `select` | `of: bool` | `then`, `else`. `const` procedures taking nothing, each answering `some Answer` | `some Answer` |
 
 `and` and `or` take procedures precisely so they need not run them all: the
 sides are read in order and the procedure stops at the first side that settles
@@ -1633,9 +1633,9 @@ instead: the array.
 | `sorted` | `of: array<some Element>` |. | `array<some Element>`. Bounds `Element: Comparable` |
 | `appending`, `prepending` | `of: array<some Element>` | `value: some Element` | `array<some Element>` |
 | `gathering` | `of: array<some Element>` | `value: array<int>`. Where to read, in the order to read it | `array<some Element>`, the receiver's own, in the receiver's spelling. A position the receiver does not hold refuses at the run |
-| `map` | `of: array<some Element>` | `value`. Pure procedure, handed `item`, answering `some Answer` | `array<some Answer>` |
-| `filter` | `of: array<some Element>` | `value`. Pure procedure, handed `item`, answering `bool` | `array<some Element>` |
-| `reduce` | `of: array<some Element>` | `from: some Carried`; `value`. Pure procedure, handed `carried` and `item`, answering `some Carried` | `some Carried` |
+| `map` | `of: array<some Element>` | `value`. `const` procedure, handed `item`, answering `some Answer` | `array<some Answer>` |
+| `filter` | `of: array<some Element>` | `value`. `const` procedure, handed `item`, answering `bool` | `array<some Element>` |
+| `reduce` | `of: array<some Element>` | `from: some Carried`; `value`. `const` procedure, handed `carried` and `item`, answering `some Carried` | `some Carried` |
 | `keys` | `of: dictionary<any>` |. | `array<string>` |
 | `values` | `of: dictionary<some Entry>` |. | `array<some Entry>` |
 | `setting` | `of: dictionary<any>` | `key: string`, `value: any` | `dictionary<any>` |
