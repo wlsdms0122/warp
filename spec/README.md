@@ -1565,7 +1565,11 @@ body reading them in order would pay that walk every round.
 `regex` answers whether the pattern matches *anywhere* in the text. A program
 asking about the whole anchors the pattern itself (`^…$`). A pattern that does
 not compile, written as a constant, refuses before the run the way any constant
-argument does. `replacing` rewrites every occurrence, not only the first. The
+argument does. `replacing` rewrites every occurrence, not only the first.
+`split` keeps the empty pieces a separator at either end leaves, since dropping
+them would be an opinion about the text rather than a reading of it. Both refuse
+a separator holding no characters, which would match everywhere and consume
+nothing; the refusal is `aborted`, so an attempt around either catches it. The
 procedures that read text. `startsWith` included. Read as a person reads, under
 the value model's canonical equivalence.
 
