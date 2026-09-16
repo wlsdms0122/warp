@@ -1,0 +1,165 @@
+warpt 1
+{
+  expect {
+    answers [
+      2
+      4
+      6
+    ]
+  }
+  name "a-closure-carries-what-a-captured-slot-said"
+  note "A slot's word about the procedures it holds stands wherever the name is read, a closure that captured it included. That is what lets a body build one closure per element and hand the lot to a fan-out: each piece applies the captured procedure and is isolated for the same reason the body around it would be."
+  program {
+    imports [
+      "std.collection.appending"
+      "std.collection.count"
+      "std.concurrent.all"
+      "std.math.lessThan"
+      "std.math.times"
+    ]
+    procedures {
+      "app.eachAtOnce" {
+        body [
+          {
+            value []
+            var "pieces"
+          }
+          {
+            let "walk"
+            value {
+              loop {
+                body [
+                  {
+                    let "item"
+                    value {
+                      ref "of[walk.index]"
+                    }
+                  }
+                  {
+                    let "piece"
+                    value {
+                      closure {
+                        body [
+                          {
+                            let "answered"
+                            value {
+                              apply {
+                                arguments {
+                                  item {
+                                    ref "item"
+                                  }
+                                }
+                                procedure {
+                                  ref "value"
+                                }
+                              }
+                            }
+                          }
+                        ]
+                        result {
+                          ref "answered"
+                        }
+                      }
+                    }
+                  }
+                  {
+                    set "pieces"
+                    value {
+                      call {
+                        arguments {
+                          value {
+                            ref "piece"
+                          }
+                        }
+                        of {
+                          ref "pieces"
+                        }
+                        procedure "std.collection.appending"
+                      }
+                    }
+                  }
+                ]
+                while {
+                  call {
+                    arguments {
+                      value {
+                        call {
+                          of {
+                            ref "of"
+                          }
+                          procedure "std.collection.count"
+                        }
+                      }
+                    }
+                    of {
+                      ref "walk.index"
+                    }
+                    procedure "std.math.lessThan"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        parameters {
+          of "array<int>"
+          value {
+            type {
+              "isolated procedure" {
+                parameters {
+                  item "int"
+                }
+                returns "int"
+              }
+            }
+          }
+        }
+        result {
+          call {
+            of {
+              ref "pieces"
+            }
+            procedure "std.concurrent.all"
+          }
+        }
+        returns "array<int>"
+      }
+      entry {
+        result {
+          call {
+            arguments {
+              of [
+                1
+                2
+                3
+              ]
+              value {
+                closure {
+                  parameters {
+                    item "int"
+                  }
+                  result {
+                    call {
+                      arguments {
+                        value 2
+                      }
+                      of {
+                        ref "item"
+                      }
+                      procedure "std.math.times"
+                    }
+                  }
+                  returns "int"
+                }
+              }
+            }
+            procedure "app.eachAtOnce"
+          }
+        }
+        returns "array<int>"
+      }
+    }
+    warp 1
+  }
+  test 2
+}

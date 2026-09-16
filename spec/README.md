@@ -700,7 +700,9 @@ the run it was handed:
   the run's rather than the text's;
 - it calls a value (`apply`) only through a name a slot declared
   `pure procedure`. That is the one place something before the run says what
-  the value answers; on any other name nothing does;
+  the value answers; on any other name nothing does. The claim is the slot's
+  and so it stands wherever the name is read, a closure that **captured** the
+  name included;
 - and every procedure it sends answers without running.
 
 A construct reaches nothing on its own. Which part of a `conditional`, `loop`,
@@ -716,7 +718,12 @@ call each other settle together rather than each waiting on the other. A
 procedure with **no body** says it about itself instead, and the sends it
 declared are held to what it said, under *a procedure the host answers* above.
 A closure literal is judged by the same rule, and the answer travels with the
-closure as a value, so a slot reads it wherever the value arrives.
+closure as a value, so a slot reads it wherever the value arrives. What it
+captured it is judged with: a name the enclosing scope held under a slot that
+said `pure procedure` is one the closure may apply, which is what lets a body
+build a closure per element and hand the lot to `std.concurrent.all`.
+**Isolation reads a captured name the same way**, through a slot that said
+`isolated procedure`.
 
 **What it permits.** Three places, and they are what the claim is for:
 
@@ -1400,8 +1407,12 @@ way it works out purity:
   it gave it.
 - **Isolation is derived for a body and declared by a procedure.** A body is
   isolated when it writes no name it did not declare (a module variable, or a
-  variable a closure captured), hands none of those in place, calls no value
-  (`apply`), and calls only isolated declarations. The build starts every body
+  variable a closure captured), hands none of those in place, calls a value
+  (`apply`) only through a name a slot declared `isolated procedure`, and calls
+  only isolated declarations. The slot's word is what says an applied value
+  writes only its own names, the same way `pure procedure` is what says an
+  applied value answers without running, and a closure carries the word for a
+  name it captured. The build starts every body
   isolated and strikes them until nothing more is struck, and judges every
   closure literal by the same rule. A closure value carries the purity and
   isolation the build derived, and a slot asking for either reads them wherever
