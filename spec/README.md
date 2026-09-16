@@ -1467,7 +1467,7 @@ bundles' signatures mention, and a bundle mentioning them (`std.math`,
 | `std.logic` | `equal` `notEqual` `not` `and` `or` `select` |
 | `std.math` | `plus` `minus` `times` `dividedBy` `remainder` `min` `max` `absolute` `floored` `rounded` `lessThan` `greaterThan` |
 | `std.text` | `text` `characters` `startsWith` `regex` `uppercased` `lowercased` `trimmed` `split` `joined` `replacing` `decoded` `encoded` |
-| `std.collection` | `append` `count` `contains` `first` `last` `reversed` `appending` `prepending` `dropFirst` `dropLast` `sorted` `map` `filter` `reduce` `keys` `values` `setting` |
+| `std.collection` | `append` `count` `contains` `first` `last` `reversed` `appending` `prepending` `gathering` `dropFirst` `dropLast` `sorted` `map` `filter` `reduce` `keys` `values` `setting` |
 | `std.control` | `abort`. Declared `returns: never` |
 | `std.concurrent` | `all` `first` `map`. Run closures at once. Declares the membership `Pieces` |
 
@@ -1482,15 +1482,16 @@ and takes the rest as a Warp module, the way any other module arrives.
 | `std.logic` | `equal` |
 | `std.math` | `plus` `minus` `times` `dividedBy` `remainder` `lessThan` `floored` `rounded` |
 | `std.text` | `text` `joined` `characters` `uppercased` `lowercased` `encoded` `decoded` `trimmed` |
-| `std.collection` | `count` `appending` `keys` `setting` |
+| `std.collection` | `count` `appending` `gathering` `keys` `setting` |
 | `std.control` | `abort` |
 | `std.concurrent` | `all` `first` |
 
-Twenty-four, beside the memberships and the `byte` type `std` declares. What
+Twenty-five, beside the memberships and the `byte` type `std` declares. What
 makes one builtin is that the language cannot express it: arithmetic and
 ordering are the machine's, case mapping and encoding carry Unicode's tables
-with them, running at once is the host's scheduler, and `appending` is the only
-way an array grows. Everything else is written from those.
+with them, running at once is the host's scheduler, `appending` is the only way
+an array grows, and `gathering` the only way an answer keeps the spelling its
+receiver arrived in. Everything else is written from those.
 
 A procedure being derivable is not a claim that it is unimportant, and a
 document cannot tell the two apart: `greaterThan` is `lessThan` with its sides
@@ -1610,12 +1611,22 @@ instead: the array.
 | `reversed`, `dropFirst`, `dropLast` | `of: array<some Element>` |. | `array<some Element>` |
 | `sorted` | `of: array<some Element>` |. | `array<some Element>`. Bounds `Element: Comparable` |
 | `appending`, `prepending` | `of: array<some Element>` | `value: some Element` | `array<some Element>` |
+| `gathering` | `of: array<some Element>` | `value: array<int>`. Where to read, in the order to read it | `array<some Element>`, the receiver's own, in the receiver's spelling. A position the receiver does not hold refuses at the run |
 | `map` | `of: array<some Element>` | `value`. Pure procedure, handed `item`, answering `some Answer` | `array<some Answer>` |
 | `filter` | `of: array<some Element>` | `value`. Pure procedure, handed `item`, answering `bool` | `array<some Element>` |
 | `reduce` | `of: array<some Element>` | `from: some Carried`; `value`. Pure procedure, handed `carried` and `item`, answering `some Carried` | `some Carried` |
 | `keys` | `of: dictionary<any>` |. | `array<string>` |
 | `values` | `of: dictionary<some Entry>` |. | `array<some Entry>` |
 | `setting` | `of: dictionary<any>` | `key: string`, `value: any` | `dictionary<any>` |
+
+`gathering` is how a procedure answers its receiver's own elements. It says which
+by position, and the answer comes back in the spelling the receiver arrived in:
+bytes rearranged are bytes. This is the whole of what `reversed`, `dropFirst`,
+`dropLast`, `filter` and `sorted` add to a walk, and it is the reason those are
+written in Warp rather than asked of an implementation. A body that read the
+elements out and put them back would answer an array of numbers, because an
+array it started empty has no spelling to keep. The standard name for reading
+one collection at another's positions is a **gather**.
 
 *std.control*
 

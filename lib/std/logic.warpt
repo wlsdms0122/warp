@@ -226,6 +226,71 @@ warpt 1
       result false
       returns "bool"
     }
+    "std.logic.select" {
+      body [
+        {
+          value {
+            conditional {
+              then [
+                {
+                  let "taken"
+                  value {
+                    apply {
+                      procedure {
+                        ref "then"
+                      }
+                    }
+                  }
+                }
+                {
+                  value {
+                    return {
+                      ref "taken"
+                    }
+                  }
+                }
+              ]
+              when {
+                ref "of"
+              }
+            }
+          }
+        }
+        {
+          let "left"
+          value {
+            apply {
+              procedure {
+                ref "else"
+              }
+            }
+          }
+        }
+      ]
+      description "The value one of two sides answers, chosen by a truth."
+      parameters {
+        else {
+          type {
+            "pure procedure" {
+              returns "some Answer"
+            }
+          }
+        }
+        of "bool"
+        then {
+          type {
+            "pure procedure" {
+              returns "some Answer"
+            }
+          }
+        }
+      }
+      receiver "of"
+      result {
+        ref "left"
+      }
+      returns "some Answer"
+    }
   }
   warp 1
 }

@@ -1,0 +1,43 @@
+warpt 1
+{
+  arguments {
+    at [
+      0
+      2
+    ]
+  }
+  expect {
+    refuses "run"
+  }
+  name "gathering-past-the-end-refuses-at-the-run"
+  note "The receiver is there and says how long it is, so a position it does not hold read the length wrong. The same answer an index written past the end gets."
+  program {
+    imports [
+      "std.collection.gathering"
+    ]
+    procedures {
+      entry {
+        parameters {
+          at "array<int>"
+        }
+        result {
+          call {
+            arguments {
+              value {
+                ref "at"
+              }
+            }
+            of [
+              1
+              2
+            ]
+            procedure "std.collection.gathering"
+          }
+        }
+        returns "array<int>"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
