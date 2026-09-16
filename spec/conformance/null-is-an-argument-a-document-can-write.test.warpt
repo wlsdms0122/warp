@@ -1,0 +1,45 @@
+warpt 1
+{
+  expect {
+    answers true
+  }
+  name "null-is-an-argument-a-document-can-write"
+  note "A key a call writes is given, whatever it holds. Null is a value, so a slot that takes `any` takes one, and leaving the key out is the separate fact a required slot refuses."
+  program {
+    imports [
+      "std.logic.equal"
+    ]
+    procedures {
+      "app.takes" {
+        parameters {
+          it "any"
+        }
+        result {
+          call {
+            arguments {
+              value null
+            }
+            of {
+              ref "it"
+            }
+            procedure "std.logic.equal"
+          }
+        }
+        returns "bool"
+      }
+      entry {
+        result {
+          call {
+            arguments {
+              it null
+            }
+            procedure "app.takes"
+          }
+        }
+        returns "bool"
+      }
+    }
+    warp 1
+  }
+  test 2
+}

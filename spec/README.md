@@ -767,6 +767,16 @@ passed argument does. A parameter without a `default` is required. Except that a
 reads as that null; the call check and the boundary both answer this one
 question the same way. There is no third axis of optionality.
 
+**Writing a key is giving it.** What a call wrote and what it left out are two
+different texts, and the boundary reads them as two different things. An
+argument holding null was given, and a slot whose type admits one takes it:
+`any`, a `T?`, a type parameter, which stands for what arrived and settles
+nothing. Omission is the key not being written at all, and that is what a
+`default` answers and what a required slot refuses. This is one convention
+wherever a call is made. A document's `call`, an `apply`, a procedure handing
+values to a closure it was given: each settles against the declaration the same
+way, and a name the declaration does not have refuses in all of them.
+
 **A parameter handed in place.** A parameter typed `inout T` takes no value:
 it takes a variable. The argument is `{ ref: <path> }`, and all of this is
 held at the **build**:
@@ -1600,9 +1610,9 @@ instead: the array.
 | `reversed`, `dropFirst`, `dropLast` | `of: array<some Element>` |. | `array<some Element>` |
 | `sorted` | `of: array<some Element>` |. | `array<some Element>`. Bounds `Element: Comparable` |
 | `appending`, `prepending` | `of: array<some Element>` | `value: some Element` | `array<some Element>` |
-| `map` | `of: array<some Element>` | `value`. Pure procedure, offered `item`, answering `some Answer` | `array<some Answer>` |
-| `filter` | `of: array<some Element>` | `value`. Pure procedure, offered `item`, answering `bool` | `array<some Element>` |
-| `reduce` | `of: array<some Element>` | `from: some Carried`; `value`. Pure procedure, offered `carried` and `item`, answering `some Carried` | `some Carried` |
+| `map` | `of: array<some Element>` | `value`. Pure procedure, handed `item`, answering `some Answer` | `array<some Answer>` |
+| `filter` | `of: array<some Element>` | `value`. Pure procedure, handed `item`, answering `bool` | `array<some Element>` |
+| `reduce` | `of: array<some Element>` | `from: some Carried`; `value`. Pure procedure, handed `carried` and `item`, answering `some Carried` | `some Carried` |
 | `keys` | `of: dictionary<any>` |. | `array<string>` |
 | `values` | `of: dictionary<some Entry>` |. | `array<some Entry>` |
 | `setting` | `of: dictionary<any>` | `key: string`, `value: any` | `dictionary<any>` |
@@ -1618,7 +1628,7 @@ instead: the array.
 | procedure | receiver | arguments | answers |
 |---|---|---|---|
 | `all`, `first` | `of: Pieces`. The membership of `array<isolated procedure>` and `dictionary<isolated procedure>` |. | `any` |
-| `map` | `over: array<some Element>` | `by`. `isolated procedure`, offered `item` and `index`, answering `some Answer` | `array<some Answer>` |
+| `map` | `over: array<some Element>` | `by`. `isolated procedure`, handed `item` and `index`, answering `some Answer` | `array<some Answer>` |
 
 **`std.concurrent`**. Running closures at once. `all` takes a record or an array
 of closures, runs every one, and answers every answer. A record's under its
@@ -1626,7 +1636,7 @@ keys, an array's in its order; a failure fails the whole procedure with every
 piece's failure reported, keyed by the piece it came from. `first` takes the
 same and answers the first success, asking the rest to stop, which piece wins is
 the one timing fact this language admits. `map` takes a collection and one
-closure, calls it once per element. Each call offered `item` and `index`, and
+closure, calls it once per element. Each call handed `item` and `index`, and
 the closure's own signature says which it reads, and answers in the collection's
 order. These are procedures rather than grammar because a closure is already the
 safe unit of concurrent work, and being procedures makes concurrency a
@@ -1651,13 +1661,13 @@ the build. They answer `any`: the answer is shaped like what went in, and a
 membership names a set of types rather than tying one of them to another. What
 a fan-out's answer feeds is checked from `map`, not from these two.
 
-What the procedures offer their closures is one convention, shared with the
-sequential walks: a walking procedure **offers** names. `std.collection.map`
-offers `item`, `reduce` offers `carried` and `item`, `std.concurrent.map`
-offers `item` and `index`, and the closure's own parameters say which of the
-offer it reads. An offered name the closure does not declare is simply not
-taken; a parameter the offer does not cover is missing as usual. `first`
-run over nothing is refused. A procedure that answers exactly one thing has no
+What the procedures hand their closures is one convention, shared with the
+sequential walks. `std.collection.map` hands over `item`, `reduce` hands over
+`carried` and `item`, `std.concurrent.map` hands over `item` and `index`, and a
+closure written for one of them **declares every name it is handed**, whether or
+not its body goes on to read one. A name the closure does not declare refuses,
+the same as anywhere else a call is settled: a walk is not a second calling
+convention. `first` run over nothing is refused. A procedure that answers exactly one thing has no
 empty answer, and a `first` in which nothing succeeds fails the way `all`
 fails: every piece's failure reported, keyed by the piece it came from.
 
