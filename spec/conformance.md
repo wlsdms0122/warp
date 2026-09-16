@@ -1,6 +1,7 @@
 # Conformance
 
-The rules these pages state, as cases that run: `conformance/`. Prose ages against an
+The rules these pages state, as cases that run: `conformance/`. Prose ages
+against an
 implementation that keeps moving, and an implementation is the last thing that
 should be asked whether it is correct. These are the questions asked instead.
 Data rather than code, so an implementation written in another language runs the
@@ -62,9 +63,10 @@ permits rather than what arithmetic does. The names it may declare are `of` and
 `value`, in that order, since a procedure the host answers reads its arguments
 at fixed places and a case cannot invent a place in another runner.
 
-This is the only way a case reaches the three things answering without running
-permits, all of which need a procedure with no body: a constant settling, a
-slot asking `const procedure`, and an operand calling one.
+This is the only way a case reaches what answering without running permits and
+what it does not, both of which need a procedure with no body: a slot asking
+`const procedure`, an operand calling one, and a constant that settles from one
+and is refused for it.
 
 The cases here are `test 2` where they say nothing new and `test 3` where they
 ask for a vocabulary: `test 1` spelled the middle stage `link`, and a runner

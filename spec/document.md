@@ -20,9 +20,9 @@ here **refuses**. Every slot marked *expression*, *block*, *statements* or
 | `procedures` | record: name → procedure | yes, and not empty |
 
 **A module variable.** Its start is written like a constant and settles the same
-way: at the **build**, from native procedures alone, beside the constants and
-reading them. Its type is the type of that settled value, and every write into
-it is settled against that type. It is private to the document like a constant,
+way: at the **build**, from what a constant settles from, beside the constants
+and reading them. Its type is the type of that settled value, and every write
+into it is settled against that type. It is private to the document like a constant,
 read by the same spelling (`ref`), and written by a `set` in a procedure the
 document declares, or through a parameter such a procedure hands it to in place;
 another document reaches it only through such a procedure. A name is a constant

@@ -113,12 +113,14 @@ the same field of either is the same field.
 A constant-headed path never reaches a run: it is judged first like any path.
 The constant's settled value is its declared type, so an absent field or a
 needless `?.` refuses by the same rules, and then folds at the build to the
-value it read. A constant settles from **native procedures alone**: a procedure
-with a written body is itself still being resolved beside the constants it may
-read, so a constant that runs one would be a circle with no start, and it
-refuses at the build. Settling asks those procedures, so a link answers native
-procedures before any of the program runs. An index written as a reference
-(`items[i]`) is a path of its own, judged wherever the outer walk stops: a
+value it read. What a constant may settle from is under *what a constant
+settles from* in [procedures](procedure.md), and a body **its own document**
+declares is not among them: such a body is itself still being resolved beside
+the constants it may read, so a constant that runs one would be a circle with
+no start, and it refuses at the build. Settling asks native procedures, so a
+link answers them before any of the program runs. An index written as a
+reference (`items[i]`) is a path of its own, judged wherever the outer walk
+stops: a
 reference that provably is not a whole number refuses at the build, and one that
 names nothing refuses at the run.
 

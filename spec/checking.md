@@ -8,8 +8,8 @@ happened yet:
   it, or a path through them;
 - every procedure sent is declared by some module in the link, exactly once;
 - every call fits the declaration it reaches: arguments by name, receiver,
-  and answer, with type parameters bound as [types](type.md) says and every bound judged
-  against its constraint's membership;
+  and answer, with type parameters bound as [types](type.md) says and every
+  bound judged against its constraint's membership;
 - every declared type names a type that exists;
 - a condition answers a `bool`. A `conditional`'s `when` and a `loop`'s
   `while`, held where they are written, and `any` passing the way it
@@ -20,7 +20,8 @@ happened yet:
   the plainest cases. A range's bounds admit something, and a `default` is
   a value the parameter itself admits. `type`, range and `enum` together;
 - a slot declared `const` takes only a procedure that answers without running,
-  under *what answers without running* in [procedures](procedure.md); a slot declared `isolated` takes
+  under *what answers without running* in [procedures](procedure.md); a slot
+  declared `isolated` takes
   only a procedure the build derived as isolated;
 - a slot declaring a membership takes what the membership admits, and a value
   of a membership stands only where every one of its members would. A cast
@@ -64,7 +65,8 @@ happened yet:
   writes something, and neither is done by writing nothing.
 
 The `imports` list is deliberately not on this list. It is held at *reading*,
-the stage [README](README.md) names, because a caller decides from it before any of this runs.
+the stage [README](README.md) names, because a caller decides from it before
+any of this runs.
 
 **What a variable reads as.** A name a statement fixed reads as what that
 statement bound, and a variable reads as what the ways through the text could

@@ -4,6 +4,14 @@ Written down because a specification that hides what it has not decided is
 worse than one that admits it. Each is a place a second implementation would
 have to guess, and would be entitled to guess differently.
 
+- **A caller has no way to hand a constant in.** A constant settles from
+  bodies in the link and from the procedures this specification names, under
+  *what a constant settles from* in [procedures](procedure.md), so a caller
+  that wants the build to bake something of its own has nowhere to put it: a
+  procedure it brings is exactly what that rule turns away. What is wanted is
+  a **value**, which is data the link carries and a caller can hash, rather
+  than a procedure that answers one. Where such a value is written, how a
+  document names it, and whether it is a module of its own are undecided.
 - **`imports` does not announce type or constraint dependencies.** The list
   gathers what a program *sends*; a document leaning on a constraint another
   module declares. `bounds: { T: Comparable }` with no declaration of its

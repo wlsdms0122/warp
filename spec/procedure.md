@@ -97,7 +97,8 @@ build a closure per element and hand the lot to `std.concurrent.all`.
 **What it permits.** Three places, and they are what the claim is for:
 
 - a **constant** and a **module variable** settle at the **build**, from these
-  procedures alone;
+  procedures alone, and from a narrower set of them still, under *what a
+  constant settles from* below;
 - a slot may **ask** for one, writing `const procedure`. That is how
   `std.logic.and` takes sides it may decline to read and how
   `std.collection.filter` takes a predicate that cannot reach the world;
@@ -109,6 +110,29 @@ build a closure per element and hand the lot to `std.concurrent.all`.
 Choosing among values is a procedure here rather than a construct, because an
 operand is read rather than run and a construct is not one. `std.logic.select`,
 under the vocabulary.
+
+**What a constant settles from.** Answering without running is what lets a
+procedure be run at the build. It does not settle *which* run's answer that is.
+A procedure reaches nothing outside the run it was handed and still answers one
+thing in one run and another in the next: a caller brings a procedure that
+reads the device it is on, and every run of it inside a run agrees.
+
+What a constant settles to is written into the compiled document, and a
+compiled document outlives the run that made it. It is kept, it is read again,
+and it may be made on one machine and read on another. So a constant settles
+from what answers the same wherever that document is read, which is two things
+and not three:
+
+- a **body** in the link, since the document it is written in is what the
+  compiled document is made from;
+- a procedure this specification **names**, under *what an implementation must
+  write* in [the standard vocabulary](vocabulary.md), since every conforming
+  implementation answers it alike.
+
+Settling one **refuses at the build** where it reaches a procedure a caller
+brought, whether the constant called it or called a body that does. A **slot**
+asking `const procedure` and an **operand** are untouched: both are read while
+the program runs, and neither writes anything down.
 
 ## A parameter
 
