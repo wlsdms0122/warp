@@ -1450,6 +1450,44 @@ them (`std.math`, `std.collection`) links only with `std` in the link:
 | `std.control` | `abort`. Declared `returns: never` |
 | `std.concurrent` | `all` `first` `map`. Run closures at once. Declares the membership `Pieces` |
 
+### What an implementation must write
+
+Not all of these. Most are written in Warp, from a small set that cannot be:
+**builtin**. An implementation writes the builtin procedures in its own language
+and takes the rest as a Warp module, the way any other module arrives.
+
+| bundle | builtin |
+|---|---|
+| `std.logic` | `equal` |
+| `std.math` | `plus` `minus` `times` `dividedBy` `remainder` `lessThan` `floored` `rounded` |
+| `std.text` | `text` `joined` `uppercased` `lowercased` `encoded` `decoded` `split` `startsWith` `trimmed` |
+| `std.collection` | `count` `appending` `keys` `values` `setting` |
+| `std.control` | `abort` |
+| `std.concurrent` | `all` `first` |
+
+Twenty-six, beside the memberships and the `byte` type `std` declares. What
+makes one builtin is that the language cannot express it: arithmetic and
+ordering are the machine's, case mapping and encoding carry Unicode's tables
+with them, running at once is the host's scheduler, and `appending` is the only
+way an array grows. Everything else is written from those.
+
+A procedure being derivable is not a claim that it is unimportant, and a
+document cannot tell the two apart: `greaterThan` is `lessThan` with its sides
+swapped, and both are called the same way. An implementation that wants its own
+`greaterThan` declares one under that name, and the link takes it, which is what
+every name outside the builtin set is open to.
+
+Four of these are builtin only because something else is missing, and each
+names what would replace it: `split`, `startsWith` and `trimmed` would be
+written in Warp if text could be read as an array of its elements, and `values`
+if a dictionary could be read by a key the run computes.
+
+`regex` is the one procedure `std` declares that is in neither set. It cannot be
+written in Warp and it is not required of an implementation: what a pattern
+means differs between the engines a host would reach for, so a host brings this
+one or leaves it out, the way it grants any bundle. A document reaching for it
+is asking for something of its host rather than of the language.
+
 **The signatures, exactly.** A second implementation writes these; it must not
 have to guess them. The *receiver* column is the parameter a call fills by
 writing a receiver in front (the `of` key in a `call`); everything else is
@@ -2002,6 +2040,16 @@ have to guess, and would be entitled to guess differently.
   Whether `imports` should widen to carry unresolved type and constraint
   mentions is undecided; until it is, that dependency surfaces only as a build
   refusal.
+- **`regex` names no dialect.** The table says the pattern is a string and says
+  nothing about what it means, so two hosts reaching for their own engines
+  answer the same document differently. That is why it is required of no
+  implementation, but naming a dialect would be a better answer than leaving it
+  out.
+- **Text has no element access, and a dictionary has no computed key.** Four
+  procedures are builtin because of it. `split`, `startsWith` and `trimmed`
+  would be written in Warp if text read as an array of its elements, and
+  `values` if `of[key]` took a key the run computes the way it takes an index.
+  Both are language gaps rather than vocabulary ones.
 - **The text decision is cheap in Swift and dear elsewhere.** Grapheme-cluster
   counting and canonical equivalence are the platform's gift in Swift and a
   library obligation in most other languages; the decision stands, and the
