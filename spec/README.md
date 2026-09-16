@@ -1178,6 +1178,14 @@ procedures before any of the program runs. An index written as a reference
 reference that provably is not a whole number refuses at the build, and one that
 names nothing refuses at the run.
 
+The same brackets read a **dictionary** by a key the run settles (`held[name]`),
+which is what walking one is for: `keys` answers the names and this reads the
+entry under one. What stands between the brackets is judged where an index is,
+and has to be able to be a string. An entry that is not there refuses at the run
+the way a written key does, and `?[` reads it as null. A record takes no such
+reading: its fields are the type's, so a name the run settles has nothing there
+to be judged against.
+
 ### Blocks
 
 A block is `{ body: <statements>, result: <expression> }`, both optional. A
@@ -1461,11 +1469,11 @@ and takes the rest as a Warp module, the way any other module arrives.
 | `std.logic` | `equal` |
 | `std.math` | `plus` `minus` `times` `dividedBy` `remainder` `lessThan` `floored` `rounded` |
 | `std.text` | `text` `joined` `uppercased` `lowercased` `encoded` `decoded` `split` `startsWith` `trimmed` |
-| `std.collection` | `count` `appending` `keys` `values` `setting` |
+| `std.collection` | `count` `appending` `keys` `setting` |
 | `std.control` | `abort` |
 | `std.concurrent` | `all` `first` |
 
-Twenty-six, beside the memberships and the `byte` type `std` declares. What
+Twenty-five, beside the memberships and the `byte` type `std` declares. What
 makes one builtin is that the language cannot express it: arithmetic and
 ordering are the machine's, case mapping and encoding carry Unicode's tables
 with them, running at once is the host's scheduler, and `appending` is the only
@@ -1477,10 +1485,9 @@ swapped, and both are called the same way. An implementation that wants its own
 `greaterThan` declares one under that name, and the link takes it, which is what
 every name outside the builtin set is open to.
 
-Four of these are builtin only because something else is missing, and each
-names what would replace it: `split`, `startsWith` and `trimmed` would be
-written in Warp if text could be read as an array of its elements, and `values`
-if a dictionary could be read by a key the run computes.
+Three of these are builtin only because something else is missing, and they
+name what would replace it: `split`, `startsWith` and `trimmed` would be written
+in Warp if text could be read as an array of its elements.
 
 `regex` is the one procedure `std` declares that is in neither set. It cannot be
 written in Warp and it is not required of an implementation: what a pattern
@@ -2045,11 +2052,9 @@ have to guess, and would be entitled to guess differently.
   answer the same document differently. That is why it is required of no
   implementation, but naming a dialect would be a better answer than leaving it
   out.
-- **Text has no element access, and a dictionary has no computed key.** Four
-  procedures are builtin because of it. `split`, `startsWith` and `trimmed`
-  would be written in Warp if text read as an array of its elements, and
-  `values` if `of[key]` took a key the run computes the way it takes an index.
-  Both are language gaps rather than vocabulary ones.
+- **Text has no element access.** Three procedures are builtin because of it:
+  `split`, `startsWith` and `trimmed` would be written in Warp if text read as
+  an array of its elements. A language gap rather than a vocabulary one.
 - **The text decision is cheap in Swift and dear elsewhere.** Grapheme-cluster
   counting and canonical equivalence are the platform's gift in Swift and a
   library obligation in most other languages; the decision stands, and the
