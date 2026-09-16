@@ -265,3 +265,62 @@ There is no `abort` construct. Failing on purpose is a procedure.
 `std.control.abort`, under [the standard vocabulary](vocabulary.md), because a signature can say everything checking it
 needs: `returns: never` is the whole fact, and a thing is grammar only when
 checking it would need to understand more than a signature can say.
+
+## Cases
+
+What `conformance/` asks about this page, by the name each case's file carries.
+
+- `a-block-writes-the-flow-it-is-in`
+- `a-break-does-not-excuse-the-arm-it-leaves-from`
+- `a-call-that-fails-after-writing-has-written`
+- `a-condition-that-is-not-a-bool-refuses`
+- `a-conditional-both-of-whose-arms-leave-ends-the-body`
+- `a-conditional-writes-the-flow-it-is-in`
+- `a-declared-name-is-not-retyped-by-a-write`
+- `a-declining-conditional-writes-nothing`
+- `a-duplicate-statement-name-refuses`
+- `a-failure-field-the-declaration-does-not-name-is-refused`
+- `a-field-a-path-writes-through-is-declared-var`
+- `a-fixed-name-cannot-be-written`
+- `a-loop-condition-that-is-not-a-bool-refuses`
+- `a-loop-reads-how-many-rounds-passed`
+- `a-loop-result-reads-the-last-finished-round`
+- `a-loop-takes-no-budget`
+- `a-name-on-a-conditional-is-refused`
+- `a-name-on-what-never-finishes-is-refused`
+- `a-name-says-what-it-holds`
+- `a-name-that-says-nothing-is-what-the-build-worked-out`
+- `a-name-the-module-bound-is-not-introduced-again`
+- `a-named-block-binds-its-result`
+- `a-named-step-arrives-where-the-walk-arrives`
+- `a-rescue-over-a-body-that-cannot-fail-refuses`
+- `a-rescue-reads-the-failure-it-caught`
+- `a-rescue-reads-what-a-cast-refused`
+- `a-rescue-reads-what-a-failure-carried`
+- `a-rescue-that-answers-nothing-answers-null`
+- `a-rescue-that-produces-nothing-refuses`
+- `a-statement-saying-two-things-refuses`
+- `a-statement-with-no-name-still-runs`
+- `a-var-field-lets-a-path-through`
+- `a-walk-is-a-loop-over-the-count`
+- `a-write-both-arms-make-retypes-the-variable`
+- `a-write-indexes-with-a-name`
+- `a-write-makes-an-entry-of-a-dictionary`
+- `a-write-only-one-arm-makes-reads-back-nullable`
+- `a-write-reaches-into-what-a-variable-holds`
+- `a-write-through-an-element-keeps-the-others`
+- `an-arm-that-leaves-holds-nothing-afterwards`
+- `an-arm-that-leaves-keeps-the-other-write-definite`
+- `an-attempt-catches-a-cast-that-did-not-match`
+- `an-attempt-joins-its-body-with-its-rescue`
+- `break-ends-the-loop`
+- `continue-skips-a-round`
+- `leaving-answers-from-the-middle`
+- `leaving-is-not-failing`
+- `leaving-needs-something-to-leave`
+- `nothing-runs-after-leaving`
+- `nothing-runs-after-what-never-finishes`
+- `return-inside-a-closure-answers-the-closure`
+- `what-is-written-fits-the-type-the-path-reaches`
+- `what-nobody-wrote-is-not-readable`
+- `writing-a-name-never-declared-refuses`

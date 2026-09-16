@@ -181,3 +181,8 @@ written `1.50` and an escape spelled long **refuse**, since those are two
 texts for one value rather than two layouts of one text. Sameness of
 documents is the binary's promise, above, and a text makes it by being
 written out.
+
+## Cases
+
+No case under `conformance/` asks about this page. What it says is held
+only by tests inside an implementation, which is a hole and not a decision.

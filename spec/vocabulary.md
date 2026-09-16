@@ -339,3 +339,70 @@ requirements:
 What a host brings beyond these. Its own procedures, and which of them answer
 without running. Is the host's, and is the boundary to the outside world:
 a program reaches nothing except by sending a procedure the receiver declared.
+
+## Cases
+
+What `conformance/` asks about this page, by the name each case's file carries.
+
+- `a-const-body-chooses-a-value-with-select`
+- `a-const-map-rewrites-in-order`
+- `a-document-gathers-its-receivers-own-elements`
+- `a-document-writes-a-short-circuiting-connective`
+- `a-document-writes-map-over-a-const-slot`
+- `a-document-writes-startsWith-over-characters`
+- `a-mapped-procedure-chooses-what-it-answers`
+- `a-quotient-widens-its-operands`
+- `a-string-holding-another-is-a-text-question`
+- `a-string-not-holding-another-answers-false`
+- `a-text-procedure-answers-new-text`
+- `a-zero-width-space-is-not-whitespace`
+- `absolute-floored-and-rounded-answer-a-whole`
+- `absolute-of-the-minimum-refuses`
+- `append-writes-the-array-in-place`
+- `arithmetic-admits-only-numbers`
+- `arithmetic-answers-the-kind-it-was-given`
+- `arithmetic-divide-by-zero-refuses`
+- `arithmetic-divides-to-a-fraction`
+- `arithmetic-is-checked-before-it-runs`
+- `arithmetic-overflow-refuses`
+- `arithmetic-whole-widens-to-fraction`
+- `bytes-do-not-order`
+- `concurrent-map-offers-item-and-index`
+- `contains-asks-a-collection`
+- `cutting-on-nothing-refuses`
+- `decoded-reads-bytes-as-text-in-a-named-encoding`
+- `dropping-an-end-answers-the-rest`
+- `encoded-writes-text-as-bytes-in-a-named-encoding`
+- `first-and-last-read-the-ends`
+- `first-over-nothing-refuses`
+- `floored-past-the-int-refuses`
+- `gathering-past-the-end-refuses-at-the-run`
+- `greater-than-mirrors-less-than`
+- `keys-answer-in-canonical-order`
+- `lowercased-folds-the-case`
+- `map-answers-in-the-collections-order`
+- `map-takes-only-an-isolated-closure`
+- `min-and-max-pick-an-end`
+- `minus-and-times-compose-as-written`
+- `not-and-notequal-say-the-opposite`
+- `or-does-not-ask-past-the-first-yes`
+- `ordering-compares-two-of-a-kind`
+- `prepending-writes-the-front`
+- `reduce-folds-in-order`
+- `regex-finds-a-match-anywhere`
+- `remainder-at-the-ints-minimum-answers`
+- `remainder-is-what-whole-division-leaves`
+- `replacing-swaps-every-occurrence`
+- `reversed-turns-the-order-around`
+- `setting-answers-a-new-record`
+- `sorted-orders-what-it-was-given`
+- `sorting-the-unorderable-refuses-at-the-build`
+- `split-cuts-and-joined-writes`
+- `split-keeps-the-empty-pieces`
+- `starts-with-reads-the-head`
+- `text-counts-as-a-person-reads`
+- `text-spells-bytes-the-way-a-document-writes-them`
+- `the-side-select-does-not-choose-goes-unasked`
+- `trimming-takes-unicode-whitespace-from-both-ends`
+- `values-answer-in-canonical-order`
+- `what-is-not-utf8-text-refuses-to-decode`

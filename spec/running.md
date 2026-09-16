@@ -131,3 +131,9 @@ way it works out constness:
 
 There are no lower-level primitives. No spawn, no locks. On purpose: a
 program that arrives is a program nobody can debug a race in.
+
+## Cases
+
+What `conformance/` asks about this page, by the name each case's file carries.
+
+- `concurrency-is-granted-vocabulary`

@@ -112,7 +112,8 @@ has run either way.
 
 ## The pages
 
-Each page is one part of the language.
+Each page is one part of the language, and ends with the cases under
+`conformance/` that measure it.
 
 | page | what it says |
 |---|---|

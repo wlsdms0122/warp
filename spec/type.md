@@ -363,3 +363,53 @@ standard procedures are bounded by: `Numeric` admits `int` and `double`;
 `Comparable` admits `int`, `double` and `string`. A bundle whose signatures
 mention them. `std.math`, `std.collection`. Links only with `std` in the
 build, which is the one dependency the standard bundles have.
+
+## Cases
+
+What `conformance/` asks about this page, by the name each case's file carries.
+
+- `a-bare-constraint-name-refuses-at-the-build`
+- `a-body-cannot-answer-what-it-borrowed`
+- `a-borrowing-slot-reads-and-leaves-the-obligation`
+- `a-byte-is-a-whole-number-a-range-refines`
+- `a-constant-outside-a-range-refuses-at-the-build`
+- `a-constraint-is-named-by-its-qualified-spelling`
+- `a-contract-carries-a-procedure-into-a-generic-body`
+- `a-declared-name-is-a-type`
+- `a-declared-range-refuses-what-is-outside-it`
+- `a-fraction-is-not-a-whole-number`
+- `a-fraction-range-widens-a-whole-number-into-itself`
+- `a-handle-already-given-away-is-not-read-again`
+- `a-membership-stands-as-a-type`
+- `a-named-record-arrives-as-an-argument`
+- `a-procedure-answering-its-receivers-own-elements-keeps-the-spelling`
+- `a-range-judges-a-runtime-value-at-the-boundary`
+- `a-range-that-admits-nothing-refuses-at-the-build`
+- `a-range-whose-bounds-meet-on-an-excluded-edge-admits-nothing`
+- `a-range-written-with-the-other-kinds-bounds-refuses`
+- `a-reading-outside-a-constraint-refuses-at-the-build`
+- `a-record-settles-to-the-fields-declared`
+- `a-record-takes-the-name-of-the-slot-it-settles-into`
+- `a-record-under-another-name-refuses-at-the-build`
+- `a-record-under-another-name-refuses-at-the-run`
+- `a-slot-naming-a-type-handed-on-once-says-what-it-does`
+- `a-type-parameter-read-two-ways-is-refused`
+- `a-type-that-misses-a-procedure-does-not-answer-the-contract`
+- `a-value-handed-on-once-does-not-go-into-a-list`
+- `a-value-handed-on-once-does-not-go-into-a-list-unbound`
+- `a-value-handed-on-once-is-ended-by-a-host-procedure`
+- `a-value-handed-on-once-is-handed-on`
+- `a-value-handed-on-once-that-is-dropped-refuses`
+- `a-value-outside-a-declared-type-refuses-at-the-boundary`
+- `a-whole-and-a-fraction-meet-exactly`
+- `a-whole-fraction-stays-a-fraction`
+- `a-whole-number-is-a-fraction`
+- `an-answer-read-through-any-is-settled-at-the-run`
+- `an-array-slot-that-changes-a-byte-reads-them-out`
+- `an-inline-record-slot-takes-a-named-record`
+- `an-undeclared-field-refuses-at-the-build`
+- `bytes-cross-an-array-slot-in-their-own-spelling`
+- `elements-of-different-kinds-join-to-any`
+- `the-far-bound-of-a-range-may-be-left-outside`
+- `what-a-membership-does-not-admit-refuses`
+- `what-was-read-out-of-a-parameter-is-not-the-parameter`

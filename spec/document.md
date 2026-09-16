@@ -116,3 +116,27 @@ document, so it needs no reservation. The two stay reserved whether or not any
 notation offers them. A document that writes one was written *for* a spelled
 notation, and reading it as a record that happens to have those fields would
 be running a program nobody wrote.
+
+## Cases
+
+What `conformance/` asks about this page, by the name each case's file carries.
+
+- `a-constant-is-a-name-a-body-reads`
+- `a-constant-sees-only-the-constants-beside-it`
+- `a-later-document-refuses`
+- `a-module-declares-a-constraint`
+- `a-module-variable-handed-in-place-is-one-box`
+- `a-module-variable-is-handed-in-place-to-a-native-procedure`
+- `a-module-variable-is-shared-by-the-procedures-beside-it`
+- `a-module-variable-keeps-the-type-it-started-as`
+- `a-procedure-only-an-untaken-arm-sends-is-still-needed`
+- `a-reserved-spelling-refuses-in-a-document`
+- `a-send-is-a-declared-spelling-or-an-import`
+- `a-version-that-never-existed-refuses`
+- `an-overstated-manifest-refuses`
+- `an-unknown-key-refuses`
+- `an-untruthful-manifest-refuses`
+- `constants-settle-in-the-order-they-read-each-other`
+- `constants-that-name-each-other-refuse`
+- `the-escape-quotes-a-form`
+- `what-a-document-says-for-a-reader-is-carried`

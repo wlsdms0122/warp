@@ -104,3 +104,14 @@ An interpreter that reports a defect on the path you happened to take is
 sampling, not checking. A program that arrived has branches nobody ran before
 sending it, and the one that matters is the one that only fires in production.
 There is no opportunity to find out by trying, because trying *is* production.
+
+## Cases
+
+What `conformance/` asks about this page, by the name each case's file carries.
+
+- `a-declaration-is-named-by-its-whole-spelling`
+- `a-name-not-in-normal-form-c-is-refused`
+- `a-procedure-may-be-spelled-like-a-type`
+- `a-procedure-nobody-declares-refuses-at-build`
+- `a-procedure-two-modules-declare-refuses-at-the-build`
+- `an-untaken-arm-is-checked-too`

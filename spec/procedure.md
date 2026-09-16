@@ -197,3 +197,46 @@ still one box, so a write through either is seen through the other at once. A
 call that fails after writing has written, the same as a variable written
 before a failure. A body that writes through one does not answer without
 running, by the rule that such a body writes no name.
+
+## Cases
+
+What `conformance/` asks about this page, by the name each case's file carries.
+
+- `a-const-slot-refuses-a-closure-that-calls-what-runs`
+- `a-const-slot-takes-a-closure-that-applies-a-const-slot`
+- `a-const-slot-takes-a-closure-that-calls-a-host-procedure`
+- `a-constant-argument-is-checked-before-running`
+- `a-constant-argument-outside-enum-refuses-at-build`
+- `a-constant-cannot-settle-from-a-procedure-a-caller-brought`
+- `a-constant-cannot-settle-from-what-runs`
+- `a-default-outside-its-enum-refuses-at-build`
+- `a-default-outside-its-type-refuses-at-build`
+- `a-enum-no-candidate-of-which-fits-refuses-at-build`
+- `a-enum-that-admits-nothing-refuses-at-build`
+- `a-enum-with-a-dead-candidate-refuses-at-build`
+- `a-fixed-name-is-not-handed-in-place`
+- `a-native-procedure-is-handed-a-path-indexed-with-a-name`
+- `a-null-default-needs-a-type-that-admits-null`
+- `a-nullable-parameter-defaults-to-null`
+- `a-path-handed-in-place-is-written-through`
+- `a-piece-that-writes-what-it-captured-refuses-at-the-build`
+- `a-procedure-that-can-fail-says-so`
+- `a-receiver-written-for-one-that-declares-none-refuses`
+- `a-required-argument-left-out-refuses`
+- `a-value-is-not-handed-in-place`
+- `a-variable-handed-in-place-is-written-by-the-callee`
+- `an-answer-must-fit-what-was-declared`
+- `an-answer-nobody-wrote-is-read-off-the-body`
+- `an-answer-that-may-be-null-refuses-a-declaration-that-may-not`
+- `an-answer-worked-out-from-itself-says-nothing`
+- `an-argument-outside-enum-refuses-at-the-boundary`
+- `an-effect-in-a-condition-refuses-at-the-build`
+- `an-effect-in-a-contract-calls-operand-refuses`
+- `an-effect-in-an-operand-refuses-at-the-build`
+- `an-effectful-closure-where-const-is-asked-refuses`
+- `an-isolated-closure-writes-its-own-variables`
+- `an-omitted-argument-arrives-as-the-settled-default`
+- `arguments-are-settled-at-the-boundary`
+- `body-answers-only-what-it-declares`
+- `null-is-an-argument-a-document-can-write`
+- `two-paths-under-one-head-are-handed-in-place-to-one-call`

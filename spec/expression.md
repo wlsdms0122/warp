@@ -136,3 +136,41 @@ to be judged against.
 
 A block is `{ body: <statements>, result: <expression> }`, both optional. A
 block answers what its `result` names, and nothing if it names nothing.
+
+## Cases
+
+What `conformance/` asks about this page, by the name each case's file carries.
+
+- `a-bare-name-for-another-modules-procedure-refuses`
+- `a-cast-between-ranges-that-share-no-value-is-refused`
+- `a-cast-names-the-record-it-reads`
+- `a-cast-onto-what-the-types-already-prove-is-refused`
+- `a-cast-opens-what-any-declares-nothing-about`
+- `a-cast-that-does-not-match-refuses-at-the-run`
+- `a-closure-answers-what-it-declared`
+- `a-closure-carries-what-a-captured-slot-said`
+- `a-closure-does-not-leave-what-wrote-it`
+- `a-closure-reads-a-variable-through-its-box`
+- `a-closure-write-keeps-the-captured-type`
+- `a-closure-writes-what-it-captured`
+- `a-dictionary-is-read-by-a-key-the-run-settles`
+- `a-dot-on-a-type-with-no-fields-is-refused`
+- `a-dot-on-any-is-refused`
+- `a-mark-does-not-split-the-field-it-reached`
+- `a-marked-head-is-refused`
+- `a-name-declared-inside-a-nested-closure-does-not-cover-a-captured-one`
+- `a-path-reads-through-what-a-name-holds`
+- `an-absent-entry-refuses-at-run`
+- `an-array-literal-joins-its-elements`
+- `an-index-into-any-is-refused`
+- `an-optional-segment-reads-absence-as-null`
+- `indexing-bytes-answers-a-whole-number`
+- `indexing-what-may-be-null-takes-the-optional-bracket`
+- `reading-what-may-be-null-takes-the-optional-dot`
+- `the-asking-cast-reads-a-mismatch-as-null`
+- `the-asking-cast-reads-another-name-as-null`
+- `the-optional-bracket-answers-null-for-the-null`
+- `the-optional-bracket-on-an-array-that-is-there-is-refused`
+- `the-optional-bracket-reads-through-a-nullable`
+- `the-optional-bracket-still-refuses-past-the-end`
+- `the-optional-dot-reads-through-a-nullable`

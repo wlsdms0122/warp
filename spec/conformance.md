@@ -1,11 +1,12 @@
 # Conformance
 
-The rules these pages state, as cases that run: `conformance/`. Prose ages
-against an
-implementation that keeps moving, and an implementation is the last thing that
-should be asked whether it is correct. These are the questions asked instead.
-Data rather than code, so an implementation written in another language runs the
-same cases and finds out the same things.
+The rules these pages state, as cases that run: `conformance/`. Which cases
+belong to which rules is written where the rules are: each page ends with the
+ones that measure it, and every case is named by exactly one page. Prose ages
+against an implementation that keeps moving, and an implementation is the last
+thing that should be asked whether it is correct. These are the questions asked
+instead. Data rather than code, so an implementation written in another language
+runs the same cases and finds out the same things.
 
 ## What a case is
 

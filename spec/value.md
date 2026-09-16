@@ -48,3 +48,12 @@ read the same worth equality does.
   and are equal; `"é"` is `"é"` whichever way its bytes spell it, and its
   `count` is 1. An implementation whose platform strings compare by code unit
   must not expose that comparison here.
+
+## Cases
+
+What `conformance/` asks about this page, by the name each case's file carries.
+
+- `bytes-and-an-array-share-their-worth`
+- `two-names-of-one-structure-are-two-values`
+- `two-spellings-of-one-text-are-one-value`
+- `values-are-the-same-by-what-they-hold`
