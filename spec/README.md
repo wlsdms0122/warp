@@ -689,18 +689,26 @@ different ways in rather than one way and a flag.
 
 Some of what a program writes is **read** and some of it is **run**. A literal,
 a name, a record, an index, a cast: reading those is what the language does to
-data. A **construct** runs a body, and it is the only thing that does.
+data. A **construct** runs a body, and it is the only thing that does. That
+line is what an operand stands on, under *what it permits* below; it is not
+what this section is about.
 
-A procedure **answers without running** when the whole of it is read:
+A procedure **answers without running** when nothing it reaches stands outside
+the run it was handed:
 
-- its body holds no construct. No `conditional`, `loop`, `attempt` or `block`,
-  and no `return`, `break` or `continue`;
-- its statements bind and do nothing else. A `let`, or a statement with no
-  name, and never a `var` or a `set`;
-- it reads no module variable, whose value is the run's rather than the text's;
-- it calls no value (`apply`), since nothing before the run says which
-  procedure that would be;
+- it reads no module variable and writes none, since what one of those holds is
+  the run's rather than the text's;
+- it calls a value (`apply`) only through a name a slot declared
+  `pure procedure`. That is the one place something before the run says what
+  the value answers; on any other name nothing does;
 - and every procedure it sends answers without running.
+
+A construct reaches nothing on its own. Which part of a `conditional`, `loop`,
+`attempt` or `block` runs is decided inside the body, so one of them is read
+exactly as far as the parts it holds are, and the same goes for `return`,
+`break` and `continue`. A name the body introduces is the body's own: a `let`
+and a `var` both make one, neither leaves the body, and so declaring either
+says nothing about what the body reaches.
 
 The build works this out over every declaration at once. It starts with all of
 them and strikes out whatever reaches something struck, so two procedures that
@@ -722,9 +730,9 @@ closure as a value, so a slot reads it wherever the value arrives.
   rather than run, so an operand calling anything else **refuses at the
   build**, and so does one calling a value.
 
-Choosing among values is a procedure here rather than a construct, because a
-construct is the one thing such a body may not hold. `std.logic.select`, under
-the vocabulary.
+Choosing among values is a procedure here rather than a construct, because an
+operand is read rather than run and a construct is not one. `std.logic.select`,
+under the vocabulary.
 
 ### A parameter
 
@@ -1212,9 +1220,8 @@ happened yet:
   the plainest cases. A range's bounds admit something, and a `default` is
   a value the parameter itself admits. `type`, range and `enum` together;
 - a slot declared `pure` takes only a procedure that answers without running,
-  under *what answers without running* above, and an operand calls only such a
-  procedure; a slot declared `isolated` takes only a procedure the build
-  derived as isolated;
+  under *what answers without running* above; a slot declared `isolated` takes
+  only a procedure the build derived as isolated;
 - a slot declaring a membership takes what the membership admits, and a value
   of a membership stands only where every one of its members would. A cast
   tells the members apart, and a cast onto a type the membership never holds
@@ -1467,11 +1474,10 @@ side that would refuse is never a refusal of the side that was chosen. `equal`
 and `notEqual` answer by the value model's one sameness, and `not` turns a
 `bool` around.
 
-**`select` is how a procedure that answers without running chooses.** A
-`conditional` answers nothing and takes no name, and a body that answers without
-running holds no construct at all, so choosing among values is a procedure here
-rather than grammar. The two sides answer one type, worked out from the call the
-way any type parameter is.
+**`select` is how an operand chooses.** A `conditional` answers nothing and
+takes no name, and an operand is read rather than run, so choosing among values
+inside one is a procedure here rather than grammar. The two sides answer one
+type, worked out from the call the way any type parameter is.
 
 *std.math*
 
