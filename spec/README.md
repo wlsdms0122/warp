@@ -1443,10 +1443,13 @@ program that arrives is a program nobody can debug a race in.
 
 ## The standard vocabulary
 
-Seven bundles, taken separately, so a receiver grants what its programs have
-use for and no more. `std` is the shared ground: it declares no procedures, only
-the constraints the other bundles' signatures mention, and a bundle mentioning
-them (`std.math`, `std.collection`) links only with `std` in the link:
+Seven bundles, each taken with what it depends on, so a receiver grants what
+its programs have use for and no more. A bundle whose procedures are written in
+Warp names the ones they call: `std.logic` and `std.collection` walk, so they
+send `std.math.lessThan` and link only with `std.math` in the link. `std` is the
+shared ground: it declares no procedures, only the constraints the other
+bundles' signatures mention, and a bundle mentioning them (`std.math`,
+`std.collection`) links only with `std` in the link:
 
 | module | procedures |
 |---|---|
