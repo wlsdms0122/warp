@@ -27,23 +27,15 @@ people, and the binary is the document.
 
 Every reader also refuses: bytes after the document ends, bytes that end inside
 a value, and nesting deeper than **512** containers. The depth is an exact
-bound, not a floor. A document 513 deep is not a document anywhere, so a
-writer may rely on the refusal. The bound guards whoever walks the tree after
-the reader: readers here are obliged to iterate, but everything downstream of
-one. Checkers, comparers, hosts. Recurses over values in the ordinary way,
-and their stacks must not be the sender's to spend.
+bound, not a floor: a document 513 deep is not a document anywhere, and one
+512 deep is a document everywhere. A sender chooses how deep a document is,
+and the bound is what keeps that choice from being a cost the receiver never
+agreed to.
 
-**Readers and writers both iterate.** A reader is handed bytes a sender wrote
-and a writer is handed a value a caller built, and neither of those is the
-process to spend: the depth of a document is never the depth of a call stack on
-either side. A writer that recursed would refuse a document at some depth of
-its own rather than at 512, and 512 is the number it was told it may rely on.
-
-**Note.** These two are the boundary, and what an implementation does further
-in is its own. A value 512 deep is a value a checker or a comparer meets, and
-the bound is chosen so that one written the ordinary way survives it. A host
-running on stacks smaller than a thread's gets to find out whether that is
-true of its own, and the answer is not this specification's to give.
+**A writer refuses at the bound and nowhere short of it.** A writer is handed
+a value a caller built, and one that gave out at some depth of its own would
+refuse a document the bound admits, and a document the bound admits is a
+document everywhere.
 
 **Record keys are NFC.** Unicode writes some characters more than one way. A
 letter, or the same letter as letter-plus-combining-mark, and a name that had
