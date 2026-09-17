@@ -139,10 +139,10 @@ brought, whether the constant called it or called a body that does. A **slot**
 asking `const procedure` and an **operand** are untouched: both are read while
 the program runs, and neither writes anything down.
 
-What a constant settles to is a value. A body run at the build may answer a
-closure holding a variable of that run, and settling to one **refuses at the
-build** as well: the run is over when the build is, and a compiled document
-carries no box of it.
+What settles at the build, a constant or a variable's start, settles to a
+value. A body run at the build may answer a closure holding a variable of that
+run, and settling to one **refuses at the build** as well: the run is over when
+the build is, and a compiled document carries no box of it.
 
 ## A parameter
 
