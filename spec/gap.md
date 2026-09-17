@@ -12,6 +12,14 @@ have to guess, and would be entitled to guess differently.
   a **value**, which is data the link carries and a caller can hash, rather
   than a procedure that answers one. Where such a value is written, how a
   document names it, and whether it is a module of its own are undecided.
+- **The bound is on documents, and a run builds values.** Nesting deeper than
+  128 containers is refused at the wire, under [encodings](encoding.md), so no
+  document a reader admits is deeper than that. A running program is under no
+  such rule: a loop that wraps its last value in an array each time around
+  builds a value of any depth, and whatever meets it afterwards, a comparison,
+  a writer handed it to send, the host's own release of it, meets a depth no
+  document ever had. Whether a value has a bound of its own, and where it would
+  be refused, is undecided.
 - **`imports` does not announce type or constraint dependencies.** The list
   gathers what a program *sends*; a document leaning on a constraint another
   module declares. `bounds: { T: Comparable }` with no declaration of its
