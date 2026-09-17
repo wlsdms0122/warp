@@ -180,7 +180,10 @@ nothing. Omission is the key not being written at all, and that is what a
 `default` answers and what a required slot refuses. This is one convention
 wherever a call is made. A document's `call`, an `apply`, a procedure handing
 values to a closure it was given: each settles against the declaration the same
-way, and a name the declaration does not have refuses in all of them.
+way, and a name the declaration does not have refuses in all of them. The
+receiver written in front of the dot is given the same way: it fills the
+parameter the declaration names as its `receiver`, and is held to what that
+parameter declares, null included.
 
 **A parameter handed in place.** A parameter typed `inout T` takes no value:
 it takes a variable. The argument is `{ ref: <path> }`, and all of this is
