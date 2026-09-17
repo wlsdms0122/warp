@@ -33,6 +33,18 @@ the reader: readers here are obliged to iterate, but everything downstream of
 one. Checkers, comparers, hosts. Recurses over values in the ordinary way,
 and their stacks must not be the sender's to spend.
 
+**Readers and writers both iterate.** A reader is handed bytes a sender wrote
+and a writer is handed a value a caller built, and neither of those is the
+process to spend: the depth of a document is never the depth of a call stack on
+either side. A writer that recursed would refuse a document at some depth of
+its own rather than at 512, and 512 is the number it was told it may rely on.
+
+**Note.** These two are the boundary, and what an implementation does further
+in is its own. A value 512 deep is a value a checker or a comparer meets, and
+the bound is chosen so that one written the ordinary way survives it. A host
+running on stacks smaller than a thread's gets to find out whether that is
+true of its own, and the answer is not this specification's to give.
+
 **Record keys are NFC.** Unicode writes some characters more than one way. A
 letter, or the same letter as letter-plus-combining-mark, and a name that had
 several byte spellings would break promise 2 quietly: two fields one name, or
