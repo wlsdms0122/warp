@@ -40,16 +40,13 @@ have to guess, and would be entitled to guess differently.
   transcribed from one implementation carry its blind spots; the first reader
   who implements from these tables alone, and disagrees, is worth more than
   any amount of agreement.
-- **The suite covers the constructs and the vocabulary; cancellation and the
-  encodings are the exceptions.** Every construct, the naming and leaving
-  rules, the envelope, the boundary settlements, the concurrency grant and
-  every standard procedure are held as cases, and each page names its own
-  under *Cases*. Two things are not held. Cancellation cannot be a data case at
-  all: it needs a caller with a lever, so stopping is held only by tests inside
-  the Swift implementation. The encodings are asked of every case in passing,
-  since a case is a `.warpt` document and a runner reads it, but no case asks
-  an encoding rule directly, so what a reader must refuse is held nowhere the
-  suite can see.
+- **The suite covers the constructs, the vocabulary and the encodings;
+  cancellation is the exception.** Every construct, the naming and leaving
+  rules, the envelope, the boundary settlements, the concurrency grant, every
+  standard procedure and what a binary reader must refuse are held as cases,
+  and each page names its own under *Cases*. Cancellation cannot be a data
+  case at all: it needs a caller with a lever, so stopping is held only by
+  tests inside the Swift implementation.
 - **Two equivalences coexist, and the border is drawn.** Values compare as a
   person reads. `equal`, `contains`, ordering and `count` all read text
   under canonical equivalence, stated under the value model. Where names are
