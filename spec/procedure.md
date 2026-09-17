@@ -95,7 +95,10 @@ A closure literal is judged by the same rule, and the answer travels with the
 closure as a value, so a slot reads it wherever the value arrives. What it
 captured it is judged with: a name the enclosing scope held under a slot that
 said `const procedure` is one the closure may apply, which is what lets a body
-build a closure per element and hand the lot to `std.concurrent.all`.
+build a closure per element and hand the lot to `std.concurrent.all`. A
+variable that declared it holds one is such a name too, since every write into
+it is held to the declaration; a variable that declared nothing may be retyped
+after the capture and says nothing the closure can hold on to.
 **Isolation reads a captured name the same way**, through a slot that said
 `isolated procedure`.
 
@@ -238,6 +241,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-receiver-written-for-one-that-declares-none-refuses`
 - `a-required-argument-left-out-refuses`
 - `a-value-is-not-handed-in-place`
+- `a-variable-declared-const-procedure-carries-that-into-a-capture`
 - `a-variable-handed-in-place-is-written-by-the-callee`
 - `an-answer-must-fit-what-was-declared`
 - `an-answer-nobody-wrote-is-read-off-the-body`
