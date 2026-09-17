@@ -1,5 +1,11 @@
 # The document format
 
+What a document is: the record a program travels as, and the module it
+declares. This page is the outline. What each of its slots holds is
+[procedures](procedure.md), [statements](statement.md),
+[expressions](expression.md) and [types](type.md), and the bytes it arrives as
+are [encodings](encoding.md).
+
 A document is one record. Every record below is **closed**: a key not named
 here **refuses**. Every slot marked *expression*, *block*, *statements* or
 *type* takes the grammar of that name.

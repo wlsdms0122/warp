@@ -90,6 +90,12 @@ Refusals happen at one of three stages, and the stage is part of the behaviour:
 3. **Running**. The program was sound and the world disagreed: division by
    zero, overflow, a failure a procedure raised.
 
+**Note.** A paragraph opening with **Note.** is not a requirement. It says
+what a rule is for, what an implementation is likely to get wrong, or what the
+rule would cost written another way. Removing every one of them removes
+nothing an implementation is held to, and the cases under `conformance/` never
+measure one.
+
 Two implementations that run the same programs identically and disagree about
 which programs to refuse, or *where*. Are not the same language. A refusal at
 the run where another implementation refuses at the build means something
@@ -129,3 +135,31 @@ Each page is one part of the language, and ends with the cases under
 | [Encodings](encoding.md) | bytes for a document: `.warp` and `.warpt` |
 | [Conformance](conformance.md) | what a case is, and what a runner does |
 | [Known gaps](gap.md) | where these pages still owe an implementation |
+
+## Where to start
+
+The pages can be read in any order and cannot be *built* in any order. What
+follows is the order in which each one's questions become answerable, which is
+also the order in which an implementation can keep its tests green as it grows.
+
+1. [The value model](value.md) and [Encodings](encoding.md). A value and its
+   bytes owe nothing to anything else here, and until they read and write a
+   reader has no document to hand the rest of the work.
+2. [The document format](document.md), [Procedures](procedure.md),
+   [Statements](statement.md) and [Expressions](expression.md). The grammar.
+   Reading one of these turns bytes into declarations, and what refuses here
+   refuses without any other document present.
+3. [Types](type.md). What a slot takes, judged against the declarations the
+   grammar read.
+4. [What an implementation checks, and when](checking.md). The list is the
+   contract: two implementations can agree on every answer and still not be
+   the same language if one of them refuses later than the other.
+5. [Running](running.md) and [The standard vocabulary](vocabulary.md). What a
+   sound program does, and the procedures it does it with.
+6. [Conformance](conformance.md). The cases, which by then are the only thing
+   worth asking whether the work is finished.
+
+A reader looking for *why* rather than *what* has two entry points that are
+neither grammar nor rules: **What Warp is** above, which says what the language
+is for, and [Known gaps](gap.md), which says where these pages still leave an
+implementation to guess.

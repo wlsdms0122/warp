@@ -1,5 +1,10 @@
 # The value model
 
+What a value is, and when two of them are one. Nothing on this page needs a
+program: a value is what a document carries, what a slot settles, what an
+encoding writes and what a case compares, so every other page reads this one
+and this one reads none of them.
+
 A program computes over eight kinds of data, plus one value that is not data:
 
 | kind | writes as | notes |

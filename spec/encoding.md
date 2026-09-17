@@ -1,7 +1,8 @@
 # Encodings
 
-An encoding is bytes for the document tree. Whatever the encoding, three
-promises hold:
+An encoding is bytes for the document tree. Two are specified, and they are
+not peers: the binary is the document and the text is for people. Whatever the
+encoding, three promises hold:
 
 1. **A whole number and a fraction are told apart.** However the encoding does
    it, `1` and `1.0` must arrive as the values they were. They are one value

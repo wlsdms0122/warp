@@ -1,5 +1,11 @@
 # The standard vocabulary
 
+The procedures every implementation brings, what each answers, and which of
+them an implementation has to write in native code rather than take from
+`lib/std`. This is the layer a program does its work in: the language has no
+arithmetic, no comparison and no collections of its own, and a program that is
+granted none of these can compute nothing.
+
 Seven bundles, each taken with what it depends on, so a receiver grants what
 its programs have use for and no more. A bundle whose procedures are written in
 Warp names the ones they call: `std.logic` and `std.collection` walk, so they

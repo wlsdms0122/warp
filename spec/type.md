@@ -1,5 +1,11 @@
 # Types
 
+What a name may stand for, and what a slot takes. A type is judged at the
+build against the declarations the grammar read; what a type *admits* is asked
+of a value at a boundary, which is sometimes the build and sometimes the run.
+Reads [the value model](value.md). Read by procedures, statements and
+expressions, each of which writes a slot.
+
 A type is written as a string, or as a record for the two forms a string
 cannot say:
 

@@ -1,5 +1,10 @@
 # What an implementation checks, and when
 
+Which stage answers which refusal. This page is a list rather than a rule,
+and the list is the contract: two implementations can agree on every answer a
+program gives and still not be the same language, if one of them refuses a
+program the other runs or refuses it later.
+
 A program is read, checked and built before any of it runs. Including the
 arms nobody takes. All of the following are answered while nothing has
 happened yet:

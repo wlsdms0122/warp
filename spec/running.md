@@ -1,5 +1,10 @@
 # Running
 
+What a run does once the build has answered everything it can. Order,
+boundaries, failure, and the one lever a caller keeps while a program is
+running. What is checked before any of this is
+[what an implementation checks, and when](checking.md).
+
 - Statements run in order; each binds its name in the scope of what follows.
 - A call's arguments are evaluated in **name order**. Almost nothing can
   observe this. Arguments evaluate without effects, but two arguments that

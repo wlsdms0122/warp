@@ -1,5 +1,10 @@
 # Statements
 
+What a body is made of. A statement binds a name to an expression, and a
+**construct** is the only thing that runs a body. Everything a program does in
+a particular order is decided here; what it does it *with* is
+[the standard vocabulary](vocabulary.md).
+
 ## A statement
 
 A record carrying **at most one** naming key and its expression under

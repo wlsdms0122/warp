@@ -1,5 +1,10 @@
 # Expressions
 
+What is read rather than run. A literal, a name, a path through one, a cast,
+a record, an array, a call and a closure written where a value is wanted. The
+line between this page and [statements](statement.md) is the line an operand
+stands on: a construct runs a body and is refused here.
+
 A scalar is itself. A literal. A string is always literal text; nothing inside
 it is ever re-parsed. An array is an array of expressions. A record is a record
 of expressions. **unless** it carries one of the form keys:

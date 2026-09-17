@@ -1,5 +1,10 @@
 # Procedures
 
+What a declaration says about itself, and what saying it lets a caller do.
+Four things: the shape of a declaration, the one whose code the host answers,
+what answering without running means and where that claim is spent, and what a
+parameter takes.
+
 ## A procedure
 
 | key | takes | required |
