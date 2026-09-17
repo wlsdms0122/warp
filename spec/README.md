@@ -16,11 +16,17 @@ a thing you can be *wrong at*.
 
 ## What Warp is
 
-A runtime compiler: a front end, an IR and a runtime, composed so that any front
-end works with any runtime. Where an ordinary language goes source to build to
-machine code, Warp is the half in front of that, and what it answers with is a
-language again. This specification is that language. Turning it into machine
-code belongs to the toolchain that built the runtime.
+A runtime build system: a front end, an IR and a runtime, composed so that any
+front end works with any runtime. Where an ordinary language goes source to
+build to machine code, Warp is the half in front of that, and what it answers
+with is a language again. This specification is that language. Turning it into
+machine code belongs to the toolchain that built the runtime.
+
+What a build does here is what a build does anywhere. It reads, it checks, it
+links, and nothing runs until it has answered. The three things that differ are
+**when**, **where** and **how much at a time**: the build runs while a program
+is already running, on the machine the program is running on, and one document
+at a time.
 
 What the language is *for*, and every property below that follows from it:
 
@@ -34,15 +40,17 @@ carry it out. Warp is what that something reads.
 
 Everything else follows from *arrive*:
 
-- **The program comes from elsewhere**, so the receiving side cannot assume it
-  was checked. Checking is the receiver's job, not a favour the sender did.
+- **The program comes from elsewhere**, so nothing arrives with it that says it
+  was checked. There is no place to put such a thing that the receiver could
+  read, so the receiver builds it.
 - **The program crosses machines as bytes**, so there is a document format, and
   the two ends have to agree about what the bytes say.
 - **The sender and the receiver may be different implementations**. A server in
   one language, two applications in two others, so agreement cannot mean "the
   same code".
-- **The program is not trusted**, so what it can do is bounded by something the
-  receiver controls.
+- **What a program may do is the receiver's to set**, since the receiver
+  assembles the modules and a document cannot name what nobody put in front of
+  it.
 
 What bounds it is the vocabulary. A program does exactly what the procedures in
 its link let it do, and every procedure past the ones this specification spells

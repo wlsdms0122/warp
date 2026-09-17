@@ -1,7 +1,7 @@
 # Warp
 
-A runtime compiler. A front end, an IR and a runtime, composed so that any front
-end works with any runtime.
+A runtime build system. A front end, an IR and a runtime, composed so that any
+front end works with any runtime.
 
 An ordinary language goes one way:
 

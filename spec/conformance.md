@@ -105,7 +105,8 @@ refuses has failed in the same way as one that answers differently**, so half of
 these say what must *not* run, and where it must stop. The stage is part of the
 answer: refusing at run what another implementation refuses at build means
 something already happened before the refusal, and what already happened
-cannot be taken back, which is most of why this language checks before it runs.
+cannot be taken back. That is why the build stands in front of the run, the
+same reason it does in any language that has one.
 
 ## What a runner does
 
