@@ -26,9 +26,9 @@ people, and the binary is the document.
    Infinity and NaN are likewise refused on the way out and on the way in.
 
 Every reader also refuses: bytes after the document ends, bytes that end inside
-a value, and nesting deeper than **512** containers. The depth is an exact
-bound, not a floor: a document 513 deep is not a document anywhere, and one
-512 deep is a document everywhere. A sender chooses how deep a document is,
+a value, and nesting deeper than **128** containers. The depth is an exact
+bound, not a floor: a document 129 deep is not a document anywhere, and one
+128 deep is a document everywhere. A sender chooses how deep a document is,
 and the bound is what keeps that choice from being a cost the receiver never
 agreed to.
 
