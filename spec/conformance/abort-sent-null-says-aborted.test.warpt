@@ -1,0 +1,60 @@
+warpt 1
+{
+  expect {
+    answers {
+      message "aborted"
+      type "aborted"
+    }
+  }
+  name "abort-sent-null-says-aborted"
+  note "`abort` takes `of: any`, and null is a value `any` admits. Null spells nothing, and a refusal says something, so the message is `aborted`. A bare `var` holds null, and the receiver reads it."
+  program {
+    imports [
+      "std.control.abort"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            var "nothing"
+          }
+          {
+            let "tried"
+            value {
+              attempt {
+                body [
+                  {
+                    value {
+                      call {
+                        of {
+                          ref "nothing"
+                        }
+                        procedure "std.control.abort"
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  result {
+                    message {
+                      ref "tried.message"
+                    }
+                    type {
+                      ref "tried.type"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "tried"
+        }
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

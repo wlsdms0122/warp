@@ -216,7 +216,7 @@ one collection at another's positions is a **gather**.
 
 | procedure | receiver | arguments | answers |
 |---|---|---|---|
-| `abort` | `of: any`. What the refusal says |. | `never` |
+| `abort` | `of: any`. What the refusal says. Null says `aborted` |. | `never` |
 
 *std.concurrent*
 
@@ -304,6 +304,7 @@ sent.
 
 **`abort`**. Fail on purpose, with a message. Declared `returns: never`, which
 is everything the checking needs: nothing runs after it, and no name binds it.
+The message is what `of` spells as text. Sent null, the refusal says `aborted`.
 The refusal it raises is a failure like any other, so an `attempt` around it
 catches it. Leaving is what a rescue does not catch, and this is failing, not
 leaving.
@@ -362,6 +363,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-string-not-holding-another-answers-false`
 - `a-text-procedure-answers-new-text`
 - `a-zero-width-space-is-not-whitespace`
+- `abort-sent-null-says-aborted`
 - `absolute-floored-and-rounded-answer-a-whole`
 - `absolute-of-the-minimum-refuses`
 - `append-writes-the-array-in-place`
