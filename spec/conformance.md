@@ -14,18 +14,41 @@ runs the same cases and finds out the same things.
 
 ## What a case is
 
-One file, one question: a document, what to run it with, and what should happen.
+One file, one question: a subject, what to ask it with, and what should happen.
 
     test        int. The case format this file is written for
     name        what the case is called
     note        why it exists. The rule it holds an implementation to
     program     a document
+    bytes       a document's bytes, in the binary encoding
     arguments   what the entry procedure is given, if anything; a record
                 under a name is written as the text encoding writes one
     vocabulary  the procedures the runner brings, if any
     expect      answers <value>   it runs and answers this, named records
                                   written the same way
+                reads <value>     those bytes are that value, both ways
                 refuses <stage>   it is refused, at load, build or run
+
+**A case carries exactly one of `program` and `bytes`,** and which one it
+carries decides what it may expect. A case carrying both would be two cases
+sharing one answer.
+
+A case carrying a **program** is the ordinary kind: it is read, built and run,
+and it expects `answers` or `refuses`.
+
+A case carrying **bytes** asks about an encoding rather than about a program,
+and the two things an encoding is held to are the two it may expect. `reads`
+is both directions at once: reading those bytes answers that value, *and*
+writing that value answers those bytes. A writer that agrees with no reader and
+a reader that agrees with no writer each satisfy half of it, and half of it is
+what leaves one document with two byte spellings. `refuses "load"` is the other
+direction: those bytes are not a document, and reading is the only stage they
+reach, so no other stage may be written beside them.
+
+The bytes are the **binary** encoding, which is the one a document travels in
+and the one that is canonical. What the text encoding must read is asked of
+every case in passing, since a case is warpt text and a runner reads it before
+it can ask anything at all.
 
 A case is **not a document**, and this is the record where that is said out
 loud. It is written in the same text. An encoding carries a tree of data and
@@ -116,10 +139,10 @@ case sits in the writer's layout and a diff shows what changed rather than who
 indented it. An implementation adding cases writes its own dumper anyway. It
 is the same writer conformance already requires of it.
 
-So the suite is the first thing a new implementation reads with its own reader,
-and the reader is proven before it by the golden cases above. One whose reader
-disagrees with the golden bytes cannot trust anything the rest of the suite
-tells it.
+So the suite is the first thing a new implementation reads with its own reader.
+The reader is proven before it by the cases that carry bytes, and one whose
+reader disagrees with those cannot trust anything the rest of the suite tells
+it.
 
 The extension is `.test.warpt` and not `.warpt`, and both halves are true at
 once: the file *is* warpt text, which is why the text reader reads it, and what

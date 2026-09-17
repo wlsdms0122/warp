@@ -106,7 +106,8 @@ spelling.
 - Invalid UTF-8 in a string **refuses**.
 - A record with no name is `0x07`; only a record carrying a name is `0x09`.
 
-The golden case (also held as a test in each implementation):
+The golden case, held as `the-golden-record-reads-and-writes-back` under
+`conformance/`:
 
 ```
 { "a": 1, "b": [true, null], "c": "hi", "d": 1.5, "e": x"6a73" }
@@ -185,5 +186,23 @@ written out.
 
 ## Cases
 
-No case under `conformance/` asks about this page. What it says is held
-only by tests inside an implementation, which is a hole and not a decision.
+What `conformance/` asks about this page, by the name each case's file carries.
+These carry bytes rather than a program, under *what a case is* in
+[conformance](conformance.md).
+
+- `a-format-that-never-existed-refuses`
+- `a-later-format-refuses`
+- `a-length-past-the-end-of-the-document-refuses`
+- `a-named-record-reads-and-writes-back`
+- `a-number-written-longer-than-it-is-refuses`
+- `a-record-key-not-in-normal-form-c-refuses`
+- `a-record-key-written-twice-refuses`
+- `a-string-that-is-not-utf8-refuses`
+- `an-empty-record-key-refuses`
+- `an-infinity-refuses`
+- `bytes-after-the-document-ends-refuse`
+- `bytes-that-do-not-begin-as-a-document-refuse`
+- `bytes-that-end-inside-a-value-refuse`
+- `nesting-past-the-bound-refuses`
+- `record-keys-out-of-order-refuse`
+- `the-golden-record-reads-and-writes-back`
