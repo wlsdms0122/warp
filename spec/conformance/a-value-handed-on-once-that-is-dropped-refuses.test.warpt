@@ -8,6 +8,15 @@ warpt 1
   program {
     imports []
     procedures {
+      "app.open" {
+        result {
+          as "app.Handle"
+          of {
+            name "f"
+          }
+        }
+        returns "app.Handle"
+      }
       entry {
         body [
           {
@@ -22,15 +31,6 @@ warpt 1
         result "done"
         returns "string"
       }
-      "app.open" {
-        result {
-          as "app.Handle"
-          of {
-            name "f"
-          }
-        }
-        returns "app.Handle"
-      }
     }
     types {
       "app.Handle" {
@@ -43,3 +43,4 @@ warpt 1
   }
   test 2
 }
+

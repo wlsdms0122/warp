@@ -6,15 +6,14 @@ warpt 1
   name "a-declared-name-is-not-retyped-by-a-write"
   note "A name that says what it holds is fixed at that. A write into it is held to the declaration and does not retype it, the way a write into a module variable or an `inout` parameter is."
   program {
-    imports [
-    ]
+    imports []
     procedures {
       entry {
         body [
           {
-            var "held"
             type "int"
             value 1
+            var "held"
           }
           {
             set "held"
@@ -30,3 +29,4 @@ warpt 1
   }
   test 2
 }
+

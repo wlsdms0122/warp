@@ -12,7 +12,44 @@ warpt 1
       "app.open"
     ]
     procedures {
-      "make" {
+      entry {
+        body [
+          {
+            let "held"
+            value {
+              call {
+                procedure "make"
+              }
+            }
+          }
+          {
+            let "shown"
+            value {
+              call {
+                of {
+                  ref "held"
+                }
+                procedure "app.name"
+              }
+            }
+          }
+          {
+            value {
+              call {
+                of {
+                  ref "held"
+                }
+                procedure "app.close"
+              }
+            }
+          }
+        ]
+        result {
+          ref "shown"
+        }
+        returns "string"
+      }
+      make {
         body [
           {
             let "own"
@@ -60,43 +97,6 @@ warpt 1
         ]
         returns "app.Handle"
       }
-      entry {
-        body [
-          {
-            let "held"
-            value {
-              call {
-                procedure "make"
-              }
-            }
-          }
-          {
-            let "shown"
-            value {
-              call {
-                of {
-                  ref "held"
-                }
-                procedure "app.name"
-              }
-            }
-          }
-          {
-            value {
-              call {
-                of {
-                  ref "held"
-                }
-                procedure "app.close"
-              }
-            }
-          }
-        ]
-        result {
-          ref "shown"
-        }
-        returns "string"
-      }
     }
     warp 1
   }
@@ -134,3 +134,4 @@ warpt 1
     }
   }
 }
+

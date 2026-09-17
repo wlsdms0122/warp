@@ -10,6 +10,25 @@ warpt 1
   program {
     imports []
     procedures {
+      "app.name" {
+        parameters {
+          of "borrowing app.Handle"
+        }
+        receiver "of"
+        result {
+          ref "of.name"
+        }
+        returns "string"
+      }
+      "app.open" {
+        result {
+          as "app.Handle"
+          of {
+            name "f"
+          }
+        }
+        returns "app.Handle"
+      }
       entry {
         body [
           {
@@ -37,25 +56,6 @@ warpt 1
         }
         returns "app.Handle"
       }
-      "app.name" {
-        parameters {
-          of "borrowing app.Handle"
-        }
-        receiver "of"
-        result {
-          ref "of.name"
-        }
-        returns "string"
-      }
-      "app.open" {
-        result {
-          as "app.Handle"
-          of {
-            name "f"
-          }
-        }
-        returns "app.Handle"
-      }
     }
     types {
       "app.Handle" {
@@ -68,3 +68,4 @@ warpt 1
   }
   test 2
 }
+

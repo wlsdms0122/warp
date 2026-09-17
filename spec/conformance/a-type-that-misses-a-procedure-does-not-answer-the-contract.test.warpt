@@ -15,28 +15,6 @@ warpt 1
     }
     imports []
     procedures {
-      entry {
-        body [
-          {
-            let "plain"
-            value {
-              as "bank.Plain"
-              of {
-                note "x"
-              }
-            }
-          }
-        ]
-        result {
-          call {
-            of {
-              ref "plain"
-            }
-            procedure "app.tell"
-          }
-        }
-        returns "string"
-      }
       "app.tell" {
         bounds {
           T "app.Describable"
@@ -63,6 +41,28 @@ warpt 1
         result "an account"
         returns "string"
       }
+      entry {
+        body [
+          {
+            let "plain"
+            value {
+              as "bank.Plain"
+              of {
+                note "x"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            of {
+              ref "plain"
+            }
+            procedure "app.tell"
+          }
+        }
+        returns "string"
+      }
     }
     satisfies {
       "bank.Account" [
@@ -81,3 +81,4 @@ warpt 1
   }
   test 2
 }
+

@@ -8,22 +8,6 @@ warpt 1
   program {
     imports []
     procedures {
-      entry {
-        body [
-          {
-            let "handle"
-            value {
-              call {
-                procedure "app.open"
-              }
-            }
-          }
-        ]
-        result {
-          ref "handle"
-        }
-        returns "app.Handle"
-      }
       "app.look" {
         parameters {
           of "app.Handle"
@@ -40,6 +24,22 @@ warpt 1
         }
         returns "app.Handle"
       }
+      entry {
+        body [
+          {
+            let "handle"
+            value {
+              call {
+                procedure "app.open"
+              }
+            }
+          }
+        ]
+        result {
+          ref "handle"
+        }
+        returns "app.Handle"
+      }
     }
     types {
       "app.Handle" {
@@ -52,3 +52,4 @@ warpt 1
   }
   test 2
 }
+

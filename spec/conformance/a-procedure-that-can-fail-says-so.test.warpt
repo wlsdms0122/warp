@@ -17,14 +17,14 @@ warpt 1
             value {
               attempt {
                 body []
+                rescue {
+                  result "rescued"
+                }
                 result {
                   call {
                     of "no"
                     procedure "std.control.abort"
                   }
-                }
-                rescue {
-                  result "rescued"
                 }
               }
             }
@@ -40,3 +40,4 @@ warpt 1
   }
   test 2
 }
+

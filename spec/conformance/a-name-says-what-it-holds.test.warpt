@@ -6,13 +6,11 @@ warpt 1
   name "a-name-says-what-it-holds"
   note "A name may say what it holds under `type`, and the build works out a reading only where the name declares none. An `inout` slot asks for the same type the name is, and what the build derives about a closure it was never told. That this one answers without running and is isolated. Is not what the name says. So the declaration is what lets this name be handed in place."
   program {
-    imports [
-    ]
+    imports []
     procedures {
       entry {
         body [
           {
-            var "step"
             type {
               procedure {
                 parameters {
@@ -32,6 +30,7 @@ warpt 1
                 returns "int"
               }
             }
+            var "step"
           }
           {
             value {
@@ -81,3 +80,4 @@ warpt 1
   }
   test 2
 }
+
