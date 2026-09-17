@@ -226,6 +226,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-path-handed-in-place-is-written-through`
 - `a-piece-that-writes-what-it-captured-refuses-at-the-build`
 - `a-procedure-that-can-fail-says-so`
+- `a-receiver-is-held-to-its-parameter-at-the-run`
 - `a-receiver-written-for-one-that-declares-none-refuses`
 - `a-required-argument-left-out-refuses`
 - `a-value-is-not-handed-in-place`
