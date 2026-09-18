@@ -1,0 +1,55 @@
+warpt 1
+{
+  expect {
+    answers 2
+  }
+  name "an-answer-of-all-settles-into-the-record-declared"
+  note "What `all` answers is shaped like what went in, so the author declares that shape as a record type and settles the answer into it, the way any answer read through `any` is settled at the run."
+  program {
+    imports [
+      "std.concurrent.all"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            let "both"
+            value {
+              as "Answers"
+              of {
+                call {
+                  of {
+                    left {
+                      closure {
+                        result 1
+                      }
+                    }
+                    right {
+                      closure {
+                        result 2
+                      }
+                    }
+                  }
+                  procedure "std.concurrent.all"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "both.right"
+        }
+        returns "int"
+      }
+    }
+    types {
+      Answers {
+        left "int"
+        right "int"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+
