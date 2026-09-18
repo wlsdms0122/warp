@@ -160,6 +160,9 @@ the **build**, a reading provably outside the membership refuses. Two booleans
 meeting `lessThan` never run, and a reading the text says nothing about (`any`)
 passes; at the **boundary**, the value that actually arrived is judged against
 the membership, so what travelled in through `any` is refused where it arrives.
+One name is held to one set of bounds: `bounds` writes the set once, every
+occurrence of the name reads it, and a signature assembled with two occurrences
+holding different sets is refused at the build and written by no document.
 `bounds` naming a parameter no slot mentions refuses at the read. Only the declaring procedure writes `bounds`. A
 procedure *type* nested in a slot carries none, because its parameters are the
 declaring signature's own slots and the declaring signature owns their bounds. A
