@@ -1,0 +1,46 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-bound-may-name-several-and-holds-to-every-one"
+  note "A bound may name several memberships and contracts joined with `&`, and a parameter so bounded takes only what every one of them admits. A whole number belongs to the first membership and not the second, so the call is refused at the build."
+  program {
+    constraints {
+      Scalar [
+        "int"
+        "string"
+      ]
+      Text [
+        "string"
+      ]
+    }
+    imports []
+    procedures {
+      entry {
+        result {
+          call {
+            arguments {
+              value 1
+            }
+            procedure "keep"
+          }
+        }
+        returns "int"
+      }
+      keep {
+        bounds {
+          T "Scalar & Text"
+        }
+        parameters {
+          value "some T"
+        }
+        result 1
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

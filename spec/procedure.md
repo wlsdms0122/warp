@@ -13,7 +13,7 @@ parameter takes.
 | `parameters` | record: name → parameter | no |
 | `receiver` | string. The name of the parameter a call fills by writing a receiver in front | no |
 | `returns` | type. When absent, what a call answers is read off the body | no |
-| `bounds` | record: type parameter → constraint name; refuses when it names a parameter no slot mentions | no |
+| `bounds` | record: type parameter → the names of constraints and contracts, one or several joined with `&`; refuses when it names a parameter no slot mentions | no |
 | `body` | statements | no |
 | `result` | expression. What the procedure answers | no |
 

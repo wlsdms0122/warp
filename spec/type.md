@@ -26,6 +26,8 @@ cannot say:
 | `var <type>` | a field a path may write through; written on a field of a type declared in `types` and nowhere else |
 | `Task` (any declared name) | the type a module declares under that name, or a value of the membership it declares under that name |
 | `some T` | a type parameter: worked out from the call, same reading everywhere it appears; bounded when the signature's `bounds` names it |
+| `Describable` (a declared contract's name) | a value of whatever type satisfies the contract. Nothing ties one slot's to another's |
+| `Describable & Comparable` | a value of whatever type satisfies every contract and belongs to every membership named; the names in either order, and each a contract's or a membership's |
 | `int(0...255)`, `double(0.0..<1.0)` | a number the slot admits only inside the range. The kind written out, either bound optional but not both, and `..<` leaving the far bound outside |
 | `int?` (any string spelling and `?`) | the declared type or null. The one union written inline, and it is null-only. Any other is declared as a membership and named |
 | `{ title: string, done: bool }` | a record type, written as the record it describes; structural, and it names nothing |
@@ -144,10 +146,12 @@ looking for.
 
 **Constraints.** A type parameter may be bounded: a signature declares `bounds:
 { T: Comparable }` once, its slots write `some T`, and every occurrence of the
-name takes only what the constraint admits. The signature owns the bound. A slot
-names the parameter and never the membership, so one bound is one claim however
-many slots mention the name, and there is no inline union for the membership to
-leak out through. A constraint is a **declared membership**. A module binds a
+name takes only what the constraint admits. A bound may name several, joined
+with `&`: `bounds: { T: Comparable & Describable }` holds `T` to what every one
+of them admits or asks. The signature owns the bound. A slot names the
+parameter and never the membership, so one bound is one claim however many
+slots mention the name, and there is no inline union for the membership to leak
+out through. A constraint is a **declared membership**. A module binds a
 name to the types it admits, the way it declares a type. A slot may also declare
 one as its type, and what stands there is a value of one of the members, which
 is how the language says **A or B**: the set is declared once under a name, and
@@ -156,9 +160,7 @@ the **build**, a reading provably outside the membership refuses. Two booleans
 meeting `lessThan` never run, and a reading the text says nothing about (`any`)
 passes; at the **boundary**, the value that actually arrived is judged against
 the membership, so what travelled in through `any` is refused where it arrives.
-One name takes one constraint: two claims binding one parameter to different
-constraints refuse at the build, and `bounds` naming a parameter no slot
-mentions refuses at the read. Only the declaring procedure writes `bounds`. A
+`bounds` naming a parameter no slot mentions refuses at the read. Only the declaring procedure writes `bounds`. A
 procedure *type* nested in a slot carries none, because its parameters are the
 declaring signature's own slots and the declaring signature owns their bounds. A
 constraint nobody declares, a constraint declared twice under one spelling, one
@@ -290,6 +292,12 @@ open, and new ones arrive with new documents. A module declares one the way it
 declares a type: a name bound to the procedures, each written as a signature
 with no receiver, because the receiver is whatever satisfies the contract.
 
+A contract's name stands where a type is written, and so does `A & B`: the
+slot takes a value of whatever type satisfies every contract and belongs to
+every membership named. It is a type parameter with no name, so nothing ties
+one slot's reading to another's, and a call fills nothing. A name declared as
+neither a membership nor a contract joined with `&` **refuses at the build**.
+
 A type **satisfies** a contract when a document says it does. The document
 writes the claim under `satisfies`, keyed by the type: `satisfies: {
 "bank.Account": ["app.Describable"] }`. Any document may make one, about a type
@@ -375,6 +383,9 @@ build, which is the one dependency the standard bundles have.
 What `conformance/` asks about this page, by the name each case's file carries.
 
 - `a-bare-constraint-name-refuses-at-the-build`
+- `a-bound-may-name-several-and-holds-to-every-one`
+- `a-contract-stands-where-a-type-is-written`
+- `a-name-that-is-not-a-bound-joined-with-and-refuses-at-the-build`
 - `a-body-cannot-answer-what-it-borrowed`
 - `a-borrowing-slot-reads-and-leaves-the-obligation`
 - `a-byte-is-a-whole-number-a-range-refines`
