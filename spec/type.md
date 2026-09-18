@@ -389,6 +389,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-bound-may-name-several-and-holds-to-every-one`
 - `a-contract-stands-where-a-type-is-written`
 - `a-value-outside-a-contract-standing-as-a-type-refuses-at-the-build`
+- `a-value-of-a-membership-answers-a-contract-every-member-satisfies`
+- `a-named-list-handed-where-a-list-of-a-contract-stands-is-held-to-it`
 - `a-name-that-is-not-a-bound-joined-with-and-refuses-at-the-build`
 - `a-body-cannot-answer-what-it-borrowed`
 - `a-borrowing-slot-reads-and-leaves-the-obligation`
