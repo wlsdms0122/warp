@@ -385,6 +385,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-bare-constraint-name-refuses-at-the-build`
 - `a-bound-may-name-several-and-holds-to-every-one`
 - `a-contract-stands-where-a-type-is-written`
+- `a-value-outside-a-contract-standing-as-a-type-refuses-at-the-build`
 - `a-name-that-is-not-a-bound-joined-with-and-refuses-at-the-build`
 - `a-body-cannot-answer-what-it-borrowed`
 - `a-borrowing-slot-reads-and-leaves-the-obligation`
