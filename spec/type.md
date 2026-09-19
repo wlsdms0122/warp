@@ -332,7 +332,9 @@ A claim whose two names the list declares as something other than what the
 claim needs of them **refuses at the build, at the claim**: a contract where the type
 belongs, a type where the contract belongs, or a membership in either place.
 One name has one declarer, so no document arriving later makes that right. A
-name the list declares as nothing at all waits with the rest.
+name the list declares as nothing at all waits with the rest: the claim holds
+nothing, and that is refused only **where a call leaned on the pair**, with the
+reason the claim came to nothing. A claim nobody leans on refuses nowhere.
 
 Two documents claiming one pair are one claim: a claim holds nothing but the
 pair, so the second says what the first said.
