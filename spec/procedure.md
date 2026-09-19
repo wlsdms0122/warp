@@ -22,20 +22,19 @@ value of the last statement is never the answer.
 
 ## A procedure the host answers
 
-A declaration with **no body** is answered by the host. The document says what
-it is called, what it takes and what it answers; the code arrives at the link,
-in a module the receiver put there. A call reaches one of these the way it
-reaches any other declaration, and is judged against the signature the same way.
+A procedure the host answers is not written in a document. A declaration in
+a document with no `body` and no `result` is a procedure that answers nothing.
+The host's procedure arrives at the link in a module the receiver assembled in
+its own language, declared there under its spelling with what a body's text
+would have shown: its signature, the **procedures it sends**, because there is
+no text to read them off, whether it **touches** a name another body could touch
+at the same time, what it may **fail** with, and whether it **answers without
+running**, because what it keeps and what it reaches in the host language is
+outside any document. A call reaches one of these the way it reaches any other
+declaration, and is judged against the signature the same way.
 
-What a body's text would have shown, such a procedure says instead. It says the
-**procedures it sends**, because there is no text to read them off. It says
-whether it **touches** a name another body could touch at the same time, what it
-may **fail** with, and whether it **answers without running**, because what it
-keeps and what it reaches in the host language is outside the document
-altogether.
-
-**Its sends are held to the rest of what it said.** They are in the document, so
-the build reads them. A procedure declaring it answers without running and
+**Its sends are held to the rest of what it said.** They are declared beside
+the signature, so the build reads them. A procedure declaring it answers without running and
 sending one that answers only by running **refuses at the build**, and so does
 one declaring it touches nothing shared and sending one that does. Neither is
 something a host language can catch. What a procedure may fail with is not held
