@@ -1,0 +1,11 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-bare-key-that-is-not-an-identifier-refuses"
+  note "A key is written bare only when it is an identifier, and quoted otherwise. A bare token that is not one names no field."
+  test 5
+  text "warpt 1\n{\n  a-b 1\n}\n"
+}
+

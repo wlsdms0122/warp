@@ -196,7 +196,7 @@ written out.
 ## Cases
 
 What `conformance/` asks about this page, by the name each case's file carries.
-These carry bytes rather than a program, under *what a case is* in
+These carry bytes or text rather than a program, under *what a case is* in
 [conformance](conformance.md).
 
 - `a-format-that-never-existed-refuses`
@@ -216,3 +216,23 @@ These carry bytes rather than a program, under *what a case is* in
 - `nesting-past-the-bound-refuses`
 - `record-keys-out-of-order-refuse`
 - `the-golden-record-reads-and-writes-back`
+
+Text:
+
+- `a-bare-key-that-is-not-an-identifier-refuses`
+- `a-fraction-not-in-its-one-writing-refuses`
+- `a-fraction-reads-by-its-point-or-exponent`
+- `a-named-record-reads-from-text`
+- `a-quoted-key-and-a-bare-key-are-one-key`
+- `a-text-control-character-written-raw-refuses`
+- `a-text-key-written-twice-refuses`
+- `a-text-laid-out-by-a-later-format-refuses`
+- `a-text-reads-in-any-layout`
+- `a-text-reads-its-escapes`
+- `a-whole-number-with-a-leading-zero-refuses`
+- `an-escape-for-a-character-written-as-itself-refuses`
+- `an-escape-spelled-longer-than-its-short-form-refuses`
+- `an-exponent-not-in-its-one-writing-refuses`
+- `bytes-written-in-uppercase-hex-refuse`
+- `bytes-written-with-an-odd-digit-refuse`
+- `text-after-the-document-ends-refuses`

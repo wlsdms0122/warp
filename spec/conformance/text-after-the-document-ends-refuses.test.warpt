@@ -1,0 +1,11 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "text-after-the-document-ends-refuses"
+  note "A text is one value, then the end. Text after it is a second document nobody asked for, and a reader that stopped at the first value could not tell."
+  test 5
+  text "warpt 1\n1\n2\n"
+}
+

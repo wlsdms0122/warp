@@ -22,16 +22,18 @@ One file, one question: a subject, what to ask it with, and what should happen.
     program     a document, declaring a procedure spelled `entry`, which is
                 where the runner starts
     bytes       a document's bytes, in the binary encoding
+    text        a document's text, in the text encoding
     arguments   what the entry procedure is given, if anything; a record
                 under a name is written as the text encoding writes one
     vocabulary  the procedures the runner brings, if any
     expect      answers <value>   it runs and answers this, named records
                                   written the same way
-                reads <value>     those bytes are that value, both ways
+                reads <value>     those bytes are that value, both ways;
+                                  that text reads as that value
                 refuses <stage>   it is refused, at load, build or run
 
-**A case carries exactly one of `program` and `bytes`,** and which one it
-carries decides what it may expect. A case carrying both would be two cases
+**A case carries exactly one of `program`, `bytes` and `text`,** and which one
+it carries decides what it may expect. A case carrying two would be two cases
 sharing one answer.
 
 A case carrying a **program** is the ordinary kind: it is read, built and run,
@@ -47,7 +49,15 @@ direction: those bytes are not a document, and reading is the only stage they
 reach, so no other stage may be written beside them.
 
 The bytes are the **binary** encoding, which is the one a document travels in
-and the one that is canonical. What the text encoding must read is asked of
+and the one that is canonical.
+
+A case carrying **text** asks about the text encoding the same way, and
+expects `reads` or `refuses "load"`. `reads` is one direction here: reading
+that text answers that value. One value has many layouts in text, since layout
+is free on the way in, so what a writer lays out is not asked of a text but of
+the cases themselves: every case file is in the writer's layout, and a runner
+that writes each one back and compares has asked its writer the same question
+the binary cases ask. What the text encoding must read at all is asked of
 every case in passing, since a case is warpt text and a runner reads it before
 it can ask anything at all.
 
@@ -97,7 +107,7 @@ what it does not, both of which need a procedure with no body: a slot asking
 `const procedure`, an operand calling one, and a constant that settles from one
 and is refused for it.
 
-A runner reads `test 2` through `test 4`, and a case says the earliest it needs:
+A runner reads `test 2` through `test 5`, and a case says the earliest it needs:
 
 | version | what moved |
 |---|---|
@@ -105,6 +115,7 @@ A runner reads `test 2` through `test 4`, and a case says the earliest it needs:
 | 2 | the stages `load`, `build` and `run` |
 | 3 | `vocabulary` |
 | 4 | `bytes` and `expect reads` |
+| 5 | `text` |
 
 Both kinds matter equally. **An implementation that accepts a program another
 refuses has failed in the same way as one that answers differently**, so half of
@@ -157,3 +168,4 @@ it holds is a test rather than a document, which is why nothing that runs
 programs will take it. Naming the format outright. A single extension of its
 own. Would make a file that is spelled in warpt look like it is not, and every
 tool that highlights or formats warpt would have to be told about it twice.
+
