@@ -402,6 +402,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `count-asks-a-collection`
 - `count-of-a-record-is-its-fields`
 - `count-of-bytes-is-their-length`
+- `decoded-reads-bytes-written-one-by-one`
 - `cutting-on-nothing-refuses`
 - `decoded-reads-bytes-as-text-in-a-named-encoding`
 - `dropping-an-end-answers-the-rest`
