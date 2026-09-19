@@ -132,7 +132,9 @@ way it works out constness:
   it is named: which piece `first` answers with. Everything else a join answers
   is the same under every interleaving. `all` waits for every piece, so a rescue
   around a fan-out that lost twice is handed every failure, keyed by the piece
-  it came from, whichever finished first.
+  it came from, whichever finished first. A piece that refuses at the run
+  refuses the whole run, whichever finished first, and no rescue holds it: a
+  refusal is not a failure, and the failures beside it are not reported.
 - **Effects are the world's, and the world is the receiver's.** Two pieces' host
   calls interleave in an order nothing states. Two pieces reaching one host-held
   thing, a file or a counter, is contention the *host's* procedure must defend.

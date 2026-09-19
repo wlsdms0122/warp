@@ -275,7 +275,7 @@ convention. `std.concurrent.first` run over nothing is refused, the way
 `std.collection.first` of nothing is: a procedure that answers exactly one
 thing has no empty answer. And a `first` in which nothing succeeds fails the
 way `all` fails: every piece's failure reported, keyed by the piece it came
-from.
+from, a record's by its key and an array's by its index written `[0]`.
 
 What the vocabulary answers about **bytes**: `bytes = array<byte>`. Bytes are
 not a special material. They are the compact spelling of an array of small whole

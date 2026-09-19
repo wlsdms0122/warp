@@ -238,8 +238,9 @@ A native procedure says what it may fail with, the way it says whether it is
 isolated. **A procedure that says nothing fails nothing**, which is right for
 the many procedures that throw only at an author mistake, and a procedure that
 can fail says so. `std.control.abort` says `aborted`; `std.concurrent` says
-`concurrent_failed`, every piece's recoverable failure being gathered into that
-one. A procedure that fails and does not say so has broken its contract, the
+`concurrent_failed`, every piece's failure being gathered into that one. A
+piece that refuses at the run refuses the whole run instead, under
+[running](running.md), and the failures beside it are not gathered. A procedure that fails and does not say so has broken its contract, the
 same way one that holds state and calls itself isolated has.
 
 **`block`**. A body written as a statement, and nothing more: the bare member of
