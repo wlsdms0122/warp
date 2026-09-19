@@ -16,8 +16,10 @@ is `load` too, and those pages say so where the shape is written. The stage is
 the rule's: a call that misfits a declaration in its own document refuses at
 `build` all the same.
 
-- every `ref` resolves to a parameter, a constant, a statement written before
-  it, or a path through them;
+- every `ref` resolves to a parameter, a constant, a module variable, a
+  statement written before it, a binding the construct holding it opened (a
+  loop's round, an iteration's element, an attempt's failure), or a path
+  through them;
 - every procedure sent is declared by some module in the link, exactly once;
 - every call fits the declaration it reaches: arguments by name, receiver,
   and answer, with type parameters bound as [types](type.md) says and every
