@@ -1,0 +1,90 @@
+warpt 1
+{
+  expect {
+    answers "aborted"
+  }
+  name "a-rescue-reads-a-pieces-own-failure"
+  note "What concurrent_failed gathers under each piece is the envelope that piece raised, so a rescue reads a piece's own type through details, the way it reads any failure's."
+  program {
+    imports [
+      "std.concurrent.all"
+      "std.control.abort"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            let "tried"
+            value {
+              attempt {
+                body [
+                  {
+                    value {
+                      call {
+                        of {
+                          fine {
+                            closure {
+                              result "ok"
+                            }
+                          }
+                          fragile {
+                            closure {
+                              body [
+                                {
+                                  value {
+                                    call {
+                                      of "on purpose"
+                                      procedure "std.control.abort"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                        procedure "std.concurrent.all"
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  body [
+                    {
+                      let "failures"
+                      value {
+                        as "dictionary<any>"
+                        of {
+                          ref "tried.details.failures"
+                        }
+                      }
+                    }
+                    {
+                      let "piece"
+                      value {
+                        as {
+                          type "string"
+                        }
+                        of {
+                          ref "failures.fragile"
+                        }
+                      }
+                    }
+                  ]
+                  result {
+                    ref "piece.type"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "tried"
+        }
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

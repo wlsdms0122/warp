@@ -200,8 +200,10 @@ runtime assembles the payload from what a failure declares, so no procedure can
 hand over one without them and there is nothing here for a run to check.
 
 The envelope is this specification's; what rides in `details` is the procedure's
-own. `concurrent_failed` puts `failures` there, every piece's reason keyed by
-the piece.
+own. `concurrent_failed` puts `failures` there: every piece's failure, keyed by
+the piece, a record's by its key and an array's by its index written `[0]`,
+and each is the envelope that piece raised, so a rescue reads a piece's own
+`type`, `message` and `details` through it.
 
 ```
 { ref "failed.details.failures" }
@@ -304,6 +306,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-rescue-over-a-body-that-cannot-fail-refuses`
 - `a-rescue-reads-the-failure-it-caught`
 - `a-rescue-reads-what-a-cast-refused`
+- `a-rescue-reads-a-pieces-own-failure`
 - `a-rescue-reads-what-a-failure-carried`
 - `a-rescue-that-answers-nothing-answers-null`
 - `a-rescue-that-produces-nothing-refuses`
