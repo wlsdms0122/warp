@@ -6,9 +6,10 @@ running. What is checked before any of this is
 [what an implementation checks, and when](checking.md).
 
 - Statements run in order; each binds its name in the scope of what follows.
-- A call's arguments are evaluated in **name order**. Almost nothing can
+- A call's arguments are evaluated in **name order**, ascending by UTF-8
+  bytes, the order [encodings](encoding.md) puts on names. Almost nothing can
   observe this. Arguments evaluate without effects, but two arguments that
-  would each refuse surface one refusal, and which one is the text's fact,
+  would each refuse surface one refusal, and which one is the names' fact,
   not a hash table's.
 - `std.collection.keys` and `values` answer in the record's **canonical
   order**. Names ascending. For the same reason: a program that walks them
