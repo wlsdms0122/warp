@@ -94,7 +94,7 @@ Each value is a tag byte, then its payload:
 | `0x06` | array | count varint, then that many values |
 | `0x07` | record | count varint, then that many of: key (length varint + UTF-8), value |
 | `0x08` | bytes | length varint, then that many raw bytes |
-| `0x09` | named record | name (length varint + UTF-8), then count and fields exactly as `0x07` writes them |
+| `0x09` | named record | name (length varint + UTF-8), then count and fields exactly as `0x07` writes them. The name is a declared type's spelling: ASCII identifiers joined by dots, no scalar's keyword, and any other **refuses** |
 
 - **Varint** is unsigned LEB128: seven bits a byte, low bits first, high bit
 says another byte follows. At most 64 bits of payload. The largest zigzagged
@@ -205,6 +205,7 @@ These carry bytes rather than a program, under *what a case is* in
 - `a-number-written-longer-than-it-is-refuses`
 - `a-record-key-not-in-normal-form-c-refuses`
 - `a-record-key-written-twice-refuses`
+- `a-record-name-that-is-not-declarable-refuses`
 - `a-string-that-is-not-utf8-refuses`
 - `an-empty-record-key-refuses`
 - `an-infinity-refuses`
