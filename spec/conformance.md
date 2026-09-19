@@ -19,9 +19,8 @@ One file, one question: a subject, what to ask it with, and what should happen.
     test        int. The case format this file is written for
     name        what the case is called
     note        why it exists. The rule it holds an implementation to
-    program     a document; one a case runs declares a procedure spelled
-                `entry`, which is where the runner starts, and one a case
-                only expects refused needs none
+    program     a document, declaring a procedure spelled `entry`, which is
+                where the runner starts
     bytes       a document's bytes, in the binary encoding
     arguments   what the entry procedure is given, if anything; a record
                 under a name is written as the text encoding writes one
@@ -64,9 +63,9 @@ for **what it is** rather than for the keys it happens to carry. The `test`
 number moves for the same reason `warp` does and on its own schedule. The day
 a case may say something new is not the day a document may.
 
-`expect` holds one of `answers` or `refuses`. One slot, so "one of the two and
-exactly one" is the record rather than a rule about two keys that could both be
-written or neither.
+`expect` holds one of `answers`, `reads` or `refuses`. One slot, so "one of
+them and exactly one" is the record rather than a rule about keys that could
+all be written or none.
 
 **`vocabulary` is what the runner brings.** Most of what a document may say
 about a procedure the host answers is not something a case can write down: the
@@ -98,9 +97,14 @@ what it does not, both of which need a procedure with no body: a slot asking
 `const procedure`, an operand calling one, and a constant that settles from one
 and is refused for it.
 
-The cases here are `test 2` where they say nothing new and `test 3` where they
-ask for a vocabulary: `test 1` spelled the middle stage `link`, and a runner
-that reads `build` cannot honour a case that says the other one.
+A runner reads `test 2` through `test 4`, and a case says the earliest it needs:
+
+| version | what moved |
+|---|---|
+| 1 | spelled the middle stage `link`; a runner that reads `build` cannot honour it, so it is refused |
+| 2 | the stages `load`, `build` and `run` |
+| 3 | `vocabulary` |
+| 4 | `bytes` and `expect reads` |
 
 Both kinds matter equally. **An implementation that accepts a program another
 refuses has failed in the same way as one that answers differently**, so half of
