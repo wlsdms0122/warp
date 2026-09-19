@@ -352,8 +352,11 @@ membership's is: at the **build** a reading provably outside refuses, and at the
 
 A body calls a contract's procedure by writing the contract's name and the
 procedure's with a dot between them: `app.Describable.describe`. That spelling
-names no declaration, and what it means is settled by the value it is sent to,
-so it is written with a receiver in front and refuses without one. What a call
+is the contract's declaration of the procedure, receiverless, and it is a send
+like any other: a document calling a contract another module declares lists
+the spelling in `imports`. It names no type's declaration, and what it means is
+settled by the value it is sent to, so it is written with a receiver in front
+and refuses without one. What a call
 hands it and what it answers are the contract's, not any one declaration's.
 
 **The build builds the table and the run reads it.** For every contract, the
