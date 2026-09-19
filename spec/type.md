@@ -400,7 +400,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-bare-array-refuses-at-the-load`
 - `a-bare-constraint-name-refuses-at-the-build`
 - `a-bound-may-name-several-and-holds-to-every-one`
+- `a-contract-stands-in-a-closures-parameter`
 - `a-contract-stands-where-a-type-is-written`
+- `a-value-outside-a-contract-in-a-closures-parameter-refuses-at-the-run`
 - `a-value-outside-a-contract-standing-as-a-type-refuses-at-the-build`
 - `a-type-handed-on-once-answers-no-contract`
 - `a-value-of-a-membership-answers-a-contract-every-member-satisfies`

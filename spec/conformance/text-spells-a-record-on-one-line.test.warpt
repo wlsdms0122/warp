@@ -1,0 +1,77 @@
+warpt 1
+{
+  expect {
+    answers [
+      "{\"a\":\"x\",\"b\":1}"
+      "Point {\"x\":1}"
+      "{}"
+    ]
+  }
+  name "text-spells-a-record-on-one-line"
+  note "text spells a container on one line: a dictionary's entries between braces as the key quoted, a colon and the value, in name order; a named record the same with its name and a space in front; an empty one as its two brackets."
+  program {
+    imports [
+      "std.text.text"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            let "plain"
+            value {
+              call {
+                of {
+                  a "x"
+                  b 1
+                }
+                procedure "std.text.text"
+              }
+            }
+          }
+          {
+            let "named"
+            value {
+              call {
+                of {
+                  as "Point"
+                  of {
+                    x 1
+                  }
+                }
+                procedure "std.text.text"
+              }
+            }
+          }
+          {
+            let "empty"
+            value {
+              call {
+                of {}
+                procedure "std.text.text"
+              }
+            }
+          }
+        ]
+        result [
+          {
+            ref "plain"
+          }
+          {
+            ref "named"
+          }
+          {
+            ref "empty"
+          }
+        ]
+      }
+    }
+    types {
+      Point {
+        x "int"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

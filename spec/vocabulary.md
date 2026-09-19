@@ -435,6 +435,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `starts-with-reads-the-head`
 - `text-counts-as-a-person-reads`
 - `text-of-null-spells-null`
+- `text-spells-a-record-on-one-line`
 - `text-spells-bytes-the-way-a-document-writes-them`
 - `the-side-select-does-not-choose-goes-unasked`
 - `trimming-takes-unicode-whitespace-from-both-ends`

@@ -1,0 +1,93 @@
+warpt 1
+{
+  expect {
+    refuses "run"
+  }
+  name "a-value-outside-a-contract-in-a-closures-parameter-refuses-at-the-run"
+  note "Applying a value is a reading the text opens to any, so what a closure literal's parameter admits is settled at the run's boundary: a value of a type that satisfies no such contract is refused there, at the run, and the body never sees it."
+  program {
+    contracts {
+      "app.Describable" {
+        describe {
+          returns "string"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "bank.Card.describe" {
+        parameters {
+          of {
+            type "bank.Card"
+          }
+        }
+        receiver "of"
+        result "a card"
+        returns "string"
+      }
+      entry {
+        body [
+          {
+            let "tell"
+            value {
+              closure {
+                parameters {
+                  it {
+                    type "app.Describable"
+                  }
+                }
+                result {
+                  call {
+                    of {
+                      ref "it"
+                    }
+                    procedure "app.Describable.describe"
+                  }
+                }
+                returns "string"
+              }
+            }
+          }
+          {
+            let "card"
+            value {
+              as "bank.Card"
+              of {
+                last "42"
+              }
+            }
+          }
+          {
+            let "applied"
+            value {
+              apply {
+                arguments {
+                  it 1
+                }
+                procedure {
+                  ref "tell"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "applied"
+        }
+      }
+    }
+    satisfies {
+      "bank.Card" [
+        "app.Describable"
+      ]
+    }
+    types {
+      "bank.Card" {
+        last "string"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

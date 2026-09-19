@@ -139,7 +139,8 @@ alike, and it **refuses** as a case rather than reading as a default. If the
 case expects `refuses`, check that it fails at that stage and no earlier or
 later. Otherwise build it against that vocabulary and the standard bundles,
 start from the procedure declared under `entry`, run it with `arguments`, and
-compare.
+compare. A program that declares no `entry` is refused **at the build**, where
+a name nothing in the link declares is refused.
 
 The cases are the files named `<name>.test.warpt`, and what else the folder
 holds is not the suite's business. A runner that refused to start over an
@@ -173,3 +174,8 @@ programs will take it. Naming the format outright. A single extension of its
 own. Would make a file that is spelled in warpt look like it is not, and every
 tool that highlights or formats warpt would have to be told about it twice.
 
+## Cases
+
+What `conformance/` asks about this page, by the name each case's file carries.
+
+- `a-program-without-an-entry-refuses-at-the-build`
