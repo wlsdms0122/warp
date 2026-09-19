@@ -388,6 +388,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `abort-sent-null-says-aborted`
 - `absolute-floored-and-rounded-answer-a-whole`
 - `absolute-of-the-minimum-refuses`
+- `an-operand-of-and-that-answers-no-bool-refuses-at-the-build`
 - `append-writes-the-array-in-place`
 - `arithmetic-admits-only-numbers`
 - `arithmetic-answers-the-kind-it-was-given`
@@ -402,9 +403,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `count-asks-a-collection`
 - `count-of-a-record-is-its-fields`
 - `count-of-bytes-is-their-length`
-- `decoded-reads-bytes-written-one-by-one`
 - `cutting-on-nothing-refuses`
 - `decoded-reads-bytes-as-text-in-a-named-encoding`
+- `decoded-reads-bytes-written-one-by-one`
 - `dropping-an-end-answers-the-rest`
 - `encoded-writes-text-as-bytes-in-a-named-encoding`
 - `first-and-last-read-the-ends`
@@ -441,4 +442,3 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `trimming-takes-unicode-whitespace-from-both-ends`
 - `values-answer-in-canonical-order`
 - `what-is-not-utf8-text-refuses-to-decode`
-- `an-operand-of-and-that-answers-no-bool-refuses-at-the-build`

@@ -305,9 +305,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-named-block-binds-its-result`
 - `a-named-step-arrives-where-the-walk-arrives`
 - `a-rescue-over-a-body-that-cannot-fail-refuses`
+- `a-rescue-reads-a-pieces-own-failure`
 - `a-rescue-reads-the-failure-it-caught`
 - `a-rescue-reads-what-a-cast-refused`
-- `a-rescue-reads-a-pieces-own-failure`
 - `a-rescue-reads-what-a-failure-carried`
 - `a-rescue-that-answers-nothing-answers-null`
 - `a-rescue-that-produces-nothing-refuses`
@@ -333,7 +333,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `nothing-runs-after-leaving`
 - `nothing-runs-after-what-never-finishes`
 - `return-inside-a-closure-answers-the-closure`
+- `type-beside-set-refuses-at-the-load`
 - `what-is-written-fits-the-type-the-path-reaches`
 - `what-nobody-wrote-is-not-readable`
 - `writing-a-name-never-declared-refuses`
-- `type-beside-set-refuses-at-the-load`
