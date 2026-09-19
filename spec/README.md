@@ -91,10 +91,13 @@ value, no best guess, no reading what it recognised and skipping the rest.
 
 Refusals happen at one of three stages, and the stage is part of the behaviour:
 
-1. **Reading**. The bytes or the tree are not a document.
-2. **Building**. The document is a document, and the program it writes is not
-   sound: a name resolves nowhere, a call does not fit the declaration it
-   reaches, a procedure no module provides. Nothing has run yet.
+1. **Loading**. The bytes or the tree are not a document, or the document does
+   not hold together on its own: a name resolves nowhere in it, a statement
+   follows a leave, its `imports` list is not what its program sends.
+2. **Building**. The document holds together, and the program it writes is not
+   sound against the declarations it reaches: a call does not fit the
+   declaration, a procedure no module provides, a type nobody declared.
+   Nothing has run yet.
 3. **Running**. The program was sound and the world disagreed: division by
    zero, overflow, a failure a procedure raised.
 
@@ -110,12 +113,16 @@ the run where another implementation refuses at the build means something
 already happened, and what already happened cannot be taken back.
 
 The cases under `conformance/` name the stages **`load`**, **`build`** and
-**`run`**. `load` is reading plus the half of the checking a document answers
-alone. A document is checked as it is loaded, and to a caller the two are one
-refusal surface; `build` is everything that needs the other documents.
-Procedures, declared type names, signatures; `run` is running. So a `ref` that
-resolves nowhere in its own document refuses at `load`, and a procedure no
-module declares refuses at `build`.
+**`run`**. `load` is reading plus the checks that need no declaration's
+signature: every name a body writes resolves in its own document, nothing
+follows a leave, and the `imports` list is what the program sends. A document
+is checked as it is loaded, and to a caller the two are one refusal surface.
+`build` is everything judged against a signature or another document: what a
+call fits, what a slot takes, which module declares a procedure, which type
+answers a contract. `run` is running. The stage is the rule's and not the
+program's: a `ref` that resolves nowhere in its own document refuses at `load`,
+a call in that same document handing the wrong kind refuses at `build`, and a
+procedure no module declares refuses at `build`.
 
 Building is compiling and linking, the way it is anywhere else. Compiling
 settles what each document says on its own, against the interfaces of the

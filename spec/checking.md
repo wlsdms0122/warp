@@ -7,7 +7,11 @@ program the other runs or refuses it later.
 
 A program is read, checked and built before any of it runs. Including the
 arms nobody takes. All of the following are answered while nothing has
-happened yet:
+happened yet. The first, the leaves (`break`/`continue` having a loop, nothing
+following one) and the names in normal form C are answered at `load`, since a
+document answers them alone; the rest at `build`, since each is judged against
+a signature or another document. The stage is the rule's: a call that misfits
+a declaration in its own document refuses at `build` all the same.
 
 - every `ref` resolves to a parameter, a constant, a statement written before
   it, or a path through them;
