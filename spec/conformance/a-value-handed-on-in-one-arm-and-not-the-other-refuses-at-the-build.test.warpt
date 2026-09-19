@@ -36,11 +36,18 @@ warpt 1
                     }
                   }
                 ]
-                when true
+                when {
+                  ref "ready"
+                }
               }
             }
           }
         ]
+        parameters {
+          ready {
+            type "bool"
+          }
+        }
         returns "null"
       }
     }
