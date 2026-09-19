@@ -192,7 +192,9 @@ values to a closure it was given: each settles against the declaration the same
 way, and a name the declaration does not have refuses in all of them. The
 receiver written in front of the dot is given the same way: it fills the
 parameter the declaration names as its `receiver`, and is held to what that
-parameter declares, null included.
+parameter declares, null included. In front is the one place it is written: a
+`call` writing that parameter's name under `arguments` **refuses at the build**,
+whether or not something stands in front.
 
 **A parameter handed in place.** A parameter typed `inout T` takes no value:
 it takes a variable. The argument is `{ ref: <path> }`, and all of this is
@@ -238,6 +240,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-path-handed-in-place-is-written-through`
 - `a-piece-that-writes-what-it-captured-refuses-at-the-build`
 - `a-procedure-that-can-fail-says-so`
+- `a-receiver-by-name-refuses-at-the-build`
 - `a-receiver-is-held-to-its-parameter-at-the-run`
 - `a-receiver-written-for-one-that-declares-none-refuses`
 - `a-required-argument-left-out-refuses`

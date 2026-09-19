@@ -117,8 +117,8 @@ The construct keys, each detailed below and each written inside `value`:
 | key | takes | required |
 |---|---|---|
 | `procedure` | string. The procedure sent | yes |
-| `of` | expression. The receiver | no |
-| `arguments` | record: name → expression | no |
+| `of` | expression. The receiver, filling the parameter the declaration names as its `receiver` | no |
+| `arguments` | record: name → expression. The receiver's parameter is not among them | no |
 
 A body a procedure is to run travels as a **closure argument**, like any other
 value. There is no second channel for bodies: one kind of thing crosses into a
