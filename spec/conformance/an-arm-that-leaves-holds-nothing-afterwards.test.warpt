@@ -105,7 +105,9 @@ warpt 1
     procedures {
       "app.close" {
         parameters {
-          of "consuming app.Handle"
+          of {
+            type "consuming app.Handle"
+          }
         }
         receiver "of"
         runs true
@@ -113,7 +115,9 @@ warpt 1
       "app.name" {
         answers "f"
         parameters {
-          of "borrowing app.Handle"
+          of {
+            type "borrowing app.Handle"
+          }
         }
         receiver "of"
         returns "string"

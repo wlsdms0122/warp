@@ -20,7 +20,9 @@ warpt 1
           T "app.Describable"
         }
         parameters {
-          it "some T"
+          it {
+            type "some T"
+          }
         }
         receiver "it"
         result {
@@ -35,7 +37,9 @@ warpt 1
       }
       "bank.Account.describe" {
         parameters {
-          of "bank.Account"
+          of {
+            type "bank.Account"
+          }
         }
         receiver "of"
         result "an account"
@@ -43,7 +47,9 @@ warpt 1
       }
       "bank.Card.describe" {
         parameters {
-          of "bank.Card"
+          of {
+            type "bank.Card"
+          }
         }
         receiver "of"
         result "a card"

@@ -17,7 +17,9 @@ warpt 1
     procedures {
       "app.tell" {
         parameters {
-          it "app.Describable"
+          it {
+            type "app.Describable"
+          }
         }
         receiver "it"
         result {
@@ -32,7 +34,9 @@ warpt 1
       }
       "bank.Card.describe" {
         parameters {
-          of "bank.Card"
+          of {
+            type "bank.Card"
+          }
         }
         receiver "of"
         result "a card"

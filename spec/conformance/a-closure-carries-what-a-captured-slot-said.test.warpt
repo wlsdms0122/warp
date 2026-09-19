@@ -102,12 +102,16 @@ warpt 1
           }
         ]
         parameters {
-          of "array<int>"
+          of {
+            type "array<int>"
+          }
           value {
             type {
               "isolated procedure" {
                 parameters {
-                  item "int"
+                  item {
+                    type "int"
+                  }
                 }
                 returns "int"
               }
@@ -136,7 +140,9 @@ warpt 1
               value {
                 closure {
                   parameters {
-                    item "int"
+                    item {
+                      type "int"
+                    }
                   }
                   result {
                     call {

@@ -10,7 +10,9 @@ warpt 1
       "app.Describable" {
         describe {
           parameters {
-            note "any"
+            note {
+              type "any"
+            }
           }
           returns "string"
         }
@@ -22,8 +24,12 @@ warpt 1
     procedures {
       "bank.Account.describe" {
         parameters {
-          note "any"
-          of "bank.Account"
+          note {
+            type "any"
+          }
+          of {
+            type "bank.Account"
+          }
         }
         receiver "of"
         result "an account"

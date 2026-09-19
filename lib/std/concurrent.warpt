@@ -106,14 +106,20 @@ warpt 1
           type {
             "isolated procedure" {
               parameters {
-                index "int"
-                item "some Element"
+                index {
+                  type "int"
+                }
+                item {
+                  type "some Element"
+                }
               }
               returns "some Answer"
             }
           }
         }
-        over "array<some Element>"
+        over {
+          type "array<some Element>"
+        }
       }
       receiver "over"
       result {

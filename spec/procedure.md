@@ -148,7 +148,7 @@ the build is, and a compiled document carries no box of it.
 
 ## A parameter
 
-Written as a bare string. Its type, or as a record:
+Written as a record:
 
 | key | takes | required |
 |---|---|---|
