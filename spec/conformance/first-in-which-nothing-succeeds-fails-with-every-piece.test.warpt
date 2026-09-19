@@ -1,13 +1,16 @@
 warpt 1
 {
   expect {
-    answers 2
+    answers [
+      "left"
+      "right"
+    ]
   }
   name "first-in-which-nothing-succeeds-fails-with-every-piece"
   note "A `first` in which nothing succeeds fails the way `all` fails: every piece's failure reported, keyed by the piece it came from, so a rescue reads one failure per piece."
   program {
     imports [
-      "std.collection.count"
+      "std.collection.keys"
       "std.concurrent.first"
       "std.control.abort"
     ]
@@ -74,11 +77,11 @@ warpt 1
                       of {
                         ref "failures"
                       }
-                      procedure "std.collection.count"
+                      procedure "std.collection.keys"
                     }
                   }
                 }
-                result 0
+                result []
               }
             }
           }

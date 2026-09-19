@@ -175,6 +175,8 @@ A host's `std.text.regex` answers whether the pattern matches *anywhere* in the
 text, in the host's own dialect, and a program asking about the whole anchors
 the pattern itself (`^…$`). `replacing` rewrites every occurrence, not only the
 first.
+`joined` over an array with nothing in it answers the empty text, whatever the
+separator: there is nothing to put between.
 `split` keeps the empty pieces a separator at either end leaves, since dropping
 them would be an opinion about the text rather than a reading of it. Both refuse
 a separator holding no characters, which would match everywhere and consume
@@ -327,8 +329,9 @@ Reading bytes *as* text is a procedure that names its encoding: `decoded` and
 and today the only member), and bytes that are not text in that encoding
 **refuse at the run**. Completing a broken sequence would answer a text nobody
 sent. `encoded` writes the text's code points as they stand and normalises
-nothing, and `decoded` keeps a byte order mark as the character it is: either
-would be an opinion about the text rather than a reading of it.
+nothing, and `decoded` keeps a byte order mark as the character it is:
+normalising the one or dropping the other would be an opinion about the text
+rather than a reading of it.
 
 **`abort`**. Fail on purpose, with a message. Declared `returns: never`, which
 is everything the checking needs: nothing runs after it, and no name binds it.
