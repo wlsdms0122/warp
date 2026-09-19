@@ -54,8 +54,9 @@ writes neither `arguments` nor `vocabulary`, since nothing runs and nothing is
 brought, and one that does **refuses** as a case.
 
 The bytes are the **binary** encoding, which is the one a document travels in
-and the one that is canonical, and every case of it is `spells`, since a
-non-canonical byte spelling is refused. A text has many layouts of one value,
+and the one that is canonical, so a bytes case that reads a value is `spells`
+and never `reads`: a non-canonical byte spelling is refused, which leaves no
+bytes that read one way. A text has many layouts of one value,
 since layout is free on the way in, so most text cases are `reads`, and the
 ones in the writer's layout are `spells`. A text case is read by one reader on
 both sides, so a reader taking a spelling for the wrong value would agree with
