@@ -162,14 +162,16 @@ Written as a bare string. Its type, or as a record:
 declaration itself is judged at the **build**, wherever the parameter is
 written. Nested signatures included, because a declaration may lean on a
 declared type name, and only the build resolves those: a `enum` listing a
-candidate the declared type does not admit **refuses**. A dead candidate is a
-member no call could ever match, whether live ones stand beside it or not, the
-empty set being the plainest case. A candidate is written in a value's **one
-spelling**. The spelling a document itself writes: `007`, `+1`, and `1e0` are
-second spellings of values that already have one, and `1` on a `double` slot is
-the int's spelling, which no fraction ever wears. Each of these is a dead
-candidate, because the boundary compares an arriving value's own spelling and
-would never produce theirs. The same judgement refuses a `default` the parameter
+candidate the declared type does not admit **refuses**. An argument meets the
+candidates **settled**, after the slot widened a whole number to the fraction
+it names, and a number meets one by worth: `1` handed to a `double` slot listing
+`1.0` is admitted. A dead candidate is a member no settled value could ever
+match, whether live ones stand beside it or not, the empty set being the
+plainest case. A candidate is written in a value's **one spelling**, the one the
+slot's own values wear: `007`, `+1`, and `1e0` are second spellings of values
+that already have one, and `1` on a `double` slot is the int's spelling, which
+no fraction ever wears. Each of these is a dead candidate, because no settled
+value wears their spelling. The same judgement refuses a `default` the parameter
 itself would refuse, by its `type` or its own `enum`. A `default` written as
 `null` is the value the body receives, so it needs a type that admits null.
 `any`, `null`, or a nullable `T?`, which is what lets a typed parameter say
