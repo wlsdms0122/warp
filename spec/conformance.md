@@ -155,7 +155,10 @@ check that it fails at that stage and no earlier or later. Otherwise build it
 against that vocabulary and the standard bundles, start from the procedure
 declared under `entry`, run it with `arguments`, and compare. A program that
 declares no `entry` is refused **at the build**, where a name nothing in the
-link declares is refused.
+link declares is refused. What a runner answers does not depend on the
+machine's locale, and a runner that leans on a host's locale for case mapping
+or ordering runs the cases under one that tailors them, Turkish for one, to
+find out.
 
 The cases are the files named `<name>.test.warpt`, and what else the folder
 holds is not the suite's business. A runner that refused to start over an
