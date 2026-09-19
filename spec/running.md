@@ -47,7 +47,9 @@ between statements and at the entry to every round, including a round with an
 empty body. This is the receiver's one lever over consumption, and it is the
 whole of the language's promise about time and memory: a program calling only
 the standard vocabulary can run forever, and nothing here predicts it. what is
-promised is that it can always be told to stop.
+promised is that it can always be told to stop. Once told, a run raises no
+rescue: a failure met after the cancellation reaches the receiver as it is,
+and no rescue body runs.
 - Leaving (`return`/`break`/`continue`) travels out through whatever it is
   inside, and is not a failure: a rescue does not catch it. It does not cross
   a closure's edge: `return` inside a closure answers the closure.
