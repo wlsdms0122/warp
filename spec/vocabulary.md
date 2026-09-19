@@ -88,7 +88,7 @@ running.
 |---|---|---|---|
 | `equal`, `notEqual` | `of: any = null` | `value: any = null` | `bool` |
 | `not` | `of: bool` |. | `bool` |
-| `and`, `or` | `of: array<const procedure>` |. | `bool` |
+| `and`, `or` | `of: array<const procedure>` |. | `bool`. Over nothing, `and` answers `true` and `or` answers `false`: no side settled the answer, so the chain's own answer stands |
 | `select` | `of: bool` | `then`, `else`. `const` procedures taking nothing, each answering `some Answer` | `some Answer` |
 
 `and` and `or` take procedures precisely so they need not run them all: the
@@ -191,7 +191,7 @@ instead: the array.
 | `append` | `to: inout array<some Element>` | `value: some Element` | `null`, having written the element onto the end of the array the variable holds, in place |
 | `count` | `of: any` |. | `int` |
 | `contains` | `of: array<some Element>` | `value: some Element` | `bool` |
-| `first`, `last` | `of: array<some Element>` |. | `some Element` |
+| `first`, `last` | `of: array<some Element>` |. | `some Element`. Over nothing there is no element to answer, and the read of one **refuses at the run**, the way any index past the end does |
 | `reversed`, `dropFirst`, `dropLast` | `of: array<some Element>` |. | `array<some Element>` |
 | `sorted` | `of: array<some Element>` |. | `array<some Element>`. Bounds `Element: Comparable` |
 | `appending`, `prepending` | `of: array<some Element>` | `value: some Element` | `array<some Element>` |
@@ -262,9 +262,11 @@ sequential walks. `std.collection.map` hands over `item`, `reduce` hands over
 closure written for one of them **declares every name it is handed**, whether or
 not its body goes on to read one. A name the closure does not declare refuses,
 the same as anywhere else a call is settled: a walk is not a second calling
-convention. `first` run over nothing is refused. A procedure that answers exactly one thing has no
-empty answer, and a `first` in which nothing succeeds fails the way `all`
-fails: every piece's failure reported, keyed by the piece it came from.
+convention. `std.concurrent.first` run over nothing is refused, the way
+`std.collection.first` of nothing is: a procedure that answers exactly one
+thing has no empty answer. And a `first` in which nothing succeeds fails the
+way `all` fails: every piece's failure reported, keyed by the piece it came
+from.
 
 What the vocabulary answers about **bytes**: `bytes = array<byte>`. Bytes are
 not a special material. They are the compact spelling of an array of small whole
@@ -286,8 +288,9 @@ byte worths standing where `bytes` is declared does settle to the compact
 spelling. The asymmetry is the declaration's: naming `bytes` names a spelling,
 naming `array<…>` names a type bytes already have.
 
-An index reads an element out as the ordinary int it is, and the collection
-vocabulary. `count`, `first`, `contains`, `reversed`, `map`, all of it. Applies
+An index reads an element out as a `byte`, the range `std` names, and so does
+`some Element` filled by bytes: `first` of bytes answers a `byte`. The
+collection vocabulary. `count`, `first`, `contains`, `reversed`, `map`, all of it. Applies
 directly. A procedure that answers its receiver's **own** elements. `reversed`,
 `filter`, `sorted`, `dropFirst`, `dropLast`. Answers them in the spelling they
 arrived in, so bytes stay bytes; put something among them that is not a byte
