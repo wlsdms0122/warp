@@ -157,6 +157,10 @@ no elements to read by position, since where the tenth character starts is only
 known by walking the nine in front of it. A program that wants a string's
 characters as a collection asks `characters` for them.
 
+`uppercased` and `lowercased` apply Unicode's full default case mapping and no
+locale's tailoring: `ß` uppercases to `SS`, and `i` uppercases to `I` on every
+machine, whatever its locale says about a dotted `i`.
+
 `trimmed` removes the whitespace at either end and nothing from the middle. A
 character goes only if **every one of its code points** has Unicode's
 `White_Space` property, and nothing a platform adds to that set is whitespace
@@ -322,7 +326,9 @@ Reading bytes *as* text is a procedure that names its encoding: `decoded` and
 `encoded` are the two directions of one mapping (`encoding: "utf8"`, the default
 and today the only member), and bytes that are not text in that encoding
 **refuse at the run**. Completing a broken sequence would answer a text nobody
-sent.
+sent. `encoded` writes the text's code points as they stand and normalises
+nothing, and `decoded` keeps a byte order mark as the character it is: either
+would be an opinion about the text rather than a reading of it.
 
 **`abort`**. Fail on purpose, with a message. Declared `returns: never`, which
 is everything the checking needs: nothing runs after it, and no name binds it.
@@ -381,6 +387,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-document-writes-startsWith-over-characters`
 - `a-mapped-procedure-chooses-what-it-answers`
 - `a-quotient-widens-its-operands`
+- `a-space-carrying-a-mark-is-not-trimmed`
 - `a-string-holding-another-is-a-text-question`
 - `a-string-not-holding-another-answers-false`
 - `a-text-procedure-answers-new-text`
@@ -388,6 +395,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `abort-sent-null-says-aborted`
 - `absolute-floored-and-rounded-answer-a-whole`
 - `absolute-of-the-minimum-refuses`
+- `an-attempt-does-not-catch-overflow`
 - `an-operand-of-and-that-answers-no-bool-refuses-at-the-build`
 - `append-writes-the-array-in-place`
 - `arithmetic-admits-only-numbers`
@@ -398,27 +406,36 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `arithmetic-overflow-refuses`
 - `arithmetic-whole-widens-to-fraction`
 - `bytes-do-not-order`
+- `case-mapping-takes-no-locale`
+- `characters-answers-grapheme-clusters`
 - `concurrent-map-offers-item-and-index`
 - `contains-asks-a-collection`
 - `count-asks-a-collection`
 - `count-of-a-record-is-its-fields`
 - `count-of-bytes-is-their-length`
 - `cutting-on-nothing-refuses`
+- `decoded-keeps-a-byte-order-mark`
 - `decoded-reads-bytes-as-text-in-a-named-encoding`
 - `decoded-reads-bytes-written-one-by-one`
 - `dropping-an-end-answers-the-rest`
 - `encoded-writes-text-as-bytes-in-a-named-encoding`
+- `encoded-writes-the-code-points-as-they-stand`
 - `first-and-last-read-the-ends`
+- `first-answers-the-first-success`
+- `first-in-which-nothing-succeeds-fails-with-every-piece`
 - `first-over-nothing-refuses`
 - `floored-past-the-int-refuses`
+- `fraction-arithmetic-with-no-finite-answer-refuses`
 - `gathering-past-the-end-refuses-at-the-run`
 - `greater-than-mirrors-less-than`
+- `joined-over-nothing-answers-empty-text`
 - `keys-answer-in-canonical-order`
 - `lowercased-folds-the-case`
 - `map-answers-in-the-collections-order`
 - `map-takes-only-an-isolated-closure`
 - `min-and-max-pick-an-end`
 - `minus-and-times-compose-as-written`
+- `minus-off-the-ints-edge-refuses`
 - `not-and-notequal-say-the-opposite`
 - `or-does-not-ask-past-the-first-yes`
 - `ordering-compares-two-of-a-kind`
@@ -428,6 +445,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `remainder-is-what-whole-division-leaves`
 - `replacing-swaps-every-occurrence`
 - `reversed-turns-the-order-around`
+- `rounded-past-the-int-refuses`
 - `setting-answers-a-new-record`
 - `sorted-orders-what-it-was-given`
 - `sorting-the-unorderable-refuses-at-the-build`
@@ -435,10 +453,13 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `split-keeps-the-empty-pieces`
 - `starts-with-reads-the-head`
 - `text-counts-as-a-person-reads`
+- `text-of-a-procedure-spells-a-marker`
 - `text-of-null-spells-null`
 - `text-spells-a-record-on-one-line`
 - `text-spells-bytes-the-way-a-document-writes-them`
 - `the-side-select-does-not-choose-goes-unasked`
+- `times-off-the-ints-edge-refuses`
 - `trimming-takes-unicode-whitespace-from-both-ends`
+- `uppercased-uses-unicode-full-case-mapping`
 - `values-answer-in-canonical-order`
 - `what-is-not-utf8-text-refuses-to-decode`

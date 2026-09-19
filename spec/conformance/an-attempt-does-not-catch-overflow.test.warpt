@@ -1,0 +1,80 @@
+warpt 1
+{
+  arguments {
+    loud false
+  }
+  expect {
+    refuses "run"
+  }
+  name "an-attempt-does-not-catch-overflow"
+  note "Overflow is the program's own defect and not a failure of the work, so an `attempt` around it does not catch it: the run refuses, the way it does for an index past the end."
+  program {
+    imports [
+      "std.control.abort"
+      "std.math.plus"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            let "tried"
+            value {
+              attempt {
+                body [
+                  {
+                    let "sum"
+                    value {
+                      call {
+                        arguments {
+                          value 1
+                        }
+                        of 9223372036854775807
+                        procedure "std.math.plus"
+                      }
+                    }
+                  }
+                  {
+                    value {
+                      conditional {
+                        then [
+                          {
+                            value {
+                              call {
+                                of "loud"
+                                procedure "std.control.abort"
+                              }
+                            }
+                          }
+                        ]
+                        when {
+                          ref "loud"
+                        }
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  result "caught"
+                }
+                result {
+                  ref "sum"
+                }
+              }
+            }
+          }
+        ]
+        parameters {
+          loud {
+            type "bool"
+          }
+        }
+        result {
+          ref "tried"
+        }
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

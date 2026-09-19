@@ -1,0 +1,27 @@
+warpt 1
+{
+  expect {
+    refuses "run"
+  }
+  name "rounded-past-the-int-refuses"
+  note "`rounded` answers an int only when an int holds the answer. A fraction whose whole part is past the int has no whole answer, and the read refuses at the run rather than wrapping or widening."
+  program {
+    imports [
+      "std.math.rounded"
+    ]
+    procedures {
+      entry {
+        result {
+          call {
+            of 1e+19
+            procedure "std.math.rounded"
+          }
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

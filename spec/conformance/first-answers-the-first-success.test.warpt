@@ -1,0 +1,47 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "first-answers-the-first-success"
+  note "`first` answers the first piece that succeeds and asks the rest to stop. A piece that fails is not a success, so with one piece failing and one answering, the answer is the one that answered."
+  program {
+    imports [
+      "std.concurrent.first"
+      "std.control.abort"
+    ]
+    procedures {
+      entry {
+        result {
+          call {
+            of {
+              fine {
+                closure {
+                  result 1
+                }
+              }
+              fragile {
+                closure {
+                  body [
+                    {
+                      value {
+                        call {
+                          of "on purpose"
+                          procedure "std.control.abort"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+            procedure "std.concurrent.first"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

@@ -1,0 +1,95 @@
+warpt 1
+{
+  expect {
+    answers 2
+  }
+  name "first-in-which-nothing-succeeds-fails-with-every-piece"
+  note "A `first` in which nothing succeeds fails the way `all` fails: every piece's failure reported, keyed by the piece it came from, so a rescue reads one failure per piece."
+  program {
+    imports [
+      "std.collection.count"
+      "std.concurrent.first"
+      "std.control.abort"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            let "tried"
+            value {
+              attempt {
+                body [
+                  {
+                    value {
+                      call {
+                        of {
+                          left {
+                            closure {
+                              body [
+                                {
+                                  value {
+                                    call {
+                                      of "left"
+                                      procedure "std.control.abort"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                          right {
+                            closure {
+                              body [
+                                {
+                                  value {
+                                    call {
+                                      of "right"
+                                      procedure "std.control.abort"
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                        procedure "std.concurrent.first"
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  body [
+                    {
+                      let "failures"
+                      value {
+                        as "dictionary<any>"
+                        of {
+                          ref "tried.details.failures"
+                        }
+                      }
+                    }
+                  ]
+                  result {
+                    call {
+                      of {
+                        ref "failures"
+                      }
+                      procedure "std.collection.count"
+                    }
+                  }
+                }
+                result 0
+              }
+            }
+          }
+        ]
+        result {
+          ref "tried"
+        }
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

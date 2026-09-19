@@ -1,0 +1,27 @@
+warpt 1
+{
+  expect {
+    answers "SS"
+  }
+  name "uppercased-uses-unicode-full-case-mapping"
+  note "Case mapping is Unicode's full default mapping, so a character may map to more than one: `ß` uppercases to `SS`."
+  program {
+    imports [
+      "std.text.uppercased"
+    ]
+    procedures {
+      entry {
+        result {
+          call {
+            of "ß"
+            procedure "std.text.uppercased"
+          }
+        }
+        returns "string"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

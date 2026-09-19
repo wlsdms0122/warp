@@ -1,0 +1,39 @@
+warpt 1
+{
+  expect {
+    answers [
+      "I"
+      "i"
+    ]
+  }
+  name "case-mapping-takes-no-locale"
+  note "Case mapping is Unicode's default and no locale's tailoring: `i` uppercases to `I` and `I` lowercases to `i` everywhere, whatever the machine's locale says about a dotted i."
+  program {
+    imports [
+      "std.text.lowercased"
+      "std.text.uppercased"
+    ]
+    procedures {
+      entry {
+        result [
+          {
+            call {
+              of "i"
+              procedure "std.text.uppercased"
+            }
+          }
+          {
+            call {
+              of "I"
+              procedure "std.text.lowercased"
+            }
+          }
+        ]
+        returns "array<string>"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

@@ -1,0 +1,30 @@
+warpt 1
+{
+  expect {
+    refuses "run"
+  }
+  name "minus-off-the-ints-edge-refuses"
+  note "Whole-number arithmetic with no whole answer refuses at the run. `minus` off the int's low edge does not wrap."
+  program {
+    imports [
+      "std.math.minus"
+    ]
+    procedures {
+      entry {
+        result {
+          call {
+            arguments {
+              value 1
+            }
+            of -9223372036854775808
+            procedure "std.math.minus"
+          }
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

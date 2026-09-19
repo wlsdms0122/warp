@@ -1,0 +1,30 @@
+warpt 1
+{
+  expect {
+    refuses "run"
+  }
+  name "times-off-the-ints-edge-refuses"
+  note "Whole-number arithmetic with no whole answer refuses at the run. `times` past the int's edge does not wrap and does not widen."
+  program {
+    imports [
+      "std.math.times"
+    ]
+    procedures {
+      entry {
+        result {
+          call {
+            arguments {
+              value 2
+            }
+            of 4611686018427387904
+            procedure "std.math.times"
+          }
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+
