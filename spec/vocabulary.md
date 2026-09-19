@@ -174,16 +174,21 @@ read text, `contains` and `startsWith` included, read as a person reads, under
 the value model's canonical equivalence.
 
 `text` spells a value in its own spelling, which is the type's and not a
-document's. A string is its own characters, unquoted; a number, `null` and a
-bool are the spelling a document writes; bytes are `x` and their hex digits. A
+document's. A string is its own characters, unquoted; a number and a bool are
+the spelling a document writes; `null` alone spells as nothing, an empty
+string, so that a template shows a blank where a value is missing; bytes are
+`x` and their hex digits. A
 container it spells on **one line**: an array's elements between `[` and `]`,
 a dictionary's entries between `{` and `}` as the key quoted, a colon and the
 value, a named record the same with its name and a space before the brace,
 entries in **name order** ascending as `keys` answers them, elements or entries
 joined by commas with no space, and an empty one `[]` or `{}`. Inside a
-container a string or bytes is quoted the way a string in that position is
-quoted, so `text` of `[x"6869"]` is `["x\"6869\""]` and of `[1, 2]` is
-`[1,2]`: a value's spelling does not change with how deep it sits. What no
+container `null` is `null`, and a string or bytes is quoted: between double
+quotes, with `"`, `\`, a newline, a carriage return and a tab escaped as `\"`,
+`\\`, `\n`, `\r` and `\t`, any other character below `0x20` as `\u` and four
+hex digits, and everything else as itself, so `text` of `[x"6869"]` is
+`["x\"6869\""]` and of `[1, 2]` is `[1,2]`: a value's spelling does not change
+with how deep it sits. What no
 document carries answers in the language's own markers, never a host
 formatter's: a procedure is `<procedure>`, a host's non-finite fraction is
 `<infinity>`, `<-infinity>` or `<not a number>`, and a container holding one
