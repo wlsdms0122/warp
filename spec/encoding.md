@@ -182,9 +182,11 @@ whitespace between tokens and any indentation, because a text is written by a
 person as often as by a writer. The writer still lays a text out one way,
 keys ascending and two spaces an indent, so a text that has been through a
 writer is the same bytes everywhere, and that is the form the conformance
-cases are kept in. What is not free is the spelling of a value: a fraction
-written `1.50` and an escape spelled long **refuse**, since those are two
-texts for one value rather than two layouts of one text. Sameness of
+cases are kept in. A key is written bare or quoted and is one key either way.
+What is not free is the spelling of a value: a fraction written `1.50` and an
+escape spelled long **refuse**, since those are two texts for one value rather
+than two layouts of one text. Nor is a key written twice, which **refuses**:
+two values under one key are two documents, not one document laid out twice. Sameness of
 documents is the binary's promise, above, and a text makes it by being
 written out.
 
