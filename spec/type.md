@@ -30,7 +30,7 @@ A type is written as a string, or as a record for what a string cannot say:
 | `{ title: string, done: bool }` | a record type, written as the record it describes; structural, and it names nothing |
 | `{ procedure: { parameters: …, returns: … } }` | a procedure type, written as the signature it takes |
 | `{ "const procedure": { … } }` | a procedure type with its marks and modifiers on the key, `inout` or `consuming` or `borrowing` first, then `const` and `isolated`, the way they stand in front of the string form |
-| `{ array: <type> }` / `{ dictionary: <type> }` | a list / map of a type that has no string spelling, a procedure type or a record type. Where the element has a spelling the type is written `array<T>`, and a writer writes it so |
+| `{ array: <type> }` / `{ dictionary: <type> }` | a list / map of a type that has no string spelling, a procedure type or a record type. Where the element has a spelling the type is written `array<T>`, and the record form around it **refuses at the load** |
 
 Acceptance is one-way where the kinds nest: `double` accepts an `int` (a whole
 number widens to a fraction; the reverse **refuses**), `any` accepts everything.
@@ -406,6 +406,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-value-of-a-membership-answers-a-contract-every-member-satisfies`
 - `a-named-list-handed-where-a-list-of-a-contract-stands-is-held-to-it`
 - `a-name-that-is-not-a-bound-joined-with-and-refuses-at-the-build`
+- `a-record-form-array-of-a-named-element-refuses-at-the-load`
 - `a-body-cannot-answer-what-it-borrowed`
 - `a-borrowing-slot-reads-and-leaves-the-obligation`
 - `a-byte-is-a-whole-number-a-range-refines`
