@@ -214,6 +214,8 @@ These carry bytes or text rather than a program, under *what a case is* in
 - `a-record-key-written-twice-refuses`
 - `a-record-name-that-is-not-declarable-refuses`
 - `a-string-that-is-not-utf8-refuses`
+- `a-varint-carrying-past-bit-63-refuses`
+- `a-varint-of-eleven-bytes-refuses`
 - `an-empty-record-key-refuses`
 - `an-infinity-refuses`
 - `bytes-after-the-document-ends-refuse`
