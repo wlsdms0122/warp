@@ -131,12 +131,14 @@ What `conformance/` asks about this page, by the name each case's file carries.
 
 - `a-constant-is-a-name-a-body-reads`
 - `a-constant-sees-only-the-constants-beside-it`
+- `a-document-that-says-no-version-refuses-at-the-load`
 - `a-later-document-refuses`
 - `a-module-declares-a-constraint`
 - `a-module-variable-handed-in-place-is-one-box`
 - `a-module-variable-is-handed-in-place-to-a-native-procedure`
 - `a-module-variable-is-shared-by-the-procedures-beside-it`
 - `a-module-variable-keeps-the-type-it-started-as`
+- `a-name-declared-as-both-a-constant-and-a-variable-refuses-at-the-load`
 - `a-procedure-only-an-untaken-arm-sends-is-still-needed`
 - `a-reserved-spelling-refuses-in-a-document`
 - `a-send-is-a-declared-spelling-or-an-import`

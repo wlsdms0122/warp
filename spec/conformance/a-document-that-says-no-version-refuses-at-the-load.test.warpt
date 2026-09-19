@@ -1,0 +1,19 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-document-that-says-no-version-refuses-at-the-load"
+  note "Every document says which version it is written for, before anything else in it is read. One that does not is refused where the document is read."
+  program {
+    imports []
+    procedures {
+      entry {
+        result 1
+        returns "int"
+      }
+    }
+  }
+  test 2
+}
+
