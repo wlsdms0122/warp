@@ -107,7 +107,10 @@ what it does not, both of which need a procedure with no body: a slot asking
 `const procedure`, an operand calling one, and a constant that settles from one
 and is refused for it.
 
-A runner reads `test 2` through `test 5`, and a case says the earliest it needs:
+A runner reads `test 2` through `test 5`, and a case says the earliest it
+needs, which a runner checks against what the case writes. A case saying a
+later one would turn away a runner that could have asked it, and one saying an
+earlier one would have that runner refuse it as no case at all:
 
 | version | what moved |
 |---|---|
@@ -135,7 +138,10 @@ same way a declaration is read, `receiver` included where the procedure takes
 one in front, and build the host's side of it from the four keys beside it. Each of the four
 is written as its kind or not at all: a `runs` that is not a bool, or a
 `failing` that is not an array of names, is a case no two runners would read
-alike, and it **refuses** as a case rather than reading as a default. If the
+alike, and it **refuses** as a case rather than reading as a default. What
+refuses as a case is asked by no case: the folder holds the suite, and a
+runner that refuses one of its files stops on it, because the suite is what is
+wrong then. If the
 case expects `refuses`, check that it fails at that stage and no earlier or
 later. Otherwise build it against that vocabulary and the standard bundles,
 start from the procedure declared under `entry`, run it with `arguments`, and
