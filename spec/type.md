@@ -207,9 +207,9 @@ satisfies a contract **refuses at the build**, where the claim is written.
 
 **A membership is one when every member is,** and `some T` bounded by one is
 what every member of it is. A membership that admits a value handed on once
-beside one that is not **refuses where it is declared**: a value of it would
-carry an obligation on some readings and not on others, and which it was is
-exactly what a membership does not say.
+beside one that is not **refuses at the build**, where it is declared: a value
+of it would carry an obligation on some readings and not on others, and which
+it was is exactly what a membership does not say.
 
 **A declaration whose body answers one writes `returns`.** What a declaration
 answers is read off its body where nobody wrote it, and the mark is not
@@ -218,9 +218,9 @@ obligation nothing told it about. It **refuses at the build**, by the result
 and by every `return` that carries a value alike.
 
 **A reading that may answer nothing does not take one.** `as?` onto a type
-handed on once **refuses at the build**, and so does writing `?` on one: what such a value
-needs is a name holding it on every way through, and a `?` says there is a way
-through where nothing is there.
+handed on once **refuses at the build**, and so does writing `?` on one: what
+such a value needs is a name holding it on every way through, and a `?` says
+there is a way through where nothing is there.
 
 **A closure is a procedure, and its body is held to all of this.** It is walked
 the way a declaration's body is, seeded with what the closure itself was handed:
@@ -228,13 +228,14 @@ a closure that opens one and reaches its end still holding it is refused exactly
 as a declaration would be. What it runs an unfixed number of times is the
 *capture*, and a name the closure declared is its own.
 
-**What such a body may not do is answer one.** A procedure type whose `returns`
-is handed on once **refuses at the build**, closure literals included, and a body that wrote
-no `returns` is held to the same rule by what the walk finds: the rule turns
-neither on whether a key was typed nor on how the answer was written. Nothing
-reads inside a body that travels as a value, so what one handed back would
-arrive with nothing to say it is owed. A declaration is not held to this: what
-it answers lands on the name its caller binds.
+**What such a body may not do is answer one.** A procedure type whose
+`returns` is handed on once **refuses at the build**, closure literals
+included, and a body that wrote no `returns` is held to the same rule by what
+the walk finds: the rule turns neither on whether a key was typed nor on how
+the answer was written. Nothing reads inside a body that travels as a value,
+so what one handed back would arrive with nothing to say it is owed. A
+declaration is not held to this: what it answers lands on the name its caller
+binds.
 
 Silence read as taking is what hid the second one: a procedure that only wanted
 to look at a handle had no way to say so, and every slot that touched one took
@@ -418,6 +419,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-fraction-is-not-a-whole-number`
 - `a-fraction-range-widens-a-whole-number-into-itself`
 - `a-handle-already-given-away-is-not-read-again`
+- `a-mark-where-nothing-is-handed-on-once-refuses-at-the-build`
 - `a-membership-mixing-a-type-handed-on-once-refuses-at-the-build`
 - `a-membership-stands-as-a-type`
 - `a-name-declared-as-both-a-type-and-a-constraint-refuses-at-the-build`
@@ -467,7 +469,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-undeclared-field-refuses-at-the-build`
 - `bytes-cross-an-array-slot-in-their-own-spelling`
 - `consuming-on-a-type-parameter-refuses-at-the-build`
-- `consuming-where-nothing-is-handed-on-once-refuses-at-the-build`
 - `elements-of-different-kinds-join-to-any`
 - `linear-on-a-slot-refuses-at-the-build`
 - `the-far-bound-of-a-range-may-be-left-outside`

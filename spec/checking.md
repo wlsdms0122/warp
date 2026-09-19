@@ -47,9 +47,9 @@ the rule's: a call that misfits a declaration in its own document refuses at
   wrote;
 - every value of a type written `linear` is handed on exactly once on every way
   through the body holding it, and to a slot that says `consuming`; every
-  parameter naming such a type says `consuming` or `borrowing`, either stands
-  only on a parameter naming such a type, and what a body borrowed it does not
-  give away;
+  parameter naming such a type says `consuming` or `borrowing`, a parameter
+  naming no such type says neither, and what a body borrowed it does not give
+  away;
 - every `set` writes a path headed by a variable, through fields declared
   `var` where the type is a declared type, and what it writes fits what the
   path reaches; a write into a module variable or an `inout` parameter fits
