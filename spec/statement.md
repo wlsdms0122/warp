@@ -336,3 +336,4 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `what-is-written-fits-the-type-the-path-reaches`
 - `what-nobody-wrote-is-not-readable`
 - `writing-a-name-never-declared-refuses`
+- `type-beside-set-refuses-at-the-load`
