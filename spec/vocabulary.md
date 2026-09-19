@@ -23,7 +23,7 @@ not a cycle, because a bundle is not a module, below:
 | `std` |. Declares the memberships `std.Numeric`, `std.Comparable` and `std.Collection`, and the type `std.byte = int(0...255)` |
 | `std.logic` | `equal` `notEqual` `not` `and` `or` `select` |
 | `std.math` | `plus` `minus` `times` `dividedBy` `remainder` `min` `max` `absolute` `floored` `rounded` `lessThan` `greaterThan` |
-| `std.text` | `text` `characters` `contains` `startsWith` `regex` `uppercased` `lowercased` `trimmed` `split` `joined` `replacing` `decoded` `encoded` |
+| `std.text` | `text` `characters` `contains` `startsWith` `uppercased` `lowercased` `trimmed` `split` `joined` `replacing` `decoded` `encoded` |
 | `std.collection` | `append` `count` `contains` `first` `last` `reversed` `appending` `prepending` `gathering` `dropFirst` `dropLast` `sorted` `map` `filter` `reduce` `keys` `values` `setting` |
 | `std.control` | `abort`. Declared `returns: never` |
 | `std.concurrent` | `all` `first` `map`. Run closures at once. Declares the membership `std.concurrent.Pieces` |
@@ -63,11 +63,12 @@ names that set, and a body written from `characters` still could not answer it:
 `characters` answers characters, and whether a character is whitespace is a
 question about the code points inside it.
 
-`regex` is the one procedure `std` declares that is in neither set. It cannot be
-written in Warp and it is not required of an implementation: what a pattern
-means differs between the engines a host would reach for, so a host brings this
-one or leaves it out, the way it grants any bundle. A document reaching for it
-is asking for something of its host rather than of the language.
+`std.text.regex` is no bundle's and is asked of no implementation: what a
+pattern means differs between the engines a host would reach for. A host that
+has one declares it under that spelling in a module of its own and lays that in
+the link, the way it grants any procedure of its own, or leaves it out. A
+document reaching for it is asking for something of its host rather than of the
+language, and no case measures it.
 
 **A bundle is not a module.** A module is compiled against the modules standing
 before it, so the modules of a link have to have an order, and two that send to
@@ -133,7 +134,7 @@ edge rules below require.
 | procedure | receiver | arguments | answers |
 |---|---|---|---|
 | `text` | `of: any` |. | `string` |
-| `contains`, `startsWith`, `regex` | `of: string` | `value: string` | `bool` |
+| `contains`, `startsWith` | `of: string` | `value: string` | `bool` |
 | `uppercased`, `lowercased`, `trimmed` | `of: string` |. | `string` |
 | `characters` | `of: string` |. | `array<string>` |
 | `split` | `of: string` | `value: string` | `array<string>` |
@@ -166,10 +167,10 @@ combining mark is also one character and two code points, and the mark is not
 whitespace in Unicode and so is not trimmed, however a platform's own set
 answers.
 
-`regex` answers whether the pattern matches *anywhere* in the text. A program
-asking about the whole anchors the pattern itself (`^…$`). A pattern that does
-not compile, written as a constant, refuses before the run the way any constant
-argument does. `replacing` rewrites every occurrence, not only the first.
+A host's `std.text.regex` answers whether the pattern matches *anywhere* in the
+text, in the host's own dialect, and a program asking about the whole anchors
+the pattern itself (`^…$`). `replacing` rewrites every occurrence, not only the
+first.
 `split` keeps the empty pieces a separator at either end leaves, since dropping
 them would be an opinion about the text rather than a reading of it. Both refuse
 a separator holding no characters, which would match everywhere and consume
@@ -421,7 +422,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `ordering-compares-two-of-a-kind`
 - `prepending-writes-the-front`
 - `reduce-folds-in-order`
-- `regex-finds-a-match-anywhere`
 - `remainder-at-the-ints-minimum-answers`
 - `remainder-is-what-whole-division-leaves`
 - `replacing-swaps-every-occurrence`
