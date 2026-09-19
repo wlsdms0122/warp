@@ -205,22 +205,36 @@ What `conformance/` asks about this page, by the name each case's file carries.
 These carry bytes or text rather than a program, under *what a case is* in
 [conformance](conformance.md).
 
-- `a-bare-key-that-is-not-an-identifier-refuses`
-- `a-bare-token-running-into-a-quote-refuses`
 - `a-format-that-never-existed-refuses`
-- `a-fraction-not-in-its-one-writing-refuses`
-- `a-fraction-reads-by-its-point-or-exponent`
 - `a-later-format-refuses`
 - `a-length-past-the-end-of-the-document-refuses`
 - `a-named-record-reads-and-writes-back`
-- `a-named-record-reads-from-text`
 - `a-number-written-longer-than-it-is-refuses`
-- `a-quote-running-into-a-bare-token-refuses`
-- `a-quoted-key-and-a-bare-key-are-one-key`
 - `a-record-key-not-in-normal-form-c-refuses`
 - `a-record-key-written-twice-refuses`
 - `a-record-name-that-is-not-declarable-refuses`
 - `a-string-that-is-not-utf8-refuses`
+- `a-varint-carrying-past-bit-63-refuses`
+- `a-varint-of-eleven-bytes-refuses`
+- `an-empty-record-key-refuses`
+- `an-infinity-refuses`
+- `bytes-after-the-document-ends-refuse`
+- `bytes-that-do-not-begin-as-a-document-refuse`
+- `bytes-that-end-inside-a-value-refuse`
+- `nesting-past-the-bound-refuses`
+- `record-keys-out-of-order-refuse`
+- `the-golden-record-reads-and-writes-back`
+- `the-spellings-a-text-reads-are-pinned-by-bytes`
+
+Text:
+
+- `a-bare-key-that-is-not-an-identifier-refuses`
+- `a-bare-token-running-into-a-quote-refuses`
+- `a-fraction-not-in-its-one-writing-refuses`
+- `a-fraction-reads-by-its-point-or-exponent`
+- `a-named-record-reads-from-text`
+- `a-quote-running-into-a-bare-token-refuses`
+- `a-quoted-key-and-a-bare-key-are-one-key`
 - `a-text-control-character-written-raw-refuses`
 - `a-text-format-header-not-in-its-one-writing-refuses`
 - `a-text-key-written-twice-refuses`
@@ -228,25 +242,14 @@ These carry bytes or text rather than a program, under *what a case is* in
 - `a-text-laid-out-by-a-later-format-refuses`
 - `a-text-reads-in-any-layout`
 - `a-text-reads-its-escapes`
-- `a-varint-carrying-past-bit-63-refuses`
-- `a-varint-of-eleven-bytes-refuses`
 - `a-whole-number-with-a-leading-zero-refuses`
-- `an-empty-record-key-refuses`
 - `an-escape-for-a-character-written-as-itself-refuses`
 - `an-escape-spelled-longer-than-its-short-form-refuses`
 - `an-exponent-not-in-its-one-writing-refuses`
-- `an-infinity-refuses`
-- `bytes-after-the-document-ends-refuse`
 - `bytes-running-into-bytes-refuse`
 - `bytes-spell-from-text`
-- `bytes-that-do-not-begin-as-a-document-refuse`
-- `bytes-that-end-inside-a-value-refuse`
 - `bytes-written-in-uppercase-hex-refuse`
 - `bytes-written-with-an-odd-digit-refuse`
-- `nesting-past-the-bound-refuses`
-- `record-keys-out-of-order-refuse`
 - `text-after-the-document-ends-refuses`
 - `text-that-is-not-utf8-refuses`
-- `the-golden-record-reads-and-writes-back`
 - `the-golden-record-spells-as-text`
-- `the-spellings-a-text-reads-are-pinned-by-bytes`
