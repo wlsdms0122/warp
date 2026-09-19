@@ -6,8 +6,8 @@ declares. This page is the outline. What each of its slots holds is
 [expressions](expression.md) and [types](type.md), and the bytes it arrives as
 are [encodings](encoding.md).
 
-A document is one record. Every record below is **closed**: a key not named
-here **refuses**. Every slot marked *expression*, *block*, *statements* or
+A document is one record. Every record this grammar names, on this page and on
+the pages it points to, is **closed**: a key none of them names **refuses**. Every slot marked *expression*, *block*, *statements* or
 *type* takes the grammar of that name.
 
 ## The module
@@ -71,8 +71,9 @@ heard of is refuse, and the point of the number is that it can.
 procedure bodies and from constants alike, each by the spelling it is sent by,
 which is its declared spelling: `std.math.plus`, never `plus`. A native
 procedure's sends are in it too. What a body sends is read off its text; a
-procedure implemented in the host language has no text a reader could read, so
-the procedure declares the procedures it sends and those count the same. A
+module the host assembled in its own language holds procedures with no text a
+reader could read, so each declares the procedures it sends and those count the
+same. A
 module whose native procedures send things its list never mentioned would
 understate what the module does, which is the one thing this list may not do.
 The list is that set exactly, not a bound around it: **reading refuses** a
