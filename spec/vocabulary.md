@@ -171,15 +171,18 @@ nothing; the refusal is `aborted`, so an attempt around either catches it. The p
 read text, `contains` and `startsWith` included, read as a person reads, under
 the value model's canonical equivalence.
 
-`text` spells a value the way a document writes it. Bytes included, as `x`
-and their hex digits. What no document carries answers in the language's own
-markers, never a host formatter's: a procedure is `<procedure>`, a host's
-non-finite fraction is `<infinity>`, `<-infinity>` or `<not a number>`, and a
-container holding one shows whole as `<unencodable>`.
-
-A value's spelling does not change with how deep it sits: `text` of
-`[x"6869"]` is `["x\"6869\""]`, the same spelling quoted the way a string in
-that position is quoted. This is what `text` is for. A person reading a
+`text` spells a scalar the way a document writes it. Bytes included, as `x`
+and their hex digits. A container it spells on **one line**: an array's
+elements between `[` and `]`, a dictionary's entries between `{` and `}` as
+the key quoted, a colon and the value, a named record the same with its name
+and a space before the brace, and elements or entries joined by commas with no
+space. A string or bytes inside is quoted the way a string in that position is
+quoted, so `text` of `[x"6869"]` is `["x\"6869\""]` and of `[1, 2]` is
+`[1,2]`: a value's spelling does not change with how deep it sits. What no
+document carries answers in the language's own markers, never a host
+formatter's: a procedure is `<procedure>`, a host's non-finite fraction is
+`<infinity>`, `<-infinity>` or `<not a number>`, and a container holding one
+shows whole as `<unencodable>`. This is what `text` is for. A person reading a
 value. A carrier that has to give the value *back* is a different question,
 and one with no compact spelling writes what `bytes = array<byte>` says
 instead: the array.
