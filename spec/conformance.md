@@ -116,8 +116,8 @@ Read the file, and read `test` before the record, for the reason a document
 reads its own version first: a later case may say something this runner has no
 name for, and "I am too old for this" is a different answer from "this is not a
 case". Then read `program` as a document. Read each entry of `vocabulary` the
-same way a declaration is read, and build the host's side of it from the four
-keys beside it. If the case expects `refuses`, check that it fails at that stage
+same way a declaration is read, `receiver` included where the procedure takes
+one in front, and build the host's side of it from the four keys beside it. If the case expects `refuses`, check that it fails at that stage
 and no earlier or later. Otherwise build it against that vocabulary and the
 standard bundles, start from the procedure declared under `entry`, run it with
 `arguments`, and compare.
