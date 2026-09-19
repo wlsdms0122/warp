@@ -65,10 +65,9 @@ cases are `reads`, and the ones in the writer's layout are `spells`. A text
 case is read by one reader on both sides, so a reader taking a spelling for
 the wrong value would agree with itself; every scalar and every name a text
 case reads therefore appears in some bytes case, which is where a spelling is
-pinned. A container's shape is not a spelling and is not pinned. What the
-text encoding must read at all
-is asked of every case in passing, since a case is warpt text and a runner
-reads it before it can ask anything at all.
+pinned. A container's shape is not a spelling and is not pinned. What the text
+encoding must read at all is asked of every case in passing, since a case is
+warpt text and a runner reads it before it can ask anything at all.
 
 A case is **not a document**, and this is the record where that is said out
 loud. It is written in the same text. An encoding carries a tree of data and
