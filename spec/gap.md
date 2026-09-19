@@ -85,3 +85,10 @@ have to guess, and would be entitled to guess differently.
   whether identity belongs in this specification at all or stays a fact each
   implementation works out for itself, since nothing a program *runs* depends
   on it.
+- **What a build writes down is the implementation's.** A document is what
+  crosses the wire, and the pages here say everything about it. What a build
+  makes of one, the judged rows, the lowered bodies, the numbering a link
+  reads, is written and read by the implementation that made it, and nothing
+  here says what it holds or in what order. Whether that writing becomes a
+  format of its own, so that a build made by one implementation links and
+  runs under another, is undecided; it waits on the lowering it would freeze.
