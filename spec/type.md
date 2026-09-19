@@ -200,6 +200,11 @@ the build follows the value by. On `some T` it **refuses**: what fills a type
 parameter is the call's, so a body that took the obligation there would have no
 name to carry it on and the proof would end at that slot.
 
+**A type handed on once answers no contract.** A contract standing where a
+type is written holds a value under no name of its own, and nothing follows a
+value handed on once but the name that holds it. A claim that such a type
+satisfies a contract **refuses at the build**, where the claim is written.
+
 **A membership is one when every member is,** and `some T` bounded by one is
 what every member of it is. A membership that admits a value handed on once
 beside one that is not **refuses where it is declared**: a value of it would
@@ -389,6 +394,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-bound-may-name-several-and-holds-to-every-one`
 - `a-contract-stands-where-a-type-is-written`
 - `a-value-outside-a-contract-standing-as-a-type-refuses-at-the-build`
+- `a-type-handed-on-once-answers-no-contract`
 - `a-value-of-a-membership-answers-a-contract-every-member-satisfies`
 - `a-named-list-handed-where-a-list-of-a-contract-stands-is-held-to-it`
 - `a-name-that-is-not-a-bound-joined-with-and-refuses-at-the-build`
