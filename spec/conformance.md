@@ -59,9 +59,12 @@ that text answers that value. One value has many layouts in text, since layout
 is free on the way in, so what a writer lays out is not asked of a text but of
 the cases themselves: every case file is in the writer's layout, and a runner
 that writes each one back and compares has asked its writer the same question
-the binary cases ask. What the text encoding must read at all is asked of
-every case in passing, since a case is warpt text and a runner reads it before
-it can ask anything at all.
+the binary cases ask. A text case is read by one reader on both sides, so a
+reader taking a spelling for the wrong value would agree with itself; the
+values the text cases spell are held to their bytes in a case of their own,
+which is where a spelling is pinned. What the text encoding must read at all
+is asked of every case in passing, since a case is warpt text and a runner
+reads it before it can ask anything at all.
 
 A case is **not a document**, and this is the record where that is said out
 loud. It is written in the same text. An encoding carries a tree of data and
@@ -142,13 +145,12 @@ is written as its kind or not at all: a `runs` that is not a bool, or a
 `failing` that is not an array of names, is a case no two runners would read
 alike, and it **refuses** as a case rather than reading as a default. What
 refuses as a case is asked by no case: the folder holds the suite, and a
-runner that refuses one of its files stops on it, because the suite is what is
-wrong then. If the
-case expects `refuses`, check that it fails at that stage and no earlier or
-later. Otherwise build it against that vocabulary and the standard bundles,
-start from the procedure declared under `entry`, run it with `arguments`, and
-compare. A program that declares no `entry` is refused **at the build**, where
-a name nothing in the link declares is refused.
+runner that refuses one of its files stops on it, because the suite is what
+is wrong then. If the case expects `refuses`, check that it fails at that
+stage and no earlier or later. Otherwise build it against that vocabulary and
+the standard bundles, start from the procedure declared under `entry`, run it
+with `arguments`, and compare. A program that declares no `entry` is refused
+**at the build**, where a name nothing in the link declares is refused.
 
 The cases are the files named `<name>.test.warpt`, and what else the folder
 holds is not the suite's business. A runner that refused to start over an

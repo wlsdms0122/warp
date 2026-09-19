@@ -1,0 +1,23 @@
+warpt 1
+{
+  bytes x"57415250010608044341c37937e08000043ee4f8b588e368f1043f1a36e2eb1c432d04430c6bf52634000004bfe00000000000000506225c0a0d090108026a73070201610302036220630304"
+  expect {
+    reads [
+      1e+16
+      1e-05
+      0.0001
+      1000000000000000.0
+      -0.5
+      "\"\\\n\r\t\u0001"
+      x"6a73"
+      {
+        a 1
+        "b c" 2
+      }
+    ]
+  }
+  name "the-spellings-a-text-reads-are-pinned-by-bytes"
+  note "A text case is read by the same reader on both sides, so a reader that took a spelling for the wrong value would agree with itself. These are the values the text cases spell, held to their bytes: the two forms of a fraction, the escapes, bytes, and a key that has to be quoted."
+  test 4
+}
+

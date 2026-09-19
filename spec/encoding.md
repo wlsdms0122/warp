@@ -216,6 +216,7 @@ These carry bytes or text rather than a program, under *what a case is* in
 - `nesting-past-the-bound-refuses`
 - `record-keys-out-of-order-refuse`
 - `the-golden-record-reads-and-writes-back`
+- `the-spellings-a-text-reads-are-pinned-by-bytes`
 
 Text:
 
