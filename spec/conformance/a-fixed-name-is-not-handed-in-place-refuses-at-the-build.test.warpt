@@ -1,0 +1,50 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-fixed-name-is-not-handed-in-place-refuses-at-the-build"
+  note "A slot written `inout` writes through to a box, and a name declared `let` is not one: nothing may write over it. Handing it in place is refused at the build."
+  program {
+    imports []
+    procedures {
+      bump {
+        body [
+          {
+            set "count"
+            value 11
+          }
+        ]
+        parameters {
+          count {
+            type "inout int"
+          }
+        }
+      }
+      entry {
+        body [
+          {
+            let "fixed"
+            value 10
+          }
+          {
+            value {
+              call {
+                arguments {
+                  count {
+                    ref "fixed"
+                  }
+                }
+                procedure "bump"
+              }
+            }
+          }
+        ]
+        returns "null"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

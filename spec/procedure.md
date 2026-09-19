@@ -221,6 +221,7 @@ running, by the rule that such a body writes no name.
 
 What `conformance/` asks about this page, by the name each case's file carries.
 
+- `a-calls-answer-is-not-handed-in-place-refuses-at-the-build`
 - `a-const-slot-refuses-a-closure-that-calls-what-runs`
 - `a-const-slot-takes-a-closure-that-applies-a-const-slot`
 - `a-const-slot-takes-a-closure-that-calls-a-host-procedure`
@@ -228,11 +229,13 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-constant-argument-outside-enum-refuses-at-build`
 - `a-constant-cannot-settle-from-a-procedure-a-caller-brought`
 - `a-constant-cannot-settle-from-what-runs`
+- `a-constant-settling-from-a-procedure-the-caller-brought-refuses-at-the-build`
 - `a-default-outside-its-enum-refuses-at-build`
 - `a-default-outside-its-type-refuses-at-build`
 - `a-enum-no-candidate-of-which-fits-refuses-at-build`
 - `a-enum-that-admits-nothing-refuses-at-build`
 - `a-enum-with-a-dead-candidate-refuses-at-build`
+- `a-fixed-name-is-not-handed-in-place-refuses-at-the-build`
 - `a-fixed-name-is-not-handed-in-place`
 - `a-native-procedure-is-handed-a-path-indexed-with-a-name`
 - `a-null-default-needs-a-type-that-admits-null`

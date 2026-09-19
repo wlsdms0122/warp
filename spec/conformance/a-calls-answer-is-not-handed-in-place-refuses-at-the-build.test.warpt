@@ -1,0 +1,52 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-calls-answer-is-not-handed-in-place-refuses-at-the-build"
+  note "A slot written `inout` writes through to a box the caller holds. A call's answer is a value nobody holds, so there is nothing to write through to, and handing it in place is refused at the build."
+  program {
+    imports []
+    procedures {
+      bump {
+        body [
+          {
+            set "count"
+            value 11
+          }
+        ]
+        parameters {
+          count {
+            type "inout int"
+          }
+        }
+      }
+      entry {
+        body [
+          {
+            value {
+              call {
+                arguments {
+                  count {
+                    call {
+                      procedure "ten"
+                    }
+                  }
+                }
+                procedure "bump"
+              }
+            }
+          }
+        ]
+        returns "null"
+      }
+      ten {
+        result 10
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

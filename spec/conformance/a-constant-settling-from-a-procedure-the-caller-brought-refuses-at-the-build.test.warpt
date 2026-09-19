@@ -1,0 +1,39 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-constant-settling-from-a-procedure-the-caller-brought-refuses-at-the-build"
+  note "A constant settles from what the language defines and from bodies in the link, and not from a procedure a caller brought: what that answers is the caller's and no build can bake it. Settling one is refused at the build."
+  program {
+    const {
+      stamp {
+        call {
+          procedure "host.stamp"
+        }
+      }
+    }
+    imports [
+      "host.stamp"
+    ]
+    procedures {
+      entry {
+        result {
+          ref "stamp"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 3
+  vocabulary {
+    procedures {
+      "host.stamp" {
+        answers 1
+        returns "int"
+      }
+    }
+  }
+}
+
