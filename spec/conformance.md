@@ -52,7 +52,9 @@ The bytes are the **binary** encoding, which is the one a document travels in
 and the one that is canonical.
 
 A case carrying **text** asks about the text encoding the same way, and
-expects `reads` or `refuses "load"`. `reads` is one direction here: reading
+expects `reads` or `refuses "load"`. A case carrying either writes neither
+`arguments` nor `vocabulary`, since nothing runs and nothing is brought, and
+one that does **refuses** as a case. `reads` is one direction here: reading
 that text answers that value. One value has many layouts in text, since layout
 is free on the way in, so what a writer lays out is not asked of a text but of
 the cases themselves: every case file is in the writer's layout, and a runner
