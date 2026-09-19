@@ -218,7 +218,7 @@ obligation nothing told it about. It **refuses at the build**, by the result
 and by every `return` that carries a value alike.
 
 **A reading that may answer nothing does not take one.** `as?` onto a type
-handed on once **refuses**, and so does writing `?` on one: what such a value
+handed on once **refuses at the build**, and so does writing `?` on one: what such a value
 needs is a name holding it on every way through, and a `?` says there is a way
 through where nothing is there.
 
@@ -229,7 +229,7 @@ as a declaration would be. What it runs an unfixed number of times is the
 *capture*, and a name the closure declared is its own.
 
 **What such a body may not do is answer one.** A procedure type whose `returns`
-is handed on once **refuses**, closure literals included, and a body that wrote
+is handed on once **refuses at the build**, closure literals included, and a body that wrote
 no `returns` is held to the same rule by what the walk finds: the rule turns
 neither on whether a key was typed nor on how the answer was written. Nothing
 reads inside a body that travels as a value, so what one handed back would
@@ -239,8 +239,8 @@ it answers lands on the name its caller binds.
 Silence read as taking is what hid the second one: a procedure that only wanted
 to look at a handle had no way to say so, and every slot that touched one took
 it. So silence refuses rather than defaulting. Writing either where nothing is
-handed on once **refuses** too, the way a `?` that says nothing new does: both
-say what a slot does with an obligation, and there is none.
+handed on once **refuses at the build** too, the way a `?` that says nothing
+new does: both say what a slot does with an obligation, and there is none.
 
 **No lifetime rides with a borrow.** The language has no references, so what a
 slot was handed is a value of its own and cannot outlive what it was read from.
@@ -402,75 +402,74 @@ What `conformance/` asks about this page, by the name each case's file carries.
 
 - `a-bare-array-refuses-at-the-load`
 - `a-bare-constraint-name-refuses-at-the-build`
-- `a-bound-may-name-several-and-holds-to-every-one`
-- `a-contract-stands-in-a-closures-parameter`
-- `a-contract-stands-where-a-type-is-written`
-- `a-value-outside-a-contract-in-a-closures-parameter-refuses-at-the-run`
-- `a-value-outside-a-contract-standing-as-a-type-refuses-at-the-build`
-- `a-type-handed-on-once-answers-no-contract`
-- `a-value-of-a-membership-answers-a-contract-every-member-satisfies`
-- `a-named-list-handed-where-a-list-of-a-contract-stands-is-held-to-it`
-- `a-name-that-is-not-a-bound-joined-with-and-refuses-at-the-build`
-- `a-record-form-array-of-a-named-element-refuses-at-the-load`
 - `a-body-cannot-answer-what-it-borrowed`
 - `a-borrowing-slot-reads-and-leaves-the-obligation`
+- `a-bound-may-name-several-and-holds-to-every-one`
+- `a-bound-naming-a-parameter-no-slot-mentions-refuses-at-the-load`
 - `a-byte-is-a-whole-number-a-range-refines`
 - `a-constant-outside-a-range-refuses-at-the-build`
 - `a-constraint-is-named-by-its-qualified-spelling`
+- `a-constraint-that-admits-nothing-refuses-at-the-build`
 - `a-contract-carries-a-procedure-into-a-generic-body`
+- `a-contract-stands-in-a-closures-parameter`
+- `a-contract-stands-where-a-type-is-written`
 - `a-declared-name-is-a-type`
 - `a-declared-range-refuses-what-is-outside-it`
 - `a-fraction-is-not-a-whole-number`
 - `a-fraction-range-widens-a-whole-number-into-itself`
 - `a-handle-already-given-away-is-not-read-again`
+- `a-membership-mixing-a-type-handed-on-once-refuses-at-the-build`
 - `a-membership-stands-as-a-type`
+- `a-name-declared-as-both-a-type-and-a-constraint-refuses-at-the-build`
+- `a-name-that-is-not-a-bound-joined-with-and-refuses-at-the-build`
+- `a-named-list-handed-where-a-list-of-a-contract-stands-is-held-to-it`
 - `a-named-record-arrives-as-an-argument`
+- `a-nullable-of-a-type-handed-on-once-refuses-at-the-build`
+- `a-nullable-that-says-nothing-new-refuses-at-the-load`
+- `a-padded-bound-refuses-at-the-load`
 - `a-procedure-answering-its-receivers-own-elements-keeps-the-spelling`
+- `a-procedure-type-answering-a-type-handed-on-once-refuses-at-the-build`
 - `a-range-judges-a-runtime-value-at-the-boundary`
 - `a-range-that-admits-nothing-refuses-at-the-build`
 - `a-range-whose-bounds-meet-on-an-excluded-edge-admits-nothing`
+- `a-range-with-neither-bound-refuses-at-the-load`
+- `a-range-with-nothing-after-the-open-edge-refuses-at-the-load`
 - `a-range-written-with-the-other-kinds-bounds-refuses`
 - `a-reading-outside-a-constraint-refuses-at-the-build`
+- `a-record-form-array-of-a-named-element-refuses-at-the-load`
 - `a-record-settles-to-the-fields-declared`
 - `a-record-takes-the-name-of-the-slot-it-settles-into`
 - `a-record-under-another-name-refuses-at-the-build`
 - `a-record-under-another-name-refuses-at-the-run`
 - `a-slot-naming-a-type-handed-on-once-says-what-it-does`
+- `a-some-outside-a-signature-refuses-at-the-build`
+- `a-type-handed-on-once-answers-no-contract`
+- `a-type-handed-on-once-inside-another-refuses-at-the-build`
 - `a-type-parameter-read-two-ways-is-refused`
 - `a-type-that-misses-a-procedure-does-not-answer-the-contract`
+- `a-value-handed-on-in-one-arm-and-not-the-other-refuses-at-the-build`
 - `a-value-handed-on-once-does-not-go-into-a-list`
 - `a-value-handed-on-once-does-not-go-into-a-list-unbound`
 - `a-value-handed-on-once-is-ended-by-a-host-procedure`
 - `a-value-handed-on-once-is-handed-on`
 - `a-value-handed-on-once-that-is-dropped-refuses`
+- `a-value-of-a-membership-answers-a-contract-every-member-satisfies`
+- `a-value-outside-a-contract-in-a-closures-parameter-refuses-at-the-run`
+- `a-value-outside-a-contract-standing-as-a-type-refuses-at-the-build`
 - `a-value-outside-a-declared-type-refuses-at-the-boundary`
 - `a-whole-and-a-fraction-meet-exactly`
 - `a-whole-fraction-stays-a-fraction`
 - `a-whole-number-is-a-fraction`
 - `an-answer-read-through-any-is-settled-at-the-run`
 - `an-array-slot-that-changes-a-byte-reads-them-out`
+- `an-asking-cast-onto-a-type-handed-on-once-refuses-at-the-build`
 - `an-inline-record-slot-takes-a-named-record`
 - `an-undeclared-field-refuses-at-the-build`
 - `bytes-cross-an-array-slot-in-their-own-spelling`
+- `consuming-on-a-type-parameter-refuses-at-the-build`
+- `consuming-where-nothing-is-handed-on-once-refuses-at-the-build`
 - `elements-of-different-kinds-join-to-any`
+- `linear-on-a-slot-refuses-at-the-build`
 - `the-far-bound-of-a-range-may-be-left-outside`
 - `what-a-membership-does-not-admit-refuses`
 - `what-was-read-out-of-a-parameter-is-not-the-parameter`
-- `a-nullable-that-says-nothing-new-refuses-at-the-load`
-- `a-range-with-nothing-after-the-open-edge-refuses-at-the-load`
-- `a-range-with-neither-bound-refuses-at-the-load`
-- `a-padded-bound-refuses-at-the-load`
-- `a-bound-naming-a-parameter-no-slot-mentions-refuses-at-the-load`
-- `a-constraint-that-admits-nothing-refuses-at-the-build`
-- `a-name-declared-as-both-a-type-and-a-constraint-refuses-at-the-build`
-- `a-some-outside-a-signature-refuses-at-the-build`
-- `linear-on-a-slot-refuses-at-the-build`
-- `a-type-handed-on-once-inside-another-refuses-at-the-build`
-- `consuming-on-a-type-parameter-refuses-at-the-build`
-- `a-claim-that-a-type-handed-on-once-satisfies-a-contract-refuses-at-the-build`
-- `a-membership-mixing-a-type-handed-on-once-refuses-at-the-build`
-- `a-procedure-type-answering-a-type-handed-on-once-refuses-at-the-build`
-- `a-nullable-of-a-type-handed-on-once-refuses-at-the-build`
-- `an-asking-cast-onto-a-type-handed-on-once-refuses-at-the-build`
-- `consuming-where-nothing-is-handed-on-once-refuses-at-the-build`
-- `a-value-handed-on-in-one-arm-and-not-the-other-refuses-at-the-build`

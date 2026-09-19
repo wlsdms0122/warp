@@ -130,8 +130,10 @@ and it may be made on one machine and read on another. So a constant settles
 from what answers the same wherever that document is read, which is two things
 and not three:
 
-- a **body** in the link, since the document it is written in is what the
-  compiled document is made from;
+- a **body** in another document of the link, since the document it is
+  written in is what the compiled document is made from. A body the constant's
+  own document declares is still being resolved beside it, under *paths* in
+  [expressions](expression.md);
 - a procedure this specification **names**, under *what an implementation must
   write* in [the standard vocabulary](vocabulary.md), since every conforming
   implementation answers it alike.
@@ -221,7 +223,6 @@ running, by the rule that such a body writes no name.
 
 What `conformance/` asks about this page, by the name each case's file carries.
 
-- `a-calls-answer-is-not-handed-in-place-refuses-at-the-build`
 - `a-const-slot-refuses-a-closure-that-calls-what-runs`
 - `a-const-slot-takes-a-closure-that-applies-a-const-slot`
 - `a-const-slot-takes-a-closure-that-calls-a-host-procedure`
@@ -229,13 +230,11 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-constant-argument-outside-enum-refuses-at-build`
 - `a-constant-cannot-settle-from-a-procedure-a-caller-brought`
 - `a-constant-cannot-settle-from-what-runs`
-- `a-constant-settling-from-a-procedure-the-caller-brought-refuses-at-the-build`
 - `a-default-outside-its-enum-refuses-at-build`
 - `a-default-outside-its-type-refuses-at-build`
 - `a-enum-no-candidate-of-which-fits-refuses-at-build`
 - `a-enum-that-admits-nothing-refuses-at-build`
 - `a-enum-with-a-dead-candidate-refuses-at-build`
-- `a-fixed-name-is-not-handed-in-place-refuses-at-the-build`
 - `a-fixed-name-is-not-handed-in-place`
 - `a-native-procedure-is-handed-a-path-indexed-with-a-name`
 - `a-null-default-needs-a-type-that-admits-null`
