@@ -185,7 +185,7 @@ stands alone, which is what lets the concurrent `map` run it at once.
 
 A rescue catches failure. What the world did. It does not catch leaving. What
 the program said. A rescue with nothing in it. No statement to run for effect,
-no `result` to answer. **refuses at the check**: it would swallow a failure into
+no `result` to answer. **refuses at the load**: it would swallow a failure into
 null without a trace. A rescue over a body that cannot fail **refuses at the
 build** for the other half of the same reason: it is a body no run reaches. This
 is the one exception to a block's optional `result`, and the failure is the
@@ -252,7 +252,7 @@ the procedure declared.
 
 **`break`**. End a loop. **`continue`**. End the round and go on to the
 next. Each takes a loop's statement name, or nothing for the nearest enclosing
-loop. Both **refuse at the check** when nothing encloses them: a closure runs
+loop. Both **refuse at the load** when nothing encloses them: a closure runs
 away from where it was written, so the loops around the writing are
 not around the running, and neither crosses into a procedure written inside
 another.

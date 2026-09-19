@@ -77,7 +77,7 @@ holds. The settlement is one rule per type:
   the declared half. `T?` takes `T`, null and `T?`; a `T?` reading does not
   fit a plain `T` slot. The `?` is written once, on the whole spelling, and
   only where it says something new: `int??`, `null?`, `any?`, `never?` and
-  `some T?` each **refuse at the read**. A type with no string spelling. A
+  `some T?` each **refuse at the load**. A type with no string spelling. A
   record. Has no `?` to trail; a nullable record is reached through a
   declared name (`Task?`).
 - The numeric edge is value-independent: `int` refuses every fraction, `2.0`
@@ -94,7 +94,7 @@ holds. The settlement is one rule per type:
   - **The kind is written out**, because a bound is a value of the kind it
     bounds: `int(0...255)` writes whole numbers and `double(0.0...1.0)`
     fractions, each in that kind's one spelling. `int(0.0...)` and
-    `double(0...)` both **refuse at the read**. Neither range can be written
+    `double(0...)` both **refuse at the load**. Neither range can be written
     with the other's bounds. A fraction range takes a whole number the one way
     the language widens (a `2` arriving at `double(0.0...5.0)` settles as
     `2.0`); nothing narrows.
@@ -103,7 +103,7 @@ holds. The settlement is one rule per type:
     for a fraction the one nothing can spell by moving a bound. The near bound
     is always inside, which is the convention every half-open interval is
     already read by; there is one spelling per range because of it. `..<` with
-    nothing after it **refuses at the read**. It says the far bound is
+    nothing after it **refuses at the load**. It says the far bound is
     outside, and there is no far bound.
   - Before the run, acceptance reads a range as the kind under it on either
     side. Only what is provably outside is refused early, and a reading's
@@ -112,13 +112,13 @@ holds. The settlement is one rule per type:
     text's fact, so bounds that cannot overlap are refused early, across kinds
     as well as within one.
   - Either bound may be open (`int(0...)`, `int(...255)`); neither may be
-    (`int(...)` says nothing and **refuses at the read**), and a range whose
+    (`int(...)` says nothing and **refuses at the load**), and a range whose
     bounds admit nothing. `int(9...1)`, or `int(5..<5)` where the far bound
     is excluded and the near one stands on it. Is a slot no call could fit,
     **refused at the build** where the declaration wrote it, exactly as an
     empty `enum` is. A whole bound must be a number an `int` holds, and a
     padded or signed spelling (`int(007...)`, `int(+1...)`) or a bound past
-    the procedure both **refuse at the read**, each named as what it is.
+    what an `int` holds both **refuse at the load**, each named as what it is.
   - A module gives a range a name the way it names any type: `std` declares
     `byte = int(0...255)`, and there is no separate byte kind.
   - A bound is written as the value it is, so a fraction bound is a fraction's
@@ -164,7 +164,7 @@ the membership, so what travelled in through `any` is refused where it arrives.
 One name is held to one set of bounds: `bounds` writes the set once, every
 occurrence of the name reads it, and a signature assembled with two occurrences
 holding different sets is refused at the build and written by no document.
-`bounds` naming a parameter no slot mentions refuses at the read. Only the declaring procedure writes `bounds`. A
+`bounds` naming a parameter no slot mentions refuses at the load. Only the declaring procedure writes `bounds`. A
 procedure *type* nested in a slot carries none, because its parameters are the
 declaring signature's own slots and the declaring signature owns their bounds. A
 constraint nobody declares, a constraint declared twice under one spelling, one
@@ -328,7 +328,7 @@ signature does not fit, puts its type under no contract and its reason is what
 that refusal says.
 
 A claim whose two names the list declares as something other than what the
-claim needs of them **refuses at the claim**: a contract where the type
+claim needs of them **refuses at the build, at the claim**: a contract where the type
 belongs, a type where the contract belongs, or a membership in either place.
 One name has one declarer, so no document arriving later makes that right. A
 name the list declares as nothing at all waits with the rest.
