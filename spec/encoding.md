@@ -55,8 +55,9 @@ deliberately not offered: a program is checked whole before any of it runs, so
 nothing downstream could act on a prefix anyway. This buys the budget rule:
 lengths claimed inside a document are charged against **one budget. The byte
 count of the document itself**. At the cheapest cost a claimed thing could
-possibly occupy on the wire, and a claim the budget cannot cover **refuses**
-before anything is set aside for it. Nested containers cannot each claim the
+possibly occupy on the wire, one byte for each byte, element or character
+claimed and two for each entry of a record, and a claim the budget cannot cover
+**refuses** before anything is set aside for it. Nested containers cannot each claim the
 whole document, and no document can make a reader hold more than a small
 multiple of its own size.
 
