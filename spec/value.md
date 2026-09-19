@@ -22,12 +22,14 @@ A program computes over eight kinds of data, plus one value that is not data:
 **A record's name.** A record made by a literal, answered by a native procedure
 or read from a document has no name. It takes one the first time it settles into
 a slot declaring a type whose structure is a record: an argument, a default, an
-answer, a cast. From then on it carries that name wherever it goes, under
+answer, a cast. From then on it carries that name through every slot declaring the type and
+through `any`; a structural slot, an inline record type or `dictionary<T>`,
+settles it to the slot's own layout, which has no name, under
 [Types](type.md).
 
 **When two values are the same:**
 
-- A whole number and a fraction of the same size are the same value. Numbers
+- A whole number and a fraction of the same worth are the same value. Numbers
 are compared by what they are worth, not by which of the two they are. exactly,
 at **every** size: `9007199254740993` (2^53 + 1) is neither equal to nor below
 `9007199254740992.0`, however binary64 would round it, and ordering and `sorted`
@@ -40,7 +42,8 @@ read the same worth equality does.
   encoding is assumed, so no Unicode rule applies. Beside an **array**, worth
   unifies the way it does across numeric width: `x"6869"` and `[104, 105]`
   are worth the same. One collection of the same whole numbers in the same
-  order, spelled two ways, and stay two values, the way `1` and `1.0` do.
+  order, spelled two ways, and `equal` says so. Which spelling a value wears
+  is the slot's and the wire's to decide, and never sameness's.
 - Arrays are the same when their elements are, in order.
 - Records are the same when they hold the same field names bound to the same
   values and the same type name, or none. A record has no order, so order is
