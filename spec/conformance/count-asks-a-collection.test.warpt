@@ -1,0 +1,27 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "count-asks-a-collection"
+  note "count takes what std.Collection admits: text, a list, a map. A number has no count, and a constant one is refused where the call is written rather than answered nothing at the run."
+  program {
+    imports [
+      "std.collection.count"
+    ]
+    procedures {
+      entry {
+        result {
+          call {
+            of 1
+            procedure "std.collection.count"
+          }
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

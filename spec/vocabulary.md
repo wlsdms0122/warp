@@ -16,7 +16,7 @@ bundles' signatures mention, and a bundle mentioning them (`std.math`,
 
 | module | procedures |
 |---|---|
-| `std` |. Declares the memberships `Numeric` and `Comparable`, and the type `byte = int(0...255)` |
+| `std` |. Declares the memberships `Numeric`, `Comparable` and `Collection`, and the type `byte = int(0...255)` |
 | `std.logic` | `equal` `notEqual` `not` `and` `or` `select` |
 | `std.math` | `plus` `minus` `times` `dividedBy` `remainder` `min` `max` `absolute` `floored` `rounded` `lessThan` `greaterThan` |
 | `std.text` | `text` `characters` `contains` `startsWith` `regex` `uppercased` `lowercased` `trimmed` `split` `joined` `replacing` `decoded` `encoded` |
@@ -189,7 +189,7 @@ instead: the array.
 | procedure | receiver | arguments | answers |
 |---|---|---|---|
 | `append` | `to: inout array<some Element>` | `value: some Element` | `null`, having written the element onto the end of the array the variable holds, in place |
-| `count` | `of: any` |. | `int` |
+| `count` | `of: Collection`. The membership of `string`, `array` and `dictionary`; bytes stand as an array and a record as a dictionary |. | `int` |
 | `contains` | `of: array<some Element>` | `value: some Element` | `bool` |
 | `first`, `last` | `of: array<some Element>` |. | `some Element`. Over nothing there is no element to answer, and the read of one **refuses at the run**, the way any index past the end does |
 | `reversed`, `dropFirst`, `dropLast` | `of: array<some Element>` |. | `array<some Element>` |
@@ -380,6 +380,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `bytes-do-not-order`
 - `concurrent-map-offers-item-and-index`
 - `contains-asks-a-collection`
+- `count-asks-a-collection`
 - `cutting-on-nothing-refuses`
 - `decoded-reads-bytes-as-text-in-a-named-encoding`
 - `dropping-an-end-answers-the-rest`

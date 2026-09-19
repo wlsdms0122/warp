@@ -389,7 +389,8 @@ and a bound names a membership or a contract.
 
 The shared `std` module (the foundation bundle) declares the memberships the
 standard procedures are bounded by: `Numeric` admits `int` and `double`;
-`Comparable` admits `int`, `double` and `string`. A bundle whose signatures
+`Comparable` admits `int`, `double` and `string`; `Collection` admits
+`string`, `array` and `dictionary`. A bundle whose signatures
 mention them. `std.math`, `std.collection`. Links only with `std` in the
 build, which is the one dependency the standard bundles have.
 
