@@ -180,3 +180,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `the-optional-bracket-reads-through-a-nullable`
 - `the-optional-bracket-still-refuses-past-the-end`
 - `the-optional-dot-reads-through-a-nullable`
+- `a-cast-naming-a-type-nothing-declares-refuses-at-the-build`
+- `an-index-reference-that-is-not-a-whole-number-refuses-at-the-build`
+- `a-constant-that-runs-a-body-of-its-own-document-refuses-at-the-build`
+- `an-optional-dot-on-a-field-that-is-there-refuses-at-the-build`
