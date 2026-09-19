@@ -1,0 +1,77 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-value-handed-on-in-one-arm-and-not-the-other-refuses-at-the-build"
+  note "What a body holds after a conditional cannot depend on which arm ran. A value handed on once given away in one arm and kept in the other is refused at the build."
+  program {
+    imports [
+      "app.close"
+      "app.open"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            let "handle"
+            value {
+              call {
+                procedure "app.open"
+              }
+            }
+          }
+          {
+            value {
+              conditional {
+                then [
+                  {
+                    value {
+                      call {
+                        of {
+                          ref "handle"
+                        }
+                        procedure "app.close"
+                      }
+                    }
+                  }
+                ]
+                when true
+              }
+            }
+          }
+        ]
+        returns "null"
+      }
+    }
+    warp 1
+  }
+  test 3
+  vocabulary {
+    procedures {
+      "app.close" {
+        parameters {
+          of {
+            type "consuming app.Handle"
+          }
+        }
+        receiver "of"
+        runs true
+      }
+      "app.open" {
+        answers app.Handle {
+          name "f"
+        }
+        returns "app.Handle"
+      }
+    }
+    types {
+      "app.Handle" {
+        linear {
+          name "string"
+        }
+      }
+    }
+  }
+}
+

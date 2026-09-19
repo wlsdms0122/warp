@@ -1,0 +1,30 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-name-declared-as-both-a-type-and-a-constraint-refuses-at-the-build"
+  note "A name is a type or a membership or a contract and never two of them. One declared under `types` and under `constraints` is refused at the build."
+  program {
+    constraints {
+      Pair [
+        "int"
+      ]
+    }
+    imports []
+    procedures {
+      entry {
+        result 1
+        returns "int"
+      }
+    }
+    types {
+      Pair {
+        left "int"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

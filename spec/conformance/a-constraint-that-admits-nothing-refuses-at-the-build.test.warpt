@@ -1,0 +1,23 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-constraint-that-admits-nothing-refuses-at-the-build"
+  note "A membership names the types it admits. One admitting nothing is a slot no call could fit, and is refused at the build where it is declared."
+  program {
+    constraints {
+      Nothing []
+    }
+    imports []
+    procedures {
+      entry {
+        result 1
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

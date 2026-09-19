@@ -1,0 +1,49 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-claim-that-a-type-handed-on-once-satisfies-a-contract-refuses-at-the-build"
+  note "A type handed on once answers no contract: a contract's procedure reads its receiver and hands it on nowhere. The claim is refused at the build, where it is written."
+  program {
+    contracts {
+      "app.Describable" {
+        describe {
+          returns "string"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "app.Handle.describe" {
+        parameters {
+          of {
+            type "consuming app.Handle"
+          }
+        }
+        receiver "of"
+        result "a handle"
+        returns "string"
+      }
+      entry {
+        result 1
+        returns "int"
+      }
+    }
+    satisfies {
+      "app.Handle" [
+        "app.Describable"
+      ]
+    }
+    types {
+      "app.Handle" {
+        linear {
+          name "string"
+        }
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

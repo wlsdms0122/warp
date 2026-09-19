@@ -1,0 +1,25 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-range-with-neither-bound-refuses-at-the-load"
+  note "Either bound may be left out, and not both: `int(...)` says nothing a bare `int` does not, and is refused where the document is read."
+  program {
+    imports []
+    procedures {
+      entry {
+        parameters {
+          item {
+            type "int(...)"
+          }
+        }
+        result 1
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+
