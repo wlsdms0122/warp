@@ -49,8 +49,10 @@ receiver arrived in. Everything else is written from those.
 A procedure being derivable is not a claim that it is unimportant, and a
 document cannot tell the two apart: `greaterThan` is `lessThan` with its sides
 swapped, and both are called the same way. An implementation that wants its own
-`greaterThan` declares one under that name, and the link takes it, which is what
-every name outside the builtin set is open to.
+`greaterThan` declares one under that name in a module it lays in the link **in
+place of** the written one, and the link takes it: one name has one declarer,
+and which body stands behind it is the receiver's, which is what every name
+outside the builtin set is open to.
 
 One of these is builtin for a reason that is not the set it removes. `trimmed`
 names that set, and a body written from `characters` still could not answer it:
