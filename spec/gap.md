@@ -1,8 +1,12 @@
 # Known gaps
 
 Written down because a specification that hides what it has not decided is
-worse than one that admits it. Each is a place a second implementation would
-have to guess, and would be entitled to guess differently.
+worse than one that admits it.
+
+## Undecided
+
+Each of these is a place a second implementation would have to guess, and
+would be entitled to guess differently.
 
 - **A caller has no way to hand a constant in.** A constant settles from
   bodies in the link and from the procedures this specification names, under
@@ -32,28 +36,6 @@ have to guess, and would be entitled to guess differently.
   answer the same document differently. That is why it is required of no
   implementation, but naming a dialect would be a better answer than leaving it
   out.
-- **The text decision is cheap in Swift and dear elsewhere.** Grapheme-cluster
-  counting and canonical equivalence are the platform's gift in Swift and a
-  library obligation in most other languages; the decision stands, and the
-  cost lands on implementations unevenly.
-- **The document grammar was written from the readers.** Field tables
-  transcribed from one implementation carry its blind spots; the first reader
-  who implements from these tables alone, and disagrees, is worth more than
-  any amount of agreement.
-- **The suite covers the constructs, the vocabulary and the encodings;
-  cancellation is the exception.** Every construct, the naming and leaving
-  rules, the envelope, the boundary settlements, the concurrency grant, every
-  standard procedure and what a binary reader must refuse are held as cases,
-  and each page names its own under *Cases*. Cancellation cannot be a data
-  case at all: it needs a caller with a lever, so stopping is held only by
-  tests inside the Swift implementation.
-- **Two equivalences coexist, and the border is drawn.** Values compare as a
-  person reads. `equal`, `contains`, ordering and `count` all read text
-  under canonical equivalence, stated under the value model. Where names are
-  matched as bytes, held to NFC at the check, so a document cannot declare
-  `é` one way and reference it the other. What remains here is only the cost:
-  an implementation whose platform compares by code unit owes a library the
-  difference.
 - **Encodings beyond utf8.** `decoded`/`encoded` name their encoding and
   today name one. Which others join the `enum`, and whether a host may
   extend it. Is undecided; the type of the procedures is not.
@@ -92,3 +74,32 @@ have to guess, and would be entitled to guess differently.
   here says what it holds or in what order. Whether that writing becomes a
   format of its own, so that a build made by one implementation links and
   runs under another, is undecided; it waits on the lowering it would freeze.
+
+## Decided, and what it costs
+
+Each of these is settled. What remains is a cost the decision lands on an
+implementation, or a limit of the suite, and a second implementation is told
+here rather than left to find it.
+
+- **The text decision is cheap in Swift and dear elsewhere.** Grapheme-cluster
+  counting and canonical equivalence are the platform's gift in Swift and a
+  library obligation in most other languages; the decision stands, and the
+  cost lands on implementations unevenly.
+- **The document grammar was written from the readers.** Field tables
+  transcribed from one implementation carry its blind spots; the first reader
+  who implements from these tables alone, and disagrees, is worth more than
+  any amount of agreement.
+- **The suite covers the constructs, the vocabulary and the encodings;
+  cancellation is the exception.** Every construct, the naming and leaving
+  rules, the envelope, the boundary settlements, the concurrency grant, every
+  standard procedure and what a binary reader must refuse are held as cases,
+  and each page names its own under *Cases*. Cancellation cannot be a data
+  case at all: it needs a caller with a lever, so stopping is held only by
+  tests inside the Swift implementation.
+- **Two equivalences coexist, and the border is drawn.** Values compare as a
+  person reads. `equal`, `contains`, ordering and `count` all read text
+  under canonical equivalence, stated under the value model. Where names are
+  matched as bytes, held to NFC at the check, so a document cannot declare
+  `é` one way and reference it the other. What remains here is only the cost:
+  an implementation whose platform compares by code unit owes a library the
+  difference.
