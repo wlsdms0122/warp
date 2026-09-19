@@ -6,8 +6,7 @@ of a value at a boundary, which is sometimes the build and sometimes the run.
 Reads [the value model](value.md). Read by procedures, statements and
 expressions, each of which writes a slot.
 
-A type is written as a string, or as a record for the two forms a string
-cannot say:
+A type is written as a string, or as a record for what a string cannot say:
 
 | written | means |
 |---|---|
@@ -33,6 +32,8 @@ cannot say:
 | `int?` (any string spelling and `?`) | the declared type or null. The one union written inline, and it is null-only. Any other is declared as a membership and named |
 | `{ title: string, done: bool }` | a record type, written as the record it describes; structural, and it names nothing |
 | `{ procedure: { parameters: …, returns: … } }` | a procedure type, written as the signature it takes |
+| `{ "const procedure": { … } }` | a procedure type with its marks and modifiers on the key, `inout` or `consuming` or `borrowing` first, then `const` and `isolated`, the way they stand in front of the string form |
+| `{ array: <type> }` / `{ dictionary: <type> }` | a list / map of a type that has no string spelling, a procedure type or a record type. Where the element has a spelling the type is written `array<T>`, and a writer writes it so |
 
 Acceptance is one-way where the kinds nest: `double` accepts an `int` (a whole
 number widens to a fraction; the reverse **refuses**), `number` accepts both and
