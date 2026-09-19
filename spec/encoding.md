@@ -225,6 +225,7 @@ Text:
 - `a-named-record-reads-from-text`
 - `a-quoted-key-and-a-bare-key-are-one-key`
 - `a-text-control-character-written-raw-refuses`
+- `a-text-format-header-not-in-its-one-writing-refuses`
 - `a-text-key-written-twice-refuses`
 - `a-text-laid-out-by-a-later-format-refuses`
 - `a-text-reads-in-any-layout`
