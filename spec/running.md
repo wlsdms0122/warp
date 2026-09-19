@@ -52,6 +52,14 @@ promised is that it can always be told to stop.
   inside, and is not a failure: a rescue does not catch it. It does not cross
   a closure's edge: `return` inside a closure answers the closure.
 
+**A run refuses, and a refusal is not a failure.** Arithmetic past what an
+`int` holds, a zero divisor under `dividedBy` or `remainder`, an index or a
+key that is not there read without `?`, a value arriving at a boundary that
+its slot does not take: each stops the run where it stands. No rescue holds
+one, the way none holds a build's refusal, and it reaches the receiver as the
+run's refusal, saying where. A failure is what a procedure raised and a rescue
+holds, under [statements](statement.md), and the two never trade places.
+
 **Concurrency is isolation, and it is granted.** Warp's values are all data,
 so the only thing two bodies running at once could contend for is a written
 name, or a box a native procedure holds. What may run beside another body is an

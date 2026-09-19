@@ -186,8 +186,10 @@ stands alone, which is what lets the concurrent `map` run it at once.
 A rescue catches failure. What the world did. It does not catch leaving. What
 the program said. A rescue with nothing in it. No statement to run for effect,
 no `result` to answer. **refuses at the load**: it would swallow a failure into
-null without a trace. A rescue over a body that cannot fail **refuses at the
-build** for the other half of the same reason: it is a body no run reaches. This
+null without a trace. A rescue over a body that cannot fail, one the build derives no
+failure for, **refuses at the build** for the other half of the same reason: it
+is a body no run reaches. A refusal at the run is not a failure and does not
+make a body one that can fail, under [running](running.md). This
 is the one exception to a block's optional `result`, and the failure is the
 reason. The statement's own name binds the failure **while the rescue runs**,
 and what it binds is a **record declared `{ type: string, message: string,
