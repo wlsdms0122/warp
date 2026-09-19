@@ -152,7 +152,11 @@ warpt 1
 
 The layout:
 
-- The first line is `warpt`, a space, the format version, a newline.
+- The first line is `warpt`, a space, the format version as a whole number's
+  one spelling, a newline.
+- Whitespace separates a bare token, a string and bytes from one another; a
+  bracket needs none. A bare token running straight into a quote, or a quote
+  into a bare token, is not a layout of two tokens.
 - A record is `{ key value … }`; an array is `[ value … ]`. No commas, no
   colons. Containers with anything in them take two-space indentation, one
   element or field per line; empty containers are inline as `[]` / `{}`. The
@@ -170,8 +174,8 @@ k < 16`, otherwise the exponent form, its exponent written `e` with an explicit
 sign and at least two digits. `0.0001` but `1e-05`, `1000000000000000.0` but
 `1e+16`, so one value keeps one spelling down to its last character. An int is
 spelled with no leading zeros and a `-` only when negative.
-- A string is double-quoted. Exactly `"` `\` and the five characters with
-  short escapes are escaped as `\"` `\\` `\n` `\r` `\t`; every other control
+- A string is double-quoted. Exactly `"`, `\` and the three control
+  characters with short escapes are escaped as `\"` `\\` `\n` `\r` `\t`; every other control
   character (below U+0020) as `\uXXXX` with lowercase hex; **nothing else is
   escaped**, and no character that has a shorter escape may take a longer one.
 - Bytes are `x"…"`. Lowercase hex, two digits a byte, no spaces.
@@ -221,6 +225,7 @@ These carry bytes or text rather than a program, under *what a case is* in
 Text:
 
 - `a-bare-key-that-is-not-an-identifier-refuses`
+- `a-bare-token-running-into-a-quote-refuses`
 - `a-fraction-not-in-its-one-writing-refuses`
 - `a-fraction-reads-by-its-point-or-exponent`
 - `a-named-record-reads-from-text`
