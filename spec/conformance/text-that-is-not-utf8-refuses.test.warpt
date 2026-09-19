@@ -1,0 +1,11 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "text-that-is-not-utf8-refuses"
+  note "A text is UTF-8 bytes before it is anything else. Bytes that are not are no text, so they are no document, and the reader says so rather than reading what it can."
+  test 5
+  text x"776172707420310a22ff220a"
+}
+

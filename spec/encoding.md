@@ -134,7 +134,8 @@ The readable form: the same document laid out for eyes. **A dump, not a
 syntax**. Machines write it, people read it, and nobody composes one by hand;
 composing is a front end's job, in a front end's notation. Nothing can be said
 here that the document does not hold, which is why there are no comments to
-lose on the way back. Current format: **1**.
+lose on the way back. Current format: **1**. A text is UTF-8 bytes before it
+is anything else, and bytes that are not **refuse**.
 
 ```
 warpt 1
@@ -175,9 +176,10 @@ sign and at least two digits. `0.0001` but `1e-05`, `1000000000000000.0` but
 `1e+16`, so one value keeps one spelling down to its last character. An int is
 spelled with no leading zeros and a `-` only when negative.
 - A string is double-quoted. Exactly `"`, `\` and the three control
-  characters with short escapes are escaped as `\"` `\\` `\n` `\r` `\t`; every other control
-  character (below U+0020) as `\uXXXX` with lowercase hex; **nothing else is
-  escaped**, and no character that has a shorter escape may take a longer one.
+  characters with short escapes are escaped as `\"` `\\` `\n` `\r` `\t`;
+  every other control character (below U+0020) as `\uXXXX` with lowercase
+  hex; **nothing else is escaped**, and no character that has a shorter escape
+  may take a longer one.
 - Bytes are `x"…"`. Lowercase hex, two digits a byte, no spaces.
 - A named record is the name, a space, and the record: `bank.Account {
   balance 1 }`. In value position a bare token followed by `{` is the name; a
@@ -241,6 +243,9 @@ Text:
 - `an-escape-for-a-character-written-as-itself-refuses`
 - `an-escape-spelled-longer-than-its-short-form-refuses`
 - `an-exponent-not-in-its-one-writing-refuses`
+- `bytes-spell-from-text`
 - `bytes-written-in-uppercase-hex-refuse`
 - `bytes-written-with-an-odd-digit-refuse`
 - `text-after-the-document-ends-refuses`
+- `text-that-is-not-utf8-refuses`
+- `the-golden-record-spells-as-text`

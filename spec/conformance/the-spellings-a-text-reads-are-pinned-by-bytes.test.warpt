@@ -1,23 +1,30 @@
 warpt 1
 {
-  bytes x"57415250010608044341c37937e08000043ee4f8b588e368f1043f1a36e2eb1c432d04430c6bf52634000004bfe00000000000000506225c0a0d090108026a73070201610302036220630304"
+  bytes x"5741525001060d044341c37937e08000043ee4f8b588e368f1043f1a36e2eb1c432d04430c6bf52634000004bfe0000000000000043ff00000000000000506225c0a0d090108026a7302000702016103020362206303040700090c62616e6b2e4163636f756e74010762616c616e63650302"
   expect {
-    reads [
+    spells [
       1e+16
       1e-05
       0.0001
       1000000000000000.0
       -0.5
+      1.0
       "\"\\\n\r\t\u0001"
       x"6a73"
+      true
+      null
       {
         a 1
         "b c" 2
       }
+      {}
+      bank.Account {
+        balance 1
+      }
     ]
   }
   name "the-spellings-a-text-reads-are-pinned-by-bytes"
-  note "A text case is read by the same reader on both sides, so a reader that took a spelling for the wrong value would agree with itself. These are the values the text cases spell, held to their bytes: the two forms of a fraction, the escapes, bytes, and a key that has to be quoted."
-  test 4
+  note "A text case is read by the same reader on both sides, so a reader that took a spelling for the wrong value would agree with itself. Every value a text case reads appears in some bytes case, and this one holds the spellings the others do not: the two forms of a fraction, the escapes, bytes, a key that has to be quoted, an empty record and a named one."
+  test 5
 }
 

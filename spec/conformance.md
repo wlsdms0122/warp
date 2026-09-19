@@ -22,14 +22,16 @@ One file, one question: a subject, what to ask it with, and what should happen.
     program     a document, declaring a procedure spelled `entry`, which is
                 where the runner starts
     bytes       a document's bytes, in the binary encoding
-    text        a document's text, in the text encoding
+    text        a document's text, in the text encoding; a string, or bytes
+                where the question is whether they are text at all
     arguments   what the entry procedure is given, if anything; a record
                 under a name is written as the text encoding writes one
     vocabulary  the procedures the runner brings, if any
     expect      answers <value>   it runs and answers this, named records
                                   written the same way
-                reads <value>     those bytes are that value, both ways;
-                                  that text reads as that value
+                reads <value>     it reads as that value
+                spells <value>    it reads as that value, and writing that
+                                  value gives exactly it
                 refuses <stage>   it is refused, at load, build or run
 
 **A case carries exactly one of `program`, `bytes` and `text`,** and which one
@@ -39,29 +41,25 @@ sharing one answer.
 A case carrying a **program** is the ordinary kind: it is read, built and run,
 and it expects `answers` or `refuses`.
 
-A case carrying **bytes** asks about an encoding rather than about a program,
-and the two things an encoding is held to are the two it may expect. `reads`
-is both directions at once: reading those bytes answers that value, *and*
-writing that value answers those bytes. A writer that agrees with no reader and
-a reader that agrees with no writer each satisfy half of it, and half of it is
-what leaves one document with two byte spellings. `refuses "load"` is the other
-direction: those bytes are not a document, and reading is the only stage they
-reach, so no other stage may be written beside them.
+A case carrying **bytes** or **text** asks about an encoding rather than
+about a program, and expects `reads`, `spells` or `refuses "load"`. `reads`
+is one direction: reading that answers that value. `spells` is both: reading
+answers the value, *and* writing the value answers exactly those bytes or that
+text, which is what holds a writer to one spelling. A writer that agrees with
+no reader and a reader that agrees with no writer each satisfy half of it, and
+half of it is what leaves one document with two spellings. `refuses "load"` is
+the other direction: it is not a document, and reading is the only stage it
+reaches, so no other stage may be written beside it. A case carrying either
+writes neither `arguments` nor `vocabulary`, since nothing runs and nothing is
+brought, and one that does **refuses** as a case.
 
 The bytes are the **binary** encoding, which is the one a document travels in
-and the one that is canonical.
-
-A case carrying **text** asks about the text encoding the same way, and
-expects `reads` or `refuses "load"`. A case carrying either writes neither
-`arguments` nor `vocabulary`, since nothing runs and nothing is brought, and
-one that does **refuses** as a case. `reads` is one direction here: reading
-that text answers that value. One value has many layouts in text, since layout
-is free on the way in, so what a writer lays out is not asked of a text but of
-the cases themselves: every case file is in the writer's layout, and a runner
-that writes each one back and compares has asked its writer the same question
-the binary cases ask. A text case is read by one reader on both sides, so a
-reader taking a spelling for the wrong value would agree with itself; the
-values the text cases spell are held to their bytes in a case of their own,
+and the one that is canonical, and every case of it is `spells`, since a
+non-canonical byte spelling is refused. A text has many layouts of one value,
+since layout is free on the way in, so most text cases are `reads`, and the
+ones in the writer's layout are `spells`. A text case is read by one reader on
+both sides, so a reader taking a spelling for the wrong value would agree with
+itself; every value a text case reads therefore appears in some bytes case,
 which is where a spelling is pinned. What the text encoding must read at all
 is asked of every case in passing, since a case is warpt text and a runner
 reads it before it can ask anything at all.
@@ -78,9 +76,9 @@ for **what it is** rather than for the keys it happens to carry. The `test`
 number moves for the same reason `warp` does and on its own schedule. The day
 a case may say something new is not the day a document may.
 
-`expect` holds one of `answers`, `reads` or `refuses`. One slot, so "one of
-them and exactly one" is the record rather than a rule about keys that could
-all be written or none.
+`expect` holds one of `answers`, `reads`, `spells` or `refuses`. One slot, so
+"one of them and exactly one" is the record rather than a rule about keys that
+could all be written or none.
 
 **`vocabulary` is what the runner brings.** Most of what a document may say
 about a procedure the host answers is not something a case can write down: the
@@ -123,7 +121,7 @@ earlier one would have that runner refuse it as no case at all:
 | 2 | the stages `load`, `build` and `run` |
 | 3 | `vocabulary` |
 | 4 | `bytes` and `expect reads` |
-| 5 | `text` |
+| 5 | `text` and `expect spells` |
 
 Both kinds matter equally. **An implementation that accepts a program another
 refuses has failed in the same way as one that answers differently**, so half of
