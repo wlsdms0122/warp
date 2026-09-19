@@ -51,8 +51,9 @@ the rule's: a call that misfits a declaration in its own document refuses at
   `var` where the type is a declared type, and what it writes fits what the
   path reaches; a write into a module variable or an `inout` parameter fits
   what the box holds;
-- every `inout` parameter is handed a variable's path a write may take, and
-  no call hands one variable to two parameters;
+- every `inout` parameter is handed a variable's path a write may take; two
+  parameters handed paths under one head hold one box two ways, under
+  [procedures](procedure.md), and nothing keeps them apart;
 - `inout` is written only on a parameter's type, and `var` only on a field of
   a declared type;
 - what a closure writes into a variable it captured fits what the capturing
