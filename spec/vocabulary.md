@@ -90,7 +90,7 @@ running.
 |---|---|---|---|
 | `equal`, `notEqual` | `of: any = null` | `value: any = null` | `bool` |
 | `not` | `of: bool` |. | `bool` |
-| `and`, `or` | `of: array<const procedure>`, each taking nothing and answering a `bool`; one answering anything else **refuses at the run** |. | `bool`. Over nothing, `and` answers `true` and `or` answers `false`: no side settled the answer, so the chain's own answer stands |
+| `and`, `or` | `of: array<const procedure>`, each declared as taking nothing and answering `bool`, so one answering anything else **refuses at the build** where it is handed |. | `bool`. Over nothing, `and` answers `true` and `or` answers `false`: no side settled the answer, so the chain's own answer stands |
 | `select` | `of: bool` | `then`, `else`. `const` procedures taking nothing, each answering `some Answer` | `some Answer` |
 
 `and` and `or` take procedures precisely so they need not run them all: the
