@@ -12,7 +12,6 @@ A type is written as a string, or as a record for what a string cannot say:
 |---|---|
 | `null` `bool` `int` `double` `string` | the scalar kinds |
 | `bytes` | `array<std.byte>` in a compact spelling, and a kind of its own: `std.byte` is the range `std` declares, and the kind needs no declaration |
-| `number` | whole or fraction. The two numeric kinds and nothing else; a range is written on `int` and `double` only, never on `number` |
 | `any` | anything |
 | `never` | never answers. The type `std.control.abort` declares, and what makes a leaving call checkable |
 | `array<T>` / `dictionary<T>` | a list / map of `T`; `array<any>` is a list of anything, and the bare word **refuses at the load** |
@@ -35,8 +34,9 @@ A type is written as a string, or as a record for what a string cannot say:
 | `{ array: <type> }` / `{ dictionary: <type> }` | a list / map of a type that has no string spelling, a procedure type or a record type. Where the element has a spelling the type is written `array<T>`, and a writer writes it so |
 
 Acceptance is one-way where the kinds nest: `double` accepts an `int` (a whole
-number widens to a fraction; the reverse **refuses**), `number` accepts both and
-nothing else, `any` accepts everything.
+number widens to a fraction; the reverse **refuses**), `any` accepts everything.
+A slot that takes either kind of number is bounded by the membership
+`std.Numeric`, under [the standard vocabulary](vocabulary.md).
 
 **A declared record is nominal.** A type declared in `types` whose structure is
 a record is a name as well as a structure. When a nameless record settles into a
@@ -84,8 +84,7 @@ holds. The settlement is one rule per type:
   included. Taking the whole ones would make fitting depend on the value
   rather than the type. `double` takes a whole number and settles it to the
   fraction it names; the widening is binary64's, so digits past 2^53 round as
-  binary64 rounds. `number` passes either kind as itself. Settling to one of
-  them would be the declaration picking, and it declined to.
+  binary64 rounds.
 - A **range** (`int(0...255)`, `double(0.0..<1.0)`) is a slot's condition on a
   number, not a kind: the value is an `int` or a `double`, and the bounds are
   judged where a value is settled, the way `enum` is. At the **build** for a

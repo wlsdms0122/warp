@@ -119,7 +119,7 @@ type, worked out from the call the way any type parameter is.
 | `min`, `max` | `of: some N` | `value: some N` | `some N`. Bounds `N: std.Comparable` |
 | `dividedBy` | `of: some N` | `value: some N` | `double`. Bounds `N: std.Numeric` |
 | `absolute` | `of: some N` |. | `some N`. Bounds `N: std.Numeric` |
-| `floored`, `rounded` | `of: number` |. | `int` |
+| `floored`, `rounded` | `of: some N` |. | `int`. Bounds `N: std.Numeric` |
 | `lessThan`, `greaterThan` | `of: some T` | `value: some T` | `bool`. Bounds `T: std.Comparable` |
 
 `floored` goes to the nearest whole toward the smaller side, below zero too:
