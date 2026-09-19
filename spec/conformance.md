@@ -19,7 +19,9 @@ One file, one question: a subject, what to ask it with, and what should happen.
     test        int. The case format this file is written for
     name        what the case is called
     note        why it exists. The rule it holds an implementation to
-    program     a document
+    program     a document; one a case runs declares a procedure spelled
+                `entry`, which is where the runner starts, and one a case
+                only expects refused needs none
     bytes       a document's bytes, in the binary encoding
     arguments   what the entry procedure is given, if anything; a record
                 under a name is written as the text encoding writes one
