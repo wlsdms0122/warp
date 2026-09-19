@@ -13,7 +13,7 @@ cannot say:
 |---|---|
 | `null` `bool` `int` `double` `string` | the scalar kinds |
 | `bytes` | `array<byte>` in a compact spelling, and a kind of its own: `byte` is the range `std` declares, and the kind needs no declaration |
-| `number` | whole or fraction. The two numeric kinds and nothing else |
+| `number` | whole or fraction. The two numeric kinds and nothing else; a range is written on `int` and `double` only, never on `number` |
 | `any` | anything |
 | `never` | never answers. The type `std.control.abort` declares, and what makes a leaving call checkable |
 | `array` / `dictionary` | a list / map of anything |
@@ -119,7 +119,8 @@ holds. The settlement is one rule per type:
     empty `enum` is. A whole bound must be a number an `int` holds, and a
     padded or signed spelling (`int(007...)`, `int(+1...)`) or a bound past
     what an `int` holds both **refuse at the load**, each named as what it is.
-  - A module gives a range a name the way it names any type: `std` declares
+  - A module gives a range a name the way it names any type, and a name takes
+    no range of its own, so `byte(0...10)` is not a type: `std` declares
     `byte = int(0...255)`, and there is no separate byte kind.
   - A bound is written as the value it is, so a fraction bound is a fraction's
     one spelling. A host may assemble a range bounded by an infinity. It
