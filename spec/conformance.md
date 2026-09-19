@@ -56,7 +56,8 @@ written beside it. A case carrying either writes neither `arguments` nor
 A case carrying **bytes** expects `spells` or `refuses`. The bytes are the
 **binary** encoding, which is the one a document travels in and the one that
 is canonical: a non-canonical byte spelling is refused, which leaves no bytes
-that read one way, so a bytes case writing `reads` **refuses** as a case.
+that read one way, so a bytes case writing `reads` **refuses** as a case. A
+bytes case that spells says `test 5`, since that is where the word arrived.
 
 A case carrying **text** expects `reads`, `spells` or `refuses`. A text has
 many layouts of one value, since layout is free on the way in, so most text
@@ -125,8 +126,8 @@ earlier one would have that runner refuse it as no case at all:
 | 1 | spelled the middle stage `link`; a runner that reads `build` cannot honour it, so it is refused |
 | 2 | the stages `load`, `build` and `run` |
 | 3 | `vocabulary` |
-| 4 | `bytes`, with `expect spells` |
-| 5 | `text`, with `expect reads` |
+| 4 | `bytes` and `expect reads`, reading both ways |
+| 5 | `text`; `expect spells` for both ways and `reads` for one, so `reads` on bytes retires |
 
 Both kinds matter equally. **An implementation that accepts a program another
 refuses has failed in the same way as one that answers differently**, so half of
