@@ -19,7 +19,7 @@ The naming key says what the statement does to its name:
 |---|---|
 | `let` | fixes the name. Written once, never again |
 | `var` | introduces a name that may be written again |
-| `set` | writes a path headed by a variable: one a `var` declared earlier, or a module variable. `set "p.x"` and `set "people[0].name"` write into what the head holds |
+| `set` | writes a path headed by a variable: one a `var` declared earlier, a module variable, or an `inout` parameter. `set "p.x"` and `set "people[0].name"` write into what the head holds |
 
 **A name may say what it holds**, under **`type`**, written the way a
 parameter's type is: `{ let "x" type "double" value 1 }`. The declaration is
