@@ -132,10 +132,14 @@ reads its own version first: a later case may say something this runner has no
 name for, and "I am too old for this" is a different answer from "this is not a
 case". Then read `program` as a document. Read each entry of `vocabulary` the
 same way a declaration is read, `receiver` included where the procedure takes
-one in front, and build the host's side of it from the four keys beside it. If the case expects `refuses`, check that it fails at that stage
-and no earlier or later. Otherwise build it against that vocabulary and the
-standard bundles, start from the procedure declared under `entry`, run it with
-`arguments`, and compare.
+one in front, and build the host's side of it from the four keys beside it. Each of the four
+is written as its kind or not at all: a `runs` that is not a bool, or a
+`failing` that is not an array of names, is a case no two runners would read
+alike, and it **refuses** as a case rather than reading as a default. If the
+case expects `refuses`, check that it fails at that stage and no earlier or
+later. Otherwise build it against that vocabulary and the standard bundles,
+start from the procedure declared under `entry`, run it with `arguments`, and
+compare.
 
 The cases are the files named `<name>.test.warpt`, and what else the folder
 holds is not the suite's business. A runner that refused to start over an
