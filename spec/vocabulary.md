@@ -179,10 +179,9 @@ read text, `contains` and `startsWith` included, read as a person reads, under
 the value model's canonical equivalence.
 
 `text` spells a value in its own spelling, which is the type's and not a
-document's. A string is its own characters, unquoted; a number and a bool are
-the spelling a document writes; `null` alone spells as nothing, an empty
-string, so that a template shows a blank where a value is missing; bytes are
-`x` and their hex digits. A
+document's. A string is its own characters, unquoted; a number, a bool and
+`null` are the spelling a document writes; bytes are `x` and their hex
+digits. A
 container it spells on **one line**: an array's elements between `[` and `]`,
 a dictionary's entries between `{` and `}` as the key quoted, a colon and the
 value, a named record the same with its name and a space before the brace,
@@ -434,6 +433,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `split-keeps-the-empty-pieces`
 - `starts-with-reads-the-head`
 - `text-counts-as-a-person-reads`
+- `text-of-null-spells-null`
 - `text-spells-bytes-the-way-a-document-writes-them`
 - `the-side-select-does-not-choose-goes-unasked`
 - `trimming-takes-unicode-whitespace-from-both-ends`
