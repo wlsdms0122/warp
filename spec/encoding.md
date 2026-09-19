@@ -231,6 +231,7 @@ Text:
 - `a-fraction-not-in-its-one-writing-refuses`
 - `a-fraction-reads-by-its-point-or-exponent`
 - `a-named-record-reads-from-text`
+- `a-quote-running-into-a-bare-token-refuses`
 - `a-quoted-key-and-a-bare-key-are-one-key`
 - `a-text-control-character-written-raw-refuses`
 - `a-text-format-header-not-in-its-one-writing-refuses`
@@ -243,6 +244,7 @@ Text:
 - `an-escape-for-a-character-written-as-itself-refuses`
 - `an-escape-spelled-longer-than-its-short-form-refuses`
 - `an-exponent-not-in-its-one-writing-refuses`
+- `bytes-running-into-bytes-refuse`
 - `bytes-spell-from-text`
 - `bytes-written-in-uppercase-hex-refuse`
 - `bytes-written-with-an-odd-digit-refuse`
