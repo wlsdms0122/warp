@@ -12,7 +12,7 @@ of expressions. **unless** it carries one of the form keys:
 | form | means |
 |---|---|
 | `{ ref: a.b[0] }` | a name, resolved in the consuming scope; the record must have no other key |
-| `{ value: <data> }` | the escape: exactly this data, as a literal, even if it looks like a form. Only a record can look like one, so data with no record in it **refuses at the load**: it is written as itself. `{ value: null }` stands: a bare `null` in a slot that may be left out reads as the slot left out, and this is null written |
+| `{ value: <data> }` | the escape: exactly this data, as a literal, even if it looks like a form. Data that could not read as one, nothing with a record that carries a reserved key, a named record included, **refuses at the load**: it is written as itself. `{ value: null }` stands: a bare `null` in a slot that may be left out reads as the slot left out, and this is null written |
 | `{ call: <message> }` | a message where a value is wanted; same grammar as the `call` construct |
 | `{ closure: <procedure> }` | a procedure written where a value is wanted; same grammar as a procedure |
 | `{ as: <type>, of: <value> }` | read the value as that type. The door onto what `any` declares nothing about |
