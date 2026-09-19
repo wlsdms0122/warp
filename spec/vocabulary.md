@@ -139,8 +139,8 @@ edge rules below require.
 | `characters` | `of: string` |. | `array<string>` |
 | `split` | `of: string` | `value: string` | `array<string>` |
 | `joined` | `of: array<string>` | `value: string = ""` | `string` |
-| `decoded` | `of: bytes` | `encoding: string = "utf8"`, enum `["utf8"]` | `string`. **refuses at the run** when the bytes are not text in that encoding |
-| `encoded` | `of: string` | `encoding: string = "utf8"`, enum `["utf8"]` | `bytes` |
+| `decoded` | `of: array<std.byte>` | `encoding: string = "utf8"`, enum `["utf8"]` | `string`. **refuses at the run** when the bytes are not text in that encoding |
+| `encoded` | `of: string` | `encoding: string = "utf8"`, enum `["utf8"]` | `array<std.byte>` |
 | `replacing` | `of: string` | `value: string`, `with: string` | `string` |
 
 `characters` answers the text as an array of its characters, each one a string
@@ -199,8 +199,8 @@ formatter's: a procedure is `<procedure>`, a host's non-finite fraction is
 `<infinity>`, `<-infinity>` or `<not a number>`, and a container holding one
 shows whole as `<unencodable>`. This is what `text` is for. A person reading a
 value. A carrier that has to give the value *back* is a different question,
-and one with no compact spelling writes what `bytes = array<std.byte>` says
-instead: the array.
+and one with no compact spelling writes bytes as what they are: an array of
+`std.byte`.
 
 *std.collection*
 
@@ -287,25 +287,26 @@ thing has no empty answer. And a `first` in which nothing succeeds fails the
 way `all` fails: every piece's failure reported, keyed by the piece it came
 from, a record's by its key and an array's by its index written `[0]`.
 
-What the vocabulary answers about **bytes**: `bytes = array<std.byte>`. Bytes are
-not a special material. They are the compact spelling of an array of small whole
-numbers, `std.byte` being the range `int(0...255)` that `std` declares. The equation
-is read everywhere the types are, and **the spelling is the value's own fact
-rather than the slot's**: a bytes value stands where `array<int>` is declared
-and crosses it *whole*, because the slot asked for an array and bytes are one.
-There is nothing to settle, and unpacking would spend an element per byte to
-answer questions like `first` that read one. An `array<…>` slot reads the bytes
-out one by one only where its element declaration would not leave a byte as it
-is: `array<double>` changes every one of them, a range narrower than `std.byte` has
-something to ask of each, and a fraction range (`double(0.0...255.0)`) is both.
-It widens every byte it takes. An element declared as a **bounded** type
-parameter asks each value for its membership, and a member of the constraint
-that takes every byte answers that for all of them at once, so `sorted`, whose
-element carries `std.Comparable`, reads a compact spelling the way `reversed` does
-rather than by whether its declaration happened to carry a bound. An array of
-byte worths standing where `bytes` is declared does settle to the compact
-spelling. The asymmetry is the declaration's: naming `bytes` names a spelling,
-naming `array<…>` names a type bytes already have.
+What the vocabulary answers about **bytes**: bytes are not a special material.
+They are an array of small whole numbers, `array<std.byte>`, `std.byte` being
+the range `int(0...255)` that `std` declares, and `x"6869"` is that array's
+compact spelling, under [values](value.md). There is no type named for the
+spelling: a slot is written `array<std.byte>`, or any other array the bytes
+fit. **The spelling is the value's own fact rather than the slot's**: a bytes
+value stands where `array<int>` is declared and crosses it *whole*, because
+the slot asked for an array and bytes are one. There is nothing to settle, and
+unpacking would spend an element per byte to answer questions like `first` that
+read one. An `array<…>` slot reads the bytes out one by one only where its
+element declaration would not leave a byte as it is: `array<double>` changes
+every one of them, a range narrower than `std.byte` has something to ask of
+each, and a fraction range (`double(0.0...255.0)`) is both. It widens every
+byte it takes. An element declared as a **bounded** type parameter asks each
+value for its membership, and a member of the constraint that takes every byte
+answers that for all of them at once, so `sorted`, whose element carries
+`std.Comparable`, reads a compact spelling the way `reversed` does rather than
+by whether its declaration happened to carry a bound. An array of byte worths
+written out one by one stays as written: the compact spelling is the value's,
+and no slot puts it on.
 
 An index reads an element out as a `std.byte`, the range `std` names, and so does
 `some Element` filled by bytes: `first` of bytes answers a `std.byte`. The

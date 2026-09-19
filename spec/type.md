@@ -11,7 +11,6 @@ A type is written as a string, or as a record for what a string cannot say:
 | written | means |
 |---|---|
 | `null` `bool` `int` `double` `string` | the scalar kinds |
-| `bytes` | `array<std.byte>` in a compact spelling, and a kind of its own: `std.byte` is the range `std` declares, and the kind needs no declaration |
 | `any` | anything |
 | `never` | never answers. The type `std.control.abort` declares, and what makes a leaving call checkable |
 | `array<T>` / `dictionary<T>` | a list / map of `T`; `array<any>` is a list of anything, and the bare word **refuses at the load** |
