@@ -441,3 +441,4 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `trimming-takes-unicode-whitespace-from-both-ends`
 - `values-answer-in-canonical-order`
 - `what-is-not-utf8-text-refuses-to-decode`
+- `an-operand-of-and-that-answers-no-bool-refuses-at-the-build`

@@ -1,0 +1,34 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "an-operand-of-and-that-answers-no-bool-refuses-at-the-build"
+  note "`and` and `or` take an array of procedures each declared as answering `bool`. One answering anything else is refused at the build where it is handed."
+  program {
+    imports [
+      "std.logic.and"
+    ]
+    procedures {
+      entry {
+        result {
+          call {
+            of [
+              {
+                closure {
+                  result 1
+                  returns "int"
+                }
+              }
+            ]
+            procedure "std.logic.and"
+          }
+        }
+        returns "bool"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+
