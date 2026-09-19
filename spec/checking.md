@@ -77,9 +77,9 @@ the rule's: a call that misfits a declaration in its own document refuses at
   written is no name: a declaration is called something, and a reference
   writes something, and neither is done by writing nothing.
 
-The `imports` list is deliberately not on this list. It is held at *reading*,
-the stage [README](README.md) names, because a caller decides from it before
-any of this runs.
+The `imports` list is deliberately not on this list. It is held at `load`,
+as [README](README.md) says, because a caller decides from it before any of
+this runs.
 
 **What a variable reads as.** A name a statement fixed reads as what that
 statement bound, and a variable reads as what the ways through the text could

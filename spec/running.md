@@ -109,7 +109,7 @@ way it works out constness:
   are sequential again.
 - Leaving does not cross the boundary either: `return` inside a closure
   answers the closure, and `break`/`continue` aimed past one **refuse at the
-  check**. The ground is the `attempt` distinction. A failure is what the
+  load**. The ground is the `attempt` distinction. A failure is what the
   *world* did, and the world was always concurrent; leaving is what the
   *program* says, and the program does not get to say two things at once.
 - Because a closure is already isolated, running closures at once is a thing
