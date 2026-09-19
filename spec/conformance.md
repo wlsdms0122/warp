@@ -42,26 +42,30 @@ A case carrying a **program** is the ordinary kind: it is read, built and run,
 and it expects `answers` or `refuses`.
 
 A case carrying **bytes** or **text** asks about an encoding rather than
-about a program, and expects `reads`, `spells` or `refuses "load"`. `reads`
-is one direction: reading that answers that value. `spells` is both: reading
-answers the value, *and* writing the value answers exactly those bytes or that
-text, which is what holds a writer to one spelling. A writer that agrees with
-no reader and a reader that agrees with no writer each satisfy half of it, and
-half of it is what leaves one document with two spellings. `refuses "load"` is
-the other direction: it is not a document, and reading is the only stage it
-reaches, so no other stage may be written beside it. A case carrying either
-writes neither `arguments` nor `vocabulary`, since nothing runs and nothing is
-brought, and one that does **refuses** as a case.
+about a program. `spells <value>` is both directions at once: reading answers
+the value, *and* writing the value answers exactly those bytes or that text,
+which is what holds a writer to one spelling. A writer that agrees with no
+reader and a reader that agrees with no writer each satisfy half of it, and
+half of it is what leaves one document with two spellings. `reads <value>` is
+the reading half alone. `refuses "load"` is the other direction: it is not a
+document, and reading is the only stage it reaches, so no other stage may be
+written beside it. A case carrying either writes neither `arguments` nor
+`vocabulary`, since nothing runs and nothing is brought, and one that does
+**refuses** as a case.
 
-The bytes are the **binary** encoding, which is the one a document travels in
-and the one that is canonical, so a bytes case that reads a value is `spells`
-and never `reads`: a non-canonical byte spelling is refused, which leaves no
-bytes that read one way. A text has many layouts of one value,
-since layout is free on the way in, so most text cases are `reads`, and the
-ones in the writer's layout are `spells`. A text case is read by one reader on
-both sides, so a reader taking a spelling for the wrong value would agree with
-itself; every value a text case reads therefore appears in some bytes case,
-which is where a spelling is pinned. What the text encoding must read at all
+A case carrying **bytes** expects `spells` or `refuses`. The bytes are the
+**binary** encoding, which is the one a document travels in and the one that
+is canonical: a non-canonical byte spelling is refused, which leaves no bytes
+that read one way, so a bytes case writing `reads` **refuses** as a case.
+
+A case carrying **text** expects `reads`, `spells` or `refuses`. A text has
+many layouts of one value, since layout is free on the way in, so most text
+cases are `reads`, and the ones in the writer's layout are `spells`. A text
+case is read by one reader on both sides, so a reader taking a spelling for
+the wrong value would agree with itself; every scalar and every name a text
+case reads therefore appears in some bytes case, which is where a spelling is
+pinned. A container's shape is not a spelling and is not pinned. What the
+text encoding must read at all
 is asked of every case in passing, since a case is warpt text and a runner
 reads it before it can ask anything at all.
 
@@ -121,8 +125,8 @@ earlier one would have that runner refuse it as no case at all:
 | 1 | spelled the middle stage `link`; a runner that reads `build` cannot honour it, so it is refused |
 | 2 | the stages `load`, `build` and `run` |
 | 3 | `vocabulary` |
-| 4 | `bytes` and `expect reads` |
-| 5 | `text` and `expect spells` |
+| 4 | `bytes`, with `expect spells` |
+| 5 | `text`, with `expect reads` |
 
 Both kinds matter equally. **An implementation that accepts a program another
 refuses has failed in the same way as one that answers differently**, so half of
