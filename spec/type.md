@@ -15,8 +15,7 @@ A type is written as a string, or as a record for what a string cannot say:
 | `number` | whole or fraction. The two numeric kinds and nothing else; a range is written on `int` and `double` only, never on `number` |
 | `any` | anything |
 | `never` | never answers. The type `std.control.abort` declares, and what makes a leaving call checkable |
-| `array` / `dictionary` | a list / map of anything |
-| `array<T>` / `dictionary<T>` | a list / map of `T` |
+| `array<T>` / `dictionary<T>` | a list / map of `T`; `array<any>` is a list of anything, and the bare word **refuses at the load** |
 | `procedure` | some procedure, signature unsaid |
 | `const <procedure type>` | a procedure that answers without running, under *what answers without running* |
 | `isolated <procedure type>` | a procedure that touches no name another body could touch at once; `const isolated procedure` says both, and the reader takes the two in either order |
@@ -400,6 +399,7 @@ build, which is the one dependency the standard bundles have.
 
 What `conformance/` asks about this page, by the name each case's file carries.
 
+- `a-bare-array-refuses-at-the-load`
 - `a-bare-constraint-name-refuses-at-the-build`
 - `a-bound-may-name-several-and-holds-to-every-one`
 - `a-contract-stands-where-a-type-is-written`
