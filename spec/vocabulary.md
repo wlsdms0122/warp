@@ -7,12 +7,16 @@ arithmetic, no comparison and no collections of its own, and a program that is
 granted none of these can compute nothing.
 
 Seven bundles, each taken with what it depends on, so a receiver grants what
-its programs have use for and no more. A bundle whose procedures are written in
-Warp names the ones they call: `std.logic` and `std.collection` walk, so they
-send `std.math.lessThan` and link only with `std.math` in the link. `std` is the
-shared ground: it declares no procedures, only the constraints the other
-bundles' signatures mention, and a bundle mentioning them (`std.math`,
-`std.collection`) links only with `std` in the link:
+its programs have use for and no more. What a bundle depends on is what its
+written half sends and what its signatures mention, and the written half's
+`imports` is the list. `std` is the shared ground: it declares no procedures,
+only the memberships and the type the other bundles' signatures mention, so
+every bundle below links with `std` in the link. Beyond that, `std.math` stands
+alone; `std.logic` links with `std.collection` and `std.math`; `std.collection`
+with `std.logic` and `std.math`; `std.concurrent` with `std.collection` and
+`std.math`; `std.text` with `std.collection`, `std.control`, `std.logic` and
+`std.math`; `std.control` stands alone. Two bundles that send to each other are
+not a cycle, because a bundle is not a module, below:
 
 | module | procedures |
 |---|---|
