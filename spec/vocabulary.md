@@ -381,6 +381,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `concurrent-map-offers-item-and-index`
 - `contains-asks-a-collection`
 - `count-asks-a-collection`
+- `count-of-a-record-is-its-fields`
+- `count-of-bytes-is-their-length`
 - `cutting-on-nothing-refuses`
 - `decoded-reads-bytes-as-text-in-a-named-encoding`
 - `dropping-an-end-answers-the-rest`
