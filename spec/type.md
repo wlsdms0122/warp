@@ -11,7 +11,8 @@ cannot say:
 
 | written | means |
 |---|---|
-| `null` `bool` `int` `double` `string` `bytes` | the scalar kinds |
+| `null` `bool` `int` `double` `string` | the scalar kinds |
+| `bytes` | `array<byte>` in a compact spelling, and a kind of its own: `byte` is the range `std` declares, and the kind needs no declaration |
 | `number` | whole or fraction. The two numeric kinds and nothing else |
 | `any` | anything |
 | `never` | never answers. The type `std.control.abort` declares, and what makes a leaving call checkable |
