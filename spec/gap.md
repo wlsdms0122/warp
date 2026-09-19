@@ -26,7 +26,7 @@ would be entitled to guess differently.
   be refused, is undecided.
 - **`imports` does not announce type or constraint dependencies.** The list
   gathers what a program *sends*; a document leaning on a constraint another
-  module declares. `bounds: { T: Comparable }` with no declaration of its
+  module declares. `bounds: { T: std.Comparable }` with no declaration of its
   own. States that dependency nowhere a caller can read before linking.
   Whether `imports` should widen to carry unresolved type and constraint
   mentions is undecided; until it is, that dependency surfaces only as a build

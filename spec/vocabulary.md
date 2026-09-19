@@ -16,13 +16,13 @@ bundles' signatures mention, and a bundle mentioning them (`std.math`,
 
 | module | procedures |
 |---|---|
-| `std` |. Declares the memberships `Numeric`, `Comparable` and `Collection`, and the type `byte = int(0...255)` |
+| `std` |. Declares the memberships `std.Numeric`, `std.Comparable` and `std.Collection`, and the type `std.byte = int(0...255)` |
 | `std.logic` | `equal` `notEqual` `not` `and` `or` `select` |
 | `std.math` | `plus` `minus` `times` `dividedBy` `remainder` `min` `max` `absolute` `floored` `rounded` `lessThan` `greaterThan` |
 | `std.text` | `text` `characters` `contains` `startsWith` `regex` `uppercased` `lowercased` `trimmed` `split` `joined` `replacing` `decoded` `encoded` |
 | `std.collection` | `append` `count` `contains` `first` `last` `reversed` `appending` `prepending` `gathering` `dropFirst` `dropLast` `sorted` `map` `filter` `reduce` `keys` `values` `setting` |
 | `std.control` | `abort`. Declared `returns: never` |
-| `std.concurrent` | `all` `first` `map`. Run closures at once. Declares the membership `Pieces` |
+| `std.concurrent` | `all` `first` `map`. Run closures at once. Declares the membership `std.concurrent.Pieces` |
 
 ## What an implementation must write
 
@@ -39,7 +39,7 @@ and takes the rest as a Warp module, the way any other module arrives.
 | `std.control` | `abort` |
 | `std.concurrent` | `all` `first` |
 
-Twenty-five, beside the memberships and the `byte` type `std` declares. What
+Twenty-five, beside the memberships and the `std.byte` type `std` declares. What
 makes one builtin is that the language cannot express it: arithmetic and
 ordering are the machine's, case mapping and encoding carry Unicode's tables
 with them, running at once is the host's scheduler, `appending` is the only way
@@ -110,12 +110,12 @@ type, worked out from the call the way any type parameter is.
 
 | procedure | receiver | arguments | answers |
 |---|---|---|---|
-| `plus`, `minus`, `times`, `remainder` | `of: some N` | `value: some N` | `some N`. Bounds `N: Numeric` |
-| `min`, `max` | `of: some N` | `value: some N` | `some N`. Bounds `N: Comparable` |
-| `dividedBy` | `of: some N` | `value: some N` | `double`. Bounds `N: Numeric` |
-| `absolute` | `of: some N` |. | `some N`. Bounds `N: Numeric` |
+| `plus`, `minus`, `times`, `remainder` | `of: some N` | `value: some N` | `some N`. Bounds `N: std.Numeric` |
+| `min`, `max` | `of: some N` | `value: some N` | `some N`. Bounds `N: std.Comparable` |
+| `dividedBy` | `of: some N` | `value: some N` | `double`. Bounds `N: std.Numeric` |
+| `absolute` | `of: some N` |. | `some N`. Bounds `N: std.Numeric` |
 | `floored`, `rounded` | `of: number` |. | `int` |
-| `lessThan`, `greaterThan` | `of: some T` | `value: some T` | `bool`. Bounds `T: Comparable` |
+| `lessThan`, `greaterThan` | `of: some T` | `value: some T` | `bool`. Bounds `T: std.Comparable` |
 
 `floored` goes to the nearest whole toward the smaller side, below zero too:
 `-2.1` floors to `-3`. `rounded` goes to the nearest whole, and away from zero
@@ -194,7 +194,7 @@ formatter's: a procedure is `<procedure>`, a host's non-finite fraction is
 `<infinity>`, `<-infinity>` or `<not a number>`, and a container holding one
 shows whole as `<unencodable>`. This is what `text` is for. A person reading a
 value. A carrier that has to give the value *back* is a different question,
-and one with no compact spelling writes what `bytes = array<byte>` says
+and one with no compact spelling writes what `bytes = array<std.byte>` says
 instead: the array.
 
 *std.collection*
@@ -202,11 +202,11 @@ instead: the array.
 | procedure | receiver | arguments | answers |
 |---|---|---|---|
 | `append` | `to: inout array<some Element>` | `value: some Element` | `null`, having written the element onto the end of the array the variable holds, in place |
-| `count` | `of: Collection`. The membership of `string`, `array` and `dictionary`; bytes stand as an array and a record as a dictionary |. | `int` |
+| `count` | `of: std.Collection`. The membership of `string`, `array` and `dictionary`; bytes stand as an array and a record as a dictionary |. | `int` |
 | `contains` | `of: array<some Element>` | `value: some Element` | `bool` |
 | `first`, `last` | `of: array<some Element>` |. | `some Element`. Over nothing there is no element to answer, and the read of one **refuses at the run**, the way any index past the end does |
 | `reversed`, `dropFirst`, `dropLast` | `of: array<some Element>` |. | `array<some Element>` |
-| `sorted` | `of: array<some Element>` |. | `array<some Element>`. Bounds `Element: Comparable` |
+| `sorted` | `of: array<some Element>` |. | `array<some Element>`. Bounds `Element: std.Comparable` |
 | `appending`, `prepending` | `of: array<some Element>` | `value: some Element` | `array<some Element>` |
 | `gathering` | `of: array<some Element>` | `value: array<int>`. Where to read, in the order to read it | `array<some Element>`, the receiver's own, in the receiver's spelling. A position the receiver does not hold refuses at the run |
 | `map` | `of: array<some Element>` | `value`. `const` procedure, handed `item`, answering `some Answer` | `array<some Answer>` |
@@ -235,7 +235,7 @@ one collection at another's positions is a **gather**.
 
 | procedure | receiver | arguments | answers |
 |---|---|---|---|
-| `all`, `first` | `of: Pieces`. The membership of `array<isolated procedure>` and `dictionary<isolated procedure>` |. | `any` |
+| `all`, `first` | `of: std.concurrent.Pieces`. The membership of `array<isolated procedure>` and `dictionary<isolated procedure>` |. | `any` |
 | `map` | `over: array<some Element>` | `by`. `isolated procedure`, handed `item` and `index`, answering `some Answer` | `array<some Answer>` |
 
 **`std.concurrent`**. Running closures at once. `all` takes a record or an array
@@ -282,28 +282,28 @@ thing has no empty answer. And a `first` in which nothing succeeds fails the
 way `all` fails: every piece's failure reported, keyed by the piece it came
 from, a record's by its key and an array's by its index written `[0]`.
 
-What the vocabulary answers about **bytes**: `bytes = array<byte>`. Bytes are
+What the vocabulary answers about **bytes**: `bytes = array<std.byte>`. Bytes are
 not a special material. They are the compact spelling of an array of small whole
-numbers, `byte` being the range `int(0...255)` that `std` declares. The equation
+numbers, `std.byte` being the range `int(0...255)` that `std` declares. The equation
 is read everywhere the types are, and **the spelling is the value's own fact
 rather than the slot's**: a bytes value stands where `array<int>` is declared
 and crosses it *whole*, because the slot asked for an array and bytes are one.
 There is nothing to settle, and unpacking would spend an element per byte to
 answer questions like `first` that read one. An `array<…>` slot reads the bytes
 out one by one only where its element declaration would not leave a byte as it
-is: `array<double>` changes every one of them, a range narrower than `byte` has
+is: `array<double>` changes every one of them, a range narrower than `std.byte` has
 something to ask of each, and a fraction range (`double(0.0...255.0)`) is both.
 It widens every byte it takes. An element declared as a **bounded** type
 parameter asks each value for its membership, and a member of the constraint
 that takes every byte answers that for all of them at once, so `sorted`, whose
-element carries `Comparable`, reads a compact spelling the way `reversed` does
+element carries `std.Comparable`, reads a compact spelling the way `reversed` does
 rather than by whether its declaration happened to carry a bound. An array of
 byte worths standing where `bytes` is declared does settle to the compact
 spelling. The asymmetry is the declaration's: naming `bytes` names a spelling,
 naming `array<…>` names a type bytes already have.
 
-An index reads an element out as a `byte`, the range `std` names, and so does
-`some Element` filled by bytes: `first` of bytes answers a `byte`. The
+An index reads an element out as a `std.byte`, the range `std` names, and so does
+`some Element` filled by bytes: `first` of bytes answers a `std.byte`. The
 collection vocabulary. `count`, `first`, `contains`, `reversed`, `map`, all of it. Applies
 directly. A procedure that answers its receiver's **own** elements. `reversed`,
 `filter`, `sorted`, `dropFirst`, `dropLast`. Answers them in the spelling they
@@ -312,7 +312,7 @@ arrived in, so bytes stay bytes; put something among them that is not a byte
 builds **new** elements does not: `map` answers whatever its procedure answered,
 which its declaration says by naming a second type parameter for it. Two bytes
 *values* still do **not** order, for the array reason rather than an opacity
-one: `Comparable` admits numbers and strings among themselves, not collections.
+one: `std.Comparable` admits numbers and strings among themselves, not collections.
 Reading bytes *as* text is a procedure that names its encoding: `decoded` and
 `encoded` are the two directions of one mapping (`encoding: "utf8"`, the default
 and today the only member), and bytes that are not text in that encoding
@@ -330,11 +330,11 @@ Behaviour at the edges. Where implementations quietly differ, so stated as
 requirements:
 
 - Arithmetic takes two of a kind and answers that kind: both sides and the
-  answer are one type parameter, bounded by `Numeric`. A whole number added to
+  answer are one type parameter, bounded by `std.Numeric`. A whole number added to
   text **refuses at the build**, and so do two pieces of text, because
   agreement is not admission.
 - Ordering (`lessThan`, `greaterThan`, `sorted`, `min`, `max`) compares two of a
-  kind under `Comparable`, and text is a kind. A kind the constraint does not
+  kind under `std.Comparable`, and text is a kind. A kind the constraint does not
   admit refuses at the build where the text says so, and at the boundary where
   the value arrives through `any`.
 - Whole-number arithmetic with no whole answer **refuses at the run**. It does

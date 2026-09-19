@@ -11,7 +11,7 @@ A type is written as a string, or as a record for what a string cannot say:
 | written | means |
 |---|---|
 | `null` `bool` `int` `double` `string` | the scalar kinds |
-| `bytes` | `array<byte>` in a compact spelling, and a kind of its own: `byte` is the range `std` declares, and the kind needs no declaration |
+| `bytes` | `array<std.byte>` in a compact spelling, and a kind of its own: `std.byte` is the range `std` declares, and the kind needs no declaration |
 | `number` | whole or fraction. The two numeric kinds and nothing else; a range is written on `int` and `double` only, never on `number` |
 | `any` | anything |
 | `never` | never answers. The type `std.control.abort` declares, and what makes a leaving call checkable |
@@ -27,7 +27,7 @@ A type is written as a string, or as a record for what a string cannot say:
 | `Task` (any declared name) | the type a module declares under that name, or a value of the membership it declares under that name |
 | `some T` | a type parameter: worked out from the call, same reading everywhere it appears; bounded when the signature's `bounds` names it |
 | `Describable` (a declared contract's name) | a value of whatever type satisfies the contract. Nothing ties one slot's to another's |
-| `Describable & Comparable` | a value of whatever type satisfies every contract and belongs to every membership named; the names in either order, and each a contract's or a membership's |
+| `Describable & std.Comparable` | a value of whatever type satisfies every contract and belongs to every membership named; the names in either order, and each a contract's or a membership's |
 | `int(0...255)`, `double(0.0..<1.0)` | a number the slot admits only inside the range. The kind written out, either bound optional but not both, and `..<` leaving the far bound outside |
 | `int?` (any string spelling and `?`) | the declared type or null. The one union written inline, and it is null-only. Any other is declared as a membership and named |
 | `{ title: string, done: bool }` | a record type, written as the record it describes; structural, and it names nothing |
@@ -47,7 +47,7 @@ under another name **refuses** at the slot, whatever its structure: at the
 **build** where the build can see the name, at the **run** where the value
 arrived through `any`, and `as?` reads it as null. Two declared records of one
 structure under two names are two types, and a value fits only its own. A
-declared name whose structure is not a record, an alias such as `byte`, attaches
+declared name whose structure is not a record, an alias such as `std.byte`, attaches
 no name. An inline record type and `dictionary<T>` are structural: a named
 record fits them by structure, and what settles there is built on the slot's own
 layout, which has no name. `any` declares nothing, so a value passes it as it
@@ -121,8 +121,8 @@ holds. The settlement is one rule per type:
     padded or signed spelling (`int(007...)`, `int(+1...)`) or a bound past
     what an `int` holds both **refuse at the load**, each named as what it is.
   - A module gives a range a name the way it names any type, and a name takes
-    no range of its own, so `byte(0...10)` is not a type: `std` declares
-    `byte = int(0...255)`, and there is no separate byte kind.
+    no range of its own, so `std.byte(0...10)` is not a type: `std` declares
+    `std.byte = int(0...255)`, and there is no separate byte kind.
   - A bound is written as the value it is, so a fraction bound is a fraction's
     one spelling. A host may assemble a range bounded by an infinity. It
     orders like any other bound, and the build takes it, but no document
@@ -148,9 +148,9 @@ announcing it has stopped, in the one place it had just found what it was
 looking for.
 
 **Constraints.** A type parameter may be bounded: a signature declares `bounds:
-{ T: Comparable }` once, its slots write `some T`, and every occurrence of the
+{ T: std.Comparable }` once, its slots write `some T`, and every occurrence of the
 name takes only what the constraint admits. A bound may name several, joined
-with `&`: `bounds: { T: Comparable & Describable }` holds `T` to what every one
+with `&`: `bounds: { T: std.Comparable & Describable }` holds `T` to what every one
 of them admits or asks. The signature owns the bound. A slot names the
 parameter and never the membership, so one bound is one claim however many
 slots mention the name, and there is no inline union for the membership to leak
@@ -389,8 +389,8 @@ so a mention reaches whatever declares it: a slot names a type or a membership,
 and a bound names a membership or a contract.
 
 The shared `std` module (the foundation bundle) declares the memberships the
-standard procedures are bounded by: `Numeric` admits `int` and `double`;
-`Comparable` admits `int`, `double` and `string`; `Collection` admits
+standard procedures are bounded by: `std.Numeric` admits `int` and `double`;
+`std.Comparable` admits `int`, `double` and `string`; `std.Collection` admits
 `string`, `array` and `dictionary`, and so bytes and a record, which stand as
 an array and as a dictionary. A bundle whose signatures
 mention them. `std.math`, `std.collection`. Links only with `std` in the
