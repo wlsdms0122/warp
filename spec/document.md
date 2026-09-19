@@ -68,7 +68,8 @@ not available to anyone: what a reader can do about a version it has never
 heard of is refuse, and the point of the number is that it can.
 
 **The imports list.** What the program *sends* and does not itself declare. From
-procedure bodies and from constants alike, each by the spelling it is sent by,
+procedure bodies, from constants and from a variable's start alike, each by the
+spelling it is sent by,
 which is its declared spelling: `std.math.plus`, never `plus`. A native
 procedure's sends are in it too. What a body sends is read off its text; a
 module the host assembled in its own language holds procedures with no text a
