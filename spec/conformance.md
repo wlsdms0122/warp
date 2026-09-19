@@ -137,20 +137,22 @@ same reason it does in any language that has one.
 
 Read the file, and read `test` before the record, for the reason a document
 reads its own version first: a later case may say something this runner has no
-name for, and "I am too old for this" is a different answer from "this is not a
-case". Then read `program` as a document. Read each entry of `vocabulary` the
-same way a declaration is read, `receiver` included where the procedure takes
-one in front, and build the host's side of it from the four keys beside it. Each of the four
-is written as its kind or not at all: a `runs` that is not a bool, or a
-`failing` that is not an array of names, is a case no two runners would read
-alike, and it **refuses** as a case rather than reading as a default. What
-refuses as a case is asked by no case: the folder holds the suite, and a
-runner that refuses one of its files stops on it, because the suite is what
-is wrong then. If the case expects `refuses`, check that it fails at that
-stage and no earlier or later. Otherwise build it against that vocabulary and
-the standard bundles, start from the procedure declared under `entry`, run it
-with `arguments`, and compare. A program that declares no `entry` is refused
-**at the build**, where a name nothing in the link declares is refused.
+name for, and "I am too old for this" is a different answer from "this is not
+a case". Then read `program` as a document. Read each entry of `vocabulary`
+the same way a declaration is read, `receiver` included where the procedure
+takes one in front, and build the host's side of it from the four keys beside
+it. The three of them that have a kind, `runs`, `isolated` and `failing`, are
+written as it or not at all: a `runs` that is not a bool, or a `failing` that
+is not an array of names, is a case no two runners would read alike, and it
+**refuses** as a case rather than reading as a default. So does `arguments`
+written as anything but a record. What refuses as a case is asked by no case:
+the folder holds the suite, and a runner that refuses one of its files stops
+on it, because the suite is what is wrong then. If the case expects `refuses`,
+check that it fails at that stage and no earlier or later. Otherwise build it
+against that vocabulary and the standard bundles, start from the procedure
+declared under `entry`, run it with `arguments`, and compare. A program that
+declares no `entry` is refused **at the build**, where a name nothing in the
+link declares is refused.
 
 The cases are the files named `<name>.test.warpt`, and what else the folder
 holds is not the suite's business. A runner that refused to start over an
