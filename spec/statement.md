@@ -259,7 +259,8 @@ another.
 
 Nothing may be written after a `return`, `break` or `continue` in the same body:
 it would never run, and the name it would bind would never bind. The same holds
-after a call whose procedure declares `never`, at the build. The rule reaches
+after a call whose answer reads `never`, declared under `returns` or read off a
+body that never finishes, at the build. The rule reaches
 through structure, because the fact does: a `conditional` both of whose arms
 leave never finishes either, so nothing may follow it. Held at the **load**,
 since the arms are text. A construct that can finish. A conditional with no

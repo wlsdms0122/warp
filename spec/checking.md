@@ -67,8 +67,9 @@ the rule's: a call that misfits a declaration in its own document refuses at
 - a constant is the type it was declared as;
 - `break`/`continue` have a loop, `return` fits the declaration, nothing
   follows any of them;
-- a statement that never finishes. A syntactic leave, or a call whose procedure
-  declares `never`. Takes no name, and nothing follows it;
+- a statement that never finishes. A syntactic leave, or a call whose answer
+  reads `never`, declared under `returns` or read off a body that never
+  finishes. Takes no name, and nothing follows it;
 - every name the program writes as a value. A statement's, a binding's (a
   loop's round, an iteration's element, an attempt's failure), a parameter's,
   each segment of a `ref`. Is **written**, and is **normal form C**, compared
