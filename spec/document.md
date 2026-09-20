@@ -77,15 +77,14 @@ bundle it uses would put that bundle's declarations in the link twice, which
 the build refuses by the rule that one name has one declarer. Which modules
 are in a link is decided where the link is assembled, the same way a program's
 libraries are chosen where the program is built rather than by each library in
-it. The same holds for the types and memberships a signature mentions, which
-the list does not name: a module declares against a vocabulary and expects to
-be linked beside whatever declares it.
+it. The same holds for the types and memberships a signature mentions: the
+list names them, and what declares them is still the link's to bring.
 
 A document says it, and one that does not **refuses**. The way one that does
 not say its version does. Silence is not a claim a caller can act on: the list
-is read before the program and a grant is decided from it, so a reader with no
-list cannot tell a program that touches nothing from one that touches
-everything, and the empty list is what says the first. Nobody writes it by
+is read before the program and the link is laid from it, so a reader with no
+list cannot tell a program that uses nothing from one that uses everything,
+and the empty list is what says the first. Nobody writes it by
 hand. It is computed from the program the way the version is filled in by
 whatever produced the document, and the canonical writer always writes it.
 
