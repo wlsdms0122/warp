@@ -234,7 +234,7 @@ A *lowered type* is a type as a body stands on it, `[tag, …]`:
 | 8 | array | *lowered type* |
 | 9 | dictionary | *lowered type* |
 | 10 | record | *layout*, the field types in the layout's order |
-| 11 | procedure | parameters or nothing, each `[name, lowered type, mustBeGiven]`; returns or nothing; *constness*; *isolation* |
+| 11 | procedure | parameters or nothing, each `[name, lowered type, defaulted]`, the last whether the declaration wrote a default; returns or nothing; *constness*; *isolation* |
 | 12 | variable | *lowered type* |
 | 13 | inout | *lowered type* |
 | 14 | nullable | *lowered type* |
