@@ -1,0 +1,74 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "an-attempt-joins-its-body-with-its-rescue"
+  note "An attempt is one slot two readings meet at, so what it reads is its body joined with its rescue. A rescue that runs statements and answers nothing joins null, so the attempt reads `int?` and a procedure asking for `int` refuses it at the build."
+  program {
+    imports [
+      "std.math.plus"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            let "tried"
+            value {
+              attempt {
+                body [
+                  {
+                    let "read"
+                    value {
+                      as "int"
+                      of {
+                        ref "payload"
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  body [
+                    {
+                      let "noted"
+                      value 0
+                    }
+                  ]
+                }
+                result {
+                  ref "read"
+                }
+              }
+            }
+          }
+          {
+            let "sum"
+            value {
+              call {
+                arguments {
+                  value 1
+                }
+                of {
+                  ref "tried"
+                }
+                procedure "std.math.plus"
+              }
+            }
+          }
+        ]
+        parameters {
+          payload {
+            type "any"
+          }
+        }
+        result {
+          ref "sum"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

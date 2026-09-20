@@ -1,0 +1,34 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-default-outside-its-enum-refuses-at-build"
+  note "A default outside the parameter's own enum can never be taken by any call. The declaration is judged at the build, with every other fact a declaration states about itself."
+  program {
+    imports []
+    procedures {
+      entry {
+        result null
+      }
+      pick {
+        parameters {
+          mode {
+            default "medium"
+            enum [
+              "fast"
+              "slow"
+            ]
+            type "string"
+          }
+        }
+        result {
+          ref "mode"
+        }
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

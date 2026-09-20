@@ -1,0 +1,142 @@
+warpt 1
+{
+  expect {
+    answers "f"
+  }
+  name "an-arm-that-leaves-holds-nothing-afterwards"
+  note "Each way through hands the handle on exactly once: the way out by answering it, the way on by closing it. No run comes back from the arm that returns, so what it was holding is not what the body holds afterwards."
+  program {
+    imports [
+      "app.Handle"
+      "app.close"
+      "app.name"
+      "app.open"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            let "held"
+            value {
+              call {
+                procedure "make"
+              }
+            }
+          }
+          {
+            let "shown"
+            value {
+              call {
+                of {
+                  ref "held"
+                }
+                procedure "app.name"
+              }
+            }
+          }
+          {
+            value {
+              call {
+                of {
+                  ref "held"
+                }
+                procedure "app.close"
+              }
+            }
+          }
+        ]
+        result {
+          ref "shown"
+        }
+        returns "string"
+      }
+      make {
+        body [
+          {
+            let "own"
+            value {
+              call {
+                procedure "app.open"
+              }
+            }
+          }
+          {
+            value {
+              conditional {
+                then [
+                  {
+                    value {
+                      return {
+                        ref "own"
+                      }
+                    }
+                  }
+                ]
+                when true
+              }
+            }
+          }
+          {
+            value {
+              call {
+                of {
+                  ref "own"
+                }
+                procedure "app.close"
+              }
+            }
+          }
+          {
+            value {
+              return {
+                call {
+                  procedure "app.open"
+                }
+              }
+            }
+          }
+        ]
+        returns "app.Handle"
+      }
+    }
+    warp 1
+  }
+  test 3
+  vocabulary {
+    procedures {
+      "app.close" {
+        parameters {
+          of {
+            type "consuming app.Handle"
+          }
+        }
+        receiver "of"
+        runs true
+      }
+      "app.name" {
+        answers "f"
+        parameters {
+          of {
+            type "borrowing app.Handle"
+          }
+        }
+        receiver "of"
+        returns "string"
+      }
+      "app.open" {
+        answers app.Handle {
+          name "f"
+        }
+        returns "app.Handle"
+      }
+    }
+    types {
+      "app.Handle" {
+        linear {
+          name "string"
+        }
+      }
+    }
+  }
+}
+

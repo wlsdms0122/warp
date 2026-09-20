@@ -9,11 +9,15 @@ warpt 1
   name "a-byte-is-a-whole-number-a-range-refines"
   note "byte is not a kind: std declares it as int(0...255), the way any module names a type. A slot declaring byte admits exactly what the range admits, and 256 misses it by one."
   program {
-    imports []
+    imports [
+      "std.byte"
+    ]
     procedures {
       entry {
         parameters {
-          value "std.byte"
+          value {
+            type "std.byte"
+          }
         }
         result {
           ref "value"
@@ -22,5 +26,6 @@ warpt 1
     }
     warp 1
   }
-  test 1
+  test 2
 }
+

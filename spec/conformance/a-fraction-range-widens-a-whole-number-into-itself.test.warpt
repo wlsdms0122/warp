@@ -7,13 +7,15 @@ warpt 1
     answers 1.0
   }
   name "a-fraction-range-widens-a-whole-number-into-itself"
-  note "A range names the kind it refines, and a fraction range takes a whole number the one way the language widens — so the slot holds the fraction, and the bounds judge what the slot would hold rather than what was written."
+  note "A range names the kind it refines, and a fraction range takes a whole number the one way the language widens, so the slot holds the fraction, and the bounds judge what the slot would hold rather than what was written."
   program {
     imports []
     procedures {
       entry {
         parameters {
-          ratio "double(0.0...1.0)"
+          ratio {
+            type "double(0.0...1.0)"
+          }
         }
         result {
           ref "ratio"
@@ -23,5 +25,6 @@ warpt 1
     }
     warp 1
   }
-  test 1
+  test 2
 }
+

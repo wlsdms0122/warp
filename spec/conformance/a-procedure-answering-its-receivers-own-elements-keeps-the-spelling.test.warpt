@@ -1,0 +1,73 @@
+warpt 1
+{
+  expect {
+    answers [
+      x"6968"
+      x"6869"
+      [
+        104
+        105
+        300
+      ]
+    ]
+  }
+  name "a-procedure-answering-its-receivers-own-elements-keeps-the-spelling"
+  note "reversed and sorted answer the receiver's own elements in another order, so bytes answer bytes. Sorted included, whose element declaration carries a bound: a member that takes every byte answers the membership for all of them at once. appending puts something among them that is not a byte, and the answer says so by the spelling it comes back in. The spelling is a fact about the value, and claiming otherwise would be a claim no value backs."
+  program {
+    imports [
+      "std.collection.appending"
+      "std.collection.reversed"
+      "std.collection.sorted"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            let "back"
+            value {
+              call {
+                of x"6869"
+                procedure "std.collection.reversed"
+              }
+            }
+          }
+          {
+            let "ordered"
+            value {
+              call {
+                of x"6968"
+                procedure "std.collection.sorted"
+              }
+            }
+          }
+          {
+            let "grown"
+            value {
+              call {
+                arguments {
+                  value 300
+                }
+                of x"6869"
+                procedure "std.collection.appending"
+              }
+            }
+          }
+        ]
+        result [
+          {
+            ref "back"
+          }
+          {
+            ref "ordered"
+          }
+          {
+            ref "grown"
+          }
+        ]
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

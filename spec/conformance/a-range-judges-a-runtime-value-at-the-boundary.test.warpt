@@ -7,13 +7,15 @@ warpt 1
     refuses "run"
   }
   name "a-range-judges-a-runtime-value-at-the-boundary"
-  note "A range is a slot's condition on a whole number, judged where oneOf is: for an argument only the run can see, at the boundary, before the body sees it."
+  note "A range is a slot's condition on a whole number, judged where enum is: for an argument only the run can see, at the boundary, before the body sees it."
   program {
     imports []
     procedures {
       entry {
         parameters {
-          level "int(0...255)"
+          level {
+            type "int(0...255)"
+          }
         }
         result {
           ref "level"
@@ -22,5 +24,6 @@ warpt 1
     }
     warp 1
   }
-  test 1
+  test 2
 }
+

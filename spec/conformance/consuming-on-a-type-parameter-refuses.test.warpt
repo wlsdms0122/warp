@@ -1,0 +1,30 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "consuming-on-a-type-parameter-refuses"
+  note "What fills a type parameter is the call's, so a body that took an obligation there would have no name to carry it on. `consuming some T` is refused at the build."
+  program {
+    imports [
+      "std.Comparable"
+    ]
+    procedures {
+      entry {
+        bounds {
+          T "std.Comparable"
+        }
+        parameters {
+          item {
+            type "consuming some T"
+          }
+        }
+        result 1
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

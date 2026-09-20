@@ -1,0 +1,127 @@
+warpt 1
+{
+  expect {
+    answers "a card"
+  }
+  name "a-value-of-a-membership-answers-a-contract-every-member-satisfies"
+  note "A value of a membership is one of its members and nothing says which, so it stands where a contract is asked when every member satisfies the contract, and the run reads the name the value wears."
+  program {
+    constraints {
+      "app.Paying" [
+        "bank.Account"
+        "bank.Card"
+      ]
+    }
+    contracts {
+      "app.Describable" {
+        describe {
+          returns "string"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "app.pick" {
+        parameters {
+          of {
+            type "app.Paying"
+          }
+        }
+        receiver "of"
+        result {
+          ref "of"
+        }
+        returns "app.Paying"
+      }
+      "app.tell" {
+        parameters {
+          it {
+            type "app.Describable"
+          }
+        }
+        receiver "it"
+        result {
+          call {
+            of {
+              ref "it"
+            }
+            procedure "app.Describable.describe"
+          }
+        }
+        returns "string"
+      }
+      "bank.Account.describe" {
+        parameters {
+          of {
+            type "bank.Account"
+          }
+        }
+        receiver "of"
+        result "an account"
+        returns "string"
+      }
+      "bank.Card.describe" {
+        parameters {
+          of {
+            type "bank.Card"
+          }
+        }
+        receiver "of"
+        result "a card"
+        returns "string"
+      }
+      entry {
+        body [
+          {
+            let "card"
+            value {
+              as "bank.Card"
+              of {
+                last "42"
+              }
+            }
+          }
+          {
+            let "paying"
+            value {
+              call {
+                of {
+                  ref "card"
+                }
+                procedure "app.pick"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            of {
+              ref "paying"
+            }
+            procedure "app.tell"
+          }
+        }
+        returns "string"
+      }
+    }
+    satisfies {
+      "bank.Account" [
+        "app.Describable"
+      ]
+      "bank.Card" [
+        "app.Describable"
+      ]
+    }
+    types {
+      "bank.Account" {
+        number "string"
+      }
+      "bank.Card" {
+        last "string"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

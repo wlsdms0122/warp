@@ -1,0 +1,39 @@
+warpt 1
+{
+  expect {
+    answers null
+  }
+  name "a-declining-conditional-writes-nothing"
+  note "A bare var introduces a name holding null, and a conditional whose condition declines runs nothing. The variable holds what it held."
+  program {
+    imports []
+    procedures {
+      entry {
+        body [
+          {
+            var "chosen"
+          }
+          {
+            value {
+              conditional {
+                then [
+                  {
+                    set "chosen"
+                    value "took-then"
+                  }
+                ]
+                when false
+              }
+            }
+          }
+        ]
+        result {
+          ref "chosen"
+        }
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

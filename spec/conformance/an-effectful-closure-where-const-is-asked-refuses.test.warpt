@@ -1,0 +1,61 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "an-effectful-closure-where-const-is-asked-refuses"
+  note "A slot declared `const` takes only a procedure that answers without running. What a closure sends is a fact about its text, so the refusal is the build's."
+  program {
+    imports [
+      "std.collection.filter"
+      "std.concurrent.all"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            let "kept"
+            value {
+              call {
+                arguments {
+                  value {
+                    closure {
+                      body [
+                        {
+                          let "raced"
+                          value {
+                            call {
+                              of []
+                              procedure "std.concurrent.all"
+                            }
+                          }
+                        }
+                      ]
+                      parameters {
+                        item {
+                          type "int"
+                        }
+                      }
+                      result true
+                      returns "bool"
+                    }
+                  }
+                }
+                of [
+                  1
+                ]
+                procedure "std.collection.filter"
+              }
+            }
+          }
+        ]
+        result {
+          ref "kept"
+        }
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

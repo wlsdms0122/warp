@@ -1,0 +1,93 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-handle-already-given-away-is-not-read-again"
+  note "A value written `linear` is gone from the name that held it once it is given away. A slot that only borrows still reads it, so the second reading is refused the same as any other."
+  program {
+    imports [
+      "app.close"
+      "app.name"
+      "app.open"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            let "handle"
+            value {
+              call {
+                procedure "app.open"
+              }
+            }
+          }
+          {
+            value {
+              call {
+                of {
+                  ref "handle"
+                }
+                procedure "app.close"
+              }
+            }
+          }
+          {
+            let "shown"
+            value {
+              call {
+                of {
+                  ref "handle"
+                }
+                procedure "app.name"
+              }
+            }
+          }
+        ]
+        result {
+          ref "shown"
+        }
+        returns "string"
+      }
+    }
+    warp 1
+  }
+  test 3
+  vocabulary {
+    procedures {
+      "app.close" {
+        parameters {
+          of {
+            type "consuming app.Handle"
+          }
+        }
+        receiver "of"
+        runs true
+      }
+      "app.name" {
+        answers "f"
+        parameters {
+          of {
+            type "borrowing app.Handle"
+          }
+        }
+        receiver "of"
+        returns "string"
+      }
+      "app.open" {
+        answers app.Handle {
+          name "f"
+        }
+        returns "app.Handle"
+      }
+    }
+    types {
+      "app.Handle" {
+        linear {
+          name "string"
+        }
+      }
+    }
+  }
+}
+

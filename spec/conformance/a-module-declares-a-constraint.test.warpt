@@ -4,7 +4,7 @@ warpt 1
     answers 7
   }
   name "a-module-declares-a-constraint"
-  note "A constraint is a declared membership: the module says which types Scalar admits, a slot writes only the parameter, the signature binds it in bounds, and the judgment a bounded parameter gets is the same one the standard words get."
+  note "A constraint is a declared membership: the module says which types Scalar admits, a slot writes only the parameter, the signature binds it in bounds, and the judgment a bounded parameter gets is the same one the standard procedures get."
   program {
     constraints {
       Scalar [
@@ -30,7 +30,9 @@ warpt 1
           T "Scalar"
         }
         parameters {
-          value "some T"
+          value {
+            type "some T"
+          }
         }
         result {
           ref "value"
@@ -40,5 +42,6 @@ warpt 1
     }
     warp 1
   }
-  test 1
+  test 2
 }
+

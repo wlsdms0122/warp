@@ -1,0 +1,62 @@
+warpt 1
+{
+  expect {
+    answers [
+      [
+        1
+      ]
+      [
+        2
+        9
+      ]
+    ]
+  }
+  name "a-native-procedure-is-handed-a-path-indexed-with-a-name"
+  note "A path handed to a native procedure in place is read to a position the same way a write is: the index named by `i` is read where the call stands, and the procedure writes back to that element."
+  program {
+    imports [
+      "std.collection.append"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            value [
+              [
+                1
+              ]
+              [
+                2
+              ]
+            ]
+            var "grid"
+          }
+          {
+            let "i"
+            value 1
+          }
+          {
+            value {
+              call {
+                arguments {
+                  value 9
+                }
+                of {
+                  ref "grid[i]"
+                }
+                procedure "std.collection.append"
+              }
+            }
+          }
+        ]
+        result {
+          ref "grid"
+        }
+        returns "array<array<int>>"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

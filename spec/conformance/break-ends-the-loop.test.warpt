@@ -1,0 +1,113 @@
+warpt 1
+{
+  expect {
+    answers "a"
+  }
+  name "break-ends-the-loop"
+  note "`break` ends the whole loop; rounds after it never start."
+  program {
+    imports [
+      "std.collection.count"
+      "std.logic.equal"
+      "std.math.lessThan"
+      "std.text.joined"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            let "items"
+            value [
+              "a"
+              "b"
+              "c"
+            ]
+          }
+          {
+            value ""
+            var "seen"
+          }
+          {
+            let "walk"
+            value {
+              loop {
+                body [
+                  {
+                    let "item"
+                    value {
+                      ref "items[walk.index]"
+                    }
+                  }
+                  {
+                    value {
+                      conditional {
+                        then [
+                          {
+                            value {
+                              break null
+                            }
+                          }
+                        ]
+                        when {
+                          call {
+                            arguments {
+                              value 1
+                            }
+                            of {
+                              ref "walk.index"
+                            }
+                            procedure "std.logic.equal"
+                          }
+                        }
+                      }
+                    }
+                  }
+                  {
+                    set "seen"
+                    value {
+                      call {
+                        of [
+                          {
+                            ref "seen"
+                          }
+                          {
+                            ref "item"
+                          }
+                        ]
+                        procedure "std.text.joined"
+                      }
+                    }
+                  }
+                ]
+                while {
+                  call {
+                    arguments {
+                      value {
+                        call {
+                          of {
+                            ref "items"
+                          }
+                          procedure "std.collection.count"
+                        }
+                      }
+                    }
+                    of {
+                      ref "walk.index"
+                    }
+                    procedure "std.math.lessThan"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "seen"
+        }
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

@@ -1,0 +1,174 @@
+warpt 1
+{
+  expect {
+    builds {
+      answers []
+      claims []
+      constants []
+      constraints []
+      contracts [
+        [
+          "app.A"
+          [
+            [
+              "a"
+              [
+                []
+                []
+                [
+                  [
+                    4
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+        [
+          "app.B"
+          [
+            [
+              "b"
+              [
+                []
+                []
+                [
+                  [
+                    4
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+      dependencies []
+      document [
+        x"8a8c3e3d4233bf944a4a6b4196d7655bae398952dd93232814fc7159eae70e06"
+      ]
+      leaned []
+      lifted []
+      numbering [
+        []
+        []
+      ]
+      object 1
+      rows [
+        [
+          "entry"
+          [
+            []
+            [
+              [
+                "v"
+                [
+                  [
+                    [
+                      20
+                      [
+                        "app.A"
+                        "app.B"
+                      ]
+                    ]
+                  ]
+                  []
+                  []
+                  []
+                ]
+              ]
+            ]
+            [
+              [
+                4
+              ]
+            ]
+          ]
+          0
+          0
+          [
+            0
+          ]
+          []
+          [
+            0
+            [
+              []
+              [
+                [
+                  12
+                  [
+                    "app.A"
+                    "a"
+                    [
+                      1
+                      [
+                        0
+                        []
+                      ]
+                    ]
+                    []
+                  ]
+                ]
+              ]
+            ]
+            [
+              1
+              [
+                0
+              ]
+              []
+              []
+              [
+                "v"
+              ]
+            ]
+          ]
+        ]
+      ]
+      typeNumbering [
+        []
+        []
+      ]
+      types []
+      variables []
+    }
+  }
+  name "the-object-of-a-composition"
+  note "A slot declaring a composition of contracts writes the composition as the document did, its names ascending, and lowers to the bounds a body stands on."
+  program {
+    contracts {
+      "app.A" {
+        a {
+          returns "int"
+        }
+      }
+      "app.B" {
+        b {
+          returns "int"
+        }
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        parameters {
+          v {
+            type "app.A & app.B"
+          }
+        }
+        result {
+          call {
+            of {
+              ref "v"
+            }
+            procedure "app.A.a"
+          }
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 6
+}
+

@@ -1,0 +1,28 @@
+warpt 1
+{
+  expect {
+    answers x"65cc81"
+  }
+  name "encoded-writes-the-code-points-as-they-stand"
+  note "`encoded` writes the text's code points as they stand and normalises nothing: a letter followed by a combining mark is three bytes in UTF-8, not the two of the precomposed letter."
+  program {
+    imports [
+      "std.byte"
+      "std.text.encoded"
+    ]
+    procedures {
+      entry {
+        result {
+          call {
+            of "é"
+            procedure "std.text.encoded"
+          }
+        }
+        returns "array<std.byte>"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

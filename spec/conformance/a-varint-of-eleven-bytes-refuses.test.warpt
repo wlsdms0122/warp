@@ -1,0 +1,11 @@
+warpt 1
+{
+  bytes x"5741525001038080808080808080808001"
+  expect {
+    refuses "load"
+  }
+  name "a-varint-of-eleven-bytes-refuses"
+  note "A varint is at most ten bytes, since ten carry sixty-four bits. An eleventh byte is refused, whatever it holds."
+  test 4
+}
+

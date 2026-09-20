@@ -1,0 +1,35 @@
+warpt 1
+{
+  expect {
+    answers [
+      ""
+      "a"
+      "b"
+      ""
+    ]
+  }
+  name "split-keeps-the-empty-pieces"
+  note "A separator is matched whole, and a cut at either end leaves an empty piece. Keeping them is a reading of the text; dropping them would be an opinion about it."
+  program {
+    imports [
+      "std.text.split"
+    ]
+    procedures {
+      entry {
+        result {
+          call {
+            arguments {
+              value "--"
+            }
+            of "--a--b--"
+            procedure "std.text.split"
+          }
+        }
+        returns "array<string>"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

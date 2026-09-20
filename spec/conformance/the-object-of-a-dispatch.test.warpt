@@ -1,0 +1,401 @@
+warpt 1
+{
+  expect {
+    builds {
+      answers []
+      claims [
+        [
+          "bank.Card"
+          [
+            "app.Describable"
+          ]
+        ]
+      ]
+      constants []
+      constraints []
+      contracts [
+        [
+          "app.Describable"
+          [
+            [
+              "describe"
+              [
+                []
+                []
+                [
+                  [
+                    6
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+      dependencies []
+      document [
+        x"c650f68a11f6cd5c7e009ba925e394a25cbf0aa047515826708c0625b32c0379"
+      ]
+      leaned [
+        [
+          "bank.Card"
+          "app.Describable"
+          [
+            [
+              x"c650f68a11f6cd5c7e009ba925e394a25cbf0aa047515826708c0625b32c0379"
+            ]
+            [
+              [
+                1
+                [
+                  0
+                ]
+              ]
+              [
+                0
+                "entry"
+              ]
+              [
+                1
+                [
+                  11
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+      lifted []
+      numbering [
+        []
+        []
+      ]
+      object 1
+      rows [
+        [
+          "app.tell"
+          [
+            [
+              "it"
+            ]
+            [
+              [
+                "it"
+                [
+                  [
+                    [
+                      18
+                      "app.Describable"
+                    ]
+                  ]
+                  []
+                  []
+                  []
+                ]
+              ]
+            ]
+            [
+              [
+                6
+              ]
+            ]
+          ]
+          0
+          0
+          [
+            0
+          ]
+          []
+          [
+            0
+            [
+              []
+              [
+                [
+                  12
+                  [
+                    "app.Describable"
+                    "describe"
+                    [
+                      1
+                      [
+                        0
+                        []
+                      ]
+                    ]
+                    []
+                  ]
+                ]
+              ]
+            ]
+            [
+              1
+              [
+                0
+              ]
+              []
+              []
+              [
+                "it"
+              ]
+            ]
+          ]
+        ]
+        [
+          "bank.Card.describe"
+          [
+            [
+              "of"
+            ]
+            [
+              [
+                "of"
+                [
+                  [
+                    [
+                      18
+                      "bank.Card"
+                    ]
+                  ]
+                  []
+                  []
+                  []
+                ]
+              ]
+            ]
+            [
+              [
+                6
+              ]
+            ]
+          ]
+          1
+          1
+          [
+            1
+            []
+          ]
+          []
+          [
+            0
+            [
+              []
+              [
+                [
+                  0
+                  [
+                    4
+                    "a card"
+                  ]
+                ]
+              ]
+            ]
+            [
+              1
+              [
+                0
+              ]
+              []
+              []
+              [
+                "of"
+              ]
+            ]
+          ]
+        ]
+        [
+          "entry"
+          [
+            []
+            []
+            [
+              [
+                6
+              ]
+            ]
+          ]
+          0
+          0
+          [
+            0
+          ]
+          []
+          [
+            0
+            [
+              [
+                [
+                  [
+                    [
+                      0
+                      0
+                      []
+                    ]
+                  ]
+                  [
+                    6
+                    [
+                      3
+                      [
+                        [
+                          []
+                          [
+                            "last"
+                          ]
+                        ]
+                        [
+                          [
+                            0
+                            [
+                              4
+                              "42"
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                    [
+                      15
+                      0
+                    ]
+                    false
+                  ]
+                  "card"
+                ]
+              ]
+              [
+                [
+                  11
+                  [
+                    0
+                    [
+                      [
+                        1
+                        [
+                          0
+                          []
+                        ]
+                      ]
+                    ]
+                    [
+                      []
+                    ]
+                    []
+                  ]
+                ]
+              ]
+            ]
+            [
+              1
+              []
+              []
+              []
+              [
+                "card"
+              ]
+            ]
+          ]
+        ]
+      ]
+      typeNumbering [
+        [
+          "bank.Card"
+        ]
+        []
+      ]
+      types [
+        [
+          "bank.Card"
+          [
+            10
+            [
+              [
+                "last"
+                [
+                  6
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+      variables []
+    }
+  }
+  name "the-object-of-a-dispatch"
+  note "A call through a contract carries the contract, the procedure, the receiver and its arguments, and no row: which row answers is the link's. The claim the body leans on stands under leaned with the place it was written."
+  program {
+    contracts {
+      "app.Describable" {
+        describe {
+          returns "string"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "app.tell" {
+        parameters {
+          it {
+            type "app.Describable"
+          }
+        }
+        receiver "it"
+        result {
+          call {
+            of {
+              ref "it"
+            }
+            procedure "app.Describable.describe"
+          }
+        }
+        returns "string"
+      }
+      "bank.Card.describe" {
+        parameters {
+          of {
+            type "bank.Card"
+          }
+        }
+        receiver "of"
+        result "a card"
+        returns "string"
+      }
+      entry {
+        body [
+          {
+            let "card"
+            value {
+              as "bank.Card"
+              of {
+                last "42"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            of {
+              ref "card"
+            }
+            procedure "app.tell"
+          }
+        }
+        returns "string"
+      }
+    }
+    satisfies {
+      "bank.Card" [
+        "app.Describable"
+      ]
+    }
+    types {
+      "bank.Card" {
+        last "string"
+      }
+    }
+    warp 1
+  }
+  test 6
+}
+

@@ -1,0 +1,125 @@
+warpt 1
+{
+  expect {
+    answers false
+  }
+  name "a-document-writes-a-short-circuiting-connective"
+  note "A slot asking for an array of procedures that answer without running says it about every element, so applying one is read rather than run. A document can therefore write `and` itself, stopping at the first side that settles the answer."
+  program {
+    imports [
+      "std.collection.count"
+      "std.logic.not"
+      "std.math.lessThan"
+    ]
+    procedures {
+      "app.and" {
+        body [
+          {
+            let "walk"
+            value {
+              loop {
+                body [
+                  {
+                    let "side"
+                    value {
+                      ref "of[walk.index]"
+                    }
+                  }
+                  {
+                    let "answered"
+                    value {
+                      apply {
+                        procedure {
+                          ref "side"
+                        }
+                      }
+                    }
+                  }
+                  {
+                    value {
+                      conditional {
+                        then [
+                          {
+                            value {
+                              return false
+                            }
+                          }
+                        ]
+                        when {
+                          call {
+                            of {
+                              ref "answered"
+                            }
+                            procedure "std.logic.not"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+                while {
+                  call {
+                    arguments {
+                      value {
+                        call {
+                          of {
+                            ref "of"
+                          }
+                          procedure "std.collection.count"
+                        }
+                      }
+                    }
+                    of {
+                      ref "walk.index"
+                    }
+                    procedure "std.math.lessThan"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        parameters {
+          of {
+            type {
+              array {
+                "const procedure" {
+                  returns "bool"
+                }
+              }
+            }
+          }
+        }
+        result true
+        returns "bool"
+      }
+      entry {
+        result {
+          call {
+            arguments {
+              of [
+                {
+                  closure {
+                    result true
+                    returns "bool"
+                  }
+                }
+                {
+                  closure {
+                    result false
+                    returns "bool"
+                  }
+                }
+              ]
+            }
+            procedure "app.and"
+          }
+        }
+        returns "bool"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

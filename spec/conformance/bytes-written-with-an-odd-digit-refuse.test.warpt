@@ -1,0 +1,11 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "bytes-written-with-an-odd-digit-refuse"
+  note "Bytes are written two hex digits each. An odd digit spells no byte."
+  test 5
+  text "warpt 1\nx\"6a7\"\n"
+}
+

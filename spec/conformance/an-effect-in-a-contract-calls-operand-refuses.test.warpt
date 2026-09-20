@@ -1,0 +1,83 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "an-effect-in-a-contract-calls-operand-refuses"
+  note "What a slot takes has nothing to do with whether the operand written into it is read or run. A call through a contract reaches whatever type arrives, and its operands are data all the same."
+  program {
+    contracts {
+      "app.Describable" {
+        describe {
+          parameters {
+            note {
+              type "any"
+            }
+          }
+          returns "string"
+        }
+      }
+    }
+    imports [
+      "std.concurrent.all"
+    ]
+    procedures {
+      "bank.Account.describe" {
+        parameters {
+          note {
+            type "any"
+          }
+          of {
+            type "bank.Account"
+          }
+        }
+        receiver "of"
+        result "an account"
+        returns "string"
+      }
+      entry {
+        body [
+          {
+            let "held"
+            value {
+              as "bank.Account"
+              of {
+                balance 1
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments {
+              note {
+                call {
+                  of []
+                  procedure "std.concurrent.all"
+                }
+              }
+            }
+            of {
+              ref "held"
+            }
+            procedure "app.Describable.describe"
+          }
+        }
+        returns "string"
+      }
+    }
+    satisfies {
+      "bank.Account" [
+        "app.Describable"
+      ]
+    }
+    types {
+      "bank.Account" {
+        balance "int"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

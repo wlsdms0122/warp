@@ -1,0 +1,45 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-value-handed-on-once-does-not-go-into-a-list-unbound"
+  note "Nothing holds this one yet, and writing it straight into the list is the same loss: the obligation is neither handed on nor still held. It is bound to a name and handed on from there."
+  program {
+    imports [
+      "app.open"
+    ]
+    procedures {
+      entry {
+        result [
+          {
+            call {
+              procedure "app.open"
+            }
+          }
+        ]
+        returns "any"
+      }
+    }
+    warp 1
+  }
+  test 3
+  vocabulary {
+    procedures {
+      "app.open" {
+        answers app.Handle {
+          name "f"
+        }
+        returns "app.Handle"
+      }
+    }
+    types {
+      "app.Handle" {
+        linear {
+          name "string"
+        }
+      }
+    }
+  }
+}
+

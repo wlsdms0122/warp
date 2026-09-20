@@ -1,0 +1,34 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "what-is-written-fits-the-type-the-path-reaches"
+  note "A path write is judged against the type it reaches: writing a string where the variable holds an int refuses at the build."
+  program {
+    imports []
+    procedures {
+      entry {
+        body [
+          {
+            value {
+              x 1
+            }
+            var "p"
+          }
+          {
+            set "p.x"
+            value "five"
+          }
+        ]
+        result {
+          ref "p.x"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

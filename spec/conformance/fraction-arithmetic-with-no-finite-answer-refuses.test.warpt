@@ -1,0 +1,30 @@
+warpt 1
+{
+  expect {
+    refuses "run"
+  }
+  name "fraction-arithmetic-with-no-finite-answer-refuses"
+  note "Fraction arithmetic that reaches infinity has no answer a document can carry, so it refuses at the run rather than answering a value that exists only until it is written down."
+  program {
+    imports [
+      "std.math.times"
+    ]
+    procedures {
+      entry {
+        result {
+          call {
+            arguments {
+              value 10.0
+            }
+            of 1e+308
+            procedure "std.math.times"
+          }
+        }
+        returns "double"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

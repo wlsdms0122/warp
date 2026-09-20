@@ -1,0 +1,254 @@
+warpt 1
+{
+  expect {
+    builds {
+      answers []
+      claims []
+      constants []
+      constraints []
+      contracts []
+      dependencies [
+        x"882fdf5ab27bf73d22a8cc9137e18b28b5dfa1204aa4da0731ee746c6a4b2efe"
+      ]
+      document [
+        x"cf72d622b89551ea2161e010593582e802309aa3b999bd315c8916f3952df93a"
+      ]
+      leaned []
+      lifted []
+      numbering [
+        [
+          "std.math.lessThan"
+          "std.math.plus"
+        ]
+        []
+      ]
+      object 1
+      rows [
+        [
+          "entry"
+          [
+            []
+            []
+            [
+              [
+                4
+              ]
+            ]
+          ]
+          1
+          1
+          [
+            1
+            []
+          ]
+          []
+          [
+            0
+            [
+              [
+                [
+                  [
+                    [
+                      1
+                      0
+                      []
+                    ]
+                  ]
+                  [
+                    0
+                    [
+                      2
+                      0
+                    ]
+                  ]
+                  "total"
+                ]
+                [
+                  [
+                    [
+                      0
+                      2
+                      []
+                    ]
+                  ]
+                  [
+                    9
+                    [
+                      11
+                      [
+                        0
+                        [
+                          [
+                            1
+                            [
+                              1
+                              [
+                                [
+                                  0
+                                  0
+                                  "index"
+                                  false
+                                ]
+                              ]
+                            ]
+                          ]
+                        ]
+                        [
+                          []
+                          [
+                            [
+                              0
+                              [
+                                2
+                                3
+                              ]
+                            ]
+                          ]
+                        ]
+                        []
+                      ]
+                    ]
+                    [
+                      [
+                        [
+                          [
+                            [
+                              2
+                              [
+                                0
+                                []
+                              ]
+                              []
+                            ]
+                          ]
+                          [
+                            11
+                            [
+                              1
+                              [
+                                [
+                                  1
+                                  [
+                                    0
+                                    []
+                                  ]
+                                ]
+                              ]
+                              [
+                                []
+                                [
+                                  [
+                                    0
+                                    [
+                                      2
+                                      1
+                                    ]
+                                  ]
+                                ]
+                              ]
+                              []
+                            ]
+                          ]
+                          "total"
+                        ]
+                      ]
+                      []
+                    ]
+                    1
+                    []
+                  ]
+                  "walk"
+                ]
+              ]
+              [
+                [
+                  1
+                  [
+                    0
+                    []
+                  ]
+                ]
+              ]
+            ]
+            [
+              3
+              []
+              []
+              []
+              [
+                "total"
+                "walk"
+                "walk"
+              ]
+            ]
+          ]
+        ]
+      ]
+      typeNumbering [
+        []
+        []
+      ]
+      types []
+      variables []
+    }
+  }
+  name "the-object-of-a-loop"
+  note "A loop carries its condition, its body, the slot its round stands in, and the run of slots its result reads, or none."
+  program {
+    imports [
+      "std.math.lessThan"
+      "std.math.plus"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            value 0
+            var "total"
+          }
+          {
+            let "walk"
+            value {
+              loop {
+                body [
+                  {
+                    set "total"
+                    value {
+                      call {
+                        arguments {
+                          value 1
+                        }
+                        of {
+                          ref "total"
+                        }
+                        procedure "std.math.plus"
+                      }
+                    }
+                  }
+                ]
+                while {
+                  call {
+                    arguments {
+                      value 3
+                    }
+                    of {
+                      ref "walk.index"
+                    }
+                    procedure "std.math.lessThan"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "total"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 6
+}
+

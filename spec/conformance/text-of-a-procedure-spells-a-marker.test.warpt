@@ -1,0 +1,31 @@
+warpt 1
+{
+  expect {
+    answers "<procedure>"
+  }
+  name "text-of-a-procedure-spells-a-marker"
+  note "A procedure has no spelling a document carries, so `text` of one answers the language's own marker, `<procedure>`, and never a host formatter's."
+  program {
+    imports [
+      "std.text.text"
+    ]
+    procedures {
+      entry {
+        result {
+          call {
+            of {
+              closure {
+                result 1
+              }
+            }
+            procedure "std.text.text"
+          }
+        }
+        returns "string"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

@@ -4,7 +4,7 @@ warpt 1
     refuses "load"
   }
   name "a-constant-sees-only-the-constants-beside-it"
-  note "A constant sees no scope, so the only names it may read are the other constants its module declares. `limit` names a parameter of a procedure, which is a name that exists nowhere a constant can look. What a constant may see is a fact about the module and needs nothing linked to answer, so it is refused on the way in rather than left for the link."
+  note "A constant sees no scope, so the only names it may read are the other constants its module declares. `limit` names a parameter of a procedure, which is a name that exists nowhere a constant can look. What a constant may see is a fact about the module and needs nothing linked to answer, so it is refused on the way in rather than left for the build."
   program {
     const {
       doubled {
@@ -15,7 +15,9 @@ warpt 1
     procedures {
       entry {
         parameters {
-          limit "int"
+          limit {
+            type "int"
+          }
         }
         result {
           ref "doubled"
@@ -25,5 +27,6 @@ warpt 1
     }
     warp 1
   }
-  test 1
+  test 2
 }
+

@@ -1,0 +1,82 @@
+warpt 1
+{
+  expect {
+    answers "a card"
+  }
+  name "a-contract-stands-where-a-type-is-written"
+  note "A contract's name stands where a type is written: the slot takes a value of whatever type satisfies it, the body calls the contract's procedure without knowing which type it holds, and no name ties the slot to any other."
+  program {
+    contracts {
+      "app.Describable" {
+        describe {
+          returns "string"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "app.tell" {
+        parameters {
+          it {
+            type "app.Describable"
+          }
+        }
+        receiver "it"
+        result {
+          call {
+            of {
+              ref "it"
+            }
+            procedure "app.Describable.describe"
+          }
+        }
+        returns "string"
+      }
+      "bank.Card.describe" {
+        parameters {
+          of {
+            type "bank.Card"
+          }
+        }
+        receiver "of"
+        result "a card"
+        returns "string"
+      }
+      entry {
+        body [
+          {
+            let "card"
+            value {
+              as "bank.Card"
+              of {
+                last "42"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            of {
+              ref "card"
+            }
+            procedure "app.tell"
+          }
+        }
+        returns "string"
+      }
+    }
+    satisfies {
+      "bank.Card" [
+        "app.Describable"
+      ]
+    }
+    types {
+      "bank.Card" {
+        last "string"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

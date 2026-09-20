@@ -1,0 +1,39 @@
+warpt 1
+{
+  expect {
+    answers 2
+  }
+  name "count-of-a-record-is-its-fields"
+  note "A record stands as a dictionary, so count reads its fields, name or no name."
+  program {
+    imports [
+      "std.collection.count"
+    ]
+    procedures {
+      entry {
+        result {
+          call {
+            of {
+              as "Account"
+              of {
+                balance 1
+                owner "a"
+              }
+            }
+            procedure "std.collection.count"
+          }
+        }
+        returns "int"
+      }
+    }
+    types {
+      Account {
+        balance "int"
+        owner "string"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

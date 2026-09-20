@@ -1,0 +1,70 @@
+warpt 1
+{
+  expect {
+    answers [
+      x"6968"
+      [
+        "c"
+        "a"
+      ]
+    ]
+  }
+  name "a-document-gathers-its-receivers-own-elements"
+  note "gathering says which elements by position, so the answer is the receiver's own, spelled the way the receiver is: bytes gathered are bytes. This is what lets a document write the procedures that answer fewer elements or another order, since an array a body started empty has no spelling to keep."
+  program {
+    imports [
+      "std.collection.gathering"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            let "back"
+            value {
+              call {
+                arguments {
+                  value [
+                    1
+                    0
+                  ]
+                }
+                of x"6869"
+                procedure "std.collection.gathering"
+              }
+            }
+          }
+          {
+            let "picked"
+            value {
+              call {
+                arguments {
+                  value [
+                    2
+                    0
+                  ]
+                }
+                of [
+                  "a"
+                  "b"
+                  "c"
+                ]
+                procedure "std.collection.gathering"
+              }
+            }
+          }
+        ]
+        result [
+          {
+            ref "back"
+          }
+          {
+            ref "picked"
+          }
+        ]
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

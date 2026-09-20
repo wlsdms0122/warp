@@ -1,0 +1,30 @@
+warpt 1
+{
+  expect {
+    answers "hi"
+  }
+  name "decoded-reads-bytes-written-one-by-one"
+  note "The compact spelling is the value's own fact and not the slot's, so bytes written out one by one as whole numbers arrive at an `array<std.byte>` slot as the array they are, and a procedure the host answers reads them as the bytes they also are."
+  program {
+    imports [
+      "std.text.decoded"
+    ]
+    procedures {
+      entry {
+        result {
+          call {
+            of [
+              104
+              105
+            ]
+            procedure "std.text.decoded"
+          }
+        }
+        returns "string"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

@@ -1,0 +1,46 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-value-handed-on-once-that-is-dropped-refuses"
+  note "A body that reaches its end still holding a value written `linear` has dropped it. That is the whole of what the mark buys, and it is decided before anything runs."
+  program {
+    imports []
+    procedures {
+      "app.open" {
+        result {
+          as "app.Handle"
+          of {
+            name "f"
+          }
+        }
+        returns "app.Handle"
+      }
+      entry {
+        body [
+          {
+            let "handle"
+            value {
+              call {
+                procedure "app.open"
+              }
+            }
+          }
+        ]
+        result "done"
+        returns "string"
+      }
+    }
+    types {
+      "app.Handle" {
+        linear {
+          name "string"
+        }
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

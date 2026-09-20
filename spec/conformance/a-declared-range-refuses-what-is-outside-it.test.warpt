@@ -1,0 +1,31 @@
+warpt 1
+{
+  expect {
+    refuses "run"
+  }
+  name "a-declared-range-refuses-what-is-outside-it"
+  note "A declaration is a boundary like a parameter's, so what a name takes is settled against it. A range declared and a value outside it is refused where the value arrives."
+  program {
+    imports []
+    procedures {
+      entry {
+        body [
+          {
+            let "held"
+            type "app.Byte"
+            value 300
+          }
+        ]
+        result {
+          ref "held"
+        }
+      }
+    }
+    types {
+      "app.Byte" "int(0...255)"
+    }
+    warp 1
+  }
+  test 2
+}
+

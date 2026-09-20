@@ -1,0 +1,27 @@
+warpt 1
+{
+  expect {
+    answers "﻿h"
+  }
+  name "decoded-keeps-a-byte-order-mark"
+  note "A byte order mark is a character like any other: `decoded` keeps it, since dropping it would be an opinion about the bytes rather than a reading of them."
+  program {
+    imports [
+      "std.text.decoded"
+    ]
+    procedures {
+      entry {
+        result {
+          call {
+            of x"efbbbf68"
+            procedure "std.text.decoded"
+          }
+        }
+        returns "string"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

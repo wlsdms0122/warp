@@ -1,0 +1,300 @@
+warpt 1
+{
+  description "Negation, difference, choosing and the connectives, written from equality."
+  imports [
+    "std.collection.count"
+    "std.logic.equal"
+    "std.math.lessThan"
+  ]
+  procedures {
+    "std.logic.and" {
+      body [
+        {
+          let "walk"
+          value {
+            loop {
+              body [
+                {
+                  let "side"
+                  value {
+                    ref "of[walk.index]"
+                  }
+                }
+                {
+                  let "answered"
+                  value {
+                    apply {
+                      procedure {
+                        ref "side"
+                      }
+                    }
+                  }
+                }
+                {
+                  value {
+                    conditional {
+                      then [
+                        {
+                          value {
+                            return false
+                          }
+                        }
+                      ]
+                      when {
+                        call {
+                          arguments {
+                            value false
+                          }
+                          of {
+                            ref "answered"
+                          }
+                          procedure "std.logic.equal"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+              while {
+                call {
+                  arguments {
+                    value {
+                      call {
+                        of {
+                          ref "of"
+                        }
+                        procedure "std.collection.count"
+                      }
+                    }
+                  }
+                  of {
+                    ref "walk.index"
+                  }
+                  procedure "std.math.lessThan"
+                }
+              }
+            }
+          }
+        }
+      ]
+      description "Whether every one answers true, asked until one does not."
+      parameters {
+        of {
+          type {
+            array {
+              "const procedure" {
+                returns "bool"
+              }
+            }
+          }
+        }
+      }
+      receiver "of"
+      result true
+      returns "bool"
+    }
+    "std.logic.not" {
+      description "The opposite of a truth."
+      parameters {
+        of {
+          type "bool"
+        }
+      }
+      receiver "of"
+      result {
+        call {
+          arguments {
+            value false
+          }
+          of {
+            ref "of"
+          }
+          procedure "std.logic.equal"
+        }
+      }
+      returns "bool"
+    }
+    "std.logic.notEqual" {
+      description "Whether two values differ."
+      parameters {
+        of {
+          default null
+          type "any"
+        }
+        value {
+          default null
+          type "any"
+        }
+      }
+      receiver "of"
+      result {
+        call {
+          arguments {
+            value false
+          }
+          of {
+            call {
+              arguments {
+                value {
+                  ref "value"
+                }
+              }
+              of {
+                ref "of"
+              }
+              procedure "std.logic.equal"
+            }
+          }
+          procedure "std.logic.equal"
+        }
+      }
+      returns "bool"
+    }
+    "std.logic.or" {
+      body [
+        {
+          let "walk"
+          value {
+            loop {
+              body [
+                {
+                  let "side"
+                  value {
+                    ref "of[walk.index]"
+                  }
+                }
+                {
+                  let "answered"
+                  value {
+                    apply {
+                      procedure {
+                        ref "side"
+                      }
+                    }
+                  }
+                }
+                {
+                  value {
+                    conditional {
+                      then [
+                        {
+                          value {
+                            return true
+                          }
+                        }
+                      ]
+                      when {
+                        ref "answered"
+                      }
+                    }
+                  }
+                }
+              ]
+              while {
+                call {
+                  arguments {
+                    value {
+                      call {
+                        of {
+                          ref "of"
+                        }
+                        procedure "std.collection.count"
+                      }
+                    }
+                  }
+                  of {
+                    ref "walk.index"
+                  }
+                  procedure "std.math.lessThan"
+                }
+              }
+            }
+          }
+        }
+      ]
+      description "Whether one answers true, asked until one does."
+      parameters {
+        of {
+          type {
+            array {
+              "const procedure" {
+                returns "bool"
+              }
+            }
+          }
+        }
+      }
+      receiver "of"
+      result false
+      returns "bool"
+    }
+    "std.logic.select" {
+      body [
+        {
+          value {
+            conditional {
+              then [
+                {
+                  let "taken"
+                  value {
+                    apply {
+                      procedure {
+                        ref "then"
+                      }
+                    }
+                  }
+                }
+                {
+                  value {
+                    return {
+                      ref "taken"
+                    }
+                  }
+                }
+              ]
+              when {
+                ref "of"
+              }
+            }
+          }
+        }
+        {
+          let "left"
+          value {
+            apply {
+              procedure {
+                ref "else"
+              }
+            }
+          }
+        }
+      ]
+      description "The value one of two sides answers, chosen by a truth."
+      parameters {
+        else {
+          type {
+            "const procedure" {
+              returns "some Answer"
+            }
+          }
+        }
+        of {
+          type "bool"
+        }
+        then {
+          type {
+            "const procedure" {
+              returns "some Answer"
+            }
+          }
+        }
+      }
+      receiver "of"
+      result {
+        ref "left"
+      }
+      returns "some Answer"
+    }
+  }
+  warp 1
+}

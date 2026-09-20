@@ -1,0 +1,11 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-quote-running-into-a-bare-token-refuses"
+  note "Whitespace separates a string from what follows it. `\"a\"b` is not a value and a token laid out close together, the same as a bare token running into a quote."
+  test 5
+  text "warpt 1\n[ \"a\"b ]\n"
+}
+

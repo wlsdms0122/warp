@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    refuses "link"
+    refuses "build"
   }
   name "a-constant-argument-is-checked-before-running"
-  note "What is knowable before running is decided before running. A constant's shape is knowable, so a call passing one that does not fit is refused where declarations are checked rather than where values arrive."
+  note "What is knowable before running is decided before running. A constant's type is knowable, so a call passing one that does not fit is refused where declarations are checked rather than where values arrive."
   program {
     imports []
     procedures {
@@ -20,7 +20,9 @@ warpt 1
       }
       wants {
         parameters {
-          it "int"
+          it {
+            type "int"
+          }
         }
         result {
           ref "it"
@@ -30,5 +32,6 @@ warpt 1
     }
     warp 1
   }
-  test 1
+  test 2
 }
+

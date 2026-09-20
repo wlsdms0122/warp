@@ -1,0 +1,37 @@
+warpt 1
+{
+  expect {
+    answers 2
+  }
+  name "a-write-makes-an-entry-of-a-dictionary"
+  note "A dictionary's keys are data, so a write under a key it does not hold yet makes the entry."
+  program {
+    imports []
+    procedures {
+      entry {
+        body [
+          {
+            value {
+              as "dictionary<int>"
+              of {
+                a 1
+              }
+            }
+            var "held"
+          }
+          {
+            set "held.b"
+            value 2
+          }
+        ]
+        result {
+          ref "held.b"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

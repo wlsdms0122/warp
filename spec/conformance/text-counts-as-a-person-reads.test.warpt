@@ -1,7 +1,7 @@
 warpt 1
 {
   arguments {
-    word "café"
+    text "café"
   }
   expect {
     answers 4
@@ -9,18 +9,28 @@ warpt 1
   name "text-counts-as-a-person-reads"
   note "Text is counted by extended grapheme cluster under canonical equivalence: a letter written as letter-plus-combining-mark is one character."
   program {
-    imports []
+    imports [
+      "std.collection.count"
+    ]
     procedures {
       entry {
         parameters {
-          word "string"
+          text {
+            type "string"
+          }
         }
         result {
-          ref "word.count"
+          call {
+            of {
+              ref "text"
+            }
+            procedure "std.collection.count"
+          }
         }
       }
     }
     warp 1
   }
-  test 1
+  test 2
 }
+

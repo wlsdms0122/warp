@@ -1,0 +1,93 @@
+warpt 1
+{
+  expect {
+    answers "f"
+  }
+  name "a-value-handed-on-once-is-ended-by-a-host-procedure"
+  note "Only a procedure with no body ends the obligation, because what a resource is lives outside the document. The body reads the handle through a slot that borrows and then hands it to one that consumes."
+  program {
+    imports [
+      "app.close"
+      "app.name"
+      "app.open"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            let "handle"
+            value {
+              call {
+                procedure "app.open"
+              }
+            }
+          }
+          {
+            let "shown"
+            value {
+              call {
+                of {
+                  ref "handle"
+                }
+                procedure "app.name"
+              }
+            }
+          }
+          {
+            value {
+              call {
+                of {
+                  ref "handle"
+                }
+                procedure "app.close"
+              }
+            }
+          }
+        ]
+        result {
+          ref "shown"
+        }
+        returns "string"
+      }
+    }
+    warp 1
+  }
+  test 3
+  vocabulary {
+    procedures {
+      "app.close" {
+        parameters {
+          of {
+            type "consuming app.Handle"
+          }
+        }
+        receiver "of"
+        runs true
+      }
+      "app.name" {
+        answers "f"
+        parameters {
+          of {
+            type "borrowing app.Handle"
+          }
+        }
+        receiver "of"
+        returns "string"
+      }
+      "app.open" {
+        answers app.Handle {
+          name "f"
+        }
+        returns "app.Handle"
+      }
+    }
+    types {
+      "app.Handle" {
+        linear {
+          name "string"
+        }
+      }
+    }
+  }
+}
+

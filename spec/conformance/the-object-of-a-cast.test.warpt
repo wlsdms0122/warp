@@ -1,0 +1,160 @@
+warpt 1
+{
+  expect {
+    builds {
+      answers []
+      claims []
+      constants []
+      constraints []
+      contracts []
+      dependencies []
+      document [
+        x"3d37c84023768a44bc930584aa809e560f04bf02c7db6f1142ab43ae7ff189f7"
+      ]
+      leaned []
+      lifted []
+      numbering [
+        []
+        []
+      ]
+      object 1
+      rows [
+        [
+          "entry"
+          [
+            []
+            [
+              [
+                "p"
+                [
+                  [
+                    [
+                      0
+                    ]
+                  ]
+                  []
+                  []
+                  []
+                ]
+              ]
+            ]
+            [
+              [
+                4
+              ]
+            ]
+          ]
+          1
+          1
+          [
+            1
+            [
+              "cast_refused"
+            ]
+          ]
+          []
+          [
+            0
+            [
+              [
+                [
+                  [
+                    [
+                      0
+                      1
+                      []
+                    ]
+                  ]
+                  [
+                    6
+                    [
+                      1
+                      [
+                        0
+                        []
+                      ]
+                    ]
+                    [
+                      4
+                    ]
+                    true
+                  ]
+                  "maybe"
+                ]
+              ]
+              [
+                [
+                  6
+                  [
+                    1
+                    [
+                      0
+                      []
+                    ]
+                  ]
+                  [
+                    4
+                  ]
+                  false
+                ]
+              ]
+            ]
+            [
+              2
+              [
+                0
+              ]
+              []
+              []
+              [
+                "p"
+                "maybe"
+              ]
+            ]
+          ]
+        ]
+      ]
+      typeNumbering [
+        []
+        []
+      ]
+      types []
+      variables []
+    }
+  }
+  name "the-object-of-a-cast"
+  note "A cast carries what it reads, the lowered type it reads it as, and whether it is the optional form."
+  program {
+    imports []
+    procedures {
+      entry {
+        body [
+          {
+            let "maybe"
+            value {
+              "as?" "int"
+              of {
+                ref "p"
+              }
+            }
+          }
+        ]
+        parameters {
+          p {
+            type "any"
+          }
+        }
+        result {
+          as "int"
+          of {
+            ref "p"
+          }
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 6
+}
+

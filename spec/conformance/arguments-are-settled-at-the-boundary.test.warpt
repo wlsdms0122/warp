@@ -1,7 +1,7 @@
 warpt 1
 {
   arguments {
-    word "hey"
+    text "hey"
   }
   expect {
     answers 2
@@ -13,11 +13,13 @@ warpt 1
     procedures {
       entry {
         parameters {
+          text {
+            type "string"
+          }
           times {
             default 2
             type "int"
           }
-          word "string"
         }
         result {
           ref "times"
@@ -27,5 +29,6 @@ warpt 1
     }
     warp 1
   }
-  test 1
+  test 2
 }
+

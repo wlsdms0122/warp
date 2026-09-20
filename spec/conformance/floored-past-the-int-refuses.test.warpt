@@ -1,0 +1,26 @@
+warpt 1
+{
+  expect {
+    refuses "run"
+  }
+  name "floored-past-the-int-refuses"
+  note "floored and rounded answer an int, and a fraction whose whole part is past the int has no int to answer. The refusal is the overflow rule, the same one arithmetic holds at the int's edge."
+  program {
+    imports [
+      "std.math.floored"
+    ]
+    procedures {
+      entry {
+        result {
+          call {
+            of 1e+30
+            procedure "std.math.floored"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

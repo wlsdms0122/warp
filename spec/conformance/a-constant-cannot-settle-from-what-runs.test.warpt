@@ -1,0 +1,40 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-constant-cannot-settle-from-what-runs"
+  note "A constant is settled at the build, so it settles from procedures that answer without running. One that reaches outside the run has nothing to say before the run."
+  program {
+    const {
+      now {
+        call {
+          procedure "app.clock"
+        }
+      }
+    }
+    imports [
+      "app.clock"
+    ]
+    procedures {
+      entry {
+        result {
+          ref "now"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 3
+  vocabulary {
+    procedures {
+      "app.clock" {
+        answers 7
+        returns "int"
+        runs true
+      }
+    }
+  }
+}
+

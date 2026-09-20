@@ -1,0 +1,115 @@
+warpt 1
+{
+  expect {
+    answers [
+      1
+      2
+    ]
+  }
+  name "a-dictionary-is-read-by-a-key-the-run-settles"
+  note "A dictionary's names are data, so a key the run settles reads an entry the way a written key does. That is what lets a document walk a dictionary at all, and `values` is what walking one is for."
+  program {
+    imports [
+      "std.collection.appending"
+      "std.collection.count"
+      "std.collection.keys"
+      "std.math.lessThan"
+    ]
+    procedures {
+      "app.values" {
+        body [
+          {
+            let "names"
+            value {
+              call {
+                of {
+                  ref "of"
+                }
+                procedure "std.collection.keys"
+              }
+            }
+          }
+          {
+            value []
+            var "held"
+          }
+          {
+            let "walk"
+            value {
+              loop {
+                body [
+                  {
+                    let "name"
+                    value {
+                      ref "names[walk.index]"
+                    }
+                  }
+                  {
+                    set "held"
+                    value {
+                      call {
+                        arguments {
+                          value {
+                            ref "of[name]"
+                          }
+                        }
+                        of {
+                          ref "held"
+                        }
+                        procedure "std.collection.appending"
+                      }
+                    }
+                  }
+                ]
+                while {
+                  call {
+                    arguments {
+                      value {
+                        call {
+                          of {
+                            ref "names"
+                          }
+                          procedure "std.collection.count"
+                        }
+                      }
+                    }
+                    of {
+                      ref "walk.index"
+                    }
+                    procedure "std.math.lessThan"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        parameters {
+          of {
+            type "dictionary<int>"
+          }
+        }
+        result {
+          ref "held"
+        }
+        returns "array<int>"
+      }
+      entry {
+        result {
+          call {
+            arguments {
+              of {
+                first 1
+                second 2
+              }
+            }
+            procedure "app.values"
+          }
+        }
+        returns "array<int>"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

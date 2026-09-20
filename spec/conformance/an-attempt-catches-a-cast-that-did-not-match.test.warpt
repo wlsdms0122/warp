@@ -1,13 +1,13 @@
 warpt 1
 {
   arguments {
-    payload "not a whole number"
+    payload 1
   }
   expect {
     answers "caught"
   }
   name "an-attempt-catches-a-cast-that-did-not-match"
-  note "A cast is the author expecting a shape of data that came from outside, and being wrong about that is what the world does — so the refusal is a failure like any other and an `attempt` catches it."
+  note "A cast is the author expecting a kind of data that came from outside, and being wrong about that is what the world does, so the refusal is a failure like any other and an `attempt` catches it."
   program {
     imports []
     procedures {
@@ -21,7 +21,7 @@ warpt 1
                   {
                     let "read"
                     value {
-                      as "int"
+                      as "string"
                       of {
                         ref "payload"
                       }
@@ -30,6 +30,9 @@ warpt 1
                 ]
                 rescue {
                   result "caught"
+                }
+                result {
+                  ref "read"
                 }
               }
             }
@@ -48,5 +51,6 @@ warpt 1
     }
     warp 1
   }
-  test 1
+  test 2
 }
+

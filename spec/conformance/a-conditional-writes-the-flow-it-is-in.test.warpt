@@ -1,0 +1,55 @@
+warpt 1
+{
+  arguments {
+    take true
+  }
+  expect {
+    answers "took-then"
+  }
+  name "a-conditional-writes-the-flow-it-is-in"
+  note "A conditional answers nothing. The condition chooses a way through the body, and what an arm keeps it writes to an outer variable."
+  program {
+    imports []
+    procedures {
+      entry {
+        body [
+          {
+            var "chosen"
+          }
+          {
+            value {
+              conditional {
+                else [
+                  {
+                    set "chosen"
+                    value "took-else"
+                  }
+                ]
+                then [
+                  {
+                    set "chosen"
+                    value "took-then"
+                  }
+                ]
+                when {
+                  ref "take"
+                }
+              }
+            }
+          }
+        ]
+        parameters {
+          take {
+            type "bool"
+          }
+        }
+        result {
+          ref "chosen"
+        }
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

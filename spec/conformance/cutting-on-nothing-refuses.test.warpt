@@ -1,0 +1,58 @@
+warpt 1
+{
+  expect {
+    answers {
+      message "split asks an empty separator"
+      type "aborted"
+    }
+  }
+  name "cutting-on-nothing-refuses"
+  note "A separator with no characters matches everywhere and consumes nothing, so there is no text it could cut. The refusal is the language's one refusal, which is what lets an attempt around it catch it."
+  program {
+    imports [
+      "std.text.split"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            let "tried"
+            value {
+              attempt {
+                body [
+                  {
+                    value {
+                      call {
+                        arguments {
+                          value ""
+                        }
+                        of "a,b"
+                        procedure "std.text.split"
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  result {
+                    message {
+                      ref "tried.message"
+                    }
+                    type {
+                      ref "tried.type"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "tried"
+        }
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

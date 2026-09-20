@@ -1,0 +1,146 @@
+warpt 1
+{
+  expect {
+    builds {
+      answers []
+      claims []
+      constants []
+      constraints []
+      contracts []
+      dependencies [
+        x"882fdf5ab27bf73d22a8cc9137e18b28b5dfa1204aa4da0731ee746c6a4b2efe"
+      ]
+      document [
+        x"03df9bd3af09a3e1f7580d9a2fba20e65c71dfef28f7561f4664e1b66dbc94e6"
+      ]
+      leaned []
+      lifted []
+      numbering [
+        [
+          "std.math.plus"
+        ]
+        []
+      ]
+      object 1
+      rows [
+        [
+          "entry"
+          [
+            []
+            [
+              [
+                "n"
+                [
+                  [
+                    [
+                      4
+                    ]
+                  ]
+                  []
+                  []
+                  []
+                ]
+              ]
+            ]
+            [
+              [
+                4
+              ]
+            ]
+          ]
+          1
+          1
+          [
+            1
+            []
+          ]
+          []
+          [
+            0
+            [
+              []
+              [
+                [
+                  11
+                  [
+                    0
+                    [
+                      [
+                        1
+                        [
+                          0
+                          []
+                        ]
+                      ]
+                    ]
+                    [
+                      []
+                      [
+                        [
+                          0
+                          [
+                            2
+                            1
+                          ]
+                        ]
+                      ]
+                    ]
+                    []
+                  ]
+                ]
+              ]
+            ]
+            [
+              1
+              [
+                0
+              ]
+              []
+              []
+              [
+                "n"
+              ]
+            ]
+          ]
+        ]
+      ]
+      typeNumbering [
+        []
+        []
+      ]
+      types []
+      variables []
+    }
+  }
+  name "the-object-of-a-call"
+  note "A call names the row it reaches by the document's own number, which the numbering resolves to the first spelling sent, and stands one operation or nothing per parameter of the callee in parameter order."
+  program {
+    imports [
+      "std.math.plus"
+    ]
+    procedures {
+      entry {
+        parameters {
+          n {
+            type "int"
+          }
+        }
+        result {
+          call {
+            arguments {
+              value 1
+            }
+            of {
+              ref "n"
+            }
+            procedure "std.math.plus"
+          }
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 6
+}
+

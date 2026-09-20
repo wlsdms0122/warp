@@ -1,0 +1,36 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-procedure-type-answering-a-type-handed-on-once-refuses"
+  note "A procedure type whose `returns` is handed on once is refused: such a body may not answer one, closure literals included, and a slot declaring that it does declares what no body may do."
+  program {
+    imports []
+    procedures {
+      entry {
+        parameters {
+          item {
+            type {
+              procedure {
+                returns "app.Handle"
+              }
+            }
+          }
+        }
+        result 1
+        returns "int"
+      }
+    }
+    types {
+      "app.Handle" {
+        linear {
+          name "string"
+        }
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

@@ -1,0 +1,27 @@
+warpt 1
+{
+  expect {
+    answers "a ́"
+  }
+  name "a-space-carrying-a-mark-is-not-trimmed"
+  note "A character goes only if every one of its code points is White_Space. A space carrying a combining mark is one character and two code points, and the mark is not White_Space, so it stays where it was written."
+  program {
+    imports [
+      "std.text.trimmed"
+    ]
+    procedures {
+      entry {
+        result {
+          call {
+            of " a ́"
+            procedure "std.text.trimmed"
+          }
+        }
+        returns "string"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

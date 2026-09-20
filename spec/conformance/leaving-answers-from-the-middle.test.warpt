@@ -4,7 +4,7 @@ warpt 1
     answers "left early"
   }
   name "leaving-answers-from-the-middle"
-  note "Answering from inside a body leaves the procedure with what it carries — the statements and result after the leave never run."
+  note "Answering from inside a body leaves the procedure with what it carries. The statements and result after the leave never run."
   program {
     imports []
     procedures {
@@ -12,7 +12,7 @@ warpt 1
         body [
           {
             value {
-              branch {
+              conditional {
                 then [
                   {
                     value {
@@ -31,5 +31,6 @@ warpt 1
     }
     warp 1
   }
-  test 1
+  test 2
 }
+

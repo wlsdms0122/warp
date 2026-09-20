@@ -1,0 +1,46 @@
+warpt 1
+{
+  expect {
+    answers "a"
+  }
+  name "a-membership-stands-as-a-type"
+  note "A slot may name a membership, and what stands there is a value of one of its members. This is how the language says A or B: the set is declared once under a name, and no slot writes an inline union."
+  program {
+    constraints {
+      Text [
+        "string"
+        "array<std.byte>"
+      ]
+    }
+    imports [
+      "std.byte"
+    ]
+    procedures {
+      entry {
+        result {
+          call {
+            arguments {
+              it "a"
+            }
+            procedure "hold"
+          }
+        }
+        returns "Text"
+      }
+      hold {
+        parameters {
+          it {
+            type "Text"
+          }
+        }
+        result {
+          ref "it"
+        }
+        returns "Text"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

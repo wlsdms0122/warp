@@ -15,7 +15,7 @@ warpt 1
         body [
           {
             value {
-              branch {
+              conditional {
                 else [
                   {
                     let "missed"
@@ -38,11 +38,14 @@ warpt 1
           }
         ]
         parameters {
-          ready "bool"
+          ready {
+            type "bool"
+          }
         }
       }
     }
     warp 1
   }
-  test 1
+  test 2
 }
+

@@ -6,7 +6,9 @@ warpt 1
   name "a-constraint-is-named-by-its-qualified-spelling"
   note "A constraint name is its declared spelling with the declaring module in front. `std` declares Comparable, so a bound that means it writes `std.Comparable`."
   program {
-    imports []
+    imports [
+      "std.Comparable"
+    ]
     procedures {
       entry {
         result {
@@ -24,7 +26,9 @@ warpt 1
           T "std.Comparable"
         }
         parameters {
-          value "some T"
+          value {
+            type "some T"
+          }
         }
         result {
           ref "value"
@@ -34,5 +38,6 @@ warpt 1
     }
     warp 1
   }
-  test 1
+  test 2
 }
+

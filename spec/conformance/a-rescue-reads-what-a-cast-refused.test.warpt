@@ -1,0 +1,61 @@
+warpt 1
+{
+  arguments {
+    payload "not a whole number"
+  }
+  expect {
+    answers {
+      actual "string"
+      expected "int"
+    }
+  }
+  name "a-rescue-reads-what-a-cast-refused"
+  note "`cast_refused` is the one failure the runtime raises itself, so no procedure owns its `details` and this specification names them. `expected` is the type the cast wrote and `actual` is the kind that arrived: what was asked for is readable from the program, what turned up is not, and a rescue that reports or branches wants the second."
+  program {
+    imports []
+    procedures {
+      entry {
+        body [
+          {
+            let "tried"
+            value {
+              attempt {
+                body [
+                  {
+                    value {
+                      as "int"
+                      of {
+                        ref "payload"
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  result {
+                    actual {
+                      ref "tried.details.actual"
+                    }
+                    expected {
+                      ref "tried.details.expected"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+        parameters {
+          payload {
+            type "any"
+          }
+        }
+        result {
+          ref "tried"
+        }
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

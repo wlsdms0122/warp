@@ -1,16 +1,18 @@
 warpt 1
 {
   expect {
-    refuses "link"
+    refuses "build"
   }
   name "a-cast-between-ranges-that-share-no-value-is-refused"
-  note "A cast is a claim about the value that arrives, and no value is under 5 and over 10 at once. The bounds are the whole of what tells the two apart, so the judge that reads them answers here — a walk that dropped them would ask about `int` beside `int` and let the claim through."
+  note "A cast is a claim about the value that arrives, and no value is under 5 and over 10 at once. The bounds are the whole of what tells the two apart, so the judge that reads them answers here. A walk that dropped them would ask about `int` beside `int` and let the claim through."
   program {
     imports []
     procedures {
       entry {
         parameters {
-          level "int(0...5)"
+          level {
+            type "int(0...5)"
+          }
         }
         result {
           as "int(10...15)"
@@ -23,5 +25,6 @@ warpt 1
     }
     warp 1
   }
-  test 1
+  test 2
 }
+

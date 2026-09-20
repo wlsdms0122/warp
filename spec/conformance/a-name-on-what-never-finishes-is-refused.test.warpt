@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    refuses "link"
+    refuses "build"
   }
   name "a-name-on-what-never-finishes-is-refused"
-  note "std.control.abort declares never, so a name on its call promises a binding that cannot happen. The link refuses the name where the signature is known."
+  note "std.control.abort declares never, so a name on its call promises a binding that cannot happen. The build refuses the name where the signature is known."
   program {
     imports [
       "std.control.abort"
@@ -27,5 +27,6 @@ warpt 1
     }
     warp 1
   }
-  test 1
+  test 2
 }
+

@@ -1,0 +1,101 @@
+warpt 1
+{
+  expect {
+    answers "a card"
+  }
+  name "a-contract-carries-a-procedure-into-a-generic-body"
+  note "A contract is the procedures a value must answer. A document says which types answer it under `satisfies`, a signature bounds a type parameter by it, and the body calls the procedure without knowing which type it holds. The link finds the declaration behind each claimed procedure and the run reads one by the name the value wears."
+  program {
+    contracts {
+      "app.Describable" {
+        describe {
+          returns "string"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "app.tell" {
+        bounds {
+          T "app.Describable"
+        }
+        parameters {
+          it {
+            type "some T"
+          }
+        }
+        receiver "it"
+        result {
+          call {
+            of {
+              ref "it"
+            }
+            procedure "app.Describable.describe"
+          }
+        }
+        returns "string"
+      }
+      "bank.Account.describe" {
+        parameters {
+          of {
+            type "bank.Account"
+          }
+        }
+        receiver "of"
+        result "an account"
+        returns "string"
+      }
+      "bank.Card.describe" {
+        parameters {
+          of {
+            type "bank.Card"
+          }
+        }
+        receiver "of"
+        result "a card"
+        returns "string"
+      }
+      entry {
+        body [
+          {
+            let "card"
+            value {
+              as "bank.Card"
+              of {
+                last "42"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            of {
+              ref "card"
+            }
+            procedure "app.tell"
+          }
+        }
+        returns "string"
+      }
+    }
+    satisfies {
+      "bank.Account" [
+        "app.Describable"
+      ]
+      "bank.Card" [
+        "app.Describable"
+      ]
+    }
+    types {
+      "bank.Account" {
+        balance "int"
+      }
+      "bank.Card" {
+        last "string"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

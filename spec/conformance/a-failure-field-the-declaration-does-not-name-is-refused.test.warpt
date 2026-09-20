@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    refuses "link"
+    refuses "build"
   }
   name "a-failure-field-the-declaration-does-not-name-is-refused"
-  note "A rescue's name binds `{ type, message }`, and those two are read with a dot. What a failure carries on top is real but undeclared, so a dot does not reach it — the shape is named to read it, the way any undeclared shape is."
+  note "A rescue's name binds `{ type, message, details }`, and those three are read with a dot. What a failure carries rides in `details`, so a dot on the failure itself does not reach it."
   program {
     imports [
       "std.control.abort"
@@ -42,5 +42,6 @@ warpt 1
     }
     warp 1
   }
-  test 1
+  test 2
 }
+

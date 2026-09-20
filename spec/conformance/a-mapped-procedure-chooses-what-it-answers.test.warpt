@@ -1,0 +1,77 @@
+warpt 1
+{
+  expect {
+    answers [
+      "one"
+      "other"
+    ]
+  }
+  name "a-mapped-procedure-chooses-what-it-answers"
+  note "A slot asking for a procedure that answers without running takes no construct, so the way such a procedure chooses among values is by calling one that chooses."
+  program {
+    imports [
+      "std.collection.map"
+      "std.logic.equal"
+      "std.logic.select"
+    ]
+    procedures {
+      entry {
+        result {
+          call {
+            arguments {
+              value {
+                closure {
+                  parameters {
+                    item {
+                      type "int"
+                    }
+                  }
+                  result {
+                    call {
+                      arguments {
+                        else {
+                          closure {
+                            result "other"
+                            returns "string"
+                          }
+                        }
+                        then {
+                          closure {
+                            result "one"
+                            returns "string"
+                          }
+                        }
+                      }
+                      of {
+                        call {
+                          arguments {
+                            value 1
+                          }
+                          of {
+                            ref "item"
+                          }
+                          procedure "std.logic.equal"
+                        }
+                      }
+                      procedure "std.logic.select"
+                    }
+                  }
+                  returns "string"
+                }
+              }
+            }
+            of [
+              1
+              2
+            ]
+            procedure "std.collection.map"
+          }
+        }
+        returns "array<string>"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

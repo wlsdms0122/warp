@@ -1,0 +1,36 @@
+warpt 1
+{
+  arguments {
+    row {
+      extra 1
+      id "a"
+    }
+  }
+  expect {
+    answers {
+      id "a"
+    }
+  }
+  name "a-record-settles-to-the-fields-declared"
+  note "A record type says which fields there are: a value settling into it is built on that layout, so a field the declaration never named is not carried past it."
+  program {
+    imports []
+    procedures {
+      entry {
+        parameters {
+          row {
+            type {
+              id "string"
+            }
+          }
+        }
+        result {
+          ref "row"
+        }
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

@@ -1,0 +1,92 @@
+warpt 1
+{
+  expect {
+    answers [
+      3
+      2
+      -3
+      3
+      -3
+    ]
+  }
+  name "absolute-floored-and-rounded-answer-a-whole"
+  note "absolute drops the sign and keeps the kind; floored goes toward the smaller whole even below zero; rounded goes to the nearest whole, away from zero at the halfway."
+  program {
+    imports [
+      "std.math.absolute"
+      "std.math.floored"
+      "std.math.rounded"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            let "sized"
+            value {
+              call {
+                of -3
+                procedure "std.math.absolute"
+              }
+            }
+          }
+          {
+            let "down"
+            value {
+              call {
+                of 2.9
+                procedure "std.math.floored"
+              }
+            }
+          }
+          {
+            let "below"
+            value {
+              call {
+                of -2.1
+                procedure "std.math.floored"
+              }
+            }
+          }
+          {
+            let "near"
+            value {
+              call {
+                of 2.5
+                procedure "std.math.rounded"
+              }
+            }
+          }
+          {
+            let "nearBelow"
+            value {
+              call {
+                of -2.5
+                procedure "std.math.rounded"
+              }
+            }
+          }
+        ]
+        result [
+          {
+            ref "sized"
+          }
+          {
+            ref "down"
+          }
+          {
+            ref "below"
+          }
+          {
+            ref "near"
+          }
+          {
+            ref "nearBelow"
+          }
+        ]
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

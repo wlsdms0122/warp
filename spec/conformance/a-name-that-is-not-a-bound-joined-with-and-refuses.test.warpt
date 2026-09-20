@@ -1,0 +1,35 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-name-that-is-not-a-bound-joined-with-and-refuses"
+  note "`&` joins the names of memberships and contracts. A declared type joined into one is neither, and the declaration is refused at the build."
+  program {
+    constraints {
+      Text [
+        "string"
+      ]
+    }
+    imports []
+    procedures {
+      entry {
+        parameters {
+          it {
+            type "Card & Text"
+          }
+        }
+        result 1
+        returns "int"
+      }
+    }
+    types {
+      Card {
+        last "string"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

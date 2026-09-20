@@ -1,0 +1,11 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "bytes-written-in-uppercase-hex-refuse"
+  note "Bytes are `x` and lowercase hex digits. Uppercase would be a second spelling of the same bytes."
+  test 5
+  text "warpt 1\nx\"6A\"\n"
+}
+

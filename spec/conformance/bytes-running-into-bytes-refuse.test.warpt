@@ -1,0 +1,11 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "bytes-running-into-bytes-refuse"
+  note "Bytes end at their closing quote, and whitespace separates them from the next token. `x\"6a\"x\"73\"` is neither one spelling of two bytes nor two elements."
+  test 5
+  text "warpt 1\n[ x\"6a\"x\"73\" ]\n"
+}
+

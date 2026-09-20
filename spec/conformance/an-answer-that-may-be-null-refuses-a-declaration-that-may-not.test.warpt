@@ -1,0 +1,33 @@
+warpt 1
+{
+  arguments {
+    payload 1
+  }
+  expect {
+    refuses "build"
+  }
+  name "an-answer-that-may-be-null-refuses-a-declaration-that-may-not"
+  note "A body and the `returns` beside it are one document's text, so what the body reads is held to what the declaration promises without waiting for a run. `as?` reads `int?`, and what may be null does not stand where null was never declared."
+  program {
+    imports []
+    procedures {
+      entry {
+        parameters {
+          payload {
+            type "any"
+          }
+        }
+        result {
+          "as?" "int"
+          of {
+            ref "payload"
+          }
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

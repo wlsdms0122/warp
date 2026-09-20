@@ -1,0 +1,49 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-constant-argument-outside-enum-refuses-at-build"
+  note "`enum` is judged wherever an argument is settled against the parameter. For a constant argument, at the build."
+  program {
+    imports []
+    procedures {
+      entry {
+        body [
+          {
+            let "got"
+            value {
+              call {
+                arguments {
+                  mode "medium"
+                }
+                procedure "pick"
+              }
+            }
+          }
+        ]
+        result {
+          ref "got"
+        }
+      }
+      pick {
+        parameters {
+          mode {
+            enum [
+              "fast"
+              "slow"
+            ]
+            type "string"
+          }
+        }
+        result {
+          ref "mode"
+        }
+        returns "string"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

@@ -1,0 +1,29 @@
+warpt 1
+{
+  expect {
+    answers "null"
+  }
+  name "text-of-null-spells-null"
+  note "`text` answers a value's own spelling, and null's is `null`, alone as it is inside a container. A template that wants a blank where a value is missing says so with a value of its own."
+  program {
+    imports [
+      "std.text.text"
+    ]
+    procedures {
+      entry {
+        result {
+          call {
+            of {
+              value null
+            }
+            procedure "std.text.text"
+          }
+        }
+        returns "string"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

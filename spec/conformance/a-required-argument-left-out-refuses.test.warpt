@@ -1,0 +1,33 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-required-argument-left-out-refuses"
+  note "Leaving a key out is not the same as writing null in it. A slot with no default and a type that does not spell null has to be written, and the text shows whether it was."
+  program {
+    imports []
+    procedures {
+      "app.takes" {
+        parameters {
+          it {
+            type "any"
+          }
+        }
+        result {
+          ref "it"
+        }
+      }
+      entry {
+        result {
+          call {
+            procedure "app.takes"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

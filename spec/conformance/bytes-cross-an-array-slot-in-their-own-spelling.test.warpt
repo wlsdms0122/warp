@@ -4,7 +4,7 @@ warpt 1
     answers x"6869"
   }
   name "bytes-cross-an-array-slot-in-their-own-spelling"
-  note "bytes = array<byte>, so a bytes value stands where an array of whole numbers is declared — and the slot asked for an array, which bytes already are. There is nothing to settle, so the compact spelling crosses whole: the spelling is the value's own fact, not the slot's."
+  note "bytes = array<byte>, so a bytes value stands where an array of whole numbers is declared, and the slot asked for an array, which bytes already are. There is nothing to settle, so the compact spelling crosses whole: the spelling is the value's own fact, not the slot's."
   program {
     imports []
     procedures {
@@ -20,7 +20,9 @@ warpt 1
       }
       keep {
         parameters {
-          value "array<int>"
+          value {
+            type "array<int>"
+          }
         }
         result {
           ref "value"
@@ -30,5 +32,6 @@ warpt 1
     }
     warp 1
   }
-  test 1
+  test 2
 }
+

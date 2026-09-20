@@ -1,0 +1,67 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-closure-answers-what-it-declared"
+  note "A closure literal writes a signature and a body side by side, the way a declaration does, so what its body answers is held to its `returns` where both are written."
+  program {
+    imports []
+    procedures {
+      entry {
+        body [
+          {
+            let "ran"
+            value {
+              call {
+                arguments {
+                  body {
+                    closure {
+                      body [
+                        {
+                          let "said"
+                          value "hi"
+                        }
+                      ]
+                      result {
+                        ref "said"
+                      }
+                      returns "int"
+                    }
+                  }
+                }
+                procedure "twice"
+              }
+            }
+          }
+        ]
+        result {
+          ref "ran"
+        }
+        returns "int"
+      }
+      twice {
+        parameters {
+          body {
+            type {
+              procedure {
+                returns "int"
+              }
+            }
+          }
+        }
+        result {
+          apply {
+            procedure {
+              ref "body"
+            }
+          }
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

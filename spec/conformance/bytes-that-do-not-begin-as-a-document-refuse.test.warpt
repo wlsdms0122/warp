@@ -1,0 +1,11 @@
+warpt 1
+{
+  bytes x"574152510100"
+  expect {
+    refuses "load"
+  }
+  name "bytes-that-do-not-begin-as-a-document-refuse"
+  note "The magic is read before anything else, so bytes that are not a document are refused as that rather than as a document whose first value is wrong."
+  test 4
+}
+

@@ -1,0 +1,30 @@
+warpt 1
+{
+  expect {
+    answers ""
+  }
+  name "joined-over-nothing-answers-empty-text"
+  note "`joined` over an array with nothing in it answers the empty text, whatever the separator: there is nothing to put between."
+  program {
+    imports [
+      "std.text.joined"
+    ]
+    procedures {
+      entry {
+        result {
+          call {
+            arguments {
+              value ", "
+            }
+            of []
+            procedure "std.text.joined"
+          }
+        }
+        returns "string"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

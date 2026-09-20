@@ -1,0 +1,49 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-type-handed-on-once-answers-no-contract"
+  note "A contract standing where a type is written holds a value under no name of its own, and nothing follows a value handed on once but the name that holds it. The claim is refused where it is written."
+  program {
+    contracts {
+      "app.Describable" {
+        describe {
+          returns "string"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "app.Handle.describe" {
+        parameters {
+          of {
+            type "borrowing app.Handle"
+          }
+        }
+        receiver "of"
+        result "a handle"
+        returns "string"
+      }
+      entry {
+        result 1
+        returns "int"
+      }
+    }
+    satisfies {
+      "app.Handle" [
+        "app.Describable"
+      ]
+    }
+    types {
+      "app.Handle" {
+        linear {
+          name "string"
+        }
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

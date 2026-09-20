@@ -1,0 +1,33 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-condition-that-is-not-a-bool-refuses"
+  note "A condition chooses a way through a body, so what it reads is a bool. The build knows what the condition reads, so the refusal is the build's rather than the run's."
+  program {
+    imports []
+    procedures {
+      entry {
+        body [
+          {
+            value {
+              conditional {
+                then [
+                  {
+                    let "kept"
+                    value 1
+                  }
+                ]
+                when 1
+              }
+            }
+          }
+        ]
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

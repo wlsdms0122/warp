@@ -1,0 +1,154 @@
+warpt 1
+{
+  expect {
+    answers [
+      2
+      4
+      6
+    ]
+  }
+  name "a-document-writes-map-over-a-const-slot"
+  note "A slot asking `const procedure` says what the value in it is, so applying that name is read rather than run. That is what lets a document write map itself instead of reaching for the one the vocabulary brings. The apply is bound to a name, since an operand is read rather than run."
+  program {
+    imports [
+      "std.collection.appending"
+      "std.collection.count"
+      "std.math.lessThan"
+      "std.math.times"
+    ]
+    procedures {
+      "app.mapped" {
+        body [
+          {
+            value []
+            var "kept"
+          }
+          {
+            let "walk"
+            value {
+              loop {
+                body [
+                  {
+                    let "item"
+                    value {
+                      ref "of[walk.index]"
+                    }
+                  }
+                  {
+                    let "rewritten"
+                    value {
+                      apply {
+                        arguments {
+                          item {
+                            ref "item"
+                          }
+                        }
+                        procedure {
+                          ref "value"
+                        }
+                      }
+                    }
+                  }
+                  {
+                    set "kept"
+                    value {
+                      call {
+                        arguments {
+                          value {
+                            ref "rewritten"
+                          }
+                        }
+                        of {
+                          ref "kept"
+                        }
+                        procedure "std.collection.appending"
+                      }
+                    }
+                  }
+                ]
+                while {
+                  call {
+                    arguments {
+                      value {
+                        call {
+                          of {
+                            ref "of"
+                          }
+                          procedure "std.collection.count"
+                        }
+                      }
+                    }
+                    of {
+                      ref "walk.index"
+                    }
+                    procedure "std.math.lessThan"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        parameters {
+          of {
+            type "array<int>"
+          }
+          value {
+            type {
+              "const procedure" {
+                parameters {
+                  item {
+                    type "int"
+                  }
+                }
+                returns "int"
+              }
+            }
+          }
+        }
+        result {
+          ref "kept"
+        }
+        returns "array<int>"
+      }
+      entry {
+        result {
+          call {
+            arguments {
+              of [
+                1
+                2
+                3
+              ]
+              value {
+                closure {
+                  parameters {
+                    item {
+                      type "int"
+                    }
+                  }
+                  result {
+                    call {
+                      arguments {
+                        value 2
+                      }
+                      of {
+                        ref "item"
+                      }
+                      procedure "std.math.times"
+                    }
+                  }
+                  returns "int"
+                }
+              }
+            }
+            procedure "app.mapped"
+          }
+        }
+        returns "array<int>"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

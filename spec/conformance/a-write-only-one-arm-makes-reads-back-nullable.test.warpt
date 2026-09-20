@@ -4,10 +4,10 @@ warpt 1
     ready true
   }
   expect {
-    refuses "link"
+    refuses "build"
   }
   name "a-write-only-one-arm-makes-reads-back-nullable"
-  note "The run either took the arm or did not, so afterwards the name holds the write or the null it started with — int?, and a slot declared int refuses it where names resolve."
+  note "The run either took the arm or did not, so afterwards the name holds the write or the null it started with. Int?, and a slot declared int refuses it where names resolve."
   program {
     imports []
     procedures {
@@ -18,7 +18,7 @@ warpt 1
           }
           {
             value {
-              branch {
+              conditional {
                 then [
                   {
                     set "kept"
@@ -46,17 +46,22 @@ warpt 1
           }
         ]
         parameters {
-          ready "bool"
+          ready {
+            type "bool"
+          }
         }
       }
       wants {
         parameters {
-          it "int"
+          it {
+            type "int"
+          }
         }
         result true
       }
     }
     warp 1
   }
-  test 1
+  test 2
 }
+

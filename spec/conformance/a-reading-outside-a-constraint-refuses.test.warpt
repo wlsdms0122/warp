@@ -1,0 +1,30 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-reading-outside-a-constraint-refuses"
+  note "Both sides of lessThan agree, and agreement is not admission: Comparable admits numbers and text, and these readings are booleans the build can see. The sameness half and the membership half are both said before anything runs."
+  program {
+    imports [
+      "std.math.lessThan"
+    ]
+    procedures {
+      entry {
+        result {
+          call {
+            arguments {
+              value false
+            }
+            of true
+            procedure "std.math.lessThan"
+          }
+        }
+        returns "bool"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

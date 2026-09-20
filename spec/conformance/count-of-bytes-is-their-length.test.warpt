@@ -1,0 +1,27 @@
+warpt 1
+{
+  expect {
+    answers 2
+  }
+  name "count-of-bytes-is-their-length"
+  note "Bytes stand as an array, so count reads their length: one per byte, and no question of what one is."
+  program {
+    imports [
+      "std.collection.count"
+    ]
+    procedures {
+      entry {
+        result {
+          call {
+            of x"6869"
+            procedure "std.collection.count"
+          }
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

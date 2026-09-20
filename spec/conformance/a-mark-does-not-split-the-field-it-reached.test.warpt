@@ -4,7 +4,7 @@ warpt 1
     answers 1
   }
   name "a-mark-does-not-split-the-field-it-reached"
-  note "A mark says what is expected of the value it reads, and says nothing about where the walk landed. So `of.inner` and `of?.inner` are one field read twice: a name holding one on the way in and the other on the way through a branch holds that one shape, and a dot on it stands. Told apart by their spelling, the same field would have become two unknowns that never meet, and the dot after them would be refused for no reason the author could see."
+  note "A mark says what is expected of the value it reads, and says nothing about where the walk landed. So `of.inner` and `of?.inner` are one field read twice: a name holding one on the way in and the other on the way through a conditional holds that one type, and a dot on it stands. Told apart by their spelling, the same field would have become two unknowns that never meet, and the dot after them would be refused for no reason the author could see."
   program {
     imports []
     procedures {
@@ -34,7 +34,7 @@ warpt 1
           }
           {
             value {
-              branch {
+              conditional {
                 then [
                   {
                     set "held"
@@ -66,5 +66,6 @@ warpt 1
     }
     warp 1
   }
-  test 1
+  test 2
 }
+

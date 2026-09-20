@@ -4,7 +4,7 @@ warpt 1
     answers 1
   }
   name "a-named-step-arrives-where-the-walk-arrives"
-  note "A body may hold what it read, and holding it is not reading something else: `held` holding `of.inner` and then `held.count` lands on the field `of.inner.count` lands on. What decides which shape a walk through a parameter reached is which field of which parameter it reached, so a name given to a step on the way changes nothing — the two readings meet at a join and hold that one shape, and the dot after them stands."
+  note "A body may hold what it read, and holding it is not reading something else: `held` holding `of.inner` and then `held.count` lands on the field `of.inner.count` lands on. What decides which type a walk through a parameter reached is which field of which parameter it reached, so a name given to a step on the way changes nothing. The two readings meet at a join and hold that one type, and the dot after them stands."
   program {
     imports []
     procedures {
@@ -42,7 +42,7 @@ warpt 1
           }
           {
             value {
-              branch {
+              conditional {
                 then [
                   {
                     set "seen"
@@ -74,5 +74,6 @@ warpt 1
     }
     warp 1
   }
-  test 1
+  test 2
 }
+
