@@ -1,0 +1,34 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-procedure-two-modules-declare-refuses"
+  note "Every procedure a program sends is declared by some module in the link exactly once. A spelling two documents declare is not a question of which to read first: it is a table with no answer for that name, the way two objects cannot both define one symbol."
+  program {
+    imports []
+    procedures {
+      entry {
+        result 1
+        returns "int"
+      }
+      "std.math.plus" {
+        parameters {
+          of {
+            type "int"
+          }
+          value {
+            type "int"
+          }
+        }
+        result {
+          ref "of"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

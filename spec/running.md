@@ -154,6 +154,6 @@ program that arrives is a program nobody can debug a race in.
 
 What `conformance/` asks about this page, by the name each case's file carries.
 
-- `a-field-the-declared-answer-does-not-name-refuses-at-the-build`
+- `a-field-the-declared-answer-does-not-name-refuses`
 - `an-answer-of-all-settles-into-the-record-declared`
 - `concurrency-is-granted-vocabulary`

@@ -1,0 +1,25 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-mark-where-nothing-is-handed-on-once-refuses"
+  note "`consuming` and `borrowing` say what a slot does with an obligation. A parameter naming a type that carries none has nothing to say, and writing either mark on it is refused at the build."
+  program {
+    imports []
+    procedures {
+      entry {
+        parameters {
+          item {
+            type "consuming string"
+          }
+        }
+        result 1
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

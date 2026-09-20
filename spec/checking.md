@@ -130,5 +130,5 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-name-not-in-normal-form-c-is-refused`
 - `a-procedure-may-be-spelled-like-a-type`
 - `a-procedure-nobody-declares-refuses-at-build`
-- `a-procedure-two-modules-declare-refuses-at-the-build`
+- `a-procedure-two-modules-declare-refuses`
 - `an-untaken-arm-is-checked-too`

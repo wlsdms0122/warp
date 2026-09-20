@@ -1,0 +1,25 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-nullable-that-says-nothing-new-refuses"
+  note "The `?` is written once, on the whole spelling, and only where it says something new. `int??` says nothing the first `?` did not, so it is a second spelling of `int?` and is refused where the document is read."
+  program {
+    imports []
+    procedures {
+      entry {
+        parameters {
+          item {
+            type "int??"
+          }
+        }
+        result 1
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

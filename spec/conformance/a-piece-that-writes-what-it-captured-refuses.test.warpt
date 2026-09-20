@@ -1,0 +1,56 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-piece-that-writes-what-it-captured-refuses"
+  note "`all` takes a membership of isolated closures, so the slot asks. A closure that writes what it captured is not isolated, and the build refuses it where it is handed over."
+  program {
+    imports [
+      "std.concurrent.all"
+    ]
+    procedures {
+      entry {
+        body [
+          {
+            value 0
+            var "tally"
+          }
+          {
+            let "pieces"
+            value [
+              {
+                closure {
+                  body [
+                    {
+                      set "tally"
+                      value 1
+                    }
+                  ]
+                  result 1
+                }
+              }
+            ]
+          }
+          {
+            value {
+              call {
+                of {
+                  ref "pieces"
+                }
+                procedure "std.concurrent.all"
+              }
+            }
+          }
+        ]
+        result {
+          ref "tally"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

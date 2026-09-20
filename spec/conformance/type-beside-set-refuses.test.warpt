@@ -1,0 +1,32 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "type-beside-set-refuses"
+  note "`type` declares what a new name takes. A `set` reaches a name something else declared, so `type` beside it is refused where the document is read."
+  program {
+    imports []
+    procedures {
+      entry {
+        body [
+          {
+            set "count"
+            type "int"
+            value 2
+          }
+        ]
+        result {
+          ref "count"
+        }
+        returns "int"
+      }
+    }
+    var {
+      count 1
+    }
+    warp 1
+  }
+  test 2
+}
+

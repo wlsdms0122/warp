@@ -399,7 +399,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `absolute-floored-and-rounded-answer-a-whole`
 - `absolute-of-the-minimum-refuses`
 - `an-attempt-does-not-catch-overflow`
-- `an-operand-of-and-that-answers-no-bool-refuses-at-the-build`
+- `an-operand-of-and-that-answers-no-bool-refuses`
 - `append-writes-the-array-in-place`
 - `arithmetic-admits-only-numbers`
 - `arithmetic-answers-the-kind-it-was-given`
@@ -429,7 +429,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `first-over-nothing-refuses`
 - `floored-past-the-int-refuses`
 - `fraction-arithmetic-with-no-finite-answer-refuses`
-- `gathering-past-the-end-refuses-at-the-run`
+- `gathering-past-the-end-refuses`
 - `greater-than-mirrors-less-than`
 - `joined-over-nothing-answers-empty-text`
 - `keys-answer-in-canonical-order`
@@ -451,7 +451,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `rounded-past-the-int-refuses`
 - `setting-answers-a-new-record`
 - `sorted-orders-what-it-was-given`
-- `sorting-the-unorderable-refuses-at-the-build`
+- `sorting-the-unorderable-refuses`
 - `split-cuts-and-joined-writes`
 - `split-keeps-the-empty-pieces`
 - `starts-with-reads-the-head`

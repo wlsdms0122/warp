@@ -240,9 +240,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-null-default-needs-a-type-that-admits-null`
 - `a-nullable-parameter-defaults-to-null`
 - `a-path-handed-in-place-is-written-through`
-- `a-piece-that-writes-what-it-captured-refuses-at-the-build`
+- `a-piece-that-writes-what-it-captured-refuses`
 - `a-procedure-that-can-fail-says-so`
-- `a-receiver-by-name-refuses-at-the-build`
+- `a-receiver-by-name-refuses`
 - `a-receiver-is-held-to-its-parameter-at-the-run`
 - `a-receiver-written-for-one-that-declares-none-refuses`
 - `a-required-argument-left-out-refuses`
@@ -254,9 +254,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-answer-that-may-be-null-refuses-a-declaration-that-may-not`
 - `an-answer-worked-out-from-itself-says-nothing`
 - `an-argument-outside-enum-refuses-at-the-boundary`
-- `an-effect-in-a-condition-refuses-at-the-build`
+- `an-effect-in-a-condition-refuses`
 - `an-effect-in-a-contract-calls-operand-refuses`
-- `an-effect-in-an-operand-refuses-at-the-build`
+- `an-effect-in-an-operand-refuses`
 - `an-effectful-closure-where-const-is-asked-refuses`
 - `an-isolated-closure-writes-its-own-variables`
 - `an-omitted-argument-arrives-as-the-settled-default`

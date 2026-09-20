@@ -1,0 +1,59 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-record-under-another-name-refuses"
+  note "Two declared records of one type under two names are two types. A value read as a `Vault` fits no `Account` slot, and the build reads that off the cast."
+  program {
+    imports []
+    procedures {
+      entry {
+        body [
+          {
+            let "held"
+            value {
+              as "Vault"
+              of {
+                balance 1
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments {
+              account {
+                ref "held"
+              }
+            }
+            procedure "read"
+          }
+        }
+        returns "int"
+      }
+      read {
+        parameters {
+          account {
+            type "Account"
+          }
+        }
+        result {
+          ref "account.balance"
+        }
+        returns "int"
+      }
+    }
+    types {
+      Account {
+        balance "int"
+      }
+      Vault {
+        balance "int"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

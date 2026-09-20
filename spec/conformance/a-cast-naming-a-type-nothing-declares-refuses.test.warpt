@@ -1,0 +1,29 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-cast-naming-a-type-nothing-declares-refuses"
+  note "A cast names the type a value is read as, and a name nothing declares is no type. It is refused at the build, wherever it is written."
+  program {
+    imports []
+    procedures {
+      entry {
+        parameters {
+          item {
+            type "any"
+          }
+        }
+        result {
+          as "Ghost"
+          of {
+            ref "item"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

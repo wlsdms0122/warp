@@ -1,0 +1,25 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-some-outside-a-signature-refuses"
+  note "A type parameter lives in a signature, since a call is what fills it. A declared type writing `some T` in a field has nothing to fill it, and is refused at the build."
+  program {
+    imports []
+    procedures {
+      entry {
+        result 1
+        returns "int"
+      }
+    }
+    types {
+      Box {
+        item "some T"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

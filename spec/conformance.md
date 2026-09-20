@@ -196,4 +196,4 @@ tool that highlights or formats warpt would have to be told about it twice.
 
 What `conformance/` asks about this page, by the name each case's file carries.
 
-- `a-program-without-an-entry-refuses-at-the-build`
+- `a-program-without-an-entry-refuses`
