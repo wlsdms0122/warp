@@ -10,8 +10,9 @@ a particular order is decided here; what it does it *with* is
 A record carrying **at most one** naming key and its expression under
 **`value`**: `{ let "x" value { call {…} } }`, `{ value { loop {…} } }`. A
 construct sits inside `value` under its own key, and that is the one place a
-construct key is read; a construct written as an operand (an argument, a
-receiver, an element of an array or a record) **refuses**.
+construct key is read. Anywhere else, in an argument, a receiver, an element of
+an array or a record, a construct's key is a field name like any other, and the
+record carrying it is data.
 
 The naming key says what the statement does to its name:
 
@@ -287,6 +288,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-condition-that-is-not-a-bool-refuses`
 - `a-conditional-both-of-whose-arms-leave-ends-the-body`
 - `a-conditional-writes-the-flow-it-is-in`
+- `a-construct-key-outside-a-statement-is-a-field-name`
 - `a-declared-name-is-not-retyped-by-a-write`
 - `a-declining-conditional-writes-nothing`
 - `a-duplicate-statement-name-refuses`
@@ -333,7 +335,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `nothing-runs-after-leaving`
 - `nothing-runs-after-what-never-finishes`
 - `return-inside-a-closure-answers-the-closure`
-- `type-beside-set-refuses-at-the-load`
+- `type-beside-set-refuses`
 - `what-is-written-fits-the-type-the-path-reaches`
 - `what-nobody-wrote-is-not-readable`
 - `writing-a-name-never-declared-refuses`
