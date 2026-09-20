@@ -2,7 +2,7 @@
 
 Warp is a language, and this is where the language is. The directories beside
 this one hold implementations of it; nothing they do adds to the language, and
-the work of these pages is to owe them nothing. [Known costs](gap.md) says
+the work of these pages is to owe them nothing. [Known costs](cost.md) says
 where a decision lands a cost on one.
 
 This describes **Warp 0.1.0**. Nothing has shipped: no document exists anywhere
@@ -150,7 +150,7 @@ Each page is one part of the language, and ends with the cases under
 | [Encodings](encoding.md) | bytes for a value tree: `.warp` and `.warpt` |
 | [Objects](object.md) | what a build writes down, laid out so any implementation reads any other's |
 | [Conformance](conformance.md) | what a case is, and what a runner does |
-| [Known costs](gap.md) | where a decision lands a cost on an implementation |
+| [Known costs](cost.md) | where a decision lands a cost on an implementation |
 
 ## Where to start
 
@@ -179,5 +179,5 @@ also the order in which an implementation can keep its tests green as it grows.
 
 A reader looking for *why* rather than *what* has two entry points that are
 neither grammar nor rules: **What Warp is** above, which says what the language
-is for, and [Known costs](gap.md), which says where a decision lands a cost on
+is for, and [Known costs](cost.md), which says where a decision lands a cost on
 an implementation.
