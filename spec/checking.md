@@ -126,9 +126,9 @@ There is no opportunity to find out by trying, because trying *is* production.
 document names that spot: the document's identity and the steps from its root
 to the field, which is a place as [objects](object.md) lay one out, and never
 the file the document was authored in. A refusal that is a fact about the
-whole link, one name two documents declare, an entry nothing declares, names
-no place, since it has none. The sentence beside the place is the
-implementation's: a case says the stage and reads nothing else.
+whole link and no spot in it, an entry nothing declares, names no place, since
+it has none. The sentence beside the place is the implementation's: a case
+says the stage and reads nothing else.
 
 ## Cases
 

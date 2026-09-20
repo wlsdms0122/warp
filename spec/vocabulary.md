@@ -317,13 +317,13 @@ one: `std.Comparable` admits numbers and strings among themselves, not collectio
 Reading bytes *as* text is a procedure that names its encoding: `decoded` and
 `encoded` are the two directions of one mapping (`encoding: "utf8"`, the default
 and the only member), and bytes that are not text in that encoding
-**refuse at the run**. The list of encodings is this specification's: a member
-is one every implementation writes, so a host with an encoding of its own
-declares a procedure of its own rather than widening the list. Completing a broken sequence would answer a text nobody
+**refuse at the run**. Completing a broken sequence would answer a text nobody
 sent. `encoded` writes the text's code points as they stand and normalises
 nothing, and `decoded` keeps a byte order mark as the character it is:
 normalising the one or dropping the other would be an opinion about the text
-rather than a reading of it.
+rather than a reading of it. The list of encodings is this specification's: a
+member is one every implementation writes, so a host with an encoding of its
+own declares a procedure of its own rather than widening the list.
 
 **`abort`**. Fail on purpose, with a message. Declared `returns: never`, which
 is everything the checking needs: nothing runs after it, and no name binds it.
