@@ -63,13 +63,6 @@ names that set, and a body written from `characters` still could not answer it:
 `characters` answers characters, and whether a character is whitespace is a
 question about the code points inside it.
 
-`std.text.regex` is no bundle's and is asked of no implementation: what a
-pattern means differs between the engines a host would reach for. A host that
-has one declares it under that spelling in a module of its own and lays that in
-the link, the way it grants any procedure of its own, or leaves it out. A
-document reaching for it is asking for something of its host rather than of the
-language, and no case measures it.
-
 **A bundle is not a module.** A module is compiled against the modules standing
 before it, so the modules of a link have to have an order, and two that send to
 each other have none. What a bundle declares for its host to answer has no body
@@ -171,10 +164,7 @@ combining mark is also one character and two code points, and the mark is not
 whitespace in Unicode and so is not trimmed, however a platform's own set
 answers.
 
-A host's `std.text.regex` answers whether the pattern matches *anywhere* in the
-text, in the host's own dialect, and a program asking about the whole anchors
-the pattern itself (`^…$`). `replacing` rewrites every occurrence, not only the
-first.
+`replacing` rewrites every occurrence, not only the first.
 `joined` over an array with nothing in it answers the empty text, whatever the
 separator: there is nothing to put between.
 `split` keeps the empty pieces a separator at either end leaves, since dropping

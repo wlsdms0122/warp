@@ -24,11 +24,6 @@ would be entitled to guess differently.
   a writer handed it to send, the host's own release of it, meets a depth no
   document ever had. Whether a value has a bound of its own, and where it would
   be refused, is undecided.
-- **`regex` names no dialect.** The table says the pattern is a string and says
-  nothing about what it means, so two hosts reaching for their own engines
-  answer the same document differently. That is why it is required of no
-  implementation, but naming a dialect would be a better answer than leaving it
-  out.
 - **Encodings beyond utf8.** `decoded`/`encoded` name their encoding and
   today name one. Which others join the `enum`, and whether a host may
   extend it. Is undecided; the type of the procedures is not.
