@@ -25,6 +25,8 @@ One file, one question: a subject, what to ask it with, and what should happen.
     text        a document's text, in the text encoding; a string, or bytes
                 where the question is whether they are text at all
     object      an object, written the way the text encoding lays one out
+    document    bytes. The identity the runner reads the object under, where
+                it is not the one the object writes
     arguments   what the entry procedure is given, if anything; a record
                 under a name is written as the text encoding writes one
     vocabulary  the procedures the runner brings, if any
@@ -51,9 +53,12 @@ the way `spells` is the writer's half of an encoding.
 A case carrying an **object** asks the reader's half: the object is read,
 linked with the standard vocabulary and run from `entry`, and it expects
 `answers` or `refuses`. It may write `arguments` and not `vocabulary`, since
-what it leans on is already written inside it. An object refused where it is
-read refuses at `load`; one refused where it is laid beside the vocabulary,
-at `build`.
+what it leans on is already written inside it. It is read under the identity
+it writes for its document, or under `document` where the case writes one,
+which is how a case asks whether an object kept under one document is
+refused when handed back under another. An object refused where it is read
+refuses at `load`; one refused where it is laid beside the vocabulary, at
+`build`.
 
 A case carrying **bytes** or **text** asks about an encoding rather than
 about a program. `spells <value>` is both directions at once: reading answers
