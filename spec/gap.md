@@ -1,46 +1,9 @@
-# Known gaps
+# Known costs
 
-Written down because a specification that hides what it has not decided is
-worse than one that admits it.
-
-## Undecided
-
-Each of these is a place a second implementation would have to guess, and
-would be entitled to guess differently.
-
-- **A caller has no way to hand a constant in.** A constant settles from
-  bodies in the link and from the procedures this specification names, under
-  *what a constant settles from* in [procedures](procedure.md), so a caller
-  that wants the build to bake something of its own has nowhere to put it: a
-  procedure it brings is exactly what that rule turns away. What is wanted is
-  a **value**, which is data the link carries and a caller can hash, rather
-  than a procedure that answers one. Where such a value is written, how a
-  document names it, and whether it is a module of its own are undecided.
-- **The bound is on documents, and a run builds values.** Nesting deeper than
-  128 containers is refused at the wire, under [encodings](encoding.md), so no
-  document a reader admits is deeper than that. A running program is under no
-  such rule: a loop that wraps its last value in an array each time around
-  builds a value of any depth, and whatever meets it afterwards, a comparison,
-  a writer handed it to send, the host's own release of it, meets a depth no
-  document ever had. Whether a value has a bound of its own, and where it would
-  be refused, is undecided.
-- **Encodings beyond utf8.** `decoded`/`encoded` name their encoding and
-  today name one. Which others join the `enum`, and whether a host may
-  extend it. Is undecided; the type of the procedures is not.
-- **Whether a refusal names its place is not specified.** A case says the
-  stage a document is refused at and nothing about the sentence, so two
-  implementations agreeing on every case may still name the place
-  differently, or name none. What a place *is* is decided: a fact about the
-  **document** and never about the file it was authored in, the document's
-  identity and the steps from its root, laid out under [objects](object.md)
-  where an object carries one. Whether a refusal owes an author one, and in
-  what sentence, stays each implementation's to give.
-
-## Decided, and what it costs
-
-Each of these is settled. What remains is a cost the decision lands on an
-implementation, or a limit of the suite, and a second implementation is told
-here rather than left to find it.
+Written down because a specification that hides what its decisions cost is
+worse than one that admits it. Each of these is settled. What remains is a
+cost the decision lands on an implementation, or a limit of the suite, and a
+second implementation is told here rather than left to find it.
 
 - **The text decision is cheap in Swift and dear elsewhere.** Grapheme-cluster
   counting and canonical equivalence are the platform's gift in Swift and a
@@ -65,3 +28,14 @@ here rather than left to find it.
   `é` one way and reference it the other. What remains here is only the cost:
   an implementation whose platform compares by code unit owes a library the
   difference.
+- **A run's values have no bound, and an implementation walks them on its own
+  stack.** The nesting bound is the wire's, under [encodings](encoding.md), and
+  a running program builds deeper values than any document. An implementation
+  whose comparison, rendering or release of a value recurses meets a depth
+  there that no document brought, and owes either a walk on a stack of its own
+  or a caller that stops the run; the language refuses nothing there.
+- **A refusal's sentence is not held.** A refusal names its place, under
+  [checking](checking.md), and a case measures the stage; two implementations
+  agreeing on every case may still say the reason in different words. The
+  place is the part a front end reads to point at a line, so it is the part
+  that is held.

@@ -143,6 +143,8 @@ brought, whether the constant called it or called a body that does. A **slot**
 asking `const procedure` and an **operand** are untouched: both are read while
 the program runs, and neither writes anything down.
 
+**A caller that wants the build to settle a value of its own writes a document.** A body in another document of the link is what a constant settles from, so a caller bakes a value in by laying in a document that declares a procedure answering it, and a constant elsewhere calls that procedure. The document is a document like any other: it has an identity, that identity stands among what a compiled document was built against, under *identity and dependencies* in [objects](object.md), and a value that moved is a build that moves with it. What the rule above turns away is a procedure in the caller's own language, whose answer no document carries; a value written in a document is carried whole.
+
 What settles at the build, a constant or a variable's start, settles to a
 value. A body run at the build may answer a closure holding a variable of that
 run, and settling to one **refuses at the build** as well: the run is over when

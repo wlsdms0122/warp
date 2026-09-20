@@ -122,6 +122,14 @@ sampling, not checking. A program that arrived has branches nobody ran before
 sending it, and the one that matters is the one that only fires in production.
 There is no opportunity to find out by trying, because trying *is* production.
 
+**What a refusal names.** A refusal at `load` or `build` about one spot in a
+document names that spot: the document's identity and the steps from its root
+to the field, which is a place as [objects](object.md) lay one out, and never
+the file the document was authored in. A refusal that is a fact about the
+whole link, one name two documents declare, an entry nothing declares, names
+no place, since it has none. The sentence beside the place is the
+implementation's: a case says the stage and reads nothing else.
+
 ## Cases
 
 What `conformance/` asks about this page, by the name each case's file carries.
