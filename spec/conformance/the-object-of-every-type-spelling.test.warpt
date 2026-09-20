@@ -1,0 +1,337 @@
+warpt 1
+{
+  expect {
+    builds {
+      answers [
+        [
+          "entry"
+          [
+            18
+            "T"
+            [
+              [
+                0
+                "x"
+                false
+              ]
+            ]
+          ]
+        ]
+      ]
+      claims []
+      constants []
+      constraints []
+      contracts []
+      dependencies []
+      document [
+        x"e1514312a03455e95f45e28923fcdcf0ca2b644dfce3b323c1082911f883bb9d"
+      ]
+      leaned []
+      lifted []
+      numbering [
+        []
+        []
+        []
+        []
+      ]
+      object 1
+      rows [
+        [
+          "entry"
+          [
+            []
+            [
+              [
+                "d"
+                [
+                  [
+                    [
+                      7
+                      [
+                        1
+                        [
+                          0.0
+                        ]
+                        [
+                          [
+                            1
+                            1.0
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                  []
+                  []
+                  []
+                ]
+              ]
+              [
+                "h"
+                [
+                  [
+                    [
+                      16
+                      [
+                        18
+                        "app.Handle"
+                      ]
+                    ]
+                  ]
+                  []
+                  []
+                  []
+                ]
+              ]
+              [
+                "io"
+                [
+                  [
+                    [
+                      13
+                      [
+                        4
+                      ]
+                    ]
+                  ]
+                  []
+                  []
+                  []
+                ]
+              ]
+              [
+                "k"
+                [
+                  [
+                    [
+                      18
+                      "app.Kinds"
+                    ]
+                  ]
+                  []
+                  []
+                  []
+                ]
+              ]
+              [
+                "p"
+                [
+                  [
+                    [
+                      19
+                      "T"
+                      []
+                    ]
+                  ]
+                  []
+                  []
+                  []
+                ]
+              ]
+            ]
+            []
+          ]
+          1
+          1
+          [
+            1
+            []
+          ]
+          []
+          [
+            0
+            [
+              []
+              [
+                [
+                  1
+                  [
+                    4
+                    [
+                      [
+                        1
+                        "x"
+                        false
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+            [
+              5
+              [
+                0
+                1
+                2
+                3
+                4
+              ]
+              []
+              []
+              [
+                "d"
+                "h"
+                "io"
+                "k"
+                "p"
+              ]
+            ]
+          ]
+        ]
+      ]
+      types [
+        [
+          "app.Handle"
+          [
+            14
+            [
+              10
+              [
+                [
+                  "name"
+                  [
+                    6
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+        [
+          "app.Kinds"
+          [
+            10
+            [
+              [
+                "f"
+                [
+                  11
+                  []
+                  0
+                  0
+                ]
+              ]
+              [
+                "flag"
+                [
+                  12
+                  [
+                    3
+                  ]
+                ]
+              ]
+              [
+                "g"
+                [
+                  11
+                  [
+                    [
+                      []
+                      []
+                      [
+                        [
+                          4
+                        ]
+                      ]
+                    ]
+                  ]
+                  1
+                  1
+                ]
+              ]
+              [
+                "maybe"
+                [
+                  17
+                  [
+                    4
+                  ]
+                ]
+              ]
+              [
+                "ranged"
+                [
+                  7
+                  [
+                    0
+                    [
+                      0
+                    ]
+                    [
+                      [
+                        0
+                        9
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+              [
+                "table"
+                [
+                  9
+                  [
+                    6
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+      variables []
+    }
+  }
+  name "the-object-of-every-type-spelling"
+  note "Every type spelling a document writes lowers under the tag the page gives it: a range with its edges, a dictionary, the marks var, inout, linear and borrowing, the nullable, a procedure type with its signature and its claims, a type parameter, and the reading a walk through one derives, written under answers."
+  program {
+    imports []
+    procedures {
+      entry {
+        parameters {
+          d {
+            type "double(0.0..<1.0)"
+          }
+          h {
+            type "borrowing app.Handle"
+          }
+          io {
+            type "inout int"
+          }
+          k {
+            type "app.Kinds"
+          }
+          p {
+            type "some T"
+          }
+        }
+        result {
+          ref "p.x"
+        }
+      }
+    }
+    types {
+      "app.Handle" {
+        linear {
+          name "string"
+        }
+      }
+      "app.Kinds" {
+        f "procedure"
+        flag "var bool"
+        g {
+          "const isolated procedure" {
+            returns "int"
+          }
+        }
+        maybe "int?"
+        ranged "int(0...9)"
+        table "dictionary<string>"
+      }
+    }
+    warp 1
+  }
+  test 6
+}
+

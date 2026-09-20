@@ -387,3 +387,4 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `the-object-of-a-record-built-from-parts`
 - `the-object-of-an-array-built-from-parts`
 - `the-object-of-an-attempt`
+- `the-object-of-every-type-spelling`
