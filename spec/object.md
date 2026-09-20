@@ -38,6 +38,12 @@ of them names, or one of them missing, **refuses**. Current format: **1**.
 | `variables` | (name, *value*): what each variable starts a run holding | by name |
 | `constants` | the constants it declared, by spelling | by name |
 
+**The record is keyed and its parts are not.** Keys are what a format adds
+and takes away as it moves, so the envelope names them; inside a part the
+fields stand in order and a kind says itself by its tag, and the whole of it
+moves with the format number. A part added later is a new key, never a new
+field in an old part.
+
 **Order is spelling.** Every list a name keys stands ascending by the names'
 bytes, none twice, and so does every set written as a list. That is the
 whole of what makes one object one value: a dictionary lends no order, so
@@ -359,6 +365,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-missing-a-part-refuses`
 - `an-object-of-a-later-format-refuses`
 - `an-object-runs-with-what-the-entry-is-given`
+- `an-object-standing-against-another-document-refuses`
 - `an-object-whose-body-stands-past-its-frame-refuses`
 - `an-object-whose-rows-stand-out-of-name-order-refuses`
 - `an-object-with-a-key-nothing-names-refuses`
@@ -367,6 +374,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `the-object-of-a-call`
 - `the-object-of-a-cast`
 - `the-object-of-a-closure`
+- `the-object-of-a-composition`
 - `the-object-of-a-conditional`
 - `the-object-of-a-declared-type-and-a-constraint`
 - `the-object-of-a-dispatch`

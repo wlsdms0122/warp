@@ -147,7 +147,7 @@ Each page is one part of the language, and ends with the cases under
 | [What an implementation checks, and when](checking.md) | which stage answers which refusal |
 | [Running](running.md) | what a run does, and what it may not do |
 | [The standard vocabulary](vocabulary.md) | the procedures every implementation brings |
-| [Encodings](encoding.md) | bytes for a document: `.warp` and `.warpt` |
+| [Encodings](encoding.md) | bytes for a value tree: `.warp` and `.warpt` |
 | [Objects](object.md) | what a build writes down, laid out so any implementation reads any other's |
 | [Conformance](conformance.md) | what a case is, and what a runner does |
 | [Known gaps](gap.md) | where these pages still owe an implementation |
