@@ -6,7 +6,9 @@ warpt 1
   name "consuming-on-a-type-parameter-refuses"
   note "What fills a type parameter is the call's, so a body that took an obligation there would have no name to carry it on. `consuming some T` is refused at the build."
   program {
-    imports []
+    imports [
+      "std.Comparable"
+    ]
     procedures {
       entry {
         bounds {

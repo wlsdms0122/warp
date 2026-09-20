@@ -24,13 +24,6 @@ would be entitled to guess differently.
   a writer handed it to send, the host's own release of it, meets a depth no
   document ever had. Whether a value has a bound of its own, and where it would
   be refused, is undecided.
-- **`imports` does not announce type or constraint dependencies.** The list
-  gathers what a program *sends*; a document leaning on a constraint another
-  module declares. `bounds: { T: std.Comparable }` with no declaration of its
-  own. States that dependency nowhere a caller can read before linking.
-  Whether `imports` should widen to carry unresolved type and constraint
-  mentions is undecided; until it is, that dependency surfaces only as a build
-  refusal.
 - **`regex` names no dialect.** The table says the pattern is a string and says
   nothing about what it means, so two hosts reaching for their own engines
   answer the same document differently. That is why it is required of no

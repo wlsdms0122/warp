@@ -93,7 +93,7 @@ Refusals happen at one of three stages, and the stage is part of the behaviour:
 
 1. **Loading**. The bytes or the tree are not a document, or the document does
    not hold together on its own: a name resolves nowhere in it, a statement
-   follows a leave, its `imports` list is not what its program sends.
+   follows a leave, its `imports` list is not what its program uses.
 2. **Building**. The document holds together, and the program it writes is not
    sound against the declarations it reaches: a call does not fit the
    declaration, a procedure no module provides, a type nobody declared.
@@ -115,7 +115,7 @@ already happened, and what already happened cannot be taken back.
 The cases under `conformance/` name the stages **`load`**, **`build`** and
 **`run`**. `load` is reading plus the checks that need no declaration's
 signature: every name a body writes resolves in its own document, nothing
-follows a leave, and the `imports` list is what the program sends. A document
+follows a leave, and the `imports` list is what the program uses. A document
 is checked as it is loaded, and to a caller the two are one refusal surface.
 `build` is everything judged against a signature or another document: what a
 call fits, what a slot takes, which module declares a procedure, which type

@@ -15,7 +15,7 @@ the pages it points to, is **closed**: a key none of them names **refuses**. Eve
 | key | takes | required |
 |---|---|---|
 | `warp` | int. The language version this document is written for | yes |
-| `imports` | array of strings. Every procedure the program calls and does not declare | yes, and empty where the program uses none |
+| `imports` | array of strings. Every name the program uses and does not declare: the procedures it sends, and the types, constraints and contracts it names | yes, and empty where the program uses none |
 | `description` | string | no |
 | `types` | record: name → type | no |
 | `constraints` | record: name → array of types the name admits | no |
@@ -67,22 +67,9 @@ that refusal being explicable is what the number buys. Forward compatibility is
 not available to anyone: what a reader can do about a version it has never
 heard of is refuse, and the point of the number is that it can.
 
-**The imports list.** What the program *sends* and does not itself declare. From
-procedure bodies, from constants and from a variable's start alike, each by the
-spelling it is sent by,
-which is its declared spelling: `std.math.plus`, never `plus`. A native
-procedure's sends are in it too. What a body sends is read off its text; a
-module the host assembled in its own language holds procedures with no text a
-reader could read, so each declares the procedures it sends and those count the
-same. A
-module whose native procedures send things its list never mentioned would
-understate what the module does, which is the one thing this list may not do.
-The list is that set exactly, not a bound around it: **reading refuses** a
-document whose list disagrees with what its program sends, in either direction.
-A stage-1 refusal, and it can be, since what a program sends is a fact of its
-text alone. The list is read before the program and a caller grants from it, so
-a list saying less would be trusted and wrong, and a list saying more asks for a
-grant the program has no use for.
+**The imports list.** Every name the program *uses* and does not itself declare, each by its declared spelling: `std.math.plus`, never `plus`. Two kinds of name are in it, and they are the two kinds a link resolves. The procedures the program sends, from procedure bodies, from constants and from a variable's start alike; and the types, constraints and contracts it names, in a declaration, a bound, a local binding, a cast, a closure's signature or a claim. A native procedure's sends are in it too. What a body sends is read off its text; a module the host assembled in its own language holds procedures with no text a reader could read, so each declares the procedures it sends and those count the same. A module whose native procedures send things its list never mentioned would understate what the module does, which is the one thing this list may not do.
+
+The list is that set exactly, not a bound around it: **reading refuses** a document whose list disagrees with what its program uses, in either direction. A stage-1 refusal, and it can be, since what a program uses is a fact of its text alone. The list is read before the program: a caller grants the procedures from it and lays the link from it, so a list saying less would be trusted and wrong, and a list saying more asks for a grant the program has no use for.
 
 **A module asks and does not carry.** What the list names is supplied by
 whatever else stands in the link, and a module that shipped its own copy of a
@@ -133,6 +120,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-constant-sees-only-the-constants-beside-it`
 - `a-document-that-says-no-version-refuses`
 - `a-later-document-refuses`
+- `a-list-leaving-out-a-type-the-program-names-refuses`
 - `a-module-declares-a-constraint`
 - `a-module-variable-handed-in-place-is-one-box`
 - `a-module-variable-is-handed-in-place-to-a-native-procedure`
