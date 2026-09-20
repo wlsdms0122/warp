@@ -148,6 +148,7 @@ Each page is one part of the language, and ends with the cases under
 | [Running](running.md) | what a run does, and what it may not do |
 | [The standard vocabulary](vocabulary.md) | the procedures every implementation brings |
 | [Encodings](encoding.md) | bytes for a document: `.warp` and `.warpt` |
+| [Objects](object.md) | what a build writes down, laid out so any implementation reads any other's |
 | [Conformance](conformance.md) | what a case is, and what a runner does |
 | [Known gaps](gap.md) | where these pages still owe an implementation |
 
@@ -171,7 +172,9 @@ also the order in which an implementation can keep its tests green as it grows.
    the same language if one of them refuses later than the other.
 5. [Running](running.md) and [The standard vocabulary](vocabulary.md). What a
    sound program does, and the procedures it does it with.
-6. [Conformance](conformance.md). The cases, which by then are the only thing
+6. [Objects](object.md). What the build above writes down, which is the
+   whole of it laid out as a value, and so the last thing that can be.
+7. [Conformance](conformance.md). The cases, which by then are the only thing
    worth asking whether the work is finished.
 
 A reader looking for *why* rather than *what* has two entry points that are

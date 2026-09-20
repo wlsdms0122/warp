@@ -1,0 +1,151 @@
+warpt 1
+{
+  expect {
+    builds {
+      answers []
+      claims []
+      constants []
+      constraints []
+      contracts []
+      dependencies []
+      document [
+        x"6ea4f0c96c4db16367302c2762a86a1668ee2888f44d293201feb8b8d801cecb"
+      ]
+      leaned []
+      lifted []
+      numbering [
+        []
+        []
+        []
+        []
+      ]
+      object 1
+      rows [
+        [
+          "entry"
+          [
+            []
+            []
+            [
+              [
+                4
+              ]
+            ]
+          ]
+          1
+          1
+          [
+            1
+            []
+          ]
+          []
+          [
+            0
+            [
+              [
+                [
+                  [
+                    [
+                      0
+                      1
+                      []
+                    ]
+                  ]
+                  [
+                    7
+                    [
+                      [
+                        [
+                          [
+                            [
+                              0
+                              0
+                              []
+                            ]
+                          ]
+                          [
+                            0
+                            [
+                              2
+                              5
+                            ]
+                          ]
+                          "inner"
+                        ]
+                      ]
+                      [
+                        [
+                          1
+                          [
+                            0
+                            []
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                  "got"
+                ]
+              ]
+              [
+                [
+                  1
+                  [
+                    1
+                    []
+                  ]
+                ]
+              ]
+            ]
+            [
+              2
+              []
+              []
+              []
+              [
+                "inner"
+                "got"
+              ]
+            ]
+          ]
+        ]
+      ]
+      types []
+      variables []
+    }
+  }
+  name "the-object-of-a-block"
+  note "A block is a body of its own, instructions and a result, standing in the enclosing frame: the slot its local binds is the enclosing frame's."
+  program {
+    imports []
+    procedures {
+      entry {
+        body [
+          {
+            let "got"
+            value {
+              block {
+                body [
+                  {
+                    let "inner"
+                    value 5
+                  }
+                ]
+                result {
+                  ref "inner"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "got"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 6
+}
+

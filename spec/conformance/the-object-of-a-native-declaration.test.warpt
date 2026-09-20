@@ -1,0 +1,104 @@
+warpt 1
+{
+  expect {
+    builds {
+      answers []
+      claims []
+      constants []
+      constraints []
+      contracts []
+      dependencies [
+        x"17b2489770cd500bf6dd5c42582bb51274f752aad2ae6f3bbf97e1ecb710a4df"
+      ]
+      document [
+        x"e4dc432d4d1f6b6f1279f1d5de6928aa7fb4cf37c1f3f74cfc5d7be515ba34fa"
+      ]
+      leaned []
+      lifted []
+      numbering [
+        [
+          "host.ping"
+        ]
+        []
+        []
+        []
+      ]
+      object 1
+      rows [
+        [
+          "entry"
+          [
+            []
+            []
+            [
+              [
+                4
+              ]
+            ]
+          ]
+          1
+          1
+          [
+            1
+            []
+          ]
+          []
+          [
+            0
+            [
+              []
+              [
+                [
+                  11
+                  [
+                    0
+                    []
+                    []
+                    []
+                  ]
+                ]
+              ]
+            ]
+            [
+              0
+              []
+              []
+              []
+              []
+            ]
+          ]
+        ]
+      ]
+      types []
+      variables []
+    }
+  }
+  name "the-object-of-a-native-declaration"
+  note "A declaration the host answers has no body: its row's implementation is native, carrying the sends it declared, and the object that leans on it names that module's object under dependencies."
+  program {
+    imports [
+      "host.ping"
+    ]
+    procedures {
+      entry {
+        result {
+          call {
+            procedure "host.ping"
+          }
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 6
+  vocabulary {
+    procedures {
+      "host.ping" {
+        answers 7
+        returns "int"
+      }
+    }
+  }
+}
+

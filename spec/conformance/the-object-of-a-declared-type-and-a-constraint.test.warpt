@@ -1,0 +1,177 @@
+warpt 1
+{
+  expect {
+    builds {
+      answers []
+      claims []
+      constants []
+      constraints [
+        [
+          "app.Number"
+          [
+            [
+              4
+            ]
+            [
+              5
+            ]
+          ]
+        ]
+      ]
+      contracts []
+      dependencies []
+      document [
+        x"42bcf9d21052b9173a7f6d95a022158198bbc3d0e70336684fd0356ab4ca7932"
+      ]
+      leaned []
+      lifted []
+      numbering [
+        []
+        []
+        []
+        []
+      ]
+      object 1
+      rows [
+        [
+          "entry"
+          [
+            []
+            [
+              [
+                "p"
+                [
+                  [
+                    [
+                      18
+                      "app.Point"
+                    ]
+                  ]
+                  []
+                  []
+                  []
+                ]
+              ]
+              [
+                "v"
+                [
+                  [
+                    [
+                      19
+                      "T"
+                      [
+                        "app.Number"
+                      ]
+                    ]
+                  ]
+                  []
+                  []
+                  []
+                ]
+              ]
+            ]
+            [
+              [
+                19
+                "T"
+                [
+                  "app.Number"
+                ]
+              ]
+            ]
+          ]
+          1
+          1
+          [
+            1
+            []
+          ]
+          []
+          [
+            0
+            [
+              []
+              [
+                [
+                  1
+                  [
+                    1
+                    []
+                  ]
+                ]
+              ]
+            ]
+            [
+              2
+              [
+                0
+                1
+              ]
+              []
+              []
+              [
+                "p"
+                "v"
+              ]
+            ]
+          ]
+        ]
+      ]
+      types [
+        [
+          "app.Point"
+          [
+            10
+            [
+              [
+                "x"
+                [
+                  4
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+      variables []
+    }
+  }
+  name "the-object-of-a-declared-type-and-a-constraint"
+  note "Declared types and constraints stand as the document wrote them. A body standing on a declared type numbers it under numbering, and a slot declaring a type parameter lowers to the parameter with its bounds, a membership by number."
+  program {
+    constraints {
+      "app.Number" [
+        "int"
+        "double"
+      ]
+    }
+    imports []
+    procedures {
+      entry {
+        bounds {
+          T "app.Number"
+        }
+        parameters {
+          p {
+            type "app.Point"
+          }
+          v {
+            type "some T"
+          }
+        }
+        result {
+          ref "v"
+        }
+        returns "some T"
+      }
+    }
+    types {
+      "app.Point" {
+        x "int"
+      }
+    }
+    warp 1
+  }
+  test 6
+}
+

@@ -39,41 +39,14 @@ would be entitled to guess differently.
 - **Encodings beyond utf8.** `decoded`/`encoded` name their encoding and
   today name one. Which others join the `enum`, and whether a host may
   extend it. Is undecided; the type of the procedures is not.
-- **Where a refusal points is not specified.** A case says the stage a
-  document is refused at and nothing about the sentence, so two
+- **Whether a refusal names its place is not specified.** A case says the
+  stage a document is refused at and nothing about the sentence, so two
   implementations agreeing on every case may still name the place
-  differently, or name none. What an author is owed is the whole of the
-  question: a refusal that does not say where sends them searching a
-  document they did not write by hand. Whether the answer belongs here. A
-  path spelled from the document's own keys, so that following it step by
-  step lands on what was typed, or stays each implementation's to give, is
-  undecided. What is decided is that a place is a fact about the **document**
-  and never about the file it was authored in: a front end holds the file,
-  and the document is what crossed the wire.
-- **How a document is told from another document is decided; where the answer
-  belongs is not.** Nothing a document says about itself can do it: what a
-  document writes is declarations, and two documents may declare spellings
-  under one prefix (a program split across files). A file path cannot do it
-  either, since a
-  document arrives as bytes and the wire carries no container. What is always
-  there is the document itself, so a document is identified by the **digest of
-  its canonical binary writing**, and by nothing it says about itself. It is
-  derived and never declared: there is no field for it, which is what makes it
-  impossible to write down wrongly, and two readers holding one document arrive
-  at one answer without having agreed on anything but this paragraph. The
-  digest is SHA-256 of the bytes the canonical binary writer produces. The
-  same bytes a conforming reader already has to accept exactly, so an
-  implementation that has the wire right has this right. What is undecided is
-  whether identity belongs in this specification at all or stays a fact each
-  implementation works out for itself, since nothing a program *runs* depends
-  on it.
-- **What a build writes down is the implementation's.** A document is what
-  crosses the wire, and the pages here say everything about it. What a build
-  makes of one, the judged rows, the lowered bodies, the numbering a link
-  reads, is written and read by the implementation that made it, and nothing
-  here says what it holds or in what order. Whether that writing becomes a
-  format of its own, so that a build made by one implementation links and
-  runs under another, is undecided; it waits on the lowering it would freeze.
+  differently, or name none. What a place *is* is decided: a fact about the
+  **document** and never about the file it was authored in, the document's
+  identity and the steps from its root, laid out under [objects](object.md)
+  where an object carries one. Whether a refusal owes an author one, and in
+  what sentence, stays each implementation's to give.
 
 ## Decided, and what it costs
 
@@ -89,10 +62,11 @@ here rather than left to find it.
   transcribed from one implementation carry its blind spots; the first reader
   who implements from these tables alone, and disagrees, is worth more than
   any amount of agreement.
-- **The suite covers the constructs, the vocabulary and the encodings;
-  cancellation is the exception.** Every construct, the naming and leaving
-  rules, the envelope, the boundary settlements, the concurrency grant, every
-  standard procedure and what a binary reader must refuse are held as cases,
+- **The suite covers the constructs, the vocabulary, the encodings and the
+  objects; cancellation is the exception.** Every construct, the naming and
+  leaving rules, the envelope, the boundary settlements, the concurrency
+  grant, every standard procedure, what a binary reader must refuse and what
+  a build writes down for each operation are held as cases,
   and each page names its own under *Cases*. Cancellation cannot be a data
   case at all: it needs a caller with a lever, so stopping is held only by
   tests inside the Swift implementation.

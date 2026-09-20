@@ -1,0 +1,225 @@
+warpt 1
+{
+  expect {
+    builds {
+      answers []
+      claims []
+      constants []
+      constraints []
+      contracts []
+      dependencies []
+      document [
+        x"e8b127b8d28a6b2e266fc29474a6734ab9438a27741bf4d0b264cdbb75f6b923"
+      ]
+      leaned []
+      lifted [
+        [
+          [
+            []
+            []
+            [
+              [
+                4
+              ]
+            ]
+          ]
+          1
+          1
+          [
+            1
+            []
+          ]
+          []
+          [
+            0
+            [
+              []
+              [
+                [
+                  1
+                  [
+                    0
+                    []
+                  ]
+                ]
+              ]
+            ]
+            [
+              1
+              []
+              []
+              [
+                0
+              ]
+              [
+                "n"
+              ]
+            ]
+          ]
+        ]
+      ]
+      numbering [
+        []
+        [
+          [
+            "entry"
+            1
+          ]
+        ]
+        []
+        []
+      ]
+      object 1
+      rows [
+        [
+          "entry"
+          [
+            []
+            [
+              [
+                "n"
+                [
+                  [
+                    [
+                      4
+                    ]
+                  ]
+                  []
+                  []
+                  []
+                ]
+              ]
+            ]
+            [
+              [
+                4
+              ]
+            ]
+          ]
+          0
+          0
+          [
+            0
+          ]
+          []
+          [
+            0
+            [
+              [
+                [
+                  [
+                    [
+                      0
+                      1
+                      []
+                    ]
+                  ]
+                  [
+                    4
+                    1
+                    [
+                      [
+                        0
+                        0
+                      ]
+                    ]
+                  ]
+                  "held"
+                ]
+                [
+                  [
+                    [
+                      0
+                      2
+                      []
+                    ]
+                  ]
+                  [
+                    5
+                    [
+                      1
+                      [
+                        1
+                        []
+                      ]
+                    ]
+                    []
+                  ]
+                  "got"
+                ]
+              ]
+              [
+                [
+                  1
+                  [
+                    2
+                    []
+                  ]
+                ]
+              ]
+            ]
+            [
+              3
+              [
+                0
+              ]
+              []
+              []
+              [
+                "n"
+                "held"
+                "got"
+              ]
+            ]
+          ]
+        ]
+      ]
+      types []
+      variables []
+    }
+  }
+  name "the-object-of-a-closure"
+  note "A closure literal is lifted into a row of its own behind the declarations, spelled by the numbering as the first closure entry wrote, and the literal names that number and which outer slot fills which inner slot."
+  program {
+    imports []
+    procedures {
+      entry {
+        body [
+          {
+            let "held"
+            value {
+              closure {
+                result {
+                  ref "n"
+                }
+                returns "int"
+              }
+            }
+          }
+          {
+            let "got"
+            value {
+              apply {
+                procedure {
+                  ref "held"
+                }
+              }
+            }
+          }
+        ]
+        parameters {
+          n {
+            type "int"
+          }
+        }
+        result {
+          ref "got"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 6
+}
+

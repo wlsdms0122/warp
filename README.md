@@ -46,6 +46,8 @@ the document              one format, defined in spec/     ← what travels
         ↓  as bytes       binary · text                    encodings
         ↓
 a runtime                 Swift today, others by spec       runtimes. Many
+        ↓
+an object                 one format, defined in spec/     ← what a build keeps
 ```
 
 A **front end** turns what a person wrote into a document and stops there. A
@@ -58,7 +60,7 @@ run with another, and none of them share code.
 
 | directory | what | is |
 |---|---|---|
-| [`spec/`](spec/README.md) | the language: constructs, document format, encodings, refusal rules, conformance cases | the specification |
+| [`spec/`](spec/README.md) | the language: constructs, document format, encodings, object format, refusal rules, conformance cases | the specification |
 | [`runtime/warp-runtime-swift/`](runtime/warp-runtime-swift/README.md) | `Warp` `WarpSyntax` | one runtime |
 | [`frontend/warp-frontend-yaml/`](frontend/warp-frontend-yaml/README.md) | `WarpYAML` | one front end |
 

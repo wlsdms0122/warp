@@ -24,6 +24,7 @@ One file, one question: a subject, what to ask it with, and what should happen.
     bytes       a document's bytes, in the binary encoding
     text        a document's text, in the text encoding; a string, or bytes
                 where the question is whether they are text at all
+    object      an object, written the way the text encoding lays one out
     arguments   what the entry procedure is given, if anything; a record
                 under a name is written as the text encoding writes one
     vocabulary  the procedures the runner brings, if any
@@ -32,14 +33,27 @@ One file, one question: a subject, what to ask it with, and what should happen.
                 reads <value>     it reads as that value
                 spells <value>    it reads as that value, and writing that
                                   value gives exactly it
+                builds <object>   building the program's own document writes
+                                  exactly this object
                 refuses <stage>   it is refused, at load, build or run
 
-**A case carries exactly one of `program`, `bytes` and `text`,** and which one
-it carries decides what it may expect. A case carrying two would be two cases
-sharing one answer.
+**A case carries exactly one of `program`, `bytes`, `text` and `object`,** and
+which one it carries decides what it may expect. A case carrying two would be
+two cases sharing one answer.
 
 A case carrying a **program** is the ordinary kind: it is read, built and run,
-and it expects `answers` or `refuses`.
+and it expects `answers` or `refuses`. It may instead expect `builds`: the
+program's own document, compiled against the standard vocabulary and whatever
+the case asked the runner to bring, writes exactly this object, as a value,
+under [objects](object.md). That is the writer's half of the object format,
+the way `spells` is the writer's half of an encoding.
+
+A case carrying an **object** asks the reader's half: the object is read,
+linked with the standard vocabulary and run from `entry`, and it expects
+`answers` or `refuses`. It may write `arguments` and not `vocabulary`, since
+what it leans on is already written inside it. An object refused where it is
+read refuses at `load`; one refused where it is laid beside the vocabulary,
+at `build`.
 
 A case carrying **bytes** or **text** asks about an encoding rather than
 about a program. `spells <value>` is both directions at once: reading answers
@@ -115,7 +129,7 @@ what it does not, both of which need a procedure with no body: a slot asking
 `const procedure`, an operand calling one, and a constant that settles from one
 and is refused for it.
 
-A runner reads `test 2` through `test 5`, and a case says the earliest it
+A runner reads `test 2` through `test 6`, and a case says the earliest it
 needs, which a runner checks against what the case writes. A case saying a
 later one would turn away a runner that could have asked it, and one saying an
 earlier one would have that runner refuse it as no case at all:
@@ -127,6 +141,7 @@ earlier one would have that runner refuse it as no case at all:
 | 3 | `vocabulary` |
 | 4 | `bytes` and `expect reads`, reading both ways |
 | 5 | `text`; `expect spells` for both ways and `reads` for one, so `reads` on bytes retires |
+| 6 | `object`, and `expect builds` |
 
 Both kinds matter equally. **An implementation that accepts a program another
 refuses has failed in the same way as one that answers differently**, so half of
@@ -159,6 +174,12 @@ link declares is refused. What a runner answers does not depend on the
 machine's locale, and a runner that leans on a host's locale for case mapping
 or ordering runs the cases under one that tailors them, Turkish for one, to
 find out.
+
+A runner keys every object it compiles under the SHA-256 digest of the
+object's canonical binary writing, and identifies every document by the
+digest of its own, so that what a `builds` case writes under `dependencies`
+and `document` is what every runner works out. An `object` case is read
+under the identity it writes.
 
 The cases are the files named `<name>.test.warpt`, and what else the folder
 holds is not the suite's business. A runner that refused to start over an

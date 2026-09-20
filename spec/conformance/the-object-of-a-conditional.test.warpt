@@ -1,0 +1,215 @@
+warpt 1
+{
+  expect {
+    builds {
+      answers []
+      claims []
+      constants []
+      constraints []
+      contracts []
+      dependencies []
+      document [
+        x"5953147c1cea5928c22e758c4df8bb9fb50325b3547fa4c91e1ff45d527e7ab5"
+      ]
+      leaned []
+      lifted []
+      numbering [
+        []
+        []
+        []
+        []
+      ]
+      object 1
+      rows [
+        [
+          "entry"
+          [
+            []
+            [
+              [
+                "flag"
+                [
+                  [
+                    [
+                      3
+                    ]
+                  ]
+                  []
+                  []
+                  []
+                ]
+              ]
+            ]
+            [
+              [
+                4
+              ]
+            ]
+          ]
+          1
+          1
+          [
+            1
+            []
+          ]
+          []
+          [
+            0
+            [
+              [
+                [
+                  [
+                    [
+                      1
+                      1
+                      []
+                    ]
+                  ]
+                  [
+                    0
+                    [
+                      2
+                      0
+                    ]
+                  ]
+                  "chosen"
+                ]
+                [
+                  []
+                  [
+                    8
+                    [
+                      1
+                      [
+                        0
+                        []
+                      ]
+                    ]
+                    [
+                      [
+                        [
+                          [
+                            2
+                            [
+                              1
+                              []
+                            ]
+                            []
+                          ]
+                        ]
+                        [
+                          0
+                          [
+                            2
+                            1
+                          ]
+                        ]
+                        "chosen"
+                      ]
+                    ]
+                    [
+                      [
+                        [
+                          [
+                            [
+                              2
+                              [
+                                1
+                                []
+                              ]
+                              []
+                            ]
+                          ]
+                          [
+                            0
+                            [
+                              2
+                              2
+                            ]
+                          ]
+                          "chosen"
+                        ]
+                      ]
+                    ]
+                  ]
+                  "[1]"
+                ]
+              ]
+              [
+                [
+                  1
+                  [
+                    1
+                    []
+                  ]
+                ]
+              ]
+            ]
+            [
+              2
+              [
+                0
+              ]
+              []
+              []
+              [
+                "flag"
+                "chosen"
+              ]
+            ]
+          ]
+        ]
+      ]
+      types []
+      variables []
+    }
+  }
+  name "the-object-of-a-conditional"
+  note "A conditional carries its condition and two instruction lists, and a write into a variable each arm makes is an assignment binding to the variable's slot."
+  program {
+    imports []
+    procedures {
+      entry {
+        body [
+          {
+            value 0
+            var "chosen"
+          }
+          {
+            value {
+              conditional {
+                else [
+                  {
+                    set "chosen"
+                    value 2
+                  }
+                ]
+                then [
+                  {
+                    set "chosen"
+                    value 1
+                  }
+                ]
+                when {
+                  ref "flag"
+                }
+              }
+            }
+          }
+        ]
+        parameters {
+          flag {
+            type "bool"
+          }
+        }
+        result {
+          ref "chosen"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 6
+}
+
