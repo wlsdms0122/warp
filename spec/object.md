@@ -373,6 +373,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-whose-body-stands-past-its-frame-refuses`
 - `an-object-whose-rows-stand-out-of-name-order-refuses`
 - `an-object-whose-type-numbering-stands-out-of-name-order-refuses`
+- `an-object-whose-variables-stand-out-of-name-order-refuses`
 - `an-object-with-a-key-nothing-names-refuses`
 - `an-object-with-a-lifted-row-nothing-counts-refuses`
 - `the-object-of-a-block`
