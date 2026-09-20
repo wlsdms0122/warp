@@ -34,7 +34,8 @@ of them names, or one of them missing, **refuses**. Current format: **1**.
 | `rows` | the declarations, each a *row* under its spelling | by name |
 | `lifted` | the closures its bodies lifted, each a *row* with no spelling | as the numbering counts them |
 | `answers` | name → *lowered type*: what the build read off a body whose declaration wrote no `returns` | by name |
-| `numbering` | four lists: what it sends, how many closures each declaration wrote, the types its bodies stand on, the memberships | below |
+| `numbering` | two lists: what it sends, and how many closures each declaration wrote | below |
+| `typeNumbering` | two lists: the declared types its bodies stand on, and the memberships | below |
 | `variables` | (name, *value*): what each variable starts a run holding | by name |
 | `constants` | the constants it declared, by spelling | by name |
 
@@ -62,10 +63,11 @@ document compiled once answers every entry asked of it.
 
 **`numbering`** writes what a reading uses and cannot work out: the spellings
 sent, in name order; then `(name, count)` for each declaration that wrote a
-closure, in name order, counts above zero; then the declared types the
-lowered bodies stand on, in the order they were numbered; then the
-memberships, likewise. What a number stands for is arithmetic over these
-lists and the declared spellings, so the numbers themselves are not written.
+closure, in name order, counts above zero. **`typeNumbering`** writes the
+declared types the lowered bodies stand on, in the order they were numbered,
+then the memberships, likewise. What a number stands for is arithmetic over
+these lists and the declared spellings, so the numbers themselves are not
+written.
 
 ## How a part is laid out
 
@@ -324,7 +326,7 @@ warpt 1
   document [ x"…" ]
   leaned []
   lifted []
-  numbering [ [ "std.math.plus" ] [] [] [] ]
+  numbering [ [ "std.math.plus" ] [] ]
   object 1
   rows [
     [
@@ -341,6 +343,7 @@ warpt 1
       ]
     ]
   ]
+  typeNumbering [ [] [] ]
   types []
   variables []
 }
