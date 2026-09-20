@@ -14,13 +14,14 @@ second implementation is told here rather than left to find it.
   who implements from these tables alone, and disagrees, is worth more than
   any amount of agreement.
 - **The suite covers the constructs, the vocabulary, the encodings and the
-  objects; cancellation is the exception.** Every construct, the naming and
-  leaving rules, the envelope, the boundary settlements, the concurrency
-  grant, every standard procedure, what a binary reader must refuse and what
-  a build writes down for each operation are held as cases,
-  and each page names its own under *Cases*. Cancellation cannot be a data
-  case at all: it needs a caller with a lever, so stopping is held only by
-  tests inside the Swift implementation.
+  objects; cancellation and the place a refusal names are the exceptions.**
+  Every construct, the naming and leaving rules, the envelope, the boundary
+  settlements, the concurrency grant, every standard procedure, what a binary
+  reader must refuse and what a build writes down for each operation are held
+  as cases, and each page names its own under *Cases*. Cancellation cannot be
+  a data case at all: it needs a caller with a lever, so stopping is held only
+  by tests inside the Swift implementation. A case writes the stage a document
+  is refused at and no place, so which spot a refusal names is held by no case.
 - **Two equivalences coexist, and the border is drawn.** Values compare as a
   person reads. `equal`, `contains`, ordering and `count` all read text
   under canonical equivalence, stated under the value model. Where names are
@@ -38,4 +39,4 @@ second implementation is told here rather than left to find it.
   [checking](checking.md), and a case measures the stage; two implementations
   agreeing on every case may still say the reason in different words. The
   place is the part a front end reads to point at a line, so it is the part
-  that is held.
+  the page holds, and the case format is what leaves it unmeasured.
