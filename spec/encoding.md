@@ -4,7 +4,8 @@ An encoding is bytes for a value tree. Two are specified, and they are not
 peers: the binary is the document and the text is for people. An encoding
 carries a tree and never learns what a tree means, so a document, an
 [object](object.md) and a conformance case travel under the same two, and
-each says what it is in its own first key. The file suffixes `.warp` and
+each says what it is under a key of its own, read before anything laid out by
+it. The file suffixes `.warp` and
 `.warpt` name the encoding and nothing about what the file holds; what
 identifies bytes is the header, since bytes that cross a wire carry no name.
 Whatever the encoding, three promises hold:
