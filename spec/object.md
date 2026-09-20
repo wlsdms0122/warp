@@ -23,7 +23,7 @@ of them names, or one of them missing, **refuses**. Current format: **1**.
 
 | key | holds | order |
 |---|---|---|
-| `object` | int. This layout's format. Read before anything laid out by it | |
+| `object` | int. This layout's format. Read before anything laid out by it, the keys included | |
 | `document` | the document's identity, or nothing where the program was never written down | |
 | `dependencies` | the objects behind every declaration this document named, each by what the caller keyed it under | ascending by bytes, none twice |
 | `types` | name → *type*, as the document wrote them | by name |
@@ -35,7 +35,7 @@ of them names, or one of them missing, **refuses**. Current format: **1**.
 | `lifted` | the closures its bodies lifted, each a *row* with no spelling | as the numbering counts them |
 | `answers` | name → *lowered type*: what the build read off a body whose declaration wrote no `returns` | by name |
 | `numbering` | two lists: what it sends, and how many closures each declaration wrote | below |
-| `typeNumbering` | two lists: the declared types its bodies stand on, and the memberships | below |
+| `typeNumbering` | two lists: the declared types its bodies stand on, and the memberships, each ascending by name | below |
 | `variables` | (name, *value*): what each variable starts a run holding | by name |
 | `constants` | the constants it declared, by spelling | by name |
 
@@ -64,10 +64,10 @@ document compiled once answers every entry asked of it.
 **`numbering`** writes what a reading uses and cannot work out: the spellings
 sent, in name order; then `(name, count)` for each declaration that wrote a
 closure, in name order, counts above zero. **`typeNumbering`** writes the
-declared types the lowered bodies stand on, in the order they were numbered,
-then the memberships, likewise. What a number stands for is arithmetic over
-these lists and the declared spellings, so the numbers themselves are not
-written.
+declared types the lowered bodies stand on, ascending by name, none twice,
+then the memberships, likewise: a body numbers its types in that order. What
+a number stands for is arithmetic over these lists and the declared
+spellings, so the numbers themselves are not written.
 
 ## How a part is laid out
 
@@ -367,10 +367,12 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-links-and-runs`
 - `an-object-missing-a-part-refuses`
 - `an-object-of-a-later-format-refuses`
+- `an-object-of-a-later-format-with-keys-of-its-own-refuses`
 - `an-object-runs-with-what-the-entry-is-given`
 - `an-object-standing-against-another-document-refuses`
 - `an-object-whose-body-stands-past-its-frame-refuses`
 - `an-object-whose-rows-stand-out-of-name-order-refuses`
+- `an-object-whose-type-numbering-stands-out-of-name-order-refuses`
 - `an-object-with-a-key-nothing-names-refuses`
 - `an-object-with-a-lifted-row-nothing-counts-refuses`
 - `the-object-of-a-block`
