@@ -131,6 +131,18 @@ after the capture and says nothing the closure can hold on to.
   rather than run, so an operand calling anything else **refuses at the
   build**, and so does one calling a value.
 
+A call through a contract reaches whichever declaration the value turns out to
+be, so what it reads as is what the contract asked of every one of them. A
+contract's procedure writing `const` answers without running and one writing
+`isolated` touches no name another body could touch at once, the way a slot
+asks the same of a procedure with `const procedure` and `isolated procedure`;
+a call through such a procedure stands wherever a call to a declaration that
+does stands, an operand and a `const` body among them, and a claim backed by a
+declaration that does less than the contract asked **does not hold**, and is
+refused where the pair is leaned on. A contract's procedure writing neither
+may run, so a call through it is no operand and a body sending it is not
+`const`.
+
 Choosing among values is a procedure here rather than a construct, because an
 operand is read rather than run and a construct is not one. `std.logic.select`,
 under the vocabulary.
@@ -249,6 +261,10 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-constant-argument-outside-enum-refuses-at-build`
 - `a-constant-cannot-settle-from-a-procedure-a-caller-brought`
 - `a-constant-cannot-settle-from-what-runs`
+- `a-contract-asking-const-lets-its-call-stand-in-a-const-slot`
+- `a-contract-asking-isolated-lets-its-call-stand-in-an-isolated-slot`
+- `a-contract-call-that-may-run-is-no-operand`
+- `a-declaration-that-runs-backs-no-const-contract`
 - `a-default-outside-its-enum-refuses-at-build`
 - `a-default-outside-its-type-refuses-at-build`
 - `a-enum-no-candidate-of-which-fits-refuses-at-build`

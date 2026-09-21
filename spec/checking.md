@@ -21,6 +21,10 @@ the rule's: a call that misfits a declaration in its own document refuses at
   loop's round, an iteration's element, an attempt's failure), or a path
   through them;
 - every procedure sent is declared by some module in the link, exactly once;
+- a claim backed by a declaration that does less than the contract asked,
+  running where it asked `const` or touching a shared name where it asked
+  `isolated`, does not hold, under *what answers without running* in
+  [procedures](procedure.md);
 - every procedure sent from another document is not `private`, the entry is
   `public`, and a claim backed by a `private` declaration does not hold, under
   *who may name a declaration* in [procedures](procedure.md); a `private`

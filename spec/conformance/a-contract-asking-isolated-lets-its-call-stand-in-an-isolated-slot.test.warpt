@@ -1,0 +1,123 @@
+warpt 1
+{
+  expect {
+    answers [
+      "1"
+      "2"
+    ]
+  }
+  name "a-contract-asking-isolated-lets-its-call-stand-in-an-isolated-slot"
+  note "A contract's procedure writing `isolated` touches no name another body could touch at once, so a closure sending it is isolated and stands in the isolated slot concurrent map asks."
+  program {
+    contracts {
+      "app.Named" {
+        name {
+          isolated true
+          returns "string"
+        }
+      }
+    }
+    imports [
+      "std.concurrent.map"
+      "std.text.text"
+    ]
+    procedures {
+      "app.Thing.name" {
+        parameters {
+          of {
+            type "app.Thing"
+          }
+        }
+        receiver "of"
+        result {
+          call {
+            of {
+              ref "of.id"
+            }
+            procedure "std.text.text"
+          }
+        }
+        returns "string"
+      }
+      "app.names" {
+        bounds {
+          T "app.Named"
+        }
+        parameters {
+          of {
+            type "array<some T>"
+          }
+        }
+        receiver "of"
+        result {
+          call {
+            arguments {
+              by {
+                closure {
+                  parameters {
+                    index {
+                      type "int"
+                    }
+                    item {
+                      type "some T"
+                    }
+                  }
+                  result {
+                    call {
+                      of {
+                        ref "item"
+                      }
+                      procedure "app.Named.name"
+                    }
+                  }
+                  returns "string"
+                }
+              }
+            }
+            of {
+              ref "of"
+            }
+            procedure "std.concurrent.map"
+          }
+        }
+        returns "array<string>"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            of [
+              {
+                as "app.Thing"
+                of {
+                  id 1
+                }
+              }
+              {
+                as "app.Thing"
+                of {
+                  id 2
+                }
+              }
+            ]
+            procedure "app.names"
+          }
+        }
+        returns "array<string>"
+      }
+    }
+    satisfies {
+      "app.Thing" [
+        "app.Named"
+      ]
+    }
+    types {
+      "app.Thing" {
+        id "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
