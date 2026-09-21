@@ -262,6 +262,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-piece-that-writes-what-it-captured-refuses`
 - `a-private-declaration-backs-no-claim`
 - `a-private-entry-refuses`
+- `a-private-name-is-typed-by-its-own-document`
 - `a-private-procedure-called-beside-its-declaration-runs`
 - `a-private-procedure-called-from-another-document-refuses`
 - `a-procedure-that-can-fail-says-so`

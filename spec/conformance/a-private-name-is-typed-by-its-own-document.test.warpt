@@ -1,0 +1,50 @@
+warpt 1
+{
+  documents [
+    {
+      imports []
+      procedures {
+        "app.helper" {
+          access "private"
+          result "seven"
+        }
+        "lib.spell" {
+          result {
+            call {
+              procedure "app.helper"
+            }
+          }
+          returns "string"
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    answers 7
+  }
+  name "a-private-name-is-typed-by-its-own-document"
+  note "Two documents may each declare a private name, and each is typed by its own: what the build read off the other document's body under that spelling says nothing about this one's, whose declaration writes what it answers."
+  program {
+    imports []
+    procedures {
+      "app.helper" {
+        access "private"
+        result 7
+        returns "int"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            procedure "app.helper"
+          }
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 7
+}
+
