@@ -19,7 +19,7 @@ it is: a document says `warp`, an object says `object`.
 ## What an object holds
 
 An object is one record. It carries **exactly** these keys, and a key none
-of them names, or one of them missing, **refuses**. Current format: **1**.
+of them names, or one of them missing, **refuses**. Current format: **2**.
 
 | key | holds | order |
 |---|---|---|
@@ -43,7 +43,13 @@ of them names, or one of them missing, **refuses**. Current format: **1**.
 and takes away as it moves, so the envelope names them; inside a part the
 fields stand in order and a kind says itself by its tag, and the whole of it
 moves with the format number. A part added later is a new key, never a new
-field in an old part.
+field in an old part; a field added to a part is a new format, and a reading
+holds an object to the format it reads before it reads a part.
+
+| format | what moved |
+|---|---|
+| 1 | the layout as first written |
+| 2 | a row carries its access after its signature |
 
 **Order is spelling.** Every list a name keys stands ascending by the names'
 bytes, none twice, and so does every set written as a list. That is the

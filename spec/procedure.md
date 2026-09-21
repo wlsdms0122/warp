@@ -31,7 +31,7 @@ A declaration is named from inside its scope and refused from outside it. Three 
 | `internal` | every document in the link |
 | `public` | the link, and the caller that assembled it |
 
-A declaration that writes nothing is `internal`: what a document declares is the program's, and only what says so is the caller's. A run starts from a `public` declaration and from no other, so an entry the caller names that is `internal` or `private` **refuses at the build**, the way an entry nothing declares does. A call standing in one document that reaches a `private` declaration of another **refuses at the build**, at the call, and so does a procedure the host answers whose declared sends reach one. A `private` declaration backs no claim: a contract is how a document that never names a declaration calls it, so a claim answered by one **refuses at the build**, at the declaration. `access` written as any other word **refuses at the load**.
+A declaration that writes nothing is `internal`: what a document declares is the program's, and only what says so is the caller's. A run starts from a `public` declaration and from no other, so an entry the caller names that is `internal` or `private` **refuses at the build**, the way an entry nothing declares does. A call standing in one document that reaches a `private` declaration of another **refuses at the build**, at the call, and so does a procedure the host answers whose declared sends reach one. A `private` declaration takes no spelling from the link: its own document reaches it, and two documents may each declare one under one spelling, where two declarations any other document could name **refuse** under [checking](checking.md). A `private` declaration backs no claim: a contract is how a document that never names a declaration calls it, so a claim it would answer does not hold, and is refused where the pair is leaned on the way a claim nothing backs is. `access` written as any other word **refuses at the load**.
 
 A constant and a module variable are the document's own and write no word, under [documents](document.md): a name is a scope question, and another document reaches either only through a procedure declared beside it.
 
@@ -288,4 +288,5 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `arguments-are-settled-at-the-boundary`
 - `body-answers-only-what-it-declares`
 - `null-is-an-argument-a-document-can-write`
+- `two-documents-may-each-declare-a-private-name`
 - `two-paths-under-one-head-are-handed-in-place-to-one-call`

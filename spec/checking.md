@@ -22,8 +22,9 @@ the rule's: a call that misfits a declaration in its own document refuses at
   through them;
 - every procedure sent is declared by some module in the link, exactly once;
 - every procedure sent from another document is not `private`, the entry is
-  `public`, and a declaration backing a claim is not `private`, under *who may
-  name a declaration* in [procedures](procedure.md);
+  `public`, and a claim backed by a `private` declaration does not hold, under
+  *who may name a declaration* in [procedures](procedure.md); a `private`
+  declaration takes no spelling, so the rule above it counts none;
 - every call fits the declaration it reaches: arguments by name, receiver,
   and answer, with type parameters bound as [types](type.md) says and every
   bound judged against its constraint's membership;
