@@ -25,10 +25,10 @@ the rule's: a call that misfits a declaration in its own document refuses at
   running where it asked `const` or touching a shared name where it asked
   `isolated`, does not hold, under *what answers without running* in
   [procedures](procedure.md);
-- every procedure sent from another document is not `private`, the entry is
-  `public`, and a claim backed by a `private` declaration does not hold, under
-  *who may name a declaration* in [procedures](procedure.md); a `private`
-  declaration takes no spelling, so the rule above it counts none;
+- every procedure sent from another document is not `private`, and a claim
+  backed by a `private` declaration does not hold, under *who may name a
+  declaration* in [procedures](procedure.md); a `private` declaration takes
+  no spelling, so the rule above it counts none;
 - every call fits the declaration it reaches: arguments by name, receiver,
   and answer, with type parameters bound as [types](type.md) says and every
   bound judged against its constraint's membership;
@@ -134,8 +134,7 @@ There is no opportunity to find out by trying, because trying *is* production.
 document names that spot: the document's identity and the steps from its root
 to the field, which is a place as [objects](object.md) lay one out, and never
 the file the document was authored in. A refusal that is a fact about the
-whole link and no spot in it, an entry nothing declares, names no place, since
-it has none. The sentence beside the place is the implementation's: a case
+whole link and no spot in it names no place, since it has none. The sentence beside the place is the implementation's: a case
 says the stage and reads nothing else.
 
 ## Cases

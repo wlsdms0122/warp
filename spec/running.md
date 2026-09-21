@@ -5,6 +5,12 @@ boundaries, failure, and the one lever a caller keeps while a program is
 running. What is checked before any of this is
 [what an implementation checks, and when](checking.md).
 
+- A run starts from a `public` declaration the caller names when it starts
+  the run, and from no other. An image is every declaration the link judged,
+  and which one runs is the caller's choice each time, so naming one nothing
+  declares, or one that is `internal` or `private`, **refuses at the run**
+  before anything runs, under *who may name a declaration* in
+  [procedures](procedure.md).
 - Statements run in order; each binds its name in the scope of what follows.
 - A call's arguments are evaluated in **name order**, ascending by UTF-8
   bytes, the order [encodings](encoding.md) puts on names. An argument may
