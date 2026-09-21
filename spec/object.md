@@ -211,8 +211,8 @@ body does it does by calling, under [the standard vocabulary](vocabulary.md).
 | 6 | a cast | *operation*, *lowered type*, optional |
 | 7 | a block | *body* |
 | 8 | a conditional | the condition *operation*, then: *instruction* list, else: *instruction* list or nothing |
-| 9 | a loop | the condition *operation*, *body*, the round's slot, keeps: `[from, to)` or nothing |
-| 10 | an attempt | *body*, the rescue *body*, the failure's slot |
+| 9 | a loop | the condition *operation*, *body*, the round's slot or nothing, keeps: `[from, to)` or nothing |
+| 10 | an attempt | *body*, the rescue *body*, the failure's slot or nothing |
 | 11 | a call | *call* |
 | 12 | a call through a contract | *dispatch* |
 | 13 | leaving | *reach*, the target name or nothing, what it takes or nothing |

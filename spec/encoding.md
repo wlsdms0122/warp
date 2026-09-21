@@ -205,7 +205,10 @@ escape spelled long **refuse**, since those are two texts for one value rather
 than two layouts of one text. Nor is a key written twice, which **refuses**:
 two values under one key are two documents, not one document laid out twice. Sameness of
 documents is the binary's promise, above, and a text makes it by being
-written out.
+written out. A text that is refused is refused with the line and column the
+reader stood at, both counted from one, the column in scalars: a text is the
+encoding a person edits, and a refusal that names no place leaves them to
+find it.
 
 ## Cases
 

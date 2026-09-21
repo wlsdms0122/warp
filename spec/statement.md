@@ -53,10 +53,9 @@ own. Three
 families step out of this freedom, in different directions:
 
 - The constructs that bind **through** the statement's name. `loop` (its
-  round), `attempt` (its failure). **require** one. With no name there is
-  nothing for the body to read those bindings under, and a reader that
-  invented a name would have invented a real name somewhere. Writing one
-  nameless **refuses**.
+  round), `attempt` (its failure). Written nameless, they bind nothing: a
+  loop with no name has no round to read and an attempt with no name has no
+  failure to read, and each runs the same otherwise.
 - The leaving constructs (`return`, `break`, `continue`) take **no** naming
   key at all: such a statement never finishes, so its name could never bind,
   and a key that promises a binding that cannot happen **refuses**. The same
@@ -148,7 +147,9 @@ through `return`. Both arms are checked whether or not they are taken.
 | `result` | expression | no |
 
 The loop's own statement name binds the round it is on, readable everywhere the
-loop is still speaking. The `while` condition, the `body`, and the `result`.
+loop is still speaking. The `while` condition, the `body`, and the `result`. A
+loop written nameless binds no round: a `break` or `continue` naming no loop
+still ends it, and one naming a loop passes through it.
 The condition reads the state before the round it would start, so `round.index`
 there is how many rounds have finished. What a loop answers is its `result`
 read in what the last round that *finished* left behind; a round cut short
@@ -193,8 +194,8 @@ is a body no run reaches. A refusal at the run is not a failure and does not
 make a body one that can fail, under [running](running.md). This
 is the one exception to a block's optional `result`, and the failure is the
 reason. The statement's own name binds the failure **while the rescue runs**,
-and what it binds is a **record declared `{ type: string, message: string,
-details: dictionary<any> }`**. `type` names what happened (`aborted`,
+an attempt written nameless binds none, and what a name binds is a **record
+declared `{ type: string, message: string, details: dictionary<any> }`**. `type` names what happened (`aborted`,
 `concurrent_failed`), `message` is text for a person, and `details` is what the
 failing procedure carried. Every failure holds all three by construction: a
 runtime assembles the payload from what a failure declares, so no procedure can
@@ -299,6 +300,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-loop-reads-how-many-rounds-passed`
 - `a-loop-result-reads-the-last-finished-round`
 - `a-loop-takes-no-budget`
+- `a-loop-written-nameless-binds-no-round`
 - `a-name-on-a-conditional-is-refused`
 - `a-name-on-what-never-finishes-is-refused`
 - `a-name-says-what-it-holds`
@@ -328,6 +330,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-arm-that-leaves-keeps-the-other-write-definite`
 - `an-attempt-catches-a-cast-that-did-not-match`
 - `an-attempt-joins-its-body-with-its-rescue`
+- `an-attempt-written-nameless-binds-no-failure`
 - `break-ends-the-loop`
 - `continue-skips-a-round`
 - `leaving-answers-from-the-middle`
