@@ -166,10 +166,10 @@ the folder holds the suite, and a runner that refuses one of its files stops
 on it, because the suite is what is wrong then. If the case expects `refuses`,
 check that it fails at that stage and no earlier or later. Otherwise build it
 against that vocabulary, the documents beside it and the standard bundles, start
-from the procedure declared `public` under `entry`, run it with `arguments`, and
-compare. A program that declares no `entry` is refused **at the build**, where a
-name nothing in the link declares is refused, and so is one whose `entry` is not
-`public`. What a runner answers does not depend on the
+a run from the procedure declared `public` under `entry` with `arguments`, and
+compare. A program that declares no `entry` is refused **at the run**, where
+starting from a name nothing in the link declares is refused, and so is one
+whose `entry` is not `public`. What a runner answers does not depend on the
 machine's locale, and a runner that leans on a host's locale for case mapping
 or ordering runs the cases under one that tailors them, Turkish for one, to
 find out.
