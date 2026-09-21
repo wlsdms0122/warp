@@ -77,8 +77,7 @@ written beside it. A case carrying either writes neither `arguments` nor
 A case carrying **bytes** expects `spells` or `refuses`. The bytes are the
 **binary** encoding, which is the one a document travels in and the one that
 is canonical: a non-canonical byte spelling is refused, which leaves no bytes
-that read one way, so a bytes case writing `reads` **refuses** as a case. A
-bytes case that spells says `test 5`, since that is where the word arrived.
+that read one way, so a bytes case writing `reads` **refuses** as a case.
 
 A case carrying **text** expects `reads`, `spells` or `refuses`. A text has
 many layouts of one value, since layout is free on the way in, so most text
@@ -138,20 +137,9 @@ and is refused for it.
 
 **`documents` are other documents in the link.** A rule about two documents, a `private` declaration one of them names or a spelling two of them declare, is asked with the program and a document beside it. Each is written as any document is and read the way the program is, and stands between what the runner brings and the program. One that does not read **refuses** as a case, since the question was about the program.
 
-A runner reads `test 2` through `test 7`, and a case says the earliest it
-needs, which a runner checks against what the case writes. A case saying a
-later one would turn away a runner that could have asked it, and one saying an
-earlier one would have that runner refuse it as no case at all:
-
-| version | what moved |
-|---|---|
-| 1 | spelled the middle stage `link`; a runner that reads `build` cannot honour it, so it is refused |
-| 2 | the stages `load`, `build` and `run` |
-| 3 | `vocabulary` |
-| 4 | `bytes` and `expect reads`, reading both ways |
-| 5 | `text`; `expect spells` for both ways and `reads` for one, so `reads` on bytes retires |
-| 6 | `object`, and `expect builds` |
-| 7 | `documents` |
+A case says `test 1`, and a runner refuses any other: the format moves when
+what a case may say moves, on its own schedule, and every change before the
+first release folds into this one. Current format: **1**.
 
 Both kinds matter equally. **An implementation that accepts a program another
 refuses has failed in the same way as one that answers differently**, so half of
