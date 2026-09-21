@@ -308,8 +308,8 @@ A contract's name stands where a type is written, and so does `A & B`: the
 slot takes a value of whatever type satisfies every contract and belongs to
 every membership named. It is a type parameter with no name, so nothing ties
 one slot's reading to another's, and a call fills nothing. A closure literal's
-parameter is such a slot too, and since applying a value is a reading the
-text opens to `any`, what is handed to it is held to the contract at the
+parameter is such a slot too, and since what applying a value hands is
+judged at the run, what is handed to it is held to the contract at the
 run's boundary, under [running](running.md). A name declared as neither a
 membership nor a contract joined with `&` **refuses at the build**.
 

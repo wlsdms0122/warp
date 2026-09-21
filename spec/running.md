@@ -17,9 +17,11 @@ running. What is checked before any of this is
 - A procedure's answer is held to `returns` where both are written. A body and
   the declaration beside it are one document's text, so what the body reads is
   judged at the **build**: a reading the declaration does not take refuses
-  there. A reading the text opens to `any`, which is what applying a value
-  reaches, stands at the build and is settled at the run's boundary instead. A
-  body cannot leak a value its declaration did not admit either way. A
+  there. Applying a value answers what the slot holding it wrote under
+  `returns`, and that answer is held the same way; a slot that wrote none
+  opens to `any`. A reading the text opens to `any` stands at the build and
+  is settled at the run's boundary instead. A body cannot leak a value its
+  declaration did not admit either way. A
   **constant** answer is a value and not only a type, so it is held to what
   the declaration admits as well, the way a constant argument is. A closure
   literal writes a signature and a body side by side too, and is held the same
@@ -156,4 +158,5 @@ What `conformance/` asks about this page, by the name each case's file carries.
 
 - `a-field-the-declared-answer-does-not-name-refuses`
 - `an-answer-of-all-settles-into-the-record-declared`
+- `an-applied-value-answers-what-its-slot-wrote`
 - `concurrency-is-granted-vocabulary`
