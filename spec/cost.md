@@ -14,7 +14,8 @@ second implementation is told here rather than left to find it.
   who implements from these tables alone, and disagrees, is worth more than
   any amount of agreement.
 - **The suite covers the constructs, the vocabulary, the encodings and the
-  objects; cancellation and the place a refusal names are the exceptions.**
+  objects; cancellation, the place a refusal names and what the host's
+  procedures send are the exceptions.**
   Every construct, the naming and leaving rules, the envelope, the boundary
   settlements, the concurrency grant, every standard procedure, what a binary
   reader must refuse and what a build writes down for each operation are held
@@ -22,6 +23,10 @@ second implementation is told here rather than left to find it.
   a data case at all: it needs a caller with a lever, so stopping is held only
   by tests inside the Swift implementation. A case writes the stage a document
   is refused at and no place, so which spot a refusal names is held by no case.
+  What a procedure the host answers declares it sends is the host's code, and
+  a case writes none of it, so a send of the host's reaching a `private`
+  declaration is refused under [procedures](procedure.md) and held only by
+  tests inside the implementation.
 - **Two equivalences coexist, and the border is drawn.** Values compare as a
   person reads. `equal`, `contains`, ordering and `count` all read text
   under canonical equivalence, stated under the value model. Where names are
