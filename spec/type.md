@@ -411,9 +411,12 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-body-cannot-answer-what-it-borrowed`
 - `a-borrowing-slot-reads-and-leaves-the-obligation`
 - `a-bound-may-name-several-and-holds-to-every-one`
+- `a-bound-names-a-membership-another-document-declares`
 - `a-bound-naming-a-parameter-no-slot-mentions-refuses`
 - `a-byte-is-a-whole-number-a-range-refines`
 - `a-claim-about-a-type-the-language-names-refuses`
+- `a-claim-nobody-leans-on-refuses-nowhere`
+- `a-claim-stands-in-a-document-the-leaning-one-never-names`
 - `a-closure-reads-the-bounds-of-the-procedure-around-it`
 - `a-constant-outside-a-range-refuses`
 - `a-constraint-is-named-by-its-qualified-spelling`
@@ -479,5 +482,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `elements-of-different-kinds-join-to-any`
 - `linear-on-a-slot-refuses`
 - `the-far-bound-of-a-range-may-be-left-outside`
+- `two-documents-claiming-one-pair-are-one-claim`
 - `what-a-membership-does-not-admit-refuses`
 - `what-was-read-out-of-a-parameter-is-not-the-parameter`

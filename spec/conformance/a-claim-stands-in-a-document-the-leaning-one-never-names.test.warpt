@@ -1,0 +1,98 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "app.Describable" {
+          describe {
+            returns "string"
+          }
+        }
+      }
+      imports []
+      procedures {
+        "app.nothing" {
+          result null
+        }
+      }
+      warp 1
+    }
+    {
+      imports []
+      procedures {
+        "t.Card.describe" {
+          parameters {
+            of {
+              type "t.Card"
+            }
+          }
+          receiver "of"
+          result "card"
+          returns "string"
+        }
+      }
+      types {
+        "t.Card" {
+          rank "int"
+        }
+      }
+      warp 1
+    }
+    {
+      imports [
+        "app.Describable"
+        "t.Card"
+      ]
+      procedures {
+        "c.nothing" {
+          result null
+        }
+      }
+      satisfies {
+        "t.Card" [
+          "app.Describable"
+        ]
+      }
+      warp 1
+    }
+  ]
+  expect {
+    answers "card"
+  }
+  name "a-claim-stands-in-a-document-the-leaning-one-never-names"
+  note "Whether a type answers a contract is a fact of the whole list. The contract, the type and the claim that joins them each stand in their own document, and the program leaning on the pair names the contract and the type and never the document that made the claim."
+  program {
+    imports [
+      "app.Describable.describe"
+      "t.Card"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "card"
+            value {
+              as "t.Card"
+              of {
+                rank 1
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            of {
+              ref "card"
+            }
+            procedure "app.Describable.describe"
+          }
+        }
+        returns "string"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

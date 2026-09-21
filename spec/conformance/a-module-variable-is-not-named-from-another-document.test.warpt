@@ -1,0 +1,57 @@
+warpt 1
+{
+  documents [
+    {
+      imports []
+      procedures {
+        "ctr.bump" {
+          body [
+            {
+              set "counter"
+              value 1
+            }
+          ]
+          result {
+            ref "counter"
+          }
+          returns "int"
+        }
+      }
+      var {
+        counter 0
+      }
+      warp 1
+    }
+  ]
+  expect {
+    refuses "load"
+  }
+  name "a-module-variable-is-not-named-from-another-document"
+  note "A module variable is the document's own, like a constant. Another document reaches it only through a procedure declared beside it, so a body naming it by ref names nothing it can see, and the document is refused where it is read."
+  program {
+    imports [
+      "ctr.bump"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            value {
+              call {
+                procedure "ctr.bump"
+              }
+            }
+          }
+        ]
+        result {
+          ref "counter"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
