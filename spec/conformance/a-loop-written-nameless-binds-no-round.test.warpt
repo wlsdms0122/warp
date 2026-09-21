@@ -1,0 +1,80 @@
+warpt 1
+{
+  expect {
+    answers 3
+  }
+  name "a-loop-written-nameless-binds-no-round"
+  note "A loop written with no naming key binds no round and runs the same: a `break` naming no loop still ends it."
+  program {
+    imports [
+      "std.math.lessThan"
+      "std.math.plus"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            type "int"
+            value 0
+            var "i"
+          }
+          {
+            value {
+              loop {
+                body [
+                  {
+                    set "i"
+                    value {
+                      call {
+                        arguments {
+                          value 1
+                        }
+                        of {
+                          ref "i"
+                        }
+                        procedure "std.math.plus"
+                      }
+                    }
+                  }
+                  {
+                    value {
+                      conditional {
+                        then [
+                          {
+                            value {
+                              break null
+                            }
+                          }
+                        ]
+                        when {
+                          call {
+                            arguments {
+                              value {
+                                ref "i"
+                              }
+                            }
+                            of 2
+                            procedure "std.math.lessThan"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+                while true
+              }
+            }
+          }
+        ]
+        result {
+          ref "i"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

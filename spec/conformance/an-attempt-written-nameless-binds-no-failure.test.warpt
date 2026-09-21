@@ -1,0 +1,56 @@
+warpt 1
+{
+  expect {
+    answers "rescued"
+  }
+  name "an-attempt-written-nameless-binds-no-failure"
+  note "An attempt written with no naming key binds no failure and rescues the same."
+  program {
+    imports [
+      "std.control.abort"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            type "string"
+            value "ran"
+            var "said"
+          }
+          {
+            value {
+              attempt {
+                body [
+                  {
+                    value {
+                      call {
+                        of "stop"
+                        procedure "std.control.abort"
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  body [
+                    {
+                      set "said"
+                      value "rescued"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "said"
+        }
+        returns "string"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
