@@ -1,0 +1,40 @@
+warpt 1
+{
+  documents [
+    {
+      imports []
+      procedures {
+        "lib.hidden" {
+          access "private"
+          result 7
+          returns "int"
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    refuses "build"
+  }
+  name "a-private-procedure-called-from-another-document-refuses"
+  note "A private declaration is named from the document that declares it and nowhere else. A call standing in another document reaches it by spelling and is refused at the build, at the call."
+  program {
+    imports [
+      "lib.hidden"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            procedure "lib.hidden"
+          }
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 7
+}
+

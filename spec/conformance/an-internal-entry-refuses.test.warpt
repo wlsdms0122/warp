@@ -1,0 +1,20 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "an-internal-entry-refuses"
+  note "A run starts from outside the link, and only a public declaration is named from there. A declaration that writes no access is internal, the link's own, so an entry left that way is refused at the build the way an entry nothing declares is."
+  program {
+    imports []
+    procedures {
+      entry {
+        result 1
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+

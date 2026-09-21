@@ -1,0 +1,49 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-private-declaration-backs-no-claim"
+  note "A contract is how a document that never names a declaration calls it, so a private declaration answers no contract. The claim it would back is refused at the build, at the declaration."
+  program {
+    contracts {
+      "app.Describable" {
+        describe {
+          returns "string"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "app.Handle.describe" {
+        access "private"
+        parameters {
+          of {
+            type "app.Handle"
+          }
+        }
+        receiver "of"
+        result "a handle"
+        returns "string"
+      }
+      entry {
+        access "public"
+        result 1
+        returns "int"
+      }
+    }
+    satisfies {
+      "app.Handle" [
+        "app.Describable"
+      ]
+    }
+    types {
+      "app.Handle" {
+        name "string"
+      }
+    }
+    warp 1
+  }
+  test 2
+}
+
