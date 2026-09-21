@@ -1,0 +1,66 @@
+warpt 1
+{
+  documents [
+    {
+      imports []
+      procedures {
+        "app.helper" {
+          access "private"
+          result 1
+          returns "int"
+        }
+        "lib.seven" {
+          result {
+            call {
+              procedure "app.helper"
+            }
+          }
+          returns "int"
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    answers 8
+  }
+  name "two-documents-may-each-declare-a-private-name"
+  note "A private declaration takes no spelling from the link: its own document reaches it, and nothing else does. So two documents may each declare one under one spelling, and each reaches its own, where two declarations any other document could name would refuse."
+  program {
+    imports [
+      "lib.seven"
+      "std.math.plus"
+    ]
+    procedures {
+      "app.helper" {
+        access "private"
+        result 7
+        returns "int"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments {
+              value {
+                call {
+                  procedure "lib.seven"
+                }
+              }
+            }
+            of {
+              call {
+                procedure "app.helper"
+              }
+            }
+            procedure "std.math.plus"
+          }
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 7
+}
+
