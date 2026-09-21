@@ -1,0 +1,84 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-declaration-that-runs-backs-no-const-contract"
+  note "A contract's procedure writing `const` asks every declaration answering it to answer without running. One that reads a module variable answers by the run's state, so the claim it would back does not hold, and is refused where the pair is leaned on."
+  program {
+    contracts {
+      "app.Named" {
+        name {
+          const true
+          returns "string"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "app.Thing.name" {
+        parameters {
+          of {
+            type "app.Thing"
+          }
+        }
+        receiver "of"
+        result {
+          ref "label"
+        }
+        returns "string"
+      }
+      "app.tell" {
+        bounds {
+          T "app.Named"
+        }
+        parameters {
+          it {
+            type "some T"
+          }
+        }
+        receiver "it"
+        result {
+          call {
+            of {
+              ref "it"
+            }
+            procedure "app.Named.name"
+          }
+        }
+        returns "string"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            of {
+              as "app.Thing"
+              of {
+                id 1
+              }
+            }
+            procedure "app.tell"
+          }
+        }
+        returns "string"
+      }
+    }
+    satisfies {
+      "app.Thing" [
+        "app.Named"
+      ]
+    }
+    types {
+      "app.Thing" {
+        id "int"
+      }
+    }
+    var {
+      label "thing"
+    }
+    warp 1
+  }
+  test 1
+}
+

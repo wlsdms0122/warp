@@ -1,0 +1,120 @@
+warpt 1
+{
+  expect {
+    answers [
+      "1"
+      "2"
+    ]
+  }
+  name "a-contract-asking-const-lets-its-call-stand-in-a-const-slot"
+  note "A contract's procedure writing `const` answers without running, so a call through it reads as one does: a closure sending it is const, and stands in the const slot map asks. Every declaration answering the contract is held to that where its claim is checked."
+  program {
+    contracts {
+      "app.Named" {
+        name {
+          const true
+          returns "string"
+        }
+      }
+    }
+    imports [
+      "std.collection.map"
+      "std.text.text"
+    ]
+    procedures {
+      "app.Thing.name" {
+        parameters {
+          of {
+            type "app.Thing"
+          }
+        }
+        receiver "of"
+        result {
+          call {
+            of {
+              ref "of.id"
+            }
+            procedure "std.text.text"
+          }
+        }
+        returns "string"
+      }
+      "app.names" {
+        bounds {
+          T "app.Named"
+        }
+        parameters {
+          of {
+            type "array<some T>"
+          }
+        }
+        receiver "of"
+        result {
+          call {
+            arguments {
+              value {
+                closure {
+                  parameters {
+                    item {
+                      type "some T"
+                    }
+                  }
+                  result {
+                    call {
+                      of {
+                        ref "item"
+                      }
+                      procedure "app.Named.name"
+                    }
+                  }
+                  returns "string"
+                }
+              }
+            }
+            of {
+              ref "of"
+            }
+            procedure "std.collection.map"
+          }
+        }
+        returns "array<string>"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            of [
+              {
+                as "app.Thing"
+                of {
+                  id 1
+                }
+              }
+              {
+                as "app.Thing"
+                of {
+                  id 2
+                }
+              }
+            ]
+            procedure "app.names"
+          }
+        }
+        returns "array<string>"
+      }
+    }
+    satisfies {
+      "app.Thing" [
+        "app.Named"
+      ]
+    }
+    types {
+      "app.Thing" {
+        id "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

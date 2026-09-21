@@ -28,7 +28,7 @@ of them names, or one of them missing, **refuses**. Current format: **1**.
 | `dependencies` | the objects behind every declaration this document named, each by what the caller keyed it under | ascending by bytes, none twice |
 | `types` | name → *type*, as the document wrote them | by name |
 | `constraints` | name → list of *type* | by name |
-| `contracts` | name → (procedure name → *signature*) | by name, then by name |
+| `contracts` | name → (procedure name → `[ signature, constness, isolation ]`, the two marks as a row writes them) | by name, then by name |
 | `claims` | type name → the contracts it says it answers | by name; the contracts ascending |
 | `leaned` | the pairs its bodies lean on: (type, contract, *place*), unresolved | by type, then contract |
 | `rows` | the declarations, each a *row* under its spelling | by name |

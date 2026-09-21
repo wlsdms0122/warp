@@ -1,0 +1,85 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-contract-call-that-may-run-is-no-operand"
+  note "A contract's procedure writing neither `const` nor `isolated` may run, so a call through it is read the way a call to a declaration that runs is: an operand is read rather than run, and this one is refused at the build."
+  program {
+    contracts {
+      "app.Named" {
+        name {
+          returns "string"
+        }
+      }
+    }
+    imports [
+      "std.text.uppercased"
+    ]
+    procedures {
+      "app.Thing.name" {
+        parameters {
+          of {
+            type "app.Thing"
+          }
+        }
+        receiver "of"
+        result "thing"
+        returns "string"
+      }
+      "app.tell" {
+        bounds {
+          T "app.Named"
+        }
+        parameters {
+          it {
+            type "some T"
+          }
+        }
+        receiver "it"
+        result {
+          call {
+            of {
+              call {
+                of {
+                  ref "it"
+                }
+                procedure "app.Named.name"
+              }
+            }
+            procedure "std.text.uppercased"
+          }
+        }
+        returns "string"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            of {
+              as "app.Thing"
+              of {
+                id 1
+              }
+            }
+            procedure "app.tell"
+          }
+        }
+        returns "string"
+      }
+    }
+    satisfies {
+      "app.Thing" [
+        "app.Named"
+      ]
+    }
+    types {
+      "app.Thing" {
+        id "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

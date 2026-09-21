@@ -19,7 +19,7 @@ the pages it points to, is **closed**: a key none of them names **refuses**. Eve
 | `description` | string | no |
 | `types` | record: name → type | no |
 | `constraints` | record: name → array of types the name admits | no |
-| `contracts` | record: name → record: procedure → `{ parameters?, returns? }` | no |
+| `contracts` | record: name → record: procedure → `{ parameters?, returns?, const?, isolated? }`; the two bools ask what a slot asks with `const procedure` and `isolated procedure`, of every declaration answering | no |
 | `satisfies` | record: type name → array of contract names that type answers | no |
 | `const` | record: name → expression | no |
 | `var` | record: name → expression; a variable every procedure beside it may read and write | no |
