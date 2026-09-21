@@ -8,8 +8,8 @@ program the other runs or refuses it later.
 A program is read, checked and built before any of it runs. Including the
 arms nobody takes. All of the following are answered while nothing has
 happened yet. The first, the leaves (`break`/`continue` having a loop, nothing
-following one) and the names in normal form C are answered at `load`, since a
-document answers them alone; the rest at `build`, since each is judged against
+following one), the names in normal form C and a procedure's `access` being one
+of its three words are answered at `load`, since a document answers them alone; the rest at `build`, since each is judged against
 a signature or another document. What the grammar pages refuse as shape, a
 type spelled wrong, a rescue answering nothing, a leave with nothing to leave,
 is `load` too, and those pages say so where the shape is written. The stage is
@@ -21,6 +21,9 @@ the rule's: a call that misfits a declaration in its own document refuses at
   loop's round, an iteration's element, an attempt's failure), or a path
   through them;
 - every procedure sent is declared by some module in the link, exactly once;
+- every procedure sent from another document is not `private`, the entry is
+  `public`, and a declaration backing a claim is not `private`, under *who may
+  name a declaration* in [procedures](procedure.md);
 - every call fits the declaration it reaches: arguments by name, receiver,
   and answer, with type parameters bound as [types](type.md) says and every
   bound judged against its constraint's membership;

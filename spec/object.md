@@ -157,10 +157,12 @@ call, 12 leave, carrying its *reach*: `0` the procedure, `1` the construct,
 
 A *row* is a declaration as its own document settled it:
 
-    [ label?, signature, constness, isolation, failing, sends, implementation ]
+    [ label?, signature, access, constness, isolation, failing, sends, implementation ]
 
 The label is the declared spelling and stands only in `rows`; a lifted row
-has none. `sends` is what a native declaration said it sends, each
+has none. `access` is `0` private, `1` internal or `2` public, under *who may
+name a declaration* in [procedures](procedure.md); a lifted row is private,
+since nothing names it. `sends` is what a native declaration said it sends, each
 `[row, handing]`: the row it reaches, numbered by the document, and where
 each name it hands over stands among that row's parameters. A body's sends
 are calls its own code carries, so its list is empty.
@@ -303,6 +305,7 @@ warpt 1
   imports [ "std.math.plus" ]
   procedures {
     entry {
+      access "public"
       parameters { n { type "int" } }
       result { call { of { ref "n" } procedure "std.math.plus" arguments { value 1 } } }
       returns "int"
@@ -332,6 +335,7 @@ warpt 1
     [
       "entry"
       [ [] [ [ "n" [ [ [ 4 ] ] [] [] [] ] ] ] [ [ 4 ] ] ]
+      2
       1
       1
       [ 1 [] ]
@@ -350,8 +354,8 @@ warpt 1
 ```
 
 Read it back: `rows` holds `entry`, whose signature takes `n` as `int` (type
-tag 4) and answers `int`; it is const (`1`) and isolated (`1`) and fails
-with nothing (`[1 []]`); it sends nothing; its implementation is a body
+tag 4) and answers `int`; it is public (`2`), const (`1`) and isolated (`1`)
+and fails with nothing (`[1 []]`); it sends nothing; its implementation is a body
 (`0`) with no instructions and a result, a call (`11`) to row `0` of the
 numbering, which is `std.math.plus`, with the receiver read from slot `0`
 and one argument, the literal (`0`) int (`2`) `1`; and its frame has one
@@ -371,6 +375,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-runs-with-what-the-entry-is-given`
 - `an-object-standing-against-another-document-refuses`
 - `an-object-whose-body-stands-past-its-frame-refuses`
+- `an-object-whose-entry-is-not-public-refuses`
 - `an-object-whose-rows-stand-out-of-name-order-refuses`
 - `an-object-whose-type-numbering-stands-out-of-name-order-refuses`
 - `an-object-whose-variables-stand-out-of-name-order-refuses`

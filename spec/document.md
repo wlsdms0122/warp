@@ -29,6 +29,7 @@ the pages it points to, is **closed**: a key none of them names **refuses**. Eve
 way: at the **build**, from what a constant settles from, beside the constants
 and reading them, and them only: one start does not read another variable. Its type is the type of that settled value, and every write
 into it is settled against that type. It is private to the document like a constant,
+as a procedure written `private` is under [procedures](procedure.md),
 read by the same spelling (`ref`), and written by a `set` in a procedure the
 document declares, or through a parameter such a procedure hands it to in place;
 another document reaches it only through such a procedure. A name is a constant

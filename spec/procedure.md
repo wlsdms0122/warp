@@ -10,6 +10,7 @@ parameter takes.
 | key | takes | required |
 |---|---|---|
 | `description` | string | no |
+| `access` | `public`, `internal` or `private`: who may name the declaration, under *who may name a declaration* below. `internal` when absent | no |
 | `parameters` | record: name → parameter | no |
 | `receiver` | string. The name of the parameter a call fills by writing a receiver in front | no |
 | `returns` | type. When absent, what a call answers is read off the body | no |
@@ -19,6 +20,22 @@ parameter takes.
 
 A procedure answers what `result` names, and nothing if it names nothing. The
 value of the last statement is never the answer.
+
+## Who may name a declaration
+
+A declaration is named from inside its scope and refused from outside it. Three scopes, and `access` says which:
+
+| word | named from |
+|---|---|
+| `private` | the document that declares it |
+| `internal` | every document in the link |
+| `public` | the link, and the caller that assembled it |
+
+A declaration that writes nothing is `internal`: what a document declares is the program's, and only what says so is the caller's. A run starts from a `public` declaration and from no other, so an entry the caller names that is `internal` or `private` **refuses at the build**, the way an entry nothing declares does. A call standing in one document that reaches a `private` declaration of another **refuses at the build**, at the call, and so does a procedure the host answers whose declared sends reach one. A `private` declaration backs no claim: a contract is how a document that never names a declaration calls it, so a claim answered by one **refuses at the build**, at the declaration. `access` written as any other word **refuses at the load**.
+
+A constant and a module variable are the document's own and write no word, under [documents](document.md): a name is a scope question, and another document reaches either only through a procedure declared beside it.
+
+The word is the declaration's and travels with it: an object writes it on the row, under [objects](object.md), and a document compiled against another reads it there. Nothing else about a declaration moves with the word. What it takes and answers, and what it sends, are judged the same whoever may name it.
 
 ## A procedure the host answers
 
@@ -243,6 +260,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-nullable-parameter-defaults-to-null`
 - `a-path-handed-in-place-is-written-through`
 - `a-piece-that-writes-what-it-captured-refuses`
+- `a-private-declaration-backs-no-claim`
+- `a-private-procedure-called-beside-its-declaration-runs`
+- `a-private-procedure-called-from-another-document-refuses`
 - `a-procedure-that-can-fail-says-so`
 - `a-receiver-by-name-refuses`
 - `a-receiver-is-held-to-its-parameter-at-the-run`
@@ -251,6 +271,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-value-is-not-handed-in-place`
 - `a-variable-declared-const-procedure-carries-that-into-a-capture`
 - `a-variable-handed-in-place-is-written-by-the-callee`
+- `an-access-word-nothing-names-refuses`
 - `an-answer-must-fit-what-was-declared`
 - `an-answer-nobody-wrote-is-read-off-the-body`
 - `an-answer-that-may-be-null-refuses-a-declaration-that-may-not`
@@ -260,6 +281,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-effect-in-a-contract-calls-operand-refuses`
 - `an-effect-in-an-operand-refuses`
 - `an-effectful-closure-where-const-is-asked-refuses`
+- `an-internal-entry-refuses`
+- `an-internal-procedure-is-named-from-another-document`
 - `an-isolated-closure-writes-its-own-variables`
 - `an-omitted-argument-arrives-as-the-settled-default`
 - `arguments-are-settled-at-the-boundary`
