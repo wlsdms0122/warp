@@ -21,6 +21,12 @@ the rule's: a call that misfits a declaration in its own document refuses at
   loop's round, an iteration's element, an attempt's failure), or a path
   through them;
 - every procedure sent is declared by some module in the link, exactly once;
+- the documents of a link stand in an order where what each one sends, and
+  every type its signatures name, is declared before it, since what a document
+  says is read against those: the types its sends answer with, what its bodies
+  reach, what its constants settle from. Two documents that each need the
+  other have no such order and **refuse**, as the pair and not as a spot in
+  either;
 - a claim backed by a declaration that does less than the contract asked,
   running where it asked `const` or touching a shared name where it asked
   `isolated`, does not hold, under *what answers without running* in
@@ -147,3 +153,4 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-procedure-nobody-declares-refuses-at-build`
 - `a-procedure-two-modules-declare-refuses`
 - `an-untaken-arm-is-checked-too`
+- `two-documents-that-need-each-other-refuse`

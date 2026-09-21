@@ -317,7 +317,9 @@ A type **satisfies** a contract when a document says it does. The document
 writes the claim under `satisfies`, keyed by the type: `satisfies: {
 "bank.Account": ["app.Describable"] }`. Any document may make one, about a type
 it declared or about another document's, which is how a document that arrives
-later gives a type the procedures a contract asks.
+later gives a type the procedures a contract asks. A claim about a type this
+specification names, `int` or `string`, **refuses at the load**: a value of one
+wears no name for a run to read, so no declaration could answer for it.
 
 The build holds the claim to the declarations behind it. For every procedure the
 contract asks, it takes the declaration named for the type and that procedure
@@ -411,6 +413,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-bound-may-name-several-and-holds-to-every-one`
 - `a-bound-naming-a-parameter-no-slot-mentions-refuses`
 - `a-byte-is-a-whole-number-a-range-refines`
+- `a-claim-about-a-type-the-language-names-refuses`
 - `a-closure-reads-the-bounds-of-the-procedure-around-it`
 - `a-constant-outside-a-range-refuses`
 - `a-constraint-is-named-by-its-qualified-spelling`

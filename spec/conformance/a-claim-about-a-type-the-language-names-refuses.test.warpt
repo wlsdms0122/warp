@@ -1,0 +1,43 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-claim-about-a-type-the-language-names-refuses"
+  note "A claim is about a declared type. A value of a type the language names wears no name a run could read, so no declaration could answer a contract for it, and a document claiming one does is refused where it is read."
+  program {
+    contracts {
+      "app.Described" {
+        describe {
+          returns "string"
+        }
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+        returns "int"
+      }
+      "int.describe" {
+        parameters {
+          of {
+            type "int"
+          }
+        }
+        receiver "of"
+        result "int"
+        returns "string"
+      }
+    }
+    satisfies {
+      int [
+        "app.Described"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+
