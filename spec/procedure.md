@@ -261,6 +261,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-constant-argument-outside-enum-refuses-at-build`
 - `a-constant-cannot-settle-from-a-procedure-a-caller-brought`
 - `a-constant-cannot-settle-from-what-runs`
+- `a-constant-settles-from-a-body-of-another-document`
 - `a-contract-asking-const-lets-its-call-stand-in-a-const-slot`
 - `a-contract-asking-isolated-lets-its-call-stand-in-an-isolated-slot`
 - `a-contract-call-that-may-run-is-no-operand`

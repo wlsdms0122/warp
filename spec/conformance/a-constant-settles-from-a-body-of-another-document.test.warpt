@@ -1,0 +1,63 @@
+warpt 1
+{
+  documents [
+    {
+      imports [
+        "std.math.times"
+      ]
+      procedures {
+        "k.twice" {
+          parameters {
+            of {
+              type "int"
+            }
+          }
+          receiver "of"
+          result {
+            call {
+              arguments {
+                value 2
+              }
+              of {
+                ref "of"
+              }
+              procedure "std.math.times"
+            }
+          }
+          returns "int"
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    answers 12
+  }
+  name "a-constant-settles-from-a-body-of-another-document"
+  note "A constant settles from a body in another document of the link, since the document it is written in is what the compiled document is made from. The body runs at the build and the constant is the answer."
+  program {
+    const {
+      twelve {
+        call {
+          of 6
+          procedure "k.twice"
+        }
+      }
+    }
+    imports [
+      "k.twice"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          ref "twelve"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
