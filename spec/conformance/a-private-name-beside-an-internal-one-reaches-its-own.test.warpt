@@ -1,0 +1,65 @@
+warpt 1
+{
+  documents [
+    {
+      imports []
+      procedures {
+        "app.helper" {
+          result 1
+          returns "int"
+        }
+        "lib.seven" {
+          result {
+            call {
+              procedure "app.helper"
+            }
+          }
+          returns "int"
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    answers 8
+  }
+  name "a-private-name-beside-an-internal-one-reaches-its-own"
+  note "A private declaration takes no spelling from the link, so an internal one beside it holds that spelling for every other document. The document that declares the private one reaches its own by that spelling, and the document that declares the internal one reaches its own."
+  program {
+    imports [
+      "lib.seven"
+      "std.math.plus"
+    ]
+    procedures {
+      "app.helper" {
+        access "private"
+        result 7
+        returns "int"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments {
+              value {
+                call {
+                  procedure "lib.seven"
+                }
+              }
+            }
+            of {
+              call {
+                procedure "app.helper"
+              }
+            }
+            procedure "std.math.plus"
+          }
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

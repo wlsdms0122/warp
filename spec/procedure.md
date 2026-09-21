@@ -262,9 +262,11 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-piece-that-writes-what-it-captured-refuses`
 - `a-private-declaration-backs-no-claim`
 - `a-private-entry-refuses`
+- `a-private-name-beside-an-internal-one-reaches-its-own`
 - `a-private-name-is-typed-by-its-own-document`
 - `a-private-procedure-called-beside-its-declaration-runs`
 - `a-private-procedure-called-from-another-document-refuses`
+- `a-private-procedure-the-caller-brings-is-not-named`
 - `a-procedure-that-can-fail-says-so`
 - `a-receiver-by-name-refuses`
 - `a-receiver-is-held-to-its-parameter-at-the-run`
