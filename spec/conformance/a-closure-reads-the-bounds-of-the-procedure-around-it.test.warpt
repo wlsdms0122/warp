@@ -1,0 +1,215 @@
+warpt 1
+{
+  expect {
+    answers [
+      "1"
+      "2"
+    ]
+  }
+  name "a-closure-reads-the-bounds-of-the-procedure-around-it"
+  note "A closure written in a body reads the type parameters of the procedure around it: its `some T` is the `T` the caller filled, held to the bounds the declaration wrote. So a closure over `some T` may send the contract's procedure to what it is handed, the way the body around it may."
+  program {
+    contracts {
+      "app.Named" {
+        name {
+          returns "string"
+        }
+      }
+    }
+    imports [
+      "std.collection.append"
+      "std.collection.count"
+      "std.math.lessThan"
+      "std.text.text"
+    ]
+    procedures {
+      "app.Thing.name" {
+        parameters {
+          of {
+            type "app.Thing"
+          }
+        }
+        receiver "of"
+        result {
+          call {
+            of {
+              ref "of.id"
+            }
+            procedure "std.text.text"
+          }
+        }
+        returns "string"
+      }
+      "app.each" {
+        body [
+          {
+            type "array<string>"
+            value []
+            var "out"
+          }
+          {
+            let "walk"
+            value {
+              loop {
+                body [
+                  {
+                    let "got"
+                    value {
+                      apply {
+                        arguments {
+                          item {
+                            ref "of[walk.index]"
+                          }
+                        }
+                        procedure {
+                          ref "by"
+                        }
+                      }
+                    }
+                  }
+                  {
+                    value {
+                      call {
+                        arguments {
+                          value {
+                            as "string"
+                            of {
+                              ref "got"
+                            }
+                          }
+                        }
+                        of {
+                          ref "out"
+                        }
+                        procedure "std.collection.append"
+                      }
+                    }
+                  }
+                ]
+                while {
+                  call {
+                    arguments {
+                      value {
+                        call {
+                          of {
+                            ref "of"
+                          }
+                          procedure "std.collection.count"
+                        }
+                      }
+                    }
+                    of {
+                      ref "walk.index"
+                    }
+                    procedure "std.math.lessThan"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        bounds {
+          T "app.Named"
+        }
+        parameters {
+          by {
+            type {
+              procedure {
+                parameters {
+                  item {
+                    type "some T"
+                  }
+                }
+                returns "string"
+              }
+            }
+          }
+          of {
+            type "array<some T>"
+          }
+        }
+        receiver "of"
+        result {
+          ref "out"
+        }
+        returns "array<string>"
+      }
+      "app.names" {
+        bounds {
+          T "app.Named"
+        }
+        parameters {
+          of {
+            type "array<some T>"
+          }
+        }
+        receiver "of"
+        result {
+          call {
+            arguments {
+              by {
+                closure {
+                  parameters {
+                    item {
+                      type "some T"
+                    }
+                  }
+                  result {
+                    call {
+                      of {
+                        ref "item"
+                      }
+                      procedure "app.Named.name"
+                    }
+                  }
+                  returns "string"
+                }
+              }
+            }
+            of {
+              ref "of"
+            }
+            procedure "app.each"
+          }
+        }
+        returns "array<string>"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            of [
+              {
+                as "app.Thing"
+                of {
+                  id 1
+                }
+              }
+              {
+                as "app.Thing"
+                of {
+                  id 2
+                }
+              }
+            ]
+            procedure "app.names"
+          }
+        }
+        returns "array<string>"
+      }
+    }
+    satisfies {
+      "app.Thing" [
+        "app.Named"
+      ]
+    }
+    types {
+      "app.Thing" {
+        id "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
