@@ -1,0 +1,44 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-return-is-held-to-the-declaration"
+  note "A procedure answers two ways, its result and every return, and each is held to what it declared. A result that fits does not excuse a return on one way through that carries something else, so the mismatch is refused where the return is written and never reaches a run."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            value {
+              conditional {
+                then [
+                  {
+                    value {
+                      return "x"
+                    }
+                  }
+                ]
+                when {
+                  ref "ready"
+                }
+              }
+            }
+          }
+        ]
+        parameters {
+          ready {
+            type "bool"
+          }
+        }
+        result 0
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

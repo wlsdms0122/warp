@@ -313,6 +313,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-rescue-reads-what-a-failure-carried`
 - `a-rescue-that-answers-nothing-answers-null`
 - `a-rescue-that-produces-nothing-refuses`
+- `a-return-is-held-to-the-declaration`
 - `a-statement-saying-two-things-refuses`
 - `a-statement-with-no-name-still-runs`
 - `a-var-field-lets-a-path-through`

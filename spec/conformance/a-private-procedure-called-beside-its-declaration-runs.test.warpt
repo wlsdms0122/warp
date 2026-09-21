@@ -1,0 +1,30 @@
+warpt 1
+{
+  expect {
+    answers 7
+  }
+  name "a-private-procedure-called-beside-its-declaration-runs"
+  note "Private is the document's own scope: a procedure declared beside the caller is named from there whatever its word, so a private helper called by its own document's entry runs."
+  program {
+    imports []
+    procedures {
+      "app.seven" {
+        access "private"
+        result 7
+        returns "int"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            procedure "app.seven"
+          }
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

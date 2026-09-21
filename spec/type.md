@@ -166,6 +166,9 @@ holding different sets is refused at the build and written by no document.
 `bounds` naming a parameter no slot mentions refuses at the load. Only the declaring procedure writes `bounds`. A
 procedure *type* nested in a slot carries none, because its parameters are the
 declaring signature's own slots and the declaring signature owns their bounds. A
+closure written in the body reads the same names: its `some T` is the `T` the
+caller filled, held to the bounds the declaration wrote, so a closure may send
+what the body around it may. A
 constraint nobody declares, a constraint declared twice under one spelling, one
 admitting nothing, and a name declared as both a type and a constraint all
 **refuse at the build**. A member is a **concrete type**: `some`, `any` and
@@ -408,6 +411,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-bound-may-name-several-and-holds-to-every-one`
 - `a-bound-naming-a-parameter-no-slot-mentions-refuses`
 - `a-byte-is-a-whole-number-a-range-refines`
+- `a-closure-reads-the-bounds-of-the-procedure-around-it`
 - `a-constant-outside-a-range-refuses`
 - `a-constraint-is-named-by-its-qualified-spelling`
 - `a-constraint-that-admits-nothing-refuses`

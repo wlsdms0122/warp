@@ -19,8 +19,8 @@ One file, one question: a subject, what to ask it with, and what should happen.
     test        int. The case format this file is written for
     name        what the case is called
     note        why it exists. The rule it holds an implementation to
-    program     a document, declaring a procedure spelled `entry`, which is
-                where the runner starts
+    program     a document, declaring a procedure spelled `entry` and
+                written `public`, which is where the runner starts
     bytes       a document's bytes, in the binary encoding
     text        a document's text, in the text encoding; a string, or bytes
                 where the question is whether they are text at all
@@ -30,6 +30,8 @@ One file, one question: a subject, what to ask it with, and what should happen.
     arguments   what the entry procedure is given, if anything; a record
                 under a name is written as the text encoding writes one
     vocabulary  the procedures the runner brings, if any
+    documents   documents laid beside the program, if any, each written as
+                a document is
     expect      answers <value>   it runs and answers this, named records
                                   written the same way
                 reads <value>     it reads as that value
@@ -75,8 +77,7 @@ written beside it. A case carrying either writes neither `arguments` nor
 A case carrying **bytes** expects `spells` or `refuses`. The bytes are the
 **binary** encoding, which is the one a document travels in and the one that
 is canonical: a non-canonical byte spelling is refused, which leaves no bytes
-that read one way, so a bytes case writing `reads` **refuses** as a case. A
-bytes case that spells says `test 5`, since that is where the word arrived.
+that read one way, so a bytes case writing `reads` **refuses** as a case.
 
 A case carrying **text** expects `reads`, `spells` or `refuses`. A text has
 many layouts of one value, since layout is free on the way in, so most text
@@ -134,19 +135,11 @@ what it does not, both of which need a procedure with no body: a slot asking
 `const procedure`, an operand calling one, and a constant that settles from one
 and is refused for it.
 
-A runner reads `test 2` through `test 6`, and a case says the earliest it
-needs, which a runner checks against what the case writes. A case saying a
-later one would turn away a runner that could have asked it, and one saying an
-earlier one would have that runner refuse it as no case at all:
+**`documents` are other documents in the link.** A rule about two documents, a `private` declaration one of them names or a spelling two of them declare, is asked with the program and a document beside it. Each is written as any document is and read the way the program is, and stands between what the runner brings and the program. One that does not read **refuses** as a case, since the question was about the program.
 
-| version | what moved |
-|---|---|
-| 1 | spelled the middle stage `link`; a runner that reads `build` cannot honour it, so it is refused |
-| 2 | the stages `load`, `build` and `run` |
-| 3 | `vocabulary` |
-| 4 | `bytes` and `expect reads`, reading both ways |
-| 5 | `text`; `expect spells` for both ways and `reads` for one, so `reads` on bytes retires |
-| 6 | `object`, and `expect builds` |
+A case says `test 1`, and a runner refuses any other: the format moves when
+what a case may say moves, on its own schedule, and every change before the
+first release folds into this one. Current format: **1**.
 
 Both kinds matter equally. **An implementation that accepts a program another
 refuses has failed in the same way as one that answers differently**, so half of
@@ -172,10 +165,11 @@ written as anything but a record. What refuses as a case is asked by no case:
 the folder holds the suite, and a runner that refuses one of its files stops
 on it, because the suite is what is wrong then. If the case expects `refuses`,
 check that it fails at that stage and no earlier or later. Otherwise build it
-against that vocabulary and the standard bundles, start from the procedure
-declared under `entry`, run it with `arguments`, and compare. A program that
-declares no `entry` is refused **at the build**, where a name nothing in the
-link declares is refused. What a runner answers does not depend on the
+against that vocabulary, the documents beside it and the standard bundles, start
+from the procedure declared `public` under `entry`, run it with `arguments`, and
+compare. A program that declares no `entry` is refused **at the build**, where a
+name nothing in the link declares is refused, and so is one whose `entry` is not
+`public`. What a runner answers does not depend on the
 machine's locale, and a runner that leans on a host's locale for case mapping
 or ordering runs the cases under one that tailors them, Turkish for one, to
 find out.
