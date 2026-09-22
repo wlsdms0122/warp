@@ -135,7 +135,7 @@ what it does not, both of which need a procedure with no body: a slot asking
 `const procedure`, an operand calling one, and a constant that settles from one
 and is refused for it.
 
-**`documents` are other documents in the link.** A rule about two documents, a `private` declaration one of them names or a spelling two of them declare, is asked with the program and a document beside it. Each is written as any document is and read the way the program is, and stands between what the runner brings and the program. One that does not read **refuses** as a case, since the question was about the program.
+**`documents` are other documents in the link.** A rule about two documents, a `private` declaration one of them names or a spelling two of them declare, is asked with the program and a document beside it. Each is written as any document is and read the way the program is, and stands between what the runner brings and the program: laid one after another in the order written, each against what stands before it, and the program last, the way a host lays documents as they arrive. One that does not read **refuses** as a case, since the question was about the program.
 
 A case says `test 1`, and a runner refuses any other: the format moves when
 what a case may say moves, on its own schedule, and every change before the

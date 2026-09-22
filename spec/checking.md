@@ -148,6 +148,7 @@ says the stage and reads nothing else.
 What `conformance/` asks about this page, by the name each case's file carries.
 
 - `a-declaration-is-named-by-its-whole-spelling`
+- `a-document-sending-a-contract-procedure-stands-before-a-later-one`
 - `a-name-not-in-normal-form-c-is-refused`
 - `a-procedure-may-be-spelled-like-a-type`
 - `a-procedure-nobody-declares-refuses-at-build`
