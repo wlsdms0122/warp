@@ -127,6 +127,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-module-variable-is-not-named-from-another-document`
 - `a-module-variable-is-shared-by-the-procedures-beside-it`
 - `a-module-variable-keeps-the-type-it-started-as`
+- `a-module-variable-starting-as-a-dictionary-takes-new-names`
 - `a-name-declared-as-both-a-constant-and-a-variable-refuses`
 - `a-procedure-only-an-untaken-arm-sends-is-still-needed`
 - `a-reserved-spelling-refuses-in-a-document`
