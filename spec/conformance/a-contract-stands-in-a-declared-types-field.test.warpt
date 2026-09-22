@@ -1,0 +1,77 @@
+warpt 1
+{
+  expect {
+    answers "a card"
+  }
+  name "a-contract-stands-in-a-declared-types-field"
+  note "A contract's name stands where a type is written, a declared type's field included. A record settling into the declared type holds a value of whatever type satisfies the contract there, and the body calls the contract's procedure on it."
+  program {
+    contracts {
+      "app.Describable" {
+        describe {
+          const true
+          returns "string"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "bank.Card.describe" {
+        parameters {
+          of {
+            type "bank.Card"
+          }
+        }
+        receiver "of"
+        result "a card"
+        returns "string"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "wallet"
+            value {
+              as "bank.Wallet"
+              of {
+                cards [
+                  {
+                    as "bank.Card"
+                    of {
+                      limit 5
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            of {
+              ref "wallet.cards[0]"
+            }
+            procedure "app.Describable.describe"
+          }
+        }
+        returns "string"
+      }
+    }
+    satisfies {
+      "bank.Card" [
+        "app.Describable"
+      ]
+    }
+    types {
+      "bank.Card" {
+        limit "int"
+      }
+      "bank.Wallet" {
+        cards "array<app.Describable>"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
