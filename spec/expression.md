@@ -115,10 +115,13 @@ the same field of either is the same field.
   written first in a path **refuse**. Wherever the path is judged, and
   whether it was written as text or built as segments.
 
-A constant-headed path never reaches a run: it is judged first like any path.
-The constant's settled value is its declared type, so an absent field or a
-needless `?.` refuses by the same rules, and then folds at the build to the
-value it read. What a constant may settle from is under *what a constant
+A constant-headed path is judged first like any path: the constant's settled
+value is its declared type, so an absent field or a needless `?.` refuses by
+the same rules. Then it folds at the build to the value it read, except where
+an index on it is a reference the run settles (`digits[ch]`, `ch` a
+parameter): the build binds the constant's value in the body before its first
+statement, and the run reads past it the way it reads any name, by the rules
+above. What a constant may settle from is under *what a constant
 settles from* in [procedures](procedure.md), and a body **its own document**
 declares is not among them: such a body is itself still being resolved beside
 the constants it may read, so a constant that runs one would be a circle with
@@ -159,6 +162,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-closure-reads-a-variable-through-its-box`
 - `a-closure-write-keeps-the-captured-type`
 - `a-closure-writes-what-it-captured`
+- `a-constant-read-at-an-index-the-run-settles`
 - `a-constant-that-runs-a-body-of-its-own-document-refuses`
 - `a-dictionary-is-read-by-a-key-the-run-settles`
 - `a-dot-on-a-type-with-no-fields-is-refused`
