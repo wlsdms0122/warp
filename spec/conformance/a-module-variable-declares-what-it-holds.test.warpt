@@ -1,0 +1,56 @@
+warpt 1
+{
+  expect {
+    answers [
+      "a"
+    ]
+  }
+  name "a-module-variable-declares-what-it-holds"
+  note "A module variable may say what it holds under `type` beside its start, the way a `var` statement does, so a start that is an empty collection still says what the box will hold. Every write is settled against the declared type."
+  program {
+    imports [
+      "std.collection.keys"
+      "std.collection.setting"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            set "seen"
+            value {
+              call {
+                arguments {
+                  key "a"
+                  value 1
+                }
+                of {
+                  ref "seen"
+                }
+                procedure "std.collection.setting"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            of {
+              ref "seen"
+            }
+            procedure "std.collection.keys"
+          }
+        }
+        returns "array<string>"
+      }
+    }
+    var {
+      seen {
+        type "dictionary<int>"
+        value {}
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

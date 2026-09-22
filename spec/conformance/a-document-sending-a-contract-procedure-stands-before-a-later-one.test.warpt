@@ -1,0 +1,110 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "app.Describable" {
+          describe {
+            const true
+            returns "string"
+          }
+        }
+      }
+      imports []
+      procedures {
+        "app.nothing" {
+          result {
+            value null
+          }
+          returns "null"
+        }
+      }
+      warp 1
+    }
+    {
+      imports [
+        "app.Describable"
+        "app.Describable.describe"
+      ]
+      procedures {
+        "bank.Account.describe" {
+          parameters {
+            of {
+              type "bank.Account"
+            }
+          }
+          receiver "of"
+          result "an account"
+          returns "string"
+        }
+        "bank.tell" {
+          parameters {
+            of {
+              type "bank.Account"
+            }
+          }
+          receiver "of"
+          result {
+            call {
+              of {
+                ref "of"
+              }
+              procedure "app.Describable.describe"
+            }
+          }
+          returns "string"
+        }
+      }
+      satisfies {
+        "bank.Account" [
+          "app.Describable"
+        ]
+      }
+      types {
+        "bank.Account" {
+          balance "int"
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    answers "an account"
+  }
+  name "a-document-sending-a-contract-procedure-stands-before-a-later-one"
+  note "A call to a contract's procedure is answered by the link through the contract, not by a row a document declares, so a document sending one stands laid beside a document laid after it. The documents beside the program are laid one after another, and the program comes last."
+  program {
+    imports [
+      "bank.Account"
+      "bank.tell"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "account"
+            value {
+              as "bank.Account"
+              of {
+                balance 1
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            of {
+              ref "account"
+            }
+            procedure "bank.tell"
+          }
+        }
+        returns "string"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
