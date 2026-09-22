@@ -1,0 +1,77 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-closure-that-writes-what-it-captured-is-not-const"
+  note "A name a closure captured is a box outside the closure, so writing it reaches the run's state the way writing a module variable does. A slot asking `const procedure` refuses the closure at the build."
+  program {
+    imports [
+      "std.collection.map"
+      "std.math.plus"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            value 0
+            var "seen"
+          }
+          {
+            let "mapped"
+            value {
+              call {
+                arguments {
+                  value {
+                    closure {
+                      body [
+                        {
+                          set "seen"
+                          value {
+                            call {
+                              arguments {
+                                value {
+                                  ref "item"
+                                }
+                              }
+                              of {
+                                ref "seen"
+                              }
+                              procedure "std.math.plus"
+                            }
+                          }
+                        }
+                      ]
+                      parameters {
+                        item {
+                          type "int"
+                        }
+                      }
+                      result {
+                        ref "item"
+                      }
+                      returns "int"
+                    }
+                  }
+                }
+                of [
+                  1
+                  2
+                ]
+                procedure "std.collection.map"
+              }
+            }
+          }
+        ]
+        result {
+          ref "seen"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

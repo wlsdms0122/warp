@@ -86,8 +86,11 @@ what this section is about.
 A procedure **answers without running** when nothing it reaches stands outside
 the run it was handed:
 
-- it reads no module variable and writes none, since what one of those holds is
-  the run's rather than the text's;
+- it reads no module variable and writes no name it does not own: a module
+  variable, a name a closure captured, or a parameter handed in place, whether
+  written by `set` or handed in place to a call. What such a name holds is the
+  run's rather than the text's, and a name the body introduces or a parameter
+  it holds outright is its own;
 - it calls a value (`apply`) only through a name a slot declared
   `const procedure`. That is the one place something before the run says what
   the value answers; on any other name nothing does. The claim is the slot's
@@ -254,6 +257,7 @@ running, by the rule that such a body writes no name.
 
 What `conformance/` asks about this page, by the name each case's file carries.
 
+- `a-closure-that-writes-what-it-captured-is-not-const`
 - `a-const-slot-refuses-a-closure-that-calls-what-runs`
 - `a-const-slot-takes-a-closure-that-applies-a-const-slot`
 - `a-const-slot-takes-a-closure-that-calls-a-host-procedure`
@@ -285,6 +289,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-private-procedure-called-from-another-document-refuses`
 - `a-private-procedure-the-caller-brings-is-not-named`
 - `a-procedure-that-can-fail-says-so`
+- `a-procedure-that-writes-in-place-does-not-answer-without-running`
 - `a-receiver-by-name-refuses`
 - `a-receiver-is-held-to-its-parameter-at-the-run`
 - `a-receiver-written-for-one-that-declares-none-refuses`
