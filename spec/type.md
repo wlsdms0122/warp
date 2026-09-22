@@ -423,6 +423,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-constraint-that-admits-nothing-refuses`
 - `a-contract-carries-a-procedure-into-a-generic-body`
 - `a-contract-stands-in-a-closures-parameter`
+- `a-contract-stands-in-a-declared-types-field`
 - `a-contract-stands-where-a-type-is-written`
 - `a-declared-name-is-a-type`
 - `a-declared-range-refuses-what-is-outside-it`
