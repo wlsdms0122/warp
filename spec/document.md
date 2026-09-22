@@ -22,13 +22,13 @@ the pages it points to, is **closed**: a key none of them names **refuses**. Eve
 | `contracts` | record: name → record: procedure → `{ parameters?, returns?, const?, isolated? }`; the two bools ask what a slot asks with `const procedure` and `isolated procedure`, of every declaration answering | no |
 | `satisfies` | record: type name → array of contract names that type answers | no |
 | `const` | record: name → expression | no |
-| `var` | record: name → expression; a variable every procedure beside it may read and write | no |
+| `var` | record: name → expression, or `{ type, value }` where the variable says what it holds; a variable every procedure beside it may read and write | no |
 | `procedures` | record: name → procedure | yes, and not empty |
 
 **A module variable.** Its start is written like a constant and settles the same
 way: at the **build**, from what a constant settles from, beside the constants
-and reading them, and them only: one start does not read another variable. Its type is the type of that settled value, and every write
-into it is settled against that type. It is private to the document like a constant,
+and reading them, and them only: one start does not read another variable. Its type is what it declares under `type`, and where it declares none, the type of that settled value; a start the declared type does not take **refuses at the build**, and every write
+into it is settled against that type. A variable declares a type for the reason a `var` statement does, under [statements](statement.md): a start that is an empty collection says nothing about what the box will hold. It is private to the document like a constant,
 as a procedure written `private` is under [procedures](procedure.md),
 read by the same spelling (`ref`), and written by a `set` in a procedure the
 document declares, or through a parameter such a procedure hands it to in place;
@@ -122,11 +122,13 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-later-document-refuses`
 - `a-list-leaving-out-a-type-the-program-names-refuses`
 - `a-module-declares-a-constraint`
+- `a-module-variable-declares-what-it-holds`
 - `a-module-variable-handed-in-place-is-one-box`
 - `a-module-variable-is-handed-in-place-to-a-native-procedure`
 - `a-module-variable-is-not-named-from-another-document`
 - `a-module-variable-is-shared-by-the-procedures-beside-it`
 - `a-module-variable-keeps-the-type-it-started-as`
+- `a-module-variable-start-outside-its-declared-type-refuses`
 - `a-module-variable-starting-as-a-dictionary-takes-new-names`
 - `a-name-declared-as-both-a-constant-and-a-variable-refuses`
 - `a-procedure-only-an-untaken-arm-sends-is-still-needed`

@@ -1,0 +1,29 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-module-variable-start-outside-its-declared-type-refuses"
+  note "A module variable's start is settled into the type it declares, the way an argument is settled into its slot, so a start the declared type does not take refuses at the build."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result {
+          ref "total"
+        }
+        returns "int"
+      }
+    }
+    var {
+      total {
+        type "int"
+        value "many"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
