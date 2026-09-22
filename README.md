@@ -1,7 +1,9 @@
 # Warp
 
-A runtime build system. A front end, an IR and a runtime, composed so that any
-front end works with any runtime.
+A runtime build system: a front end, an IR and a runtime, composed so that any
+front end works with any runtime. What it is for is one boundary, the one
+between a running program and code that arrives after it was built, and what
+it does is make that boundary the language's rather than each program's.
 
 An ordinary language goes one way:
 
@@ -18,24 +20,52 @@ source  ->  build  ->  IR        (Warp)
 
 It takes a language, builds it, and answers with a language again. That answer
 is the IR document, and what turns the document into machine code is the
-ordinary toolchain that built the runtime. Warp has no part in that half.
-
-Its product being another language rather than something a processor executes
+ordinary toolchain that built the runtime. Warp has no part in that half, which
 is why this is a build system and not a compiler.
 
 ## Why it exists
 
-A compiled application cannot run code it did not ship with. There is no
-compiler at run time, and on the platforms this exists for there is no way to
-acquire one. Warp is how a decision reaches a running program without
-rebuilding and re-shipping it: the program arrives as a **document**, is
-**checked before any of it runs**, and runs inside a runtime the receiver
-controls, reaching nothing the receiver did not hand it.
+A compiled application cannot run code it did not ship with. Every way of
+changing what it does without shipping it again ends at the same place: the
+application has to expose what it can do, and what arrives has to be written
+against that. A screen description, a workflow file, a rules document. Each of
+these is a boundary between a host and a program, and each grows conditions,
+variables and branches until it is a language nobody designed, with no checking
+and no tools.
+
+Warp is that boundary designed once, as a language. A host declares the
+procedures it can answer, its **vocabulary**. A program arrives as a
+**document** written against that vocabulary. The host **builds** the document
+before any of it runs, checking every call against the declaration it reaches,
+every type, every claim, and refuses what does not hold. What passes runs, and
+reaches nothing the host did not declare.
+
+Two people meet at this boundary and neither designs it:
+
+- whoever **implements** a host writes procedures in the host's language and
+  declares them. A module of vocabulary is a declaration and a place it
+  reaches, and nothing else;
+- whoever **provides** programs writes documents, through a front end that
+  suits them. The syntax is the front end's, the document is the language's.
+
+## What it is not
+
+It is not a machine. Wasm, a bytecode VM, a JIT: those run code, and the
+boundary between that code and the host is theirs to design afterwards. Warp
+starts at the boundary and stays there. Heavy computation belongs to the
+vocabulary, in the host's language at the host's speed, and what a document
+holds is the flow and the decisions between those calls: short, and checked.
+
+It is not a script engine. A script can do anything the engine can, and what
+it will do is found out by running it. A document can do what the vocabulary
+declares, and what it will do is read before it runs.
 
 ## Where it is now
 
-One runtime exists, in Swift. The IR is being settled on top of it, so the
-specification moves where the runtime shows it has to.
+One runtime exists, in Swift. The IR is settled against it and measured by the
+cases under `spec/conformance/`, which are the specification written as data:
+a runtime is one when it passes them. One front end exists, for YAML. Hosts
+lend vocabulary as modules and programs are written against them.
 
 ## The pieces
 
@@ -60,36 +90,35 @@ run with another, and none of them share code.
 | directory | what | is |
 |---|---|---|
 | [`spec/`](spec/README.md) | the language: constructs, document format, encodings, object format, refusal rules, conformance cases | the specification |
-| [`runtime/warp-runtime-swift/`](runtime/warp-runtime-swift/README.md) | `Warp` `WarpSyntax` | one runtime |
+| [`runtime/warp-runtime-swift/`](runtime/warp-runtime-swift/README.md) | `Warp` `WarpSyntax` `WarpStandard` | one runtime |
 | [`frontend/warp-frontend-yaml/`](frontend/warp-frontend-yaml/README.md) | `WarpYAML` | one front end |
 
-The specification is the language. An implementation. This runtime included. Is
+The specification is the language. An implementation, this runtime included, is
 complete when it does what the specification says, and no more complete for
 doing anything else. A front end or runtime in another language starts from
 `spec/` and `spec/conformance/`, not from the Swift source.
 
 ## The shortest tour
 
-Author with the front end, run with the runtime. The same two steps whether
-the document crossed a network or a function call:
+Author with the front end, run with the runtime. The same steps whether the
+document crossed a network or a function call:
 
 ```swift
 import WarpYAML          // authoring side
-import WarpSyntax      // arriving side
+import WarpSyntax        // arriving side
 import Warp
+import WarpStandard
 
-let loader = Loader()
 let document = try YAMLFrontend().document(from: yaml)   // → canonical document
-let module = try loader.load(                             // checked, or refused
+let module = try Loader().load(                           // checked, or refused
     document,
     identity: try Identity.of(document)                   // which document, for refusals
 )
-let image = try loader.reading {                          // refusals in the
-    try Builder().build([module] + Module.standard, entry: "greet")  // document's procedures
-}
-let answer = try await Executor().run(image)
+let image = try await Builder().build([module] + Module.standard + host)  // linked, or refused
+let answer = try await Executor(environment: environment).run(image, entry: "greet", arguments: [:])
 ```
 
-A program that stays in Swift skips the document entirely and builds the program
-directly; a program that travels is written down by `WarpSyntax`. Bytes to carry
-it, text to read it.
+`host` is the vocabulary this host lends, and `environment` is what its
+procedures reach. A program that stays in Swift skips the document entirely and
+builds the program directly; a program that travels is written down by
+`WarpSyntax`. Bytes to carry it, text to read it.

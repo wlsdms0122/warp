@@ -60,6 +60,17 @@ where it assembles the modules, and a module of native procedures it takes in
 reaches whatever host code reaches there. That is the same decision as taking in
 a library, and it is not one a document can make.
 
+**The boundary is this specification's.** Everything that crosses between a
+host and a program is fixed here and nowhere else: what a value is
+([values](value.md)), how a host's procedure is declared and what it is handed
+([procedures](procedure.md)), what a failure carries
+([statements](statement.md)), who may name a declaration, and what is checked
+before anything runs ([checking](checking.md)). A host declares procedures
+against these pages and designs no protocol of its own; a front end writes
+documents against them and designs no protocol either. What a document holds is
+the flow between the procedures a host declared, and what the host declares
+holds the work.
+
 ## The pieces
 
 ```
