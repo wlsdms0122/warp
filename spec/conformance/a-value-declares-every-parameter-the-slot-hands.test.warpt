@@ -1,0 +1,55 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-value-declares-every-parameter-the-slot-hands"
+  note "A name the declaration does not have refuses wherever a call is made, so a closure declaring `item` alone does not stand in a slot that hands `item` and `index`; the build holds it where the value is handed."
+  program {
+    imports [
+      "std.concurrent.map"
+      "std.math.plus"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments {
+              by {
+                closure {
+                  parameters {
+                    item {
+                      type "int"
+                    }
+                  }
+                  result {
+                    call {
+                      arguments {
+                        value 1
+                      }
+                      of {
+                        ref "item"
+                      }
+                      procedure "std.math.plus"
+                    }
+                  }
+                  returns "int"
+                }
+              }
+            }
+            of [
+              1
+              2
+            ]
+            procedure "std.concurrent.map"
+          }
+        }
+        returns "array<int>"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

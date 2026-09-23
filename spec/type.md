@@ -59,6 +59,9 @@ about the value, so what fits the slot is judged by the type after the
 procedure. Writing either where it is not allowed **refuses** at the build. A
 slot asking `isolated` takes what the build derived as isolated. Answering
 without running is a separate claim and does not stand in for it.
+A value standing in a procedure-typed slot declares every parameter the
+slot hands, under *one convention* in [procedures](procedure.md), and that is
+held at the **build**.
 
 **What a slot takes, exactly.** Where a value meets a declaration. An
 argument, a taken default, an answer, and a write into a box that said what it
@@ -463,6 +466,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-type-handed-on-once-inside-another-refuses`
 - `a-type-parameter-read-two-ways-is-refused`
 - `a-type-that-misses-a-procedure-does-not-answer-the-contract`
+- `a-value-declares-every-parameter-the-slot-hands`
 - `a-value-handed-on-in-one-arm-and-not-the-other-refuses`
 - `a-value-handed-on-once-does-not-go-into-a-list`
 - `a-value-handed-on-once-does-not-go-into-a-list-unbound`
