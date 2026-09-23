@@ -50,6 +50,8 @@ no name. An inline record type and `dictionary<T>` are structural: a named
 record fits them by structure, and what settles there is built on the slot's own
 layout, which has no name. `any` declares nothing, so a value passes it as it
 is, name included.
+A declared type may name itself in a field, nullable or as a list's element,
+so a tree is one declaration.
 
 `inout` and `var` stand in front of the whole type, `?` included: `inout int?`
 is a nullable handed in place. They say something about the slot and nothing
@@ -427,6 +429,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-contract-stands-where-a-type-is-written`
 - `a-declared-name-is-a-type`
 - `a-declared-range-refuses-what-is-outside-it`
+- `a-declared-type-names-itself-in-its-fields`
 - `a-fraction-is-not-a-whole-number`
 - `a-fraction-range-widens-a-whole-number-into-itself`
 - `a-handle-already-given-away-is-not-read-again`
