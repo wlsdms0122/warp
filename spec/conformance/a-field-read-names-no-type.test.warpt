@@ -1,0 +1,76 @@
+warpt 1
+{
+  documents [
+    {
+      imports []
+      procedures {
+        "core.origin" {
+          result {
+            as "core.Point"
+            of {
+              x 3
+              y 4
+            }
+          }
+          returns "core.Point"
+        }
+      }
+      types {
+        "core.Point" {
+          x "int"
+          y "int"
+        }
+      }
+      warp 1
+    }
+    {
+      imports [
+        "core.Point"
+        "core.origin"
+      ]
+      procedures {
+        "mid.tip" {
+          result {
+            call {
+              procedure "core.origin"
+            }
+          }
+          returns "core.Point"
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    answers 3
+  }
+  name "a-field-read-names-no-type"
+  note "The imports list holds the names a program uses: what it sends and the types it names. Reading a field off another document's answer names no type, so a program built on the middle layer lists the middle layer's procedure and nothing of the layer beneath."
+  program {
+    imports [
+      "mid.tip"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "tip"
+            value {
+              call {
+                procedure "mid.tip"
+              }
+            }
+          }
+        ]
+        result {
+          ref "tip.x"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

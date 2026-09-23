@@ -1,0 +1,71 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-variable-of-another-type-is-not-handed-in-place"
+  note "A parameter handed in place takes the caller's own box, so the variable's declared type is the parameter's all the way in: `array<any>` where `inout array<int>` stands is refused at the build, since nothing settles where nothing is handed over."
+  program {
+    imports [
+      "std.collection.appending"
+    ]
+    procedures {
+      "app.add" {
+        body [
+          {
+            set "into"
+            value {
+              call {
+                arguments {
+                  value {
+                    ref "value"
+                  }
+                }
+                of {
+                  ref "into"
+                }
+                procedure "std.collection.appending"
+              }
+            }
+          }
+        ]
+        parameters {
+          into {
+            type "inout array<int>"
+          }
+          value {
+            type "int"
+          }
+        }
+      }
+      entry {
+        access "public"
+        body [
+          {
+            type "array<any>"
+            value []
+            var "xs"
+          }
+          {
+            value {
+              call {
+                arguments {
+                  into {
+                    ref "xs"
+                  }
+                  value 1
+                }
+                procedure "app.add"
+              }
+            }
+          }
+        ]
+        result 1
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

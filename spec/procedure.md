@@ -297,6 +297,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-value-is-not-handed-in-place`
 - `a-variable-declared-const-procedure-carries-that-into-a-capture`
 - `a-variable-handed-in-place-is-written-by-the-callee`
+- `a-variable-of-another-type-is-not-handed-in-place`
 - `an-access-word-nothing-names-refuses`
 - `an-answer-must-fit-what-was-declared`
 - `an-answer-nobody-wrote-is-read-off-the-body`
