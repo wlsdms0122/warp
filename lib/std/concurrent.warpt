@@ -103,6 +103,10 @@ warpt 1
       description "Each element answered by a procedure, run at once, in the collection's order."
       parameters [
         {
+          name "over"
+          type "array<some Element>"
+        }
+        {
           name "by"
           type {
             "isolated procedure" {
@@ -113,10 +117,6 @@ warpt 1
               returns "some Answer"
             }
           }
-        }
-        {
-          name "over"
-          type "array<some Element>"
         }
       ]
       receiver "over"

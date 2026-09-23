@@ -78,7 +78,9 @@ rather than in its own language.
 **The signatures, exactly.** A second implementation writes these; it must not
 have to guess them. The *receiver* column is the parameter a call fills by
 writing a receiver in front (the `of` key in a `call`); everything else is
-written by name under `arguments`. A parameter typed `T?` may be left out and reads as null.
+written by name under `arguments`. The parameters stand in the order a row
+writes them, the receiver first and then the arguments column from left to
+right, and that order is where a compiled call keeps each argument. A parameter typed `T?` may be left out and reads as null.
 A slot typed `const procedure` takes only a procedure that answers without
 running.
 
@@ -209,9 +211,9 @@ and one with no compact spelling writes bytes as what they are: an array of
 | `sorted` | `of: array<some Element>` |. | `array<some Element>`. Bounds `Element: std.Comparable` |
 | `appending`, `prepending` | `of: array<some Element>` | `value: some Element` | `array<some Element>` |
 | `gathering` | `of: array<some Element>` | `value: array<int>`. Where to read, in the order to read it | `array<some Element>`, the receiver's own, in the receiver's spelling. A position the receiver does not hold refuses at the run |
-| `map` | `of: array<some Element>` | `value`. `const` procedure, handed `item`, answering `some Answer` | `array<some Answer>` |
-| `filter` | `of: array<some Element>` | `value`. `const` procedure, handed `item`, answering `bool` | `array<some Element>` |
-| `reduce` | `of: array<some Element>` | `from: some Carried`; `value`. `const` procedure, handed `carried` and `item`, answering `some Carried` | `some Carried` |
+| `map` | `of: array<some Element>` | `value`. `const` procedure, handed the item, answering `some Answer` | `array<some Answer>` |
+| `filter` | `of: array<some Element>` | `value`. `const` procedure, handed the item, answering `bool` | `array<some Element>` |
+| `reduce` | `of: array<some Element>` | `from: some Carried`; `value`. `const` procedure, handed the carried value, then the item, answering `some Carried` | `some Carried` |
 | `keys` | `of: dictionary<any>` |. | `array<string>` |
 | `values` | `of: dictionary<some Entry>` |. | `array<some Entry>` |
 | `setting` | `of: dictionary<any>` | `key: string`, `value: any` | `dictionary<any>` |
@@ -236,7 +238,7 @@ one collection at another's positions is a **gather**.
 | procedure | receiver | arguments | answers |
 |---|---|---|---|
 | `all`, `first` | `of: std.concurrent.Pieces`. The membership of `array<isolated procedure>` and `dictionary<isolated procedure>` |. | `any` |
-| `map` | `over: array<some Element>` | `by`. `isolated procedure`, handed `item` and `index`, answering `some Answer` | `array<some Answer>` |
+| `map` | `over: array<some Element>` | `by`. `isolated procedure`, handed the item, then its index, answering `some Answer` | `array<some Answer>` |
 
 **`std.concurrent`**. Running closures at once. `all` takes a record or an array
 of closures, runs every one, and answers every answer. A record's under its
@@ -244,9 +246,8 @@ keys, an array's in its order; a failure fails the whole procedure with every
 piece's failure reported, keyed by the piece it came from. `first` takes the
 same and answers the first success, asking the rest to stop, which piece wins is
 the one timing fact this language admits. `map` takes a collection and one
-closure, calls it once per element. Each call handed `item` and `index`, and
-the closure's own signature says which it reads, and answers in the collection's
-order. These are procedures rather than grammar because a closure is already the
+closure, calls it once per element, handing it the element and then its
+index, and answers in the collection's order. These are procedures rather than grammar because a closure is already the
 safe unit of concurrent work, and being procedures makes concurrency a
 permission: what a receiver does not link, a program cannot do.
 

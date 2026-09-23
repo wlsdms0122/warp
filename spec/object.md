@@ -386,6 +386,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-with-a-lifted-row-nothing-counts-refuses`
 - `the-object-of-a-block`
 - `the-object-of-a-call`
+- `the-object-of-a-call-places-arguments-at-the-callees-positions`
 - `the-object-of-a-cast`
 - `the-object-of-a-closure`
 - `the-object-of-a-composition`
