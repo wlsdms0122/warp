@@ -24,11 +24,12 @@ warpt 1
     ]
     procedures {
       "app.Thing.name" {
-        parameters {
-          of {
+        parameters [
+          {
+            name "of"
             type "app.Thing"
           }
-        }
+        ]
         receiver "of"
         result {
           call {
@@ -56,11 +57,11 @@ warpt 1
                     let "got"
                     value {
                       apply {
-                        arguments {
-                          item {
+                        arguments [
+                          {
                             ref "of[walk.index]"
                           }
-                        }
+                        ]
                         procedure {
                           ref "by"
                         }
@@ -108,23 +109,23 @@ warpt 1
         bounds {
           T "app.Named"
         }
-        parameters {
-          by {
+        parameters [
+          {
+            name "by"
             type {
               procedure {
-                parameters {
-                  item {
-                    type "some T"
-                  }
-                }
+                parameters [
+                  "some T"
+                ]
                 returns "string"
               }
             }
           }
-          of {
+          {
+            name "of"
             type "array<some T>"
           }
-        }
+        ]
         receiver "of"
         result {
           ref "out"
@@ -135,22 +136,24 @@ warpt 1
         bounds {
           T "app.Named"
         }
-        parameters {
-          of {
+        parameters [
+          {
+            name "of"
             type "array<some T>"
           }
-        }
+        ]
         receiver "of"
         result {
           call {
             arguments {
               by {
                 closure {
-                  parameters {
-                    item {
+                  parameters [
+                    {
+                      name "item"
                       type "some T"
                     }
-                  }
+                  ]
                   result {
                     call {
                       of {

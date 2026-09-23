@@ -16,21 +16,23 @@ warpt 1
     imports []
     procedures {
       "app.tellAll" {
-        parameters {
-          them {
+        parameters [
+          {
+            name "them"
             type "array<app.Describable>"
           }
-        }
+        ]
         result 1
         returns "int"
       }
       entry {
         access "public"
-        parameters {
-          cards {
+        parameters [
+          {
+            name "cards"
             type "app.Cards"
           }
-        }
+        ]
         result {
           call {
             arguments {

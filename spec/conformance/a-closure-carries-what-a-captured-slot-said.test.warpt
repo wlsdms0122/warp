@@ -44,11 +44,11 @@ warpt 1
                             let "answered"
                             value {
                               apply {
-                                arguments {
-                                  item {
+                                arguments [
+                                  {
                                     ref "item"
                                   }
-                                }
+                                ]
                                 procedure {
                                   ref "value"
                                 }
@@ -101,23 +101,23 @@ warpt 1
             }
           }
         ]
-        parameters {
-          of {
+        parameters [
+          {
+            name "of"
             type "array<int>"
           }
-          value {
+          {
+            name "value"
             type {
               "isolated procedure" {
-                parameters {
-                  item {
-                    type "int"
-                  }
-                }
+                parameters [
+                  "int"
+                ]
                 returns "int"
               }
             }
           }
-        }
+        ]
         result {
           call {
             of {
@@ -140,11 +140,12 @@ warpt 1
               ]
               value {
                 closure {
-                  parameters {
-                    item {
+                  parameters [
+                    {
+                      name "item"
                       type "int"
                     }
-                  }
+                  ]
                   result {
                     call {
                       arguments {

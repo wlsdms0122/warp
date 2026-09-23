@@ -78,7 +78,7 @@ rather than in its own language.
 **The signatures, exactly.** A second implementation writes these; it must not
 have to guess them. The *receiver* column is the parameter a call fills by
 writing a receiver in front (the `of` key in a `call`); everything else is
-written by name under `arguments`. A parameter with a `default` may be left out.
+written by name under `arguments`. A parameter typed `T?` may be left out and reads as null.
 A slot typed `const procedure` takes only a procedure that answers without
 running.
 
@@ -86,7 +86,7 @@ running.
 
 | procedure | receiver | arguments | answers |
 |---|---|---|---|
-| `equal`, `notEqual` | `of: any = null` | `value: any = null` | `bool` |
+| `equal`, `notEqual` | `of: any` | `value: any` | `bool` |
 | `not` | `of: bool` |. | `bool` |
 | `and`, `or` | `of: array<const procedure>`, each declared as taking nothing and answering `bool`, so one answering anything else **refuses at the build** where it is handed |. | `bool`. Over nothing, `and` answers `true` and `or` answers `false`: no side settled the answer, so the chain's own answer stands |
 | `select` | `of: bool` | `then`, `else`. `const` procedures taking nothing, each answering `some Answer` | `some Answer` |
@@ -131,9 +131,9 @@ edge rules below require.
 | `uppercased`, `lowercased`, `trimmed` | `of: string` |. | `string` |
 | `characters` | `of: string` |. | `array<string>` |
 | `split` | `of: string` | `value: string` | `array<string>` |
-| `joined` | `of: array<string>` | `value: string = ""` | `string` |
-| `decoded` | `of: array<std.byte>` | `encoding: string = "utf8"`, enum `["utf8"]` | `string`. **refuses at the run** when the bytes are not text in that encoding |
-| `encoded` | `of: string` | `encoding: string = "utf8"`, enum `["utf8"]` | `array<std.byte>` |
+| `joined` | `of: array<string>` | `value: string?`. Null joins with nothing between | `string` |
+| `decoded` | `of: array<std.byte>` | `encoding: string?`, enum `["utf8"]`. Null names `utf8` | `string`. **refuses at the run** when the bytes are not text in that encoding |
+| `encoded` | `of: string` | `encoding: string?`, enum `["utf8"]`. Null names `utf8` | `array<std.byte>` |
 | `replacing` | `of: string` | `value: string`, `with: string` | `string` |
 
 `characters` answers the text as an array of its characters, each one a string
@@ -271,12 +271,13 @@ membership names a set of types rather than tying one of them to another. What
 a fan-out's answer feeds is checked from `map`, not from these two.
 
 What the procedures hand their closures is one convention, shared with the
-sequential walks. `std.collection.map` hands over `item`, `reduce` hands over
-`carried` and `item`, `std.concurrent.map` hands over `item` and `index`, and a
-closure written for one of them **declares every name it is handed**, whether or
-not its body goes on to read one. A name the closure does not declare refuses,
-the same as anywhere else a call is settled: a walk is not a second calling
-convention. `std.concurrent.first` run over nothing is refused, the way
+sequential walks. `std.collection.map` and `filter` hand over the item,
+`reduce` hands over the carried value then the item, `std.concurrent.map` hands
+over the item then its index, and a closure written for one of them **declares
+exactly as many parameters as it is handed, in that order**, under names of its
+own, whether or not its body goes on to read one. A closure of another count
+refuses, the same as anywhere else a value is applied: a walk is not a second
+calling convention. `std.concurrent.first` run over nothing is refused, the way
 `std.collection.first` of nothing is: a procedure that answers exactly one
 thing has no empty answer. And a `first` in which nothing succeeds fails the
 way `all` fails: every piece's failure reported, keyed by the piece it came
@@ -315,8 +316,8 @@ which its declaration says by naming a second type parameter for it. Two bytes
 *values* still do **not** order, for the array reason rather than an opacity
 one: `std.Comparable` admits numbers and strings among themselves, not collections.
 Reading bytes *as* text is a procedure that names its encoding: `decoded` and
-`encoded` are the two directions of one mapping (`encoding: "utf8"`, the default
-and the only member), and bytes that are not text in that encoding
+`encoded` are the two directions of one mapping (`encoding: "utf8"`, the only
+member, and what null names), and bytes that are not text in that encoding
 **refuse at the run**. Completing a broken sequence would answer a text nobody
 sent. `encoded` writes the text's code points as they stand and normalises
 nothing, and `decoded` keeps a byte order mark as the character it is:

@@ -103,7 +103,7 @@ A *type* is `[tag, …]`:
 | 8 | `array<T>` | *type* |
 | 9 | `dictionary<T>` | *type* |
 | 10 | record | name → *type* |
-| 11 | `procedure` | *signature* or nothing, *constness*, *isolation* |
+| 11 | `procedure` | *procedure type* or nothing, *constness*, *isolation* |
 | 12 | `var T` | *type* |
 | 13 | `inout T` | *type* |
 | 14 | `linear T` | *type* |
@@ -121,11 +121,12 @@ over fractions, each end a list of none or one; the upper end is an *edge*,
 *segment* is `[0, name, optional]`, `[1, index, optional]` or
 `[2, path, optional]` for an index read from a path.
 
-A *signature* is `[receiver, parameters, returns]`: the receiver's name or
-nothing; name → *parameter* in name order; a *type* or nothing. A
-*parameter* is `[type, candidates, default, description]`, each a list of
-none or one: a *type*; the strings it admits; a *value*, which holds no
-procedure, since no document writes one as data; a string.
+A *procedure type* is `[parameters, returns]`: a list of *type*, in position
+order, and a *type* or nothing. A *signature* is `[receiver, parameters,
+returns]`: the receiver's name or nothing; a list of *parameter*, in the
+declaration's order; a *type* or nothing. A *parameter* is `[name, type,
+candidates, description]`: the name, then each a list of none or one: a
+*type*; the strings it admits; a string.
 
 *Constness* is `0` unstated or `1` const. *Isolation* is `0` unstated or `1`
 isolated. *Failing* is `[0]` unstated or `[1, names]`, the names ascending.
@@ -207,7 +208,7 @@ body does it does by calling, under [the standard vocabulary](vocabulary.md).
 | 2 | an array built from parts | list of *operation* |
 | 3 | a record built from parts | *layout*, list of *operation* in the layout's field order |
 | 4 | a closure literal | the closure's number, captures: `[outer slot, inner slot]` list |
-| 5 | applying a value | the callee *operation*, arguments: `[name, operation]` list |
+| 5 | applying a value | the callee *operation*, arguments: list of *operation*, in position order |
 | 6 | a cast | *operation*, *lowered type*, optional |
 | 7 | a block | *body* |
 | 8 | a conditional | the condition *operation*, then: *instruction* list, else: *instruction* list or nothing |
@@ -238,7 +239,7 @@ A *lowered type* is a type as a body stands on it, `[tag, …]`:
 | 8 | array | *lowered type* |
 | 9 | dictionary | *lowered type* |
 | 10 | record | *layout*, the field types in the layout's order |
-| 11 | procedure | parameters or nothing, each `[name, lowered type, defaulted]`, the last whether the declaration wrote a default; returns or nothing; *constness*; *isolation* |
+| 11 | procedure | parameters or nothing, a list of *lowered type* in position order; returns or nothing; *constness*; *isolation* |
 | 12 | variable | *lowered type* |
 | 13 | inout | *lowered type* |
 | 14 | nullable | *lowered type* |

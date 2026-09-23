@@ -57,21 +57,23 @@ warpt 1
   vocabulary {
     procedures {
       "app.close" {
-        parameters {
-          of {
+        parameters [
+          {
+            name "of"
             type "consuming app.Handle"
           }
-        }
+        ]
         receiver "of"
         runs true
       }
       "app.name" {
         answers "f"
-        parameters {
-          of {
+        parameters [
+          {
+            name "of"
             type "borrowing app.Handle"
           }
-        }
+        ]
         receiver "of"
         returns "string"
       }

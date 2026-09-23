@@ -23,11 +23,12 @@ warpt 1
     ]
     procedures {
       "app.Thing.name" {
-        parameters {
-          of {
+        parameters [
+          {
+            name "of"
             type "app.Thing"
           }
-        }
+        ]
         receiver "of"
         result {
           call {
@@ -43,22 +44,24 @@ warpt 1
         bounds {
           T "app.Named"
         }
-        parameters {
-          of {
+        parameters [
+          {
+            name "of"
             type "array<some T>"
           }
-        }
+        ]
         receiver "of"
         result {
           call {
             arguments {
               value {
                 closure {
-                  parameters {
-                    item {
+                  parameters [
+                    {
+                      name "item"
                       type "some T"
                     }
-                  }
+                  ]
                   result {
                     call {
                       of {

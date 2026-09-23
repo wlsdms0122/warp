@@ -1,0 +1,112 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-declaration-answering-a-contract-takes-its-parameters-in-the-contracts-order"
+  note "A declaration answering a contract's procedure declares the contract's parameters under its names and in its order, after its receiver, since the run hands the arguments to the same positions whichever declaration answers. One declaring them the other way round refuses at the build, where the claim is leaned on."
+  program {
+    contracts {
+      "app.Labelled" {
+        label {
+          parameters [
+            {
+              name "a"
+              type "int"
+            }
+            {
+              name "b"
+              type "string"
+            }
+          ]
+          returns "string"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "app.Card.label" {
+        parameters [
+          {
+            name "of"
+            type "app.Card"
+          }
+          {
+            name "b"
+            type "string"
+          }
+          {
+            name "a"
+            type "int"
+          }
+        ]
+        receiver "of"
+        result {
+          ref "b"
+        }
+        returns "string"
+      }
+      "app.tell" {
+        bounds {
+          T "app.Labelled"
+        }
+        parameters [
+          {
+            name "it"
+            type "some T"
+          }
+        ]
+        receiver "it"
+        result {
+          call {
+            arguments {
+              a 1
+              b "x"
+            }
+            of {
+              ref "it"
+            }
+            procedure "app.Labelled.label"
+          }
+        }
+        returns "string"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "card"
+            value {
+              as "app.Card"
+              of {
+                last "42"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            of {
+              ref "card"
+            }
+            procedure "app.tell"
+          }
+        }
+        returns "string"
+      }
+    }
+    satisfies {
+      "app.Card" [
+        "app.Labelled"
+      ]
+    }
+    types {
+      "app.Card" {
+        last "string"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

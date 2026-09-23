@@ -1,0 +1,127 @@
+warpt 1
+{
+  expect {
+    answers [
+      "true"
+      "true"
+    ]
+  }
+  name "a-closures-parameter-names-are-not-part-of-its-type"
+  note "A procedure type is the types it is applied with, in order, and no names, so a closure naming its parameter `done` and another naming it `finished` fit one slot alike. The names belong to each closure, and a value is applied by position."
+  program {
+    imports [
+      "std.text.text"
+    ]
+    procedures {
+      "app.told" {
+        body [
+          {
+            let "said"
+            value {
+              apply {
+                arguments [
+                  true
+                ]
+                procedure {
+                  ref "completion"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "completion"
+            type {
+              procedure {
+                parameters [
+                  "bool"
+                ]
+                returns "string"
+              }
+            }
+          }
+        ]
+        result {
+          ref "said"
+        }
+        returns "string"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "first"
+            value {
+              closure {
+                parameters [
+                  {
+                    name "done"
+                    type "bool"
+                  }
+                ]
+                result {
+                  call {
+                    of {
+                      ref "done"
+                    }
+                    procedure "std.text.text"
+                  }
+                }
+                returns "string"
+              }
+            }
+          }
+          {
+            let "second"
+            value {
+              closure {
+                parameters [
+                  {
+                    name "finished"
+                    type "bool"
+                  }
+                ]
+                result {
+                  call {
+                    of {
+                      ref "finished"
+                    }
+                    procedure "std.text.text"
+                  }
+                }
+                returns "string"
+              }
+            }
+          }
+        ]
+        result [
+          {
+            call {
+              arguments {
+                completion {
+                  ref "first"
+                }
+              }
+              procedure "app.told"
+            }
+          }
+          {
+            call {
+              arguments {
+                completion {
+                  ref "second"
+                }
+              }
+              procedure "app.told"
+            }
+          }
+        ]
+        returns "array<string>"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

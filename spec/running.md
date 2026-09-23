@@ -12,11 +12,11 @@ running. What is checked before any of this is
   before anything runs, under *who may name a declaration* in
   [procedures](procedure.md).
 - Statements run in order; each binds its name in the scope of what follows.
-- A call's arguments are evaluated in **name order**, ascending by UTF-8
-  bytes, the order [encodings](encoding.md) puts on names. An argument may
-  call anything, so the order is observable, and it is the names' fact, not a
-  hash table's: two arguments that would each refuse surface the first by
-  name.
+- A call's arguments are evaluated in the callee's **parameter order**, the
+  order its declaration wrote them, and an application's in the order they
+  are written. An argument may call anything, so the order is observable, and
+  it is the declaration's fact, not a hash table's: two arguments that would
+  each refuse surface the one standing first.
 - `std.collection.keys` and `values` answer in the record's **canonical
   order**. Names ascending. For the same reason: a program that walks them
   gets the same walk on every run.

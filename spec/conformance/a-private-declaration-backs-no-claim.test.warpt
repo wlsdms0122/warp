@@ -17,11 +17,12 @@ warpt 1
     procedures {
       "app.Handle.describe" {
         access "private"
-        parameters {
-          of {
+        parameters [
+          {
+            name "of"
             type "app.Handle"
           }
-        }
+        ]
         receiver "of"
         result "a handle"
         returns "string"
@@ -30,11 +31,12 @@ warpt 1
         bounds {
           T "app.Describable"
         }
-        parameters {
-          it {
+        parameters [
+          {
+            name "it"
             type "some T"
           }
-        }
+        ]
         receiver "it"
         result {
           call {

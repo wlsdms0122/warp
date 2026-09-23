@@ -11,7 +11,7 @@ parameter takes.
 |---|---|---|
 | `description` | string | no |
 | `access` | `public`, `internal` or `private`: who may name the declaration, under *who may name a declaration* below. `internal` when absent | no |
-| `parameters` | record: name → parameter | no |
+| `parameters` | list of parameters, in the order the declaration writes them, which is the order the run keeps the arguments in | no |
 | `receiver` | string. The name of the parameter a call fills by writing a receiver in front | no |
 | `returns` | type. When absent, what a call answers is read off the body | no |
 | `bounds` | record: type parameter → the names of constraints and contracts, one or several joined with `&`; refuses when it names a parameter no slot mentions | no |
@@ -184,14 +184,20 @@ the build is, and a compiled document carries no box of it.
 
 ## A parameter
 
-Written as a record:
+Written as a record, one per entry of `parameters`:
 
 | key | takes | required |
 |---|---|---|
+| `name` | string. The name the body reads the argument by | yes |
 | `type` | type | no; absent means `any` |
 | `enum` | array. The values this parameter admits | no |
-| `default` | the value used when the argument is absent | no |
 | `description` | string | no |
+
+The name is the declaration's own, and a closure literal's names are its own
+the same way. A procedure type carries the types in position order and no
+names, under [types](type.md), so two closures naming their parameters
+differently are one type where the types agree. Two parameters under one name
+**refuse at the load**.
 
 `enum` is judged wherever an argument is settled against the parameter: at the
 **build** for a constant argument, at the run's boundary otherwise. The
@@ -207,30 +213,33 @@ plainest case. A candidate is written in a value's **one spelling**, the one the
 slot's own values wear: `007`, `+1`, and `1e0` are second spellings of values
 that already have one, and `1` on a `double` slot is the int's spelling, which
 no fraction ever wears. Each of these is a dead candidate, because no settled
-value wears their spelling. The same judgement refuses a `default` the parameter
-itself would refuse, by its `type` or its own `enum`. A `default` written as
-`null` is the value the body receives, so it needs a type that admits null.
-`any`, `null`, or a nullable `T?`, which is what lets a typed parameter say
-"this, or leave it out". A taken default arrives **settled**, exactly as a
-passed argument does. A parameter without a `default` is required. Except that a
-`T?` parameter's null is one of its values, so it may be left out and omission
-reads as that null; the call check and the boundary both answer this one
-question the same way. There is no third axis of optionality.
+value wears their spelling.
 
-**Writing a key is giving it.** What a call wrote and what it left out are two
-different texts, and the boundary reads them as two different things. An
-argument holding null was given, and a slot whose type admits one takes it:
-`any`, a `T?`, a type parameter, which stands for what arrived and settles
-nothing. Omission is the key not being written at all, and that is what a
-`default` answers and what a required slot refuses. This is one convention
-wherever a call is made. A document's `call`, an `apply`, a procedure handing
-values to a closure it was given: each settles against the declaration the same
-way, and a name the declaration does not have refuses in all of them. The
-receiver written in front of the dot is given the same way: it fills the
-parameter the declaration names as its `receiver`, and is held to what that
-parameter declares, null included. In front is the one place it is written: a
-`call` writing that parameter's name under `arguments` **refuses at the build**,
-whether or not something stands in front.
+**Leaving an argument out.** A parameter may be left out of a call exactly
+when its type declares null: a `T?` parameter left out reads as that null, and
+the call check and the boundary both answer this one question the same way.
+Every other parameter is written, null included. `any` accepts a null that
+arrives and says nothing about one that does not, so it is never left out, and
+neither is a bare type parameter. What to make of the null is the body's.
+
+**One calling convention.** Lowering puts every parameter in a slot, in the
+declaration's order, and the run moves arguments by position. A `call` to a
+declaration hands its arguments **by name**, and the build resolves each name
+to its position: a name the declaration does not have **refuses at the build**,
+and so does one written twice. Applying a value (`apply`, and a procedure
+handing values to a closure it was given) hands its arguments **by position**,
+every position given, since a value's type carries no names to hand by: a
+count the type does not have **refuses**, at the build where the value's type
+is known and at the run otherwise, and so does an argument the type at that
+position refuses. Writing an argument is giving it: an argument holding null
+was given, and a slot whose type admits one takes it, `any`, a `T?`, a type
+parameter, which stands for what arrived and settles nothing. Omission is the
+key not being written at all, which only a `T?` reads. The receiver written in
+front of the dot is given the same way: it fills the parameter the declaration
+names as its `receiver`, and is held to what that parameter declares, null
+included. In front is the one place it is written: a `call` writing that
+parameter's name under `arguments` **refuses at the build**, whether or not
+something stands in front.
 
 **A parameter handed in place.** A parameter typed `inout T` takes no value:
 it takes a variable. The argument is `{ ref: <path> }`, and all of this is
@@ -270,15 +279,12 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-contract-asking-isolated-lets-its-call-stand-in-an-isolated-slot`
 - `a-contract-call-that-may-run-is-no-operand`
 - `a-declaration-that-runs-backs-no-const-contract`
-- `a-default-outside-its-enum-refuses-at-build`
-- `a-default-outside-its-type-refuses-at-build`
 - `a-enum-no-candidate-of-which-fits-refuses-at-build`
 - `a-enum-that-admits-nothing-refuses-at-build`
 - `a-enum-with-a-dead-candidate-refuses-at-build`
 - `a-fixed-name-is-not-handed-in-place`
 - `a-native-procedure-is-handed-a-path-indexed-with-a-name`
-- `a-null-default-needs-a-type-that-admits-null`
-- `a-nullable-parameter-defaults-to-null`
+- `a-parameter-declared-twice-refuses`
 - `a-path-handed-in-place-is-written-through`
 - `a-piece-that-writes-what-it-captured-refuses`
 - `a-private-declaration-backs-no-claim`
@@ -303,6 +309,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-answer-nobody-wrote-is-read-off-the-body`
 - `an-answer-that-may-be-null-refuses-a-declaration-that-may-not`
 - `an-answer-worked-out-from-itself-says-nothing`
+- `an-application-hands-its-arguments-by-position`
+- `an-application-of-another-count-refuses`
 - `an-argument-outside-enum-refuses-at-the-boundary`
 - `an-effect-in-a-condition-refuses`
 - `an-effect-in-a-contract-calls-operand-refuses`
@@ -311,7 +319,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-internal-entry-refuses`
 - `an-internal-procedure-is-named-from-another-document`
 - `an-isolated-closure-writes-its-own-variables`
-- `an-omitted-argument-arrives-as-the-settled-default`
+- `an-omitted-nullable-argument-reads-as-null`
 - `arguments-are-settled-at-the-boundary`
 - `body-answers-only-what-it-declares`
 - `null-is-an-argument-a-document-can-write`

@@ -9,11 +9,12 @@ warpt 1
     contracts {
       "app.Describable" {
         describe {
-          parameters {
-            note {
+          parameters [
+            {
+              name "note"
               type "any"
             }
-          }
+          ]
           returns "string"
         }
       }
@@ -23,14 +24,16 @@ warpt 1
     ]
     procedures {
       "bank.Account.describe" {
-        parameters {
-          note {
+        parameters [
+          {
+            name "note"
             type "any"
           }
-          of {
+          {
+            name "of"
             type "bank.Account"
           }
-        }
+        ]
         receiver "of"
         result "an account"
         returns "string"
