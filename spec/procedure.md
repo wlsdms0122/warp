@@ -311,6 +311,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-answer-worked-out-from-itself-says-nothing`
 - `an-application-hands-its-arguments-by-position`
 - `an-application-of-another-count-refuses`
+- `an-applied-constant-outside-its-slots-range-refuses`
 - `an-argument-outside-enum-refuses-at-the-boundary`
 - `an-effect-in-a-condition-refuses`
 - `an-effect-in-a-contract-calls-operand-refuses`

@@ -1,0 +1,55 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "an-applied-constant-outside-its-slots-range-refuses"
+  note "A constant handed to a value is settled at the build against the type at its position, the gate the run would hold it to: a whole number is the kind `int(0...10)` takes, and 99 is still outside it, so every run would refuse it and the build does."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "level"
+            value {
+              closure {
+                parameters [
+                  {
+                    name "n"
+                    type "int(0...10)"
+                  }
+                ]
+                result {
+                  ref "n"
+                }
+                returns "int"
+              }
+            }
+          }
+          {
+            let "made"
+            value {
+              apply {
+                arguments [
+                  99
+                ]
+                procedure {
+                  ref "level"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "made"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
