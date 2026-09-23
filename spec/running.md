@@ -163,6 +163,7 @@ program that arrives is a program nobody can debug a race in.
 What `conformance/` asks about this page, by the name each case's file carries.
 
 - `a-field-the-declared-answer-does-not-name-refuses`
+- `a-slot-that-wrote-no-returns-opens-its-answer-to-any`
 - `an-answer-of-all-settles-into-the-record-declared`
 - `an-applied-value-answers-what-its-slot-wrote`
 - `concurrency-is-granted-vocabulary`

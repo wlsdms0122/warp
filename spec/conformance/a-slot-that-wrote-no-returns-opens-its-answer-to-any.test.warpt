@@ -1,0 +1,53 @@
+warpt 1
+{
+  expect {
+    answers 2
+  }
+  name "a-slot-that-wrote-no-returns-opens-its-answer-to-any"
+  note "Applying a value answers what the slot holding it wrote under `returns`; a slot that wrote none opens to `any`, so the answer stands at the build and is settled where it arrives at the run."
+  program {
+    imports [
+      "std.math.plus"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "one"
+            value {
+              closure {
+                result 1
+              }
+            }
+          }
+          {
+            let "got"
+            value {
+              apply {
+                procedure {
+                  ref "one"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments {
+              value 1
+            }
+            of {
+              ref "got"
+            }
+            procedure "std.math.plus"
+          }
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

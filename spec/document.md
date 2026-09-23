@@ -119,6 +119,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-constant-is-a-name-a-body-reads`
 - `a-constant-sees-only-the-constants-beside-it`
 - `a-document-that-says-no-version-refuses`
+- `a-field-read-names-no-type`
 - `a-later-document-refuses`
 - `a-list-leaving-out-a-type-the-program-names-refuses`
 - `a-module-declares-a-constraint`
