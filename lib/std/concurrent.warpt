@@ -40,14 +40,14 @@ warpt 1
                           let "answered"
                           value {
                             apply {
-                              arguments {
-                                index {
-                                  ref "index"
-                                }
-                                item {
+                              arguments [
+                                {
                                   ref "item"
                                 }
-                              }
+                                {
+                                  ref "index"
+                                }
+                              ]
                               procedure {
                                 ref "by"
                               }
@@ -101,26 +101,24 @@ warpt 1
         }
       ]
       description "Each element answered by a procedure, run at once, in the collection's order."
-      parameters {
-        by {
+      parameters [
+        {
+          name "by"
           type {
             "isolated procedure" {
-              parameters {
-                index {
-                  type "int"
-                }
-                item {
-                  type "some Element"
-                }
-              }
+              parameters [
+                "some Element"
+                "int"
+              ]
               returns "some Answer"
             }
           }
         }
-        over {
+        {
+          name "over"
           type "array<some Element>"
         }
-      }
+      ]
       receiver "over"
       result {
         call {
