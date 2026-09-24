@@ -15,7 +15,6 @@ warpt 1
             type "any"
           }
         ]
-        receiver "of"
         result {
           ref "of"
         }
@@ -45,9 +44,11 @@ warpt 1
             let "held"
             value {
               call {
-                of {
-                  ref "double"
-                }
+                arguments [
+                  {
+                    ref "double"
+                  }
+                ]
                 procedure "app.blind"
               }
             }

@@ -35,9 +35,7 @@ the rule's: a call that misfits a declaration in its own document refuses at
   backed by a `private` declaration does not hold, under *who may name a
   declaration* in [procedures](procedure.md); a `private` declaration takes
   no spelling, so the rule above it counts none;
-- every call fits the declaration it reaches: arguments by name, receiver,
-  and answer, with type parameters bound as [types](type.md) says and every
-  bound judged against its constraint's membership;
+- every call fits the declaration it reaches: how many arguments, each at its position, and the answer, with type parameters bound as [types](type.md) says and every bound judged against its constraint's membership;
 - every declared type names a type that exists;
 - a condition answers a `bool`. A `conditional`'s `when` and a `loop`'s
   `while`, held where they are written, and `any` passing the way it

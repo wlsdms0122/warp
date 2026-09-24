@@ -1,0 +1,33 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-contract-procedure-takes-the-contract-first"
+  note "A contract's procedure is answered about the value it takes first, so that parameter is written as the contract itself. One taking a string first names no value a type could answer about."
+  program {
+    contracts {
+      "app.Named" {
+        name {
+          parameters [
+            {
+              name "of"
+              type "string"
+            }
+          ]
+          returns "string"
+        }
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

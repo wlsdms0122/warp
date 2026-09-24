@@ -12,6 +12,12 @@ warpt 1
     contracts {
       "app.Named" {
         name {
+          parameters [
+            {
+              name "of"
+              type "app.Named"
+            }
+          ]
           returns "string"
         }
       }
@@ -30,12 +36,13 @@ warpt 1
             type "app.Thing"
           }
         ]
-        receiver "of"
         result {
           call {
-            of {
-              ref "of.id"
-            }
+            arguments [
+              {
+                ref "of.id"
+              }
+            ]
             procedure "std.text.text"
           }
         }
@@ -71,14 +78,14 @@ warpt 1
                   {
                     value {
                       call {
-                        arguments {
-                          value {
+                        arguments [
+                          {
+                            ref "out"
+                          }
+                          {
                             ref "got"
                           }
-                        }
-                        of {
-                          ref "out"
-                        }
+                        ]
                         procedure "std.collection.append"
                       }
                     }
@@ -86,19 +93,21 @@ warpt 1
                 ]
                 while {
                   call {
-                    arguments {
-                      value {
+                    arguments [
+                      {
+                        ref "walk.index"
+                      }
+                      {
                         call {
-                          of {
-                            ref "of"
-                          }
+                          arguments [
+                            {
+                              ref "of"
+                            }
+                          ]
                           procedure "std.collection.count"
                         }
                       }
-                    }
-                    of {
-                      ref "walk.index"
-                    }
+                    ]
                     procedure "std.math.lessThan"
                   }
                 }
@@ -111,6 +120,10 @@ warpt 1
         }
         parameters [
           {
+            name "of"
+            type "array<some T>"
+          }
+          {
             name "by"
             type {
               procedure {
@@ -121,12 +134,7 @@ warpt 1
               }
             }
           }
-          {
-            name "of"
-            type "array<some T>"
-          }
         ]
-        receiver "of"
         result {
           ref "out"
         }
@@ -142,11 +150,13 @@ warpt 1
             type "array<some T>"
           }
         ]
-        receiver "of"
         result {
           call {
-            arguments {
-              by {
+            arguments [
+              {
+                ref "of"
+              }
+              {
                 closure {
                   parameters [
                     {
@@ -156,19 +166,18 @@ warpt 1
                   ]
                   result {
                     call {
-                      of {
-                        ref "item"
-                      }
+                      arguments [
+                        {
+                          ref "item"
+                        }
+                      ]
                       procedure "app.Named.name"
                     }
                   }
                   returns "string"
                 }
               }
-            }
-            of {
-              ref "of"
-            }
+            ]
             procedure "app.each"
           }
         }
@@ -178,19 +187,21 @@ warpt 1
         access "public"
         result {
           call {
-            of [
-              {
-                as "app.Thing"
-                of {
-                  id 1
+            arguments [
+              [
+                {
+                  as "app.Thing"
+                  of {
+                    id 1
+                  }
                 }
-              }
-              {
-                as "app.Thing"
-                of {
-                  id 2
+                {
+                  as "app.Thing"
+                  of {
+                    id 2
+                  }
                 }
-              }
+              ]
             ]
             procedure "app.names"
           }

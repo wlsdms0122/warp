@@ -19,12 +19,12 @@ warpt 1
             set "count"
             value {
               call {
-                arguments {
-                  value 1
-                }
-                of {
-                  ref "count"
-                }
+                arguments [
+                  {
+                    ref "count"
+                  }
+                  1
+                ]
                 procedure "std.math.plus"
               }
             }
@@ -50,11 +50,11 @@ warpt 1
           {
             value {
               call {
-                arguments {
-                  count {
+                arguments [
+                  {
                     ref "xs[1]"
                   }
-                }
+                ]
                 procedure "bump"
               }
             }

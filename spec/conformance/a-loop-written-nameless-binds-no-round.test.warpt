@@ -27,12 +27,12 @@ warpt 1
                     set "i"
                     value {
                       call {
-                        arguments {
-                          value 1
-                        }
-                        of {
-                          ref "i"
-                        }
+                        arguments [
+                          {
+                            ref "i"
+                          }
+                          1
+                        ]
                         procedure "std.math.plus"
                       }
                     }
@@ -49,12 +49,12 @@ warpt 1
                         ]
                         when {
                           call {
-                            arguments {
-                              value {
+                            arguments [
+                              2
+                              {
                                 ref "i"
                               }
-                            }
-                            of 2
+                            ]
                             procedure "std.math.lessThan"
                           }
                         }

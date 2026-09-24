@@ -18,15 +18,20 @@ warpt 1
             let "kept"
             value {
               call {
-                arguments {
-                  value {
+                arguments [
+                  [
+                    1
+                  ]
+                  {
                     closure {
                       body [
                         {
                           let "raced"
                           value {
                             call {
-                              of []
+                              arguments [
+                                []
+                              ]
                               procedure "std.concurrent.all"
                             }
                           }
@@ -42,9 +47,6 @@ warpt 1
                       returns "bool"
                     }
                   }
-                }
-                of [
-                  1
                 ]
                 procedure "std.collection.filter"
               }

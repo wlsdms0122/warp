@@ -16,8 +16,12 @@ warpt 1
         access "public"
         result {
           call {
-            arguments {
-              value {
+            arguments [
+              [
+                1
+                2
+              ]
+              {
                 closure {
                   body [
                     {
@@ -28,14 +32,14 @@ warpt 1
                     {
                       value {
                         call {
-                          arguments {
-                            value {
+                          arguments [
+                            {
+                              ref "own"
+                            }
+                            {
                               ref "item"
                             }
-                          }
-                          of {
-                            ref "own"
-                          }
+                          ]
                           procedure "std.collection.append"
                         }
                       }
@@ -49,19 +53,17 @@ warpt 1
                   ]
                   result {
                     call {
-                      of {
-                        ref "own"
-                      }
+                      arguments [
+                        {
+                          ref "own"
+                        }
+                      ]
                       procedure "std.collection.count"
                     }
                   }
                   returns "int"
                 }
               }
-            }
-            of [
-              1
-              2
             ]
             procedure "std.collection.map"
           }

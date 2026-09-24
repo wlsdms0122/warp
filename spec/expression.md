@@ -13,7 +13,7 @@ of expressions. **unless** it carries one of the form keys:
 |---|---|
 | `{ ref: a.b[0] }` | a name, resolved in the consuming scope; the record must have no other key |
 | `{ value: <data> }` | the escape: exactly this data, as a literal, even if it looks like a form. Data that could not read as one, nothing with a record that carries a reserved key, a named record included, **refuses at the load**: it is written as itself. `{ value: null }` stands: a bare `null` in a slot that may be left out reads as the slot left out, and this is null written |
-| `{ call: <message> }` | a message where a value is wanted; same grammar as the `call` construct |
+| `{ call: <call> }` | a call where a value is wanted; same grammar as the `call` construct |
 | `{ closure: <procedure> }` | a procedure written where a value is wanted; same grammar as a procedure |
 | `{ as: <type>, of: <value> }` | read the value as that type. The door onto what `any` declares nothing about |
 | `{ as?: <type>, of: <value> }` | the same, reading a mismatch as null rather than refusing; the answer is `T?` |
@@ -93,13 +93,7 @@ and says nothing about where the walk landed. A name given to a step along the
 way arrives where the unbroken walk arrives (`held` holding `of.a`, then
 `held.b`, is `of.a.b`), and two parameters written `some T` hold one type, so
 the same field of either is the same field.
-- **Null is not read through.** A segment whose receiver is null, or whose
-  reading says it may be (`T?`). **refuses**: at the build where the text
-  shows it, at the run otherwise. `?.` is the one spelling that expects
-  absence on a name: it reads the null (or the absent entry) as null for the
-  whole path, and the path's own reading is nullable for the same reason.
-  `?[` is that same mark on an index, and what it expects absent is the
-  **array itself**. Never an element.
+- **Null is not read through.** A segment reading a null, or one whose reading says it may be (`T?`). **refuses**: at the build where the text shows it, at the run otherwise. `?.` is the one spelling that expects absence on a name: it reads the null (or the absent entry) as null for the whole path, and the path's own reading is nullable for the same reason. `?[` is that same mark on an index, and what it expects absent is the **array itself**. Never an element.
 - An **index past the end refuses at the run**. The array is there and says
   how long it is, so a reading that misses it read the length wrong. `?[` does
   not change this: it is `?.`'s mark on an index. It expects the **array's**

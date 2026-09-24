@@ -28,9 +28,11 @@ warpt 1
             let "shown"
             value {
               call {
-                of {
-                  ref "held"
-                }
+                arguments [
+                  {
+                    ref "held"
+                  }
+                ]
                 procedure "app.name"
               }
             }
@@ -38,9 +40,11 @@ warpt 1
           {
             value {
               call {
-                of {
-                  ref "held"
-                }
+                arguments [
+                  {
+                    ref "held"
+                  }
+                ]
                 procedure "app.close"
               }
             }
@@ -80,9 +84,11 @@ warpt 1
           {
             value {
               call {
-                of {
-                  ref "own"
-                }
+                arguments [
+                  {
+                    ref "own"
+                  }
+                ]
                 procedure "app.close"
               }
             }
@@ -112,7 +118,6 @@ warpt 1
             type "consuming app.Handle"
           }
         ]
-        receiver "of"
         runs true
       }
       "app.name" {
@@ -123,7 +128,6 @@ warpt 1
             type "borrowing app.Handle"
           }
         ]
-        receiver "of"
         returns "string"
       }
       "app.open" {

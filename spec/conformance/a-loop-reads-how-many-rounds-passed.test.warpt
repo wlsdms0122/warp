@@ -27,12 +27,12 @@ warpt 1
                     set "count"
                     value {
                       call {
-                        arguments {
-                          value 1
-                        }
-                        of {
-                          ref "count"
-                        }
+                        arguments [
+                          {
+                            ref "count"
+                          }
+                          1
+                        ]
                         procedure "std.math.plus"
                       }
                     }
@@ -40,12 +40,12 @@ warpt 1
                 ]
                 while {
                   call {
-                    arguments {
-                      value 3
-                    }
-                    of {
-                      ref "round.index"
-                    }
+                    arguments [
+                      {
+                        ref "round.index"
+                      }
+                      3
+                    ]
                     procedure "std.math.lessThan"
                   }
                 }

@@ -66,14 +66,14 @@ warpt 1
                     set "pieces"
                     value {
                       call {
-                        arguments {
-                          value {
+                        arguments [
+                          {
+                            ref "pieces"
+                          }
+                          {
                             ref "piece"
                           }
-                        }
-                        of {
-                          ref "pieces"
-                        }
+                        ]
                         procedure "std.collection.appending"
                       }
                     }
@@ -81,19 +81,21 @@ warpt 1
                 ]
                 while {
                   call {
-                    arguments {
-                      value {
+                    arguments [
+                      {
+                        ref "walk.index"
+                      }
+                      {
                         call {
-                          of {
-                            ref "of"
-                          }
+                          arguments [
+                            {
+                              ref "of"
+                            }
+                          ]
                           procedure "std.collection.count"
                         }
                       }
-                    }
-                    of {
-                      ref "walk.index"
-                    }
+                    ]
                     procedure "std.math.lessThan"
                   }
                 }
@@ -120,9 +122,11 @@ warpt 1
         ]
         result {
           call {
-            of {
-              ref "pieces"
-            }
+            arguments [
+              {
+                ref "pieces"
+              }
+            ]
             procedure "std.concurrent.all"
           }
         }
@@ -132,13 +136,13 @@ warpt 1
         access "public"
         result {
           call {
-            arguments {
-              of [
+            arguments [
+              [
                 1
                 2
                 3
               ]
-              value {
+              {
                 closure {
                   parameters [
                     {
@@ -148,19 +152,19 @@ warpt 1
                   ]
                   result {
                     call {
-                      arguments {
-                        value 2
-                      }
-                      of {
-                        ref "item"
-                      }
+                      arguments [
+                        {
+                          ref "item"
+                        }
+                        2
+                      ]
                       procedure "std.math.times"
                     }
                   }
                   returns "int"
                 }
               }
-            }
+            ]
             procedure "app.eachAtOnce"
           }
         }

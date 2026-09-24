@@ -11,6 +11,10 @@ warpt 1
         describe {
           parameters [
             {
+              name "of"
+              type "app.Describable"
+            }
+            {
               name "note"
               type "any"
             }
@@ -26,15 +30,14 @@ warpt 1
       "bank.Account.describe" {
         parameters [
           {
-            name "note"
-            type "any"
-          }
-          {
             name "of"
             type "bank.Account"
           }
+          {
+            name "note"
+            type "any"
+          }
         ]
-        receiver "of"
         result "an account"
         returns "string"
       }
@@ -53,17 +56,19 @@ warpt 1
         ]
         result {
           call {
-            arguments {
-              note {
+            arguments [
+              {
+                ref "held"
+              }
+              {
                 call {
-                  of []
+                  arguments [
+                    []
+                  ]
                   procedure "std.concurrent.all"
                 }
               }
-            }
-            of {
-              ref "held"
-            }
+            ]
             procedure "app.Describable.describe"
           }
         }

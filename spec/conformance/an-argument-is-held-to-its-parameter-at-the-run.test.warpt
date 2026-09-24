@@ -6,8 +6,8 @@ warpt 1
   expect {
     refuses "run"
   }
-  name "a-receiver-is-held-to-its-parameter-at-the-run"
-  note "The receiver is the parameter a call fills by writing a value in front, so it is held to that parameter the way every argument is. `uppercased` declares `of: string`; a null that arrives there through `any` is not a string, and the run says so instead of reading it as nothing."
+  name "an-argument-is-held-to-its-parameter-at-the-run"
+  note "An argument is held to its parameter at the run where the build could not judge it. `uppercased` declares `of: string`; a null that arrives there through `any` is not a string, and the run says so instead of reading it as nothing."
   program {
     imports [
       "std.text.uppercased"
@@ -23,9 +23,11 @@ warpt 1
         ]
         result {
           call {
-            of {
-              ref "it"
-            }
+            arguments [
+              {
+                ref "it"
+              }
+            ]
             procedure "std.text.uppercased"
           }
         }

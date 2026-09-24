@@ -15,58 +15,60 @@ warpt 1
         access "public"
         result {
           call {
-            of [
-              {
-                closure {
-                  result {
-                    call {
-                      arguments {
-                        value 1.0
-                      }
-                      of 1
-                      procedure "std.logic.equal"
-                    }
-                  }
-                }
-              }
-              {
-                closure {
-                  result {
-                    call {
-                      arguments {
-                        value {
-                          a 1
-                          b 2
-                        }
-                      }
-                      of {
-                        a 1
-                        b 2
-                      }
-                      procedure "std.logic.equal"
-                    }
-                  }
-                }
-              }
-              {
-                closure {
-                  result {
-                    call {
-                      arguments {
-                        value [
+            arguments [
+              [
+                {
+                  closure {
+                    result {
+                      call {
+                        arguments [
                           1
-                          2
+                          1.0
                         ]
+                        procedure "std.logic.equal"
                       }
-                      of [
-                        1
-                        2
-                      ]
-                      procedure "std.logic.equal"
                     }
                   }
                 }
-              }
+                {
+                  closure {
+                    result {
+                      call {
+                        arguments [
+                          {
+                            a 1
+                            b 2
+                          }
+                          {
+                            a 1
+                            b 2
+                          }
+                        ]
+                        procedure "std.logic.equal"
+                      }
+                    }
+                  }
+                }
+                {
+                  closure {
+                    result {
+                      call {
+                        arguments [
+                          [
+                            1
+                            2
+                          ]
+                          [
+                            1
+                            2
+                          ]
+                        ]
+                        procedure "std.logic.equal"
+                      }
+                    }
+                  }
+                }
+              ]
             ]
             procedure "std.logic.and"
           }

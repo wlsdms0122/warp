@@ -42,25 +42,27 @@ warpt 1
         access "public"
         result {
           call {
-            of [
-              {
-                closure {
-                  result {
-                    call {
-                      arguments {
-                        body {
-                          closure {
-                            result true
-                            returns "bool"
+            arguments [
+              [
+                {
+                  closure {
+                    result {
+                      call {
+                        arguments [
+                          {
+                            closure {
+                              result true
+                              returns "bool"
+                            }
                           }
-                        }
+                        ]
+                        procedure "app.asking"
                       }
-                      procedure "app.asking"
                     }
+                    returns "bool"
                   }
-                  returns "bool"
                 }
-              }
+              ]
             ]
             procedure "std.logic.and"
           }

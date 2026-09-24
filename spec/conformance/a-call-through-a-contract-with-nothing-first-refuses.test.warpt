@@ -1,0 +1,68 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-call-through-a-contract-with-nothing-first-refuses"
+  note "A call through a contract is answered by the type of its first argument. A call writing nothing there has nothing to answer it, and the build says so."
+  program {
+    contracts {
+      "app.Describable" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "app.Describable"
+            }
+            {
+              name "label"
+              type "string"
+            }
+          ]
+          returns "string"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "bank.Account.describe" {
+        parameters [
+          {
+            name "of"
+            type "bank.Account"
+          }
+          {
+            name "label"
+            type "string"
+          }
+        ]
+        result {
+          ref "label"
+        }
+        returns "string"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            procedure "app.Describable.describe"
+          }
+        }
+        returns "string"
+      }
+    }
+    satisfies {
+      "bank.Account" [
+        "app.Describable"
+      ]
+    }
+    types {
+      "bank.Account" {
+        balance "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

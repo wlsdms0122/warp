@@ -9,6 +9,12 @@ warpt 1
     contracts {
       "app.Named" {
         name {
+          parameters [
+            {
+              name "of"
+              type "app.Named"
+            }
+          ]
           returns "string"
         }
       }
@@ -24,7 +30,6 @@ warpt 1
             type "app.Thing"
           }
         ]
-        receiver "of"
         result "thing"
         returns "string"
       }
@@ -38,17 +43,20 @@ warpt 1
             type "some T"
           }
         ]
-        receiver "it"
         result {
           call {
-            of {
-              call {
-                of {
-                  ref "it"
+            arguments [
+              {
+                call {
+                  arguments [
+                    {
+                      ref "it"
+                    }
+                  ]
+                  procedure "app.Named.name"
                 }
-                procedure "app.Named.name"
               }
-            }
+            ]
             procedure "std.text.uppercased"
           }
         }
@@ -58,12 +66,14 @@ warpt 1
         access "public"
         result {
           call {
-            of {
-              as "app.Thing"
-              of {
-                id 1
+            arguments [
+              {
+                as "app.Thing"
+                of {
+                  id 1
+                }
               }
-            }
+            ]
             procedure "app.tell"
           }
         }

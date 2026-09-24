@@ -22,9 +22,11 @@ warpt 1
             let "names"
             value {
               call {
-                of {
-                  ref "of"
-                }
+                arguments [
+                  {
+                    ref "of"
+                  }
+                ]
                 procedure "std.collection.keys"
               }
             }
@@ -48,14 +50,14 @@ warpt 1
                     set "held"
                     value {
                       call {
-                        arguments {
-                          value {
+                        arguments [
+                          {
+                            ref "held"
+                          }
+                          {
                             ref "of[name]"
                           }
-                        }
-                        of {
-                          ref "held"
-                        }
+                        ]
                         procedure "std.collection.appending"
                       }
                     }
@@ -63,19 +65,21 @@ warpt 1
                 ]
                 while {
                   call {
-                    arguments {
-                      value {
+                    arguments [
+                      {
+                        ref "walk.index"
+                      }
+                      {
                         call {
-                          of {
-                            ref "names"
-                          }
+                          arguments [
+                            {
+                              ref "names"
+                            }
+                          ]
                           procedure "std.collection.count"
                         }
                       }
-                    }
-                    of {
-                      ref "walk.index"
-                    }
+                    ]
                     procedure "std.math.lessThan"
                   }
                 }
@@ -98,12 +102,12 @@ warpt 1
         access "public"
         result {
           call {
-            arguments {
-              of {
+            arguments [
+              {
                 first 1
                 second 2
               }
-            }
+            ]
             procedure "app.values"
           }
         }

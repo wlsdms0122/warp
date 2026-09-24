@@ -25,11 +25,11 @@ warpt 1
                   {
                     value {
                       call {
-                        arguments {
-                          count {
+                        arguments [
+                          {
                             ref "n"
                           }
-                        }
+                        ]
                         procedure "poke"
                       }
                     }
@@ -61,7 +61,9 @@ warpt 1
           {
             value {
               call {
-                of "after writing"
+                arguments [
+                  "after writing"
+                ]
                 procedure "std.control.abort"
               }
             }

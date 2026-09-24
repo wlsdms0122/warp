@@ -10,7 +10,7 @@ a particular order is decided here; what it does it *with* is
 A record carrying **at most one** naming key and its expression under
 **`value`**: `{ let "x" value { call {…} } }`, `{ value { loop {…} } }`. A
 construct sits inside `value` under its own key, and that is the one place a
-construct key is read. Anywhere else, in an argument, a receiver, an element of
+construct key is read. Anywhere else, in an argument, an element of
 an array or a record, a construct's key is a field name like any other, and the
 record carrying it is data.
 
@@ -112,13 +112,12 @@ The construct keys, each detailed below and each written inside `value`:
 
 ## The constructs
 
-**`call`**. A message:
+**`call`**. A declaration called by its spelling:
 
 | key | takes | required |
 |---|---|---|
-| `procedure` | string. The procedure sent | yes |
-| `of` | expression. The receiver, filling the parameter the declaration names as its `receiver` | no |
-| `arguments` | record: name → expression. The receiver's parameter is not among them | no |
+| `procedure` | string. The procedure called | yes |
+| `arguments` | list of expressions, by position: the first fills the first parameter, and so on. The positions after the last one written are left out, under *leaving an argument out* in [procedures](procedure.md) | no |
 
 A body a procedure is to run travels as a **closure argument**, like any other
 value. There is no second channel for bodies: one kind of thing crosses into a

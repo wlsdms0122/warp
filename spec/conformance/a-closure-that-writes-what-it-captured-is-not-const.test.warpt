@@ -22,22 +22,26 @@ warpt 1
             let "mapped"
             value {
               call {
-                arguments {
-                  value {
+                arguments [
+                  [
+                    1
+                    2
+                  ]
+                  {
                     closure {
                       body [
                         {
                           set "seen"
                           value {
                             call {
-                              arguments {
-                                value {
+                              arguments [
+                                {
+                                  ref "seen"
+                                }
+                                {
                                   ref "item"
                                 }
-                              }
-                              of {
-                                ref "seen"
-                              }
+                              ]
                               procedure "std.math.plus"
                             }
                           }
@@ -55,10 +59,6 @@ warpt 1
                       returns "int"
                     }
                   }
-                }
-                of [
-                  1
-                  2
                 ]
                 procedure "std.collection.map"
               }

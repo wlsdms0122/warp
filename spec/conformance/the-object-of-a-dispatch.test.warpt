@@ -21,8 +21,19 @@ warpt 1
               "describe"
               [
                 [
-                  []
-                  []
+                  [
+                    [
+                      "of"
+                      [
+                        [
+                          18
+                          "app.Describable"
+                        ]
+                      ]
+                      []
+                      []
+                    ]
+                  ]
                   [
                     [
                       6
@@ -38,7 +49,7 @@ warpt 1
       ]
       dependencies []
       document [
-        x"c1a3b04fbbe0d5cd9d1d15959cf03edb73fbb6e2eef7bd180c1d74a5d5f92199"
+        x"f4cdfa0fbae331e362493a848500b1ab3148cac78857fd0993523bc5ff0e0ec0"
       ]
       leaned [
         [
@@ -46,7 +57,7 @@ warpt 1
           "app.Describable"
           [
             [
-              x"c1a3b04fbbe0d5cd9d1d15959cf03edb73fbb6e2eef7bd180c1d74a5d5f92199"
+              x"f4cdfa0fbae331e362493a848500b1ab3148cac78857fd0993523bc5ff0e0ec0"
             ]
             [
               [
@@ -79,9 +90,6 @@ warpt 1
         [
           "app.tell"
           [
-            [
-              "it"
-            ]
             [
               [
                 "it"
@@ -147,9 +155,6 @@ warpt 1
           "bank.Card.describe"
           [
             [
-              "of"
-            ]
-            [
               [
                 "of"
                 [
@@ -206,7 +211,6 @@ warpt 1
         [
           "entry"
           [
-            []
             []
             [
               [
@@ -271,15 +275,14 @@ warpt 1
                     0
                     [
                       [
-                        1
                         [
-                          0
-                          []
+                          1
+                          [
+                            0
+                            []
+                          ]
                         ]
                       ]
-                    ]
-                    [
-                      []
                     ]
                     []
                   ]
@@ -324,11 +327,17 @@ warpt 1
     }
   }
   name "the-object-of-a-dispatch"
-  note "A call through a contract carries the contract, the procedure, the receiver and its arguments, and no row: which row answers is the link's. The claim the body leans on stands under leaned with the place it was written."
+  note "A call through a contract carries the contract, the procedure, its first argument apart and the rest by position, and no row: which row answers is the link's. The claim the body leans on stands under leaned with the place it was written."
   program {
     contracts {
       "app.Describable" {
         describe {
+          parameters [
+            {
+              name "of"
+              type "app.Describable"
+            }
+          ]
           returns "string"
         }
       }
@@ -342,12 +351,13 @@ warpt 1
             type "app.Describable"
           }
         ]
-        receiver "it"
         result {
           call {
-            of {
-              ref "it"
-            }
+            arguments [
+              {
+                ref "it"
+              }
+            ]
             procedure "app.Describable.describe"
           }
         }
@@ -360,7 +370,6 @@ warpt 1
             type "bank.Card"
           }
         ]
-        receiver "of"
         result "a card"
         returns "string"
       }
@@ -379,9 +388,11 @@ warpt 1
         ]
         result {
           call {
-            of {
-              ref "card"
-            }
+            arguments [
+              {
+                ref "card"
+              }
+            ]
             procedure "app.tell"
           }
         }

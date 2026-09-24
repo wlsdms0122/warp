@@ -11,8 +11,8 @@ warpt 1
       ]
     ]
   }
-  name "a-procedure-answering-its-receivers-own-elements-keeps-the-spelling"
-  note "reversed and sorted answer the receiver's own elements in another order, so bytes answer bytes. Sorted included, whose element declaration carries a bound: a member that takes every byte answers the membership for all of them at once. appending puts something among them that is not a byte, and the answer says so by the spelling it comes back in. The spelling is a fact about the value, and claiming otherwise would be a claim no value backs."
+  name "a-procedure-answering-a-collections-own-elements-keeps-the-spelling"
+  note "reversed and sorted answer a collection's own elements in another order, so bytes answer bytes. Sorted included, whose element declaration carries a bound: a member that takes every byte answers the membership for all of them at once. appending puts something among them that is not a byte, and the answer says so by the spelling it comes back in. The spelling is a fact about the value, and claiming otherwise would be a claim no value backs."
   program {
     imports [
       "std.collection.appending"
@@ -27,7 +27,9 @@ warpt 1
             let "back"
             value {
               call {
-                of x"6869"
+                arguments [
+                  x"6869"
+                ]
                 procedure "std.collection.reversed"
               }
             }
@@ -36,7 +38,9 @@ warpt 1
             let "ordered"
             value {
               call {
-                of x"6968"
+                arguments [
+                  x"6968"
+                ]
                 procedure "std.collection.sorted"
               }
             }
@@ -45,10 +49,10 @@ warpt 1
             let "grown"
             value {
               call {
-                arguments {
-                  value 300
-                }
-                of x"6869"
+                arguments [
+                  x"6869"
+                  300
+                ]
                 procedure "std.collection.appending"
               }
             }

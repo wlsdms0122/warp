@@ -28,27 +28,31 @@ warpt 1
                   {
                     value {
                       call {
-                        of {
-                          fine {
-                            closure {
-                              result "ok"
+                        arguments [
+                          {
+                            fine {
+                              closure {
+                                result "ok"
+                              }
                             }
-                          }
-                          fragile {
-                            closure {
-                              body [
-                                {
-                                  value {
-                                    call {
-                                      of "on purpose"
-                                      procedure "std.control.abort"
+                            fragile {
+                              closure {
+                                body [
+                                  {
+                                    value {
+                                      call {
+                                        arguments [
+                                          "on purpose"
+                                        ]
+                                        procedure "std.control.abort"
+                                      }
                                     }
                                   }
-                                }
-                              ]
+                                ]
+                              }
                             }
                           }
-                        }
+                        ]
                         procedure "std.concurrent.all"
                       }
                     }
@@ -58,9 +62,11 @@ warpt 1
                   result {
                     pieces {
                       call {
-                        of {
-                          ref "tried.details.failures"
-                        }
+                        arguments [
+                          {
+                            ref "tried.details.failures"
+                          }
+                        ]
                         procedure "std.collection.keys"
                       }
                     }

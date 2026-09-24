@@ -20,13 +20,13 @@ warpt 1
             set "seen"
             value {
               call {
-                arguments {
-                  key "a"
-                  value 1
-                }
-                of {
-                  ref "seen"
-                }
+                arguments [
+                  {
+                    ref "seen"
+                  }
+                  "a"
+                  1
+                ]
                 procedure "std.collection.setting"
               }
             }
@@ -34,9 +34,11 @@ warpt 1
         ]
         result {
           call {
-            of {
-              ref "seen"
-            }
+            arguments [
+              {
+                ref "seen"
+              }
+            ]
             procedure "std.collection.keys"
           }
         }

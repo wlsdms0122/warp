@@ -41,18 +41,18 @@ warpt 1
         access "public"
         result {
           call {
-            arguments {
-              value {
+            arguments [
+              {
+                call {
+                  procedure "app.helper"
+                }
+              }
+              {
                 call {
                   procedure "lib.seven"
                 }
               }
-            }
-            of {
-              call {
-                procedure "app.helper"
-              }
-            }
+            ]
             procedure "std.math.plus"
           }
         }

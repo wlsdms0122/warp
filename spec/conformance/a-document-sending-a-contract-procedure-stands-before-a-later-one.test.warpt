@@ -6,6 +6,12 @@ warpt 1
         "app.Describable" {
           describe {
             const true
+            parameters [
+              {
+                name "of"
+                type "app.Describable"
+              }
+            ]
             returns "string"
           }
         }
@@ -34,7 +40,6 @@ warpt 1
               type "bank.Account"
             }
           ]
-          receiver "of"
           result "an account"
           returns "string"
         }
@@ -45,12 +50,13 @@ warpt 1
               type "bank.Account"
             }
           ]
-          receiver "of"
           result {
             call {
-              of {
-                ref "of"
-              }
+              arguments [
+                {
+                  ref "of"
+                }
+              ]
               procedure "app.Describable.describe"
             }
           }
@@ -96,9 +102,11 @@ warpt 1
         ]
         result {
           call {
-            of {
-              ref "account"
-            }
+            arguments [
+              {
+                ref "account"
+              }
+            ]
             procedure "bank.tell"
           }
         }

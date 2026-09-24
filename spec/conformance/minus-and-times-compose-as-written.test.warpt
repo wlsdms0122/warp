@@ -18,10 +18,10 @@ warpt 1
             let "difference"
             value {
               call {
-                arguments {
-                  value 4
-                }
-                of 10
+                arguments [
+                  10
+                  4
+                ]
                 procedure "std.math.minus"
               }
             }
@@ -29,12 +29,12 @@ warpt 1
         ]
         result {
           call {
-            arguments {
-              value 3
-            }
-            of {
-              ref "difference"
-            }
+            arguments [
+              {
+                ref "difference"
+              }
+              3
+            ]
             procedure "std.math.times"
           }
         }

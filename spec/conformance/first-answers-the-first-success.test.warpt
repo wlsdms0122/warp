@@ -15,27 +15,31 @@ warpt 1
         access "public"
         result {
           call {
-            of {
-              fine {
-                closure {
-                  result 1
+            arguments [
+              {
+                fine {
+                  closure {
+                    result 1
+                  }
                 }
-              }
-              fragile {
-                closure {
-                  body [
-                    {
-                      value {
-                        call {
-                          of "on purpose"
-                          procedure "std.control.abort"
+                fragile {
+                  closure {
+                    body [
+                      {
+                        value {
+                          call {
+                            arguments [
+                              "on purpose"
+                            ]
+                            procedure "std.control.abort"
+                          }
                         }
                       }
-                    }
-                  ]
+                    ]
+                  }
                 }
               }
-            }
+            ]
             procedure "std.concurrent.first"
           }
         }

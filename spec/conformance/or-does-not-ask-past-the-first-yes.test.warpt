@@ -15,22 +15,26 @@ warpt 1
         access "public"
         result {
           call {
-            of [
-              {
-                closure {
-                  result true
+            arguments [
+              [
+                {
+                  closure {
+                    result true
+                  }
                 }
-              }
-              {
-                closure {
-                  result {
-                    call {
-                      of "never asked"
-                      procedure "std.control.abort"
+                {
+                  closure {
+                    result {
+                      call {
+                        arguments [
+                          "never asked"
+                        ]
+                        procedure "std.control.abort"
+                      }
                     }
                   }
                 }
-              }
+              ]
             ]
             procedure "std.logic.or"
           }
