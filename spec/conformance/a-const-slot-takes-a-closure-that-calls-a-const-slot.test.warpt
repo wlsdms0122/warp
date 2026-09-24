@@ -3,8 +3,8 @@ warpt 1
   expect {
     answers true
   }
-  name "a-const-slot-takes-a-closure-that-applies-a-const-slot"
-  note "A procedure that applies a name its own slot said holds a procedure answering without running answers without running itself. So a closure sending it fits a slot asking `const procedure`."
+  name "a-const-slot-takes-a-closure-that-calls-a-const-slot"
+  note "A procedure that calls a name its own slot said holds a procedure answering without running answers without running itself. So a closure sending it fits a slot asking `const procedure`."
   program {
     imports [
       "std.logic.and"
@@ -15,7 +15,7 @@ warpt 1
           {
             let "answered"
             value {
-              apply {
+              call {
                 procedure {
                   ref "body"
                 }

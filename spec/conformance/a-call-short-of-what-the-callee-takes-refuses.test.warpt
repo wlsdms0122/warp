@@ -3,8 +3,8 @@ warpt 1
   expect {
     refuses "build"
   }
-  name "a-bare-type-parameter-is-never-left-out"
-  note "Only a parameter whose type declares null may be left out, and a bare type parameter declares nothing: it stands for what arrives. So `app.pick` cannot be called with its second position left off, even where the first argument has `T` read as `int?`, which is a reading of one call and not what the declaration says."
+  name "a-call-short-of-what-the-callee-takes-refuses"
+  note "A call hands exactly what the callee takes. `app.pick` takes two, and a call handing one is refused where it is written, whatever the one it hands was read as."
   program {
     imports []
     procedures {

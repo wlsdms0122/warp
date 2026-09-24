@@ -22,7 +22,7 @@ warpt 1
                 {
                   let "item"
                   value {
-                    ref "over[walk.index]"
+                    ref "array[walk.index]"
                   }
                 }
                 {
@@ -39,7 +39,7 @@ warpt 1
                         {
                           let "answered"
                           value {
-                            apply {
+                            call {
                               arguments [
                                 {
                                   ref "item"
@@ -49,7 +49,7 @@ warpt 1
                                 }
                               ]
                               procedure {
-                                ref "by"
+                                ref "transform"
                               }
                             }
                           }
@@ -88,7 +88,7 @@ warpt 1
                       call {
                         arguments [
                           {
-                            ref "over"
+                            ref "array"
                           }
                         ]
                         procedure "std.collection.count"
@@ -105,11 +105,11 @@ warpt 1
       description "Each element answered by a procedure, run at once, in the collection's order."
       parameters [
         {
-          name "over"
+          name "array"
           type "array<some Element>"
         }
         {
-          name "by"
+          name "transform"
           type {
             "isolated procedure" {
               parameters [

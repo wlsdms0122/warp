@@ -147,9 +147,9 @@ A *part* is `[tag]`: 0 `procedures`, 1 `constants`, 2 `variables`, 3
 conditional's or `[1]` for a loop's, 17 `then`, 18 `otherwise`, 19 `rescue`.
 
 A *construct* is `[tag]`: 0 literal, 1 reference, 2 array, 3 record, 4
-closure, 5 cast, 6 apply, 7 block, 8 conditional, 9 loop, 10 attempt, 11
-call, 12 leave, carrying its *reach*: `0` the procedure, `1` the construct,
-`2` the round.
+closure, 5 cast, 6 block, 7 conditional, 8 loop, 9 attempt, 10 call, 11
+leave, carrying its *reach*: `0` the procedure, `1` the construct, `2` the
+round.
 
 ### Rows
 
@@ -194,7 +194,7 @@ body does it does by calling, under [the standard vocabulary](vocabulary.md).
 | 2 | an array built from parts | list of *operation* |
 | 3 | a record built from parts | *layout*, list of *operation* in the layout's field order |
 | 4 | a closure literal | the closure's number, captures: `[outer slot, inner slot]` list |
-| 5 | applying a value | the callee *operation*, arguments: list of *operation*, in position order |
+| 5 | calling a value | the callee *operation*, arguments: list of *operation*, in position order |
 | 6 | a cast | *operation*, *lowered type*, optional |
 | 7 | a block | *body* |
 | 8 | a conditional | the condition *operation*, then: *instruction* list, else: *instruction* list or nothing |

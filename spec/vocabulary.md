@@ -76,7 +76,7 @@ and it is what an implementation weighs when it writes a procedure in Warp
 rather than in its own language.
 
 **The signatures, exactly.** A second implementation writes these; it must not
-have to guess them. The *parameters* column lists them in the order a row writes them, which is the position a call hands each argument at. A parameter typed `T?` at the end may be left out and reads as null.
+have to guess them. The *parameters* column lists them in the order a row writes them, which is the position a call hands each argument at.
 A slot typed `const procedure` takes only a procedure that answers without
 running.
 
@@ -84,10 +84,10 @@ running.
 
 | procedure | parameters | answers |
 |---|---|---|
-| `equal`, `notEqual` | `of: any`, `value: any` | `bool` |
-| `not` | `of: bool` | `bool` |
-| `and`, `or` | `of: array<const procedure>`, each declared as taking nothing and answering `bool`, so one answering anything else **refuses at the build** where it is handed | `bool`. Over nothing, `and` answers `true` and `or` answers `false`: no side settled the answer, so the chain's own answer stands |
-| `select` | `of: bool`, `then`, `else`. `const` procedures taking nothing, each answering `some Answer` | `some Answer` |
+| `equal`, `notEqual` | `lhs: any`, `rhs: any` | `bool` |
+| `not` | `value: bool` | `bool` |
+| `and`, `or` | `conditions: array<const procedure>`, each declared as taking nothing and answering `bool`, so one answering anything else **refuses at the build** where it is handed | `bool`. Over nothing, `and` answers `true` and `or` answers `false`: no side settled the answer, so the chain's own answer stands |
+| `select` | `condition: bool`, `then`, `else`. `const` procedures taking nothing, each answering `some Answer` | `some Answer` |
 
 `and` and `or` take procedures precisely so they need not run them all: the
 sides are read in order and the procedure stops at the first side that settles
@@ -106,12 +106,12 @@ type, worked out from the call the way any type parameter is.
 
 | procedure | parameters | answers |
 |---|---|---|
-| `plus`, `minus`, `times`, `remainder` | `of: some N`, `value: some N` | `some N`. Bounds `N: std.Numeric` |
-| `min`, `max` | `of: some N`, `value: some N` | `some N`. Bounds `N: std.Comparable` |
-| `dividedBy` | `of: some N`, `value: some N` | `double`. Bounds `N: std.Numeric` |
-| `absolute` | `of: some N` | `some N`. Bounds `N: std.Numeric` |
-| `floored`, `rounded` | `of: some N` | `int`. Bounds `N: std.Numeric` |
-| `lessThan`, `greaterThan` | `of: some T`, `value: some T` | `bool`. Bounds `T: std.Comparable` |
+| `plus`, `minus`, `times`, `remainder` | `lhs: some N`, `rhs: some N` | `some N`. Bounds `N: std.Numeric` |
+| `min`, `max` | `lhs: some N`, `rhs: some N` | `some N`. Bounds `N: std.Comparable` |
+| `dividedBy` | `lhs: some N`, `rhs: some N` | `double`. Bounds `N: std.Numeric` |
+| `absolute` | `number: some N` | `some N`. Bounds `N: std.Numeric` |
+| `floored`, `rounded` | `number: some N` | `int`. Bounds `N: std.Numeric` |
+| `lessThan`, `greaterThan` | `lhs: some T`, `rhs: some T` | `bool`. Bounds `T: std.Comparable` |
 
 `floored` goes to the nearest whole toward the smaller side, below zero too:
 `-2.1` floors to `-3`. `rounded` goes to the nearest whole, and away from zero
@@ -124,15 +124,16 @@ edge rules below require.
 
 | procedure | parameters | answers |
 |---|---|---|
-| `text` | `of: any` | `string` |
-| `contains`, `startsWith` | `of: string`, `value: string` | `bool` |
-| `uppercased`, `lowercased`, `trimmed` | `of: string` | `string` |
-| `characters` | `of: string` | `array<string>` |
-| `split` | `of: string`, `value: string` | `array<string>` |
-| `joined` | `of: array<string>`, `value: string?`. Null joins with nothing between | `string` |
-| `decoded` | `of: array<std.byte>`, `encoding: string?`, enum `["utf8"]`. Null names `utf8` | `string`. **refuses at the run** when the bytes are not text in that encoding |
-| `encoded` | `of: string`, `encoding: string?`, enum `["utf8"]`. Null names `utf8` | `array<std.byte>` |
-| `replacing` | `of: string`, `value: string`, `with: string` | `string` |
+| `text` | `value: any` | `string` |
+| `contains` | `text: string`, `other: string` | `bool` |
+| `startsWith` | `text: string`, `prefix: string` | `bool` |
+| `uppercased`, `lowercased`, `trimmed` | `text: string` | `string` |
+| `characters` | `text: string` | `array<string>` |
+| `split` | `text: string`, `separator: string` | `array<string>` |
+| `joined` | `strings: array<string>`, `separator: string`, written between each two | `string` |
+| `decoded` | `bytes: array<std.byte>`, `encoding: string`, enum `["utf8"]` | `string`. **refuses at the run** when the bytes are not text in that encoding |
+| `encoded` | `text: string`, `encoding: string`, enum `["utf8"]` | `array<std.byte>` |
+| `replacing` | `text: string`, `target: string`, `replacement: string` | `string` |
 
 `characters` answers the text as an array of its characters, each one a string
 of its own, counted the way `count` counts. Answered for the whole text rather
@@ -199,20 +200,20 @@ and one with no compact spelling writes bytes as what they are: an array of
 
 | procedure | parameters | answers |
 |---|---|---|
-| `append` | `to: inout array<some Element>`, `value: some Element` | `null`, having written the element onto the end of the array the variable holds, in place |
-| `count` | `of: std.Collection`. The membership of `string`, `array` and `dictionary`; bytes stand as an array and a record as a dictionary | `int` |
-| `contains` | `of: array<some Element>`, `value: some Element` | `bool` |
-| `first`, `last` | `of: array<some Element>` | `some Element`. Over nothing there is no element to answer, and the read of one **refuses at the run**, the way any index past the end does |
-| `reversed`, `dropFirst`, `dropLast` | `of: array<some Element>` | `array<some Element>` |
-| `sorted` | `of: array<some Element>` | `array<some Element>`. Bounds `Element: std.Comparable` |
-| `appending`, `prepending` | `of: array<some Element>`, `value: some Element` | `array<some Element>` |
-| `gathering` | `of: array<some Element>`, `value: array<int>`. Where to read, in the order to read it | `array<some Element>`, the collection's own, in the collection's spelling. A position the collection does not hold refuses at the run |
-| `map` | `of: array<some Element>`, `value`. `const` procedure, handed the item, answering `some Answer` | `array<some Answer>` |
-| `filter` | `of: array<some Element>`, `value`. `const` procedure, handed the item, answering `bool` | `array<some Element>` |
-| `reduce` | `of: array<some Element>`, `from: some Carried`; `value`. `const` procedure, handed the carried value, then the item, answering `some Carried` | `some Carried` |
-| `keys` | `of: dictionary<any>` | `array<string>` |
-| `values` | `of: dictionary<some Entry>` | `array<some Entry>` |
-| `setting` | `of: dictionary<any>`, `key: string`, `value: any` | `dictionary<any>` |
+| `append` | `array: inout array<some Element>`, `element: some Element` | `null`, having written the element onto the end of the array the variable holds, in place |
+| `count` | `collection: std.Collection`. The membership of `string`, `array` and `dictionary`; bytes stand as an array and a record as a dictionary | `int` |
+| `contains` | `array: array<some Element>`, `element: some Element` | `bool` |
+| `first`, `last` | `array: array<some Element>` | `some Element`. Over nothing there is no element to answer, and the read of one **refuses at the run**, the way any index past the end does |
+| `reversed`, `dropFirst`, `dropLast` | `array: array<some Element>` | `array<some Element>` |
+| `sorted` | `array: array<some Element>` | `array<some Element>`. Bounds `Element: std.Comparable` |
+| `appending`, `prepending` | `array: array<some Element>`, `element: some Element` | `array<some Element>` |
+| `gathering` | `array: array<some Element>`, `positions: array<int>`. Where to read, in the order to read it | `array<some Element>`, the collection's own, in the collection's spelling. A position the collection does not hold refuses at the run |
+| `map` | `array: array<some Element>`, `transform`. `const` procedure, handed the item, answering `some Answer` | `array<some Answer>` |
+| `filter` | `array: array<some Element>`, `isIncluded`. `const` procedure, handed the item, answering `bool` | `array<some Element>` |
+| `reduce` | `array: array<some Element>`, `initialResult: some Carried`, `nextPartialResult`. `const` procedure, handed the carried value, then the item, answering `some Carried` | `some Carried` |
+| `keys` | `dictionary: dictionary<any>` | `array<string>` |
+| `values` | `dictionary: dictionary<some Entry>` | `array<some Entry>` |
+| `setting` | `dictionary: dictionary<any>`, `key: string`, `value: any` | `dictionary<any>` |
 
 `gathering` is how a procedure answers a collection's own elements. It says which
 by position, and the answer comes back in the spelling the collection arrived in:
@@ -227,14 +228,14 @@ one collection at another's positions is a **gather**.
 
 | procedure | parameters | answers |
 |---|---|---|
-| `abort` | `of: any`. What the refusal says. Null says `aborted` | `never` |
+| `abort` | `message: any`. What the refusal says. Null says `aborted` | `never` |
 
 *std.concurrent*
 
 | procedure | parameters | answers |
 |---|---|---|
-| `all`, `first` | `of: std.concurrent.Pieces`. The membership of `array<isolated procedure>` and `dictionary<isolated procedure>` | `any` |
-| `map` | `over: array<some Element>`, `by`. `isolated procedure`, handed the item, then its index, answering `some Answer` | `array<some Answer>` |
+| `all`, `first` | `pieces: std.concurrent.Pieces`. The membership of `array<isolated procedure>` and `dictionary<isolated procedure>` | `any` |
+| `map` | `array: array<some Element>`, `transform`. `isolated procedure`, handed the item, then its index, answering `some Answer` | `array<some Answer>` |
 
 **`std.concurrent`**. Running closures at once. `all` takes a record or an array
 of closures, runs every one, and answers every answer. A record's under its
@@ -256,7 +257,7 @@ the call site.
 
 What the checking sees: `map` declares its types the way the sequential one
 does. The collection's `Element` meets the closure's parameter, and the
-answer's type is the closure's answer, checked at the build. Its `by` is an
+answer's type is the closure's answer, checked at the build. Its `transform` is an
 `isolated procedure` taking `item: some Element` and `index: int` and
 answering `some Answer`, so a closure that writes a captured variable refuses
 there before anything runs.
@@ -273,7 +274,7 @@ sequential walks. `std.collection.map` and `filter` hand over the item,
 over the item then its index, and a closure written for one of them **declares
 exactly as many parameters as it is handed, in that order**, under names of its
 own, whether or not its body goes on to read one. A closure of another count
-refuses, the same as anywhere else a value is applied: a walk is not a second
+refuses, the same as anywhere else a value is called: a walk is not a second
 calling convention. `std.concurrent.first` run over nothing is refused, the way
 `std.collection.first` of nothing is: a procedure that answers exactly one
 thing has no empty answer. And a `first` in which nothing succeeds fails the
@@ -314,7 +315,7 @@ which its declaration says by naming a second type parameter for it. Two bytes
 one: `std.Comparable` admits numbers and strings among themselves, not collections.
 Reading bytes *as* text is a procedure that names its encoding: `decoded` and
 `encoded` are the two directions of one mapping (`encoding: "utf8"`, the only
-member, and what null names), and bytes that are not text in that encoding
+member), and bytes that are not text in that encoding
 **refuse at the run**. Completing a broken sequence would answer a text nobody
 sent. `encoded` writes the text's code points as they stand and normalises
 nothing, and `decoded` keeps a byte order mark as the character it is:
@@ -325,7 +326,7 @@ own declares a procedure of its own rather than widening the list.
 
 **`abort`**. Fail on purpose, with a message. Declared `returns: never`, which
 is everything the checking needs: nothing runs after it, and no name binds it.
-The message is what `of` spells as text. Sent null, the refusal says `aborted`.
+The message is what `message` spells as text. Sent null, the refusal says `aborted`.
 The refusal it raises is a failure like any other, so an `attempt` around it
 catches it. Leaving is what a rescue does not catch, and this is failing, not
 leaving.

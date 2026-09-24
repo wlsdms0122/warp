@@ -3,8 +3,8 @@ warpt 1
   expect {
     refuses "build"
   }
-  name "an-applied-value-answers-what-its-slot-wrote"
-  note "Applying a value answers what the slot holding it wrote under `returns`, so a body that hands that answer up as something else is refused where both are written, the way a call's answer is."
+  name "a-called-value-answers-what-its-slot-wrote"
+  note "Calling a value answers what the slot holding it wrote under `returns`, so a body that hands that answer up as something else is refused where both are written, the way a call's answer is."
   program {
     imports []
     procedures {
@@ -37,7 +37,7 @@ warpt 1
           }
         ]
         result {
-          apply {
+          call {
             procedure {
               ref "body"
             }

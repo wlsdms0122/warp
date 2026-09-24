@@ -1,0 +1,32 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "calling-a-value-read-as-a-nullable-number-refuses"
+  note "A value read as `int?` is a number or null, and neither is a procedure. Calling it refuses at the build, the way calling an `int` does."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "held"
+            type "int?"
+          }
+        ]
+        result {
+          call {
+            procedure {
+              ref "held"
+            }
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,32 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "calling-a-value-that-may-be-null-refuses"
+  note "A slot declaring `procedure?` may hold null, and a call of it would call through the null. Null is not called through, the way it is not read through, so the call refuses where it is written."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "held"
+            type "procedure?"
+          }
+        ]
+        result {
+          call {
+            procedure {
+              ref "held"
+            }
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

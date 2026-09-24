@@ -126,9 +126,9 @@ declaration is, with four keys of its own beside it:
     failing     array of strings. What it may fail with. Default empty
 
 It answers the same thing every time, because a case asks what a declaration
-permits rather than what arithmetic does. The names it may declare are `of` and
-`value`, in that order, since a procedure the host answers reads its arguments
-at fixed places and a case cannot invent a place in another runner.
+permits rather than what arithmetic does. The names it may declare are `first`
+and `second`, in that order, since a procedure the host answers reads its
+arguments at fixed places and a case cannot invent a place in another runner.
 
 This is the only way a case reaches what answering without running permits and
 what it does not, both of which need a procedure with no body: a slot asking

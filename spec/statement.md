@@ -112,12 +112,12 @@ The construct keys, each detailed below and each written inside `value`:
 
 ## The constructs
 
-**`call`**. A declaration called by its spelling:
+**`call`**. A procedure called, by its spelling or as a value:
 
 | key | takes | required |
 |---|---|---|
-| `procedure` | string. The procedure called | yes |
-| `arguments` | list of expressions, by position: the first fills the first parameter, and so on. The positions after the last one written are left out, under *leaving an argument out* in [procedures](procedure.md) | no |
+| `procedure` | a string names the declaration called, resolved at the build. Any other expression is a value the run calls, and a value no procedure could be **refuses at the build**, and so does one whose reading says it may be null: null is not called through, the way it is not read through, at the build where the text shows it and at the run otherwise. Text is never a value a call could take, so the two readings never meet | yes |
+| `arguments` | list of expressions, by position: the first fills the first parameter, and so on, one for each parameter, under *one calling convention* in [procedures](procedure.md) | no |
 
 A body a procedure is to run travels as a **closure argument**, like any other
 value. There is no second channel for bodies: one kind of thing crosses into a
@@ -232,7 +232,7 @@ way it derives constness and isolation, and the types a failure names itself by
 plain casts fail with (`cast_refused`, the one failure the runtime itself
 raises; `as?` reads the same mismatch as null and raises nothing), with what
 the declarations it calls fail with, and with whatever its rescues fail with,
-the body under a rescue being caught. Calling a value (`apply`) leaves the
+the body under a rescue being caught. Calling a value leaves the
 question open, since nothing before the run says which value.
 
 A native procedure says what it may fail with, the way it says whether it is
@@ -331,6 +331,10 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-attempt-joins-its-body-with-its-rescue`
 - `an-attempt-written-nameless-binds-no-failure`
 - `break-ends-the-loop`
+- `calling-a-value-bounded-to-numbers-refuses`
+- `calling-a-value-no-procedure-could-be-refuses`
+- `calling-a-value-read-as-a-nullable-number-refuses`
+- `calling-a-value-that-may-be-null-refuses`
 - `continue-skips-a-round`
 - `leaving-answers-from-the-middle`
 - `leaving-is-not-failing`

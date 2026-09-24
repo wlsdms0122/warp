@@ -3,8 +3,8 @@ warpt 1
   expect {
     refuses "run"
   }
-  name "a-value-applied-through-any-is-judged-at-the-run"
-  note "A value the text opens to `any` carries its type with it, so an application through such a name is judged where it runs: an argument the closure's parameter refuses is refused at the run, and the body never sees it."
+  name "a-value-called-through-any-is-judged-at-the-run"
+  note "A value the text opens to `any` carries its type with it, so a call through such a name is judged where it runs: an argument the closure's parameter refuses is refused at the run, and the body never sees it."
   program {
     imports []
     procedures {
@@ -56,7 +56,7 @@ warpt 1
           {
             let "made"
             value {
-              apply {
+              call {
                 arguments [
                   "not a number"
                 ]

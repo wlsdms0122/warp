@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    answers null
+    refuses "build"
   }
-  name "an-application-leaving-off-a-nullable-end-reads-it-as-null"
-  note "Applying a value may stop short the way a call may: the positions left off at the end are ones whose type declares null, and each reads as that null."
+  name "a-call-of-a-value-short-of-what-it-takes-refuses"
+  note "Calling a value hands exactly what its type takes, the way a call does. A position whose type declares null is handed like any other, so a call of `pair` with one argument is refused where it is written."
   program {
     imports []
     procedures {
@@ -35,7 +35,7 @@ warpt 1
           {
             let "made"
             value {
-              apply {
+              call {
                 arguments [
                   1
                 ]

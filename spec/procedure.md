@@ -90,7 +90,7 @@ the run it was handed:
   written by `set` or handed in place to a call. What such a name holds is the
   run's rather than the text's, and a name the body introduces or a parameter
   it holds outright is its own;
-- it calls a value (`apply`) only through a name a slot declared
+- it calls a value only through a name a slot declared
   `const procedure`. That is the one place something before the run says what
   the value answers; on any other name nothing does. The claim is the slot's
   and so it stands wherever the name is read, a closure that **captured** the
@@ -112,7 +112,7 @@ declared are held to what it said, under *a procedure the host answers* above.
 A closure literal is judged by the same rule, and the answer travels with the
 closure as a value, so a slot reads it wherever the value arrives. What it
 captured it is judged with: a name the enclosing scope held under a slot that
-said `const procedure` is one the closure may apply, which is what lets a body
+said `const procedure` is one the closure may call, which is what lets a body
 build a closure per element and hand the lot to `std.concurrent.all`. A
 variable that declared it holds one is such a name too, since every write into
 it is held to the declaration; a variable that declared nothing may be retyped
@@ -211,9 +211,7 @@ that already have one, and `1` on a `double` slot is the int's spelling, which
 no fraction ever wears. Each of these is a dead candidate, because no settled
 value wears their spelling.
 
-**Leaving an argument out.** A call may stop short: the positions after the last argument it writes are left out. A parameter may be left out exactly when its type declares null: a `T?` parameter left out reads as that null, and the call check and the boundary both answer this one question the same way. A position before one the call writes is written, null included. `any` accepts a null that arrives and says nothing about one that does not, so it is never left out, and neither is a bare type parameter. What to make of the null is the body's. A host that adds a `T?` parameter at the end of a procedure leaves every call already written standing.
-
-**One calling convention.** Lowering puts every parameter in a slot, in the declaration's order, and every call hands its arguments **by position**: a `call` to a declaration, applying a value (`apply`, and a procedure handing values to a closure it was given), and a procedure the host answers sending one it declared. More arguments than the callee takes **refuse**, at the build where the callee is known and at the run otherwise, and so does an argument the parameter at its position refuses. Writing an argument is giving it: an argument holding null was given, and a slot whose type admits one takes it, `any`, a `T?`, a type parameter, which stands for what arrived and settles nothing.
+**One calling convention.** Lowering puts every parameter in a slot, in the declaration's order, and every call hands its arguments **by position**: a `call` to a declaration, a `call` of a value, a procedure handing values to a closure it was given, and a procedure the host answers sending one it declared. A call hands exactly as many arguments as the callee takes. Any other count **refuses**, at the build where the callee is known and at the run otherwise, and so does an argument the parameter at its position refuses. Writing an argument is giving it: an argument holding null was given, and a slot whose type admits one takes it, `any`, a `T?`, a type parameter, which stands for what arrived and settles nothing.
 
 **A parameter handed in place.** A parameter typed `inout T` takes no value:
 it takes a variable. The argument is `{ ref: <path> }`, and all of this is
@@ -240,16 +238,20 @@ running, by the rule that such a body writes no name.
 
 What `conformance/` asks about this page, by the name each case's file carries.
 
-- `a-bare-type-parameter-is-never-left-out`
+- `a-call-of-a-value-hands-its-arguments-by-position`
+- `a-call-of-a-value-of-another-count-refuses`
+- `a-call-of-a-value-short-of-what-it-takes-refuses`
 - `a-call-of-another-count-refuses`
+- `a-call-short-of-what-the-callee-takes-refuses`
 - `a-closure-that-writes-what-it-captured-is-not-const`
 - `a-const-slot-refuses-a-closure-that-calls-what-runs`
-- `a-const-slot-takes-a-closure-that-applies-a-const-slot`
+- `a-const-slot-takes-a-closure-that-calls-a-const-slot`
 - `a-const-slot-takes-a-closure-that-calls-a-host-procedure`
 - `a-constant-argument-is-checked-before-running`
 - `a-constant-argument-outside-enum-refuses-at-build`
 - `a-constant-cannot-settle-from-a-procedure-a-caller-brought`
 - `a-constant-cannot-settle-from-what-runs`
+- `a-constant-handed-to-a-called-value-outside-its-range-refuses`
 - `a-constant-settles-from-a-body-of-another-document`
 - `a-contract-asking-const-lets-its-call-stand-in-a-const-slot`
 - `a-contract-asking-isolated-lets-its-call-stand-in-an-isolated-slot`
@@ -282,10 +284,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-answer-nobody-wrote-is-read-off-the-body`
 - `an-answer-that-may-be-null-refuses-a-declaration-that-may-not`
 - `an-answer-worked-out-from-itself-says-nothing`
-- `an-application-hands-its-arguments-by-position`
-- `an-application-leaving-off-a-nullable-end-reads-it-as-null`
-- `an-application-of-another-count-refuses`
-- `an-applied-constant-outside-its-slots-range-refuses`
 - `an-argument-is-held-to-its-parameter-at-the-run`
 - `an-argument-outside-enum-refuses-at-the-boundary`
 - `an-effect-in-a-condition-refuses`
@@ -295,7 +293,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-internal-entry-refuses`
 - `an-internal-procedure-is-named-from-another-document`
 - `an-isolated-closure-writes-its-own-variables`
-- `an-omitted-nullable-argument-reads-as-null`
 - `arguments-are-settled-at-the-boundary`
 - `body-answers-only-what-it-declares`
 - `null-is-an-argument-a-document-can-write`

@@ -83,15 +83,15 @@ spells the declaration it means. Segment by segment:
 **reads data**: the type is declared, at the call rather than here, so the
 segments stand as written and what the call filled in answers them. What the dot
 reaches is a type the call decides too. Dots go on standing after it. but it is
-**not the parameter**: `of` is the type the call filled in and `of.a` is a
+**not the parameter**: `item` is the type the call filled in and `item.a` is a
 field of that type, which is a different unknown, and it carries none of the
-parameter's bound. So a name holding `of` on one way through and `of.a` on
-another holds neither, and one holding `of.a` twice holds one type. Which field
-of which parameter a walk reached is all that decides this. So `of.a` and
-`of?.a` are one field read twice. A mark says what is expected of the *value*
+parameter's bound. So a name holding `item` on one way through and `item.a` on
+another holds neither, and one holding `item.a` twice holds one type. Which field
+of which parameter a walk reached is all that decides this. So `item.a` and
+`item?.a` are one field read twice. A mark says what is expected of the *value*
 and says nothing about where the walk landed. A name given to a step along the
-way arrives where the unbroken walk arrives (`held` holding `of.a`, then
-`held.b`, is `of.a.b`), and two parameters written `some T` hold one type, so
+way arrives where the unbroken walk arrives (`held` holding `item.a`, then
+`held.b`, is `item.a.b`), and two parameters written `some T` hold one type, so
 the same field of either is the same field.
 - **Null is not read through.** A segment reading a null, or one whose reading says it may be (`T?`). **refuses**: at the build where the text shows it, at the run otherwise. `?.` is the one spelling that expects absence on a name: it reads the null (or the absent entry) as null for the whole path, and the path's own reading is nullable for the same reason. `?[` is that same mark on an index, and what it expects absent is the **array itself**. Never an element.
 - An **index past the end refuses at the run**. The array is there and says
