@@ -274,7 +274,7 @@ sequential walks. `std.collection.map` and `filter` hand over the item,
 over the item then its index, and a closure written for one of them **declares
 exactly as many parameters as it is handed, in that order**, under names of its
 own, whether or not its body goes on to read one. A closure of another count
-refuses, the same as anywhere else a value is applied: a walk is not a second
+refuses, the same as anywhere else a value is called: a walk is not a second
 calling convention. `std.concurrent.first` run over nothing is refused, the way
 `std.collection.first` of nothing is: a procedure that answers exactly one
 thing has no empty answer. And a `first` in which nothing succeeds fails the

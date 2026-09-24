@@ -1,10 +1,13 @@
 warpt 1
 {
   expect {
-    refuses "build"
+    answers {
+      first 1
+      second "x"
+    }
   }
-  name "an-application-of-another-count-refuses"
-  note "Every position is given when a value is applied, so an application with fewer arguments than the value's type takes is one no run could settle, and the build refuses it where the value's type is known."
+  name "a-call-of-a-value-hands-its-arguments-by-position"
+  note "Calling a value hands its arguments as a list, each landing at the position it is written at, in the order the closure declared its parameters. A value carries no names, so there is nothing to hand by."
   program {
     imports []
     procedures {
@@ -26,9 +29,17 @@ warpt 1
                   }
                 ]
                 result {
-                  ref "first"
+                  first {
+                    ref "first"
+                  }
+                  second {
+                    ref "second"
+                  }
                 }
-                returns "int"
+                returns {
+                  first "int"
+                  second "string"
+                }
               }
             }
           }
@@ -38,6 +49,7 @@ warpt 1
               call {
                 arguments [
                   1
+                  "x"
                 ]
                 procedure {
                   ref "pair"
@@ -49,7 +61,10 @@ warpt 1
         result {
           ref "made"
         }
-        returns "int"
+        returns {
+          first "int"
+          second "string"
+        }
       }
     }
     warp 1

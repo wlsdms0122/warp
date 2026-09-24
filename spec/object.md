@@ -194,7 +194,7 @@ body does it does by calling, under [the standard vocabulary](vocabulary.md).
 | 2 | an array built from parts | list of *operation* |
 | 3 | a record built from parts | *layout*, list of *operation* in the layout's field order |
 | 4 | a closure literal | the closure's number, captures: `[outer slot, inner slot]` list |
-| 5 | applying a value | the callee *operation*, arguments: list of *operation*, in position order |
+| 5 | calling a value | the callee *operation*, arguments: list of *operation*, in position order |
 | 6 | a cast | *operation*, *lowered type*, optional |
 | 7 | a block | *body* |
 | 8 | a conditional | the condition *operation*, then: *instruction* list, else: *instruction* list or nothing |

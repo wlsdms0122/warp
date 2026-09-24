@@ -3,8 +3,8 @@ warpt 1
   expect {
     refuses "build"
   }
-  name "an-application-short-of-what-the-value-takes-refuses"
-  note "Applying a value hands exactly what its type takes, the way a call does. A position whose type declares null is handed like any other, so an application of `pair` with one argument is refused where it is written."
+  name "a-constant-handed-to-a-called-value-outside-its-range-refuses"
+  note "A constant handed to a value is settled at the build against the type at its position, the gate the run would hold it to: a whole number is the kind `int(0...10)` takes, and 99 is still outside it, so every run would refuse it and the build does."
   program {
     imports []
     procedures {
@@ -12,23 +12,19 @@ warpt 1
         access "public"
         body [
           {
-            let "pair"
+            let "level"
             value {
               closure {
                 parameters [
                   {
-                    name "a"
-                    type "int"
-                  }
-                  {
-                    name "b"
-                    type "string?"
+                    name "n"
+                    type "int(0...10)"
                   }
                 ]
                 result {
-                  ref "b"
+                  ref "n"
                 }
-                returns "string?"
+                returns "int"
               }
             }
           }
@@ -37,10 +33,10 @@ warpt 1
             value {
               call {
                 arguments [
-                  1
+                  99
                 ]
                 procedure {
-                  ref "pair"
+                  ref "level"
                 }
               }
             }
@@ -49,7 +45,7 @@ warpt 1
         result {
           ref "made"
         }
-        returns "string?"
+        returns "int"
       }
     }
     warp 1

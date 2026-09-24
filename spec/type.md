@@ -28,7 +28,7 @@ A type is written as a string, or as a record for what a string cannot say:
 | `int(0...255)`, `double(0.0..<1.0)` | a number the slot admits only inside the range. The kind written out, either bound optional but not both, and `..<` leaving the far bound outside |
 | `int?` (any string spelling and `?`) | the declared type or null. The one union written inline, and it is null-only. Any other is declared as a membership and named |
 | `{ title: string, done: bool }` | a record type, written as the record it describes; structural, and it names nothing |
-| `{ procedure: { parameters: [<type>, …], returns: … } }` | a procedure type: the types it is applied with, in position order, and what it answers. No names, since a name is a declaration's and a value is applied by position; a mark such as `inout` is written on the type it stands in front of |
+| `{ procedure: { parameters: [<type>, …], returns: … } }` | a procedure type: the types it is called with, in position order, and what it answers. No names, since a name is a declaration's and a value is called by position; a mark such as `inout` is written on the type it stands in front of |
 | `{ "const procedure": { … } }` | a procedure type with its marks and modifiers on the key, `inout` or `consuming` or `borrowing` first, then `const` and `isolated`, the way they stand in front of the string form |
 | `{ array: <type> }` / `{ dictionary: <type> }` | a list / map of a type that has no string spelling, a procedure type or a record type. Where the element has a spelling the type is written `array<T>`, and the record form around it **refuses at the load** |
 
@@ -312,7 +312,7 @@ A contract's name stands where a type is written, and so does `A & B`: the
 slot takes a value of whatever type satisfies every contract and belongs to
 every membership named. It is a type parameter with no name, so nothing ties
 one slot's reading to another's, and a call fills nothing. A closure literal's
-parameter is such a slot too, and since what applying a value hands is
+parameter is such a slot too, and since what calling a value hands is
 judged at the run, what is handed to it is held to the contract at the
 run's boundary, under [running](running.md). A name declared as neither a
 membership nor a contract joined with `&` **refuses at the build**.
@@ -459,7 +459,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-type-handed-on-once-inside-another-refuses`
 - `a-type-parameter-read-two-ways-is-refused`
 - `a-type-that-misses-a-procedure-does-not-answer-the-contract`
-- `a-value-applied-through-any-is-judged-at-the-run`
+- `a-value-called-through-any-is-judged-at-the-run`
 - `a-value-declares-every-parameter-the-slot-hands`
 - `a-value-handed-on-in-one-arm-and-not-the-other-refuses`
 - `a-value-handed-on-once-does-not-go-into-a-list`

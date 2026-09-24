@@ -112,7 +112,7 @@ declared are held to what it said, under *a procedure the host answers* above.
 A closure literal is judged by the same rule, and the answer travels with the
 closure as a value, so a slot reads it wherever the value arrives. What it
 captured it is judged with: a name the enclosing scope held under a slot that
-said `const procedure` is one the closure may apply, which is what lets a body
+said `const procedure` is one the closure may call, which is what lets a body
 build a closure per element and hand the lot to `std.concurrent.all`. A
 variable that declared it holds one is such a name too, since every write into
 it is held to the declaration; a variable that declared nothing may be retyped
@@ -238,16 +238,20 @@ running, by the rule that such a body writes no name.
 
 What `conformance/` asks about this page, by the name each case's file carries.
 
+- `a-call-of-a-value-hands-its-arguments-by-position`
+- `a-call-of-a-value-of-another-count-refuses`
+- `a-call-of-a-value-short-of-what-it-takes-refuses`
 - `a-call-of-another-count-refuses`
 - `a-call-short-of-what-the-callee-takes-refuses`
 - `a-closure-that-writes-what-it-captured-is-not-const`
 - `a-const-slot-refuses-a-closure-that-calls-what-runs`
-- `a-const-slot-takes-a-closure-that-applies-a-const-slot`
+- `a-const-slot-takes-a-closure-that-calls-a-const-slot`
 - `a-const-slot-takes-a-closure-that-calls-a-host-procedure`
 - `a-constant-argument-is-checked-before-running`
 - `a-constant-argument-outside-enum-refuses-at-build`
 - `a-constant-cannot-settle-from-a-procedure-a-caller-brought`
 - `a-constant-cannot-settle-from-what-runs`
+- `a-constant-handed-to-a-called-value-outside-its-range-refuses`
 - `a-constant-settles-from-a-body-of-another-document`
 - `a-contract-asking-const-lets-its-call-stand-in-a-const-slot`
 - `a-contract-asking-isolated-lets-its-call-stand-in-an-isolated-slot`
@@ -280,10 +284,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-answer-nobody-wrote-is-read-off-the-body`
 - `an-answer-that-may-be-null-refuses-a-declaration-that-may-not`
 - `an-answer-worked-out-from-itself-says-nothing`
-- `an-application-hands-its-arguments-by-position`
-- `an-application-of-another-count-refuses`
-- `an-application-short-of-what-the-value-takes-refuses`
-- `an-applied-constant-outside-its-slots-range-refuses`
 - `an-argument-is-held-to-its-parameter-at-the-run`
 - `an-argument-outside-enum-refuses-at-the-boundary`
 - `an-effect-in-a-condition-refuses`

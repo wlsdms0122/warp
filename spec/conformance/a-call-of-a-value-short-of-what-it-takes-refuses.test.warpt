@@ -3,8 +3,8 @@ warpt 1
   expect {
     refuses "build"
   }
-  name "an-applied-constant-outside-its-slots-range-refuses"
-  note "A constant handed to a value is settled at the build against the type at its position, the gate the run would hold it to: a whole number is the kind `int(0...10)` takes, and 99 is still outside it, so every run would refuse it and the build does."
+  name "a-call-of-a-value-short-of-what-it-takes-refuses"
+  note "Calling a value hands exactly what its type takes, the way a call does. A position whose type declares null is handed like any other, so a call of `pair` with one argument is refused where it is written."
   program {
     imports []
     procedures {
@@ -12,19 +12,23 @@ warpt 1
         access "public"
         body [
           {
-            let "level"
+            let "pair"
             value {
               closure {
                 parameters [
                   {
-                    name "n"
-                    type "int(0...10)"
+                    name "a"
+                    type "int"
+                  }
+                  {
+                    name "b"
+                    type "string?"
                   }
                 ]
                 result {
-                  ref "n"
+                  ref "b"
                 }
-                returns "int"
+                returns "string?"
               }
             }
           }
@@ -33,10 +37,10 @@ warpt 1
             value {
               call {
                 arguments [
-                  99
+                  1
                 ]
                 procedure {
-                  ref "level"
+                  ref "pair"
                 }
               }
             }
@@ -45,7 +49,7 @@ warpt 1
         result {
           ref "made"
         }
-        returns "int"
+        returns "string?"
       }
     }
     warp 1

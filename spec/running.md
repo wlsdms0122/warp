@@ -15,14 +15,14 @@ running. What is checked before any of this is
   gives nothing for **refuses at the run** before anything runs, the way a
   call's count does.
 - Statements run in order; each binds its name in the scope of what follows.
-- A call's arguments are evaluated in **position order**, the first first, whether the callee is a body or the host's, and an application's the same. An argument may call anything, so the order is observable: two arguments that would each refuse surface the one standing first.
+- A call's arguments are evaluated in **position order**, the first first, whether the callee is a body, the host's or a value. An argument may call anything, so the order is observable: two arguments that would each refuse surface the one standing first.
 - `std.collection.keys` and `values` answer in the record's **canonical
   order**. Names ascending. For the same reason: a program that walks them
   gets the same walk on every run.
 - A procedure's answer is held to `returns` where both are written. A body and
   the declaration beside it are one document's text, so what the body reads is
   judged at the **build**: a reading the declaration does not take refuses
-  there. Applying a value answers what the slot holding it wrote under
+  there. Calling a value answers what the slot holding it wrote under
   `returns`, and that answer is held the same way; a slot that wrote none
   opens to `any`. A reading the text opens to `any` stands at the build and
   is settled at the run's boundary instead. A body cannot leak a value its
@@ -102,9 +102,9 @@ way it works out constness:
   isolated when it writes no name it did not declare (a module variable, or a
   variable a closure captured), hands none of those in place, calls a value
   only through a name a slot declared `isolated procedure`, and calls
-  only isolated declarations. The slot's word is what says an applied value
-  writes only its own names, the same way `const procedure` is what says an
-  applied value answers without running, and a closure carries the word for a
+  only isolated declarations. The slot's word is what says a called value
+  writes only its own names, the same way `const procedure` is what says a
+  called value answers without running, and a closure carries the word for a
   name it captured. The build starts every body
   isolated and strikes them until nothing more is struck, and judges every
   closure literal by the same rule. A closure value carries the constness and
@@ -161,10 +161,10 @@ program that arrives is a program nobody can debug a race in.
 
 What `conformance/` asks about this page, by the name each case's file carries.
 
+- `a-called-value-answers-what-its-slot-wrote`
 - `a-calls-arguments-are-evaluated-in-position-order`
 - `a-field-the-declared-answer-does-not-name-refuses`
 - `a-run-given-nothing-for-a-nullable-parameter-refuses`
 - `a-slot-that-wrote-no-returns-opens-its-answer-to-any`
 - `an-answer-of-all-settles-into-the-record-declared`
-- `an-applied-value-answers-what-its-slot-wrote`
 - `concurrency-is-granted-vocabulary`
