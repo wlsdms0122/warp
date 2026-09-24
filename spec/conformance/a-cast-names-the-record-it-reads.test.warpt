@@ -13,9 +13,13 @@ warpt 1
       entry {
         access "public"
         result {
-          as "bank.Account"
-          of {
-            balance 1
+          as {
+            of {
+              record {
+                balance 1
+              }
+            }
+            type "bank.Account"
           }
         }
         returns "any"
@@ -23,7 +27,9 @@ warpt 1
     }
     types {
       "bank.Account" {
-        balance "int"
+        record {
+          balance "int"
+        }
       }
     }
     warp 1

@@ -104,13 +104,10 @@ slot, a `{ format:, with: }` template. That stand in for types the language
 already has. They are the front end's own: it spends them before the document
 leaves, and what leaves writes the types themselves.
 
-A reader of documents **refuses** the spelled keys rather than reading them as
-data. The reserved set is exactly `format` and `with`. An operator key like
-`is:` lives inside a condition slot a front end owns and can never reach a
-document, so it needs no reservation. The two stay reserved whether or not any
-notation offers them. A document that writes one was written *for* a spelled
-notation, and reading it as a record that happens to have those fields would
-be running a program nobody wrote.
+A reader of documents **refuses** a spelling where it meets one, the way it
+refuses any mapping that is no form of the document's: a record is written under
+`record`, so a mapping of `format` and `with` is never read as a record that
+happens to have those fields.
 
 ## Cases
 
@@ -141,5 +138,4 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-untruthful-manifest-refuses`
 - `constants-settle-in-the-order-they-read-each-other`
 - `constants-that-name-each-other-refuse`
-- `the-escape-quotes-a-form`
 - `what-a-document-says-for-a-reader-is-carried`

@@ -27,7 +27,7 @@ A type is written as a string, or as a record for what a string cannot say:
 | `Describable & std.Comparable` | a value of whatever type satisfies every contract and belongs to every membership named; the names in either order, and each a contract's or a membership's |
 | `int(0...255)`, `double(0.0..<1.0)` | a number the slot admits only inside the range. The kind written out, either bound optional but not both, and `..<` leaving the far bound outside |
 | `int?` (any string spelling and `?`) | the declared type or null. The one union written inline, and it is null-only. Any other is declared as a membership and named |
-| `{ title: string, done: bool }` | a record type, written as the record it describes; structural, and it names nothing |
+| `{ record: { title: string, done: bool } }` | a record type, its fields under `record`; structural, and it names nothing. A field may be called anything |
 | `{ procedure: { parameters: [<type>, …], returns: … } }` | a procedure type: the types it is called with, in position order, and what it answers. No names, since a name is a declaration's and a value is called by position; a mark such as `inout` is written on the type it stands in front of |
 | `{ "const procedure": { … } }` | a procedure type with its marks and modifiers on the key, `inout` or `consuming` or `borrowing` first, then `const` and `isolated`, the way they stand in front of the string form |
 | `{ array: <type> }` / `{ dictionary: <type> }` | a list / map of a type that has no string spelling, a procedure type or a record type. Where the element has a spelling the type is written `array<T>`, and the record form around it **refuses at the load** |
@@ -451,6 +451,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-record-form-array-of-a-named-element-refuses`
 - `a-record-settles-to-the-fields-declared`
 - `a-record-takes-the-name-of-the-slot-it-settles-into`
+- `a-record-type-may-name-a-field-for-a-form`
 - `a-record-under-another-name-refuses`
 - `a-record-under-another-name-refuses-through-any`
 - `a-slot-naming-a-type-handed-on-once-says-what-it-does`

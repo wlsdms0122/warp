@@ -32,7 +32,9 @@ warpt 1
       }
       types {
         "t.Card" {
-          rank "int"
+          record {
+            rank "int"
+          }
         }
       }
       warp 1
@@ -71,9 +73,13 @@ warpt 1
           {
             let "card"
             value {
-              as "t.Card"
-              of {
-                rank 3
+              as {
+                of {
+                  record {
+                    rank 3
+                  }
+                }
+                type "t.Card"
               }
             }
           }

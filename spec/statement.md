@@ -194,7 +194,7 @@ make a body one that can fail, under [running](running.md). This
 is the one exception to a block's optional `result`, and the failure is the
 reason. The statement's own name binds the failure **while the rescue runs**,
 an attempt written nameless binds none, and what a name binds is a **record
-declared `{ type: string, message: string, details: dictionary<any> }`**. `type` names what happened (`aborted`,
+declared `{ record: { type: string, message: string, details: dictionary<any> } }`**. `type` names what happened (`aborted`,
 `concurrent_failed`), `message` is text for a person, and `details` is what the
 failing procedure carried. Every failure holds all three by construction: a
 runtime assembles the payload from what a failure declares, so no procedure can

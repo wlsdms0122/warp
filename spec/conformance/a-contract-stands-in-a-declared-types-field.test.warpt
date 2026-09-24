@@ -38,16 +38,24 @@ warpt 1
           {
             let "wallet"
             value {
-              as "bank.Wallet"
-              of {
-                cards [
-                  {
-                    as "bank.Card"
-                    of {
-                      limit 5
-                    }
+              as {
+                of {
+                  record {
+                    cards [
+                      {
+                        as {
+                          of {
+                            record {
+                              limit 5
+                            }
+                          }
+                          type "bank.Card"
+                        }
+                      }
+                    ]
                   }
-                ]
+                }
+                type "bank.Wallet"
               }
             }
           }
@@ -72,10 +80,14 @@ warpt 1
     }
     types {
       "bank.Card" {
-        limit "int"
+        record {
+          limit "int"
+        }
       }
       "bank.Wallet" {
-        cards "array<app.Describable>"
+        record {
+          cards "array<app.Describable>"
+        }
       }
     }
     warp 1

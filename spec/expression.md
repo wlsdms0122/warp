@@ -6,18 +6,20 @@ line between this page and [statements](statement.md) is the line an operand
 stands on: a construct runs a body and is refused here.
 
 A scalar is itself. A literal. A string is always literal text; nothing inside
-it is ever re-parsed. An array is an array of expressions. A record is a record
-of expressions. **unless** it carries one of the form keys:
+it is ever re-parsed. An array is an array of expressions. A mapping is an
+expression by its **one key**, and that key is one of these:
 
 | form | means |
 |---|---|
-| `{ ref: a.b[0] }` | a name, resolved in the consuming scope; the record must have no other key |
-| `{ value: <data> }` | the escape: exactly this data, as a literal, even if it looks like a form. Data that could not read as one, nothing with a record that carries a reserved key, a named record included, **refuses at the load**: it is written as itself. `{ value: null }` stands: a bare `null` in a slot that may be left out reads as the slot left out, and this is null written |
+| `{ ref: a.b[0] }` | a name, resolved in the consuming scope |
+| `{ record: { … } }` | a record, its fields each an expression. A field may be called anything, `ref` and `value` included |
 | `{ call: <call> }` | a call where a value is wanted; same grammar as the `call` construct |
 | `{ closure: <procedure> }` | a procedure written where a value is wanted; same grammar as a procedure |
-| `{ as: <type>, of: <value> }` | read the value as that type. The door onto what `any` declares nothing about |
-| `{ as?: <type>, of: <value> }` | the same, reading a mismatch as null rather than refusing; the answer is `T?` |
-| `{ format:, with: }` | reserved: a front-end spelling, under [the document format](document.md); **refuses** in a document |
+| `{ as: { of: <value>, type: <type> } }` | read the value as that type. The door onto what `any` declares nothing about |
+| `{ as?: { of: <value>, type: <type> } }` | the same, reading a mismatch as null rather than refusing; the answer is `T?` |
+
+A mapping with another key, or with more than one, **refuses at the load**. A
+key names a form and never a field, so no field name is reserved.
 
 A **cast** names the type a value is read as. The type is written the way any
 type is. A name, or the mapping a record or a signature is written as. From
@@ -51,10 +53,8 @@ is written. The rule every type spelling is held to. `as?` reads a value that
 is not the named type as null; it does not read a name that names nothing as
 null, because that is the declaration being wrong rather than the value.
 
-The form keys are fixed. A record that carries one as plain data must be
-quoted with `{ value: … }`. Quotation is a fact about the document, not about
-the expression it writes. A construct key under a statement's `value` is read
-as its construct; under any other `value` it is a field.
+A construct's key, `conditional` or `loop`, is read under a statement's
+`value` and nowhere else, under [statements](statement.md).
 
 **A dot reads a name and nothing else.** Every `ref` path is judged where names
 resolve, and the judgment is written into the image; the value that arrives at
@@ -77,7 +77,7 @@ spells the declaration it means. Segment by segment:
 - On **`any`**, a dot, or an index. **refuses at the build**. Nothing is
   declared here, so there is nothing for the reading to be judged against, and a
   dot no declaration proves is the one thing a run would have to decide for
-  itself. The type is read by naming it: `{ as: <type>, of: <value> }` says
+  itself. The type is read by naming it: `{ as: { of: <value>, type: <type> } }` says
   what the author expects, and every dot after it is judged against that.
 - On a **type parameter** (`some T`), whose type is the call's fact, a dot
 **reads data**: the type is declared, at the call rather than here, so the
@@ -161,10 +161,12 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-dictionary-is-read-by-a-key-the-run-settles`
 - `a-dot-on-a-type-with-no-fields-is-refused`
 - `a-dot-on-any-is-refused`
+- `a-mapping-with-no-tag-refuses`
 - `a-mark-does-not-split-the-field-it-reached`
 - `a-marked-head-is-refused`
 - `a-name-declared-inside-a-nested-closure-does-not-cover-a-captured-one`
 - `a-path-reads-through-what-a-name-holds`
+- `a-record-field-may-carry-a-tags-name`
 - `an-absent-entry-refuses-at-run`
 - `an-array-literal-joins-its-elements`
 - `an-index-into-any-is-refused`
@@ -176,7 +178,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `reading-what-may-be-null-takes-the-optional-dot`
 - `the-asking-cast-reads-a-mismatch-as-null`
 - `the-asking-cast-reads-another-name-as-null`
-- `the-escape-around-data-that-is-no-form-refuses`
 - `the-optional-bracket-answers-null-for-the-null`
 - `the-optional-bracket-on-an-array-that-is-there-is-refused`
 - `the-optional-bracket-reads-through-a-nullable`
