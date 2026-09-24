@@ -240,6 +240,7 @@ running, by the rule that such a body writes no name.
 
 What `conformance/` asks about this page, by the name each case's file carries.
 
+- `a-bare-type-parameter-is-never-left-out`
 - `a-call-of-another-count-refuses`
 - `a-closure-that-writes-what-it-captured-is-not-const`
 - `a-const-slot-refuses-a-closure-that-calls-what-runs`

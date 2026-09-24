@@ -1,0 +1,52 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-bare-type-parameter-is-never-left-out"
+  note "Only a parameter whose type declares null may be left out, and a bare type parameter declares nothing: it stands for what arrives. So `app.pick` cannot be called with its second position left off, even where the first argument has `T` read as `int?`, which is a reading of one call and not what the declaration says."
+  program {
+    imports []
+    procedures {
+      "app.pick" {
+        parameters [
+          {
+            name "a"
+            type "some T"
+          }
+          {
+            name "b"
+            type "some T"
+          }
+        ]
+        result {
+          ref "a"
+        }
+        returns "some T"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "x"
+            type "int?"
+            value 1
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "x"
+              }
+            ]
+            procedure "app.pick"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
