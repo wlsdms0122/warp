@@ -97,6 +97,15 @@ writes the list, including the ones whose programs will not read at all. A case
 with two things wrong with it is a case any reader passes for the wrong
 reason.
 
+## A document says each thing one way
+
+A program has one document. Reading **refuses at the load** a document that
+says what it says another way: a key written with what its absence means
+(`access "internal"`, `result null`), marks in another order, a list the
+document keeps in name order written out of it. The one way is what writing the
+program back out gives, so a document that has been read and written is the
+document that was read, and one program never stands under two identities.
+
 ## Spellings are not part of the document
 
 A front end may offer shorthands. Operator keys like `is:` in a condition
@@ -131,11 +140,15 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-name-declared-as-both-a-constant-and-a-variable-refuses`
 - `a-procedure-only-an-untaken-arm-sends-is-still-needed`
 - `a-reserved-spelling-refuses-in-a-document`
+- `a-result-written-as-null-refuses`
 - `a-send-is-a-declared-spelling-or-an-import`
 - `a-version-that-never-existed-refuses`
+- `an-access-written-as-what-its-absence-means-refuses`
 - `an-overstated-manifest-refuses`
 - `an-unknown-key-refuses`
 - `an-untruthful-manifest-refuses`
 - `constants-settle-in-the-order-they-read-each-other`
 - `constants-that-name-each-other-refuse`
+- `imports-written-out-of-order-refuse`
+- `modifiers-written-in-another-order-refuse`
 - `what-a-document-says-for-a-reader-is-carried`

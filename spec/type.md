@@ -16,7 +16,7 @@ A type is written as a string, or as a record for what a string cannot say:
 | `array<T>` / `dictionary<T>` | a list / map of `T`; `array<any>` is a list of anything, and the bare word **refuses at the load** |
 | `procedure` | some procedure, signature unsaid |
 | `const <procedure type>` | a procedure that answers without running, under *what answers without running* |
-| `isolated <procedure type>` | a procedure that touches no name another body could touch at once; `const isolated procedure` says both, and the reader takes the two in either order |
+| `isolated <procedure type>` | a procedure that touches no name another body could touch at once; `const isolated procedure` says both, `const` first |
 | `inout <type>` | a parameter handed a variable in place; written on a parameter's type and nowhere else |
 | `{ linear: <type> }` | a type whose values are handed on exactly once; written on a type in `types` and nowhere else, and every slot naming that type carries it |
 | `consuming <type>` / `borrowing <type>` | what a parameter does with a value handed on once: takes the obligation, or reads and leaves it. Written on a parameter's type and nowhere else |
@@ -24,7 +24,7 @@ A type is written as a string, or as a record for what a string cannot say:
 | `Task` (any declared name) | the type a module declares under that name, or a value of the membership it declares under that name |
 | `some T` | a type parameter: worked out from the call, same reading everywhere it appears; bounded when the signature's `bounds` names it |
 | `Describable` (a declared contract's name) | a value of whatever type satisfies the contract. Nothing ties one slot's to another's |
-| `Describable & std.Comparable` | a value of whatever type satisfies every contract and belongs to every membership named; the names in either order, and each a contract's or a membership's |
+| `Describable & std.Comparable` | a value of whatever type satisfies every contract and belongs to every membership named; the names in name order, and each a contract's or a membership's |
 | `int(0...255)`, `double(0.0..<1.0)` | a number the slot admits only inside the range. The kind written out, either bound optional but not both, and `..<` leaving the far bound outside |
 | `int?` (any string spelling and `?`) | the declared type or null. The one union written inline, and it is null-only. Any other is declared as a membership and named |
 | `{ record: { title: string, done: bool } }` | a record type, its fields under `record`; structural, and it names nothing. A field may be called anything |

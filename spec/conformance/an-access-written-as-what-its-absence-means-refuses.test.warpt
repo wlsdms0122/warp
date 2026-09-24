@@ -1,0 +1,28 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "an-access-written-as-what-its-absence-means-refuses"
+  note "A declaration that writes no `access` is `internal`, so writing `access \"internal\"` is a second spelling of it. A document says each thing one way, and this one is refused where it is read."
+  program {
+    imports []
+    procedures {
+      "app.one" {
+        access "internal"
+        result 1
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            procedure "app.one"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

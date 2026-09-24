@@ -1,0 +1,39 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "imports-written-out-of-order-refuse"
+  note "A document lists what it imports in name order, so a list in another order is a second spelling of the same list. A document says each thing one way, and this one is refused where it is read."
+  program {
+    imports [
+      "std.math.plus"
+      "std.logic.equal"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                call {
+                  arguments [
+                    1
+                    1
+                  ]
+                  procedure "std.math.plus"
+                }
+              }
+              2
+            ]
+            procedure "std.logic.equal"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
