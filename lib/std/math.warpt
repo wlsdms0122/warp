@@ -21,7 +21,7 @@ warpt 1
                         arguments [
                           0
                           {
-                            ref "of"
+                            ref "number"
                           }
                         ]
                         procedure "std.math.minus"
@@ -34,7 +34,7 @@ warpt 1
                 call {
                   arguments [
                     {
-                      ref "of"
+                      ref "number"
                     }
                     0
                   ]
@@ -51,12 +51,12 @@ warpt 1
       description "The number without its sign."
       parameters [
         {
-          name "of"
+          name "number"
           type "some N"
         }
       ]
       result {
-        ref "of"
+        ref "number"
       }
       returns "some N"
     }
@@ -67,11 +67,11 @@ warpt 1
       description "Whether this one is larger, by the one order."
       parameters [
         {
-          name "of"
+          name "lhs"
           type "some T"
         }
         {
-          name "value"
+          name "rhs"
           type "some T"
         }
       ]
@@ -79,10 +79,10 @@ warpt 1
         call {
           arguments [
             {
-              ref "value"
+              ref "rhs"
             }
             {
-              ref "of"
+              ref "lhs"
             }
           ]
           procedure "std.math.lessThan"
@@ -99,7 +99,7 @@ warpt 1
                 {
                   value {
                     return {
-                      ref "value"
+                      ref "rhs"
                     }
                   }
                 }
@@ -108,10 +108,10 @@ warpt 1
                 call {
                   arguments [
                     {
-                      ref "of"
+                      ref "lhs"
                     }
                     {
-                      ref "value"
+                      ref "rhs"
                     }
                   ]
                   procedure "std.math.lessThan"
@@ -127,16 +127,16 @@ warpt 1
       description "The larger of two of a kind, by the one order."
       parameters [
         {
-          name "of"
+          name "lhs"
           type "some T"
         }
         {
-          name "value"
+          name "rhs"
           type "some T"
         }
       ]
       result {
-        ref "of"
+        ref "lhs"
       }
       returns "some T"
     }
@@ -149,7 +149,7 @@ warpt 1
                 {
                   value {
                     return {
-                      ref "of"
+                      ref "lhs"
                     }
                   }
                 }
@@ -158,10 +158,10 @@ warpt 1
                 call {
                   arguments [
                     {
-                      ref "of"
+                      ref "lhs"
                     }
                     {
-                      ref "value"
+                      ref "rhs"
                     }
                   ]
                   procedure "std.math.lessThan"
@@ -177,16 +177,16 @@ warpt 1
       description "The smaller of two of a kind, by the one order."
       parameters [
         {
-          name "of"
+          name "lhs"
           type "some T"
         }
         {
-          name "value"
+          name "rhs"
           type "some T"
         }
       ]
       result {
-        ref "value"
+        ref "rhs"
       }
       returns "some T"
     }

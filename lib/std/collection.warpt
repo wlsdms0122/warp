@@ -16,15 +16,15 @@ warpt 1
     "std.collection.append" {
       body [
         {
-          set "to"
+          set "array"
           value {
             call {
               arguments [
                 {
-                  ref "to"
+                  ref "array"
                 }
                 {
-                  ref "value"
+                  ref "element"
                 }
               ]
               procedure "std.collection.appending"
@@ -35,11 +35,11 @@ warpt 1
       description "Writes one element onto the end of the array a variable holds, in place."
       parameters [
         {
-          name "to"
+          name "array"
           type "inout array<some Element>"
         }
         {
-          name "value"
+          name "element"
           type "some Element"
         }
       ]
@@ -75,10 +75,10 @@ warpt 1
                         call {
                           arguments [
                             {
-                              ref "of[walk.index]"
+                              ref "array[walk.index]"
                             }
                             {
-                              ref "value"
+                              ref "element"
                             }
                           ]
                           procedure "std.logic.equal"
@@ -98,7 +98,7 @@ warpt 1
                       call {
                         arguments [
                           {
-                            ref "of"
+                            ref "array"
                           }
                         ]
                         procedure "std.collection.count"
@@ -115,11 +115,11 @@ warpt 1
       description "Whether an array holds a value."
       parameters [
         {
-          name "of"
+          name "array"
           type "array<some Element>"
         }
         {
-          name "value"
+          name "element"
           type "some Element"
         }
       ]
@@ -177,7 +177,7 @@ warpt 1
                             call {
                               arguments [
                                 {
-                                  ref "of"
+                                  ref "array"
                                 }
                               ]
                               procedure "std.collection.count"
@@ -199,7 +199,7 @@ warpt 1
       description "The elements after the first."
       parameters [
         {
-          name "of"
+          name "array"
           type "array<some Element>"
         }
       ]
@@ -207,7 +207,7 @@ warpt 1
         call {
           arguments [
             {
-              ref "of"
+              ref "array"
             }
             {
               ref "places"
@@ -259,7 +259,7 @@ warpt 1
                             call {
                               arguments [
                                 {
-                                  ref "of"
+                                  ref "array"
                                 }
                               ]
                               procedure "std.collection.count"
@@ -281,7 +281,7 @@ warpt 1
       description "The elements before the last."
       parameters [
         {
-          name "of"
+          name "array"
           type "array<some Element>"
         }
       ]
@@ -289,7 +289,7 @@ warpt 1
         call {
           arguments [
             {
-              ref "of"
+              ref "array"
             }
             {
               ref "places"
@@ -317,11 +317,11 @@ warpt 1
                     call {
                       arguments [
                         {
-                          ref "of[walk.index]"
+                          ref "array[walk.index]"
                         }
                       ]
                       procedure {
-                        ref "value"
+                        ref "isIncluded"
                       }
                     }
                   }
@@ -364,7 +364,7 @@ warpt 1
                       call {
                         arguments [
                           {
-                            ref "of"
+                            ref "array"
                           }
                         ]
                         procedure "std.collection.count"
@@ -381,11 +381,11 @@ warpt 1
       description "The elements a procedure answers true for."
       parameters [
         {
-          name "of"
+          name "array"
           type "array<some Element>"
         }
         {
-          name "value"
+          name "isIncluded"
           type {
             "const procedure" {
               parameters [
@@ -400,7 +400,7 @@ warpt 1
         call {
           arguments [
             {
-              ref "of"
+              ref "array"
             }
             {
               ref "places"
@@ -415,12 +415,12 @@ warpt 1
       description "The first element, or nothing."
       parameters [
         {
-          name "of"
+          name "array"
           type "array<some Element>"
         }
       ]
       result {
-        ref "of[0]"
+        ref "array[0]"
       }
       returns "some Element"
     }
@@ -435,7 +435,7 @@ warpt 1
                   call {
                     arguments [
                       {
-                        ref "of"
+                        ref "array"
                       }
                     ]
                     procedure "std.collection.count"
@@ -451,12 +451,12 @@ warpt 1
       description "The last element, or nothing."
       parameters [
         {
-          name "of"
+          name "array"
           type "array<some Element>"
         }
       ]
       result {
-        ref "of[at]"
+        ref "array[at]"
       }
       returns "some Element"
     }
@@ -477,11 +477,11 @@ warpt 1
                     call {
                       arguments [
                         {
-                          ref "of[walk.index]"
+                          ref "array[walk.index]"
                         }
                       ]
                       procedure {
-                        ref "value"
+                        ref "transform"
                       }
                     }
                   }
@@ -513,7 +513,7 @@ warpt 1
                       call {
                         arguments [
                           {
-                            ref "of"
+                            ref "array"
                           }
                         ]
                         procedure "std.collection.count"
@@ -530,11 +530,11 @@ warpt 1
       description "Each element answered by a procedure, in order."
       parameters [
         {
-          name "of"
+          name "array"
           type "array<some Element>"
         }
         {
-          name "value"
+          name "transform"
           type {
             "const procedure" {
               parameters [
@@ -558,7 +558,7 @@ warpt 1
             call {
               arguments [
                 {
-                  ref "of"
+                  ref "array"
                 }
               ]
               procedure "std.collection.reversed"
@@ -574,7 +574,7 @@ warpt 1
                   ref "back"
                 }
                 {
-                  ref "value"
+                  ref "element"
                 }
               ]
               procedure "std.collection.appending"
@@ -585,11 +585,11 @@ warpt 1
       description "The elements with one more at the front."
       parameters [
         {
-          name "of"
+          name "array"
           type "array<some Element>"
         }
         {
-          name "value"
+          name "element"
           type "some Element"
         }
       ]
@@ -609,7 +609,7 @@ warpt 1
       body [
         {
           value {
-            ref "from"
+            ref "initialResult"
           }
           var "carried"
         }
@@ -627,11 +627,11 @@ warpt 1
                           ref "carried"
                         }
                         {
-                          ref "of[walk.index]"
+                          ref "array[walk.index]"
                         }
                       ]
                       procedure {
-                        ref "value"
+                        ref "nextPartialResult"
                       }
                     }
                   }
@@ -653,7 +653,7 @@ warpt 1
                       call {
                         arguments [
                           {
-                            ref "of"
+                            ref "array"
                           }
                         ]
                         procedure "std.collection.count"
@@ -670,15 +670,15 @@ warpt 1
       description "The elements folded into one, starting from a value."
       parameters [
         {
-          name "of"
+          name "array"
           type "array<some Element>"
         }
         {
-          name "from"
+          name "initialResult"
           type "some Carried"
         }
         {
-          name "value"
+          name "nextPartialResult"
           type {
             "const procedure" {
               parameters [
@@ -721,7 +721,7 @@ warpt 1
                                 call {
                                   arguments [
                                     {
-                                      ref "of"
+                                      ref "array"
                                     }
                                   ]
                                   procedure "std.collection.count"
@@ -758,7 +758,7 @@ warpt 1
                       call {
                         arguments [
                           {
-                            ref "of"
+                            ref "array"
                           }
                         ]
                         procedure "std.collection.count"
@@ -775,7 +775,7 @@ warpt 1
       description "The elements back to front."
       parameters [
         {
-          name "of"
+          name "array"
           type "array<some Element>"
         }
       ]
@@ -783,7 +783,7 @@ warpt 1
         call {
           arguments [
             {
-              ref "of"
+              ref "array"
             }
             {
               ref "places"
@@ -802,7 +802,7 @@ warpt 1
             call {
               arguments [
                 {
-                  ref "of"
+                  ref "array"
                 }
               ]
               procedure "std.collection.count"
@@ -858,10 +858,10 @@ warpt 1
                                 call {
                                   arguments [
                                     {
-                                      ref "of[inner.index]"
+                                      ref "array[inner.index]"
                                     }
                                     {
-                                      ref "of[outer.index]"
+                                      ref "array[outer.index]"
                                     }
                                   ]
                                   procedure "std.math.lessThan"
@@ -883,10 +883,10 @@ warpt 1
                                 call {
                                   arguments [
                                     {
-                                      ref "of[outer.index]"
+                                      ref "array[outer.index]"
                                     }
                                     {
-                                      ref "of[inner.index]"
+                                      ref "array[inner.index]"
                                     }
                                   ]
                                   procedure "std.math.lessThan"
@@ -1127,7 +1127,7 @@ warpt 1
       description "The elements in order, for numbers or for strings."
       parameters [
         {
-          name "of"
+          name "array"
           type "array<some Element>"
         }
       ]
@@ -1135,7 +1135,7 @@ warpt 1
         call {
           arguments [
             {
-              ref "of"
+              ref "array"
             }
             {
               ref "places"
@@ -1154,7 +1154,7 @@ warpt 1
             call {
               arguments [
                 {
-                  ref "of"
+                  ref "dictionary"
                 }
               ]
               procedure "std.collection.keys"
@@ -1185,7 +1185,7 @@ warpt 1
                           ref "held"
                         }
                         {
-                          ref "of[name]"
+                          ref "dictionary[name]"
                         }
                       ]
                       procedure "std.collection.appending"
@@ -1220,7 +1220,7 @@ warpt 1
       description "What a record holds, by its names in order."
       parameters [
         {
-          name "of"
+          name "dictionary"
           type "dictionary<some Entry>"
         }
       ]

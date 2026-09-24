@@ -17,7 +17,7 @@ warpt 1
                 {
                   let "side"
                   value {
-                    ref "of[walk.index]"
+                    ref "conditions[walk.index]"
                   }
                 }
                 {
@@ -65,7 +65,7 @@ warpt 1
                       call {
                         arguments [
                           {
-                            ref "of"
+                            ref "conditions"
                           }
                         ]
                         procedure "std.collection.count"
@@ -82,7 +82,7 @@ warpt 1
       description "Whether every one answers true, asked until one does not."
       parameters [
         {
-          name "of"
+          name "conditions"
           type {
             array {
               "const procedure" {
@@ -99,7 +99,7 @@ warpt 1
       description "The opposite of a truth."
       parameters [
         {
-          name "of"
+          name "value"
           type "bool"
         }
       ]
@@ -107,7 +107,7 @@ warpt 1
         call {
           arguments [
             {
-              ref "of"
+              ref "value"
             }
             false
           ]
@@ -120,11 +120,11 @@ warpt 1
       description "Whether two values differ."
       parameters [
         {
-          name "of"
+          name "lhs"
           type "any"
         }
         {
-          name "value"
+          name "rhs"
           type "any"
         }
       ]
@@ -135,10 +135,10 @@ warpt 1
               call {
                 arguments [
                   {
-                    ref "of"
+                    ref "lhs"
                   }
                   {
-                    ref "value"
+                    ref "rhs"
                   }
                 ]
                 procedure "std.logic.equal"
@@ -161,7 +161,7 @@ warpt 1
                 {
                   let "side"
                   value {
-                    ref "of[walk.index]"
+                    ref "conditions[walk.index]"
                   }
                 }
                 {
@@ -201,7 +201,7 @@ warpt 1
                       call {
                         arguments [
                           {
-                            ref "of"
+                            ref "conditions"
                           }
                         ]
                         procedure "std.collection.count"
@@ -218,7 +218,7 @@ warpt 1
       description "Whether one answers true, asked until one does."
       parameters [
         {
-          name "of"
+          name "conditions"
           type {
             array {
               "const procedure" {
@@ -256,7 +256,7 @@ warpt 1
                 }
               ]
               when {
-                ref "of"
+                ref "condition"
               }
             }
           }
@@ -275,7 +275,7 @@ warpt 1
       description "The value one of two sides answers, chosen by a truth."
       parameters [
         {
-          name "of"
+          name "condition"
           type "bool"
         }
         {

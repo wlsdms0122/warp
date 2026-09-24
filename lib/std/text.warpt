@@ -22,7 +22,7 @@ warpt 1
             call {
               arguments [
                 {
-                  ref "of"
+                  ref "text"
                 }
               ]
               procedure "std.text.characters"
@@ -35,7 +35,7 @@ warpt 1
             call {
               arguments [
                 {
-                  ref "value"
+                  ref "other"
                 }
               ]
               procedure "std.text.characters"
@@ -202,11 +202,11 @@ warpt 1
       description "Whether a string holds another inside it."
       parameters [
         {
-          name "of"
+          name "text"
           type "string"
         }
         {
-          name "value"
+          name "other"
           type "string"
         }
       ]
@@ -234,7 +234,7 @@ warpt 1
                 call {
                   arguments [
                     {
-                      ref "value"
+                      ref "target"
                     }
                     ""
                   ]
@@ -248,15 +248,15 @@ warpt 1
       description "Every occurrence of a piece swapped for another."
       parameters [
         {
-          name "of"
+          name "text"
           type "string"
         }
         {
-          name "value"
+          name "target"
           type "string"
         }
         {
-          name "with"
+          name "replacement"
           type "string"
         }
       ]
@@ -267,17 +267,17 @@ warpt 1
               call {
                 arguments [
                   {
-                    ref "of"
+                    ref "text"
                   }
                   {
-                    ref "value"
+                    ref "target"
                   }
                 ]
                 procedure "std.text.split"
               }
             }
             {
-              ref "with"
+              ref "replacement"
             }
           ]
           procedure "std.text.joined"
@@ -293,7 +293,7 @@ warpt 1
             call {
               arguments [
                 {
-                  ref "of"
+                  ref "text"
                 }
               ]
               procedure "std.text.characters"
@@ -319,7 +319,7 @@ warpt 1
             call {
               arguments [
                 {
-                  ref "value"
+                  ref "separator"
                 }
               ]
               procedure "std.text.characters"
@@ -612,11 +612,11 @@ warpt 1
       description "The text cut on a separator."
       parameters [
         {
-          name "of"
+          name "text"
           type "string"
         }
         {
-          name "value"
+          name "separator"
           type "string"
         }
       ]
@@ -651,7 +651,7 @@ warpt 1
             call {
               arguments [
                 {
-                  ref "of"
+                  ref "text"
                 }
               ]
               procedure "std.text.characters"
@@ -664,7 +664,7 @@ warpt 1
             call {
               arguments [
                 {
-                  ref "value"
+                  ref "prefix"
                 }
               ]
               procedure "std.text.characters"
@@ -777,11 +777,11 @@ warpt 1
       description "Whether a string begins with another."
       parameters [
         {
-          name "of"
+          name "text"
           type "string"
         }
         {
-          name "value"
+          name "prefix"
           type "string"
         }
       ]
