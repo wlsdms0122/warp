@@ -90,7 +90,7 @@ the run it was handed:
   written by `set` or handed in place to a call. What such a name holds is the
   run's rather than the text's, and a name the body introduces or a parameter
   it holds outright is its own;
-- it calls a value (`apply`) only through a name a slot declared
+- it calls a value only through a name a slot declared
   `const procedure`. That is the one place something before the run says what
   the value answers; on any other name nothing does. The claim is the slot's
   and so it stands wherever the name is read, a closure that **captured** the
@@ -211,7 +211,7 @@ that already have one, and `1` on a `double` slot is the int's spelling, which
 no fraction ever wears. Each of these is a dead candidate, because no settled
 value wears their spelling.
 
-**One calling convention.** Lowering puts every parameter in a slot, in the declaration's order, and every call hands its arguments **by position**: a `call` to a declaration, applying a value (`apply`, and a procedure handing values to a closure it was given), and a procedure the host answers sending one it declared. A call hands exactly as many arguments as the callee takes. Any other count **refuses**, at the build where the callee is known and at the run otherwise, and so does an argument the parameter at its position refuses. Writing an argument is giving it: an argument holding null was given, and a slot whose type admits one takes it, `any`, a `T?`, a type parameter, which stands for what arrived and settles nothing.
+**One calling convention.** Lowering puts every parameter in a slot, in the declaration's order, and every call hands its arguments **by position**: a `call` to a declaration, a `call` of a value, a procedure handing values to a closure it was given, and a procedure the host answers sending one it declared. A call hands exactly as many arguments as the callee takes. Any other count **refuses**, at the build where the callee is known and at the run otherwise, and so does an argument the parameter at its position refuses. Writing an argument is giving it: an argument holding null was given, and a slot whose type admits one takes it, `any`, a `T?`, a type parameter, which stands for what arrived and settles nothing.
 
 **A parameter handed in place.** A parameter typed `inout T` takes no value:
 it takes a variable. The argument is `{ ref: <path> }`, and all of this is

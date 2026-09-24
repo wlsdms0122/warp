@@ -147,9 +147,9 @@ A *part* is `[tag]`: 0 `procedures`, 1 `constants`, 2 `variables`, 3
 conditional's or `[1]` for a loop's, 17 `then`, 18 `otherwise`, 19 `rescue`.
 
 A *construct* is `[tag]`: 0 literal, 1 reference, 2 array, 3 record, 4
-closure, 5 cast, 6 apply, 7 block, 8 conditional, 9 loop, 10 attempt, 11
-call, 12 leave, carrying its *reach*: `0` the procedure, `1` the construct,
-`2` the round.
+closure, 5 cast, 6 block, 7 conditional, 8 loop, 9 attempt, 10 call, 11
+leave, carrying its *reach*: `0` the procedure, `1` the construct, `2` the
+round.
 
 ### Rows
 

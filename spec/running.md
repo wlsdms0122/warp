@@ -101,7 +101,7 @@ way it works out constness:
 - **Isolation is derived for a body and declared by a procedure.** A body is
   isolated when it writes no name it did not declare (a module variable, or a
   variable a closure captured), hands none of those in place, calls a value
-  (`apply`) only through a name a slot declared `isolated procedure`, and calls
+  only through a name a slot declared `isolated procedure`, and calls
   only isolated declarations. The slot's word is what says an applied value
   writes only its own names, the same way `const procedure` is what says an
   applied value answers without running, and a closure carries the word for a

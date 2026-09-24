@@ -283,8 +283,8 @@ What **refuses at the build**:
   afterwards stands on the arms that finish. An arm that `break`s is one of
   them, and is held to the same rule: the run comes back out of the loop still
   holding what the arm held;
-- handing one on inside a loop round, inside an `attempt`, in a call of a value
-  (`apply`), or capturing one in a closure. Each of those runs no fixed number
+- handing one on inside a loop round, inside an `attempt`, in a call of a value,
+  or capturing one in a closure. Each of those runs no fixed number
   of times, or fails somewhere the text does not show, so "exactly once" is not
   something the text says. Leaving is not one of these unless it leaves the
   procedure: a `break` leaves the construct and a `continue` ends the round, and
