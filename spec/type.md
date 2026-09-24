@@ -276,7 +276,10 @@ it.
 What **refuses at the build**:
 
 - reaching the end of a body still holding one;
-- handing one on a second time;
+- handing one on a second time. Within one call that counts in the order the
+  run evaluates the receiver and the arguments (see [running](running.md)), so
+  a slot that borrows reads what a consuming slot standing before it already
+  took;
 - handing one on in one arm of a conditional and not the other, since what a
   body holds afterwards would depend on which arm ran. An arm that **returns**
   is not one of those arms: no run comes back from it, so what the body holds
@@ -446,6 +449,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-fraction-is-not-a-whole-number`
 - `a-fraction-range-widens-a-whole-number-into-itself`
 - `a-handle-already-given-away-is-not-read-again`
+- `a-handle-borrowed-after-a-consuming-parameter-in-one-call-refuses`
 - `a-mark-where-nothing-is-handed-on-once-refuses`
 - `a-membership-mixing-a-type-handed-on-once-refuses`
 - `a-membership-stands-as-a-type`

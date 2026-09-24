@@ -1,0 +1,99 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-handle-borrowed-after-a-consuming-parameter-in-one-call-refuses"
+  note "One call hands a name on in the order the run evaluates its arguments, the callee's parameter order. `app.swap` declares `value`, which consumes, before `of`, which borrows, so the handle is gone by the time `of` reads it, whichever order the call writes them in and whichever order their names sort in."
+  program {
+    imports [
+      "app.Handle"
+      "app.close"
+      "app.open"
+    ]
+    procedures {
+      "app.swap" {
+        body [
+          {
+            value {
+              call {
+                of {
+                  ref "value"
+                }
+                procedure "app.close"
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "value"
+            type "consuming app.Handle"
+          }
+          {
+            name "of"
+            type "borrowing app.Handle"
+          }
+        ]
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "handle"
+            value {
+              call {
+                procedure "app.open"
+              }
+            }
+          }
+          {
+            value {
+              call {
+                arguments {
+                  of {
+                    ref "handle"
+                  }
+                  value {
+                    ref "handle"
+                  }
+                }
+                procedure "app.swap"
+              }
+            }
+          }
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+  vocabulary {
+    procedures {
+      "app.close" {
+        parameters [
+          {
+            name "of"
+            type "consuming app.Handle"
+          }
+        ]
+        receiver "of"
+        runs true
+      }
+      "app.open" {
+        answers app.Handle {
+          name "f"
+        }
+        returns "app.Handle"
+      }
+    }
+    types {
+      "app.Handle" {
+        linear {
+          name "string"
+        }
+      }
+    }
+  }
+}
+
