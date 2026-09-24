@@ -1,5 +1,9 @@
 warpt 1
 {
+  arguments {
+    at 1
+    key "1"
+  }
   expect {
     answers {
       found 1
@@ -27,16 +31,16 @@ warpt 1
     procedures {
       entry {
         access "public"
-        parameters {
-          at {
-            default 1
+        parameters [
+          {
+            name "at"
             type "int"
           }
-          key {
-            default "1"
+          {
+            name "key"
             type "string"
           }
-        }
+        ]
         result {
           found {
             ref "digits[key]"

@@ -45,8 +45,8 @@ the rule's: a call that misfits a declaration in its own document refuses at
 - every candidate a parameter's `enum` lists is written in a value's one
   spelling, the one the declared type's own values wear. A dead candidate
   no call could ever match refuses, the empty and the all-dead list being
-  the plainest cases. A range's bounds admit something, and a `default` is
-  a value the parameter itself admits. `type`, range and `enum` together;
+  the plainest cases. A range's bounds admit something. `type`, range and
+  `enum` together;
 - a slot declared `const` takes only a procedure that answers without running,
   under *what answers without running* in [procedures](procedure.md); a slot
   declared `isolated` takes

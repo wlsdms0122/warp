@@ -14,11 +14,12 @@ warpt 1
           {
             value {
               closure {
-                parameters {
-                  x {
+                parameters [
+                  {
+                    name "x"
                     type "int"
                   }
-                }
+                ]
                 result {
                   ref "x"
                 }
@@ -44,20 +45,19 @@ warpt 1
       }
       swap {
         body []
-        parameters {
-          step {
+        parameters [
+          {
+            name "step"
             type {
               "inout procedure" {
-                parameters {
-                  x {
-                    type "int"
-                  }
-                }
+                parameters [
+                  "int"
+                ]
                 returns "int"
               }
             }
           }
-        }
+        ]
       }
     }
     warp 1

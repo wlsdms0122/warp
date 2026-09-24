@@ -2,6 +2,7 @@ warpt 1
 {
   arguments {
     text "hey"
+    times 2
   }
   expect {
     answers 2
@@ -13,15 +14,16 @@ warpt 1
     procedures {
       entry {
         access "public"
-        parameters {
-          text {
+        parameters [
+          {
+            name "text"
             type "string"
           }
-          times {
-            default 2
+          {
+            name "times"
             type "int"
           }
-        }
+        ]
         result {
           ref "times"
         }

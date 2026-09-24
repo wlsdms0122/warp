@@ -1,0 +1,59 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "an-application-of-another-count-refuses"
+  note "Every position is given when a value is applied, so an application with fewer arguments than the value's type takes is one no run could settle, and the build refuses it where the value's type is known."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "pair"
+            value {
+              closure {
+                parameters [
+                  {
+                    name "first"
+                    type "int"
+                  }
+                  {
+                    name "second"
+                    type "string"
+                  }
+                ]
+                result {
+                  ref "first"
+                }
+                returns "int"
+              }
+            }
+          }
+          {
+            let "made"
+            value {
+              apply {
+                arguments [
+                  1
+                ]
+                procedure {
+                  ref "pair"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "made"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

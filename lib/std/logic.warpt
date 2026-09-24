@@ -78,8 +78,9 @@ warpt 1
         }
       ]
       description "Whether every one answers true, asked until one does not."
-      parameters {
-        of {
+      parameters [
+        {
+          name "of"
           type {
             array {
               "const procedure" {
@@ -88,18 +89,19 @@ warpt 1
             }
           }
         }
-      }
+      ]
       receiver "of"
       result true
       returns "bool"
     }
     "std.logic.not" {
       description "The opposite of a truth."
-      parameters {
-        of {
+      parameters [
+        {
+          name "of"
           type "bool"
         }
-      }
+      ]
       receiver "of"
       result {
         call {
@@ -116,16 +118,16 @@ warpt 1
     }
     "std.logic.notEqual" {
       description "Whether two values differ."
-      parameters {
-        of {
-          default null
+      parameters [
+        {
+          name "of"
           type "any"
         }
-        value {
-          default null
+        {
+          name "value"
           type "any"
         }
-      }
+      ]
       receiver "of"
       result {
         call {
@@ -213,8 +215,9 @@ warpt 1
         }
       ]
       description "Whether one answers true, asked until one does."
-      parameters {
-        of {
+      parameters [
+        {
+          name "of"
           type {
             array {
               "const procedure" {
@@ -223,7 +226,7 @@ warpt 1
             }
           }
         }
-      }
+      ]
       receiver "of"
       result false
       returns "bool"
@@ -270,25 +273,28 @@ warpt 1
         }
       ]
       description "The value one of two sides answers, chosen by a truth."
-      parameters {
-        else {
-          type {
-            "const procedure" {
-              returns "some Answer"
-            }
-          }
-        }
-        of {
+      parameters [
+        {
+          name "of"
           type "bool"
         }
-        then {
+        {
+          name "then"
           type {
             "const procedure" {
               returns "some Answer"
             }
           }
         }
-      }
+        {
+          name "else"
+          type {
+            "const procedure" {
+              returns "some Answer"
+            }
+          }
+        }
+      ]
       receiver "of"
       result {
         ref "left"

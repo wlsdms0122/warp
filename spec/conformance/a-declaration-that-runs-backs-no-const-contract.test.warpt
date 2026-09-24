@@ -17,11 +17,12 @@ warpt 1
     imports []
     procedures {
       "app.Thing.name" {
-        parameters {
-          of {
+        parameters [
+          {
+            name "of"
             type "app.Thing"
           }
-        }
+        ]
         receiver "of"
         result {
           ref "label"
@@ -32,11 +33,12 @@ warpt 1
         bounds {
           T "app.Named"
         }
-        parameters {
-          it {
+        parameters [
+          {
+            name "it"
             type "some T"
           }
-        }
+        ]
         receiver "it"
         result {
           call {

@@ -19,11 +19,12 @@ warpt 1
         bounds {
           T "app.Describable"
         }
-        parameters {
-          it {
+        parameters [
+          {
+            name "it"
             type "some T"
           }
-        }
+        ]
         receiver "it"
         result {
           call {
@@ -36,21 +37,23 @@ warpt 1
         returns "string"
       }
       "bank.Account.describe" {
-        parameters {
-          of {
+        parameters [
+          {
+            name "of"
             type "bank.Account"
           }
-        }
+        ]
         receiver "of"
         result "an account"
         returns "string"
       }
       "bank.Card.describe" {
-        parameters {
-          of {
+        parameters [
+          {
+            name "of"
             type "bank.Card"
           }
-        }
+        ]
         receiver "of"
         result "a card"
         returns "string"

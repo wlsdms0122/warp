@@ -14,21 +14,20 @@ warpt 1
           {
             type {
               procedure {
-                parameters {
-                  x {
-                    type "int"
-                  }
-                }
+                parameters [
+                  "int"
+                ]
                 returns "int"
               }
             }
             value {
               closure {
-                parameters {
-                  x {
+                parameters [
+                  {
+                    name "x"
                     type "int"
                   }
-                }
+                ]
                 result {
                   ref "x"
                 }
@@ -58,31 +57,31 @@ warpt 1
             set "step"
             value {
               closure {
-                parameters {
-                  x {
+                parameters [
+                  {
+                    name "x"
                     type "int"
                   }
-                }
+                ]
                 result 9
                 returns "int"
               }
             }
           }
         ]
-        parameters {
-          step {
+        parameters [
+          {
+            name "step"
             type {
               "inout procedure" {
-                parameters {
-                  x {
-                    type "int"
-                  }
-                }
+                parameters [
+                  "int"
+                ]
                 returns "int"
               }
             }
           }
-        }
+        ]
       }
     }
     warp 1

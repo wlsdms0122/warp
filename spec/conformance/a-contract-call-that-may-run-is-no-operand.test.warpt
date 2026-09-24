@@ -18,11 +18,12 @@ warpt 1
     ]
     procedures {
       "app.Thing.name" {
-        parameters {
-          of {
+        parameters [
+          {
+            name "of"
             type "app.Thing"
           }
-        }
+        ]
         receiver "of"
         result "thing"
         returns "string"
@@ -31,11 +32,12 @@ warpt 1
         bounds {
           T "app.Named"
         }
-        parameters {
-          it {
+        parameters [
+          {
+            name "it"
             type "some T"
           }
-        }
+        ]
         receiver "it"
         result {
           call {

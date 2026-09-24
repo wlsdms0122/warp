@@ -33,14 +33,16 @@ warpt 1
         }
       ]
       description "Writes one element onto the end of the array a variable holds, in place."
-      parameters {
-        to {
+      parameters [
+        {
+          name "to"
           type "inout array<some Element>"
         }
-        value {
+        {
+          name "value"
           type "some Element"
         }
-      }
+      ]
       receiver "to"
       result null
       returns "null"
@@ -110,14 +112,16 @@ warpt 1
         }
       ]
       description "Whether an array holds a value."
-      parameters {
-        of {
+      parameters [
+        {
+          name "of"
           type "array<some Element>"
         }
-        value {
+        {
+          name "value"
           type "some Element"
         }
-      }
+      ]
       receiver "of"
       result {
         ref "found"
@@ -191,11 +195,12 @@ warpt 1
         }
       ]
       description "The elements after the first."
-      parameters {
-        of {
+      parameters [
+        {
+          name "of"
           type "array<some Element>"
         }
-      }
+      ]
       receiver "of"
       result {
         call {
@@ -271,11 +276,12 @@ warpt 1
         }
       ]
       description "The elements before the last."
-      parameters {
-        of {
+      parameters [
+        {
+          name "of"
           type "array<some Element>"
         }
-      }
+      ]
       receiver "of"
       result {
         call {
@@ -307,11 +313,11 @@ warpt 1
                   let "kept"
                   value {
                     apply {
-                      arguments {
-                        item {
+                      arguments [
+                        {
                           ref "of[walk.index]"
                         }
-                      }
+                      ]
                       procedure {
                         ref "value"
                       }
@@ -369,23 +375,23 @@ warpt 1
         }
       ]
       description "The elements a procedure answers true for."
-      parameters {
-        of {
+      parameters [
+        {
+          name "of"
           type "array<some Element>"
         }
-        value {
+        {
+          name "value"
           type {
             "const procedure" {
-              parameters {
-                item {
-                  type "some Element"
-                }
-              }
+              parameters [
+                "some Element"
+              ]
               returns "bool"
             }
           }
         }
-      }
+      ]
       receiver "of"
       result {
         call {
@@ -404,11 +410,12 @@ warpt 1
     }
     "std.collection.first" {
       description "The first element, or nothing."
-      parameters {
-        of {
+      parameters [
+        {
+          name "of"
           type "array<some Element>"
         }
-      }
+      ]
       receiver "of"
       result {
         ref "of[0]"
@@ -438,11 +445,12 @@ warpt 1
         }
       ]
       description "The last element, or nothing."
-      parameters {
-        of {
+      parameters [
+        {
+          name "of"
           type "array<some Element>"
         }
-      }
+      ]
       receiver "of"
       result {
         ref "of[at]"
@@ -464,11 +472,11 @@ warpt 1
                   let "answered"
                   value {
                     apply {
-                      arguments {
-                        item {
+                      arguments [
+                        {
                           ref "of[walk.index]"
                         }
-                      }
+                      ]
                       procedure {
                         ref "value"
                       }
@@ -515,23 +523,23 @@ warpt 1
         }
       ]
       description "Each element answered by a procedure, in order."
-      parameters {
-        of {
+      parameters [
+        {
+          name "of"
           type "array<some Element>"
         }
-        value {
+        {
+          name "value"
           type {
             "const procedure" {
-              parameters {
-                item {
-                  type "some Element"
-                }
-              }
+              parameters [
+                "some Element"
+              ]
               returns "some Answer"
             }
           }
         }
-      }
+      ]
       receiver "of"
       result {
         ref "answers"
@@ -569,14 +577,16 @@ warpt 1
         }
       ]
       description "The elements with one more at the front."
-      parameters {
-        of {
+      parameters [
+        {
+          name "of"
           type "array<some Element>"
         }
-        value {
+        {
+          name "value"
           type "some Element"
         }
-      }
+      ]
       receiver "of"
       result {
         call {
@@ -605,14 +615,14 @@ warpt 1
                   let "answered"
                   value {
                     apply {
-                      arguments {
-                        carried {
+                      arguments [
+                        {
                           ref "carried"
                         }
-                        item {
+                        {
                           ref "of[walk.index]"
                         }
-                      }
+                      ]
                       procedure {
                         ref "value"
                       }
@@ -649,29 +659,28 @@ warpt 1
         }
       ]
       description "The elements folded into one, starting from a value."
-      parameters {
-        from {
-          type "some Carried"
-        }
-        of {
+      parameters [
+        {
+          name "of"
           type "array<some Element>"
         }
-        value {
+        {
+          name "from"
+          type "some Carried"
+        }
+        {
+          name "value"
           type {
             "const procedure" {
-              parameters {
-                carried {
-                  type "some Carried"
-                }
-                item {
-                  type "some Element"
-                }
-              }
+              parameters [
+                "some Carried"
+                "some Element"
+              ]
               returns "some Carried"
             }
           }
         }
-      }
+      ]
       receiver "of"
       result {
         ref "carried"
@@ -752,11 +761,12 @@ warpt 1
         }
       ]
       description "The elements back to front."
-      parameters {
-        of {
+      parameters [
+        {
+          name "of"
           type "array<some Element>"
         }
-      }
+      ]
       receiver "of"
       result {
         call {
@@ -804,120 +814,120 @@ warpt 1
                   value {
                     loop {
                       body [
-                {
-                  value true
-                  var "tie"
-                }
-                  {
-                    value {
-                      conditional {
-                        then [
-                      {
-                        set "rank"
-                        value {
-                          call {
-                            arguments {
-                              value 1
-                            }
-                            of {
-                              ref "rank"
-                            }
-                            procedure "std.math.plus"
-                          }
+                        {
+                          value true
+                          var "tie"
                         }
-                      }
-                      {
-                        set "tie"
-                        value false
-                      }
-                        ]
-                        when {
-                        call {
-                          arguments {
-                            value {
-                              ref "of[outer.index]"
-                            }
-                          }
-                          of {
-                            ref "of[inner.index]"
-                          }
-                          procedure "std.math.lessThan"
-                        }
-                        }
-                      }
-                    }
-                  }
-                  {
-                    value {
-                      conditional {
-                        then [
-                      {
-                        set "tie"
-                        value false
-                      }
-                        ]
-                        when {
-                        call {
-                          arguments {
-                            value {
-                              ref "of[inner.index]"
-                            }
-                          }
-                          of {
-                            ref "of[outer.index]"
-                          }
-                          procedure "std.math.lessThan"
-                        }
-                        }
-                      }
-                    }
-                  }
-                  {
-                    value {
-                      conditional {
-                        then [
-                      {
-                        value {
-                          conditional {
-                            then [
-                          {
-                            set "rank"
-                            value {
-                              call {
-                                arguments {
-                                  value 1
+                        {
+                          value {
+                            conditional {
+                              then [
+                                {
+                                  set "rank"
+                                  value {
+                                    call {
+                                      arguments {
+                                        value 1
+                                      }
+                                      of {
+                                        ref "rank"
+                                      }
+                                      procedure "std.math.plus"
+                                    }
+                                  }
                                 }
-                                of {
-                                  ref "rank"
+                                {
+                                  set "tie"
+                                  value false
                                 }
-                                procedure "std.math.plus"
+                              ]
+                              when {
+                                call {
+                                  arguments {
+                                    value {
+                                      ref "of[outer.index]"
+                                    }
+                                  }
+                                  of {
+                                    ref "of[inner.index]"
+                                  }
+                                  procedure "std.math.lessThan"
+                                }
+                              }
+                            }
+                          }
+                        }
+                        {
+                          value {
+                            conditional {
+                              then [
+                                {
+                                  set "tie"
+                                  value false
+                                }
+                              ]
+                              when {
+                                call {
+                                  arguments {
+                                    value {
+                                      ref "of[inner.index]"
+                                    }
+                                  }
+                                  of {
+                                    ref "of[outer.index]"
+                                  }
+                                  procedure "std.math.lessThan"
+                                }
+                              }
+                            }
+                          }
+                        }
+                        {
+                          value {
+                            conditional {
+                              then [
+                                {
+                                  value {
+                                    conditional {
+                                      then [
+                                        {
+                                          set "rank"
+                                          value {
+                                            call {
+                                              arguments {
+                                                value 1
+                                              }
+                                              of {
+                                                ref "rank"
+                                              }
+                                              procedure "std.math.plus"
+                                            }
+                                          }
+                                        }
+                                      ]
+                                      when {
+                                        call {
+                                          arguments {
+                                            value {
+                                              ref "outer.index"
+                                            }
+                                          }
+                                          of {
+                                            ref "inner.index"
+                                          }
+                                          procedure "std.math.lessThan"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                              when {
+                                ref "tie"
                               }
                             }
                           }
-                            ]
-                            when {
-                            call {
-                              arguments {
-                                value {
-                                  ref "outer.index"
-                                }
-                              }
-                              of {
-                                ref "inner.index"
-                              }
-                              procedure "std.math.lessThan"
-                            }
-                            }
-                          }
                         }
-                      }
-                        ]
-                        when {
-                        ref "tie"
-                        }
-                      }
-                    }
-                  }
                       ]
                       while {
                         call {
@@ -982,87 +992,87 @@ warpt 1
                   value {
                     loop {
                       body [
-                {
-                  value true
-                  var "same"
-                }
-                  {
-                    value {
-                      conditional {
-                        then [
-                      {
-                        set "same"
-                        value false
-                      }
-                        ]
-                        when {
-                        call {
-                          arguments {
-                            value {
-                              ref "pick.index"
-                            }
-                          }
-                          of {
-                            ref "ranks[scan.index]"
-                          }
-                          procedure "std.math.lessThan"
+                        {
+                          value true
+                          var "same"
                         }
-                        }
-                      }
-                    }
-                  }
-                  {
-                    value {
-                      conditional {
-                        then [
-                      {
-                        set "same"
-                        value false
-                      }
-                        ]
-                        when {
-                        call {
-                          arguments {
-                            value {
-                              ref "ranks[scan.index]"
-                            }
-                          }
-                          of {
-                            ref "pick.index"
-                          }
-                          procedure "std.math.lessThan"
-                        }
-                        }
-                      }
-                    }
-                  }
-                  {
-                    value {
-                      conditional {
-                        then [
-                      {
-                        set "places"
-                        value {
-                          call {
-                            arguments {
-                              value {
-                                ref "scan.index"
+                        {
+                          value {
+                            conditional {
+                              then [
+                                {
+                                  set "same"
+                                  value false
+                                }
+                              ]
+                              when {
+                                call {
+                                  arguments {
+                                    value {
+                                      ref "pick.index"
+                                    }
+                                  }
+                                  of {
+                                    ref "ranks[scan.index]"
+                                  }
+                                  procedure "std.math.lessThan"
+                                }
                               }
                             }
-                            of {
-                              ref "places"
-                            }
-                            procedure "std.collection.appending"
                           }
                         }
-                      }
-                        ]
-                        when {
-                        ref "same"
+                        {
+                          value {
+                            conditional {
+                              then [
+                                {
+                                  set "same"
+                                  value false
+                                }
+                              ]
+                              when {
+                                call {
+                                  arguments {
+                                    value {
+                                      ref "ranks[scan.index]"
+                                    }
+                                  }
+                                  of {
+                                    ref "pick.index"
+                                  }
+                                  procedure "std.math.lessThan"
+                                }
+                              }
+                            }
+                          }
                         }
-                      }
-                    }
-                  }
+                        {
+                          value {
+                            conditional {
+                              then [
+                                {
+                                  set "places"
+                                  value {
+                                    call {
+                                      arguments {
+                                        value {
+                                          ref "scan.index"
+                                        }
+                                      }
+                                      of {
+                                        ref "places"
+                                      }
+                                      procedure "std.collection.appending"
+                                    }
+                                  }
+                                }
+                              ]
+                              when {
+                                ref "same"
+                              }
+                            }
+                          }
+                        }
                       ]
                       while {
                         call {
@@ -1102,11 +1112,12 @@ warpt 1
         Element "std.Comparable"
       }
       description "The elements in order, for numbers or for strings."
-      parameters {
-        of {
+      parameters [
+        {
+          name "of"
           type "array<some Element>"
         }
-      }
+      ]
       receiver "of"
       result {
         call {
@@ -1191,11 +1202,12 @@ warpt 1
         }
       ]
       description "What a record holds, by its names in order."
-      parameters {
-        of {
+      parameters [
+        {
+          name "of"
           type "dictionary<some Entry>"
         }
-      }
+      ]
       receiver "of"
       result {
         ref "held"

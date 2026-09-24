@@ -22,11 +22,12 @@ warpt 1
     imports []
     procedures {
       "app.pick" {
-        parameters {
-          of {
+        parameters [
+          {
+            name "of"
             type "app.Paying"
           }
-        }
+        ]
         receiver "of"
         result {
           ref "of"
@@ -34,11 +35,12 @@ warpt 1
         returns "app.Paying"
       }
       "app.tell" {
-        parameters {
-          it {
+        parameters [
+          {
+            name "it"
             type "app.Describable"
           }
-        }
+        ]
         receiver "it"
         result {
           call {
@@ -51,21 +53,23 @@ warpt 1
         returns "string"
       }
       "bank.Account.describe" {
-        parameters {
-          of {
+        parameters [
+          {
+            name "of"
             type "bank.Account"
           }
-        }
+        ]
         receiver "of"
         result "an account"
         returns "string"
       }
       "bank.Card.describe" {
-        parameters {
-          of {
+        parameters [
+          {
+            name "of"
             type "bank.Card"
           }
-        }
+        ]
         receiver "of"
         result "a card"
         returns "string"

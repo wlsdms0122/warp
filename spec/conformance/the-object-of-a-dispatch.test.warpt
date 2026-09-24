@@ -38,7 +38,7 @@ warpt 1
       ]
       dependencies []
       document [
-        x"30f25b46e581c6c866b7e5c795b42beb4e9d01e2a35ad8281d4d458e928accb2"
+        x"c1a3b04fbbe0d5cd9d1d15959cf03edb73fbb6e2eef7bd180c1d74a5d5f92199"
       ]
       leaned [
         [
@@ -46,7 +46,7 @@ warpt 1
           "app.Describable"
           [
             [
-              x"30f25b46e581c6c866b7e5c795b42beb4e9d01e2a35ad8281d4d458e928accb2"
+              x"c1a3b04fbbe0d5cd9d1d15959cf03edb73fbb6e2eef7bd180c1d74a5d5f92199"
             ]
             [
               [
@@ -87,15 +87,12 @@ warpt 1
                 "it"
                 [
                   [
-                    [
-                      18
-                      "app.Describable"
-                    ]
+                    18
+                    "app.Describable"
                   ]
-                  []
-                  []
-                  []
                 ]
+                []
+                []
               ]
             ]
             [
@@ -157,15 +154,12 @@ warpt 1
                 "of"
                 [
                   [
-                    [
-                      18
-                      "bank.Card"
-                    ]
+                    18
+                    "bank.Card"
                   ]
-                  []
-                  []
-                  []
                 ]
+                []
+                []
               ]
             ]
             [
@@ -342,11 +336,12 @@ warpt 1
     imports []
     procedures {
       "app.tell" {
-        parameters {
-          it {
+        parameters [
+          {
+            name "it"
             type "app.Describable"
           }
-        }
+        ]
         receiver "it"
         result {
           call {
@@ -359,11 +354,12 @@ warpt 1
         returns "string"
       }
       "bank.Card.describe" {
-        parameters {
-          of {
+        parameters [
+          {
+            name "of"
             type "bank.Card"
           }
-        }
+        ]
         receiver "of"
         result "a card"
         returns "string"

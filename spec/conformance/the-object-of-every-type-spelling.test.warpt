@@ -24,7 +24,7 @@ warpt 1
       contracts []
       dependencies []
       document [
-        x"b3a595854cf568e073c37acd57e32c7c047cee536be294d3938cbb1abacececc"
+        x"345bf04e25652644c428bddc12ee308225eba3890afb645e1e06492d3f503a77"
       ]
       leaned []
       lifted []
@@ -43,16 +43,13 @@ warpt 1
                 "p"
                 [
                   [
-                    [
-                      19
-                      "T"
-                      []
-                    ]
+                    19
+                    "T"
+                    []
                   ]
-                  []
-                  []
-                  []
                 ]
+                []
+                []
               ]
             ]
             []
@@ -107,90 +104,75 @@ warpt 1
                 "b"
                 [
                   [
+                    16
                     [
-                      16
-                      [
-                        18
-                        "app.Handle"
-                      ]
+                      18
+                      "app.Handle"
                     ]
                   ]
-                  []
-                  []
-                  []
                 ]
+                []
+                []
               ]
               [
                 "d"
                 [
                   [
+                    7
                     [
-                      7
+                      1
                       [
-                        1
+                        0.0
+                      ]
+                      [
                         [
-                          0.0
-                        ]
-                        [
-                          [
-                            1
-                            1.0
-                          ]
+                          1
+                          1.0
                         ]
                       ]
                     ]
                   ]
-                  []
-                  []
-                  []
                 ]
+                []
+                []
               ]
               [
                 "h"
                 [
                   [
+                    15
                     [
-                      15
-                      [
-                        18
-                        "app.Handle"
-                      ]
+                      18
+                      "app.Handle"
                     ]
                   ]
-                  []
-                  []
-                  []
                 ]
+                []
+                []
               ]
               [
                 "io"
                 [
                   [
+                    13
                     [
-                      13
-                      [
-                        4
-                      ]
+                      4
                     ]
                   ]
-                  []
-                  []
-                  []
                 ]
+                []
+                []
               ]
               [
                 "k"
                 [
                   [
-                    [
-                      18
-                      "app.Kinds"
-                    ]
+                    18
+                    "app.Kinds"
                   ]
-                  []
-                  []
-                  []
                 ]
+                []
+                []
               ]
             ]
             [
@@ -295,38 +277,12 @@ warpt 1
                   11
                   [
                     [
-                      []
                       [
                         [
-                          "m"
-                          [
-                            [
-                              [
-                                6
-                              ]
-                            ]
-                            []
-                            []
-                            []
-                          ]
+                          6
                         ]
                         [
-                          "n"
-                          [
-                            [
-                              [
-                                4
-                              ]
-                            ]
-                            []
-                            [
-                              [
-                                2
-                                1
-                              ]
-                            ]
-                            []
-                          ]
+                          4
                         ]
                       ]
                       [
@@ -380,7 +336,6 @@ warpt 1
                   [
                     [
                       []
-                      []
                       [
                         [
                           1
@@ -409,39 +364,45 @@ warpt 1
     }
   }
   name "the-object-of-every-type-spelling"
-  note "Every type spelling a document writes lowers under the tag the page gives it: the scalars with null and never, a range with its edges, a dictionary, the marks var, inout, linear, consuming and borrowing, the nullable, a procedure type with its signature, its claims and whether each parameter wrote a default, a type parameter, and the reading a walk through one derives, written under answers."
+  note "Every type spelling a document writes lowers under the tag the page gives it: the scalars with null and never, a range with its edges, a dictionary, the marks var, inout, linear, consuming and borrowing, the nullable, a procedure type with the types it takes and answers and its claims, a type parameter, and the reading a walk through one derives, written under answers."
   program {
     imports []
     procedures {
       "app.read" {
-        parameters {
-          p {
+        parameters [
+          {
+            name "p"
             type "some T"
           }
-        }
+        ]
         result {
           ref "p.x"
         }
       }
       entry {
         access "public"
-        parameters {
-          b {
+        parameters [
+          {
+            name "b"
             type "borrowing app.Handle"
           }
-          d {
+          {
+            name "d"
             type "double(0.0..<1.0)"
           }
-          h {
+          {
+            name "h"
             type "consuming app.Handle"
           }
-          io {
+          {
+            name "io"
             type "inout int"
           }
-          k {
+          {
+            name "k"
             type "app.Kinds"
           }
-        }
+        ]
         result {
           ref "h"
         }
@@ -459,15 +420,10 @@ warpt 1
         flag "var bool"
         g {
           "const isolated procedure" {
-            parameters {
-              m {
-                type "string"
-              }
-              n {
-                default 1
-                type "int"
-              }
-            }
+            parameters [
+              "string"
+              "int"
+            ]
             returns "int"
           }
         }

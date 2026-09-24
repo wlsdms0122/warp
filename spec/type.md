@@ -28,7 +28,7 @@ A type is written as a string, or as a record for what a string cannot say:
 | `int(0...255)`, `double(0.0..<1.0)` | a number the slot admits only inside the range. The kind written out, either bound optional but not both, and `..<` leaving the far bound outside |
 | `int?` (any string spelling and `?`) | the declared type or null. The one union written inline, and it is null-only. Any other is declared as a membership and named |
 | `{ title: string, done: bool }` | a record type, written as the record it describes; structural, and it names nothing |
-| `{ procedure: { parameters: …, returns: … } }` | a procedure type, written as the signature it takes |
+| `{ procedure: { parameters: [<type>, …], returns: … } }` | a procedure type: the types it is applied with, in position order, and what it answers. No names, since a name is a declaration's and a value is applied by position; a mark such as `inout` is written on the type it stands in front of |
 | `{ "const procedure": { … } }` | a procedure type with its marks and modifiers on the key, `inout` or `consuming` or `borrowing` first, then `const` and `isolated`, the way they stand in front of the string form |
 | `{ array: <type> }` / `{ dictionary: <type> }` | a list / map of a type that has no string spelling, a procedure type or a record type. Where the element has a spelling the type is written `array<T>`, and the record form around it **refuses at the load** |
 
@@ -59,12 +59,16 @@ about the value, so what fits the slot is judged by the type after the
 procedure. Writing either where it is not allowed **refuses** at the build. A
 slot asking `isolated` takes what the build derived as isolated. Answering
 without running is a separate claim and does not stand in for it.
-A value standing in a procedure-typed slot declares every parameter the
-slot hands, under *one convention* in [procedures](procedure.md), and that is
-held at the **build**.
+A value standing in a procedure-typed slot takes exactly the positions the
+slot's type hands, each accepting what the slot may hand at that position, and
+answers what the slot's `returns` accepts. The names the value's declaration
+wrote are its own and take no part: one closure fits two slots that name their
+parameter differently. That is held at the **build** where the value's type is
+known, and at the **run** where the value arrived through `any`, under *one
+convention* in [procedures](procedure.md).
 
 **What a slot takes, exactly.** Where a value meets a declaration. An
-argument, a taken default, an answer, and a write into a box that said what it
+argument, an answer, and a write into a box that said what it
 holds. The settlement is one rule per type:
 
 - `any` passes the value through untouched, null and procedures included.
@@ -92,7 +96,7 @@ holds. The settlement is one rule per type:
 - A **range** (`int(0...255)`, `double(0.0..<1.0)`) is a slot's condition on a
   number, not a kind: the value is an `int` or a `double`, and the bounds are
   judged where a value is settled, the way `enum` is. At the **build** for a
-  constant argument or a default, at the **boundary** for what only the run
+  constant argument, at the **boundary** for what only the run
   can see.
   - **The kind is written out**, because a bound is a value of the kind it
     bounds: `int(0...255)` writes whole numbers and `double(0.0...1.0)`
@@ -272,7 +276,10 @@ it.
 What **refuses at the build**:
 
 - reaching the end of a body still holding one;
-- handing one on a second time;
+- handing one on a second time. Within one call that counts in the order the
+  run evaluates the receiver and the arguments (see [running](running.md)), so
+  a slot that borrows reads what a consuming slot standing before it already
+  took;
 - handing one on in one arm of a conditional and not the other, since what a
   body holds afterwards would depend on which arm ran. An arm that **returns**
   is not one of those arms: no run comes back from it, so what the body holds
@@ -382,7 +389,11 @@ is running.
 
 A declaration answering a contract's procedure is reached **through the
 contract**, which is the spelling that says which contract is meant. Two types
-answering one procedure is the ordinary case.
+answering one procedure is the ordinary case. Such a declaration takes the
+contract's parameters under the contract's names and **in the contract's
+order**, its receiver aside; a parameter it declares beyond them is one no call
+through the contract writes, so it is a `T?` and refuses otherwise. The run
+hands the arguments to the same positions whichever declaration answers.
 
 **A name is its declared spelling.** The key a document declares a type,
 constraint or procedure under is the whole of its name: `std.math.plus` is
@@ -423,6 +434,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-claim-nobody-leans-on-refuses-nowhere`
 - `a-claim-stands-in-a-document-the-leaning-one-never-names`
 - `a-closure-reads-the-bounds-of-the-procedure-around-it`
+- `a-closures-parameter-names-are-not-part-of-its-type`
 - `a-constant-outside-a-range-refuses`
 - `a-constraint-is-named-by-its-qualified-spelling`
 - `a-constraint-that-admits-nothing-refuses`
@@ -430,12 +442,14 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-contract-stands-in-a-closures-parameter`
 - `a-contract-stands-in-a-declared-types-field`
 - `a-contract-stands-where-a-type-is-written`
+- `a-declaration-answering-a-contract-takes-its-parameters-in-the-contracts-order`
 - `a-declared-name-is-a-type`
 - `a-declared-range-refuses-what-is-outside-it`
 - `a-declared-type-names-itself-in-its-fields`
 - `a-fraction-is-not-a-whole-number`
 - `a-fraction-range-widens-a-whole-number-into-itself`
 - `a-handle-already-given-away-is-not-read-again`
+- `a-handle-borrowed-after-a-consuming-parameter-in-one-call-refuses`
 - `a-mark-where-nothing-is-handed-on-once-refuses`
 - `a-membership-mixing-a-type-handed-on-once-refuses`
 - `a-membership-stands-as-a-type`
@@ -466,6 +480,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-type-handed-on-once-inside-another-refuses`
 - `a-type-parameter-read-two-ways-is-refused`
 - `a-type-that-misses-a-procedure-does-not-answer-the-contract`
+- `a-value-applied-through-any-is-judged-at-the-run`
 - `a-value-declares-every-parameter-the-slot-hands`
 - `a-value-handed-on-in-one-arm-and-not-the-other-refuses`
 - `a-value-handed-on-once-does-not-go-into-a-list`

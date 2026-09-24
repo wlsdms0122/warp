@@ -16,11 +16,12 @@ warpt 1
     imports []
     procedures {
       "bank.Card.describe" {
-        parameters {
-          of {
+        parameters [
+          {
+            name "of"
             type "bank.Card"
           }
-        }
+        ]
         receiver "of"
         result "a card"
         returns "string"
@@ -32,11 +33,12 @@ warpt 1
             let "tell"
             value {
               closure {
-                parameters {
-                  it {
+                parameters [
+                  {
+                    name "it"
                     type "app.Describable"
                   }
-                }
+                ]
                 result {
                   call {
                     of {
@@ -62,11 +64,11 @@ warpt 1
             let "applied"
             value {
               apply {
-                arguments {
-                  it {
+                arguments [
+                  {
                     ref "card"
                   }
-                }
+                ]
                 procedure {
                   ref "tell"
                 }
