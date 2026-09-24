@@ -1,0 +1,125 @@
+warpt 1
+{
+  expect {
+    answers [
+      "alpha"
+      "map"
+    ]
+  }
+  name "a-calls-receiver-is-evaluated-before-its-arguments"
+  note "The receiver a call writes in front is evaluated before its arguments, wherever the declaration stands the parameter it fills, and whether the callee is a body or the host's. Each call here writes a receiver and an argument that would both fail, and the receiver's surfaces: `alpha`, which `app.pair` declares after `zulu`, and `map`, in front of `std.collection.setting`."
+  program {
+    imports [
+      "std.collection.setting"
+      "std.control.abort"
+    ]
+    procedures {
+      "app.pair" {
+        parameters [
+          {
+            name "zulu"
+            type "string"
+          }
+          {
+            name "alpha"
+            type "string"
+          }
+        ]
+        receiver "alpha"
+        result {
+          ref "zulu"
+        }
+        returns "string"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "declared"
+            value {
+              attempt {
+                body [
+                  {
+                    let "paired"
+                    value {
+                      call {
+                        arguments {
+                          zulu {
+                            call {
+                              of "zulu"
+                              procedure "std.control.abort"
+                            }
+                          }
+                        }
+                        of {
+                          call {
+                            of "alpha"
+                            procedure "std.control.abort"
+                          }
+                        }
+                        procedure "app.pair"
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  result {
+                    ref "declared.message"
+                  }
+                }
+              }
+            }
+          }
+          {
+            let "hosted"
+            value {
+              attempt {
+                body [
+                  {
+                    let "set"
+                    value {
+                      call {
+                        arguments {
+                          key {
+                            call {
+                              of "key"
+                              procedure "std.control.abort"
+                            }
+                          }
+                          value 1
+                        }
+                        of {
+                          call {
+                            of "map"
+                            procedure "std.control.abort"
+                          }
+                        }
+                        procedure "std.collection.setting"
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  result {
+                    ref "hosted.message"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        result [
+          {
+            ref "declared"
+          }
+          {
+            ref "hosted"
+          }
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
