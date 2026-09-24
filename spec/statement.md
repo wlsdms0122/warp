@@ -116,7 +116,7 @@ The construct keys, each detailed below and each written inside `value`:
 
 | key | takes | required |
 |---|---|---|
-| `procedure` | a string names the declaration called, resolved at the build. Any other expression is a value the run calls, and a value no procedure could be **refuses at the build**, and so does one whose reading may be null: null is not called through, the way it is not read through. Text is never a value a call could take, so the two readings never meet | yes |
+| `procedure` | a string names the declaration called, resolved at the build. Any other expression is a value the run calls, and a value no procedure could be **refuses at the build**, and so does one whose reading says it may be null: null is not called through, the way it is not read through, at the build where the text shows it and at the run otherwise. Text is never a value a call could take, so the two readings never meet | yes |
 | `arguments` | list of expressions, by position: the first fills the first parameter, and so on, one for each parameter, under *one calling convention* in [procedures](procedure.md) | no |
 
 A body a procedure is to run travels as a **closure argument**, like any other
