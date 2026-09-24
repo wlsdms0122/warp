@@ -117,7 +117,7 @@ The construct keys, each detailed below and each written inside `value`:
 | key | takes | required |
 |---|---|---|
 | `procedure` | string. The procedure called | yes |
-| `arguments` | list of expressions, by position: the first fills the first parameter, and so on. The positions after the last one written are left out, under *leaving an argument out* in [procedures](procedure.md) | no |
+| `arguments` | list of expressions, by position: the first fills the first parameter, and so on, one for each parameter, under *one calling convention* in [procedures](procedure.md) | no |
 
 A body a procedure is to run travels as a **closure argument**, like any other
 value. There is no second channel for bodies: one kind of thing crosses into a

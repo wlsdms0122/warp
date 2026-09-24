@@ -1,0 +1,28 @@
+warpt 1
+{
+  expect {
+    refuses "run"
+  }
+  name "a-run-given-nothing-for-a-nullable-parameter-refuses"
+  note "A run is given every parameter its entry declares, a nullable one included: `int?` says null is a value the caller may hand, and a run started without `limit` was handed nothing. It is refused before anything runs."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "limit"
+            type "int?"
+          }
+        ]
+        result {
+          ref "limit"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

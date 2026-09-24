@@ -76,7 +76,7 @@ and it is what an implementation weighs when it writes a procedure in Warp
 rather than in its own language.
 
 **The signatures, exactly.** A second implementation writes these; it must not
-have to guess them. The *parameters* column lists them in the order a row writes them, which is the position a call hands each argument at. A parameter typed `T?` at the end may be left out and reads as null.
+have to guess them. The *parameters* column lists them in the order a row writes them, which is the position a call hands each argument at.
 A slot typed `const procedure` takes only a procedure that answers without
 running.
 
@@ -129,9 +129,9 @@ edge rules below require.
 | `uppercased`, `lowercased`, `trimmed` | `of: string` | `string` |
 | `characters` | `of: string` | `array<string>` |
 | `split` | `of: string`, `value: string` | `array<string>` |
-| `joined` | `of: array<string>`, `value: string?`. Null joins with nothing between | `string` |
-| `decoded` | `of: array<std.byte>`, `encoding: string?`, enum `["utf8"]`. Null names `utf8` | `string`. **refuses at the run** when the bytes are not text in that encoding |
-| `encoded` | `of: string`, `encoding: string?`, enum `["utf8"]`. Null names `utf8` | `array<std.byte>` |
+| `joined` | `of: array<string>`, `value: string`, written between each two | `string` |
+| `decoded` | `of: array<std.byte>`, `encoding: string`, enum `["utf8"]` | `string`. **refuses at the run** when the bytes are not text in that encoding |
+| `encoded` | `of: string`, `encoding: string`, enum `["utf8"]` | `array<std.byte>` |
 | `replacing` | `of: string`, `value: string`, `with: string` | `string` |
 
 `characters` answers the text as an array of its characters, each one a string
@@ -314,7 +314,7 @@ which its declaration says by naming a second type parameter for it. Two bytes
 one: `std.Comparable` admits numbers and strings among themselves, not collections.
 Reading bytes *as* text is a procedure that names its encoding: `decoded` and
 `encoded` are the two directions of one mapping (`encoding: "utf8"`, the only
-member, and what null names), and bytes that are not text in that encoding
+member), and bytes that are not text in that encoding
 **refuse at the run**. Completing a broken sequence would answer a text nobody
 sent. `encoded` writes the text's code points as they stand and normalises
 nothing, and `decoded` keeps a byte order mark as the character it is:

@@ -10,7 +10,10 @@ running. What is checked before any of this is
   and which one runs is the caller's choice each time, so naming one nothing
   declares, or one that is `internal` or `private`, **refuses at the run**
   before anything runs, under *who may name a declaration* in
-  [procedures](procedure.md).
+  [procedures](procedure.md). The caller gives a value for every parameter
+  the entry declares, null included where the type declares it, and one it
+  gives nothing for **refuses at the run** before anything runs, the way a
+  call's count does.
 - Statements run in order; each binds its name in the scope of what follows.
 - A call's arguments are evaluated in **position order**, the first first, whether the callee is a body or the host's, and an application's the same. An argument may call anything, so the order is observable: two arguments that would each refuse surface the one standing first.
 - `std.collection.keys` and `values` answer in the record's **canonical
@@ -160,6 +163,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 
 - `a-calls-arguments-are-evaluated-in-position-order`
 - `a-field-the-declared-answer-does-not-name-refuses`
+- `a-run-given-nothing-for-a-nullable-parameter-refuses`
 - `a-slot-that-wrote-no-returns-opens-its-answer-to-any`
 - `an-answer-of-all-settles-into-the-record-declared`
 - `an-applied-value-answers-what-its-slot-wrote`
