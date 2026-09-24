@@ -456,6 +456,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-record-under-another-name-refuses-through-any`
 - `a-slot-naming-a-type-handed-on-once-says-what-it-does`
 - `a-some-outside-a-signature-refuses`
+- `a-type-form-beside-other-keys-refuses`
 - `a-type-handed-on-once-answers-no-contract`
 - `a-type-handed-on-once-inside-another-refuses`
 - `a-type-parameter-read-two-ways-is-refused`

@@ -1,0 +1,31 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "an-else-written-empty-refuses"
+  note "An empty `else` runs what no `else` runs, so writing `else []` is a second spelling of a conditional that writes none. A document says each thing one way, and this one is refused where it is read."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            value {
+              conditional {
+                else []
+                then []
+                when true
+              }
+            }
+          }
+        ]
+        result 1
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

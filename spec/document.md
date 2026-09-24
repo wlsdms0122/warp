@@ -44,12 +44,12 @@ answerable from the bytes alone; and a file of some other kind entirely would
 get as far as having its keys judged. Nobody writes the number by hand anyway. A
 front end computes it, so a document without one did not come from one.
 
-The current version is **1**; the earliest that ever existed is **1**.
-Pre-release, so the two ends of the reading range are one number. A reader must
-refuse a document written for a later version than it implements, before judging
-the document's keys. A later version may add keys, and checking the keys first
-would turn "I am too old for this" into "this is malformed". A document claiming
-a version below the earliest **refuses**. The number goes up when anything
+The current version is **1**. A reader reads the version it implements and
+**refuses** any other, before judging the document's keys. A later version may
+add keys, and checking the keys first would turn "I am too old for this" into
+"this is malformed". An earlier one is written again: a document is spelled the
+way the writer of its version spells it, so one written for another version is
+another text. The number goes up when anything
 portable changes what an existing program *means*: a type added, a type read
 differently, a checking rule moved, a standard procedure answering differently.
 It does not move when a procedure is *added*, since a program that does not call
@@ -61,12 +61,10 @@ What each version was:
 |---|---|
 | 1 | the language as specified here |
 
-An implementation implements the **current** version only. An older document is
-read, and held to the current rules. A program that leaned on what moved is
-*refused with the reason named*, not quietly run to a different answer, and
-that refusal being explicable is what the number buys. Forward compatibility is
-not available to anyone: what a reader can do about a version it has never
-heard of is refuse, and the point of the number is that it can.
+An implementation implements the **current** version only. What the number
+buys is a refusal that names its reason: a document written for another version
+is refused as that, rather than read by rules it was not written to and run to a
+different answer.
 
 **The imports list.** Every name the program *uses* and does not itself declare, each by its declared spelling: `std.math.plus`, never `plus`. Two kinds of name are in it, and they are the two kinds a link resolves. The procedures the program sends, from procedure bodies, from constants and from a variable's start alike; and the types, constraints and contracts it names, in a declaration, a bound, a local binding, a cast, a closure's signature or a claim. A native procedure's sends are in it too. What a body sends is read off its text; a module the host assembled in its own language holds procedures with no text a reader could read, so each declares the procedures it sends and those count the same. A module whose native procedures send things its list never mentioned would understate what the module does, which is the one thing this list may not do.
 
@@ -144,6 +142,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-send-is-a-declared-spelling-or-an-import`
 - `a-version-that-never-existed-refuses`
 - `an-access-written-as-what-its-absence-means-refuses`
+- `an-else-written-empty-refuses`
 - `an-overstated-manifest-refuses`
 - `an-unknown-key-refuses`
 - `an-untruthful-manifest-refuses`
