@@ -1,0 +1,45 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-record-type-may-name-a-field-for-a-form"
+  note "A record type is written under `record`, so its fields may be called anything, `array` included, which alone would be the form of a list."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "held"
+            value {
+              as {
+                of {
+                  record {
+                    array 1
+                  }
+                }
+                type "app.Holder"
+              }
+            }
+          }
+        ]
+        result {
+          ref "held.array"
+        }
+        returns "int"
+      }
+    }
+    types {
+      "app.Holder" {
+        record {
+          array "int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

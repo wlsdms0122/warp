@@ -1,0 +1,20 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-result-written-as-null-refuses"
+  note "A result of null reads as no result, so writing `result null` is a second spelling of a procedure that writes none. A document says each thing one way, and this one is refused where it is read."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result null
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

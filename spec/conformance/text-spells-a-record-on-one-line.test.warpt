@@ -23,8 +23,10 @@ warpt 1
               call {
                 arguments [
                   {
-                    a "x"
-                    b 1
+                    record {
+                      a "x"
+                      b 1
+                    }
                   }
                 ]
                 procedure "std.text.text"
@@ -37,9 +39,13 @@ warpt 1
               call {
                 arguments [
                   {
-                    as "Point"
-                    of {
-                      x 1
+                    as {
+                      of {
+                        record {
+                          x 1
+                        }
+                      }
+                      type "Point"
                     }
                   }
                 ]
@@ -52,7 +58,9 @@ warpt 1
             value {
               call {
                 arguments [
-                  {}
+                  {
+                    record {}
+                  }
                 ]
                 procedure "std.text.text"
               }
@@ -74,7 +82,9 @@ warpt 1
     }
     types {
       Point {
-        x "int"
+        record {
+          x "int"
+        }
       }
     }
     warp 1

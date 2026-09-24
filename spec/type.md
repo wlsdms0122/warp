@@ -16,7 +16,7 @@ A type is written as a string, or as a record for what a string cannot say:
 | `array<T>` / `dictionary<T>` | a list / map of `T`; `array<any>` is a list of anything, and the bare word **refuses at the load** |
 | `procedure` | some procedure, signature unsaid |
 | `const <procedure type>` | a procedure that answers without running, under *what answers without running* |
-| `isolated <procedure type>` | a procedure that touches no name another body could touch at once; `const isolated procedure` says both, and the reader takes the two in either order |
+| `isolated <procedure type>` | a procedure that touches no name another body could touch at once; `const isolated procedure` says both, `const` first |
 | `inout <type>` | a parameter handed a variable in place; written on a parameter's type and nowhere else |
 | `{ linear: <type> }` | a type whose values are handed on exactly once; written on a type in `types` and nowhere else, and every slot naming that type carries it |
 | `consuming <type>` / `borrowing <type>` | what a parameter does with a value handed on once: takes the obligation, or reads and leaves it. Written on a parameter's type and nowhere else |
@@ -24,10 +24,10 @@ A type is written as a string, or as a record for what a string cannot say:
 | `Task` (any declared name) | the type a module declares under that name, or a value of the membership it declares under that name |
 | `some T` | a type parameter: worked out from the call, same reading everywhere it appears; bounded when the signature's `bounds` names it |
 | `Describable` (a declared contract's name) | a value of whatever type satisfies the contract. Nothing ties one slot's to another's |
-| `Describable & std.Comparable` | a value of whatever type satisfies every contract and belongs to every membership named; the names in either order, and each a contract's or a membership's |
+| `Describable & std.Comparable` | a value of whatever type satisfies every contract and belongs to every membership named; the names in name order, and each a contract's or a membership's |
 | `int(0...255)`, `double(0.0..<1.0)` | a number the slot admits only inside the range. The kind written out, either bound optional but not both, and `..<` leaving the far bound outside |
 | `int?` (any string spelling and `?`) | the declared type or null. The one union written inline, and it is null-only. Any other is declared as a membership and named |
-| `{ title: string, done: bool }` | a record type, written as the record it describes; structural, and it names nothing |
+| `{ record: { title: string, done: bool } }` | a record type, its fields under `record`; structural, and it names nothing. A field may be called anything |
 | `{ procedure: { parameters: [<type>, …], returns: … } }` | a procedure type: the types it is called with, in position order, and what it answers. No names, since a name is a declaration's and a value is called by position; a mark such as `inout` is written on the type it stands in front of |
 | `{ "const procedure": { … } }` | a procedure type with its marks and modifiers on the key, `inout` or `consuming` or `borrowing` first, then `const` and `isolated`, the way they stand in front of the string form |
 | `{ array: <type> }` / `{ dictionary: <type> }` | a list / map of a type that has no string spelling, a procedure type or a record type. Where the element has a spelling the type is written `array<T>`, and the record form around it **refuses at the load** |
@@ -451,10 +451,12 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-record-form-array-of-a-named-element-refuses`
 - `a-record-settles-to-the-fields-declared`
 - `a-record-takes-the-name-of-the-slot-it-settles-into`
+- `a-record-type-may-name-a-field-for-a-form`
 - `a-record-under-another-name-refuses`
 - `a-record-under-another-name-refuses-through-any`
 - `a-slot-naming-a-type-handed-on-once-says-what-it-does`
 - `a-some-outside-a-signature-refuses`
+- `a-type-form-beside-other-keys-refuses`
 - `a-type-handed-on-once-answers-no-contract`
 - `a-type-handed-on-once-inside-another-refuses`
 - `a-type-parameter-read-two-ways-is-refused`

@@ -69,9 +69,13 @@ warpt 1
           {
             let "card"
             value {
-              as "bank.Card"
-              of {
-                last "42"
+              as {
+                of {
+                  record {
+                    last "42"
+                  }
+                }
+                type "bank.Card"
               }
             }
           }
@@ -99,10 +103,14 @@ warpt 1
     }
     types {
       "bank.Account" {
-        balance "int"
+        record {
+          balance "int"
+        }
       }
       "bank.Card" {
-        last "string"
+        record {
+          last "string"
+        }
       }
     }
     warp 1

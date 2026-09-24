@@ -142,9 +142,10 @@ the document's identity or nothing, and a list of *step*:
 
 A *part* is `[tag]`: 0 `procedures`, 1 `constants`, 2 `variables`, 3
 `types`, 4 `constraints`, 5 `contracts`, 6 `satisfies`, 7 `imports`, 8
-`parameters`, 9 `returns`, 10 `body`, 11 `result`, 12 a cast's subject, 13
-`callee`, 14 `arguments`, 15 `closure`, 16 a condition, carrying `[0]` for a
-conditional's or `[1]` for a loop's, 17 `then`, 18 `otherwise`, 19 `rescue`.
+`parameters`, 9 `returns`, 10 `body`, 11 `result`, 12 a cast's subject,
+carrying `true` for `as?` or `false` for `as`, 13 `callee`, 14 `arguments`, 15
+`closure`, 16 a condition, carrying `[0]` for a conditional's or `[1]` for a
+loop's, 17 `then`, 18 `otherwise`, 19 `rescue`, 20 a record's fields.
 
 A *construct* is `[tag]`: 0 literal, 1 reference, 2 array, 3 record, 4
 closure, 5 cast, 6 block, 7 conditional, 8 loop, 9 attempt, 10 call, 11

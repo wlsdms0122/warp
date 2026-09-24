@@ -1,0 +1,22 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-mapping-with-no-tag-refuses"
+  note "A mapping where a value is wanted is an expression by its one key: `ref`, `record`, `call`, `closure`, `as` or `as?`. A record is written under `record`, so a bare mapping is no expression and is refused where it is read."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result {
+          answer 1
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

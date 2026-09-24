@@ -16,18 +16,26 @@ warpt 1
           {
             let "one"
             value {
-              as "Account"
-              of {
-                balance 1
+              as {
+                of {
+                  record {
+                    balance 1
+                  }
+                }
+                type "Account"
               }
             }
           }
           {
             let "other"
             value {
-              as "Vault"
-              of {
-                balance 1
+              as {
+                of {
+                  record {
+                    balance 1
+                  }
+                }
+                type "Vault"
               }
             }
           }
@@ -50,10 +58,14 @@ warpt 1
     }
     types {
       Account {
-        balance "int"
+        record {
+          balance "int"
+        }
       }
       Vault {
-        balance "int"
+        record {
+          balance "int"
+        }
       }
     }
     warp 1

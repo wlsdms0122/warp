@@ -16,10 +16,14 @@ warpt 1
   program {
     const {
       digits {
-        as "dictionary<int>"
-        of {
-          "0" 0
-          "1" 1
+        as {
+          of {
+            record {
+              "0" 0
+              "1" 1
+            }
+          }
+          type "dictionary<int>"
         }
       }
       names [
@@ -42,20 +46,24 @@ warpt 1
           }
         ]
         result {
-          found {
-            ref "digits[key]"
-          }
-          name {
-            ref "names[at]"
-          }
-          nested {
-            ref "digits[names[at]]"
+          record {
+            found {
+              ref "digits[key]"
+            }
+            name {
+              ref "names[at]"
+            }
+            nested {
+              ref "digits[names[at]]"
+            }
           }
         }
         returns {
-          found "int"
-          name "string"
-          nested "int"
+          record {
+            found "int"
+            name "string"
+            nested "int"
+          }
         }
       }
     }

@@ -44,12 +44,12 @@ answerable from the bytes alone; and a file of some other kind entirely would
 get as far as having its keys judged. Nobody writes the number by hand anyway. A
 front end computes it, so a document without one did not come from one.
 
-The current version is **1**; the earliest that ever existed is **1**.
-Pre-release, so the two ends of the reading range are one number. A reader must
-refuse a document written for a later version than it implements, before judging
-the document's keys. A later version may add keys, and checking the keys first
-would turn "I am too old for this" into "this is malformed". A document claiming
-a version below the earliest **refuses**. The number goes up when anything
+The current version is **1**. A reader reads the version it implements and
+**refuses** any other, before judging the document's keys. A later version may
+add keys, and checking the keys first would turn "I am too old for this" into
+"this is malformed". An earlier one is written again: a document is spelled the
+way the writer of its version spells it, so one written for another version is
+another text. The number goes up when anything
 portable changes what an existing program *means*: a type added, a type read
 differently, a checking rule moved, a standard procedure answering differently.
 It does not move when a procedure is *added*, since a program that does not call
@@ -61,12 +61,10 @@ What each version was:
 |---|---|
 | 1 | the language as specified here |
 
-An implementation implements the **current** version only. An older document is
-read, and held to the current rules. A program that leaned on what moved is
-*refused with the reason named*, not quietly run to a different answer, and
-that refusal being explicable is what the number buys. Forward compatibility is
-not available to anyone: what a reader can do about a version it has never
-heard of is refuse, and the point of the number is that it can.
+An implementation implements the **current** version only. What the number
+buys is a refusal that names its reason: a document written for another version
+is refused as that, rather than read by rules it was not written to and run to a
+different answer.
 
 **The imports list.** Every name the program *uses* and does not itself declare, each by its declared spelling: `std.math.plus`, never `plus`. Two kinds of name are in it, and they are the two kinds a link resolves. The procedures the program sends, from procedure bodies, from constants and from a variable's start alike; and the types, constraints and contracts it names, in a declaration, a bound, a local binding, a cast, a closure's signature or a claim. A native procedure's sends are in it too. What a body sends is read off its text; a module the host assembled in its own language holds procedures with no text a reader could read, so each declares the procedures it sends and those count the same. A module whose native procedures send things its list never mentioned would understate what the module does, which is the one thing this list may not do.
 
@@ -97,6 +95,15 @@ writes the list, including the ones whose programs will not read at all. A case
 with two things wrong with it is a case any reader passes for the wrong
 reason.
 
+## A document says each thing one way
+
+A program has one document. Reading **refuses at the load** a document that
+says what it says another way: a key written with what its absence means
+(`access "internal"`, `result null`), marks in another order, a list the
+document keeps in name order written out of it. The one way is what writing the
+program back out gives, so a document that has been read and written is the
+document that was read, and one program never stands under two identities.
+
 ## Spellings are not part of the document
 
 A front end may offer shorthands. Operator keys like `is:` in a condition
@@ -104,13 +111,10 @@ slot, a `{ format:, with: }` template. That stand in for types the language
 already has. They are the front end's own: it spends them before the document
 leaves, and what leaves writes the types themselves.
 
-A reader of documents **refuses** the spelled keys rather than reading them as
-data. The reserved set is exactly `format` and `with`. An operator key like
-`is:` lives inside a condition slot a front end owns and can never reach a
-document, so it needs no reservation. The two stay reserved whether or not any
-notation offers them. A document that writes one was written *for* a spelled
-notation, and reading it as a record that happens to have those fields would
-be running a program nobody wrote.
+A reader of documents **refuses** a spelling where it meets one, the way it
+refuses any mapping that is no form of the document's: a record is written under
+`record`, so a mapping of `format` and `with` is never read as a record that
+happens to have those fields.
 
 ## Cases
 
@@ -134,12 +138,16 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-name-declared-as-both-a-constant-and-a-variable-refuses`
 - `a-procedure-only-an-untaken-arm-sends-is-still-needed`
 - `a-reserved-spelling-refuses-in-a-document`
+- `a-result-written-as-null-refuses`
 - `a-send-is-a-declared-spelling-or-an-import`
 - `a-version-that-never-existed-refuses`
+- `an-access-written-as-what-its-absence-means-refuses`
+- `an-else-written-empty-refuses`
 - `an-overstated-manifest-refuses`
 - `an-unknown-key-refuses`
 - `an-untruthful-manifest-refuses`
 - `constants-settle-in-the-order-they-read-each-other`
 - `constants-that-name-each-other-refuse`
-- `the-escape-quotes-a-form`
+- `imports-written-out-of-order-refuse`
+- `modifiers-written-in-another-order-refuse`
 - `what-a-document-says-for-a-reader-is-carried`

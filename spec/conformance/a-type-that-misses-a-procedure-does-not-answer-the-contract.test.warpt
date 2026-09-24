@@ -59,9 +59,13 @@ warpt 1
           {
             let "plain"
             value {
-              as "bank.Plain"
-              of {
-                note "x"
+              as {
+                of {
+                  record {
+                    note "x"
+                  }
+                }
+                type "bank.Plain"
               }
             }
           }
@@ -86,10 +90,14 @@ warpt 1
     }
     types {
       "bank.Account" {
-        balance "int"
+        record {
+          balance "int"
+        }
       }
       "bank.Plain" {
-        note "string"
+        record {
+          note "string"
+        }
       }
     }
     warp 1

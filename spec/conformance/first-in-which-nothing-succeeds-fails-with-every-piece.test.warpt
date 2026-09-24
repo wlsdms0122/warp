@@ -28,36 +28,38 @@ warpt 1
                       call {
                         arguments [
                           {
-                            left {
-                              closure {
-                                body [
-                                  {
-                                    value {
-                                      call {
-                                        arguments [
-                                          "left"
-                                        ]
-                                        procedure "std.control.abort"
+                            record {
+                              left {
+                                closure {
+                                  body [
+                                    {
+                                      value {
+                                        call {
+                                          arguments [
+                                            "left"
+                                          ]
+                                          procedure "std.control.abort"
+                                        }
                                       }
                                     }
-                                  }
-                                ]
+                                  ]
+                                }
                               }
-                            }
-                            right {
-                              closure {
-                                body [
-                                  {
-                                    value {
-                                      call {
-                                        arguments [
-                                          "right"
-                                        ]
-                                        procedure "std.control.abort"
+                              right {
+                                closure {
+                                  body [
+                                    {
+                                      value {
+                                        call {
+                                          arguments [
+                                            "right"
+                                          ]
+                                          procedure "std.control.abort"
+                                        }
                                       }
                                     }
-                                  }
-                                ]
+                                  ]
+                                }
                               }
                             }
                           }
@@ -72,9 +74,11 @@ warpt 1
                     {
                       let "failures"
                       value {
-                        as "dictionary<any>"
-                        of {
-                          ref "tried.details.failures"
+                        as {
+                          of {
+                            ref "tried.details.failures"
+                          }
+                          type "dictionary<any>"
                         }
                       }
                     }

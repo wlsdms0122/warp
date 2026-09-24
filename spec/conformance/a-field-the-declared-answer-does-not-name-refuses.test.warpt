@@ -16,25 +16,29 @@ warpt 1
           {
             let "both"
             value {
-              as "Answers"
-              of {
-                call {
-                  arguments [
-                    {
-                      left {
-                        closure {
-                          result 1
+              as {
+                of {
+                  call {
+                    arguments [
+                      {
+                        record {
+                          left {
+                            closure {
+                              result 1
+                            }
+                          }
+                          right {
+                            closure {
+                              result 2
+                            }
+                          }
                         }
                       }
-                      right {
-                        closure {
-                          result 2
-                        }
-                      }
-                    }
-                  ]
-                  procedure "std.concurrent.all"
+                    ]
+                    procedure "std.concurrent.all"
+                  }
                 }
+                type "Answers"
               }
             }
           }
@@ -47,8 +51,10 @@ warpt 1
     }
     types {
       Answers {
-        left "int"
-        right "int"
+        record {
+          left "int"
+          right "int"
+        }
       }
     }
     warp 1

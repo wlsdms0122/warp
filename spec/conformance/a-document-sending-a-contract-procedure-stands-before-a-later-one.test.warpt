@@ -19,9 +19,6 @@ warpt 1
       imports []
       procedures {
         "app.nothing" {
-          result {
-            value null
-          }
           returns "null"
         }
       }
@@ -70,7 +67,9 @@ warpt 1
       }
       types {
         "bank.Account" {
-          balance "int"
+          record {
+            balance "int"
+          }
         }
       }
       warp 1
@@ -93,9 +92,13 @@ warpt 1
           {
             let "account"
             value {
-              as "bank.Account"
-              of {
-                balance 1
+              as {
+                of {
+                  record {
+                    balance 1
+                  }
+                }
+                type "bank.Account"
               }
             }
           }

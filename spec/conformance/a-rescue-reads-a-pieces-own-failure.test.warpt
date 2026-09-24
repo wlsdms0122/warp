@@ -24,25 +24,27 @@ warpt 1
                       call {
                         arguments [
                           {
-                            fine {
-                              closure {
-                                result "ok"
+                            record {
+                              fine {
+                                closure {
+                                  result "ok"
+                                }
                               }
-                            }
-                            fragile {
-                              closure {
-                                body [
-                                  {
-                                    value {
-                                      call {
-                                        arguments [
-                                          "on purpose"
-                                        ]
-                                        procedure "std.control.abort"
+                              fragile {
+                                closure {
+                                  body [
+                                    {
+                                      value {
+                                        call {
+                                          arguments [
+                                            "on purpose"
+                                          ]
+                                          procedure "std.control.abort"
+                                        }
                                       }
                                     }
-                                  }
-                                ]
+                                  ]
+                                }
                               }
                             }
                           }
@@ -57,9 +59,11 @@ warpt 1
                     {
                       let "failures"
                       value {
-                        as "dictionary<any>"
-                        of {
-                          ref "tried.details.failures"
+                        as {
+                          of {
+                            ref "tried.details.failures"
+                          }
+                          type "dictionary<any>"
                         }
                       }
                     }
@@ -67,10 +71,14 @@ warpt 1
                       let "piece"
                       value {
                         as {
-                          type "string"
-                        }
-                        of {
-                          ref "failures.fragile"
+                          of {
+                            ref "failures.fragile"
+                          }
+                          type {
+                            record {
+                              type "string"
+                            }
+                          }
                         }
                       }
                     }

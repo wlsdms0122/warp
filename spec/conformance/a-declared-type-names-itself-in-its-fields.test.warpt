@@ -19,61 +19,75 @@ warpt 1
           {
             let "leaf"
             value {
-              as "t.Node"
-              of {
-                kids []
-                left null
-                n 1
+              as {
+                of {
+                  record {
+                    kids []
+                    left null
+                    n 1
+                  }
+                }
+                type "t.Node"
               }
             }
           }
           {
             let "root"
             value {
-              as "t.Node"
-              of {
-                kids [
-                  {
-                    ref "leaf"
+              as {
+                of {
+                  record {
+                    kids [
+                      {
+                        ref "leaf"
+                      }
+                      {
+                        ref "leaf"
+                      }
+                    ]
+                    left {
+                      ref "leaf"
+                    }
+                    n 2
                   }
-                  {
-                    ref "leaf"
-                  }
-                ]
-                left {
-                  ref "leaf"
                 }
-                n 2
+                type "t.Node"
               }
             }
           }
         ]
         result {
-          first {
-            ref "root.kids[0].n"
-          }
-          kids {
-            call {
-              arguments [
-                {
-                  ref "root.kids"
-                }
-              ]
-              procedure "std.collection.count"
+          record {
+            first {
+              ref "root.kids[0].n"
+            }
+            kids {
+              call {
+                arguments [
+                  {
+                    ref "root.kids"
+                  }
+                ]
+                procedure "std.collection.count"
+              }
             }
           }
         }
         returns {
-          first "int"
-          kids "int"
+          record {
+            first "int"
+            kids "int"
+          }
         }
       }
     }
     types {
       "t.Node" {
-        kids "array<t.Node>"
-        left "t.Node?"
-        n "int"
+        record {
+          kids "array<t.Node>"
+          left "t.Node?"
+          n "int"
+        }
       }
     }
     warp 1

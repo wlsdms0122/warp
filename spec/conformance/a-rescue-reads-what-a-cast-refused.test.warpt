@@ -24,20 +24,24 @@ warpt 1
                 body [
                   {
                     value {
-                      as "int"
-                      of {
-                        ref "payload"
+                      as {
+                        of {
+                          ref "payload"
+                        }
+                        type "int"
                       }
                     }
                   }
                 ]
                 rescue {
                   result {
-                    actual {
-                      ref "tried.details.actual"
-                    }
-                    expected {
-                      ref "tried.details.expected"
+                    record {
+                      actual {
+                        ref "tried.details.actual"
+                      }
+                      expected {
+                        ref "tried.details.expected"
+                      }
                     }
                   }
                 }

@@ -1,0 +1,28 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-type-form-beside-other-keys-refuses"
+  note "A type written as a mapping is a form by its one key, and `record` beside another key is no form. A record type with a field called `record` is written under `record`."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+      }
+    }
+    types {
+      "app.Pair" {
+        id "int"
+        record {
+          name "string"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

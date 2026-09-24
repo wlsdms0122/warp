@@ -13,10 +13,14 @@ warpt 1
         body [
           {
             value {
-              as "Account"
-              of {
-                balance 1
-                owner "kim"
+              as {
+                of {
+                  record {
+                    balance 1
+                    owner "kim"
+                  }
+                }
+                type "Account"
               }
             }
             var "a"
@@ -34,8 +38,10 @@ warpt 1
     }
     types {
       Account {
-        balance "int"
-        owner "string"
+        record {
+          balance "int"
+          owner "string"
+        }
       }
     }
     warp 1

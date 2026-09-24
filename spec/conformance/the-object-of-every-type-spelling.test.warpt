@@ -24,7 +24,7 @@ warpt 1
       contracts []
       dependencies []
       document [
-        x"345bf04e25652644c428bddc12ee308225eba3890afb645e1e06492d3f503a77"
+        x"8f7f5667f1c821156d3f00c47c9f4b6629763f2d8d821fc37bcce1cea68e6202"
       ]
       leaned []
       lifted []
@@ -410,30 +410,34 @@ warpt 1
     types {
       "app.Handle" {
         linear {
-          name "string"
+          record {
+            name "string"
+          }
         }
       }
       "app.Kinds" {
-        f "procedure"
-        flag "var bool"
-        g {
-          "const isolated procedure" {
-            parameters [
-              "string"
-              "int"
-            ]
-            returns "int"
+        record {
+          f "procedure"
+          flag "var bool"
+          g {
+            "const isolated procedure" {
+              parameters [
+                "string"
+                "int"
+              ]
+              returns "int"
+            }
           }
-        }
-        maybe "int?"
-        none "null"
-        ranged "int(0...9)"
-        stop {
-          procedure {
-            returns "never"
+          maybe "int?"
+          none "null"
+          ranged "int(0...9)"
+          stop {
+            procedure {
+              returns "never"
+            }
           }
+          table "dictionary<string>"
         }
-        table "dictionary<string>"
       }
     }
     warp 1
