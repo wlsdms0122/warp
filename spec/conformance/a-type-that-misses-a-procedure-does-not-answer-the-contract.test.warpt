@@ -9,6 +9,12 @@ warpt 1
     contracts {
       "app.Describable" {
         describe {
+          parameters [
+            {
+              name "of"
+              type "app.Describable"
+            }
+          ]
           returns "string"
         }
       }
@@ -25,12 +31,13 @@ warpt 1
             type "some T"
           }
         ]
-        receiver "it"
         result {
           call {
-            of {
-              ref "it"
-            }
+            arguments [
+              {
+                ref "it"
+              }
+            ]
             procedure "app.Describable.describe"
           }
         }
@@ -43,7 +50,6 @@ warpt 1
             type "bank.Account"
           }
         ]
-        receiver "of"
         result "an account"
         returns "string"
       }
@@ -62,9 +68,11 @@ warpt 1
         ]
         result {
           call {
-            of {
-              ref "plain"
-            }
+            arguments [
+              {
+                ref "plain"
+              }
+            ]
             procedure "app.tell"
           }
         }

@@ -9,6 +9,12 @@ warpt 1
     contracts {
       "app.Describable" {
         describe {
+          parameters [
+            {
+              name "of"
+              type "app.Describable"
+            }
+          ]
           returns "string"
         }
       }
@@ -22,7 +28,6 @@ warpt 1
             type "borrowing app.Handle"
           }
         ]
-        receiver "of"
         result "a handle"
         returns "string"
       }

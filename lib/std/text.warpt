@@ -20,9 +20,11 @@ warpt 1
           let "held"
           value {
             call {
-              of {
-                ref "of"
-              }
+              arguments [
+                {
+                  ref "of"
+                }
+              ]
               procedure "std.text.characters"
             }
           }
@@ -31,9 +33,11 @@ warpt 1
           let "wanted"
           value {
             call {
-              of {
-                ref "value"
-              }
+              arguments [
+                {
+                  ref "value"
+                }
+              ]
               procedure "std.text.characters"
             }
           }
@@ -56,14 +60,14 @@ warpt 1
                           let "at"
                           value {
                             call {
-                              arguments {
-                                value {
+                              arguments [
+                                {
+                                  ref "walk.index"
+                                }
+                                {
                                   ref "probe.index"
                                 }
-                              }
-                              of {
-                                ref "walk.index"
-                              }
+                              ]
                               procedure "std.math.plus"
                             }
                           }
@@ -84,19 +88,21 @@ warpt 1
                               ]
                               when {
                                 call {
-                                  of {
-                                    call {
-                                      arguments {
-                                        value {
-                                          ref "wanted[probe.index]"
-                                        }
+                                  arguments [
+                                    {
+                                      call {
+                                        arguments [
+                                          {
+                                            ref "held[at]"
+                                          }
+                                          {
+                                            ref "wanted[probe.index]"
+                                          }
+                                        ]
+                                        procedure "std.logic.equal"
                                       }
-                                      of {
-                                        ref "held[at]"
-                                      }
-                                      procedure "std.logic.equal"
                                     }
-                                  }
+                                  ]
                                   procedure "std.logic.not"
                                 }
                               }
@@ -106,19 +112,21 @@ warpt 1
                       ]
                       while {
                         call {
-                          arguments {
-                            value {
+                          arguments [
+                            {
+                              ref "probe.index"
+                            }
+                            {
                               call {
-                                of {
-                                  ref "wanted"
-                                }
+                                arguments [
+                                  {
+                                    ref "wanted"
+                                  }
+                                ]
                                 procedure "std.collection.count"
                               }
                             }
-                          }
-                          of {
-                            ref "probe.index"
-                          }
+                          ]
                           procedure "std.math.lessThan"
                         }
                       }
@@ -144,42 +152,46 @@ warpt 1
               ]
               while {
                 call {
-                  arguments {
-                    value {
+                  arguments [
+                    {
+                      ref "walk.index"
+                    }
+                    {
                       call {
-                        arguments {
-                          value 1
-                        }
-                        of {
-                          call {
-                            arguments {
-                              value {
-                                call {
-                                  of {
-                                    ref "wanted"
+                        arguments [
+                          {
+                            call {
+                              arguments [
+                                {
+                                  call {
+                                    arguments [
+                                      {
+                                        ref "held"
+                                      }
+                                    ]
+                                    procedure "std.collection.count"
                                   }
-                                  procedure "std.collection.count"
                                 }
-                              }
-                            }
-                            of {
-                              call {
-                                of {
-                                  ref "held"
+                                {
+                                  call {
+                                    arguments [
+                                      {
+                                        ref "wanted"
+                                      }
+                                    ]
+                                    procedure "std.collection.count"
+                                  }
                                 }
-                                procedure "std.collection.count"
-                              }
+                              ]
+                              procedure "std.math.minus"
                             }
-                            procedure "std.math.minus"
                           }
-                        }
+                          1
+                        ]
                         procedure "std.math.plus"
                       }
                     }
-                  }
-                  of {
-                    ref "walk.index"
-                  }
+                  ]
                   procedure "std.math.lessThan"
                 }
               }
@@ -198,7 +210,6 @@ warpt 1
           type "string"
         }
       ]
-      receiver "of"
       result false
       returns "bool"
     }
@@ -211,7 +222,9 @@ warpt 1
                 {
                   value {
                     call {
-                      of "replacing asks an empty piece"
+                      arguments [
+                        "replacing asks an empty piece"
+                      ]
                       procedure "std.control.abort"
                     }
                   }
@@ -219,12 +232,12 @@ warpt 1
               ]
               when {
                 call {
-                  arguments {
-                    value ""
-                  }
-                  of {
-                    ref "value"
-                  }
+                  arguments [
+                    {
+                      ref "value"
+                    }
+                    ""
+                  ]
                   procedure "std.logic.equal"
                 }
               }
@@ -247,27 +260,26 @@ warpt 1
           type "string"
         }
       ]
-      receiver "of"
       result {
         call {
-          arguments {
-            value {
+          arguments [
+            {
+              call {
+                arguments [
+                  {
+                    ref "of"
+                  }
+                  {
+                    ref "value"
+                  }
+                ]
+                procedure "std.text.split"
+              }
+            }
+            {
               ref "with"
             }
-          }
-          of {
-            call {
-              arguments {
-                value {
-                  ref "value"
-                }
-              }
-              of {
-                ref "of"
-              }
-              procedure "std.text.split"
-            }
-          }
+          ]
           procedure "std.text.joined"
         }
       }
@@ -279,9 +291,11 @@ warpt 1
           let "held"
           value {
             call {
-              of {
-                ref "of"
-              }
+              arguments [
+                {
+                  ref "of"
+                }
+              ]
               procedure "std.text.characters"
             }
           }
@@ -290,9 +304,11 @@ warpt 1
           let "heldCount"
           value {
             call {
-              of {
-                ref "held"
-              }
+              arguments [
+                {
+                  ref "held"
+                }
+              ]
               procedure "std.collection.count"
             }
           }
@@ -301,9 +317,11 @@ warpt 1
           let "wanted"
           value {
             call {
-              of {
-                ref "value"
-              }
+              arguments [
+                {
+                  ref "value"
+                }
+              ]
               procedure "std.text.characters"
             }
           }
@@ -312,9 +330,11 @@ warpt 1
           let "wantedCount"
           value {
             call {
-              of {
-                ref "wanted"
-              }
+              arguments [
+                {
+                  ref "wanted"
+                }
+              ]
               procedure "std.collection.count"
             }
           }
@@ -326,7 +346,9 @@ warpt 1
                 {
                   value {
                     call {
-                      of "split asks an empty separator"
+                      arguments [
+                        "split asks an empty separator"
+                      ]
                       procedure "std.control.abort"
                     }
                   }
@@ -334,12 +356,12 @@ warpt 1
               ]
               when {
                 call {
-                  arguments {
-                    value 0
-                  }
-                  of {
-                    ref "wantedCount"
-                  }
+                  arguments [
+                    {
+                      ref "wantedCount"
+                    }
+                    0
+                  ]
                   procedure "std.logic.equal"
                 }
               }
@@ -366,29 +388,31 @@ warpt 1
                 {
                   value {
                     call {
-                      of {
-                        call {
-                          arguments {
-                            value {
-                              call {
-                                arguments {
-                                  value {
-                                    ref "wantedCount"
-                                  }
-                                }
-                                of {
-                                  ref "at"
-                                }
-                                procedure "std.math.plus"
+                      arguments [
+                        {
+                          call {
+                            arguments [
+                              {
+                                ref "heldCount"
                               }
-                            }
+                              {
+                                call {
+                                  arguments [
+                                    {
+                                      ref "at"
+                                    }
+                                    {
+                                      ref "wantedCount"
+                                    }
+                                  ]
+                                  procedure "std.math.plus"
+                                }
+                              }
+                            ]
+                            procedure "std.math.lessThan"
                           }
-                          of {
-                            ref "heldCount"
-                          }
-                          procedure "std.math.lessThan"
                         }
-                      }
+                      ]
                       procedure "std.logic.not"
                     }
                   }
@@ -407,14 +431,14 @@ warpt 1
                                   let "offset"
                                   value {
                                     call {
-                                      arguments {
-                                        value {
+                                      arguments [
+                                        {
+                                          ref "at"
+                                        }
+                                        {
                                           ref "probe.index"
                                         }
-                                      }
-                                      of {
-                                        ref "at"
-                                      }
+                                      ]
                                       procedure "std.math.plus"
                                     }
                                   }
@@ -435,19 +459,21 @@ warpt 1
                                       ]
                                       when {
                                         call {
-                                          of {
-                                            call {
-                                              arguments {
-                                                value {
-                                                  ref "wanted[probe.index]"
-                                                }
+                                          arguments [
+                                            {
+                                              call {
+                                                arguments [
+                                                  {
+                                                    ref "held[offset]"
+                                                  }
+                                                  {
+                                                    ref "wanted[probe.index]"
+                                                  }
+                                                ]
+                                                procedure "std.logic.equal"
                                               }
-                                              of {
-                                                ref "held[offset]"
-                                              }
-                                              procedure "std.logic.equal"
                                             }
-                                          }
+                                          ]
                                           procedure "std.logic.not"
                                         }
                                       }
@@ -457,14 +483,14 @@ warpt 1
                               ]
                               while {
                                 call {
-                                  arguments {
-                                    value {
+                                  arguments [
+                                    {
+                                      ref "probe.index"
+                                    }
+                                    {
                                       ref "wantedCount"
                                     }
-                                  }
-                                  of {
-                                    ref "probe.index"
-                                  }
+                                  ]
                                   procedure "std.math.lessThan"
                                 }
                               }
@@ -486,14 +512,14 @@ warpt 1
                           set "current"
                           value {
                             call {
-                              arguments {
-                                value {
+                              arguments [
+                                {
+                                  ref "current"
+                                }
+                                {
                                   ref "held[at]"
                                 }
-                              }
-                              of {
-                                ref "current"
-                              }
+                              ]
                               procedure "std.collection.appending"
                             }
                           }
@@ -502,12 +528,12 @@ warpt 1
                           set "at"
                           value {
                             call {
-                              arguments {
-                                value 1
-                              }
-                              of {
-                                ref "at"
-                              }
+                              arguments [
+                                {
+                                  ref "at"
+                                }
+                                1
+                              ]
                               procedure "std.math.plus"
                             }
                           }
@@ -518,19 +544,21 @@ warpt 1
                           set "pieces"
                           value {
                             call {
-                              arguments {
-                                value {
+                              arguments [
+                                {
+                                  ref "pieces"
+                                }
+                                {
                                   call {
-                                    of {
-                                      ref "current"
-                                    }
+                                    arguments [
+                                      {
+                                        ref "current"
+                                      }
+                                    ]
                                     procedure "std.text.joined"
                                   }
                                 }
-                              }
-                              of {
-                                ref "pieces"
-                              }
+                              ]
                               procedure "std.collection.appending"
                             }
                           }
@@ -543,14 +571,14 @@ warpt 1
                           set "at"
                           value {
                             call {
-                              arguments {
-                                value {
+                              arguments [
+                                {
+                                  ref "at"
+                                }
+                                {
                                   ref "wantedCount"
                                 }
-                              }
-                              of {
-                                ref "at"
-                              }
+                              ]
                               procedure "std.math.plus"
                             }
                           }
@@ -565,14 +593,14 @@ warpt 1
               ]
               while {
                 call {
-                  arguments {
-                    value {
+                  arguments [
+                    {
+                      ref "at"
+                    }
+                    {
                       ref "heldCount"
                     }
-                  }
-                  of {
-                    ref "at"
-                  }
+                  ]
                   procedure "std.math.lessThan"
                 }
               }
@@ -591,22 +619,23 @@ warpt 1
           type "string"
         }
       ]
-      receiver "of"
       result {
         call {
-          arguments {
-            value {
+          arguments [
+            {
+              ref "pieces"
+            }
+            {
               call {
-                of {
-                  ref "current"
-                }
+                arguments [
+                  {
+                    ref "current"
+                  }
+                ]
                 procedure "std.text.joined"
               }
             }
-          }
-          of {
-            ref "pieces"
-          }
+          ]
           procedure "std.collection.appending"
         }
       }
@@ -618,9 +647,11 @@ warpt 1
           let "held"
           value {
             call {
-              of {
-                ref "of"
-              }
+              arguments [
+                {
+                  ref "of"
+                }
+              ]
               procedure "std.text.characters"
             }
           }
@@ -629,9 +660,11 @@ warpt 1
           let "wanted"
           value {
             call {
-              of {
-                ref "value"
-              }
+              arguments [
+                {
+                  ref "value"
+                }
+              ]
               procedure "std.text.characters"
             }
           }
@@ -648,24 +681,28 @@ warpt 1
               ]
               when {
                 call {
-                  arguments {
-                    value {
+                  arguments [
+                    {
                       call {
-                        of {
-                          ref "wanted"
-                        }
+                        arguments [
+                          {
+                            ref "held"
+                          }
+                        ]
                         procedure "std.collection.count"
                       }
                     }
-                  }
-                  of {
-                    call {
-                      of {
-                        ref "held"
+                    {
+                      call {
+                        arguments [
+                          {
+                            ref "wanted"
+                          }
+                        ]
+                        procedure "std.collection.count"
                       }
-                      procedure "std.collection.count"
                     }
-                  }
+                  ]
                   procedure "std.math.lessThan"
                 }
               }
@@ -689,19 +726,21 @@ warpt 1
                       ]
                       when {
                         call {
-                          of {
-                            call {
-                              arguments {
-                                value {
-                                  ref "wanted[walk.index]"
-                                }
+                          arguments [
+                            {
+                              call {
+                                arguments [
+                                  {
+                                    ref "held[walk.index]"
+                                  }
+                                  {
+                                    ref "wanted[walk.index]"
+                                  }
+                                ]
+                                procedure "std.logic.equal"
                               }
-                              of {
-                                ref "held[walk.index]"
-                              }
-                              procedure "std.logic.equal"
                             }
-                          }
+                          ]
                           procedure "std.logic.not"
                         }
                       }
@@ -711,19 +750,21 @@ warpt 1
               ]
               while {
                 call {
-                  arguments {
-                    value {
+                  arguments [
+                    {
+                      ref "walk.index"
+                    }
+                    {
                       call {
-                        of {
-                          ref "wanted"
-                        }
+                        arguments [
+                          {
+                            ref "wanted"
+                          }
+                        ]
                         procedure "std.collection.count"
                       }
                     }
-                  }
-                  of {
-                    ref "walk.index"
-                  }
+                  ]
                   procedure "std.math.lessThan"
                 }
               }
@@ -742,7 +783,6 @@ warpt 1
           type "string"
         }
       ]
-      receiver "of"
       result true
       returns "bool"
     }

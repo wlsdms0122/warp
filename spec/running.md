@@ -12,11 +12,7 @@ running. What is checked before any of this is
   before anything runs, under *who may name a declaration* in
   [procedures](procedure.md).
 - Statements run in order; each binds its name in the scope of what follows.
-- A call's receiver written in front is evaluated **first**, then its
-  arguments in the callee's **parameter order**, the order its declaration
-  wrote them, and an application's in the order they are written. An argument may call anything, so the order is observable, and
-  it is the declaration's fact, not a hash table's: two arguments that would
-  each refuse surface the one standing first.
+- A call's arguments are evaluated in **position order**, the first first, whether the callee is a body or the host's, and an application's the same. An argument may call anything, so the order is observable: two arguments that would each refuse surface the one standing first.
 - `std.collection.keys` and `values` answer in the record's **canonical
   order**. Names ascending. For the same reason: a program that walks them
   gets the same walk on every run.
@@ -162,8 +158,7 @@ program that arrives is a program nobody can debug a race in.
 
 What `conformance/` asks about this page, by the name each case's file carries.
 
-- `a-calls-arguments-are-evaluated-in-the-callees-parameter-order`
-- `a-calls-receiver-is-evaluated-before-its-arguments`
+- `a-calls-arguments-are-evaluated-in-position-order`
 - `a-field-the-declared-answer-does-not-name-refuses`
 - `a-slot-that-wrote-no-returns-opens-its-answer-to-any`
 - `an-answer-of-all-settles-into-the-record-declared`

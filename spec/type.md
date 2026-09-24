@@ -276,10 +276,7 @@ it.
 What **refuses at the build**:
 
 - reaching the end of a body still holding one;
-- handing one on a second time. Within one call that counts in the order the
-  run evaluates the receiver and the arguments (see [running](running.md)), so
-  a slot that borrows reads what a consuming slot standing before it already
-  took;
+- handing one on a second time. Within one call that counts in position order, the order the run evaluates the arguments in (see [running](running.md)), so a slot that borrows reads what a consuming slot standing before it already took;
 - handing one on in one arm of a conditional and not the other, since what a
   body holds afterwards would depend on which arm ran. An arm that **returns**
   is not one of those arms: no run comes back from it, so what the body holds
@@ -309,12 +306,7 @@ made it can close it.
 Nothing about this survives lowering. It is proven at the build and there is
 nothing left for a run to keep.
 
-**Contracts.** A membership says which types a name admits. A contract says
-which **procedures** a value answers, which is the other half of "what may stand
-here" and the half a list cannot give: the types that answer a procedure are
-open, and new ones arrive with new documents. A module declares one the way it
-declares a type: a name bound to the procedures, each written as a signature
-with no receiver, because the receiver is whatever satisfies the contract.
+**Contracts.** A membership says which types a name admits. A contract says which **procedures** a value answers, which is the other half of "what may stand here" and the half a list cannot give: the types that answer a procedure are open, and new ones arrive with new documents. A module declares one the way it declares a type: a name bound to the procedures, each written as a signature whose first parameter is the contract itself, since what stands there is whatever satisfies the contract. A contract's procedure taking anything else first **refuses at the build**.
 
 A contract's name stands where a type is written, and so does `A & B`: the
 slot takes a value of whatever type satisfies every contract and belongs to
@@ -333,10 +325,7 @@ later gives a type the procedures a contract asks. A claim about a type this
 specification names, `int` or `string`, **refuses at the load**: a value of one
 wears no name for a run to read, so no declaration could answer for it.
 
-The build holds the claim to the declarations behind it. For every procedure the
-contract asks, it takes the declaration named for the type and that procedure
-(`bank.Account` and `describe` give `bank.Account.describe`) and holds its
-signature to the contract's with the receiver filled in by the type.
+The build holds the claim to the declarations behind it. For every procedure the contract asks, it takes the declaration named for the type and that procedure (`bank.Account` and `describe` give `bank.Account.describe`) and holds its signature to the contract's with the type taken first in place of the contract.
 
 Whether a type answers a contract is therefore a fact of the whole list, and a
 claim may be written in a document the one leaning on it never names. A document
@@ -374,26 +363,13 @@ membership's is: at the **build** a reading provably outside refuses, and at the
 
 A body calls a contract's procedure by writing the contract's name and the
 procedure's with a dot between them: `app.Describable.describe`. That spelling
-is the contract's declaration of the procedure, receiverless, and it is a send
-like any other: a document calling a contract another module declares lists
-the spelling in `imports`. It names no type's declaration, and what it means is
-settled by the value it is sent to, so it is written with a receiver in front
-and refuses without one. What a call
-hands it and what it answers are the contract's, not any one declaration's.
+is the contract's declaration of the procedure, and it is a send like any other: a document calling a contract another module declares lists the spelling in `imports`. It names no type's declaration, and what it means is settled by the value at its first position, so a call writing nothing there refuses. What a call hands it and what it answers are the contract's, not any one declaration's.
 
-**The build builds the table and the run reads it.** For every contract, the
-build gathers every type that satisfies it and lowers one call per type, each
-against the row that answers, arguments in that row's own slot order. The run
-reads the name the value wears and picks. Nothing is resolved while a program
-is running.
+**The build builds the table and the run reads it.** For every contract, the build gathers every type that satisfies it and lowers one call per type, each against the row that answers, arguments in that row's own slot order. The run reads the name the first argument wears and picks. Nothing is resolved while a program is running.
 
 A declaration answering a contract's procedure is reached **through the
 contract**, which is the spelling that says which contract is meant. Two types
-answering one procedure is the ordinary case. Such a declaration takes the
-contract's parameters under the contract's names and **in the contract's
-order**, its receiver aside; a parameter it declares beyond them is one no call
-through the contract writes, so it is a `T?` and refuses otherwise. The run
-hands the arguments to the same positions whichever declaration answers.
+answering one procedure is the ordinary case. Such a declaration takes its own type first and then what the contract asks **at the contract's positions**, each of the same type; the names are its own. A parameter it declares beyond them is one no call through the contract writes, so it is a `T?` and refuses otherwise. The run hands the arguments to the same positions whichever declaration answers.
 
 **A name is its declared spelling.** The key a document declares a type,
 constraint or procedure under is the whole of its name: `std.math.plus` is
@@ -430,6 +406,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-bound-names-a-membership-another-document-declares`
 - `a-bound-naming-a-parameter-no-slot-mentions-refuses`
 - `a-byte-is-a-whole-number-a-range-refines`
+- `a-call-through-a-contract-with-nothing-first-refuses`
 - `a-claim-about-a-type-the-language-names-refuses`
 - `a-claim-nobody-leans-on-refuses-nowhere`
 - `a-claim-stands-in-a-document-the-leaning-one-never-names`
@@ -439,9 +416,11 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-constraint-is-named-by-its-qualified-spelling`
 - `a-constraint-that-admits-nothing-refuses`
 - `a-contract-carries-a-procedure-into-a-generic-body`
+- `a-contract-procedure-takes-the-contract-first`
 - `a-contract-stands-in-a-closures-parameter`
 - `a-contract-stands-in-a-declared-types-field`
 - `a-contract-stands-where-a-type-is-written`
+- `a-declaration-answering-a-contract-names-its-parameters-its-own-way`
 - `a-declaration-answering-a-contract-takes-its-parameters-in-the-contracts-order`
 - `a-declared-name-is-a-type`
 - `a-declared-range-refuses-what-is-outside-it`
@@ -460,7 +439,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-nullable-of-a-type-handed-on-once-refuses`
 - `a-nullable-that-says-nothing-new-refuses`
 - `a-padded-bound-refuses`
-- `a-procedure-answering-its-receivers-own-elements-keeps-the-spelling`
+- `a-procedure-answering-a-collections-own-elements-keeps-the-spelling`
 - `a-procedure-type-answering-a-type-handed-on-once-refuses`
 - `a-range-judges-a-runtime-value-at-the-boundary`
 - `a-range-that-admits-nothing-refuses`

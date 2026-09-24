@@ -18,9 +18,14 @@ warpt 1
             let "total"
             value {
               call {
-                arguments {
-                  from 0
-                  value {
+                arguments [
+                  [
+                    1
+                    2
+                    3
+                  ]
+                  0
+                  {
                     closure {
                       parameters [
                         {
@@ -34,25 +39,20 @@ warpt 1
                       ]
                       result {
                         call {
-                          arguments {
-                            value {
+                          arguments [
+                            {
+                              ref "carried"
+                            }
+                            {
                               ref "item"
                             }
-                          }
-                          of {
-                            ref "carried"
-                          }
+                          ]
                           procedure "std.math.plus"
                         }
                       }
                       returns "int"
                     }
                   }
-                }
-                of [
-                  1
-                  2
-                  3
                 ]
                 procedure "std.collection.reduce"
               }

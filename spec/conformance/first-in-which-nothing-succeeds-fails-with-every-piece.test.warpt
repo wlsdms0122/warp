@@ -26,36 +26,42 @@ warpt 1
                   {
                     value {
                       call {
-                        of {
-                          left {
-                            closure {
-                              body [
-                                {
-                                  value {
-                                    call {
-                                      of "left"
-                                      procedure "std.control.abort"
+                        arguments [
+                          {
+                            left {
+                              closure {
+                                body [
+                                  {
+                                    value {
+                                      call {
+                                        arguments [
+                                          "left"
+                                        ]
+                                        procedure "std.control.abort"
+                                      }
                                     }
                                   }
-                                }
-                              ]
+                                ]
+                              }
                             }
-                          }
-                          right {
-                            closure {
-                              body [
-                                {
-                                  value {
-                                    call {
-                                      of "right"
-                                      procedure "std.control.abort"
+                            right {
+                              closure {
+                                body [
+                                  {
+                                    value {
+                                      call {
+                                        arguments [
+                                          "right"
+                                        ]
+                                        procedure "std.control.abort"
+                                      }
                                     }
                                   }
-                                }
-                              ]
+                                ]
+                              }
                             }
                           }
-                        }
+                        ]
                         procedure "std.concurrent.first"
                       }
                     }
@@ -75,9 +81,11 @@ warpt 1
                   ]
                   result {
                     call {
-                      of {
-                        ref "failures"
-                      }
+                      arguments [
+                        {
+                          ref "failures"
+                        }
+                      ]
                       procedure "std.collection.keys"
                     }
                   }

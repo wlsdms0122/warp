@@ -22,17 +22,23 @@ warpt 1
             let "tagged"
             value {
               call {
-                arguments {
-                  by {
+                arguments [
+                  [
+                    "a"
+                    "b"
+                  ]
+                  {
                     closure {
                       body [
                         {
                           let "place"
                           value {
                             call {
-                              of {
-                                ref "index"
-                              }
+                              arguments [
+                                {
+                                  ref "index"
+                                }
+                              ]
                               procedure "std.text.text"
                             }
                           }
@@ -50,13 +56,15 @@ warpt 1
                       ]
                       result {
                         call {
-                          of [
-                            {
-                              ref "place"
-                            }
-                            {
-                              ref "item"
-                            }
+                          arguments [
+                            [
+                              {
+                                ref "place"
+                              }
+                              {
+                                ref "item"
+                              }
+                            ]
                           ]
                           procedure "std.text.joined"
                         }
@@ -64,10 +72,6 @@ warpt 1
                       returns "string"
                     }
                   }
-                }
-                of [
-                  "a"
-                  "b"
                 ]
                 procedure "std.concurrent.map"
               }

@@ -17,9 +17,11 @@ warpt 1
           {
             value {
               call {
-                of {
-                  ref "value"
-                }
+                arguments [
+                  {
+                    ref "value"
+                  }
+                ]
                 procedure "app.close"
               }
             }
@@ -50,14 +52,14 @@ warpt 1
           {
             value {
               call {
-                arguments {
-                  of {
+                arguments [
+                  {
                     ref "handle"
                   }
-                  value {
+                  {
                     ref "handle"
                   }
-                }
+                ]
                 procedure "app.swap"
               }
             }
@@ -77,7 +79,6 @@ warpt 1
             type "consuming app.Handle"
           }
         ]
-        receiver "of"
         runs true
       }
       "app.open" {

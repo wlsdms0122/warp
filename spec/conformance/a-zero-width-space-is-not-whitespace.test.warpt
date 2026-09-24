@@ -21,7 +21,9 @@ warpt 1
             let "thin"
             value {
               call {
-                of x"e2808b"
+                arguments [
+                  x"e2808b"
+                ]
                 procedure "std.text.decoded"
               }
             }
@@ -30,13 +32,15 @@ warpt 1
             let "written"
             value {
               call {
-                of [
-                  " "
-                  "warp"
-                  {
-                    ref "thin"
-                  }
-                  " "
+                arguments [
+                  [
+                    " "
+                    "warp"
+                    {
+                      ref "thin"
+                    }
+                    " "
+                  ]
                 ]
                 procedure "std.text.joined"
               }
@@ -46,9 +50,11 @@ warpt 1
             let "bare"
             value {
               call {
-                of {
-                  ref "written"
-                }
+                arguments [
+                  {
+                    ref "written"
+                  }
+                ]
                 procedure "std.text.trimmed"
               }
             }
@@ -57,14 +63,18 @@ warpt 1
             let "held"
             value {
               call {
-                of {
-                  call {
-                    of {
-                      ref "bare"
+                arguments [
+                  {
+                    call {
+                      arguments [
+                        {
+                          ref "bare"
+                        }
+                      ]
+                      procedure "std.text.characters"
                     }
-                    procedure "std.text.characters"
                   }
-                }
+                ]
                 procedure "std.collection.count"
               }
             }

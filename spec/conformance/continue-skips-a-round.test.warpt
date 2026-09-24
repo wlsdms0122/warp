@@ -51,12 +51,12 @@ warpt 1
                         ]
                         when {
                           call {
-                            arguments {
-                              value 1
-                            }
-                            of {
-                              ref "walk.index"
-                            }
+                            arguments [
+                              {
+                                ref "walk.index"
+                              }
+                              1
+                            ]
                             procedure "std.logic.equal"
                           }
                         }
@@ -67,13 +67,15 @@ warpt 1
                     set "seen"
                     value {
                       call {
-                        of [
-                          {
-                            ref "seen"
-                          }
-                          {
-                            ref "item"
-                          }
+                        arguments [
+                          [
+                            {
+                              ref "seen"
+                            }
+                            {
+                              ref "item"
+                            }
+                          ]
                         ]
                         procedure "std.text.joined"
                       }
@@ -82,19 +84,21 @@ warpt 1
                 ]
                 while {
                   call {
-                    arguments {
-                      value {
+                    arguments [
+                      {
+                        ref "walk.index"
+                      }
+                      {
                         call {
-                          of {
-                            ref "items"
-                          }
+                          arguments [
+                            {
+                              ref "items"
+                            }
+                          ]
                           procedure "std.collection.count"
                         }
                       }
-                    }
-                    of {
-                      ref "walk.index"
-                    }
+                    ]
                     procedure "std.math.lessThan"
                   }
                 }

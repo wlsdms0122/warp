@@ -3,8 +3,8 @@ warpt 1
   expect {
     refuses "build"
   }
-  name "a-receiver-written-for-one-that-declares-none-refuses"
-  note "`plain` declares no `receiver`, so it has no slot for what stands in front of the dot. A value written there would go nowhere, and the build says so rather than dropping it."
+  name "a-call-of-another-count-refuses"
+  note "A call hands its arguments by position, and `plain` takes one. A second argument would stand at a position `plain` does not have, and the build says so rather than dropping it."
   program {
     imports []
     procedures {
@@ -12,7 +12,10 @@ warpt 1
         access "public"
         result {
           call {
-            of 7
+            arguments [
+              7
+              8
+            ]
             procedure "plain"
           }
         }

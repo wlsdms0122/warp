@@ -1,0 +1,107 @@
+warpt 1
+{
+  expect {
+    answers "hi"
+  }
+  name "a-declaration-answering-a-contract-names-its-parameters-its-own-way"
+  note "A call through a contract hands its arguments by position, so a declaration answering it takes them at the contract's positions under names of its own: `bank.Account.describe` calls what `app.Describable` calls `label` its `prefix`."
+  program {
+    contracts {
+      "app.Describable" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "app.Describable"
+            }
+            {
+              name "label"
+              type "string"
+            }
+          ]
+          returns "string"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "app.tell" {
+        bounds {
+          T "app.Describable"
+        }
+        parameters [
+          {
+            name "it"
+            type "some T"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "it"
+              }
+              "hi"
+            ]
+            procedure "app.Describable.describe"
+          }
+        }
+        returns "string"
+      }
+      "bank.Account.describe" {
+        parameters [
+          {
+            name "account"
+            type "bank.Account"
+          }
+          {
+            name "prefix"
+            type "string"
+          }
+        ]
+        result {
+          ref "prefix"
+        }
+        returns "string"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "account"
+            value {
+              as "bank.Account"
+              of {
+                balance 1
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "account"
+              }
+            ]
+            procedure "app.tell"
+          }
+        }
+        returns "string"
+      }
+    }
+    satisfies {
+      "bank.Account" [
+        "app.Describable"
+      ]
+    }
+    types {
+      "bank.Account" {
+        balance "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

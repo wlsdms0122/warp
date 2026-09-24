@@ -23,8 +23,15 @@ warpt 1
         ]
         result {
           call {
-            arguments {
-              else {
+            arguments [
+              true
+              {
+                closure {
+                  result "taken"
+                  returns "any"
+                }
+              }
+              {
                 closure {
                   result {
                     as "int"
@@ -35,14 +42,7 @@ warpt 1
                   returns "any"
                 }
               }
-              then {
-                closure {
-                  result "taken"
-                  returns "any"
-                }
-              }
-            }
-            of true
+            ]
             procedure "std.logic.select"
           }
         }

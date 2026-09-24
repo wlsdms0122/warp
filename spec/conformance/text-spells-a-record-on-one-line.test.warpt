@@ -21,10 +21,12 @@ warpt 1
             let "plain"
             value {
               call {
-                of {
-                  a "x"
-                  b 1
-                }
+                arguments [
+                  {
+                    a "x"
+                    b 1
+                  }
+                ]
                 procedure "std.text.text"
               }
             }
@@ -33,12 +35,14 @@ warpt 1
             let "named"
             value {
               call {
-                of {
-                  as "Point"
-                  of {
-                    x 1
+                arguments [
+                  {
+                    as "Point"
+                    of {
+                      x 1
+                    }
                   }
-                }
+                ]
                 procedure "std.text.text"
               }
             }
@@ -47,7 +51,9 @@ warpt 1
             let "empty"
             value {
               call {
-                of {}
+                arguments [
+                  {}
+                ]
                 procedure "std.text.text"
               }
             }

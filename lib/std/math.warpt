@@ -18,12 +18,12 @@ warpt 1
                   value {
                     return {
                       call {
-                        arguments {
-                          value {
+                        arguments [
+                          0
+                          {
                             ref "of"
                           }
-                        }
-                        of 0
+                        ]
                         procedure "std.math.minus"
                       }
                     }
@@ -32,12 +32,12 @@ warpt 1
               ]
               when {
                 call {
-                  arguments {
-                    value 0
-                  }
-                  of {
-                    ref "of"
-                  }
+                  arguments [
+                    {
+                      ref "of"
+                    }
+                    0
+                  ]
                   procedure "std.math.lessThan"
                 }
               }
@@ -55,7 +55,6 @@ warpt 1
           type "some N"
         }
       ]
-      receiver "of"
       result {
         ref "of"
       }
@@ -76,17 +75,16 @@ warpt 1
           type "some T"
         }
       ]
-      receiver "of"
       result {
         call {
-          arguments {
-            value {
+          arguments [
+            {
+              ref "value"
+            }
+            {
               ref "of"
             }
-          }
-          of {
-            ref "value"
-          }
+          ]
           procedure "std.math.lessThan"
         }
       }
@@ -108,14 +106,14 @@ warpt 1
               ]
               when {
                 call {
-                  arguments {
-                    value {
+                  arguments [
+                    {
+                      ref "of"
+                    }
+                    {
                       ref "value"
                     }
-                  }
-                  of {
-                    ref "of"
-                  }
+                  ]
                   procedure "std.math.lessThan"
                 }
               }
@@ -137,7 +135,6 @@ warpt 1
           type "some T"
         }
       ]
-      receiver "of"
       result {
         ref "of"
       }
@@ -159,14 +156,14 @@ warpt 1
               ]
               when {
                 call {
-                  arguments {
-                    value {
+                  arguments [
+                    {
+                      ref "of"
+                    }
+                    {
                       ref "value"
                     }
-                  }
-                  of {
-                    ref "of"
-                  }
+                  ]
                   procedure "std.math.lessThan"
                 }
               }
@@ -188,7 +185,6 @@ warpt 1
           type "some T"
         }
       ]
-      receiver "of"
       result {
         ref "value"
       }

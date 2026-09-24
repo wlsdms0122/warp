@@ -16,14 +16,14 @@ warpt 1
             set "into"
             value {
               call {
-                arguments {
-                  value {
+                arguments [
+                  {
+                    ref "into"
+                  }
+                  {
                     ref "value"
                   }
-                }
-                of {
-                  ref "into"
-                }
+                ]
                 procedure "std.collection.appending"
               }
             }
@@ -51,12 +51,12 @@ warpt 1
           {
             value {
               call {
-                arguments {
-                  into {
+                arguments [
+                  {
                     ref "xs"
                   }
-                  value 1
-                }
+                  1
+                ]
                 procedure "app.add"
               }
             }

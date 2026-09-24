@@ -19,14 +19,14 @@ warpt 1
           set "to"
           value {
             call {
-              arguments {
-                value {
+              arguments [
+                {
+                  ref "to"
+                }
+                {
                   ref "value"
                 }
-              }
-              of {
-                ref "to"
-              }
+              ]
               procedure "std.collection.appending"
             }
           }
@@ -43,7 +43,6 @@ warpt 1
           type "some Element"
         }
       ]
-      receiver "to"
       result null
       returns "null"
     }
@@ -74,14 +73,14 @@ warpt 1
                       ]
                       when {
                         call {
-                          arguments {
-                            value {
+                          arguments [
+                            {
+                              ref "of[walk.index]"
+                            }
+                            {
                               ref "value"
                             }
-                          }
-                          of {
-                            ref "of[walk.index]"
-                          }
+                          ]
                           procedure "std.logic.equal"
                         }
                       }
@@ -91,19 +90,21 @@ warpt 1
               ]
               while {
                 call {
-                  arguments {
-                    value {
+                  arguments [
+                    {
+                      ref "walk.index"
+                    }
+                    {
                       call {
-                        of {
-                          ref "of"
-                        }
+                        arguments [
+                          {
+                            ref "of"
+                          }
+                        ]
                         procedure "std.collection.count"
                       }
                     }
-                  }
-                  of {
-                    ref "walk.index"
-                  }
+                  ]
                   procedure "std.math.lessThan"
                 }
               }
@@ -122,7 +123,6 @@ warpt 1
           type "some Element"
         }
       ]
-      receiver "of"
       result {
         ref "found"
       }
@@ -143,22 +143,22 @@ warpt 1
                   set "places"
                   value {
                     call {
-                      arguments {
-                        value {
+                      arguments [
+                        {
+                          ref "places"
+                        }
+                        {
                           call {
-                            arguments {
-                              value 1
-                            }
-                            of {
-                              ref "walk.index"
-                            }
+                            arguments [
+                              {
+                                ref "walk.index"
+                              }
+                              1
+                            ]
                             procedure "std.math.plus"
                           }
                         }
-                      }
-                      of {
-                        ref "places"
-                      }
+                      ]
                       procedure "std.collection.appending"
                     }
                   }
@@ -166,27 +166,29 @@ warpt 1
               ]
               while {
                 call {
-                  arguments {
-                    value {
+                  arguments [
+                    {
+                      ref "walk.index"
+                    }
+                    {
                       call {
-                        arguments {
-                          value 1
-                        }
-                        of {
-                          call {
-                            of {
-                              ref "of"
+                        arguments [
+                          {
+                            call {
+                              arguments [
+                                {
+                                  ref "of"
+                                }
+                              ]
+                              procedure "std.collection.count"
                             }
-                            procedure "std.collection.count"
                           }
-                        }
+                          1
+                        ]
                         procedure "std.math.minus"
                       }
                     }
-                  }
-                  of {
-                    ref "walk.index"
-                  }
+                  ]
                   procedure "std.math.lessThan"
                 }
               }
@@ -201,17 +203,16 @@ warpt 1
           type "array<some Element>"
         }
       ]
-      receiver "of"
       result {
         call {
-          arguments {
-            value {
+          arguments [
+            {
+              ref "of"
+            }
+            {
               ref "places"
             }
-          }
-          of {
-            ref "of"
-          }
+          ]
           procedure "std.collection.gathering"
         }
       }
@@ -232,14 +233,14 @@ warpt 1
                   set "places"
                   value {
                     call {
-                      arguments {
-                        value {
+                      arguments [
+                        {
+                          ref "places"
+                        }
+                        {
                           ref "walk.index"
                         }
-                      }
-                      of {
-                        ref "places"
-                      }
+                      ]
                       procedure "std.collection.appending"
                     }
                   }
@@ -247,27 +248,29 @@ warpt 1
               ]
               while {
                 call {
-                  arguments {
-                    value {
+                  arguments [
+                    {
+                      ref "walk.index"
+                    }
+                    {
                       call {
-                        arguments {
-                          value 1
-                        }
-                        of {
-                          call {
-                            of {
-                              ref "of"
+                        arguments [
+                          {
+                            call {
+                              arguments [
+                                {
+                                  ref "of"
+                                }
+                              ]
+                              procedure "std.collection.count"
                             }
-                            procedure "std.collection.count"
                           }
-                        }
+                          1
+                        ]
                         procedure "std.math.minus"
                       }
                     }
-                  }
-                  of {
-                    ref "walk.index"
-                  }
+                  ]
                   procedure "std.math.lessThan"
                 }
               }
@@ -282,17 +285,16 @@ warpt 1
           type "array<some Element>"
         }
       ]
-      receiver "of"
       result {
         call {
-          arguments {
-            value {
+          arguments [
+            {
+              ref "of"
+            }
+            {
               ref "places"
             }
-          }
-          of {
-            ref "of"
-          }
+          ]
           procedure "std.collection.gathering"
         }
       }
@@ -332,14 +334,14 @@ warpt 1
                           set "places"
                           value {
                             call {
-                              arguments {
-                                value {
+                              arguments [
+                                {
+                                  ref "places"
+                                }
+                                {
                                   ref "walk.index"
                                 }
-                              }
-                              of {
-                                ref "places"
-                              }
+                              ]
                               procedure "std.collection.appending"
                             }
                           }
@@ -354,19 +356,21 @@ warpt 1
               ]
               while {
                 call {
-                  arguments {
-                    value {
+                  arguments [
+                    {
+                      ref "walk.index"
+                    }
+                    {
                       call {
-                        of {
-                          ref "of"
-                        }
+                        arguments [
+                          {
+                            ref "of"
+                          }
+                        ]
                         procedure "std.collection.count"
                       }
                     }
-                  }
-                  of {
-                    ref "walk.index"
-                  }
+                  ]
                   procedure "std.math.lessThan"
                 }
               }
@@ -392,17 +396,16 @@ warpt 1
           }
         }
       ]
-      receiver "of"
       result {
         call {
-          arguments {
-            value {
+          arguments [
+            {
+              ref "of"
+            }
+            {
               ref "places"
             }
-          }
-          of {
-            ref "of"
-          }
+          ]
           procedure "std.collection.gathering"
         }
       }
@@ -416,7 +419,6 @@ warpt 1
           type "array<some Element>"
         }
       ]
-      receiver "of"
       result {
         ref "of[0]"
       }
@@ -428,17 +430,19 @@ warpt 1
           let "at"
           value {
             call {
-              arguments {
-                value 1
-              }
-              of {
-                call {
-                  of {
-                    ref "of"
+              arguments [
+                {
+                  call {
+                    arguments [
+                      {
+                        ref "of"
+                      }
+                    ]
+                    procedure "std.collection.count"
                   }
-                  procedure "std.collection.count"
                 }
-              }
+                1
+              ]
               procedure "std.math.minus"
             }
           }
@@ -451,7 +455,6 @@ warpt 1
           type "array<some Element>"
         }
       ]
-      receiver "of"
       result {
         ref "of[at]"
       }
@@ -487,14 +490,14 @@ warpt 1
                   set "answers"
                   value {
                     call {
-                      arguments {
-                        value {
+                      arguments [
+                        {
+                          ref "answers"
+                        }
+                        {
                           ref "answered"
                         }
-                      }
-                      of {
-                        ref "answers"
-                      }
+                      ]
                       procedure "std.collection.appending"
                     }
                   }
@@ -502,19 +505,21 @@ warpt 1
               ]
               while {
                 call {
-                  arguments {
-                    value {
+                  arguments [
+                    {
+                      ref "walk.index"
+                    }
+                    {
                       call {
-                        of {
-                          ref "of"
-                        }
+                        arguments [
+                          {
+                            ref "of"
+                          }
+                        ]
                         procedure "std.collection.count"
                       }
                     }
-                  }
-                  of {
-                    ref "walk.index"
-                  }
+                  ]
                   procedure "std.math.lessThan"
                 }
               }
@@ -540,7 +545,6 @@ warpt 1
           }
         }
       ]
-      receiver "of"
       result {
         ref "answers"
       }
@@ -552,9 +556,11 @@ warpt 1
           let "back"
           value {
             call {
-              of {
-                ref "of"
-              }
+              arguments [
+                {
+                  ref "of"
+                }
+              ]
               procedure "std.collection.reversed"
             }
           }
@@ -563,14 +569,14 @@ warpt 1
           let "grown"
           value {
             call {
-              arguments {
-                value {
+              arguments [
+                {
+                  ref "back"
+                }
+                {
                   ref "value"
                 }
-              }
-              of {
-                ref "back"
-              }
+              ]
               procedure "std.collection.appending"
             }
           }
@@ -587,12 +593,13 @@ warpt 1
           type "some Element"
         }
       ]
-      receiver "of"
       result {
         call {
-          of {
-            ref "grown"
-          }
+          arguments [
+            {
+              ref "grown"
+            }
+          ]
           procedure "std.collection.reversed"
         }
       }
@@ -638,19 +645,21 @@ warpt 1
               ]
               while {
                 call {
-                  arguments {
-                    value {
+                  arguments [
+                    {
+                      ref "walk.index"
+                    }
+                    {
                       call {
-                        of {
-                          ref "of"
-                        }
+                        arguments [
+                          {
+                            ref "of"
+                          }
+                        ]
                         procedure "std.collection.count"
                       }
                     }
-                  }
-                  of {
-                    ref "walk.index"
-                  }
+                  ]
                   procedure "std.math.lessThan"
                 }
               }
@@ -681,7 +690,6 @@ warpt 1
           }
         }
       ]
-      receiver "of"
       result {
         ref "carried"
       }
@@ -702,37 +710,39 @@ warpt 1
                   set "places"
                   value {
                     call {
-                      arguments {
-                        value {
+                      arguments [
+                        {
+                          ref "places"
+                        }
+                        {
                           call {
-                            arguments {
-                              value {
+                            arguments [
+                              {
                                 call {
-                                  arguments {
-                                    value 1
-                                  }
-                                  of {
-                                    ref "walk.index"
-                                  }
+                                  arguments [
+                                    {
+                                      ref "of"
+                                    }
+                                  ]
+                                  procedure "std.collection.count"
+                                }
+                              }
+                              {
+                                call {
+                                  arguments [
+                                    {
+                                      ref "walk.index"
+                                    }
+                                    1
+                                  ]
                                   procedure "std.math.plus"
                                 }
                               }
-                            }
-                            of {
-                              call {
-                                of {
-                                  ref "of"
-                                }
-                                procedure "std.collection.count"
-                              }
-                            }
+                            ]
                             procedure "std.math.minus"
                           }
                         }
-                      }
-                      of {
-                        ref "places"
-                      }
+                      ]
                       procedure "std.collection.appending"
                     }
                   }
@@ -740,19 +750,21 @@ warpt 1
               ]
               while {
                 call {
-                  arguments {
-                    value {
+                  arguments [
+                    {
+                      ref "walk.index"
+                    }
+                    {
                       call {
-                        of {
-                          ref "of"
-                        }
+                        arguments [
+                          {
+                            ref "of"
+                          }
+                        ]
                         procedure "std.collection.count"
                       }
                     }
-                  }
-                  of {
-                    ref "walk.index"
-                  }
+                  ]
                   procedure "std.math.lessThan"
                 }
               }
@@ -767,17 +779,16 @@ warpt 1
           type "array<some Element>"
         }
       ]
-      receiver "of"
       result {
         call {
-          arguments {
-            value {
+          arguments [
+            {
+              ref "of"
+            }
+            {
               ref "places"
             }
-          }
-          of {
-            ref "of"
-          }
+          ]
           procedure "std.collection.gathering"
         }
       }
@@ -789,9 +800,11 @@ warpt 1
           let "total"
           value {
             call {
-              of {
-                ref "of"
-              }
+              arguments [
+                {
+                  ref "of"
+                }
+              ]
               procedure "std.collection.count"
             }
           }
@@ -826,12 +839,12 @@ warpt 1
                                   set "rank"
                                   value {
                                     call {
-                                      arguments {
-                                        value 1
-                                      }
-                                      of {
-                                        ref "rank"
-                                      }
+                                      arguments [
+                                        {
+                                          ref "rank"
+                                        }
+                                        1
+                                      ]
                                       procedure "std.math.plus"
                                     }
                                   }
@@ -843,14 +856,14 @@ warpt 1
                               ]
                               when {
                                 call {
-                                  arguments {
-                                    value {
+                                  arguments [
+                                    {
+                                      ref "of[inner.index]"
+                                    }
+                                    {
                                       ref "of[outer.index]"
                                     }
-                                  }
-                                  of {
-                                    ref "of[inner.index]"
-                                  }
+                                  ]
                                   procedure "std.math.lessThan"
                                 }
                               }
@@ -868,14 +881,14 @@ warpt 1
                               ]
                               when {
                                 call {
-                                  arguments {
-                                    value {
+                                  arguments [
+                                    {
+                                      ref "of[outer.index]"
+                                    }
+                                    {
                                       ref "of[inner.index]"
                                     }
-                                  }
-                                  of {
-                                    ref "of[outer.index]"
-                                  }
+                                  ]
                                   procedure "std.math.lessThan"
                                 }
                               }
@@ -894,12 +907,12 @@ warpt 1
                                           set "rank"
                                           value {
                                             call {
-                                              arguments {
-                                                value 1
-                                              }
-                                              of {
-                                                ref "rank"
-                                              }
+                                              arguments [
+                                                {
+                                                  ref "rank"
+                                                }
+                                                1
+                                              ]
                                               procedure "std.math.plus"
                                             }
                                           }
@@ -907,14 +920,14 @@ warpt 1
                                       ]
                                       when {
                                         call {
-                                          arguments {
-                                            value {
+                                          arguments [
+                                            {
+                                              ref "inner.index"
+                                            }
+                                            {
                                               ref "outer.index"
                                             }
-                                          }
-                                          of {
-                                            ref "inner.index"
-                                          }
+                                          ]
                                           procedure "std.math.lessThan"
                                         }
                                       }
@@ -931,14 +944,14 @@ warpt 1
                       ]
                       while {
                         call {
-                          arguments {
-                            value {
+                          arguments [
+                            {
+                              ref "inner.index"
+                            }
+                            {
                               ref "total"
                             }
-                          }
-                          of {
-                            ref "inner.index"
-                          }
+                          ]
                           procedure "std.math.lessThan"
                         }
                       }
@@ -949,14 +962,14 @@ warpt 1
                   set "ranks"
                   value {
                     call {
-                      arguments {
-                        value {
+                      arguments [
+                        {
+                          ref "ranks"
+                        }
+                        {
                           ref "rank"
                         }
-                      }
-                      of {
-                        ref "ranks"
-                      }
+                      ]
                       procedure "std.collection.appending"
                     }
                   }
@@ -964,14 +977,14 @@ warpt 1
               ]
               while {
                 call {
-                  arguments {
-                    value {
+                  arguments [
+                    {
+                      ref "outer.index"
+                    }
+                    {
                       ref "total"
                     }
-                  }
-                  of {
-                    ref "outer.index"
-                  }
+                  ]
                   procedure "std.math.lessThan"
                 }
               }
@@ -1007,14 +1020,14 @@ warpt 1
                               ]
                               when {
                                 call {
-                                  arguments {
-                                    value {
+                                  arguments [
+                                    {
+                                      ref "ranks[scan.index]"
+                                    }
+                                    {
                                       ref "pick.index"
                                     }
-                                  }
-                                  of {
-                                    ref "ranks[scan.index]"
-                                  }
+                                  ]
                                   procedure "std.math.lessThan"
                                 }
                               }
@@ -1032,14 +1045,14 @@ warpt 1
                               ]
                               when {
                                 call {
-                                  arguments {
-                                    value {
+                                  arguments [
+                                    {
+                                      ref "pick.index"
+                                    }
+                                    {
                                       ref "ranks[scan.index]"
                                     }
-                                  }
-                                  of {
-                                    ref "pick.index"
-                                  }
+                                  ]
                                   procedure "std.math.lessThan"
                                 }
                               }
@@ -1054,14 +1067,14 @@ warpt 1
                                   set "places"
                                   value {
                                     call {
-                                      arguments {
-                                        value {
+                                      arguments [
+                                        {
+                                          ref "places"
+                                        }
+                                        {
                                           ref "scan.index"
                                         }
-                                      }
-                                      of {
-                                        ref "places"
-                                      }
+                                      ]
                                       procedure "std.collection.appending"
                                     }
                                   }
@@ -1076,14 +1089,14 @@ warpt 1
                       ]
                       while {
                         call {
-                          arguments {
-                            value {
+                          arguments [
+                            {
+                              ref "scan.index"
+                            }
+                            {
                               ref "total"
                             }
-                          }
-                          of {
-                            ref "scan.index"
-                          }
+                          ]
                           procedure "std.math.lessThan"
                         }
                       }
@@ -1093,14 +1106,14 @@ warpt 1
               ]
               while {
                 call {
-                  arguments {
-                    value {
+                  arguments [
+                    {
+                      ref "pick.index"
+                    }
+                    {
                       ref "total"
                     }
-                  }
-                  of {
-                    ref "pick.index"
-                  }
+                  ]
                   procedure "std.math.lessThan"
                 }
               }
@@ -1118,17 +1131,16 @@ warpt 1
           type "array<some Element>"
         }
       ]
-      receiver "of"
       result {
         call {
-          arguments {
-            value {
+          arguments [
+            {
+              ref "of"
+            }
+            {
               ref "places"
             }
-          }
-          of {
-            ref "of"
-          }
+          ]
           procedure "std.collection.gathering"
         }
       }
@@ -1140,9 +1152,11 @@ warpt 1
           let "names"
           value {
             call {
-              of {
-                ref "of"
-              }
+              arguments [
+                {
+                  ref "of"
+                }
+              ]
               procedure "std.collection.keys"
             }
           }
@@ -1166,14 +1180,14 @@ warpt 1
                   set "held"
                   value {
                     call {
-                      arguments {
-                        value {
+                      arguments [
+                        {
+                          ref "held"
+                        }
+                        {
                           ref "of[name]"
                         }
-                      }
-                      of {
-                        ref "held"
-                      }
+                      ]
                       procedure "std.collection.appending"
                     }
                   }
@@ -1181,19 +1195,21 @@ warpt 1
               ]
               while {
                 call {
-                  arguments {
-                    value {
+                  arguments [
+                    {
+                      ref "walk.index"
+                    }
+                    {
                       call {
-                        of {
-                          ref "names"
-                        }
+                        arguments [
+                          {
+                            ref "names"
+                          }
+                        ]
                         procedure "std.collection.count"
                       }
                     }
-                  }
-                  of {
-                    ref "walk.index"
-                  }
+                  ]
                   procedure "std.math.lessThan"
                 }
               }
@@ -1208,7 +1224,6 @@ warpt 1
           type "dictionary<some Entry>"
         }
       ]
-      receiver "of"
       result {
         ref "held"
       }

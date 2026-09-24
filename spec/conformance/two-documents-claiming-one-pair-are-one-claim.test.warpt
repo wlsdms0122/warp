@@ -5,6 +5,12 @@ warpt 1
       contracts {
         "app.Describable" {
           describe {
+            parameters [
+              {
+                name "of"
+                type "app.Describable"
+              }
+            ]
             returns "string"
           }
         }
@@ -27,7 +33,6 @@ warpt 1
               type "t.Card"
             }
           ]
-          receiver "of"
           result "card"
           returns "string"
         }
@@ -100,9 +105,11 @@ warpt 1
         ]
         result {
           call {
-            of {
-              ref "card"
-            }
+            arguments [
+              {
+                ref "card"
+              }
+            ]
             procedure "app.Describable.describe"
           }
         }

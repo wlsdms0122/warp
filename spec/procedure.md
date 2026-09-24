@@ -11,8 +11,7 @@ parameter takes.
 |---|---|---|
 | `description` | string | no |
 | `access` | `public`, `internal` or `private`: who may name the declaration, under *who may name a declaration* below. `internal` when absent | no |
-| `parameters` | list of parameters, in the order the declaration writes them, which is the order the run keeps the arguments in | no |
-| `receiver` | string. The name of the parameter a call fills by writing a receiver in front | no |
+| `parameters` | list of parameters, in the order the declaration writes them, which is the order every call hands its arguments in | no |
 | `returns` | type. When absent, what a call answers is read off the body | no |
 | `bounds` | record: type parameter → the names of constraints and contracts, one or several joined with `&`; refuses when it names a parameter no slot mentions | no |
 | `body` | statements | no |
@@ -129,10 +128,7 @@ after the capture and says nothing the closure can hold on to.
 - a slot may **ask** for one, writing `const procedure`. That is how
   `std.logic.and` takes sides it may decline to read and how
   `std.collection.filter` takes a predicate that cannot reach the world;
-- an **operand** may call one. A call's arguments and the receiver written in
-  front, a `conditional`'s `when`, a `loop`'s `while`. Each of those is read
-  rather than run, so an operand calling anything else **refuses at the
-  build**, and so does one calling a value.
+- an **operand** may call one. A call's arguments, a `conditional`'s `when`, a `loop`'s `while`. Each of those is read rather than run, so an operand calling anything else **refuses at the build**, and so does one calling a value.
 
 A call through a contract reaches whichever declaration the value turns out to
 be, so what it reads as is what the contract asked of every one of them. A
@@ -215,31 +211,9 @@ that already have one, and `1` on a `double` slot is the int's spelling, which
 no fraction ever wears. Each of these is a dead candidate, because no settled
 value wears their spelling.
 
-**Leaving an argument out.** A parameter may be left out of a call exactly
-when its type declares null: a `T?` parameter left out reads as that null, and
-the call check and the boundary both answer this one question the same way.
-Every other parameter is written, null included. `any` accepts a null that
-arrives and says nothing about one that does not, so it is never left out, and
-neither is a bare type parameter. What to make of the null is the body's.
+**Leaving an argument out.** A call may stop short: the positions after the last argument it writes are left out. A parameter may be left out exactly when its type declares null: a `T?` parameter left out reads as that null, and the call check and the boundary both answer this one question the same way. A position before one the call writes is written, null included. `any` accepts a null that arrives and says nothing about one that does not, so it is never left out, and neither is a bare type parameter. What to make of the null is the body's. A host that adds a `T?` parameter at the end of a procedure leaves every call already written standing.
 
-**One calling convention.** Lowering puts every parameter in a slot, in the
-declaration's order, and the run moves arguments by position. A `call` to a
-declaration hands its arguments **by name**, and the build resolves each name
-to its position: a name the declaration does not have **refuses at the build**,
-and so does one written twice. Applying a value (`apply`, and a procedure
-handing values to a closure it was given) hands its arguments **by position**,
-every position given, since a value's type carries no names to hand by: a
-count the type does not have **refuses**, at the build where the value's type
-is known and at the run otherwise, and so does an argument the type at that
-position refuses. Writing an argument is giving it: an argument holding null
-was given, and a slot whose type admits one takes it, `any`, a `T?`, a type
-parameter, which stands for what arrived and settles nothing. Omission is the
-key not being written at all, which only a `T?` reads. The receiver written in
-front of the dot is given the same way: it fills the parameter the declaration
-names as its `receiver`, and is held to what that parameter declares, null
-included. In front is the one place it is written: a `call` writing that
-parameter's name under `arguments` **refuses at the build**, whether or not
-something stands in front.
+**One calling convention.** Lowering puts every parameter in a slot, in the declaration's order, and every call hands its arguments **by position**: a `call` to a declaration, applying a value (`apply`, and a procedure handing values to a closure it was given), and a procedure the host answers sending one it declared. More arguments than the callee takes **refuse**, at the build where the callee is known and at the run otherwise, and so does an argument the parameter at its position refuses. Writing an argument is giving it: an argument holding null was given, and a slot whose type admits one takes it, `any`, a `T?`, a type parameter, which stands for what arrived and settles nothing.
 
 **A parameter handed in place.** A parameter typed `inout T` takes no value:
 it takes a variable. The argument is `{ ref: <path> }`, and all of this is
@@ -266,6 +240,7 @@ running, by the rule that such a body writes no name.
 
 What `conformance/` asks about this page, by the name each case's file carries.
 
+- `a-call-of-another-count-refuses`
 - `a-closure-that-writes-what-it-captured-is-not-const`
 - `a-const-slot-refuses-a-closure-that-calls-what-runs`
 - `a-const-slot-takes-a-closure-that-applies-a-const-slot`
@@ -296,9 +271,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-private-procedure-the-caller-brings-is-not-named`
 - `a-procedure-that-can-fail-says-so`
 - `a-procedure-that-writes-in-place-does-not-answer-without-running`
-- `a-receiver-by-name-refuses`
-- `a-receiver-is-held-to-its-parameter-at-the-run`
-- `a-receiver-written-for-one-that-declares-none-refuses`
 - `a-required-argument-left-out-refuses`
 - `a-value-is-not-handed-in-place`
 - `a-variable-declared-const-procedure-carries-that-into-a-capture`
@@ -310,8 +282,10 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-answer-that-may-be-null-refuses-a-declaration-that-may-not`
 - `an-answer-worked-out-from-itself-says-nothing`
 - `an-application-hands-its-arguments-by-position`
+- `an-application-leaving-off-a-nullable-end-reads-it-as-null`
 - `an-application-of-another-count-refuses`
 - `an-applied-constant-outside-its-slots-range-refuses`
+- `an-argument-is-held-to-its-parameter-at-the-run`
 - `an-argument-outside-enum-refuses-at-the-boundary`
 - `an-effect-in-a-condition-refuses`
 - `an-effect-in-a-contract-calls-operand-refuses`

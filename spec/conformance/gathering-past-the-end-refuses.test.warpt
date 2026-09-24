@@ -10,7 +10,7 @@ warpt 1
     refuses "run"
   }
   name "gathering-past-the-end-refuses"
-  note "The receiver is there and says how long it is, so a position it does not hold read the length wrong. The same answer an index written past the end gets."
+  note "The collection is there and says how long it is, so a position it does not hold read the length wrong. The same answer an index written past the end gets."
   program {
     imports [
       "std.collection.gathering"
@@ -26,14 +26,14 @@ warpt 1
         ]
         result {
           call {
-            arguments {
-              value {
+            arguments [
+              [
+                1
+                2
+              ]
+              {
                 ref "at"
               }
-            }
-            of [
-              1
-              2
             ]
             procedure "std.collection.gathering"
           }

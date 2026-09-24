@@ -121,12 +121,7 @@ over fractions, each end a list of none or one; the upper end is an *edge*,
 *segment* is `[0, name, optional]`, `[1, index, optional]` or
 `[2, path, optional]` for an index read from a path.
 
-A *procedure type* is `[parameters, returns]`: a list of *type*, in position
-order, and a *type* or nothing. A *signature* is `[receiver, parameters,
-returns]`: the receiver's name or nothing; a list of *parameter*, in the
-declaration's order; a *type* or nothing. A *parameter* is `[name, type,
-candidates, description]`: the name, then each a list of none or one: a
-*type*; the strings it admits; a string.
+A *procedure type* is `[parameters, returns]`: a list of *type*, in position order, and a *type* or nothing. A *signature* is `[parameters, returns]`: a list of *parameter*, in the declaration's order, and a *type* or nothing. A *parameter* is `[name, type, candidates, description]`: the name, then each a list of none or one: a *type*; the strings it admits; a string.
 
 *Constness* is `0` unstated or `1` const. *Isolation* is `0` unstated or `1`
 isolated. *Failing* is `[0]` unstated or `[1, names]`, the names ascending.
@@ -147,7 +142,7 @@ the document's identity or nothing, and a list of *step*:
 
 A *part* is `[tag]`: 0 `procedures`, 1 `constants`, 2 `variables`, 3
 `types`, 4 `constraints`, 5 `contracts`, 6 `satisfies`, 7 `imports`, 8
-`parameters`, 9 `returns`, 10 `body`, 11 `result`, 12 `receiver`, 13
+`parameters`, 9 `returns`, 10 `body`, 11 `result`, 12 a cast's subject, 13
 `callee`, 14 `arguments`, 15 `closure`, 16 a condition, carrying `[0]` for a
 conditional's or `[1]` for a loop's, 17 `then`, 18 `otherwise`, 19 `rescue`.
 
@@ -162,18 +157,9 @@ A *row* is a declaration as its own document settled it:
 
     [ label?, signature, access, constness, isolation, failing, sends, implementation ]
 
-The label is the declared spelling and stands only in `rows`; a lifted row
-has none. `access` is `0` private, `1` internal or `2` public, under *who may
-name a declaration* in [procedures](procedure.md); a lifted row is private,
-since nothing names it. `sends` is what a native declaration said it sends, each
-`[row, handing]`: the row it reaches, numbered by the document, and where
-each name it hands over stands among that row's parameters. A body's sends
-are calls its own code carries, so its list is empty.
+The label is the declared spelling and stands only in `rows`; a lifted row has none. `access` is `0` private, `1` internal or `2` public, under *who may name a declaration* in [procedures](procedure.md); a lifted row is private, since nothing names it. `sends` is what a native declaration said it sends, each `[row, handing]`: the row it reaches, numbered by the document, and how many arguments it hands over, from that row's first position. A body's sends are calls its own code carries, so its list is empty.
 
-The *implementation* is `[0, body, frame]` for a written body, or
-`[1, sends]` for a native, each send `[position, selector, names]`: where
-the send stands among the declaration's parameters, the spelling it reaches,
-and the names it hands over.
+The *implementation* is `[0, body, frame]` for a written body, or `[1, sends]` for a native, each send `[position, selector, handing]`: where the send stands among the declaration's sends, the spelling it reaches, and how many arguments it hands over.
 
 A *frame* is `[size, parameters, variables, captures, names]`: how many
 slots; which slots the parameters fill, in parameter order; `[variable,
@@ -218,15 +204,7 @@ body does it does by calling, under [the standard vocabulary](vocabulary.md).
 | 12 | a call through a contract | *dispatch* |
 | 13 | leaving | *reach*, the target name or nothing, what it takes or nothing |
 
-A *layout* is `[name, fields]`: the declared name or nothing, and the field
-names ascending. A *call* is `[procedure, receiver, arguments, handed]`: the
-row the call reaches, numbered by the document; the receiver *operation* or
-nothing; one *operation* or nothing per parameter of the callee, in
-parameter order; and `[position, address]` for each parameter handed in
-place. A *dispatch* is `[contract, procedure, receiver, arguments]`: the
-contract's name, the procedure's, the receiver *operation*, and name →
-*argument*, `[0, operation]` by value or `[1, address]` by reference. Which
-row answers is the link's, and stands nowhere in an object.
+A *layout* is `[name, fields]`: the declared name or nothing, and the field names ascending. A *call* is `[procedure, arguments, handed]`: the row the call reaches, numbered by the document; one *operation* or nothing per parameter of the callee, in parameter order, nothing where the call wrote nothing or a hold stands; and `[position, address]` for each parameter handed in place. A *dispatch* is `[contract, procedure, first, arguments]`: the contract's name, the procedure's, the first argument's *operation*, and the arguments after it by position, each an *argument*, `[0, operation]` by value or `[1, address]` by reference. Which row answers is the link's, and stands nowhere in an object.
 
 ### Lowered types
 
@@ -309,8 +287,8 @@ warpt 1
   procedures {
     entry {
       access "public"
-      parameters { n { type "int" } }
-      result { call { of { ref "n" } procedure "std.math.plus" arguments { value 1 } } }
+      parameters [ { name "n" type "int" } ]
+      result { call { arguments [ { ref "n" } 1 ] procedure "std.math.plus" } }
       returns "int"
     }
   }
@@ -337,7 +315,7 @@ warpt 1
   rows [
     [
       "entry"
-      [ [] [ [ "n" [ [ [ 4 ] ] [] [] [] ] ] ] [ [ 4 ] ] ]
+      [ [ [ "n" [ [ 4 ] ] [] [] ] ] [ [ 4 ] ] ]
       2
       1
       1
@@ -345,7 +323,7 @@ warpt 1
       []
       [
         0
-        [ [] [ [ 11 [ 0 [ [ 1 [ 0 [] ] ] ] [ [] [ [ 0 [ 2 1 ] ] ] ] [] ] ] ] ]
+        [ [] [ [ 11 [ 0 [ [ [ 1 [ 0 [] ] ] ] [ [ 0 [ 2 1 ] ] ] ] [] ] ] ] ]
         [ 1 [ 0 ] [] [] [ "n" ] ]
       ]
     ]
@@ -356,14 +334,7 @@ warpt 1
 }
 ```
 
-Read it back: `rows` holds `entry`, whose signature takes `n` as `int` (type
-tag 4) and answers `int`; it is public (`2`), const (`1`) and isolated (`1`)
-and fails with nothing (`[1 []]`); it sends nothing; its implementation is a body
-(`0`) with no instructions and a result, a call (`11`) to row `0` of the
-numbering, which is `std.math.plus`, with the receiver read from slot `0`
-and one argument, the literal (`0`) int (`2`) `1`; and its frame has one
-slot, filled by the parameter, called `n`. The dependency is what the caller
-keyed the standard vocabulary's object under.
+Read it back: `rows` holds `entry`, whose signature takes `n` as `int` (type tag 4) and answers `int`; it is public (`2`), const (`1`) and isolated (`1`) and fails with nothing (`[1 []]`); it sends nothing; its implementation is a body (`0`) with no instructions and a result, a call (`11`) to row `0` of the numbering, which is `std.math.plus`, with two arguments, the first read from slot `0` and the second the literal (`0`) int (`2`) `1`; and its frame has one slot, filled by the parameter, called `n`. The dependency is what the caller keyed the standard vocabulary's object under.
 
 ## Cases
 
@@ -386,7 +357,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-with-a-lifted-row-nothing-counts-refuses`
 - `the-object-of-a-block`
 - `the-object-of-a-call`
-- `the-object-of-a-call-places-arguments-at-the-callees-positions`
 - `the-object-of-a-cast`
 - `the-object-of-a-closure`
 - `the-object-of-a-composition`

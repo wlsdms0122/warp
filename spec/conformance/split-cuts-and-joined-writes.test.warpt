@@ -18,10 +18,10 @@ warpt 1
             let "pieces"
             value {
               call {
-                arguments {
-                  value ","
-                }
-                of "a,b,c"
+                arguments [
+                  "a,b,c"
+                  ","
+                ]
                 procedure "std.text.split"
               }
             }
@@ -30,12 +30,12 @@ warpt 1
             let "line"
             value {
               call {
-                arguments {
-                  value "-"
-                }
-                of {
-                  ref "pieces"
-                }
+                arguments [
+                  {
+                    ref "pieces"
+                  }
+                  "-"
+                ]
                 procedure "std.text.joined"
               }
             }

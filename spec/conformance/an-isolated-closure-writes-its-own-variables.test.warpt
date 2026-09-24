@@ -18,8 +18,12 @@ warpt 1
         access "public"
         result {
           call {
-            arguments {
-              by {
+            arguments [
+              [
+                1
+                2
+              ]
+              {
                 closure {
                   body [
                     {
@@ -32,12 +36,12 @@ warpt 1
                       set "held"
                       value {
                         call {
-                          arguments {
-                            value 2
-                          }
-                          of {
-                            ref "held"
-                          }
+                          arguments [
+                            {
+                              ref "held"
+                            }
+                            2
+                          ]
                           procedure "std.math.times"
                         }
                       }
@@ -59,10 +63,6 @@ warpt 1
                   returns "int"
                 }
               }
-            }
-            of [
-              1
-              2
             ]
             procedure "std.concurrent.map"
           }

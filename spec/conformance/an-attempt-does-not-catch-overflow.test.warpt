@@ -26,10 +26,10 @@ warpt 1
                     let "sum"
                     value {
                       call {
-                        arguments {
-                          value 1
-                        }
-                        of 9223372036854775807
+                        arguments [
+                          9223372036854775807
+                          1
+                        ]
                         procedure "std.math.plus"
                       }
                     }
@@ -41,7 +41,9 @@ warpt 1
                           {
                             value {
                               call {
-                                of "loud"
+                                arguments [
+                                  "loud"
+                                ]
                                 procedure "std.control.abort"
                               }
                             }

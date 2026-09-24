@@ -14,8 +14,19 @@ warpt 1
               "a"
               [
                 [
-                  []
-                  []
+                  [
+                    [
+                      "of"
+                      [
+                        [
+                          18
+                          "app.A"
+                        ]
+                      ]
+                      []
+                      []
+                    ]
+                  ]
                   [
                     [
                       4
@@ -35,8 +46,19 @@ warpt 1
               "b"
               [
                 [
-                  []
-                  []
+                  [
+                    [
+                      "of"
+                      [
+                        [
+                          18
+                          "app.B"
+                        ]
+                      ]
+                      []
+                      []
+                    ]
+                  ]
                   [
                     [
                       4
@@ -52,7 +74,7 @@ warpt 1
       ]
       dependencies []
       document [
-        x"59630c8f711d8ed4faf03cbbd4bc67ea27397b8d61196c7aa417504a9f274f04"
+        x"8b41426be17f63c856bb7595add556a7c22115c352963a48cd31589cb200d552"
       ]
       leaned []
       lifted []
@@ -65,7 +87,6 @@ warpt 1
         [
           "entry"
           [
-            []
             [
               [
                 "v"
@@ -145,11 +166,23 @@ warpt 1
     contracts {
       "app.A" {
         a {
+          parameters [
+            {
+              name "of"
+              type "app.A"
+            }
+          ]
           returns "int"
         }
       }
       "app.B" {
         b {
+          parameters [
+            {
+              name "of"
+              type "app.B"
+            }
+          ]
           returns "int"
         }
       }
@@ -166,9 +199,11 @@ warpt 1
         ]
         result {
           call {
-            of {
-              ref "v"
-            }
+            arguments [
+              {
+                ref "v"
+              }
+            ]
             procedure "app.A.a"
           }
         }

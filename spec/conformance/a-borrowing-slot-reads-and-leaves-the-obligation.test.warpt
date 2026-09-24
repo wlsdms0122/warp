@@ -17,7 +17,6 @@ warpt 1
             type "borrowing app.Handle"
           }
         ]
-        receiver "of"
         result {
           ref "of.name"
         }
@@ -47,9 +46,11 @@ warpt 1
             let "shown"
             value {
               call {
-                of {
-                  ref "handle"
-                }
+                arguments [
+                  {
+                    ref "handle"
+                  }
+                ]
                 procedure "app.name"
               }
             }

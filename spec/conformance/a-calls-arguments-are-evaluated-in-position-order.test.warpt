@@ -2,12 +2,12 @@ warpt 1
 {
   expect {
     answers [
-      "alpha"
+      "zulu"
       "map"
     ]
   }
-  name "a-calls-receiver-is-evaluated-before-its-arguments"
-  note "The receiver a call writes in front is evaluated before its arguments, wherever the declaration stands the parameter it fills, and whether the callee is a body or the host's. Each call here writes a receiver and an argument that would both fail, and the receiver's surfaces: `alpha`, which `app.pair` declares after `zulu`, and `map`, in front of `std.collection.setting`."
+  name "a-calls-arguments-are-evaluated-in-position-order"
+  note "A call's arguments are evaluated in position order, whether the callee is a body or the host's. An argument may call anything, so the order is observable. Each call here writes two arguments that would both fail, and the first one's failure surfaces: `zulu` for `app.pair`, which declares it before `alpha`, and `map` for `std.collection.setting`."
   program {
     imports [
       "std.collection.setting"
@@ -25,7 +25,6 @@ warpt 1
             type "string"
           }
         ]
-        receiver "alpha"
         result {
           ref "zulu"
         }
@@ -43,20 +42,24 @@ warpt 1
                     let "paired"
                     value {
                       call {
-                        arguments {
-                          zulu {
+                        arguments [
+                          {
                             call {
-                              of "zulu"
+                              arguments [
+                                "zulu"
+                              ]
                               procedure "std.control.abort"
                             }
                           }
-                        }
-                        of {
-                          call {
-                            of "alpha"
-                            procedure "std.control.abort"
+                          {
+                            call {
+                              arguments [
+                                "alpha"
+                              ]
+                              procedure "std.control.abort"
+                            }
                           }
-                        }
+                        ]
                         procedure "app.pair"
                       }
                     }
@@ -79,21 +82,25 @@ warpt 1
                     let "set"
                     value {
                       call {
-                        arguments {
-                          key {
+                        arguments [
+                          {
                             call {
-                              of "key"
+                              arguments [
+                                "map"
+                              ]
                               procedure "std.control.abort"
                             }
                           }
-                          value 1
-                        }
-                        of {
-                          call {
-                            of "map"
-                            procedure "std.control.abort"
+                          {
+                            call {
+                              arguments [
+                                "key"
+                              ]
+                              procedure "std.control.abort"
+                            }
                           }
-                        }
+                          1
+                        ]
                         procedure "std.collection.setting"
                       }
                     }

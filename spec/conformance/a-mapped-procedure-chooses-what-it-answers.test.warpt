@@ -19,8 +19,12 @@ warpt 1
         access "public"
         result {
           call {
-            arguments {
-              value {
+            arguments [
+              [
+                1
+                2
+              ]
+              {
                 closure {
                   parameters [
                     {
@@ -30,41 +34,37 @@ warpt 1
                   ]
                   result {
                     call {
-                      arguments {
-                        else {
-                          closure {
-                            result "other"
-                            returns "string"
+                      arguments [
+                        {
+                          call {
+                            arguments [
+                              {
+                                ref "item"
+                              }
+                              1
+                            ]
+                            procedure "std.logic.equal"
                           }
                         }
-                        then {
+                        {
                           closure {
                             result "one"
                             returns "string"
                           }
                         }
-                      }
-                      of {
-                        call {
-                          arguments {
-                            value 1
+                        {
+                          closure {
+                            result "other"
+                            returns "string"
                           }
-                          of {
-                            ref "item"
-                          }
-                          procedure "std.logic.equal"
                         }
-                      }
+                      ]
                       procedure "std.logic.select"
                     }
                   }
                   returns "string"
                 }
               }
-            }
-            of [
-              1
-              2
             ]
             procedure "std.collection.map"
           }

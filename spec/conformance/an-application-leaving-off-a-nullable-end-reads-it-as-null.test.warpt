@@ -1,0 +1,59 @@
+warpt 1
+{
+  expect {
+    answers null
+  }
+  name "an-application-leaving-off-a-nullable-end-reads-it-as-null"
+  note "Applying a value may stop short the way a call may: the positions left off at the end are ones whose type declares null, and each reads as that null."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "pair"
+            value {
+              closure {
+                parameters [
+                  {
+                    name "a"
+                    type "int"
+                  }
+                  {
+                    name "b"
+                    type "string?"
+                  }
+                ]
+                result {
+                  ref "b"
+                }
+                returns "string?"
+              }
+            }
+          }
+          {
+            let "made"
+            value {
+              apply {
+                arguments [
+                  1
+                ]
+                procedure {
+                  ref "pair"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "made"
+        }
+        returns "string?"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

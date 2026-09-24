@@ -13,15 +13,14 @@ warpt 1
               type "int"
             }
           ]
-          receiver "of"
           result {
             call {
-              arguments {
-                value 2
-              }
-              of {
-                ref "of"
-              }
+              arguments [
+                {
+                  ref "of"
+                }
+                2
+              ]
               procedure "std.math.times"
             }
           }
@@ -40,7 +39,9 @@ warpt 1
     const {
       twelve {
         call {
-          of 6
+          arguments [
+            6
+          ]
           procedure "k.twice"
         }
       }

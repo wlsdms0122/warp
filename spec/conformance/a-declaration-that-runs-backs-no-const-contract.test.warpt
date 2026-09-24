@@ -10,6 +10,12 @@ warpt 1
       "app.Named" {
         name {
           const true
+          parameters [
+            {
+              name "of"
+              type "app.Named"
+            }
+          ]
           returns "string"
         }
       }
@@ -23,7 +29,6 @@ warpt 1
             type "app.Thing"
           }
         ]
-        receiver "of"
         result {
           ref "label"
         }
@@ -39,12 +44,13 @@ warpt 1
             type "some T"
           }
         ]
-        receiver "it"
         result {
           call {
-            of {
-              ref "it"
-            }
+            arguments [
+              {
+                ref "it"
+              }
+            ]
             procedure "app.Named.name"
           }
         }
@@ -54,12 +60,14 @@ warpt 1
         access "public"
         result {
           call {
-            of {
-              as "app.Thing"
-              of {
-                id 1
+            arguments [
+              {
+                as "app.Thing"
+                of {
+                  id 1
+                }
               }
-            }
+            ]
             procedure "app.tell"
           }
         }

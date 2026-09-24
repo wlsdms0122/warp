@@ -19,18 +19,20 @@ warpt 1
               as "Answers"
               of {
                 call {
-                  of {
-                    left {
-                      closure {
-                        result 1
+                  arguments [
+                    {
+                      left {
+                        closure {
+                          result 1
+                        }
+                      }
+                      right {
+                        closure {
+                          result 2
+                        }
                       }
                     }
-                    right {
-                      closure {
-                        result 2
-                      }
-                    }
-                  }
+                  ]
                   procedure "std.concurrent.all"
                 }
               }
