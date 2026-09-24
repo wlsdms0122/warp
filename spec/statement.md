@@ -331,7 +331,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-attempt-joins-its-body-with-its-rescue`
 - `an-attempt-written-nameless-binds-no-failure`
 - `break-ends-the-loop`
+- `calling-a-value-bounded-to-numbers-refuses`
 - `calling-a-value-no-procedure-could-be-refuses`
+- `calling-a-value-read-as-a-nullable-number-refuses`
 - `continue-skips-a-round`
 - `leaving-answers-from-the-middle`
 - `leaving-is-not-failing`
