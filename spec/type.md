@@ -217,6 +217,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-value-outside-a-contract-in-a-closures-parameter-refuses`
 - `a-value-outside-a-contract-standing-as-a-type-refuses`
 - `a-value-outside-a-declared-type-refuses-at-the-boundary`
+- `a-value-taken-inside-an-attempt-body-is-still-owed`
 - `a-value-written-into-a-box-inside-a-loop-refuses`
 - `a-value-written-into-a-box-is-still-owed`
 - `a-value-written-into-a-list-element-refuses`
