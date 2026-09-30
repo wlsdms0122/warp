@@ -1,0 +1,14 @@
+warpt 1
+{
+  bytes x"574152500107020162030204efbbbf610304"
+  expect {
+    spells {
+      b 1
+      "﻿a" 2
+    }
+  }
+  name "a-key-led-by-a-byte-order-mark-sorts-by-its-bytes"
+  note "A key led by U+FEFF keeps it and sorts by the bytes it is written with, `EF` after `62`."
+  test 1
+}
+
