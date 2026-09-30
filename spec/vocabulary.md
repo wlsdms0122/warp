@@ -6,7 +6,7 @@ Seven bundles, each taken with what it depends on, so a receiver grants what its
 
 | module | procedures |
 |---|---|
-| `std` |. Declares the memberships `std.Numeric`, `std.Comparable` and `std.Collection`, and the type `std.byte = int(0...255)` |
+| `std` | None. It declares the memberships `std.Numeric`, `std.Comparable` and `std.Collection`, and the type `std.byte = int(0...255)` |
 | `std.logic` | `equal` `notEqual` `not` `and` `or` `select` |
 | `std.math` | `plus` `minus` `times` `dividedBy` `remainder` `min` `max` `absolute` `floored` `rounded` `lessThan` `greaterThan` |
 | `std.text` | `text` `characters` `contains` `startsWith` `uppercased` `lowercased` `trimmed` `split` `joined` `replacing` `decoded` `encoded` |
@@ -55,11 +55,13 @@ One of these is builtin for a reason that is not the set it removes. `trimmed` n
 | procedure | parameters | answers |
 |---|---|---|
 | `plus`, `minus`, `times`, `remainder` | `lhs: some N`, `rhs: some N` | `some N`. Bounds `N: std.Numeric` |
-| `min`, `max` | `lhs: some N`, `rhs: some N` | `some N`. Bounds `N: std.Comparable` |
+| `min`, `max` | `lhs: some T`, `rhs: some T` | `some T`. Bounds `T: std.Comparable` |
 | `dividedBy` | `lhs: some N`, `rhs: some N` | `double`. Bounds `N: std.Numeric` |
 | `absolute` | `number: some N` | `some N`. Bounds `N: std.Numeric` |
 | `floored`, `rounded` | `number: some N` | `int`. Bounds `N: std.Numeric` |
 | `lessThan`, `greaterThan` | `lhs: some T`, `rhs: some T` | `bool`. Bounds `T: std.Comparable` |
+
+`min` and `max` answer one of the two as it arrived. On a tie, where the two order the same, `min` answers `lhs` and `max` answers `rhs`, so `min(1, 1.0)` is `1` and `max(1, 1.0)` is `1.0`.
 
 `floored` goes to the nearest whole toward the smaller side, below zero too: `-2.1` floors to `-3`. `rounded` goes to the nearest whole, and away from zero at the exact halfway: `2.5` rounds to `3`, `-2.5` to `-3`. `absolute` drops the sign and keeps the kind it was given. Each of these answers an `int` only when an int holds the answer. The int's edge refuses at the run, as the edge rules below require.
 
@@ -82,13 +84,13 @@ One of these is builtin for a reason that is not the set it removes. `trimmed` n
 
 **Two bundles declare `contains`, and they ask different questions.** `std.collection.contains` asks whether an array holds an element; `std.text.contains` asks whether a string holds another string inside it. They are two procedures because a string is not an array here: it has a `count` but no elements to read by position, since where the tenth character starts is only known by walking the nine in front of it. A program that wants a string's characters as a collection asks `characters` for them.
 
-`uppercased` and `lowercased` apply Unicode's full default case mapping and no locale's tailoring: `ß` uppercases to `SS`, and `i` uppercases to `I` on every machine, whatever its locale says about a dotted `i`.
+`uppercased` and `lowercased` apply Unicode's full default case mapping and no locale's tailoring: `ß` uppercases to `SS`, a capital sigma ending a word lowercases to the final `ς`, and `i` uppercases to `I` on every machine, whatever its locale says about a dotted `i`.
 
 `trimmed` removes the whitespace at either end and nothing from the middle. A character goes only if **every one of its code points** has Unicode's `White_Space` property, and nothing a platform adds to that set is whitespace here. Both halves of that rule are load-bearing: `\r\n` is one character and two code points, both of them `White_Space`, so it goes; a space carrying a combining mark is also one character and two code points, and the mark is not `White_Space`, so it stays where it was written. A zero-width space is not whitespace in Unicode and so is not trimmed, however a platform's own set answers.
 
-`replacing` rewrites every occurrence, not only the first. `joined` over an array with nothing in it answers the empty text, whatever the separator: there is nothing to put between. `split` keeps the empty pieces a separator at either end leaves, since dropping them would be an opinion about the text rather than a reading of it. Both refuse a separator holding no characters, which would match everywhere and consume nothing; the refusal is `aborted`, so an attempt around either catches it. The procedures that read text, `contains` and `startsWith` included, read as a person reads, under the value model's canonical equivalence.
+`replacing` rewrites every occurrence, not only the first. `joined` over an array with nothing in it answers the empty text, whatever the separator: there is nothing to put between. `split` keeps the empty pieces a separator at either end leaves, since dropping them would be an opinion about the text rather than a reading of it. `split` fails on a separator holding no characters and `replacing` on a target holding none, since either would match everywhere and consume nothing. The failure is `aborted`, so an attempt around either catches it. The procedures that read text, `contains` and `startsWith` included, read as a person reads, under the value model's canonical equivalence.
 
-`text` spells a value in its own spelling, which is the type's and not a document's. A string is its own characters, unquoted; a number, a bool and `null` are the spelling a document writes; bytes are `x` and their hex digits. A container it spells on **one line**: an array's elements between `[` and `]`, a dictionary's entries between `{` and `}` as the key quoted, a colon and the value, a named record the same with its name and a space before the brace, entries in **name order** ascending as `keys` answers them, elements or entries joined by commas with no space, and an empty one `[]` or `{}`. Inside a container `null` is `null`, and a string or bytes is quoted: between double quotes, with `"`, `\`, a newline, a carriage return and a tab escaped as `\"`, `\\`, `\n`, `\r` and `\t`, any other character below `0x20` as `\u` and four hex digits, and everything else as itself, so `text` of `[x"6869"]` is `["x\"6869\""]` and of `[1, 2]` is `[1,2]`: a value's spelling does not change with how deep it sits. What no document carries answers in the language's own markers, never a host formatter's: a procedure is `<procedure>`, a host's non-finite fraction is `<infinity>`, `<-infinity>` or `<not a number>`, and a container holding one shows whole as `<unencodable>`. This is what `text` is for. A person reading a value. A carrier that has to give the value *back* is a different question, and one with no compact spelling writes bytes as what they are: an array of `std.byte`.
+`text` spells a value in its own spelling, which is the type's and not a document's. A string is its own characters, unquoted; a number, a bool and `null` are the spelling a document writes; bytes are `x` and their hex digits. A container it spells on **one line**: an array's elements between `[` and `]`, a dictionary's entries between `{` and `}` as the key quoted, a colon and the value, a named record the same with its name and a space before the brace, entries in **name order** ascending as `keys` answers them, elements or entries joined by commas with no space, and an empty one `[]` or `{}`. Inside a container `null` is `null`, and a string or bytes is quoted: between double quotes, with `"`, `\`, a newline, a carriage return and a tab escaped as `\"`, `\\`, `\n`, `\r` and `\t`, any other character below `0x20` as `\u` and four hex digits, and everything else as itself, so `text` of `[x"6869"]` is `["x\"6869\""]` and of `[1, 2]` is `[1,2]`: a value's spelling does not change with how deep it sits. What no document carries answers in the language's own markers, never a host formatter's: a procedure is `<procedure>`, a host's non-finite fraction is `<infinity>`, `<-infinity>` or `<not a number>`, and a container holding one shows whole as `<unencodable>`. This is what `text` is for: a person reading a value. A carrier that has to give the value *back* is a different question, and one with no compact spelling writes bytes as what they are: an array of `std.byte`.
 
 *std.collection*
 
@@ -107,7 +109,7 @@ One of these is builtin for a reason that is not the set it removes. `trimmed` n
 | `reduce` | `array: array<some Element>`, `initialResult: some Carried`, `nextPartialResult`. `const` procedure, handed the carried value, then the item, answering `some Carried` | `some Carried` |
 | `keys` | `dictionary: dictionary<any>` | `array<string>` |
 | `values` | `dictionary: dictionary<some Entry>` | `array<some Entry>` |
-| `setting` | `dictionary: dictionary<any>`, `key: string`, `value: any` | `dictionary<any>` |
+| `setting` | `dictionary: dictionary<any>`, `key: string`, `value: any` | `dictionary<any>`. The key becomes a field's name, so a key that is not a name (empty, or not in normal form C) **refuses at the run** |
 
 `gathering` is how a procedure answers a collection's own elements. It says which by position, and the answer comes back in the spelling the collection arrived in: bytes rearranged are bytes. This is the whole of what `reversed`, `dropFirst`, `dropLast`, `filter` and `sorted` add to a walk, and it is the reason those are written in Warp rather than asked of an implementation. A body that read the elements out and put them back would answer an array of numbers, because an array it started empty has no spelling to keep. The standard name for reading one collection at another's positions is a **gather**.
 
@@ -115,7 +117,7 @@ One of these is builtin for a reason that is not the set it removes. `trimmed` n
 
 | procedure | parameters | answers |
 |---|---|---|
-| `abort` | `message: any`. What the refusal says. Null says `aborted` | `never` |
+| `abort` | `message: any`. What the failure says. Null says `aborted` | `never` |
 
 *std.concurrent*
 
@@ -124,7 +126,7 @@ One of these is builtin for a reason that is not the set it removes. `trimmed` n
 | `all`, `first` | `pieces: std.concurrent.Pieces`. The membership of `array<isolated procedure>` and `dictionary<isolated procedure>` | `any` |
 | `map` | `array: array<some Element>`, `transform`. `isolated procedure`, handed the item, then its index, answering `some Answer` | `array<some Answer>` |
 
-**`std.concurrent`**. Running closures at once. `all` takes a record or an array of closures, runs every one, and answers every answer. A record's under its keys, an array's in its order; a failure fails the whole procedure with every piece's failure reported, keyed by the piece it came from. `first` takes the same and answers the first success, asking the rest to stop, which piece wins is the one timing fact this language admits. `map` takes a collection and one closure, calls it once per element, handing it the element and then its index, and answers in the collection's order. These are procedures rather than grammar because a closure is already the safe unit of concurrent work, and being procedures makes concurrency a permission: what a receiver does not link, a program cannot do.
+**`std.concurrent`**. Running closures at once. `all` takes a record or an array of closures, runs every one, and answers every answer. A record's under its keys, an array's in its order; a failure fails the whole procedure with every piece's failure reported, keyed by the piece it came from. `first` takes the same and answers the first success, asking the rest to stop; which piece wins is the one timing fact this language admits. `map` takes a collection and one closure, calls it once per element, handing it the element and then its index, and answers in the collection's order. These are procedures rather than grammar because a closure is already the safe unit of concurrent work, and being procedures makes concurrency a permission: what a receiver does not link, a program cannot do.
 
 The names are plain ones with the module carrying the context, the way `Array.map` and `TaskGroup.next` lean on their types. A call site spells the module, so `std.collection.first` and `std.concurrent.first` are two names, and a link carrying both bundles holds both: every `first` and every `map`, the sequential ones included, is written with its bundle, and concurrency shows at the call site.
 
@@ -134,20 +136,21 @@ What the procedures hand their closures is one convention, shared with the seque
 
 What the vocabulary answers about **bytes**: bytes are not a special material. They are an array of small whole numbers, `array<std.byte>`, `std.byte` being the range `int(0...255)` that `std` declares, and `x"6869"` is that array's compact spelling, under [values](value.md). There is no type named for the spelling: a slot is written `array<std.byte>`, or any other array the bytes fit. **The spelling is the value's own fact rather than the slot's**: a bytes value stands where `array<int>` is declared and crosses it *whole*, because the slot asked for an array and bytes are one. There is nothing to settle, and unpacking would spend an element per byte to answer questions like `first` that read one. An `array<…>` slot reads the bytes out one by one only where its element declaration would not leave a byte as it is: `array<double>` changes every one of them, a range narrower than `std.byte` has something to ask of each, and a fraction range (`double(0.0...255.0)`) is both. It widens every byte it takes. An element declared as a **bounded** type parameter asks each value for its membership, and a member of the constraint that takes every byte answers that for all of them at once, so `sorted`, whose element carries `std.Comparable`, reads a compact spelling the way `reversed` does rather than by whether its declaration happened to carry a bound. An array of byte worths written out one by one stays as written: the compact spelling is the value's, and no slot puts it on.
 
-An index reads an element out as a `std.byte`, the range `std` names, and so does `some Element` filled by bytes: `first` of bytes answers a `std.byte`. The collection vocabulary. `count`, `first`, `contains`, `reversed`, `map`, all of it. Applies directly. A procedure that answers a collection's **own** elements. `reversed`, `filter`, `sorted`, `dropFirst`, `dropLast`. Answers them in the spelling they arrived in, so bytes stay bytes; put something among them that is not a byte (`appending` a `300`) and the answer is the array it now is. A procedure that builds **new** elements does not: `map` answers whatever its procedure answered, which its declaration says by naming a second type parameter for it. Two bytes *values* still do **not** order, for the array reason rather than an opacity one: `std.Comparable` admits numbers and strings among themselves, not collections. Reading bytes *as* text is a procedure that names its encoding: `decoded` and `encoded` are the two directions of one mapping (`encoding: "utf8"`, the only member), and bytes that are not text in that encoding **refuse at the run**. Completing a broken sequence would answer a text nobody sent. `encoded` writes the text's code points as they stand and normalises nothing, and `decoded` keeps a byte order mark as the character it is: normalising the one or dropping the other would be an opinion about the text rather than a reading of it. The list of encodings is this specification's: a member is one every implementation writes, so a host with an encoding of its own declares a procedure of its own rather than widening the list.
+An index reads an element out as a `std.byte`, the range `std` names, and so does `some Element` filled by bytes: `first` of bytes answers a `std.byte`. The collection vocabulary (`count`, `first`, `contains`, `reversed`, `map`, all of it) applies directly. A procedure that answers a collection's **own** elements (`reversed`, `filter`, `sorted`, `dropFirst`, `dropLast`) answers them in the spelling they arrived in, so bytes stay bytes; put something among them that is not a byte (`appending` a `300`) and the answer is the array it now is. A procedure that builds **new** elements does not: `map` answers whatever its procedure answered, which its declaration says by naming a second type parameter for it. Two bytes *values* still do **not** order, for the array reason rather than an opacity one: `std.Comparable` admits numbers and strings among themselves, not collections. Reading bytes *as* text is a procedure that names its encoding: `decoded` and `encoded` are the two directions of one mapping (`encoding: "utf8"`, the only member), and bytes that are not text in that encoding **refuse at the run**. Completing a broken sequence would answer a text nobody sent. `encoded` writes the text's code points as they stand and normalises nothing, and `decoded` keeps a byte order mark as the character it is: normalising the one or dropping the other would be an opinion about the text rather than a reading of it. The list of encodings is this specification's: a member is one every implementation writes, so a host with an encoding of its own declares a procedure of its own rather than widening the list.
 
-**`abort`**. Fail on purpose, with a message. Declared `returns: never`, which is everything the checking needs: nothing runs after it, and no name binds it. The message is what `message` spells as text. Sent null, the refusal says `aborted`. The refusal it raises is a failure like any other, so an `attempt` around it catches it. Leaving is what a rescue does not catch, and this is failing, not leaving.
+**`abort`**. Fail on purpose, with a message. Declared `returns: never`, which is everything the checking needs: nothing runs after it, and no name binds it. The message is what `message` spells as text. Sent null, the failure says `aborted`. It is a failure like any other, so an `attempt` around it catches it. Leaving is what a rescue does not catch, and this is failing, not leaving.
 
 Behaviour at the edges. Where implementations quietly differ, so stated as requirements:
 
 - Arithmetic takes two of a kind and answers that kind: both sides and the answer are one type parameter, bounded by `std.Numeric`. A whole number added to text **refuses at the build**, and so do two pieces of text, because agreement is not admission.
 - Ordering (`lessThan`, `greaterThan`, `sorted`, `min`, `max`) compares two of a kind under `std.Comparable`, and text is a kind. A kind the constraint does not admit refuses at the build where the text says so, and at the boundary where the value arrives through `any`.
-- Whole-number arithmetic with no whole answer **refuses at the run**. It does not wrap and does not silently widen. The rule covers every standard procedure that answers an `int` and can miss it: `plus`, `minus`, `times` off the int's edge, `absolute` of the int's own minimum, and `floored`/`rounded` of a fraction whose whole part is past the int. `remainder` is not on the list because its answer always fits. A remainder is smaller than its divisor, and the one divisor that trips a machine's division instruction still has one: `-9223372036854775808 remainder -1` answers `0`. These run-stage refusals. Overflow, and the zero divisor below. Are the program's own defect, not a failure of the work: an `attempt` does **not** catch them, the way it does not catch an index past the end. What a rescue catches is `abort` and a procedure's own failure.
+- Whole-number arithmetic with no whole answer **refuses at the run**. It does not wrap and does not silently widen. The rule covers every standard procedure that answers an `int` and can miss it: `plus`, `minus`, `times` off the int's edge, `absolute` of the int's own minimum, and `floored`/`rounded` of a fraction whose whole part is past the int. `remainder` is not on the list because its answer always fits. A remainder is smaller in size than its divisor, and the one divisor that trips a machine's division instruction still has one: `-9223372036854775808 remainder -1` answers `0`. These run-stage refusals (overflow, and the zero divisor below) are the program's own defect, not a failure of the work: an `attempt` does **not** catch them, the way it does not catch an index past the end. What a rescue catches is `abort` and a procedure's own failure.
 - Fraction arithmetic with no finite answer **refuses at the run** for the same reason: infinity is a value the arithmetic can reach and no document can carry, and a value that exists only until someone writes it down is not an answer.
-- `dividedBy` answers a fraction, whole or not. Division by zero **refuses at the run**. The quotient is binary64's own: a whole operand reads as the fraction nearest it first. The same widening every mixed operation performs, and the division rounds once more, so two implementations spell the same quotient bit for bit.
+- `dividedBy` answers a fraction, whole or not. Division by zero **refuses at the run**. The quotient is binary64's own: a whole operand reads as the fraction nearest it first, the same widening every mixed operation performs, and the division rounds once more, so two implementations spell the same quotient bit for bit.
+- `remainder` truncates toward zero, for wholes and fractions alike: what is left takes the dividend's sign, so `-7 remainder 3` is `-1`, `7 remainder -3` is `1` and `-5.5 remainder 2.0` is `-1.5`. A zero divisor **refuses at the run**, the same as under `dividedBy`.
 - A whole number where a fraction is expected widens; the reverse refuses.
 
-What a host brings beyond these. Its own procedures, and which of them answer without running. Is the host's, and is the boundary to the outside world: a program reaches nothing except by sending a procedure the receiver declared.
+What a host brings beyond these (its own procedures, and which of them answer without running) is the host's, and is the boundary to the outside world: a program reaches nothing except by sending a procedure the receiver declared.
 
 ## Cases
 
@@ -167,6 +170,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-text-procedure-answers-new-text`
 - `a-zero-width-space-is-not-whitespace`
 - `abort-sent-null-says-aborted`
+- `absolute-drops-the-sign-of-negative-zero`
 - `absolute-floored-and-rounded-answer-a-whole`
 - `absolute-of-the-minimum-refuses`
 - `an-attempt-does-not-catch-overflow`
@@ -201,13 +205,17 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `floored-past-the-int-refuses`
 - `fraction-arithmetic-with-no-finite-answer-refuses`
 - `gathering-past-the-end-refuses`
+- `gathering-reads-positions-written-as-bytes`
 - `greater-than-mirrors-less-than`
 - `joined-over-nothing-answers-empty-text`
 - `keys-answer-in-canonical-order`
+- `lowercased-ends-a-word-with-final-sigma`
 - `lowercased-folds-the-case`
 - `map-answers-in-the-collections-order`
 - `map-takes-only-an-isolated-closure`
+- `max-answers-rhs-on-a-tie`
 - `min-and-max-pick-an-end`
+- `min-answers-lhs-on-a-tie`
 - `minus-and-times-compose-as-written`
 - `minus-off-the-ints-edge-refuses`
 - `not-and-notequal-say-the-opposite`
@@ -216,11 +224,14 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `prepending-writes-the-front`
 - `reduce-folds-in-order`
 - `remainder-at-the-ints-minimum-answers`
+- `remainder-by-zero-refuses`
 - `remainder-is-what-whole-division-leaves`
+- `remainder-takes-the-sign-of-the-dividend`
 - `replacing-swaps-every-occurrence`
 - `reversed-turns-the-order-around`
 - `rounded-past-the-int-refuses`
 - `setting-answers-a-new-record`
+- `setting-refuses-a-key-that-is-not-a-name`
 - `sorted-orders-what-it-was-given`
 - `sorting-the-unorderable-refuses`
 - `split-cuts-and-joined-writes`

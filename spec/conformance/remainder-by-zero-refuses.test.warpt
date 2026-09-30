@@ -1,0 +1,30 @@
+warpt 1
+{
+  expect {
+    refuses "run"
+  }
+  name "remainder-by-zero-refuses"
+  note "A zero divisor leaves nothing a remainder could be, under remainder the same as under dividedBy."
+  program {
+    imports [
+      "std.math.remainder"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              7
+              0
+            ]
+            procedure "std.math.remainder"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
