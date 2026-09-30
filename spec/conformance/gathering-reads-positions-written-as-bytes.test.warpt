@@ -1,0 +1,37 @@
+warpt 1
+{
+  expect {
+    answers [
+      30
+      20
+    ]
+  }
+  name "gathering-reads-positions-written-as-bytes"
+  note "positions is declared array<int>, and bytes are an array of small whole numbers that crosses that slot whole, so positions written as bytes are read as the positions they are."
+  program {
+    imports [
+      "std.collection.gathering"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              [
+                10
+                20
+                30
+              ]
+              x"0201"
+            ]
+            procedure "std.collection.gathering"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
