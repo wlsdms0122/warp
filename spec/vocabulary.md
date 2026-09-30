@@ -144,9 +144,10 @@ Behaviour at the edges. Where implementations quietly differ, so stated as requi
 
 - Arithmetic takes two of a kind and answers that kind: both sides and the answer are one type parameter, bounded by `std.Numeric`. A whole number added to text **refuses at the build**, and so do two pieces of text, because agreement is not admission.
 - Ordering (`lessThan`, `greaterThan`, `sorted`, `min`, `max`) compares two of a kind under `std.Comparable`, and text is a kind. A kind the constraint does not admit refuses at the build where the text says so, and at the boundary where the value arrives through `any`.
-- Whole-number arithmetic with no whole answer **refuses at the run**. It does not wrap and does not silently widen. The rule covers every standard procedure that answers an `int` and can miss it: `plus`, `minus`, `times` off the int's edge, `absolute` of the int's own minimum, and `floored`/`rounded` of a fraction whose whole part is past the int. `remainder` is not on the list because its answer always fits. A remainder is smaller than its divisor, and the one divisor that trips a machine's division instruction still has one: `-9223372036854775808 remainder -1` answers `0`. These run-stage refusals. Overflow, and the zero divisor below. Are the program's own defect, not a failure of the work: an `attempt` does **not** catch them, the way it does not catch an index past the end. What a rescue catches is `abort` and a procedure's own failure.
+- Whole-number arithmetic with no whole answer **refuses at the run**. It does not wrap and does not silently widen. The rule covers every standard procedure that answers an `int` and can miss it: `plus`, `minus`, `times` off the int's edge, `absolute` of the int's own minimum, and `floored`/`rounded` of a fraction whose whole part is past the int. `remainder` is not on the list because its answer always fits. A remainder is smaller in size than its divisor, and the one divisor that trips a machine's division instruction still has one: `-9223372036854775808 remainder -1` answers `0`. These run-stage refusals. Overflow, and the zero divisor below. Are the program's own defect, not a failure of the work: an `attempt` does **not** catch them, the way it does not catch an index past the end. What a rescue catches is `abort` and a procedure's own failure.
 - Fraction arithmetic with no finite answer **refuses at the run** for the same reason: infinity is a value the arithmetic can reach and no document can carry, and a value that exists only until someone writes it down is not an answer.
 - `dividedBy` answers a fraction, whole or not. Division by zero **refuses at the run**. The quotient is binary64's own: a whole operand reads as the fraction nearest it first. The same widening every mixed operation performs, and the division rounds once more, so two implementations spell the same quotient bit for bit.
+- `remainder` truncates toward zero, for wholes and fractions alike: what is left takes the dividend's sign, so `-7 remainder 3` is `-1`, `7 remainder -3` is `1` and `-5.5 remainder 2.0` is `-1.5`. A zero divisor **refuses at the run**, the same as under `dividedBy`.
 - A whole number where a fraction is expected widens; the reverse refuses.
 
 What a host brings beyond these. Its own procedures, and which of them answer without running. Is the host's, and is the boundary to the outside world: a program reaches nothing except by sending a procedure the receiver declared.
@@ -223,7 +224,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `prepending-writes-the-front`
 - `reduce-folds-in-order`
 - `remainder-at-the-ints-minimum-answers`
+- `remainder-by-zero-refuses`
 - `remainder-is-what-whole-division-leaves`
+- `remainder-takes-the-sign-of-the-dividend`
 - `replacing-swaps-every-occurrence`
 - `reversed-turns-the-order-around`
 - `rounded-past-the-int-refuses`
