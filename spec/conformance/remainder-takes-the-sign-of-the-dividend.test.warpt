@@ -1,0 +1,54 @@
+warpt 1
+{
+  expect {
+    answers [
+      -1
+      1
+      -1.5
+    ]
+  }
+  name "remainder-takes-the-sign-of-the-dividend"
+  note "remainder truncates toward zero, for wholes and fractions alike, so what is left takes the dividend's sign and never the divisor's."
+  program {
+    imports [
+      "std.math.remainder"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result [
+          {
+            call {
+              arguments [
+                -7
+                3
+              ]
+              procedure "std.math.remainder"
+            }
+          }
+          {
+            call {
+              arguments [
+                7
+                -3
+              ]
+              procedure "std.math.remainder"
+            }
+          }
+          {
+            call {
+              arguments [
+                -5.5
+                2.0
+              ]
+              procedure "std.math.remainder"
+            }
+          }
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
