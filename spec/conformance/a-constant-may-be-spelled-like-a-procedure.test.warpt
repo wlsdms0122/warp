@@ -1,0 +1,84 @@
+warpt 1
+{
+  expect {
+    answers 3
+  }
+  name "a-constant-may-be-spelled-like-a-procedure"
+  note "A constant and a procedure spelled alike are two declarations: a reference reads the constant and a call names the procedure. A closure each of them writes is its own."
+  program {
+    const {
+      f {
+        closure {
+          result 1
+          returns "int"
+        }
+      }
+    }
+    imports [
+      "std.math.plus"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "held"
+            value {
+              call {
+                procedure {
+                  ref "f"
+                }
+              }
+            }
+          }
+          {
+            let "called"
+            value {
+              call {
+                procedure "f"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "held"
+              }
+              {
+                ref "called"
+              }
+            ]
+            procedure "std.math.plus"
+          }
+        }
+        returns "int"
+      }
+      f {
+        body [
+          {
+            let "g"
+            value {
+              closure {
+                result 2
+                returns "int"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            procedure {
+              ref "g"
+            }
+          }
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
