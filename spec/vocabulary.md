@@ -109,7 +109,7 @@ One of these is builtin for a reason that is not the set it removes. `trimmed` n
 | `reduce` | `array: array<some Element>`, `initialResult: some Carried`, `nextPartialResult`. `const` procedure, handed the carried value, then the item, answering `some Carried` | `some Carried` |
 | `keys` | `dictionary: dictionary<any>` | `array<string>` |
 | `values` | `dictionary: dictionary<some Entry>` | `array<some Entry>` |
-| `setting` | `dictionary: dictionary<any>`, `key: string`, `value: any` | `dictionary<any>` |
+| `setting` | `dictionary: dictionary<any>`, `key: string`, `value: any` | `dictionary<any>`. The key becomes a field's name, so a key that is not a name (empty, or not in normal form C) **refuses at the run** |
 
 `gathering` is how a procedure answers a collection's own elements. It says which by position, and the answer comes back in the spelling the collection arrived in: bytes rearranged are bytes. This is the whole of what `reversed`, `dropFirst`, `dropLast`, `filter` and `sorted` add to a walk, and it is the reason those are written in Warp rather than asked of an implementation. A body that read the elements out and put them back would answer an array of numbers, because an array it started empty has no spelling to keep. The standard name for reading one collection at another's positions is a **gather**.
 
@@ -231,6 +231,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `reversed-turns-the-order-around`
 - `rounded-past-the-int-refuses`
 - `setting-answers-a-new-record`
+- `setting-refuses-a-key-that-is-not-a-name`
 - `sorted-orders-what-it-was-given`
 - `sorting-the-unorderable-refuses`
 - `split-cuts-and-joined-writes`
