@@ -1,0 +1,44 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-constant-a-closure-answers-must-fit-what-it-declared"
+  note "A closure literal writes its `returns` beside its body, so a constant it answers is held to the range the way a declaration's is. `300` reads `int`, which the range takes as a type, and the value is not one the range admits."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "level"
+            value {
+              closure {
+                result 300
+                returns "int(0...255)"
+              }
+            }
+          }
+          {
+            let "read"
+            value {
+              call {
+                procedure {
+                  ref "level"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "read"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

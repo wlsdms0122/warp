@@ -8,7 +8,30 @@ The rules these pages state, as cases that run: `conformance/`. Which cases belo
 
 One file, one question: a subject, what to ask it with, and what should happen.
 
-    test        int. The case format this file is written for name        what the case is called note        why it exists. The rule it holds an implementation to program     a document, declaring a procedure spelled `entry` and written `public`, which is where the runner starts bytes       a document's bytes, in the binary encoding text        a document's text, in the text encoding; a string, or bytes where the question is whether they are text at all object      an object, written the way the text encoding lays one out document    bytes. The identity the runner reads the object under, where it is not the one the object writes arguments   what the entry procedure is given, if anything; a record under a name is written as the text encoding writes one vocabulary  the procedures the runner brings, if any documents   documents laid beside the program, if any, each written as a document is expect      answers <value>   it runs and answers this, named records written the same way reads <value>     it reads as that value spells <value>    it reads as that value, and writing that value gives exactly it builds <object>   building the program's own document writes exactly this object refuses <stage>   it is refused, at load, build or run
+    test        int. The case format this file is written for
+    name        what the case is called
+    note        why it exists. The rule it holds an implementation to
+    program     a document, declaring a procedure spelled `entry` and
+                written `public`, which is where the runner starts
+    bytes       a document's bytes, in the binary encoding
+    text        a document's text, in the text encoding; a string, or bytes
+                where the question is whether they are text at all
+    object      an object, written the way the text encoding lays one out
+    document    bytes. The identity the runner reads the object under, where
+                it is not the one the object writes
+    arguments   what the entry procedure is given, if anything; a record
+                under a name is written as the text encoding writes one
+    vocabulary  the procedures the runner brings, if any
+    documents   documents laid beside the program, if any, each written as
+                a document is
+    expect      answers <value>   it runs and answers this, named records
+                                  written the same way
+                reads <value>     it reads as that value
+                spells <value>    it reads as that value, and writing that
+                                  value gives exactly it
+                builds <object>   building the program's own document writes
+                                  exactly this object
+                refuses <stage>   it is refused, at load, build or run
 
 **A case carries exactly one of `program`, `bytes`, `text` and `object`,** and which one it carries decides what it may expect. A case carrying two would be two cases sharing one answer.
 
@@ -32,7 +55,11 @@ Each format declares itself, and that is how the two are told apart: a case says
 
 It is written as a **module**, because that is what a receiver takes in: it may declare `types`, `constraints`, `contracts` and `satisfies` the way any document does, and it declares the procedures under `procedures`. It does not say `warp` or `imports`: which version this module is read at is the runner's, and its declarations send nothing. A case writing either **refuses** as a case. The module stands in front of the case's own document in the link, so what the host brings is there to be named. Each procedure is keyed by its name and written the way a declaration is, with four keys of its own beside it:
 
-    answers     what it answers, whatever it was sent. Default null runs        bool. Whether it reaches outside the run. Default false, which is a procedure that answers without running isolated    bool. Default true failing     array of strings. What it may fail with. Default empty
+    answers     what it answers, whatever it was sent. Default null
+    runs        bool. Whether it reaches outside the run. Default false,
+                which is a procedure that answers without running
+    isolated    bool. Default true
+    failing     array of strings. What it may fail with. Default empty
 
 It answers the same thing every time, because a case asks what a declaration permits rather than what arithmetic does. The names it may declare are `first` and `second`, in that order, since a procedure the host answers reads its arguments at fixed places and a case cannot invent a place in another runner.
 

@@ -1,0 +1,76 @@
+warpt 1
+{
+  expect {
+    answers 2
+  }
+  name "a-dictionary-entry-handed-in-place-is-read-by-the-callee"
+  note "An entry of a dictionary is handed in place the way a field is. The callee reads what the entry holds through the path, and its write lands in the caller's box."
+  program {
+    imports [
+      "std.math.plus"
+    ]
+    procedures {
+      bump {
+        body [
+          {
+            set "count"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "count"
+                  }
+                  1
+                ]
+                procedure "std.math.plus"
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "count"
+            type "inout int"
+          }
+        ]
+      }
+      entry {
+        access "public"
+        body [
+          {
+            value {
+              as {
+                of {
+                  record {
+                    a 1
+                  }
+                }
+                type "dictionary<int>"
+              }
+            }
+            var "d"
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "d.a"
+                  }
+                ]
+                procedure "bump"
+              }
+            }
+          }
+        ]
+        result {
+          ref "d.a"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
