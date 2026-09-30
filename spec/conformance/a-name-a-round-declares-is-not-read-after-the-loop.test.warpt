@@ -1,0 +1,58 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-name-a-round-declares-is-not-read-after-the-loop"
+  note "What a loop's round declares stays its own and dies with the round. A reference after the loop to a name only the round declared reads a name that is not there."
+  program {
+    imports [
+      "std.math.lessThan"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "walk"
+            value {
+              loop {
+                body [
+                  {
+                    let "transient"
+                    value {
+                      ref "walk.index"
+                    }
+                  }
+                ]
+                while {
+                  call {
+                    arguments [
+                      {
+                        ref "walk.index"
+                      }
+                      3
+                    ]
+                    procedure "std.math.lessThan"
+                  }
+                }
+              }
+            }
+          }
+          {
+            let "read"
+            value {
+              ref "transient"
+            }
+          }
+        ]
+        result {
+          ref "read"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

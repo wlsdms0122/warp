@@ -1,0 +1,34 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-result-after-what-never-finishes-refuses"
+  note "A body's result is read after its statements, so a result after a call whose answer reads `never` would never be read. Held at the build, since only the build knows the signature."
+  program {
+    imports [
+      "std.control.abort"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            value {
+              call {
+                arguments [
+                  "done"
+                ]
+                procedure "std.control.abort"
+              }
+            }
+          }
+        ]
+        result 1
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

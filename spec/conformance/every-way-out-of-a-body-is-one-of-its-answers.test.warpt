@@ -1,0 +1,76 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "every-way-out-of-a-body-is-one-of-its-answers"
+  note "A declaration that wrote no `returns` answers what every way out of its body answers, each `return` beside the result. A record from the result and text from a `return` join to `any`, and a dot on that is refused at the build."
+  program {
+    imports [
+      "std.logic.equal"
+    ]
+    procedures {
+      counts {
+        body [
+          {
+            value {
+              conditional {
+                then [
+                  {
+                    value {
+                      return "none"
+                    }
+                  }
+                ]
+                when {
+                  call {
+                    arguments [
+                      {
+                        ref "flag"
+                      }
+                      true
+                    ]
+                    procedure "std.logic.equal"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "flag"
+            type "bool"
+          }
+        ]
+        result {
+          record {
+            total 7
+          }
+        }
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "said"
+            value {
+              call {
+                arguments [
+                  true
+                ]
+                procedure "counts"
+              }
+            }
+          }
+        ]
+        result {
+          ref "said.total"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

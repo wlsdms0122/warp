@@ -108,11 +108,16 @@ Inside the body the parameter is a variable, and `set` writes it. The parameter 
 
 What `conformance/` asks about this page, by the name each case's file carries.
 
+- `a-body-reading-a-module-variable-does-not-answer-without-running`
+- `a-body-that-branches-answers-without-running`
+- `a-body-that-loops-answers-without-running`
 - `a-call-of-a-value-hands-its-arguments-by-position`
 - `a-call-of-a-value-of-another-count-refuses`
 - `a-call-of-a-value-short-of-what-it-takes-refuses`
 - `a-call-of-another-count-refuses`
 - `a-call-short-of-what-the-callee-takes-refuses`
+- `a-candidate-meets-a-number-by-worth`
+- `a-candidate-on-a-slot-bounded-by-numbers-meets-either-kind`
 - `a-closure-that-writes-what-it-captured-is-not-const`
 - `a-const-slot-refuses-a-closure-that-calls-what-runs`
 - `a-const-slot-takes-a-closure-that-calls-a-const-slot`
@@ -135,6 +140,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-fixed-name-is-not-handed-in-place`
 - `a-native-procedure-is-handed-a-path-indexed-with-a-name`
 - `a-parameter-declared-twice-refuses`
+- `a-parameter-handed-in-place-reads-what-the-box-holds-now`
 - `a-path-handed-in-place-is-written-through`
 - `a-piece-that-writes-what-it-captured-refuses`
 - `a-private-declaration-backs-no-claim`
@@ -149,9 +155,13 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-required-argument-left-out-refuses`
 - `a-value-is-not-handed-in-place`
 - `a-value-is-not-handed-in-place-through-a-contract`
+- `a-value-under-a-slot-saying-only-procedure-is-not-const`
+- `a-variable-a-body-declares-is-its-own`
 - `a-variable-declared-const-procedure-carries-that-into-a-capture`
 - `a-variable-handed-in-place-is-written-by-the-callee`
 - `a-variable-of-another-type-is-not-handed-in-place`
+- `a-variable-that-declares-nothing-gives-a-capture-no-claim`
+- `a-whole-number-candidate-on-a-fraction-slot-is-dead`
 - `an-access-word-nothing-names-refuses`
 - `an-answer-must-fit-what-was-declared`
 - `an-answer-nobody-wrote-is-read-off-the-body`

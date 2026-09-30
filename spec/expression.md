@@ -56,6 +56,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-cast-between-ranges-that-share-no-value-is-refused`
 - `a-cast-names-the-record-it-reads`
 - `a-cast-naming-a-type-nothing-declares-refuses`
+- `a-cast-onto-any-refuses`
+- `a-cast-onto-never-refuses`
 - `a-cast-onto-what-the-types-already-prove-is-refused`
 - `a-cast-opens-what-any-declares-nothing-about`
 - `a-cast-that-does-not-match-refuses`
@@ -71,6 +73,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-dictionary-is-read-by-a-key-the-run-settles`
 - `a-dot-on-a-type-with-no-fields-is-refused`
 - `a-dot-on-any-is-refused`
+- `a-dot-through-a-null-the-text-shows-refuses`
 - `a-mapping-with-no-tag-refuses`
 - `a-mark-does-not-split-the-field-it-reached`
 - `a-marked-head-is-refused`
@@ -94,3 +97,4 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `the-optional-bracket-reads-through-a-nullable`
 - `the-optional-bracket-still-refuses-past-the-end`
 - `the-optional-dot-reads-through-a-nullable`
+- `two-parameters-of-one-type-parameter-hold-one-type`

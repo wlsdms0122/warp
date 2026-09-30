@@ -1,0 +1,24 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-type-reaching-itself-through-names-alone-refuses"
+  note "A declared type may name itself inside a field or a list, which is how a tree is one declaration. A chain of names that comes back to itself through names alone, a `?` included, stands for no type."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+      }
+    }
+    types {
+      "app.A" "app.B?"
+      "app.B" "app.A"
+    }
+    warp 1
+  }
+  test 1
+}
+

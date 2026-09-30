@@ -30,7 +30,7 @@ A type is written as a string, or as a record for what a string cannot say:
 
 Acceptance is one-way where the kinds nest: `double` accepts an `int` (a whole number widens to a fraction; the reverse **refuses**), `any` accepts everything. A slot that takes either kind of number is bounded by the membership `std.Numeric`, under [the standard vocabulary](vocabulary.md).
 
-**A declared record is nominal.** A type declared in `types` whose structure is a record is a name as well as a structure. When a nameless record settles into a slot declaring the type, it settles to the declared structure and takes the name; a record already under that name is settled again and keeps it; a record under another name **refuses** at the slot, whatever its structure: at the **build** where the build can see the name, at the **run** where the value arrived through `any`, and `as?` reads it as null. Two declared records of one structure under two names are two types, and a value fits only its own. A declared name whose structure is not a record, an alias such as `std.byte`, attaches no name. An inline record type and `dictionary<T>` are structural: a named record fits them by structure, and what settles there is built on the slot's own layout, which has no name. `any` declares nothing, so a value passes it as it is, name included. A declared type may name itself in a field, nullable or as a list's element, so a tree is one declaration.
+**A declared record is nominal.** A type declared in `types` whose structure is a record is a name as well as a structure. When a nameless record settles into a slot declaring the type, it settles to the declared structure and takes the name; a record already under that name is settled again and keeps it; a record under another name **refuses** at the slot, whatever its structure: at the **build** where the build can see the name, at the **run** where the value arrived through `any`, and `as?` reads it as null. Two declared records of one structure under two names are two types, and a value fits only its own. A declared name whose structure is not a record, an alias such as `std.byte`, attaches no name. An inline record type and `dictionary<T>` are structural: a named record fits them by structure, and what settles there is built on the slot's own layout, which has no name. `any` declares nothing, so a value passes it as it is, name included. A declared type may name itself in a field, nullable or as a list's element, so a tree is one declaration. A declared name that comes back to itself through names alone, a `?` included, stands for no type and **refuses at the build**.
 
 `inout` and `var` stand in front of the whole type, `?` included: `inout int?` is a nullable handed in place. They say something about the slot and nothing about the value, so what fits the slot is judged by the type after the procedure. Writing either where it is not allowed **refuses** at the build. A slot asking `isolated` takes what the build derived as isolated. Answering without running is a separate claim and does not stand in for it. A value standing in a procedure-typed slot takes exactly the positions the slot's type hands, each accepting what the slot may hand at that position, and answers what the slot's `returns` accepts. The names the value's declaration wrote are its own and take no part: one closure fits two slots that name their parameter differently. That is held at the **build** where the value's type is known, and at the **run** where the value arrived through `any`, under *one convention* in [procedures](procedure.md).
 
@@ -39,7 +39,7 @@ Acceptance is one-way where the kinds nest: `double` accepts an `int` (a whole n
 - `any` passes the value through untouched, null and procedures included. Nothing settles, because nothing was declared.
 - A **record type** says which fields there are. A value carrying at least them fits, and what settles is built on the declared fields: each is settled against its type, and a field the declaration never named is not carried past it. To keep names the declaration does not have, declare `dictionary<T>`, where the names are the value's own.
 - A **declared name** whose structure is not a record is an alias: settling resolves the name and judges by what it stands for. One whose structure is a record is nominal, under *a declared record is nominal* above.
-- A **nullable** (`T?`) passes null through and settles anything else against the declared half. `T?` takes `T`, null and `T?`; a `T?` reading does not fit a plain `T` slot. The `?` is written once, on the whole spelling, and only where it says something new: `int??`, `null?`, `any?`, `never?` and `some T?` each **refuse at the load**. A type with no string spelling. A record. Has no `?` to trail; a nullable record is reached through a declared name (`Task?`).
+- A **nullable** (`T?`) passes null through and settles anything else against the declared half. `T?` takes `T`, null and `T?`; a `T?` reading does not fit a plain `T` slot. The `?` is written once, on the whole spelling, and only where it says something new: `int??`, `null?`, `any?`, `never?` and `some T?` each **refuse at the load**, and the same `?` behind a declared name standing for one of them **refuses at the build**, where the name resolves. A type with no string spelling. A record. Has no `?` to trail; a nullable record is reached through a declared name (`Task?`).
 - The numeric edge is value-independent: `int` refuses every fraction, `2.0` included. Taking the whole ones would make fitting depend on the value rather than the type. `double` takes a whole number and settles it to the fraction it names; the widening is binary64's, so digits past 2^53 round as binary64 rounds.
 - A **range** (`int(0...255)`, `double(0.0..<1.0)`) is a slot's condition on a number, not a kind: the value is an `int` or a `double`, and the bounds are judged where a value is settled, the way `enum` is. At the **build** for a constant argument, at the **boundary** for what only the run can see.
   - **The kind is written out**, because a bound is a value of the kind it bounds: `int(0...255)` writes whole numbers and `double(0.0...1.0)` fractions, each in that kind's one spelling. `int(0.0...)` and `double(0...)` both **refuse at the load**. Neither range can be written with the other's bounds. A fraction range takes a whole number the one way the language widens (a `2` arriving at `double(0.0...5.0)` settles as `2.0`); nothing narrows.
@@ -161,6 +161,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-cast-does-not-carry-a-held-name-into-a-list`
 - `a-cast-naming-a-type-handed-on-once-does-not-go-into-a-list`
 - `a-claim-about-a-type-the-language-names-refuses`
+- `a-claim-naming-a-membership-where-a-contract-belongs-refuses`
 - `a-claim-nobody-leans-on-refuses-nowhere`
 - `a-claim-stands-in-a-document-the-leaning-one-never-names`
 - `a-closure-reads-the-bounds-of-the-procedure-around-it`
@@ -169,6 +170,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-constant-outside-a-range-refuses`
 - `a-constraint-is-named-by-its-qualified-spelling`
 - `a-constraint-that-admits-nothing-refuses`
+- `a-contract-asking-no-procedures-refuses`
 - `a-contract-carries-a-procedure-into-a-generic-body`
 - `a-contract-procedure-takes-the-contract-first`
 - `a-contract-stands-in-a-closures-parameter`
@@ -176,8 +178,11 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-contract-stands-where-a-type-is-written`
 - `a-declaration-answering-a-contract-names-its-parameters-its-own-way`
 - `a-declaration-answering-a-contract-takes-its-parameters-in-the-contracts-order`
+- `a-declaration-answering-a-contract-with-another-answer-refuses`
 - `a-declaration-answering-one-without-returns-refuses`
+- `a-declaration-no-claim-names-is-its-documents-own-procedure`
 - `a-declaration-writing-no-returns-backs-a-claim-by-what-its-body-answers`
+- `a-declared-name-and-the-record-it-stands-for-are-one-reading`
 - `a-declared-name-is-a-type`
 - `a-declared-range-refuses-what-is-outside-it`
 - `a-declared-type-names-itself-in-its-fields`
@@ -186,17 +191,24 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-handle-already-given-away-is-not-read-again`
 - `a-handle-borrowed-after-a-consuming-parameter-in-one-call-refuses`
 - `a-mark-where-nothing-is-handed-on-once-refuses`
+- `a-member-that-is-a-type-parameter-refuses`
+- `a-member-that-is-any-refuses`
+- `a-member-that-is-never-refuses`
 - `a-membership-mixing-a-type-handed-on-once-refuses`
 - `a-membership-stands-as-a-type`
 - `a-name-declared-as-both-a-type-and-a-constraint-refuses`
+- `a-name-declared-as-both-a-type-and-a-contract-refuses`
 - `a-name-that-is-not-a-bound-joined-with-and-refuses`
 - `a-named-list-handed-where-a-list-of-a-contract-stands-is-held-to-it`
 - `a-named-record-arrives-as-an-argument`
 - `a-nullable-of-a-type-handed-on-once-refuses`
+- `a-nullable-that-says-nothing-new-behind-a-name-refuses`
 - `a-nullable-that-says-nothing-new-refuses`
 - `a-padded-bound-refuses`
+- `a-parameter-naming-a-type-nothing-declares-refuses`
 - `a-procedure-answering-a-collections-own-elements-keeps-the-spelling`
 - `a-procedure-type-answering-a-type-handed-on-once-refuses`
+- `a-range-below-the-smallest-int-admits-nothing`
 - `a-range-judges-a-runtime-value-at-the-boundary`
 - `a-range-that-admits-nothing-refuses`
 - `a-range-whose-bounds-meet-on-an-excluded-edge-admits-nothing`
@@ -216,7 +228,10 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-type-form-beside-other-keys-refuses`
 - `a-type-handed-on-once-answers-no-contract`
 - `a-type-handed-on-once-inside-another-refuses`
+- `a-type-parameter-read-as-any-and-as-a-type-holds-any`
+- `a-type-parameter-read-loosely-and-tightly-holds-the-loose-reading`
 - `a-type-parameter-read-two-ways-is-refused`
+- `a-type-reaching-itself-through-names-alone-refuses`
 - `a-type-that-misses-a-procedure-does-not-answer-the-contract`
 - `a-value-called-through-any-is-judged-at-the-run`
 - `a-value-declares-every-parameter-the-slot-hands`
@@ -232,13 +247,16 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-value-outside-a-contract-standing-as-a-type-refuses`
 - `a-value-outside-a-declared-type-refuses-at-the-boundary`
 - `a-value-taken-inside-an-attempt-body-is-still-owed`
+- `a-value-through-any-is-judged-against-the-membership-where-it-arrives`
 - `a-value-written-into-a-box-inside-a-loop-refuses`
 - `a-value-written-into-a-box-is-still-owed`
 - `a-value-written-into-a-list-element-refuses`
 - `a-whole-and-a-fraction-meet-exactly`
 - `a-whole-fraction-stays-a-fraction`
 - `a-whole-number-is-a-fraction`
+- `an-alias-of-a-declared-record-settles-to-the-records-name`
 - `an-answer-read-through-any-is-settled-at-the-run`
+- `an-array-of-bytes-and-a-list-of-numbers-joins-to-a-list-of-lists`
 - `an-array-slot-that-changes-a-byte-reads-them-out`
 - `an-asking-cast-onto-a-type-handed-on-once-refuses`
 - `an-attempt-returning-one-without-returns-refuses`
@@ -252,3 +270,4 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `two-documents-claiming-one-pair-are-one-claim`
 - `what-a-membership-does-not-admit-refuses`
 - `what-was-read-out-of-a-parameter-is-not-the-parameter`
+- `whole-ranges-meeting-past-two-to-the-fifty-third-overlap`

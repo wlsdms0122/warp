@@ -1,0 +1,43 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-name-a-block-declares-is-not-read-after-it"
+  note "What a block declares stays its own and dies with the block. A reference after it to a name only the block declared reads a name that is not there."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "probe"
+            value {
+              block {
+                body [
+                  {
+                    let "inner"
+                    value 1
+                  }
+                ]
+              }
+            }
+          }
+          {
+            let "read"
+            value {
+              ref "inner"
+            }
+          }
+        ]
+        result {
+          ref "read"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

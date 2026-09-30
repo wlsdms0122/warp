@@ -1,0 +1,46 @@
+warpt 1
+{
+  expect {
+    answers []
+  }
+  name "concurrent-map-over-nothing-answers-nothing"
+  note "`std.concurrent.map` answers one element per element it was given, in the collection's order, so a map over nothing answers nothing rather than failing."
+  program {
+    imports [
+      "std.concurrent.map"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              []
+              {
+                closure {
+                  parameters [
+                    {
+                      name "item"
+                      type "any"
+                    }
+                    {
+                      name "index"
+                      type "int"
+                    }
+                  ]
+                  result {
+                    ref "item"
+                  }
+                }
+              }
+            ]
+            procedure "std.concurrent.map"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -32,6 +32,8 @@ A statement with no naming key, `{ value … }`, runs its expression and binds n
 
 **A `var` may stand alone.** A statement that is only `{ var "name" }`, with no `value`, introduces the name with nothing in it yet, and a name holding nothing holds null. It is the declaration a conditional's arms write into; what the name reads as afterwards is under *what a variable reads as* in [checking](checking.md). The other two spellings say something about a value, so they still require one.
 
+**What a construct's body declares is its own.** A name declared inside a `block`, a `conditional` arm, a `loop`'s round or an `attempt`'s body or rescue is read from the statement after it to the end of that body, its `result` included, and nowhere after. A `let` or `var` there spelled like a name outside is a new name with a box of its own: the outer box keeps what it held, and a `set` of that spelling writes the inner name, which **refuses at the load** where a `let` fixed it.
+
 **One name, several askers.** A statement's name names the statement, and every reader of it reads that one fact: an expression reads the value the statement bound; a body inside a binding construct reads the construct's own binding under it (`round.index`, `tried.message`); a `break` or `continue` names the loop statement it ends. These are not three names sharing a spelling. They are one name, asked three questions, and which question applies is fixed by where the asker stands. What keeps the readings from colliding is scope, stated per construct: a loop's round is readable in its condition, body and result; an attempt's name binds the failure only while the rescue runs, so the binding reading and the value reading are never live at the same place.
 
 The construct keys, each detailed below and each written inside `value`: `call`, `conditional`, `loop`, `attempt`, `block`, `return`, `break`, `continue`. `value` holding anything else holds an expression, under [expressions](expression.md).
@@ -136,6 +138,10 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-loop-result-reads-the-last-finished-round`
 - `a-loop-takes-no-budget`
 - `a-loop-written-nameless-binds-no-round`
+- `a-name-a-block-declares-is-not-read-after-it`
+- `a-name-a-round-declares-is-not-read-after-the-loop`
+- `a-name-an-arm-declares-is-not-read-after-it`
+- `a-name-declared-again-inside-an-arm-is-a-new-name`
 - `a-name-on-a-conditional-is-refused`
 - `a-name-on-what-never-finishes-is-refused`
 - `a-name-says-what-it-holds`
@@ -150,6 +156,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-rescue-reads-what-a-failure-carried`
 - `a-rescue-that-answers-nothing-answers-null`
 - `a-rescue-that-produces-nothing-refuses`
+- `a-result-after-leaving-refuses`
+- `a-result-after-what-never-finishes-refuses`
 - `a-return-is-held-to-the-declaration`
 - `a-statement-saying-two-things-refuses`
 - `a-statement-with-no-name-still-runs`
@@ -166,6 +174,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-attempt-catches-a-cast-that-did-not-match`
 - `an-attempt-joins-its-body-with-its-rescue`
 - `an-attempt-written-nameless-binds-no-failure`
+- `an-inner-constant-of-an-outer-name-is-not-written`
 - `break-ends-the-loop`
 - `calling-a-value-bounded-to-numbers-refuses`
 - `calling-a-value-no-procedure-could-be-refuses`

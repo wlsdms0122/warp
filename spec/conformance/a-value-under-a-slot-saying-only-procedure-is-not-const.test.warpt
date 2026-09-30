@@ -1,0 +1,98 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-value-under-a-slot-saying-only-procedure-is-not-const"
+  note "A body calls a value without running only through a name a slot declared `const procedure`. A slot saying only `procedure` says nothing about what it holds, so a body calling through it does not answer without running, and neither does one sending that body."
+  program {
+    imports []
+    procedures {
+      asking {
+        body [
+          {
+            let "answered"
+            value {
+              call {
+                procedure {
+                  ref "body"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "body"
+            type "const procedure"
+          }
+        ]
+        result {
+          ref "answered"
+        }
+        returns "string"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "answering"
+            value {
+              closure {
+                result "answered"
+                returns "string"
+              }
+            }
+          }
+          {
+            let "given"
+            value {
+              closure {
+                result {
+                  call {
+                    arguments [
+                      {
+                        ref "answering"
+                      }
+                    ]
+                    procedure "relaying"
+                  }
+                }
+                returns "string"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "given"
+              }
+            ]
+            procedure "asking"
+          }
+        }
+      }
+      relaying {
+        parameters [
+          {
+            name "body"
+            type "procedure"
+          }
+        ]
+        result {
+          call {
+            procedure {
+              ref "body"
+            }
+          }
+        }
+        returns "string"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

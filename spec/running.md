@@ -37,7 +37,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-called-value-answers-what-its-slot-wrote`
 - `a-calls-arguments-are-evaluated-in-position-order`
 - `a-field-the-declared-answer-does-not-name-refuses`
+- `a-piece-calling-a-procedure-that-writes-a-module-variable-refuses`
 - `a-run-given-nothing-for-a-nullable-parameter-refuses`
 - `a-slot-that-wrote-no-returns-opens-its-answer-to-any`
 - `an-answer-of-all-settles-into-the-record-declared`
 - `concurrency-is-granted-vocabulary`
+- `every-way-out-of-a-body-is-one-of-its-answers`

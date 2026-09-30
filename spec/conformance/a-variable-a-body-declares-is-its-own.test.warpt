@@ -1,0 +1,76 @@
+warpt 1
+{
+  expect {
+    answers "second"
+  }
+  name "a-variable-a-body-declares-is-its-own"
+  note "A name the body introduces is the body's own. Declaring a variable and writing it says nothing about what the body reaches, so the body still answers without running."
+  program {
+    imports []
+    procedures {
+      asking {
+        body [
+          {
+            let "answered"
+            value {
+              call {
+                procedure {
+                  ref "body"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "body"
+            type "const procedure"
+          }
+        ]
+        result {
+          ref "answered"
+        }
+        returns "string"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "given"
+            value {
+              closure {
+                body [
+                  {
+                    value "first"
+                    var "held"
+                  }
+                  {
+                    set "held"
+                    value "second"
+                  }
+                ]
+                result {
+                  ref "held"
+                }
+                returns "string"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "given"
+              }
+            ]
+            procedure "asking"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

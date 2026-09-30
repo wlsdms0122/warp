@@ -1,0 +1,26 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "var-written-outside-a-declared-field-refuses"
+  note "`var` is written on a field of a declared type and nowhere else, since only such a field is written through. A parameter written `var` is refused."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "count"
+            type "var int"
+          }
+        ]
+        result 1
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

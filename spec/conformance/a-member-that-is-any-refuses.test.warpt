@@ -1,0 +1,25 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-member-that-is-any-refuses"
+  note "A member of a membership is a concrete type. `any` names no type, so a membership listing it says nothing a value could be held to."
+  program {
+    constraints {
+      Loose [
+        "any"
+      ]
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

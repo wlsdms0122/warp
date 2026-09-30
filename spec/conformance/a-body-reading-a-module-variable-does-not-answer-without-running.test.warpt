@@ -1,0 +1,69 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-body-reading-a-module-variable-does-not-answer-without-running"
+  note "What a module variable holds is the run's rather than the text's, so a body reading one does not answer without running, and a slot asking `const procedure` refuses a closure that does."
+  program {
+    imports []
+    procedures {
+      asking {
+        body [
+          {
+            let "answered"
+            value {
+              call {
+                procedure {
+                  ref "body"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "body"
+            type "const procedure"
+          }
+        ]
+        result {
+          ref "answered"
+        }
+        returns "string"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "given"
+            value {
+              closure {
+                result {
+                  ref "standing"
+                }
+                returns "string"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "given"
+              }
+            ]
+            procedure "asking"
+          }
+        }
+      }
+    }
+    var {
+      standing "held"
+    }
+    warp 1
+  }
+  test 1
+}
+
