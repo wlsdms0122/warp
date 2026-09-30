@@ -113,7 +113,7 @@ A contract's name stands where a type is written, and so does `A & B`: the slot 
 
 A type **satisfies** a contract when a document says it does. The document writes the claim under `satisfies`, keyed by the type: `satisfies: { "bank.Account": ["app.Describable"] }`. Any document may make one, about a type it declared or about another document's, which is how a document that arrives later gives a type the procedures a contract asks. A claim about a type this specification names, `int` or `string`, **refuses at the load**: a value of one wears no name for a run to read, so no declaration could answer for it.
 
-The build holds the claim to the declarations behind it. For every procedure the contract asks, it takes the declaration named for the type and that procedure (`bank.Account` and `describe` give `bank.Account.describe`) and holds its signature to the contract's with the type taken first in place of the contract.
+The build holds the claim to the declarations behind it. For every procedure the contract asks, it takes the declaration named for the type and that procedure (`bank.Account` and `describe` give `bank.Account.describe`) and holds its signature to the contract's with the type taken first in place of the contract. A declaration that wrote no `returns` is held by what its body answers, read the way a call site reads it.
 
 Whether a type answers a contract is therefore a fact of the whole list, and a claim may be written in a document the one leaning on it never names. A document handing a type where a contract is asked is not judged where it is compiled: the pair leaves the compile unresolved, the way a procedure the document sends and does not declare leaves it, and **refuses at the call that leaned on it** where the build cannot answer. A claim missing a procedure, or holding one whose signature does not fit, puts its type under no contract and its reason is what that refusal says.
 
@@ -165,6 +165,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-contract-stands-where-a-type-is-written`
 - `a-declaration-answering-a-contract-names-its-parameters-its-own-way`
 - `a-declaration-answering-a-contract-takes-its-parameters-in-the-contracts-order`
+- `a-declaration-writing-no-returns-backs-a-claim-by-what-its-body-answers`
 - `a-declared-name-is-a-type`
 - `a-declared-range-refuses-what-is-outside-it`
 - `a-declared-type-names-itself-in-its-fields`

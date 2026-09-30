@@ -1,0 +1,93 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-declaration-writing-no-returns-backs-a-claim-by-what-its-body-answers"
+  note "A declaration answering a contract's procedure that writes no `returns` answers what its body answers, read the way a call site reads it. One whose body answers `int` where the contract writes `string` backs no claim, and is refused where the pair is leaned on."
+  program {
+    contracts {
+      "app.Named" {
+        name {
+          parameters [
+            {
+              name "of"
+              type "app.Named"
+            }
+          ]
+          returns "string"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "app.Thing.name" {
+        parameters [
+          {
+            name "of"
+            type "app.Thing"
+          }
+        ]
+        result 7
+      }
+      "app.tell" {
+        bounds {
+          T "app.Named"
+        }
+        parameters [
+          {
+            name "it"
+            type "some T"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "it"
+              }
+            ]
+            procedure "app.Named.name"
+          }
+        }
+        returns "string"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                as {
+                  of {
+                    record {
+                      id 1
+                    }
+                  }
+                  type "app.Thing"
+                }
+              }
+            ]
+            procedure "app.tell"
+          }
+        }
+        returns "string"
+      }
+    }
+    satisfies {
+      "app.Thing" [
+        "app.Named"
+      ]
+    }
+    types {
+      "app.Thing" {
+        record {
+          id "int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
