@@ -167,6 +167,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-text-procedure-answers-new-text`
 - `a-zero-width-space-is-not-whitespace`
 - `abort-sent-null-says-aborted`
+- `absolute-drops-the-sign-of-negative-zero`
 - `absolute-floored-and-rounded-answer-a-whole`
 - `absolute-of-the-minimum-refuses`
 - `an-attempt-does-not-catch-overflow`

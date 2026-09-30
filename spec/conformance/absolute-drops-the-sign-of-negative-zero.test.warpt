@@ -1,0 +1,54 @@
+warpt 1
+{
+  expect {
+    answers "0.0"
+  }
+  name "absolute-drops-the-sign-of-negative-zero"
+  note "absolute drops the sign, and a negative zero carries one that text spells. Arithmetic reaches a negative zero without any literal writing it."
+  program {
+    imports [
+      "std.math.absolute"
+      "std.math.times"
+      "std.text.text"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "zero"
+            value {
+              call {
+                arguments [
+                  -1.0
+                  0.0
+                ]
+                procedure "std.math.times"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                call {
+                  arguments [
+                    {
+                      ref "zero"
+                    }
+                  ]
+                  procedure "std.math.absolute"
+                }
+              }
+            ]
+            procedure "std.text.text"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
