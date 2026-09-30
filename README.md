@@ -1,6 +1,6 @@
 # Warp
 
-A runtime build system: a front end, an IR and a runtime, composed so that any front end works with any runtime. What it is for is one boundary, the one between a running program and code that arrives after it was built, and what it does is make that boundary the language's rather than each program's.
+A runtime build system: front ends, an IR and runtimes, where any front end works with any runtime. It is for the boundary between a running program and code that arrives after the program was built. Warp defines that boundary as a language, so each program does not design its own.
 
 An ordinary language goes one way:
 
@@ -15,28 +15,26 @@ source  ->  build  ->  IR        (Warp)
                        IR  ->  build  ->  machine code   (the runtime's own toolchain)
 ```
 
-It takes a language, builds it, and answers with a language again. That answer is the IR document, and what turns the document into machine code is the ordinary toolchain that built the runtime. Warp has no part in that half, which is why this is a build system and not a compiler.
+It takes a language, builds it, and answers with a language again: the IR document. The runtime builds that document when it arrives and runs it. The ordinary toolchain that built the runtime is what reaches machine code, and Warp has no part in that half.
 
 ## Why it exists
 
-A compiled application cannot run code it did not ship with. Every way of changing what it does without shipping it again ends at the same place: the application has to expose what it can do, and what arrives has to be written against that. A screen description, a workflow file, a rules document. Each of these is a boundary between a host and a program, and each grows conditions, variables and branches until it is a language nobody designed, with no checking and no tools.
+A compiled application runs the code it shipped with. To change what it does without shipping again, it exposes what it can do and accepts something written against that: a screen description, a workflow file, a rules document. Each is a boundary between a host and a program.
 
-Warp is that boundary designed once, as a language. A host declares the procedures it can answer, its **vocabulary**. A program arrives as a **document** written against that vocabulary. The host **builds** the document before any of it runs, checking every call against the declaration it reaches, every type, every claim, and refuses what does not hold. What passes runs, and reaches nothing the host did not declare.
+Warp is that boundary as a language. A host declares the procedures it can answer, its **vocabulary**. A program arrives as a **document** written against that vocabulary. The host **builds** the document before any of it runs. The build checks every call against the declaration it reaches, and every type and claim, and refuses what does not hold. What passes runs, and reaches only what the host declared.
 
-Two people meet at this boundary and neither designs it:
+Two roles meet at this boundary:
 
-- whoever **implements** a host writes procedures in the host's language and declares them. A module of vocabulary is a declaration and a place it reaches, and nothing else;
-- whoever **provides** programs writes documents, through a front end that suits them. The syntax is the front end's, the document is the language's.
+- whoever **implements** a host writes procedures in the host's language and declares them. A module of vocabulary is declarations and the code behind them.
+- whoever **provides** programs writes documents through a front end. The syntax is the front end's; the document is the language's.
 
-## What it is not
+## Where the work runs
 
-It is not a machine. Wasm, a bytecode VM, a JIT: those run code, and the boundary between that code and the host is theirs to design afterwards. Warp starts at the boundary and stays there. Heavy computation belongs to the vocabulary, in the host's language at the host's speed, and what a document holds is the flow and the decisions between those calls: short, and checked.
-
-It is not a script engine. A script can do anything the engine can, and what it will do is found out by running it. A document can do what the vocabulary declares, and what it will do is read before it runs.
+A document holds the flow and the decisions between calls to the vocabulary. Heavy computation is vocabulary, and it runs in the host's language at the host's speed. A document is built where and when it arrives: in the running host, one document at a time, before any of it runs.
 
 ## Where it is now
 
-One runtime exists, in Swift. The IR is settled against it and measured by the cases under `spec/conformance/`, which are the specification written as data: a runtime is one when it passes them. One front end exists, for YAML. Hosts lend vocabulary as modules and programs are written against them.
+One runtime exists, in Swift, and one front end, for YAML. The cases under `spec/conformance/` are the specification written as data, and a runtime conforms when it passes them. Hosts lend vocabulary as modules, and programs are written against them.
 
 ## The pieces
 
@@ -50,7 +48,7 @@ a runtime                 Swift today, others by spec       runtimes. Many
         ↳ an object       one format, defined in spec/     ← what its build keeps
 ```
 
-A **front end** turns what a person wrote into a document and stops there. A **runtime** reads documents, checks, links and runs them, and brings the host's vocabulary. The document is the IR, and it is the only place the two meet. A server can author with one front end while two applications on two platforms run with another, and none of them share code.
+A **front end** turns what a person wrote into a document. A **runtime** reads documents, builds and runs them, and brings the host's vocabulary. The document is the IR and the only thing the two share. A server can author with one front end while applications on two platforms run the documents on two runtimes.
 
 ## This repository
 
@@ -60,7 +58,7 @@ A **front end** turns what a person wrote into a document and stops there. A **r
 | [`runtime/warp-runtime-swift/`](runtime/warp-runtime-swift/README.md) | `Warp` `WarpSyntax` `WarpStandard` | one runtime |
 | [`frontend/warp-frontend-yaml/`](frontend/warp-frontend-yaml/README.md) | `WarpYAML` | one front end |
 
-The specification is the language. An implementation, this runtime included, is complete when it does what the specification says, and no more complete for doing anything else. A front end or runtime in another language starts from `spec/` and `spec/conformance/`, not from the Swift source.
+The specification is the language. An implementation, this runtime included, is complete when it does what the specification says. A front end or runtime in another language starts from `spec/` and `spec/conformance/`.
 
 ## The shortest tour
 
@@ -73,12 +71,12 @@ import Warp
 import WarpStandard
 
 let document = try YAMLFrontend().document(from: yaml)   // → canonical document
-let module = try Loader().load(                           // checked, or refused
+let module = try Loader().load(                           // read, or refused
     document,
     identity: try Identity.of(document)                   // which document, for refusals
 )
-let image = try await Builder().build([module] + Module.standard + host)  // linked, or refused
+let image = try await Builder().build([module] + Module.standard + host)  // built, or refused
 let answer = try await Executor(environment: environment).run(image, entry: "greet", arguments: [:])
 ```
 
-`host` is the vocabulary this host lends, and `environment` is what its procedures reach. A program that stays in Swift skips the document entirely and builds the program directly; a program that travels is written down by `WarpSyntax`. Bytes to carry it, text to read it.
+`host` is the vocabulary this host lends, and `environment` is what its procedures reach. A program that stays in Swift can be built from Swift values without a document. A program that travels is written down by `WarpSyntax`, as bytes or as text.
