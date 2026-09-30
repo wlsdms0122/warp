@@ -1,0 +1,11 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-text-led-by-a-byte-order-mark-refuses"
+  note "A text begins with `warpt`. Bytes led by U+FEFF begin with another character, so they are no text."
+  test 1
+  text x"efbbbf776172707420310a310a"
+}
+

@@ -100,7 +100,10 @@ Layout is free on the way in. A reader takes keys in any order, any whitespace b
 
 What `conformance/` asks about this page, by the name each case's file carries. These carry bytes or text rather than a program, under *what a case is* in [conformance](conformance.md).
 
+- `a-byte-order-mark-in-a-string-is-kept`
 - `a-format-that-never-existed-refuses`
+- `a-key-led-by-a-byte-order-mark-sorts-by-its-bytes`
+- `a-key-that-is-a-byte-order-mark-is-kept`
 - `a-later-format-refuses`
 - `a-length-past-the-end-of-the-document-refuses`
 - `a-named-record-reads-and-writes-back`
@@ -135,6 +138,7 @@ Text:
 - `a-text-key-written-twice-refuses`
 - `a-text-laid-out-by-a-format-that-never-existed-refuses`
 - `a-text-laid-out-by-a-later-format-refuses`
+- `a-text-led-by-a-byte-order-mark-refuses`
 - `a-text-reads-in-any-layout`
 - `a-text-reads-its-escapes`
 - `a-whole-number-with-a-leading-zero-refuses`
