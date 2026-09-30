@@ -1,10 +1,6 @@
 # Types
 
-What a name may stand for, and what a slot takes. A type is judged at the
-build against the declarations the grammar read; what a type *admits* is asked
-of a value at a boundary, which is sometimes the build and sometimes the run.
-Reads [the value model](value.md). Read by procedures, statements and
-expressions, each of which writes a slot.
+What a name may stand for, and what a slot takes. A type is judged at the build against the declarations the grammar read; what a type *admits* is asked of a value at a boundary, which is sometimes the build and sometimes the run. Reads [the value model](value.md). Read by procedures, statements and expressions, each of which writes a slot.
 
 A type is written as a string, or as a record for what a string cannot say:
 
@@ -32,367 +28,114 @@ A type is written as a string, or as a record for what a string cannot say:
 | `{ "const procedure": { … } }` | a procedure type with its marks and modifiers on the key, `inout` or `consuming` or `borrowing` first, then `const` and `isolated`, the way they stand in front of the string form |
 | `{ array: <type> }` / `{ dictionary: <type> }` | a list / map of a type that has no string spelling, a procedure type or a record type. Where the element has a spelling the type is written `array<T>`, and the record form around it **refuses at the load** |
 
-Acceptance is one-way where the kinds nest: `double` accepts an `int` (a whole
-number widens to a fraction; the reverse **refuses**), `any` accepts everything.
-A slot that takes either kind of number is bounded by the membership
-`std.Numeric`, under [the standard vocabulary](vocabulary.md).
+Acceptance is one-way where the kinds nest: `double` accepts an `int` (a whole number widens to a fraction; the reverse **refuses**), `any` accepts everything. A slot that takes either kind of number is bounded by the membership `std.Numeric`, under [the standard vocabulary](vocabulary.md).
 
-**A declared record is nominal.** A type declared in `types` whose structure is
-a record is a name as well as a structure. When a nameless record settles into a
-slot declaring the type, it settles to the declared structure and takes the
-name; a record already under that name is settled again and keeps it; a record
-under another name **refuses** at the slot, whatever its structure: at the
-**build** where the build can see the name, at the **run** where the value
-arrived through `any`, and `as?` reads it as null. Two declared records of one
-structure under two names are two types, and a value fits only its own. A
-declared name whose structure is not a record, an alias such as `std.byte`, attaches
-no name. An inline record type and `dictionary<T>` are structural: a named
-record fits them by structure, and what settles there is built on the slot's own
-layout, which has no name. `any` declares nothing, so a value passes it as it
-is, name included.
-A declared type may name itself in a field, nullable or as a list's element,
-so a tree is one declaration.
+**A declared record is nominal.** A type declared in `types` whose structure is a record is a name as well as a structure. When a nameless record settles into a slot declaring the type, it settles to the declared structure and takes the name; a record already under that name is settled again and keeps it; a record under another name **refuses** at the slot, whatever its structure: at the **build** where the build can see the name, at the **run** where the value arrived through `any`, and `as?` reads it as null. Two declared records of one structure under two names are two types, and a value fits only its own. A declared name whose structure is not a record, an alias such as `std.byte`, attaches no name. An inline record type and `dictionary<T>` are structural: a named record fits them by structure, and what settles there is built on the slot's own layout, which has no name. `any` declares nothing, so a value passes it as it is, name included. A declared type may name itself in a field, nullable or as a list's element, so a tree is one declaration.
 
-`inout` and `var` stand in front of the whole type, `?` included: `inout int?`
-is a nullable handed in place. They say something about the slot and nothing
-about the value, so what fits the slot is judged by the type after the
-procedure. Writing either where it is not allowed **refuses** at the build. A
-slot asking `isolated` takes what the build derived as isolated. Answering
-without running is a separate claim and does not stand in for it.
-A value standing in a procedure-typed slot takes exactly the positions the
-slot's type hands, each accepting what the slot may hand at that position, and
-answers what the slot's `returns` accepts. The names the value's declaration
-wrote are its own and take no part: one closure fits two slots that name their
-parameter differently. That is held at the **build** where the value's type is
-known, and at the **run** where the value arrived through `any`, under *one
-convention* in [procedures](procedure.md).
+`inout` and `var` stand in front of the whole type, `?` included: `inout int?` is a nullable handed in place. They say something about the slot and nothing about the value, so what fits the slot is judged by the type after the procedure. Writing either where it is not allowed **refuses** at the build. A slot asking `isolated` takes what the build derived as isolated. Answering without running is a separate claim and does not stand in for it. A value standing in a procedure-typed slot takes exactly the positions the slot's type hands, each accepting what the slot may hand at that position, and answers what the slot's `returns` accepts. The names the value's declaration wrote are its own and take no part: one closure fits two slots that name their parameter differently. That is held at the **build** where the value's type is known, and at the **run** where the value arrived through `any`, under *one convention* in [procedures](procedure.md).
 
-**What a slot takes, exactly.** Where a value meets a declaration. An
-argument, an answer, and a write into a box that said what it
-holds. The settlement is one rule per type:
+**What a slot takes, exactly.** Where a value meets a declaration. An argument, an answer, and a write into a box that said what it holds. The settlement is one rule per type:
 
-- `any` passes the value through untouched, null and procedures included.
-  Nothing settles, because nothing was declared.
-- A **record type** says which fields there are. A value carrying at least
-  them fits, and what settles is built on the declared fields: each is settled
-  against its type, and a field the declaration never named is not carried
-  past it. To keep names the declaration does not have, declare
-  `dictionary<T>`, where the names are the value's own.
-- A **declared name** whose structure is not a record is an alias: settling
-  resolves the name and judges by what it stands for. One whose structure is
-  a record is nominal, under *a declared record is nominal* above.
-- A **nullable** (`T?`) passes null through and settles anything else against
-  the declared half. `T?` takes `T`, null and `T?`; a `T?` reading does not
-  fit a plain `T` slot. The `?` is written once, on the whole spelling, and
-  only where it says something new: `int??`, `null?`, `any?`, `never?` and
-  `some T?` each **refuse at the load**. A type with no string spelling. A
-  record. Has no `?` to trail; a nullable record is reached through a
-  declared name (`Task?`).
-- The numeric edge is value-independent: `int` refuses every fraction, `2.0`
-  included. Taking the whole ones would make fitting depend on the value
-  rather than the type. `double` takes a whole number and settles it to the
-  fraction it names; the widening is binary64's, so digits past 2^53 round as
-  binary64 rounds.
-- A **range** (`int(0...255)`, `double(0.0..<1.0)`) is a slot's condition on a
-  number, not a kind: the value is an `int` or a `double`, and the bounds are
-  judged where a value is settled, the way `enum` is. At the **build** for a
-  constant argument, at the **boundary** for what only the run
-  can see.
-  - **The kind is written out**, because a bound is a value of the kind it
-    bounds: `int(0...255)` writes whole numbers and `double(0.0...1.0)`
-    fractions, each in that kind's one spelling. `int(0.0...)` and
-    `double(0...)` both **refuse at the load**. Neither range can be written
-    with the other's bounds. A fraction range takes a whole number the one way
-    the language widens (a `2` arriving at `double(0.0...5.0)` settles as
-    `2.0`); nothing narrows.
-  - **The far bound may be left outside.** `a...b` holds it, `a..<b` does not
-   . The half-open interval a position below a length is written against, and
-    for a fraction the one nothing can spell by moving a bound. The near bound
-    is always inside, which is the convention every half-open interval is
-    already read by; there is one spelling per range because of it. `..<` with
-    nothing after it **refuses at the load**. It says the far bound is
-    outside, and there is no far bound.
-  - Before the run, acceptance reads a range as the kind under it on either
-    side. Only what is provably outside is refused early, and a reading's
-    worth is not knowable, so a call handing a declared `int` to an
-    `int(0...255)` slot builds and the boundary judges. Two ranges are both the
-    text's fact, so bounds that cannot overlap are refused early, across kinds
-    as well as within one.
-  - Either bound may be open (`int(0...)`, `int(...255)`); neither may be
-    (`int(...)` says nothing and **refuses at the load**), and a range whose
-    bounds admit nothing. `int(9...1)`, or `int(5..<5)` where the far bound
-    is excluded and the near one stands on it. Is a slot no call could fit,
-    **refused at the build** where the declaration wrote it, exactly as an
-    empty `enum` is. A whole bound must be a number an `int` holds, and a
-    padded or signed spelling (`int(007...)`, `int(+1...)`) or a bound past
-    what an `int` holds both **refuse at the load**, each named as what it is.
-  - A module gives a range a name the way it names any type, and a name takes
-    no range of its own, so `std.byte(0...10)` is not a type: `std` declares
-    `std.byte = int(0...255)`, and there is no separate byte kind.
-  - A bound is written as the value it is, so a fraction bound is a fraction's
-    one spelling. A host may assemble a range bounded by an infinity. It
-    orders like any other bound, and the build takes it, but no document
-    spells one, so **writing that range out refuses**, the way every type a
-    document cannot say does, rather than coming back as something a reader
-    would reject.
+- `any` passes the value through untouched, null and procedures included. Nothing settles, because nothing was declared.
+- A **record type** says which fields there are. A value carrying at least them fits, and what settles is built on the declared fields: each is settled against its type, and a field the declaration never named is not carried past it. To keep names the declaration does not have, declare `dictionary<T>`, where the names are the value's own.
+- A **declared name** whose structure is not a record is an alias: settling resolves the name and judges by what it stands for. One whose structure is a record is nominal, under *a declared record is nominal* above.
+- A **nullable** (`T?`) passes null through and settles anything else against the declared half. `T?` takes `T`, null and `T?`; a `T?` reading does not fit a plain `T` slot. The `?` is written once, on the whole spelling, and only where it says something new: `int??`, `null?`, `any?`, `never?` and `some T?` each **refuse at the load**. A type with no string spelling. A record. Has no `?` to trail; a nullable record is reached through a declared name (`Task?`).
+- The numeric edge is value-independent: `int` refuses every fraction, `2.0` included. Taking the whole ones would make fitting depend on the value rather than the type. `double` takes a whole number and settles it to the fraction it names; the widening is binary64's, so digits past 2^53 round as binary64 rounds.
+- A **range** (`int(0...255)`, `double(0.0..<1.0)`) is a slot's condition on a number, not a kind: the value is an `int` or a `double`, and the bounds are judged where a value is settled, the way `enum` is. At the **build** for a constant argument, at the **boundary** for what only the run can see.
+  - **The kind is written out**, because a bound is a value of the kind it bounds: `int(0...255)` writes whole numbers and `double(0.0...1.0)` fractions, each in that kind's one spelling. `int(0.0...)` and `double(0...)` both **refuse at the load**. Neither range can be written with the other's bounds. A fraction range takes a whole number the one way the language widens (a `2` arriving at `double(0.0...5.0)` settles as `2.0`); nothing narrows.
+  - **The far bound may be left outside.** `a...b` holds it, `a..<b` does not . The half-open interval a position below a length is written against, and for a fraction the one nothing can spell by moving a bound. The near bound is always inside, which is the convention every half-open interval is already read by; there is one spelling per range because of it. `..<` with nothing after it **refuses at the load**. It says the far bound is outside, and there is no far bound.
+  - Before the run, acceptance reads a range as the kind under it on either side. Only what is provably outside is refused early, and a reading's worth is not knowable, so a call handing a declared `int` to an `int(0...255)` slot builds and the boundary judges. Two ranges are both the text's fact, so bounds that cannot overlap are refused early, across kinds as well as within one.
+  - Either bound may be open (`int(0...)`, `int(...255)`); neither may be (`int(...)` says nothing and **refuses at the load**), and a range whose bounds admit nothing. `int(9...1)`, or `int(5..<5)` where the far bound is excluded and the near one stands on it. Is a slot no call could fit, **refused at the build** where the declaration wrote it, exactly as an empty `enum` is. A whole bound must be a number an `int` holds, and a padded or signed spelling (`int(007...)`, `int(+1...)`) or a bound past what an `int` holds both **refuse at the load**, each named as what it is.
+  - A module gives a range a name the way it names any type, and a name takes no range of its own, so `std.byte(0...10)` is not a type: `std` declares `std.byte = int(0...255)`, and there is no separate byte kind.
+  - A bound is written as the value it is, so a fraction bound is a fraction's one spelling. A host may assemble a range bounded by an infinity. It orders like any other bound, and the build takes it, but no document spells one, so **writing that range out refuses**, the way every type a document cannot say does, rather than coming back as something a reader would reject.
 
-`never` is a real type and fits **every** slot, by never arriving: an expression
-typed `never` may be written where any value is expected. A conditional arm that
-leaves, an argument that aborts, and evaluating it ends the evaluation it is
-inside. The statement rules (no name, nothing follows) are statement rules; in
-expression position there is nothing extra to say, because nothing after the
-expression is reached at all.
+`never` is a real type and fits **every** slot, by never arriving: an expression typed `never` may be written where any value is expected. A conditional arm that leaves, an argument that aborts, and evaluating it ends the evaluation it is inside. The statement rules (no name, nothing follows) are statement rules; in expression position there is nothing extra to say, because nothing after the expression is reached at all.
 
-**Type parameters.** A declaration may leave a type parameter and let the call
-fill it: a procedure taking `array<some T>` and a `some T` answers what it was
-given. A parameter read twice must be read the same both ways. Two readings
-where one accepts the other settle on the looser; two readings that do not fit
-are **refused**. Appending a whole number to a list of text is a parameter read
-as text and as a number, and there is no answer that is both. It must be a
-refusal rather than a silent widening to `any`: widening there is the checking
-announcing it has stopped, in the one place it had just found what it was
-looking for.
+**Type parameters.** A declaration may leave a type parameter and let the call fill it: a procedure taking `array<some T>` and a `some T` answers what it was given. A parameter read twice must be read the same both ways. Two readings where one accepts the other settle on the looser; two readings that do not fit are **refused**. Appending a whole number to a list of text is a parameter read as text and as a number, and there is no answer that is both. It must be a refusal rather than a silent widening to `any`: widening there is the checking announcing it has stopped, in the one place it had just found what it was looking for.
 
-**Constraints.** A type parameter may be bounded: a signature declares `bounds:
-{ T: std.Comparable }` once, its slots write `some T`, and every occurrence of the
-name takes only what the constraint admits. A bound may name several, joined
-with `&`: `bounds: { T: std.Comparable & Describable }` holds `T` to what every one
-of them admits or asks. The signature owns the bound. A slot names the
-parameter and never the membership, so one bound is one claim however many
-slots mention the name, and there is no inline union for the membership to leak
-out through. A constraint is a **declared membership**. A module binds a
-name to the types it admits, the way it declares a type. A slot may also declare
-one as its type, and what stands there is a value of one of the members, which
-is how the language says **A or B**: the set is declared once under a name, and
-no slot writes an inline union. The judgment is made twice, once per surface: at
-the **build**, a reading provably outside the membership refuses. Two booleans
-meeting `lessThan` never run, and a reading the text says nothing about (`any`)
-passes; at the **boundary**, the value that actually arrived is judged against
-the membership, so what travelled in through `any` is refused where it arrives.
-One name is held to one set of bounds: `bounds` writes the set once, every
-occurrence of the name reads it, and a signature assembled with two occurrences
-holding different sets is refused at the build and written by no document.
-`bounds` naming a parameter no slot mentions refuses at the load. Only the declaring procedure writes `bounds`. A
-procedure *type* nested in a slot carries none, because its parameters are the
-declaring signature's own slots and the declaring signature owns their bounds. A
-closure written in the body reads the same names: its `some T` is the `T` the
-caller filled, held to the bounds the declaration wrote, so a closure may send
-what the body around it may. A
-constraint nobody declares, a constraint declared twice under one spelling, one
-admitting nothing, and a name declared as both a type and a constraint all
-**refuse at the build**. A member is a **concrete type**: `some`, `any` and
-`never` in member position refuse at the build. Each says nothing a membership
-could hold. And a type parameter lives in a signature: a declared type writing
-`some` outside a procedure signature refuses at the build, because nothing there
-is filled by a call.
+**Constraints.** A type parameter may be bounded: a signature declares `bounds: { T: std.Comparable }` once, its slots write `some T`, and every occurrence of the name takes only what the constraint admits. A bound may name several, joined with `&`: `bounds: { T: std.Comparable & Describable }` holds `T` to what every one of them admits or asks. The signature owns the bound. A slot names the parameter and never the membership, so one bound is one claim however many slots mention the name, and there is no inline union for the membership to leak out through. A constraint is a **declared membership**. A module binds a name to the types it admits, the way it declares a type. A slot may also declare one as its type, and what stands there is a value of one of the members, which is how the language says **A or B**: the set is declared once under a name, and no slot writes an inline union. The judgment is made twice, once per surface: at the **build**, a reading provably outside the membership refuses. Two booleans meeting `lessThan` never run, and a reading the text says nothing about (`any`) passes; at the **boundary**, the value that actually arrived is judged against the membership, so what travelled in through `any` is refused where it arrives. One name is held to one set of bounds: `bounds` writes the set once, every occurrence of the name reads it, and a signature assembled with two occurrences holding different sets is refused at the build and written by no document. `bounds` naming a parameter no slot mentions refuses at the load. Only the declaring procedure writes `bounds`. A procedure *type* nested in a slot carries none, because its parameters are the declaring signature's own slots and the declaring signature owns their bounds. A closure written in the body reads the same names: its `some T` is the `T` the caller filled, held to the bounds the declaration wrote, so a closure may send what the body around it may. A constraint nobody declares, a constraint declared twice under one spelling, one admitting nothing, and a name declared as both a type and a constraint all **refuse at the build**. A member is a **concrete type**: `some`, `any` and `never` in member position refuse at the build. Each says nothing a membership could hold. And a type parameter lives in a signature: a declared type writing `some` outside a procedure signature refuses at the build, because nothing there is filled by a call.
 
-**Handed on once.** A type written `linear` says the values of it are given
-away: to a procedure, or as a body's answer. A body holding one hands it on **on
-every way through, once**, and the build says so before anything runs. That is
-what "this resource is closed exactly once" comes to, and it is the one claim
-here that is about a value's whole life rather than about its type.
+**Handed on once.** A type written `linear` says the values of it are given away: to a procedure, or as a body's answer. A body holding one hands it on **on every way through, once**, and the build says so before anything runs. That is what "this resource is closed exactly once" comes to, and it is the one claim here that is about a value's whole life rather than about its type.
 
-The mark is written on the declaration, so the obligation rides with the name:
-a slot naming the type has it, and nothing can take it off. Writing `linear`
-anywhere else **refuses at the build**, and so does carrying such a type inside
-another type (a list, a record, another declaration): what follows the value is
-the name holding it, and nothing follows one into a type.
+The mark is written on the declaration, so the obligation rides with the name: a slot naming the type has it, and nothing can take it off. Writing `linear` anywhere else **refuses at the build**, and so does carrying such a type inside another type (a list, a record, another declaration): what follows the value is the name holding it, and nothing follows one into a type.
 
-**A slot naming such a type says what it does with it.** Two marks, written on
-a parameter's type the way `inout` is, and a parameter that names the type and
-writes neither **refuses at the build**:
+**A slot naming such a type says what it does with it.** Two marks, written on a parameter's type the way `inout` is, and a parameter that names the type and writes neither **refuses at the build**:
 
 | written | means |
 |---|---|
 | `consuming <type>` | the obligation moves to this slot. The caller's name is empty afterwards, and this body owes the value from here |
 | `borrowing <type>` | the obligation stays where it was. This body reads the value and the caller still owes it |
 
-Either is written on a slot that **names the type**, because the name is what
-the build follows the value by. On `some T` it **refuses**: what fills a type
-parameter is the call's, so a body that took the obligation there would have no
-name to carry it on and the proof would end at that slot.
+Either is written on a slot that **names the type**, because the name is what the build follows the value by. On `some T` it **refuses**: what fills a type parameter is the call's, so a body that took the obligation there would have no name to carry it on and the proof would end at that slot.
 
-**A type handed on once answers no contract.** A contract standing where a
-type is written holds a value under no name of its own, and nothing follows a
-value handed on once but the name that holds it. A claim that such a type
-satisfies a contract **refuses at the build**, where the claim is written.
+**A type handed on once answers no contract.** A contract standing where a type is written holds a value under no name of its own, and nothing follows a value handed on once but the name that holds it. A claim that such a type satisfies a contract **refuses at the build**, where the claim is written.
 
-**A membership is one when every member is,** and `some T` bounded by one is
-what every member of it is. A membership that admits a value handed on once
-beside one that is not **refuses at the build**, where it is declared: a value
-of it would carry an obligation on some readings and not on others, and which
-it was is exactly what a membership does not say.
+**A membership is one when every member is,** and `some T` bounded by one is what every member of it is. A membership that admits a value handed on once beside one that is not **refuses at the build**, where it is declared: a value of it would carry an obligation on some readings and not on others, and which it was is exactly what a membership does not say.
 
-**A declaration whose body answers one writes `returns`.** What a declaration
-answers is read off its body where nobody wrote it, and the mark is not
-something a reading keeps, so a caller binding that answer would take an
-obligation nothing told it about. It **refuses at the build**, by the result
-and by every `return` that carries a value alike.
+**A declaration whose body answers one writes `returns`.** What a declaration answers is read off its body where nobody wrote it, and the mark is not something a reading keeps, so a caller binding that answer would take an obligation nothing told it about. It **refuses at the build**, by the result and by every `return` that carries a value alike.
 
-**A reading that may answer nothing does not take one.** `as?` onto a type
-handed on once **refuses at the build**, and so does writing `?` on one: what
-such a value needs is a name holding it on every way through, and a `?` says
-there is a way through where nothing is there.
+**A reading that may answer nothing does not take one.** `as?` onto a type handed on once **refuses at the build**, and so does writing `?` on one: what such a value needs is a name holding it on every way through, and a `?` says there is a way through where nothing is there.
 
-**A closure is a procedure, and its body is held to all of this.** It is walked
-the way a declaration's body is, seeded with what the closure itself was handed:
-a closure that opens one and reaches its end still holding it is refused exactly
-as a declaration would be. What it runs an unfixed number of times is the
-*capture*, and a name the closure declared is its own.
+**A closure is a procedure, and its body is held to all of this.** It is walked the way a declaration's body is, seeded with what the closure itself was handed: a closure that opens one and reaches its end still holding it is refused exactly as a declaration would be. What it runs an unfixed number of times is the *capture*, and a name the closure declared is its own.
 
-**What such a body may not do is answer one.** A procedure type whose
-`returns` is handed on once **refuses at the build**, closure literals
-included, and a body that wrote no `returns` is held to the same rule by what
-the walk finds: the rule turns neither on whether a key was typed nor on how
-the answer was written. Nothing reads inside a body that travels as a value,
-so what one handed back would arrive with nothing to say it is owed. A
-declaration is not held to this: what it answers lands on the name its caller
-binds.
+**What such a body may not do is answer one.** A procedure type whose `returns` is handed on once **refuses at the build**, closure literals included, and a body that wrote no `returns` is held to the same rule by what the walk finds: the rule turns neither on whether a key was typed nor on how the answer was written. Nothing reads inside a body that travels as a value, so what one handed back would arrive with nothing to say it is owed. A declaration is not held to this: what it answers lands on the name its caller binds.
 
-Silence read as taking is what hid the second one: a procedure that only wanted
-to look at a handle had no way to say so, and every slot that touched one took
-it. So silence refuses rather than defaulting. Writing either where nothing is
-handed on once **refuses at the build** too, the way a `?` that says nothing
-new does: both say what a slot does with an obligation, and there is none.
+Silence read as taking is what hid the second one: a procedure that only wanted to look at a handle had no way to say so, and every slot that touched one took it. So silence refuses rather than defaulting. Writing either where nothing is handed on once **refuses at the build** too, the way a `?` that says nothing new does: both say what a slot does with an obligation, and there is none.
 
-**No lifetime rides with a borrow.** The language has no references, so what a
-slot was handed is a value of its own and cannot outlive what it was read from.
-A borrow is the one sentence above and nothing more.
+**No lifetime rides with a borrow.** The language has no references, so what a slot was handed is a value of its own and cannot outlive what it was read from. A borrow is the one sentence above and nothing more.
 
 What a body may do with one:
 
 - hand it to a slot that says `consuming`, which ends the obligation here;
-- hand it to a slot that says `borrowing`, which ends nothing: the body still
-  holds it and still owes it;
+- hand it to a slot that says `borrowing`, which ends nothing: the body still holds it and still owes it;
 - answer it, which hands it to the caller, who owes it from there;
 - read a part of it (`handle.name`), which hands nothing on.
 
-What a body may do with one it **borrowed**: read it, read a part of it, bind
-it to another name, and pass it to another slot that borrows. That is all.
-Writing the name anywhere a value leaves by refuses, wrapping it in a list or a
-record included: that carries the whole value out rather than reading a part of
-it.
+What a body may do with one it **borrowed**: read it, read a part of it, bind it to another name, and pass it to another slot that borrows. That is all. Writing the name anywhere a value leaves by refuses, wrapping it in a list or a record included: that carries the whole value out rather than reading a part of it.
 
 What **refuses at the build**:
 
 - reaching the end of a body still holding one;
 - handing one on a second time. Within one call that counts in position order, the order the run evaluates the arguments in (see [running](running.md)), so a slot that borrows reads what a consuming slot standing before it already took;
-- handing one on in one arm of a conditional and not the other, since what a
-  body holds afterwards would depend on which arm ran. An arm that **returns**
-  is not one of those arms: no run comes back from it, so what the body holds
-  afterwards stands on the arms that finish. An arm that `break`s is one of
-  them, and is held to the same rule: the run comes back out of the loop still
-  holding what the arm held;
-- handing one on inside a loop round, inside an `attempt`, in a call of a value,
-  or capturing one in a closure. Each of those runs no fixed number
-  of times, or fails somewhere the text does not show, so "exactly once" is not
-  something the text says. Leaving is not one of these unless it leaves the
-  procedure: a `break` leaves the construct and a `continue` ends the round, and
-  what the body was holding it holds still on the other side of either;
+- handing one on in one arm of a conditional and not the other, since what a body holds afterwards would depend on which arm ran. An arm that **returns** is not one of those arms: no run comes back from it, so what the body holds afterwards stands on the arms that finish. An arm that `break`s is one of them, and is held to the same rule: the run comes back out of the loop still holding what the arm held;
+- handing one on inside a loop round, inside an `attempt`, in a call of a value, or capturing one in a closure. Each of those runs no fixed number of times, or fails somewhere the text does not show, so "exactly once" is not something the text says. Leaving is not one of these unless it leaves the procedure: a `break` leaves the construct and a `continue` ends the round, and what the body was holding it holds still on the other side of either;
 - writing over a name still holding one;
-- writing one into a **list or a record**, whether it is a name still holding
-  one, a value nothing holds yet, or what a cast, a block or an `attempt` hands
-  out. What follows the value is the name, and a name does not follow it into a
-  type, so the obligation would be neither handed on nor still held;
-- handing a borrowed one to a slot that says `consuming`, or answering it, or
-  keeping it in a box. Each gives away what this body never took, and a box
-  outlives the call that lent the value.
+- writing one into a **list or a record**, whether it is a name still holding one, a value nothing holds yet, or what a cast, a block or an `attempt` hands out. What follows the value is the name, and a name does not follow it into a type, so the obligation would be neither handed on nor still held;
+- handing a borrowed one to a slot that says `consuming`, or answering it, or keeping it in a box. Each gives away what this body never took, and a box outlives the call that lent the value.
 
-Only a procedure with **no body** ends the obligation. A body that takes one has
-to hand it on like any other, so the chain runs out at a native procedure, which
-is right: what a resource is lives outside the document, and only the side that
-made it can close it.
+Only a procedure with **no body** ends the obligation. A body that takes one has to hand it on like any other, so the chain runs out at a native procedure, which is right: what a resource is lives outside the document, and only the side that made it can close it.
 
-Nothing about this survives lowering. It is proven at the build and there is
-nothing left for a run to keep.
+Nothing about this survives lowering. It is proven at the build and there is nothing left for a run to keep.
 
 **Contracts.** A membership says which types a name admits. A contract says which **procedures** a value answers, which is the other half of "what may stand here" and the half a list cannot give: the types that answer a procedure are open, and new ones arrive with new documents. A module declares one the way it declares a type: a name bound to the procedures, each written as a signature whose first parameter is the contract itself, since what stands there is whatever satisfies the contract. A contract's procedure taking anything else first **refuses at the build**.
 
-A contract's name stands where a type is written, and so does `A & B`: the
-slot takes a value of whatever type satisfies every contract and belongs to
-every membership named. It is a type parameter with no name, so nothing ties
-one slot's reading to another's, and a call fills nothing. A closure literal's
-parameter is such a slot too, and since what calling a value hands is
-judged at the run, what is handed to it is held to the contract at the
-run's boundary, under [running](running.md). A name declared as neither a
-membership nor a contract joined with `&` **refuses at the build**.
+A contract's name stands where a type is written, and so does `A & B`: the slot takes a value of whatever type satisfies every contract and belongs to every membership named. It is a type parameter with no name, so nothing ties one slot's reading to another's, and a call fills nothing. A closure literal's parameter is such a slot too, and since what calling a value hands is judged at the run, what is handed to it is held to the contract at the run's boundary, under [running](running.md). A name declared as neither a membership nor a contract joined with `&` **refuses at the build**.
 
-A type **satisfies** a contract when a document says it does. The document
-writes the claim under `satisfies`, keyed by the type: `satisfies: {
-"bank.Account": ["app.Describable"] }`. Any document may make one, about a type
-it declared or about another document's, which is how a document that arrives
-later gives a type the procedures a contract asks. A claim about a type this
-specification names, `int` or `string`, **refuses at the load**: a value of one
-wears no name for a run to read, so no declaration could answer for it.
+A type **satisfies** a contract when a document says it does. The document writes the claim under `satisfies`, keyed by the type: `satisfies: { "bank.Account": ["app.Describable"] }`. Any document may make one, about a type it declared or about another document's, which is how a document that arrives later gives a type the procedures a contract asks. A claim about a type this specification names, `int` or `string`, **refuses at the load**: a value of one wears no name for a run to read, so no declaration could answer for it.
 
 The build holds the claim to the declarations behind it. For every procedure the contract asks, it takes the declaration named for the type and that procedure (`bank.Account` and `describe` give `bank.Account.describe`) and holds its signature to the contract's with the type taken first in place of the contract.
 
-Whether a type answers a contract is therefore a fact of the whole list, and a
-claim may be written in a document the one leaning on it never names. A document
-handing a type where a contract is asked is not judged where it is compiled: the
-pair leaves the compile unresolved, the way a procedure the document sends and
-does not declare leaves it, and **refuses at the call that leaned on it** where
-the build cannot answer. A claim missing a procedure, or holding one whose
-signature does not fit, puts its type under no contract and its reason is what
-that refusal says.
+Whether a type answers a contract is therefore a fact of the whole list, and a claim may be written in a document the one leaning on it never names. A document handing a type where a contract is asked is not judged where it is compiled: the pair leaves the compile unresolved, the way a procedure the document sends and does not declare leaves it, and **refuses at the call that leaned on it** where the build cannot answer. A claim missing a procedure, or holding one whose signature does not fit, puts its type under no contract and its reason is what that refusal says.
 
-A claim whose two names the list declares as something other than what the
-claim needs of them **refuses at the build, at the claim**: a contract where the type
-belongs, a type where the contract belongs, or a membership in either place.
-One name has one declarer, so no document arriving later makes that right. A
-name the list declares as nothing at all waits with the rest: the claim holds
-nothing, and that is refused only **where a call leaned on the pair**, with the
-reason the claim came to nothing. A claim nobody leans on refuses nowhere.
+A claim whose two names the list declares as something other than what the claim needs of them **refuses at the build, at the claim**: a contract where the type belongs, a type where the contract belongs, or a membership in either place. One name has one declarer, so no document arriving later makes that right. A name the list declares as nothing at all waits with the rest: the claim holds nothing, and that is refused only **where a call leaned on the pair**, with the reason the claim came to nothing. A claim nobody leans on refuses nowhere.
 
-Two documents claiming one pair are one claim: a claim holds nothing but the
-pair, so the second says what the first said.
+Two documents claiming one pair are one claim: a claim holds nothing but the pair, so the second says what the first said.
 
-A declaration named for a type and a procedure that no claim names is that
-document's procedure and nothing else. So what a link declares never decides
-what an unrelated document may call things, and a document that names no
-contract builds the same whichever documents stand beside it.
+A declaration named for a type and a procedure that no claim names is that document's procedure and nothing else. So what a link declares never decides what an unrelated document may call things, and a document that names no contract builds the same whichever documents stand beside it.
 
-A contract asking no procedures refuses, since every type would satisfy it. A
-name is a type or a membership or a contract and never two of them.
+A contract asking no procedures refuses, since every type would satisfy it. A name is a type or a membership or a contract and never two of them.
 
-A signature bounds a type parameter by a contract the way it bounds one by a
-membership: `bounds: { T: app.Describable }`, and the slots write `some T`. A
-value reaching such a slot is judged twice, once per surface, the way a
-membership's is: at the **build** a reading provably outside refuses, and at the
-**boundary** the value that arrived is judged by the name it wears.
+A signature bounds a type parameter by a contract the way it bounds one by a membership: `bounds: { T: app.Describable }`, and the slots write `some T`. A value reaching such a slot is judged twice, once per surface, the way a membership's is: at the **build** a reading provably outside refuses, and at the **boundary** the value that arrived is judged by the name it wears.
 
-A body calls a contract's procedure by writing the contract's name and the
-procedure's with a dot between them: `app.Describable.describe`. That spelling
-is the contract's declaration of the procedure, and it is a send like any other: a document calling a contract another module declares lists the spelling in `imports`. It names no type's declaration, and what it means is settled by the value at its first position, so a call writing nothing there refuses. What a call hands it and what it answers are the contract's, not any one declaration's.
+A body calls a contract's procedure by writing the contract's name and the procedure's with a dot between them: `app.Describable.describe`. That spelling is the contract's declaration of the procedure, and it is a send like any other: a document calling a contract another module declares lists the spelling in `imports`. It names no type's declaration, and what it means is settled by the value at its first position, so a call writing nothing there refuses. What a call hands it and what it answers are the contract's, not any one declaration's.
 
 **The build builds the table and the run reads it.** For every contract, the build gathers every type that satisfies it and lowers one call per type, each against the row that answers, arguments in that row's own slot order. The run reads the name the first argument wears and picks. Nothing is resolved while a program is running.
 
-A declaration answering a contract's procedure is reached **through the
-contract**, which is the spelling that says which contract is meant. Two types
-answering one procedure is the ordinary case. Such a declaration takes its own type first and then what the contract asks **at the contract's positions**, each of the same type; the names are its own. A parameter it declares beyond them is one no call through the contract writes, so it is a `T?` and refuses otherwise. The run hands the arguments to the same positions whichever declaration answers.
+A declaration answering a contract's procedure is reached **through the contract**, which is the spelling that says which contract is meant. Two types answering one procedure is the ordinary case. Such a declaration takes its own type first and then what the contract asks **at the contract's positions**, each of the same type; the names are its own. A parameter it declares beyond them is one no call through the contract writes, so it is a `T?` and refuses otherwise. The run hands the arguments to the same positions whichever declaration answers.
 
-**A name is its declared spelling.** The key a document declares a type,
-constraint or procedure under is the whole of its name: `std.math.plus` is
-declared under that key, and `wallet.Account` under that one. A mention is a
-declared spelling, written out, and it means the same declaration wherever it
-was written, inside the declaring document too. A dot is a character of the
-spelling and nothing more: the language has no nesting, no scope and no
-prefix, so what a document chooses to put before a dot is the author's
-convention, and one document may declare `wallet.fee` beside `bank.rate` while
-another declares `wallet.rate`. A spelling no module in the link declares
-**refuses at the build** where it is mentioned. There are two namespaces,
-procedures and types, and a procedure may be spelled like a type. Types,
-memberships and contracts share the second, and no name in it is two of them,
-so a mention reaches whatever declares it: a slot names a type or a membership,
-and a bound names a membership or a contract.
+**A name is its declared spelling.** The key a document declares a type, constraint or procedure under is the whole of its name: `std.math.plus` is declared under that key, and `wallet.Account` under that one. A mention is a declared spelling, written out, and it means the same declaration wherever it was written, inside the declaring document too. A dot is a character of the spelling and nothing more: the language has no nesting, no scope and no prefix, so what a document chooses to put before a dot is the author's convention, and one document may declare `wallet.fee` beside `bank.rate` while another declares `wallet.rate`. A spelling no module in the link declares **refuses at the build** where it is mentioned. There are two namespaces, procedures and types, and a procedure may be spelled like a type. Types, memberships and contracts share the second, and no name in it is two of them, so a mention reaches whatever declares it: a slot names a type or a membership, and a bound names a membership or a contract.
 
-The shared `std` module (the foundation bundle) declares the memberships the
-standard procedures are bounded by: `std.Numeric` admits `int` and `double`;
-`std.Comparable` admits `int`, `double` and `string`; `std.Collection` admits
-`string`, `array` and `dictionary`, and so bytes and a record, which stand as
-an array and as a dictionary. A bundle whose signatures
-mention them. `std.math`, `std.collection`. Links only with `std` in the
-build, which is the one dependency the standard bundles have.
+The shared `std` module (the foundation bundle) declares the memberships the standard procedures are bounded by: `std.Numeric` admits `int` and `double`; `std.Comparable` admits `int`, `double` and `string`; `std.Collection` admits `string`, `array` and `dictionary`, and so bytes and a record, which stand as an array and as a dictionary. A bundle whose signatures mention them. `std.math`, `std.collection`. Links only with `std` in the build, which is the one dependency the standard bundles have.
 
 ## Cases
 
