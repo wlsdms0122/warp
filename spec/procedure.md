@@ -122,6 +122,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-constant-cannot-settle-from-a-procedure-a-caller-brought`
 - `a-constant-cannot-settle-from-what-runs`
 - `a-constant-handed-to-a-called-value-outside-its-range-refuses`
+- `a-constant-sent-through-a-contract-outside-its-range-refuses`
 - `a-constant-settles-from-a-body-of-another-document`
 - `a-contract-asking-const-lets-its-call-stand-in-a-const-slot`
 - `a-contract-asking-isolated-lets-its-call-stand-in-an-isolated-slot`
@@ -146,6 +147,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-procedure-that-writes-in-place-does-not-answer-without-running`
 - `a-required-argument-left-out-refuses`
 - `a-value-is-not-handed-in-place`
+- `a-value-is-not-handed-in-place-through-a-contract`
 - `a-variable-declared-const-procedure-carries-that-into-a-capture`
 - `a-variable-handed-in-place-is-written-by-the-callee`
 - `a-variable-of-another-type-is-not-handed-in-place`

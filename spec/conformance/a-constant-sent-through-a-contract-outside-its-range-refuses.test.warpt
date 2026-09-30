@@ -1,0 +1,83 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-constant-sent-through-a-contract-outside-its-range-refuses"
+  note "A call through a contract hands its arguments to the parameters the contract wrote, and a constant is settled against them at the build the way a constant sent to a declaration is. `99` reads `int`, which the range takes as a type, and the value is not one the range admits."
+  program {
+    contracts {
+      "app.Sized" {
+        size {
+          parameters [
+            {
+              name "of"
+              type "app.Sized"
+            }
+            {
+              name "level"
+              type "int(0...10)"
+            }
+          ]
+          returns "int"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "app.Thing.size" {
+        parameters [
+          {
+            name "of"
+            type "app.Thing"
+          }
+          {
+            name "level"
+            type "int(0...10)"
+          }
+        ]
+        result {
+          ref "level"
+        }
+        returns "int"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                as {
+                  of {
+                    record {
+                      id 1
+                    }
+                  }
+                  type "app.Thing"
+                }
+              }
+              99
+            ]
+            procedure "app.Sized.size"
+          }
+        }
+        returns "int"
+      }
+    }
+    satisfies {
+      "app.Thing" [
+        "app.Sized"
+      ]
+    }
+    types {
+      "app.Thing" {
+        record {
+          id "int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
