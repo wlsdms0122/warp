@@ -98,7 +98,7 @@ What **refuses at the build**:
 - reaching the end of a body still holding one;
 - handing one on a second time. Within one call that counts in position order, the order the run evaluates the arguments in (see [running](running.md)), so a slot that borrows reads what a consuming slot standing before it already took;
 - handing one on in one arm of a conditional and not the other, since what a body holds afterwards would depend on which arm ran. An arm that **returns** is not one of those arms: no run comes back from it, so what the body holds afterwards stands on the arms that finish. An arm that `break`s is one of them, and is held to the same rule: the run comes back out of the loop still holding what the arm held;
-- handing one on inside a loop round, inside an `attempt`, in a call of a value, or capturing one in a closure. Each of those runs no fixed number of times, or fails somewhere the text does not show, so "exactly once" is not something the text says. Leaving is not one of these unless it leaves the procedure: a `break` leaves the construct and a `continue` ends the round, and what the body was holding it holds still on the other side of either;
+- handing one on inside a loop round, inside an `attempt`, in a call of a value, or capturing one in a closure, and writing one into a box inside a loop round or an `attempt`. Each of those runs no fixed number of times, or fails somewhere the text does not show, so "exactly once" is not something the text says. Leaving is not one of these unless it leaves the procedure: a `break` leaves the construct and a `continue` ends the round, and what the body was holding it holds still on the other side of either;
 - writing over a name still holding one;
 - writing one into a **list or a record**, whether it is a name still holding one, a value nothing holds yet, or what a cast, a block or an `attempt` hands out. What follows the value is the name, and a name does not follow it into a type, so the obligation would be neither handed on nor still held;
 - handing a borrowed one to a slot that says `consuming`, or answering it, or keeping it in a box. Each gives away what this body never took, and a box outlives the call that lent the value.
@@ -144,16 +144,27 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-bare-array-refuses`
 - `a-bare-constraint-name-refuses`
 - `a-body-cannot-answer-what-it-borrowed`
+- `a-borrow-captured-by-a-closure-refuses`
+- `a-borrow-handed-to-a-consuming-slot-refuses`
+- `a-borrow-inside-a-loop-round-stands`
+- `a-borrow-kept-in-a-box-refuses`
+- `a-borrow-passes-to-another-borrow`
+- `a-borrow-written-into-a-list-refuses`
 - `a-borrowing-slot-reads-and-leaves-the-obligation`
 - `a-bound-may-name-several-and-holds-to-every-one`
 - `a-bound-names-a-membership-another-document-declares`
 - `a-bound-naming-a-parameter-no-slot-mentions-refuses`
+- `a-box-that-handed-one-on-takes-another`
+- `a-break-does-not-strand-what-the-body-holds`
 - `a-byte-is-a-whole-number-a-range-refines`
 - `a-call-through-a-contract-with-nothing-first-refuses`
+- `a-cast-does-not-carry-a-held-name-into-a-list`
+- `a-cast-naming-a-type-handed-on-once-does-not-go-into-a-list`
 - `a-claim-about-a-type-the-language-names-refuses`
 - `a-claim-nobody-leans-on-refuses-nowhere`
 - `a-claim-stands-in-a-document-the-leaning-one-never-names`
 - `a-closure-reads-the-bounds-of-the-procedure-around-it`
+- `a-closure-without-returns-answering-one-refuses`
 - `a-closures-parameter-names-are-not-part-of-its-type`
 - `a-constant-outside-a-range-refuses`
 - `a-constraint-is-named-by-its-qualified-spelling`
@@ -165,6 +176,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-contract-stands-where-a-type-is-written`
 - `a-declaration-answering-a-contract-names-its-parameters-its-own-way`
 - `a-declaration-answering-a-contract-takes-its-parameters-in-the-contracts-order`
+- `a-declaration-answering-one-without-returns-refuses`
 - `a-declared-name-is-a-type`
 - `a-declared-range-refuses-what-is-outside-it`
 - `a-declared-type-names-itself-in-its-fields`
@@ -197,6 +209,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-record-type-may-name-a-field-for-a-form`
 - `a-record-under-another-name-refuses`
 - `a-record-under-another-name-refuses-through-any`
+- `a-return-answering-one-without-returns-refuses`
 - `a-slot-naming-a-type-handed-on-once-says-what-it-does`
 - `a-some-outside-a-signature-refuses`
 - `a-type-form-beside-other-keys-refuses`
@@ -207,6 +220,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-value-called-through-any-is-judged-at-the-run`
 - `a-value-declares-every-parameter-the-slot-hands`
 - `a-value-handed-on-in-one-arm-and-not-the-other-refuses`
+- `a-value-handed-on-inside-a-loop-round-refuses`
 - `a-value-handed-on-once-does-not-go-into-a-list`
 - `a-value-handed-on-once-does-not-go-into-a-list-unbound`
 - `a-value-handed-on-once-is-ended-by-a-host-procedure`
@@ -216,12 +230,17 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-value-outside-a-contract-in-a-closures-parameter-refuses`
 - `a-value-outside-a-contract-standing-as-a-type-refuses`
 - `a-value-outside-a-declared-type-refuses-at-the-boundary`
+- `a-value-taken-inside-an-attempt-body-is-still-owed`
+- `a-value-written-into-a-box-inside-a-loop-refuses`
+- `a-value-written-into-a-box-is-still-owed`
+- `a-value-written-into-a-list-element-refuses`
 - `a-whole-and-a-fraction-meet-exactly`
 - `a-whole-fraction-stays-a-fraction`
 - `a-whole-number-is-a-fraction`
 - `an-answer-read-through-any-is-settled-at-the-run`
 - `an-array-slot-that-changes-a-byte-reads-them-out`
 - `an-asking-cast-onto-a-type-handed-on-once-refuses`
+- `an-attempt-returning-one-without-returns-refuses`
 - `an-inline-record-slot-takes-a-named-record`
 - `an-undeclared-field-refuses`
 - `bytes-cross-an-array-slot-in-their-own-spelling`

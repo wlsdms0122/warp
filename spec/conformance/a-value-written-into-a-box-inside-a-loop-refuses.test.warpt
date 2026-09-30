@@ -1,0 +1,102 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-value-written-into-a-box-inside-a-loop-refuses"
+  note "A round runs no fixed number of times, so whether a box written inside one holds a value written `linear` afterwards is not something the text says. The write refuses even where the body hands on what the box holds after the loop."
+  program {
+    imports [
+      "app.close"
+      "app.open"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            value {
+              call {
+                procedure "app.open"
+              }
+            }
+            var "handle"
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "handle"
+                  }
+                ]
+                procedure "app.close"
+              }
+            }
+          }
+          {
+            let "spin"
+            value {
+              loop {
+                body [
+                  {
+                    set "handle"
+                    value {
+                      call {
+                        procedure "app.open"
+                      }
+                    }
+                  }
+                ]
+                while false
+              }
+            }
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "handle"
+                  }
+                ]
+                procedure "app.close"
+              }
+            }
+          }
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+  vocabulary {
+    procedures {
+      "app.close" {
+        parameters [
+          {
+            name "first"
+            type "consuming app.Handle"
+          }
+        ]
+        runs true
+      }
+      "app.open" {
+        answers app.Handle {
+          name "f"
+        }
+        returns "app.Handle"
+      }
+    }
+    types {
+      "app.Handle" {
+        linear {
+          record {
+            name "string"
+          }
+        }
+      }
+    }
+  }
+}
+

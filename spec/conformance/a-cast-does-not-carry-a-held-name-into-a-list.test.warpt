@@ -1,0 +1,67 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-cast-does-not-carry-a-held-name-into-a-list"
+  note "A cast answers what it read, so a cast of a name that holds a value written `linear` carries that name into the list it is written in."
+  program {
+    constraints {
+      "app.Openable" [
+        "app.Handle"
+      ]
+    }
+    imports [
+      "app.Handle"
+      "app.open"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "handle"
+            value {
+              call {
+                procedure "app.open"
+              }
+            }
+          }
+        ]
+        result [
+          {
+            as {
+              of {
+                ref "handle"
+              }
+              type "app.Openable"
+            }
+          }
+        ]
+        returns "any"
+      }
+    }
+    warp 1
+  }
+  test 1
+  vocabulary {
+    procedures {
+      "app.open" {
+        answers app.Handle {
+          name "f"
+        }
+        returns "app.Handle"
+      }
+    }
+    types {
+      "app.Handle" {
+        linear {
+          record {
+            name "string"
+          }
+        }
+      }
+    }
+  }
+}
+

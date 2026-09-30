@@ -1,0 +1,54 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-closure-without-returns-answering-one-refuses"
+  note "A body carried as a value may not answer a value written `linear`, and the rule turns on what the walk finds rather than on whether `returns` was written."
+  program {
+    imports [
+      "app.open"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "made"
+            value {
+              closure {
+                result {
+                  call {
+                    procedure "app.open"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+  vocabulary {
+    procedures {
+      "app.open" {
+        answers app.Handle {
+          name "f"
+        }
+        returns "app.Handle"
+      }
+    }
+    types {
+      "app.Handle" {
+        linear {
+          record {
+            name "string"
+          }
+        }
+      }
+    }
+  }
+}
+
