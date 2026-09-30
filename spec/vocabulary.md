@@ -82,7 +82,7 @@ One of these is builtin for a reason that is not the set it removes. `trimmed` n
 
 **Two bundles declare `contains`, and they ask different questions.** `std.collection.contains` asks whether an array holds an element; `std.text.contains` asks whether a string holds another string inside it. They are two procedures because a string is not an array here: it has a `count` but no elements to read by position, since where the tenth character starts is only known by walking the nine in front of it. A program that wants a string's characters as a collection asks `characters` for them.
 
-`uppercased` and `lowercased` apply Unicode's full default case mapping and no locale's tailoring: `ß` uppercases to `SS`, and `i` uppercases to `I` on every machine, whatever its locale says about a dotted `i`.
+`uppercased` and `lowercased` apply Unicode's full default case mapping and no locale's tailoring: `ß` uppercases to `SS`, a capital sigma ending a word lowercases to the final `ς`, and `i` uppercases to `I` on every machine, whatever its locale says about a dotted `i`.
 
 `trimmed` removes the whitespace at either end and nothing from the middle. A character goes only if **every one of its code points** has Unicode's `White_Space` property, and nothing a platform adds to that set is whitespace here. Both halves of that rule are load-bearing: `\r\n` is one character and two code points, both of them `White_Space`, so it goes; a space carrying a combining mark is also one character and two code points, and the mark is not `White_Space`, so it stays where it was written. A zero-width space is not whitespace in Unicode and so is not trimmed, however a platform's own set answers.
 
@@ -205,6 +205,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `greater-than-mirrors-less-than`
 - `joined-over-nothing-answers-empty-text`
 - `keys-answer-in-canonical-order`
+- `lowercased-ends-a-word-with-final-sigma`
 - `lowercased-folds-the-case`
 - `map-answers-in-the-collections-order`
 - `map-takes-only-an-isolated-closure`
