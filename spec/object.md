@@ -174,7 +174,6 @@ A reading refuses what it cannot read and traps on nothing: the reading runs ins
 
 - a lifted row where the numbering counts no closure, a count of none for a declaration it counts, and counts that add up past what an int holds
 - a body standing on a slot past its frame, a loop keeping a run its frame does not hold, a frame naming fewer slots than it has, a call standing more arguments than the row it reaches takes
-- a variable starting a run holding a procedure, which no document writes
 - an object standing against a document other than the one it was kept under
 
 Every one of these is refused where the object is read, before it is laid beside anything. What only a link can answer, which row a number is, which type answers a contract, is refused at the link, under [checking](checking.md).
