@@ -1,0 +1,29 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-bracket-that-closes-nothing-in-a-path-is-refused"
+  note "A `]` in a path closes a `[` written before it. One that closes nothing is not read as part of a name, even where a statement introduced a name spelled with it."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "a]"
+            value 1
+          }
+        ]
+        result {
+          ref "a]"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

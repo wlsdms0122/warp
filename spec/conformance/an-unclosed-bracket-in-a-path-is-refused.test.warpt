@@ -1,0 +1,29 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "an-unclosed-bracket-in-a-path-is-refused"
+  note "A `[` in a path is closed by a `]`. One left open is not read as part of the name after it."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "a"
+            type "array<int>"
+          }
+        ]
+        result {
+          ref "a[0"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

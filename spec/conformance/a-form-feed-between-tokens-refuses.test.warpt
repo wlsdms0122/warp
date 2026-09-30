@@ -1,0 +1,11 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-form-feed-between-tokens-refuses"
+  note "Whitespace is space, tab, line feed and carriage return. A form feed is none of them, so it is part of the token it touches, and a record meets it where a field name is due."
+  test 1
+  text "warpt 1\n{\u000ca 1 }\n"
+}
+
