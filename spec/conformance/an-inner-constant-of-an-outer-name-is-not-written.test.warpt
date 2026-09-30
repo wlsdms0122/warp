@@ -1,0 +1,45 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "an-inner-constant-of-an-outer-name-is-not-written"
+  note "A `let` inside a block spelled like a variable outside is a new name, and a fixed one. A `set` of that spelling after it in the block writes the fixed name, which is refused, and does not reach the outer box."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            value 1
+            var "verdict"
+          }
+          {
+            let "gate"
+            value {
+              block {
+                body [
+                  {
+                    let "verdict"
+                    value 2
+                  }
+                  {
+                    set "verdict"
+                    value 3
+                  }
+                ]
+              }
+            }
+          }
+        ]
+        result {
+          ref "verdict"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

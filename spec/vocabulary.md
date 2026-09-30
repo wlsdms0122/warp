@@ -163,6 +163,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-document-writes-map-over-a-const-slot`
 - `a-document-writes-startsWith-over-characters`
 - `a-mapped-procedure-chooses-what-it-answers`
+- `a-piece-that-is-not-a-closure-refuses`
 - `a-quotient-widens-its-operands`
 - `a-space-carrying-a-mark-is-not-trimmed`
 - `a-string-holding-another-is-a-text-question`
@@ -187,6 +188,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `case-mapping-takes-no-locale`
 - `characters-answers-grapheme-clusters`
 - `concurrent-map-offers-item-and-index`
+- `concurrent-map-over-nothing-answers-nothing`
 - `contains-asks-a-collection`
 - `count-asks-a-collection`
 - `count-of-a-record-is-its-fields`

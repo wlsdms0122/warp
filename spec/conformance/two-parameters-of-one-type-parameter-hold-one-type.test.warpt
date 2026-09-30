@@ -1,0 +1,99 @@
+warpt 1
+{
+  expect {
+    answers 2
+  }
+  name "two-parameters-of-one-type-parameter-hold-one-type"
+  note "Two parameters written `some T` hold the one type the call filled, so the same field of either is the same field. A name holding that field through one parameter or the other holds one type, and a dot after it stands."
+  program {
+    imports [
+      "std.logic.equal"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                record {
+                  inner {
+                    record {
+                      count 2
+                    }
+                  }
+                }
+              }
+              true
+              {
+                record {
+                  inner {
+                    record {
+                      count 1
+                    }
+                  }
+                }
+              }
+            ]
+            procedure "peek"
+          }
+        }
+      }
+      peek {
+        body [
+          {
+            value {
+              ref "of.inner"
+            }
+            var "seen"
+          }
+          {
+            value {
+              conditional {
+                then [
+                  {
+                    set "seen"
+                    value {
+                      ref "also.inner"
+                    }
+                  }
+                ]
+                when {
+                  call {
+                    arguments [
+                      {
+                        ref "flag"
+                      }
+                      true
+                    ]
+                    procedure "std.logic.equal"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "also"
+            type "some T"
+          }
+          {
+            name "flag"
+            type "bool"
+          }
+          {
+            name "of"
+            type "some T"
+          }
+        ]
+        result {
+          ref "seen.count"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

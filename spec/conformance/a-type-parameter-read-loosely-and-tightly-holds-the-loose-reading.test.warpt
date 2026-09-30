@@ -1,0 +1,47 @@
+warpt 1
+{
+  arguments {
+    counts [
+      2.5
+    ]
+  }
+  expect {
+    answers [
+      2.5
+      1
+    ]
+  }
+  name "a-type-parameter-read-loosely-and-tightly-holds-the-loose-reading"
+  note "A list of numbers and a whole number are two readings where one accepts the other, and the parameter holds the looser one."
+  program {
+    imports [
+      "std.Numeric"
+      "std.collection.appending"
+    ]
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "counts"
+            type "array<std.Numeric>"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "counts"
+              }
+              1
+            ]
+            procedure "std.collection.appending"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,34 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-reference-to-a-statement-written-later-refuses"
+  note "A reference resolves to a statement written before it. One naming a statement further down reads a name that is not there yet, and the document alone says so."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "early"
+            value {
+              ref "late"
+            }
+          }
+          {
+            let "late"
+            value 1
+          }
+        ]
+        result {
+          ref "early"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

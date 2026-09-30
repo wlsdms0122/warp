@@ -1,0 +1,29 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-nullable-that-says-nothing-new-behind-a-name-refuses"
+  note "A `?` is written only where it says something new. Behind a declared name standing for `any` it says nothing, and the build refuses it where the name resolves."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "value"
+            type "Loose?"
+          }
+        ]
+        result 1
+      }
+    }
+    types {
+      Loose "any"
+    }
+    warp 1
+  }
+  test 1
+}
+

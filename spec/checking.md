@@ -53,5 +53,10 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-procedure-may-be-spelled-like-a-type`
 - `a-procedure-nobody-declares-refuses-at-build`
 - `a-procedure-two-modules-declare-refuses`
+- `a-reference-to-a-statement-written-later-refuses`
+- `a-write-a-loop-round-makes-reads-back-nullable`
+- `a-write-an-attempt-body-makes-reads-back-nullable`
 - `an-untaken-arm-is-checked-too`
+- `inout-written-outside-a-parameter-refuses`
 - `two-documents-that-need-each-other-refuse`
+- `var-written-outside-a-declared-field-refuses`

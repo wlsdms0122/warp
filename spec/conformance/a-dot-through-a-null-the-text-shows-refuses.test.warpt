@@ -1,0 +1,28 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-dot-through-a-null-the-text-shows-refuses"
+  note "Null is not read through. Where the text shows the null, a dot after it is refused at the build."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "gone"
+            value null
+          }
+        ]
+        result {
+          ref "gone.name"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

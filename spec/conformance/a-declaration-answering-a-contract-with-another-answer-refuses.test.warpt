@@ -1,0 +1,102 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-declaration-answering-a-contract-with-another-answer-refuses"
+  note "The build holds a claim to the declarations behind it: the one named for the type and the procedure takes the contract's signature with the type first. One answering an int where the contract writes a string backs no claim, and the call leaning on the pair is refused."
+  program {
+    contracts {
+      "app.Describable" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "app.Describable"
+            }
+          ]
+          returns "string"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "app.tell" {
+        bounds {
+          T "app.Describable"
+        }
+        parameters [
+          {
+            name "it"
+            type "some T"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "it"
+              }
+            ]
+            procedure "app.Describable.describe"
+          }
+        }
+        returns "string"
+      }
+      "bank.Account.describe" {
+        parameters [
+          {
+            name "of"
+            type "bank.Account"
+          }
+        ]
+        result 1
+        returns "int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "held"
+            value {
+              as {
+                of {
+                  record {
+                    balance 1
+                  }
+                }
+                type "bank.Account"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "held"
+              }
+            ]
+            procedure "app.tell"
+          }
+        }
+        returns "string"
+      }
+    }
+    satisfies {
+      "bank.Account" [
+        "app.Describable"
+      ]
+    }
+    types {
+      "bank.Account" {
+        record {
+          balance "int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

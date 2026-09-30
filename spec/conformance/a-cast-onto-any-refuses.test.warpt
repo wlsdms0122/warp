@@ -1,0 +1,36 @@
+warpt 1
+{
+  arguments {
+    payload 1
+  }
+  expect {
+    refuses "build"
+  }
+  name "a-cast-onto-any-refuses"
+  note "A cast names the type a value is read as. `any` names no type to read, so a cast onto it is refused at the build."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "payload"
+            type "any"
+          }
+        ]
+        result {
+          as {
+            of {
+              ref "payload"
+            }
+            type "any"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

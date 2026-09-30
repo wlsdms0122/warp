@@ -136,6 +136,10 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-loop-result-reads-the-last-finished-round`
 - `a-loop-takes-no-budget`
 - `a-loop-written-nameless-binds-no-round`
+- `a-name-a-block-declares-is-not-read-after-it`
+- `a-name-a-round-declares-is-not-read-after-the-loop`
+- `a-name-an-arm-declares-is-not-read-after-it`
+- `a-name-declared-again-inside-an-arm-is-a-new-name`
 - `a-name-on-a-conditional-is-refused`
 - `a-name-on-what-never-finishes-is-refused`
 - `a-name-says-what-it-holds`
@@ -150,6 +154,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-rescue-reads-what-a-failure-carried`
 - `a-rescue-that-answers-nothing-answers-null`
 - `a-rescue-that-produces-nothing-refuses`
+- `a-result-after-leaving-refuses`
+- `a-result-after-what-never-finishes-refuses`
 - `a-return-is-held-to-the-declaration`
 - `a-statement-saying-two-things-refuses`
 - `a-statement-with-no-name-still-runs`
@@ -166,6 +172,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-attempt-catches-a-cast-that-did-not-match`
 - `an-attempt-joins-its-body-with-its-rescue`
 - `an-attempt-written-nameless-binds-no-failure`
+- `an-inner-constant-of-an-outer-name-is-not-written`
 - `break-ends-the-loop`
 - `calling-a-value-bounded-to-numbers-refuses`
 - `calling-a-value-no-procedure-could-be-refuses`

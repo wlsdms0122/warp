@@ -1,0 +1,72 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-piece-calling-a-procedure-that-writes-a-module-variable-refuses"
+  note "A body is isolated only where every declaration it calls is. A procedure writing a module variable is not, so a closure calling it is not either, and `std.concurrent.all` refuses it as a piece."
+  program {
+    imports [
+      "std.concurrent.all"
+      "std.math.plus"
+    ]
+    procedures {
+      bump {
+        body [
+          {
+            set "count"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "count"
+                  }
+                  1
+                ]
+                procedure "std.math.plus"
+              }
+            }
+          }
+        ]
+        result {
+          ref "count"
+        }
+        returns "int"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                record {
+                  left {
+                    closure {
+                      result 1
+                    }
+                  }
+                  right {
+                    closure {
+                      result {
+                        call {
+                          procedure "bump"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+            procedure "std.concurrent.all"
+          }
+        }
+      }
+    }
+    var {
+      count 0
+    }
+    warp 1
+  }
+  test 1
+}
+
