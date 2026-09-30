@@ -61,6 +61,8 @@ One of these is builtin for a reason that is not the set it removes. `trimmed` n
 | `floored`, `rounded` | `number: some N` | `int`. Bounds `N: std.Numeric` |
 | `lessThan`, `greaterThan` | `lhs: some T`, `rhs: some T` | `bool`. Bounds `T: std.Comparable` |
 
+`min` and `max` answer one of the two as it arrived. On a tie, where the two order the same, `min` answers `lhs` and `max` answers `rhs`, so `min(1, 1.0)` is `1` and `max(1, 1.0)` is `1.0`.
+
 `floored` goes to the nearest whole toward the smaller side, below zero too: `-2.1` floors to `-3`. `rounded` goes to the nearest whole, and away from zero at the exact halfway: `2.5` rounds to `3`, `-2.5` to `-3`. `absolute` drops the sign and keeps the kind it was given. Each of these answers an `int` only when an int holds the answer. The int's edge refuses at the run, as the edge rules below require.
 
 *std.text*
@@ -210,7 +212,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `lowercased-folds-the-case`
 - `map-answers-in-the-collections-order`
 - `map-takes-only-an-isolated-closure`
+- `max-answers-rhs-on-a-tie`
 - `min-and-max-pick-an-end`
+- `min-answers-lhs-on-a-tie`
 - `minus-and-times-compose-as-written`
 - `minus-off-the-ints-edge-refuses`
 - `not-and-notequal-say-the-opposite`
