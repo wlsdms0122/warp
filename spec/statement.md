@@ -123,6 +123,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-condition-that-is-not-a-bool-refuses`
 - `a-conditional-both-of-whose-arms-leave-ends-the-body`
 - `a-conditional-writes-the-flow-it-is-in`
+- `a-constant-return-must-fit-what-was-declared`
 - `a-construct-key-outside-a-statement-is-a-field-name`
 - `a-declared-name-is-not-retyped-by-a-write`
 - `a-declining-conditional-writes-nothing`

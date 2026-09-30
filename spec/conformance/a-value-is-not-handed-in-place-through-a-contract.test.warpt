@@ -1,0 +1,100 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-value-is-not-handed-in-place-through-a-contract"
+  note "A parameter a contract writes `inout` takes a variable, the same as one a declaration writes. A literal has no box to write, so handing one in place through the contract refuses at the build."
+  program {
+    contracts {
+      "app.Bumping" {
+        bump {
+          parameters [
+            {
+              name "of"
+              type "app.Bumping"
+            }
+            {
+              name "count"
+              type "inout int"
+            }
+          ]
+        }
+      }
+    }
+    imports [
+      "std.math.plus"
+    ]
+    procedures {
+      "app.Thing.bump" {
+        body [
+          {
+            set "count"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "count"
+                  }
+                  1
+                ]
+                procedure "std.math.plus"
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "of"
+            type "app.Thing"
+          }
+          {
+            name "count"
+            type "inout int"
+          }
+        ]
+      }
+      entry {
+        access "public"
+        body [
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    as {
+                      of {
+                        record {
+                          id 1
+                        }
+                      }
+                      type "app.Thing"
+                    }
+                  }
+                  10
+                ]
+                procedure "app.Bumping.bump"
+              }
+            }
+          }
+        ]
+        returns "null"
+      }
+    }
+    satisfies {
+      "app.Thing" [
+        "app.Bumping"
+      ]
+    }
+    types {
+      "app.Thing" {
+        record {
+          id "int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
