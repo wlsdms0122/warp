@@ -1,0 +1,89 @@
+warpt 1
+{
+  expect {
+    answers "done"
+  }
+  name "a-break-does-not-strand-what-the-body-holds"
+  note "Only leaving the procedure ends the body. A `break` leaves the loop, and the body still holds its value written `linear` on the other side and hands it on there."
+  program {
+    imports [
+      "app.close"
+      "app.open"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "handle"
+            value {
+              call {
+                procedure "app.open"
+              }
+            }
+          }
+          {
+            let "spin"
+            value {
+              loop {
+                body [
+                  {
+                    value {
+                      break null
+                    }
+                  }
+                ]
+                while true
+              }
+            }
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "handle"
+                  }
+                ]
+                procedure "app.close"
+              }
+            }
+          }
+        ]
+        result "done"
+        returns "string"
+      }
+    }
+    warp 1
+  }
+  test 1
+  vocabulary {
+    procedures {
+      "app.close" {
+        parameters [
+          {
+            name "first"
+            type "consuming app.Handle"
+          }
+        ]
+        runs true
+      }
+      "app.open" {
+        answers app.Handle {
+          name "f"
+        }
+        returns "app.Handle"
+      }
+    }
+    types {
+      "app.Handle" {
+        linear {
+          record {
+            name "string"
+          }
+        }
+      }
+    }
+  }
+}
+

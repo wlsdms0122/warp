@@ -1,0 +1,119 @@
+warpt 1
+{
+  expect {
+    answers "f"
+  }
+  name "a-borrow-inside-a-loop-round-stands"
+  note "Inside a loop round only handing a value on is refused, and lending it to a slot that borrows hands nothing on."
+  program {
+    imports [
+      "app.close"
+      "app.name"
+      "app.open"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "handle"
+            value {
+              call {
+                procedure "app.open"
+              }
+            }
+          }
+          {
+            value ""
+            var "shown"
+          }
+          {
+            let "spin"
+            value {
+              loop {
+                body [
+                  {
+                    set "shown"
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "handle"
+                          }
+                        ]
+                        procedure "app.name"
+                      }
+                    }
+                  }
+                  {
+                    value {
+                      break null
+                    }
+                  }
+                ]
+                while true
+              }
+            }
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "handle"
+                  }
+                ]
+                procedure "app.close"
+              }
+            }
+          }
+        ]
+        result {
+          ref "shown"
+        }
+        returns "string"
+      }
+    }
+    warp 1
+  }
+  test 1
+  vocabulary {
+    procedures {
+      "app.close" {
+        parameters [
+          {
+            name "first"
+            type "consuming app.Handle"
+          }
+        ]
+        runs true
+      }
+      "app.name" {
+        answers "f"
+        parameters [
+          {
+            name "first"
+            type "borrowing app.Handle"
+          }
+        ]
+        returns "string"
+      }
+      "app.open" {
+        answers app.Handle {
+          name "f"
+        }
+        returns "app.Handle"
+      }
+    }
+    types {
+      "app.Handle" {
+        linear {
+          record {
+            name "string"
+          }
+        }
+      }
+    }
+  }
+}
+
