@@ -128,6 +128,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-contract-asking-isolated-lets-its-call-stand-in-an-isolated-slot`
 - `a-contract-call-that-may-run-is-no-operand`
 - `a-declaration-that-runs-backs-no-const-contract`
+- `a-dictionary-entry-handed-in-place-is-read-by-the-callee`
 - `a-enum-no-candidate-of-which-fits-refuses-at-build`
 - `a-enum-that-admits-nothing-refuses-at-build`
 - `a-enum-with-a-dead-candidate-refuses-at-build`
