@@ -62,6 +62,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-closure-reads-a-variable-through-its-box`
 - `a-closure-write-keeps-the-captured-type`
 - `a-closure-writes-what-it-captured`
+- `a-constant-a-closure-answers-must-fit-what-it-declared`
 - `a-constant-read-at-an-index-the-run-settles`
 - `a-constant-that-runs-a-body-of-its-own-document-refuses`
 - `a-dictionary-is-read-by-a-key-the-run-settles`
