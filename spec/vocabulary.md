@@ -201,6 +201,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `floored-past-the-int-refuses`
 - `fraction-arithmetic-with-no-finite-answer-refuses`
 - `gathering-past-the-end-refuses`
+- `gathering-reads-positions-written-as-bytes`
 - `greater-than-mirrors-less-than`
 - `joined-over-nothing-answers-empty-text`
 - `keys-answer-in-canonical-order`
