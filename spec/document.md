@@ -76,9 +76,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-version-that-never-existed-refuses`
 - `an-access-written-as-what-its-absence-means-refuses`
 - `an-else-written-empty-refuses`
-- `an-overstated-manifest-refuses`
+- `an-overstated-imports-list-refuses`
 - `an-unknown-key-refuses`
-- `an-untruthful-manifest-refuses`
+- `an-untruthful-imports-list-refuses`
 - `claims-written-out-of-order-refuse`
 - `constants-settle-in-the-order-they-read-each-other`
 - `constants-that-name-each-other-refuse`
