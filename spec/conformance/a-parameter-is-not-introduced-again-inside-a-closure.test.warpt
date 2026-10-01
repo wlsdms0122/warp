@@ -1,0 +1,60 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-parameter-is-not-introduced-again-inside-a-closure"
+  note "A closure written in a body stands inside the parameters around it. `x` is a parameter of `app.f`, and a `let` taking that spelling in the closure's body refuses at the load."
+  program {
+    imports []
+    procedures {
+      "app.f" {
+        body [
+          {
+            let "c"
+            value {
+              closure {
+                body [
+                  {
+                    let "x"
+                    value 2
+                  }
+                ]
+                result {
+                  ref "x"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "x"
+            type "int"
+          }
+        ]
+        result {
+          call {
+            procedure {
+              ref "c"
+            }
+          }
+        }
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              1
+            ]
+            procedure "app.f"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

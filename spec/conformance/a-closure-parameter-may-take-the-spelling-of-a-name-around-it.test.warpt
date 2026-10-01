@@ -1,0 +1,51 @@
+warpt 1
+{
+  expect {
+    answers 5
+  }
+  name "a-closure-parameter-may-take-the-spelling-of-a-name-around-it"
+  note "A closure's body is nested in the body that writes it, so its parameter may take the spelling of a `let` around it. Inside the closure `x` is the parameter, and the call answers what it was handed."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "x"
+            value 1
+          }
+          {
+            let "c"
+            value {
+              closure {
+                parameters [
+                  {
+                    name "x"
+                    type "int"
+                  }
+                ]
+                result {
+                  ref "x"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              5
+            ]
+            procedure {
+              ref "c"
+            }
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

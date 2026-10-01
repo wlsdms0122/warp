@@ -1,0 +1,66 @@
+warpt 1
+{
+  expect {
+    answers {
+      a 1
+      b 2
+    }
+  }
+  name "sibling-blocks-may-each-introduce-one-name"
+  note "Two blocks side by side are two bodies, and each may introduce `x` once."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "a"
+            value {
+              block {
+                body [
+                  {
+                    let "x"
+                    value 1
+                  }
+                ]
+                result {
+                  ref "x"
+                }
+              }
+            }
+          }
+          {
+            let "b"
+            value {
+              block {
+                body [
+                  {
+                    let "x"
+                    value 2
+                  }
+                ]
+                result {
+                  ref "x"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          record {
+            a {
+              ref "a"
+            }
+            b {
+              ref "b"
+            }
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -32,7 +32,7 @@ A statement with no naming key, `{ value … }`, runs its expression and binds n
 
 **A `var` may stand alone.** A statement that is only `{ var "name" }`, with no `value`, introduces the name with nothing in it yet, and a name holding nothing holds null. It is the declaration a conditional's arms write into; what the name reads as afterwards is under *what a variable reads as* in [checking](checking.md). The other two spellings say something about a value, so they still require one.
 
-**What a construct's body declares is its own.** A name declared inside a `block`, a `conditional` arm, a `loop`'s round or an `attempt`'s body or rescue is read from the statement after it to the end of that body, its `result` included, and nowhere after. A `let` or `var` there spelled like a name outside is a new name with a box of its own: the outer box keeps what it held, and a `set` of that spelling writes the inner name, which **refuses at the load** where a `let` fixed it.
+**Where a name may be introduced.** No name introduced in a body, at any depth, takes the spelling of a constant or a variable its document declares, or of a parameter of the procedure it is written in, a closure's included: each **refuses at the load**, and so does a parameter taking a constant's or a variable's spelling. Within one body a name is introduced once, and a second `let` or `var` of it **refuses at the load**. A name declared inside a `block`, a `conditional` arm, a `loop`'s round, an `attempt`'s body or rescue, or a closure's body is read from the statement after it to the end of that body, its `result` included, and nowhere after, so two bodies side by side may each introduce it. Such a body may introduce a name a body around it already introduced, and inside it the name is the new one, with a box of its own: the outer box keeps what it held, and a `set` of that spelling writes the inner name, which **refuses at the load** where a `let` fixed it. A closure's parameter is such a name too.
 
 **One name, several askers.** A statement's name names the statement, and every reader of it reads that one fact: an expression reads the value the statement bound; a body inside a binding construct reads the construct's own binding under it (`round.index`, `tried.message`); a `break` or `continue` names the loop statement it ends. These are not three names sharing a spelling. They are one name, asked three questions, and which question applies is fixed by where the asker stands. What keeps the readings from colliding is scope, stated per construct: a loop's round is readable in its condition, body and result; an attempt's name binds the failure only while the rescue runs, so the binding reading and the value reading are never live at the same place.
 
@@ -122,6 +122,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-block-writes-the-flow-it-is-in`
 - `a-break-does-not-excuse-the-arm-it-leaves-from`
 - `a-call-that-fails-after-writing-has-written`
+- `a-closure-parameter-may-take-the-spelling-of-a-name-around-it`
 - `a-condition-that-is-not-a-bool-refuses`
 - `a-conditional-both-of-whose-arms-leave-ends-the-body`
 - `a-conditional-writes-the-flow-it-is-in`
@@ -142,6 +143,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-name-a-round-declares-is-not-read-after-the-loop`
 - `a-name-an-arm-declares-is-not-read-after-it`
 - `a-name-declared-again-inside-an-arm-is-a-new-name`
+- `a-name-introduced-again-in-a-nested-block-is-a-new-name`
 - `a-name-on-a-conditional-is-refused`
 - `a-name-on-what-never-finishes-is-refused`
 - `a-name-says-what-it-holds`
@@ -149,6 +151,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-name-the-module-bound-is-not-introduced-again`
 - `a-named-block-binds-its-result`
 - `a-named-step-arrives-where-the-walk-arrives`
+- `a-parameter-does-not-take-a-name-the-module-bound`
+- `a-parameter-is-not-introduced-again-in-a-nested-body`
+- `a-parameter-is-not-introduced-again-inside-a-closure`
 - `a-rescue-over-a-body-that-cannot-fail-refuses`
 - `a-rescue-reads-a-pieces-own-failure`
 - `a-rescue-reads-the-failure-it-caught`
@@ -187,6 +192,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `nothing-runs-after-leaving`
 - `nothing-runs-after-what-never-finishes`
 - `return-inside-a-closure-answers-the-closure`
+- `sibling-blocks-may-each-introduce-one-name`
 - `type-beside-set-refuses`
 - `what-is-written-fits-the-type-the-path-reaches`
 - `what-nobody-wrote-is-not-readable`
