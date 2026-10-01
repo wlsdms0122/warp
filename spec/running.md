@@ -39,6 +39,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-field-the-declared-answer-does-not-name-refuses`
 - `a-piece-calling-a-procedure-that-writes-a-module-variable-refuses`
 - `a-run-given-nothing-for-a-nullable-parameter-refuses`
+- `a-run-starts-from-a-public-procedure-the-host-answers`
 - `a-slot-that-wrote-no-returns-opens-its-answer-to-any`
 - `an-answer-of-all-settles-into-the-record-declared`
 - `concurrency-is-granted-vocabulary`
