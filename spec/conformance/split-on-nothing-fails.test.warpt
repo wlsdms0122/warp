@@ -1,0 +1,61 @@
+warpt 1
+{
+  expect {
+    answers {
+      message "split asks an empty separator"
+      type "aborted"
+    }
+  }
+  name "split-on-nothing-fails"
+  note "A separator with no characters matches everywhere and consumes nothing, so there is no text `split` could cut. It fails with `aborted`, and an attempt around it catches it because it is a failure and not a refusal."
+  program {
+    imports [
+      "std.text.split"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "tried"
+            value {
+              attempt {
+                body [
+                  {
+                    value {
+                      call {
+                        arguments [
+                          "a,b"
+                          ""
+                        ]
+                        procedure "std.text.split"
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  result {
+                    record {
+                      message {
+                        ref "tried.message"
+                      }
+                      type {
+                        ref "tried.type"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "tried"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

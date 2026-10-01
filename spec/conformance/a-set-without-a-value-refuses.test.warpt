@@ -1,0 +1,28 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-set-without-a-value-refuses"
+  note "Only `var` may stand without a `value`. A `set` writes something into a name, and one written without anything to write refuses at the load."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            var "x"
+          }
+          {
+            set "x"
+          }
+        ]
+        result 1
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

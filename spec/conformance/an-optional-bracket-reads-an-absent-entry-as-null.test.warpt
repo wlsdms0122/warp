@@ -1,0 +1,49 @@
+warpt 1
+{
+  expect {
+    answers null
+  }
+  name "an-optional-bracket-reads-an-absent-entry-as-null"
+  note "On a dictionary `?[` expects the entry's absence, as `?.` does: a key the run settles that names no entry reads as null rather than refusing."
+  program {
+    imports []
+    procedures {
+      "app.read" {
+        parameters [
+          {
+            name "of"
+            type "dictionary<int>"
+          }
+          {
+            name "key"
+            type "string"
+          }
+        ]
+        result {
+          ref "of?[key]"
+        }
+        returns "int?"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                record {
+                  a 1
+                }
+              }
+              "b"
+            ]
+            procedure "app.read"
+          }
+        }
+        returns "int?"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
