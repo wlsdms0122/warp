@@ -8,7 +8,7 @@ An encoding is bytes for a value tree. Two are specified, and they are not peers
 
 Every reader also refuses: bytes after the document ends, bytes that end inside a value, and nesting deeper than **128** containers. A container is an array, a record or a dictionary, the document's own record being the first, and bytes are none: they open nothing. The depth is an exact bound, not a floor: a document 129 deep is not a document anywhere, and one 128 deep is a document everywhere.
 
-**A writer refuses at the bound and nowhere short of it.** A writer is handed a value a caller built, and one that gave out at some depth of its own would refuse a document the bound admits.
+**A writer refuses at the bound and nowhere short of it.** A writer is handed a value someone built, a host or a front end, and one that gave out at some depth of its own would refuse a document the bound admits.
 
 **The bound is the wire's, and a run is not on it.** A running program builds values as deep as it likes: a loop wrapping its last answer in an array each time around builds one deeper than any document, and the language refuses it nowhere. A run's values are the run's cost, the way its loops are, and stopping a run that spends too much is its host's. The bound is met where a value is written: a writer handed one deeper than 128 refuses, as a reader would have.
 
