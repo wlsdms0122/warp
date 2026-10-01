@@ -258,6 +258,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-whose-claims-stand-out-of-name-order-refuses`
 - `an-object-whose-closure-counts-add-up-past-an-int-refuses`
 - `an-object-whose-dependencies-stand-out-of-name-order-refuses`
+- `an-object-whose-dictionary-entries-stand-out-of-name-order-refuses`
 - `an-object-whose-entry-is-not-public-refuses`
 - `an-object-whose-frame-names-fewer-slots-than-it-holds-refuses`
 - `an-object-whose-layout-names-stand-out-of-order-refuses`
