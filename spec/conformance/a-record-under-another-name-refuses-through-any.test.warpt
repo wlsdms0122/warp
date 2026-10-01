@@ -29,7 +29,14 @@ warpt 1
           call {
             arguments [
               {
-                ref "held"
+                call {
+                  arguments [
+                    {
+                      ref "held"
+                    }
+                  ]
+                  procedure "hide"
+                }
               }
             ]
             procedure "read"
@@ -37,20 +44,27 @@ warpt 1
         }
         returns "Account"
       }
-      read {
+      hide {
         parameters [
           {
-            name "account"
+            name "it"
             type "any"
           }
         ]
         result {
-          as {
-            of {
-              ref "account"
-            }
+          ref "it"
+        }
+        returns "any"
+      }
+      read {
+        parameters [
+          {
+            name "account"
             type "Account"
           }
+        ]
+        result {
+          ref "account"
         }
         returns "Account"
       }

@@ -1,0 +1,82 @@
+warpt 1
+{
+  arguments {
+    z 0
+  }
+  expect {
+    refuses "run"
+  }
+  name "a-rescue-does-not-hold-a-piece-that-refuses"
+  note "A piece refusing at the run refuses the whole run, whichever piece finished first. A refusal is not a failure, so the rescue around the fan-out does not hold it, and what the other pieces answered is not reported."
+  program {
+    imports [
+      "std.concurrent.all"
+      "std.math.dividedBy"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "tried"
+            value {
+              attempt {
+                body [
+                  {
+                    let "both"
+                    value {
+                      call {
+                        arguments [
+                          {
+                            record {
+                              broken {
+                                closure {
+                                  result {
+                                    call {
+                                      arguments [
+                                        1
+                                        {
+                                          ref "z"
+                                        }
+                                      ]
+                                      procedure "std.math.dividedBy"
+                                    }
+                                  }
+                                }
+                              }
+                              fine {
+                                closure {
+                                  result 1
+                                }
+                              }
+                            }
+                          }
+                        ]
+                        procedure "std.concurrent.all"
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  result "rescued"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "z"
+            type "int"
+          }
+        ]
+        result {
+          ref "tried"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

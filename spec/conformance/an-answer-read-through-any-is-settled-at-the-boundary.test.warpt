@@ -6,8 +6,8 @@ warpt 1
   expect {
     refuses "run"
   }
-  name "a-cast-that-does-not-match-refuses"
-  note "A cast is a claim about what will arrive, and the run is where what arrived is known. A value that is not the named type refuses there. A failure like any other, so an `attempt` catches it."
+  name "an-answer-read-through-any-is-settled-at-the-boundary"
+  note "`any` declares nothing about what is there, so a body answering one reads nothing the declaration could be held to. The document stands and the answer is settled where the value arrives, which is the run."
   program {
     imports []
     procedures {
@@ -20,12 +20,7 @@ warpt 1
           }
         ]
         result {
-          as {
-            of {
-              ref "payload"
-            }
-            type "int"
-          }
+          ref "payload"
         }
         returns "int"
       }

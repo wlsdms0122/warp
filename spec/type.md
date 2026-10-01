@@ -246,7 +246,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-type-parameter-written-nullable-refuses`
 - `a-type-reaching-itself-through-names-alone-refuses`
 - `a-type-that-misses-a-procedure-does-not-answer-the-contract`
-- `a-value-called-through-any-is-judged-at-the-run`
+- `a-value-called-through-any-is-judged-by-its-own-type`
 - `a-value-declares-every-parameter-the-slot-hands`
 - `a-value-handed-on-in-one-arm-and-not-the-other-refuses`
 - `a-value-handed-on-inside-a-loop-round-refuses`
@@ -261,7 +261,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-value-written-into-a-list-element-refuses`
 - `a-whole-number-is-a-fraction`
 - `an-alias-of-a-declared-record-settles-to-the-records-name`
-- `an-answer-read-through-any-is-settled-at-the-run`
+- `an-answer-read-through-any-is-settled-at-the-boundary`
 - `an-arm-that-leaves-holds-nothing-afterwards`
 - `an-array-of-bytes-and-a-list-of-numbers-joins-to-a-list-of-lists`
 - `an-asking-cast-onto-a-linear-type-refuses`
