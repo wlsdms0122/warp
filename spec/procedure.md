@@ -1,6 +1,6 @@
 # Procedures
 
-What a declaration says about itself, and what saying it lets a caller do. Four things: the shape of a declaration, the one whose code the host answers, what answering without running means and where that claim is spent, and what a parameter takes.
+What a declaration says about itself, and what saying it permits. Four things: the form of a declaration, the one whose code the host answers, what answering without running means and where that claim is spent, and what a parameter takes.
 
 ## A procedure
 
@@ -20,27 +20,27 @@ A procedure answers what `result` names, and nothing if it names nothing. The va
 
 A declaration is named from inside its scope and refused from outside it. Three scopes, and `access` says which:
 
-| word | named from |
+| `access` | named from |
 |---|---|
 | `private` | the document that declares it |
 | `internal` | every document in the link |
-| `public` | the link, and the caller that assembled it |
+| `public` | the link, and the host that assembled it |
 
-A declaration that writes nothing is `internal`: what a document declares is the program's, and only what says so is the caller's. A run starts from a `public` declaration and from no other: the caller names one when it starts the run, and naming one that is `internal` or `private` **refuses at the run**, before anything runs, the way naming one nothing declares does. A call standing in one document that reaches a `private` declaration of another **refuses at the build**, at the call, and so does a procedure the host answers whose declared sends reach one. A `private` declaration takes no spelling from the link: its own document reaches it, and two documents may each declare one under one spelling, where two declarations any other document could name **refuse** under [checking](checking.md). A `private` declaration backs no claim: a contract is how a document that never names a declaration calls it, so a claim it would answer does not hold, and is refused where the pair is leaned on the way a claim nothing backs is. `access` written as any other word **refuses at the load**.
+A declaration that writes nothing is `internal`: what a document declares is the program's, and only what says so is the host's. A run starts from a `public` declaration and from no other: the host names one when it starts the run, and naming one that is `internal` or `private` **refuses at the run**, before anything runs, the way naming one nothing declares does. A call standing in one document that reaches a `private` declaration of another **refuses at the build**, at the call, and so does a procedure the host answers whose declared sends reach one. A `private` declaration takes no spelling from the link: its own document reaches it, and two documents may each declare one under one spelling, where two declarations any other document could name **refuse** under [checking](checking.md). A `private` declaration backs no claim: a contract is how a document that never names a declaration calls it, so a claim it would answer does not hold, and is refused where the pair is leaned on the way a claim nothing backs is. `access` written as any other value **refuses at the load**.
 
-A constant and a module variable are the document's own and write no word, under [documents](document.md): a name is a scope question, and another document reaches either only through a procedure declared beside it.
+A constant and a module variable are the document's own and write no `access`, under [documents](document.md): a name is a scope question, and another document reaches either only through a procedure declared beside it.
 
-The word is the declaration's and travels with it: an object writes it on the row, under [objects](object.md), and a document compiled against another reads it there. Nothing else about a declaration moves with the word. What it takes and answers, and what it sends, are judged the same whoever may name it.
+A declaration's `access` travels with it: an object writes it on the row, under [objects](object.md), and a document compiled against another reads it there. Nothing else about a declaration moves with it. What it takes and answers, and what it sends, are judged the same whoever may name it.
 
 ## A procedure the host answers
 
-A procedure the host answers is not written in a document. A declaration in a document with no `body` and no `result` is a procedure that answers nothing. The host's procedure arrives at the link in a module the receiver assembled in its own language, declared there under its spelling with what a body's text would have shown: its signature, the **procedures it sends**, because there is no text to read them off, whether it **touches** a name another body could touch at the same time, what it may **fail** with, and whether it **answers without running**, because what it keeps and what it reaches in the host language is outside any document. A call reaches one of these the way it reaches any other declaration, and is judged against the signature the same way.
+A procedure the host answers is not written in a document. A declaration in a document with no `body` and no `result` is a procedure that answers nothing. The host's procedure arrives at the link in a module the host assembled in its own language, declared there under its spelling with what a body's text would have shown: its signature, the **procedures it sends**, because there is no text to read them off, whether it **touches** a name another body could touch at the same time, what it may **fail** with, and whether it **answers without running**, because what it keeps and what it reaches in the host language is outside any document. A call reaches one of these the way it reaches any other declaration, and is judged against the signature the same way.
 
 **Its sends are held to the rest of what it said.** They are declared beside the signature, so the build reads them. A procedure declaring it answers without running and sending one that answers only by running **refuses at the build**, and so does one declaring it touches nothing shared and sending one that does. Neither is something a host language can catch. What a procedure may fail with is not held this way, because a host language can catch: declaring it fails nothing while sending one that fails is describing itself rather than contradicting itself.
 
-**Nothing else about the host's code is checked, and nothing else can be.** A link holds the code, not the text it was written as, and there is no reading of a built procedure that says whether it asked the clock. So a procedure that reaches outside the run and says it does not has broken its contract, and the defect belongs to whoever put it in the link rather than to the program that called it, which is where the word about what it touches is taken too. A receiver that wants the claim closed closes it by having nothing to hand such a procedure that reaches outside, where it assembles the link.
+**Nothing else about the host's code is checked, and nothing else can be.** A link holds the code, not the text it was written as, and there is no reading of a built procedure that says whether it asked the clock. So a procedure that reaches outside the run and says it does not has broken its contract, and the defect belongs to whoever put it in the link rather than to the program that called it, which is where its claim about what it touches is taken too. A host that wants the claim closed closes it by having nothing to hand such a procedure that reaches outside, where it assembles the link.
 
-**What a runtime hands one is where the claim is kept.** A procedure that answers without running is handed what its call wrote, a way to send the procedures it declared, and a way to call a procedure it was handed. One that reaches outside is handed those and three more: what a parameter handed in place holds, a way to write it, and whatever the receiver keeps beside the program. Those three are what the first kind is refused, so a runtime hands the two kinds different ways in rather than one way and a flag.
+**What a runtime hands one is where the claim is kept.** A procedure that answers without running is handed what its call wrote, a way to send the procedures it declared, and a way to call a procedure it was handed. One that reaches outside is handed those and three more: what a parameter handed in place holds, a way to write it, and whatever the host keeps beside the program. Those three are what the first kind is refused, so a runtime hands the two kinds different ways in rather than one way and a flag.
 
 ## What answers without running
 
@@ -66,16 +66,16 @@ A call through a contract reaches whichever declaration the value turns out to b
 
 Choosing among values is a procedure here rather than a construct, because an operand is read rather than run and a construct is not one. `std.logic.select`, under the vocabulary.
 
-**What a constant settles from.** Answering without running is what lets a procedure be run at the build. It does not settle *which* run's answer that is. A procedure reaches nothing outside the run it was handed and still answers one thing in one run and another in the next: a caller brings a procedure that reads the device it is on, and every run of it inside a run agrees.
+**What a constant settles from.** Answering without running is what lets a procedure be run at the build. It does not settle *which* run's answer that is. A procedure reaches nothing outside the run it was handed and still answers one thing in one run and another in the next: a host brings a procedure that reads the device it is on, and every run of it inside a run agrees.
 
 What a constant settles to is written into the compiled document, and a compiled document outlives the run that made it. It is kept, it is read again, and it may be made on one machine and read on another. So a constant settles from what answers the same wherever that document is read, which is two things and not three:
 
 - a **body** in another document of the link, since the document it is written in is what the compiled document is made from. A body the constant's own document declares is still being resolved beside it, under *paths* in [expressions](expression.md);
 - a procedure this specification **names**, under *what an implementation must write* in [the standard vocabulary](vocabulary.md), since every conforming implementation answers it alike.
 
-Settling one **refuses at the build** where it reaches a procedure a caller brought, whether the constant called it or called a body that does. A **slot** asking `const procedure` and an **operand** are untouched: both are read while the program runs, and neither writes anything down.
+Settling one **refuses at the build** where it reaches a procedure the host brought, whether the constant called it or called a body that does. A **slot** asking `const procedure` and an **operand** are untouched: both are read while the program runs, and neither writes anything down.
 
-**A caller that wants the build to settle a value of its own writes a document.** A body in another document of the link is what a constant settles from, so a caller bakes a value in by laying in a document that declares a procedure answering it, and a constant elsewhere calls that procedure. The document is a document like any other: it has an identity, that identity stands among what a compiled document was built against, under *identity and dependencies* in [objects](object.md), and a value that moved is a build that moves with it. What the rule above turns away is a procedure in the caller's own language, whose answer no document carries; a value written in a document is carried whole.
+**A host that wants the build to settle a value of its own writes a document.** A body in another document of the link is what a constant settles from, so a host bakes a value in by laying in a document that declares a procedure answering it, and a constant elsewhere calls that procedure. The document is a document like any other: it has an identity, that identity stands among what a compiled document was built against, under *identity and dependencies* in [objects](object.md), and a value that moved is a build that moves with it. What the rule above turns away is a procedure in the host's own language, whose answer no document carries; a value written in a document is carried whole.
 
 What settles at the build, a constant or a variable's start, settles to a value. A body run at the build may answer a closure holding a variable of that run, and settling to one **refuses at the build** as well: the run is over when the build is, and a compiled document carries no box of it.
 

@@ -9,7 +9,7 @@ A type is written as a string, or as a record for what a string cannot say:
 | `null` `bool` `int` `double` `string` | the scalar kinds |
 | `any` | anything |
 | `never` | never answers. The type `std.control.abort` declares, and what makes a leaving call checkable |
-| `array<T>` / `dictionary<T>` | a list / map of `T`; `array<any>` is a list of anything, and the bare word **refuses at the load** |
+| `array<T>` / `dictionary<T>` | a list / map of `T`; `array<any>` is a list of anything, and `array` or `dictionary` written bare **refuses at the load** |
 | `procedure` | some procedure, signature unsaid |
 | `const <procedure type>` | a procedure that answers without running, under *what answers without running* |
 | `isolated <procedure type>` | a procedure that touches no name another body could touch at once; `const isolated procedure` says both, `const` first |
@@ -66,7 +66,7 @@ The mark is written on the declaration, so the obligation rides with the name: a
 | `consuming <type>` | the obligation moves to this slot. The caller's name is empty afterwards, and this body owes the value from here |
 | `borrowing <type>` | the obligation stays where it was. This body reads the value and the caller still owes it |
 
-Either is written on a slot that **names the type**, because the name is what the build follows the value by. On `some T` it **refuses**: what fills a type parameter is the call's, so a body that took the obligation there would have no name to carry it on and the proof would end at that slot.
+Either is written on a slot that **names the type**, because the name is what the build follows the value by. On `some T` it **refuses**: what fills a type parameter is the call's, so a body that took the obligation there would have no name to carry it on and the check would end at that slot.
 
 **A type handed on once answers no contract.** A contract standing where a type is written holds a value under no name of its own, and nothing follows a value handed on once but the name that holds it. A claim that such a type satisfies a contract **refuses at the build**, where the claim is written.
 

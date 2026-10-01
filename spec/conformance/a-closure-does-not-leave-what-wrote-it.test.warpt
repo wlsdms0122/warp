@@ -4,7 +4,7 @@ warpt 1
     refuses "load"
   }
   name "a-closure-does-not-leave-what-wrote-it"
-  note "A closure may be called anywhere, including long after the loop that wrote it has finished. A break inside one has no loop around it, whatever stood around the writing. Refused at the check."
+  note "A closure may be called anywhere, including long after the loop that wrote it has finished. A `break` inside one has no loop around it, whatever stood around the writing, and it refuses at the load."
   program {
     imports []
     procedures {

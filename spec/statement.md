@@ -69,7 +69,7 @@ A conditional is a statement: it **answers nothing**, and it **takes no name**. 
 
 The loop's own statement name binds the round it is on, readable everywhere the loop is still speaking. The `while` condition, the `body`, and the `result`. A loop written nameless binds no round: a `break` or `continue` naming no loop still ends it, and one naming a loop passes through it. The condition reads the state before the round it would start, so `round.index` there is how many rounds have finished. What a loop answers is its `result` read in what the last round that *finished* left behind; a round cut short contributed nothing. A loop naming no result answers nothing.
 
-A loop carries no budget of its own. Bounding one is the author's to write. A counter in the condition and a procedure past the bound say it exactly, and stopping one is the receiver's **cancellation**, under [running](running.md). A kernel budget would promise neither side anything it could rely on: the author can already say it, and the receiver could not trust a bound the author chose.
+Bounding a loop is the author's to write, with a counter in its condition, and stopping one is the host's **cancellation**, under [running](running.md).
 
 Walking a collection is this construct too, and there is no second one for it. The round is read against the material's count and the element is read at that index, so what a walk needs beyond a loop is `std.collection.count`, a comparison and an index. All three are already there, and none of them is grammar.
 
