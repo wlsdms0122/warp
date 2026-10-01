@@ -17,7 +17,7 @@ A mapping with another key, or with more than one, **refuses at the load**. A ke
 
 A path is a name, then `.name` for a field and `[…]` for an index. A `[` left open, or a `]` that closes none, **refuses at the load**.
 
-A **cast** names the type a value is read as. The type is written the way any type is. A name, or the mapping a record or a signature is written as. From the cast on, the reading *is* that type, so every dot after it is judged against it; the run is left the one question the build cannot answer, which is what actually arrived, and it answers it at the same boundary a parameter's argument passes through. A plain `as` **refuses at the run** when the value is not that type. A failure like any other, so an `attempt` catches it, and `as?` reads that mismatch as null, which is the author saying they expected it.
+A **cast** names the type a value is read as. The type is written the way any type is. A name, or the mapping a record or a signature is written as. From the cast on, the reading *is* that type, so every dot after it is judged against it; the run is left the one question the build cannot answer, which is what actually arrived, and it answers it at the same boundary a parameter's argument passes through. A plain `as` **fails at the run** with `cast_refused` when the value is not that type, a failure like any other, so an `attempt` catches it, and `as?` reads that mismatch as null, which is the author saying they expected it.
 
 A cast that names the type the reading already **is** refuses at the build, the way a needless `?.` does: the claim says nothing. Sameness, not admission. A reading of `int` cast to `int(0...10)` names something the types do not prove, and only the run can say whether it holds. A cast to a declared record name is the settling written out: reading a nameless record as `Account` attaches the name, so it is never a cast of what the reading already is, and only a reading that is already `Account` makes it one. A cast onto `any`, `never` or a type parameter refuses for the other half of the same reason: those name no type to read.
 
@@ -60,7 +60,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-cast-onto-never-refuses`
 - `a-cast-onto-what-the-types-already-prove-is-refused`
 - `a-cast-opens-what-any-declares-nothing-about`
-- `a-cast-that-does-not-match-refuses`
+- `a-cast-that-does-not-match-fails`
 - `a-closure-answers-what-it-declared`
 - `a-closure-carries-what-a-captured-slot-said`
 - `a-closure-does-not-leave-what-wrote-it`

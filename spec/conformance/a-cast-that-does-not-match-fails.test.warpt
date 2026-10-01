@@ -1,0 +1,57 @@
+warpt 1
+{
+  arguments {
+    payload "not a whole number"
+  }
+  expect {
+    answers "cast_refused"
+  }
+  name "a-cast-that-does-not-match-fails"
+  note "A cast is a claim about what will arrive, and the run is where what arrived is known. A value that is not the named type fails there with `cast_refused`, a failure like any other, so an `attempt` catches it."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "tried"
+            value {
+              attempt {
+                body [
+                  {
+                    value {
+                      as {
+                        of {
+                          ref "payload"
+                        }
+                        type "int"
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  result {
+                    ref "tried.type"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "payload"
+            type "any"
+          }
+        ]
+        result {
+          ref "tried"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
