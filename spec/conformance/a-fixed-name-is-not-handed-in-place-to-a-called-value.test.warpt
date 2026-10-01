@@ -1,0 +1,74 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-fixed-name-is-not-handed-in-place-to-a-called-value"
+  note "What a call of a value hands in place is a variable. A name fixed with `let` refuses at the build, the way it does handed to a declaration."
+  program {
+    imports [
+      "std.math.plus"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "n"
+            value 10
+          }
+          {
+            let "bump"
+            value {
+              closure {
+                body [
+                  {
+                    set "count"
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "count"
+                          }
+                          1
+                        ]
+                        procedure "std.math.plus"
+                      }
+                    }
+                  }
+                ]
+                parameters [
+                  {
+                    name "count"
+                    type "inout int"
+                  }
+                ]
+              }
+            }
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "n"
+                  }
+                ]
+                procedure {
+                  ref "bump"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "n"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

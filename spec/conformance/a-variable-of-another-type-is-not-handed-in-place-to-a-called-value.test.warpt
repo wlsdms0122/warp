@@ -1,0 +1,75 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-variable-of-another-type-is-not-handed-in-place-to-a-called-value"
+  note "A value taking a parameter in place takes the caller's own box, so the variable's declared type is the parameter's: a `double` where `inout int` stands refuses at the build."
+  program {
+    imports [
+      "std.math.plus"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            type "double"
+            value 10.0
+            var "n"
+          }
+          {
+            let "bump"
+            value {
+              closure {
+                body [
+                  {
+                    set "count"
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "count"
+                          }
+                          1
+                        ]
+                        procedure "std.math.plus"
+                      }
+                    }
+                  }
+                ]
+                parameters [
+                  {
+                    name "count"
+                    type "inout int"
+                  }
+                ]
+              }
+            }
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "n"
+                  }
+                ]
+                procedure {
+                  ref "bump"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "n"
+        }
+        returns "double"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
