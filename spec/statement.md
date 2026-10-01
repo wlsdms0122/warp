@@ -4,7 +4,7 @@ What a body is made of. A statement binds a name to an expression, and a **const
 
 ## A statement
 
-A record carrying **at most one** naming key and its expression under **`value`**: `{ let "x" value { call {…} } }`, `{ value { loop {…} } }`. A construct sits inside `value` under its own key, and that is the one place a construct key is read. Anywhere else, in an argument, an element of an array or a record, a construct's key is a field name like any other, and the record carrying it is data.
+A record carrying **at most one** naming key and its expression under **`value`**: `{ let "x" value { call {…} } }`, `{ value { loop {…} } }`. A construct sits inside `value` under its own key, and that is the one place a construct key is read. A construct key anywhere else is not a construct: a bare mapping in an operand, such as an argument or an element of an array, is read as an expression form and **refuses at the load**, and under `record` the key is a field name like any other.
 
 The naming key says what the statement does to its name:
 
@@ -127,6 +127,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-conditional-both-of-whose-arms-leave-ends-the-body`
 - `a-conditional-writes-the-flow-it-is-in`
 - `a-constant-return-must-fit-what-was-declared`
+- `a-construct-key-in-an-argument-refuses`
 - `a-construct-key-outside-a-statement-is-a-field-name`
 - `a-declared-name-is-not-retyped-by-a-write`
 - `a-declining-conditional-writes-nothing`
