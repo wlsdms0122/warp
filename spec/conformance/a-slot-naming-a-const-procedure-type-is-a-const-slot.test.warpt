@@ -1,0 +1,88 @@
+warpt 1
+{
+  expect {
+    answers 2
+  }
+  name "a-slot-naming-a-const-procedure-type-is-a-const-slot"
+  note "A slot says a procedure it holds answers without running by writing `const procedure`, and a slot naming a declared type that stands for one says the same: a name is what it names. A body calling what that slot holds still answers without running, so an operand may call it."
+  program {
+    imports [
+      "std.math.plus"
+    ]
+    procedures {
+      asking {
+        body [
+          {
+            let "a"
+            value {
+              call {
+                arguments [
+                  1
+                ]
+                procedure {
+                  ref "body"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "body"
+            type "app.Pick"
+          }
+        ]
+        result {
+          ref "a"
+        }
+        returns "int"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                call {
+                  arguments [
+                    {
+                      closure {
+                        parameters [
+                          {
+                            name "x"
+                            type "int"
+                          }
+                        ]
+                        result {
+                          ref "x"
+                        }
+                        returns "int"
+                      }
+                    }
+                  ]
+                  procedure "asking"
+                }
+              }
+              1
+            ]
+            procedure "std.math.plus"
+          }
+        }
+        returns "int"
+      }
+    }
+    types {
+      "app.Pick" {
+        "const procedure" {
+          parameters [
+            "int"
+          ]
+          returns "int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

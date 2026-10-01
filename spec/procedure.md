@@ -129,6 +129,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-closure-that-writes-what-it-captured-is-not-const`
 - `a-closure-writes-its-own-parameter-in-place-and-no-name-it-shadows`
 - `a-closures-parameter-is-not-the-const-procedure-it-shadows`
+- `a-const-procedure-read-out-of-a-dictionary-answers-without-running`
 - `a-const-slot-refuses-a-closure-that-calls-what-runs`
 - `a-const-slot-takes-a-closure-that-calls-a-const-slot`
 - `a-const-slot-takes-a-closure-that-calls-a-host-procedure`
@@ -162,6 +163,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-procedure-handing-a-parameter-in-place-to-a-value-does-not-answer-without-running`
 - `a-procedure-that-writes-in-place-does-not-answer-without-running`
 - `a-required-argument-left-out-refuses`
+- `a-slot-naming-a-const-procedure-type-is-a-const-slot`
 - `a-value-is-not-handed-in-place`
 - `a-value-is-not-handed-in-place-through-a-contract`
 - `a-value-is-not-handed-in-place-to-a-called-value`
