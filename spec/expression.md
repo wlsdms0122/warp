@@ -80,7 +80,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-name-declared-inside-a-nested-closure-does-not-cover-a-captured-one`
 - `a-path-reads-through-what-a-name-holds`
 - `a-record-field-may-carry-a-tags-name`
-- `an-absent-entry-refuses-at-run`
+- `an-absent-dictionary-entry-refuses`
 - `an-array-literal-joins-its-elements`
 - `an-index-into-any-is-refused`
 - `an-index-reference-that-is-not-a-whole-number-refuses`

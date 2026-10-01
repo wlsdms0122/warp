@@ -181,7 +181,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `arithmetic-answers-the-kind-it-was-given`
 - `arithmetic-divide-by-zero-refuses`
 - `arithmetic-divides-to-a-fraction`
-- `arithmetic-is-checked-before-it-runs`
+- `arithmetic-on-a-value-it-does-not-take-refuses`
 - `arithmetic-overflow-refuses`
 - `arithmetic-whole-widens-to-fraction`
 - `bytes-do-not-order`

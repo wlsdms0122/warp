@@ -122,8 +122,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-const-slot-refuses-a-closure-that-calls-what-runs`
 - `a-const-slot-takes-a-closure-that-calls-a-const-slot`
 - `a-const-slot-takes-a-closure-that-calls-a-host-procedure`
-- `a-constant-argument-is-checked-before-running`
-- `a-constant-argument-outside-enum-refuses-at-build`
+- `a-constant-argument-its-parameter-does-not-take-refuses`
+- `a-constant-argument-outside-enum-refuses`
 - `a-constant-cannot-settle-from-a-procedure-a-caller-brought`
 - `a-constant-cannot-settle-from-what-runs`
 - `a-constant-handed-to-a-called-value-outside-its-range-refuses`
@@ -134,9 +134,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-contract-call-that-may-run-is-no-operand`
 - `a-declaration-that-runs-backs-no-const-contract`
 - `a-dictionary-entry-handed-in-place-is-read-by-the-callee`
-- `a-enum-no-candidate-of-which-fits-refuses-at-build`
-- `a-enum-that-admits-nothing-refuses-at-build`
-- `a-enum-with-a-dead-candidate-refuses-at-build`
 - `a-fixed-name-is-not-handed-in-place`
 - `a-native-procedure-is-handed-a-path-indexed-with-a-name`
 - `a-parameter-declared-twice-refuses`
@@ -167,12 +164,15 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-answer-nobody-wrote-is-read-off-the-body`
 - `an-answer-that-may-be-null-refuses-a-declaration-that-may-not`
 - `an-answer-worked-out-from-itself-says-nothing`
-- `an-argument-is-held-to-its-parameter-at-the-run`
 - `an-argument-outside-enum-refuses-at-the-boundary`
+- `an-argument-through-any-is-held-to-its-parameter`
 - `an-effect-in-a-condition-refuses`
 - `an-effect-in-a-contract-calls-operand-refuses`
 - `an-effect-in-an-operand-refuses`
 - `an-effectful-closure-where-const-is-asked-refuses`
+- `an-enum-no-candidate-of-which-fits-refuses`
+- `an-enum-that-admits-nothing-refuses`
+- `an-enum-with-a-dead-candidate-refuses`
 - `an-internal-entry-refuses`
 - `an-internal-procedure-is-named-from-another-document`
 - `an-isolated-closure-writes-its-own-variables`

@@ -51,7 +51,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-document-sending-a-contract-procedure-stands-before-a-later-one`
 - `a-name-not-in-normal-form-c-is-refused`
 - `a-procedure-may-be-spelled-like-a-type`
-- `a-procedure-nobody-declares-refuses-at-build`
+- `a-procedure-nobody-declares-refuses`
 - `a-procedure-two-modules-declare-refuses`
 - `a-reference-to-a-statement-written-later-refuses`
 - `a-write-a-loop-round-makes-reads-back-nullable`
