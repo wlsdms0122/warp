@@ -123,7 +123,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-const-slot-takes-a-closure-that-calls-a-const-slot`
 - `a-const-slot-takes-a-closure-that-calls-a-host-procedure`
 - `a-constant-argument-is-checked-before-running`
-- `a-constant-argument-outside-enum-refuses-at-build`
+- `a-constant-argument-outside-enum-refuses`
 - `a-constant-cannot-settle-from-a-procedure-a-caller-brought`
 - `a-constant-cannot-settle-from-what-runs`
 - `a-constant-handed-to-a-called-value-outside-its-range-refuses`
@@ -134,9 +134,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-contract-call-that-may-run-is-no-operand`
 - `a-declaration-that-runs-backs-no-const-contract`
 - `a-dictionary-entry-handed-in-place-is-read-by-the-callee`
-- `a-enum-no-candidate-of-which-fits-refuses-at-build`
-- `a-enum-that-admits-nothing-refuses-at-build`
-- `a-enum-with-a-dead-candidate-refuses-at-build`
 - `a-fixed-name-is-not-handed-in-place`
 - `a-native-procedure-is-handed-a-path-indexed-with-a-name`
 - `a-parameter-declared-twice-refuses`
@@ -174,6 +171,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-effect-in-an-operand-refuses`
 - `an-effectful-closure-where-const-is-asked-refuses`
 - `an-enum-candidate-written-as-a-number-refuses`
+- `an-enum-no-candidate-of-which-fits-refuses`
+- `an-enum-that-admits-nothing-refuses`
+- `an-enum-with-a-dead-candidate-refuses`
 - `an-internal-entry-refuses`
 - `an-internal-procedure-is-named-from-another-document`
 - `an-isolated-closure-writes-its-own-variables`
