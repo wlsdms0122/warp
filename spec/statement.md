@@ -124,8 +124,7 @@ Failing on purpose is a procedure, `std.control.abort` under [the standard vocab
 What `conformance/` asks about this page, by the name each case's file carries.
 
 - `a-block-writes-the-flow-it-is-in`
-- `a-break-does-not-excuse-the-arm-it-leaves-from`
-- `a-call-that-fails-after-writing-has-written`
+- `a-closure-does-not-leave-what-wrote-it`
 - `a-closure-parameter-may-take-the-spelling-of-a-name-around-it`
 - `a-condition-that-is-not-a-bool-refuses`
 - `a-conditional-both-of-whose-arms-leave-ends-the-body`
@@ -134,6 +133,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-construct-key-in-an-argument-refuses`
 - `a-construct-key-outside-a-statement-is-a-field-name`
 - `a-declared-name-is-not-retyped-by-a-write`
+- `a-declared-range-refuses-what-is-outside-it`
 - `a-declining-conditional-writes-nothing`
 - `a-duplicate-statement-name-refuses`
 - `a-failure-field-the-declaration-does-not-name-is-refused`
@@ -155,10 +155,10 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-name-that-says-nothing-is-what-the-build-worked-out`
 - `a-name-the-module-bound-is-not-introduced-again`
 - `a-named-block-binds-its-result`
-- `a-named-step-arrives-where-the-walk-arrives`
 - `a-parameter-does-not-take-a-name-the-module-bound`
 - `a-parameter-is-not-introduced-again-in-a-nested-body`
 - `a-parameter-is-not-introduced-again-inside-a-closure`
+- `a-procedure-that-can-fail-says-so`
 - `a-rescue-over-a-body-that-cannot-fail-refuses`
 - `a-rescue-reads-a-pieces-own-failure`
 - `a-rescue-reads-the-failure-it-caught`
@@ -173,16 +173,11 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-statement-with-no-name-still-runs`
 - `a-var-field-lets-a-path-through`
 - `a-walk-is-a-loop-over-the-count`
-- `a-write-both-arms-make-retypes-the-variable`
 - `a-write-indexes-with-a-name`
 - `a-write-makes-an-entry-of-a-dictionary`
-- `a-write-only-one-arm-makes-reads-back-nullable`
 - `a-write-reaches-into-what-a-variable-holds`
 - `a-write-through-an-element-keeps-the-others`
-- `an-arm-that-leaves-holds-nothing-afterwards`
-- `an-arm-that-leaves-keeps-the-other-write-definite`
 - `an-attempt-catches-a-cast-that-did-not-match`
-- `an-attempt-joins-its-body-with-its-rescue`
 - `an-attempt-written-nameless-binds-no-failure`
 - `an-inner-constant-of-an-outer-name-is-not-written`
 - `break-ends-the-loop`

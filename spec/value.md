@@ -32,6 +32,8 @@ A program computes over eight kinds of data, plus one value that is not data:
 
 What `conformance/` asks about this page, by the name each case's file carries.
 
+- `a-whole-and-a-fraction-meet-exactly`
+- `a-whole-fraction-stays-a-fraction`
 - `bytes-and-an-array-share-their-worth`
 - `two-names-of-one-structure-are-two-values`
 - `two-spellings-of-one-text-are-one-value`

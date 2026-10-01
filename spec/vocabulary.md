@@ -164,6 +164,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-document-writes-startsWith-over-characters`
 - `a-mapped-procedure-chooses-what-it-answers`
 - `a-piece-that-is-not-a-closure-refuses`
+- `a-procedure-answering-a-collections-own-elements-keeps-the-spelling`
 - `a-quotient-widens-its-operands`
 - `a-space-carrying-a-mark-is-not-trimmed`
 - `a-string-holding-another-is-a-text-question`
@@ -174,6 +175,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `absolute-drops-the-sign-of-negative-zero`
 - `absolute-floored-and-rounded-answer-a-whole`
 - `absolute-of-the-minimum-refuses`
+- `an-array-slot-that-changes-a-byte-reads-them-out`
 - `an-attempt-does-not-catch-overflow`
 - `an-operand-of-and-that-answers-no-bool-refuses`
 - `append-writes-the-array-in-place`
@@ -184,6 +186,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `arithmetic-is-checked-before-it-runs`
 - `arithmetic-overflow-refuses`
 - `arithmetic-whole-widens-to-fraction`
+- `bytes-cross-an-array-slot-in-their-own-spelling`
 - `bytes-do-not-order`
 - `case-mapping-takes-no-locale`
 - `characters-answers-grapheme-clusters`
@@ -209,6 +212,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `gathering-past-the-end-refuses`
 - `gathering-reads-positions-written-as-bytes`
 - `greater-than-mirrors-less-than`
+- `indexing-bytes-answers-a-whole-number`
 - `joined-over-nothing-answers-empty-text`
 - `keys-answer-in-canonical-order`
 - `lowercased-ends-a-word-with-final-sigma`

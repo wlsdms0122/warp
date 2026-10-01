@@ -47,7 +47,6 @@ The same brackets read a **dictionary** by a key the run settles (`held[name]`),
 
 What `conformance/` asks about this page, by the name each case's file carries.
 
-- `a-bare-name-for-another-modules-procedure-refuses`
 - `a-bracket-that-closes-nothing-in-a-path-is-refused`
 - `a-cast-between-ranges-that-share-no-value-is-refused`
 - `a-cast-names-the-record-it-reads`
@@ -58,8 +57,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-cast-opens-what-any-declares-nothing-about`
 - `a-cast-that-does-not-match-refuses`
 - `a-closure-answers-what-it-declared`
-- `a-closure-carries-what-a-captured-slot-said`
-- `a-closure-does-not-leave-what-wrote-it`
 - `a-closure-reads-a-variable-through-its-box`
 - `a-closure-write-keeps-the-captured-type`
 - `a-closure-writes-what-it-captured`
@@ -73,17 +70,16 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-mapping-with-no-tag-refuses`
 - `a-mark-does-not-split-the-field-it-reached`
 - `a-marked-head-is-refused`
-- `a-name-declared-inside-a-nested-closure-does-not-cover-a-captured-one`
+- `a-named-step-arrives-where-the-walk-arrives`
 - `a-path-reads-through-what-a-name-holds`
 - `a-record-field-may-carry-a-tags-name`
 - `an-absent-entry-refuses`
-- `an-array-literal-joins-its-elements`
 - `an-index-into-any-is-refused`
 - `an-index-reference-that-is-not-a-whole-number-refuses`
 - `an-optional-dot-on-a-field-that-is-there-refuses`
 - `an-optional-segment-reads-absence-as-null`
 - `an-unclosed-bracket-in-a-path-is-refused`
-- `indexing-bytes-answers-a-whole-number`
+- `an-undeclared-field-refuses`
 - `indexing-what-may-be-null-takes-the-optional-bracket`
 - `reading-what-may-be-null-takes-the-optional-dot`
 - `the-asking-cast-reads-a-mismatch-as-null`

@@ -139,6 +139,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 
 - `a-bare-array-refuses`
 - `a-bare-constraint-name-refuses`
+- `a-bare-name-for-another-modules-procedure-refuses`
 - `a-body-cannot-answer-what-it-borrowed`
 - `a-borrow-captured-by-a-closure-refuses`
 - `a-borrow-handed-to-a-consuming-slot-refuses`
@@ -151,6 +152,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-bound-names-a-membership-another-document-declares`
 - `a-bound-naming-a-parameter-no-slot-mentions-refuses`
 - `a-box-that-handed-one-on-takes-another`
+- `a-break-does-not-excuse-the-arm-it-leaves-from`
 - `a-break-does-not-strand-what-the-body-holds`
 - `a-byte-is-a-whole-number-a-range-refines`
 - `a-call-through-a-contract-with-nothing-first-refuses`
@@ -181,7 +183,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-declaration-writing-no-returns-backs-a-claim-by-what-its-body-answers`
 - `a-declared-name-and-the-record-it-stands-for-are-one-reading`
 - `a-declared-name-is-a-type`
-- `a-declared-range-refuses-what-is-outside-it`
 - `a-declared-type-names-itself-in-its-fields`
 - `a-fraction-is-not-a-whole-number`
 - `a-fraction-range-widens-a-whole-number-into-itself`
@@ -200,6 +201,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-member-that-is-never-refuses`
 - `a-membership-mixing-a-linear-type-refuses`
 - `a-membership-stands-as-a-type`
+- `a-module-declares-a-constraint`
 - `a-name-declared-as-both-a-type-and-a-constraint-refuses`
 - `a-name-declared-as-both-a-type-and-a-contract-refuses`
 - `a-name-that-is-not-a-bound-joined-with-and-refuses`
@@ -210,7 +212,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-nullable-that-says-nothing-new-refuses`
 - `a-padded-bound-refuses`
 - `a-parameter-naming-a-type-nothing-declares-refuses`
-- `a-procedure-answering-a-collections-own-elements-keeps-the-spelling`
 - `a-procedure-type-answering-a-linear-type-refuses`
 - `a-range-below-the-smallest-int-admits-nothing`
 - `a-range-judges-a-runtime-value-at-the-boundary`
@@ -248,20 +249,15 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-value-written-into-a-box-inside-a-loop-refuses`
 - `a-value-written-into-a-box-is-still-owed`
 - `a-value-written-into-a-list-element-refuses`
-- `a-whole-and-a-fraction-meet-exactly`
-- `a-whole-fraction-stays-a-fraction`
 - `a-whole-number-is-a-fraction`
 - `an-alias-of-a-declared-record-settles-to-the-records-name`
 - `an-answer-read-through-any-is-settled-at-the-run`
+- `an-arm-that-leaves-holds-nothing-afterwards`
 - `an-array-of-bytes-and-a-list-of-numbers-joins-to-a-list-of-lists`
-- `an-array-slot-that-changes-a-byte-reads-them-out`
 - `an-asking-cast-onto-a-linear-type-refuses`
 - `an-attempt-returning-one-without-returns-refuses`
 - `an-inline-record-slot-takes-a-named-record`
-- `an-undeclared-field-refuses`
-- `bytes-cross-an-array-slot-in-their-own-spelling`
 - `consuming-on-a-type-parameter-refuses`
-- `elements-of-different-kinds-join-to-any`
 - `linear-on-a-slot-refuses`
 - `the-far-bound-of-a-range-may-be-left-outside`
 - `two-documents-claiming-one-pair-are-one-claim`

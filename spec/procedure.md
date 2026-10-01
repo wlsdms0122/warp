@@ -118,8 +118,10 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-call-of-a-value-short-of-what-it-takes-refuses`
 - `a-call-of-another-count-refuses`
 - `a-call-short-of-what-the-callee-takes-refuses`
+- `a-call-that-fails-after-writing-has-written`
 - `a-candidate-meets-a-number-by-worth`
 - `a-candidate-on-a-slot-bounded-by-numbers-meets-either-kind`
+- `a-closure-carries-what-a-captured-slot-said`
 - `a-closure-that-writes-what-it-captured-is-not-const`
 - `a-const-slot-refuses-a-closure-that-calls-what-runs`
 - `a-const-slot-takes-a-closure-that-calls-a-const-slot`
@@ -137,6 +139,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-declaration-that-runs-backs-no-const-contract`
 - `a-dictionary-entry-handed-in-place-is-read-by-the-callee`
 - `a-fixed-name-is-not-handed-in-place`
+- `a-name-declared-inside-a-nested-closure-does-not-cover-a-captured-one`
 - `a-native-procedure-is-handed-a-path-indexed-with-a-name`
 - `a-parameter-declared-twice-refuses`
 - `a-parameter-handed-in-place-reads-what-the-box-holds-now`
@@ -149,7 +152,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-private-procedure-called-beside-its-declaration-runs`
 - `a-private-procedure-called-from-another-document-refuses`
 - `a-private-procedure-the-host-brings-is-not-named`
-- `a-procedure-that-can-fail-says-so`
 - `a-procedure-that-writes-in-place-does-not-answer-without-running`
 - `a-required-argument-left-out-refuses`
 - `a-value-is-not-handed-in-place`
