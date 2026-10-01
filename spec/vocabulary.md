@@ -197,7 +197,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `count-asks-a-collection`
 - `count-of-a-record-is-its-fields`
 - `count-of-bytes-is-their-length`
-- `cutting-on-nothing-refuses`
 - `decoded-keeps-a-byte-order-mark`
 - `decoded-reads-bytes-as-text-in-a-named-encoding`
 - `decoded-reads-bytes-written-one-by-one`
@@ -243,6 +242,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `sorting-the-unorderable-refuses`
 - `split-cuts-and-joined-writes`
 - `split-keeps-the-empty-pieces`
+- `split-on-nothing-fails`
 - `starts-with-reads-the-head`
 - `text-counts-as-a-person-reads`
 - `text-of-a-procedure-spells-a-marker`
