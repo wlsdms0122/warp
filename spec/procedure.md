@@ -163,6 +163,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-procedure-handing-a-parameter-in-place-to-a-value-does-not-answer-without-running`
 - `a-procedure-that-writes-in-place-does-not-answer-without-running`
 - `a-required-argument-left-out-refuses`
+- `a-slot-naming-a-const-procedure-type-is-a-const-slot`
 - `a-value-is-not-handed-in-place`
 - `a-value-is-not-handed-in-place-through-a-contract`
 - `a-value-is-not-handed-in-place-to-a-called-value`
