@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-cast-does-not-carry-a-held-name-into-a-list"
-  note "A cast answers what it read, so a cast of a name that holds a value written `linear` carries that name into the list it is written in."
+  note "A cast answers what it read, so a cast of a held name written into a list carries the name there, and it refuses like the bare name would. `handle` is closed after the list, so carrying it there is the only thing to refuse."
   program {
     constraints {
       "app.Openable" [
@@ -13,6 +13,7 @@ warpt 1
     }
     imports [
       "app.Handle"
+      "app.close"
       "app.open"
     ]
     procedures {
@@ -27,17 +28,35 @@ warpt 1
               }
             }
           }
-        ]
-        result [
           {
-            as {
-              of {
-                ref "handle"
+            let "listed"
+            value [
+              {
+                as {
+                  of {
+                    ref "handle"
+                  }
+                  type "app.Openable"
+                }
               }
-              type "app.Openable"
+            ]
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "handle"
+                  }
+                ]
+                procedure "app.close"
+              }
             }
           }
         ]
+        result {
+          ref "listed"
+        }
         returns "any"
       }
     }
@@ -46,6 +65,15 @@ warpt 1
   test 1
   vocabulary {
     procedures {
+      "app.close" {
+        parameters [
+          {
+            name "first"
+            type "consuming app.Handle"
+          }
+        ]
+        runs true
+      }
       "app.open" {
         answers app.Handle {
           name "f"

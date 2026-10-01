@@ -6,6 +6,7 @@ A program is read, checked and built before any of it runs, the arms nobody take
 
 - every `ref` resolves to a parameter, a constant, a module variable, a statement written before it, a binding the construct holding it opened (a loop's round, an attempt's failure), or a path through them;
 - every procedure sent is declared by some module in the link, exactly once;
+- a build holds each document once, so one handed to it twice, the same identity a second time, **refuses**, even when everything it declares is `private`;
 - the documents of a link stand in an order where what each one sends, and every type its signatures name, is declared before it, since what a document says is read against those: the types its sends answer with, what its bodies reach, what its constants settle from. Two documents that each need the other have no such order and **refuse**, as the pair and not as a spot in either;
 - a claim backed by a declaration that does less than the contract asked, running where it asked `const` or touching a shared name where it asked `isolated`, does not hold, under *what answers without running* in [procedures](procedure.md);
 - every procedure sent from another document is not `private`, and a claim backed by a `private` declaration does not hold, under *who may name a declaration* in [procedures](procedure.md); a `private` declaration takes no spelling, so the rule above it counts none;
@@ -27,7 +28,7 @@ A program is read, checked and built before any of it runs, the arms nobody take
 - a statement that never finishes (a syntactic leave, or a call whose answer reads `never`, declared under `returns` or read off a body that never finishes) takes no name, and nothing follows it;
 - every name the program writes as a value is **written**, and is **normal form C**, compared as bytes: a statement's, a binding's (a loop's round, an attempt's failure), a parameter's, and each segment of a `ref`. Record *keys* hold this line at the encodings; these are the names that live in string values, and this is where they hold it. One name has one byte spelling, so a declaration and a reference can only meet by being the same bytes. `é` written two ways is a refusal, not two names. Nothing written is no name: a declaration is called something, and a reference writes something, and neither is done by writing nothing.
 
-`imports` is held at `load`, under [README](README.md), because a host decides from it before any of this runs.
+`imports` is held at `load`, under *the imports list* in [documents](document.md), because a host decides from it before any of this runs.
 
 **What a variable reads as.** A name a statement fixed reads as what that statement bound, and a variable reads as what the ways through the text could have left in it. The checking follows the flow the running takes:
 
@@ -64,5 +65,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-untaken-arm-is-checked-too`
 - `elements-of-different-kinds-join-to-any`
 - `inout-written-outside-a-parameter-refuses`
+- `one-document-handed-twice-refuses`
 - `two-documents-that-need-each-other-refuse`
 - `var-written-outside-a-declared-field-refuses`

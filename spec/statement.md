@@ -153,6 +153,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-name-an-arm-declares-is-not-read-after-it`
 - `a-name-declared-again-inside-an-arm-is-a-new-name`
 - `a-name-introduced-again-in-a-nested-block-is-a-new-name`
+- `a-name-on-a-body-that-never-comes-back-refuses`
 - `a-name-on-a-conditional-is-refused`
 - `a-name-on-a-return-refuses`
 - `a-name-on-what-never-finishes-is-refused`
@@ -174,6 +175,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-result-after-leaving-refuses`
 - `a-result-after-what-never-finishes-refuses`
 - `a-return-is-held-to-the-declaration`
+- `a-set-without-a-value-refuses`
 - `a-statement-saying-two-things-refuses`
 - `a-statement-with-no-name-still-runs`
 - `a-var-field-lets-a-path-through`

@@ -34,7 +34,7 @@ A document holds the flow and the decisions between calls to the vocabulary. Hea
 
 ## Where it is now
 
-One runtime exists, in Swift, and one front end, for YAML. The cases under `spec/conformance/` are the specification written as data, and a runtime conforms when it passes them. Hosts lend vocabulary as modules, and programs are written against them.
+One runtime exists, in Swift, and one front end, for YAML. The cases under `spec/conformance/` are the specification written as data, and a runtime that fails one does not conform. Hosts lend vocabulary as modules, and programs are written against them.
 
 ## The pieces
 
