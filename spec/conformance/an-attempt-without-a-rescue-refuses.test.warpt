@@ -1,0 +1,42 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "an-attempt-without-a-rescue-refuses"
+  note "An attempt's `rescue` is required. One written without it refuses at the load."
+  program {
+    imports [
+      "std.control.abort"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            value {
+              attempt {
+                body [
+                  {
+                    value {
+                      call {
+                        arguments [
+                          "x"
+                        ]
+                        procedure "std.control.abort"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+        result 1
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

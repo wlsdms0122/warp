@@ -1,0 +1,35 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-write-through-any-refuses"
+  note "A write's path is judged against the type it reaches, and `any` declares nothing to write into. `set x.a` on a variable declared `any` refuses at the build."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            type "any"
+            value {
+              record {
+                a 1
+              }
+            }
+            var "x"
+          }
+          {
+            set "x.a"
+            value 2
+          }
+        ]
+        result 1
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

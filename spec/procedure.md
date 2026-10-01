@@ -181,6 +181,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-internal-entry-refuses`
 - `an-internal-procedure-is-named-from-another-document`
 - `an-isolated-closure-writes-its-own-variables`
+- `an-operand-calling-a-value-refuses`
 - `arguments-are-settled-at-the-boundary`
 - `body-answers-only-what-it-declares`
 - `null-is-an-argument-a-document-can-write`

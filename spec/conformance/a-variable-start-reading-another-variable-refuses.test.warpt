@@ -1,0 +1,28 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-variable-start-reading-another-variable-refuses"
+  note "A variable's start reads the constants beside it and nothing else. `b` starts by reading the variable `a`, and the document refuses at the load."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result {
+          ref "b"
+        }
+      }
+    }
+    var {
+      a 1
+      b {
+        ref "a"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

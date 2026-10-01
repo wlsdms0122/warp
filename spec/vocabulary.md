@@ -163,6 +163,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-document-writes-map-over-a-const-slot`
 - `a-document-writes-startsWith-over-characters`
 - `a-mapped-procedure-chooses-what-it-answers`
+- `a-piece-arriving-through-any-is-held-to-the-membership-at-the-run`
 - `a-piece-that-is-not-a-closure-refuses`
 - `a-procedure-answering-a-collections-own-elements-keeps-the-spelling`
 - `a-quotient-widens-its-operands`

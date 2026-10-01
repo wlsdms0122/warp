@@ -1,0 +1,47 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-dictionary-key-that-is-not-text-refuses"
+  note "What stands between the brackets on a dictionary has to be able to be a string. `k` reads `int`, and `d[k]` refuses at the build."
+  program {
+    imports []
+    procedures {
+      "app.f" {
+        parameters [
+          {
+            name "d"
+            type "dictionary<int>"
+          }
+          {
+            name "k"
+            type "int"
+          }
+        ]
+        result {
+          ref "d[k]"
+        }
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                record {
+                  a 1
+                }
+              }
+              0
+            ]
+            procedure "app.f"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

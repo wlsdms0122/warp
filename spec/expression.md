@@ -41,7 +41,7 @@ A construct's key, `conditional` or `loop`, is read under a statement's `value` 
 
 A constant-headed path is judged first like any path: the constant's settled value is its declared type, so an absent field or a needless `?.` refuses by the same rules. Then it folds at the build to the value it read, except where an index on it is a reference the run settles (`digits[ch]`, `ch` a parameter): the build binds the constant's value in the body before its first statement, and the run reads past it the way it reads any name, by the rules above. What a constant may settle from is under *what a constant settles from* in [procedures](procedure.md), and a body **its own document** declares is not among them: such a body is itself still being resolved beside the constants it may read, so a constant that runs one would be a circle with no start, and it refuses at the build. Settling asks native procedures, so a link answers them before any of the program runs. An index written as a reference (`items[i]`) is a path of its own, judged wherever the outer walk stops: a reference that provably is not a whole number refuses at the build, and one that names nothing refuses at the run.
 
-The same brackets read a **dictionary** by a key the run settles (`held[name]`), which is what walking one is for: `keys` answers the names and this reads the entry under one. What stands between the brackets is judged where an index is, and has to be able to be a string. An entry that is not there refuses at the run the way a written key does, and `?[` reads it as null. A record takes no such reading: its fields are the type's, so a name the run settles has nothing there to be judged against.
+The same brackets read a **dictionary** by a key the run settles (`held[name]`), which is what walking one is for: `keys` answers the names and this reads the entry under one. What stands between the brackets is judged where an index is, and has to be able to be a string: one that cannot **refuses at the build**. An entry that is not there refuses at the run the way a written key does, and `?[` reads it as null. A record takes no such reading: its fields are the type's, so a name the run settles has nothing there to be judged against, and the reading **refuses at the build**.
 
 ## Cases
 
@@ -52,6 +52,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-cast-names-the-record-it-reads`
 - `a-cast-naming-a-type-nothing-declares-refuses`
 - `a-cast-naming-what-the-reading-already-is-refuses`
+- `a-cast-onto-a-type-parameter-refuses`
 - `a-cast-onto-any-refuses`
 - `a-cast-onto-never-refuses`
 - `a-cast-opens-what-any-declares-nothing-about`
@@ -64,17 +65,21 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-constant-read-at-an-index-the-run-settles`
 - `a-constant-that-runs-a-body-of-its-own-document-refuses`
 - `a-dictionary-is-read-by-a-key-the-run-settles`
+- `a-dictionary-key-that-is-not-text-refuses`
 - `a-dot-on-a-type-with-no-fields-is-refused`
 - `a-dot-on-any-is-refused`
 - `a-dot-through-a-null-the-text-shows-refuses`
 - `a-mapping-with-no-tag-refuses`
+- `a-mapping-with-two-form-keys-refuses`
 - `a-mark-does-not-split-the-field-it-reached`
 - `a-marked-head-is-refused`
 - `a-named-step-arrives-where-the-walk-arrives`
 - `a-path-reads-through-what-a-name-holds`
 - `a-record-field-may-carry-a-tags-name`
+- `a-record-read-by-a-key-the-run-settles-refuses`
 - `an-absent-entry-refuses`
 - `an-index-into-any-is-refused`
+- `an-index-past-the-end-refuses`
 - `an-index-reference-that-is-not-a-whole-number-refuses`
 - `an-optional-dot-on-a-field-that-is-there-refuses`
 - `an-optional-segment-reads-absence-as-null`

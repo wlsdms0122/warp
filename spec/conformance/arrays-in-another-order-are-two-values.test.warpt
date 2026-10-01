@@ -1,0 +1,37 @@
+warpt 1
+{
+  expect {
+    answers false
+  }
+  name "arrays-in-another-order-are-two-values"
+  note "Arrays are the same when their elements are, in order. `[1, 2]` and `[2, 1]` hold the same elements in another order and are two values."
+  program {
+    imports [
+      "std.logic.equal"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              [
+                1
+                2
+              ]
+              [
+                2
+                1
+              ]
+            ]
+            procedure "std.logic.equal"
+          }
+        }
+        returns "bool"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

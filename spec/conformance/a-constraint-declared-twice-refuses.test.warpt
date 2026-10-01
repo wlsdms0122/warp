@@ -1,0 +1,41 @@
+warpt 1
+{
+  documents [
+    {
+      constraints {
+        "app.C" [
+          "int"
+        ]
+      }
+      imports []
+      procedures {
+        "lib.f" {
+          result 1
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    refuses "build"
+  }
+  name "a-constraint-declared-twice-refuses"
+  note "One name has one declarer. `app.C` is declared as a constraint by the program and by the document beside it, and the build refuses."
+  program {
+    constraints {
+      "app.C" [
+        "int"
+      ]
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

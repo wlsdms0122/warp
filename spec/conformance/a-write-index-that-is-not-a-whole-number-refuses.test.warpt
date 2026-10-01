@@ -1,0 +1,37 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-write-index-that-is-not-a-whole-number-refuses"
+  note "An index written as a name in a write is read where the write stands and is an int. `k` holds text, and `set xs[k]` refuses at the build."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            value [
+              1
+              2
+            ]
+            var "xs"
+          }
+          {
+            let "k"
+            value "a"
+          }
+          {
+            set "xs[k]"
+            value 3
+          }
+        ]
+        result 1
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

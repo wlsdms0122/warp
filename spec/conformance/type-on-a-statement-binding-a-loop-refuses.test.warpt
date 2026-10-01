@@ -1,0 +1,36 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "type-on-a-statement-binding-a-loop-refuses"
+  note "A loop's statement name binds its round, and what the round holds is the loop's to say. Writing `type` on that statement refuses at the load."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "r"
+            type "int"
+            value {
+              loop {
+                body [
+                  {
+                    value 1
+                  }
+                ]
+                while false
+              }
+            }
+          }
+        ]
+        result 1
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

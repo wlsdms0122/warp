@@ -1,0 +1,15 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-document-declaring-no-procedures-refuses"
+  note "`procedures` is required and not empty. A document declaring none refuses at the load."
+  program {
+    imports []
+    procedures {}
+    warp 1
+  }
+  test 1
+}
+

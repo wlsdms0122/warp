@@ -54,7 +54,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-constant-is-a-name-a-body-reads`
 - `a-constant-may-be-spelled-like-a-procedure`
 - `a-constant-sees-only-the-constants-beside-it`
+- `a-document-declaring-no-procedures-refuses`
 - `a-document-that-says-no-version-refuses`
+- `a-document-without-imports-refuses`
 - `a-field-read-names-no-type`
 - `a-front-end-shorthand-refuses-in-a-document`
 - `a-later-document-refuses`
@@ -70,14 +72,17 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-name-declared-as-both-a-constant-and-a-variable-refuses`
 - `a-result-written-as-null-refuses`
 - `a-send-is-a-declared-spelling-or-an-import`
+- `a-variable-start-reading-another-variable-refuses`
 - `a-version-that-never-existed-refuses`
 - `an-access-written-as-what-its-absence-means-refuses`
 - `an-else-written-empty-refuses`
 - `an-overstated-manifest-refuses`
 - `an-unknown-key-refuses`
 - `an-untruthful-manifest-refuses`
+- `claims-written-out-of-order-refuse`
 - `constants-settle-in-the-order-they-read-each-other`
 - `constants-that-name-each-other-refuse`
 - `imports-written-out-of-order-refuse`
 - `modifiers-written-in-another-order-refuse`
+- `names-joined-with-and-out-of-order-refuse`
 - `what-a-document-says-for-a-reader-is-carried`

@@ -1,0 +1,37 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-write-through-an-optional-segment-refuses"
+  note "A write reads no absence, so a path written through `?.` is not written through. `set x?.a` refuses at the build."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            type "app.T?"
+            var "x"
+          }
+          {
+            set "x?.a"
+            value 2
+          }
+        ]
+        result 1
+      }
+    }
+    types {
+      "app.T" {
+        record {
+          a "var int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

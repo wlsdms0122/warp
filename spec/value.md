@@ -34,7 +34,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 
 - `a-whole-and-a-fraction-meet-exactly`
 - `a-whole-fraction-stays-a-fraction`
+- `arrays-in-another-order-are-two-values`
 - `bytes-and-an-array-share-their-worth`
+- `null-is-the-same-as-null`
 - `two-names-of-one-structure-are-two-values`
 - `two-spellings-of-one-text-are-one-value`
 - `values-are-the-same-by-what-they-hold`

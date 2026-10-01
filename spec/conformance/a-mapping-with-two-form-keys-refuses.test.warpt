@@ -1,0 +1,32 @@
+warpt 1
+{
+  arguments {
+    x 1
+  }
+  expect {
+    refuses "load"
+  }
+  name "a-mapping-with-two-form-keys-refuses"
+  note "A mapping where a value is wanted is an expression by its one key. One carrying both `ref` and `record` is no form, and refuses at the load."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "x"
+            type "int"
+          }
+        ]
+        result {
+          record {}
+          ref "x"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,31 @@
+warpt 1
+{
+  expect {
+    refuses "run"
+  }
+  name "an-index-past-the-end-refuses"
+  note "An array says how long it is, so an index past its end read the length wrong. `xs[3]` on an array of two refuses at the run."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "xs"
+            value [
+              1
+              2
+            ]
+          }
+        ]
+        result {
+          ref "xs[3]"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

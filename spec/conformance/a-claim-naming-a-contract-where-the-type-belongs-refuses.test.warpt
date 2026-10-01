@@ -1,0 +1,55 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-claim-naming-a-contract-where-the-type-belongs-refuses"
+  note "A claim is keyed by a type and names contracts. This one is keyed by the contract `app.X` and names the type `bank.A`, so it refuses at the build, at the claim, though nothing leans on it."
+  program {
+    contracts {
+      "app.X" {
+        d {
+          parameters [
+            {
+              name "of"
+              type "app.X"
+            }
+          ]
+          returns "string"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "bank.A.d" {
+        parameters [
+          {
+            name "of"
+            type "bank.A"
+          }
+        ]
+        result "a"
+        returns "string"
+      }
+      entry {
+        access "public"
+        result 1
+      }
+    }
+    satisfies {
+      "app.X" [
+        "bank.A"
+      ]
+    }
+    types {
+      "bank.A" {
+        record {
+          n "int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

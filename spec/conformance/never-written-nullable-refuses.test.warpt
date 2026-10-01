@@ -1,0 +1,29 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "never-written-nullable-refuses"
+  note "The `?` is written only where it says something new. No value is `never`, so `never?` is a second spelling of `null` and refuses at the load."
+  program {
+    imports []
+    procedures {
+      "app.f" {
+        parameters [
+          {
+            name "x"
+            type "never?"
+          }
+        ]
+        result 1
+      }
+      entry {
+        access "public"
+        result 1
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

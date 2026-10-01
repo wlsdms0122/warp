@@ -30,7 +30,7 @@ A statement with no naming key, `{ value … }`, runs its expression and binds n
 
 **What a write reaches.** A `set` names a path, and the head of the path is the variable written. Every segment after the head is judged at the **build** against the type the walk has reached: a field of a type declared in `types` is passed through only when the declaration wrote it `var`; a field of an inline record type, an entry of a `dictionary<T>`, and an element of an array are passed through as they are, and a `dictionary<T>` entry the value does not hold yet is made by the write; `any` and a nullable type are not written into, and an optional segment (`?.`, `?[`) is not written through, because a write reads no absence. What is written has to fit the type the path reaches, and is settled against it, so a box that said what it holds is laid out the way its declaration says after a write as it was after its declaration. A path that reaches no declared type settles nothing and the value stands as it was handed. A write to a whole local variable retypes it unless the variable declared what it holds, under *what a variable reads as* in [checking](checking.md); a write to a module variable or to an `inout` parameter has to fit the type the box holds and retypes nothing. At the run the value is computed first, and then the box is rewritten once, so nothing observes the box halfway. An index written as a name (`xs[i]`) is read where the write stands and must be an int; the write lands on that one position.
 
-**A `var` may stand alone.** A statement that is only `{ var "name" }`, with no `value`, introduces the name with nothing in it yet, and a name holding nothing holds null. It is the declaration a conditional's arms write into; what the name reads as afterwards is under *what a variable reads as* in [checking](checking.md). The other two spellings say something about a value, so they still require one.
+**A `var` may stand alone.** A statement that is only `{ var "name" }`, with no `value`, introduces the name with nothing in it yet, and a name holding nothing holds null. It is the declaration a conditional's arms write into; what the name reads as afterwards is under *what a variable reads as* in [checking](checking.md). The other two spellings say something about a value, so they still require one, and one written without it **refuses at the load**.
 
 **Where a name may be introduced.** No name introduced in a body, at any depth, takes the spelling of a constant or a variable its document declares, or of a parameter of the procedure it is written in, a closure's included: each **refuses at the load**, and so does a parameter taking a constant's or a variable's spelling. Within one body a name is introduced once, and a second `let` or `var` of it **refuses at the load**. A name declared inside a `block`, a `conditional` arm, a `loop`'s round, an `attempt`'s body or rescue, or a closure's body is read from the statement after it to the end of that body, its `result` included, and nowhere after, so two bodies side by side may each introduce it. Such a body may introduce a name a body around it already introduced, and inside it the name is the new one, with a box of its own: the outer box keeps what it held, and a `set` of that spelling writes the inner name, which **refuses at the load** where a `let` fixed it. A closure's parameter is such a name too.
 
@@ -134,11 +134,14 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-construct-key-outside-a-statement-is-a-field-name`
 - `a-declared-name-is-not-retyped-by-a-write`
 - `a-declared-range-refuses-what-is-outside-it`
+- `a-declared-type-naming-a-type-parameter-refuses`
+- `a-declared-type-nothing-declares-refuses`
 - `a-declining-conditional-writes-nothing`
 - `a-duplicate-statement-name-refuses`
 - `a-failure-field-the-declaration-does-not-name-is-refused`
 - `a-field-a-path-writes-through-is-declared-var`
 - `a-fixed-name-cannot-be-written`
+- `a-let-without-a-value-refuses`
 - `a-loop-condition-that-is-not-a-bool-refuses`
 - `a-loop-reads-how-many-rounds-passed`
 - `a-loop-result-reads-the-last-finished-round`
@@ -150,6 +153,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-name-declared-again-inside-an-arm-is-a-new-name`
 - `a-name-introduced-again-in-a-nested-block-is-a-new-name`
 - `a-name-on-a-conditional-is-refused`
+- `a-name-on-a-return-refuses`
 - `a-name-on-what-never-finishes-is-refused`
 - `a-name-says-what-it-holds`
 - `a-name-that-says-nothing-is-what-the-build-worked-out`
@@ -173,11 +177,15 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-statement-with-no-name-still-runs`
 - `a-var-field-lets-a-path-through`
 - `a-walk-is-a-loop-over-the-count`
+- `a-write-index-that-is-not-a-whole-number-refuses`
 - `a-write-indexes-with-a-name`
 - `a-write-makes-an-entry-of-a-dictionary`
 - `a-write-reaches-into-what-a-variable-holds`
 - `a-write-through-an-element-keeps-the-others`
+- `a-write-through-an-optional-segment-refuses`
+- `a-write-through-any-refuses`
 - `an-attempt-catches-a-cast-that-did-not-match`
+- `an-attempt-without-a-rescue-refuses`
 - `an-attempt-written-nameless-binds-no-failure`
 - `an-inner-constant-of-an-outer-name-is-not-written`
 - `break-ends-the-loop`
@@ -194,6 +202,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `return-inside-a-closure-answers-the-closure`
 - `sibling-blocks-may-each-introduce-one-name`
 - `type-beside-set-refuses`
+- `type-on-a-statement-binding-a-loop-refuses`
+- `type-on-a-statement-with-no-name-refuses`
 - `what-is-written-fits-the-type-the-path-reaches`
 - `what-nobody-wrote-is-not-readable`
 - `writing-a-name-never-declared-refuses`
