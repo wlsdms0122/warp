@@ -87,12 +87,12 @@ Written as a record, one per entry of `parameters`:
 |---|---|---|
 | `name` | string. The name the body reads the argument by | yes |
 | `type` | type | no; absent means `any` |
-| `enum` | array. The values this parameter admits | no |
+| `enum` | array of strings, each a value's one spelling. The values this parameter admits | no |
 | `description` | string | no |
 
 The name is the declaration's own, and a closure literal's names are its own the same way. A procedure type carries the types in position order and no names, under [types](type.md), so two closures naming their parameters differently are one type where the types agree. Two parameters under one name **refuse at the load**.
 
-`enum` is judged wherever an argument is settled against the parameter: at the **build** for a constant argument, at the run's boundary otherwise. The declaration itself is judged at the **build**, wherever the parameter is written. Nested signatures included, because a declaration may lean on a declared type name, and only the build resolves those: a `enum` listing a candidate the declared type does not admit **refuses**. An argument meets the candidates **settled**, after the slot widened a whole number to the fraction it names, and a number meets one by worth: `1` handed to a `double` slot listing `1.0` is admitted. A dead candidate is a member no settled value could ever match, whether live ones stand beside it or not, the empty set being the plainest case. A candidate is written in a value's **one spelling**, the one the slot's own values wear: `007`, `+1`, and `1e0` are second spellings of values that already have one, and `1` on a `double` slot is the int's spelling, which no fraction ever wears. Each of these is a dead candidate, because no settled value wears their spelling.
+`enum` is judged wherever an argument is settled against the parameter: at the **build** for a constant argument, at the run's boundary otherwise. The declaration itself is judged at the **build**, wherever the parameter is written. Nested signatures included, because a declaration may lean on a declared type name, and only the build resolves those: an `enum` listing a candidate the declared type does not admit **refuses**. An argument meets the candidates **settled**, after the slot widened a whole number to the fraction it names, and a number meets one by worth: `1` handed to a `double` slot listing `1.0` is admitted. A dead candidate is a member no settled value could ever match, whether live ones stand beside it or not, the empty set being the plainest case. A candidate is written in a value's **one spelling**, the one the slot's own values wear: `007`, `+1`, and `1e0` are second spellings of values that already have one, and `1` on a `double` slot is the int's spelling, which no fraction ever wears. Each of these is a dead candidate, because no settled value wears their spelling.
 
 **One calling convention.** Lowering puts every parameter in a slot, in the declaration's order, and every call hands its arguments **by position**: a `call` to a declaration, a `call` of a value, a procedure handing values to a closure it was given, and a procedure the host answers sending one it declared. A call hands exactly as many arguments as the callee takes. Any other count **refuses**, at the build where the callee is known and at the run otherwise, and so does an argument the parameter at its position refuses. Writing an argument is giving it: an argument holding null was given, and a slot whose type admits one takes it, `any`, a `T?`, a type parameter, which stands for what arrived and settles nothing.
 
@@ -173,6 +173,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-effect-in-a-contract-calls-operand-refuses`
 - `an-effect-in-an-operand-refuses`
 - `an-effectful-closure-where-const-is-asked-refuses`
+- `an-enum-candidate-written-as-a-number-refuses`
 - `an-internal-entry-refuses`
 - `an-internal-procedure-is-named-from-another-document`
 - `an-isolated-closure-writes-its-own-variables`
