@@ -124,6 +124,7 @@ Failing on purpose is a procedure, `std.control.abort` under [the standard vocab
 What `conformance/` asks about this page, by the name each case's file carries.
 
 - `a-block-writes-the-flow-it-is-in`
+- `a-closure-a-constant-holds-does-not-take-a-variables-name`
 - `a-closure-does-not-leave-what-wrote-it`
 - `a-closure-parameter-may-take-the-spelling-of-a-name-around-it`
 - `a-condition-that-is-not-a-bool-refuses`
