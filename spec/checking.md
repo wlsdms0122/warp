@@ -27,7 +27,7 @@ A program is read, checked and built before any of it runs, the arms nobody take
 - a statement that never finishes (a syntactic leave, or a call whose answer reads `never`, declared under `returns` or read off a body that never finishes) takes no name, and nothing follows it;
 - every name the program writes as a value is **written**, and is **normal form C**, compared as bytes: a statement's, a binding's (a loop's round, an attempt's failure), a parameter's, and each segment of a `ref`. Record *keys* hold this line at the encodings; these are the names that live in string values, and this is where they hold it. One name has one byte spelling, so a declaration and a reference can only meet by being the same bytes. `é` written two ways is a refusal, not two names. Nothing written is no name: a declaration is called something, and a reference writes something, and neither is done by writing nothing.
 
-`imports` is held at `load`, under [README](README.md), because a caller decides from it before any of this runs.
+`imports` is held at `load`, under [README](README.md), because a host decides from it before any of this runs.
 
 **What a variable reads as.** A name a statement fixed reads as what that statement bound, and a variable reads as what the ways through the text could have left in it. The checking follows the flow the running takes:
 

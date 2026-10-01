@@ -12,7 +12,7 @@ An object is one record. It carries **exactly** these keys, and a key none of th
 |---|---|---|
 | `object` | int. This layout's format. Read before anything laid out by it, the keys included | |
 | `document` | the document's identity, or nothing where the program was never written down | |
-| `dependencies` | the objects behind every declaration this document named, each by what the caller keyed it under | ascending by bytes, none twice |
+| `dependencies` | the objects behind every declaration this document named, each by what the host keyed it under | ascending by bytes, none twice |
 | `types` | name → *type*, as the document wrote them | by name |
 | `constraints` | name → list of *type* | by name |
 | `contracts` | name → (procedure name → `[ signature, constness, isolation ]`, the two marks as a row writes them) | by name, then by name |
@@ -166,7 +166,7 @@ A *value* is `[tag, …]`: 0 null; 1 bool; 2 int; 3 double; 4 string; 5 bytes, e
 
 A document is told from another by the **digest of its canonical binary writing**, SHA-256 of the bytes the binary writer produces, and by nothing it says about itself. It is derived and never declared. An object does write one down, under `document`, so a reading is handed the identity the object was kept under and an object saying it belongs somewhere else **refuses**.
 
-What an object leaned on is written under `dependencies` by what the caller keyed each object under. The language derives nothing there: what tells one compile of a document from another is the caller's cache, and the caller hands the same key back when it reads the object. An object leaning on one the caller worked no key out for is not written.
+What an object leaned on is written under `dependencies` by what the host keyed each object under. The language derives nothing there: what tells one compile of a document from another is the host's cache, and the host hands the same key back when it reads the object. An object leaning on one the host worked no key out for is not written.
 
 ## What a reading refuses
 
@@ -236,7 +236,7 @@ warpt 1
 }
 ```
 
-Read it back: `rows` holds `entry`, whose signature takes `n` as `int` (type tag 4) and answers `int`; it is public (`2`), const (`1`) and isolated (`1`) and fails with nothing (`[1 []]`); it sends nothing; its implementation is a body (`0`) with no instructions and a result, a call (`11`) to row `0` of the numbering, which is `std.math.plus`, with two arguments, the first read from slot `0` and the second the literal (`0`) int (`2`) `1`; and its frame has one slot, filled by the parameter, called `n`. The dependency is what the caller keyed the standard vocabulary's object under.
+Read it back: `rows` holds `entry`, whose signature takes `n` as `int` (type tag 4) and answers `int`; it is public (`2`), const (`1`) and isolated (`1`) and fails with nothing (`[1 []]`); it sends nothing; its implementation is a body (`0`) with no instructions and a result, a call (`11`) to row `0` of the numbering, which is `std.math.plus`, with two arguments, the first read from slot `0` and the second the literal (`0`) int (`2`) `1`; and its frame has one slot, filled by the parameter, called `n`. The dependency is what the host keyed the standard vocabulary's object under.
 
 ## Cases
 
