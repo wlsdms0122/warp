@@ -26,11 +26,11 @@ An object is one record. It carries **exactly** these keys, and a key none of th
 | `variables` | (name, *value*): what each variable starts a run holding | by name |
 | `constants` | the constants it declared, by spelling | by name |
 
-**The record is keyed and its parts are not.** Keys are what a format adds and takes away as it moves, so the envelope names them; inside a part the fields stand in order and a kind says itself by its tag, and the whole of it moves with the format number. A part added later is a new key, never a new field in an old part; a field added to a part is a new format, and a reading holds an object to the format it reads before it reads a part. Every change before the first release folds into format 1.
+**The record is keyed and its parts are not.** The envelope names each part by its key; inside a part the fields stand in order and a kind says itself by its tag. A reading holds an object to the format it reads before it reads a part.
 
 **Order is spelling.** Every list a name keys stands ascending by the names' bytes, none twice, and so does every set written as a list. That is the whole of what makes one object one value: a dictionary lends no order, so the layout says one, and a reading takes no other. A list out of order, or naming one thing twice, **refuses**.
 
-**The rows.** A declaration's row stands under its spelling in `rows`, in name order; the rows its bodies lifted stand in `lifted`, without a spelling, in the order the numbering counts them. A body numbers its calls and its types from the document itself, under [procedures](procedure.md): the spellings it sends first, in name order, then its own declarations in name order, then the closures its declarations wrote, in the order the numbering lists the declarations and, within one, the order the body wrote them. Where a row lands in a link is the link's answer, so nothing here says it, and one document compiled once answers every entry asked of it.
+**The rows.** A declaration's row stands under its spelling in `rows`, in name order; the rows its bodies lifted stand in `lifted`, without a spelling, in the order the numbering counts them. A body numbers its calls and its types from the document itself, under [procedures](procedure.md): the spellings it sends first, in name order, then its own declarations in name order, then the closures its declarations wrote, in the order the numbering lists the declarations and, within one, the order the body wrote them. Where a row lands in a link is the link's answer, so nothing here says it, and one object answers every entry asked of it.
 
 **`numbering`** writes what a reading uses and cannot work out: the spellings sent, in name order; then `(declaration, count)` for each declaration that wrote a closure, counts above zero. A *declaration* is `[0, name]` for a procedure and `[1, name]` for a constant or a variable, since a procedure and a constant may be spelled alike; the procedures stand first, then the constants and variables, each in name order, none twice. **`typeNumbering`** writes the declared types the lowered bodies stand on, ascending by name, none twice, then the memberships, likewise: a body numbers its types in that order. What a number stands for is arithmetic over these lists and the declared spellings, so the numbers themselves are not written.
 
@@ -100,9 +100,9 @@ A *construct* is `[tag]`: 0 literal, 1 reference, 2 array, 3 record, 4 closure, 
 
 A *row* is a declaration as its own document settled it:
 
-    [ label?, signature, access, constness, isolation, failing, sends, implementation ]
+    [ label, signature, access, constness, isolation, failing, sends, implementation ]
 
-The label is the declared spelling and stands only in `rows`; a lifted row has none. `access` is `0` private, `1` internal or `2` public, under *who may name a declaration* in [procedures](procedure.md); a lifted row is private, since nothing names it. `sends` is what a native declaration said it sends, each `[row, handing]`: the row it reaches, numbered by the document, and how many arguments it hands over, from that row's first position. A body's sends are calls its own code carries, so its list is empty.
+The label is the declared spelling. A row in `lifted` is the same without the label, its fields starting at the signature. `access` is `0` private, `1` internal or `2` public, under *who may name a declaration* in [procedures](procedure.md); a lifted row is private, since nothing names it. `sends` is what a native declaration said it sends, each `[row, handing]`: the row it reaches, numbered by the document, and how many arguments it hands over, from that row's first position. A body's sends are calls its own code carries, so its list is empty.
 
 The *implementation* is `[0, body, frame]` for a written body, or `[1, sends]` for a native, each send `[position, selector, handing]`: where the send stands among the declaration's sends, the spelling it reaches, and how many arguments it hands over.
 
@@ -121,7 +121,7 @@ An *operation* is `[tag, …]`. These are the constructs and the expression form
 | 0 | a literal | *value* |
 | 1 | a slot, read through a path | *address* |
 | 2 | an array built from parts | list of *operation* |
-| 3 | a record built from parts | *layout*, list of *operation* in the layout's field order |
+| 3 | a record built from parts | `[layout, operations]`: the *layout*, and a list of *operation* in the layout's field order |
 | 4 | a closure literal | the closure's number, captures: `[outer slot, inner slot]` list |
 | 5 | calling a value | the callee *operation*, arguments: list of *operation*, in position order |
 | 6 | a cast | *operation*, *lowered type*, optional |
@@ -145,7 +145,7 @@ A *lowered type* is a type as a body stands on it, `[tag, …]`:
 | 7 | ranged | *refinement* |
 | 8 | array | *lowered type* |
 | 9 | dictionary | *lowered type* |
-| 10 | record | *layout*, the field types in the layout's order |
+| 10 | record | `[layout, types]`: the *layout*, and a list of *lowered type* in the layout's field order |
 | 11 | procedure | parameters or nothing, a list of *lowered type* in position order; returns or nothing; *constness*; *isolation* |
 | 12 | variable | *lowered type* |
 | 13 | inout | *lowered type* |
@@ -164,7 +164,7 @@ A *value* is `[tag, …]`: 0 null; 1 bool; 2 int; 3 double; 4 string; 5 bytes, e
 
 ## Identity and dependencies
 
-A document is told from another by the **digest of its canonical binary writing**, SHA-256 of the bytes the binary writer produces, and by nothing it says about itself. It is derived and never declared: there is no field for it in a document, which is what makes it impossible to write down wrongly. An object does write one down, under `document`, so a reading is handed the identity the object was kept under and an object saying it belongs somewhere else **refuses**.
+A document is told from another by the **digest of its canonical binary writing**, SHA-256 of the bytes the binary writer produces, and by nothing it says about itself. It is derived and never declared. An object does write one down, under `document`, so a reading is handed the identity the object was kept under and an object saying it belongs somewhere else **refuses**.
 
 What an object leaned on is written under `dependencies` by what the caller keyed each object under. The language derives nothing there: what tells one compile of a document from another is the caller's cache, and the caller hands the same key back when it reads the object. An object leaning on one the caller worked no key out for is not written.
 
@@ -176,7 +176,7 @@ A reading refuses what it cannot read and traps on nothing: the reading runs ins
 - a body standing on a slot past its frame, a loop keeping a run its frame does not hold, a frame naming fewer slots than it has, a call standing more arguments than the row it reaches takes
 - an object standing against a document other than the one it was kept under
 
-Every one of these is refused where the object is read, before it is laid beside anything. What only a link can answer, which row a number is, which type answers a contract, is refused at the link, under [checking](checking.md).
+Every one of these is refused where the object is read, before it is laid beside anything. What only a link can answer, which row a number is, which type answers a contract, is refused at `build`, under [checking](checking.md).
 
 ## One object
 
@@ -198,7 +198,7 @@ warpt 1
 }
 ```
 
-compiles to an object with one row, laid out as text:
+compiles to an object with one row, laid out as text and packed onto fewer lines than the writer uses:
 
 ```
 warpt 1
