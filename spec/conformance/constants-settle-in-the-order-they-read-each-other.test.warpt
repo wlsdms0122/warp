@@ -4,36 +4,36 @@ warpt 1
     answers 6
   }
   name "constants-settle-in-the-order-they-read-each-other"
-  note "A constant may name another declared beside it, and what it reads is settled before it is. The order is the one the reading gives and not the one the names happen to sort in: `total` reads `doubled`, which reads `base`, and the three are declared in the reverse of that."
+  note "A constant may name another declared beside it, and what it reads is settled before it is. The order is the one the reading gives and not the one the names happen to sort in: `xerus` reads `yak`, which reads `zebra`, and the three sort in the reverse of that."
   program {
     const {
-      base 2
-      doubled {
+      xerus {
         call {
           arguments [
             {
-              ref "base"
+              ref "yak"
             }
             {
-              ref "base"
-            }
-          ]
-          procedure "std.math.times"
-        }
-      }
-      total {
-        call {
-          arguments [
-            {
-              ref "doubled"
-            }
-            {
-              ref "base"
+              ref "zebra"
             }
           ]
           procedure "std.math.plus"
         }
       }
+      yak {
+        call {
+          arguments [
+            {
+              ref "zebra"
+            }
+            {
+              ref "zebra"
+            }
+          ]
+          procedure "std.math.times"
+        }
+      }
+      zebra 2
     }
     imports [
       "std.math.plus"
@@ -43,7 +43,7 @@ warpt 1
       entry {
         access "public"
         result {
-          ref "total"
+          ref "xerus"
         }
       }
     }
