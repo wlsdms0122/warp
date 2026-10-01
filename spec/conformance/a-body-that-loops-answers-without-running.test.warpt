@@ -1,0 +1,80 @@
+warpt 1
+{
+  expect {
+    answers "counted"
+  }
+  name "a-body-that-loops-answers-without-running"
+  note "A construct reaches nothing on its own. A loop is read as far as its round is, so a body that loops and returns from the round still answers without running."
+  program {
+    imports []
+    procedures {
+      asking {
+        body [
+          {
+            let "answered"
+            value {
+              call {
+                procedure {
+                  ref "body"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "body"
+            type "const procedure"
+          }
+        ]
+        result {
+          ref "answered"
+        }
+        returns "string"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "given"
+            value {
+              closure {
+                body [
+                  {
+                    value {
+                      loop {
+                        body [
+                          {
+                            value {
+                              return "counted"
+                            }
+                          }
+                        ]
+                        while true
+                      }
+                    }
+                  }
+                ]
+                result "never reached"
+                returns "string"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "given"
+              }
+            ]
+            procedure "asking"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,30 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-whole-number-candidate-on-a-fraction-slot-is-dead"
+  note "A candidate is written in the one spelling the slot's own values wear. `1` is an int's spelling, which no fraction ever wears, so on a `double` slot it is a dead candidate and the build refuses it."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            enum [
+              "2.0"
+              "1"
+            ]
+            name "level"
+            type "double"
+          }
+        ]
+        result 1
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

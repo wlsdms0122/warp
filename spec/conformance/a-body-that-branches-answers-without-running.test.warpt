@@ -1,0 +1,80 @@
+warpt 1
+{
+  expect {
+    answers "taken"
+  }
+  name "a-body-that-branches-answers-without-running"
+  note "A construct reaches nothing on its own. A conditional is read as far as its arms are, so a body that branches and returns from an arm still answers without running."
+  program {
+    imports []
+    procedures {
+      asking {
+        body [
+          {
+            let "answered"
+            value {
+              call {
+                procedure {
+                  ref "body"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "body"
+            type "const procedure"
+          }
+        ]
+        result {
+          ref "answered"
+        }
+        returns "string"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "given"
+            value {
+              closure {
+                body [
+                  {
+                    value {
+                      conditional {
+                        then [
+                          {
+                            value {
+                              return "taken"
+                            }
+                          }
+                        ]
+                        when true
+                      }
+                    }
+                  }
+                ]
+                result "fell through"
+                returns "string"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "given"
+              }
+            ]
+            procedure "asking"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

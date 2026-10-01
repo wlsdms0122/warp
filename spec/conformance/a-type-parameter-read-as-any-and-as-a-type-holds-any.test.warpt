@@ -1,0 +1,60 @@
+warpt 1
+{
+  arguments {
+    xs []
+  }
+  expect {
+    answers [
+      1
+      "a"
+    ]
+  }
+  name "a-type-parameter-read-as-any-and-as-a-type-holds-any"
+  note "Two readings of one type parameter where one accepts the other settle on the looser. `any` accepts everything, so a list of anything takes a number and then a text."
+  program {
+    imports [
+      "std.collection.appending"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "one"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "xs"
+                  }
+                  1
+                ]
+                procedure "std.collection.appending"
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "xs"
+            type "array<any>"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "one"
+              }
+              "a"
+            ]
+            procedure "std.collection.appending"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,42 @@
+warpt 1
+{
+  arguments {
+    left true
+  }
+  expect {
+    refuses "run"
+  }
+  name "a-value-through-any-is-judged-against-the-membership-where-it-arrives"
+  note "A reading the text says nothing about passes the build, and the value that arrived is judged against the membership where it arrives. `lessThan` takes what `std.Comparable` admits, and a bool is not among it."
+  program {
+    imports [
+      "std.math.lessThan"
+    ]
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "left"
+            type "any"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "left"
+              }
+              1
+            ]
+            procedure "std.math.lessThan"
+          }
+        }
+        returns "bool"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

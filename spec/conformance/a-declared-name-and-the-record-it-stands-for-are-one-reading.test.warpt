@@ -1,0 +1,56 @@
+warpt 1
+{
+  arguments {
+    trees []
+  }
+  expect {
+    answers [
+      {
+        a 1
+      }
+    ]
+  }
+  name "a-declared-name-and-the-record-it-stands-for-are-one-reading"
+  note "A type parameter read as a declared record's name by one argument and as a record of its fields by the next is one reading, since the name stands for that record, and the call builds. A type parameter settles nothing, so the record is appended as it was written."
+  program {
+    imports [
+      "std.collection.appending"
+    ]
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "trees"
+            type "array<Tree>"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "trees"
+              }
+              {
+                record {
+                  a 1
+                }
+              }
+            ]
+            procedure "std.collection.appending"
+          }
+        }
+      }
+    }
+    types {
+      Tree {
+        record {
+          a "int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

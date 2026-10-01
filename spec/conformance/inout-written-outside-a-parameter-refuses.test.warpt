@@ -1,0 +1,27 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "inout-written-outside-a-parameter-refuses"
+  note "`inout` is written on a parameter's type and nowhere else, since only a parameter is handed a variable in place. A declared type's field written `inout` is refused."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+      }
+    }
+    types {
+      Box {
+        record {
+          held "inout int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

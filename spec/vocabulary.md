@@ -130,7 +130,7 @@ One of these is builtin for a reason that is not the set it removes. `trimmed` n
 
 The names are plain ones with the module carrying the context, the way `Array.map` and `TaskGroup.next` lean on their types. A call site spells the module, so `std.collection.first` and `std.concurrent.first` are two names, and a link carrying both bundles holds both: every `first` and every `map`, the sequential ones included, is written with its bundle, and concurrency shows at the call site.
 
-What the checking sees: `map` declares its types the way the sequential one does. The collection's `Element` meets the closure's parameter, and the answer's type is the closure's answer, checked at the build. Its `transform` is an `isolated procedure` taking `item: some Element` and `index: int` and answering `some Answer`, so a closure that writes a captured variable refuses there before anything runs. `all` and `first` take `std.concurrent.Pieces`, the membership of `array<isolated procedure>` and `dictionary<isolated procedure>`, so a piece that is not a closure and a piece that writes what it captured both refuse at the build. They answer `any`: the answer is shaped like what went in, and a membership names a set of types rather than tying one of them to another. What a fan-out's answer feeds is checked from `map`, not from these two.
+What the checking sees: `map` declares its types the way the sequential one does. The collection's `Element` meets the closure's parameter, and the answer's type is the closure's answer, checked at the build. Its `transform` is an `isolated procedure` taking `item: some Element` and `index: int` and answering `some Answer`, so a closure that writes a captured variable refuses there before anything runs. `all` and `first` take `std.concurrent.Pieces`, the membership of `array<isolated procedure>` and `dictionary<isolated procedure>`, so a piece the build reads as something other than a closure, or as a closure that writes what it captured, refuses at the build; a piece that arrives as `any` (an array literal whose elements join to `any`) is held to the membership at the run, the way any value crossing a slot through `any` is. They answer `any`: the answer is shaped like what went in, and a membership names a set of types rather than tying one of them to another. What a fan-out's answer feeds is checked from `map`, not from these two.
 
 What the procedures hand their closures is one convention, shared with the sequential walks. `std.collection.map` and `filter` hand over the item, `reduce` hands over the carried value then the item, `std.concurrent.map` hands over the item then its index, and a closure written for one of them **declares exactly as many parameters as it is handed, in that order**, under names of its own, whether or not its body goes on to read one. A closure of another count refuses, the same as anywhere else a value is called: a walk is not a second calling convention. `std.concurrent.first` run over nothing is refused, the way `std.collection.first` of nothing is: a procedure that answers exactly one thing has no empty answer. And a `first` in which nothing succeeds fails the way `all` fails: every piece's failure reported, keyed by the piece it came from, a record's by its key and an array's by its index written `[0]`.
 
@@ -163,6 +163,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-document-writes-map-over-a-const-slot`
 - `a-document-writes-startsWith-over-characters`
 - `a-mapped-procedure-chooses-what-it-answers`
+- `a-piece-that-is-not-a-closure-refuses`
 - `a-quotient-widens-its-operands`
 - `a-space-carrying-a-mark-is-not-trimmed`
 - `a-string-holding-another-is-a-text-question`
@@ -187,6 +188,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `case-mapping-takes-no-locale`
 - `characters-answers-grapheme-clusters`
 - `concurrent-map-offers-item-and-index`
+- `concurrent-map-over-nothing-answers-nothing`
 - `contains-asks-a-collection`
 - `count-asks-a-collection`
 - `count-of-a-record-is-its-fields`

@@ -1,0 +1,36 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-name-declared-as-both-a-type-and-a-contract-refuses"
+  note "Types, memberships and contracts share one namespace, and a name in it is one of them. A name declared as a type and as a contract is refused."
+  program {
+    contracts {
+      "app.Thing" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "app.Thing"
+            }
+          ]
+          returns "string"
+        }
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+      }
+    }
+    types {
+      "app.Thing" "int"
+    }
+    warp 1
+  }
+  test 1
+}
+

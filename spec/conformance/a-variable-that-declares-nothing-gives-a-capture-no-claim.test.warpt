@@ -1,0 +1,79 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-variable-that-declares-nothing-gives-a-capture-no-claim"
+  note "A variable that declared nothing may be retyped after a closure captured it, so it says nothing the closure can hold on to. A closure calling it through the capture does not answer without running."
+  program {
+    imports []
+    procedures {
+      asking {
+        body [
+          {
+            let "answered"
+            value {
+              call {
+                procedure {
+                  ref "body"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "body"
+            type "const procedure"
+          }
+        ]
+        result {
+          ref "answered"
+        }
+        returns "string"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            value {
+              closure {
+                result "answered"
+                returns "string"
+              }
+            }
+            var "answering"
+          }
+          {
+            let "relaying"
+            value {
+              closure {
+                result {
+                  call {
+                    procedure {
+                      ref "answering"
+                    }
+                  }
+                }
+                returns "string"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "relaying"
+              }
+            ]
+            procedure "asking"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

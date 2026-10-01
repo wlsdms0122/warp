@@ -1,0 +1,38 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-piece-that-is-not-a-closure-refuses"
+  note "`std.concurrent.all` takes `std.concurrent.Pieces`, a membership of collections of isolated procedures, so a piece the text shows is not a closure is refused at the build."
+  program {
+    imports [
+      "std.concurrent.all"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                record {
+                  left {
+                    closure {
+                      result 1
+                    }
+                  }
+                  right 2
+                }
+              }
+            ]
+            procedure "std.concurrent.all"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

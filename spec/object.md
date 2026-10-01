@@ -174,7 +174,6 @@ A reading refuses what it cannot read and traps on nothing: the reading runs ins
 
 - a lifted row where the numbering counts no closure, a count of none for a declaration it counts, and counts that add up past what an int holds
 - a body standing on a slot past its frame, a loop keeping a run its frame does not hold, a frame naming fewer slots than it has, a call standing more arguments than the row it reaches takes
-- a variable starting a run holding a procedure, which no document writes
 - an object standing against a document other than the one it was kept under
 
 Every one of these is refused where the object is read, before it is laid beside anything. What only a link can answer, which row a number is, which type answers a contract, is refused at the link, under [checking](checking.md).
@@ -244,20 +243,35 @@ Read it back: `rows` holds `entry`, whose signature takes `n` as `int` (type tag
 What `conformance/` asks about this page, by the name each case's file carries.
 
 - `a-document-is-not-an-object`
+- `an-object-counting-no-closures-for-a-declaration-refuses`
+- `an-object-leaning-on-one-object-twice-refuses`
 - `an-object-leaning-on-what-is-not-laid-refuses`
 - `an-object-links-and-runs`
 - `an-object-missing-a-part-refuses`
+- `an-object-naming-one-type-twice-refuses`
 - `an-object-of-a-later-format-refuses`
 - `an-object-of-a-later-format-with-keys-of-its-own-refuses`
 - `an-object-runs-with-what-the-entry-is-given`
 - `an-object-standing-against-another-document-refuses`
 - `an-object-whose-body-stands-past-its-frame-refuses`
+- `an-object-whose-call-stands-more-arguments-than-its-callee-takes-refuses`
+- `an-object-whose-claims-stand-out-of-name-order-refuses`
+- `an-object-whose-closure-counts-add-up-past-an-int-refuses`
+- `an-object-whose-dependencies-stand-out-of-name-order-refuses`
 - `an-object-whose-entry-is-not-public-refuses`
+- `an-object-whose-frame-names-fewer-slots-than-it-holds-refuses`
+- `an-object-whose-layout-names-stand-out-of-order-refuses`
+- `an-object-whose-loop-keeps-a-run-past-its-frame-refuses`
+- `an-object-whose-numbering-closures-stand-out-of-name-order-refuses`
+- `an-object-whose-numbering-sends-stand-out-of-name-order-refuses`
 - `an-object-whose-rows-stand-out-of-name-order-refuses`
 - `an-object-whose-type-numbering-stands-out-of-name-order-refuses`
+- `an-object-whose-types-stand-out-of-name-order-refuses`
 - `an-object-whose-variables-stand-out-of-name-order-refuses`
 - `an-object-with-a-key-nothing-names-refuses`
 - `an-object-with-a-lifted-row-nothing-counts-refuses`
+- `an-object-writing-a-count-below-zero-refuses`
+- `an-object-writing-a-name-not-in-normal-form-refuses`
 - `the-object-of-a-block`
 - `the-object-of-a-call`
 - `the-object-of-a-cast`

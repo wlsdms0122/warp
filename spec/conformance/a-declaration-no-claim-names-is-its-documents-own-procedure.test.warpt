@@ -1,0 +1,77 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "app.Describable" {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "app.Describable"
+              }
+            ]
+            returns "string"
+          }
+        }
+      }
+      imports []
+      procedures {
+        "app.ask" {
+          result 1
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    answers 1
+  }
+  name "a-declaration-no-claim-names-is-its-documents-own-procedure"
+  note "A declaration named for a type and a procedure that no claim names is its document's procedure and nothing else. A contract asking that procedure beside it reserves nothing, and the document builds the same."
+  program {
+    imports []
+    procedures {
+      "bank.Account.describe" {
+        parameters [
+          {
+            name "of"
+            type "bank.Account"
+          }
+        ]
+        result 1
+        returns "int"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                as {
+                  of {
+                    record {
+                      balance 1
+                    }
+                  }
+                  type "bank.Account"
+                }
+              }
+            ]
+            procedure "bank.Account.describe"
+          }
+        }
+      }
+    }
+    types {
+      "bank.Account" {
+        record {
+          balance "int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

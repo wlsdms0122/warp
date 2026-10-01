@@ -1,0 +1,28 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-parameter-naming-a-type-nothing-declares-refuses"
+  note "A spelling no module in the link declares refuses where it is mentioned, a signature's parameter included."
+  program {
+    imports [
+      "app.Missing"
+    ]
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "x"
+            type "app.Missing"
+          }
+        ]
+        result 1
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
