@@ -124,7 +124,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-const-slot-takes-a-closure-that-calls-a-host-procedure`
 - `a-constant-argument-is-checked-before-running`
 - `a-constant-argument-outside-enum-refuses`
-- `a-constant-cannot-settle-from-a-procedure-a-caller-brought`
+- `a-constant-cannot-settle-from-a-procedure-the-host-brought`
 - `a-constant-cannot-settle-from-what-runs`
 - `a-constant-handed-to-a-called-value-outside-its-range-refuses`
 - `a-constant-sent-through-a-contract-outside-its-range-refuses`
@@ -146,7 +146,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-private-name-is-typed-by-its-own-document`
 - `a-private-procedure-called-beside-its-declaration-runs`
 - `a-private-procedure-called-from-another-document-refuses`
-- `a-private-procedure-the-caller-brings-is-not-named`
+- `a-private-procedure-the-host-brings-is-not-named`
 - `a-procedure-that-can-fail-says-so`
 - `a-procedure-that-writes-in-place-does-not-answer-without-running`
 - `a-required-argument-left-out-refuses`
@@ -159,7 +159,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-variable-of-another-type-is-not-handed-in-place`
 - `a-variable-that-declares-nothing-gives-a-capture-no-claim`
 - `a-whole-number-candidate-on-a-fraction-slot-is-dead`
-- `an-access-word-nothing-names-refuses`
+- `an-access-naming-no-scope-refuses`
 - `an-answer-must-fit-what-was-declared`
 - `an-answer-nobody-wrote-is-read-off-the-body`
 - `an-answer-that-may-be-null-refuses-a-declaration-that-may-not`

@@ -56,9 +56,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-cast-between-ranges-that-share-no-value-is-refused`
 - `a-cast-names-the-record-it-reads`
 - `a-cast-naming-a-type-nothing-declares-refuses`
+- `a-cast-naming-what-the-reading-already-is-refuses`
 - `a-cast-onto-any-refuses`
 - `a-cast-onto-never-refuses`
-- `a-cast-onto-what-the-types-already-prove-is-refused`
 - `a-cast-opens-what-any-declares-nothing-about`
 - `a-cast-that-does-not-match-refuses`
 - `a-closure-answers-what-it-declared`
