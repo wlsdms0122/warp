@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-linear-value-handed-on-inside-an-attempt-refuses"
-  note "An attempt's body may fail somewhere the text does not show, so handing on a value written `linear` inside one is not handing it on exactly once. The build refuses the handing inside the attempt."
+  note "An attempt's body may fail somewhere the text does not show, so handing on a value written `linear` inside one is not handing it on exactly once. The rescue hands `h` on too, so each way through hands it on once, and the build still refuses the handing inside the attempt."
   program {
     imports [
       "app.close"
@@ -49,6 +49,20 @@ warpt 1
                   }
                 ]
                 rescue {
+                  body [
+                    {
+                      value {
+                        call {
+                          arguments [
+                            {
+                              ref "h"
+                            }
+                          ]
+                          procedure "app.close"
+                        }
+                      }
+                    }
+                  ]
                   result 1
                 }
               }

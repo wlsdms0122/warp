@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-slot-naming-a-linear-type-says-what-it-does"
-  note "A parameter naming a type written `linear` says what it does with the value: `consuming` takes the obligation and `borrowing` reads and leaves it. One writing neither refuses at the build."
+  note "A parameter naming a type written `linear` says what it does with the value: `consuming` takes the obligation and `borrowing` reads and leaves it. One writing neither refuses at the build, even where the body answers what it took, as `app.look` does here."
   program {
     imports []
     procedures {
@@ -15,6 +15,10 @@ warpt 1
             type "app.Handle"
           }
         ]
+        result {
+          ref "of"
+        }
+        returns "app.Handle"
       }
       "app.open" {
         result {
