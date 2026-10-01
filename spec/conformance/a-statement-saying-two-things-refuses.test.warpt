@@ -4,21 +4,17 @@ warpt 1
     refuses "load"
   }
   name "a-statement-saying-two-things-refuses"
-  note "A statement carries exactly one construct key. Two constructs in one record is two statements nobody ordered."
+  note "A statement names itself at most once, with `let`, `var` or `set`. One carrying both `let` and `var` says two things about one name and refuses at the load."
   program {
-    imports [
-      "std.math.plus"
-    ]
+    imports []
     procedures {
       entry {
         access "public"
         body [
           {
-            call {
-              procedure "std.math.plus"
-            }
-            id "x"
+            let "x"
             value 1
+            var "x"
           }
         ]
         result {
