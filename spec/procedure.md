@@ -115,6 +115,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-body-reading-a-module-variable-does-not-answer-without-running`
 - `a-body-that-branches-answers-without-running`
 - `a-body-that-loops-answers-without-running`
+- `a-call-of-a-value-hands-in-place-inside-every-construct`
 - `a-call-of-a-value-hands-its-arguments-by-position`
 - `a-call-of-a-value-of-another-count-refuses`
 - `a-call-of-a-value-short-of-what-it-takes-refuses`

@@ -1,0 +1,357 @@
+warpt 1
+{
+  expect {
+    answers 6
+  }
+  name "a-call-of-a-value-hands-in-place-inside-every-construct"
+  note "A call of a value hands a variable in place wherever it is written: a body, both arms of a conditional, a loop's round, a block, an attempt and its rescue. A closure is written into a record, an array and an argument the same way, and its own calls are judged and lowered with it."
+  program {
+    imports [
+      "std.control.abort"
+      "std.logic.not"
+      "std.math.plus"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            value 0
+            var "n"
+          }
+          {
+            let "bump"
+            value {
+              closure {
+                body [
+                  {
+                    set "c"
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "c"
+                          }
+                          1
+                        ]
+                        procedure "std.math.plus"
+                      }
+                    }
+                  }
+                ]
+                parameters [
+                  {
+                    name "c"
+                    type "inout int"
+                  }
+                ]
+              }
+            }
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "n"
+                  }
+                ]
+                procedure {
+                  ref "bump"
+                }
+              }
+            }
+          }
+          {
+            value {
+              conditional {
+                else [
+                  {
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "n"
+                          }
+                        ]
+                        procedure {
+                          ref "bump"
+                        }
+                      }
+                    }
+                  }
+                ]
+                then [
+                  {
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "n"
+                          }
+                        ]
+                        procedure {
+                          ref "bump"
+                        }
+                      }
+                    }
+                  }
+                ]
+                when true
+              }
+            }
+          }
+          {
+            value {
+              loop {
+                body [
+                  {
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "n"
+                          }
+                        ]
+                        procedure {
+                          ref "bump"
+                        }
+                      }
+                    }
+                  }
+                  {
+                    value {
+                      break null
+                    }
+                  }
+                ]
+                while {
+                  call {
+                    arguments [
+                      false
+                    ]
+                    procedure "std.logic.not"
+                  }
+                }
+              }
+            }
+          }
+          {
+            value {
+              block {
+                body [
+                  {
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "n"
+                          }
+                        ]
+                        procedure {
+                          ref "bump"
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+          {
+            let "inner"
+            value {
+              closure {
+                body [
+                  {
+                    value 0
+                    var "m"
+                  }
+                  {
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "m"
+                          }
+                        ]
+                        procedure {
+                          ref "bump"
+                        }
+                      }
+                    }
+                  }
+                ]
+                result {
+                  ref "m"
+                }
+                returns "int"
+              }
+            }
+          }
+          {
+            let "r"
+            value {
+              record {
+                f {
+                  closure {
+                    body [
+                      {
+                        value 0
+                        var "m"
+                      }
+                      {
+                        value {
+                          call {
+                            arguments [
+                              {
+                                ref "m"
+                              }
+                            ]
+                            procedure {
+                              ref "bump"
+                            }
+                          }
+                        }
+                      }
+                    ]
+                    result {
+                      ref "m"
+                    }
+                    returns "int"
+                  }
+                }
+              }
+            }
+          }
+          {
+            let "a"
+            value [
+              {
+                closure {
+                  body [
+                    {
+                      value 0
+                      var "m"
+                    }
+                    {
+                      value {
+                        call {
+                          arguments [
+                            {
+                              ref "m"
+                            }
+                          ]
+                          procedure {
+                            ref "bump"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                  result {
+                    ref "m"
+                  }
+                  returns "int"
+                }
+              }
+            ]
+          }
+          {
+            let "got"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "inner"
+                  }
+                ]
+                procedure "relay"
+              }
+            }
+          }
+          {
+            value {
+              attempt {
+                body [
+                  {
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "n"
+                          }
+                        ]
+                        procedure {
+                          ref "bump"
+                        }
+                      }
+                    }
+                  }
+                  {
+                    value {
+                      call {
+                        arguments [
+                          "x"
+                        ]
+                        procedure "std.control.abort"
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  body [
+                    {
+                      value {
+                        call {
+                          arguments [
+                            {
+                              ref "n"
+                            }
+                          ]
+                          procedure {
+                            ref "bump"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "n"
+        }
+        returns "int"
+      }
+      relay {
+        body [
+          {
+            let "x"
+            value {
+              call {
+                procedure {
+                  ref "f"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "f"
+            type "procedure"
+          }
+        ]
+        result {
+          ref "x"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
