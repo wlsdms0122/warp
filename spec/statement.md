@@ -24,7 +24,7 @@ A declared name is fixed at what it says: a write into a declared `var` is held 
 
 A statement with no naming key, `{ value … }`, runs its expression and binds nothing. The answer is dropped, which is how an effect is asked for on its own. Three families step out of this freedom, in different directions:
 
-- The constructs that bind **through** the statement's name. `loop` (its round), `attempt` (its failure). Written nameless, they bind nothing: a loop with no name has no round to read and an attempt with no name has no failure to read, and each runs the same otherwise.
+- The constructs that bind **through** the statement's name, `loop` (its round) and `attempt` (its failure). Written nameless, they bind nothing: a loop with no name has no round to read and an attempt with no name has no failure to read, and each runs the same otherwise.
 - The leaving constructs (`return`, `break`, `continue`) take **no** naming key at all: such a statement never finishes, so its name could never bind, and a key that promises a binding that cannot happen **refuses**. The same rule reaches a **call**: a statement whose procedure declares `returns: never` binds nothing and takes no name. Held at the **build**, because only the build knows the signature, where the leaves the text shows are held at the load.
 - A **`conditional`** takes no naming key either, for the other reason: it finishes, but it answers nothing and binds nothing inside. A condition chooses a way through the body, not a value. What an arm keeps it writes to an outer variable with `set`, and a value leaves through `return`.
 
@@ -38,6 +38,10 @@ A statement with no naming key, `{ value … }`, runs its expression and binds n
 
 The construct keys, each detailed below and each written inside `value`: `call`, `conditional`, `loop`, `attempt`, `block`, `return`, `break`, `continue`. `value` holding anything else holds an expression, under [expressions](expression.md).
 
+## Blocks
+
+A block is `{ body: <statements>, result: <expression> }`, both optional. A block answers what its `result` names, and nothing if it names nothing.
+
 ## The constructs
 
 **`call`**. A procedure called, by its spelling or as a value:
@@ -47,7 +51,7 @@ The construct keys, each detailed below and each written inside `value`: `call`,
 | `procedure` | a string names the declaration called, resolved at the build. Any other expression is a value the run calls, and a value no procedure could be **refuses at the build**, and so does one whose reading says it may be null: null is not called through, the way it is not read through, at the build where the text shows it and at the run otherwise. Text is never a value a call could take, so the two readings never meet | yes |
 | `arguments` | list of expressions, by position: the first fills the first parameter, and so on, one for each parameter, under *one calling convention* in [procedures](procedure.md) | no |
 
-A body a procedure is to run travels as a **closure argument**, like any other value. There is no second channel for bodies: one kind of thing crosses into a procedure, and it is the isolated one.
+A body a procedure is to run travels as a **closure argument**, like any other value.
 
 **`conditional`**
 
@@ -67,13 +71,15 @@ A conditional is a statement: it **answers nothing**, and it **takes no name**. 
 | `body` | statements | yes |
 | `result` | expression | no |
 
-The loop's own statement name binds the round it is on, readable everywhere the loop is still speaking. The `while` condition, the `body`, and the `result`. A loop written nameless binds no round: a `break` or `continue` naming no loop still ends it, and one naming a loop passes through it. The condition reads the state before the round it would start, so `round.index` there is how many rounds have finished. What a loop answers is its `result` read in what the last round that *finished* left behind; a round cut short contributed nothing. A loop naming no result answers nothing.
+The loop's own statement name binds the round it is on, readable everywhere the loop is still speaking: the `while` condition, the `body` and the `result`. A loop written nameless binds no round: a `break` or `continue` naming no loop still ends it, and one naming a loop passes through it. The condition reads the state before the round it would start, so `round.index` there is how many rounds have finished. What a loop answers is its `result` read in what the last round that *finished* left behind; a round cut short contributed nothing. A loop naming no result answers nothing.
 
 Bounding a loop is the author's to write, with a counter in its condition, and stopping one is the host's **cancellation**, under [running](running.md).
 
-Walking a collection is this construct too, and there is no second one for it. The round is read against the material's count and the element is read at that index, so what a walk needs beyond a loop is `std.collection.count`, a comparison and an index. All three are already there, and none of them is grammar.
+Walking a collection is this construct too: the round is read against the material's count and the element is read at that index, so what a walk needs beyond a loop is `std.collection.count`, a comparison and an index.
 
-There is no concurrency construct either. Running things at once is **vocabulary**. `std.concurrent`, under [the standard vocabulary](vocabulary.md), because a closure is already the one body that is safe to run beside another, and "takes closures" is a thing a signature can say. A loop is grammar for the opposite reason: its body writes the enclosing names, and that is exactly what no signature can say. That is also the line between the two ways to walk. Reach for a loop when a round writes outward or leans on the round before it, and for a procedure. `std.collection.map`, `filter`, `std.concurrent.map`. When each element's work stands alone, which is what lets the concurrent `map` run it at once.
+Running things at once is **vocabulary**: `std.concurrent`, under [the standard vocabulary](vocabulary.md).
+
+**Note.** A closure is the one body that is safe to run beside another, and "takes closures" is a thing a signature can say. A loop's body writes the enclosing names, which no signature can say. So a walk whose rounds write outward or lean on the round before is a loop, and one where each element's work stands alone is a procedure (`std.collection.map`, `filter`, `std.concurrent.map`), which is what lets the concurrent `map` run it at once.
 
 **`attempt`**
 
@@ -83,7 +89,7 @@ There is no concurrency construct either. Running things at once is **vocabulary
 | `result` | expression | no |
 | `rescue` | block. Runs if the body fails | yes |
 
-A rescue catches failure. What the world did. It does not catch leaving. What the program said. A rescue with nothing in it. No statement to run for effect, no `result` to answer. **refuses at the load**: it would swallow a failure into null without a trace. A rescue over a body that cannot fail, one the build derives no failure for, **refuses at the build** for the other half of the same reason: it is a body no run reaches. A refusal at the run is not a failure and does not make a body one that can fail, under [running](running.md). This is the one exception to a block's optional `result`, and the failure is the reason. The statement's own name binds the failure **while the rescue runs**, an attempt written nameless binds none, and what a name binds is a **record declared `{ record: { type: string, message: string, details: dictionary<any> } }`**. `type` names what happened (`aborted`, `concurrent_failed`), `message` is text for a person, and `details` is what the failing procedure carried. Every failure holds all three by construction: a runtime assembles the payload from what a failure declares, so no procedure can hand over one without them and there is nothing here for a run to check.
+A rescue catches failure (what the world did), not leaving (what the program said). A rescue with nothing in it, no statement to run for effect and no `result` to answer, **refuses at the load**: it would swallow a failure into null without a trace. A rescue over a body that cannot fail, one the build derives no failure for, **refuses at the build** for the other half of the same reason: it is a body no run reaches. A refusal at the run is not a failure and does not make a body one that can fail, under [running](running.md). This is the one exception to a block's optional `result`, and the failure is the reason. The statement's own name binds the failure **while the rescue runs**, an attempt written nameless binds none, and what a name binds is a **record declared `{ record: { type: string, message: string, details: dictionary<any> } }`**. `type` names what happened (`aborted`, `concurrent_failed`), `message` is text for a person, and `details` is what the failing procedure carried. Every failure holds all three by construction: a runtime assembles the payload from what a failure declares, so no procedure can hand over one without them and there is nothing here for a run to check.
 
 The envelope is this specification's; what rides in `details` is the procedure's own. `concurrent_failed` puts `failures` there: every piece's failure, keyed by the piece, a record's by its key and an array's by its index written `[0]`, and each is the envelope that piece raised, so a rescue reads a piece's own `type`, `message` and `details` through it.
 
@@ -99,21 +105,19 @@ The envelope is this specification's; what rides in `details` is the procedure's
 
 `details` holds `any`, so a value read out of it is read as anything until a type is named for it. A field the envelope does not name is not reached by a dot on the failure itself: `failed.failures` names nothing.
 
-A failure is data the moment a rescue holds it, which is why no ninth kind exists for it.
-
 **What a body may fail with is known before it runs.** The build derives it the way it derives constness and isolation, and the types a failure names itself by (`aborted`, `cast_refused`) are what it derives: a body fails with what its plain casts fail with (`cast_refused`, the one failure the runtime itself raises; `as?` reads the same mismatch as null and raises nothing), with what the declarations it calls fail with, and with whatever its rescues fail with, the body under a rescue being caught. Calling a value leaves the question open, since nothing before the run says which value.
 
 A native procedure says what it may fail with, the way it says whether it is isolated. **A procedure that says nothing fails nothing**, which is right for the many procedures that throw only at an author mistake, and a procedure that can fail says so. `std.control.abort` says `aborted`; `std.concurrent` says `concurrent_failed`, every piece's failure being gathered into that one. A piece that refuses at the run refuses the whole run instead, under [running](running.md), and the failures beside it are not gathered. A procedure that fails and does not say so has broken its contract, the same way one that holds state and calls itself isolated has.
 
-**`block`**. A body written as a statement, and nothing more: the bare member of the same family as a `conditional` arm or a `loop` round, with the condition left off. Like any statement it *may* take a name, and its name binds what its `result` answers. Because a block runs here, once, in the same flow. A fact the text shows, since no expression can carry a block away. A block may `set` the enclosing variables, exactly as a `conditional` or `loop` body may. A fence for names, not a door to elsewhere. (See *two kinds of body*, under Concurrency.)
+**`block`**. A body written as a statement, and nothing more: the bare member of the same family as a `conditional` arm or a `loop` round, with the condition left off. Like any statement it *may* take a name, and its name binds what its `result` answers. A block runs here, once, in the same flow, which the text shows, since no expression can carry a block away; so a block may `set` the enclosing variables, exactly as a `conditional` or `loop` body may.
 
-**`return`**. Answer the enclosing procedure from here. Takes an expression, or nothing (`return:` with null) to answer nothing. The answer must fit what the procedure declared.
+**`return`**. Answer the enclosing procedure from here. Takes an expression, or nothing (`return null`) to answer nothing. The answer must fit what the procedure declared.
 
 **`break`**. End a loop. **`continue`**. End the round and go on to the next. Each takes a loop's statement name, or nothing for the nearest enclosing loop. Both **refuse at the load** when nothing encloses them: a closure runs away from where it was written, so the loops around the writing are not around the running, and neither crosses into a procedure written inside another.
 
-Nothing may be written after a `return`, `break` or `continue` in the same body: it would never run, and the name it would bind would never bind. The same holds after a call whose answer reads `never`, declared under `returns` or read off a body that never finishes, at the build. The rule reaches through structure, because the fact does: a `conditional` both of whose arms leave never finishes either, so nothing may follow it. Held at the **load**, since the arms are text. A construct that can finish. A conditional with no `else`, a loop, an `attempt` (its rescue may finish normally). Is not a leave, however its bodies end.
+Nothing may be written after a `return`, `break` or `continue` in the same body: it would never run, and the name it would bind would never bind. The same holds after a call whose answer reads `never`, declared under `returns` or read off a body that never finishes, at the build. The rule reaches through structure, because the fact does: a `conditional` both of whose arms leave never finishes either, so nothing may follow it. Held at the **load**, since the arms are text. A construct that can finish (a conditional with no `else`, a loop, an `attempt`, whose rescue may finish normally) is not a leave, however its bodies end.
 
-There is no `abort` construct. Failing on purpose is a procedure. `std.control.abort`, under [the standard vocabulary](vocabulary.md), because a signature can say everything checking it needs: `returns: never` is the whole fact, and a thing is grammar only when checking it would need to understand more than a signature can say.
+Failing on purpose is a procedure, `std.control.abort` under [the standard vocabulary](vocabulary.md), declared `returns: never`: the signature says everything checking it needs.
 
 ## Cases
 

@@ -140,7 +140,7 @@ An index reads an element out as a `std.byte`, the range `std` names, and so doe
 
 **`abort`**. Fail on purpose, with a message. Declared `returns: never`, which is everything the checking needs: nothing runs after it, and no name binds it. The message is what `message` spells as text. Sent null, the failure says `aborted`. It is a failure like any other, so an `attempt` around it catches it. Leaving is what a rescue does not catch, and this is failing, not leaving.
 
-Behaviour at the edges. Where implementations quietly differ, so stated as requirements:
+Behaviour at the edges, where implementations quietly differ, stated as requirements:
 
 - Arithmetic takes two of a kind and answers that kind: both sides and the answer are one type parameter, bounded by `std.Numeric`. A whole number added to text **refuses at the build**, and so do two pieces of text, because agreement is not admission.
 - Ordering (`lessThan`, `greaterThan`, `sorted`, `min`, `max`) compares two of a kind under `std.Comparable`, and text is a kind. A kind the constraint does not admit refuses at the build where the text says so, and at the boundary where the value arrives through `any`.
