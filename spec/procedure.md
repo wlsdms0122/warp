@@ -106,6 +106,8 @@ The name is the declaration's own, and a closure literal's names are its own the
 
 Inside the body the parameter is a variable, and `set` writes it. The parameter holds the caller's box through the path it was handed: a read finds what the path holds now, and each write lands in the box as it is made. One box reached two ways, by a parameter and by a name or by two parameters, is still one box, so a write through either is seen through the other at once. A call that fails after writing has written, the same as a variable written before a failure. A body that writes through one does not answer without running, by the rule that such a body writes no name.
 
+A variable is handed in place only by a call a body writes. A run hands its entry values and a procedure the host answers hands what it sends values, so an entry taking a parameter in place **refuses at the run** before anything runs, and a procedure the host answers declaring a send to one **refuses at the build**.
+
 ## Cases
 
 What `conformance/` asks about this page, by the name each case's file carries.
@@ -174,6 +176,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-effect-in-a-contract-calls-operand-refuses`
 - `an-effect-in-an-operand-refuses`
 - `an-effectful-closure-where-const-is-asked-refuses`
+- `an-entry-taking-a-parameter-in-place-refuses`
 - `an-enum-candidate-written-as-a-number-refuses`
 - `an-enum-no-candidate-of-which-fits-refuses`
 - `an-enum-that-admits-nothing-refuses`

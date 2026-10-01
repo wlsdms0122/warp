@@ -1,0 +1,50 @@
+warpt 1
+{
+  arguments {
+    count 1
+  }
+  expect {
+    refuses "run"
+  }
+  name "an-entry-taking-a-parameter-in-place-refuses"
+  note "A run hands its entry values, and a parameter handed in place takes a variable, so an entry taking one refuses at the run before anything runs, whatever value the run gives under its name."
+  program {
+    imports [
+      "std.math.plus"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            set "count"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "count"
+                  }
+                  1
+                ]
+                procedure "std.math.plus"
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "count"
+            type "inout int"
+          }
+        ]
+        result {
+          ref "count"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
