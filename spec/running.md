@@ -35,7 +35,11 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-called-value-answers-what-its-slot-wrote`
 - `a-calls-arguments-are-evaluated-in-position-order`
 - `a-field-the-declared-answer-does-not-name-refuses`
+- `a-piece-calling-a-host-procedure-that-is-not-isolated-refuses`
 - `a-piece-calling-a-procedure-that-writes-a-module-variable-refuses`
+- `a-piece-of-first-that-writes-what-it-captured-refuses`
+- `a-rescue-does-not-hold-a-piece-that-refuses`
+- `a-run-given-an-argument-its-entry-does-not-declare-refuses`
 - `a-run-given-nothing-for-a-nullable-parameter-refuses`
 - `a-run-starts-from-a-public-procedure-the-host-answers`
 - `a-slot-that-wrote-no-returns-opens-its-answer-to-any`

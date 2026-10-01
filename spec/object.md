@@ -273,6 +273,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-with-a-lifted-row-nothing-counts-refuses`
 - `an-object-writing-a-count-below-zero-refuses`
 - `an-object-writing-a-name-not-in-normal-form-refuses`
+- `an-object-writing-a-tag-the-layout-does-not-name-refuses`
+- `an-object-writing-an-empty-name-refuses`
 - `the-object-of-a-block`
 - `the-object-of-a-call`
 - `the-object-of-a-cast`
