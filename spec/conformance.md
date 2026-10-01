@@ -34,7 +34,7 @@ One file, one question: a subject, what to ask it with, and what should happen.
                                   exactly this object
                 refuses <stage>   it is refused, at load, build or run
 
-**A case carries exactly one of `program`, `bytes`, `text` and `object`,** and which one it carries decides what it may expect. A case carrying two would be two cases sharing one answer.
+**A case carries exactly one of `program`, `bytes`, `text` and `object`,** and which one it carries decides what it may expect. A case carrying two would be two cases sharing one answer. Beside `test`, `name`, `note` and `expect`, a case writes only the keys its subject reads: a program `arguments`, `vocabulary` and `documents`, an object `arguments` and `document`, an encoding nothing more. Any other key, a misspelled one included, **refuses** as a case.
 
 A case carrying a **program** is the ordinary kind: it is read, built and run, and it expects `answers` or `refuses`. It may instead expect `builds`: the program's own document, compiled against the standard vocabulary and whatever the case asked the runner to bring, writes exactly this object, as a value, under [objects](object.md). That is the writer's half of the object format, the way `spells` is the writer's half of an encoding.
 
