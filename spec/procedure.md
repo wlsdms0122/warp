@@ -115,6 +115,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-body-reading-a-module-variable-does-not-answer-without-running`
 - `a-body-that-branches-answers-without-running`
 - `a-body-that-loops-answers-without-running`
+- `a-call-of-a-value-hands-in-place-inside-every-construct`
 - `a-call-of-a-value-hands-its-arguments-by-position`
 - `a-call-of-a-value-of-another-count-refuses`
 - `a-call-of-a-value-short-of-what-it-takes-refuses`
@@ -125,6 +126,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-candidate-on-a-slot-bounded-by-numbers-meets-either-kind`
 - `a-closure-carries-what-a-captured-slot-said`
 - `a-closure-that-writes-what-it-captured-is-not-const`
+- `a-closure-writes-its-own-parameter-in-place-and-no-name-it-shadows`
+- `a-closures-parameter-is-not-the-const-procedure-it-shadows`
 - `a-const-slot-refuses-a-closure-that-calls-what-runs`
 - `a-const-slot-takes-a-closure-that-calls-a-const-slot`
 - `a-const-slot-takes-a-closure-that-calls-a-host-procedure`
