@@ -130,6 +130,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-closure-writes-its-own-parameter-in-place-and-no-name-it-shadows`
 - `a-closures-parameter-is-not-the-const-procedure-it-shadows`
 - `a-const-procedure-read-out-of-a-dictionary-answers-without-running`
+- `a-const-procedure-read-out-of-a-dictionary-by-a-dot-answers-without-running`
 - `a-const-slot-refuses-a-closure-that-calls-what-runs`
 - `a-const-slot-takes-a-closure-that-calls-a-const-slot`
 - `a-const-slot-takes-a-closure-that-calls-a-host-procedure`
