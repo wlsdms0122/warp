@@ -71,7 +71,7 @@ A *type* is `[tag, …]`:
 | 18 | a declared name | name |
 | 19 | a type parameter | name, its bounds: names ascending |
 | 20 | a composition `A & B` | names ascending, at least one |
-| 21 | a reading | the parameter read, the path: *segment* list |
+| 21 | a projection | the parameter projected, the path: *segment* list |
 
 A *refinement* is `[0, from, to]` over whole numbers or `[1, from, to]` over fractions, each end a list of none or one; the upper end is an *edge*, `[0, bound]` where the bound is inside or `[1, bound]` where it is out. A *segment* is `[0, name, optional]`, `[1, index, optional]` or `[2, path, optional]` for an index read from a path.
 
@@ -153,7 +153,7 @@ A *lowered type* is a type as a body stands on it, `[tag, …]`:
 | 15 | a declared type | its number in `numbering` |
 | 16 | a type parameter | its label, bounds ascending |
 | 17 | a composition | bounds ascending, at least one |
-| 18 | a reading | the parameter read, *segment* list |
+| 18 | a projection | the parameter projected, *segment* list |
 | 19 | undeclared | its label, why: `[0, name]` nothing declares it, `[1, name]` nothing declares it as a membership or a contract, `[2]` it names itself |
 
 A *bound* is `[0, number]` for a membership or `[1, name]` for a contract.
