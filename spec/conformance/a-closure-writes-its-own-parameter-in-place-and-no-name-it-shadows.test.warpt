@@ -1,0 +1,67 @@
+warpt 1
+{
+  expect {
+    answers 5
+  }
+  name "a-closure-writes-its-own-parameter-in-place-and-no-name-it-shadows"
+  note "A closure's parameter is its own name, whatever a name of the same spelling outside it holds. Writing the parameter it takes in place writes the caller's box and captures nothing, so an outer variable of that spelling and another type has no say in it."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            type "string"
+            value "a"
+            var "count"
+          }
+          {
+            value 1
+            var "n"
+          }
+          {
+            let "bump"
+            value {
+              closure {
+                body [
+                  {
+                    set "count"
+                    value 5
+                  }
+                ]
+                parameters [
+                  {
+                    name "count"
+                    type "inout int"
+                  }
+                ]
+              }
+            }
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "n"
+                  }
+                ]
+                procedure {
+                  ref "bump"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "n"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

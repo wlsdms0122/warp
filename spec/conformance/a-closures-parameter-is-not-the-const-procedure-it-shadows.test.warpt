@@ -1,0 +1,156 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-closures-parameter-is-not-the-const-procedure-it-shadows"
+  note "A closure's parameter is its own name, whatever a name of the same spelling outside it holds. A closure calling a parameter whose slot says only `procedure` does not answer without running, even where an outer name of that spelling is a `const procedure`, so a slot asking `const procedure` refuses it at the build."
+  program {
+    imports []
+    procedures {
+      asking {
+        body [
+          {
+            let "given"
+            value {
+              closure {
+                parameters [
+                  {
+                    name "x"
+                    type "int"
+                  }
+                ]
+                result {
+                  ref "x"
+                }
+                returns "int"
+              }
+            }
+          }
+          {
+            let "answered"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "given"
+                  }
+                ]
+                procedure {
+                  ref "body"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "body"
+            type {
+              "const procedure" {
+                parameters [
+                  {
+                    procedure {
+                      parameters [
+                        "int"
+                      ]
+                      returns "int"
+                    }
+                  }
+                ]
+                returns "int"
+              }
+            }
+          }
+        ]
+        result {
+          ref "answered"
+        }
+        returns "int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "f"
+            type {
+              "const procedure" {
+                parameters [
+                  "int"
+                ]
+                returns "int"
+              }
+            }
+            value {
+              closure {
+                parameters [
+                  {
+                    name "x"
+                    type "int"
+                  }
+                ]
+                result {
+                  ref "x"
+                }
+                returns "int"
+              }
+            }
+          }
+          {
+            let "g"
+            value {
+              closure {
+                body [
+                  {
+                    let "y"
+                    value {
+                      call {
+                        arguments [
+                          1
+                        ]
+                        procedure {
+                          ref "f"
+                        }
+                      }
+                    }
+                  }
+                ]
+                parameters [
+                  {
+                    name "f"
+                    type {
+                      procedure {
+                        parameters [
+                          "int"
+                        ]
+                        returns "int"
+                      }
+                    }
+                  }
+                ]
+                result {
+                  ref "y"
+                }
+                returns "int"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "g"
+              }
+            ]
+            procedure "asking"
+          }
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
