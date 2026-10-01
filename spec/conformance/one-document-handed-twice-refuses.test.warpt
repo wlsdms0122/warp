@@ -1,0 +1,42 @@
+warpt 1
+{
+  documents [
+    {
+      imports []
+      procedures {
+        "lib.helper" {
+          access "private"
+          result 1
+        }
+      }
+      warp 1
+    }
+    {
+      imports []
+      procedures {
+        "lib.helper" {
+          access "private"
+          result 1
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    refuses "build"
+  }
+  name "one-document-handed-twice-refuses"
+  note "A build holds each document once. The document beside the program is laid twice, one identity handed a second time, and the build refuses it, though all it declares is `private` and two documents may each declare a `private` name under one spelling."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

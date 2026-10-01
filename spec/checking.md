@@ -65,5 +65,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-untaken-arm-is-checked-too`
 - `elements-of-different-kinds-join-to-any`
 - `inout-written-outside-a-parameter-refuses`
+- `one-document-handed-twice-refuses`
 - `two-documents-that-need-each-other-refuse`
 - `var-written-outside-a-declared-field-refuses`

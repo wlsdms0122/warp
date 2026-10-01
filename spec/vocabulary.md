@@ -233,6 +233,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `remainder-by-zero-refuses`
 - `remainder-is-what-whole-division-leaves`
 - `remainder-takes-the-sign-of-the-dividend`
+- `replacing-nothing-fails`
 - `replacing-swaps-every-occurrence`
 - `reversed-turns-the-order-around`
 - `rounded-past-the-int-refuses`

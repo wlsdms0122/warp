@@ -81,6 +81,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-index-into-any-is-refused`
 - `an-index-past-the-end-refuses`
 - `an-index-reference-that-is-not-a-whole-number-refuses`
+- `an-optional-bracket-reads-an-absent-entry-as-null`
 - `an-optional-dot-on-a-field-that-is-there-refuses`
 - `an-optional-segment-reads-absence-as-null`
 - `an-unclosed-bracket-in-a-path-is-refused`
