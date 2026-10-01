@@ -122,6 +122,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-call-of-another-count-refuses`
 - `a-call-short-of-what-the-callee-takes-refuses`
 - `a-call-that-fails-after-writing-has-written`
+- `a-called-value-writes-in-place-held-to-its-slots-type`
 - `a-candidate-meets-a-number-by-worth`
 - `a-candidate-on-a-slot-bounded-by-numbers-meets-either-kind`
 - `a-closure-carries-what-a-captured-slot-said`
