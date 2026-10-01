@@ -26,6 +26,7 @@ A program computes over eight kinds of data, plus one value that is not data:
 - Arrays are the same when their elements are, in order.
 - Records are the same when they hold the same field names bound to the same values and the same type name, or none. A record has no order, so order is not part of the answer; the name is part of what a record holds, so an `Account` and a `Vault` with the same fields are two values.
 - Null is the same as null.
+- A procedure is the same as no value, itself included, and so is a collection holding one.
 - **Text is counted and compared as a person reads it**: by extended grapheme cluster, under Unicode canonical equivalence. A letter written as a letter and the same letter written as letter-plus-combining-mark are one character and are equal; `"é"` is `"é"` whichever way its bytes spell it, and its `count` is 1. An implementation whose platform strings compare by code unit must not expose that comparison here.
 
 ## Cases
