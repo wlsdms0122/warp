@@ -3,8 +3,8 @@ warpt 1
   expect {
     refuses "build"
   }
-  name "a-value-handed-on-once-does-not-go-into-a-list"
-  note "What follows the value is the name that holds it, and a name does not follow it into a type. Written into a list the obligation would be neither handed on nor still held."
+  name "a-linear-value-does-not-go-into-a-list-unbound"
+  note "Nothing holds this one yet, and writing it straight into the list is the same loss: the obligation is neither handed on nor still held. It is bound to a name and handed on from there."
   program {
     imports [
       "app.open"
@@ -12,19 +12,11 @@ warpt 1
     procedures {
       entry {
         access "public"
-        body [
-          {
-            let "handle"
-            value {
-              call {
-                procedure "app.open"
-              }
-            }
-          }
-        ]
         result [
           {
-            ref "handle"
+            call {
+              procedure "app.open"
+            }
           }
         ]
         returns "any"

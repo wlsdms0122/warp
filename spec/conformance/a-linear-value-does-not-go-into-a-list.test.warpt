@@ -3,25 +3,28 @@ warpt 1
   expect {
     refuses "build"
   }
-  name "a-cast-naming-a-type-handed-on-once-does-not-go-into-a-list"
-  note "Where nothing inside a cast holds a value written `linear`, the type the cast names is what says the value is one, and such a value written into a list refuses like any other."
+  name "a-linear-value-does-not-go-into-a-list"
+  note "What follows the value is the name that holds it, and a name does not follow it into a type. Written into a list the obligation would be neither handed on nor still held."
   program {
     imports [
-      "app.Handle"
+      "app.open"
     ]
     procedures {
       entry {
         access "public"
+        body [
+          {
+            let "handle"
+            value {
+              call {
+                procedure "app.open"
+              }
+            }
+          }
+        ]
         result [
           {
-            as {
-              of {
-                record {
-                  name "f"
-                }
-              }
-              type "app.Handle"
-            }
+            ref "handle"
           }
         ]
         returns "any"

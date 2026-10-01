@@ -1,15 +1,21 @@
 warpt 1
 {
   expect {
-    answers app.Handle {
-      name "f"
-    }
+    refuses "build"
   }
-  name "a-value-handed-on-once-is-handed-on"
-  note "A type written `linear` says its values are handed on: given to a procedure, or answered. A body that answers one has handed it on, and its caller owes it from there. Only a procedure with no body ends the obligation, since what a resource is lives outside the document."
+  name "a-slot-naming-a-linear-type-says-what-it-does"
+  note "A parameter naming a type written `linear` says what it does with the value: `consuming` takes the obligation and `borrowing` reads and leaves it. One writing neither refuses at the build."
   program {
     imports []
     procedures {
+      "app.look" {
+        parameters [
+          {
+            name "of"
+            type "app.Handle"
+          }
+        ]
+      }
       "app.open" {
         result {
           as {

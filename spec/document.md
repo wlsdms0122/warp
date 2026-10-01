@@ -56,6 +56,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-constant-sees-only-the-constants-beside-it`
 - `a-document-that-says-no-version-refuses`
 - `a-field-read-names-no-type`
+- `a-front-end-shorthand-refuses-in-a-document`
 - `a-later-document-refuses`
 - `a-list-leaving-out-a-type-the-program-names-refuses`
 - `a-module-declares-a-constraint`
@@ -69,7 +70,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-module-variable-starting-as-a-dictionary-takes-new-names`
 - `a-name-declared-as-both-a-constant-and-a-variable-refuses`
 - `a-procedure-only-an-untaken-arm-sends-is-still-needed`
-- `a-reserved-spelling-refuses-in-a-document`
 - `a-result-written-as-null-refuses`
 - `a-send-is-a-declared-spelling-or-an-import`
 - `a-version-that-never-existed-refuses`
