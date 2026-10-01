@@ -26,7 +26,7 @@ An object is one record. It carries **exactly** these keys, and a key none of th
 | `variables` | (name, *value*): what each variable starts a run holding | by name |
 | `constants` | the constants it declared, by spelling | by name |
 
-**The record is keyed and its parts are not.** The envelope names each part by its key; inside a part the fields stand in order and a kind says itself by its tag. A reading holds an object to the format it reads before it reads a part.
+**The record is keyed and its parts are not.** The record names each part by its key; inside a part the fields stand in order and a kind says itself by its tag. A reading holds an object to the format it reads before it reads a part.
 
 **Order is spelling.** Every list a name keys stands ascending by the names' bytes, none twice, and so does every set written as a list. That is the whole of what makes one object one value: a dictionary lends no order, so the layout says one, and a reading takes no other. A list out of order, or naming one thing twice, **refuses**.
 
@@ -71,7 +71,7 @@ A *type* is `[tag, …]`:
 | 18 | a declared name | name |
 | 19 | a type parameter | name, its bounds: names ascending |
 | 20 | a composition `A & B` | names ascending, at least one |
-| 21 | a reading | the parameter read, the path: *segment* list |
+| 21 | a projection | the parameter projected, the path: *segment* list |
 
 A *refinement* is `[0, from, to]` over whole numbers or `[1, from, to]` over fractions, each end a list of none or one; the upper end is an *edge*, `[0, bound]` where the bound is inside or `[1, bound]` where it is out. A *segment* is `[0, name, optional]`, `[1, index, optional]` or `[2, path, optional]` for an index read from a path.
 
@@ -153,7 +153,7 @@ A *lowered type* is a type as a body stands on it, `[tag, …]`:
 | 15 | a declared type | its number in `numbering` |
 | 16 | a type parameter | its label, bounds ascending |
 | 17 | a composition | bounds ascending, at least one |
-| 18 | a reading | the parameter read, *segment* list |
+| 18 | a projection | the parameter projected, *segment* list |
 | 19 | undeclared | its label, why: `[0, name]` nothing declares it, `[1, name]` nothing declares it as a membership or a contract, `[2]` it names itself |
 
 A *bound* is `[0, number]` for a membership or `[1, name]` for a contract.
