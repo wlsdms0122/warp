@@ -1,0 +1,89 @@
+warpt 1
+{
+  expect {
+    answers 5
+  }
+  name "a-value-taking-a-value-reads-the-variable-its-slot-hands-in-place"
+  note "A call of a value hands a variable in place where the slot's type writes `inout`. A value standing in that slot whose own parameter takes a value reads what the variable holds."
+  program {
+    imports []
+    procedures {
+      calling {
+        body [
+          {
+            value 5
+            var "n"
+          }
+          {
+            let "got"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "n"
+                  }
+                ]
+                procedure {
+                  ref "read"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "read"
+            type {
+              procedure {
+                parameters [
+                  "inout int"
+                ]
+                returns "int"
+              }
+            }
+          }
+        ]
+        result {
+          ref "got"
+        }
+        returns "int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "reading"
+            value {
+              closure {
+                parameters [
+                  {
+                    name "count"
+                    type "int"
+                  }
+                ]
+                result {
+                  ref "count"
+                }
+                returns "int"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "reading"
+              }
+            ]
+            procedure "calling"
+          }
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

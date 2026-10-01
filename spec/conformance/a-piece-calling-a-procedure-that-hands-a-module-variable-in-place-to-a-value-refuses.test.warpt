@@ -1,0 +1,134 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-piece-calling-a-procedure-that-hands-a-module-variable-in-place-to-a-value-refuses"
+  note "A body handing a module variable in place to a value writes it through that value, the way it would through a declaration, so it is not isolated. A piece of `std.concurrent.map` calling such a procedure refuses at the build."
+  program {
+    imports [
+      "std.concurrent.map"
+      "std.math.plus"
+    ]
+    procedures {
+      adding {
+        body [
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "total"
+                  }
+                ]
+                procedure {
+                  ref "f"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "f"
+            type {
+              "isolated procedure" {
+                parameters [
+                  "inout int"
+                ]
+              }
+            }
+          }
+        ]
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "bump"
+            value {
+              closure {
+                body [
+                  {
+                    set "count"
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "count"
+                          }
+                          1
+                        ]
+                        procedure "std.math.plus"
+                      }
+                    }
+                  }
+                ]
+                parameters [
+                  {
+                    name "count"
+                    type "inout int"
+                  }
+                ]
+              }
+            }
+          }
+          {
+            value {
+              call {
+                arguments [
+                  [
+                    1
+                    2
+                  ]
+                  {
+                    closure {
+                      body [
+                        {
+                          value {
+                            call {
+                              arguments [
+                                {
+                                  ref "bump"
+                                }
+                              ]
+                              procedure "adding"
+                            }
+                          }
+                        }
+                      ]
+                      parameters [
+                        {
+                          name "item"
+                          type "int"
+                        }
+                        {
+                          name "index"
+                          type "int"
+                        }
+                      ]
+                      result {
+                        ref "item"
+                      }
+                    }
+                  }
+                ]
+                procedure "std.concurrent.map"
+              }
+            }
+          }
+        ]
+        result {
+          ref "total"
+        }
+        returns "int"
+      }
+    }
+    var {
+      total 0
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -106,7 +106,7 @@ The name is the declaration's own, and a closure literal's names are its own the
 
 Inside the body the parameter is a variable, and `set` writes it. The parameter holds the caller's box through the path it was handed: a read finds what the path holds now, and each write lands in the box as it is made. One box reached two ways, by a parameter and by a name or by two parameters, is still one box, so a write through either is seen through the other at once. A call that fails after writing has written, the same as a variable written before a failure. A body that writes through one does not answer without running, by the rule that such a body writes no name.
 
-A variable is handed in place only by a call a body writes. A run hands its entry values and a procedure the host answers hands what it sends values, so an entry taking a parameter in place **refuses at the run** before anything runs, and a procedure the host answers declaring a send to one **refuses at the build**.
+A variable is handed in place only by a call a body writes: a `call` to a declaration, and a `call` of a value whose type the build reads as a procedure type writing its parameters, at each position that type writes `inout`, held at the **build** to the three rules above. A value standing there whose own parameter takes a value reads what the variable holds. Every other way in hands values: a run hands its entry values, a procedure the host answers hands values to what it sends and to a procedure it was handed, and a call of a value whose type writes no parameters (`procedure`, `any`, a type parameter) hands a value at every position. So an entry taking a parameter in place **refuses at the run** before anything runs; a procedure the host answers declaring a send to one, or a parameter asking for a procedure that takes one, **refuses at the build**; and a value taking one that is handed a value **refuses at the run** before its body runs.
 
 ## Cases
 
@@ -141,6 +141,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-declaration-that-runs-backs-no-const-contract`
 - `a-dictionary-entry-handed-in-place-is-read-by-the-callee`
 - `a-fixed-name-is-not-handed-in-place`
+- `a-fixed-name-is-not-handed-in-place-to-a-called-value`
 - `a-name-declared-inside-a-nested-closure-does-not-cover-a-captured-one`
 - `a-native-procedure-is-handed-a-path-indexed-with-a-name`
 - `a-parameter-declared-twice-refuses`
@@ -154,15 +155,21 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-private-procedure-called-beside-its-declaration-runs`
 - `a-private-procedure-called-from-another-document-refuses`
 - `a-private-procedure-the-host-brings-is-not-named`
+- `a-procedure-handing-a-parameter-in-place-to-a-value-does-not-answer-without-running`
 - `a-procedure-that-writes-in-place-does-not-answer-without-running`
 - `a-required-argument-left-out-refuses`
 - `a-value-is-not-handed-in-place`
 - `a-value-is-not-handed-in-place-through-a-contract`
+- `a-value-is-not-handed-in-place-to-a-called-value`
+- `a-value-taking-a-parameter-in-place-refuses-a-call-handing-values`
+- `a-value-taking-a-value-reads-the-variable-its-slot-hands-in-place`
 - `a-value-under-a-slot-saying-only-procedure-is-not-const`
 - `a-variable-a-body-declares-is-its-own`
 - `a-variable-declared-const-procedure-carries-that-into-a-capture`
+- `a-variable-handed-in-place-is-written-by-a-called-value`
 - `a-variable-handed-in-place-is-written-by-the-callee`
 - `a-variable-of-another-type-is-not-handed-in-place`
+- `a-variable-of-another-type-is-not-handed-in-place-to-a-called-value`
 - `a-variable-that-declares-nothing-gives-a-capture-no-claim`
 - `a-whole-number-candidate-on-a-fraction-slot-is-dead`
 - `an-access-naming-no-scope-refuses`

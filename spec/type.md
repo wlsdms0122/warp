@@ -255,6 +255,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-value-outside-a-contract-standing-as-a-type-refuses`
 - `a-value-outside-a-declared-type-refuses-at-the-boundary`
 - `a-value-taken-inside-an-attempt-body-is-still-owed`
+- `a-value-taking-a-parameter-in-place-does-not-fit-a-slot-handing-a-value`
 - `a-value-through-any-is-judged-against-the-membership-where-it-arrives`
 - `a-value-written-into-a-box-inside-a-loop-refuses`
 - `a-value-written-into-a-box-is-still-owed`

@@ -1,0 +1,72 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-value-is-not-handed-in-place-to-a-called-value"
+  note "What a call of a value hands in place is a variable's path, held at the build the way a call to a declaration's is. A literal refuses at the build."
+  program {
+    imports [
+      "std.math.plus"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            value 10
+            var "n"
+          }
+          {
+            let "bump"
+            value {
+              closure {
+                body [
+                  {
+                    set "count"
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "count"
+                          }
+                          1
+                        ]
+                        procedure "std.math.plus"
+                      }
+                    }
+                  }
+                ]
+                parameters [
+                  {
+                    name "count"
+                    type "inout int"
+                  }
+                ]
+              }
+            }
+          }
+          {
+            value {
+              call {
+                arguments [
+                  10
+                ]
+                procedure {
+                  ref "bump"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "n"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
