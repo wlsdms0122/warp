@@ -41,6 +41,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-run-given-nothing-for-a-nullable-parameter-refuses`
 - `a-run-starts-from-a-public-procedure-the-host-answers`
 - `a-slot-that-wrote-no-returns-opens-its-answer-to-any`
+- `all-answers-every-piece-under-its-key`
 - `an-answer-of-all-settles-into-the-record-declared`
-- `concurrency-is-granted-vocabulary`
 - `every-way-out-of-a-body-is-one-of-its-answers`
