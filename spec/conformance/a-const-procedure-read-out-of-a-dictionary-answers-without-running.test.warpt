@@ -1,0 +1,96 @@
+warpt 1
+{
+  expect {
+    answers 2
+  }
+  name "a-const-procedure-read-out-of-a-dictionary-answers-without-running"
+  note "A slot writing `dictionary<const procedure>` says it of every entry, the way an array of them does. A body calling an entry it reads out by an index answers without running, so an operand may call it."
+  program {
+    imports [
+      "std.math.plus"
+    ]
+    procedures {
+      asking {
+        body [
+          {
+            let "a"
+            value {
+              call {
+                arguments [
+                  1
+                ]
+                procedure {
+                  ref "body[key]"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "body"
+            type {
+              dictionary {
+                "const procedure" {
+                  parameters [
+                    "int"
+                  ]
+                  returns "int"
+                }
+              }
+            }
+          }
+          {
+            name "key"
+            type "string"
+          }
+        ]
+        result {
+          ref "a"
+        }
+        returns "int"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                call {
+                  arguments [
+                    {
+                      record {
+                        k {
+                          closure {
+                            parameters [
+                              {
+                                name "x"
+                                type "int"
+                              }
+                            ]
+                            result {
+                              ref "x"
+                            }
+                            returns "int"
+                          }
+                        }
+                      }
+                    }
+                    "k"
+                  ]
+                  procedure "asking"
+                }
+              }
+              1
+            ]
+            procedure "std.math.plus"
+          }
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

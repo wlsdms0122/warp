@@ -1,0 +1,34 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-cast-naming-what-the-reading-already-is-refuses"
+  note "A cast names a type the reading is not yet. Where the reading already is that type, the claim says nothing, and it is refused at the build the way a needless `?.` is."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "count"
+            type "int"
+          }
+        ]
+        result {
+          as {
+            of {
+              ref "count"
+            }
+            type "int"
+          }
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

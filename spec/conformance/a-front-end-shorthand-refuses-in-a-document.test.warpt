@@ -1,0 +1,35 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-front-end-shorthand-refuses-in-a-document"
+  note "`format`/`with` are a front end's shorthand, spent before the document leaves. A document writes a record under `record`, so a mapping of those two keys is no form and is refused where it is read."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "line"
+            value {
+              format "${x}"
+              with {
+                x {
+                  value 1
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "line"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

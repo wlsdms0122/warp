@@ -1,0 +1,63 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "an-operand-calling-a-value-refuses"
+  note "An operand is read rather than run, and which procedure a value is, is the run's answer. A call of `f` written as an argument refuses at the build, though `f` is declared `const procedure`; written as a statement it stands."
+  program {
+    imports [
+      "std.math.plus"
+    ]
+    procedures {
+      "app.g" {
+        parameters [
+          {
+            name "f"
+            type {
+              "const procedure" {
+                returns "int"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              1
+              {
+                call {
+                  procedure {
+                    ref "f"
+                  }
+                }
+              }
+            ]
+            procedure "std.math.plus"
+          }
+        }
+        returns "int"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                closure {
+                  result 1
+                  returns "int"
+                }
+              }
+            ]
+            procedure "app.g"
+          }
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

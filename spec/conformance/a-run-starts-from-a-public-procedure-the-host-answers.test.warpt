@@ -1,0 +1,30 @@
+warpt 1
+{
+  expect {
+    answers 5
+  }
+  name "a-run-starts-from-a-public-procedure-the-host-answers"
+  note "A run starts from any `public` declaration the host names, one the host answers included. Here `entry` is the host's, and the run answers what the host answers."
+  program {
+    imports []
+    procedures {
+      other {
+        result 1
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+  vocabulary {
+    procedures {
+      entry {
+        access "public"
+        answers 5
+        returns "int"
+        runs true
+      }
+    }
+  }
+}
+

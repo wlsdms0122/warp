@@ -2,7 +2,7 @@
 
 The procedures every implementation brings, what each answers, and which of them an implementation has to write in native code rather than take from `lib/std`. This is the layer a program does its work in: the language has no arithmetic, no comparison and no collections of its own, and a program that is granted none of these can compute nothing.
 
-Seven bundles, each taken with what it depends on, so a receiver grants what its programs have use for and no more. What a bundle depends on is what its written half sends and what its signatures mention, and the written half's `imports` is the list. `std` is the shared ground: it declares no procedures, only the memberships and the type the other bundles' signatures mention, so every bundle below links with `std` in the link. Beyond that, `std.math` stands alone; `std.logic` links with `std.collection` and `std.math`; `std.collection` with `std.logic` and `std.math`; `std.concurrent` with `std.collection` and `std.math`; `std.text` with `std.collection`, `std.control`, `std.logic` and `std.math`; `std.control` stands alone. Two bundles that send to each other are not a cycle, because a bundle is not a module, below:
+Seven bundles, each taken with what it depends on, so a host grants what its programs have use for and no more. What a bundle depends on is what its written half sends and what its signatures mention, and the written half's `imports` is the list. `std` is the shared ground: it declares no procedures, only the memberships and the type the other bundles' signatures mention, so every bundle below links with `std` in the link. Beyond that, `std.math` stands alone; `std.logic` links with `std.collection` and `std.math`; `std.collection` with `std.logic` and `std.math`; `std.concurrent` with `std.collection` and `std.math`; `std.text` with `std.collection`, `std.control`, `std.logic` and `std.math`; `std.control` stands alone. Two bundles that send to each other are not a cycle, because a bundle is not a module, below:
 
 | module | procedures |
 |---|---|
@@ -29,7 +29,7 @@ Not all of these. Most are written in Warp, from a small set that cannot be: **b
 
 Twenty-five, beside the memberships and the `std.byte` type `std` declares. What makes one builtin is that the language cannot express it: arithmetic and ordering are the machine's, case mapping and encoding carry Unicode's tables with them, running at once is the host's scheduler, `appending` is the only way an array grows, and `gathering` the only way an answer keeps the spelling its collection arrived in. Everything else is written from those.
 
-A procedure being derivable is not a claim that it is unimportant, and a document cannot tell the two apart: `greaterThan` is `lessThan` with its sides swapped, and both are called the same way. An implementation that wants its own `greaterThan` declares one under that name in a module it lays in the link **in place of** the written one, and the link takes it: one name has one declarer, and which body stands behind it is the receiver's, which is what every name outside the builtin set is open to.
+A procedure being derivable is not a claim that it is unimportant, and a document cannot tell the two apart: `greaterThan` is `lessThan` with its sides swapped, and both are called the same way. An implementation that wants its own `greaterThan` declares one under that name in a module it lays in the link **in place of** the written one, and the link takes it: one name has one declarer, and which body stands behind it is the host's, which is what every name outside the builtin set is open to.
 
 One of these is builtin for a reason that is not the set it removes. `trimmed` names that set, and a body written from `characters` still could not answer it: `characters` answers characters, and whether a character is whitespace is a question about the code points inside it.
 
@@ -126,7 +126,7 @@ One of these is builtin for a reason that is not the set it removes. `trimmed` n
 | `all`, `first` | `pieces: std.concurrent.Pieces`. The membership of `array<isolated procedure>` and `dictionary<isolated procedure>` | `any` |
 | `map` | `array: array<some Element>`, `transform`. `isolated procedure`, handed the item, then its index, answering `some Answer` | `array<some Answer>` |
 
-**`std.concurrent`**. Running closures at once. `all` takes a record or an array of closures, runs every one, and answers every answer. A record's under its keys, an array's in its order; a failure fails the whole procedure with every piece's failure reported, keyed by the piece it came from. `first` takes the same and answers the first success, asking the rest to stop; which piece wins is the one timing fact this language admits. `map` takes a collection and one closure, calls it once per element, handing it the element and then its index, and answers in the collection's order. These are procedures rather than grammar because a closure is already the safe unit of concurrent work, and being procedures makes concurrency a permission: what a receiver does not link, a program cannot do.
+**`std.concurrent`**. Running closures at once. `all` takes a record or an array of closures, runs every one, and answers every answer. A record's under its keys, an array's in its order; a failure fails the whole procedure with every piece's failure reported, keyed by the piece it came from. `first` takes the same and answers the first success, asking the rest to stop; which piece wins is the one timing fact this language admits. `map` takes a collection and one closure, calls it once per element, handing it the element and then its index, and answers in the collection's order. These are procedures rather than grammar because a closure is already the safe unit of concurrent work, and being procedures makes concurrency a permission: what a host does not link, a program cannot do.
 
 The names are plain ones with the module carrying the context, the way `Array.map` and `TaskGroup.next` lean on their types. A call site spells the module, so `std.collection.first` and `std.concurrent.first` are two names, and a link carrying both bundles holds both: every `first` and every `map`, the sequential ones included, is written with its bundle, and concurrency shows at the call site.
 
@@ -140,17 +140,17 @@ An index reads an element out as a `std.byte`, the range `std` names, and so doe
 
 **`abort`**. Fail on purpose, with a message. Declared `returns: never`, which is everything the checking needs: nothing runs after it, and no name binds it. The message is what `message` spells as text. Sent null, the failure says `aborted`. It is a failure like any other, so an `attempt` around it catches it. Leaving is what a rescue does not catch, and this is failing, not leaving.
 
-Behaviour at the edges. Where implementations quietly differ, so stated as requirements:
+Behaviour at the edges, where implementations quietly differ, stated as requirements:
 
 - Arithmetic takes two of a kind and answers that kind: both sides and the answer are one type parameter, bounded by `std.Numeric`. A whole number added to text **refuses at the build**, and so do two pieces of text, because agreement is not admission.
 - Ordering (`lessThan`, `greaterThan`, `sorted`, `min`, `max`) compares two of a kind under `std.Comparable`, and text is a kind. A kind the constraint does not admit refuses at the build where the text says so, and at the boundary where the value arrives through `any`.
 - Whole-number arithmetic with no whole answer **refuses at the run**. It does not wrap and does not silently widen. The rule covers every standard procedure that answers an `int` and can miss it: `plus`, `minus`, `times` off the int's edge, `absolute` of the int's own minimum, and `floored`/`rounded` of a fraction whose whole part is past the int. `remainder` is not on the list because its answer always fits. A remainder is smaller in size than its divisor, and the one divisor that trips a machine's division instruction still has one: `-9223372036854775808 remainder -1` answers `0`. These run-stage refusals (overflow, and the zero divisor below) are the program's own defect, not a failure of the work: an `attempt` does **not** catch them, the way it does not catch an index past the end. What a rescue catches is `abort` and a procedure's own failure.
-- Fraction arithmetic with no finite answer **refuses at the run** for the same reason: infinity is a value the arithmetic can reach and no document can carry, and a value that exists only until someone writes it down is not an answer.
+- Fraction arithmetic with no finite answer **refuses at the run** for the same reason: infinity is a value the arithmetic can reach and no document can carry.
 - `dividedBy` answers a fraction, whole or not. Division by zero **refuses at the run**. The quotient is binary64's own: a whole operand reads as the fraction nearest it first, the same widening every mixed operation performs, and the division rounds once more, so two implementations spell the same quotient bit for bit.
 - `remainder` truncates toward zero, for wholes and fractions alike: what is left takes the dividend's sign, so `-7 remainder 3` is `-1`, `7 remainder -3` is `1` and `-5.5 remainder 2.0` is `-1.5`. A zero divisor **refuses at the run**, the same as under `dividedBy`.
 - A whole number where a fraction is expected widens; the reverse refuses.
 
-What a host brings beyond these (its own procedures, and which of them answer without running) is the host's, and is the boundary to the outside world: a program reaches nothing except by sending a procedure the receiver declared.
+What a host brings beyond these (its own procedures, and which of them answer without running) is the host's, and is the boundary to the outside world: a program reaches nothing except by sending a procedure the host declared.
 
 ## Cases
 
@@ -163,7 +163,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-document-writes-map-over-a-const-slot`
 - `a-document-writes-startsWith-over-characters`
 - `a-mapped-procedure-chooses-what-it-answers`
+- `a-piece-arriving-through-any-is-held-to-the-membership-at-the-run`
 - `a-piece-that-is-not-a-closure-refuses`
+- `a-procedure-answering-a-collections-own-elements-keeps-the-spelling`
 - `a-quotient-widens-its-operands`
 - `a-space-carrying-a-mark-is-not-trimmed`
 - `a-string-holding-another-is-a-text-question`
@@ -174,6 +176,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `absolute-drops-the-sign-of-negative-zero`
 - `absolute-floored-and-rounded-answer-a-whole`
 - `absolute-of-the-minimum-refuses`
+- `an-array-slot-that-changes-a-byte-reads-them-out`
 - `an-attempt-does-not-catch-overflow`
 - `an-operand-of-and-that-answers-no-bool-refuses`
 - `append-writes-the-array-in-place`
@@ -181,9 +184,10 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `arithmetic-answers-the-kind-it-was-given`
 - `arithmetic-divide-by-zero-refuses`
 - `arithmetic-divides-to-a-fraction`
-- `arithmetic-is-checked-before-it-runs`
+- `arithmetic-on-a-value-it-does-not-take-refuses`
 - `arithmetic-overflow-refuses`
 - `arithmetic-whole-widens-to-fraction`
+- `bytes-cross-an-array-slot-in-their-own-spelling`
 - `bytes-do-not-order`
 - `case-mapping-takes-no-locale`
 - `characters-answers-grapheme-clusters`
@@ -193,7 +197,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `count-asks-a-collection`
 - `count-of-a-record-is-its-fields`
 - `count-of-bytes-is-their-length`
-- `cutting-on-nothing-refuses`
 - `decoded-keeps-a-byte-order-mark`
 - `decoded-reads-bytes-as-text-in-a-named-encoding`
 - `decoded-reads-bytes-written-one-by-one`
@@ -209,6 +212,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `gathering-past-the-end-refuses`
 - `gathering-reads-positions-written-as-bytes`
 - `greater-than-mirrors-less-than`
+- `indexing-bytes-answers-a-whole-number`
 - `joined-over-nothing-answers-empty-text`
 - `keys-answer-in-canonical-order`
 - `lowercased-ends-a-word-with-final-sigma`
@@ -229,6 +233,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `remainder-by-zero-refuses`
 - `remainder-is-what-whole-division-leaves`
 - `remainder-takes-the-sign-of-the-dividend`
+- `replacing-nothing-fails`
 - `replacing-swaps-every-occurrence`
 - `reversed-turns-the-order-around`
 - `rounded-past-the-int-refuses`
@@ -238,6 +243,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `sorting-the-unorderable-refuses`
 - `split-cuts-and-joined-writes`
 - `split-keeps-the-empty-pieces`
+- `split-on-nothing-fails`
 - `starts-with-reads-the-head`
 - `text-counts-as-a-person-reads`
 - `text-of-a-procedure-spells-a-marker`

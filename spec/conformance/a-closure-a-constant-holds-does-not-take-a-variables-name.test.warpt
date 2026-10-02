@@ -1,0 +1,39 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-closure-a-constant-holds-does-not-take-a-variables-name"
+  note "A constant's closure is a body like any other, so a name it introduces does not take the spelling of a variable its document declares, though a constant cannot read the variable."
+  program {
+    const {
+      apply {
+        closure {
+          body [
+            {
+              let "count"
+              value 1
+            }
+          ]
+          result {
+            ref "count"
+          }
+          returns "int"
+        }
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body []
+      }
+    }
+    var {
+      count 0
+    }
+    warp 1
+  }
+  test 1
+}
+

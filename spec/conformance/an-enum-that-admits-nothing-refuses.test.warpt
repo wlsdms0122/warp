@@ -1,0 +1,31 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "an-enum-that-admits-nothing-refuses"
+  note "An `enum` that admits nothing is a parameter no call could ever fit."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+      }
+      pick {
+        parameters [
+          {
+            enum []
+            name "mode"
+            type "string"
+          }
+        ]
+        result {
+          ref "mode"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

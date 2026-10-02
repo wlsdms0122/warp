@@ -7,7 +7,7 @@ warpt 1
     refuses "load"
   }
   name "an-untaken-arm-is-checked-too"
-  note "A program that arrived from elsewhere has branches nobody ran before sending it, and the one that matters is often the one that only fires in production. An interpreter that reports a defect on the path taken is sampling, not checking."
+  note "A program is checked whole before any of it runs, so a defect in an arm no run takes is refused all the same."
   program {
     imports []
     procedures {

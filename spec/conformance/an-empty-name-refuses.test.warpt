@@ -1,0 +1,27 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "an-empty-name-refuses"
+  note "A name is written: a statement is called something, and nothing written is no name. A statement bound to the empty name is refused where the document is read."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let ""
+            value 1
+          }
+        ]
+        result 1
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

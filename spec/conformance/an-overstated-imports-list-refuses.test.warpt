@@ -1,0 +1,22 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "an-overstated-imports-list-refuses"
+  note "The imports list is the set of what the program sends, not a bound around it. A procedure listed but never sent asks for a grant the program has no use for."
+  program {
+    imports [
+      "std.math.plus"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result 1
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

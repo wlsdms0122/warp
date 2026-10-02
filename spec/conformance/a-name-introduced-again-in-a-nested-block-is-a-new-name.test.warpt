@@ -1,0 +1,54 @@
+warpt 1
+{
+  expect {
+    answers {
+      inner 2
+      outer 1
+    }
+  }
+  name "a-name-introduced-again-in-a-nested-block-is-a-new-name"
+  note "A block may introduce a name the body around it already introduced. Inside the block `x` is the new name, so the block answers 2; after the block the outer `x` still holds 1."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "x"
+            value 1
+          }
+          {
+            let "y"
+            value {
+              block {
+                body [
+                  {
+                    let "x"
+                    value 2
+                  }
+                ]
+                result {
+                  ref "x"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          record {
+            inner {
+              ref "y"
+            }
+            outer {
+              ref "x"
+            }
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

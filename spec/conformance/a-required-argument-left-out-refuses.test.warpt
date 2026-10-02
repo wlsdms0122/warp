@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-required-argument-left-out-refuses"
-  note "Leaving a key out is not the same as writing null in it. A slot with no default and a type that does not spell null has to be written, and the text shows whether it was."
+  note "A call hands exactly as many arguments as the callee takes. `app.takes` takes one, so a call handing none refuses at the build, though the slot takes `any`: an argument left out is not an argument holding null."
   program {
     imports []
     procedures {

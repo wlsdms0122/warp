@@ -1,0 +1,43 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-cast-onto-a-type-parameter-refuses"
+  note "A cast names a type to read a value as. A type parameter names no type here, only what a call fills in, so a cast onto `some T` refuses at the build."
+  program {
+    imports []
+    procedures {
+      "app.f" {
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+        ]
+        result {
+          as {
+            of {
+              ref "x"
+            }
+            type "some T"
+          }
+        }
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              1
+            ]
+            procedure "app.f"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

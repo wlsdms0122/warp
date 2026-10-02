@@ -1,0 +1,29 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "inout-written-on-a-name-refuses"
+  note "`inout` is written on a parameter's type and nowhere else. A `let` declaring `inout int` refuses at the build."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "x"
+            type "inout int"
+            value 1
+          }
+        ]
+        result {
+          ref "x"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

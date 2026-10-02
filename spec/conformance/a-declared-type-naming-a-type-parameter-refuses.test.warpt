@@ -1,0 +1,45 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-declared-type-naming-a-type-parameter-refuses"
+  note "What fills a type parameter is a call filling the slot that names it, and a name inside a body is no such slot. `let y` declaring `some T` refuses at the build."
+  program {
+    imports []
+    procedures {
+      "app.f" {
+        body [
+          {
+            let "y"
+            type "some T"
+            value {
+              ref "x"
+            }
+          }
+        ]
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+        ]
+        result 1
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              1
+            ]
+            procedure "app.f"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

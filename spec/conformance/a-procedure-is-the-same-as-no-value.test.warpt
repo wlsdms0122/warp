@@ -1,0 +1,71 @@
+warpt 1
+{
+  expect {
+    answers [
+      false
+      false
+    ]
+  }
+  name "a-procedure-is-the-same-as-no-value"
+  note "A procedure is the same as no value, itself included, and so is a collection holding one: `std.logic.equal` answers false for a closure beside itself and for a list holding it beside itself."
+  program {
+    imports [
+      "std.logic.equal"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "f"
+            value {
+              closure {
+                result 1
+              }
+            }
+          }
+          {
+            let "held"
+            value [
+              {
+                ref "f"
+              }
+            ]
+          }
+        ]
+        result [
+          {
+            call {
+              arguments [
+                {
+                  ref "f"
+                }
+                {
+                  ref "f"
+                }
+              ]
+              procedure "std.logic.equal"
+            }
+          }
+          {
+            call {
+              arguments [
+                {
+                  ref "held"
+                }
+                {
+                  ref "held"
+                }
+              ]
+              procedure "std.logic.equal"
+            }
+          }
+        ]
+        returns "array<bool>"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

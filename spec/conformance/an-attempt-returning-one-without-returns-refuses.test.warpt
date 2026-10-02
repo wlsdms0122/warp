@@ -4,10 +4,12 @@ warpt 1
     refuses "build"
   }
   name "an-attempt-returning-one-without-returns-refuses"
-  note "A `return` inside an attempt's body is a way out of the body like any other, so a body that returns a value written `linear` from there writes `returns` too."
+  note "A `return` inside an attempt's body is a way out of the body like any other, so a body that returns a value written `linear` from there writes `returns` too. The rescue aborts, so the `return` inside the attempt is the only answer `make` has, and `entry` hands it to `app.close`."
   program {
     imports [
+      "app.close"
       "app.open"
+      "std.control.abort"
     ]
     procedures {
       entry {
@@ -21,12 +23,23 @@ warpt 1
               }
             }
           }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "held"
+                  }
+                ]
+                procedure "app.close"
+              }
+            }
+          }
         ]
       }
       make {
         body [
           {
-            let "tried"
             value {
               attempt {
                 body [
@@ -52,8 +65,14 @@ warpt 1
                 rescue {
                   body [
                     {
-                      let "seen"
-                      value 1
+                      value {
+                        call {
+                          arguments [
+                            "failed"
+                          ]
+                          procedure "std.control.abort"
+                        }
+                      }
                     }
                   ]
                 }
@@ -68,6 +87,15 @@ warpt 1
   test 1
   vocabulary {
     procedures {
+      "app.close" {
+        parameters [
+          {
+            name "first"
+            type "consuming app.Handle"
+          }
+        ]
+        runs true
+      }
       "app.open" {
         answers app.Handle {
           name "f"

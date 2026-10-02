@@ -1,0 +1,31 @@
+warpt 1
+{
+  arguments {
+    data {}
+  }
+  expect {
+    refuses "run"
+  }
+  name "an-absent-dictionary-entry-refuses"
+  note "A dictionary's entries are data, so which names are there is a run's fact. The plain dot promises the entry is there. An absent one refuses rather than inventing a null nobody wrote."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "data"
+            type "dictionary<any>"
+          }
+        ]
+        result {
+          ref "data.missing"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

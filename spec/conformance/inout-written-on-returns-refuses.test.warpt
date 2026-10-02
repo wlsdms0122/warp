@@ -1,0 +1,24 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "inout-written-on-returns-refuses"
+  note "`inout` is written on a parameter's type and nowhere else. A `returns` written `inout int` refuses at the build."
+  program {
+    imports []
+    procedures {
+      "app.f" {
+        result 1
+        returns "inout int"
+      }
+      entry {
+        access "public"
+        result 1
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

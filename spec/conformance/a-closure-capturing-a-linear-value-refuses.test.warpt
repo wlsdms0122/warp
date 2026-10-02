@@ -1,0 +1,100 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-closure-capturing-a-linear-value-refuses"
+  note "A closure may run any number of times, so capturing a value written `linear` in one is not handing it on exactly once. `peek` captures `h`, and the build refuses the capture."
+  program {
+    imports [
+      "app.close"
+      "app.look"
+      "app.open"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "h"
+            value {
+              call {
+                procedure "app.open"
+              }
+            }
+          }
+          {
+            let "peek"
+            value {
+              closure {
+                result {
+                  call {
+                    arguments [
+                      {
+                        ref "h"
+                      }
+                    ]
+                    procedure "app.look"
+                  }
+                }
+              }
+            }
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "h"
+                  }
+                ]
+                procedure "app.close"
+              }
+            }
+          }
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+  vocabulary {
+    procedures {
+      "app.close" {
+        parameters [
+          {
+            name "first"
+            type "consuming app.Handle"
+          }
+        ]
+        runs true
+      }
+      "app.look" {
+        answers 1
+        parameters [
+          {
+            name "first"
+            type "borrowing app.Handle"
+          }
+        ]
+        returns "int"
+      }
+      "app.open" {
+        answers app.Handle {
+          name "f"
+        }
+        returns "app.Handle"
+      }
+    }
+    types {
+      "app.Handle" {
+        linear {
+          record {
+            name "string"
+          }
+        }
+      }
+    }
+  }
+}
+

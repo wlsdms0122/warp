@@ -4,10 +4,11 @@ warpt 1
     answers [
       "zulu"
       "map"
+      "first"
     ]
   }
   name "a-calls-arguments-are-evaluated-in-position-order"
-  note "A call's arguments are evaluated in position order, whether the callee is a body or the host's. An argument may call anything, so the order is observable. Each call here writes two arguments that would both fail, and the first one's failure surfaces: `zulu` for `app.pair`, which declares it before `alpha`, and `map` for `std.collection.setting`."
+  note "A call's arguments are evaluated in position order, whether the callee is a body, the host's or a value. An argument may call anything, so the order is observable. Each call here writes two arguments that would both fail, and the first one's failure surfaces: `zulu` for `app.pair`, which declares it before `alpha`, `map` for `std.collection.setting`, and `first` for a closure called through the name holding it."
   program {
     imports [
       "std.collection.setting"
@@ -114,6 +115,69 @@ warpt 1
               }
             }
           }
+          {
+            let "applied"
+            value {
+              attempt {
+                body [
+                  {
+                    let "f"
+                    value {
+                      closure {
+                        parameters [
+                          {
+                            name "first"
+                            type "string"
+                          }
+                          {
+                            name "second"
+                            type "string"
+                          }
+                        ]
+                        result {
+                          ref "first"
+                        }
+                        returns "string"
+                      }
+                    }
+                  }
+                  {
+                    let "made"
+                    value {
+                      call {
+                        arguments [
+                          {
+                            call {
+                              arguments [
+                                "first"
+                              ]
+                              procedure "std.control.abort"
+                            }
+                          }
+                          {
+                            call {
+                              arguments [
+                                "second"
+                              ]
+                              procedure "std.control.abort"
+                            }
+                          }
+                        ]
+                        procedure {
+                          ref "f"
+                        }
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  result {
+                    ref "applied.message"
+                  }
+                }
+              }
+            }
+          }
         ]
         result [
           {
@@ -121,6 +185,9 @@ warpt 1
           }
           {
             ref "hosted"
+          }
+          {
+            ref "applied"
           }
         ]
       }

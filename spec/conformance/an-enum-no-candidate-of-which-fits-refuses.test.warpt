@@ -1,0 +1,34 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "an-enum-no-candidate-of-which-fits-refuses"
+  note "Admitting nothing is a fact about the declared type and the candidate set together, not about the set being empty. An enum of strings on a whole-number slot fits no call."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+      }
+      pick {
+        parameters [
+          {
+            enum [
+              "fast"
+              "slow"
+            ]
+            name "count"
+            type "int"
+          }
+        ]
+        result {
+          ref "count"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

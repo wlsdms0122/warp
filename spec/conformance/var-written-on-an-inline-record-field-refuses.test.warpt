@@ -1,0 +1,33 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "var-written-on-an-inline-record-field-refuses"
+  note "`var` is written on a field of a type declared in `types` and nowhere else. A field of an inline record type written `var int` refuses at the build."
+  program {
+    imports []
+    procedures {
+      "app.f" {
+        parameters [
+          {
+            name "x"
+            type {
+              record {
+                a "var int"
+              }
+            }
+          }
+        ]
+        result 1
+      }
+      entry {
+        access "public"
+        result 1
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

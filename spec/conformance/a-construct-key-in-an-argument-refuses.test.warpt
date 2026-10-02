@@ -1,0 +1,39 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-construct-key-in-an-argument-refuses"
+  note "A construct key outside a statement's `value` is not a construct. Written bare in an argument, `{ conditional … }` is read as an expression form, no form is named `conditional`, and it refuses at the load."
+  program {
+    imports [
+      "std.collection.count"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                conditional {
+                  then [
+                    {
+                      value 1
+                    }
+                  ]
+                  when true
+                }
+              }
+            ]
+            procedure "std.collection.count"
+          }
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

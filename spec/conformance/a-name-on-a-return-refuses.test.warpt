@@ -1,0 +1,28 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-name-on-a-return-refuses"
+  note "A `return` never finishes, so a name on it could never bind. The statement refuses at the load."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "x"
+            value {
+              return 1
+            }
+          }
+        ]
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

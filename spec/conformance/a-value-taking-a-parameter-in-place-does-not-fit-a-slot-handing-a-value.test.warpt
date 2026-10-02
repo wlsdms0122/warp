@@ -1,0 +1,83 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-value-taking-a-parameter-in-place-does-not-fit-a-slot-handing-a-value"
+  note "A value standing in a procedure-typed slot accepts what the slot hands at each position. A value taking a parameter in place takes a variable, and a slot handing a value there has none to give it, so it refuses at the build."
+  program {
+    imports []
+    procedures {
+      calling {
+        body [
+          {
+            let "answered"
+            value {
+              call {
+                arguments [
+                  10
+                ]
+                procedure {
+                  ref "read"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "read"
+            type {
+              procedure {
+                parameters [
+                  "int"
+                ]
+                returns "int"
+              }
+            }
+          }
+        ]
+        result {
+          ref "answered"
+        }
+        returns "int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "reading"
+            value {
+              closure {
+                parameters [
+                  {
+                    name "count"
+                    type "inout int"
+                  }
+                ]
+                result {
+                  ref "count"
+                }
+                returns "int"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "reading"
+              }
+            ]
+            procedure "calling"
+          }
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,31 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "an-enum-candidate-written-as-a-number-refuses"
+  note "A candidate is a string, the spelling of the value it admits. `1` written as a number is not a candidate, and the declaration refuses at the load."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            enum [
+              1
+            ]
+            name "level"
+            type "int"
+          }
+        ]
+        result {
+          ref "level"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

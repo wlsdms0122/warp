@@ -1,0 +1,29 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "any-written-nullable-refuses"
+  note "The `?` is written only where it says something new. `any` already admits null, so `any?` says nothing new and refuses at the load."
+  program {
+    imports []
+    procedures {
+      "app.f" {
+        parameters [
+          {
+            name "x"
+            type "any?"
+          }
+        ]
+        result 1
+      }
+      entry {
+        access "public"
+        result 1
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

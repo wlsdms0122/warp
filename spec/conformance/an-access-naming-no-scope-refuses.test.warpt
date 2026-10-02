@@ -1,0 +1,21 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "an-access-naming-no-scope-refuses"
+  note "`access` is one of `public`, `internal` and `private`. Any other value names no scope a reader could hold the declaration to, so it is refused where the document is read."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "open"
+        result 1
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

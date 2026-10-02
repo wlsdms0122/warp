@@ -1,0 +1,53 @@
+warpt 1
+{
+  expect {
+    answers {
+      left 1
+      right 2
+    }
+  }
+  name "all-answers-every-piece-under-its-key"
+  note "Running at once is a procedure, not grammar. `std.concurrent.all` runs every piece it is handed and answers each piece's answer under the key the piece stood under."
+  program {
+    imports [
+      "std.concurrent.all"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "both"
+            value {
+              call {
+                arguments [
+                  {
+                    record {
+                      left {
+                        closure {
+                          result 1
+                        }
+                      }
+                      right {
+                        closure {
+                          result 2
+                        }
+                      }
+                    }
+                  }
+                ]
+                procedure "std.concurrent.all"
+              }
+            }
+          }
+        ]
+        result {
+          ref "both"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

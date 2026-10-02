@@ -1,0 +1,31 @@
+warpt 1
+{
+  expect {
+    answers true
+  }
+  name "null-is-the-same-as-null"
+  note "Null is the same as null, so `std.logic.equal` answers true for two of them."
+  program {
+    imports [
+      "std.logic.equal"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              null
+              null
+            ]
+            procedure "std.logic.equal"
+          }
+        }
+        returns "bool"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

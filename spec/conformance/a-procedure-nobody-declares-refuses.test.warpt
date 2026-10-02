@@ -1,0 +1,26 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-procedure-nobody-declares-refuses"
+  note "Every procedure a program sends has to come from somewhere in the link, and finding out is building rather than running."
+  program {
+    imports [
+      "nobodyDeclaresThis"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            procedure "nobodyDeclaresThis"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

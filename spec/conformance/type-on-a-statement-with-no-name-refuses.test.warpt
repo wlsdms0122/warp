@@ -1,0 +1,26 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "type-on-a-statement-with-no-name-refuses"
+  note "`type` says what a name holds, and a statement with no naming key introduces none. Writing `type` there refuses at the load."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            type "int"
+            value 1
+          }
+        ]
+        result 1
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

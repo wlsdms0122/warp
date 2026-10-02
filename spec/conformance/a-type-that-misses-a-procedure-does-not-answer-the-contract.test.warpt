@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-type-that-misses-a-procedure-does-not-answer-the-contract"
-  note "What puts a type under a contract is a document saying so under `satisfies`. A type no document claims does not stand where the contract bounds a parameter, and the link says so where the value is handed over."
+  note "A claim missing a procedure the contract asks puts its type under no contract. `bank.Plain` is claimed for `app.Describable` and nothing declares `bank.Plain.describe`, so the call leaning on the pair refuses at the build."
   program {
     contracts {
       "app.Describable" {
@@ -85,6 +85,9 @@ warpt 1
     }
     satisfies {
       "bank.Account" [
+        "app.Describable"
+      ]
+      "bank.Plain" [
         "app.Describable"
       ]
     }

@@ -1,0 +1,29 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-bare-dictionary-refuses"
+  note "A map says what it holds. `dictionary<any>` is a map of anything, and `dictionary` written bare is not a second spelling of it, so a type written that way refuses at the load."
+  program {
+    imports []
+    procedures {
+      "app.f" {
+        parameters [
+          {
+            name "d"
+            type "dictionary"
+          }
+        ]
+        result 1
+      }
+      entry {
+        access "public"
+        result 1
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

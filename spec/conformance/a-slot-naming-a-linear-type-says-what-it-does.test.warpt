@@ -1,0 +1,67 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-slot-naming-a-linear-type-says-what-it-does"
+  note "A parameter naming a type written `linear` says what it does with the value: `consuming` takes the obligation and `borrowing` reads and leaves it. One writing neither refuses at the build, even where the body answers what it took, as `app.look` does here."
+  program {
+    imports []
+    procedures {
+      "app.look" {
+        parameters [
+          {
+            name "of"
+            type "app.Handle"
+          }
+        ]
+        result {
+          ref "of"
+        }
+        returns "app.Handle"
+      }
+      "app.open" {
+        result {
+          as {
+            of {
+              record {
+                name "f"
+              }
+            }
+            type "app.Handle"
+          }
+        }
+        returns "app.Handle"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "handle"
+            value {
+              call {
+                procedure "app.open"
+              }
+            }
+          }
+        ]
+        result {
+          ref "handle"
+        }
+        returns "app.Handle"
+      }
+    }
+    types {
+      "app.Handle" {
+        linear {
+          record {
+            name "string"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

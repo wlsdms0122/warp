@@ -1,0 +1,30 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "arithmetic-on-a-value-it-does-not-take-refuses"
+  note "Arithmetic says which values it takes, so a sum of a number and a piece of text is refused where declarations are checked rather than found by running it."
+  program {
+    imports [
+      "std.math.plus"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              1
+              "a"
+            ]
+            procedure "std.math.plus"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
