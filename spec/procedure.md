@@ -117,6 +117,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-body-that-loops-answers-without-running`
 - `a-call-of-a-value-hands-in-place-inside-every-construct`
 - `a-call-of-a-value-hands-its-arguments-by-position`
+- `a-call-of-a-value-indexed-by-a-module-variable-does-not-answer-without-running`
 - `a-call-of-a-value-of-another-count-refuses`
 - `a-call-of-a-value-short-of-what-it-takes-refuses`
 - `a-call-of-another-count-refuses`
@@ -165,6 +166,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-procedure-handing-a-parameter-in-place-to-a-value-does-not-answer-without-running`
 - `a-procedure-that-writes-in-place-does-not-answer-without-running`
 - `a-required-argument-left-out-refuses`
+- `a-slot-handing-a-const-procedure-in-place-is-a-const-slot`
 - `a-slot-naming-a-const-procedure-type-is-a-const-slot`
 - `a-value-is-not-handed-in-place`
 - `a-value-is-not-handed-in-place-through-a-contract`
@@ -176,6 +178,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-variable-declared-const-procedure-carries-that-into-a-capture`
 - `a-variable-handed-in-place-is-written-by-a-called-value`
 - `a-variable-handed-in-place-is-written-by-the-callee`
+- `a-variable-holding-a-const-procedure-is-not-a-const-slot`
 - `a-variable-of-another-type-is-not-handed-in-place`
 - `a-variable-of-another-type-is-not-handed-in-place-to-a-called-value`
 - `a-variable-that-declares-nothing-gives-a-capture-no-claim`

@@ -1,0 +1,101 @@
+warpt 1
+{
+  expect {
+    answers 2
+  }
+  name "a-slot-handing-a-const-procedure-in-place-is-a-const-slot"
+  note "A parameter typed `inout const procedure` holds the caller's box, held to that type through every write, so it says what the value it holds answers. A body calling it answers without running, and an operand may call it."
+  program {
+    imports [
+      "std.math.plus"
+    ]
+    procedures {
+      asking {
+        body [
+          {
+            let "a"
+            value {
+              call {
+                arguments [
+                  1
+                ]
+                procedure {
+                  ref "p"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "p"
+            type {
+              "inout const procedure" {
+                parameters [
+                  "int"
+                ]
+                returns "int"
+              }
+            }
+          }
+        ]
+        result {
+          ref "a"
+        }
+        returns "int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            type {
+              "const procedure" {
+                parameters [
+                  "int"
+                ]
+                returns "int"
+              }
+            }
+            value {
+              closure {
+                parameters [
+                  {
+                    name "x"
+                    type "int"
+                  }
+                ]
+                result {
+                  ref "x"
+                }
+                returns "int"
+              }
+            }
+            var "held"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                call {
+                  arguments [
+                    {
+                      ref "held"
+                    }
+                  ]
+                  procedure "asking"
+                }
+              }
+              1
+            ]
+            procedure "std.math.plus"
+          }
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

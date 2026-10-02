@@ -1,0 +1,94 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-call-of-a-value-indexed-by-a-module-variable-does-not-answer-without-running"
+  note "Which value a call of a value calls is read like any name. A body reading a module variable to pick the entry it calls out of a `dictionary<const procedure>` answers by the run's state, so it does not answer without running, and an operand may not call it."
+  program {
+    imports [
+      "std.math.plus"
+    ]
+    procedures {
+      asking {
+        body [
+          {
+            let "a"
+            value {
+              call {
+                arguments [
+                  1
+                ]
+                procedure {
+                  ref "body[mode]"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "body"
+            type {
+              dictionary {
+                "const procedure" {
+                  parameters [
+                    "int"
+                  ]
+                  returns "int"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "a"
+        }
+        returns "int"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                call {
+                  arguments [
+                    {
+                      record {
+                        k {
+                          closure {
+                            parameters [
+                              {
+                                name "x"
+                                type "int"
+                              }
+                            ]
+                            result {
+                              ref "x"
+                            }
+                            returns "int"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                  procedure "asking"
+                }
+              }
+              1
+            ]
+            procedure "std.math.plus"
+          }
+        }
+        returns "int"
+      }
+    }
+    var {
+      mode "k"
+    }
+    warp 1
+  }
+  test 1
+}
+
