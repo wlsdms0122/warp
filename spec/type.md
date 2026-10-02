@@ -191,6 +191,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-declaration-answering-a-contract-takes-its-parameters-in-the-contracts-order`
 - `a-declaration-answering-a-contract-takes-no-parameter-beyond-it`
 - `a-declaration-answering-a-contract-taking-in-place-where-it-hands-a-value-refuses`
+- `a-declaration-answering-a-contract-with-a-membership-where-it-writes-a-parameter-refuses`
 - `a-declaration-answering-a-contract-with-a-type-where-it-writes-a-parameter-refuses`
 - `a-declaration-answering-a-contract-with-another-answer-refuses`
 - `a-declaration-answering-a-contract-with-its-own-parameter-for-a-type-refuses`
