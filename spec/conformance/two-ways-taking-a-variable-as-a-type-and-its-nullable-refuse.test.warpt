@@ -4,10 +4,10 @@ warpt 1
     ready true
   }
   expect {
-    answers 5
+    refuses "build"
   }
-  name "a-way-that-narrows-a-held-variable-holds-it-to-the-narrower-type"
-  note "One arm makes a closure that takes `n` while it reads `int?`, and the other sets it to an int first and takes it as `int`. An `int?` takes every int, so where the arms meet `n` is held to `int`, and a later write of an int fits both closures and stands."
+  name "two-ways-taking-a-variable-as-a-type-and-its-nullable-refuse"
+  note "One arm makes a closure that takes `n` while it reads `int?` and writes null into it, and the other sets `n` to an int first and takes it as `int`. The first closure goes on writing null whatever the second reads `n` as, so the build refuses where the arms meet."
   program {
     imports []
     procedures {
@@ -57,9 +57,12 @@ warpt 1
                     let "a"
                     value {
                       closure {
-                        result {
-                          ref "n"
-                        }
+                        body [
+                          {
+                            set "n"
+                            value null
+                          }
+                        ]
                       }
                     }
                   }
