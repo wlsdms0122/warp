@@ -1,0 +1,67 @@
+warpt 1
+{
+  expect {
+    answers 2
+  }
+  name "a-fixed-name-bound-to-a-const-slot-carries-its-claim"
+  note "`relay` binds `g` to its `const procedure` parameter without a type, so `g` holds the type the parameter was declared. Calling `g` calls a value a slot declared `const procedure`, so `relay` answers without running and an operand calls it."
+  program {
+    imports [
+      "std.math.plus"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                call {
+                  arguments [
+                    {
+                      closure {
+                        result 1
+                        returns "int"
+                      }
+                    }
+                  ]
+                  procedure "relay"
+                }
+              }
+              1
+            ]
+            procedure "std.math.plus"
+          }
+        }
+        returns "int"
+      }
+      relay {
+        body [
+          {
+            let "g"
+            value {
+              ref "body"
+            }
+          }
+        ]
+        parameters [
+          {
+            name "body"
+            type "const procedure"
+          }
+        ]
+        result {
+          call {
+            procedure {
+              ref "g"
+            }
+          }
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

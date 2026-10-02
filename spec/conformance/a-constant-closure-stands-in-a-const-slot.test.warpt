@@ -1,0 +1,54 @@
+warpt 1
+{
+  expect {
+    answers [
+      1
+      2
+    ]
+  }
+  name "a-constant-closure-stands-in-a-const-slot"
+  note "A constant keeps the one value it settled to, so the closure it holds reads as the type its literal was judged at, the constness the build derived for it included. `std.collection.map` takes it in its `const procedure` slot."
+  program {
+    const {
+      f {
+        closure {
+          parameters [
+            {
+              name "x"
+              type "int"
+            }
+          ]
+          result {
+            ref "x"
+          }
+          returns "int"
+        }
+      }
+    }
+    imports [
+      "std.collection.map"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              [
+                1
+                2
+              ]
+              {
+                ref "f"
+              }
+            ]
+            procedure "std.collection.map"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

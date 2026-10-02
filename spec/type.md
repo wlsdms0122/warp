@@ -105,7 +105,7 @@ Only a procedure with **no body** ends the obligation. A body that takes one has
 
 **Contracts.** A membership says which types a name admits. A contract says which **procedures** a value answers, which is the other half of "what may stand here" and the half a list cannot give: the types that answer a procedure are open, and new ones arrive with new documents. A module declares one the way it declares a type: a name bound to the procedures, each written as a signature whose first parameter is the contract itself, since what stands there is whatever satisfies the contract. A contract's procedure taking anything else first **refuses at the build**.
 
-A contract's name stands where a type is written, and so does `A & B`: the slot takes a value of whatever type satisfies every contract and belongs to every membership named. It is a type parameter with no name, so nothing ties one slot's reading to another's, and a call fills nothing. A closure literal's parameter is such a slot too, and since what calling a value hands is judged at the run, what is handed to it is held to the contract at the run's boundary, under [running](running.md). A name declared as neither a membership nor a contract joined with `&` **refuses at the build**.
+A contract's name stands where a type is written, and so does `A & B`: the slot takes a value of whatever type satisfies every contract and belongs to every membership named. It is a type parameter with no name, so nothing ties one slot's reading to another's, and a call fills nothing. A closure literal's parameter is such a slot too, and a call of the value holds what it hands to the contract by the rule a call to a declaration is held by. A name declared as neither a membership nor a contract joined with `&` **refuses at the build**.
 
 A type **satisfies** a contract when a document says it does. The document writes the claim under `satisfies`, keyed by the type: `satisfies: { "bank.Account": ["app.Describable"] }`. Any document may make one, about a type it declared or about another document's, which is how a document that arrives later gives a type the procedures a contract asks. A claim about a type this specification names, `int` or `string`, **refuses at the load**: a value of one wears no name for a run to read, so no declaration could answer for it.
 
@@ -240,6 +240,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-slot-naming-a-linear-type-says-what-it-does`
 - `a-some-outside-a-signature-refuses`
 - `a-type-form-beside-other-keys-refuses`
+- `a-type-no-claim-names-in-a-closures-contract-parameter-refuses`
 - `a-type-parameter-read-as-any-and-as-a-type-holds-any`
 - `a-type-parameter-read-loosely-and-tightly-holds-the-loose-reading`
 - `a-type-parameter-read-two-ways-is-refused`

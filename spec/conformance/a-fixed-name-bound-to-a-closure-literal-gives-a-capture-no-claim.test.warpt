@@ -1,0 +1,83 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-fixed-name-bound-to-a-closure-literal-gives-a-capture-no-claim"
+  note "A name bound to a closure literal without a type holds what the build worked out for the literal, and no slot declared it `const procedure`. A closure that captured the name and calls it does not answer without running, so the `const procedure` slot of `std.collection.map` refuses it, as it does when the name is bound inside the closure."
+  program {
+    imports [
+      "std.collection.map"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "f"
+            value {
+              closure {
+                parameters [
+                  {
+                    name "x"
+                    type "int"
+                  }
+                ]
+                result {
+                  ref "x"
+                }
+                returns "int"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              [
+                1
+                2
+              ]
+              {
+                closure {
+                  body [
+                    {
+                      let "y"
+                      value {
+                        call {
+                          arguments [
+                            {
+                              ref "x"
+                            }
+                          ]
+                          procedure {
+                            ref "f"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                  parameters [
+                    {
+                      name "x"
+                      type "int"
+                    }
+                  ]
+                  result {
+                    ref "y"
+                  }
+                  returns "int"
+                }
+              }
+            ]
+            procedure "std.collection.map"
+          }
+        }
+        returns "array<int>"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

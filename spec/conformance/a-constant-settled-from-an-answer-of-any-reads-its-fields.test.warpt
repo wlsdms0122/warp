@@ -1,0 +1,48 @@
+warpt 1
+{
+  documents [
+    {
+      imports []
+      procedures {
+        "k.make" {
+          result {
+            record {
+              x 1
+            }
+          }
+          returns "any"
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    answers 1
+  }
+  name "a-constant-settled-from-an-answer-of-any-reads-its-fields"
+  note "`k.make` declares it answers `any`, and the constant settled from it is a record with `x`. The constant's settled value is its type, so a dot reads `x` without `as` and the program builds."
+  program {
+    const {
+      made {
+        call {
+          procedure "k.make"
+        }
+      }
+    }
+    imports [
+      "k.make"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          ref "made.x"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

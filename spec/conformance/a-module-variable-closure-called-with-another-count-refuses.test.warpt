@@ -1,0 +1,54 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-module-variable-closure-called-with-another-count-refuses"
+  note "A module variable that declares no type holds the type of its settled value, and the closure it holds reads as the procedure type its start was judged at. A call handing `f` two arguments where that type takes one refuses at the build."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "a"
+            value {
+              call {
+                arguments [
+                  1
+                  2
+                ]
+                procedure {
+                  ref "f"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "a"
+        }
+      }
+    }
+    var {
+      f {
+        closure {
+          parameters [
+            {
+              name "x"
+              type "int"
+            }
+          ]
+          result {
+            ref "x"
+          }
+          returns "int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
