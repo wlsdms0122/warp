@@ -1,0 +1,79 @@
+warpt 1
+{
+  expect {
+    answers [
+      null
+      3
+      3
+    ]
+  }
+  name "a-generic-body-appends-its-parameter-to-a-list-of-it-or-null"
+  note "Inside a declaration taking some T, a list holding null and the parameter reads array<T?>. Appending the parameter reads Element as T? and as T, and T? takes T, so the call builds."
+  program {
+    imports [
+      "std.collection.append"
+    ]
+    procedures {
+      "app.put" {
+        body [
+          {
+            value [
+              null
+              {
+                ref "x"
+              }
+            ]
+            var "ys"
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "ys"
+                  }
+                  {
+                    ref "x"
+                  }
+                ]
+                procedure "std.collection.append"
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+        ]
+        result {
+          ref "ys"
+        }
+        returns "array<any>"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "ys"
+            value {
+              call {
+                arguments [
+                  3
+                ]
+                procedure "app.put"
+              }
+            }
+          }
+        ]
+        result {
+          ref "ys"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

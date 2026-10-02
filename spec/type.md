@@ -182,9 +182,11 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-contract-stands-in-a-closures-parameter`
 - `a-contract-stands-in-a-declared-types-field`
 - `a-contract-stands-where-a-type-is-written`
+- `a-declaration-answering-a-contract-answering-any-may-answer-its-parameter`
 - `a-declaration-answering-a-contract-fills-its-own-parameter-with-the-contracts`
 - `a-declaration-answering-a-contract-may-take-a-value-where-it-hands-a-place`
 - `a-declaration-answering-a-contract-may-take-a-wider-type`
+- `a-declaration-answering-a-contract-may-take-anything-where-it-writes-a-parameter`
 - `a-declaration-answering-a-contract-names-its-parameters-its-own-way`
 - `a-declaration-answering-a-contract-takes-its-parameters-in-the-contracts-order`
 - `a-declaration-answering-a-contract-takes-no-parameter-beyond-it`
@@ -200,6 +202,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-declared-type-names-itself-in-its-fields`
 - `a-fraction-is-not-a-whole-number`
 - `a-fraction-range-widens-a-whole-number-into-itself`
+- `a-generic-body-appends-its-parameter-to-a-list-of-it-or-null`
 - `a-handle-already-given-away-is-not-read-again`
 - `a-handle-borrowed-after-a-consuming-parameter-in-one-call-refuses`
 - `a-linear-type-answers-no-contract`
