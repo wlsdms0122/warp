@@ -147,6 +147,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-let-without-a-value-refuses`
 - `a-loop-condition-that-is-not-a-bool-refuses`
 - `a-loop-reads-how-many-rounds-passed`
+- `a-loop-result-reads-a-body-name-as-the-last-finished-round-left-it`
 - `a-loop-result-reads-the-last-finished-round`
 - `a-loop-takes-no-budget`
 - `a-loop-under-a-set-binds-no-round`
