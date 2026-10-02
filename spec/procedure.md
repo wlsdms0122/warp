@@ -51,7 +51,7 @@ Some of what a program writes is **read** and some of it is **run**. A literal, 
 A procedure **answers without running** when nothing it reaches stands outside the run it was handed:
 
 - it reads no module variable and writes no name it does not own: a module variable, a name a closure captured, or a parameter handed in place, whether written by `set` or handed in place to a call. What such a name holds is the run's rather than the text's, and a name the body introduces or a parameter it holds outright is its own;
-- it calls a value only through a name a slot declared `const procedure`. That is the one place something before the run says what the value answers; on any other name nothing does. The claim is the slot's and so it stands wherever the name is read, a closure that **captured** the name included;
+- it calls a value only where a slot declared it `const procedure`: the name the slot gave, or what a path reaches inside that name by the type the slot wrote (an element of an array or a dictionary, an entry of a dictionary, a field of a record type). The value was settled against that type when it was handed over, so that is the one place something before the run says what the value answers; on any other value nothing does. The claim is the slot's and so it stands wherever the name is read, a closure that **captured** the name included;
 - and every procedure it sends answers without running.
 
 A construct reaches nothing on its own. Which part of a `conditional`, `loop`, `attempt` or `block` runs is decided inside the body, so one of them is read exactly as far as the parts it holds are, and the same goes for `return`, `break` and `continue`. A name the body introduces is the body's own: a `let` and a `var` both make one, neither leaves the body, and so declaring either says nothing about what the body reaches.
@@ -130,6 +130,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-closure-writes-its-own-parameter-in-place-and-no-name-it-shadows`
 - `a-closures-parameter-is-not-the-const-procedure-it-shadows`
 - `a-const-procedure-read-out-of-a-dictionary-answers-without-running`
+- `a-const-procedure-read-out-of-a-dictionary-by-a-dot-answers-without-running`
+- `a-const-procedure-read-out-of-a-record-field-answers-without-running`
 - `a-const-slot-refuses-a-closure-that-calls-what-runs`
 - `a-const-slot-takes-a-closure-that-calls-a-const-slot`
 - `a-const-slot-takes-a-closure-that-calls-a-host-procedure`
