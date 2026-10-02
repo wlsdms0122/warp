@@ -1,0 +1,121 @@
+warpt 1
+{
+  arguments {
+    c false
+  }
+  expect {
+    answers 6
+  }
+  name "a-write-to-a-taken-variable-reads-as-the-type-it-is-held-to"
+  note "One arm lets a closure capture an int variable and the other writes null into it, so after the conditional it is held to int and reads int?. Writing an int into it leaves it reading int, and it is handed in place to an int slot."
+  program {
+    imports [
+      "std.collection.append"
+      "std.math.plus"
+    ]
+    procedures {
+      "app.bump" {
+        body [
+          {
+            set "c"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "c"
+                  }
+                  1
+                ]
+                procedure "std.math.plus"
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "c"
+            type "inout int"
+          }
+        ]
+        result 0
+      }
+      entry {
+        access "public"
+        body [
+          {
+            value 0
+            var "x"
+          }
+          {
+            value []
+            var "fs"
+          }
+          {
+            value {
+              conditional {
+                else [
+                  {
+                    set "x"
+                    value null
+                  }
+                ]
+                then [
+                  {
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "fs"
+                          }
+                          {
+                            closure {
+                              result {
+                                ref "x"
+                              }
+                            }
+                          }
+                        ]
+                        procedure "std.collection.append"
+                      }
+                    }
+                  }
+                ]
+                when {
+                  ref "c"
+                }
+              }
+            }
+          }
+          {
+            set "x"
+            value 5
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "x"
+                  }
+                ]
+                procedure "app.bump"
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "c"
+            type "bool"
+          }
+        ]
+        result {
+          ref "x"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

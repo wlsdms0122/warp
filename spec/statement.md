@@ -182,6 +182,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-set-without-a-value-refuses`
 - `a-statement-saying-two-things-refuses`
 - `a-statement-with-no-name-still-runs`
+- `a-taken-variable-a-loop-writes-is-read-after-it-as-written`
 - `a-var-field-lets-a-path-through`
 - `a-variable-a-closure-captured-is-not-retyped-after`
 - `a-walk-is-a-loop-over-the-count`
@@ -195,6 +196,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-write-through-an-element-keeps-the-others`
 - `a-write-through-an-optional-segment-refuses`
 - `a-write-through-any-refuses`
+- `a-write-to-a-taken-variable-lands-in-every-round`
+- `a-write-to-a-taken-variable-reads-as-the-type-it-is-held-to`
+- `a-write-to-a-variable-handed-in-place-lands-in-every-round`
 - `an-attempt-body-reads-the-variable-its-statement-name-shadows`
 - `an-attempt-catches-a-cast-that-did-not-match`
 - `an-attempt-under-a-set-binds-no-failure`
