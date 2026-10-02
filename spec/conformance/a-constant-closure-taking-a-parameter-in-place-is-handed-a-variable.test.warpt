@@ -1,0 +1,73 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-constant-closure-taking-a-parameter-in-place-is-handed-a-variable"
+  note "A constant holds the type its expression was judged at, so `bump` reads as a procedure type writing `inout int`. The build hands `n` in place at that position, and the closure writes it."
+  program {
+    const {
+      bump {
+        closure {
+          body [
+            {
+              set "c"
+              value {
+                call {
+                  arguments [
+                    {
+                      ref "c"
+                    }
+                    1
+                  ]
+                  procedure "std.math.plus"
+                }
+              }
+            }
+          ]
+          parameters [
+            {
+              name "c"
+              type "inout int"
+            }
+          ]
+        }
+      }
+    }
+    imports [
+      "std.math.plus"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            value 0
+            var "n"
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "n"
+                  }
+                ]
+                procedure {
+                  ref "bump"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "n"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

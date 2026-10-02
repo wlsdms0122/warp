@@ -1,0 +1,54 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-constant-closure-called-with-another-count-refuses"
+  note "A constant holds the type its expression was judged at, so `f` reads as the procedure type its closure literal wrote. A call handing it two arguments where that type takes one refuses at the build, the callee being known there."
+  program {
+    const {
+      f {
+        closure {
+          parameters [
+            {
+              name "x"
+              type "int"
+            }
+          ]
+          result {
+            ref "x"
+          }
+          returns "int"
+        }
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "a"
+            value {
+              call {
+                arguments [
+                  1
+                  2
+                ]
+                procedure {
+                  ref "f"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "a"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
