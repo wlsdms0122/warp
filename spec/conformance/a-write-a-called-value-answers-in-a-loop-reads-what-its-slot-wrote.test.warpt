@@ -1,0 +1,107 @@
+warpt 1
+{
+  expect {
+    answers 3
+  }
+  name "a-write-a-called-value-answers-in-a-loop-reads-what-its-slot-wrote"
+  note "A loop's round is read until the writes it makes settle, and a call of a value answers what the slot holding it wrote under `returns` there too. So a variable a round sets to that answer reads as it, and the condition's dot on it stands."
+  program {
+    imports [
+      "std.math.lessThan"
+      "std.math.plus"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            value {
+              record {
+                at 0
+              }
+            }
+            var "c"
+          }
+          {
+            let "next"
+            value {
+              closure {
+                parameters [
+                  {
+                    name "c"
+                    type {
+                      record {
+                        at "int"
+                      }
+                    }
+                  }
+                ]
+                result {
+                  record {
+                    at {
+                      call {
+                        arguments [
+                          {
+                            ref "c.at"
+                          }
+                          1
+                        ]
+                        procedure "std.math.plus"
+                      }
+                    }
+                  }
+                }
+                returns {
+                  record {
+                    at "int"
+                  }
+                }
+              }
+            }
+          }
+          {
+            let "w"
+            value {
+              loop {
+                body [
+                  {
+                    set "c"
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "c"
+                          }
+                        ]
+                        procedure {
+                          ref "next"
+                        }
+                      }
+                    }
+                  }
+                ]
+                while {
+                  call {
+                    arguments [
+                      {
+                        ref "c.at"
+                      }
+                      3
+                    ]
+                    procedure "std.math.lessThan"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "c.at"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

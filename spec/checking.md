@@ -54,6 +54,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-procedure-only-an-untaken-arm-sends-is-still-needed`
 - `a-procedure-two-modules-declare-refuses`
 - `a-reference-to-a-statement-written-later-refuses`
+- `a-write-a-called-value-answers-in-a-loop-reads-what-its-slot-wrote`
 - `a-write-a-loop-round-makes-reads-back-nullable`
 - `a-write-an-attempt-body-makes-reads-back-nullable`
 - `a-write-both-arms-make-retypes-the-variable`
