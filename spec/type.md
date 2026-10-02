@@ -51,7 +51,7 @@ Acceptance is one-way where the kinds nest: `double` accepts an `int` (a whole n
 
 `never` is a real type and fits **every** slot, by never arriving: an expression typed `never` may be written where any value is expected, such as an argument that calls `std.control.abort`, and evaluating it ends the evaluation it is inside. The statement rules (no name, nothing follows) are statement rules; in expression position there is nothing extra to say, because nothing after the expression is reached at all.
 
-**Type parameters.** A declaration may leave a type parameter and let the call fill it: a procedure taking `array<some T>` and a `some T` answers what it was given. A parameter read twice must be read the same both ways. Two readings where one accepts the other settle on the looser; two readings that do not fit **refuse at the build**, and do not widen to `any`. Appending a whole number to a list of text is a parameter read as text and as a number, and there is no answer that is both.
+**Type parameters.** A declaration may leave a type parameter and let the call fill it: a procedure taking `array<some T>` and a `some T` answers what it was given. Inside the declaration the parameter is one type its body does not know, so where the parameter is what is declared (the answer, a parameter handed in place, an element of one) only a value of that parameter fits, or a value every member of a membership bounding it takes, such as a whole number where `std.Numeric` bounds it. A parameter read twice must be read the same both ways. Two readings where one accepts the other settle on the looser; two readings that do not fit **refuse at the build**, and do not widen to `any`. Appending a whole number to a list of text is a parameter read as text and as a number, and there is no answer that is both.
 
 **Constraints.** A type parameter may be bounded: a signature declares `bounds: { T: std.Comparable }` once, its slots write `some T`, and every occurrence of the name takes only what the constraint admits. A bound may name several, joined with `&`: `bounds: { T: std.Comparable & Describable }` holds `T` to what every one of them admits or asks. The signature owns the bound. A slot names the parameter and never the membership, so one bound is one claim however many slots mention the name. A constraint is a **declared membership**. A module binds a name to the types it admits, the way it declares a type. A slot may also declare one as its type, and what stands there is a value of one of the members, which is how the language says **A or B**: the set is declared once under a name, and no slot writes an inline union. The judgment is made twice, once per surface: at the **build**, a reading provably outside the membership refuses (two booleans meeting `lessThan` never run), and a reading the text says nothing about (`any`) passes; at the **boundary**, the value that actually arrived is judged against the membership, so what travelled in through `any` is refused where it arrives. One name is held to one set of bounds: `bounds` writes the set once, every occurrence of the name reads it, and a signature assembled with two occurrences holding different sets is refused at the build and written by no document. `bounds` naming a parameter no slot mentions refuses at the load. Only the declaring procedure writes `bounds`. A procedure *type* nested in a slot carries none, because its parameters are the declaring signature's own slots and the declaring signature owns their bounds. A closure written in the body reads the same names: its `some T` is the `T` the caller filled, held to the bounds the declaration wrote, so a closure may send what the body around it may. A constraint nobody declares, a constraint declared twice under one spelling, one admitting nothing, and a name declared as both a type and a constraint all **refuse at the build**. A member is a **concrete type**: `some`, `any` and `never` in member position refuse at the build. Each says nothing a membership could hold. And a type parameter lives in a signature: a declared type writing `some` outside a procedure signature refuses at the build, because nothing there is filled by a call.
 
@@ -127,7 +127,7 @@ A body calls a contract's procedure by writing the contract's name and the proce
 
 **The build builds the table and the run reads it.** For every contract, the build gathers every type that satisfies it and lowers one call per type, each against the row that answers, arguments in that row's own slot order. The run reads the name the first argument wears and picks. Nothing is resolved while a program is running.
 
-A declaration answering a contract's procedure is reached **through the contract**, which is the spelling that says which contract is meant. Two types answering one procedure is the ordinary case. Such a declaration takes exactly the contract's positions: its own type first and then what the contract asks **at the contract's positions**, each of the same type; the names are its own. One declaring a parameter beyond them, `T?` included, **refuses at the build** where the claim is leaned on. The run hands the arguments to the same positions whichever declaration answers.
+A declaration answering a contract's procedure is reached **through the contract**, which is the spelling that says which contract is meant. Two types answering one procedure is the ordinary case. Such a declaration takes exactly the contract's positions and answers what the contract's answer takes: its own type first, then **at the contract's positions** a parameter taking everything the contract's takes there, the contract's type parameters standing for types no call fills and the declaration's own filled by what the contract writes at the same positions; the names are its own. One declaring a parameter beyond them, `T?` included, **refuses at the build** where the claim is leaned on. The run hands the arguments to the same positions whichever declaration answers.
 
 **A name is its declared spelling.** The key a document declares a type, constraint or procedure under is the whole of its name: `std.math.plus` is declared under that key, and `wallet.Account` under that one. A mention is a declared spelling, written out, and it means the same declaration wherever it was written, inside the declaring document too. A dot is a character of the spelling and nothing more: the language has no nesting, no scope and no prefix, so what a document chooses to put before a dot is the author's convention, and one document may declare `wallet.fee` beside `bank.rate` while another declares `wallet.rate`. A spelling no module in the link declares **refuses at the build** where it is mentioned. There are two namespaces, procedures and types, and a procedure may be spelled like a type. Types, memberships and contracts share the second, and no name in it is two of them, so a mention reaches whatever declares it: a slot names a type or a membership, and a bound names a membership or a contract.
 
@@ -141,7 +141,10 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-bare-constraint-name-refuses`
 - `a-bare-dictionary-refuses`
 - `a-bare-name-for-another-modules-procedure-refuses`
+- `a-body-answering-a-value-for-its-own-type-parameter-refuses`
 - `a-body-cannot-answer-what-it-borrowed`
+- `a-body-handing-its-own-type-parameter-in-place-to-a-type-refuses`
+- `a-body-writing-a-value-into-its-own-type-parameter-refuses`
 - `a-borrow-captured-by-a-closure-refuses`
 - `a-borrow-handed-to-a-consuming-slot-refuses`
 - `a-borrow-inside-a-loop-round-stands`
@@ -179,10 +182,14 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-contract-stands-in-a-closures-parameter`
 - `a-contract-stands-in-a-declared-types-field`
 - `a-contract-stands-where-a-type-is-written`
+- `a-declaration-answering-a-contract-fills-its-own-parameter-with-the-contracts`
+- `a-declaration-answering-a-contract-may-take-a-wider-type`
 - `a-declaration-answering-a-contract-names-its-parameters-its-own-way`
 - `a-declaration-answering-a-contract-takes-its-parameters-in-the-contracts-order`
 - `a-declaration-answering-a-contract-takes-no-parameter-beyond-it`
+- `a-declaration-answering-a-contract-with-a-type-where-it-writes-a-parameter-refuses`
 - `a-declaration-answering-a-contract-with-another-answer-refuses`
+- `a-declaration-answering-a-contract-with-its-own-parameter-for-a-type-refuses`
 - `a-declaration-answering-one-without-returns-refuses`
 - `a-declaration-no-claim-names-is-its-documents-own-procedure`
 - `a-declaration-writing-no-returns-backs-a-claim-by-what-its-body-answers`

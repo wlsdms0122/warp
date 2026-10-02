@@ -1,0 +1,97 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-body-handing-its-own-type-parameter-in-place-to-a-type-refuses"
+  note "A declaration holds a value of its type parameter T in a variable and hands it in place to a parameter declared int. In place the two sides are one type, and T is not int inside the declaration."
+  program {
+    imports [
+      "std.text.uppercased"
+    ]
+    procedures {
+      "app.gen" {
+        body [
+          {
+            value {
+              ref "x"
+            }
+            var "y"
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "y"
+                  }
+                ]
+                procedure "app.poke"
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+        ]
+        result {
+          ref "y"
+        }
+        returns "some T"
+      }
+      "app.poke" {
+        body [
+          {
+            set "v"
+            value 7
+          }
+        ]
+        parameters [
+          {
+            name "v"
+            type "inout int"
+          }
+        ]
+        result 0
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  "s"
+                ]
+                procedure "app.gen"
+              }
+            }
+          }
+          {
+            let "u"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "r"
+                  }
+                ]
+                procedure "std.text.uppercased"
+              }
+            }
+          }
+        ]
+        result {
+          ref "u"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
