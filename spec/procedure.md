@@ -51,7 +51,7 @@ Some of what a program writes is **read** and some of it is **run**. A literal, 
 A procedure **answers without running** when nothing it reaches stands outside the run it was handed:
 
 - it reads no module variable and writes no name it does not own: a module variable, a name a closure captured, or a parameter handed in place, whether written by `set` or handed in place to a call. What such a name holds is the run's rather than the text's, and a name the body introduces or a parameter it holds outright is its own;
-- it calls a value only where a slot declared it `const procedure`: the name the slot gave, or what a path reaches inside that name by the type the slot wrote (an element of an array or a dictionary, an entry of a dictionary, a field of a record type). The value was settled against that type when it was handed over, so that is the one place something before the run says what the value answers; on any other value nothing does. The claim is the slot's and so it stands wherever the name is read, a closure that **captured** the name included;
+- it calls a value only where a slot declared it `const procedure`: the name the slot gave, a fixed name bound to such a name, which follows the declared type it reads, or what a path reaches inside one of those by the type the slot wrote (an element of an array or a dictionary, an entry of a dictionary, a field of a record type). The value was settled against that type when it was handed over, so that is the one place something before the run says what the value answers. A type the build worked out (a closure literal's, a call's answer, a cast's) is a reading rather than a declaration, so a name bound to one carries no claim. The claim is the slot's and so it stands wherever the name is read, a closure that **captured** the name included;
 - and every procedure it sends answers without running.
 
 A construct reaches nothing on its own. Which part of a `conditional`, `loop`, `attempt` or `block` runs is decided inside the body, so one of them is read exactly as far as the parts it holds are, and the same goes for `return`, `break` and `continue`. A name the body introduces is the body's own: a `let` and a `var` both make one, neither leaves the body, and so declaring either says nothing about what the body reaches.
@@ -148,6 +148,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-contract-call-that-may-run-is-no-operand`
 - `a-declaration-that-runs-backs-no-const-contract`
 - `a-dictionary-entry-handed-in-place-is-read-by-the-callee`
+- `a-fixed-name-bound-to-a-calls-answer-gives-a-capture-no-claim`
+- `a-fixed-name-bound-to-a-closure-literal-gives-a-capture-no-claim`
+- `a-fixed-name-bound-to-a-const-slot-carries-its-claim`
 - `a-fixed-name-is-not-handed-in-place`
 - `a-fixed-name-is-not-handed-in-place-to-a-called-value`
 - `a-name-declared-inside-a-nested-closure-does-not-cover-a-captured-one`

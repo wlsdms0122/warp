@@ -1,0 +1,103 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-piece-calling-a-fixed-name-bound-to-a-closure-literal-refuses"
+  note "A name bound to a closure literal without a type holds what the build worked out for the literal, and no slot declared it `isolated procedure`. A piece that captured the name and calls it is not isolated, so `std.concurrent.map` refuses it."
+  program {
+    imports [
+      "std.concurrent.map"
+      "std.math.plus"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "bump"
+            value {
+              closure {
+                body [
+                  {
+                    set "c"
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "c"
+                          }
+                          1
+                        ]
+                        procedure "std.math.plus"
+                      }
+                    }
+                  }
+                ]
+                parameters [
+                  {
+                    name "c"
+                    type "inout int"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              [
+                1
+                2
+              ]
+              {
+                closure {
+                  body [
+                    {
+                      value 0
+                      var "m"
+                    }
+                    {
+                      value {
+                        call {
+                          arguments [
+                            {
+                              ref "m"
+                            }
+                          ]
+                          procedure {
+                            ref "bump"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                  parameters [
+                    {
+                      name "x"
+                      type "int"
+                    }
+                    {
+                      name "i"
+                      type "int"
+                    }
+                  ]
+                  result {
+                    ref "m"
+                  }
+                  returns "int"
+                }
+              }
+            ]
+            procedure "std.concurrent.map"
+          }
+        }
+        returns "array<int>"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

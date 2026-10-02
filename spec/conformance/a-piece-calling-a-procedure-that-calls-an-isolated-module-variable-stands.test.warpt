@@ -1,0 +1,84 @@
+warpt 1
+{
+  expect {
+    answers [
+      1
+      2
+    ]
+  }
+  name "a-piece-calling-a-procedure-that-calls-an-isolated-module-variable-stands"
+  note "A module variable that declared its type `isolated procedure` is a slot that said so. A declaration calling it writes only its own names and is isolated, so a piece calling that declaration stands and `std.concurrent.map` runs it."
+  program {
+    imports [
+      "std.concurrent.map"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              [
+                1
+                2
+              ]
+              {
+                closure {
+                  body [
+                    {
+                      value {
+                        call {
+                          procedure "relayH"
+                        }
+                      }
+                    }
+                  ]
+                  parameters [
+                    {
+                      name "item"
+                      type "int"
+                    }
+                    {
+                      name "index"
+                      type "int"
+                    }
+                  ]
+                  result {
+                    ref "item"
+                  }
+                }
+              }
+            ]
+            procedure "std.concurrent.map"
+          }
+        }
+      }
+      relayH {
+        body [
+          {
+            value {
+              call {
+                procedure {
+                  ref "h"
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+    var {
+      h {
+        type "isolated procedure"
+        value {
+          closure {
+            result 0
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
