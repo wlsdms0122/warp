@@ -126,6 +126,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-block-writes-the-flow-it-is-in`
 - `a-closure-a-constant-holds-does-not-take-a-variables-name`
 - `a-closure-does-not-leave-what-wrote-it`
+- `a-closure-in-a-loop-condition-holds-what-it-takes-for-the-body`
 - `a-closure-parameter-may-take-the-spelling-of-a-name-around-it`
 - `a-closure-whose-body-shadows-a-variable-takes-nothing-of-it`
 - `a-condition-that-is-not-a-bool-refuses`
