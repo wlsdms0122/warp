@@ -1,0 +1,83 @@
+warpt 1
+{
+  expect {
+    answers 2
+  }
+  name "a-module-variable-started-with-a-const-closure-takes-one-that-runs"
+  note "A module variable that declares no type holds the procedure type its start wrote, and not the constness the build derived for the closure it started with: a write may put another procedure there. A closure that reads a module variable, and so does not answer without running, is written into it and called."
+  program {
+    imports [
+      "std.math.plus"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            set "onTick"
+            value {
+              closure {
+                parameters [
+                  {
+                    name "n"
+                    type "int"
+                  }
+                ]
+                result {
+                  call {
+                    arguments [
+                      {
+                        ref "n"
+                      }
+                      {
+                        ref "base"
+                      }
+                    ]
+                    procedure "std.math.plus"
+                  }
+                }
+                returns "int"
+              }
+            }
+          }
+          {
+            let "a"
+            value {
+              call {
+                arguments [
+                  1
+                ]
+                procedure {
+                  ref "onTick"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "a"
+        }
+      }
+    }
+    var {
+      base 1
+      onTick {
+        closure {
+          parameters [
+            {
+              name "n"
+              type "int"
+            }
+          ]
+          result {
+            ref "n"
+          }
+          returns "int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
