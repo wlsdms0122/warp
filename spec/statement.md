@@ -190,6 +190,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-write-through-an-element-keeps-the-others`
 - `a-write-through-an-optional-segment-refuses`
 - `a-write-through-any-refuses`
+- `an-attempt-body-reads-the-variable-its-statement-name-shadows`
 - `an-attempt-catches-a-cast-that-did-not-match`
 - `an-attempt-under-a-set-binds-no-failure`
 - `an-attempt-without-a-rescue-refuses`

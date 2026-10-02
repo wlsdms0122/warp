@@ -1,0 +1,118 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "an-attempt-body-reads-the-variable-its-statement-name-shadows"
+  note "An attempt binds its statement's name to the failure in the rescue alone, so its body reads the variable around it under that spelling. A closure whose `let n = attempt` body reads the outer `n` takes `n`, and a later `set` of `n` to another type refuses at the build."
+  program {
+    imports [
+      "std.control.abort"
+      "std.math.lessThan"
+    ]
+    procedures {
+      check {
+        body [
+          {
+            value {
+              conditional {
+                then [
+                  {
+                    value {
+                      call {
+                        arguments [
+                          "negative"
+                        ]
+                        procedure "std.control.abort"
+                      }
+                    }
+                  }
+                ]
+                when {
+                  call {
+                    arguments [
+                      {
+                        ref "x"
+                      }
+                      0
+                    ]
+                    procedure "std.math.lessThan"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "x"
+            type "int"
+          }
+        ]
+        result {
+          ref "x"
+        }
+        returns "int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            value 0
+            var "n"
+          }
+          {
+            let "f"
+            value {
+              closure {
+                body [
+                  {
+                    let "n"
+                    value {
+                      attempt {
+                        body [
+                          {
+                            let "c"
+                            value {
+                              call {
+                                arguments [
+                                  {
+                                    ref "n"
+                                  }
+                                ]
+                                procedure "check"
+                              }
+                            }
+                          }
+                        ]
+                        rescue {
+                          result 0
+                        }
+                        result {
+                          ref "c"
+                        }
+                      }
+                    }
+                  }
+                ]
+                result {
+                  ref "n"
+                }
+                returns "int"
+              }
+            }
+          }
+          {
+            set "n"
+            value "s"
+          }
+        ]
+        result 1
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
