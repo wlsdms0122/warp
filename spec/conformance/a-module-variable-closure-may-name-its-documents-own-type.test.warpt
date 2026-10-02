@@ -1,0 +1,66 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-module-variable-closure-may-name-its-documents-own-type"
+  note "A closure a module variable starts holding is a procedure of the document that declared the variable, so its body reads the types that document declares, here a cast to one, the way a body written in a declaration does."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "a"
+            value {
+              call {
+                procedure {
+                  ref "v"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "a"
+        }
+      }
+    }
+    types {
+      "app.Box" {
+        record {
+          x "int"
+        }
+      }
+    }
+    var {
+      v {
+        closure {
+          body [
+            {
+              let "c"
+              value {
+                as {
+                  of {
+                    record {
+                      x 1
+                    }
+                  }
+                  type "app.Box"
+                }
+              }
+            }
+          ]
+          result {
+            ref "c.x"
+          }
+          returns "int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

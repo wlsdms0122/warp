@@ -51,6 +51,7 @@ A reader of documents **refuses** a shorthand where it meets one, the way it ref
 
 What `conformance/` asks about this page, by the name each case's file carries.
 
+- `a-constant-closure-may-name-its-documents-own-type`
 - `a-constant-is-a-name-a-body-reads`
 - `a-constant-may-be-spelled-like-a-procedure`
 - `a-constant-sees-only-the-constants-beside-it`
@@ -62,6 +63,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-later-document-refuses`
 - `a-list-leaving-out-a-type-the-program-names-refuses`
 - `a-module-variable-closure-called-with-another-count-refuses`
+- `a-module-variable-closure-may-name-its-documents-own-type`
 - `a-module-variable-declares-what-it-holds`
 - `a-module-variable-handed-in-place-is-one-box`
 - `a-module-variable-is-handed-in-place-to-a-native-procedure`
