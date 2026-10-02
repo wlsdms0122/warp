@@ -1,0 +1,123 @@
+warpt 1
+{
+  expect {
+    answers [
+      1
+      2
+    ]
+  }
+  name "a-piece-calling-an-isolated-procedure-read-out-of-a-record-field-stands"
+  note "A slot declaring a record type says what each of its fields holds. A body calling what a field declared `isolated procedure` holds is isolated, so a piece of `std.concurrent.map` calling that body stands."
+  program {
+    imports [
+      "std.concurrent.map"
+    ]
+    procedures {
+      asking {
+        body [
+          {
+            let "a"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "item"
+                  }
+                ]
+                procedure {
+                  ref "body.f"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "body"
+            type {
+              record {
+                f {
+                  "isolated procedure" {
+                    parameters [
+                      "int"
+                    ]
+                    returns "int"
+                  }
+                }
+              }
+            }
+          }
+          {
+            name "item"
+            type "int"
+          }
+        ]
+        result {
+          ref "a"
+        }
+        returns "int"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              [
+                1
+                2
+              ]
+              {
+                closure {
+                  parameters [
+                    {
+                      name "item"
+                      type "int"
+                    }
+                    {
+                      name "index"
+                      type "int"
+                    }
+                  ]
+                  result {
+                    call {
+                      arguments [
+                        {
+                          record {
+                            f {
+                              closure {
+                                parameters [
+                                  {
+                                    name "x"
+                                    type "int"
+                                  }
+                                ]
+                                result {
+                                  ref "x"
+                                }
+                                returns "int"
+                              }
+                            }
+                          }
+                        }
+                        {
+                          ref "item"
+                        }
+                      ]
+                      procedure "asking"
+                    }
+                  }
+                  returns "int"
+                }
+              }
+            ]
+            procedure "std.concurrent.map"
+          }
+        }
+        returns "array<int>"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
