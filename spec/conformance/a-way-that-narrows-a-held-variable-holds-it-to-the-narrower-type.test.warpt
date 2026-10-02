@@ -1,0 +1,94 @@
+warpt 1
+{
+  arguments {
+    ready true
+  }
+  expect {
+    answers 5
+  }
+  name "a-way-that-narrows-a-held-variable-holds-it-to-the-narrower-type"
+  note "One arm makes a closure that takes `n` while it reads `int?`, and the other sets it to an int first and takes it as `int`. An `int?` takes every int, so where the arms meet `n` is held to `int`, and a later write of an int fits both closures and stands."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            value 0
+            var "n"
+          }
+          {
+            value {
+              conditional {
+                then [
+                  {
+                    set "n"
+                    value null
+                  }
+                ]
+                when {
+                  ref "ready"
+                }
+              }
+            }
+          }
+          {
+            value {
+              conditional {
+                else [
+                  {
+                    set "n"
+                    value 2
+                  }
+                  {
+                    let "b"
+                    value {
+                      closure {
+                        result {
+                          ref "n"
+                        }
+                      }
+                    }
+                  }
+                ]
+                then [
+                  {
+                    let "a"
+                    value {
+                      closure {
+                        result {
+                          ref "n"
+                        }
+                      }
+                    }
+                  }
+                ]
+                when {
+                  ref "ready"
+                }
+              }
+            }
+          }
+          {
+            set "n"
+            value 5
+          }
+        ]
+        parameters [
+          {
+            name "ready"
+            type "bool"
+          }
+        ]
+        result {
+          ref "n"
+        }
+        returns "int?"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,99 @@
+warpt 1
+{
+  arguments {
+    ready false
+  }
+  expect {
+    answers 5
+  }
+  name "a-way-that-leaves-is-not-met-by-the-ways-that-go-on"
+  note "The arm that sets `n` to a string and takes it there returns, so no write after the conditional runs on that way. Only the other arm, which takes `n` as an int, reaches what follows, and a later write of an int stands."
+  program {
+    imports [
+      "std.math.plus"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            value 0
+            var "n"
+          }
+          {
+            value {
+              conditional {
+                else [
+                  {
+                    let "h"
+                    value {
+                      closure {
+                        body [
+                          {
+                            set "n"
+                            value {
+                              call {
+                                arguments [
+                                  {
+                                    ref "n"
+                                  }
+                                  1
+                                ]
+                                procedure "std.math.plus"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+                then [
+                  {
+                    set "n"
+                    value "s"
+                  }
+                  {
+                    let "a"
+                    value {
+                      closure {
+                        result {
+                          ref "n"
+                        }
+                      }
+                    }
+                  }
+                  {
+                    value {
+                      return 0
+                    }
+                  }
+                ]
+                when {
+                  ref "ready"
+                }
+              }
+            }
+          }
+          {
+            set "n"
+            value 5
+          }
+        ]
+        parameters [
+          {
+            name "ready"
+            type "bool"
+          }
+        ]
+        result {
+          ref "n"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
