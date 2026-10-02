@@ -46,8 +46,10 @@ Reading does not decide everything: whether a number will be zero when something
 
 What `conformance/` asks about this page, by the name each case's file carries.
 
+- `a-break-from-a-rescue-carries-what-the-body-did-before-failing`
 - `a-declaration-is-named-by-its-whole-spelling`
 - `a-document-sending-a-contract-procedure-stands-before-a-later-one`
+- `a-failure-in-a-loop-round-carries-the-rounds-before-it`
 - `a-name-not-in-normal-form-c-is-refused`
 - `a-procedure-may-be-spelled-like-a-type`
 - `a-procedure-nobody-declares-refuses`
