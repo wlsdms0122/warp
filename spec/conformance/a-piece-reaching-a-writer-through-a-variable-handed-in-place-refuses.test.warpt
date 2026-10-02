@@ -1,0 +1,190 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-piece-reaching-a-writer-through-a-variable-handed-in-place-refuses"
+  note "A variable handed in place to a slot saying `const isolated procedure`, and kept there by the closure the callee answers, is held to that type from the call on. A later `set` of a closure that writes a captured variable does not fit, so the build refuses it and no piece of `std.concurrent.map` reaches the writer."
+  program {
+    imports [
+      "std.concurrent.map"
+      "std.math.plus"
+    ]
+    procedures {
+      "app.keep" {
+        parameters [
+          {
+            name "f"
+            type {
+              "inout const isolated procedure" {
+                parameters [
+                  "int"
+                  "int"
+                ]
+                returns "int"
+              }
+            }
+          }
+        ]
+        result {
+          closure {
+            body [
+              {
+                let "y"
+                value {
+                  call {
+                    arguments [
+                      {
+                        ref "x"
+                      }
+                      {
+                        ref "i"
+                      }
+                    ]
+                    procedure {
+                      ref "f"
+                    }
+                  }
+                }
+              }
+            ]
+            parameters [
+              {
+                name "x"
+                type "int"
+              }
+              {
+                name "i"
+                type "int"
+              }
+            ]
+            result {
+              ref "y"
+            }
+            returns "int"
+          }
+        }
+        returns {
+          "isolated procedure" {
+            parameters [
+              "int"
+              "int"
+            ]
+            returns "int"
+          }
+        }
+      }
+      entry {
+        access "public"
+        body [
+          {
+            value {
+              closure {
+                parameters [
+                  {
+                    name "x"
+                    type "int"
+                  }
+                  {
+                    name "i"
+                    type "int"
+                  }
+                ]
+                result {
+                  ref "x"
+                }
+                returns "int"
+              }
+            }
+            var "h"
+          }
+          {
+            let "k"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "h"
+                  }
+                ]
+                procedure "app.keep"
+              }
+            }
+          }
+          {
+            value 0
+            var "count"
+          }
+          {
+            set "h"
+            value {
+              closure {
+                body [
+                  {
+                    set "count"
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "count"
+                          }
+                          1
+                        ]
+                        procedure "std.math.plus"
+                      }
+                    }
+                  }
+                ]
+                parameters [
+                  {
+                    name "x"
+                    type "int"
+                  }
+                  {
+                    name "i"
+                    type "int"
+                  }
+                ]
+                result {
+                  ref "x"
+                }
+                returns "int"
+              }
+            }
+          }
+          {
+            let "out"
+            value {
+              call {
+                arguments [
+                  [
+                    1
+                    2
+                    3
+                  ]
+                  {
+                    ref "k"
+                  }
+                ]
+                procedure "std.concurrent.map"
+              }
+            }
+          }
+        ]
+        result {
+          record {
+            count {
+              ref "count"
+            }
+            out {
+              ref "out"
+            }
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

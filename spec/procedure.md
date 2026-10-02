@@ -179,6 +179,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-value-under-a-slot-saying-only-procedure-is-not-const`
 - `a-variable-a-body-declares-is-its-own`
 - `a-variable-declared-const-procedure-carries-that-into-a-capture`
+- `a-variable-handed-in-place-is-not-retyped-after`
 - `a-variable-handed-in-place-is-written-by-a-called-value`
 - `a-variable-handed-in-place-is-written-by-the-callee`
 - `a-variable-holding-a-const-procedure-is-not-a-const-slot`
