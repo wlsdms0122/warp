@@ -24,7 +24,7 @@ A declared name is fixed at what it says: a write into a declared `var` is held 
 
 A statement with no naming key, `{ value … }`, runs its expression and binds nothing. The answer is dropped, which is how an effect is asked for on its own. Three families step out of this freedom, in different directions:
 
-- The constructs that bind **through** the statement's name, `loop` (its round) and `attempt` (its failure). Written nameless, they bind nothing: a loop with no name has no round to read and an attempt with no name has no failure to read, and each runs the same otherwise.
+- The constructs that bind **through** the statement's name, `loop` (its round) and `attempt` (its failure). The name they bind through is one the statement introduces, with `let` or `var`. Written nameless, or under a `set`, which introduces none, they bind nothing: a loop with no name has no round to read and an attempt with no name has no failure to read, and each runs the same otherwise.
 - The leaving constructs (`return`, `break`, `continue`) take **no** naming key at all: such a statement never finishes, so its name could never bind, and a key that promises a binding that cannot happen **refuses**. The same rule reaches a **call**: a statement whose procedure declares `returns: never` binds nothing and takes no name. Held at the **build**, because only the build knows the signature, where the leaves the text shows are held at the load.
 - A **`conditional`** takes no naming key either, for the other reason: it finishes, but it answers nothing and binds nothing inside. A condition chooses a way through the body, not a value. What an arm keeps it writes to an outer variable with `set`, and a value leaves through `return`.
 
@@ -147,6 +147,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-loop-reads-how-many-rounds-passed`
 - `a-loop-result-reads-the-last-finished-round`
 - `a-loop-takes-no-budget`
+- `a-loop-under-a-set-binds-no-round`
 - `a-loop-written-nameless-binds-no-round`
 - `a-name-a-block-declares-is-not-read-after-it`
 - `a-name-a-round-declares-is-not-read-after-the-loop`
@@ -188,6 +189,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-write-through-an-optional-segment-refuses`
 - `a-write-through-any-refuses`
 - `an-attempt-catches-a-cast-that-did-not-match`
+- `an-attempt-under-a-set-binds-no-failure`
 - `an-attempt-without-a-rescue-refuses`
 - `an-attempt-written-nameless-binds-no-failure`
 - `an-inner-constant-of-an-outer-name-is-not-written`

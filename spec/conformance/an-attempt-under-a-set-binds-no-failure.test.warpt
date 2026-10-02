@@ -1,0 +1,65 @@
+warpt 1
+{
+  expect {
+    answers 6
+  }
+  name "an-attempt-under-a-set-binds-no-failure"
+  note "A `set` introduces no name, so an attempt under it binds no failure: the rescue reads `r` as the variable the statement writes."
+  program {
+    imports [
+      "std.control.abort"
+      "std.math.plus"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            type "int"
+            value 5
+            var "r"
+          }
+          {
+            set "r"
+            value {
+              attempt {
+                body [
+                  {
+                    value {
+                      call {
+                        arguments [
+                          "stop"
+                        ]
+                        procedure "std.control.abort"
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  result {
+                    call {
+                      arguments [
+                        {
+                          ref "r"
+                        }
+                        1
+                      ]
+                      procedure "std.math.plus"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

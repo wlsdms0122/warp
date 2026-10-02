@@ -1,0 +1,46 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-loop-under-a-set-binds-no-round"
+  note "A `set` introduces no name, so a loop under it binds no round, and a `break` naming the variable the statement writes names no loop around it."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            type "int"
+            value 5
+            var "r"
+          }
+          {
+            set "r"
+            value {
+              loop {
+                body [
+                  {
+                    value {
+                      break "r"
+                    }
+                  }
+                ]
+                result 6
+                while true
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
