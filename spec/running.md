@@ -49,5 +49,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-run-starts-from-a-public-procedure-the-host-answers`
 - `a-slot-that-wrote-no-returns-opens-its-answer-to-any`
 - `all-answers-every-piece-under-its-key`
+- `an-answer-nobody-wrote-takes-what-a-called-values-slot-wrote`
 - `an-answer-of-all-settles-into-the-record-declared`
 - `every-way-out-of-a-body-is-one-of-its-answers`
