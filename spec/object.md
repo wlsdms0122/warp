@@ -100,11 +100,11 @@ A *construct* is `[tag]`: 0 literal, 1 reference, 2 array, 3 record, 4 closure, 
 
 A *row* is a declaration as its own document settled it:
 
-    [ label, signature, access, constness, isolation, failing, sends, implementation ]
+    [ label, signature, access, constness, isolation, failing, implementation ]
 
-The label is the declared spelling. A row in `lifted` is the same without the label, its fields starting at the signature. `access` is `0` private, `1` internal or `2` public, under *who may name a declaration* in [procedures](procedure.md); a lifted row is private, since nothing names it. `sends` is what a native declaration said it sends, each `[row, handing]`: the row it reaches, numbered by the document, and how many arguments it hands over, from that row's first position. A body's sends are calls its own code carries, so its list is empty.
+The label is the declared spelling. A row in `lifted` is the same without the label, its fields starting at the signature. `access` is `0` private, `1` internal or `2` public, under *who may name a declaration* in [procedures](procedure.md); a lifted row is private, since nothing names it.
 
-The *implementation* is `[0, body, frame]` for a written body, or `[1, sends]` for a native, each send `[position, selector, handing]`: where the send stands among the declaration's sends, the spelling it reaches, and how many arguments it hands over.
+The *implementation* is `[0, body, frame]` for a written body, or `[1, sends]` for a native, each send `[position, selector, handing]`: where the send stands among the declaration's sends, the spelling it reaches, and how many arguments it hands over, from the first position of what that spelling declares. The sends stand one to a place from the first, and each reaches the number the document's `numbering` gives its spelling; a native row whose sends say otherwise **refuses**.
 
 A *frame* is `[size, parameters, variables, captures, names]`: how many slots; which slots the parameters fill, in parameter order; `[variable, slot]` for each module variable the body reads, by its position in `variables`; which slots a closure fills from what it took with it; and what each slot was called, one name per slot, for a refusal that names one. A body standing on a slot the frame does not hold, or a frame naming fewer slots than it has, **refuses**.
 

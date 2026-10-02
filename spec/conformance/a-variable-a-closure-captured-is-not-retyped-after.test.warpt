@@ -1,0 +1,70 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-variable-a-closure-captured-is-not-retyped-after"
+  note "A variable a closure captured holds the type it read as there from the capture on, since the closure writes the box as that type when it is called. Writing a string into the int it was captured as refuses at the build."
+  program {
+    imports [
+      "std.text.uppercased"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            value 0
+            var "n"
+          }
+          {
+            let "w"
+            value {
+              closure {
+                body [
+                  {
+                    set "n"
+                    value 99
+                  }
+                ]
+              }
+            }
+          }
+          {
+            set "n"
+            value "s"
+          }
+          {
+            value {
+              call {
+                procedure {
+                  ref "w"
+                }
+              }
+            }
+          }
+          {
+            let "u"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "n"
+                  }
+                ]
+                procedure "std.text.uppercased"
+              }
+            }
+          }
+        ]
+        result {
+          ref "u"
+        }
+        returns "string"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,112 @@
+warpt 1
+{
+  expect {
+    answers 5
+  }
+  name "a-witness-may-write-another-name-for-the-record-a-contract-names"
+  note "The contract's procedure takes an `app.Point` second, and the declaration answering it for `app.Box` writes `app.Spot`, which names `app.Point`. A name that stands for a declared record names that record's type, so the two signatures agree and the claim holds."
+  program {
+    contracts {
+      "app.Placing" {
+        place {
+          parameters [
+            {
+              name "of"
+              type "app.Placing"
+            }
+            {
+              name "at"
+              type "app.Point"
+            }
+          ]
+          returns "int"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "app.Box.place" {
+        parameters [
+          {
+            name "of"
+            type "app.Box"
+          }
+          {
+            name "at"
+            type "app.Spot"
+          }
+        ]
+        result {
+          ref "at.x"
+        }
+        returns "int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "box"
+            value {
+              as {
+                of {
+                  record {
+                    v 1
+                  }
+                }
+                type "app.Box"
+              }
+            }
+          }
+          {
+            let "point"
+            value {
+              as {
+                of {
+                  record {
+                    x 5
+                  }
+                }
+                type "app.Point"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "box"
+              }
+              {
+                ref "point"
+              }
+            ]
+            procedure "app.Placing.place"
+          }
+        }
+        returns "int"
+      }
+    }
+    satisfies {
+      "app.Box" [
+        "app.Placing"
+      ]
+    }
+    types {
+      "app.Box" {
+        record {
+          v "int"
+        }
+      }
+      "app.Point" {
+        record {
+          x "int"
+        }
+      }
+      "app.Spot" "app.Point"
+    }
+    warp 1
+  }
+  test 1
+}
+

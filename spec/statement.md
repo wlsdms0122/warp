@@ -24,11 +24,11 @@ A declared name is fixed at what it says: a write into a declared `var` is held 
 
 A statement with no naming key, `{ value … }`, runs its expression and binds nothing. The answer is dropped, which is how an effect is asked for on its own. Three families step out of this freedom, in different directions:
 
-- The constructs that bind **through** the statement's name, `loop` (its round) and `attempt` (its failure). Written nameless, they bind nothing: a loop with no name has no round to read and an attempt with no name has no failure to read, and each runs the same otherwise.
+- The constructs that bind **through** the statement's name, `loop` (its round) and `attempt` (its failure). The name they bind through is one the statement introduces, with `let` or `var`. Written nameless, or under a `set`, which introduces none, they bind nothing: a loop with no name has no round to read and an attempt with no name has no failure to read, and each runs the same otherwise.
 - The leaving constructs (`return`, `break`, `continue`) take **no** naming key at all: such a statement never finishes, so its name could never bind, and a key that promises a binding that cannot happen **refuses**. The same rule reaches a **call**: a statement whose procedure declares `returns: never` binds nothing and takes no name. Held at the **build**, because only the build knows the signature, where the leaves the text shows are held at the load.
 - A **`conditional`** takes no naming key either, for the other reason: it finishes, but it answers nothing and binds nothing inside. A condition chooses a way through the body, not a value. What an arm keeps it writes to an outer variable with `set`, and a value leaves through `return`.
 
-**What a write reaches.** A `set` names a path, and the head of the path is the variable written. Every segment after the head is judged at the **build** against the type the walk has reached: a field of a type declared in `types` is passed through only when the declaration wrote it `var`; a field of an inline record type, an entry of a `dictionary<T>`, and an element of an array are passed through as they are, and a `dictionary<T>` entry the value does not hold yet is made by the write; `any` and a nullable type are not written into, and an optional segment (`?.`, `?[`) is not written through, because a write reads no absence. What is written has to fit the type the path reaches, and is settled against it, so a box that said what it holds is laid out the way its declaration says after a write as it was after its declaration. A path that reaches no declared type settles nothing and the value stands as it was handed. A write to a whole local variable retypes it unless the variable declared what it holds, under *what a variable reads as* in [checking](checking.md); a write to a module variable or to an `inout` parameter has to fit the type the box holds and retypes nothing. At the run the value is computed first, and then the box is rewritten once, so nothing observes the box halfway. An index written as a name (`xs[i]`) is read where the write stands and must be an int; the write lands on that one position.
+**What a write reaches.** A `set` names a path, and the head of the path is the variable written. Every segment after the head is judged at the **build** against the type the walk has reached: a field of a type declared in `types` is passed through only when the declaration wrote it `var`; a field of an inline record type, an entry of a `dictionary<T>`, and an element of an array are passed through as they are, and a `dictionary<T>` entry the value does not hold yet is made by the write; `any` and a nullable type are not written into, and an optional segment (`?.`, `?[`) is not written through, because a write reads no absence. What is written has to fit the type the path reaches, and is settled against it, so a box that said what it holds is laid out the way its declaration says after a write as it was after its declaration. A path that reaches no declared type settles nothing and the value stands as it was handed. A write to a whole local variable retypes it unless the variable declared what it holds, under *what a variable reads as* in [checking](checking.md). A variable a closure captured, or a call handed in place, holds from there on the type it read as there, and a later write has to fit it, since the closure or the callee reads and writes the box as that type. Two ways that took one variable as different types **refuse at the build** where they meet, since what each took goes on writing its own type; two names for one declared record are one type. A way meets the others where its leave lands. A write to a module variable or to an `inout` parameter has to fit the type the box holds and retypes nothing. At the run the value is computed first, and then the box is rewritten once, so nothing observes the box halfway. An index written as a name (`xs[i]`) is read where the write stands and must be an int; the write lands on that one position.
 
 **A `var` may stand alone.** A statement that is only `{ var "name" }`, with no `value`, introduces the name with nothing in it yet, and a name holding nothing holds null. It is the declaration a conditional's arms write into; what the name reads as afterwards is under *what a variable reads as* in [checking](checking.md). The other two spellings say something about a value, so they still require one, and one written without it **refuses at the load**.
 
@@ -126,7 +126,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-block-writes-the-flow-it-is-in`
 - `a-closure-a-constant-holds-does-not-take-a-variables-name`
 - `a-closure-does-not-leave-what-wrote-it`
+- `a-closure-in-a-loop-condition-holds-what-it-takes-for-the-body`
 - `a-closure-parameter-may-take-the-spelling-of-a-name-around-it`
+- `a-closure-whose-body-shadows-a-variable-takes-nothing-of-it`
 - `a-condition-that-is-not-a-bool-refuses`
 - `a-conditional-both-of-whose-arms-leave-ends-the-body`
 - `a-conditional-writes-the-flow-it-is-in`
@@ -145,8 +147,10 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-let-without-a-value-refuses`
 - `a-loop-condition-that-is-not-a-bool-refuses`
 - `a-loop-reads-how-many-rounds-passed`
+- `a-loop-result-reads-a-body-name-as-the-last-finished-round-left-it`
 - `a-loop-result-reads-the-last-finished-round`
 - `a-loop-takes-no-budget`
+- `a-loop-under-a-set-binds-no-round`
 - `a-loop-written-nameless-binds-no-round`
 - `a-name-a-block-declares-is-not-read-after-it`
 - `a-name-a-round-declares-is-not-read-after-the-loop`
@@ -179,7 +183,11 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-statement-saying-two-things-refuses`
 - `a-statement-with-no-name-still-runs`
 - `a-var-field-lets-a-path-through`
+- `a-variable-a-closure-captured-is-not-retyped-after`
 - `a-walk-is-a-loop-over-the-count`
+- `a-way-that-leaves-is-not-met-by-the-ways-that-go-on`
+- `a-way-that-returns-from-a-loop-is-not-met-after-it`
+- `a-way-that-returns-from-an-attempt-is-not-met-after-it`
 - `a-write-index-that-is-not-a-whole-number-refuses`
 - `a-write-indexes-with-a-name`
 - `a-write-makes-an-entry-of-a-dictionary`
@@ -187,7 +195,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-write-through-an-element-keeps-the-others`
 - `a-write-through-an-optional-segment-refuses`
 - `a-write-through-any-refuses`
+- `an-attempt-body-reads-the-variable-its-statement-name-shadows`
 - `an-attempt-catches-a-cast-that-did-not-match`
+- `an-attempt-under-a-set-binds-no-failure`
 - `an-attempt-without-a-rescue-refuses`
 - `an-attempt-written-nameless-binds-no-failure`
 - `an-inner-constant-of-an-outer-name-is-not-written`
@@ -204,6 +214,11 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `nothing-runs-after-what-never-finishes`
 - `return-inside-a-closure-answers-the-closure`
 - `sibling-blocks-may-each-introduce-one-name`
+- `two-breaks-taking-a-variable-as-different-types-refuse`
+- `two-ways-taking-a-variable-as-a-type-and-its-nullable-refuse`
+- `two-ways-taking-a-variable-as-a-type-parameter-and-a-type-refuse`
+- `two-ways-taking-a-variable-as-different-types-refuse-where-they-meet`
+- `two-ways-taking-a-variable-under-two-names-of-one-record-stand`
 - `type-beside-set-refuses`
 - `type-on-a-statement-binding-a-loop-refuses`
 - `type-on-a-statement-with-no-name-refuses`

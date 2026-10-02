@@ -1,0 +1,103 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-variable-handed-in-place-is-not-retyped-after"
+  note "A variable handed in place holds the type it read as there from the call on, since a closure the callee made may keep the box and write it as that type. Writing a string into the int it was handed as refuses at the build."
+  program {
+    imports [
+      "std.text.uppercased"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            value 0
+            var "n"
+          }
+          {
+            let "make"
+            value {
+              closure {
+                body [
+                  {
+                    let "w"
+                    value {
+                      closure {
+                        body [
+                          {
+                            set "c"
+                            value 99
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+                parameters [
+                  {
+                    name "c"
+                    type "inout int"
+                  }
+                ]
+                result {
+                  ref "w"
+                }
+              }
+            }
+          }
+          {
+            let "w"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "n"
+                  }
+                ]
+                procedure {
+                  ref "make"
+                }
+              }
+            }
+          }
+          {
+            set "n"
+            value "s"
+          }
+          {
+            value {
+              call {
+                procedure {
+                  ref "w"
+                }
+              }
+            }
+          }
+          {
+            let "u"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "n"
+                  }
+                ]
+                procedure "std.text.uppercased"
+              }
+            }
+          }
+        ]
+        result {
+          ref "u"
+        }
+        returns "string"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

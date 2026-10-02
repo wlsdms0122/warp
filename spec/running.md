@@ -43,11 +43,13 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-piece-calling-an-isolated-module-variable-stands`
 - `a-piece-calling-an-isolated-procedure-read-out-of-a-record-field-stands`
 - `a-piece-of-first-that-writes-what-it-captured-refuses`
+- `a-piece-reaching-a-writer-through-a-variable-handed-in-place-refuses`
 - `a-rescue-does-not-hold-a-piece-that-refuses`
 - `a-run-given-an-argument-its-entry-does-not-declare-refuses`
 - `a-run-given-nothing-for-a-nullable-parameter-refuses`
 - `a-run-starts-from-a-public-procedure-the-host-answers`
 - `a-slot-that-wrote-no-returns-opens-its-answer-to-any`
 - `all-answers-every-piece-under-its-key`
+- `an-answer-nobody-wrote-takes-what-a-called-values-slot-wrote`
 - `an-answer-of-all-settles-into-the-record-declared`
 - `every-way-out-of-a-body-is-one-of-its-answers`

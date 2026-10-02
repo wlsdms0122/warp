@@ -1,0 +1,97 @@
+warpt 1
+{
+  arguments {
+    ready true
+  }
+  expect {
+    refuses "build"
+  }
+  name "two-ways-taking-a-variable-as-a-type-and-its-nullable-refuse"
+  note "One arm makes a closure that takes `n` while it reads `int?` and writes null into it, and the other sets `n` to an int first and takes it as `int`. The first closure goes on writing null whatever the second reads `n` as, so the build refuses where the arms meet."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            value 0
+            var "n"
+          }
+          {
+            value {
+              conditional {
+                then [
+                  {
+                    set "n"
+                    value null
+                  }
+                ]
+                when {
+                  ref "ready"
+                }
+              }
+            }
+          }
+          {
+            value {
+              conditional {
+                else [
+                  {
+                    set "n"
+                    value 2
+                  }
+                  {
+                    let "b"
+                    value {
+                      closure {
+                        result {
+                          ref "n"
+                        }
+                      }
+                    }
+                  }
+                ]
+                then [
+                  {
+                    let "a"
+                    value {
+                      closure {
+                        body [
+                          {
+                            set "n"
+                            value null
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+                when {
+                  ref "ready"
+                }
+              }
+            }
+          }
+          {
+            set "n"
+            value 5
+          }
+        ]
+        parameters [
+          {
+            name "ready"
+            type "bool"
+          }
+        ]
+        result {
+          ref "n"
+        }
+        returns "int?"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

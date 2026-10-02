@@ -1,0 +1,88 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "two-ways-taking-a-variable-as-different-types-refuse-where-they-meet"
+  note "Each arm of the conditional makes a closure that takes `n`: one while it holds an int, one after the arm set it to a string. Either closure may be the one that ran, so a write after the arms meet would have to fit both types, and the build refuses where they meet."
+  program {
+    imports [
+      "std.math.plus"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            value 0
+            var "n"
+          }
+          {
+            value {
+              conditional {
+                else [
+                  {
+                    set "n"
+                    value "s"
+                  }
+                  {
+                    let "b"
+                    value {
+                      closure {
+                        body [
+                          {
+                            set "n"
+                            value "t"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+                then [
+                  {
+                    let "a"
+                    value {
+                      closure {
+                        body [
+                          {
+                            set "n"
+                            value {
+                              call {
+                                arguments [
+                                  {
+                                    ref "n"
+                                  }
+                                  1
+                                ]
+                                procedure "std.math.plus"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+                when {
+                  ref "ready"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "ready"
+            type "bool"
+          }
+        ]
+        result 1
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,103 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "an-inout-type-parameter-a-variable-fills-first-reads-the-value"
+  note "The same two slots in the other order: the variable fills `T` first, the closure's `inout int` reads it the same way, and the call answers what it would in either order."
+  program {
+    imports [
+      "std.math.plus"
+    ]
+    procedures {
+      "app.once" {
+        body [
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "x"
+                  }
+                ]
+                procedure {
+                  ref "f"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "x"
+            type "inout some T"
+          }
+          {
+            name "f"
+            type {
+              procedure {
+                parameters [
+                  "inout some T"
+                ]
+              }
+            }
+          }
+        ]
+        result 0
+      }
+      entry {
+        access "public"
+        body [
+          {
+            value 0
+            var "n"
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "n"
+                  }
+                  {
+                    closure {
+                      body [
+                        {
+                          set "c"
+                          value {
+                            call {
+                              arguments [
+                                {
+                                  ref "c"
+                                }
+                                1
+                              ]
+                              procedure "std.math.plus"
+                            }
+                          }
+                        }
+                      ]
+                      parameters [
+                        {
+                          name "c"
+                          type "inout int"
+                        }
+                      ]
+                    }
+                  }
+                ]
+                procedure "app.once"
+              }
+            }
+          }
+        ]
+        result {
+          ref "n"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

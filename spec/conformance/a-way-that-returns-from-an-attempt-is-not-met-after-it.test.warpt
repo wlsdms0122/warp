@@ -1,0 +1,145 @@
+warpt 1
+{
+  arguments {
+    ready false
+  }
+  expect {
+    answers 5
+  }
+  name "a-way-that-returns-from-an-attempt-is-not-met-after-it"
+  note "Inside the attempt's body, the arm that sets `n` to a string and takes it there returns from the procedure with nothing that could fail after the taking, so it lands past the attempt and never reaches the write after it. What could fail runs only on the way that goes on, which took nothing, and a later write of an int stands."
+  program {
+    imports [
+      "std.control.abort"
+      "std.math.lessThan"
+    ]
+    procedures {
+      check {
+        body [
+          {
+            value {
+              conditional {
+                then [
+                  {
+                    value {
+                      call {
+                        arguments [
+                          "negative"
+                        ]
+                        procedure "std.control.abort"
+                      }
+                    }
+                  }
+                ]
+                when {
+                  call {
+                    arguments [
+                      {
+                        ref "x"
+                      }
+                      0
+                    ]
+                    procedure "std.math.lessThan"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "x"
+            type "int"
+          }
+        ]
+        result {
+          ref "x"
+        }
+        returns "int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            value 0
+            var "n"
+          }
+          {
+            value {
+              attempt {
+                body [
+                  {
+                    value {
+                      conditional {
+                        then [
+                          {
+                            set "n"
+                            value "s"
+                          }
+                          {
+                            let "a"
+                            value {
+                              closure {
+                                result {
+                                  ref "n"
+                                }
+                              }
+                            }
+                          }
+                          {
+                            value {
+                              return 0
+                            }
+                          }
+                        ]
+                        when {
+                          ref "ready"
+                        }
+                      }
+                    }
+                  }
+                  {
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "n"
+                          }
+                        ]
+                        procedure "check"
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  body [
+                    {
+                      value null
+                    }
+                  ]
+                }
+              }
+            }
+          }
+          {
+            set "n"
+            value 5
+          }
+        ]
+        parameters [
+          {
+            name "ready"
+            type "bool"
+          }
+        ]
+        result {
+          ref "n"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

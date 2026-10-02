@@ -1,0 +1,73 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-closure-in-a-loop-condition-holds-what-it-takes-for-the-body"
+  note "The loop's condition hands `app.ready` a closure that takes `n`, so every round after the first starts with `n` held to the int it was taken as. The body's write of a string into `n` does not fit, and the build refuses it."
+  program {
+    imports []
+    procedures {
+      "app.ready" {
+        parameters [
+          {
+            name "peek"
+            type {
+              procedure {
+                returns "int"
+              }
+            }
+          }
+        ]
+        result true
+        returns "bool"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            value 0
+            var "n"
+          }
+          {
+            value {
+              loop {
+                body [
+                  {
+                    set "n"
+                    value "s"
+                  }
+                  {
+                    value {
+                      break null
+                    }
+                  }
+                ]
+                while {
+                  call {
+                    arguments [
+                      {
+                        closure {
+                          result {
+                            ref "n"
+                          }
+                          returns "int"
+                        }
+                      }
+                    ]
+                    procedure "app.ready"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        result 1
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

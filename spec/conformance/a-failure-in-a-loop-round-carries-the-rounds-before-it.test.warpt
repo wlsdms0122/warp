@@ -1,0 +1,148 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-failure-in-a-loop-round-carries-the-rounds-before-it"
+  note "The first round sets `n` to a string and continues; a later round fails. The failure lands at the attempt after every round before it, so the rescue reads `n` as what any of those rounds may have left, and asking whether it is an int stands rather than being a cast the reading already settles."
+  program {
+    imports [
+      "std.control.abort"
+      "std.math.lessThan"
+    ]
+    procedures {
+      check {
+        body [
+          {
+            value {
+              conditional {
+                then [
+                  {
+                    value {
+                      call {
+                        arguments [
+                          "negative"
+                        ]
+                        procedure "std.control.abort"
+                      }
+                    }
+                  }
+                ]
+                when {
+                  call {
+                    arguments [
+                      {
+                        ref "x"
+                      }
+                      0
+                    ]
+                    procedure "std.math.lessThan"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "x"
+            type "int"
+          }
+        ]
+        result {
+          ref "x"
+        }
+        returns "int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            value 0
+            var "n"
+          }
+          {
+            value true
+            var "first"
+          }
+          {
+            value {
+              attempt {
+                body [
+                  {
+                    value {
+                      loop {
+                        body [
+                          {
+                            value {
+                              conditional {
+                                then [
+                                  {
+                                    set "n"
+                                    value "s"
+                                  }
+                                  {
+                                    set "first"
+                                    value false
+                                  }
+                                  {
+                                    value {
+                                      continue null
+                                    }
+                                  }
+                                ]
+                                when {
+                                  ref "first"
+                                }
+                              }
+                            }
+                          }
+                          {
+                            value {
+                              call {
+                                arguments [
+                                  -1
+                                ]
+                                procedure "check"
+                              }
+                            }
+                          }
+                        ]
+                        while true
+                      }
+                    }
+                  }
+                  {
+                    value {
+                      return 0
+                    }
+                  }
+                ]
+                rescue {
+                  body [
+                    {
+                      let "s"
+                      value {
+                        "as?" {
+                          of {
+                            ref "n"
+                          }
+                          type "int"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        ]
+        result 1
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

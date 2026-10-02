@@ -1,0 +1,129 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-break-from-a-rescue-carries-what-the-body-did-before-failing"
+  note "The attempt's body sets `n` to a string and then fails, and its rescue breaks out of the loop. The way that breaks went through the body up to the failure, so past the loop `n` may hold the string, and asking whether it is an int stands rather than being a cast the reading already settles."
+  program {
+    imports [
+      "std.control.abort"
+      "std.math.lessThan"
+    ]
+    procedures {
+      check {
+        body [
+          {
+            value {
+              conditional {
+                then [
+                  {
+                    value {
+                      call {
+                        arguments [
+                          "negative"
+                        ]
+                        procedure "std.control.abort"
+                      }
+                    }
+                  }
+                ]
+                when {
+                  call {
+                    arguments [
+                      {
+                        ref "x"
+                      }
+                      0
+                    ]
+                    procedure "std.math.lessThan"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "x"
+            type "int"
+          }
+        ]
+        result {
+          ref "x"
+        }
+        returns "int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            value 0
+            var "n"
+          }
+          {
+            value {
+              loop {
+                body [
+                  {
+                    value {
+                      attempt {
+                        body [
+                          {
+                            set "n"
+                            value "s"
+                          }
+                          {
+                            value {
+                              call {
+                                arguments [
+                                  -1
+                                ]
+                                procedure "check"
+                              }
+                            }
+                          }
+                          {
+                            value {
+                              return 0
+                            }
+                          }
+                        ]
+                        rescue {
+                          body [
+                            {
+                              value {
+                                break null
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+                while true
+              }
+            }
+          }
+          {
+            let "s"
+            value {
+              "as?" {
+                of {
+                  ref "n"
+                }
+                type "int"
+              }
+            }
+          }
+        ]
+        result 1
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
