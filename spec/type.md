@@ -109,7 +109,7 @@ A contract's name stands where a type is written, and so does `A & B`: the slot 
 
 A type **satisfies** a contract when a document says it does. The document writes the claim under `satisfies`, keyed by the type: `satisfies: { "bank.Account": ["app.Describable"] }`. Any document may make one, about a type it declared or about another document's, which is how a document that arrives later gives a type the procedures a contract asks. A claim about a type this specification names, `int` or `string`, **refuses at the load**: a value of one wears no name for a run to read, so no declaration could answer for it.
 
-The build holds the claim to the declarations behind it. For every procedure the contract asks, it takes the declaration named for the type and that procedure (`bank.Account` and `describe` give `bank.Account.describe`) and holds its signature to the contract's with the type taken first in place of the contract. A declaration that wrote no `returns` is held by what its body answers, read the way a call site reads it.
+The build holds the claim to the declarations behind it. For every procedure the contract asks, it takes the declaration named for the type and that procedure (`bank.Account` and `describe` give `bank.Account.describe`) and holds its signature to the contract's with the type taken first in place of the contract. A name that stands for a declared record names that record's type there, as wherever types are compared, so a declaration may write another name for the record the contract writes. A declaration that wrote no `returns` is held by what its body answers, read the way a call site reads it.
 
 Whether a type answers a contract is therefore a fact of the whole list, and a claim may be written in a document the one leaning on it never names. A document handing a type where a contract is asked is not judged where it is compiled: the pair leaves the compile unresolved, the way a procedure the document sends and does not declare leaves it, and **refuses at the call that leaned on it** where the build cannot answer. A claim missing a procedure, or holding one whose signature does not fit, puts its type under no contract and its reason is what that refusal says.
 
@@ -262,6 +262,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-value-written-into-a-box-is-still-owed`
 - `a-value-written-into-a-list-element-refuses`
 - `a-whole-number-is-a-fraction`
+- `a-witness-may-write-another-name-for-the-record-a-contract-names`
 - `an-alias-of-a-declared-record-settles-to-the-records-name`
 - `an-answer-read-through-any-is-settled-at-the-boundary`
 - `an-arm-that-leaves-holds-nothing-afterwards`
