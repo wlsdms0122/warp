@@ -185,6 +185,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-walk-is-a-loop-over-the-count`
 - `a-way-that-leaves-is-not-met-by-the-ways-that-go-on`
 - `a-way-that-narrows-a-held-variable-holds-it-to-the-narrower-type`
+- `a-way-that-returns-from-a-loop-is-not-met-after-it`
+- `a-way-that-returns-from-an-attempt-is-not-met-after-it`
 - `a-write-index-that-is-not-a-whole-number-refuses`
 - `a-write-indexes-with-a-name`
 - `a-write-makes-an-entry-of-a-dictionary`
@@ -211,6 +213,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `nothing-runs-after-what-never-finishes`
 - `return-inside-a-closure-answers-the-closure`
 - `sibling-blocks-may-each-introduce-one-name`
+- `two-breaks-taking-a-variable-as-different-types-refuse`
 - `two-ways-taking-a-variable-as-different-types-refuse-where-they-meet`
 - `type-beside-set-refuses`
 - `type-on-a-statement-binding-a-loop-refuses`

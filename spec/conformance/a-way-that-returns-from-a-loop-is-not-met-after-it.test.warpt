@@ -1,0 +1,86 @@
+warpt 1
+{
+  arguments {
+    ready false
+  }
+  expect {
+    answers 5
+  }
+  name "a-way-that-returns-from-a-loop-is-not-met-after-it"
+  note "Inside the loop, the arm that sets `n` to a string and takes it there returns from the procedure, so it lands past the loop and never reaches the write after it. The loop ends only by its `break`, which took nothing, and a later write of an int stands."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            value 0
+            var "n"
+          }
+          {
+            value {
+              loop {
+                body [
+                  {
+                    value {
+                      conditional {
+                        then [
+                          {
+                            set "n"
+                            value "s"
+                          }
+                          {
+                            let "a"
+                            value {
+                              closure {
+                                result {
+                                  ref "n"
+                                }
+                              }
+                            }
+                          }
+                          {
+                            value {
+                              return 0
+                            }
+                          }
+                        ]
+                        when {
+                          ref "ready"
+                        }
+                      }
+                    }
+                  }
+                  {
+                    value {
+                      break null
+                    }
+                  }
+                ]
+                while true
+              }
+            }
+          }
+          {
+            set "n"
+            value 5
+          }
+        ]
+        parameters [
+          {
+            name "ready"
+            type "bool"
+          }
+        ]
+        result {
+          ref "n"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

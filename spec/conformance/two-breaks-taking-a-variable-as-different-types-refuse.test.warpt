@@ -1,0 +1,90 @@
+warpt 1
+{
+  arguments {
+    ready false
+  }
+  expect {
+    refuses "build"
+  }
+  name "two-breaks-taking-a-variable-as-different-types-refuse"
+  note "Each `break` ends the loop on a way that took `n`: one while it held an int, one after the round set it to a string. Both land at the end of the loop and meet there, and a write after the loop would have to fit both types, so the build refuses where they meet."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            value 0
+            var "n"
+          }
+          {
+            value {
+              loop {
+                body [
+                  {
+                    value {
+                      conditional {
+                        then [
+                          {
+                            let "a"
+                            value {
+                              closure {
+                                result {
+                                  ref "n"
+                                }
+                              }
+                            }
+                          }
+                          {
+                            value {
+                              break null
+                            }
+                          }
+                        ]
+                        when {
+                          ref "ready"
+                        }
+                      }
+                    }
+                  }
+                  {
+                    set "n"
+                    value "s"
+                  }
+                  {
+                    let "b"
+                    value {
+                      closure {
+                        result {
+                          ref "n"
+                        }
+                      }
+                    }
+                  }
+                  {
+                    value {
+                      break null
+                    }
+                  }
+                ]
+                while true
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "ready"
+            type "bool"
+          }
+        ]
+        result 1
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
