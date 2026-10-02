@@ -1,0 +1,116 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-taken-variable-is-handed-in-place-only-as-the-type-it-is-held-to"
+  note "One arm lets a closure capture an int variable and the other writes null into it, so after the conditional it is held to int and reads int?. Handing it in place to an int? slot refuses: the callee would write null into a box the closure reads as int."
+  program {
+    imports [
+      "std.math.plus"
+    ]
+    procedures {
+      "app.clear" {
+        body [
+          {
+            set "v"
+            value null
+          }
+        ]
+        parameters [
+          {
+            name "v"
+            type "inout int?"
+          }
+        ]
+        result 0
+      }
+      entry {
+        access "public"
+        body [
+          {
+            value 0
+            var "x"
+          }
+          {
+            type {
+              procedure {
+                returns "int"
+              }
+            }
+            value {
+              closure {
+                result 0
+                returns "int"
+              }
+            }
+            var "keep"
+          }
+          {
+            value {
+              conditional {
+                else [
+                  {
+                    set "x"
+                    value null
+                  }
+                ]
+                then [
+                  {
+                    set "keep"
+                    value {
+                      closure {
+                        result {
+                          call {
+                            arguments [
+                              {
+                                ref "x"
+                              }
+                              1
+                            ]
+                            procedure "std.math.plus"
+                          }
+                        }
+                        returns "int"
+                      }
+                    }
+                  }
+                ]
+                when true
+              }
+            }
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "x"
+                  }
+                ]
+                procedure "app.clear"
+              }
+            }
+          }
+          {
+            let "r"
+            value {
+              call {
+                procedure {
+                  ref "keep"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
