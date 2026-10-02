@@ -214,6 +214,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `sibling-blocks-may-each-introduce-one-name`
 - `two-breaks-taking-a-variable-as-different-types-refuse`
 - `two-ways-taking-a-variable-as-a-type-and-its-nullable-refuse`
+- `two-ways-taking-a-variable-as-a-type-parameter-and-a-type-refuse`
 - `two-ways-taking-a-variable-as-different-types-refuse-where-they-meet`
 - `two-ways-taking-a-variable-under-two-names-of-one-record-stand`
 - `type-beside-set-refuses`
