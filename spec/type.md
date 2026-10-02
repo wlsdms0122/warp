@@ -127,7 +127,7 @@ A body calls a contract's procedure by writing the contract's name and the proce
 
 **The build builds the table and the run reads it.** For every contract, the build gathers every type that satisfies it and lowers one call per type, each against the row that answers, arguments in that row's own slot order. The run reads the name the first argument wears and picks. Nothing is resolved while a program is running.
 
-A declaration answering a contract's procedure is reached **through the contract**, which is the spelling that says which contract is meant. Two types answering one procedure is the ordinary case. Such a declaration takes exactly the contract's positions and answers what the contract's answer takes: its own type first, then **at the contract's positions** a parameter taking everything the contract's takes there, the contract's type parameters standing for types no call fills and the declaration's own filled by what the contract writes at the same positions; the names are its own. One declaring a parameter beyond them, `T?` included, **refuses at the build** where the claim is leaned on. The run hands the arguments to the same positions whichever declaration answers.
+A declaration answering a contract's procedure is reached **through the contract**, which is the spelling that says which contract is meant. Two types answering one procedure is the ordinary case. Such a declaration takes exactly the contract's positions and answers what the contract's answer takes: its own type first, then **at the contract's positions** a parameter taking everything the contract's takes there and taking a place only where the contract hands one, the contract's type parameters standing for types no call fills and the declaration's own filled by what the contract writes at the same positions; the names are its own. One declaring a parameter beyond them, `T?` included, **refuses at the build** where the claim is leaned on. The run hands the arguments to the same positions whichever declaration answers.
 
 **A name is its declared spelling.** The key a document declares a type, constraint or procedure under is the whole of its name: `std.math.plus` is declared under that key, and `wallet.Account` under that one. A mention is a declared spelling, written out, and it means the same declaration wherever it was written, inside the declaring document too. A dot is a character of the spelling and nothing more: the language has no nesting, no scope and no prefix, so what a document chooses to put before a dot is the author's convention, and one document may declare `wallet.fee` beside `bank.rate` while another declares `wallet.rate`. A spelling no module in the link declares **refuses at the build** where it is mentioned. There are two namespaces, procedures and types, and a procedure may be spelled like a type. Types, memberships and contracts share the second, and no name in it is two of them, so a mention reaches whatever declares it: a slot names a type or a membership, and a bound names a membership or a contract.
 
@@ -183,10 +183,12 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-contract-stands-in-a-declared-types-field`
 - `a-contract-stands-where-a-type-is-written`
 - `a-declaration-answering-a-contract-fills-its-own-parameter-with-the-contracts`
+- `a-declaration-answering-a-contract-may-take-a-value-where-it-hands-a-place`
 - `a-declaration-answering-a-contract-may-take-a-wider-type`
 - `a-declaration-answering-a-contract-names-its-parameters-its-own-way`
 - `a-declaration-answering-a-contract-takes-its-parameters-in-the-contracts-order`
 - `a-declaration-answering-a-contract-takes-no-parameter-beyond-it`
+- `a-declaration-answering-a-contract-taking-in-place-where-it-hands-a-value-refuses`
 - `a-declaration-answering-a-contract-with-a-type-where-it-writes-a-parameter-refuses`
 - `a-declaration-answering-a-contract-with-another-answer-refuses`
 - `a-declaration-answering-a-contract-with-its-own-parameter-for-a-type-refuses`
