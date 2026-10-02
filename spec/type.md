@@ -269,6 +269,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-asking-cast-onto-a-linear-type-refuses`
 - `an-attempt-returning-one-without-returns-refuses`
 - `an-inline-record-slot-takes-a-named-record`
+- `an-inout-type-parameter-a-procedure-slot-fills-first-reads-the-value`
+- `an-inout-type-parameter-a-variable-fills-first-reads-the-value`
 - `any-written-nullable-refuses`
 - `consuming-on-a-type-parameter-refuses`
 - `inout-written-on-a-name-refuses`
