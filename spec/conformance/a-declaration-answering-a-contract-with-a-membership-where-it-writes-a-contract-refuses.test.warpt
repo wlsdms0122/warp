@@ -1,0 +1,166 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-declaration-answering-a-contract-with-a-membership-where-it-writes-a-contract-refuses"
+  note "The contract hands app.Sized and the declaration answering it takes app.Wallets there. Every member of app.Wallets answers app.Sized, but a type answering app.Sized need not be a member, so a call through the contract could reach a slot that refuses what it hands."
+  program {
+    constraints {
+      "app.Pockets" [
+        "bank.Card"
+        "bank.Coin"
+      ]
+      "app.Wallets" [
+        "bank.Card"
+        "bank.Coin"
+      ]
+    }
+    contracts {
+      "app.Shown" {
+        show {
+          parameters [
+            {
+              name "of"
+              type "app.Shown"
+            }
+            {
+              name "n"
+              type "app.Sized"
+            }
+          ]
+          returns "string"
+        }
+      }
+      "app.Sized" {
+        size {
+          parameters [
+            {
+              name "of"
+              type "app.Sized"
+            }
+          ]
+          returns "int"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "bank.Box.show" {
+        parameters [
+          {
+            name "of"
+            type "bank.Box"
+          }
+          {
+            name "n"
+            type "app.Wallets"
+          }
+        ]
+        result "shown"
+        returns "string"
+      }
+      "bank.Card.size" {
+        parameters [
+          {
+            name "of"
+            type "bank.Card"
+          }
+        ]
+        result 4
+        returns "int"
+      }
+      "bank.Coin.size" {
+        parameters [
+          {
+            name "of"
+            type "bank.Coin"
+          }
+        ]
+        result 1
+        returns "int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            value {
+              as {
+                of {
+                  record {
+                    n 1
+                  }
+                }
+                type "bank.Box"
+              }
+            }
+          }
+          {
+            let "c"
+            value {
+              as {
+                of {
+                  record {
+                    last "4"
+                  }
+                }
+                type "bank.Card"
+              }
+            }
+          }
+          {
+            let "s"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "b"
+                  }
+                  {
+                    ref "c"
+                  }
+                ]
+                procedure "app.Shown.show"
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    satisfies {
+      "bank.Box" [
+        "app.Shown"
+      ]
+      "bank.Card" [
+        "app.Sized"
+      ]
+      "bank.Coin" [
+        "app.Sized"
+      ]
+    }
+    types {
+      "bank.Box" {
+        record {
+          n "int"
+        }
+      }
+      "bank.Card" {
+        record {
+          last "string"
+        }
+      }
+      "bank.Coin" {
+        record {
+          cents "int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
