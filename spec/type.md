@@ -172,6 +172,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-closure-a-generic-body-wrote-hands-back-in-place-what-is-judged-refuses`
 - `a-closure-a-generic-body-wrote-is-read-as-the-procedure-type-it-is-judged-against`
 - `a-closure-a-generic-body-wrote-taking-a-list-in-place-is-read-as-the-type-it-is-judged-against`
+- `a-closure-a-generic-body-wrote-taking-by-value-is-called-where-a-slot-takes-in-place`
 - `a-closure-capturing-a-linear-value-refuses`
 - `a-closure-reads-the-bounds-of-the-procedure-around-it`
 - `a-closure-without-returns-answering-one-refuses`

@@ -1,0 +1,106 @@
+warpt 1
+{
+  expect {
+    answers [
+      "a"
+    ]
+  }
+  name "a-closure-a-generic-body-wrote-taking-by-value-is-called-where-a-slot-takes-in-place"
+  note "app.mk answers a closure taking its own some T by value, and it is read through any as a procedure taking a list of text in place. Taking by value writes nothing back, so the call of the value judges nothing once it is over, the way it does for a closure written with a type, and the list stays as it was."
+  program {
+    imports []
+    procedures {
+      "app.mk" {
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+        ]
+        result {
+          closure {
+            parameters [
+              {
+                name "y"
+                type "some T"
+              }
+            ]
+            result 0
+            returns "int"
+          }
+        }
+        returns {
+          procedure {
+            parameters [
+              "some T"
+            ]
+            returns "int"
+          }
+        }
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "a"
+            type "any"
+            value {
+              call {
+                arguments [
+                  [
+                    "z"
+                  ]
+                ]
+                procedure "app.mk"
+              }
+            }
+          }
+          {
+            let "f"
+            value {
+              as {
+                of {
+                  ref "a"
+                }
+                type {
+                  procedure {
+                    parameters [
+                      "inout array<string>"
+                    ]
+                    returns "int"
+                  }
+                }
+              }
+            }
+          }
+          {
+            value [
+              "a"
+            ]
+            var "s"
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "s"
+                  }
+                ]
+                procedure {
+                  ref "f"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
