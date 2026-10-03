@@ -102,7 +102,7 @@ The name is the declaration's own, and a closure literal's names are its own the
 
 - the path's head is a variable where the call stands. A fixed name, a literal and a call's answer each **refuse**;
 - the path is one a write may take, under *what a write reaches* in [statements](statement.md);
-- the variable's type is the same type as the parameter's, all the way in: what it declared, else the type a closure or a call holds it to, under *what a write reaches* in [statements](statement.md), else what it reads as. Nothing settles here, because nothing is handed over: the body reads and writes the caller's own box, so a variable of another type would be written values it does not hold.
+- the variable's type is the same type as the parameter's, all the way in: what it declared, else what it reads as. A variable a closure or a call holds to a type, under *what a write reaches* in [statements](statement.md), is handed only where that type is the parameter's too. Nothing settles here, because nothing is handed over: the body reads and writes the caller's own box, so a variable of another type would be written values it does not hold.
 
 Inside the body the parameter is a variable, and `set` writes it. The parameter holds the caller's box through the path it was handed: a read finds what the path holds now, and each write lands in the box as it is made. One box reached two ways, by a parameter and by a name or by two parameters, is still one box, so a write through either is seen through the other at once. A call that fails after writing has written, the same as a variable written before a failure. A body that writes through one does not answer without running, by the rule that such a body writes no name.
 
@@ -173,6 +173,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-required-argument-left-out-refuses`
 - `a-slot-handing-a-const-procedure-in-place-is-a-const-slot`
 - `a-slot-naming-a-const-procedure-type-is-a-const-slot`
+- `a-taken-variable-handed-in-place-as-its-held-type-while-it-reads-another-refuses`
 - `a-taken-variable-is-handed-in-place-only-as-the-type-it-is-held-to`
 - `a-taken-variable-is-handed-in-place-to-a-value-only-as-the-type-it-is-held-to`
 - `a-value-is-not-handed-in-place`
