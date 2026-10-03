@@ -174,6 +174,7 @@ A reading refuses what it cannot read and traps on nothing: the reading runs ins
 
 - a lifted row where the numbering counts no closure, a count of none for a declaration it counts, and counts that add up past what an int holds
 - a body standing on a slot past its frame, a loop keeping a run its frame does not hold, a frame naming fewer slots than it has, a call standing more arguments than the row it reaches takes
+- a native row whose sends do not stand one to a place from the first, or reach a spelling the document's `numbering` does not number
 - an object standing against a document other than the one it was kept under
 
 Every one of these is refused where the object is read, before it is laid beside anything. What only a link can answer, which row a number is, which type answers a contract, is refused at `build`, under [checking](checking.md).
@@ -222,7 +223,6 @@ warpt 1
       1
       1
       [ 1 [] ]
-      []
       [
         0
         [ [] [ [ 11 [ 0 [ [ [ 1 [ 0 [] ] ] ] [ [ 0 [ 2 1 ] ] ] ] [] ] ] ] ]
@@ -236,7 +236,7 @@ warpt 1
 }
 ```
 
-Read it back: `rows` holds `entry`, whose signature takes `n` as `int` (type tag 4) and answers `int`; it is public (`2`), const (`1`) and isolated (`1`) and fails with nothing (`[1 []]`); it sends nothing; its implementation is a body (`0`) with no instructions and a result, a call (`11`) to row `0` of the numbering, which is `std.math.plus`, with two arguments, the first read from slot `0` and the second the literal (`0`) int (`2`) `1`; and its frame has one slot, filled by the parameter, called `n`. The dependency is what the host keyed the standard vocabulary's object under.
+Read it back: `rows` holds `entry`, whose signature takes `n` as `int` (type tag 4) and answers `int`; it is public (`2`), const (`1`) and isolated (`1`) and fails with nothing (`[1 []]`); its implementation is a body (`0`) with no instructions and a result, a call (`11`) to row `0` of the numbering, which is `std.math.plus`, with two arguments, the first read from slot `0` and the second the literal (`0`) int (`2`) `1`; and its frame has one slot, filled by the parameter, called `n`. The dependency is what the host keyed the standard vocabulary's object under.
 
 ## Cases
 
@@ -263,6 +263,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-whose-frame-names-fewer-slots-than-it-holds-refuses`
 - `an-object-whose-layout-names-stand-out-of-order-refuses`
 - `an-object-whose-loop-keeps-a-run-past-its-frame-refuses`
+- `an-object-whose-native-sends-a-spelling-its-numbering-does-not-number-refuses`
 - `an-object-whose-numbering-closures-stand-out-of-name-order-refuses`
 - `an-object-whose-numbering-sends-stand-out-of-name-order-refuses`
 - `an-object-whose-rows-stand-out-of-name-order-refuses`

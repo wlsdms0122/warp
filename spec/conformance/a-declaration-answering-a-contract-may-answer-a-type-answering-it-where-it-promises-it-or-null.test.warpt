@@ -1,0 +1,168 @@
+warpt 1
+{
+  expect {
+    answers "ok"
+  }
+  name "a-declaration-answering-a-contract-may-answer-a-type-answering-it-where-it-promises-it-or-null"
+  note "The contract answers app.Sized? and the declaration answering it answers bank.Card, which a document says answers app.Sized."
+  program {
+    constraints {
+      "app.Pockets" [
+        "bank.Card"
+        "bank.Coin"
+      ]
+      "app.Wallets" [
+        "bank.Card"
+        "bank.Coin"
+      ]
+    }
+    contracts {
+      "app.Shown" {
+        show {
+          parameters [
+            {
+              name "of"
+              type "app.Shown"
+            }
+            {
+              name "n"
+              type "app.Sized"
+            }
+          ]
+          returns "app.Sized?"
+        }
+      }
+      "app.Sized" {
+        size {
+          parameters [
+            {
+              name "of"
+              type "app.Sized"
+            }
+          ]
+          returns "int"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "bank.Box.show" {
+        body [
+          {
+            let "k"
+            value {
+              as {
+                of {
+                  record {
+                    last "9"
+                  }
+                }
+                type "bank.Card"
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "of"
+            type "bank.Box"
+          }
+          {
+            name "n"
+            type "app.Sized"
+          }
+        ]
+        result {
+          ref "k"
+        }
+        returns "bank.Card"
+      }
+      "bank.Card.size" {
+        parameters [
+          {
+            name "of"
+            type "bank.Card"
+          }
+        ]
+        result 4
+        returns "int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            value {
+              as {
+                of {
+                  record {
+                    n 1
+                  }
+                }
+                type "bank.Box"
+              }
+            }
+          }
+          {
+            let "c"
+            value {
+              as {
+                of {
+                  record {
+                    last "4"
+                  }
+                }
+                type "bank.Card"
+              }
+            }
+          }
+          {
+            let "s"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "b"
+                  }
+                  {
+                    ref "c"
+                  }
+                ]
+                procedure "app.Shown.show"
+              }
+            }
+          }
+        ]
+        result "ok"
+      }
+    }
+    satisfies {
+      "bank.Box" [
+        "app.Shown"
+      ]
+      "bank.Card" [
+        "app.Sized"
+      ]
+    }
+    types {
+      "bank.Box" {
+        record {
+          n "int"
+        }
+      }
+      "bank.Card" {
+        record {
+          last "string"
+        }
+      }
+      "bank.Coin" {
+        record {
+          cents "int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,109 @@
+warpt 1
+{
+  expect {
+    answers 2
+  }
+  name "a-write-to-a-variable-handed-in-place-lands-in-every-round"
+  note "Each round writes an int into a variable that started null and hands it in place to an int slot. The write lands in every round, so the variable reads int where it is handed, in the first round and in every one after."
+  program {
+    imports [
+      "std.math.lessThan"
+      "std.math.plus"
+    ]
+    procedures {
+      "app.bump" {
+        body [
+          {
+            set "c"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "c"
+                  }
+                  1
+                ]
+                procedure "std.math.plus"
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "c"
+            type "inout int"
+          }
+        ]
+        result 0
+      }
+      entry {
+        access "public"
+        body [
+          {
+            var "x"
+          }
+          {
+            value 0
+            var "i"
+          }
+          {
+            let "w"
+            value {
+              loop {
+                body [
+                  {
+                    set "x"
+                    value 1
+                  }
+                  {
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "x"
+                          }
+                        ]
+                        procedure "app.bump"
+                      }
+                    }
+                  }
+                  {
+                    set "i"
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "i"
+                          }
+                          1
+                        ]
+                        procedure "std.math.plus"
+                      }
+                    }
+                  }
+                ]
+                while {
+                  call {
+                    arguments [
+                      {
+                        ref "i"
+                      }
+                      2
+                    ]
+                    procedure "std.math.lessThan"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "x"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

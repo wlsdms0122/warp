@@ -1,0 +1,106 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-declaration-answering-a-contract-taking-in-place-where-it-hands-a-value-refuses"
+  note "The contract takes an int as a value and the declaration answering it takes inout int there. A call through the contract hands a value, which has no box for the declaration to write, so the claim holds nothing and the call refuses."
+  program {
+    contracts {
+      "app.Sized" {
+        size {
+          parameters [
+            {
+              name "of"
+              type "app.Sized"
+            }
+            {
+              name "n"
+              type "int"
+            }
+          ]
+          returns "int"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "bank.Card.size" {
+        body [
+          {
+            set "n"
+            value 9
+          }
+        ]
+        parameters [
+          {
+            name "of"
+            type "bank.Card"
+          }
+          {
+            name "n"
+            type "inout int"
+          }
+        ]
+        result 7
+        returns "int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            value {
+              as {
+                of {
+                  record {
+                    last "42"
+                  }
+                }
+                type "bank.Card"
+              }
+            }
+          }
+          {
+            let "k"
+            value 4
+          }
+          {
+            let "s"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "c"
+                  }
+                  {
+                    ref "k"
+                  }
+                ]
+                procedure "app.Sized.size"
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    satisfies {
+      "bank.Card" [
+        "app.Sized"
+      ]
+    }
+    types {
+      "bank.Card" {
+        record {
+          last "string"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

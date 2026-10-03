@@ -1,0 +1,60 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-body-answering-a-value-for-its-own-type-parameter-refuses"
+  note "A declaration taking some T and answering some T answers 5. Inside the declaration T is one type the body does not know, so only a value of T answers it, and a call filling T with string would be handed an int."
+  program {
+    imports [
+      "std.text.uppercased"
+    ]
+    procedures {
+      "app.gen" {
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+        ]
+        result 5
+        returns "some T"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  "s"
+                ]
+                procedure "app.gen"
+              }
+            }
+          }
+          {
+            let "u"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "r"
+                  }
+                ]
+                procedure "std.text.uppercased"
+              }
+            }
+          }
+        ]
+        result {
+          ref "u"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

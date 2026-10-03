@@ -1,0 +1,110 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-write-to-a-taken-variable-lands-in-every-round"
+  note "Each round writes an int into a variable that started null and lets a closure capture it. The write lands in every round, so the variable reads int where the round adds to it, and after the loop."
+  program {
+    imports [
+      "std.collection.append"
+      "std.math.lessThan"
+      "std.math.plus"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            var "x"
+          }
+          {
+            value 0
+            var "i"
+          }
+          {
+            value []
+            var "fs"
+          }
+          {
+            let "w"
+            value {
+              loop {
+                body [
+                  {
+                    set "x"
+                    value 1
+                  }
+                  {
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "fs"
+                          }
+                          {
+                            closure {
+                              result {
+                                ref "x"
+                              }
+                            }
+                          }
+                        ]
+                        procedure "std.collection.append"
+                      }
+                    }
+                  }
+                  {
+                    let "y"
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "x"
+                          }
+                          1
+                        ]
+                        procedure "std.math.plus"
+                      }
+                    }
+                  }
+                  {
+                    set "i"
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "i"
+                          }
+                          1
+                        ]
+                        procedure "std.math.plus"
+                      }
+                    }
+                  }
+                ]
+                while {
+                  call {
+                    arguments [
+                      {
+                        ref "i"
+                      }
+                      2
+                    ]
+                    procedure "std.math.lessThan"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "x"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

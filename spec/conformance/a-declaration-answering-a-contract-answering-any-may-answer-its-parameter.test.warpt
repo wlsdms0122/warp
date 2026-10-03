@@ -1,0 +1,107 @@
+warpt 1
+{
+  expect {
+    answers "x"
+  }
+  name "a-declaration-answering-a-contract-answering-any-may-answer-its-parameter"
+  note "The contract takes some T and answers any. The declaration answering it takes and answers some U, which the contract's T fills, and an answer of anything takes a T."
+  program {
+    contracts {
+      "app.Sized" {
+        size {
+          parameters [
+            {
+              name "of"
+              type "app.Sized"
+            }
+            {
+              name "n"
+              type "some T"
+            }
+          ]
+          returns "any"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "bank.Card.size" {
+        parameters [
+          {
+            name "of"
+            type "bank.Card"
+          }
+          {
+            name "n"
+            type "some U"
+          }
+        ]
+        result {
+          ref "n"
+        }
+        returns "some U"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            value {
+              as {
+                of {
+                  record {
+                    last "42"
+                  }
+                }
+                type "bank.Card"
+              }
+            }
+          }
+          {
+            let "s"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "c"
+                  }
+                  "x"
+                ]
+                procedure "app.Sized.size"
+              }
+            }
+          }
+          {
+            let "t"
+            value {
+              as {
+                of {
+                  ref "s"
+                }
+                type "string"
+              }
+            }
+          }
+        ]
+        result {
+          ref "t"
+        }
+      }
+    }
+    satisfies {
+      "bank.Card" [
+        "app.Sized"
+      ]
+    }
+    types {
+      "bank.Card" {
+        record {
+          last "string"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

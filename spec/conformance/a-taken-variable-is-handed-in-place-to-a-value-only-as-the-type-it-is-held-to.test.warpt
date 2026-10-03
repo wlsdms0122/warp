@@ -1,0 +1,122 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-taken-variable-is-handed-in-place-to-a-value-only-as-the-type-it-is-held-to"
+  note "The same as handing it to a declaration: a variable held to int that reads int? after a join is handed in place to a value taking int?, which refuses, since the value would write null into a box a closure reads as int."
+  program {
+    imports [
+      "std.math.plus"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            value 0
+            var "x"
+          }
+          {
+            type {
+              procedure {
+                returns "int"
+              }
+            }
+            value {
+              closure {
+                result 0
+                returns "int"
+              }
+            }
+            var "keep"
+          }
+          {
+            value {
+              conditional {
+                else [
+                  {
+                    set "x"
+                    value null
+                  }
+                ]
+                then [
+                  {
+                    set "keep"
+                    value {
+                      closure {
+                        result {
+                          call {
+                            arguments [
+                              {
+                                ref "x"
+                              }
+                              1
+                            ]
+                            procedure "std.math.plus"
+                          }
+                        }
+                        returns "int"
+                      }
+                    }
+                  }
+                ]
+                when true
+              }
+            }
+          }
+          {
+            let "clear"
+            value {
+              closure {
+                body [
+                  {
+                    set "v"
+                    value null
+                  }
+                ]
+                parameters [
+                  {
+                    name "v"
+                    type "inout int?"
+                  }
+                ]
+              }
+            }
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "x"
+                  }
+                ]
+                procedure {
+                  ref "clear"
+                }
+              }
+            }
+          }
+          {
+            let "r"
+            value {
+              call {
+                procedure {
+                  ref "keep"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+        returns "int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

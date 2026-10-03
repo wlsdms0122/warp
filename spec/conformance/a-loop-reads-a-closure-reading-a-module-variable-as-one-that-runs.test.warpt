@@ -1,0 +1,104 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-loop-reads-a-closure-reading-a-module-variable-as-one-that-runs"
+  note "A loop's round hands a variable to a const procedure slot and then writes into it a closure reading a module variable. The round after reads that closure as one that runs, so the hand refuses."
+  program {
+    imports [
+      "std.math.lessThan"
+    ]
+    procedures {
+      asking {
+        body [
+          {
+            let "answered"
+            value {
+              call {
+                procedure {
+                  ref "body"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "body"
+            type "const procedure"
+          }
+        ]
+        result {
+          ref "answered"
+        }
+        returns "string"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            value {
+              closure {
+                result "x"
+                returns "string"
+              }
+            }
+            var "g"
+          }
+          {
+            let "r"
+            value {
+              loop {
+                body [
+                  {
+                    let "a"
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "g"
+                          }
+                        ]
+                        procedure "asking"
+                      }
+                    }
+                  }
+                  {
+                    set "g"
+                    value {
+                      closure {
+                        result {
+                          ref "standing"
+                        }
+                        returns "string"
+                      }
+                    }
+                  }
+                ]
+                while {
+                  call {
+                    arguments [
+                      {
+                        ref "r.index"
+                      }
+                      2
+                    ]
+                    procedure "std.math.lessThan"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        result "done"
+      }
+    }
+    var {
+      standing "held"
+    }
+    warp 1
+  }
+  test 1
+}
+

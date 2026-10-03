@@ -1,0 +1,128 @@
+warpt 1
+{
+  expect {
+    answers 9
+  }
+  name "a-declaration-answering-a-contract-may-take-a-value-where-it-hands-a-place"
+  note "The contract takes inout int and the declaration answering it takes an int. A position taking a value may stand where a place is handed, the way a closure's may, and reads what the variable holds, which the call leaves as it was."
+  program {
+    contracts {
+      "app.Sized" {
+        size {
+          parameters [
+            {
+              name "of"
+              type "app.Sized"
+            }
+            {
+              name "n"
+              type "inout int"
+            }
+          ]
+          returns "int"
+        }
+      }
+    }
+    imports [
+      "std.math.plus"
+    ]
+    procedures {
+      "bank.Card.size" {
+        parameters [
+          {
+            name "of"
+            type "bank.Card"
+          }
+          {
+            name "n"
+            type "int"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "n"
+              }
+              1
+            ]
+            procedure "std.math.plus"
+          }
+        }
+        returns "int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            value {
+              as {
+                of {
+                  record {
+                    last "42"
+                  }
+                }
+                type "bank.Card"
+              }
+            }
+          }
+          {
+            value 4
+            var "k"
+          }
+          {
+            let "s"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "c"
+                  }
+                  {
+                    ref "k"
+                  }
+                ]
+                procedure "app.Sized.size"
+              }
+            }
+          }
+          {
+            let "t"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "s"
+                  }
+                  {
+                    ref "k"
+                  }
+                ]
+                procedure "std.math.plus"
+              }
+            }
+          }
+        ]
+        result {
+          ref "t"
+        }
+      }
+    }
+    satisfies {
+      "bank.Card" [
+        "app.Sized"
+      ]
+    }
+    types {
+      "bank.Card" {
+        record {
+          last "string"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

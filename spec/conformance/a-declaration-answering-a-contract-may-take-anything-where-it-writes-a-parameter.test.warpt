@@ -1,0 +1,94 @@
+warpt 1
+{
+  expect {
+    answers 7
+  }
+  name "a-declaration-answering-a-contract-may-take-anything-where-it-writes-a-parameter"
+  note "The contract takes some T, its own parameter, and the declaration answering it takes any there. A slot taking anything takes whatever the contract's parameter stands for."
+  program {
+    contracts {
+      "app.Sized" {
+        size {
+          parameters [
+            {
+              name "of"
+              type "app.Sized"
+            }
+            {
+              name "n"
+              type "some T"
+            }
+          ]
+          returns "int"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "bank.Card.size" {
+        parameters [
+          {
+            name "of"
+            type "bank.Card"
+          }
+          {
+            name "n"
+            type "any"
+          }
+        ]
+        result 7
+        returns "int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            value {
+              as {
+                of {
+                  record {
+                    last "42"
+                  }
+                }
+                type "bank.Card"
+              }
+            }
+          }
+          {
+            let "s"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "c"
+                  }
+                  "x"
+                ]
+                procedure "app.Sized.size"
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    satisfies {
+      "bank.Card" [
+        "app.Sized"
+      ]
+    }
+    types {
+      "bank.Card" {
+        record {
+          last "string"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

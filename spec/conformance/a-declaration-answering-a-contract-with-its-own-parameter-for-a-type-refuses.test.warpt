@@ -1,0 +1,111 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-declaration-answering-a-contract-with-its-own-parameter-for-a-type-refuses"
+  note "The contract takes an int and answers a string. The declaration answering it takes some T there and answers some T, which the contract's int fills, so it answers an int where the contract writes string."
+  program {
+    contracts {
+      "app.Describable" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "app.Describable"
+            }
+            {
+              name "x"
+              type "int"
+            }
+          ]
+          returns "string"
+        }
+      }
+    }
+    imports [
+      "std.text.uppercased"
+    ]
+    procedures {
+      "bank.Card.describe" {
+        parameters [
+          {
+            name "of"
+            type "bank.Card"
+          }
+          {
+            name "x"
+            type "some T"
+          }
+        ]
+        result {
+          ref "x"
+        }
+        returns "some T"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            value {
+              as {
+                of {
+                  record {
+                    last "42"
+                  }
+                }
+                type "bank.Card"
+              }
+            }
+          }
+          {
+            let "d"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "c"
+                  }
+                  1
+                ]
+                procedure "app.Describable.describe"
+              }
+            }
+          }
+          {
+            let "u"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "d"
+                  }
+                ]
+                procedure "std.text.uppercased"
+              }
+            }
+          }
+        ]
+        result {
+          ref "u"
+        }
+      }
+    }
+    satisfies {
+      "bank.Card" [
+        "app.Describable"
+      ]
+    }
+    types {
+      "bank.Card" {
+        record {
+          last "string"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

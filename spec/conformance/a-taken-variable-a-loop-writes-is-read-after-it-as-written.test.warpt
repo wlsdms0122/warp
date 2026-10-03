@@ -1,0 +1,86 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-taken-variable-a-loop-writes-is-read-after-it-as-written"
+  note "A loop's round writes an int into a variable that started null and lets a closure capture it. After the loop the variable reads int?, which an answer declared null does not take."
+  program {
+    imports [
+      "std.collection.append"
+      "std.math.lessThan"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            var "x"
+          }
+          {
+            value 0
+            var "i"
+          }
+          {
+            value []
+            var "fs"
+          }
+          {
+            let "w"
+            value {
+              loop {
+                body [
+                  {
+                    set "x"
+                    value 1
+                  }
+                  {
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "fs"
+                          }
+                          {
+                            closure {
+                              result {
+                                ref "x"
+                              }
+                            }
+                          }
+                        ]
+                        procedure "std.collection.append"
+                      }
+                    }
+                  }
+                  {
+                    set "i"
+                    value 1
+                  }
+                ]
+                while {
+                  call {
+                    arguments [
+                      {
+                        ref "i"
+                      }
+                      1
+                    ]
+                    procedure "std.math.lessThan"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "x"
+        }
+        returns "null"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

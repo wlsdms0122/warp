@@ -1,0 +1,71 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-body-writing-a-value-into-its-own-type-parameter-refuses"
+  note "A declaration takes a variable in place as some T and writes 5 into it. Inside the declaration only a value of T fits T, so a caller handing a variable declared string would be left holding an int."
+  program {
+    imports [
+      "std.text.uppercased"
+    ]
+    procedures {
+      "app.gen" {
+        body [
+          {
+            set "y"
+            value 5
+          }
+        ]
+        parameters [
+          {
+            name "y"
+            type "inout some T"
+          }
+        ]
+        result 0
+      }
+      entry {
+        access "public"
+        body [
+          {
+            type "string"
+            value "a"
+            var "s"
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "s"
+                  }
+                ]
+                procedure "app.gen"
+              }
+            }
+          }
+          {
+            let "u"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "s"
+                  }
+                ]
+                procedure "std.text.uppercased"
+              }
+            }
+          }
+        ]
+        result {
+          ref "u"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

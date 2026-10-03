@@ -36,7 +36,7 @@ A declaration's `access` travels with it: an object writes it on the row, under 
 
 A procedure the host answers is not written in a document. A declaration in a document with no `body` and no `result` is a procedure that answers nothing. The host's procedure arrives at the link in a module the host assembled in its own language, declared there under its spelling with what a body's text would have shown: its signature, the **procedures it sends**, because there is no text to read them off, whether it **touches** a name another body could touch at the same time, what it may **fail** with, and whether it **answers without running**, because what it keeps and what it reaches in the host language is outside any document. A call reaches one of these the way it reaches any other declaration, and is judged against the signature the same way.
 
-**Its sends are held to the rest of what it said.** They are declared beside the signature, so the build reads them. A procedure declaring it answers without running and sending one that answers only by running **refuses at the build**, and so does one declaring it touches nothing shared and sending one that does. Neither is something a host language can catch. What a procedure may fail with is not held this way, because a host language can catch: declaring it fails nothing while sending one that fails is describing itself rather than contradicting itself.
+**Its sends are held to the rest of what it said.** They are declared beside the signature, so the build reads them. A send names the declaration it reaches, so a send naming a contract's procedure **refuses at the build**: which declaration answers one is a call's first argument to say, and a send has no call to read it from. A procedure declaring it answers without running and sending one that answers only by running **refuses at the build**, and so does one declaring it touches nothing shared and sending one that does. Neither is something a host language can catch. What a procedure may fail with is not held this way, because a host language can catch: declaring it fails nothing while sending one that fails is describing itself rather than contradicting itself.
 
 **Nothing else about the host's code is checked.** A procedure that reaches outside the run and says it does not has broken its contract, and the defect belongs to whoever put it in the link rather than to the program that called it, which is where its claim about what it touches is taken too. A host that wants the claim closed closes it by having nothing to hand such a procedure that reaches outside, where it assembles the link.
 
@@ -56,7 +56,7 @@ A procedure **answers without running** when nothing it reaches stands outside t
 
 A construct reaches nothing on its own. Which part of a `conditional`, `loop`, `attempt` or `block` runs is decided inside the body, so one of them is read exactly as far as the parts it holds are, and the same goes for `return`, `break` and `continue`. A name the body introduces is the body's own: a `let` and a `var` both make one, neither leaves the body, and so declaring either says nothing about what the body reaches.
 
-The build works this out over every declaration at once. It starts with all of them and strikes out whatever reaches something struck, so two procedures that call each other settle together rather than each waiting on the other. A procedure with **no body** says it about itself instead, and the sends it declared are held to what it said, under *a procedure the host answers* above. A closure literal is judged by the same rule, and the answer travels with the closure as a value, so a slot reads it wherever the value arrives. What it captured it is judged with: a name the enclosing scope held under a slot that said `const procedure` is one the closure may call, which is what lets a body build a closure per element and hand the lot to `std.concurrent.all`. A variable that declared it holds one is such a name too, since every write into it is held to the declaration; a variable that declared nothing may be retyped after the capture and says nothing the closure can hold on to. **Isolation reads a captured name the same way**, through a slot that said `isolated procedure`.
+The build works this out over every declaration at once. It starts with all of them and strikes out whatever reaches something struck, so two procedures that call each other settle together rather than each waiting on the other. A procedure with **no body** says it about itself instead, and the sends it declared are held to what it said, under *a procedure the host answers* above. A closure literal is judged by the same rule, and the answer travels with the closure as a value, so a slot reads it wherever the value arrives. What it captured it is judged with: a name the enclosing scope held under a slot that said `const procedure` is one the closure may call, which is what lets a body build a closure per element and hand the lot to `std.concurrent.all`. A variable that declared it holds one is such a name too, since every write into it is held to the declaration; a variable that declared nothing is held from the capture on to the type it read as there, under *what a write reaches* in [statements](statement.md), and that type is a reading the build worked out, so it says nothing the closure can hold on to. **Isolation reads a captured name the same way**, through a slot that said `isolated procedure`.
 
 **What it permits.** Three places, and they are what the claim is for:
 
@@ -102,7 +102,7 @@ The name is the declaration's own, and a closure literal's names are its own the
 
 - the path's head is a variable where the call stands. A fixed name, a literal and a call's answer each **refuse**;
 - the path is one a write may take, under *what a write reaches* in [statements](statement.md);
-- the variable's declared type is the same type as the parameter's, all the way in. Nothing settles here, because nothing is handed over: the body reads and writes the caller's own box, so a variable of another type would be written values it was not declared to hold.
+- the variable's type is the same type as the parameter's, all the way in: what it declared, else the type a closure or a call holds it to, under *what a write reaches* in [statements](statement.md), else what it reads as. Nothing settles here, because nothing is handed over: the body reads and writes the caller's own box, so a variable of another type would be written values it does not hold.
 
 Inside the body the parameter is a variable, and `set` writes it. The parameter holds the caller's box through the path it was handed: a read finds what the path holds now, and each write lands in the box as it is made. One box reached two ways, by a parameter and by a name or by two parameters, is still one box, so a write through either is seen through the other at once. A call that fails after writing has written, the same as a variable written before a failure. A body that writes through one does not answer without running, by the rule that such a body writes no name.
 
@@ -126,6 +126,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-called-value-writes-in-place-held-to-its-slots-type`
 - `a-candidate-meets-a-number-by-worth`
 - `a-candidate-on-a-slot-bounded-by-numbers-meets-either-kind`
+- `a-closure-answered-without-returns-reads-a-module-variable-by-running`
 - `a-closure-carries-what-a-captured-slot-said`
 - `a-closure-that-writes-what-it-captured-is-not-const`
 - `a-closure-writes-its-own-parameter-in-place-and-no-name-it-shadows`
@@ -153,6 +154,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-fixed-name-bound-to-a-const-slot-carries-its-claim`
 - `a-fixed-name-is-not-handed-in-place`
 - `a-fixed-name-is-not-handed-in-place-to-a-called-value`
+- `a-loop-reads-a-closure-reading-a-module-variable-as-one-that-runs`
 - `a-name-declared-inside-a-nested-closure-does-not-cover-a-captured-one`
 - `a-native-procedure-is-handed-a-path-indexed-with-a-name`
 - `a-parameter-declared-twice-refuses`
@@ -171,6 +173,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-required-argument-left-out-refuses`
 - `a-slot-handing-a-const-procedure-in-place-is-a-const-slot`
 - `a-slot-naming-a-const-procedure-type-is-a-const-slot`
+- `a-taken-variable-is-handed-in-place-only-as-the-type-it-is-held-to`
+- `a-taken-variable-is-handed-in-place-to-a-value-only-as-the-type-it-is-held-to`
 - `a-value-is-not-handed-in-place`
 - `a-value-is-not-handed-in-place-through-a-contract`
 - `a-value-is-not-handed-in-place-to-a-called-value`
