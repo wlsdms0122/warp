@@ -1,0 +1,129 @@
+warpt 1
+{
+  expect {
+    answers "took"
+  }
+  name "a-membership-or-null-slot-takes-a-parameter-whose-members-are-members-or-null"
+  note "app.g hands its some T, bounded by app.MaybeNum, whose one member is int?, to app.f, which takes app.Num?, app.Num admitting int. Each value is an int or null."
+  program {
+    constraints {
+      "app.MaybeNum" [
+        "int?"
+      ]
+      "app.Num" [
+        "int"
+      ]
+    }
+    contracts {
+      "app.Sized" {
+        size {
+          parameters [
+            {
+              name "of"
+              type "app.Sized"
+            }
+          ]
+          returns "int"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "app.f" {
+        parameters [
+          {
+            name "n"
+            type "app.Num?"
+          }
+        ]
+        result "took"
+        returns "string"
+      }
+      "app.g" {
+        body [
+          {
+            let "s"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "m"
+                  }
+                ]
+                procedure "app.f"
+              }
+            }
+          }
+        ]
+        bounds {
+          T "app.MaybeNum"
+        }
+        parameters [
+          {
+            name "m"
+            type "some T"
+          }
+        ]
+        result {
+          ref "s"
+        }
+        returns "string"
+      }
+      "bank.Card.size" {
+        parameters [
+          {
+            name "of"
+            type "bank.Card"
+          }
+        ]
+        result 4
+        returns "int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            value 3
+          }
+          {
+            let "s"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "c"
+                  }
+                ]
+                procedure "app.g"
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    satisfies {
+      "bank.Card" [
+        "app.Sized"
+      ]
+    }
+    types {
+      "bank.Card" {
+        record {
+          last "string"
+        }
+      }
+      "bank.Coin" {
+        record {
+          cents "int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,136 @@
+warpt 1
+{
+  expect {
+    answers "took"
+  }
+  name "a-contract-or-null-slot-takes-a-parameter-bounded-by-the-contract-and-a-membership"
+  note "app.g hands its some T, bounded by app.Maybe & app.Sized, to app.f, which takes app.Sized?. T answers app.Sized by its bound, whatever member of app.Maybe fills it."
+  program {
+    constraints {
+      "app.Maybe" [
+        "bank.Card"
+        "bank.Coin"
+      ]
+    }
+    contracts {
+      "app.Sized" {
+        size {
+          parameters [
+            {
+              name "of"
+              type "app.Sized"
+            }
+          ]
+          returns "int"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "app.f" {
+        parameters [
+          {
+            name "n"
+            type "app.Sized?"
+          }
+        ]
+        result "took"
+        returns "string"
+      }
+      "app.g" {
+        body [
+          {
+            let "s"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "m"
+                  }
+                ]
+                procedure "app.f"
+              }
+            }
+          }
+        ]
+        bounds {
+          T "app.Maybe & app.Sized"
+        }
+        parameters [
+          {
+            name "m"
+            type "some T"
+          }
+        ]
+        result {
+          ref "s"
+        }
+        returns "string"
+      }
+      "bank.Card.size" {
+        parameters [
+          {
+            name "of"
+            type "bank.Card"
+          }
+        ]
+        result 4
+        returns "int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            value {
+              as {
+                of {
+                  record {
+                    last "4"
+                  }
+                }
+                type "bank.Card"
+              }
+            }
+          }
+          {
+            let "s"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "c"
+                  }
+                ]
+                procedure "app.g"
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    satisfies {
+      "bank.Card" [
+        "app.Sized"
+      ]
+    }
+    types {
+      "bank.Card" {
+        record {
+          last "string"
+        }
+      }
+      "bank.Coin" {
+        record {
+          cents "int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

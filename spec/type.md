@@ -180,6 +180,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-contract-carries-a-procedure-into-a-generic-body`
 - `a-contract-or-null-slot-refuses-a-type-not-answering-the-contract`
 - `a-contract-or-null-slot-takes-a-membership-whose-members-answer-or-are-null`
+- `a-contract-or-null-slot-takes-a-parameter-bounded-by-the-contract-and-a-membership`
+- `a-contract-or-null-slot-takes-a-parameter-of-a-membership-whose-member-holds-null`
 - `a-contract-or-null-slot-takes-a-parameter-whose-members-answer-or-are-null`
 - `a-contract-or-null-slot-takes-a-type-answering-the-contract`
 - `a-contract-procedure-takes-the-contract-first`
@@ -250,6 +252,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-member-that-is-any-refuses`
 - `a-member-that-is-never-refuses`
 - `a-membership-mixing-a-linear-type-refuses`
+- `a-membership-or-null-slot-takes-a-parameter-whose-members-are-members-or-null`
+- `a-membership-slot-refuses-a-parameter-whose-member-may-be-null`
 - `a-membership-stands-as-a-type`
 - `a-module-declares-a-constraint`
 - `a-name-declared-as-both-a-type-and-a-constraint-refuses`
