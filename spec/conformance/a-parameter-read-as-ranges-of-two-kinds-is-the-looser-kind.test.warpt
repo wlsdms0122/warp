@@ -1,0 +1,78 @@
+warpt 1
+{
+  expect {
+    answers 10
+  }
+  name "a-parameter-read-as-ranges-of-two-kinds-is-the-looser-kind"
+  note "app.pick reads its some T as a range of fractions and as a range of whole numbers, and answers what it was handed through any. The reading that holds both is double, the kind of the looser range, so the 10 is not judged against the narrower range."
+  program {
+    imports []
+    procedures {
+      "app.pick" {
+        parameters [
+          {
+            name "c"
+            type "bool"
+          }
+          {
+            name "x"
+            type "some T"
+          }
+          {
+            name "y"
+            type "some T"
+          }
+          {
+            name "j"
+            type "any"
+          }
+        ]
+        result {
+          ref "j"
+        }
+        returns "some T"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "d"
+            type "double(0.0...1.5)"
+            value 0.5
+          }
+          {
+            let "n"
+            type "int(0...10)"
+            value 10
+          }
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  false
+                  {
+                    ref "d"
+                  }
+                  {
+                    ref "n"
+                  }
+                  {
+                    ref "n"
+                  }
+                ]
+                procedure "app.pick"
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -51,7 +51,7 @@ Acceptance is one-way where the kinds nest: `double` accepts an `int` (a whole n
 
 `never` is a real type and fits **every** slot, by never arriving: an expression typed `never` may be written where any value is expected, such as an argument that calls `std.control.abort`, and evaluating it ends the evaluation it is inside. The statement rules (no name, nothing follows) are statement rules; in expression position there is nothing extra to say, because nothing after the expression is reached at all.
 
-**Type parameters.** A declaration may leave a type parameter and let the call fill it: a procedure taking `array<some T>` and a `some T` answers what it was given. Inside the declaration the parameter is one type its body does not know. A parameter handed in place, or an element of one, takes only a value of that parameter, since the caller reads its own variable as what filled it and nothing settles a write there. The answer takes a value of that parameter, a value every member of a membership bounding it takes, such as a whole number where `std.Numeric` bounds it, or a reading of `any`; the call judges what arrives against what filled the parameter, and a value outside it **refuses at the run** where the call reads it. A parameter read twice must be read the same both ways. Two readings where one accepts the other settle on the looser; two readings that do not fit **refuse at the build**, and do not widen to `any`. Appending a whole number to a list of text is a parameter read as text and as a number, and there is no answer that is both.
+**Type parameters.** A declaration may leave a type parameter and let the call fill it: a procedure taking `array<some T>` and a `some T` answers what it was given. Inside the declaration the parameter is one type its body does not know. A parameter handed in place, or an element of one, takes only a value of that parameter, since the caller reads its own variable as what filled it and nothing settles a write there, and a call filling a parameter from such a variable holds every other argument read at it to the same, so a value every member of the bounds takes is no more a value of the parameter handed to a call than written directly; the call judges the variable against what filled the parameter once the call is over, whether it answered or failed, and a value outside it **refuses at the run** there. The answer takes a value of that parameter, a value every member of a membership bounding it takes, such as a whole number where `std.Numeric` bounds it, or a reading of `any`; the call judges what arrives against what filled the parameter, and a value outside it **refuses at the run** where the call reads it. A parameter read twice must be read the same both ways. Two readings where one accepts the other settle on the one that holds both, position by position through lists, dictionaries, what may be null and record fields: a range meeting its kind or another range gives the kind, a declared record meeting a nameless record of its fields gives the nameless one, since that is the one a value is sure to fit, and elsewhere the looser stands; two readings that do not fit **refuse at the build**, and do not widen to `any`. Appending a whole number to a list of text is a parameter read as text and as a number, and there is no answer that is both. A closure written in a declaration with a type parameter may name it in its own signature, and the run does not know what filled it: where the closure is judged against a procedure type, the parameter is read as what that type asks there and held to its bounds, refusing there where what it asks is outside them, and a variable handed to it in place at the parameter is judged once the call of the closure is over against what the call holds it as.
 
 **Constraints.** A type parameter may be bounded: a signature declares `bounds: { T: std.Comparable }` once, its slots write `some T`, and every occurrence of the name takes only what the constraint admits. A bound may name several, joined with `&`: `bounds: { T: std.Comparable & Describable }` holds `T` to what every one of them admits or asks. The signature owns the bound. A slot names the parameter and never the membership, so one bound is one claim however many slots mention the name. A constraint is a **declared membership**. A module binds a name to the types it admits, the way it declares a type. A slot may also declare one as its type, and what stands there is a value of one of the members, which is how the language says **A or B**: the set is declared once under a name, and no slot writes an inline union. The judgment is made twice, once per surface: at the **build**, a reading provably outside the membership refuses (two booleans meeting `lessThan` never run), and a reading the text says nothing about (`any`) passes; at the **boundary**, the value that actually arrived is judged against the membership, so what travelled in through `any` is refused where it arrives. One name is held to one set of bounds: `bounds` writes the set once, every occurrence of the name reads it, and a signature assembled with two occurrences holding different sets is refused at the build and written by no document. `bounds` naming a parameter no slot mentions refuses at the load. Only the declaring procedure writes `bounds`. A procedure *type* nested in a slot carries none, because its parameters are the declaring signature's own slots and the declaring signature owns their bounds. A closure written in the body reads the same names: its `some T` is the `T` the caller filled, held to the bounds the declaration wrote, so a closure may send what the body around it may. A constraint nobody declares, a constraint declared twice under one spelling, one admitting nothing, and a name declared as both a type and a constraint all **refuse at the build**. A member is a **concrete type**: `some`, `any` and `never` in member position refuse at the build. Each says nothing a membership could hold. And a type parameter lives in a signature: a declared type writing `some` outside a procedure signature refuses at the build, because nothing there is filled by a call.
 
@@ -160,6 +160,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-break-does-not-excuse-the-arm-it-leaves-from`
 - `a-break-does-not-strand-what-the-body-holds`
 - `a-byte-is-a-whole-number-a-range-refines`
+- `a-call-filling-a-parameter-from-a-variable-held-in-place-takes-a-value-of-that-parameter`
+- `a-call-filling-a-parameter-from-a-variable-held-in-place-takes-no-value-its-members-take-refuses`
 - `a-call-through-a-contract-with-nothing-first-refuses`
 - `a-cast-does-not-carry-a-held-name-into-a-list`
 - `a-cast-naming-a-linear-type-does-not-go-into-a-list`
@@ -169,6 +171,12 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-claim-naming-a-membership-where-a-contract-belongs-refuses`
 - `a-claim-nobody-leans-on-refuses-nowhere`
 - `a-claim-stands-in-a-document-the-leaning-one-never-names`
+- `a-closure-a-generic-body-wrote-hands-back-in-place-what-is-judged-refuses`
+- `a-closure-a-generic-body-wrote-is-read-as-the-procedure-type-it-is-judged-against`
+- `a-closure-a-generic-body-wrote-read-past-its-bounds-is-not-that-type`
+- `a-closure-a-generic-body-wrote-read-within-its-bounds-is-the-type-it-is-judged-against`
+- `a-closure-a-generic-body-wrote-taking-a-list-in-place-is-read-as-the-type-it-is-judged-against`
+- `a-closure-a-generic-body-wrote-taking-by-value-is-called-where-a-slot-takes-in-place`
 - `a-closure-capturing-a-linear-value-refuses`
 - `a-closure-reads-the-bounds-of-the-procedure-around-it`
 - `a-closure-without-returns-answering-one-refuses`
@@ -240,6 +248,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-fraction-range-widens-a-whole-number-into-itself`
 - `a-generic-answer-carried-through-another-generic-is-judged-where-the-call-reads-it-refuses`
 - `a-generic-answer-every-member-takes-is-judged-against-what-filled-it-refuses`
+- `a-generic-answer-handed-back-in-place-is-judged-once-the-call-is-over-refuses`
 - `a-generic-answer-of-any-is-judged-where-the-call-reads-it-refuses`
 - `a-generic-body-appends-its-parameter-to-a-list-of-it-or-null`
 - `a-handle-already-given-away-is-not-read-again`
@@ -285,6 +294,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-parameter-naming-a-type-nothing-declares-refuses`
 - `a-parameter-read-as-a-declared-range-and-its-kind-is-the-kind`
 - `a-parameter-read-as-a-record-and-a-nameless-one-of-its-fields-is-the-nameless-one`
+- `a-parameter-read-as-dictionaries-of-a-record-and-of-a-nameless-one-is-a-dictionary-of-the-nameless-one-refuses`
+- `a-parameter-read-as-lists-of-a-record-and-of-a-nameless-one-is-a-list-of-the-nameless-one`
+- `a-parameter-read-as-ranges-of-two-kinds-is-the-looser-kind`
 - `a-procedure-type-answering-a-linear-type-refuses`
 - `a-range-below-the-smallest-int-admits-nothing`
 - `a-range-judges-a-runtime-value-at-the-boundary`
@@ -326,6 +338,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-value-written-into-a-box-inside-a-loop-refuses`
 - `a-value-written-into-a-box-is-still-owed`
 - `a-value-written-into-a-list-element-refuses`
+- `a-variable-handed-back-in-place-is-judged-when-the-call-fails-refuses`
 - `a-whole-number-is-a-fraction`
 - `a-witness-may-write-another-name-for-the-record-a-contract-names`
 - `an-alias-of-a-contract-answers-the-contract`
@@ -340,6 +353,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-inline-record-slot-takes-a-named-record`
 - `an-inout-type-parameter-a-procedure-slot-fills-first-reads-the-value`
 - `an-inout-type-parameter-a-variable-fills-first-reads-the-value`
+- `an-unsaid-generic-answer-carried-through-another-is-judged-where-the-call-reads-it-refuses`
 - `any-written-nullable-refuses`
 - `consuming-on-a-type-parameter-refuses`
 - `inout-written-on-a-name-refuses`

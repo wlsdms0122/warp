@@ -1,0 +1,129 @@
+warpt 1
+{
+  expect {
+    answers {
+      a 1
+    }
+  }
+  name "an-entry-not-written-yet-handed-back-in-place-holds-nothing-to-judge"
+  note "app.touch takes an entry of a dictionary in place at its own some T and proves nothing, so the call judges what it hands back. The entry is not written yet and app.touch writes nothing, so there is nothing to judge, and the dictionary answers as it was."
+  program {
+    imports [
+      "std.control.abort"
+    ]
+    procedures {
+      "app.h" {
+        parameters [
+          {
+            name "n"
+            type "some T"
+          }
+          {
+            name "j"
+            type "any"
+          }
+        ]
+        result {
+          ref "j"
+        }
+        returns "some T"
+      }
+      "app.touch" {
+        body [
+          {
+            let "y"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "n"
+                  }
+                  {
+                    ref "j"
+                  }
+                ]
+                procedure "app.h"
+              }
+            }
+          }
+          {
+            value {
+              conditional {
+                then [
+                  {
+                    value {
+                      call {
+                        arguments [
+                          "boom"
+                        ]
+                        procedure "std.control.abort"
+                      }
+                    }
+                  }
+                ]
+                when {
+                  ref "stop"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "x"
+            type "inout some T"
+          }
+          {
+            name "n"
+            type "some T"
+          }
+          {
+            name "j"
+            type "any"
+          }
+          {
+            name "stop"
+            type "bool"
+          }
+        ]
+        result 0
+        returns "int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            type "dictionary<int>"
+            value {
+              record {
+                a 1
+              }
+            }
+            var "d"
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "d.new"
+                  }
+                  2
+                  3
+                  false
+                ]
+                procedure "app.touch"
+              }
+            }
+          }
+        ]
+        result {
+          ref "d"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

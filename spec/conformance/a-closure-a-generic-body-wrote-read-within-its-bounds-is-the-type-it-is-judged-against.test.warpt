@@ -1,0 +1,100 @@
+warpt 1
+{
+  expect {
+    answers 0
+  }
+  name "a-closure-a-generic-body-wrote-read-within-its-bounds-is-the-type-it-is-judged-against"
+  note "app.mk answers a closure taking its own some T, bounded by std.Numeric, and it is read through any as taking a double. Reading its T as double is within its bounds, so the cast holds and the call answers 0."
+  program {
+    imports [
+      "std.Numeric"
+    ]
+    procedures {
+      "app.mk" {
+        bounds {
+          T "std.Numeric"
+        }
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+        ]
+        result {
+          closure {
+            parameters [
+              {
+                name "y"
+                type "some T"
+              }
+            ]
+            result 0
+            returns "int"
+          }
+        }
+        returns {
+          procedure {
+            parameters [
+              "some T"
+            ]
+            returns "int"
+          }
+        }
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "a"
+            type "any"
+            value {
+              call {
+                arguments [
+                  5
+                ]
+                procedure "app.mk"
+              }
+            }
+          }
+          {
+            let "f"
+            value {
+              as {
+                of {
+                  ref "a"
+                }
+                type {
+                  procedure {
+                    parameters [
+                      "double"
+                    ]
+                    returns "int"
+                  }
+                }
+              }
+            }
+          }
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  2.5
+                ]
+                procedure {
+                  ref "f"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

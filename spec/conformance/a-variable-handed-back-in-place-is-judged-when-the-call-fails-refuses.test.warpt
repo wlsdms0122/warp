@@ -1,0 +1,148 @@
+warpt 1
+{
+  expect {
+    refuses "run"
+  }
+  name "a-variable-handed-back-in-place-is-judged-when-the-call-fails-refuses"
+  note "app.put writes a value of any into the list handed to it in place and then fails, and the caller rescues. The list is judged before the failure passes on, so the 5 in it refuses at the run rather than reaching the rescue."
+  program {
+    imports [
+      "std.collection.append"
+      "std.control.abort"
+    ]
+    procedures {
+      "app.h" {
+        parameters [
+          {
+            name "n"
+            type "some T"
+          }
+          {
+            name "junk"
+            type "any"
+          }
+        ]
+        result {
+          ref "junk"
+        }
+        returns "some T"
+      }
+      "app.put" {
+        body [
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "xs"
+                  }
+                  {
+                    call {
+                      arguments [
+                        {
+                          ref "n"
+                        }
+                        {
+                          ref "junk"
+                        }
+                      ]
+                      procedure "app.h"
+                    }
+                  }
+                ]
+                procedure "std.collection.append"
+              }
+            }
+          }
+          {
+            value {
+              conditional {
+                then [
+                  {
+                    value {
+                      call {
+                        arguments [
+                          "boom"
+                        ]
+                        procedure "std.control.abort"
+                      }
+                    }
+                  }
+                ]
+                when {
+                  ref "stop"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "n"
+            type "some T"
+          }
+          {
+            name "junk"
+            type "any"
+          }
+          {
+            name "xs"
+            type "inout array<some T>"
+          }
+          {
+            name "stop"
+            type "bool"
+          }
+        ]
+        result 0
+      }
+      entry {
+        access "public"
+        body [
+          {
+            value [
+              "a"
+            ]
+            var "s"
+          }
+          {
+            value {
+              attempt {
+                body [
+                  {
+                    value {
+                      call {
+                        arguments [
+                          "b"
+                          5
+                          {
+                            ref "s"
+                          }
+                          true
+                        ]
+                        procedure "app.put"
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  body [
+                    {
+                      value 0
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
