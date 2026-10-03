@@ -184,6 +184,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-contract-stands-where-a-type-is-written`
 - `a-declaration-answering-a-contract-answering-any-may-answer-its-parameter`
 - `a-declaration-answering-a-contract-fills-its-own-parameter-with-the-contracts`
+- `a-declaration-answering-a-contract-may-take-a-contract-every-member-of-its-membership-answers`
 - `a-declaration-answering-a-contract-may-take-a-value-where-it-hands-a-place`
 - `a-declaration-answering-a-contract-may-take-a-wider-type`
 - `a-declaration-answering-a-contract-may-take-anything-where-it-writes-a-parameter`
@@ -191,6 +192,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-declaration-answering-a-contract-takes-its-parameters-in-the-contracts-order`
 - `a-declaration-answering-a-contract-takes-no-parameter-beyond-it`
 - `a-declaration-answering-a-contract-taking-in-place-where-it-hands-a-value-refuses`
+- `a-declaration-answering-a-contract-with-a-contract-a-member-of-its-membership-does-not-answer-refuses`
+- `a-declaration-answering-a-contract-with-a-membership-where-it-writes-a-list-of-a-parameter-refuses`
 - `a-declaration-answering-a-contract-with-a-membership-where-it-writes-a-parameter-refuses`
 - `a-declaration-answering-a-contract-with-a-type-where-it-writes-a-parameter-refuses`
 - `a-declaration-answering-a-contract-with-another-answer-refuses`
