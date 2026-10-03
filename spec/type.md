@@ -189,6 +189,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-declaration-answering-a-contract-may-answer-a-contract-where-it-promises-it-or-null`
 - `a-declaration-answering-a-contract-may-answer-a-membership-and-the-contract-where-it-promises-it-or-null`
 - `a-declaration-answering-a-contract-may-answer-a-type-answering-it-where-it-promises-it-or-null`
+- `a-declaration-answering-a-contract-may-answer-an-alias-of-a-record-answering-it`
 - `a-declaration-answering-a-contract-may-fill-a-bounded-parameter-with-what-the-bound-takes`
 - `a-declaration-answering-a-contract-may-take-a-contract-every-member-of-its-membership-answers`
 - `a-declaration-answering-a-contract-may-take-a-contract-or-null-where-it-writes-the-contract`
@@ -297,6 +298,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-whole-number-is-a-fraction`
 - `a-witness-may-write-another-name-for-the-record-a-contract-names`
 - `an-alias-of-a-declared-record-settles-to-the-records-name`
+- `an-alias-of-a-record-answers-the-records-contracts`
 - `an-answer-read-through-any-is-settled-at-the-boundary`
 - `an-arm-that-leaves-holds-nothing-afterwards`
 - `an-array-of-bytes-and-a-list-of-numbers-joins-to-a-list-of-lists`
