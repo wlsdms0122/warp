@@ -238,6 +238,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-dictionary-of-a-membership-takes-a-record-whose-variable-field-is-of-it`
 - `a-fraction-is-not-a-whole-number`
 - `a-fraction-range-widens-a-whole-number-into-itself`
+- `a-generic-answer-carried-through-another-generic-is-judged-where-the-call-reads-it-refuses`
 - `a-generic-answer-every-member-takes-is-judged-against-what-filled-it-refuses`
 - `a-generic-answer-of-any-is-judged-where-the-call-reads-it-refuses`
 - `a-generic-body-appends-its-parameter-to-a-list-of-it-or-null`

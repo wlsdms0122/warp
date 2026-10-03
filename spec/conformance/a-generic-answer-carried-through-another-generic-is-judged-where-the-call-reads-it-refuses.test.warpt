@@ -1,0 +1,94 @@
+warpt 1
+{
+  expect {
+    refuses "run"
+  }
+  name "a-generic-answer-carried-through-another-generic-is-judged-where-the-call-reads-it-refuses"
+  note "app.h answers its some T with a value of any. app.g answers what app.h answers, so app.g proves nothing of its answer either, and the call app.g(1, \"s\") reads it as an int where it stands."
+  program {
+    imports [
+      "std.math.plus"
+    ]
+    procedures {
+      "app.g" {
+        parameters [
+          {
+            name "n"
+            type "some T"
+          }
+          {
+            name "junk"
+            type "any"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "n"
+              }
+              {
+                ref "junk"
+              }
+            ]
+            procedure "app.h"
+          }
+        }
+        returns "some T"
+      }
+      "app.h" {
+        parameters [
+          {
+            name "n"
+            type "some T"
+          }
+          {
+            name "junk"
+            type "any"
+          }
+        ]
+        result {
+          ref "junk"
+        }
+        returns "some T"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  1
+                  "s"
+                ]
+                procedure "app.g"
+              }
+            }
+          }
+          {
+            let "y"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "r"
+                  }
+                  1
+                ]
+                procedure "std.math.plus"
+              }
+            }
+          }
+        ]
+        result {
+          ref "y"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
