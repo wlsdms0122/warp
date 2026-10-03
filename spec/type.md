@@ -179,8 +179,11 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-contract-asking-no-procedures-refuses`
 - `a-contract-carries-a-procedure-into-a-generic-body`
 - `a-contract-or-null-slot-refuses-a-type-not-answering-the-contract`
+- `a-contract-or-null-slot-takes-a-membership-whose-members-answer-or-are-null`
+- `a-contract-or-null-slot-takes-a-parameter-whose-members-answer-or-are-null`
 - `a-contract-or-null-slot-takes-a-type-answering-the-contract`
 - `a-contract-procedure-takes-the-contract-first`
+- `a-contract-slot-refuses-a-membership-with-a-member-that-may-be-null`
 - `a-contract-slot-refuses-a-name-for-what-may-be-null`
 - `a-contract-slot-refuses-what-may-be-null`
 - `a-contract-stands-in-a-closures-parameter`
