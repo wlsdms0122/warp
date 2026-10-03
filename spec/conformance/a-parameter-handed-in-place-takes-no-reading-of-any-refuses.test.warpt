@@ -1,0 +1,64 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-parameter-handed-in-place-takes-no-reading-of-any-refuses"
+  note "app.gen takes some T in place and writes a variable declared any into it. The caller reads its own variable as whatever filled T, and nothing settles a write into it."
+  program {
+    imports []
+    procedures {
+      "app.gen" {
+        body [
+          {
+            type "any"
+            value 5
+            var "y"
+          }
+          {
+            set "x"
+            value {
+              ref "y"
+            }
+          }
+        ]
+        parameters [
+          {
+            name "x"
+            type "inout some T"
+          }
+        ]
+        result 0
+      }
+      entry {
+        access "public"
+        body [
+          {
+            type "string"
+            value "a"
+            var "s"
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "s"
+                  }
+                ]
+                procedure "app.gen"
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+        returns "string"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

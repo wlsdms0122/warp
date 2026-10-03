@@ -214,6 +214,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-declaration-answering-a-contract-with-a-type-where-it-writes-a-parameter-refuses`
 - `a-declaration-answering-a-contract-with-another-answer-refuses`
 - `a-declaration-answering-a-contract-with-another-contract-where-it-writes-a-contract-refuses`
+- `a-declaration-answering-a-contract-with-any-is-judged-where-the-call-reads-it-refuses`
 - `a-declaration-answering-a-contract-with-its-own-parameter-for-a-type-refuses`
 - `a-declaration-answering-a-contract-with-what-may-be-null-where-it-answers-a-contract-refuses`
 - `a-declaration-answering-one-without-returns-refuses`
@@ -224,6 +225,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-declared-type-names-itself-in-its-fields`
 - `a-fraction-is-not-a-whole-number`
 - `a-fraction-range-widens-a-whole-number-into-itself`
+- `a-generic-answer-every-member-takes-is-judged-against-what-filled-it-refuses`
+- `a-generic-answer-of-any-is-judged-where-the-call-reads-it-refuses`
 - `a-generic-body-appends-its-parameter-to-a-list-of-it-or-null`
 - `a-handle-already-given-away-is-not-read-again`
 - `a-handle-borrowed-after-a-consuming-parameter-in-one-call-refuses`
@@ -253,6 +256,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-nullable-that-says-nothing-new-behind-a-name-refuses`
 - `a-nullable-that-says-nothing-new-refuses`
 - `a-padded-bound-refuses`
+- `a-parameter-handed-in-place-takes-no-reading-of-any-refuses`
+- `a-parameter-handed-in-place-takes-no-value-its-members-take-refuses`
 - `a-parameter-naming-a-type-nothing-declares-refuses`
 - `a-procedure-type-answering-a-linear-type-refuses`
 - `a-range-below-the-smallest-int-admits-nothing`

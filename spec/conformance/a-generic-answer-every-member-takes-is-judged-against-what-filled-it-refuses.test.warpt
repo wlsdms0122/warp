@@ -1,0 +1,71 @@
+warpt 1
+{
+  expect {
+    refuses "run"
+  }
+  name "a-generic-answer-every-member-takes-is-judged-against-what-filled-it-refuses"
+  note "app.gen answers some T bounded by app.Real, whose one member is double, and its body answers 2.5. The call fills T with int, which double admits, so the answer is judged as an int where the call reads it."
+  program {
+    constraints {
+      "app.Real" [
+        "double"
+      ]
+    }
+    imports [
+      "std.collection.appending"
+    ]
+    procedures {
+      "app.gen" {
+        bounds {
+          T "app.Real"
+        }
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+        ]
+        result 2.5
+        returns "some T"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  1
+                ]
+                procedure "app.gen"
+              }
+            }
+          }
+          {
+            let "xs"
+            value {
+              call {
+                arguments [
+                  [
+                    1
+                  ]
+                  {
+                    ref "r"
+                  }
+                ]
+                procedure "std.collection.appending"
+              }
+            }
+          }
+        ]
+        result {
+          ref "xs"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
