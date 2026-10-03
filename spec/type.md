@@ -178,6 +178,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-constraint-that-admits-nothing-refuses`
 - `a-contract-asking-no-procedures-refuses`
 - `a-contract-carries-a-procedure-into-a-generic-body`
+- `a-contract-or-null-slot-takes-a-type-answering-the-contract`
 - `a-contract-procedure-takes-the-contract-first`
 - `a-contract-stands-in-a-closures-parameter`
 - `a-contract-stands-in-a-declared-types-field`
@@ -185,6 +186,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-declaration-answering-a-contract-answering-any-may-answer-its-parameter`
 - `a-declaration-answering-a-contract-fills-its-own-parameter-with-the-contracts`
 - `a-declaration-answering-a-contract-may-answer-a-contract-where-it-promises-it-or-null`
+- `a-declaration-answering-a-contract-may-answer-a-membership-and-the-contract-where-it-promises-it-or-null`
+- `a-declaration-answering-a-contract-may-answer-a-type-answering-it-where-it-promises-it-or-null`
 - `a-declaration-answering-a-contract-may-take-a-contract-every-member-of-its-membership-answers`
 - `a-declaration-answering-a-contract-may-take-a-contract-or-null-where-it-writes-the-contract`
 - `a-declaration-answering-a-contract-may-take-a-value-where-it-hands-a-place`
