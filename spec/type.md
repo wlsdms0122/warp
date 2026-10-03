@@ -189,6 +189,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-declaration-answering-a-contract-may-answer-a-contract-where-it-promises-it-or-null`
 - `a-declaration-answering-a-contract-may-answer-a-membership-and-the-contract-where-it-promises-it-or-null`
 - `a-declaration-answering-a-contract-may-answer-a-type-answering-it-where-it-promises-it-or-null`
+- `a-declaration-answering-a-contract-may-fill-a-bounded-parameter-with-what-the-bound-takes`
 - `a-declaration-answering-a-contract-may-take-a-contract-every-member-of-its-membership-answers`
 - `a-declaration-answering-a-contract-may-take-a-contract-or-null-where-it-writes-the-contract`
 - `a-declaration-answering-a-contract-may-take-a-value-where-it-hands-a-place`
@@ -199,6 +200,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-declaration-answering-a-contract-takes-its-parameters-in-the-contracts-order`
 - `a-declaration-answering-a-contract-takes-no-parameter-beyond-it`
 - `a-declaration-answering-a-contract-taking-in-place-where-it-hands-a-value-refuses`
+- `a-declaration-answering-a-contract-with-a-bounded-parameter-where-it-writes-a-parameter-refuses`
+- `a-declaration-answering-a-contract-with-a-bounded-parameter-where-it-writes-what-the-bound-refuses-refuses`
 - `a-declaration-answering-a-contract-with-a-contract-a-member-of-its-membership-does-not-answer-refuses`
 - `a-declaration-answering-a-contract-with-a-contract-where-it-answers-another-refuses`
 - `a-declaration-answering-a-contract-with-a-contract-where-it-writes-memberships-sharing-a-member-that-does-not-answer-refuses`
