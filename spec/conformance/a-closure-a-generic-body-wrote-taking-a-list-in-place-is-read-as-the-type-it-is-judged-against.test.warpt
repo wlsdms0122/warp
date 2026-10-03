@@ -1,0 +1,113 @@
+warpt 1
+{
+  expect {
+    answers [
+      "a"
+      "b"
+    ]
+  }
+  name "a-closure-a-generic-body-wrote-taking-a-list-in-place-is-read-as-the-type-it-is-judged-against"
+  note "app.mk answers a closure taking a list of its own some T in place, and the call fills the T with text. Held as a procedure taking a list of text, the closure is read as that type, and calling it appends to the list."
+  program {
+    imports [
+      "std.collection.append"
+    ]
+    procedures {
+      "app.mk" {
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+        ]
+        result {
+          closure {
+            body [
+              {
+                value {
+                  call {
+                    arguments [
+                      {
+                        ref "xs"
+                      }
+                      {
+                        ref "x"
+                      }
+                    ]
+                    procedure "std.collection.append"
+                  }
+                }
+              }
+            ]
+            parameters [
+              {
+                name "xs"
+                type "inout array<some T>"
+              }
+            ]
+            result 0
+            returns "int"
+          }
+        }
+        returns {
+          procedure {
+            parameters [
+              "inout array<some T>"
+            ]
+            returns "int"
+          }
+        }
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "f"
+            type {
+              procedure {
+                parameters [
+                  "inout array<string>"
+                ]
+                returns "int"
+              }
+            }
+            value {
+              call {
+                arguments [
+                  "b"
+                ]
+                procedure "app.mk"
+              }
+            }
+          }
+          {
+            value [
+              "a"
+            ]
+            var "s"
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "s"
+                  }
+                ]
+                procedure {
+                  ref "f"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

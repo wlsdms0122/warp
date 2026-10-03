@@ -1,0 +1,178 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-parameter-read-as-dictionaries-of-a-record-and-of-a-nameless-one-is-a-dictionary-of-the-nameless-one-refuses"
+  note "app.pick reads its some T as a dictionary of bank.Card that may be null and as a dictionary of nameless records of its fields. The reading that holds both is a dictionary of the nameless record that may be null, so handing it to a slot of a contract refuses at the build."
+  program {
+    contracts {
+      "app.Describable" {
+        describe {
+          const true
+          isolated true
+          parameters [
+            {
+              name "of"
+              type "app.Describable"
+            }
+          ]
+          returns "string"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "app.f" {
+        parameters [
+          {
+            name "xs"
+            type "dictionary<app.Describable>?"
+          }
+        ]
+        result "seen"
+        returns "string"
+      }
+      "app.pick" {
+        body [
+          {
+            value {
+              conditional {
+                then [
+                  {
+                    value {
+                      return {
+                        ref "x"
+                      }
+                    }
+                  }
+                ]
+                when {
+                  ref "c"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "c"
+            type "bool"
+          }
+          {
+            name "x"
+            type "some T"
+          }
+          {
+            name "y"
+            type "some T"
+          }
+        ]
+        result {
+          ref "y"
+        }
+        returns "some T"
+      }
+      "bank.Card.describe" {
+        parameters [
+          {
+            name "of"
+            type "bank.Card"
+          }
+        ]
+        result "a card"
+        returns "string"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "d"
+            type "dictionary<bank.Card>?"
+            value {
+              record {
+                k {
+                  as {
+                    of {
+                      record {
+                        last "42"
+                      }
+                    }
+                    type "bank.Card"
+                  }
+                }
+              }
+            }
+          }
+          {
+            let "e"
+            type {
+              dictionary {
+                record {
+                  last "string"
+                }
+              }
+            }
+            value {
+              record {
+                k {
+                  record {
+                    last "x"
+                  }
+                }
+              }
+            }
+          }
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  false
+                  {
+                    ref "d"
+                  }
+                  {
+                    ref "e"
+                  }
+                ]
+                procedure "app.pick"
+              }
+            }
+          }
+          {
+            let "s"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "r"
+                  }
+                ]
+                procedure "app.f"
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    satisfies {
+      "bank.Card" [
+        "app.Describable"
+      ]
+    }
+    types {
+      "bank.Card" {
+        record {
+          last "string"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
