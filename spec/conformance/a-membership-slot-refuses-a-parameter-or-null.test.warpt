@@ -1,0 +1,101 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-membership-slot-refuses-a-parameter-or-null"
+  note "app.g reads v as some T or null and hands it to app.f, which takes app.Num. Null is no member of app.Num."
+  program {
+    constraints {
+      "app.MaybeNum" [
+        "int?"
+      ]
+      "app.Num" [
+        "int"
+      ]
+    }
+    imports []
+    procedures {
+      "app.f" {
+        parameters [
+          {
+            name "n"
+            type "app.Num"
+          }
+        ]
+        result "took"
+        returns "string"
+      }
+      "app.g" {
+        body [
+          {
+            var "v"
+          }
+          {
+            value {
+              conditional {
+                then [
+                  {
+                    set "v"
+                    value {
+                      ref "m"
+                    }
+                  }
+                ]
+                when true
+              }
+            }
+          }
+          {
+            let "s"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "v"
+                  }
+                ]
+                procedure "app.f"
+              }
+            }
+          }
+        ]
+        bounds {
+          T "app.MaybeNum"
+        }
+        parameters [
+          {
+            name "m"
+            type "some T"
+          }
+        ]
+        result {
+          ref "s"
+        }
+        returns "string"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "s"
+            value {
+              call {
+                arguments [
+                  3
+                ]
+                procedure "app.g"
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

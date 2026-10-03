@@ -1,0 +1,101 @@
+warpt 1
+{
+  expect {
+    answers "ok"
+  }
+  name "a-declaration-answering-a-contract-may-answer-a-parameter-whose-members-are-members-or-null-where-it-promises-it-or-null"
+  note "The contract answers app.Num? and the declaration answering it answers its own some V, bounded by app.MaybeNum, whose one member is int?."
+  program {
+    constraints {
+      "app.MaybeNum" [
+        "int?"
+      ]
+      "app.Num" [
+        "int"
+      ]
+    }
+    contracts {
+      "app.Pick" {
+        pick {
+          parameters [
+            {
+              name "of"
+              type "app.Pick"
+            }
+          ]
+          returns "app.Num?"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "bank.Card.pick" {
+        body [
+          {
+            var "v"
+          }
+        ]
+        bounds {
+          V "app.MaybeNum"
+        }
+        parameters [
+          {
+            name "of"
+            type "bank.Card"
+          }
+        ]
+        result {
+          ref "v"
+        }
+        returns "some V"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            value {
+              as {
+                of {
+                  record {
+                    last "4"
+                  }
+                }
+                type "bank.Card"
+              }
+            }
+          }
+          {
+            let "p"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "c"
+                  }
+                ]
+                procedure "app.Pick.pick"
+              }
+            }
+          }
+        ]
+        result "ok"
+      }
+    }
+    satisfies {
+      "bank.Card" [
+        "app.Pick"
+      ]
+    }
+    types {
+      "bank.Card" {
+        record {
+          last "string"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

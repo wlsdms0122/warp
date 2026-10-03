@@ -1,0 +1,101 @@
+warpt 1
+{
+  expect {
+    answers "took"
+  }
+  name "a-membership-or-null-slot-takes-a-parameter-or-null-whose-members-are-members-or-null"
+  note "app.g reads v as some T or null, T bounded by app.MaybeNum whose one member is int?, and hands it to app.f, which takes app.Num?. Each value is an int or null."
+  program {
+    constraints {
+      "app.MaybeNum" [
+        "int?"
+      ]
+      "app.Num" [
+        "int"
+      ]
+    }
+    imports []
+    procedures {
+      "app.f" {
+        parameters [
+          {
+            name "n"
+            type "app.Num?"
+          }
+        ]
+        result "took"
+        returns "string"
+      }
+      "app.g" {
+        body [
+          {
+            var "v"
+          }
+          {
+            value {
+              conditional {
+                then [
+                  {
+                    set "v"
+                    value {
+                      ref "m"
+                    }
+                  }
+                ]
+                when true
+              }
+            }
+          }
+          {
+            let "s"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "v"
+                  }
+                ]
+                procedure "app.f"
+              }
+            }
+          }
+        ]
+        bounds {
+          T "app.MaybeNum"
+        }
+        parameters [
+          {
+            name "m"
+            type "some T"
+          }
+        ]
+        result {
+          ref "s"
+        }
+        returns "string"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "s"
+            value {
+              call {
+                arguments [
+                  3
+                ]
+                procedure "app.g"
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

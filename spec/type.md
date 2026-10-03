@@ -195,6 +195,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-declaration-answering-a-contract-fills-its-own-parameter-with-the-contracts`
 - `a-declaration-answering-a-contract-may-answer-a-contract-where-it-promises-it-or-null`
 - `a-declaration-answering-a-contract-may-answer-a-membership-and-the-contract-where-it-promises-it-or-null`
+- `a-declaration-answering-a-contract-may-answer-a-parameter-whose-members-are-members-or-null-where-it-promises-it-or-null`
 - `a-declaration-answering-a-contract-may-answer-a-type-answering-it-where-it-promises-it-or-null`
 - `a-declaration-answering-a-contract-may-answer-an-alias-of-a-record-answering-it`
 - `a-declaration-answering-a-contract-may-fill-a-bounded-parameter-with-what-the-bound-takes`
@@ -252,7 +253,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-member-that-is-any-refuses`
 - `a-member-that-is-never-refuses`
 - `a-membership-mixing-a-linear-type-refuses`
+- `a-membership-or-null-slot-takes-a-parameter-or-null-whose-members-are-members-or-null`
 - `a-membership-or-null-slot-takes-a-parameter-whose-members-are-members-or-null`
+- `a-membership-slot-refuses-a-parameter-or-null`
 - `a-membership-slot-refuses-a-parameter-whose-member-may-be-null`
 - `a-membership-stands-as-a-type`
 - `a-module-declares-a-constraint`
