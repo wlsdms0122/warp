@@ -231,6 +231,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-declared-name-and-the-record-it-stands-for-are-one-reading`
 - `a-declared-name-is-a-type`
 - `a-declared-type-names-itself-in-its-fields`
+- `a-dictionary-of-a-membership-or-null-takes-a-record-whose-variable-field-may-be-null`
 - `a-fraction-is-not-a-whole-number`
 - `a-fraction-range-widens-a-whole-number-into-itself`
 - `a-generic-answer-every-member-takes-is-judged-against-what-filled-it-refuses`
