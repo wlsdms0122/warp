@@ -1,0 +1,73 @@
+warpt 1
+{
+  expect {
+    answers "took"
+  }
+  name "a-dictionary-of-a-membership-takes-a-record-whose-variable-field-is-of-it"
+  note "app.f takes dictionary<app.Key> and is handed an app.Box, whose one field is var app.Key. The field's var says nothing about its value, which is a member of app.Key."
+  program {
+    constraints {
+      "app.Key" [
+        "int"
+        "string"
+      ]
+    }
+    imports []
+    procedures {
+      "app.f" {
+        parameters [
+          {
+            name "d"
+            type "dictionary<app.Key>"
+          }
+        ]
+        result "took"
+        returns "string"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            value {
+              as {
+                of {
+                  record {
+                    v 1
+                  }
+                }
+                type "app.Box"
+              }
+            }
+          }
+          {
+            let "s"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "b"
+                  }
+                ]
+                procedure "app.f"
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    types {
+      "app.Box" {
+        record {
+          v "var app.Key"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
