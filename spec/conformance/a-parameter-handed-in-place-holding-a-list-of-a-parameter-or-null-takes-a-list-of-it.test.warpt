@@ -1,0 +1,70 @@
+warpt 1
+{
+  expect {
+    answers [
+      "b"
+    ]
+  }
+  name "a-parameter-handed-in-place-holding-a-list-of-a-parameter-or-null-takes-a-list-of-it"
+  note "app.gen takes array<some T>? in place and writes a list of its own some T into it, which is a list of what filled T."
+  program {
+    imports []
+    procedures {
+      "app.gen" {
+        body [
+          {
+            set "x"
+            value [
+              {
+                ref "y"
+              }
+            ]
+          }
+        ]
+        parameters [
+          {
+            name "x"
+            type "inout array<some T>?"
+          }
+          {
+            name "y"
+            type "some T"
+          }
+        ]
+        result 0
+      }
+      entry {
+        access "public"
+        body [
+          {
+            type "array<string>?"
+            value [
+              "a"
+            ]
+            var "s"
+          }
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "s"
+                  }
+                  "b"
+                ]
+                procedure "app.gen"
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

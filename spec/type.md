@@ -256,6 +256,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-nullable-that-says-nothing-new-behind-a-name-refuses`
 - `a-nullable-that-says-nothing-new-refuses`
 - `a-padded-bound-refuses`
+- `a-parameter-handed-in-place-holding-a-list-of-a-parameter-or-null-takes-a-list-of-it`
+- `a-parameter-handed-in-place-holding-a-list-of-a-parameter-or-null-takes-null`
 - `a-parameter-handed-in-place-takes-no-reading-of-any-refuses`
 - `a-parameter-handed-in-place-takes-no-value-its-members-take-refuses`
 - `a-parameter-naming-a-type-nothing-declares-refuses`
