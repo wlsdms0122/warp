@@ -51,7 +51,7 @@ Acceptance is one-way where the kinds nest: `double` accepts an `int` (a whole n
 
 `never` is a real type and fits **every** slot, by never arriving: an expression typed `never` may be written where any value is expected, such as an argument that calls `std.control.abort`, and evaluating it ends the evaluation it is inside. The statement rules (no name, nothing follows) are statement rules; in expression position there is nothing extra to say, because nothing after the expression is reached at all.
 
-**Type parameters.** A declaration may leave a type parameter and let the call fill it: a procedure taking `array<some T>` and a `some T` answers what it was given. Inside the declaration the parameter is one type its body does not know, so where the parameter is what is declared (the answer, a parameter handed in place, an element of one) only a value of that parameter fits, or a value every member of a membership bounding it takes, such as a whole number where `std.Numeric` bounds it. A parameter read twice must be read the same both ways. Two readings where one accepts the other settle on the looser; two readings that do not fit **refuse at the build**, and do not widen to `any`. Appending a whole number to a list of text is a parameter read as text and as a number, and there is no answer that is both.
+**Type parameters.** A declaration may leave a type parameter and let the call fill it: a procedure taking `array<some T>` and a `some T` answers what it was given. Inside the declaration the parameter is one type its body does not know. A parameter handed in place, or an element of one, takes only a value of that parameter, since the caller reads its own variable as what filled it and nothing settles a write there. The answer takes a value of that parameter, a value every member of a membership bounding it takes, such as a whole number where `std.Numeric` bounds it, or a reading of `any`; the call judges what arrives against what filled the parameter, and a value outside it **refuses at the run** where the call reads it. A parameter read twice must be read the same both ways. Two readings where one accepts the other settle on the looser; two readings that do not fit **refuse at the build**, and do not widen to `any`. Appending a whole number to a list of text is a parameter read as text and as a number, and there is no answer that is both.
 
 **Constraints.** A type parameter may be bounded: a signature declares `bounds: { T: std.Comparable }` once, its slots write `some T`, and every occurrence of the name takes only what the constraint admits. A bound may name several, joined with `&`: `bounds: { T: std.Comparable & Describable }` holds `T` to what every one of them admits or asks. The signature owns the bound. A slot names the parameter and never the membership, so one bound is one claim however many slots mention the name. A constraint is a **declared membership**. A module binds a name to the types it admits, the way it declares a type. A slot may also declare one as its type, and what stands there is a value of one of the members, which is how the language says **A or B**: the set is declared once under a name, and no slot writes an inline union. The judgment is made twice, once per surface: at the **build**, a reading provably outside the membership refuses (two booleans meeting `lessThan` never run), and a reading the text says nothing about (`any`) passes; at the **boundary**, the value that actually arrived is judged against the membership, so what travelled in through `any` is refused where it arrives. One name is held to one set of bounds: `bounds` writes the set once, every occurrence of the name reads it, and a signature assembled with two occurrences holding different sets is refused at the build and written by no document. `bounds` naming a parameter no slot mentions refuses at the load. Only the declaring procedure writes `bounds`. A procedure *type* nested in a slot carries none, because its parameters are the declaring signature's own slots and the declaring signature owns their bounds. A closure written in the body reads the same names: its `some T` is the `T` the caller filled, held to the bounds the declaration wrote, so a closure may send what the body around it may. A constraint nobody declares, a constraint declared twice under one spelling, one admitting nothing, and a name declared as both a type and a constraint all **refuse at the build**. A member is a **concrete type**: `some`, `any` and `never` in member position refuse at the build. Each says nothing a membership could hold. And a type parameter lives in a signature: a declared type writing `some` outside a procedure signature refuses at the build, because nothing there is filled by a call.
 
@@ -179,8 +179,15 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-contract-asking-no-procedures-refuses`
 - `a-contract-carries-a-procedure-into-a-generic-body`
 - `a-contract-or-null-slot-refuses-a-type-not-answering-the-contract`
+- `a-contract-or-null-slot-takes-a-membership-whose-members-answer-or-are-null`
+- `a-contract-or-null-slot-takes-a-parameter-bounded-by-the-contract-and-a-membership`
+- `a-contract-or-null-slot-takes-a-parameter-of-a-membership-whose-member-holds-null`
+- `a-contract-or-null-slot-takes-a-parameter-whose-members-answer-or-are-null`
 - `a-contract-or-null-slot-takes-a-type-answering-the-contract`
 - `a-contract-procedure-takes-the-contract-first`
+- `a-contract-slot-refuses-a-membership-with-a-member-that-may-be-null`
+- `a-contract-slot-refuses-a-name-for-what-may-be-null`
+- `a-contract-slot-refuses-what-may-be-null`
 - `a-contract-stands-in-a-closures-parameter`
 - `a-contract-stands-in-a-declared-types-field`
 - `a-contract-stands-where-a-type-is-written`
@@ -188,7 +195,10 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-declaration-answering-a-contract-fills-its-own-parameter-with-the-contracts`
 - `a-declaration-answering-a-contract-may-answer-a-contract-where-it-promises-it-or-null`
 - `a-declaration-answering-a-contract-may-answer-a-membership-and-the-contract-where-it-promises-it-or-null`
+- `a-declaration-answering-a-contract-may-answer-a-parameter-whose-members-are-members-or-null-where-it-promises-it-or-null`
 - `a-declaration-answering-a-contract-may-answer-a-type-answering-it-where-it-promises-it-or-null`
+- `a-declaration-answering-a-contract-may-answer-an-alias-of-a-record-answering-it`
+- `a-declaration-answering-a-contract-may-fill-a-bounded-parameter-with-what-the-bound-takes`
 - `a-declaration-answering-a-contract-may-take-a-contract-every-member-of-its-membership-answers`
 - `a-declaration-answering-a-contract-may-take-a-contract-or-null-where-it-writes-the-contract`
 - `a-declaration-answering-a-contract-may-take-a-value-where-it-hands-a-place`
@@ -199,6 +209,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-declaration-answering-a-contract-takes-its-parameters-in-the-contracts-order`
 - `a-declaration-answering-a-contract-takes-no-parameter-beyond-it`
 - `a-declaration-answering-a-contract-taking-in-place-where-it-hands-a-value-refuses`
+- `a-declaration-answering-a-contract-with-a-bounded-parameter-where-it-writes-a-parameter-refuses`
+- `a-declaration-answering-a-contract-with-a-bounded-parameter-where-it-writes-what-the-bound-refuses-refuses`
 - `a-declaration-answering-a-contract-with-a-contract-a-member-of-its-membership-does-not-answer-refuses`
 - `a-declaration-answering-a-contract-with-a-contract-where-it-answers-another-refuses`
 - `a-declaration-answering-a-contract-with-a-contract-where-it-writes-memberships-sharing-a-member-that-does-not-answer-refuses`
@@ -210,6 +222,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-declaration-answering-a-contract-with-a-type-where-it-writes-a-parameter-refuses`
 - `a-declaration-answering-a-contract-with-another-answer-refuses`
 - `a-declaration-answering-a-contract-with-another-contract-where-it-writes-a-contract-refuses`
+- `a-declaration-answering-a-contract-with-any-is-judged-where-the-call-reads-it-refuses`
 - `a-declaration-answering-a-contract-with-its-own-parameter-for-a-type-refuses`
 - `a-declaration-answering-a-contract-with-what-may-be-null-where-it-answers-a-contract-refuses`
 - `a-declaration-answering-one-without-returns-refuses`
@@ -218,8 +231,12 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-declared-name-and-the-record-it-stands-for-are-one-reading`
 - `a-declared-name-is-a-type`
 - `a-declared-type-names-itself-in-its-fields`
+- `a-dictionary-of-a-membership-or-null-takes-a-record-whose-variable-field-may-be-null`
+- `a-dictionary-of-a-membership-takes-a-record-whose-variable-field-is-of-it`
 - `a-fraction-is-not-a-whole-number`
 - `a-fraction-range-widens-a-whole-number-into-itself`
+- `a-generic-answer-every-member-takes-is-judged-against-what-filled-it-refuses`
+- `a-generic-answer-of-any-is-judged-where-the-call-reads-it-refuses`
 - `a-generic-body-appends-its-parameter-to-a-list-of-it-or-null`
 - `a-handle-already-given-away-is-not-read-again`
 - `a-handle-borrowed-after-a-consuming-parameter-in-one-call-refuses`
@@ -238,6 +255,10 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-member-that-is-any-refuses`
 - `a-member-that-is-never-refuses`
 - `a-membership-mixing-a-linear-type-refuses`
+- `a-membership-or-null-slot-takes-a-parameter-or-null-whose-members-are-members-or-null`
+- `a-membership-or-null-slot-takes-a-parameter-whose-members-are-members-or-null`
+- `a-membership-slot-refuses-a-parameter-or-null`
+- `a-membership-slot-refuses-a-parameter-whose-member-may-be-null`
 - `a-membership-stands-as-a-type`
 - `a-module-declares-a-constraint`
 - `a-name-declared-as-both-a-type-and-a-constraint-refuses`
@@ -249,6 +270,11 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-nullable-that-says-nothing-new-behind-a-name-refuses`
 - `a-nullable-that-says-nothing-new-refuses`
 - `a-padded-bound-refuses`
+- `a-parameter-handed-in-place-holding-a-dictionary-of-a-parameter-takes-a-record-of-it`
+- `a-parameter-handed-in-place-holding-a-list-of-a-parameter-or-null-takes-a-list-of-it`
+- `a-parameter-handed-in-place-holding-a-list-of-a-parameter-or-null-takes-null`
+- `a-parameter-handed-in-place-takes-no-reading-of-any-refuses`
+- `a-parameter-handed-in-place-takes-no-value-its-members-take-refuses`
 - `a-parameter-naming-a-type-nothing-declares-refuses`
 - `a-procedure-type-answering-a-linear-type-refuses`
 - `a-range-below-the-smallest-int-admits-nothing`
@@ -294,6 +320,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-whole-number-is-a-fraction`
 - `a-witness-may-write-another-name-for-the-record-a-contract-names`
 - `an-alias-of-a-declared-record-settles-to-the-records-name`
+- `an-alias-of-a-record-answers-the-records-contracts`
 - `an-answer-read-through-any-is-settled-at-the-boundary`
 - `an-arm-that-leaves-holds-nothing-afterwards`
 - `an-array-of-bytes-and-a-list-of-numbers-joins-to-a-list-of-lists`

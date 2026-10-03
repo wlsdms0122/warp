@@ -1,0 +1,64 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-parameter-handed-in-place-takes-no-value-its-members-take-refuses"
+  note "app.gen takes some T bounded by app.Real in place, and writes 2.5. The caller's variable is an int, which double admits, so T is filled with int and the write would leave a fraction in it."
+  program {
+    constraints {
+      "app.Real" [
+        "double"
+      ]
+    }
+    imports []
+    procedures {
+      "app.gen" {
+        body [
+          {
+            set "x"
+            value 2.5
+          }
+        ]
+        bounds {
+          T "app.Real"
+        }
+        parameters [
+          {
+            name "x"
+            type "inout some T"
+          }
+        ]
+        result 0
+      }
+      entry {
+        access "public"
+        body [
+          {
+            value 1
+            var "n"
+          }
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "n"
+                  }
+                ]
+                procedure "app.gen"
+              }
+            }
+          }
+        ]
+        result {
+          ref "n"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,118 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-declaration-answering-a-contract-with-a-bounded-parameter-where-it-writes-what-the-bound-refuses-refuses"
+  note "The contract takes a string at n, and the declaration answering it takes some U there, bounded by app.Whole, which admits int alone. Every call through the contract would hand U a string its bound refuses."
+  program {
+    constraints {
+      "app.Whole" [
+        "int"
+      ]
+    }
+    contracts {
+      "app.Shown" {
+        show {
+          parameters [
+            {
+              name "of"
+              type "app.Shown"
+            }
+            {
+              name "n"
+              type "string"
+            }
+          ]
+          returns "string"
+        }
+      }
+      "app.Sized" {
+        size {
+          parameters [
+            {
+              name "of"
+              type "app.Sized"
+            }
+          ]
+          returns "int"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "bank.Card.show" {
+        bounds {
+          U "app.Whole"
+        }
+        parameters [
+          {
+            name "of"
+            type "bank.Card"
+          }
+          {
+            name "n"
+            type "some U"
+          }
+        ]
+        result "shown"
+        returns "string"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            value {
+              as {
+                of {
+                  record {
+                    last "4"
+                  }
+                }
+                type "bank.Card"
+              }
+            }
+          }
+          {
+            let "s"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "c"
+                  }
+                  "x"
+                ]
+                procedure "app.Shown.show"
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    satisfies {
+      "bank.Card" [
+        "app.Shown"
+      ]
+    }
+    types {
+      "bank.Card" {
+        record {
+          last "string"
+        }
+      }
+      "bank.Coin" {
+        record {
+          cents "int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

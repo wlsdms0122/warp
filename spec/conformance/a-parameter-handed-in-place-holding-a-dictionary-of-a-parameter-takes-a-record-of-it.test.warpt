@@ -1,0 +1,78 @@
+warpt 1
+{
+  expect {
+    answers {
+      a "b"
+    }
+  }
+  name "a-parameter-handed-in-place-holding-a-dictionary-of-a-parameter-takes-a-record-of-it"
+  note "app.gen takes dictionary<some T> in place and writes a record of its own some T into it. A record whose every field the entry takes is such a dictionary."
+  program {
+    imports []
+    procedures {
+      "app.gen" {
+        body [
+          {
+            set "x"
+            value {
+              record {
+                a {
+                  ref "y"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "x"
+            type "inout dictionary<some T>"
+          }
+          {
+            name "y"
+            type "some T"
+          }
+        ]
+        result 0
+      }
+      entry {
+        access "public"
+        body [
+          {
+            value {
+              as {
+                of {
+                  record {
+                    a "z"
+                  }
+                }
+                type "dictionary<string>"
+              }
+            }
+            var "s"
+          }
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "s"
+                  }
+                  "b"
+                ]
+                procedure "app.gen"
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

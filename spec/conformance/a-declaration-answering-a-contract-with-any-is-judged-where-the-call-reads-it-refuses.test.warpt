@@ -1,0 +1,103 @@
+warpt 1
+{
+  expect {
+    refuses "run"
+  }
+  name "a-declaration-answering-a-contract-with-any-is-judged-where-the-call-reads-it-refuses"
+  note "The contract answers string and the declaration answering it answers any, holding an int. A call through the contract reads the answer as text, and judges it there."
+  program {
+    contracts {
+      "app.Describable" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "app.Describable"
+            }
+          ]
+          returns "string"
+        }
+      }
+    }
+    imports [
+      "std.collection.appending"
+    ]
+    procedures {
+      "bank.Card.describe" {
+        parameters [
+          {
+            name "of"
+            type "bank.Card"
+          }
+        ]
+        result 5
+        returns "any"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            value {
+              as {
+                of {
+                  record {
+                    last "42"
+                  }
+                }
+                type "bank.Card"
+              }
+            }
+          }
+          {
+            let "d"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "c"
+                  }
+                ]
+                procedure "app.Describable.describe"
+              }
+            }
+          }
+          {
+            let "xs"
+            value {
+              call {
+                arguments [
+                  [
+                    "a"
+                  ]
+                  {
+                    ref "d"
+                  }
+                ]
+                procedure "std.collection.appending"
+              }
+            }
+          }
+        ]
+        result {
+          ref "xs"
+        }
+      }
+    }
+    satisfies {
+      "bank.Card" [
+        "app.Describable"
+      ]
+    }
+    types {
+      "bank.Card" {
+        record {
+          last "string"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,128 @@
+warpt 1
+{
+  expect {
+    answers "a card"
+  }
+  name "a-declaration-answering-a-contract-may-answer-an-alias-of-a-record-answering-it"
+  note "The contract answers app.Describable and the declaration answering it answers bank.Alias, which names bank.Card, and a document says bank.Card answers app.Describable."
+  program {
+    contracts {
+      "app.Describable" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "app.Describable"
+            }
+          ]
+          returns "string"
+        }
+      }
+      "app.Pick" {
+        pick {
+          parameters [
+            {
+              name "of"
+              type "app.Pick"
+            }
+          ]
+          returns "app.Describable"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "bank.Card.describe" {
+        parameters [
+          {
+            name "of"
+            type "bank.Card"
+          }
+        ]
+        result "a card"
+        returns "string"
+      }
+      "bank.Card.pick" {
+        parameters [
+          {
+            name "of"
+            type "bank.Card"
+          }
+        ]
+        result {
+          as {
+            of {
+              ref "of"
+            }
+            type "bank.Alias"
+          }
+        }
+        returns "bank.Alias"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            value {
+              as {
+                of {
+                  record {
+                    last "42"
+                  }
+                }
+                type "bank.Card"
+              }
+            }
+          }
+          {
+            let "p"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "c"
+                  }
+                ]
+                procedure "app.Pick.pick"
+              }
+            }
+          }
+          {
+            let "s"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "p"
+                  }
+                ]
+                procedure "app.Describable.describe"
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    satisfies {
+      "bank.Card" [
+        "app.Describable"
+        "app.Pick"
+      ]
+    }
+    types {
+      "bank.Alias" "bank.Card"
+      "bank.Card" {
+        record {
+          last "string"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
