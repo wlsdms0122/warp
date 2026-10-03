@@ -1,0 +1,105 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-contract-or-null-slot-refuses-a-type-not-answering-the-contract"
+  note "app.f takes app.Sized? and is handed a bank.Coin, which no document says answers app.Sized."
+  program {
+    contracts {
+      "app.Sized" {
+        size {
+          parameters [
+            {
+              name "of"
+              type "app.Sized"
+            }
+          ]
+          returns "int"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "app.f" {
+        parameters [
+          {
+            name "n"
+            type "app.Sized?"
+          }
+        ]
+        result "took"
+        returns "string"
+      }
+      "bank.Card.size" {
+        parameters [
+          {
+            name "of"
+            type "bank.Card"
+          }
+        ]
+        result 4
+        returns "int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            value {
+              as {
+                of {
+                  record {
+                    cents 4
+                  }
+                }
+                type "bank.Coin"
+              }
+            }
+          }
+          {
+            let "s"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "c"
+                  }
+                ]
+                procedure "app.f"
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    satisfies {
+      "bank.Card" [
+        "app.Sized"
+      ]
+    }
+    types {
+      "bank.Box" {
+        record {
+          n "int"
+        }
+      }
+      "bank.Card" {
+        record {
+          last "string"
+        }
+      }
+      "bank.Coin" {
+        record {
+          cents "int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
