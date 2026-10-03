@@ -1,0 +1,147 @@
+warpt 1
+{
+  expect {
+    answers "rescued"
+  }
+  name "an-entry-not-written-yet-handed-back-by-a-failing-call-is-rescued"
+  note "app.touch takes an entry of a dictionary in place at its own some T and fails before writing it. The entry not written yet holds nothing to judge, so the failure passes on as it was and the caller rescues it."
+  program {
+    imports [
+      "std.control.abort"
+    ]
+    procedures {
+      "app.h" {
+        parameters [
+          {
+            name "n"
+            type "some T"
+          }
+          {
+            name "j"
+            type "any"
+          }
+        ]
+        result {
+          ref "j"
+        }
+        returns "some T"
+      }
+      "app.touch" {
+        body [
+          {
+            let "y"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "n"
+                  }
+                  {
+                    ref "j"
+                  }
+                ]
+                procedure "app.h"
+              }
+            }
+          }
+          {
+            value {
+              conditional {
+                then [
+                  {
+                    value {
+                      call {
+                        arguments [
+                          "boom"
+                        ]
+                        procedure "std.control.abort"
+                      }
+                    }
+                  }
+                ]
+                when {
+                  ref "stop"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "x"
+            type "inout some T"
+          }
+          {
+            name "n"
+            type "some T"
+          }
+          {
+            name "j"
+            type "any"
+          }
+          {
+            name "stop"
+            type "bool"
+          }
+        ]
+        result 0
+        returns "int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            type "dictionary<int>"
+            value {
+              record {
+                a 1
+              }
+            }
+            var "d"
+          }
+          {
+            value "no"
+            var "seen"
+          }
+          {
+            value {
+              attempt {
+                body [
+                  {
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "d.new"
+                          }
+                          2
+                          3
+                          true
+                        ]
+                        procedure "app.touch"
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  body [
+                    {
+                      set "seen"
+                      value "rescued"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "seen"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
