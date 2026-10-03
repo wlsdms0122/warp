@@ -181,6 +181,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-contract-or-null-slot-refuses-a-type-not-answering-the-contract`
 - `a-contract-or-null-slot-takes-a-type-answering-the-contract`
 - `a-contract-procedure-takes-the-contract-first`
+- `a-contract-slot-refuses-a-name-for-what-may-be-null`
+- `a-contract-slot-refuses-what-may-be-null`
 - `a-contract-stands-in-a-closures-parameter`
 - `a-contract-stands-in-a-declared-types-field`
 - `a-contract-stands-where-a-type-is-written`
