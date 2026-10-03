@@ -200,6 +200,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-declaration-answering-a-contract-may-answer-a-type-answering-it-where-it-promises-it-or-null`
 - `a-declaration-answering-a-contract-may-answer-an-alias-of-a-record-answering-it`
 - `a-declaration-answering-a-contract-may-answer-an-alias-of-what-it-promises`
+- `a-declaration-answering-a-contract-may-bound-its-parameter-by-a-membership-with-null-where-it-writes-what-may-be-null`
 - `a-declaration-answering-a-contract-may-fill-a-bounded-parameter-with-what-the-bound-takes`
 - `a-declaration-answering-a-contract-may-take-a-contract-every-member-of-its-membership-answers`
 - `a-declaration-answering-a-contract-may-take-a-contract-or-null-where-it-writes-the-contract`
@@ -262,6 +263,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-membership-slot-refuses-a-parameter-or-null`
 - `a-membership-slot-refuses-a-parameter-whose-member-may-be-null`
 - `a-membership-stands-as-a-type`
+- `a-membership-with-null-admits-what-may-be-null-of-another-member`
 - `a-module-declares-a-constraint`
 - `a-name-declared-as-both-a-type-and-a-constraint-refuses`
 - `a-name-declared-as-both-a-type-and-a-contract-refuses`
@@ -275,9 +277,13 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-parameter-handed-in-place-holding-a-dictionary-of-a-parameter-takes-a-record-of-it`
 - `a-parameter-handed-in-place-holding-a-list-of-a-parameter-or-null-takes-a-list-of-it`
 - `a-parameter-handed-in-place-holding-a-list-of-a-parameter-or-null-takes-null`
+- `a-parameter-handed-in-place-holding-a-list-of-a-parameter-takes-an-empty-list`
+- `a-parameter-handed-in-place-holding-a-procedure-of-a-parameter-takes-a-closure-of-it`
 - `a-parameter-handed-in-place-takes-no-reading-of-any-refuses`
 - `a-parameter-handed-in-place-takes-no-value-its-members-take-refuses`
 - `a-parameter-naming-a-type-nothing-declares-refuses`
+- `a-parameter-read-as-a-declared-range-and-its-kind-is-the-kind`
+- `a-parameter-read-as-a-record-and-a-nameless-one-of-its-fields-is-the-nameless-one`
 - `a-procedure-type-answering-a-linear-type-refuses`
 - `a-range-below-the-smallest-int-admits-nothing`
 - `a-range-judges-a-runtime-value-at-the-boundary`

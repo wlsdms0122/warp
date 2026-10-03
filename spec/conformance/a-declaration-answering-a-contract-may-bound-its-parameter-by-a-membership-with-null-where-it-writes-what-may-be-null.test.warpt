@@ -1,0 +1,103 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-declaration-answering-a-contract-may-bound-its-parameter-by-a-membership-with-null-where-it-writes-what-may-be-null"
+  note "The contract takes int? at x, and the declaration answering it takes some V there, bounded by app.MaybeNum, which admits int and null."
+  program {
+    constraints {
+      "app.MaybeNum" [
+        "int"
+        "null"
+      ]
+    }
+    contracts {
+      "app.Use" {
+        use {
+          parameters [
+            {
+              name "of"
+              type "app.Use"
+            }
+            {
+              name "x"
+              type "int?"
+            }
+          ]
+          returns "int"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "bank.Card.use" {
+        bounds {
+          V "app.MaybeNum"
+        }
+        parameters [
+          {
+            name "of"
+            type "bank.Card"
+          }
+          {
+            name "x"
+            type "some V"
+          }
+        ]
+        result 1
+        returns "int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            value {
+              as {
+                of {
+                  record {
+                    last "42"
+                  }
+                }
+                type "bank.Card"
+              }
+            }
+          }
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "c"
+                  }
+                  null
+                ]
+                procedure "app.Use.use"
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+      }
+    }
+    satisfies {
+      "bank.Card" [
+        "app.Use"
+      ]
+    }
+    types {
+      "bank.Card" {
+        record {
+          last "string"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
