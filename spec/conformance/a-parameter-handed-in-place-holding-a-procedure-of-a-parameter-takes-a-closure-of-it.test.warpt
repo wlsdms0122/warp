@@ -1,0 +1,119 @@
+warpt 1
+{
+  expect {
+    answers 5
+  }
+  name "a-parameter-handed-in-place-holding-a-procedure-of-a-parameter-takes-a-closure-of-it"
+  note "app.swap takes procedure<(some T) -> some T> in place and writes a closure taking and answering some T. The closure is const and isolated, which a slot that does not ask for either takes."
+  program {
+    imports [
+      "std.math.plus"
+    ]
+    procedures {
+      "app.swap" {
+        body [
+          {
+            set "f"
+            value {
+              closure {
+                parameters [
+                  {
+                    name "y"
+                    type "some T"
+                  }
+                ]
+                result {
+                  ref "y"
+                }
+                returns "some T"
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "f"
+            type {
+              "inout procedure" {
+                parameters [
+                  "some T"
+                ]
+                returns "some T"
+              }
+            }
+          }
+        ]
+        result 0
+      }
+      entry {
+        access "public"
+        body [
+          {
+            type {
+              procedure {
+                parameters [
+                  "int"
+                ]
+                returns "int"
+              }
+            }
+            value {
+              closure {
+                parameters [
+                  {
+                    name "n"
+                    type "int"
+                  }
+                ]
+                result {
+                  call {
+                    arguments [
+                      {
+                        ref "n"
+                      }
+                      1
+                    ]
+                    procedure "std.math.plus"
+                  }
+                }
+                returns "int"
+              }
+            }
+            var "g"
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "g"
+                  }
+                ]
+                procedure "app.swap"
+              }
+            }
+          }
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  5
+                ]
+                procedure {
+                  ref "g"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

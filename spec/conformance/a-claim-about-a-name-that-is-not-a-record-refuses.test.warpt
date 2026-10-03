@@ -1,0 +1,80 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-claim-about-a-name-that-is-not-a-record-refuses"
+  note "app.Num names int, and a document claims it answers app.Describable. A value of app.Num wears no name for a run to read, so the claim is one no run could use."
+  program {
+    contracts {
+      "app.Describable" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "app.Describable"
+            }
+          ]
+          returns "string"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "app.Num.describe" {
+        parameters [
+          {
+            name "of"
+            type "app.Num"
+          }
+        ]
+        result "a number"
+        returns "string"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "n"
+            value {
+              call {
+                procedure "make"
+              }
+            }
+          }
+          {
+            let "s"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "n"
+                  }
+                ]
+                procedure "app.Describable.describe"
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+      make {
+        result 3
+        returns "app.Num"
+      }
+    }
+    satisfies {
+      "app.Num" [
+        "app.Describable"
+      ]
+    }
+    types {
+      "app.Num" "int"
+    }
+    warp 1
+  }
+  test 1
+}
+

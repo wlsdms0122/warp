@@ -107,7 +107,7 @@ Only a procedure with **no body** ends the obligation. A body that takes one has
 
 A contract's name stands where a type is written, and so does `A & B`: the slot takes a value of whatever type satisfies every contract and belongs to every membership named. It is a type parameter with no name, so nothing ties one slot's reading to another's, and a call fills nothing. A closure literal's parameter is such a slot too, and a call of the value holds what it hands to the contract by the rule a call to a declaration is held by. A name declared as neither a membership nor a contract joined with `&` **refuses at the build**.
 
-A type **satisfies** a contract when a document says it does. The document writes the claim under `satisfies`, keyed by the type: `satisfies: { "bank.Account": ["app.Describable"] }`. Any document may make one, about a type it declared or about another document's, which is how a document that arrives later gives a type the procedures a contract asks. A claim about a type this specification names, `int` or `string`, **refuses at the load**: a value of one wears no name for a run to read, so no declaration could answer for it.
+A type **satisfies** a contract when a document says it does. The document writes the claim under `satisfies`, keyed by the type: `satisfies: { "bank.Account": ["app.Describable"] }`. Any document may make one, about a type it declared or about another document's, which is how a document that arrives later gives a type the procedures a contract asks. A claim about a type this specification names, `int` or `string`, **refuses at the load**: a value of one wears no name for a run to read, so no declaration could answer for it. A claim about a declared name that is not itself a record, an alias included, **refuses at the build** for the same reason: a value wears the name of the record it is, and of no other.
 
 The build holds the claim to the declarations behind it. For every procedure the contract asks, it takes the declaration named for the type and that procedure (`bank.Account` and `describe` give `bank.Account.describe`) and holds its signature to the contract's with the type taken first in place of the contract. A name that stands for a declared record names that record's type there, as wherever types are compared, so a declaration may write another name for the record the contract writes. A declaration that wrote no `returns` is held by what its body answers, read the way a call site reads it.
 
@@ -163,6 +163,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-call-through-a-contract-with-nothing-first-refuses`
 - `a-cast-does-not-carry-a-held-name-into-a-list`
 - `a-cast-naming-a-linear-type-does-not-go-into-a-list`
+- `a-claim-about-a-name-that-is-not-a-record-refuses`
 - `a-claim-about-a-type-the-language-names-refuses`
 - `a-claim-naming-a-contract-where-the-type-belongs-refuses`
 - `a-claim-naming-a-membership-where-a-contract-belongs-refuses`
@@ -198,6 +199,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-declaration-answering-a-contract-may-answer-a-parameter-whose-members-are-members-or-null-where-it-promises-it-or-null`
 - `a-declaration-answering-a-contract-may-answer-a-type-answering-it-where-it-promises-it-or-null`
 - `a-declaration-answering-a-contract-may-answer-an-alias-of-a-record-answering-it`
+- `a-declaration-answering-a-contract-may-answer-an-alias-of-what-it-promises`
+- `a-declaration-answering-a-contract-may-bound-its-parameter-by-a-membership-with-null-where-it-writes-what-may-be-null`
 - `a-declaration-answering-a-contract-may-fill-a-bounded-parameter-with-what-the-bound-takes`
 - `a-declaration-answering-a-contract-may-take-a-contract-every-member-of-its-membership-answers`
 - `a-declaration-answering-a-contract-may-take-a-contract-or-null-where-it-writes-the-contract`
@@ -235,6 +238,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-dictionary-of-a-membership-takes-a-record-whose-variable-field-is-of-it`
 - `a-fraction-is-not-a-whole-number`
 - `a-fraction-range-widens-a-whole-number-into-itself`
+- `a-generic-answer-carried-through-another-generic-is-judged-where-the-call-reads-it-refuses`
 - `a-generic-answer-every-member-takes-is-judged-against-what-filled-it-refuses`
 - `a-generic-answer-of-any-is-judged-where-the-call-reads-it-refuses`
 - `a-generic-body-appends-its-parameter-to-a-list-of-it-or-null`
@@ -260,6 +264,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-membership-slot-refuses-a-parameter-or-null`
 - `a-membership-slot-refuses-a-parameter-whose-member-may-be-null`
 - `a-membership-stands-as-a-type`
+- `a-membership-with-null-admits-what-may-be-null-of-another-member`
 - `a-module-declares-a-constraint`
 - `a-name-declared-as-both-a-type-and-a-constraint-refuses`
 - `a-name-declared-as-both-a-type-and-a-contract-refuses`
@@ -273,9 +278,13 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-parameter-handed-in-place-holding-a-dictionary-of-a-parameter-takes-a-record-of-it`
 - `a-parameter-handed-in-place-holding-a-list-of-a-parameter-or-null-takes-a-list-of-it`
 - `a-parameter-handed-in-place-holding-a-list-of-a-parameter-or-null-takes-null`
+- `a-parameter-handed-in-place-holding-a-list-of-a-parameter-takes-an-empty-list`
+- `a-parameter-handed-in-place-holding-a-procedure-of-a-parameter-takes-a-closure-of-it`
 - `a-parameter-handed-in-place-takes-no-reading-of-any-refuses`
 - `a-parameter-handed-in-place-takes-no-value-its-members-take-refuses`
 - `a-parameter-naming-a-type-nothing-declares-refuses`
+- `a-parameter-read-as-a-declared-range-and-its-kind-is-the-kind`
+- `a-parameter-read-as-a-record-and-a-nameless-one-of-its-fields-is-the-nameless-one`
 - `a-procedure-type-answering-a-linear-type-refuses`
 - `a-range-below-the-smallest-int-admits-nothing`
 - `a-range-judges-a-runtime-value-at-the-boundary`
@@ -319,7 +328,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-value-written-into-a-list-element-refuses`
 - `a-whole-number-is-a-fraction`
 - `a-witness-may-write-another-name-for-the-record-a-contract-names`
+- `an-alias-of-a-contract-answers-the-contract`
 - `an-alias-of-a-declared-record-settles-to-the-records-name`
+- `an-alias-of-a-membership-answers-as-the-membership`
 - `an-alias-of-a-record-answers-the-records-contracts`
 - `an-answer-read-through-any-is-settled-at-the-boundary`
 - `an-arm-that-leaves-holds-nothing-afterwards`

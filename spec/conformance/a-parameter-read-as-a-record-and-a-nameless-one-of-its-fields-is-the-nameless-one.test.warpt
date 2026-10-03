@@ -1,0 +1,113 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-parameter-read-as-a-record-and-a-nameless-one-of-its-fields-is-the-nameless-one"
+  note "app.second reads its some T as bank.Card and as a nameless record of its fields, and answers the second. The reading that holds both is the nameless record, which wears no name a contract call could pick a declaration by."
+  program {
+    contracts {
+      "app.Describable" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "app.Describable"
+            }
+          ]
+          returns "string"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "app.second" {
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+          {
+            name "y"
+            type "some T"
+          }
+        ]
+        result {
+          ref "y"
+        }
+        returns "some T"
+      }
+      "bank.Card.describe" {
+        parameters [
+          {
+            name "of"
+            type "bank.Card"
+          }
+        ]
+        result "a card"
+        returns "string"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  {
+                    as {
+                      of {
+                        record {
+                          last "42"
+                        }
+                      }
+                      type "bank.Card"
+                    }
+                  }
+                  {
+                    record {
+                      last "x"
+                    }
+                  }
+                ]
+                procedure "app.second"
+              }
+            }
+          }
+          {
+            let "s"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "r"
+                  }
+                ]
+                procedure "app.Describable.describe"
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    satisfies {
+      "bank.Card" [
+        "app.Describable"
+      ]
+    }
+    types {
+      "bank.Card" {
+        record {
+          last "string"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
