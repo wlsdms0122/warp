@@ -1,0 +1,117 @@
+warpt 1
+{
+  expect {
+    answers 15
+  }
+  name "a-closure-a-generic-body-wrote-is-read-as-the-procedure-type-it-is-judged-against"
+  note "app.mk answers a closure naming its own some T, and the call reads it as procedure<(int) -> int>. The run does not know what filled the T, so the closure is read as what the call asks there, and calling it answers 15."
+  program {
+    imports [
+      "std.math.plus"
+    ]
+    procedures {
+      "app.mk" {
+        parameters [
+          {
+            name "g"
+            type {
+              procedure {
+                parameters [
+                  "some T"
+                ]
+                returns "some T"
+              }
+            }
+          }
+        ]
+        result {
+          closure {
+            parameters [
+              {
+                name "y"
+                type "some T"
+              }
+            ]
+            result {
+              call {
+                arguments [
+                  {
+                    ref "y"
+                  }
+                ]
+                procedure {
+                  ref "g"
+                }
+              }
+            }
+            returns "some T"
+          }
+        }
+        returns {
+          procedure {
+            parameters [
+              "some T"
+            ]
+            returns "some T"
+          }
+        }
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "h"
+            value {
+              call {
+                arguments [
+                  {
+                    closure {
+                      parameters [
+                        {
+                          name "n"
+                          type "int"
+                        }
+                      ]
+                      result {
+                        call {
+                          arguments [
+                            {
+                              ref "n"
+                            }
+                            10
+                          ]
+                          procedure "std.math.plus"
+                        }
+                      }
+                      returns "int"
+                    }
+                  }
+                ]
+                procedure "app.mk"
+              }
+            }
+          }
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  5
+                ]
+                procedure {
+                  ref "h"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
