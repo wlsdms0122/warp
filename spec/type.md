@@ -163,6 +163,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-call-through-a-contract-with-nothing-first-refuses`
 - `a-cast-does-not-carry-a-held-name-into-a-list`
 - `a-cast-naming-a-linear-type-does-not-go-into-a-list`
+- `a-claim-about-a-name-that-is-not-a-record-refuses`
 - `a-claim-about-a-type-the-language-names-refuses`
 - `a-claim-naming-a-contract-where-the-type-belongs-refuses`
 - `a-claim-naming-a-membership-where-a-contract-belongs-refuses`
@@ -198,6 +199,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-declaration-answering-a-contract-may-answer-a-parameter-whose-members-are-members-or-null-where-it-promises-it-or-null`
 - `a-declaration-answering-a-contract-may-answer-a-type-answering-it-where-it-promises-it-or-null`
 - `a-declaration-answering-a-contract-may-answer-an-alias-of-a-record-answering-it`
+- `a-declaration-answering-a-contract-may-answer-an-alias-of-what-it-promises`
 - `a-declaration-answering-a-contract-may-fill-a-bounded-parameter-with-what-the-bound-takes`
 - `a-declaration-answering-a-contract-may-take-a-contract-every-member-of-its-membership-answers`
 - `a-declaration-answering-a-contract-may-take-a-contract-or-null-where-it-writes-the-contract`
@@ -319,7 +321,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-value-written-into-a-list-element-refuses`
 - `a-whole-number-is-a-fraction`
 - `a-witness-may-write-another-name-for-the-record-a-contract-names`
+- `an-alias-of-a-contract-answers-the-contract`
 - `an-alias-of-a-declared-record-settles-to-the-records-name`
+- `an-alias-of-a-membership-answers-as-the-membership`
 - `an-alias-of-a-record-answers-the-records-contracts`
 - `an-answer-read-through-any-is-settled-at-the-boundary`
 - `an-arm-that-leaves-holds-nothing-afterwards`

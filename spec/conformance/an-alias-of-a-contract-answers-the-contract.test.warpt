@@ -1,0 +1,107 @@
+warpt 1
+{
+  expect {
+    answers "a card"
+  }
+  name "an-alias-of-a-contract-answers-the-contract"
+  note "app.D names app.Describable, so a slot of app.D takes a value answering app.Describable, and a call through the contract takes it."
+  program {
+    contracts {
+      "app.Describable" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "app.Describable"
+            }
+          ]
+          returns "string"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "bank.Card.describe" {
+        parameters [
+          {
+            name "of"
+            type "bank.Card"
+          }
+        ]
+        result "a card"
+        returns "string"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            value {
+              as {
+                of {
+                  record {
+                    last "1"
+                  }
+                }
+                type "bank.Card"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "c"
+              }
+            ]
+            procedure "show"
+          }
+        }
+      }
+      show {
+        body [
+          {
+            let "s"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "c"
+                  }
+                ]
+                procedure "app.Describable.describe"
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "c"
+            type "app.D"
+          }
+        ]
+        result {
+          ref "s"
+        }
+        returns "string"
+      }
+    }
+    satisfies {
+      "bank.Card" [
+        "app.Describable"
+      ]
+    }
+    types {
+      "app.D" "app.Describable"
+      "bank.Card" {
+        record {
+          last "string"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

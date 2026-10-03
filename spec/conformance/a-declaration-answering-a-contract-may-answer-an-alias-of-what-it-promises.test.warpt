@@ -1,0 +1,117 @@
+warpt 1
+{
+  expect {
+    answers "a card"
+  }
+  name "a-declaration-answering-a-contract-may-answer-an-alias-of-what-it-promises"
+  note "The contract answers app.Describable and the declaration answering it answers app.D, which names app.Describable."
+  program {
+    contracts {
+      "app.Describable" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "app.Describable"
+            }
+          ]
+          returns "string"
+        }
+      }
+      "app.Maker" {
+        make {
+          parameters [
+            {
+              name "of"
+              type "app.Maker"
+            }
+          ]
+          returns "app.Describable"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "bank.Card.describe" {
+        parameters [
+          {
+            name "of"
+            type "bank.Card"
+          }
+        ]
+        result "a card"
+        returns "string"
+      }
+      "bank.Card.make" {
+        parameters [
+          {
+            name "of"
+            type "bank.Card"
+          }
+        ]
+        result {
+          ref "of"
+        }
+        returns "app.D"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            value {
+              as {
+                of {
+                  record {
+                    last "1"
+                  }
+                }
+                type "bank.Card"
+              }
+            }
+          }
+          {
+            let "m"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "c"
+                  }
+                ]
+                procedure "app.Maker.make"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "m"
+              }
+            ]
+            procedure "app.Describable.describe"
+          }
+        }
+      }
+    }
+    satisfies {
+      "bank.Card" [
+        "app.Describable"
+        "app.Maker"
+      ]
+    }
+    types {
+      "app.D" "app.Describable"
+      "bank.Card" {
+        record {
+          last "string"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
