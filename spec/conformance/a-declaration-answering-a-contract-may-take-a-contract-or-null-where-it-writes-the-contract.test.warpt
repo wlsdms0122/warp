@@ -1,0 +1,151 @@
+warpt 1
+{
+  expect {
+    answers "ok"
+  }
+  name "a-declaration-answering-a-contract-may-take-a-contract-or-null-where-it-writes-the-contract"
+  note "The contract hands app.Sized and the declaration answering it takes app.Sized? there, which takes whatever the contract hands."
+  program {
+    constraints {
+      "app.Pockets" [
+        "bank.Card"
+        "bank.Coin"
+      ]
+      "app.Wallets" [
+        "bank.Card"
+        "bank.Coin"
+      ]
+    }
+    contracts {
+      "app.Shown" {
+        show {
+          parameters [
+            {
+              name "of"
+              type "app.Shown"
+            }
+            {
+              name "n"
+              type "app.Sized"
+            }
+          ]
+          returns "string"
+        }
+      }
+      "app.Sized" {
+        size {
+          parameters [
+            {
+              name "of"
+              type "app.Sized"
+            }
+          ]
+          returns "int"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "bank.Box.show" {
+        parameters [
+          {
+            name "of"
+            type "bank.Box"
+          }
+          {
+            name "n"
+            type "app.Sized?"
+          }
+        ]
+        result "shown"
+        returns "string"
+      }
+      "bank.Card.size" {
+        parameters [
+          {
+            name "of"
+            type "bank.Card"
+          }
+        ]
+        result 4
+        returns "int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            value {
+              as {
+                of {
+                  record {
+                    n 1
+                  }
+                }
+                type "bank.Box"
+              }
+            }
+          }
+          {
+            let "c"
+            value {
+              as {
+                of {
+                  record {
+                    last "4"
+                  }
+                }
+                type "bank.Card"
+              }
+            }
+          }
+          {
+            let "s"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "b"
+                  }
+                  {
+                    ref "c"
+                  }
+                ]
+                procedure "app.Shown.show"
+              }
+            }
+          }
+        ]
+        result "ok"
+      }
+    }
+    satisfies {
+      "bank.Box" [
+        "app.Shown"
+      ]
+      "bank.Card" [
+        "app.Sized"
+      ]
+    }
+    types {
+      "bank.Box" {
+        record {
+          n "int"
+        }
+      }
+      "bank.Card" {
+        record {
+          last "string"
+        }
+      }
+      "bank.Coin" {
+        record {
+          cents "int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

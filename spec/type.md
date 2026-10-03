@@ -184,7 +184,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-contract-stands-where-a-type-is-written`
 - `a-declaration-answering-a-contract-answering-any-may-answer-its-parameter`
 - `a-declaration-answering-a-contract-fills-its-own-parameter-with-the-contracts`
+- `a-declaration-answering-a-contract-may-answer-a-contract-where-it-promises-it-or-null`
 - `a-declaration-answering-a-contract-may-take-a-contract-every-member-of-its-membership-answers`
+- `a-declaration-answering-a-contract-may-take-a-contract-or-null-where-it-writes-the-contract`
 - `a-declaration-answering-a-contract-may-take-a-value-where-it-hands-a-place`
 - `a-declaration-answering-a-contract-may-take-a-wider-type`
 - `a-declaration-answering-a-contract-may-take-any-where-it-writes-a-contract`
@@ -204,6 +206,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-declaration-answering-a-contract-with-another-answer-refuses`
 - `a-declaration-answering-a-contract-with-another-contract-where-it-writes-a-contract-refuses`
 - `a-declaration-answering-a-contract-with-its-own-parameter-for-a-type-refuses`
+- `a-declaration-answering-a-contract-with-what-may-be-null-where-it-answers-a-contract-refuses`
 - `a-declaration-answering-one-without-returns-refuses`
 - `a-declaration-no-claim-names-is-its-documents-own-procedure`
 - `a-declaration-writing-no-returns-backs-a-claim-by-what-its-body-answers`
