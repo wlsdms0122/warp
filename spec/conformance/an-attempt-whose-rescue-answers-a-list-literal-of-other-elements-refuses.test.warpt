@@ -1,0 +1,116 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "an-attempt-whose-rescue-answers-a-list-literal-of-other-elements-refuses"
+  note "A variable declared `array<dictionary<array<string>>>` is set to an attempt whose body answers a list that fits and whose rescue answers `[{ a: [] }, { a: [1] }]`. The rescue is a way the attempt writes on, so its answer is held to the declaration on its own and refuses at the build, though this run never takes it."
+  program {
+    imports [
+      "std.collection.count"
+      "std.control.abort"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            type "array<dictionary<array<string>>>"
+            value [
+              {
+                record {
+                  a []
+                }
+              }
+              {
+                record {
+                  a [
+                    "s"
+                  ]
+                }
+              }
+            ]
+            var "ys"
+          }
+          {
+            set "ys"
+            value {
+              attempt {
+                body [
+                  {
+                    value {
+                      conditional {
+                        then [
+                          {
+                            value {
+                              call {
+                                arguments [
+                                  "x"
+                                ]
+                                procedure "std.control.abort"
+                              }
+                            }
+                          }
+                        ]
+                        when false
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  result [
+                    {
+                      record {
+                        a []
+                      }
+                    }
+                    {
+                      record {
+                        a [
+                          1
+                        ]
+                      }
+                    }
+                  ]
+                }
+                result [
+                  {
+                    record {
+                      a []
+                    }
+                  }
+                  {
+                    record {
+                      a [
+                        "s"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+          {
+            let "n"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "ys"
+                  }
+                ]
+                procedure "std.collection.count"
+              }
+            }
+          }
+        ]
+        result {
+          ref "n"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
