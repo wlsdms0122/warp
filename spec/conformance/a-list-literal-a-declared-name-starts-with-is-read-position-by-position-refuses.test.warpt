@@ -1,0 +1,57 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-list-literal-a-declared-name-starts-with-is-read-position-by-position-refuses"
+  note "ys declares array<dictionary<array<string>>> and starts as [{ a: [] }, { a: [1] }]. The start value is held to the declaration as a later write is, its elements joined position by position, so the record whose a holds a number refuses at the build."
+  program {
+    imports [
+      "std.collection.count"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            type "array<dictionary<array<string>>>"
+            value [
+              {
+                record {
+                  a []
+                }
+              }
+              {
+                record {
+                  a [
+                    1
+                  ]
+                }
+              }
+            ]
+            var "ys"
+          }
+          {
+            let "n"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "ys"
+                  }
+                ]
+                procedure "std.collection.count"
+              }
+            }
+          }
+        ]
+        result {
+          ref "n"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,177 @@
+warpt 1
+{
+  expect {
+    answers 2
+  }
+  name "a-list-literal-of-an-empty-list-and-text-is-taken-by-every-slot"
+  note "[{ a: [] }, { a: [\"s\"] }] is a declared name's start value, a called value's argument, a declaration's argument and its result, each slot declaring array<dictionary<array<string>>>. The empty list holds no element, so every slot takes the literal and the program answers the count."
+  program {
+    imports [
+      "std.collection.count"
+    ]
+    procedures {
+      "app.g" {
+        body [
+          {
+            let "k"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "xs"
+                  }
+                ]
+                procedure "std.collection.count"
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "xs"
+            type "array<dictionary<array<string>>>"
+          }
+        ]
+        result [
+          {
+            record {
+              a []
+            }
+          }
+          {
+            record {
+              a [
+                "s"
+              ]
+            }
+          }
+        ]
+        returns "array<dictionary<array<string>>>"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            type "array<dictionary<array<string>>>"
+            value [
+              {
+                record {
+                  a []
+                }
+              }
+              {
+                record {
+                  a [
+                    "s"
+                  ]
+                }
+              }
+            ]
+            var "ys"
+          }
+          {
+            let "f"
+            value {
+              closure {
+                body [
+                  {
+                    let "k"
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "xs"
+                          }
+                        ]
+                        procedure "std.collection.count"
+                      }
+                    }
+                  }
+                ]
+                parameters [
+                  {
+                    name "xs"
+                    type "array<dictionary<array<string>>>"
+                  }
+                ]
+                result {
+                  ref "k"
+                }
+                returns "int"
+              }
+            }
+          }
+          {
+            let "a"
+            value {
+              call {
+                arguments [
+                  [
+                    {
+                      record {
+                        a []
+                      }
+                    }
+                    {
+                      record {
+                        a [
+                          "s"
+                        ]
+                      }
+                    }
+                  ]
+                ]
+                procedure {
+                  ref "f"
+                }
+              }
+            }
+          }
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  [
+                    {
+                      record {
+                        a []
+                      }
+                    }
+                    {
+                      record {
+                        a [
+                          "s"
+                        ]
+                      }
+                    }
+                  ]
+                ]
+                procedure "app.g"
+              }
+            }
+          }
+          {
+            let "n"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "r"
+                  }
+                ]
+                procedure "std.collection.count"
+              }
+            }
+          }
+        ]
+        result {
+          ref "n"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

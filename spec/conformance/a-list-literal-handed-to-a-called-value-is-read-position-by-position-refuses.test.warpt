@@ -1,0 +1,84 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-list-literal-handed-to-a-called-value-is-read-position-by-position-refuses"
+  note "f takes array<dictionary<array<string>>>, and [{ a: [] }, { a: [1] }] is handed to it. A parameter of a called value holds what is written into it as a declared name does, so the build refuses the call."
+  program {
+    imports [
+      "std.collection.count"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "f"
+            value {
+              closure {
+                body [
+                  {
+                    let "k"
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "xs"
+                          }
+                        ]
+                        procedure "std.collection.count"
+                      }
+                    }
+                  }
+                ]
+                parameters [
+                  {
+                    name "xs"
+                    type "array<dictionary<array<string>>>"
+                  }
+                ]
+                result {
+                  ref "k"
+                }
+                returns "int"
+              }
+            }
+          }
+          {
+            let "n"
+            value {
+              call {
+                arguments [
+                  [
+                    {
+                      record {
+                        a []
+                      }
+                    }
+                    {
+                      record {
+                        a [
+                          1
+                        ]
+                      }
+                    }
+                  ]
+                ]
+                procedure {
+                  ref "f"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "n"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
