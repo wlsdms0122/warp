@@ -381,7 +381,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-variable-a-generic-closure-writes-when-called-through-a-procedure-type-is-judged-refuses`
 - `a-variable-handed-back-in-place-is-judged-when-the-call-fails-refuses`
 - `a-variable-handed-in-place-that-a-closure-writes-is-judged-refuses`
+- `a-variable-written-into-memberships-that-name-each-other-as-nullable-refuses`
 - `a-variable-written-into-memberships-that-name-each-other-refuses`
+- `a-variable-written-into-memberships-that-name-each-other-through-a-type-name-refuses`
 - `a-whole-number-is-a-fraction`
 - `a-witness-may-write-another-name-for-the-record-a-contract-names`
 - `an-alias-of-a-contract-answers-the-contract`
