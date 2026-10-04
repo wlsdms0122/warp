@@ -1,0 +1,45 @@
+warpt 1
+{
+  expect {
+    answers [
+      [
+        1
+      ]
+      2
+    ]
+  }
+  name "a-membership-holding-a-list-of-itself-takes-a-nested-list-of-its-members"
+  note "`app.M` admits `int` and `array<app.M>`. `[[1], 2]` is a list whose parts are each a value of `app.M`, the inner list asked of `app.M` as a literal of its own, so the variable holds it."
+  program {
+    constraints {
+      "app.M" [
+        "int"
+        "array<app.M>"
+      ]
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            type "app.M"
+            value [
+              [
+                1
+              ]
+              2
+            ]
+            var "x"
+          }
+        ]
+        result {
+          ref "x"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

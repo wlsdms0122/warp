@@ -63,7 +63,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-list-literal-of-other-kinds-written-into-a-list-refuses`
 - `a-list-literal-of-other-kinds-written-into-a-membership-refuses`
 - `a-list-literal-written-into-a-declared-variable-is-read-position-by-position-refuses`
-- `a-list-literal-written-into-memberships-that-name-each-other-is-held-where-one-comes-back`
 - `a-list-of-records-handed-to-a-call-is-read-field-by-field-refuses`
 - `a-list-of-records-wider-than-a-record-type-is-taken`
 - `a-name-not-in-normal-form-c-is-refused`
