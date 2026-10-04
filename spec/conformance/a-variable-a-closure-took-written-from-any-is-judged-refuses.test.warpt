@@ -1,0 +1,85 @@
+warpt 1
+{
+  expect {
+    refuses "run"
+  }
+  name "a-variable-a-closure-took-written-from-any-is-judged-refuses"
+  note "app.g keeps x in cell, a closure takes cell, and the body writes junk, read as any, into it. cell still reads as T, so the body proves nothing and the call judges its answer, and the string refuses at the run."
+  program {
+    imports []
+    procedures {
+      "app.g" {
+        body [
+          {
+            value {
+              ref "x"
+            }
+            var "cell"
+          }
+          {
+            let "c"
+            value {
+              closure {
+                body [
+                  {
+                    let "k"
+                    value {
+                      ref "cell"
+                    }
+                  }
+                ]
+                result {
+                  ref "k"
+                }
+                returns "some T"
+              }
+            }
+          }
+          {
+            set "cell"
+            value {
+              ref "junk"
+            }
+          }
+        ]
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+          {
+            name "junk"
+            type "any"
+          }
+        ]
+        result {
+          ref "cell"
+        }
+        returns "some T"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  1
+                  "s"
+                ]
+                procedure "app.g"
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

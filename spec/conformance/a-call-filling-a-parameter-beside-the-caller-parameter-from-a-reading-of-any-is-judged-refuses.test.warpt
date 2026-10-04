@@ -1,0 +1,90 @@
+warpt 1
+{
+  expect {
+    refuses "run"
+  }
+  name "a-call-filling-a-parameter-beside-the-caller-parameter-from-a-reading-of-any-is-judged-refuses"
+  note "app.g answers app.pick([n], j), with j read as array<any>, which fills E as array<some T>. j is not a value of it, so the call judges the answer, and the string in j refuses at the run."
+  program {
+    imports []
+    procedures {
+      "app.g" {
+        body [
+          {
+            let "p"
+            value {
+              call {
+                arguments [
+                  [
+                    {
+                      ref "n"
+                    }
+                  ]
+                  {
+                    ref "j"
+                  }
+                ]
+                procedure "app.pick"
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "n"
+            type "some T"
+          }
+          {
+            name "j"
+            type "array<any>"
+          }
+        ]
+        result {
+          ref "p"
+        }
+        returns "array<some T>"
+      }
+      "app.pick" {
+        parameters [
+          {
+            name "a"
+            type "some E"
+          }
+          {
+            name "b"
+            type "some E"
+          }
+        ]
+        result {
+          ref "b"
+        }
+        returns "some E"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  1
+                  [
+                    "s"
+                  ]
+                ]
+                procedure "app.g"
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

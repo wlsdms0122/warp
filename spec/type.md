@@ -160,6 +160,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-break-does-not-excuse-the-arm-it-leaves-from`
 - `a-break-does-not-strand-what-the-body-holds`
 - `a-byte-is-a-whole-number-a-range-refines`
+- `a-call-filling-a-parameter-beside-the-caller-parameter-from-a-member-value-is-judged-refuses`
+- `a-call-filling-a-parameter-beside-the-caller-parameter-from-a-reading-of-any-is-judged-refuses`
 - `a-call-filling-a-parameter-from-a-variable-held-in-place-takes-a-value-of-that-parameter`
 - `a-call-filling-a-parameter-from-a-variable-held-in-place-takes-no-value-its-members-take-refuses`
 - `a-call-through-a-contract-with-nothing-first-refuses`
@@ -263,6 +265,10 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-linear-value-is-handed-on`
 - `a-linear-value-that-is-dropped-refuses`
 - `a-linear-value-written-into-a-box-inside-an-attempt-refuses`
+- `a-list-a-closure-hands-in-place-to-a-call-is-judged-refuses`
+- `a-list-of-a-parameter-handed-in-place-beside-a-member-value-is-judged-refuses`
+- `a-list-of-a-parameter-rewritten-with-a-member-value-is-judged-refuses`
+- `a-local-list-of-a-parameter-handed-in-place-beside-a-member-value-answers`
 - `a-mark-where-nothing-is-linear-refuses`
 - `a-member-that-is-a-type-parameter-refuses`
 - `a-member-that-is-any-refuses`
@@ -280,10 +286,14 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-name-that-is-not-a-bound-joined-with-and-refuses`
 - `a-named-list-handed-where-a-list-of-a-contract-stands-is-held-to-it`
 - `a-named-record-arrives-as-an-argument`
+- `a-native-call-filling-a-parameter-beside-the-caller-parameter-from-a-member-value-answers`
+- `a-native-call-filling-a-parameter-beside-the-caller-parameter-from-a-member-value-is-judged-refuses`
 - `a-nullable-of-a-linear-type-refuses`
 - `a-nullable-that-says-nothing-new-behind-a-name-refuses`
 - `a-nullable-that-says-nothing-new-refuses`
 - `a-padded-bound-refuses`
+- `a-parameter-handed-in-place-handed-on-beside-an-empty-list-answers`
+- `a-parameter-handed-in-place-handed-on-to-a-generic-beside-an-empty-list-answers`
 - `a-parameter-handed-in-place-holding-a-dictionary-of-a-parameter-takes-a-record-of-it`
 - `a-parameter-handed-in-place-holding-a-list-of-a-parameter-or-null-takes-a-list-of-it`
 - `a-parameter-handed-in-place-holding-a-list-of-a-parameter-or-null-takes-null`
@@ -297,6 +307,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-parameter-read-as-dictionaries-of-a-record-and-of-a-nameless-one-is-a-dictionary-of-the-nameless-one-refuses`
 - `a-parameter-read-as-lists-of-a-record-and-of-a-nameless-one-is-a-list-of-the-nameless-one`
 - `a-parameter-read-as-ranges-of-two-kinds-is-the-looser-kind`
+- `a-path-written-from-any-into-a-list-of-a-parameter-is-judged-refuses`
+- `a-path-written-with-a-member-value-into-a-list-of-a-parameter-is-judged-refuses`
 - `a-procedure-type-answering-a-linear-type-refuses`
 - `a-range-below-the-smallest-int-admits-nothing`
 - `a-range-judges-a-runtime-value-at-the-boundary`
@@ -338,7 +350,12 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-value-written-into-a-box-inside-a-loop-refuses`
 - `a-value-written-into-a-box-is-still-owed`
 - `a-value-written-into-a-list-element-refuses`
+- `a-variable-a-closure-took-written-from-any-is-judged-refuses`
+- `a-variable-a-closure-writes-from-any-is-judged-refuses`
+- `a-variable-a-closure-writes-with-a-value-of-the-parameter-answers`
+- `a-variable-a-generic-closure-writes-when-called-through-a-procedure-type-is-judged-refuses`
 - `a-variable-handed-back-in-place-is-judged-when-the-call-fails-refuses`
+- `a-variable-handed-in-place-that-a-closure-writes-is-judged-refuses`
 - `a-whole-number-is-a-fraction`
 - `a-witness-may-write-another-name-for-the-record-a-contract-names`
 - `an-alias-of-a-contract-answers-the-contract`

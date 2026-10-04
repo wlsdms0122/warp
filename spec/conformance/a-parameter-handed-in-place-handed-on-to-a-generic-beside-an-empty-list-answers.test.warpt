@@ -1,0 +1,104 @@
+warpt 1
+{
+  expect {
+    answers [
+      "b"
+    ]
+  }
+  name "a-parameter-handed-in-place-handed-on-to-a-generic-beside-an-empty-list-answers"
+  note "app.g hands xs, a list of T handed in place, on to app.put beside []. An empty list holds no element, so it is a value of array<some T>, and the caller's list is empty before it appends b."
+  program {
+    imports [
+      "std.collection.append"
+    ]
+    procedures {
+      "app.g" {
+        body [
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "xs"
+                  }
+                  []
+                ]
+                procedure "app.put"
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "xs"
+            type "inout array<some T>"
+          }
+        ]
+        result 0
+      }
+      "app.put" {
+        body [
+          {
+            set "a"
+            value {
+              ref "b"
+            }
+          }
+        ]
+        parameters [
+          {
+            name "a"
+            type "inout some U"
+          }
+          {
+            name "b"
+            type "some U"
+          }
+        ]
+        result 0
+      }
+      entry {
+        access "public"
+        body [
+          {
+            value [
+              "a"
+            ]
+            var "s"
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "s"
+                  }
+                ]
+                procedure "app.g"
+              }
+            }
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "s"
+                  }
+                  "b"
+                ]
+                procedure "std.collection.append"
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

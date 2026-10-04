@@ -1,0 +1,75 @@
+warpt 1
+{
+  expect {
+    answers [
+      [
+        "a"
+      ]
+      []
+    ]
+  }
+  name "a-parameter-handed-in-place-handed-on-beside-an-empty-list-answers"
+  note "app.g appends [] to xs, a list of lists of T handed in place. An empty list holds no element, so it is a value of array<some T> as a write would take it, and the caller reads its list with an empty list added."
+  program {
+    imports [
+      "std.collection.append"
+    ]
+    procedures {
+      "app.g" {
+        body [
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "xs"
+                  }
+                  []
+                ]
+                procedure "std.collection.append"
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "xs"
+            type "inout array<array<some T>>"
+          }
+        ]
+        result 0
+      }
+      entry {
+        access "public"
+        body [
+          {
+            value [
+              [
+                "a"
+              ]
+            ]
+            var "s"
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "s"
+                  }
+                ]
+                procedure "app.g"
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
