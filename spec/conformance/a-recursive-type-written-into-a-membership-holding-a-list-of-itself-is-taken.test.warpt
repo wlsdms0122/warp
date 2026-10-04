@@ -1,0 +1,54 @@
+warpt 1
+{
+  expect {
+    answers [
+      []
+    ]
+  }
+  name "a-recursive-type-written-into-a-membership-holding-a-list-of-itself-is-taken"
+  note "`app.M` admits `int` and `array<app.M>`, and `app.Tree` is `array<app.Tree>`. A name read as `app.Tree` is a list whose elements are again `app.Tree`, so asking `app.M` of an element comes back through the name to the same question, which holds the way two recursive types meeting do, and the variable takes it."
+  program {
+    constraints {
+      "app.M" [
+        "int"
+        "array<app.M>"
+      ]
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "t"
+            type "app.Tree"
+            value {
+              as {
+                of [
+                  []
+                ]
+                type "app.Tree"
+              }
+            }
+          }
+          {
+            type "app.M"
+            value {
+              ref "t"
+            }
+            var "x"
+          }
+        ]
+        result {
+          ref "x"
+        }
+      }
+    }
+    types {
+      "app.Tree" "array<app.Tree>"
+    }
+    warp 1
+  }
+  test 1
+}
+

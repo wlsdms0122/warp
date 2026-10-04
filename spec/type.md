@@ -345,6 +345,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-record-type-may-name-a-field-for-a-form`
 - `a-record-under-another-name-refuses`
 - `a-record-under-another-name-refuses-through-any`
+- `a-recursive-type-written-into-a-membership-holding-a-list-of-itself-is-taken`
 - `a-return-answering-one-without-returns-refuses`
 - `a-row-of-readings-of-any-appended-to-a-table-of-text-refuses`
 - `a-signed-bound-refuses`
@@ -380,6 +381,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-variable-a-generic-closure-writes-when-called-through-a-procedure-type-is-judged-refuses`
 - `a-variable-handed-back-in-place-is-judged-when-the-call-fails-refuses`
 - `a-variable-handed-in-place-that-a-closure-writes-is-judged-refuses`
+- `a-variable-written-into-memberships-that-name-each-other-refuses`
 - `a-whole-number-is-a-fraction`
 - `a-witness-may-write-another-name-for-the-record-a-contract-names`
 - `an-alias-of-a-contract-answers-the-contract`
@@ -396,6 +398,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-inout-type-parameter-a-variable-fills-first-reads-the-value`
 - `an-unsaid-generic-answer-carried-through-another-is-judged-where-the-call-reads-it-refuses`
 - `any-written-nullable-refuses`
+- `bytes-arriving-into-a-membership-holding-a-list-of-itself-refuses`
 - `consuming-on-a-type-parameter-refuses`
 - `inout-written-on-a-name-refuses`
 - `inout-written-on-returns-refuses`
