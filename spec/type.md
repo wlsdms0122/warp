@@ -295,6 +295,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-parameter-handed-in-place-handed-on-beside-a-list-of-an-empty-list-answers`
 - `a-parameter-handed-in-place-handed-on-beside-an-empty-list-and-a-list-of-it-answers`
 - `a-parameter-handed-in-place-handed-on-beside-an-empty-list-answers`
+- `a-parameter-handed-in-place-handed-on-beside-records-of-it-and-of-an-empty-list-answers`
 - `a-parameter-handed-in-place-handed-on-to-a-generic-beside-an-empty-list-answers`
 - `a-parameter-handed-in-place-holding-a-dictionary-of-a-parameter-takes-a-record-of-it`
 - `a-parameter-handed-in-place-holding-a-dictionary-of-lists-of-a-parameter-takes-a-record-of-an-empty-list`
@@ -302,8 +303,10 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-parameter-handed-in-place-holding-a-list-of-a-parameter-or-null-takes-null`
 - `a-parameter-handed-in-place-holding-a-list-of-a-parameter-takes-an-empty-list`
 - `a-parameter-handed-in-place-holding-a-procedure-of-a-parameter-takes-a-closure-of-it`
+- `a-parameter-handed-in-place-holding-dictionaries-of-lists-of-a-parameter-takes-records-of-an-empty-list-and-of-it`
 - `a-parameter-handed-in-place-holding-lists-of-a-parameter-takes-a-list-of-an-empty-list`
 - `a-parameter-handed-in-place-holding-lists-of-a-parameter-takes-an-empty-list-beside-a-list-of-it`
+- `a-parameter-handed-in-place-holding-nullable-dictionaries-of-lists-of-a-parameter-takes-null-and-a-record-of-an-empty-list`
 - `a-parameter-handed-in-place-takes-no-reading-of-any-refuses`
 - `a-parameter-handed-in-place-takes-no-value-its-members-take-refuses`
 - `a-parameter-naming-a-type-nothing-declares-refuses`

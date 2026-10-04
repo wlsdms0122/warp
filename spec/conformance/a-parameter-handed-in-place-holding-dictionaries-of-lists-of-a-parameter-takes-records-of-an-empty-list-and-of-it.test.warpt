@@ -1,0 +1,97 @@
+warpt 1
+{
+  expect {
+    answers [
+      {
+        k []
+      }
+      {
+        k [
+          "b"
+        ]
+      }
+    ]
+  }
+  name "a-parameter-handed-in-place-holding-dictionaries-of-lists-of-a-parameter-takes-records-of-an-empty-list-and-of-it"
+  note "app.g writes [{ k: [] }, { k: [x] }] into xs, a list of dictionaries of lists of T handed in place, where x is its own some T. The two records are taken field by field, and the empty list beside the list of x holds no element, so the literal is a value of array<dictionary<array<some T>>>."
+  program {
+    imports []
+    procedures {
+      "app.g" {
+        body [
+          {
+            set "xs"
+            value [
+              {
+                record {
+                  k []
+                }
+              }
+              {
+                record {
+                  k [
+                    {
+                      ref "x"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+        parameters [
+          {
+            name "xs"
+            type "inout array<dictionary<array<some T>>>"
+          }
+          {
+            name "x"
+            type "some T"
+          }
+        ]
+        result 0
+      }
+      entry {
+        access "public"
+        body [
+          {
+            value {
+              as {
+                of [
+                  {
+                    record {
+                      k [
+                        "a"
+                      ]
+                    }
+                  }
+                ]
+                type "array<dictionary<array<string>>>"
+              }
+            }
+            var "s"
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "s"
+                  }
+                  "b"
+                ]
+                procedure "app.g"
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
