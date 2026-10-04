@@ -267,6 +267,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-linear-value-that-is-dropped-refuses`
 - `a-linear-value-written-into-a-box-inside-an-attempt-refuses`
 - `a-list-a-closure-hands-in-place-to-a-call-is-judged-refuses`
+- `a-list-literal-a-parameter-of-a-membership-answers-is-read-part-by-part-refuses`
 - `a-list-of-a-parameter-handed-in-place-beside-a-member-value-is-judged-refuses`
 - `a-list-of-a-parameter-rewritten-with-a-member-value-is-judged-refuses`
 - `a-list-of-a-reading-of-any-behind-a-name-handed-beside-a-variable-in-place-refuses`

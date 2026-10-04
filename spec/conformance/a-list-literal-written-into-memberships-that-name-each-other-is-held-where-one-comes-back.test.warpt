@@ -1,0 +1,40 @@
+warpt 1
+{
+  expect {
+    answers 0
+  }
+  name "a-list-literal-written-into-memberships-that-name-each-other-is-held-where-one-comes-back"
+  note "`app.M` admits `app.N` and `array<int>`, and `app.N` admits `app.M` and `bool`. A variable declared `app.M` starts with `[1, \"s\"]`. Asking `app.N` for it asks `app.M` again, which holds there as a membership already being asked does, so the build ends and the run admits it the same way."
+  program {
+    constraints {
+      "app.M" [
+        "app.N"
+        "array<int>"
+      ]
+      "app.N" [
+        "app.M"
+        "bool"
+      ]
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            type "app.M"
+            value [
+              1
+              "s"
+            ]
+            var "x"
+          }
+        ]
+        result 0
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
