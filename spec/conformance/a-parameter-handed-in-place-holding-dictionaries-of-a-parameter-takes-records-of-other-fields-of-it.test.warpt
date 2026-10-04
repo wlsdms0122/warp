@@ -1,0 +1,107 @@
+warpt 1
+{
+  expect {
+    answers [
+      {
+        a [
+          "b"
+        ]
+      }
+      {
+        b [
+          "b"
+          "b"
+        ]
+      }
+    ]
+  }
+  name "a-parameter-handed-in-place-holding-dictionaries-of-a-parameter-takes-records-of-other-fields-of-it"
+  note "app.g writes [{ a: [x] }, { b: [x, x] }] into xs, a list of dictionaries of lists of T handed in place. Each record is a dictionary of lists of its own some T, though the two are not one type, so the literal is a value of array<dictionary<array<some T>>>."
+  program {
+    imports []
+    procedures {
+      "app.g" {
+        body [
+          {
+            set "xs"
+            value [
+              {
+                record {
+                  a [
+                    {
+                      ref "x"
+                    }
+                  ]
+                }
+              }
+              {
+                record {
+                  b [
+                    {
+                      ref "x"
+                    }
+                    {
+                      ref "x"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+        parameters [
+          {
+            name "xs"
+            type "inout array<dictionary<array<some T>>>"
+          }
+          {
+            name "x"
+            type "some T"
+          }
+        ]
+        result 0
+      }
+      entry {
+        access "public"
+        body [
+          {
+            value {
+              as {
+                of [
+                  {
+                    record {
+                      k [
+                        "a"
+                      ]
+                    }
+                  }
+                ]
+                type "array<dictionary<array<string>>>"
+              }
+            }
+            var "s"
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "s"
+                  }
+                  "b"
+                ]
+                procedure "app.g"
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

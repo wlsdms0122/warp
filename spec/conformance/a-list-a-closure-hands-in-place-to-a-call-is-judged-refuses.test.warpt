@@ -1,0 +1,129 @@
+warpt 1
+{
+  expect {
+    refuses "run"
+  }
+  name "a-list-a-closure-hands-in-place-to-a-call-is-judged-refuses"
+  note "A closure in app.g appends its parameter to cell, a list of T, and is called through a cast with a string. The body answers cell, so the call judges it, and the string refuses at the run."
+  program {
+    imports [
+      "std.collection.append"
+    ]
+    procedures {
+      "app.g" {
+        body [
+          {
+            value [
+              {
+                ref "x"
+              }
+            ]
+            var "cell"
+          }
+          {
+            let "c"
+            value {
+              closure {
+                body [
+                  {
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "cell"
+                          }
+                          {
+                            ref "y"
+                          }
+                        ]
+                        procedure "std.collection.append"
+                      }
+                    }
+                  }
+                ]
+                parameters [
+                  {
+                    name "y"
+                    type "some T"
+                  }
+                ]
+                result 0
+                returns "int"
+              }
+            }
+          }
+          {
+            let "a"
+            type "any"
+            value {
+              ref "c"
+            }
+          }
+          {
+            let "h"
+            value {
+              as {
+                of {
+                  ref "a"
+                }
+                type {
+                  procedure {
+                    parameters [
+                      "string"
+                    ]
+                    returns "int"
+                  }
+                }
+              }
+            }
+          }
+          {
+            let "z"
+            value {
+              call {
+                arguments [
+                  "s"
+                ]
+                procedure {
+                  ref "h"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+        ]
+        result {
+          ref "cell"
+        }
+        returns "array<some T>"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  1
+                ]
+                procedure "app.g"
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,69 @@
+warpt 1
+{
+  expect {
+    answers 3.5
+  }
+  name "a-native-call-filling-a-parameter-beside-the-caller-parameter-from-a-member-value-answers"
+  note "app.g answers std.math.plus(n, 1) with n 2.5. The call judges the answer against double, which holds 3.5."
+  program {
+    imports [
+      "std.Numeric"
+      "std.math.plus"
+    ]
+    procedures {
+      "app.g" {
+        body [
+          {
+            let "p"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "n"
+                  }
+                  1
+                ]
+                procedure "std.math.plus"
+              }
+            }
+          }
+        ]
+        bounds {
+          T "std.Numeric"
+        }
+        parameters [
+          {
+            name "n"
+            type "some T"
+          }
+        ]
+        result {
+          ref "p"
+        }
+        returns "some T"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  2.5
+                ]
+                procedure "app.g"
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

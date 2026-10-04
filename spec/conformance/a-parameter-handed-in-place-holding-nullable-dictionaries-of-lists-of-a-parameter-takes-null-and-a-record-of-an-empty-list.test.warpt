@@ -1,0 +1,80 @@
+warpt 1
+{
+  expect {
+    answers [
+      null
+      {
+        k []
+      }
+    ]
+  }
+  name "a-parameter-handed-in-place-holding-nullable-dictionaries-of-lists-of-a-parameter-takes-null-and-a-record-of-an-empty-list"
+  note "app.g writes [null, { k: [] }] into xs, a list of dictionaries of lists of T or null, handed in place. Null beside the record is what may be null, and the empty list in the record holds no element, so the literal is a value of array<dictionary<array<some T>>?>."
+  program {
+    imports []
+    procedures {
+      "app.g" {
+        body [
+          {
+            set "xs"
+            value [
+              null
+              {
+                record {
+                  k []
+                }
+              }
+            ]
+          }
+        ]
+        parameters [
+          {
+            name "xs"
+            type "inout array<dictionary<array<some T>>?>"
+          }
+        ]
+        result 0
+      }
+      entry {
+        access "public"
+        body [
+          {
+            value {
+              as {
+                of [
+                  {
+                    record {
+                      k [
+                        "a"
+                      ]
+                    }
+                  }
+                ]
+                type "array<dictionary<array<string>>?>"
+              }
+            }
+            var "s"
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "s"
+                  }
+                ]
+                procedure "app.g"
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

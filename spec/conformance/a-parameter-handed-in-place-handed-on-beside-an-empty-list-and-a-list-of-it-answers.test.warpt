@@ -1,0 +1,106 @@
+warpt 1
+{
+  expect {
+    answers [
+      []
+      [
+        "b"
+      ]
+    ]
+  }
+  name "a-parameter-handed-in-place-handed-on-beside-an-empty-list-and-a-list-of-it-answers"
+  note "app.g hands xs, a list of lists of T handed in place, on to app.put beside [[], [x]], where x is its own some T. The empty list holds no element, so the literal is a value of array<array<some T>>, and the caller reads both lists."
+  program {
+    imports []
+    procedures {
+      "app.g" {
+        body [
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "xs"
+                  }
+                  [
+                    []
+                    [
+                      {
+                        ref "x"
+                      }
+                    ]
+                  ]
+                ]
+                procedure "app.put"
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "xs"
+            type "inout array<array<some T>>"
+          }
+          {
+            name "x"
+            type "some T"
+          }
+        ]
+        result 0
+      }
+      "app.put" {
+        body [
+          {
+            set "a"
+            value {
+              ref "b"
+            }
+          }
+        ]
+        parameters [
+          {
+            name "a"
+            type "inout some U"
+          }
+          {
+            name "b"
+            type "some U"
+          }
+        ]
+        result 0
+      }
+      entry {
+        access "public"
+        body [
+          {
+            value [
+              [
+                "a"
+              ]
+            ]
+            var "s"
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "s"
+                  }
+                  "b"
+                ]
+                procedure "app.g"
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

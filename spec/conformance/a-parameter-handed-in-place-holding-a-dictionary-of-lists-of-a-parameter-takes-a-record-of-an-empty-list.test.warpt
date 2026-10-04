@@ -1,0 +1,72 @@
+warpt 1
+{
+  expect {
+    answers {
+      k []
+    }
+  }
+  name "a-parameter-handed-in-place-holding-a-dictionary-of-lists-of-a-parameter-takes-a-record-of-an-empty-list"
+  note "app.g writes { k: [] } into d, a dictionary of lists of T handed in place. The empty list in the field holds no element, so the record is a value of dictionary<array<some T>>, and the caller reads k as an empty list."
+  program {
+    imports []
+    procedures {
+      "app.g" {
+        body [
+          {
+            set "d"
+            value {
+              record {
+                k []
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "d"
+            type "inout dictionary<array<some T>>"
+          }
+        ]
+        result 0
+      }
+      entry {
+        access "public"
+        body [
+          {
+            value {
+              as {
+                of {
+                  record {
+                    k [
+                      "a"
+                    ]
+                  }
+                }
+                type "dictionary<array<string>>"
+              }
+            }
+            var "s"
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "s"
+                  }
+                ]
+                procedure "app.g"
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
