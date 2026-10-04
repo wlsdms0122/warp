@@ -1,0 +1,61 @@
+warpt 1
+{
+  expect {
+    answers 2
+  }
+  name "a-literal-written-into-a-declared-variable-is-held-to-it-part-by-part"
+  note "ys declares array<dictionary<array<string>>>, and [{ a: [] }, { a: [\"s\"] }] is written into it. Each record is held to dictionary<array<string>> on its own, and the empty list holds no element, so the write is taken and the program answers the count."
+  program {
+    imports [
+      "std.collection.count"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            type "array<dictionary<array<string>>>"
+            value []
+            var "ys"
+          }
+          {
+            set "ys"
+            value [
+              {
+                record {
+                  a []
+                }
+              }
+              {
+                record {
+                  a [
+                    "s"
+                  ]
+                }
+              }
+            ]
+          }
+          {
+            let "n"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "ys"
+                  }
+                ]
+                procedure "std.collection.count"
+              }
+            }
+          }
+        ]
+        result {
+          ref "n"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
