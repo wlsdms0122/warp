@@ -1,0 +1,74 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-list-of-records-handed-to-a-call-is-read-field-by-field-refuses"
+  note "`app.g` takes a list of records whose field `a` is an int and is handed two records, one whose `a` is a string. Each record is held to the record type by the fields it names, so the string refuses at the build."
+  program {
+    imports []
+    procedures {
+      "app.g" {
+        parameters [
+          {
+            name "ps"
+            type {
+              array {
+                record {
+                  a "int"
+                }
+              }
+            }
+          }
+        ]
+        result 0
+        returns "int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "i"
+            value 1
+          }
+          {
+            let "t"
+            value "s"
+          }
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  [
+                    {
+                      record {
+                        a {
+                          ref "i"
+                        }
+                      }
+                    }
+                    {
+                      record {
+                        a {
+                          ref "t"
+                        }
+                      }
+                    }
+                  ]
+                ]
+                procedure "app.g"
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
