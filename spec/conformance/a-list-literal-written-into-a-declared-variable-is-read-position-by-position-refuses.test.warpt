@@ -1,0 +1,61 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-list-literal-written-into-a-declared-variable-is-read-position-by-position-refuses"
+  note "ys declares array<dictionary<array<string>>>, and [{ a: [] }, { a: [1] }] is written into it. The literal is read as its elements joined position by position, the empty list holding no element, so it holds a record whose a is a list of numbers, and the build refuses it where text is declared."
+  program {
+    imports [
+      "std.collection.count"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            type "array<dictionary<array<string>>>"
+            value []
+            var "ys"
+          }
+          {
+            set "ys"
+            value [
+              {
+                record {
+                  a []
+                }
+              }
+              {
+                record {
+                  a [
+                    1
+                  ]
+                }
+              }
+            ]
+          }
+          {
+            let "n"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "ys"
+                  }
+                ]
+                procedure "std.collection.count"
+              }
+            }
+          }
+        ]
+        result {
+          ref "n"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
