@@ -61,6 +61,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-list-literal-handed-to-a-called-value-is-read-position-by-position-refuses`
 - `a-list-literal-of-an-empty-list-and-text-is-taken-by-every-slot`
 - `a-list-literal-of-other-kinds-written-into-a-list-refuses`
+- `a-list-literal-of-other-kinds-written-into-a-membership-refuses`
 - `a-list-literal-written-into-a-declared-variable-is-read-position-by-position-refuses`
 - `a-list-of-records-handed-to-a-call-is-read-field-by-field-refuses`
 - `a-list-of-records-wider-than-a-record-type-is-taken`

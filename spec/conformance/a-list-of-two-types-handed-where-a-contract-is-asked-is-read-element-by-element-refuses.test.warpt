@@ -1,0 +1,118 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-list-of-two-types-handed-where-a-contract-is-asked-is-read-element-by-element-refuses"
+  note "`app.g` takes `array<app.Describable>` and is handed a list of a `bank.Account`, which answers the contract, and a `bank.Other`, which does not. Each element is held to the contract on its own, so `bank.Other` refuses at the build."
+  program {
+    contracts {
+      "app.Describable" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "app.Describable"
+            }
+          ]
+          returns "string"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "app.g" {
+        parameters [
+          {
+            name "xs"
+            type "array<app.Describable>"
+          }
+        ]
+        result 0
+        returns "int"
+      }
+      "bank.Account.describe" {
+        parameters [
+          {
+            name "of"
+            type "bank.Account"
+          }
+        ]
+        result "acct"
+        returns "string"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "a"
+            value {
+              as {
+                of {
+                  record {
+                    balance 1
+                  }
+                }
+                type "bank.Account"
+              }
+            }
+          }
+          {
+            let "o"
+            value {
+              as {
+                of {
+                  record {
+                    n 1
+                  }
+                }
+                type "bank.Other"
+              }
+            }
+          }
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  [
+                    {
+                      ref "a"
+                    }
+                    {
+                      ref "o"
+                    }
+                  ]
+                ]
+                procedure "app.g"
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+      }
+    }
+    satisfies {
+      "bank.Account" [
+        "app.Describable"
+      ]
+    }
+    types {
+      "bank.Account" {
+        record {
+          balance "int"
+        }
+      }
+      "bank.Other" {
+        record {
+          n "int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
