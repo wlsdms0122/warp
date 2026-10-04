@@ -1,0 +1,93 @@
+warpt 1
+{
+  expect {
+    answers [
+      []
+    ]
+  }
+  name "a-parameter-handed-in-place-handed-on-beside-a-list-of-an-empty-list-answers"
+  note "app.g hands xs, a list of lists of T handed in place, on to app.put beside [[]]. The empty list inside holds no element, so [[]] is a value of array<array<some T>> as a write would take it, and the caller reads a list holding one empty list."
+  program {
+    imports []
+    procedures {
+      "app.g" {
+        body [
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "xs"
+                  }
+                  [
+                    []
+                  ]
+                ]
+                procedure "app.put"
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "xs"
+            type "inout array<array<some T>>"
+          }
+        ]
+        result 0
+      }
+      "app.put" {
+        body [
+          {
+            set "a"
+            value {
+              ref "b"
+            }
+          }
+        ]
+        parameters [
+          {
+            name "a"
+            type "inout some U"
+          }
+          {
+            name "b"
+            type "some U"
+          }
+        ]
+        result 0
+      }
+      entry {
+        access "public"
+        body [
+          {
+            value [
+              [
+                "a"
+              ]
+            ]
+            var "s"
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "s"
+                  }
+                ]
+                procedure "app.g"
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

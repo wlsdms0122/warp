@@ -1,0 +1,63 @@
+warpt 1
+{
+  expect {
+    answers [
+      []
+    ]
+  }
+  name "a-parameter-handed-in-place-holding-lists-of-a-parameter-takes-a-list-of-an-empty-list"
+  note "app.g writes [[]] into xs, a list of lists of T handed in place. An empty list holds no element at whatever depth it stands, so [[]] is a value of array<array<some T>>, and the caller reads a list holding one empty list."
+  program {
+    imports []
+    procedures {
+      "app.g" {
+        body [
+          {
+            set "xs"
+            value [
+              []
+            ]
+          }
+        ]
+        parameters [
+          {
+            name "xs"
+            type "inout array<array<some T>>"
+          }
+        ]
+        result 0
+      }
+      entry {
+        access "public"
+        body [
+          {
+            value [
+              [
+                "a"
+              ]
+            ]
+            var "s"
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "s"
+                  }
+                ]
+                procedure "app.g"
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
