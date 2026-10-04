@@ -1,0 +1,74 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "an-optional-cast-to-a-list-of-a-type-parameter-refuses"
+  note "app.decode reads raw as? array<some T>. The optional cast names the same type, with a type parameter inside it, and the build refuses it the same way."
+  program {
+    imports []
+    procedures {
+      "app.decode" {
+        body [
+          {
+            let "y"
+            value {
+              "as?" {
+                of {
+                  ref "raw"
+                }
+                type "array<some T>"
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "sample"
+            type "some T"
+          }
+          {
+            name "raw"
+            type "any"
+          }
+        ]
+        result {
+          ref "y"
+        }
+        returns "array<some T>?"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "raw"
+            type "any"
+            value [
+              "7"
+            ]
+          }
+          {
+            let "xs"
+            value {
+              call {
+                arguments [
+                  0
+                  {
+                    ref "raw"
+                  }
+                ]
+                procedure "app.decode"
+              }
+            }
+          }
+        ]
+        result {
+          ref "xs"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
