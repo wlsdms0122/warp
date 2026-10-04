@@ -1,19 +1,10 @@
 warpt 1
 {
   expect {
-    answers [
-      {
-        a [
-          "b"
-        ]
-      }
-      {
-        b []
-      }
-    ]
+    refuses "build"
   }
-  name "a-parameter-handed-in-place-handed-on-beside-records-of-other-fields-answers"
-  note "app.g hands xs, a list of dictionaries of lists of T handed in place, on to app.put beside [{ a: [x] }, { b: [] }]. The literal beside it is judged part by part as a write would be, so the records of other fields are each a value of dictionary<array<some T>>, and the caller reads both."
+  name "a-parameter-handed-in-place-handed-on-beside-records-of-other-fields-refuses"
+  note "app.g hands xs, a list of dictionaries of lists of T handed in place, on to app.put beside [{ a: [x] }, { b: [] }]. A call reads each argument as one type to fill U, and two records of other fields read as one only as any, so U is read as any beside the variable it takes in place, which refuses the way a reading of any handed beside one does. Written into xs directly, the literal is judged part by part and taken."
   program {
     imports []
     procedures {

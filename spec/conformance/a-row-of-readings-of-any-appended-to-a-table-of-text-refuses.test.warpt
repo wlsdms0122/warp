@@ -1,0 +1,98 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-row-of-readings-of-any-appended-to-a-table-of-text-refuses"
+  note "std.collection.append fills Element from the table, a list of lists of text, and from [src.a, src.b], two reads of a dictionary<any>. A reading of any below the top makes its position any, as it does at the top, so Element reads array<any>, and the table handed in place is no list of it."
+  program {
+    imports [
+      "std.collection.append"
+      "std.collection.appending"
+      "std.collection.last"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "src"
+            value {
+              as {
+                of {
+                  record {
+                    a 1
+                    b "x"
+                  }
+                }
+                type "dictionary<any>"
+              }
+            }
+          }
+          {
+            value [
+              [
+                "h1"
+                "h2"
+              ]
+            ]
+            var "table"
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "table"
+                  }
+                  [
+                    {
+                      ref "src.a"
+                    }
+                    {
+                      ref "src.b"
+                    }
+                  ]
+                ]
+                procedure "std.collection.append"
+              }
+            }
+          }
+          {
+            let "row"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "table"
+                  }
+                ]
+                procedure "std.collection.last"
+              }
+            }
+          }
+          {
+            let "u"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "row"
+                  }
+                  "z"
+                ]
+                procedure "std.collection.appending"
+              }
+            }
+          }
+        ]
+        result {
+          ref "u"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

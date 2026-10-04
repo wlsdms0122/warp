@@ -1,0 +1,89 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-list-of-a-reading-of-any-handed-beside-a-variable-in-place-refuses"
+  note "app.put fills U from s, a list of text handed in place, and from [j], j read as any. U reads array<any>, which s is not, so the build refuses the call the way it refuses j handed beside s at the top."
+  program {
+    imports [
+      "std.collection.appending"
+    ]
+    procedures {
+      "app.put" {
+        body [
+          {
+            set "a"
+            value {
+              ref "b"
+            }
+          }
+        ]
+        parameters [
+          {
+            name "a"
+            type "inout some U"
+          }
+          {
+            name "b"
+            type "some U"
+          }
+        ]
+        result 0
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "j"
+            type "any"
+            value 1
+          }
+          {
+            value [
+              "a"
+            ]
+            var "s"
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "s"
+                  }
+                  [
+                    {
+                      ref "j"
+                    }
+                  ]
+                ]
+                procedure "app.put"
+              }
+            }
+          }
+          {
+            let "xs"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "s"
+                  }
+                  "b"
+                ]
+                procedure "std.collection.appending"
+              }
+            }
+          }
+        ]
+        result {
+          ref "xs"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
