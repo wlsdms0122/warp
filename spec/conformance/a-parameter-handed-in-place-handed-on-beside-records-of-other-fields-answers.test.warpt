@@ -1,0 +1,127 @@
+warpt 1
+{
+  expect {
+    answers [
+      {
+        a [
+          "b"
+        ]
+      }
+      {
+        b []
+      }
+    ]
+  }
+  name "a-parameter-handed-in-place-handed-on-beside-records-of-other-fields-answers"
+  note "app.g hands xs, a list of dictionaries of lists of T handed in place, on to app.put beside [{ a: [x] }, { b: [] }]. The literal beside it is judged part by part as a write would be, so the records of other fields are each a value of dictionary<array<some T>>, and the caller reads both."
+  program {
+    imports []
+    procedures {
+      "app.g" {
+        body [
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "xs"
+                  }
+                  [
+                    {
+                      record {
+                        a [
+                          {
+                            ref "x"
+                          }
+                        ]
+                      }
+                    }
+                    {
+                      record {
+                        b []
+                      }
+                    }
+                  ]
+                ]
+                procedure "app.put"
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "xs"
+            type "inout array<dictionary<array<some T>>>"
+          }
+          {
+            name "x"
+            type "some T"
+          }
+        ]
+        result 0
+      }
+      "app.put" {
+        body [
+          {
+            set "a"
+            value {
+              ref "b"
+            }
+          }
+        ]
+        parameters [
+          {
+            name "a"
+            type "inout some U"
+          }
+          {
+            name "b"
+            type "some U"
+          }
+        ]
+        result 0
+      }
+      entry {
+        access "public"
+        body [
+          {
+            value {
+              as {
+                of [
+                  {
+                    record {
+                      k [
+                        "a"
+                      ]
+                    }
+                  }
+                ]
+                type "array<dictionary<array<string>>>"
+              }
+            }
+            var "s"
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "s"
+                  }
+                  "b"
+                ]
+                procedure "app.g"
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
