@@ -1,0 +1,86 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-record-of-other-fields-with-an-any-field-appended-to-a-declared-list-refuses"
+  note "`people` is declared `array<{ name: string }>`. Appending `{ name: src.name, age: src.age }`, with `src` a `dictionary<any>`, fills the element with what holds `{ name: string }` and `{ name: any, age: any }`, which is `{ name: any }`. A variable handed in place takes only what it is declared as, so the build refuses."
+  program {
+    imports [
+      "std.collection.append"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "raw"
+            type "any"
+            value {
+              record {
+                age 30
+                name 7
+              }
+            }
+          }
+          {
+            let "src"
+            value {
+              as {
+                of {
+                  ref "raw"
+                }
+                type "dictionary<any>"
+              }
+            }
+          }
+          {
+            type {
+              array {
+                record {
+                  name "string"
+                }
+              }
+            }
+            value [
+              {
+                record {
+                  name "Ann"
+                }
+              }
+            ]
+            var "people"
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "people"
+                  }
+                  {
+                    record {
+                      age {
+                        ref "src.age"
+                      }
+                      name {
+                        ref "src.name"
+                      }
+                    }
+                  }
+                ]
+                procedure "std.collection.append"
+              }
+            }
+          }
+        ]
+        result {
+          ref "people"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
