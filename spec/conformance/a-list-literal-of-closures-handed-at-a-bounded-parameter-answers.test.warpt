@@ -1,0 +1,106 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-list-literal-of-closures-handed-at-a-bounded-parameter-answers"
+  note "`app.f` bounds `T` by `app.M`, which admits `int` and `string`, and takes a list of procedures taking `some T`. A list literal handed there holds a closure taking `int` and one taking `any`, and `x` fills `T` with `int`. Only the parts standing at the parameter are held to the bounds, so each closure is judged as any closure handed to its procedure type is, and the call answers 1."
+  program {
+    constraints {
+      "app.M" [
+        "int"
+        "string"
+      ]
+    }
+    imports []
+    procedures {
+      "app.f" {
+        bounds {
+          T "app.M"
+        }
+        parameters [
+          {
+            name "gs"
+            type {
+              array {
+                procedure {
+                  parameters [
+                    "some T"
+                  ]
+                  returns "int"
+                }
+              }
+            }
+          }
+          {
+            name "x"
+            type "some T"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "x"
+              }
+            ]
+            procedure {
+              ref "gs[0]"
+            }
+          }
+        }
+        returns "int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  [
+                    {
+                      closure {
+                        parameters [
+                          {
+                            name "n"
+                            type "int"
+                          }
+                        ]
+                        result {
+                          ref "n"
+                        }
+                        returns "int"
+                      }
+                    }
+                    {
+                      closure {
+                        parameters [
+                          {
+                            name "n"
+                            type "any"
+                          }
+                        ]
+                        result 7
+                        returns "int"
+                      }
+                    }
+                  ]
+                  1
+                ]
+                procedure "app.f"
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
