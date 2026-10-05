@@ -1,0 +1,152 @@
+warpt 1
+{
+  expect {
+    answers "a card"
+  }
+  name "a-parameter-read-as-a-declared-record-and-its-alias-keeps-the-name"
+  note "`bank.Alias` names `bank.Card`, a declared record that answers `app.Describable`. `app.pick` takes two of `some T` and is handed a `bank.Card` and a `bank.Alias`. The two are one record under one name, so `T` is that record and keeps its name, and `app.Describable.describe` dispatches to `bank.Card.describe`."
+  program {
+    contracts {
+      "app.Describable" {
+        describe {
+          const true
+          isolated true
+          parameters [
+            {
+              name "of"
+              type "app.Describable"
+            }
+          ]
+          returns "string"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "app.pick" {
+        body [
+          {
+            value {
+              conditional {
+                then [
+                  {
+                    value {
+                      return {
+                        ref "x"
+                      }
+                    }
+                  }
+                ]
+                when {
+                  ref "c"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "c"
+            type "bool"
+          }
+          {
+            name "x"
+            type "some T"
+          }
+          {
+            name "y"
+            type "some T"
+          }
+        ]
+        result {
+          ref "y"
+        }
+        returns "some T"
+      }
+      "bank.Card.describe" {
+        parameters [
+          {
+            name "of"
+            type "bank.Card"
+          }
+        ]
+        result "a card"
+        returns "string"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            value {
+              as {
+                of {
+                  record {
+                    last "1"
+                  }
+                }
+                type "bank.Alias"
+              }
+            }
+          }
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  false
+                  {
+                    as {
+                      of {
+                        record {
+                          last "42"
+                        }
+                      }
+                      type "bank.Card"
+                    }
+                  }
+                  {
+                    ref "c"
+                  }
+                ]
+                procedure "app.pick"
+              }
+            }
+          }
+          {
+            let "s"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "r"
+                  }
+                ]
+                procedure "app.Describable.describe"
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    satisfies {
+      "bank.Card" [
+        "app.Describable"
+      ]
+    }
+    types {
+      "bank.Alias" "bank.Card"
+      "bank.Card" {
+        record {
+          last "string"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
