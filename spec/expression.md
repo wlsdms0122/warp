@@ -52,6 +52,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-cast-names-the-record-it-reads`
 - `a-cast-naming-a-type-nothing-declares-refuses`
 - `a-cast-naming-what-the-reading-already-is-refuses`
+- `a-cast-of-a-list-of-nameless-records-to-a-list-of-a-declared-record-names-them`
+- `a-cast-of-a-nameless-field-to-a-field-of-a-declared-record-names-it`
 - `a-cast-onto-a-type-parameter-refuses`
 - `a-cast-onto-any-refuses`
 - `a-cast-onto-never-refuses`

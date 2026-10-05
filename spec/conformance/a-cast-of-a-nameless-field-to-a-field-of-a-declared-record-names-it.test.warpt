@@ -1,0 +1,108 @@
+warpt 1
+{
+  expect {
+    answers "a"
+  }
+  name "a-cast-of-a-nameless-field-to-a-field-of-a-declared-record-names-it"
+  note "`s` holds a record whose field `p` is the nameless record `{ k: \"x\" }`, and `bank.A` is declared `{ k: string }`. Casting it as `{ p: bank.A }` attaches the name to the field, so it is no cast of what the reading already is, and `app.P.show` is sent to the field."
+  program {
+    contracts {
+      "app.P" {
+        show {
+          const true
+          isolated true
+          parameters [
+            {
+              name "of"
+              type "app.P"
+            }
+          ]
+          returns "string"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "bank.A.show" {
+        parameters [
+          {
+            name "of"
+            type "bank.A"
+          }
+        ]
+        result "a"
+        returns "string"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "r"
+            value {
+              record {
+                p {
+                  record {
+                    k "x"
+                  }
+                }
+              }
+            }
+          }
+          {
+            let "s"
+            value {
+              as {
+                of {
+                  ref "r"
+                }
+                type {
+                  record {
+                    p "bank.A"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "s.p"
+              }
+            ]
+            procedure "app.P.show"
+          }
+        }
+      }
+    }
+    satisfies {
+      "bank.A" [
+        "app.P"
+      ]
+    }
+    types {
+      "app.KR" {
+        record {
+          k "string"
+        }
+      }
+      "app.NK" "app.KR?"
+      "bank.A" {
+        record {
+          k "string"
+        }
+      }
+      "bank.B" {
+        record {
+          k "string"
+        }
+      }
+      "bank.NA" "bank.A?"
+      "bank.NB" "bank.B?"
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,106 @@
+warpt 1
+{
+  expect {
+    answers "a"
+  }
+  name "a-cast-of-a-list-of-nameless-records-to-a-list-of-a-declared-record-names-them"
+  note "`xs` is a list of the nameless record `{ k: \"x\" }`, and `bank.A` is declared `{ k: string }`. Casting `xs` as `array<bank.A>` attaches the name to each element, so it is no cast of what the reading already is, and `app.P.show`, which `bank.A` answers, is sent to an element."
+  program {
+    contracts {
+      "app.P" {
+        show {
+          const true
+          isolated true
+          parameters [
+            {
+              name "of"
+              type "app.P"
+            }
+          ]
+          returns "string"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "bank.A.show" {
+        parameters [
+          {
+            name "of"
+            type "bank.A"
+          }
+        ]
+        result "a"
+        returns "string"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "xs"
+            value [
+              {
+                record {
+                  k "x"
+                }
+              }
+            ]
+          }
+          {
+            let "ys"
+            value {
+              as {
+                of {
+                  ref "xs"
+                }
+                type "array<bank.A>"
+              }
+            }
+          }
+          {
+            let "i"
+            value 0
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "ys[i]"
+              }
+            ]
+            procedure "app.P.show"
+          }
+        }
+      }
+    }
+    satisfies {
+      "bank.A" [
+        "app.P"
+      ]
+    }
+    types {
+      "app.KR" {
+        record {
+          k "string"
+        }
+      }
+      "app.NK" "app.KR?"
+      "bank.A" {
+        record {
+          k "string"
+        }
+      }
+      "bank.B" {
+        record {
+          k "string"
+        }
+      }
+      "bank.NA" "bank.A?"
+      "bank.NB" "bank.B?"
+    }
+    warp 1
+  }
+  test 1
+}
+
