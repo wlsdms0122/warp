@@ -1,0 +1,52 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-value-of-memberships-that-name-each-other-inside-records-cast-across-refuses"
+  note "`app.M` admits `string` and `{ a: app.M }`, and `app.N` admits `int` and `{ a: app.N }`. A string is never an int, and `{ a: app.M }` meets `{ a: app.N }` only by asking the same pair again inside the field, which answers nothing. So no value is both, and a cast of a name read as `app.M` to `app.N` refuses at the build."
+  program {
+    constraints {
+      "app.M" [
+        "string"
+        {
+          record {
+            a "app.M"
+          }
+        }
+      ]
+      "app.N" [
+        "int"
+        {
+          record {
+            a "app.N"
+          }
+        }
+      ]
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            type "app.M"
+            value "s"
+            var "x"
+          }
+        ]
+        result {
+          as {
+            of {
+              ref "x"
+            }
+            type "app.N"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -376,6 +376,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-value-of-memberships-that-name-each-other-called-refuses`
 - `a-value-of-memberships-that-name-each-other-cast-to-a-member-answers`
 - `a-value-of-memberships-that-name-each-other-cast-to-a-type-no-member-holds-refuses`
+- `a-value-of-memberships-that-name-each-other-cast-to-the-other-answers`
+- `a-value-of-memberships-that-name-each-other-inside-records-cast-across-refuses`
 - `a-value-of-memberships-that-name-each-other-written-into-a-nullable-slot-refuses`
 - `a-value-of-memberships-that-name-each-other-written-into-a-type-no-member-is-refuses`
 - `a-value-outside-a-contract-in-a-closures-parameter-refuses`
