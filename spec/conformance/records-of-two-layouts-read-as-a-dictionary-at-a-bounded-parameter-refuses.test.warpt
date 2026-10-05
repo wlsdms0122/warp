@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "records-of-two-layouts-read-as-a-dictionary-at-a-bounded-parameter-refuses"
-  note "`app.f` bounds `T` by `app.Nums`, which admits `int` and `double`, and takes `dictionary<{ x: some T }>`. The record handed there holds two records whose fields differ, so their join is no record and `T` is read as nothing. Each record's field is still held to the bounds where it stands, and one is text, which no member takes, so the call refuses at the build."
+  note "`app.f` bounds `T` by `app.Nums`, which admits `int` and `double`, and takes `dictionary<{ x: some T }>`. The record handed there holds two records whose fields differ, and their `x` fields read `T` as `int` and as text, which join part by part to `any`. What each field reads `T` as is still held to the bounds, and no member takes text, so the call refuses at the build."
   program {
     constraints {
       "app.Nums" [

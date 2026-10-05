@@ -4,7 +4,7 @@ warpt 1
     answers 0
   }
   name "records-of-two-layouts-of-member-fields-read-as-a-dictionary-at-a-bounded-parameter-answers"
-  note "`app.f` bounds `T` by `app.Nums`, which admits `int` and `double`, and takes `dictionary<{ x: some T }>`. The record handed there holds two records whose fields differ, so their join is no record and `T` is read as nothing. What the fields read `T` as, `int` and `double`, is held to the bounds and each is a member, so the call answers."
+  note "`app.f` bounds `T` by `app.Nums`, which admits `int` and `double`, and takes `dictionary<{ x: some T }>`. The record handed there holds two records whose fields differ, and their `x` fields read `T` as `int` and as `double`. Each is held to the bounds and each is a member, so the call answers."
   program {
     constraints {
       "app.Nums" [
