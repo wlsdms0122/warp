@@ -1,0 +1,87 @@
+warpt 1
+{
+  expect {
+    answers 2
+  }
+  name "a-call-filling-a-parameter-from-a-list-of-any-reads-it-as-any"
+  note "app.pick fills E from [\"a\"] and from [j], j read as any. E reads array<any> rather than array<string>, so first of the answer reads any and std.math.plus takes it, and the run answers 2."
+  program {
+    imports [
+      "std.collection.first"
+      "std.math.plus"
+    ]
+    procedures {
+      "app.pick" {
+        parameters [
+          {
+            name "a"
+            type "some E"
+          }
+          {
+            name "b"
+            type "some E"
+          }
+        ]
+        result {
+          ref "b"
+        }
+        returns "some E"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "j"
+            type "any"
+            value 1
+          }
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  [
+                    "a"
+                  ]
+                  [
+                    {
+                      ref "j"
+                    }
+                  ]
+                ]
+                procedure "app.pick"
+              }
+            }
+          }
+          {
+            let "q"
+            value {
+              call {
+                arguments [
+                  {
+                    call {
+                      arguments [
+                        {
+                          ref "r"
+                        }
+                      ]
+                      procedure "std.collection.first"
+                    }
+                  }
+                  1
+                ]
+                procedure "std.math.plus"
+              }
+            }
+          }
+        ]
+        result {
+          ref "q"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

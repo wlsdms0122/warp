@@ -1,0 +1,39 @@
+warpt 1
+{
+  expect {
+    answers 0
+  }
+  name "null-written-into-a-membership-that-names-itself-as-nullable-is-taken"
+  note "`app.M` admits `int` and `app.M?`. A variable declared `app.M` starts with a name read as null. `app.M?` takes null as every `T?` does, without asking `app.M` of it again, so the value is one of `app.M` and the run answers 0."
+  program {
+    constraints {
+      "app.M" [
+        "int"
+        "app.M?"
+      ]
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "n"
+            value null
+          }
+          {
+            type "app.M"
+            value {
+              ref "n"
+            }
+            var "x"
+          }
+        ]
+        result 0
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

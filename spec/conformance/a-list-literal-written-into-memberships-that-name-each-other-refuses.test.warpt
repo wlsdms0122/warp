@@ -1,0 +1,40 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-list-literal-written-into-memberships-that-name-each-other-refuses"
+  note "`app.M` admits `app.N` and `array<int>`, and `app.N` admits `app.M` and `bool`. A variable declared `app.M` starts with `[1, \"s\"]`. Asking `app.N` asks `app.M` of the same literal again, which takes nothing, and neither `array<int>` nor `bool` takes it, so the build refuses."
+  program {
+    constraints {
+      "app.M" [
+        "app.N"
+        "array<int>"
+      ]
+      "app.N" [
+        "app.M"
+        "bool"
+      ]
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            type "app.M"
+            value [
+              1
+              "s"
+            ]
+            var "x"
+          }
+        ]
+        result 0
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

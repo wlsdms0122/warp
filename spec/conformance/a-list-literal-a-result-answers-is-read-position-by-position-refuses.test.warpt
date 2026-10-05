@@ -1,0 +1,81 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-list-literal-a-result-answers-is-read-position-by-position-refuses"
+  note "app.g declares it answers array<dictionary<array<string>>>, and its result is [{ a: [] }, { a: [1] }]. The declared answer holds what the result writes into it, its elements joined position by position, so the build refuses the result."
+  program {
+    imports [
+      "std.collection.count"
+    ]
+    procedures {
+      "app.g" {
+        body [
+          {
+            let "k"
+            value {
+              ref "x"
+            }
+          }
+        ]
+        parameters [
+          {
+            name "x"
+            type "int"
+          }
+        ]
+        result [
+          {
+            record {
+              a []
+            }
+          }
+          {
+            record {
+              a [
+                1
+              ]
+            }
+          }
+        ]
+        returns "array<dictionary<array<string>>>"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  1
+                ]
+                procedure "app.g"
+              }
+            }
+          }
+          {
+            let "n"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "r"
+                  }
+                ]
+                procedure "std.collection.count"
+              }
+            }
+          }
+        ]
+        result {
+          ref "n"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -32,7 +32,7 @@ A program is read, checked and built before any of it runs, the arms nobody take
 
 **What a variable reads as.** A name a statement fixed reads as what that statement bound, and a variable reads as what the ways through the text could have left in it. The checking follows the flow the running takes:
 
-- a name that **declared** what it holds reads as that declaration, and no write changes it. What is written is held to the declaration instead;
+- a name that **declared** what it holds reads as that declaration, and no write changes it. What is written is held to the declaration instead, a list or record literal part by part along what the declaration asks of each part (every element of a list, every field of a dictionary, each field a record names), an empty list holding no element, so `[{ a: [] }, { a: [1] }]` written where `array<dictionary<array<string>>>` is declared refuses at the build, and so does `[1, "s"]` where `array<int>` is. Every slot a value is written into holds it that way: a name's start value or a later write, a parameter of a call or of a called value, and a declared answer, from a result or from a `return`. A block or a loop writes what its result writes, and an attempt writes what its body answers and what its rescue answers, each held on its own as a write on that way would be;
 - a variable a closure captured or a call handed in place is held to the type it read as there, under *what a write reaches* in [statements](statement.md), and a write into it leaves it reading that type, since the taker may write any value of it later;
 - an **unconditional** write retypes any other variable: after `set x` at the top of the flow, `x` reads as what was written, whatever it held before;
 - a write only **some** ways make (one arm of a conditional, a loop's round, an attempt's body) joins with what the name held. Null beside a value reads `T?`: after `var x` and a conditional whose one arm sets an int, `x` reads `int?`, because the run either took the arm or did not. Two values of different kinds join to `any`. Where readings disagree the slot holds neither, and a join that guessed would be a refusal an author cannot act on. This join is not the variable's own rule: it reads wherever two readings of one slot meet (an attempt's body beside its rescue, an array literal's elements), so an attempt whose rescue answers nothing reads `T?` too, and `[1, null]` reads `array<int?>`;
@@ -52,6 +52,19 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-document-sending-a-contract-procedure-stands-before-a-later-one`
 - `a-failure-in-a-loop-condition-carries-the-rounds-before-it`
 - `a-failure-in-a-loop-round-carries-the-rounds-before-it`
+- `a-list-literal-a-block-answers-is-read-position-by-position-refuses`
+- `a-list-literal-a-declared-name-starts-with-is-read-position-by-position-refuses`
+- `a-list-literal-a-loop-answers-is-read-position-by-position-refuses`
+- `a-list-literal-a-result-answers-is-read-position-by-position-refuses`
+- `a-list-literal-a-return-answers-is-read-position-by-position-refuses`
+- `a-list-literal-handed-to-a-call-is-read-part-by-part-refuses`
+- `a-list-literal-handed-to-a-called-value-is-read-position-by-position-refuses`
+- `a-list-literal-of-an-empty-list-and-text-is-taken-by-every-slot`
+- `a-list-literal-of-other-kinds-written-into-a-list-refuses`
+- `a-list-literal-of-other-kinds-written-into-a-membership-refuses`
+- `a-list-literal-written-into-a-declared-variable-is-read-position-by-position-refuses`
+- `a-list-of-records-handed-to-a-call-is-read-field-by-field-refuses`
+- `a-list-of-records-wider-than-a-record-type-is-taken`
 - `a-name-not-in-normal-form-c-is-refused`
 - `a-procedure-may-be-spelled-like-a-type`
 - `a-procedure-nobody-declares-refuses`
@@ -66,6 +79,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-arm-that-leaves-keeps-the-other-write-definite`
 - `an-array-literal-joins-its-elements`
 - `an-attempt-joins-its-body-with-its-rescue`
+- `an-attempt-whose-rescue-answers-a-list-literal-of-other-elements-refuses`
+- `an-attempt-whose-ways-both-fit-a-slot-answers`
+- `an-attempt-written-into-a-slot-holds-each-way-on-its-own-refuses`
 - `an-empty-name-refuses`
 - `an-untaken-arm-is-checked-too`
 - `elements-of-different-kinds-join-to-any`

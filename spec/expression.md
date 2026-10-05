@@ -19,7 +19,7 @@ A path is a name, then `.name` for a field and `[…]` for an index. A `[` left 
 
 A **cast** names the type a value is read as. The type is written the way any type is: a name, or the mapping a record or a signature is written as. From the cast on, the reading *is* that type, so every dot after it is judged against it; the run is left the one question the build cannot answer, which is what actually arrived, and it answers it at the same boundary a parameter's argument passes through. A plain `as` **fails at the run** with `cast_refused` when the value is not that type. It is a failure like any other, so an `attempt` catches it, and `as?` reads that mismatch as null, which is the author saying they expected it.
 
-A cast that names the type the reading already **is** refuses at the build, the way a needless `?.` does: the claim says nothing. The test is sameness, not admission: a reading of `int` cast to `int(0...10)` names something the types leave open, and only the run can say whether it holds. A cast to a declared record name is the settling written out: reading a nameless record as `Account` attaches the name, so it is never a cast of what the reading already is, and only a reading that is already `Account` makes it one. A cast onto `any`, `never` or a type parameter refuses for the other half of the same reason: those name no type to read.
+A cast that names the type the reading already **is** refuses at the build, the way a needless `?.` does: the claim says nothing. The test is sameness, not admission: a reading of `int` cast to `int(0...10)` names something the types leave open, and only the run can say whether it holds. A cast to a declared record name is the settling written out: reading a nameless record as `Account` attaches the name, so it is never a cast of what the reading already is, and only a reading that is already `Account` makes it one. A cast onto `any`, `never` or a type parameter refuses for the other half of the same reason: those name no type to read. A type parameter written anywhere inside a cast's type (`array<some T>`) **refuses at the build** as it does on a name saying what it holds: nothing in a body fills one, so there is no type there to settle what arrives against.
 
 A cast between a reading and a type **no value is both** refuses at the build too: it could not succeed on any run, so `as` would refuse every time and `as?` would answer null every time, a null that says nothing about the value. Two ranges are read here the way acceptance reads them: `int(0...5) as int(10...15)` names a value no run produces, so it is refused where it is written. So is a reading under one declared record name cast to another: a `Vault` is never an `Account`.
 
@@ -57,6 +57,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-cast-onto-never-refuses`
 - `a-cast-opens-what-any-declares-nothing-about`
 - `a-cast-that-does-not-match-fails`
+- `a-cast-to-a-dictionary-of-a-type-parameter-refuses`
+- `a-cast-to-a-list-of-a-type-parameter-refuses`
 - `a-closure-answers-what-it-declared`
 - `a-closure-reads-a-variable-through-its-box`
 - `a-closure-write-keeps-the-captured-type`
@@ -87,6 +89,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-index-past-the-end-refuses`
 - `an-index-reference-that-is-not-a-whole-number-refuses`
 - `an-optional-bracket-reads-an-absent-entry-as-null`
+- `an-optional-cast-to-a-list-of-a-type-parameter-refuses`
 - `an-optional-dot-on-a-field-that-is-there-refuses`
 - `an-optional-segment-reads-absence-as-null`
 - `an-unclosed-bracket-in-a-path-is-refused`

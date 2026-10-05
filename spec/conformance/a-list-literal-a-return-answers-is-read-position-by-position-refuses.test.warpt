@@ -1,0 +1,104 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-list-literal-a-return-answers-is-read-position-by-position-refuses"
+  note "app.g declares it answers array<dictionary<array<string>>>, and one way through returns [{ a: [] }, { a: [1] }]. A return writes into the declared answer as the result does, so the build refuses it."
+  program {
+    imports [
+      "std.collection.count"
+    ]
+    procedures {
+      "app.g" {
+        body [
+          {
+            value {
+              conditional {
+                then [
+                  {
+                    value {
+                      return [
+                        {
+                          record {
+                            a []
+                          }
+                        }
+                        {
+                          record {
+                            a [
+                              1
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+                when {
+                  ref "x"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "x"
+            type "bool"
+          }
+        ]
+        result [
+          {
+            record {
+              a []
+            }
+          }
+          {
+            record {
+              a [
+                "s"
+              ]
+            }
+          }
+        ]
+        returns "array<dictionary<array<string>>>"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  true
+                ]
+                procedure "app.g"
+              }
+            }
+          }
+          {
+            let "n"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "r"
+                  }
+                ]
+                procedure "std.collection.count"
+              }
+            }
+          }
+        ]
+        result {
+          ref "n"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

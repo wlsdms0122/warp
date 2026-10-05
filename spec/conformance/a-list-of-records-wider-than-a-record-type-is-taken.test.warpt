@@ -1,0 +1,77 @@
+warpt 1
+{
+  expect {
+    answers 0
+  }
+  name "a-list-of-records-wider-than-a-record-type-is-taken"
+  note "`app.g` takes a list of records naming `a` as an int and is handed two records, one of which also has a string `b`. A record type takes a record holding at least its fields, so each part fits and the call answers."
+  program {
+    imports []
+    procedures {
+      "app.g" {
+        parameters [
+          {
+            name "ps"
+            type {
+              array {
+                record {
+                  a "int"
+                }
+              }
+            }
+          }
+        ]
+        result 0
+        returns "int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "i"
+            value 1
+          }
+          {
+            let "t"
+            value "s"
+          }
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  [
+                    {
+                      record {
+                        a {
+                          ref "i"
+                        }
+                      }
+                    }
+                    {
+                      record {
+                        a {
+                          ref "i"
+                        }
+                        b {
+                          ref "t"
+                        }
+                      }
+                    }
+                  ]
+                ]
+                procedure "app.g"
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

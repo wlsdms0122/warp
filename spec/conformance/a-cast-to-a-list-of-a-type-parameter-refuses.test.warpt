@@ -1,0 +1,83 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-cast-to-a-list-of-a-type-parameter-refuses"
+  note "app.decode answers raw as array<some T>. A type parameter inside a cast's type names no type, since nothing in a body fills one, so the build refuses the cast as it refuses a name saying it holds array<some T>."
+  program {
+    imports [
+      "std.collection.appending"
+    ]
+    procedures {
+      "app.decode" {
+        parameters [
+          {
+            name "sample"
+            type "some T"
+          }
+          {
+            name "raw"
+            type "any"
+          }
+        ]
+        result {
+          as {
+            of {
+              ref "raw"
+            }
+            type "array<some T>"
+          }
+        }
+        returns "array<some T>"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "raw"
+            type "any"
+            value [
+              "7"
+              "8"
+            ]
+          }
+          {
+            let "xs"
+            value {
+              call {
+                arguments [
+                  0
+                  {
+                    ref "raw"
+                  }
+                ]
+                procedure "app.decode"
+              }
+            }
+          }
+          {
+            let "ys"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "xs"
+                  }
+                  9
+                ]
+                procedure "std.collection.appending"
+              }
+            }
+          }
+        ]
+        result {
+          ref "ys"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
