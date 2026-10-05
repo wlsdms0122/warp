@@ -130,6 +130,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-closure-carries-what-a-captured-slot-said`
 - `a-closure-that-writes-what-it-captured-is-not-const`
 - `a-closure-writes-its-own-parameter-in-place-and-no-name-it-shadows`
+- `a-closure-writing-a-captured-variable-settles-the-write-to-what-it-captured-answers`
 - `a-closures-parameter-is-not-the-const-procedure-it-shadows`
 - `a-const-procedure-read-out-of-a-dictionary-answers-without-running`
 - `a-const-procedure-read-out-of-a-dictionary-by-a-dot-answers-without-running`
