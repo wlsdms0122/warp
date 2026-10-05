@@ -363,6 +363,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-record-literal-holding-a-closure-handed-at-a-bounded-parameter-answers`
 - `a-record-of-member-fields-handed-at-a-dictionary-of-a-bounded-parameter-answers`
 - `a-record-of-other-fields-with-an-any-field-appended-to-a-declared-list-refuses`
+- `a-record-read-as-a-dictionary-after-any-at-a-bounded-parameter-refuses`
 - `a-record-settles-to-the-fields-declared`
 - `a-record-takes-the-name-of-the-slot-it-settles-into`
 - `a-record-type-may-name-a-field-for-a-form`
