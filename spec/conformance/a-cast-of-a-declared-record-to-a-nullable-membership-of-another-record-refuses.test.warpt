@@ -1,0 +1,70 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-cast-of-a-declared-record-to-a-nullable-membership-of-another-record-refuses"
+  note "`bank.A` and `bank.B` are both declared `{ k: string }`, and `app.M2` admits `bank.B` and `int`. `a` is read as `bank.A`, which keeps its name wherever it is settled, so a value of it is one of `app.M2?` only if it is a `bank.B`, a whole number or null, and it is none of them. No value is both, so the cast `a as app.M2?` refuses at the build."
+  program {
+    constraints {
+      "app.M2" [
+        "bank.B"
+        "int"
+      ]
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "a"
+            value {
+              as {
+                of {
+                  record {
+                    k "x"
+                  }
+                }
+                type "bank.A"
+              }
+            }
+          }
+          {
+            let "b"
+            value {
+              as {
+                of {
+                  ref "a"
+                }
+                type "app.M2?"
+              }
+            }
+          }
+        ]
+        result {
+          ref "b"
+        }
+      }
+    }
+    types {
+      "bank.A" {
+        record {
+          k "string"
+        }
+      }
+      "bank.B" {
+        record {
+          k "string"
+        }
+      }
+      "bank.BB" "bank.B"
+      "bank.NA" "bank.A?"
+      "bank.NB" "bank.B?"
+      "bank.NBB" "bank.NB"
+    }
+    warp 1
+  }
+  test 1
+}
+
