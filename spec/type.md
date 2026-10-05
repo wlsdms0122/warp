@@ -279,6 +279,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-list-of-a-reading-of-any-behind-a-name-handed-beside-a-variable-in-place-refuses`
 - `a-list-of-a-reading-of-any-handed-beside-a-variable-in-place-refuses`
 - `a-list-of-two-types-handed-where-a-contract-is-asked-is-read-element-by-element-refuses`
+- `a-literal-of-names-at-a-contract-bound-leans-on-each-claim-refuses`
 - `a-local-list-of-a-parameter-handed-in-place-beside-a-member-value-answers`
 - `a-mark-where-nothing-is-linear-refuses`
 - `a-member-that-is-a-type-parameter-refuses`
