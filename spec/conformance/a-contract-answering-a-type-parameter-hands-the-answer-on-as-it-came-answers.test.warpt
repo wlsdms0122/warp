@@ -1,0 +1,114 @@
+warpt 1
+{
+  expect {
+    answers "1"
+  }
+  name "a-contract-answering-a-type-parameter-hands-the-answer-on-as-it-came-answers"
+  note "`app.Two.two` takes two of `some T` and answers `some T`, and `bank.Card.two` answers the first. Called with 1 and 2.5, `T` is read as a fraction, and the answer is what the call filled the parameter with, so the call judges it and hands it on as it came: the whole number 1, whose text is `1`."
+  program {
+    contracts {
+      "app.Two" {
+        two {
+          parameters [
+            {
+              name "of"
+              type "app.Two"
+            }
+            {
+              name "a"
+              type "some T"
+            }
+            {
+              name "b"
+              type "some T"
+            }
+          ]
+          returns "some T"
+        }
+      }
+    }
+    imports [
+      "std.text.text"
+    ]
+    procedures {
+      "bank.Card.two" {
+        parameters [
+          {
+            name "of"
+            type "bank.Card"
+          }
+          {
+            name "a"
+            type "some V"
+          }
+          {
+            name "b"
+            type "some V"
+          }
+        ]
+        result {
+          ref "a"
+        }
+        returns "some V"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            value {
+              as {
+                of {
+                  record {
+                    last "42"
+                  }
+                }
+                type "bank.Card"
+              }
+            }
+          }
+          {
+            let "t"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "c"
+                  }
+                  1
+                  2.5
+                ]
+                procedure "app.Two.two"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "t"
+              }
+            ]
+            procedure "std.text.text"
+          }
+        }
+      }
+    }
+    satisfies {
+      "bank.Card" [
+        "app.Two"
+      ]
+    }
+    types {
+      "bank.Card" {
+        record {
+          last "string"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
