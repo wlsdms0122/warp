@@ -272,6 +272,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-list-literal-a-parameter-of-a-membership-answers-is-read-part-by-part-refuses`
 - `a-list-literal-answered-at-a-parameter-of-memberships-that-name-each-other-answers`
 - `a-list-literal-handed-at-a-parameter-bounded-by-a-membership-of-lists-is-read-part-by-part-refuses`
+- `a-list-literal-of-closures-answering-outside-the-bounds-refuses`
 - `a-list-literal-of-closures-handed-at-a-bounded-parameter-answers`
 - `a-list-literal-of-names-holding-lists-handed-at-a-bounded-parameter-refuses`
 - `a-list-literal-written-into-memberships-that-name-each-other-refuses`
