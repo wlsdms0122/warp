@@ -353,6 +353,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-range-written-with-the-other-kinds-bounds-refuses`
 - `a-reading-outside-a-constraint-refuses`
 - `a-record-form-array-of-a-named-element-refuses`
+- `a-record-handed-at-a-dictionary-fills-a-parameter-part-by-part-refuses`
 - `a-record-handed-at-a-dictionary-of-a-bounded-parameter-fills-it-by-its-fields-refuses`
 - `a-record-handed-at-a-dictionary-of-a-contract-leans-on-each-claim-refuses`
 - `a-record-literal-handed-at-a-parameter-bounded-by-a-membership-is-read-part-by-part-refuses`

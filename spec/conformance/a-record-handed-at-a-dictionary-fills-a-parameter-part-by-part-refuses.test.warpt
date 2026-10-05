@@ -1,0 +1,88 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-record-handed-at-a-dictionary-fills-a-parameter-part-by-part-refuses"
+  note "`app.f` bounds `T` by `app.M`, which admits `int?` and `string`, and answers the `dictionary<{ x: some T }>` it takes. The record handed there holds `{ x: 1 }` and `{ x: null }`, and its fields fill `T` joined part by part, as a list literal's elements do, so `T` reads `int?`. The answer is then a dictionary of `{ x: int? }`, which the name declaring `dictionary<{ x: int }>` does not hold, and it refuses at the build."
+  program {
+    constraints {
+      "app.M" [
+        "int?"
+        "string"
+      ]
+    }
+    imports []
+    procedures {
+      "app.f" {
+        bounds {
+          T "app.M"
+        }
+        parameters [
+          {
+            name "d"
+            type {
+              dictionary {
+                record {
+                  x "some T"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "d"
+        }
+        returns {
+          dictionary {
+            record {
+              x "some T"
+            }
+          }
+        }
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "r"
+            type {
+              dictionary {
+                record {
+                  x "int"
+                }
+              }
+            }
+            value {
+              call {
+                arguments [
+                  {
+                    record {
+                      a {
+                        record {
+                          x 1
+                        }
+                      }
+                      b {
+                        record {
+                          x null
+                        }
+                      }
+                    }
+                  }
+                ]
+                procedure "app.f"
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
