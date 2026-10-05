@@ -1,0 +1,58 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-cast-of-an-alias-of-a-nullable-record-to-another-record-refuses"
+  note "`app.A` and `app.B` are both declared `{ a: string }`, and `app.NA` stands for `app.A?`. `n` is read as `app.NA`, which names `app.A` through the alias, so a value of it is one of `app.B` only if it is null, and `app.B` does not take null. No value is both, so the cast `n as app.B` refuses at the build."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "n"
+            type "app.NA"
+            value {
+              record {
+                a "x"
+              }
+            }
+          }
+          {
+            let "b"
+            value {
+              as {
+                of {
+                  ref "n"
+                }
+                type "app.B"
+              }
+            }
+          }
+        ]
+        result {
+          ref "b"
+        }
+      }
+    }
+    types {
+      "app.A" {
+        record {
+          a "string"
+        }
+      }
+      "app.B" {
+        record {
+          a "string"
+        }
+      }
+      "app.NA" "app.A?"
+      "app.NB" "app.B?"
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -169,7 +169,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-cast-between-aliases-of-two-nullable-records-reads-null-answers`
 - `a-cast-does-not-carry-a-held-name-into-a-list`
 - `a-cast-naming-a-linear-type-does-not-go-into-a-list`
+- `a-cast-of-a-nullable-record-to-another-record-refuses`
 - `a-cast-of-a-record-with-a-var-field-to-a-record-it-never-is-refuses`
+- `a-cast-of-an-alias-of-a-nullable-record-to-another-record-refuses`
 - `a-cast-to-an-alias-of-a-nullable-record-names-the-record-answers`
 - `a-claim-about-a-name-that-is-not-a-record-refuses`
 - `a-claim-about-a-type-the-language-names-refuses`
@@ -337,6 +339,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-parameter-read-as-a-contract-and-as-memberships-that-name-each-other-answers`
 - `a-parameter-read-as-a-declared-range-and-its-kind-is-the-kind`
 - `a-parameter-read-as-a-declared-record-and-its-alias-keeps-the-name`
+- `a-parameter-read-as-a-declared-record-with-a-var-field-and-a-nameless-one-is-handed-in-place-beside-a-nameless-record-answers`
+- `a-parameter-read-as-a-declared-record-with-a-var-field-and-a-nameless-one-reads-the-nameless-one-refuses`
 - `a-parameter-read-as-a-record-and-a-nameless-one-of-its-fields-is-the-nameless-one`
 - `a-parameter-read-as-an-alias-of-a-nullable-record-and-as-a-wider-record-answers`
 - `a-parameter-read-as-dictionaries-of-a-record-and-of-a-nameless-one-is-a-dictionary-of-the-nameless-one-refuses`
