@@ -173,6 +173,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-cast-of-a-declared-record-to-a-nullable-membership-of-another-record-refuses`
 - `a-cast-of-a-membership-of-a-record-to-an-alias-of-another-nullable-record-answers`
 - `a-cast-of-a-membership-of-a-record-to-another-nullable-record-answers`
+- `a-cast-of-a-membership-of-a-record-with-a-declared-field-to-another-record-names-it-answers`
 - `a-cast-of-a-nullable-record-holding-a-declared-record-to-a-membership-field-of-another-refuses`
 - `a-cast-of-a-nullable-record-to-another-record-refuses`
 - `a-cast-of-a-record-holding-a-declared-record-to-a-dictionary-of-a-membership-of-another-refuses`
