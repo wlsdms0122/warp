@@ -1,0 +1,58 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-record-handed-at-a-dictionary-of-a-bounded-parameter-fills-it-by-its-fields-refuses"
+  note "`app.g` bounds `T` by `app.M`, which admits `int` and `string`, and takes `dictionary<some T>`. The record `{ b: true }` handed there is read as a dictionary, so its field fills `T` with `bool`, which no member admits, and the call refuses at the build."
+  program {
+    constraints {
+      "app.M" [
+        "int"
+        "string"
+      ]
+    }
+    imports []
+    procedures {
+      "app.g" {
+        bounds {
+          T "app.M"
+        }
+        parameters [
+          {
+            name "x"
+            type "dictionary<some T>"
+          }
+        ]
+        result 0
+        returns "int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  {
+                    record {
+                      b true
+                    }
+                  }
+                ]
+                procedure "app.g"
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

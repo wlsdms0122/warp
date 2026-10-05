@@ -1,0 +1,80 @@
+warpt 1
+{
+  expect {
+    answers 0
+  }
+  name "records-of-two-layouts-of-member-fields-read-as-a-dictionary-at-a-bounded-parameter-answers"
+  note "`app.f` bounds `T` by `app.Nums`, which admits `int` and `double`, and takes `dictionary<{ x: some T }>`. The record handed there holds two records whose fields differ, and their `x` fields read `T` as `int` and as `double`. Each is held to the bounds and each is a member, so the call answers."
+  program {
+    constraints {
+      "app.Nums" [
+        "int"
+        "double"
+      ]
+    }
+    imports []
+    procedures {
+      "app.f" {
+        bounds {
+          T "app.Nums"
+        }
+        parameters [
+          {
+            name "d"
+            type {
+              dictionary {
+                record {
+                  x "some T"
+                }
+              }
+            }
+          }
+        ]
+        result 0
+        returns "int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "v"
+            value {
+              record {
+                a {
+                  record {
+                    x 1
+                  }
+                }
+                b {
+                  record {
+                    x 2.5
+                    y 2
+                  }
+                }
+              }
+            }
+          }
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "v"
+                  }
+                ]
+                procedure "app.f"
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

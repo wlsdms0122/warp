@@ -1,0 +1,116 @@
+warpt 1
+{
+  documents [
+    {
+      imports []
+      procedures {
+        "bank.Card.show" {
+          access "public"
+          parameters [
+            {
+              name "of"
+              type "bank.Card"
+            }
+          ]
+          result "card"
+          returns "string"
+        }
+      }
+      types {
+        "bank.Card" {
+          record {
+            last "string"
+          }
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    refuses "build"
+  }
+  name "a-record-handed-at-a-dictionary-of-a-contract-leans-on-each-claim-refuses"
+  note "`app.h` takes `dictionary<app.P>`. The record `{ a: c }` handed there holds a `bank.Card`, which a beside document gives `show` but no document says answers `app.P`. Read as a dictionary, each field leans on its own claim, so the call writes it down and refuses at the build."
+  program {
+    contracts {
+      "app.P" {
+        show {
+          const true
+          isolated true
+          parameters [
+            {
+              name "of"
+              type "app.P"
+            }
+          ]
+          returns "string"
+        }
+      }
+    }
+    imports [
+      "bank.Card"
+    ]
+    procedures {
+      "app.h" {
+        parameters [
+          {
+            name "x"
+            type "dictionary<app.P>"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "x.a"
+              }
+            ]
+            procedure "app.P.show"
+          }
+        }
+        returns "string"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            value {
+              as {
+                of {
+                  record {
+                    last "1"
+                  }
+                }
+                type "bank.Card"
+              }
+            }
+          }
+          {
+            let "s"
+            value {
+              call {
+                arguments [
+                  {
+                    record {
+                      a {
+                        ref "c"
+                      }
+                    }
+                  }
+                ]
+                procedure "app.h"
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

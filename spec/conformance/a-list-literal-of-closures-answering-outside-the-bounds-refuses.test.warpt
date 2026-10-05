@@ -1,0 +1,79 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-list-literal-of-closures-answering-outside-the-bounds-refuses"
+  note "`app.f` bounds `T` by `app.M`, which admits `int` and `string`, and takes a list of procedures answering `some T`. The literal handed there holds a closure answering `int` and one answering `bool`. A closure's answer stands at the parameter and is held to the bounds, as it is for a closure handed alone, and no member takes a boolean, so the call refuses at the build."
+  program {
+    constraints {
+      "app.M" [
+        "int"
+        "string"
+      ]
+    }
+    imports []
+    procedures {
+      "app.f" {
+        bounds {
+          T "app.M"
+        }
+        parameters [
+          {
+            name "gs"
+            type {
+              array {
+                procedure {
+                  returns "some T"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            procedure {
+              ref "gs[1]"
+            }
+          }
+        }
+        returns "some T"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  [
+                    {
+                      closure {
+                        result 1
+                        returns "int"
+                      }
+                    }
+                    {
+                      closure {
+                        result true
+                        returns "bool"
+                      }
+                    }
+                  ]
+                ]
+                procedure "app.f"
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,118 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-declaration-answering-a-contract-reading-a-bounded-parameter-beside-any-refuses"
+  note "`app.C` asks `m` taking text and `any` after the type. `bank.X.m` answers it with two of `some T`, bounded by `app.Nums`, which admits `int` and `double`. Held to the contract, `T` is read as `string` and as `any`, which join to `any`; each reading is held to the bounds as it was read, no member takes text, and the call leaning on the claim refuses at the build."
+  program {
+    constraints {
+      "app.Nums" [
+        "int"
+        "double"
+      ]
+    }
+    contracts {
+      "app.C" {
+        m {
+          const true
+          isolated true
+          parameters [
+            {
+              name "of"
+              type "app.C"
+            }
+            {
+              name "a"
+              type "string"
+            }
+            {
+              name "b"
+              type "any"
+            }
+          ]
+          returns "int"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "bank.X.m" {
+        bounds {
+          T "app.Nums"
+        }
+        parameters [
+          {
+            name "of"
+            type "bank.X"
+          }
+          {
+            name "a"
+            type "some T"
+          }
+          {
+            name "b"
+            type "some T"
+          }
+        ]
+        result 0
+        returns "int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "x"
+            type "bank.X"
+            value {
+              record {
+                k "a"
+              }
+            }
+          }
+          {
+            let "s"
+            type "string"
+            value "s"
+          }
+          {
+            let "u"
+            type "any"
+            value 1
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "x"
+              }
+              {
+                ref "s"
+              }
+              {
+                ref "u"
+              }
+            ]
+            procedure "app.C.m"
+          }
+        }
+      }
+    }
+    satisfies {
+      "bank.X" [
+        "app.C"
+      ]
+    }
+    types {
+      "bank.X" {
+        record {
+          k "string"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

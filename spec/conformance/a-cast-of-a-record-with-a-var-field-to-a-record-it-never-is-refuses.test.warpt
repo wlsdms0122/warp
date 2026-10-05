@@ -1,0 +1,49 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-cast-of-a-record-with-a-var-field-to-a-record-it-never-is-refuses"
+  note "`app.Box` declares `var a: int`. A box cast `as { a: string }` names a record whose `a` holds text, and the box's `a` holds a whole number; the field's `var` is a fact about the field and not about its value, so no value is both and the cast refuses at the build."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            type "app.Box"
+            value {
+              record {
+                a 1
+              }
+            }
+          }
+        ]
+        result {
+          as {
+            of {
+              ref "b"
+            }
+            type {
+              record {
+                a "string"
+              }
+            }
+          }
+        }
+      }
+    }
+    types {
+      "app.Box" {
+        record {
+          a "var int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,75 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-reading-beside-any-at-a-bounded-parameter-is-held-where-it-stands-refuses"
+  note "`app.f` bounds `T` by `app.Nums`, which admits `int` and `double`, and takes two of `some T`. The call hands a name read as `string` and a name read as `any`, so `T` reads `any`, which every bound passes. What each argument hands is held to the bounds where it stands before the two are joined, and no member takes text, so the call refuses at the build."
+  program {
+    constraints {
+      "app.Nums" [
+        "int"
+        "double"
+      ]
+    }
+    imports []
+    procedures {
+      "app.f" {
+        bounds {
+          T "app.Nums"
+        }
+        parameters [
+          {
+            name "a"
+            type "some T"
+          }
+          {
+            name "b"
+            type "some T"
+          }
+        ]
+        result {
+          ref "a"
+        }
+        returns "some T"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "s"
+            type "string"
+            value "x"
+          }
+          {
+            let "u"
+            type "any"
+            value 1
+          }
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "s"
+                  }
+                  {
+                    ref "u"
+                  }
+                ]
+                procedure "app.f"
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,67 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-record-field-reading-a-parameter-two-ways-at-a-dictionary-refuses"
+  note "`app.f` takes `dictionary<{ a: some T, b: some T }>`. The record handed there holds one record whose `a` is a whole number and whose `b` is text, so that one field reads `T` two ways. What two fields read a parameter as joins part by part, and what one field reads it as two ways is a disagreement, so the call refuses at the build."
+  program {
+    imports []
+    procedures {
+      "app.f" {
+        parameters [
+          {
+            name "d"
+            type {
+              dictionary {
+                record {
+                  a "some T"
+                  b "some T"
+                }
+              }
+            }
+          }
+        ]
+        result 0
+        returns "int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "v"
+            value {
+              record {
+                x {
+                  record {
+                    a 1
+                    b "s"
+                  }
+                }
+              }
+            }
+          }
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "v"
+                  }
+                ]
+                procedure "app.f"
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
