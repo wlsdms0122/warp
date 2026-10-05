@@ -1,0 +1,79 @@
+warpt 1
+{
+  expect {
+    answers [
+      []
+      [
+        1
+      ]
+    ]
+  }
+  name "a-list-literal-answered-at-a-parameter-of-memberships-that-name-each-other-answers"
+  note "`app.M` admits `app.N` and `array<array<int>>`, and `app.N` admits `app.M` and `bool`. `app.g` bounds `T` by `app.M` and answers the literal `[[], [i]]` as `some T`. A value of `T` is one every member of `app.M` takes, and asking `app.N` for it is not asking `app.M` of it again: `app.N` takes it through `app.M`, whose `array<array<int>>` takes it part by part. So the build takes the answer, and the run answers `[[], [1]]`."
+  program {
+    constraints {
+      "app.M" [
+        "app.N"
+        "array<array<int>>"
+      ]
+      "app.N" [
+        "app.M"
+        "bool"
+      ]
+    }
+    imports []
+    procedures {
+      "app.g" {
+        bounds {
+          T "app.M"
+        }
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+          {
+            name "i"
+            type "int"
+          }
+        ]
+        result [
+          []
+          [
+            {
+              ref "i"
+            }
+          ]
+        ]
+        returns "some T"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  [
+                    [
+                      1
+                    ]
+                  ]
+                  1
+                ]
+                procedure "app.g"
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

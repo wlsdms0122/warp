@@ -206,6 +206,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-entry-taking-a-parameter-in-place-refuses`
 - `an-enum-candidate-written-as-a-number-refuses`
 - `an-enum-no-candidate-of-which-fits-refuses`
+- `an-enum-on-memberships-that-name-each-other-a-member-spells-is-taken`
+- `an-enum-on-memberships-that-name-each-other-no-member-spells-refuses`
 - `an-enum-that-admits-nothing-refuses`
 - `an-enum-with-a-dead-candidate-refuses`
 - `an-internal-entry-refuses`

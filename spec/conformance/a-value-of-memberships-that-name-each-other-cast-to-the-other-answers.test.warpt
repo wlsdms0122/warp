@@ -1,0 +1,44 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-value-of-memberships-that-name-each-other-cast-to-the-other-answers"
+  note "`app.M` admits `app.N` and `int`, and `app.N` admits `app.M` and `bool`, so a value of either is an int or a bool. A cast of a name read as `app.M` to `app.N` could hold, each pair of memberships met again on the way adding nothing, so it builds, and the run reads 1 as one of `app.N`."
+  program {
+    constraints {
+      "app.M" [
+        "app.N"
+        "int"
+      ]
+      "app.N" [
+        "app.M"
+        "bool"
+      ]
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            type "app.M"
+            value 1
+            var "x"
+          }
+        ]
+        result {
+          as {
+            of {
+              ref "x"
+            }
+            type "app.N"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
