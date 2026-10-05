@@ -443,6 +443,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `null-written-into-a-membership-that-names-itself-as-nullable-is-taken`
 - `null-written-into-memberships-that-name-each-other-as-nullable-is-taken`
 - `null-written-nullable-refuses`
+- `records-of-two-layouts-read-as-a-dictionary-at-a-bounded-parameter-refuses`
 - `the-far-bound-of-a-range-may-be-left-outside`
 - `two-documents-claiming-one-pair-are-one-claim`
 - `var-written-on-an-inline-record-field-refuses`
