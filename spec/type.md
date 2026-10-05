@@ -169,6 +169,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-cast-between-aliases-of-two-nullable-records-reads-null-answers`
 - `a-cast-does-not-carry-a-held-name-into-a-list`
 - `a-cast-naming-a-linear-type-does-not-go-into-a-list`
+- `a-cast-to-an-alias-of-a-nullable-record-names-the-record-answers`
 - `a-claim-about-a-name-that-is-not-a-record-refuses`
 - `a-claim-about-a-type-the-language-names-refuses`
 - `a-claim-naming-a-contract-where-the-type-belongs-refuses`
