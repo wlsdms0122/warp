@@ -366,6 +366,11 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-value-handed-on-in-one-arm-and-not-the-other-refuses`
 - `a-value-handed-on-inside-a-loop-round-refuses`
 - `a-value-of-a-membership-answers-a-contract-every-member-satisfies`
+- `a-value-of-memberships-that-name-each-other-called-refuses`
+- `a-value-of-memberships-that-name-each-other-cast-to-a-member-answers`
+- `a-value-of-memberships-that-name-each-other-cast-to-a-type-no-member-holds-refuses`
+- `a-value-of-memberships-that-name-each-other-written-into-a-nullable-slot-refuses`
+- `a-value-of-memberships-that-name-each-other-written-into-a-type-no-member-is-refuses`
 - `a-value-outside-a-contract-in-a-closures-parameter-refuses`
 - `a-value-outside-a-contract-standing-as-a-type-refuses`
 - `a-value-outside-a-declared-type-refuses-at-the-boundary`

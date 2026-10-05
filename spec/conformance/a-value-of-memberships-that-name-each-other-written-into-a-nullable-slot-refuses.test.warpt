@@ -1,0 +1,44 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-value-of-memberships-that-name-each-other-written-into-a-nullable-slot-refuses"
+  note "`app.M` admits `app.N` and `int`, and `app.N` admits `app.M` and `bool`, so a value of `app.M` is an int or a bool, each membership met again adding no member. A variable declared `int?` starts with a name read as `app.M`. Neither membership declares null, and a bool is not an int, so the build refuses."
+  program {
+    constraints {
+      "app.M" [
+        "app.N"
+        "int"
+      ]
+      "app.N" [
+        "app.M"
+        "bool"
+      ]
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            type "app.M"
+            value 1
+            var "x"
+          }
+          {
+            type "int?"
+            value {
+              ref "x"
+            }
+            var "y"
+          }
+        ]
+        result 0
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
