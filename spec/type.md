@@ -327,6 +327,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-parameter-handed-in-place-takes-no-reading-of-any-refuses`
 - `a-parameter-handed-in-place-takes-no-value-its-members-take-refuses`
 - `a-parameter-naming-a-type-nothing-declares-refuses`
+- `a-parameter-read-as-a-contract-and-as-memberships-that-name-each-other-answers`
 - `a-parameter-read-as-a-declared-range-and-its-kind-is-the-kind`
 - `a-parameter-read-as-a-declared-record-and-its-alias-keeps-the-name`
 - `a-parameter-read-as-a-record-and-a-nameless-one-of-its-fields-is-the-nameless-one`
