@@ -337,6 +337,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-parameter-read-as-a-contract-and-as-memberships-that-name-each-other-answers`
 - `a-parameter-read-as-a-declared-range-and-its-kind-is-the-kind`
 - `a-parameter-read-as-a-declared-record-and-its-alias-keeps-the-name`
+- `a-parameter-read-as-a-declared-record-with-a-var-field-and-a-nameless-one-is-handed-in-place-beside-a-nameless-record-answers`
+- `a-parameter-read-as-a-declared-record-with-a-var-field-and-a-nameless-one-reads-the-nameless-one-refuses`
 - `a-parameter-read-as-a-record-and-a-nameless-one-of-its-fields-is-the-nameless-one`
 - `a-parameter-read-as-an-alias-of-a-nullable-record-and-as-a-wider-record-answers`
 - `a-parameter-read-as-dictionaries-of-a-record-and-of-a-nameless-one-is-a-dictionary-of-the-nameless-one-refuses`
