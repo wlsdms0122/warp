@@ -1,0 +1,51 @@
+warpt 1
+{
+  expect {
+    refuses "run"
+  }
+  name "a-module-variable-settles-what-is-written-into-it-to-the-type-it-declares-refuses"
+  note "`r` is a module variable declaring `int(0...3)`, and a body writes `std.math.plus(4, 5)` into it. A write into a box that said what it holds settles to it, the way a local `var` declaring a type settles each write, so 9 is outside the range and the run refuses at the write."
+  program {
+    imports [
+      "std.math.plus"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            set "r"
+            value {
+              call {
+                arguments [
+                  4
+                  5
+                ]
+                procedure "std.math.plus"
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+      }
+    }
+    types {
+      "bank.A" {
+        record {
+          k "string"
+        }
+      }
+    }
+    var {
+      r {
+        type "int(0...3)"
+        value 0
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

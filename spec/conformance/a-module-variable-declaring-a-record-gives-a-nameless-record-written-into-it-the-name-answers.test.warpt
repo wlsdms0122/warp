@@ -1,0 +1,95 @@
+warpt 1
+{
+  expect {
+    answers "a"
+  }
+  name "a-module-variable-declaring-a-record-gives-a-nameless-record-written-into-it-the-name-answers"
+  note "`r` is a module variable declaring `bank.A`, and a body writes the nameless record `{ k: \"y\" }` into it. The write settles to what the variable declares, so `r` holds a `bank.A`, and `app.P.show`, which `bank.A` answers, is sent to it."
+  program {
+    contracts {
+      "app.P" {
+        show {
+          const true
+          isolated true
+          parameters [
+            {
+              name "of"
+              type "app.P"
+            }
+          ]
+          returns "string"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "bank.A.show" {
+        parameters [
+          {
+            name "of"
+            type "bank.A"
+          }
+        ]
+        result "a"
+        returns "string"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            set "r"
+            value {
+              record {
+                k "y"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "r"
+              }
+            ]
+            procedure "app.P.show"
+          }
+        }
+      }
+    }
+    satisfies {
+      "bank.A" [
+        "app.P"
+      ]
+    }
+    types {
+      "bank.A" {
+        record {
+          k "string"
+        }
+      }
+      "bank.Holder" {
+        record {
+          f {
+            procedure {
+              returns "bank.A"
+            }
+          }
+        }
+      }
+    }
+    var {
+      r {
+        type "bank.A"
+        value {
+          record {
+            k "x"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

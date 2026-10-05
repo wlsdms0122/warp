@@ -65,11 +65,13 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-module-variable-closure-called-with-another-count-refuses`
 - `a-module-variable-closure-may-name-its-documents-own-type`
 - `a-module-variable-declares-what-it-holds`
+- `a-module-variable-declaring-a-record-gives-a-nameless-record-written-into-it-the-name-answers`
 - `a-module-variable-handed-in-place-is-one-box`
 - `a-module-variable-is-handed-in-place-to-a-native-procedure`
 - `a-module-variable-is-not-named-from-another-document`
 - `a-module-variable-is-shared-by-the-procedures-beside-it`
 - `a-module-variable-keeps-the-type-it-started-as`
+- `a-module-variable-settles-what-is-written-into-it-to-the-type-it-declares-refuses`
 - `a-module-variable-start-outside-its-declared-type-refuses`
 - `a-module-variable-started-with-a-const-closure-takes-one-that-runs`
 - `a-module-variable-starting-as-a-dictionary-takes-new-names`
