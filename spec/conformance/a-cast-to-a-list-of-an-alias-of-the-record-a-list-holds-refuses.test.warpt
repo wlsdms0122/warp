@@ -1,0 +1,52 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-cast-to-a-list-of-an-alias-of-the-record-a-list-holds-refuses"
+  note "`bank.BB` stands for `bank.B`, a declared record. `xs` is read as `array<bank.B>`, so casting it as `array<bank.BB>` names what the reading already is under another spelling of the same record, and the build refuses the cast as needless."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "xs"
+            type "array<bank.B>"
+            value [
+              {
+                record {
+                  k "x"
+                }
+              }
+            ]
+          }
+          {
+            let "ys"
+            value {
+              as {
+                of {
+                  ref "xs"
+                }
+                type "array<bank.BB>"
+              }
+            }
+          }
+        ]
+        result 0
+      }
+    }
+    types {
+      "bank.B" {
+        record {
+          k "string"
+        }
+      }
+      "bank.BB" "bank.B"
+    }
+    warp 1
+  }
+  test 1
+}
+
