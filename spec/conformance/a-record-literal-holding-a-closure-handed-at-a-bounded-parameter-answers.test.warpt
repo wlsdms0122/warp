@@ -1,0 +1,100 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-record-literal-holding-a-closure-handed-at-a-bounded-parameter-answers"
+  note "`app.f` bounds `T` by `app.M`, which admits `int` and `string`, and takes a record whose field `g` is a procedure taking `some T`. A record literal handed there holds a closure taking `int`, and `x` fills `T` with `int`. Only the parts standing at the parameter are held to the bounds, and a closure is judged as any closure handed to its procedure type is, so it builds and answers 1."
+  program {
+    constraints {
+      "app.M" [
+        "int"
+        "string"
+      ]
+    }
+    imports []
+    procedures {
+      "app.f" {
+        bounds {
+          T "app.M"
+        }
+        parameters [
+          {
+            name "r"
+            type {
+              record {
+                e "array<int>"
+                g {
+                  procedure {
+                    parameters [
+                      "some T"
+                    ]
+                    returns "int"
+                  }
+                }
+              }
+            }
+          }
+          {
+            name "x"
+            type "some T"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "x"
+              }
+            ]
+            procedure {
+              ref "r.g"
+            }
+          }
+        }
+        returns "int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  {
+                    record {
+                      e []
+                      g {
+                        closure {
+                          parameters [
+                            {
+                              name "n"
+                              type "int"
+                            }
+                          ]
+                          result {
+                            ref "n"
+                          }
+                          returns "int"
+                        }
+                      }
+                    }
+                  }
+                  1
+                ]
+                procedure "app.f"
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

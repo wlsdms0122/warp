@@ -1,0 +1,129 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-literal-of-names-at-a-contract-bound-leans-on-each-claim-refuses"
+  note "`app.f` bounds `T` by the contract `app.Describable` and takes `array<array<some T>>`. The literal `[ps, qs]` handed there holds a list of `bank.P`, which a document says answers it, and a list of `bank.Q`, which none does. Each name read at the parameter leans on its own claim, so the call writes both down and refuses at the build where `bank.Q` has none."
+  program {
+    contracts {
+      "app.Describable" {
+        describe {
+          const true
+          isolated true
+          parameters [
+            {
+              name "of"
+              type "app.Describable"
+            }
+          ]
+          returns "string"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "app.f" {
+        bounds {
+          T "app.Describable"
+        }
+        parameters [
+          {
+            name "gs"
+            type "array<array<some T>>"
+          }
+        ]
+        result 0
+        returns "int"
+      }
+      "bank.P.describe" {
+        parameters [
+          {
+            name "of"
+            type "bank.P"
+          }
+        ]
+        result "p"
+        returns "string"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "ps"
+            type "array<bank.P>"
+            value [
+              {
+                as {
+                  of {
+                    record {
+                      a "1"
+                    }
+                  }
+                  type "bank.P"
+                }
+              }
+            ]
+          }
+          {
+            let "qs"
+            type "array<bank.Q>"
+            value [
+              {
+                as {
+                  of {
+                    record {
+                      b "1"
+                    }
+                  }
+                  type "bank.Q"
+                }
+              }
+            ]
+          }
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  [
+                    {
+                      ref "ps"
+                    }
+                    {
+                      ref "qs"
+                    }
+                  ]
+                ]
+                procedure "app.f"
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+      }
+    }
+    satisfies {
+      "bank.P" [
+        "app.Describable"
+      ]
+    }
+    types {
+      "bank.P" {
+        record {
+          a "string"
+        }
+      }
+      "bank.Q" {
+        record {
+          b "string"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
