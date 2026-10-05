@@ -406,6 +406,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `inout-written-on-returns-refuses`
 - `linear-on-a-slot-refuses`
 - `never-written-nullable-refuses`
+- `null-written-into-a-membership-that-names-itself-as-nullable-is-taken`
+- `null-written-into-memberships-that-name-each-other-as-nullable-is-taken`
 - `null-written-nullable-refuses`
 - `the-far-bound-of-a-range-may-be-left-outside`
 - `two-documents-claiming-one-pair-are-one-claim`
