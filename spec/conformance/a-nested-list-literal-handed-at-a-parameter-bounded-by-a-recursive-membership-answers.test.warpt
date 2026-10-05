@@ -1,0 +1,66 @@
+warpt 1
+{
+  expect {
+    answers [
+      [
+        1
+      ]
+      2
+    ]
+  }
+  name "a-nested-list-literal-handed-at-a-parameter-bounded-by-a-recursive-membership-answers"
+  note "`app.g` takes `some T` bounded by `app.M`, which admits `int` and `array<app.M>`. The call hands `[[1], 2]`, each part one of `app.M`, so the build takes it read part by part and the run answers it back."
+  program {
+    constraints {
+      "app.M" [
+        "int"
+        "array<app.M>"
+      ]
+    }
+    imports []
+    procedures {
+      "app.g" {
+        bounds {
+          T "app.M"
+        }
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+        ]
+        result {
+          ref "x"
+        }
+        returns "some T"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  [
+                    [
+                      1
+                    ]
+                    2
+                  ]
+                ]
+                procedure "app.g"
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
