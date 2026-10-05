@@ -365,6 +365,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-record-type-may-name-a-field-for-a-form`
 - `a-record-under-another-name-refuses`
 - `a-record-under-another-name-refuses-through-any`
+- `a-record-with-a-var-field-handed-at-a-dictionary-fills-a-parameter-by-its-values-answers`
+- `a-record-with-a-var-field-handed-at-a-dictionary-fills-a-parameter-by-its-values-refuses`
 - `a-recursive-type-written-into-a-membership-holding-a-list-of-itself-is-taken`
 - `a-return-answering-one-without-returns-refuses`
 - `a-row-of-readings-of-any-appended-to-a-table-of-text-refuses`
