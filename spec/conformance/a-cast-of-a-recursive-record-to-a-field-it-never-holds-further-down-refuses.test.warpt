@@ -6,12 +6,6 @@ warpt 1
   name "a-cast-of-a-recursive-record-to-a-field-it-never-holds-further-down-refuses"
   note "`app.T` declares `{ n: app.T? }`, so a value of it is a chain of records ending in null. `t` is read as `app.T`, and the cast names a record four deep whose last `n` holds a whole number. However deep the chain goes, every `n` holds a record or null and never an int, so no value is both and the cast refuses at the build."
   program {
-    constraints {
-      "app.M" [
-        "app.T"
-        "int"
-      ]
-    }
     imports []
     procedures {
       entry {
