@@ -39,6 +39,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-call-through-a-type-parameter-settles-a-closure-answer-to-what-a-module-variable-declared-answers`
 - `a-called-value-answers-what-its-slot-wrote`
 - `a-calls-arguments-are-evaluated-in-position-order`
+- `a-cast-of-a-closure-answering-a-record-held-at-a-slot-answering-anything-to-another-record-reads-null-answers`
 - `a-cast-of-a-closure-that-passed-a-slot-answering-anything-to-another-record-reads-null-answers`
 - `a-cast-of-a-closure-to-a-procedure-answering-another-record-reads-null-answers`
 - `a-closure-a-slot-widened-fills-a-type-parameter-with-what-the-slot-wrote-answers`
