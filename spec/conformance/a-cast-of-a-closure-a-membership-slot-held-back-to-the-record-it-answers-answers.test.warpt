@@ -1,0 +1,127 @@
+warpt 1
+{
+  expect {
+    answers "a"
+  }
+  name "a-cast-of-a-closure-a-membership-slot-held-back-to-the-record-it-answers-answers"
+  note "`c` is held at `procedure() -> bank.A`, then at `procedure() -> app.M`, which admits `bank.A` and `int`. A membership settles nothing, so that slot adds no answer, and the cast back to `procedure() -> bank.A` takes the closure: `app.P.show` reaches `bank.A`'s witness."
+  program {
+    constraints {
+      "app.M" [
+        "bank.A"
+        "int"
+      ]
+    }
+    contracts {
+      "app.P" {
+        show {
+          const true
+          isolated true
+          parameters [
+            {
+              name "of"
+              type "app.P"
+            }
+          ]
+          returns "string"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "bank.A.show" {
+        parameters [
+          {
+            name "of"
+            type "bank.A"
+          }
+        ]
+        result "a"
+        returns "string"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            type {
+              procedure {
+                returns "bank.A"
+              }
+            }
+            value {
+              closure {
+                result {
+                  record {
+                    k "x"
+                  }
+                }
+              }
+            }
+          }
+          {
+            let "j"
+            type {
+              procedure {
+                returns "app.M"
+              }
+            }
+            value {
+              ref "c"
+            }
+          }
+          {
+            let "e"
+            value {
+              as {
+                of {
+                  ref "j"
+                }
+                type {
+                  procedure {
+                    returns "bank.A"
+                  }
+                }
+              }
+            }
+          }
+          {
+            let "v"
+            value {
+              call {
+                procedure {
+                  ref "e"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "v"
+              }
+            ]
+            procedure "app.P.show"
+          }
+        }
+      }
+    }
+    satisfies {
+      "bank.A" [
+        "app.P"
+      ]
+    }
+    types {
+      "bank.A" {
+        record {
+          k "string"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

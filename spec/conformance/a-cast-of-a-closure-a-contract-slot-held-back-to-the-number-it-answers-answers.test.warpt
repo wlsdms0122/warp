@@ -1,0 +1,69 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-cast-of-a-closure-a-contract-slot-held-back-to-the-number-it-answers-answers"
+  note "`c` is held at `procedure() -> int`, then at `procedure() -> std.Numeric`, which `int` answers. Asking a contract of a value settles nothing, so that slot adds no answer, and the cast back to `procedure() -> int` takes the closure."
+  program {
+    imports [
+      "std.Numeric"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            type {
+              procedure {
+                returns "int"
+              }
+            }
+            value {
+              closure {
+                result 1
+              }
+            }
+          }
+          {
+            let "j"
+            type {
+              procedure {
+                returns "std.Numeric"
+              }
+            }
+            value {
+              ref "c"
+            }
+          }
+          {
+            let "e"
+            value {
+              as {
+                of {
+                  ref "j"
+                }
+                type {
+                  procedure {
+                    returns "int"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            procedure {
+              ref "e"
+            }
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
