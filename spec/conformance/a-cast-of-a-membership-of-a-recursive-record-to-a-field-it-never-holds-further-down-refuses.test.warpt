@@ -1,0 +1,81 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-cast-of-a-membership-of-a-recursive-record-to-a-field-it-never-holds-further-down-refuses"
+  note "`app.T` declares `{ n: app.T? }`, and `app.M` admits `app.T` and `int`. A value read as `app.M` is a whole number or a chain of records ending in null, nameless or not, and the cast names a record four deep whose last `n` holds a whole number. Every `n` of such a chain holds a record or null, so no value is both and the cast refuses at the build."
+  program {
+    constraints {
+      "app.M" [
+        "app.T"
+        "int"
+      ]
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "m"
+            type "app.M"
+            value {
+              record {
+                n {
+                  record {
+                    n {
+                      record {
+                        n null
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+          {
+            let "b"
+            value {
+              as {
+                of {
+                  ref "m"
+                }
+                type {
+                  record {
+                    n {
+                      record {
+                        n {
+                          record {
+                            n {
+                              record {
+                                n "int"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "b"
+        }
+      }
+    }
+    types {
+      "app.T" {
+        record {
+          n "app.T?"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
