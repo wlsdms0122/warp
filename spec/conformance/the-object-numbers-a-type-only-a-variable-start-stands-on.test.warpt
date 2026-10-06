@@ -1,0 +1,209 @@
+warpt 1
+{
+  expect {
+    builds {
+      answers [
+        [
+          "entry"
+          [
+            4
+          ]
+        ]
+      ]
+      claims []
+      constants []
+      constraints []
+      contracts []
+      dependencies []
+      document [
+        x"8f25959927c0ea7b4245a23c9f994750b521fd22545012565c0225554c572a12"
+      ]
+      leaned []
+      lifted [
+        [
+          [
+            []
+            []
+          ]
+          0
+          1
+          1
+          [
+            1
+            []
+          ]
+          false
+          [
+            0
+            [
+              []
+              [
+                [
+                  3
+                  [
+                    [
+                      []
+                      [
+                        "k"
+                      ]
+                    ]
+                    [
+                      [
+                        0
+                        [
+                          4
+                          "x"
+                        ]
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+            [
+              0
+              []
+              []
+              []
+              []
+            ]
+          ]
+        ]
+      ]
+      numbering [
+        []
+        [
+          [
+            [
+              1
+              "cv"
+            ]
+            1
+          ]
+        ]
+      ]
+      object 1
+      rows [
+        [
+          "entry"
+          [
+            []
+            []
+          ]
+          2
+          1
+          1
+          [
+            1
+            []
+          ]
+          true
+          [
+            0
+            [
+              []
+              [
+                [
+                  0
+                  [
+                    2
+                    1
+                  ]
+                ]
+              ]
+            ]
+            [
+              0
+              []
+              []
+              []
+              []
+            ]
+          ]
+        ]
+      ]
+      typeNumbering [
+        [
+          "bank.A"
+        ]
+        []
+      ]
+      types [
+        [
+          "bank.A"
+          [
+            10
+            [
+              [
+                "k"
+                [
+                  6
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+      variables [
+        [
+          "cv"
+          [
+            9
+            x"8f25959927c0ea7b4245a23c9f994750b521fd22545012565c0225554c572a12"
+            [
+              1
+              "cv"
+            ]
+            0
+            []
+            [
+              [
+                15
+                0
+              ]
+            ]
+          ]
+        ]
+      ]
+    }
+  }
+  name "the-object-numbers-a-type-only-a-variable-start-stands-on"
+  note "A declared type that only a variable's start stands on, here the answer its closure was held at, is numbered under typeNumbering like one a body stands on, and the start writes it as its place there."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+      }
+    }
+    types {
+      "bank.A" {
+        record {
+          k "string"
+        }
+      }
+    }
+    var {
+      cv {
+        type {
+          procedure {
+            returns "bank.A"
+          }
+        }
+        value {
+          closure {
+            result {
+              record {
+                k "x"
+              }
+            }
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

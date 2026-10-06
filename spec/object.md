@@ -22,7 +22,7 @@ An object is one record. It carries **exactly** these keys, and a key none of th
 | `lifted` | the closures its bodies lifted, each a *row* with no spelling | as the numbering counts them |
 | `answers` | name → *lowered type*: what the build read off a body whose declaration wrote no `returns` | by name |
 | `numbering` | two lists: what it sends, and how many closures each declaration wrote | below |
-| `typeNumbering` | two lists: the declared types its bodies stand on, and the memberships, each ascending by name | below |
+| `typeNumbering` | two lists: the declared types its bodies, its `answers` and its `variables` stand on, and the memberships, each ascending by name | below |
 | `variables` | (name, *value*): what each variable starts a run holding | by name |
 | `constants` | the constants it declared, by spelling | by name |
 
@@ -32,7 +32,7 @@ An object is one record. It carries **exactly** these keys, and a key none of th
 
 **The rows.** A declaration's row stands under its spelling in `rows`, in name order; the rows its bodies lifted stand in `lifted`, without a spelling, in the order the numbering counts them. A body numbers its calls and its types from the document itself, under [procedures](procedure.md): the spellings it sends first, in name order, then its own declarations in name order, then the closures its declarations wrote, in the order the numbering lists the declarations and, within one, the order the body wrote them. Where a row lands in a link is the link's answer, so nothing here says it, and one object answers every entry asked of it.
 
-**`numbering`** writes what a reading uses and cannot work out: the spellings sent, in name order; then `(declaration, count)` for each declaration that wrote a closure, counts above zero. A *declaration* is `[0, name]` for a procedure and `[1, name]` for a constant or a variable, since a procedure and a constant may be spelled alike; the procedures stand first, then the constants and variables, each in name order, none twice. **`typeNumbering`** writes the declared types the lowered bodies stand on, ascending by name, none twice, then the memberships, likewise: a body numbers its types in that order. What a number stands for is arithmetic over these lists and the declared spellings, so the numbers themselves are not written.
+**`numbering`** writes what a reading uses and cannot work out: the spellings sent, in name order; then `(declaration, count)` for each declaration that wrote a closure, counts above zero. A *declaration* is `[0, name]` for a procedure and `[1, name]` for a constant or a variable, since a procedure and a constant may be spelled alike; the procedures stand first, then the constants and variables, each in name order, none twice. **`typeNumbering`** writes the declared types the lowered bodies, the `answers` and the starts in `variables` stand on, ascending by name, none twice, then the memberships, likewise: each of them numbers its types in that order. What a number stands for is arithmetic over these lists and the declared spellings, so the numbers themselves are not written.
 
 ## How a part is laid out
 
@@ -151,13 +151,13 @@ A *lowered type* is a type as a body stands on it, `[tag, …]`:
 | 12 | variable | *lowered type* |
 | 13 | inout | *lowered type* |
 | 14 | nullable | *lowered type* |
-| 15 | a declared type | its number in `numbering` |
+| 15 | a declared type | its place in the first list of `typeNumbering` |
 | 16 | a type parameter | its label, bounds ascending |
 | 17 | a composition | bounds ascending, at least one |
 | 18 | a projection | the parameter projected, *segment* list |
 | 19 | undeclared | its label, why: `[0, name]` nothing declares it, `[1, name]` nothing declares it as a membership or a contract, `[2]` it names itself |
 
-A *bound* is `[0, number]` for a membership or `[1, name]` for a contract.
+A *bound* is `[0, number]` for a membership, its place in the second list of `typeNumbering`, or `[1, name]` for a contract.
 
 ### Values
 
@@ -278,6 +278,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-writing-a-name-not-in-normal-form-refuses`
 - `an-object-writing-a-tag-the-layout-does-not-name-refuses`
 - `an-object-writing-an-empty-name-refuses`
+- `the-object-numbers-a-type-only-a-variable-start-stands-on`
 - `the-object-of-a-block`
 - `the-object-of-a-call`
 - `the-object-of-a-cast`
