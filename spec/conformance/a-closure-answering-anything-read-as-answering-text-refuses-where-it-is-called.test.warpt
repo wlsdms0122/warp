@@ -1,0 +1,102 @@
+warpt 1
+{
+  expect {
+    refuses "run"
+  }
+  name "a-closure-answering-anything-read-as-answering-text-refuses-where-it-is-called"
+  note "`fa` writes `returns any` and answers 1. `app.pick` hands back its second argument, and the call reads `E` from both, so `r` is read as a procedure answering `string`: a reading the text opens to `any` stands at the build. No slot `r` passed through wrote `string`, so the call of `r` judges what arrives against what it reads, and 1 refuses at the run."
+  program {
+    imports [
+      "std.collection.appending"
+    ]
+    procedures {
+      "app.pick" {
+        parameters [
+          {
+            name "a"
+            type "some E"
+          }
+          {
+            name "b"
+            type "some E"
+          }
+        ]
+        result {
+          ref "b"
+        }
+        returns "some E"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "fs"
+            value {
+              closure {
+                result "x"
+                returns "string"
+              }
+            }
+          }
+          {
+            let "fa"
+            value {
+              closure {
+                result 1
+                returns "any"
+              }
+            }
+          }
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "fs"
+                  }
+                  {
+                    ref "fa"
+                  }
+                ]
+                procedure "app.pick"
+              }
+            }
+          }
+          {
+            let "v"
+            value {
+              call {
+                procedure {
+                  ref "r"
+                }
+              }
+            }
+          }
+          {
+            let "t"
+            value {
+              call {
+                arguments [
+                  [
+                    {
+                      ref "v"
+                    }
+                  ]
+                  "z"
+                ]
+                procedure "std.collection.appending"
+              }
+            }
+          }
+        ]
+        result {
+          ref "t"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

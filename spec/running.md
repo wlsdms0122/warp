@@ -48,11 +48,13 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-cast-of-a-closure-to-a-procedure-answering-another-record-reads-null-answers`
 - `a-closure-a-record-slot-took-the-name-from-settles-into-another-record-slot-answers`
 - `a-closure-a-slot-widened-fills-a-type-parameter-with-what-the-slot-wrote-answers`
+- `a-closure-answering-anything-read-as-answering-text-refuses-where-it-is-called`
 - `a-closure-held-at-a-slot-writing-its-own-answer-keeps-that-answer-through-a-type-parameter-answers`
 - `a-closure-settled-into-a-contract-slot-keeps-the-record-an-earlier-slot-wrote-answers`
 - `a-contract-answer-settles-what-it-wrote-and-hands-on-what-the-call-filled-answers`
 - `a-contract-answering-a-type-parameter-hands-the-answer-on-as-it-came-answers`
 - `a-field-the-declared-answer-does-not-name-refuses`
+- `a-getter-a-generic-procedure-made-refuses-what-a-cast-setter-wrote-where-it-is-called`
 - `a-piece-calling-a-fixed-name-bound-to-a-closure-literal-refuses`
 - `a-piece-calling-a-host-procedure-that-is-not-isolated-refuses`
 - `a-piece-calling-a-procedure-that-calls-an-isolated-module-variable-stands`

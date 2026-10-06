@@ -1,0 +1,143 @@
+warpt 1
+{
+  expect {
+    refuses "run"
+  }
+  name "a-getter-a-generic-procedure-made-refuses-what-a-cast-setter-wrote-where-it-is-called"
+  note "`app.mk` keeps `x` in a box and answers a record of a setter and a getter over it, both closures over its `T`. Called with 1, `T` reads `int`, so `p.g` is read as a procedure answering `int`. The setter is read through `any` and cast to take a `string`, and its call writes \"s\" into the box. The getter's own `returns` names `T`, which the run does not fill, so the call of `p.g` judges what arrives against `int`, and \"s\" refuses at the run."
+  program {
+    imports []
+    procedures {
+      "app.mk" {
+        body [
+          {
+            value {
+              ref "x"
+            }
+            var "cell"
+          }
+          {
+            let "s"
+            value {
+              closure {
+                body [
+                  {
+                    set "cell"
+                    value {
+                      ref "y"
+                    }
+                  }
+                ]
+                parameters [
+                  {
+                    name "y"
+                    type "some T"
+                  }
+                ]
+                result 0
+                returns "int"
+              }
+            }
+          }
+          {
+            let "g"
+            value {
+              closure {
+                result {
+                  ref "cell"
+                }
+                returns "some T"
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+        ]
+        result {
+          record {
+            g {
+              ref "g"
+            }
+            s {
+              ref "s"
+            }
+          }
+        }
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "p"
+            value {
+              call {
+                arguments [
+                  1
+                ]
+                procedure "app.mk"
+              }
+            }
+          }
+          {
+            let "a"
+            type "any"
+            value {
+              ref "p.s"
+            }
+          }
+          {
+            let "h"
+            value {
+              as {
+                of {
+                  ref "a"
+                }
+                type {
+                  procedure {
+                    parameters [
+                      "string"
+                    ]
+                    returns "int"
+                  }
+                }
+              }
+            }
+          }
+          {
+            let "z"
+            value {
+              call {
+                arguments [
+                  "s"
+                ]
+                procedure {
+                  ref "h"
+                }
+              }
+            }
+          }
+          {
+            let "r"
+            value {
+              call {
+                procedure {
+                  ref "p.g"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
