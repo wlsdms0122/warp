@@ -178,6 +178,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-cast-of-a-nullable-record-to-another-record-refuses`
 - `a-cast-of-a-record-holding-a-declared-record-to-a-dictionary-of-a-membership-of-another-refuses`
 - `a-cast-of-a-record-with-a-var-field-to-a-record-it-never-is-refuses`
+- `a-cast-of-a-recursive-record-to-a-field-it-never-holds-further-down-refuses`
 - `a-cast-of-an-alias-of-a-nullable-record-to-another-record-refuses`
 - `a-cast-to-an-alias-of-a-nullable-record-names-the-record-answers`
 - `a-claim-about-a-name-that-is-not-a-record-refuses`
