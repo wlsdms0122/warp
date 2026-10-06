@@ -1,0 +1,86 @@
+warpt 1
+{
+  expect {
+    answers null
+  }
+  name "a-cast-of-a-closure-that-passed-a-slot-answering-anything-to-another-record-reads-null-answers"
+  note "`c` is held at `procedure() -> bank.A`, then at `procedure() -> any`, and travels through `any`. The closure keeps both answers, and a slot takes it only where its answer takes every one of them: `bank.B` takes `any` but never a `bank.A`, so the asking cast to `procedure() -> bank.B` reads it as null."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            type {
+              procedure {
+                returns "bank.A"
+              }
+            }
+            value {
+              closure {
+                result {
+                  record {
+                    k "x"
+                  }
+                }
+              }
+            }
+          }
+          {
+            let "x"
+            type {
+              procedure {
+                returns "any"
+              }
+            }
+            value {
+              ref "c"
+            }
+          }
+          {
+            let "a"
+            type "any"
+            value {
+              ref "x"
+            }
+          }
+          {
+            let "v"
+            value {
+              "as?" {
+                of {
+                  ref "a"
+                }
+                type {
+                  procedure {
+                    returns "bank.B"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "v"
+        }
+      }
+    }
+    types {
+      "bank.A" {
+        record {
+          k "string"
+        }
+      }
+      "bank.B" {
+        record {
+          k "string"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
