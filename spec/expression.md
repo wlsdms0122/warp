@@ -54,6 +54,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-cast-naming-what-the-reading-already-is-refuses`
 - `a-cast-of-a-list-of-nameless-records-to-a-list-of-a-declared-record-names-them`
 - `a-cast-of-a-nameless-field-to-a-field-of-a-declared-record-names-it`
+- `a-cast-of-a-recursive-alias-to-what-it-names-refuses`
 - `a-cast-onto-a-type-parameter-refuses`
 - `a-cast-onto-any-refuses`
 - `a-cast-onto-never-refuses`
@@ -62,6 +63,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-cast-to-a-dictionary-of-a-type-parameter-refuses`
 - `a-cast-to-a-list-of-a-type-parameter-refuses`
 - `a-cast-to-a-list-of-an-alias-of-the-record-a-list-holds-refuses`
+- `a-cast-to-a-procedure-type-answering-an-alias-of-what-it-answers-refuses`
 - `a-closure-answers-what-it-declared`
 - `a-closure-reads-a-variable-through-its-box`
 - `a-closure-write-keeps-the-captured-type`

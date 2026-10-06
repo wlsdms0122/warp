@@ -1,0 +1,80 @@
+warpt 1
+{
+  expect {
+    answers "1.0"
+  }
+  name "a-closure-a-slot-widened-fills-a-type-parameter-with-what-the-slot-wrote-answers"
+  note "The closure writes `returns int` and is held at `procedure() -> double`, so it answers a fraction from there. Handed to `app.run`, which takes `procedure() -> some T`, it is read as answering the last answer a slot wrote, so `T` is `double`, the slot takes it, and the call inside `app.run` answers the fraction 1.0."
+  program {
+    imports [
+      "std.text.text"
+    ]
+    procedures {
+      "app.run" {
+        parameters [
+          {
+            name "c"
+            type {
+              procedure {
+                returns "some T"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            procedure {
+              ref "c"
+            }
+          }
+        }
+        returns "some T"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            type {
+              procedure {
+                returns "double"
+              }
+            }
+            value {
+              closure {
+                result 1
+                returns "int"
+              }
+            }
+          }
+          {
+            let "v"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "c"
+                  }
+                ]
+                procedure "app.run"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "v"
+              }
+            ]
+            procedure "std.text.text"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,80 @@
+warpt 1
+{
+  expect {
+    answers "1.0"
+  }
+  name "a-call-through-a-type-parameter-settles-a-closure-answer-to-what-a-module-variable-declared-answers"
+  note "The module variable `cv` declares `procedure() -> double` and starts as a closure answering the whole number 1. `app.run` takes `procedure() -> some T`, so `v` reads as `double`. The start settled into what the variable declared, so the closure keeps that answer, and the call inside `app.run` settles it to the fraction 1.0."
+  program {
+    imports [
+      "std.text.text"
+    ]
+    procedures {
+      "app.run" {
+        parameters [
+          {
+            name "c"
+            type {
+              procedure {
+                returns "some T"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            procedure {
+              ref "c"
+            }
+          }
+        }
+        returns "some T"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "v"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "cv"
+                  }
+                ]
+                procedure "app.run"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "v"
+              }
+            ]
+            procedure "std.text.text"
+          }
+        }
+      }
+    }
+    var {
+      cv {
+        type {
+          procedure {
+            returns "double"
+          }
+        }
+        value {
+          closure {
+            result 1
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

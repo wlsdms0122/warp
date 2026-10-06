@@ -191,6 +191,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-way-that-returns-from-an-attempt-is-not-met-after-it`
 - `a-write-index-that-is-not-a-whole-number-refuses`
 - `a-write-indexes-with-a-name`
+- `a-write-into-an-entry-of-a-declared-dictionary-settles-the-record-it-names-answers`
+- `a-write-into-an-entry-of-a-declared-dictionary-settles-to-its-entry-type-refuses`
 - `a-write-makes-an-entry-of-a-dictionary`
 - `a-write-reaches-into-what-a-variable-holds`
 - `a-write-through-a-path-settles-to-what-the-path-reaches-in-a-variable-that-declared-nothing-answers`
