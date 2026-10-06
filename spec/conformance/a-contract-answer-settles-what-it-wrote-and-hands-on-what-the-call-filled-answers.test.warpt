@@ -1,0 +1,114 @@
+warpt 1
+{
+  expect {
+    answers "1.0"
+  }
+  name "a-contract-answer-settles-what-it-wrote-and-hands-on-what-the-call-filled-answers"
+  note "`app.Paired.pair` takes `some T` and answers `{ v: some T, n: double }`, and `bank.Card.pair` writes no `returns` and answers `{ v: a, n: 1 }`. The call settles the answer to what the contract wrote, position by position: `n` is a fraction, and `v` is what the call filled `T` with and stands as it came. So the text of `n` is `1.0`."
+  program {
+    contracts {
+      "app.Paired" {
+        pair {
+          parameters [
+            {
+              name "of"
+              type "app.Paired"
+            }
+            {
+              name "a"
+              type "some T"
+            }
+          ]
+          returns {
+            record {
+              n "double"
+              v "some T"
+            }
+          }
+        }
+      }
+    }
+    imports [
+      "std.text.text"
+    ]
+    procedures {
+      "bank.Card.pair" {
+        parameters [
+          {
+            name "of"
+            type "bank.Card"
+          }
+          {
+            name "a"
+            type "some U"
+          }
+        ]
+        result {
+          record {
+            n 1
+            v {
+              ref "a"
+            }
+          }
+        }
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            value {
+              as {
+                of {
+                  record {
+                    last "42"
+                  }
+                }
+                type "bank.Card"
+              }
+            }
+          }
+          {
+            let "p"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "c"
+                  }
+                  "x"
+                ]
+                procedure "app.Paired.pair"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "p.n"
+              }
+            ]
+            procedure "std.text.text"
+          }
+        }
+      }
+    }
+    satisfies {
+      "bank.Card" [
+        "app.Paired"
+      ]
+    }
+    types {
+      "bank.Card" {
+        record {
+          last "string"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

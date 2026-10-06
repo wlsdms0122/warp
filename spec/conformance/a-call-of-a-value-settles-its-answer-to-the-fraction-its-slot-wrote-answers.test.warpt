@@ -1,0 +1,56 @@
+warpt 1
+{
+  expect {
+    answers "1.0"
+  }
+  name "a-call-of-a-value-settles-its-answer-to-the-fraction-its-slot-wrote-answers"
+  note "`c` is held at `procedure() -> double`, and the closure in it answers the whole number 1. Calling `c` answers what its slot wrote, and that answer settles to it, so `v` is the fraction 1.0, and its text says so."
+  program {
+    imports [
+      "std.text.text"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            type {
+              procedure {
+                returns "double"
+              }
+            }
+            value {
+              closure {
+                result 1
+              }
+            }
+          }
+          {
+            let "v"
+            value {
+              call {
+                procedure {
+                  ref "c"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "v"
+              }
+            ]
+            procedure "std.text.text"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
