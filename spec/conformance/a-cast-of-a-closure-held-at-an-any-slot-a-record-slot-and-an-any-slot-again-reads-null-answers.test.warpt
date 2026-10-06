@@ -1,0 +1,97 @@
+warpt 1
+{
+  expect {
+    answers null
+  }
+  name "a-cast-of-a-closure-held-at-an-any-slot-a-record-slot-and-an-any-slot-again-reads-null-answers"
+  note "The closure is held at `procedure() -> any`, then at `procedure() -> bank.A`, then at `procedure() -> any` again, and travels through `any`. Meeting `any` again does not drop the `bank.A` answer between, and `bank.B` never takes a `bank.A`: the asking cast to `procedure() -> bank.B` reads it as null."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "c0"
+            type {
+              procedure {
+                returns "any"
+              }
+            }
+            value {
+              closure {
+                result {
+                  record {
+                    k "x"
+                  }
+                }
+              }
+            }
+          }
+          {
+            let "c"
+            type {
+              procedure {
+                returns "bank.A"
+              }
+            }
+            value {
+              ref "c0"
+            }
+          }
+          {
+            let "x"
+            type {
+              procedure {
+                returns "any"
+              }
+            }
+            value {
+              ref "c"
+            }
+          }
+          {
+            let "a"
+            type "any"
+            value {
+              ref "x"
+            }
+          }
+          {
+            let "v"
+            value {
+              "as?" {
+                of {
+                  ref "a"
+                }
+                type {
+                  procedure {
+                    returns "bank.B"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "v"
+        }
+      }
+    }
+    types {
+      "bank.A" {
+        record {
+          k "string"
+        }
+      }
+      "bank.B" {
+        record {
+          k "string"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
