@@ -36,6 +36,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-call-of-a-value-settles-its-answer-to-the-record-its-slot-wrote-answers`
 - `a-call-through-a-type-parameter-settles-a-closure-answer-to-the-fraction-its-slot-wrote-answers`
 - `a-call-through-a-type-parameter-settles-a-closure-answer-to-the-record-its-slot-wrote-answers`
+- `a-call-through-a-type-parameter-settles-a-closure-answer-to-what-a-module-variable-declared-answers`
 - `a-called-value-answers-what-its-slot-wrote`
 - `a-calls-arguments-are-evaluated-in-position-order`
 - `a-contract-answer-settles-what-it-wrote-and-hands-on-what-the-call-filled-answers`
