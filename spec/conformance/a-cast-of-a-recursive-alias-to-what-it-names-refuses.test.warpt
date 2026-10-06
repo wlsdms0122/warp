@@ -1,0 +1,43 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-cast-of-a-recursive-alias-to-what-it-names-refuses"
+  note "`app.L` names `array<app.L>`, a list of itself. `xs` is read as `app.L`, and the cast names `array<app.L>`, which is what `app.L` names. The cast names what the reading already is, so it refuses at the build."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "xs"
+            type "app.L"
+            value []
+          }
+          {
+            let "g"
+            value {
+              as {
+                of {
+                  ref "xs"
+                }
+                type "array<app.L>"
+              }
+            }
+          }
+        ]
+        result {
+          ref "g"
+        }
+      }
+    }
+    types {
+      "app.L" "array<app.L>"
+    }
+    warp 1
+  }
+  test 1
+}
+
