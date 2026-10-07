@@ -4,20 +4,20 @@ warpt 1
     refuses "build"
   }
   name "a-declaration-answering-a-contract-with-a-bounded-parameter-where-it-writes-what-the-bound-refuses-refuses"
-  note "The contract takes a string at n, and the declaration answering it takes some U there, bounded by app.Whole, which admits int alone. Every call through the contract would hand U a string its bound refuses."
+  note "The contract takes a string at n, and the declaration answering it takes some U there, bounded by App.Whole, which admits int alone. Every call through the contract would hand U a string its bound refuses."
   program {
     constraints {
-      "app.Whole" [
+      "App.Whole" [
         "int"
       ]
     }
     contracts {
-      "app.Shown" {
+      "App.Shown" {
         show {
           parameters [
             {
               name "of"
-              type "app.Shown"
+              type "App.Shown"
             }
             {
               name "n"
@@ -27,12 +27,12 @@ warpt 1
           returns "string"
         }
       }
-      "app.Sized" {
+      "App.Sized" {
         size {
           parameters [
             {
               name "of"
-              type "app.Sized"
+              type "App.Sized"
             }
           ]
           returns "int"
@@ -41,14 +41,14 @@ warpt 1
     }
     imports []
     procedures {
-      "bank.Card.show" {
+      "Bank.Card.show" {
         bounds {
-          U "app.Whole"
+          U "App.Whole"
         }
         parameters [
           {
             name "of"
-            type "bank.Card"
+            type "Bank.Card"
           }
           {
             name "n"
@@ -70,7 +70,7 @@ warpt 1
                     last "4"
                   }
                 }
-                type "bank.Card"
+                type "Bank.Card"
               }
             }
           }
@@ -84,7 +84,7 @@ warpt 1
                   }
                   "x"
                 ]
-                procedure "app.Shown.show"
+                procedure "App.Shown.show"
               }
             }
           }
@@ -95,17 +95,17 @@ warpt 1
       }
     }
     satisfies {
-      "bank.Card" [
-        "app.Shown"
+      "Bank.Card" [
+        "App.Shown"
       ]
     }
     types {
-      "bank.Card" {
+      "Bank.Card" {
         record {
           last "string"
         }
       }
-      "bank.Coin" {
+      "Bank.Coin" {
         record {
           cents "int"
         }

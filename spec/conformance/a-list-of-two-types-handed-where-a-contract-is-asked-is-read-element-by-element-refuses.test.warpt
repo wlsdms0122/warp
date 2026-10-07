@@ -4,15 +4,15 @@ warpt 1
     refuses "build"
   }
   name "a-list-of-two-types-handed-where-a-contract-is-asked-is-read-element-by-element-refuses"
-  note "`app.g` takes `array<app.Describable>` and is handed a list of a `bank.Account`, which answers the contract, and a `bank.Other`, which does not. Each element is held to the contract on its own, so `bank.Other` refuses at the build."
+  note "`App.g` takes `array<App.Describable>` and is handed a list of a `Bank.Account`, which answers the contract, and a `Bank.Other`, which does not. Each element is held to the contract on its own, so `Bank.Other` refuses at the build."
   program {
     contracts {
-      "app.Describable" {
+      "App.Describable" {
         describe {
           parameters [
             {
               name "of"
-              type "app.Describable"
+              type "App.Describable"
             }
           ]
           returns "string"
@@ -21,21 +21,21 @@ warpt 1
     }
     imports []
     procedures {
-      "app.g" {
+      "App.g" {
         parameters [
           {
             name "xs"
-            type "array<app.Describable>"
+            type "array<App.Describable>"
           }
         ]
         result 0
         returns "int"
       }
-      "bank.Account.describe" {
+      "Bank.Account.describe" {
         parameters [
           {
             name "of"
-            type "bank.Account"
+            type "Bank.Account"
           }
         ]
         result "acct"
@@ -53,7 +53,7 @@ warpt 1
                     balance 1
                   }
                 }
-                type "bank.Account"
+                type "Bank.Account"
               }
             }
           }
@@ -66,7 +66,7 @@ warpt 1
                     n 1
                   }
                 }
-                type "bank.Other"
+                type "Bank.Other"
               }
             }
           }
@@ -84,7 +84,7 @@ warpt 1
                     }
                   ]
                 ]
-                procedure "app.g"
+                procedure "App.g"
               }
             }
           }
@@ -95,17 +95,17 @@ warpt 1
       }
     }
     satisfies {
-      "bank.Account" [
-        "app.Describable"
+      "Bank.Account" [
+        "App.Describable"
       ]
     }
     types {
-      "bank.Account" {
+      "Bank.Account" {
         record {
           balance "int"
         }
       }
-      "bank.Other" {
+      "Bank.Other" {
         record {
           n "int"
         }

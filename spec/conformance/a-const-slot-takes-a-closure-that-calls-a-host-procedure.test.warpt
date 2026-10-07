@@ -7,8 +7,8 @@ warpt 1
   note "A slot asking `const procedure` takes a closure whose body sends only procedures that answer without running, and a procedure the host answers says which it is."
   program {
     imports [
-      "app.yes"
-      "std.logic.and"
+      "App.yes"
+      "Standard.Logic.and"
     ]
     procedures {
       entry {
@@ -21,7 +21,7 @@ warpt 1
                   closure {
                     result {
                       call {
-                        procedure "app.yes"
+                        procedure "App.yes"
                       }
                     }
                     returns "bool"
@@ -29,7 +29,7 @@ warpt 1
                 }
               ]
             ]
-            procedure "std.logic.and"
+            procedure "Standard.Logic.and"
           }
         }
         returns "bool"
@@ -40,7 +40,7 @@ warpt 1
   test 1
   vocabulary {
     procedures {
-      "app.yes" {
+      "App.yes" {
         answers true
         returns "bool"
       }

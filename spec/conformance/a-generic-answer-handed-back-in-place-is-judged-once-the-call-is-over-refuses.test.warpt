@@ -4,13 +4,13 @@ warpt 1
     refuses "run"
   }
   name "a-generic-answer-handed-back-in-place-is-judged-once-the-call-is-over-refuses"
-  note "app.put appends what app.h answers to the list handed to it in place, and app.h answers its any for its own some T. Nothing proves app.put hands back what it declares, so the call judges the list of the caller against array<string> once it is over, and the 5 in it refuses at the run."
+  note "App.put appends what App.h answers to the list handed to it in place, and App.h answers its any for its own some T. Nothing proves App.put hands back what it declares, so the call judges the list of the caller against array<string> once it is over, and the 5 in it refuses at the run."
   program {
     imports [
-      "std.collection.append"
+      "Standard.Collection.append"
     ]
     procedures {
-      "app.h" {
+      "App.h" {
         parameters [
           {
             name "n"
@@ -26,7 +26,7 @@ warpt 1
         }
         returns "some T"
       }
-      "app.put" {
+      "App.put" {
         body [
           {
             value {
@@ -45,11 +45,11 @@ warpt 1
                           ref "junk"
                         }
                       ]
-                      procedure "app.h"
+                      procedure "App.h"
                     }
                   }
                 ]
-                procedure "std.collection.append"
+                procedure "Standard.Collection.append"
               }
             }
           }
@@ -89,7 +89,7 @@ warpt 1
                     ref "s"
                   }
                 ]
-                procedure "app.put"
+                procedure "App.put"
               }
             }
           }

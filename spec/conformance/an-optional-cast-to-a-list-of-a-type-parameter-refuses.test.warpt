@@ -4,11 +4,11 @@ warpt 1
     refuses "build"
   }
   name "an-optional-cast-to-a-list-of-a-type-parameter-refuses"
-  note "app.decode reads raw as? array<some T>. The optional cast names the same type, with a type parameter inside it, and the build refuses it the same way."
+  note "App.decode reads raw as? array<some T>. The optional cast names the same type, with a type parameter inside it, and the build refuses it the same way."
   program {
     imports []
     procedures {
-      "app.decode" {
+      "App.decode" {
         body [
           {
             let "y"
@@ -57,7 +57,7 @@ warpt 1
                     ref "raw"
                   }
                 ]
-                procedure "app.decode"
+                procedure "App.decode"
               }
             }
           }

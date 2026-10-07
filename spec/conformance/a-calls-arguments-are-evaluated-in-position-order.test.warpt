@@ -8,14 +8,14 @@ warpt 1
     ]
   }
   name "a-calls-arguments-are-evaluated-in-position-order"
-  note "A call's arguments are evaluated in position order, whether the callee is a body, the host's or a value. An argument may call anything, so the order is observable. Each call here writes two arguments that would both fail, and the first one's failure surfaces: `zulu` for `app.pair`, which declares it before `alpha`, `map` for `std.collection.setting`, and `first` for a closure called through the name holding it."
+  note "A call's arguments are evaluated in position order, whether the callee is a body, the host's or a value. An argument may call anything, so the order is observable. Each call here writes two arguments that would both fail, and the first one's failure surfaces: `zulu` for `App.pair`, which declares it before `alpha`, `map` for `Standard.Collection.setting`, and `first` for a closure called through the name holding it."
   program {
     imports [
-      "std.collection.setting"
-      "std.control.abort"
+      "Standard.Collection.setting"
+      "Standard.Control.abort"
     ]
     procedures {
-      "app.pair" {
+      "App.pair" {
         parameters [
           {
             name "zulu"
@@ -49,7 +49,7 @@ warpt 1
                               arguments [
                                 "zulu"
                               ]
-                              procedure "std.control.abort"
+                              procedure "Standard.Control.abort"
                             }
                           }
                           {
@@ -57,11 +57,11 @@ warpt 1
                               arguments [
                                 "alpha"
                               ]
-                              procedure "std.control.abort"
+                              procedure "Standard.Control.abort"
                             }
                           }
                         ]
-                        procedure "app.pair"
+                        procedure "App.pair"
                       }
                     }
                   }
@@ -89,7 +89,7 @@ warpt 1
                               arguments [
                                 "map"
                               ]
-                              procedure "std.control.abort"
+                              procedure "Standard.Control.abort"
                             }
                           }
                           {
@@ -97,12 +97,12 @@ warpt 1
                               arguments [
                                 "key"
                               ]
-                              procedure "std.control.abort"
+                              procedure "Standard.Control.abort"
                             }
                           }
                           1
                         ]
-                        procedure "std.collection.setting"
+                        procedure "Standard.Collection.setting"
                       }
                     }
                   }
@@ -151,7 +151,7 @@ warpt 1
                               arguments [
                                 "first"
                               ]
-                              procedure "std.control.abort"
+                              procedure "Standard.Control.abort"
                             }
                           }
                           {
@@ -159,7 +159,7 @@ warpt 1
                               arguments [
                                 "second"
                               ]
-                              procedure "std.control.abort"
+                              procedure "Standard.Control.abort"
                             }
                           }
                         ]

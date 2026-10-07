@@ -3,13 +3,13 @@ warpt 1
   documents [
     {
       constraints {
-        "app.C" [
+        "App.C" [
           "int"
         ]
       }
       imports []
       procedures {
-        "lib.f" {
+        "Lib.f" {
           result 1
         }
       }
@@ -20,10 +20,10 @@ warpt 1
     refuses "build"
   }
   name "a-constraint-declared-twice-refuses"
-  note "One name has one declarer. `app.C` is declared as a constraint by the program and by the document beside it, and the build refuses."
+  note "One name has one declarer. `App.C` is declared as a constraint by the program and by the document beside it, and the build refuses."
   program {
     constraints {
-      "app.C" [
+      "App.C" [
         "int"
       ]
     }

@@ -4,7 +4,7 @@ warpt 1
     answers null
   }
   name "a-cast-of-a-closure-answering-a-record-held-at-a-slot-answering-anything-to-another-record-reads-null-answers"
-  note "The closure writes `returns bank.A` and is held at `procedure() -> any`, then travels through `any`. A call of it settles to its own answer first, so a slot takes it only where its answer takes `bank.A` as well as `any`, and `bank.B` never takes a `bank.A`: the asking cast to `procedure() -> bank.B` reads it as null."
+  note "The closure writes `returns Bank.A` and is held at `procedure() -> any`, then travels through `any`. A call of it settles to its own answer first, so a slot takes it only where its answer takes `Bank.A` as well as `any`, and `Bank.B` never takes a `Bank.A`: the asking cast to `procedure() -> Bank.B` reads it as null."
   program {
     imports []
     procedures {
@@ -25,7 +25,7 @@ warpt 1
                     k "x"
                   }
                 }
-                returns "bank.A"
+                returns "Bank.A"
               }
             }
           }
@@ -56,7 +56,7 @@ warpt 1
                 }
                 type {
                   procedure {
-                    returns "bank.B"
+                    returns "Bank.B"
                   }
                 }
               }
@@ -69,12 +69,12 @@ warpt 1
       }
     }
     types {
-      "bank.A" {
+      "Bank.A" {
         record {
           k "string"
         }
       }
-      "bank.B" {
+      "Bank.B" {
         record {
           k "string"
         }

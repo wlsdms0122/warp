@@ -4,11 +4,11 @@ warpt 1
     refuses "build"
   }
   name "a-return-answering-one-without-returns-refuses"
-  note "A `return` that carries a value is a way out of the body the way its result is, so a body whose `return` answers a value written `linear` writes `returns` too. Here every way out of `make` is such a `return`, and `entry` hands what it gets to `app.close`, so the missing `returns` is the one thing wrong."
+  note "A `return` that carries a value is a way out of the body the way its result is, so a body whose `return` answers a value written `linear` writes `returns` too. Here every way out of `make` is such a `return`, and `entry` hands what it gets to `App.close`, so the missing `returns` is the one thing wrong."
   program {
     imports [
-      "app.close"
-      "app.open"
+      "App.close"
+      "App.open"
     ]
     procedures {
       entry {
@@ -30,7 +30,7 @@ warpt 1
                     ref "held"
                   }
                 ]
-                procedure "app.close"
+                procedure "App.close"
               }
             }
           }
@@ -46,7 +46,7 @@ warpt 1
                     value {
                       return {
                         call {
-                          procedure "app.open"
+                          procedure "App.open"
                         }
                       }
                     }
@@ -57,7 +57,7 @@ warpt 1
                     value {
                       return {
                         call {
-                          procedure "app.open"
+                          procedure "App.open"
                         }
                       }
                     }
@@ -75,24 +75,24 @@ warpt 1
   test 1
   vocabulary {
     procedures {
-      "app.close" {
+      "App.close" {
         parameters [
           {
             name "first"
-            type "consuming app.Handle"
+            type "consuming App.Handle"
           }
         ]
         runs true
       }
-      "app.open" {
-        answers app.Handle {
+      "App.open" {
+        answers App.Handle {
           name "f"
         }
-        returns "app.Handle"
+        returns "App.Handle"
       }
     }
     types {
-      "app.Handle" {
+      "App.Handle" {
         linear {
           record {
             name "string"

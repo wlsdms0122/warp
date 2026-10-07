@@ -2,18 +2,18 @@ warpt 1
 {
   description "Reading a collection by walking it, written from its count and its index."
   imports [
-    "std.Comparable"
-    "std.collection.appending"
-    "std.collection.count"
-    "std.collection.gathering"
-    "std.collection.keys"
-    "std.logic.equal"
-    "std.math.lessThan"
-    "std.math.minus"
-    "std.math.plus"
+    "Standard.Collection.appending"
+    "Standard.Collection.count"
+    "Standard.Collection.gathering"
+    "Standard.Collection.keys"
+    "Standard.Comparable"
+    "Standard.Logic.equal"
+    "Standard.Math.lessThan"
+    "Standard.Math.minus"
+    "Standard.Math.plus"
   ]
   procedures {
-    "std.collection.append" {
+    "Standard.Collection.append" {
       body [
         {
           set "array"
@@ -27,7 +27,7 @@ warpt 1
                   ref "element"
                 }
               ]
-              procedure "std.collection.appending"
+              procedure "Standard.Collection.appending"
             }
           }
         }
@@ -45,7 +45,7 @@ warpt 1
       ]
       returns "null"
     }
-    "std.collection.contains" {
+    "Standard.Collection.contains" {
       body [
         {
           value false
@@ -80,7 +80,7 @@ warpt 1
                               ref "element"
                             }
                           ]
-                          procedure "std.logic.equal"
+                          procedure "Standard.Logic.equal"
                         }
                       }
                     }
@@ -100,11 +100,11 @@ warpt 1
                             ref "array"
                           }
                         ]
-                        procedure "std.collection.count"
+                        procedure "Standard.Collection.count"
                       }
                     }
                   ]
-                  procedure "std.math.lessThan"
+                  procedure "Standard.Math.lessThan"
                 }
               }
             }
@@ -127,7 +127,7 @@ warpt 1
       }
       returns "bool"
     }
-    "std.collection.dropFirst" {
+    "Standard.Collection.dropFirst" {
       body [
         {
           value []
@@ -154,11 +154,11 @@ warpt 1
                               }
                               1
                             ]
-                            procedure "std.math.plus"
+                            procedure "Standard.Math.plus"
                           }
                         }
                       ]
-                      procedure "std.collection.appending"
+                      procedure "Standard.Collection.appending"
                     }
                   }
                 }
@@ -179,16 +179,16 @@ warpt 1
                                   ref "array"
                                 }
                               ]
-                              procedure "std.collection.count"
+                              procedure "Standard.Collection.count"
                             }
                           }
                           1
                         ]
-                        procedure "std.math.minus"
+                        procedure "Standard.Math.minus"
                       }
                     }
                   ]
-                  procedure "std.math.lessThan"
+                  procedure "Standard.Math.lessThan"
                 }
               }
             }
@@ -212,12 +212,12 @@ warpt 1
               ref "places"
             }
           ]
-          procedure "std.collection.gathering"
+          procedure "Standard.Collection.gathering"
         }
       }
       returns "array<some Element>"
     }
-    "std.collection.dropLast" {
+    "Standard.Collection.dropLast" {
       body [
         {
           value []
@@ -240,7 +240,7 @@ warpt 1
                           ref "walk.index"
                         }
                       ]
-                      procedure "std.collection.appending"
+                      procedure "Standard.Collection.appending"
                     }
                   }
                 }
@@ -261,16 +261,16 @@ warpt 1
                                   ref "array"
                                 }
                               ]
-                              procedure "std.collection.count"
+                              procedure "Standard.Collection.count"
                             }
                           }
                           1
                         ]
-                        procedure "std.math.minus"
+                        procedure "Standard.Math.minus"
                       }
                     }
                   ]
-                  procedure "std.math.lessThan"
+                  procedure "Standard.Math.lessThan"
                 }
               }
             }
@@ -294,12 +294,12 @@ warpt 1
               ref "places"
             }
           ]
-          procedure "std.collection.gathering"
+          procedure "Standard.Collection.gathering"
         }
       }
       returns "array<some Element>"
     }
-    "std.collection.filter" {
+    "Standard.Collection.filter" {
       body [
         {
           value []
@@ -341,7 +341,7 @@ warpt 1
                                   ref "walk.index"
                                 }
                               ]
-                              procedure "std.collection.appending"
+                              procedure "Standard.Collection.appending"
                             }
                           }
                         }
@@ -366,11 +366,11 @@ warpt 1
                             ref "array"
                           }
                         ]
-                        procedure "std.collection.count"
+                        procedure "Standard.Collection.count"
                       }
                     }
                   ]
-                  procedure "std.math.lessThan"
+                  procedure "Standard.Math.lessThan"
                 }
               }
             }
@@ -405,12 +405,12 @@ warpt 1
               ref "places"
             }
           ]
-          procedure "std.collection.gathering"
+          procedure "Standard.Collection.gathering"
         }
       }
       returns "array<some Element>"
     }
-    "std.collection.first" {
+    "Standard.Collection.first" {
       description "The first element."
       parameters [
         {
@@ -423,7 +423,7 @@ warpt 1
       }
       returns "some Element"
     }
-    "std.collection.last" {
+    "Standard.Collection.last" {
       body [
         {
           let "at"
@@ -437,12 +437,12 @@ warpt 1
                         ref "array"
                       }
                     ]
-                    procedure "std.collection.count"
+                    procedure "Standard.Collection.count"
                   }
                 }
                 1
               ]
-              procedure "std.math.minus"
+              procedure "Standard.Math.minus"
             }
           }
         }
@@ -459,7 +459,7 @@ warpt 1
       }
       returns "some Element"
     }
-    "std.collection.map" {
+    "Standard.Collection.map" {
       body [
         {
           value []
@@ -497,7 +497,7 @@ warpt 1
                           ref "answered"
                         }
                       ]
-                      procedure "std.collection.appending"
+                      procedure "Standard.Collection.appending"
                     }
                   }
                 }
@@ -515,11 +515,11 @@ warpt 1
                             ref "array"
                           }
                         ]
-                        procedure "std.collection.count"
+                        procedure "Standard.Collection.count"
                       }
                     }
                   ]
-                  procedure "std.math.lessThan"
+                  procedure "Standard.Math.lessThan"
                 }
               }
             }
@@ -549,7 +549,7 @@ warpt 1
       }
       returns "array<some Answer>"
     }
-    "std.collection.prepending" {
+    "Standard.Collection.prepending" {
       body [
         {
           let "back"
@@ -560,7 +560,7 @@ warpt 1
                   ref "array"
                 }
               ]
-              procedure "std.collection.reversed"
+              procedure "Standard.Collection.reversed"
             }
           }
         }
@@ -576,7 +576,7 @@ warpt 1
                   ref "element"
                 }
               ]
-              procedure "std.collection.appending"
+              procedure "Standard.Collection.appending"
             }
           }
         }
@@ -599,12 +599,12 @@ warpt 1
               ref "grown"
             }
           ]
-          procedure "std.collection.reversed"
+          procedure "Standard.Collection.reversed"
         }
       }
       returns "array<some Element>"
     }
-    "std.collection.reduce" {
+    "Standard.Collection.reduce" {
       body [
         {
           value {
@@ -655,11 +655,11 @@ warpt 1
                             ref "array"
                           }
                         ]
-                        procedure "std.collection.count"
+                        procedure "Standard.Collection.count"
                       }
                     }
                   ]
-                  procedure "std.math.lessThan"
+                  procedure "Standard.Math.lessThan"
                 }
               }
             }
@@ -694,7 +694,7 @@ warpt 1
       }
       returns "some Carried"
     }
-    "std.collection.reversed" {
+    "Standard.Collection.reversed" {
       body [
         {
           value []
@@ -723,7 +723,7 @@ warpt 1
                                       ref "array"
                                     }
                                   ]
-                                  procedure "std.collection.count"
+                                  procedure "Standard.Collection.count"
                                 }
                               }
                               {
@@ -734,15 +734,15 @@ warpt 1
                                     }
                                     1
                                   ]
-                                  procedure "std.math.plus"
+                                  procedure "Standard.Math.plus"
                                 }
                               }
                             ]
-                            procedure "std.math.minus"
+                            procedure "Standard.Math.minus"
                           }
                         }
                       ]
-                      procedure "std.collection.appending"
+                      procedure "Standard.Collection.appending"
                     }
                   }
                 }
@@ -760,11 +760,11 @@ warpt 1
                             ref "array"
                           }
                         ]
-                        procedure "std.collection.count"
+                        procedure "Standard.Collection.count"
                       }
                     }
                   ]
-                  procedure "std.math.lessThan"
+                  procedure "Standard.Math.lessThan"
                 }
               }
             }
@@ -788,12 +788,12 @@ warpt 1
               ref "places"
             }
           ]
-          procedure "std.collection.gathering"
+          procedure "Standard.Collection.gathering"
         }
       }
       returns "array<some Element>"
     }
-    "std.collection.sorted" {
+    "Standard.Collection.sorted" {
       body [
         {
           let "total"
@@ -804,7 +804,7 @@ warpt 1
                   ref "array"
                 }
               ]
-              procedure "std.collection.count"
+              procedure "Standard.Collection.count"
             }
           }
         }
@@ -844,7 +844,7 @@ warpt 1
                                         }
                                         1
                                       ]
-                                      procedure "std.math.plus"
+                                      procedure "Standard.Math.plus"
                                     }
                                   }
                                 }
@@ -863,7 +863,7 @@ warpt 1
                                       ref "array[outer.index]"
                                     }
                                   ]
-                                  procedure "std.math.lessThan"
+                                  procedure "Standard.Math.lessThan"
                                 }
                               }
                             }
@@ -888,7 +888,7 @@ warpt 1
                                       ref "array[inner.index]"
                                     }
                                   ]
-                                  procedure "std.math.lessThan"
+                                  procedure "Standard.Math.lessThan"
                                 }
                               }
                             }
@@ -912,7 +912,7 @@ warpt 1
                                                 }
                                                 1
                                               ]
-                                              procedure "std.math.plus"
+                                              procedure "Standard.Math.plus"
                                             }
                                           }
                                         }
@@ -927,7 +927,7 @@ warpt 1
                                               ref "outer.index"
                                             }
                                           ]
-                                          procedure "std.math.lessThan"
+                                          procedure "Standard.Math.lessThan"
                                         }
                                       }
                                     }
@@ -951,7 +951,7 @@ warpt 1
                               ref "total"
                             }
                           ]
-                          procedure "std.math.lessThan"
+                          procedure "Standard.Math.lessThan"
                         }
                       }
                     }
@@ -969,7 +969,7 @@ warpt 1
                           ref "rank"
                         }
                       ]
-                      procedure "std.collection.appending"
+                      procedure "Standard.Collection.appending"
                     }
                   }
                 }
@@ -984,7 +984,7 @@ warpt 1
                       ref "total"
                     }
                   ]
-                  procedure "std.math.lessThan"
+                  procedure "Standard.Math.lessThan"
                 }
               }
             }
@@ -1027,7 +1027,7 @@ warpt 1
                                       ref "pick.index"
                                     }
                                   ]
-                                  procedure "std.math.lessThan"
+                                  procedure "Standard.Math.lessThan"
                                 }
                               }
                             }
@@ -1052,7 +1052,7 @@ warpt 1
                                       ref "ranks[scan.index]"
                                     }
                                   ]
-                                  procedure "std.math.lessThan"
+                                  procedure "Standard.Math.lessThan"
                                 }
                               }
                             }
@@ -1074,7 +1074,7 @@ warpt 1
                                           ref "scan.index"
                                         }
                                       ]
-                                      procedure "std.collection.appending"
+                                      procedure "Standard.Collection.appending"
                                     }
                                   }
                                 }
@@ -1096,7 +1096,7 @@ warpt 1
                               ref "total"
                             }
                           ]
-                          procedure "std.math.lessThan"
+                          procedure "Standard.Math.lessThan"
                         }
                       }
                     }
@@ -1113,7 +1113,7 @@ warpt 1
                       ref "total"
                     }
                   ]
-                  procedure "std.math.lessThan"
+                  procedure "Standard.Math.lessThan"
                 }
               }
             }
@@ -1121,7 +1121,7 @@ warpt 1
         }
       ]
       bounds {
-        Element "std.Comparable"
+        Element "Standard.Comparable"
       }
       description "The elements in order, for numbers or for strings."
       parameters [
@@ -1140,12 +1140,12 @@ warpt 1
               ref "places"
             }
           ]
-          procedure "std.collection.gathering"
+          procedure "Standard.Collection.gathering"
         }
       }
       returns "array<some Element>"
     }
-    "std.collection.values" {
+    "Standard.Collection.values" {
       body [
         {
           let "names"
@@ -1156,7 +1156,7 @@ warpt 1
                   ref "dictionary"
                 }
               ]
-              procedure "std.collection.keys"
+              procedure "Standard.Collection.keys"
             }
           }
         }
@@ -1187,7 +1187,7 @@ warpt 1
                           ref "dictionary[name]"
                         }
                       ]
-                      procedure "std.collection.appending"
+                      procedure "Standard.Collection.appending"
                     }
                   }
                 }
@@ -1205,11 +1205,11 @@ warpt 1
                             ref "names"
                           }
                         ]
-                        procedure "std.collection.count"
+                        procedure "Standard.Collection.count"
                       }
                     }
                   ]
-                  procedure "std.math.lessThan"
+                  procedure "Standard.Math.lessThan"
                 }
               }
             }

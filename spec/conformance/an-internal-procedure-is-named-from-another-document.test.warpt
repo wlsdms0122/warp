@@ -4,7 +4,7 @@ warpt 1
     {
       imports []
       procedures {
-        "lib.seven" {
+        "Lib.seven" {
           result 7
           returns "int"
         }
@@ -19,14 +19,14 @@ warpt 1
   note "Internal is the link's scope: a declaration that writes no access is named from every document laid beside it, so a program calls another document's procedure without either saying more."
   program {
     imports [
-      "lib.seven"
+      "Lib.seven"
     ]
     procedures {
       entry {
         access "public"
         result {
           call {
-            procedure "lib.seven"
+            procedure "Lib.seven"
           }
         }
         returns "int"

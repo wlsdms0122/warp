@@ -4,29 +4,29 @@ warpt 1
     refuses "build"
   }
   name "a-membership-slot-refuses-a-parameter-or-null"
-  note "app.g reads v as some T or null and hands it to app.f, which takes app.Num. Null is no member of app.Num."
+  note "App.g reads v as some T or null and hands it to App.f, which takes App.Num. Null is no member of App.Num."
   program {
     constraints {
-      "app.MaybeNum" [
+      "App.MaybeNum" [
         "int?"
       ]
-      "app.Num" [
+      "App.Num" [
         "int"
       ]
     }
     imports []
     procedures {
-      "app.f" {
+      "App.f" {
         parameters [
           {
             name "n"
-            type "app.Num"
+            type "App.Num"
           }
         ]
         result "took"
         returns "string"
       }
-      "app.g" {
+      "App.g" {
         body [
           {
             var "v"
@@ -55,13 +55,13 @@ warpt 1
                     ref "v"
                   }
                 ]
-                procedure "app.f"
+                procedure "App.f"
               }
             }
           }
         ]
         bounds {
-          T "app.MaybeNum"
+          T "App.MaybeNum"
         }
         parameters [
           {
@@ -84,7 +84,7 @@ warpt 1
                 arguments [
                   3
                 ]
-                procedure "app.g"
+                procedure "App.g"
               }
             }
           }

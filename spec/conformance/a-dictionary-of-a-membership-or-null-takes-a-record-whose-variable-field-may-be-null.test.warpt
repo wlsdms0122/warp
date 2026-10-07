@@ -4,20 +4,20 @@ warpt 1
     answers "took"
   }
   name "a-dictionary-of-a-membership-or-null-takes-a-record-whose-variable-field-may-be-null"
-  note "app.f takes dictionary<app.Num?> and is handed an app.Box, whose one field is var int?. The field's var says something about the field and nothing about its value, which is an int or null."
+  note "App.f takes dictionary<App.Num?> and is handed an App.Box, whose one field is var int?. The field's var says something about the field and nothing about its value, which is an int or null."
   program {
     constraints {
-      "app.Num" [
+      "App.Num" [
         "int"
       ]
     }
     imports []
     procedures {
-      "app.f" {
+      "App.f" {
         parameters [
           {
             name "d"
-            type "dictionary<app.Num?>"
+            type "dictionary<App.Num?>"
           }
         ]
         result "took"
@@ -35,7 +35,7 @@ warpt 1
                     v 1
                   }
                 }
-                type "app.Box"
+                type "App.Box"
               }
             }
           }
@@ -48,7 +48,7 @@ warpt 1
                     ref "b"
                   }
                 ]
-                procedure "app.f"
+                procedure "App.f"
               }
             }
           }
@@ -59,7 +59,7 @@ warpt 1
       }
     }
     types {
-      "app.Box" {
+      "App.Box" {
         record {
           v "var int?"
         }

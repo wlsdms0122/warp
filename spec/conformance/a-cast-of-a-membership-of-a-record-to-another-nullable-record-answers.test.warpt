@@ -1,16 +1,16 @@
 warpt 1
 {
   expect {
-    answers app.B {
+    answers App.B {
       a "x"
     }
   }
   name "a-cast-of-a-membership-of-a-record-to-another-nullable-record-answers"
-  note "`app.A` and `app.B` are both declared `{ a: string }`, and `app.M` admits `app.A` and `int`. A nameless record written into `app.M` stays nameless, so a value read as `app.M` may be one `app.B?` takes. The cast `m as app.B?` builds, and the run settles the record under `app.B`."
+  note "`App.A` and `App.B` are both declared `{ a: string }`, and `App.M` admits `App.A` and `int`. A nameless record written into `App.M` stays nameless, so a value read as `App.M` may be one `App.B?` takes. The cast `m as App.B?` builds, and the run settles the record under `App.B`."
   program {
     constraints {
-      "app.M" [
-        "app.A"
+      "App.M" [
+        "App.A"
         "int"
       ]
     }
@@ -21,7 +21,7 @@ warpt 1
         body [
           {
             let "m"
-            type "app.M"
+            type "App.M"
             value {
               record {
                 a "x"
@@ -35,7 +35,7 @@ warpt 1
                 of {
                   ref "m"
                 }
-                type "app.B?"
+                type "App.B?"
               }
             }
           }
@@ -46,19 +46,19 @@ warpt 1
       }
     }
     types {
-      "app.A" {
+      "App.A" {
         record {
           a "string"
         }
       }
-      "app.AA" "app.A"
-      "app.B" {
+      "App.AA" "App.A"
+      "App.B" {
         record {
           a "string"
         }
       }
-      "app.NA" "app.A?"
-      "app.NB" "app.B?"
+      "App.NA" "App.A?"
+      "App.NB" "App.B?"
     }
     warp 1
   }

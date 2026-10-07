@@ -7,10 +7,10 @@ warpt 1
     ]
   }
   name "a-piece-calling-an-isolated-procedure-read-out-of-a-record-field-stands"
-  note "A slot declaring a record type says what each of its fields holds. A body calling what a field declared `isolated procedure` holds is isolated, so a piece of `std.concurrent.map` calling that body stands."
+  note "A slot declaring a record type says what each of its fields holds. A body calling what a field declared `isolated procedure` holds is isolated, so a piece of `Standard.Concurrent.map` calling that body stands."
   program {
     imports [
-      "std.concurrent.map"
+      "Standard.Concurrent.map"
     ]
     procedures {
       asking {
@@ -110,7 +110,7 @@ warpt 1
                 }
               }
             ]
-            procedure "std.concurrent.map"
+            procedure "Standard.Concurrent.map"
           }
         }
         returns "array<int>"

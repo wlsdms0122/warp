@@ -4,14 +4,14 @@ warpt 1
     refuses "run"
   }
   name "a-native-call-filling-a-parameter-beside-the-caller-parameter-from-a-member-value-is-judged-refuses"
-  note "app.g, bounded by std.Numeric, answers std.math.plus(n, 5), which fills N from n and from 5. The native's word holds for what filled N, which 5 is not a value of, so the call judges the answer, and T filled with int(0...3) refuses 7 at the run."
+  note "App.g, bounded by Standard.Numeric, answers Standard.Math.plus(n, 5), which fills N from n and from 5. The native's word holds for what filled N, which 5 is not a value of, so the call judges the answer, and T filled with int(0...3) refuses 7 at the run."
   program {
     imports [
-      "std.Numeric"
-      "std.math.plus"
+      "Standard.Math.plus"
+      "Standard.Numeric"
     ]
     procedures {
-      "app.g" {
+      "App.g" {
         body [
           {
             let "p"
@@ -23,13 +23,13 @@ warpt 1
                   }
                   5
                 ]
-                procedure "std.math.plus"
+                procedure "Standard.Math.plus"
               }
             }
           }
         ]
         bounds {
-          T "std.Numeric"
+          T "Standard.Numeric"
         }
         parameters [
           {
@@ -59,7 +59,7 @@ warpt 1
                     ref "v"
                   }
                 ]
-                procedure "app.g"
+                procedure "App.g"
               }
             }
           }

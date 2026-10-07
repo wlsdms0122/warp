@@ -4,15 +4,15 @@ warpt 1
     refuses "build"
   }
   name "a-parameter-read-as-a-record-and-a-nameless-one-of-its-fields-is-the-nameless-one"
-  note "app.second reads its some T as bank.Card and as a nameless record of its fields, and answers the second. The reading that holds both is the nameless record, which wears no name a contract call could pick a declaration by."
+  note "App.second reads its some T as Bank.Card and as a nameless record of its fields, and answers the second. The reading that holds both is the nameless record, which wears no name a contract call could pick a declaration by."
   program {
     contracts {
-      "app.Describable" {
+      "App.Describable" {
         describe {
           parameters [
             {
               name "of"
-              type "app.Describable"
+              type "App.Describable"
             }
           ]
           returns "string"
@@ -21,7 +21,7 @@ warpt 1
     }
     imports []
     procedures {
-      "app.second" {
+      "App.second" {
         parameters [
           {
             name "x"
@@ -37,11 +37,11 @@ warpt 1
         }
         returns "some T"
       }
-      "bank.Card.describe" {
+      "Bank.Card.describe" {
         parameters [
           {
             name "of"
-            type "bank.Card"
+            type "Bank.Card"
           }
         ]
         result "a card"
@@ -62,7 +62,7 @@ warpt 1
                           last "42"
                         }
                       }
-                      type "bank.Card"
+                      type "Bank.Card"
                     }
                   }
                   {
@@ -71,7 +71,7 @@ warpt 1
                     }
                   }
                 ]
-                procedure "app.second"
+                procedure "App.second"
               }
             }
           }
@@ -84,7 +84,7 @@ warpt 1
                     ref "r"
                   }
                 ]
-                procedure "app.Describable.describe"
+                procedure "App.Describable.describe"
               }
             }
           }
@@ -95,12 +95,12 @@ warpt 1
       }
     }
     satisfies {
-      "bank.Card" [
-        "app.Describable"
+      "Bank.Card" [
+        "App.Describable"
       ]
     }
     types {
-      "bank.Card" {
+      "Bank.Card" {
         record {
           last "string"
         }

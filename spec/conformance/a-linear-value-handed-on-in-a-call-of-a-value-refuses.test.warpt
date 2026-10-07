@@ -7,9 +7,9 @@ warpt 1
   note "Which procedure a call of a value reaches is the run's answer, so handing a value written `linear` to one is not something the text says happens once. The build refuses the call."
   program {
     imports [
-      "app.Handle"
-      "app.close"
-      "app.open"
+      "App.Handle"
+      "App.close"
+      "App.open"
     ]
     procedures {
       entry {
@@ -19,7 +19,7 @@ warpt 1
             let "h"
             value {
               call {
-                procedure "app.open"
+                procedure "App.open"
               }
             }
           }
@@ -36,7 +36,7 @@ warpt 1
                             ref "x"
                           }
                         ]
-                        procedure "app.close"
+                        procedure "App.close"
                       }
                     }
                   }
@@ -44,7 +44,7 @@ warpt 1
                 parameters [
                   {
                     name "x"
-                    type "consuming app.Handle"
+                    type "consuming App.Handle"
                   }
                 ]
               }
@@ -72,34 +72,34 @@ warpt 1
   test 1
   vocabulary {
     procedures {
-      "app.close" {
+      "App.close" {
         parameters [
           {
             name "first"
-            type "consuming app.Handle"
+            type "consuming App.Handle"
           }
         ]
         runs true
       }
-      "app.look" {
+      "App.look" {
         answers 1
         parameters [
           {
             name "first"
-            type "borrowing app.Handle"
+            type "borrowing App.Handle"
           }
         ]
         returns "int"
       }
-      "app.open" {
-        answers app.Handle {
+      "App.open" {
+        answers App.Handle {
           name "f"
         }
-        returns "app.Handle"
+        returns "App.Handle"
       }
     }
     types {
-      "app.Handle" {
+      "App.Handle" {
         linear {
           record {
             name "string"

@@ -7,12 +7,12 @@ warpt 1
   note "A contract's procedure writing neither `const` nor `isolated` may run, so a call through it is read the way a call to a declaration that runs is: an operand is read rather than run, and this one is refused at the build."
   program {
     contracts {
-      "app.Named" {
+      "App.Named" {
         name {
           parameters [
             {
               name "of"
-              type "app.Named"
+              type "App.Named"
             }
           ]
           returns "string"
@@ -20,22 +20,22 @@ warpt 1
       }
     }
     imports [
-      "std.text.uppercased"
+      "Standard.Text.uppercased"
     ]
     procedures {
-      "app.Thing.name" {
+      "App.Thing.name" {
         parameters [
           {
             name "of"
-            type "app.Thing"
+            type "App.Thing"
           }
         ]
         result "thing"
         returns "string"
       }
-      "app.tell" {
+      "App.tell" {
         bounds {
-          T "app.Named"
+          T "App.Named"
         }
         parameters [
           {
@@ -53,11 +53,11 @@ warpt 1
                       ref "it"
                     }
                   ]
-                  procedure "app.Named.name"
+                  procedure "App.Named.name"
                 }
               }
             ]
-            procedure "std.text.uppercased"
+            procedure "Standard.Text.uppercased"
           }
         }
         returns "string"
@@ -74,23 +74,23 @@ warpt 1
                       id 1
                     }
                   }
-                  type "app.Thing"
+                  type "App.Thing"
                 }
               }
             ]
-            procedure "app.tell"
+            procedure "App.tell"
           }
         }
         returns "string"
       }
     }
     satisfies {
-      "app.Thing" [
-        "app.Named"
+      "App.Thing" [
+        "App.Named"
       ]
     }
     types {
-      "app.Thing" {
+      "App.Thing" {
         record {
           id "int"
         }

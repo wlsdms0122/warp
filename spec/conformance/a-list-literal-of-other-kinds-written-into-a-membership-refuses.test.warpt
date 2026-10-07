@@ -4,10 +4,10 @@ warpt 1
     refuses "build"
   }
   name "a-list-literal-of-other-kinds-written-into-a-membership-refuses"
-  note "A variable declared `app.M`, the membership of `array<int>` and `bool`, starts with `[1, \"s\"]`. A membership takes a literal one of its members takes part by part, and `array<int>` refuses the string, so the build refuses."
+  note "A variable declared `App.M`, the membership of `array<int>` and `bool`, starts with `[1, \"s\"]`. A membership takes a literal one of its members takes part by part, and `array<int>` refuses the string, so the build refuses."
   program {
     constraints {
-      "app.M" [
+      "App.M" [
         "array<int>"
         "bool"
       ]
@@ -18,7 +18,7 @@ warpt 1
         access "public"
         body [
           {
-            type "app.M"
+            type "App.M"
             value [
               1
               "s"

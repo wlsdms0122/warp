@@ -4,14 +4,14 @@ warpt 1
     {
       imports []
       procedures {
-        "app.helper" {
+        "App.helper" {
           access "private"
           result "seven"
         }
-        "lib.spell" {
+        "Lib.spell" {
           result {
             call {
-              procedure "app.helper"
+              procedure "App.helper"
             }
           }
           returns "string"
@@ -28,7 +28,7 @@ warpt 1
   program {
     imports []
     procedures {
-      "app.helper" {
+      "App.helper" {
         access "private"
         result 7
         returns "int"
@@ -37,7 +37,7 @@ warpt 1
         access "public"
         result {
           call {
-            procedure "app.helper"
+            procedure "App.helper"
           }
         }
         returns "int"

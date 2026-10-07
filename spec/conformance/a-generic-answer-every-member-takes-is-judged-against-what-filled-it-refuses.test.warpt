@@ -4,20 +4,20 @@ warpt 1
     refuses "run"
   }
   name "a-generic-answer-every-member-takes-is-judged-against-what-filled-it-refuses"
-  note "app.gen answers some T bounded by app.Real, whose one member is double, and its body answers 2.5. The call fills T with int, which double admits, so the answer is judged as an int where the call reads it."
+  note "App.gen answers some T bounded by App.Real, whose one member is double, and its body answers 2.5. The call fills T with int, which double admits, so the answer is judged as an int where the call reads it."
   program {
     constraints {
-      "app.Real" [
+      "App.Real" [
         "double"
       ]
     }
     imports [
-      "std.collection.appending"
+      "Standard.Collection.appending"
     ]
     procedures {
-      "app.gen" {
+      "App.gen" {
         bounds {
-          T "app.Real"
+          T "App.Real"
         }
         parameters [
           {
@@ -38,7 +38,7 @@ warpt 1
                 arguments [
                   1
                 ]
-                procedure "app.gen"
+                procedure "App.gen"
               }
             }
           }
@@ -54,7 +54,7 @@ warpt 1
                     ref "r"
                   }
                 ]
-                procedure "std.collection.appending"
+                procedure "Standard.Collection.appending"
               }
             }
           }

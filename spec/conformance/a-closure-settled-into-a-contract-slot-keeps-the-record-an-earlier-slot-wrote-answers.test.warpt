@@ -4,17 +4,17 @@ warpt 1
     answers "a"
   }
   name "a-closure-settled-into-a-contract-slot-keeps-the-record-an-earlier-slot-wrote-answers"
-  note "`c` is held at `procedure() -> bank.A`, its closure answering the nameless `{ k: \"x\" }`, and `d` holds it again at `procedure() -> app.P`, which `bank.A` answers. The closure keeps both answers in turn, so the call inside `app.run` settles it to `bank.A` and then to `app.P`, which a `bank.A` already is, and `app.P.show` reaches `bank.A`'s witness."
+  note "`c` is held at `procedure() -> Bank.A`, its closure answering the nameless `{ k: \"x\" }`, and `d` holds it again at `procedure() -> App.P`, which `Bank.A` answers. The closure keeps both answers in turn, so the call inside `App.run` settles it to `Bank.A` and then to `App.P`, which a `Bank.A` already is, and `App.P.show` reaches `Bank.A`'s witness."
   program {
     contracts {
-      "app.P" {
+      "App.P" {
         show {
           const true
           isolated true
           parameters [
             {
               name "of"
-              type "app.P"
+              type "App.P"
             }
           ]
           returns "string"
@@ -23,7 +23,7 @@ warpt 1
     }
     imports []
     procedures {
-      "app.run" {
+      "App.run" {
         parameters [
           {
             name "c"
@@ -43,11 +43,11 @@ warpt 1
         }
         returns "some T"
       }
-      "bank.A.show" {
+      "Bank.A.show" {
         parameters [
           {
             name "of"
-            type "bank.A"
+            type "Bank.A"
           }
         ]
         result "a"
@@ -60,7 +60,7 @@ warpt 1
             let "c"
             type {
               procedure {
-                returns "bank.A"
+                returns "Bank.A"
               }
             }
             value {
@@ -77,7 +77,7 @@ warpt 1
             let "d"
             type {
               procedure {
-                returns "app.P"
+                returns "App.P"
               }
             }
             value {
@@ -93,7 +93,7 @@ warpt 1
                     ref "d"
                   }
                 ]
-                procedure "app.run"
+                procedure "App.run"
               }
             }
           }
@@ -105,18 +105,18 @@ warpt 1
                 ref "v"
               }
             ]
-            procedure "app.P.show"
+            procedure "App.P.show"
           }
         }
       }
     }
     satisfies {
-      "bank.A" [
-        "app.P"
+      "Bank.A" [
+        "App.P"
       ]
     }
     types {
-      "bank.A" {
+      "Bank.A" {
         record {
           k "string"
         }

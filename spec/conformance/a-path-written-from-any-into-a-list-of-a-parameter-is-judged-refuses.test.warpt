@@ -4,11 +4,11 @@ warpt 1
     refuses "run"
   }
   name "a-path-written-from-any-into-a-list-of-a-parameter-is-judged-refuses"
-  note "app.g writes junk, read as any, into cell[0], where cell is a list of T. A write through a path leaves cell reading as a list of T, so the body proves nothing and the call judges its answer, and the string refuses at the run."
+  note "App.g writes junk, read as any, into cell[0], where cell is a list of T. A write through a path leaves cell reading as a list of T, so the body proves nothing and the call judges its answer, and the string refuses at the run."
   program {
     imports []
     procedures {
-      "app.g" {
+      "App.g" {
         body [
           {
             value [
@@ -51,7 +51,7 @@ warpt 1
                   1
                   "s"
                 ]
-                procedure "app.g"
+                procedure "App.g"
               }
             }
           }

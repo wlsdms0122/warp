@@ -4,23 +4,23 @@ warpt 1
     refuses "build"
   }
   name "a-slot-naming-a-linear-type-says-what-it-does"
-  note "A parameter naming a type written `linear` says what it does with the value: `consuming` takes the obligation and `borrowing` reads and leaves it. One writing neither refuses at the build, even where the body answers what it took, as `app.look` does here."
+  note "A parameter naming a type written `linear` says what it does with the value: `consuming` takes the obligation and `borrowing` reads and leaves it. One writing neither refuses at the build, even where the body answers what it took, as `App.look` does here."
   program {
     imports []
     procedures {
-      "app.look" {
+      "App.look" {
         parameters [
           {
             name "of"
-            type "app.Handle"
+            type "App.Handle"
           }
         ]
         result {
           ref "of"
         }
-        returns "app.Handle"
+        returns "App.Handle"
       }
-      "app.open" {
+      "App.open" {
         result {
           as {
             of {
@@ -28,10 +28,10 @@ warpt 1
                 name "f"
               }
             }
-            type "app.Handle"
+            type "App.Handle"
           }
         }
-        returns "app.Handle"
+        returns "App.Handle"
       }
       entry {
         access "public"
@@ -40,7 +40,7 @@ warpt 1
             let "handle"
             value {
               call {
-                procedure "app.open"
+                procedure "App.open"
               }
             }
           }
@@ -48,11 +48,11 @@ warpt 1
         result {
           ref "handle"
         }
-        returns "app.Handle"
+        returns "App.Handle"
       }
     }
     types {
-      "app.Handle" {
+      "App.Handle" {
         linear {
           record {
             name "string"

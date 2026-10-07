@@ -5,9 +5,9 @@ warpt 1
       answers []
       claims [
         [
-          "bank.Card"
+          "Bank.Card"
           [
-            "app.Describable"
+            "App.Describable"
           ]
         ]
       ]
@@ -15,7 +15,7 @@ warpt 1
       constraints []
       contracts [
         [
-          "app.Describable"
+          "App.Describable"
           [
             [
               "describe"
@@ -27,7 +27,7 @@ warpt 1
                       [
                         [
                           18
-                          "app.Describable"
+                          "App.Describable"
                         ]
                       ]
                       []
@@ -49,15 +49,15 @@ warpt 1
       ]
       dependencies []
       document [
-        x"adc084979f5ea33e6c12878bed82d70b5cae7cc7b5946ef130257488e4c7f1be"
+        x"c39d6eb1a018b8658991c614c697f1ae48ba4f0218e10abbcc1dd8c3bd273836"
       ]
       leaned [
         [
-          "bank.Card"
-          "app.Describable"
+          "Bank.Card"
+          "App.Describable"
           [
             [
-              x"adc084979f5ea33e6c12878bed82d70b5cae7cc7b5946ef130257488e4c7f1be"
+              x"c39d6eb1a018b8658991c614c697f1ae48ba4f0218e10abbcc1dd8c3bd273836"
             ]
             [
               [
@@ -88,7 +88,7 @@ warpt 1
       object 1
       rows [
         [
-          "app.tell"
+          "App.tell"
           [
             [
               [
@@ -96,7 +96,7 @@ warpt 1
                 [
                   [
                     18
-                    "app.Describable"
+                    "App.Describable"
                   ]
                 ]
                 []
@@ -126,7 +126,7 @@ warpt 1
                   [
                     12
                     [
-                      "app.Describable"
+                      "App.Describable"
                       "describe"
                       [
                         1
@@ -166,7 +166,7 @@ warpt 1
           ]
         ]
         [
-          "bank.Card.describe"
+          "Bank.Card.describe"
           [
             [
               [
@@ -174,7 +174,7 @@ warpt 1
                 [
                   [
                     18
-                    "bank.Card"
+                    "Bank.Card"
                   ]
                 ]
                 []
@@ -317,13 +317,13 @@ warpt 1
       ]
       typeNumbering [
         [
-          "bank.Card"
+          "Bank.Card"
         ]
         []
       ]
       types [
         [
-          "bank.Card"
+          "Bank.Card"
           [
             10
             [
@@ -344,12 +344,12 @@ warpt 1
   note "A call through a contract carries the contract, the procedure, its first argument apart and the rest by position, and no row: which row answers is the link's. The claim the body leans on stands under leaned with the place it was written."
   program {
     contracts {
-      "app.Describable" {
+      "App.Describable" {
         describe {
           parameters [
             {
               name "of"
-              type "app.Describable"
+              type "App.Describable"
             }
           ]
           returns "string"
@@ -358,11 +358,11 @@ warpt 1
     }
     imports []
     procedures {
-      "app.tell" {
+      "App.tell" {
         parameters [
           {
             name "it"
-            type "app.Describable"
+            type "App.Describable"
           }
         ]
         result {
@@ -372,16 +372,16 @@ warpt 1
                 ref "it"
               }
             ]
-            procedure "app.Describable.describe"
+            procedure "App.Describable.describe"
           }
         }
         returns "string"
       }
-      "bank.Card.describe" {
+      "Bank.Card.describe" {
         parameters [
           {
             name "of"
-            type "bank.Card"
+            type "Bank.Card"
           }
         ]
         result "a card"
@@ -399,7 +399,7 @@ warpt 1
                     last "42"
                   }
                 }
-                type "bank.Card"
+                type "Bank.Card"
               }
             }
           }
@@ -411,19 +411,19 @@ warpt 1
                 ref "card"
               }
             ]
-            procedure "app.tell"
+            procedure "App.tell"
           }
         }
         returns "string"
       }
     }
     satisfies {
-      "bank.Card" [
-        "app.Describable"
+      "Bank.Card" [
+        "App.Describable"
       ]
     }
     types {
-      "bank.Card" {
+      "Bank.Card" {
         record {
           last "string"
         }

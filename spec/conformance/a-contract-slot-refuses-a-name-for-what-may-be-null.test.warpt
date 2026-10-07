@@ -4,15 +4,15 @@ warpt 1
     refuses "build"
   }
   name "a-contract-slot-refuses-a-name-for-what-may-be-null"
-  note "app.f takes app.Sized and is handed a variable declared bank.MaybeCard, which names bank.Card?. The name stands for what may be null, which answers no contract."
+  note "App.f takes App.Sized and is handed a variable declared Bank.MaybeCard, which names Bank.Card?. The name stands for what may be null, which answers no contract."
   program {
     contracts {
-      "app.Sized" {
+      "App.Sized" {
         size {
           parameters [
             {
               name "of"
-              type "app.Sized"
+              type "App.Sized"
             }
           ]
           returns "int"
@@ -21,21 +21,21 @@ warpt 1
     }
     imports []
     procedures {
-      "app.f" {
+      "App.f" {
         parameters [
           {
             name "n"
-            type "app.Sized"
+            type "App.Sized"
           }
         ]
         result "took"
         returns "string"
       }
-      "bank.Card.size" {
+      "Bank.Card.size" {
         parameters [
           {
             name "of"
-            type "bank.Card"
+            type "Bank.Card"
           }
         ]
         result 4
@@ -46,7 +46,7 @@ warpt 1
         body [
           {
             let "c"
-            type "bank.MaybeCard"
+            type "Bank.MaybeCard"
             value {
               as {
                 of {
@@ -54,7 +54,7 @@ warpt 1
                     last "4"
                   }
                 }
-                type "bank.Card"
+                type "Bank.Card"
               }
             }
           }
@@ -67,7 +67,7 @@ warpt 1
                     ref "c"
                   }
                 ]
-                procedure "app.f"
+                procedure "App.f"
               }
             }
           }
@@ -78,27 +78,27 @@ warpt 1
       }
     }
     satisfies {
-      "bank.Card" [
-        "app.Sized"
+      "Bank.Card" [
+        "App.Sized"
       ]
     }
     types {
-      "bank.Box" {
+      "Bank.Box" {
         record {
           n "int"
         }
       }
-      "bank.Card" {
+      "Bank.Card" {
         record {
           last "string"
         }
       }
-      "bank.Coin" {
+      "Bank.Coin" {
         record {
           cents "int"
         }
       }
-      "bank.MaybeCard" "bank.Card?"
+      "Bank.MaybeCard" "Bank.Card?"
     }
     warp 1
   }

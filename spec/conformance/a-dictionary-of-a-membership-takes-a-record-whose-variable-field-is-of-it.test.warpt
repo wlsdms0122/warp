@@ -4,21 +4,21 @@ warpt 1
     answers "took"
   }
   name "a-dictionary-of-a-membership-takes-a-record-whose-variable-field-is-of-it"
-  note "app.f takes dictionary<app.Key> and is handed an app.Box, whose one field is var app.Key. The field's var says nothing about its value, which is a member of app.Key."
+  note "App.f takes dictionary<App.Key> and is handed an App.Box, whose one field is var App.Key. The field's var says nothing about its value, which is a member of App.Key."
   program {
     constraints {
-      "app.Key" [
+      "App.Key" [
         "int"
         "string"
       ]
     }
     imports []
     procedures {
-      "app.f" {
+      "App.f" {
         parameters [
           {
             name "d"
-            type "dictionary<app.Key>"
+            type "dictionary<App.Key>"
           }
         ]
         result "took"
@@ -36,7 +36,7 @@ warpt 1
                     v 1
                   }
                 }
-                type "app.Box"
+                type "App.Box"
               }
             }
           }
@@ -49,7 +49,7 @@ warpt 1
                     ref "b"
                   }
                 ]
-                procedure "app.f"
+                procedure "App.f"
               }
             }
           }
@@ -60,9 +60,9 @@ warpt 1
       }
     }
     types {
-      "app.Box" {
+      "App.Box" {
         record {
-          v "var app.Key"
+          v "var App.Key"
         }
       }
     }

@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-cast-of-an-alias-of-a-nullable-record-to-another-record-refuses"
-  note "`app.A` and `app.B` are both declared `{ a: string }`, and `app.NA` stands for `app.A?`. `n` is read as `app.NA`, which names `app.A` through the alias, so a value of it is one of `app.B` only if it is null, and `app.B` does not take null. No value is both, so the cast `n as app.B` refuses at the build."
+  note "`App.A` and `App.B` are both declared `{ a: string }`, and `App.NA` stands for `App.A?`. `n` is read as `App.NA`, which names `App.A` through the alias, so a value of it is one of `App.B` only if it is null, and `App.B` does not take null. No value is both, so the cast `n as App.B` refuses at the build."
   program {
     imports []
     procedures {
@@ -13,7 +13,7 @@ warpt 1
         body [
           {
             let "n"
-            type "app.NA"
+            type "App.NA"
             value {
               record {
                 a "x"
@@ -27,7 +27,7 @@ warpt 1
                 of {
                   ref "n"
                 }
-                type "app.B"
+                type "App.B"
               }
             }
           }
@@ -38,18 +38,18 @@ warpt 1
       }
     }
     types {
-      "app.A" {
+      "App.A" {
         record {
           a "string"
         }
       }
-      "app.B" {
+      "App.B" {
         record {
           a "string"
         }
       }
-      "app.NA" "app.A?"
-      "app.NB" "app.B?"
+      "App.NA" "App.A?"
+      "App.NB" "App.B?"
     }
     warp 1
   }

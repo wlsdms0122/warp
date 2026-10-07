@@ -10,7 +10,7 @@ warpt 1
   note "A type declared in `types` may name itself in a field, nullable or as a list's element, and a value of it is built and read like any other."
   program {
     imports [
-      "std.collection.count"
+      "Standard.Collection.count"
     ]
     procedures {
       entry {
@@ -27,7 +27,7 @@ warpt 1
                     n 1
                   }
                 }
-                type "t.Node"
+                type "T.Node"
               }
             }
           }
@@ -51,7 +51,7 @@ warpt 1
                     n 2
                   }
                 }
-                type "t.Node"
+                type "T.Node"
               }
             }
           }
@@ -68,7 +68,7 @@ warpt 1
                     ref "root.kids"
                   }
                 ]
-                procedure "std.collection.count"
+                procedure "Standard.Collection.count"
               }
             }
           }
@@ -82,10 +82,10 @@ warpt 1
       }
     }
     types {
-      "t.Node" {
+      "T.Node" {
         record {
-          kids "array<t.Node>"
-          left "t.Node?"
+          kids "array<T.Node>"
+          left "T.Node?"
           n "int"
         }
       }

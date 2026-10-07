@@ -2,13 +2,13 @@ warpt 1
 {
   description "Ordering the other way round, choosing between two and dropping a sign, written from lessThan and minus."
   imports [
-    "std.Comparable"
-    "std.Numeric"
-    "std.math.lessThan"
-    "std.math.minus"
+    "Standard.Comparable"
+    "Standard.Math.lessThan"
+    "Standard.Math.minus"
+    "Standard.Numeric"
   ]
   procedures {
-    "std.math.absolute" {
+    "Standard.Math.absolute" {
       body [
         {
           value {
@@ -30,7 +30,7 @@ warpt 1
                       ref "number"
                     }
                   ]
-                  procedure "std.math.lessThan"
+                  procedure "Standard.Math.lessThan"
                 }
               }
             }
@@ -38,7 +38,7 @@ warpt 1
         }
       ]
       bounds {
-        N "std.Numeric"
+        N "Standard.Numeric"
       }
       description "The number without its sign."
       parameters [
@@ -55,14 +55,14 @@ warpt 1
               ref "number"
             }
           ]
-          procedure "std.math.minus"
+          procedure "Standard.Math.minus"
         }
       }
       returns "some N"
     }
-    "std.math.greaterThan" {
+    "Standard.Math.greaterThan" {
       bounds {
-        T "std.Comparable"
+        T "Standard.Comparable"
       }
       description "Whether the first is larger, by the one order."
       parameters [
@@ -85,12 +85,12 @@ warpt 1
               ref "lhs"
             }
           ]
-          procedure "std.math.lessThan"
+          procedure "Standard.Math.lessThan"
         }
       }
       returns "bool"
     }
-    "std.math.max" {
+    "Standard.Math.max" {
       body [
         {
           value {
@@ -114,7 +114,7 @@ warpt 1
                       ref "lhs"
                     }
                   ]
-                  procedure "std.math.lessThan"
+                  procedure "Standard.Math.lessThan"
                 }
               }
             }
@@ -122,7 +122,7 @@ warpt 1
         }
       ]
       bounds {
-        T "std.Comparable"
+        T "Standard.Comparable"
       }
       description "The larger of two of a kind, by the one order."
       parameters [
@@ -140,7 +140,7 @@ warpt 1
       }
       returns "some T"
     }
-    "std.math.min" {
+    "Standard.Math.min" {
       body [
         {
           value {
@@ -164,7 +164,7 @@ warpt 1
                       ref "lhs"
                     }
                   ]
-                  procedure "std.math.lessThan"
+                  procedure "Standard.Math.lessThan"
                 }
               }
             }
@@ -172,7 +172,7 @@ warpt 1
         }
       ]
       bounds {
-        T "std.Comparable"
+        T "Standard.Comparable"
       }
       description "The smaller of two of a kind, by the one order."
       parameters [

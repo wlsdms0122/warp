@@ -4,16 +4,16 @@ warpt 1
     refuses "build"
   }
   name "a-parameter-handed-in-place-takes-no-value-its-members-take-refuses"
-  note "app.gen takes some T bounded by app.Real in place, and writes 2.5. The caller's variable is an int, which double admits, so T is filled with int and the write would leave a fraction in it."
+  note "App.gen takes some T bounded by App.Real in place, and writes 2.5. The caller's variable is an int, which double admits, so T is filled with int and the write would leave a fraction in it."
   program {
     constraints {
-      "app.Real" [
+      "App.Real" [
         "double"
       ]
     }
     imports []
     procedures {
-      "app.gen" {
+      "App.gen" {
         body [
           {
             set "x"
@@ -21,7 +21,7 @@ warpt 1
           }
         ]
         bounds {
-          T "app.Real"
+          T "App.Real"
         }
         parameters [
           {
@@ -47,7 +47,7 @@ warpt 1
                     ref "n"
                   }
                 ]
-                procedure "app.gen"
+                procedure "App.gen"
               }
             }
           }

@@ -7,11 +7,11 @@ warpt 1
     }
   }
   name "a-parameter-read-as-an-alias-of-a-nullable-record-and-as-a-wider-record-answers"
-  note "`app.NA` names `app.A?`, which is no record, so it is an alias and stands for what it names. `app.pick` reads `E` as `app.NA` and as `{ a: string, b: int }`, and the alias takes the wider record as `app.A?` does, so the call builds and answers the second record."
+  note "`App.NA` names `App.A?`, which is no record, so it is an alias and stands for what it names. `App.pick` reads `E` as `App.NA` and as `{ a: string, b: int }`, and the alias takes the wider record as `App.A?` does, so the call builds and answers the second record."
   program {
     imports []
     procedures {
-      "app.pick" {
+      "App.pick" {
         parameters [
           {
             name "a"
@@ -32,7 +32,7 @@ warpt 1
         body [
           {
             let "n"
-            type "app.NA"
+            type "App.NA"
             value {
               record {
                 a "x"
@@ -54,7 +54,7 @@ warpt 1
                     }
                   }
                 ]
-                procedure "app.pick"
+                procedure "App.pick"
               }
             }
           }
@@ -65,12 +65,12 @@ warpt 1
       }
     }
     types {
-      "app.A" {
+      "App.A" {
         record {
           a "string"
         }
       }
-      "app.NA" "app.A?"
+      "App.NA" "App.A?"
     }
     warp 1
   }

@@ -4,15 +4,15 @@ warpt 1
     answers "a card"
   }
   name "an-alias-of-a-contract-answers-the-contract"
-  note "app.D names app.Describable, so a slot of app.D takes a value answering app.Describable, and a call through the contract takes it."
+  note "App.D names App.Describable, so a slot of App.D takes a value answering App.Describable, and a call through the contract takes it."
   program {
     contracts {
-      "app.Describable" {
+      "App.Describable" {
         describe {
           parameters [
             {
               name "of"
-              type "app.Describable"
+              type "App.Describable"
             }
           ]
           returns "string"
@@ -21,11 +21,11 @@ warpt 1
     }
     imports []
     procedures {
-      "bank.Card.describe" {
+      "Bank.Card.describe" {
         parameters [
           {
             name "of"
-            type "bank.Card"
+            type "Bank.Card"
           }
         ]
         result "a card"
@@ -43,7 +43,7 @@ warpt 1
                     last "1"
                   }
                 }
-                type "bank.Card"
+                type "Bank.Card"
               }
             }
           }
@@ -70,7 +70,7 @@ warpt 1
                     ref "c"
                   }
                 ]
-                procedure "app.Describable.describe"
+                procedure "App.Describable.describe"
               }
             }
           }
@@ -78,7 +78,7 @@ warpt 1
         parameters [
           {
             name "c"
-            type "app.D"
+            type "App.D"
           }
         ]
         result {
@@ -88,13 +88,13 @@ warpt 1
       }
     }
     satisfies {
-      "bank.Card" [
-        "app.Describable"
+      "Bank.Card" [
+        "App.Describable"
       ]
     }
     types {
-      "app.D" "app.Describable"
-      "bank.Card" {
+      "App.D" "App.Describable"
+      "Bank.Card" {
         record {
           last "string"
         }

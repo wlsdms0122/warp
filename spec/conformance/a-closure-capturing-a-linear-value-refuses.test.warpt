@@ -7,9 +7,9 @@ warpt 1
   note "A closure may run any number of times, so capturing a value written `linear` in one is not handing it on exactly once. `peek` captures `h`, and the build refuses the capture."
   program {
     imports [
-      "app.close"
-      "app.look"
-      "app.open"
+      "App.close"
+      "App.look"
+      "App.open"
     ]
     procedures {
       entry {
@@ -19,7 +19,7 @@ warpt 1
             let "h"
             value {
               call {
-                procedure "app.open"
+                procedure "App.open"
               }
             }
           }
@@ -34,7 +34,7 @@ warpt 1
                         ref "h"
                       }
                     ]
-                    procedure "app.look"
+                    procedure "App.look"
                   }
                 }
               }
@@ -48,7 +48,7 @@ warpt 1
                     ref "h"
                   }
                 ]
-                procedure "app.close"
+                procedure "App.close"
               }
             }
           }
@@ -60,34 +60,34 @@ warpt 1
   test 1
   vocabulary {
     procedures {
-      "app.close" {
+      "App.close" {
         parameters [
           {
             name "first"
-            type "consuming app.Handle"
+            type "consuming App.Handle"
           }
         ]
         runs true
       }
-      "app.look" {
+      "App.look" {
         answers 1
         parameters [
           {
             name "first"
-            type "borrowing app.Handle"
+            type "borrowing App.Handle"
           }
         ]
         returns "int"
       }
-      "app.open" {
-        answers app.Handle {
+      "App.open" {
+        answers App.Handle {
           name "f"
         }
-        returns "app.Handle"
+        returns "App.Handle"
       }
     }
     types {
-      "app.Handle" {
+      "App.Handle" {
         linear {
           record {
             name "string"

@@ -4,15 +4,15 @@ warpt 1
     refuses "build"
   }
   name "a-declaration-answering-a-contract-takes-no-parameter-beyond-it"
-  note "A declaration answering a contract's procedure takes exactly the contract's positions. `app.Card.label` takes a second parameter the contract does not ask, and no call through the contract writes it, so the build refuses where the claim is leaned on, `T?` or not."
+  note "A declaration answering a contract's procedure takes exactly the contract's positions. `App.Card.label` takes a second parameter the contract does not ask, and no call through the contract writes it, so the build refuses where the claim is leaned on, `T?` or not."
   program {
     contracts {
-      "app.Labelled" {
+      "App.Labelled" {
         label {
           parameters [
             {
               name "of"
-              type "app.Labelled"
+              type "App.Labelled"
             }
           ]
           returns "string"
@@ -21,11 +21,11 @@ warpt 1
     }
     imports []
     procedures {
-      "app.Card.label" {
+      "App.Card.label" {
         parameters [
           {
             name "of"
-            type "app.Card"
+            type "App.Card"
           }
           {
             name "suffix"
@@ -49,23 +49,23 @@ warpt 1
                       last "42"
                     }
                   }
-                  type "app.Card"
+                  type "App.Card"
                 }
               }
             ]
-            procedure "app.Labelled.label"
+            procedure "App.Labelled.label"
           }
         }
         returns "string"
       }
     }
     satisfies {
-      "app.Card" [
-        "app.Labelled"
+      "App.Card" [
+        "App.Labelled"
       ]
     }
     types {
-      "app.Card" {
+      "App.Card" {
         record {
           last "string"
         }

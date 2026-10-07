@@ -7,12 +7,12 @@ warpt 1
   note "A claim is about a declared type. A value of a type the language names wears no name a run could read, so no declaration could answer a contract for it, and a document claiming one does is refused where it is read."
   program {
     contracts {
-      "app.Described" {
+      "App.Described" {
         describe {
           parameters [
             {
               name "of"
-              type "app.Described"
+              type "App.Described"
             }
           ]
           returns "string"
@@ -21,25 +21,25 @@ warpt 1
     }
     imports []
     procedures {
-      entry {
-        access "public"
-        result 1
-        returns "int"
-      }
-      "int.describe" {
+      "Int.describe" {
         parameters [
           {
             name "of"
-            type "int"
+            type "Int"
           }
         ]
         result "int"
         returns "string"
       }
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
     }
     satisfies {
-      int [
-        "app.Described"
+      Int [
+        "App.Described"
       ]
     }
     warp 1

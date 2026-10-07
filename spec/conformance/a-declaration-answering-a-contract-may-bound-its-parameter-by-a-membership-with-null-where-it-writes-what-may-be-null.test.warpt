@@ -4,21 +4,21 @@ warpt 1
     answers 1
   }
   name "a-declaration-answering-a-contract-may-bound-its-parameter-by-a-membership-with-null-where-it-writes-what-may-be-null"
-  note "The contract takes int? at x, and the declaration answering it takes some V there, bounded by app.MaybeNum, which admits int and null."
+  note "The contract takes int? at x, and the declaration answering it takes some V there, bounded by App.MaybeNum, which admits int and null."
   program {
     constraints {
-      "app.MaybeNum" [
+      "App.MaybeNum" [
         "int"
         "null"
       ]
     }
     contracts {
-      "app.Use" {
+      "App.Use" {
         use {
           parameters [
             {
               name "of"
-              type "app.Use"
+              type "App.Use"
             }
             {
               name "x"
@@ -31,14 +31,14 @@ warpt 1
     }
     imports []
     procedures {
-      "bank.Card.use" {
+      "Bank.Card.use" {
         bounds {
-          V "app.MaybeNum"
+          V "App.MaybeNum"
         }
         parameters [
           {
             name "of"
-            type "bank.Card"
+            type "Bank.Card"
           }
           {
             name "x"
@@ -60,7 +60,7 @@ warpt 1
                     last "42"
                   }
                 }
-                type "bank.Card"
+                type "Bank.Card"
               }
             }
           }
@@ -74,7 +74,7 @@ warpt 1
                   }
                   null
                 ]
-                procedure "app.Use.use"
+                procedure "App.Use.use"
               }
             }
           }
@@ -85,12 +85,12 @@ warpt 1
       }
     }
     satisfies {
-      "bank.Card" [
-        "app.Use"
+      "Bank.Card" [
+        "App.Use"
       ]
     }
     types {
-      "bank.Card" {
+      "Bank.Card" {
         record {
           last "string"
         }

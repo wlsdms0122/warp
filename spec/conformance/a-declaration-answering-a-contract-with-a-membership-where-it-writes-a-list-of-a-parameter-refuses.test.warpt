@@ -4,21 +4,21 @@ warpt 1
     refuses "build"
   }
   name "a-declaration-answering-a-contract-with-a-membership-where-it-writes-a-list-of-a-parameter-refuses"
-  note "The contract takes a list of some T, its own parameter bounded by nothing, and the declaration answering it takes app.Lists there. Nothing about T proves a list of it is a list of ints or of doubles, so a call through the contract handing a list of strings would reach a slot that refuses it."
+  note "The contract takes a list of some T, its own parameter bounded by nothing, and the declaration answering it takes App.Lists there. Nothing about T proves a list of it is a list of ints or of doubles, so a call through the contract handing a list of strings would reach a slot that refuses it."
   program {
     constraints {
-      "app.Lists" [
+      "App.Lists" [
         "array<int>"
         "array<double>"
       ]
     }
     contracts {
-      "app.Sized" {
+      "App.Sized" {
         size {
           parameters [
             {
               name "of"
-              type "app.Sized"
+              type "App.Sized"
             }
             {
               name "n"
@@ -31,15 +31,15 @@ warpt 1
     }
     imports []
     procedures {
-      "bank.Card.size" {
+      "Bank.Card.size" {
         parameters [
           {
             name "of"
-            type "bank.Card"
+            type "Bank.Card"
           }
           {
             name "n"
-            type "app.Lists"
+            type "App.Lists"
           }
         ]
         result 7
@@ -57,7 +57,7 @@ warpt 1
                     last "42"
                   }
                 }
-                type "bank.Card"
+                type "Bank.Card"
               }
             }
           }
@@ -73,7 +73,7 @@ warpt 1
                     "x"
                   ]
                 ]
-                procedure "app.Sized.size"
+                procedure "App.Sized.size"
               }
             }
           }
@@ -84,12 +84,12 @@ warpt 1
       }
     }
     satisfies {
-      "bank.Card" [
-        "app.Sized"
+      "Bank.Card" [
+        "App.Sized"
       ]
     }
     types {
-      "bank.Card" {
+      "Bank.Card" {
         record {
           last "string"
         }

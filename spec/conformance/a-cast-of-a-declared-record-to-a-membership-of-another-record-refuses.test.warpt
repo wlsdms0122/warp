@@ -4,11 +4,11 @@ warpt 1
     refuses "build"
   }
   name "a-cast-of-a-declared-record-to-a-membership-of-another-record-refuses"
-  note "`bank.A` and `bank.B` are both declared `{ k: string }`, and `app.M2` admits `bank.B` and `int`. `a` is read as `bank.A`. A value settled into a membership keeps its name, so a `bank.A` is a value of `app.M2` only if it is a `bank.B` or a whole number, and it is neither. No value is both, so the cast `a as app.M2` refuses at the build, as it does where `a` is read as `bank.A?`."
+  note "`Bank.A` and `Bank.B` are both declared `{ k: string }`, and `App.M2` admits `Bank.B` and `int`. `a` is read as `Bank.A`. A value settled into a membership keeps its name, so a `Bank.A` is a value of `App.M2` only if it is a `Bank.B` or a whole number, and it is neither. No value is both, so the cast `a as App.M2` refuses at the build, as it does where `a` is read as `Bank.A?`."
   program {
     constraints {
-      "app.M2" [
-        "bank.B"
+      "App.M2" [
+        "Bank.B"
         "int"
       ]
     }
@@ -26,7 +26,7 @@ warpt 1
                     k "x"
                   }
                 }
-                type "bank.A"
+                type "Bank.A"
               }
             }
           }
@@ -37,7 +37,7 @@ warpt 1
                 of {
                   ref "a"
                 }
-                type "app.M2"
+                type "App.M2"
               }
             }
           }
@@ -48,20 +48,20 @@ warpt 1
       }
     }
     types {
-      "bank.A" {
+      "Bank.A" {
         record {
           k "string"
         }
       }
-      "bank.B" {
+      "Bank.B" {
         record {
           k "string"
         }
       }
-      "bank.BB" "bank.B"
-      "bank.NA" "bank.A?"
-      "bank.NB" "bank.B?"
-      "bank.NBB" "bank.NB"
+      "Bank.BB" "Bank.B"
+      "Bank.NA" "Bank.A?"
+      "Bank.NB" "Bank.B?"
+      "Bank.NBB" "Bank.NB"
     }
     warp 1
   }

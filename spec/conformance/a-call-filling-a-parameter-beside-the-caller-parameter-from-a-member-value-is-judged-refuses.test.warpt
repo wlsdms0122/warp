@@ -4,13 +4,13 @@ warpt 1
     refuses "run"
   }
   name "a-call-filling-a-parameter-beside-the-caller-parameter-from-a-member-value-is-judged-refuses"
-  note "app.g, bounded by std.Numeric, answers app.pick(n, 5), which fills E from n and from 5. 5 is a value every member takes and not a value of T, so the call judges the answer, and T filled with int(0...3) refuses 5 at the run."
+  note "App.g, bounded by Standard.Numeric, answers App.pick(n, 5), which fills E from n and from 5. 5 is a value every member takes and not a value of T, so the call judges the answer, and T filled with int(0...3) refuses 5 at the run."
   program {
     imports [
-      "std.Numeric"
+      "Standard.Numeric"
     ]
     procedures {
-      "app.g" {
+      "App.g" {
         body [
           {
             let "p"
@@ -22,13 +22,13 @@ warpt 1
                   }
                   5
                 ]
-                procedure "app.pick"
+                procedure "App.pick"
               }
             }
           }
         ]
         bounds {
-          T "std.Numeric"
+          T "Standard.Numeric"
         }
         parameters [
           {
@@ -41,7 +41,7 @@ warpt 1
         }
         returns "some T"
       }
-      "app.pick" {
+      "App.pick" {
         parameters [
           {
             name "a"
@@ -74,7 +74,7 @@ warpt 1
                     ref "v"
                   }
                 ]
-                procedure "app.g"
+                procedure "App.g"
               }
             }
           }

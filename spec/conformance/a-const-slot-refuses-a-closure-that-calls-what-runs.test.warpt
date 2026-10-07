@@ -7,8 +7,8 @@ warpt 1
   note "What a closure sends is a fact about its text, so a slot asking `const procedure` is answered at the build. A procedure that reaches outside the run is not one such a closure may send."
   program {
     imports [
-      "app.ask"
-      "std.logic.and"
+      "App.ask"
+      "Standard.Logic.and"
     ]
     procedures {
       entry {
@@ -21,7 +21,7 @@ warpt 1
                   closure {
                     result {
                       call {
-                        procedure "app.ask"
+                        procedure "App.ask"
                       }
                     }
                     returns "bool"
@@ -29,7 +29,7 @@ warpt 1
                 }
               ]
             ]
-            procedure "std.logic.and"
+            procedure "Standard.Logic.and"
           }
         }
         returns "bool"
@@ -40,7 +40,7 @@ warpt 1
   test 1
   vocabulary {
     procedures {
-      "app.ask" {
+      "App.ask" {
         answers true
         returns "bool"
         runs true

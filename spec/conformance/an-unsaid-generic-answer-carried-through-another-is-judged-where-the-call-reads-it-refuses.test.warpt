@@ -4,11 +4,11 @@ warpt 1
     refuses "run"
   }
   name "an-unsaid-generic-answer-carried-through-another-is-judged-where-the-call-reads-it-refuses"
-  note "app.g writes no returns, and what was read off its body is its some T, carried from app.f, which answers its any. app.g proves nothing, so the call reading int judges the answer, and the text refuses at the run."
+  note "App.g writes no returns, and what was read off its body is its some T, carried from App.h, which answers its any. App.g proves nothing, so the call reading int judges the answer, and the text refuses at the run."
   program {
     imports []
     procedures {
-      "app.g" {
+      "App.g" {
         parameters [
           {
             name "n"
@@ -29,11 +29,11 @@ warpt 1
                 ref "junk"
               }
             ]
-            procedure "app.h"
+            procedure "App.h"
           }
         }
       }
-      "app.h" {
+      "App.h" {
         parameters [
           {
             name "n"
@@ -60,7 +60,7 @@ warpt 1
                   1
                   "s"
                 ]
-                procedure "app.g"
+                procedure "App.g"
               }
             }
           }

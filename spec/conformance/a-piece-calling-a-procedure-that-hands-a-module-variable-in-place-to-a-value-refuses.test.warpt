@@ -4,11 +4,11 @@ warpt 1
     refuses "build"
   }
   name "a-piece-calling-a-procedure-that-hands-a-module-variable-in-place-to-a-value-refuses"
-  note "A body handing a module variable in place to a value writes it through that value, the way it would through a declaration, so it is not isolated. A piece of `std.concurrent.map` calling such a procedure refuses at the build."
+  note "A body handing a module variable in place to a value writes it through that value, the way it would through a declaration, so it is not isolated. A piece of `Standard.Concurrent.map` calling such a procedure refuses at the build."
   program {
     imports [
-      "std.concurrent.map"
-      "std.math.plus"
+      "Standard.Concurrent.map"
+      "Standard.Math.plus"
     ]
     procedures {
       adding {
@@ -59,7 +59,7 @@ warpt 1
                           }
                           1
                         ]
-                        procedure "std.math.plus"
+                        procedure "Standard.Math.plus"
                       }
                     }
                   }
@@ -113,7 +113,7 @@ warpt 1
                     }
                   }
                 ]
-                procedure "std.concurrent.map"
+                procedure "Standard.Concurrent.map"
               }
             }
           }

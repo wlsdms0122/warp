@@ -4,21 +4,21 @@ warpt 1
     answers 1
   }
   name "a-membership-with-null-admits-what-may-be-null-of-another-member"
-  note "app.MaybeNum admits int and null, and app.f takes it. A reading of int? is an int or null, each a member."
+  note "App.MaybeNum admits int and null, and App.f takes it. A reading of int? is an int or null, each a member."
   program {
     constraints {
-      "app.MaybeNum" [
+      "App.MaybeNum" [
         "int"
         "null"
       ]
     }
     imports []
     procedures {
-      "app.f" {
+      "App.f" {
         parameters [
           {
             name "x"
-            type "app.MaybeNum"
+            type "App.MaybeNum"
           }
         ]
         result 1
@@ -40,7 +40,7 @@ warpt 1
                     ref "n"
                   }
                 ]
-                procedure "app.f"
+                procedure "App.f"
               }
             }
           }

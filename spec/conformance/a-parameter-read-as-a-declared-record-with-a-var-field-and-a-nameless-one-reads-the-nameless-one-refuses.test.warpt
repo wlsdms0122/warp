@@ -4,11 +4,11 @@ warpt 1
     refuses "build"
   }
   name "a-parameter-read-as-a-declared-record-with-a-var-field-and-a-nameless-one-reads-the-nameless-one-refuses"
-  note "`app.Box` is declared `{ a: var int }`. `app.f` takes two of `some T` and answers the first. The call hands a name read as `app.Box` and the nameless record `{ a: 2 }`, so `T` is read as the nameless one, `{ a: int }`: a field's `var` is a fact about the field and not about the value. Casting the answer to `{ a: int }` reads it as what it already is, so the build refuses the cast."
+  note "`App.Box` is declared `{ a: var int }`. `App.f` takes two of `some T` and answers the first. The call hands a name read as `App.Box` and the nameless record `{ a: 2 }`, so `T` is read as the nameless one, `{ a: int }`: a field's `var` is a fact about the field and not about the value. Casting the answer to `{ a: int }` reads it as what it already is, so the build refuses the cast."
   program {
     imports []
     procedures {
-      "app.f" {
+      "App.f" {
         parameters [
           {
             name "x"
@@ -29,7 +29,7 @@ warpt 1
         body [
           {
             let "b"
-            type "app.Box"
+            type "App.Box"
             value {
               record {
                 a 1
@@ -50,7 +50,7 @@ warpt 1
                     }
                   }
                 ]
-                procedure "app.f"
+                procedure "App.f"
               }
             }
           }
@@ -70,7 +70,7 @@ warpt 1
       }
     }
     types {
-      "app.Box" {
+      "App.Box" {
         record {
           a "var int"
         }

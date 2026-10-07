@@ -10,9 +10,9 @@ warpt 1
   note "A `first` in which nothing succeeds fails the way `all` fails: every piece's failure reported, keyed by the piece it came from, so a rescue reads one failure per piece."
   program {
     imports [
-      "std.collection.keys"
-      "std.concurrent.first"
-      "std.control.abort"
+      "Standard.Collection.keys"
+      "Standard.Concurrent.first"
+      "Standard.Control.abort"
     ]
     procedures {
       entry {
@@ -38,7 +38,7 @@ warpt 1
                                           arguments [
                                             "left"
                                           ]
-                                          procedure "std.control.abort"
+                                          procedure "Standard.Control.abort"
                                         }
                                       }
                                     }
@@ -54,7 +54,7 @@ warpt 1
                                           arguments [
                                             "right"
                                           ]
-                                          procedure "std.control.abort"
+                                          procedure "Standard.Control.abort"
                                         }
                                       }
                                     }
@@ -64,7 +64,7 @@ warpt 1
                             }
                           }
                         ]
-                        procedure "std.concurrent.first"
+                        procedure "Standard.Concurrent.first"
                       }
                     }
                   }
@@ -90,7 +90,7 @@ warpt 1
                           ref "failures"
                         }
                       ]
-                      procedure "std.collection.keys"
+                      procedure "Standard.Collection.keys"
                     }
                   }
                 }

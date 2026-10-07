@@ -4,11 +4,11 @@ warpt 1
     refuses "build"
   }
   name "a-cast-of-a-nullable-record-holding-a-declared-record-to-a-membership-field-of-another-refuses"
-  note "`bank.A` and `bank.B` are both declared `{ k: string }`, `app.M2` admits `bank.B` and `int`, and `n` is read as `app.NRA`, which stands for `{ f: bank.A }?`. Its field keeps the name `bank.A` wherever it is settled, so a value of it is one of `{ f: app.M2 }` only if that field is a `bank.B` or a whole number, and it is neither. No value is both, so the cast refuses at the build."
+  note "`Bank.A` and `Bank.B` are both declared `{ k: string }`, `App.M2` admits `Bank.B` and `int`, and `n` is read as `App.NRA`, which stands for `{ f: Bank.A }?`. Its field keeps the name `Bank.A` wherever it is settled, so a value of it is one of `{ f: App.M2 }` only if that field is a `Bank.B` or a whole number, and it is neither. No value is both, so the cast refuses at the build."
   program {
     constraints {
-      "app.M2" [
-        "bank.B"
+      "App.M2" [
+        "Bank.B"
         "int"
       ]
     }
@@ -19,7 +19,7 @@ warpt 1
         body [
           {
             let "a"
-            type "bank.A"
+            type "Bank.A"
             value {
               record {
                 k "x"
@@ -28,7 +28,7 @@ warpt 1
           }
           {
             let "n"
-            type "app.NRA"
+            type "App.NRA"
             value {
               record {
                 f {
@@ -46,7 +46,7 @@ warpt 1
                 }
                 type {
                   record {
-                    f "app.M2"
+                    f "App.M2"
                   }
                 }
               }
@@ -57,18 +57,18 @@ warpt 1
       }
     }
     types {
-      "app.NRA" "app.RA?"
-      "app.RA" {
+      "App.NRA" "App.RA?"
+      "App.RA" {
         record {
-          f "bank.A"
+          f "Bank.A"
         }
       }
-      "bank.A" {
+      "Bank.A" {
         record {
           k "string"
         }
       }
-      "bank.B" {
+      "Bank.B" {
         record {
           k "string"
         }

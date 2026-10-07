@@ -7,8 +7,8 @@ warpt 1
   note "An attempt's body may fail somewhere the text does not show, so handing on a value written `linear` inside one is not handing it on exactly once. The rescue hands `h` on too, so each way through hands it on once, and the build still refuses the handing inside the attempt."
   program {
     imports [
-      "app.close"
-      "app.open"
+      "App.close"
+      "App.open"
     ]
     procedures {
       entry {
@@ -18,7 +18,7 @@ warpt 1
             let "h"
             value {
               call {
-                procedure "app.open"
+                procedure "App.open"
               }
             }
           }
@@ -43,7 +43,7 @@ warpt 1
                             ref "h"
                           }
                         ]
-                        procedure "app.close"
+                        procedure "App.close"
                       }
                     }
                   }
@@ -58,7 +58,7 @@ warpt 1
                               ref "h"
                             }
                           ]
-                          procedure "app.close"
+                          procedure "App.close"
                         }
                       }
                     }
@@ -76,34 +76,34 @@ warpt 1
   test 1
   vocabulary {
     procedures {
-      "app.close" {
+      "App.close" {
         parameters [
           {
             name "first"
-            type "consuming app.Handle"
+            type "consuming App.Handle"
           }
         ]
         runs true
       }
-      "app.look" {
+      "App.look" {
         answers 1
         parameters [
           {
             name "first"
-            type "borrowing app.Handle"
+            type "borrowing App.Handle"
           }
         ]
         returns "int"
       }
-      "app.open" {
-        answers app.Handle {
+      "App.open" {
+        answers App.Handle {
           name "f"
         }
-        returns "app.Handle"
+        returns "App.Handle"
       }
     }
     types {
-      "app.Handle" {
+      "App.Handle" {
         linear {
           record {
             name "string"

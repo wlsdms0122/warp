@@ -4,17 +4,17 @@ warpt 1
     refuses "build"
   }
   name "a-parameter-read-as-lists-of-a-record-and-of-a-nameless-one-is-a-list-of-the-nameless-one"
-  note "app.pick reads its some T as array<bank.Card> and as a list of nameless records of its fields. The reading that holds both is a list of the nameless record, position by position, so the contract call on its first element refuses at the build."
+  note "App.pick reads its some T as array<Bank.Card> and as a list of nameless records of its fields. The reading that holds both is a list of the nameless record, position by position, so the contract call on its first element refuses at the build."
   program {
     contracts {
-      "app.Describable" {
+      "App.Describable" {
         describe {
           const true
           isolated true
           parameters [
             {
               name "of"
-              type "app.Describable"
+              type "App.Describable"
             }
           ]
           returns "string"
@@ -22,10 +22,10 @@ warpt 1
       }
     }
     imports [
-      "std.collection.first"
+      "Standard.Collection.first"
     ]
     procedures {
-      "app.pick" {
+      "App.pick" {
         body [
           {
             value {
@@ -65,11 +65,11 @@ warpt 1
         }
         returns "some T"
       }
-      "bank.Card.describe" {
+      "Bank.Card.describe" {
         parameters [
           {
             name "of"
-            type "bank.Card"
+            type "Bank.Card"
           }
         ]
         result "a card"
@@ -92,7 +92,7 @@ warpt 1
                             last "42"
                           }
                         }
-                        type "bank.Card"
+                        type "Bank.Card"
                       }
                     }
                   ]
@@ -104,7 +104,7 @@ warpt 1
                     }
                   ]
                 ]
-                procedure "app.pick"
+                procedure "App.pick"
               }
             }
           }
@@ -117,7 +117,7 @@ warpt 1
                     ref "r"
                   }
                 ]
-                procedure "std.collection.first"
+                procedure "Standard.Collection.first"
               }
             }
           }
@@ -130,7 +130,7 @@ warpt 1
                     ref "f"
                   }
                 ]
-                procedure "app.Describable.describe"
+                procedure "App.Describable.describe"
               }
             }
           }
@@ -141,12 +141,12 @@ warpt 1
       }
     }
     satisfies {
-      "bank.Card" [
-        "app.Describable"
+      "Bank.Card" [
+        "App.Describable"
       ]
     }
     types {
-      "bank.Card" {
+      "Bank.Card" {
         record {
           last "string"
         }

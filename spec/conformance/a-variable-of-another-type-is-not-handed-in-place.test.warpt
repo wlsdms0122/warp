@@ -7,10 +7,10 @@ warpt 1
   note "A parameter handed in place takes the caller's own box, so the variable's declared type is the parameter's all the way in: `array<any>` where `inout array<int>` stands is refused at the build, since nothing settles where nothing is handed over."
   program {
     imports [
-      "std.collection.appending"
+      "Standard.Collection.appending"
     ]
     procedures {
-      "app.add" {
+      "App.add" {
         body [
           {
             set "into"
@@ -24,7 +24,7 @@ warpt 1
                     ref "value"
                   }
                 ]
-                procedure "std.collection.appending"
+                procedure "Standard.Collection.appending"
               }
             }
           }
@@ -57,7 +57,7 @@ warpt 1
                   }
                   1
                 ]
-                procedure "app.add"
+                procedure "App.add"
               }
             }
           }

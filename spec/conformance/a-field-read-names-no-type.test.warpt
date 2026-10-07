@@ -4,7 +4,7 @@ warpt 1
     {
       imports []
       procedures {
-        "core.origin" {
+        "Core.origin" {
           result {
             as {
               of {
@@ -13,14 +13,14 @@ warpt 1
                   y 4
                 }
               }
-              type "core.Point"
+              type "Core.Point"
             }
           }
-          returns "core.Point"
+          returns "Core.Point"
         }
       }
       types {
-        "core.Point" {
+        "Core.Point" {
           record {
             x "int"
             y "int"
@@ -31,17 +31,17 @@ warpt 1
     }
     {
       imports [
-        "core.Point"
-        "core.origin"
+        "Core.Point"
+        "Core.origin"
       ]
       procedures {
-        "mid.tip" {
+        "Mid.tip" {
           result {
             call {
-              procedure "core.origin"
+              procedure "Core.origin"
             }
           }
-          returns "core.Point"
+          returns "Core.Point"
         }
       }
       warp 1
@@ -54,7 +54,7 @@ warpt 1
   note "The imports list holds the names a program uses: what it sends and the types it names. Reading a field off another document's answer names no type, so a program built on the middle layer lists the middle layer's procedure and nothing of the layer beneath."
   program {
     imports [
-      "mid.tip"
+      "Mid.tip"
     ]
     procedures {
       entry {
@@ -64,7 +64,7 @@ warpt 1
             let "tip"
             value {
               call {
-                procedure "mid.tip"
+                procedure "Mid.tip"
               }
             }
           }

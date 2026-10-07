@@ -4,19 +4,19 @@ warpt 1
     refuses "build"
   }
   name "a-record-handed-at-a-dictionary-fills-a-parameter-part-by-part-refuses"
-  note "`app.f` bounds `T` by `app.M`, which admits `int?` and `string`, and answers the `dictionary<{ x: some T }>` it takes. The record handed there holds `{ x: 1 }` and `{ x: null }`, and its fields fill `T` joined part by part, as a list literal's elements do, so `T` reads `int?`. The answer is then a dictionary of `{ x: int? }`, which the name declaring `dictionary<{ x: int }>` does not hold, and it refuses at the build."
+  note "`App.f` bounds `T` by `App.M`, which admits `int?` and `string`, and answers the `dictionary<{ x: some T }>` it takes. The record handed there holds `{ x: 1 }` and `{ x: null }`, and its fields fill `T` joined part by part, as a list literal's elements do, so `T` reads `int?`. The answer is then a dictionary of `{ x: int? }`, which the name declaring `dictionary<{ x: int }>` does not hold, and it refuses at the build."
   program {
     constraints {
-      "app.M" [
+      "App.M" [
         "int?"
         "string"
       ]
     }
     imports []
     procedures {
-      "app.f" {
+      "App.f" {
         bounds {
-          T "app.M"
+          T "App.M"
         }
         parameters [
           {
@@ -71,7 +71,7 @@ warpt 1
                     }
                   }
                 ]
-                procedure "app.f"
+                procedure "App.f"
               }
             }
           }

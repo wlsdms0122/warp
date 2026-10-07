@@ -1,12 +1,12 @@
 warpt 1
 {
   expect {
-    answers app.A {
+    answers App.A {
       a "s"
     }
   }
   name "a-cast-to-an-alias-of-a-nullable-record-names-the-record-answers"
-  note "`app.NA` names `app.A?`, which is no record, so it is an alias and stands for what it names. A nameless record read as `{ a: string }?` cast `as app.NA` is the cast `as app.A?`: it could hold and is no needless cast, so it builds, and the run gives the record the name `app.A`."
+  note "`App.NA` names `App.A?`, which is no record, so it is an alias and stands for what it names. A nameless record read as `{ a: string }?` cast `as App.NA` is the cast `as App.A?`: it could hold and is no needless cast, so it builds, and the run gives the record the name `App.A`."
   program {
     imports []
     procedures {
@@ -43,18 +43,18 @@ warpt 1
             of {
               ref "r"
             }
-            type "app.NA"
+            type "App.NA"
           }
         }
       }
     }
     types {
-      "app.A" {
+      "App.A" {
         record {
           a "string"
         }
       }
-      "app.NA" "app.A?"
+      "App.NA" "App.A?"
     }
     warp 1
   }

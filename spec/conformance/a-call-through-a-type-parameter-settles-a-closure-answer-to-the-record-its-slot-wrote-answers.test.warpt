@@ -4,17 +4,17 @@ warpt 1
     answers "a"
   }
   name "a-call-through-a-type-parameter-settles-a-closure-answer-to-the-record-its-slot-wrote-answers"
-  note "`c` is held at `procedure() -> bank.A` and its closure answers the nameless `{ k: \"x\" }`. `app.run` takes `procedure() -> some T` and answers what calling it answers, so `v` reads as `bank.A`. The closure keeps the answer its slot wrote, so the call inside `app.run` settles it to `bank.A`, and `app.P.show` reaches `bank.A`'s witness."
+  note "`c` is held at `procedure() -> Bank.A` and its closure answers the nameless `{ k: \"x\" }`. `App.run` takes `procedure() -> some T` and answers what calling it answers, so `v` reads as `Bank.A`. The closure keeps the answer its slot wrote, so the call inside `App.run` settles it to `Bank.A`, and `App.P.show` reaches `Bank.A`'s witness."
   program {
     contracts {
-      "app.P" {
+      "App.P" {
         show {
           const true
           isolated true
           parameters [
             {
               name "of"
-              type "app.P"
+              type "App.P"
             }
           ]
           returns "string"
@@ -23,7 +23,7 @@ warpt 1
     }
     imports []
     procedures {
-      "app.run" {
+      "App.run" {
         parameters [
           {
             name "c"
@@ -43,11 +43,11 @@ warpt 1
         }
         returns "some T"
       }
-      "bank.A.show" {
+      "Bank.A.show" {
         parameters [
           {
             name "of"
-            type "bank.A"
+            type "Bank.A"
           }
         ]
         result "a"
@@ -60,7 +60,7 @@ warpt 1
             let "c"
             type {
               procedure {
-                returns "bank.A"
+                returns "Bank.A"
               }
             }
             value {
@@ -82,7 +82,7 @@ warpt 1
                     ref "c"
                   }
                 ]
-                procedure "app.run"
+                procedure "App.run"
               }
             }
           }
@@ -94,18 +94,18 @@ warpt 1
                 ref "v"
               }
             ]
-            procedure "app.P.show"
+            procedure "App.P.show"
           }
         }
       }
     }
     satisfies {
-      "bank.A" [
-        "app.P"
+      "Bank.A" [
+        "App.P"
       ]
     }
     types {
-      "bank.A" {
+      "Bank.A" {
         record {
           k "string"
         }

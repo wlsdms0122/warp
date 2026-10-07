@@ -2,12 +2,12 @@ warpt 1
 {
   description "Negation, difference, choosing and the connectives, written from equality."
   imports [
-    "std.collection.count"
-    "std.logic.equal"
-    "std.math.lessThan"
+    "Standard.Collection.count"
+    "Standard.Logic.equal"
+    "Standard.Math.lessThan"
   ]
   procedures {
-    "std.logic.and" {
+    "Standard.Logic.and" {
       body [
         {
           let "walk"
@@ -47,7 +47,7 @@ warpt 1
                               ref "answered"
                             }
                           ]
-                          procedure "std.logic.not"
+                          procedure "Standard.Logic.not"
                         }
                       }
                     }
@@ -67,11 +67,11 @@ warpt 1
                             ref "conditions"
                           }
                         ]
-                        procedure "std.collection.count"
+                        procedure "Standard.Collection.count"
                       }
                     }
                   ]
-                  procedure "std.math.lessThan"
+                  procedure "Standard.Math.lessThan"
                 }
               }
             }
@@ -94,7 +94,7 @@ warpt 1
       result true
       returns "bool"
     }
-    "std.logic.not" {
+    "Standard.Logic.not" {
       description "The opposite of a truth."
       parameters [
         {
@@ -110,12 +110,12 @@ warpt 1
             }
             false
           ]
-          procedure "std.logic.equal"
+          procedure "Standard.Logic.equal"
         }
       }
       returns "bool"
     }
-    "std.logic.notEqual" {
+    "Standard.Logic.notEqual" {
       description "Whether two values differ."
       parameters [
         {
@@ -140,17 +140,17 @@ warpt 1
                     ref "rhs"
                   }
                 ]
-                procedure "std.logic.equal"
+                procedure "Standard.Logic.equal"
               }
             }
             false
           ]
-          procedure "std.logic.equal"
+          procedure "Standard.Logic.equal"
         }
       }
       returns "bool"
     }
-    "std.logic.or" {
+    "Standard.Logic.or" {
       body [
         {
           let "walk"
@@ -203,11 +203,11 @@ warpt 1
                             ref "conditions"
                           }
                         ]
-                        procedure "std.collection.count"
+                        procedure "Standard.Collection.count"
                       }
                     }
                   ]
-                  procedure "std.math.lessThan"
+                  procedure "Standard.Math.lessThan"
                 }
               }
             }
@@ -230,7 +230,7 @@ warpt 1
       result false
       returns "bool"
     }
-    "std.logic.select" {
+    "Standard.Logic.select" {
       body [
         {
           value {

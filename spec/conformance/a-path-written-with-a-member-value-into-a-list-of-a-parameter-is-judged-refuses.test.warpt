@@ -4,13 +4,13 @@ warpt 1
     refuses "run"
   }
   name "a-path-written-with-a-member-value-into-a-list-of-a-parameter-is-judged-refuses"
-  note "app.g, bounded by std.Numeric, writes 5 into cell[0], where cell is a list of T. 5 is not a value of T, so the call judges the answer, and T filled with int(0...3) refuses 5 at the run."
+  note "App.g, bounded by Standard.Numeric, writes 5 into cell[0], where cell is a list of T. 5 is not a value of T, so the call judges the answer, and T filled with int(0...3) refuses 5 at the run."
   program {
     imports [
-      "std.Numeric"
+      "Standard.Numeric"
     ]
     procedures {
-      "app.g" {
+      "App.g" {
         body [
           {
             value [
@@ -26,7 +26,7 @@ warpt 1
           }
         ]
         bounds {
-          T "std.Numeric"
+          T "Standard.Numeric"
         }
         parameters [
           {
@@ -56,7 +56,7 @@ warpt 1
                     ref "v"
                   }
                 ]
-                procedure "app.g"
+                procedure "App.g"
               }
             }
           }

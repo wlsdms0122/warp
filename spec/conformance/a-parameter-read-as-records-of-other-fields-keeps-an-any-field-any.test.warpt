@@ -4,13 +4,13 @@ warpt 1
     answers 2
   }
   name "a-parameter-read-as-records-of-other-fields-keeps-an-any-field-any"
-  note "`app.pick` takes two of `some E`. The call hands `{ a: \"x\" }` and `{ a: j, b: 2 }` with `j` read as `any`. The first takes the second by width, and what holds both is a record of the first's fields, each merged with the field of the same name: `{ a: any }`. So `r.a` reads `any`, `std.math.plus(r.a, 1)` builds, and the run answers 2."
+  note "`App.pick` takes two of `some E`. The call hands `{ a: \"x\" }` and `{ a: j, b: 2 }` with `j` read as `any`. The first takes the second by width, and what holds both is a record of the first's fields, each merged with the field of the same name: `{ a: any }`. So `r.a` reads `any`, `Standard.Math.plus(r.a, 1)` builds, and the run answers 2."
   program {
     imports [
-      "std.math.plus"
+      "Standard.Math.plus"
     ]
     procedures {
-      "app.pick" {
+      "App.pick" {
         parameters [
           {
             name "a"
@@ -53,7 +53,7 @@ warpt 1
                     }
                   }
                 ]
-                procedure "app.pick"
+                procedure "App.pick"
               }
             }
           }
@@ -67,7 +67,7 @@ warpt 1
                   }
                   1
                 ]
-                procedure "std.math.plus"
+                procedure "Standard.Math.plus"
               }
             }
           }

@@ -4,13 +4,13 @@ warpt 1
     refuses "run"
   }
   name "a-closure-answering-anything-read-as-answering-text-refuses-where-it-is-called"
-  note "`fa` writes `returns any` and answers 1. `app.pick` hands back its second argument, and the call reads `E` from both, so `r` is read as a procedure answering `string`: a reading the text opens to `any` stands at the build. No slot `r` passed through wrote `string`, so the call of `r` judges what arrives against what it reads, and 1 refuses at the run."
+  note "`fa` writes `returns any` and answers 1. `App.pick` hands back its second argument, and the call reads `E` from both, so `r` is read as a procedure answering `string`: a reading the text opens to `any` stands at the build. No slot `r` passed through wrote `string`, so the call of `r` judges what arrives against what it reads, and 1 refuses at the run."
   program {
     imports [
-      "std.collection.appending"
+      "Standard.Collection.appending"
     ]
     procedures {
-      "app.pick" {
+      "App.pick" {
         parameters [
           {
             name "a"
@@ -59,7 +59,7 @@ warpt 1
                     ref "fa"
                   }
                 ]
-                procedure "app.pick"
+                procedure "App.pick"
               }
             }
           }
@@ -85,7 +85,7 @@ warpt 1
                   ]
                   "z"
                 ]
-                procedure "std.collection.appending"
+                procedure "Standard.Collection.appending"
               }
             }
           }

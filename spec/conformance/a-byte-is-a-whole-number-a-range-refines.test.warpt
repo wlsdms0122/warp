@@ -7,10 +7,10 @@ warpt 1
     refuses "run"
   }
   name "a-byte-is-a-whole-number-a-range-refines"
-  note "byte is not a kind: std declares it as int(0...255), the way any module names a type. A slot declaring byte admits exactly what the range admits, and 256 misses it by one."
+  note "byte is not a kind: Standard declares it as int(0...255), the way any module names a type. A slot declaring byte admits exactly what the range admits, and 256 misses it by one."
   program {
     imports [
-      "std.byte"
+      "Standard.Byte"
     ]
     procedures {
       entry {
@@ -18,7 +18,7 @@ warpt 1
         parameters [
           {
             name "value"
-            type "std.byte"
+            type "Standard.Byte"
           }
         ]
         result {

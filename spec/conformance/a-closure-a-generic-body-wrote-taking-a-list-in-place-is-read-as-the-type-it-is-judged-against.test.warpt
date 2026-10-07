@@ -7,13 +7,13 @@ warpt 1
     ]
   }
   name "a-closure-a-generic-body-wrote-taking-a-list-in-place-is-read-as-the-type-it-is-judged-against"
-  note "app.mk answers a closure taking a list of its own some T in place, and the call fills the T with text. Held as a procedure taking a list of text, the closure is read as that type, and calling it appends to the list."
+  note "App.mk answers a closure taking a list of its own some T in place, and the call fills the T with text. Held as a procedure taking a list of text, the closure is read as that type, and calling it appends to the list."
   program {
     imports [
-      "std.collection.append"
+      "Standard.Collection.append"
     ]
     procedures {
-      "app.mk" {
+      "App.mk" {
         parameters [
           {
             name "x"
@@ -34,7 +34,7 @@ warpt 1
                         ref "x"
                       }
                     ]
-                    procedure "std.collection.append"
+                    procedure "Standard.Collection.append"
                   }
                 }
               }
@@ -76,7 +76,7 @@ warpt 1
                 arguments [
                   "b"
                 ]
-                procedure "app.mk"
+                procedure "App.mk"
               }
             }
           }

@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-cast-of-a-record-with-a-var-field-to-a-record-it-never-is-refuses"
-  note "`app.Box` declares `var a: int`. A box cast `as { a: string }` names a record whose `a` holds text, and the box's `a` holds a whole number; the field's `var` is a fact about the field and not about its value, so no value is both and the cast refuses at the build."
+  note "`App.Box` declares `var a: int`. A box cast `as { a: string }` names a record whose `a` holds text, and the box's `a` holds a whole number; the field's `var` is a fact about the field and not about its value, so no value is both and the cast refuses at the build."
   program {
     imports []
     procedures {
@@ -13,7 +13,7 @@ warpt 1
         body [
           {
             let "b"
-            type "app.Box"
+            type "App.Box"
             value {
               record {
                 a 1
@@ -36,7 +36,7 @@ warpt 1
       }
     }
     types {
-      "app.Box" {
+      "App.Box" {
         record {
           a "var int"
         }

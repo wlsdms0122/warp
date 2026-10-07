@@ -4,16 +4,16 @@ warpt 1
     answers 0
   }
   name "null-written-into-memberships-that-name-each-other-as-nullable-is-taken"
-  note "`app.M` admits `int` and `app.N`, and `app.N` admits `string` and `app.M?`. A variable declared `app.M` starts with a name read as null. Asking `app.N` of it reaches `app.M?`, which takes null as every `T?` does, without asking `app.M` of it again, so the value is one of `app.N` and so of `app.M`, and the run answers 0."
+  note "`App.M` admits `int` and `App.N`, and `App.N` admits `string` and `App.M?`. A variable declared `App.M` starts with a name read as null. Asking `App.N` of it reaches `App.M?`, which takes null as every `T?` does, without asking `App.M` of it again, so the value is one of `App.N` and so of `App.M`, and the run answers 0."
   program {
     constraints {
-      "app.M" [
+      "App.M" [
         "int"
-        "app.N"
+        "App.N"
       ]
-      "app.N" [
+      "App.N" [
         "string"
-        "app.M?"
+        "App.M?"
       ]
     }
     imports []
@@ -26,7 +26,7 @@ warpt 1
             value null
           }
           {
-            type "app.M"
+            type "App.M"
             value {
               ref "n"
             }

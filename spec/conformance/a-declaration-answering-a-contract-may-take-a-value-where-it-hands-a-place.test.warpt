@@ -7,12 +7,12 @@ warpt 1
   note "The contract takes inout int and the declaration answering it takes an int. A position taking a value may stand where a place is handed, the way a closure's may, and reads what the variable holds, which the call leaves as it was."
   program {
     contracts {
-      "app.Sized" {
+      "App.Sized" {
         size {
           parameters [
             {
               name "of"
-              type "app.Sized"
+              type "App.Sized"
             }
             {
               name "n"
@@ -24,14 +24,14 @@ warpt 1
       }
     }
     imports [
-      "std.math.plus"
+      "Standard.Math.plus"
     ]
     procedures {
-      "bank.Card.size" {
+      "Bank.Card.size" {
         parameters [
           {
             name "of"
-            type "bank.Card"
+            type "Bank.Card"
           }
           {
             name "n"
@@ -46,7 +46,7 @@ warpt 1
               }
               1
             ]
-            procedure "std.math.plus"
+            procedure "Standard.Math.plus"
           }
         }
         returns "int"
@@ -63,7 +63,7 @@ warpt 1
                     last "42"
                   }
                 }
-                type "bank.Card"
+                type "Bank.Card"
               }
             }
           }
@@ -83,7 +83,7 @@ warpt 1
                     ref "k"
                   }
                 ]
-                procedure "app.Sized.size"
+                procedure "App.Sized.size"
               }
             }
           }
@@ -99,7 +99,7 @@ warpt 1
                     ref "k"
                   }
                 ]
-                procedure "std.math.plus"
+                procedure "Standard.Math.plus"
               }
             }
           }
@@ -110,12 +110,12 @@ warpt 1
       }
     }
     satisfies {
-      "bank.Card" [
-        "app.Sized"
+      "Bank.Card" [
+        "App.Sized"
       ]
     }
     types {
-      "bank.Card" {
+      "Bank.Card" {
         record {
           last "string"
         }

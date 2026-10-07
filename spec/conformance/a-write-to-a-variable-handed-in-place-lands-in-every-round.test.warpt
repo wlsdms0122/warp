@@ -7,11 +7,11 @@ warpt 1
   note "Each round writes an int into a variable that started null and hands it in place to an int slot. The write lands in every round, so the variable reads int where it is handed, in the first round and in every one after."
   program {
     imports [
-      "std.math.lessThan"
-      "std.math.plus"
+      "Standard.Math.lessThan"
+      "Standard.Math.plus"
     ]
     procedures {
-      "app.bump" {
+      "App.bump" {
         body [
           {
             set "c"
@@ -23,7 +23,7 @@ warpt 1
                   }
                   1
                 ]
-                procedure "std.math.plus"
+                procedure "Standard.Math.plus"
               }
             }
           }
@@ -63,7 +63,7 @@ warpt 1
                             ref "x"
                           }
                         ]
-                        procedure "app.bump"
+                        procedure "App.bump"
                       }
                     }
                   }
@@ -77,7 +77,7 @@ warpt 1
                           }
                           1
                         ]
-                        procedure "std.math.plus"
+                        procedure "Standard.Math.plus"
                       }
                     }
                   }
@@ -90,7 +90,7 @@ warpt 1
                       }
                       2
                     ]
-                    procedure "std.math.lessThan"
+                    procedure "Standard.Math.lessThan"
                   }
                 }
               }

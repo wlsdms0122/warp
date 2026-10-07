@@ -4,13 +4,13 @@ warpt 1
     answers "1.0"
   }
   name "a-closure-a-slot-widened-fills-a-type-parameter-with-what-the-slot-wrote-answers"
-  note "The closure writes `returns int` and is held at `procedure() -> double`, so it answers a fraction from there. Handed to `app.run`, which takes `procedure() -> some T`, it is read as answering the last answer a slot wrote, so `T` is `double`, the slot takes it, and the call inside `app.run` answers the fraction 1.0."
+  note "The closure writes `returns int` and is held at `procedure() -> double`, so it answers a fraction from there. Handed to `App.run`, which takes `procedure() -> some T`, it is read as answering the last answer a slot wrote, so `T` is `double`, the slot takes it, and the call inside `App.run` answers the fraction 1.0."
   program {
     imports [
-      "std.text.text"
+      "Standard.Text.text"
     ]
     procedures {
-      "app.run" {
+      "App.run" {
         parameters [
           {
             name "c"
@@ -56,7 +56,7 @@ warpt 1
                     ref "c"
                   }
                 ]
-                procedure "app.run"
+                procedure "App.run"
               }
             }
           }
@@ -68,7 +68,7 @@ warpt 1
                 ref "v"
               }
             ]
-            procedure "std.text.text"
+            procedure "Standard.Text.text"
           }
         }
       }

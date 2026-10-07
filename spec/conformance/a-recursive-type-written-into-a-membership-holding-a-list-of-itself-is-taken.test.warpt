@@ -6,12 +6,12 @@ warpt 1
     ]
   }
   name "a-recursive-type-written-into-a-membership-holding-a-list-of-itself-is-taken"
-  note "`app.M` admits `int` and `array<app.M>`, and `app.Tree` is `array<app.Tree>`. A name read as `app.Tree` is a list whose elements are again `app.Tree`, so asking `app.M` of an element comes back through the name to the same question, which holds the way two recursive types meeting do, and the variable takes it."
+  note "`App.M` admits `int` and `array<App.M>`, and `App.Tree` is `array<App.Tree>`. A name read as `App.Tree` is a list whose elements are again `App.Tree`, so asking `App.M` of an element comes back through the name to the same question, which holds the way two recursive types meeting do, and the variable takes it."
   program {
     constraints {
-      "app.M" [
+      "App.M" [
         "int"
-        "array<app.M>"
+        "array<App.M>"
       ]
     }
     imports []
@@ -21,18 +21,18 @@ warpt 1
         body [
           {
             let "t"
-            type "app.Tree"
+            type "App.Tree"
             value {
               as {
                 of [
                   []
                 ]
-                type "app.Tree"
+                type "App.Tree"
               }
             }
           }
           {
-            type "app.M"
+            type "App.M"
             value {
               ref "t"
             }
@@ -45,7 +45,7 @@ warpt 1
       }
     }
     types {
-      "app.Tree" "array<app.Tree>"
+      "App.Tree" "array<App.Tree>"
     }
     warp 1
   }

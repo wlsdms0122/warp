@@ -4,12 +4,12 @@ warpt 1
     refuses "build"
   }
   name "a-procedure-that-writes-in-place-does-not-answer-without-running"
-  note "A parameter handed in place is the caller's box, so a body writing through one does not answer without running, and neither does a body that sends it. `std.collection.append` writes through its parameter, and a slot asking `const procedure` refuses a closure that sends it at the build, even on a variable of the closure's own."
+  note "A parameter handed in place is the caller's box, so a body writing through one does not answer without running, and neither does a body that sends it. `Standard.Collection.append` writes through its parameter, and a slot asking `const procedure` refuses a closure that sends it at the build, even on a variable of the closure's own."
   program {
     imports [
-      "std.collection.append"
-      "std.collection.count"
-      "std.collection.map"
+      "Standard.Collection.append"
+      "Standard.Collection.count"
+      "Standard.Collection.map"
     ]
     procedures {
       entry {
@@ -40,7 +40,7 @@ warpt 1
                               ref "item"
                             }
                           ]
-                          procedure "std.collection.append"
+                          procedure "Standard.Collection.append"
                         }
                       }
                     }
@@ -58,14 +58,14 @@ warpt 1
                           ref "own"
                         }
                       ]
-                      procedure "std.collection.count"
+                      procedure "Standard.Collection.count"
                     }
                   }
                   returns "int"
                 }
               }
             ]
-            procedure "std.collection.map"
+            procedure "Standard.Collection.map"
           }
         }
         returns "array<int>"

@@ -4,40 +4,40 @@ warpt 1
     answers "ok"
   }
   name "a-declaration-answering-a-contract-may-take-a-contract-or-null-where-it-writes-the-contract"
-  note "The contract hands app.Sized and the declaration answering it takes app.Sized? there, which takes whatever the contract hands."
+  note "The contract hands App.Sized and the declaration answering it takes App.Sized? there, which takes whatever the contract hands."
   program {
     constraints {
-      "app.Pockets" [
-        "bank.Card"
-        "bank.Coin"
+      "App.Pockets" [
+        "Bank.Card"
+        "Bank.Coin"
       ]
-      "app.Wallets" [
-        "bank.Card"
-        "bank.Coin"
+      "App.Wallets" [
+        "Bank.Card"
+        "Bank.Coin"
       ]
     }
     contracts {
-      "app.Shown" {
+      "App.Shown" {
         show {
           parameters [
             {
               name "of"
-              type "app.Shown"
+              type "App.Shown"
             }
             {
               name "n"
-              type "app.Sized"
+              type "App.Sized"
             }
           ]
           returns "string"
         }
       }
-      "app.Sized" {
+      "App.Sized" {
         size {
           parameters [
             {
               name "of"
-              type "app.Sized"
+              type "App.Sized"
             }
           ]
           returns "int"
@@ -46,25 +46,25 @@ warpt 1
     }
     imports []
     procedures {
-      "bank.Box.show" {
+      "Bank.Box.show" {
         parameters [
           {
             name "of"
-            type "bank.Box"
+            type "Bank.Box"
           }
           {
             name "n"
-            type "app.Sized?"
+            type "App.Sized?"
           }
         ]
         result "shown"
         returns "string"
       }
-      "bank.Card.size" {
+      "Bank.Card.size" {
         parameters [
           {
             name "of"
-            type "bank.Card"
+            type "Bank.Card"
           }
         ]
         result 4
@@ -82,7 +82,7 @@ warpt 1
                     n 1
                   }
                 }
-                type "bank.Box"
+                type "Bank.Box"
               }
             }
           }
@@ -95,7 +95,7 @@ warpt 1
                     last "4"
                   }
                 }
-                type "bank.Card"
+                type "Bank.Card"
               }
             }
           }
@@ -111,7 +111,7 @@ warpt 1
                     ref "c"
                   }
                 ]
-                procedure "app.Shown.show"
+                procedure "App.Shown.show"
               }
             }
           }
@@ -120,25 +120,25 @@ warpt 1
       }
     }
     satisfies {
-      "bank.Box" [
-        "app.Shown"
+      "Bank.Box" [
+        "App.Shown"
       ]
-      "bank.Card" [
-        "app.Sized"
+      "Bank.Card" [
+        "App.Sized"
       ]
     }
     types {
-      "bank.Box" {
+      "Bank.Box" {
         record {
           n "int"
         }
       }
-      "bank.Card" {
+      "Bank.Card" {
         record {
           last "string"
         }
       }
-      "bank.Coin" {
+      "Bank.Coin" {
         record {
           cents "int"
         }

@@ -4,19 +4,19 @@ warpt 1
     refuses "build"
   }
   name "a-name-on-a-body-that-never-comes-back-refuses"
-  note "`app.giveUp` writes no `returns`, and its body answers by calling `std.control.abort`, so what a call of it answers is read off a body that never finishes. A name on that call promises a binding that cannot happen, and the build refuses it."
+  note "`App.giveUp` writes no `returns`, and its body answers by calling `Standard.Control.abort`, so what a call of it answers is read off a body that never finishes. A name on that call promises a binding that cannot happen, and the build refuses it."
   program {
     imports [
-      "std.control.abort"
+      "Standard.Control.abort"
     ]
     procedures {
-      "app.giveUp" {
+      "App.giveUp" {
         result {
           call {
             arguments [
               "done"
             ]
-            procedure "std.control.abort"
+            procedure "Standard.Control.abort"
           }
         }
       }
@@ -27,7 +27,7 @@ warpt 1
             let "gone"
             value {
               call {
-                procedure "app.giveUp"
+                procedure "App.giveUp"
               }
             }
           }

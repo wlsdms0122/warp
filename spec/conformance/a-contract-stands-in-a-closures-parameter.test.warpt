@@ -7,12 +7,12 @@ warpt 1
   note "A contract's name stands where a type is written, a closure literal's parameter included. The slot takes a value of whatever type satisfies it, and the body calls the contract's procedure through the contract."
   program {
     contracts {
-      "app.Describable" {
+      "App.Describable" {
         describe {
           parameters [
             {
               name "of"
-              type "app.Describable"
+              type "App.Describable"
             }
           ]
           returns "string"
@@ -21,11 +21,11 @@ warpt 1
     }
     imports []
     procedures {
-      "bank.Card.describe" {
+      "Bank.Card.describe" {
         parameters [
           {
             name "of"
-            type "bank.Card"
+            type "Bank.Card"
           }
         ]
         result "a card"
@@ -41,7 +41,7 @@ warpt 1
                 parameters [
                   {
                     name "it"
-                    type "app.Describable"
+                    type "App.Describable"
                   }
                 ]
                 result {
@@ -51,7 +51,7 @@ warpt 1
                         ref "it"
                       }
                     ]
-                    procedure "app.Describable.describe"
+                    procedure "App.Describable.describe"
                   }
                 }
                 returns "string"
@@ -67,7 +67,7 @@ warpt 1
                     last "42"
                   }
                 }
-                type "bank.Card"
+                type "Bank.Card"
               }
             }
           }
@@ -93,12 +93,12 @@ warpt 1
       }
     }
     satisfies {
-      "bank.Card" [
-        "app.Describable"
+      "Bank.Card" [
+        "App.Describable"
       ]
     }
     types {
-      "bank.Card" {
+      "Bank.Card" {
         record {
           last "string"
         }

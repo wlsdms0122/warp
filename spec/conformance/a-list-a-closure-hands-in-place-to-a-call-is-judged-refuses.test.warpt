@@ -4,13 +4,13 @@ warpt 1
     refuses "run"
   }
   name "a-list-a-closure-hands-in-place-to-a-call-is-judged-refuses"
-  note "A closure in app.g appends its parameter to cell, a list of T, and is called through a cast with a string. The body answers cell, so the call judges it, and the string refuses at the run."
+  note "A closure in App.g appends its parameter to cell, a list of T, and is called through a cast with a string. The body answers cell, so the call judges it, and the string refuses at the run."
   program {
     imports [
-      "std.collection.append"
+      "Standard.Collection.append"
     ]
     procedures {
-      "app.g" {
+      "App.g" {
         body [
           {
             value [
@@ -36,7 +36,7 @@ warpt 1
                             ref "y"
                           }
                         ]
-                        procedure "std.collection.append"
+                        procedure "Standard.Collection.append"
                       }
                     }
                   }
@@ -112,7 +112,7 @@ warpt 1
                 arguments [
                   1
                 ]
-                procedure "app.g"
+                procedure "App.g"
               }
             }
           }

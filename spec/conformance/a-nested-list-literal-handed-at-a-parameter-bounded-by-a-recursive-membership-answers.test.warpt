@@ -9,19 +9,19 @@ warpt 1
     ]
   }
   name "a-nested-list-literal-handed-at-a-parameter-bounded-by-a-recursive-membership-answers"
-  note "`app.g` takes `some T` bounded by `app.M`, which admits `int` and `array<app.M>`. The call hands `[[1], 2]`, each part one of `app.M`, so the build takes it read part by part and the run answers it back."
+  note "`App.g` takes `some T` bounded by `App.M`, which admits `int` and `array<App.M>`. The call hands `[[1], 2]`, each part one of `App.M`, so the build takes it read part by part and the run answers it back."
   program {
     constraints {
-      "app.M" [
+      "App.M" [
         "int"
-        "array<app.M>"
+        "array<App.M>"
       ]
     }
     imports []
     procedures {
-      "app.g" {
+      "App.g" {
         bounds {
-          T "app.M"
+          T "App.M"
         }
         parameters [
           {
@@ -49,7 +49,7 @@ warpt 1
                     2
                   ]
                 ]
-                procedure "app.g"
+                procedure "App.g"
               }
             }
           }

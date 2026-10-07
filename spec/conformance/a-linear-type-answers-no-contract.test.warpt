@@ -7,12 +7,12 @@ warpt 1
   note "A contract standing where a type is written holds a value under no name of its own, and nothing follows a linear value but the name that holds it. The claim is refused where it is written."
   program {
     contracts {
-      "app.Describable" {
+      "App.Describable" {
         describe {
           parameters [
             {
               name "of"
-              type "app.Describable"
+              type "App.Describable"
             }
           ]
           returns "string"
@@ -21,11 +21,11 @@ warpt 1
     }
     imports []
     procedures {
-      "app.Handle.describe" {
+      "App.Handle.describe" {
         parameters [
           {
             name "of"
-            type "borrowing app.Handle"
+            type "borrowing App.Handle"
           }
         ]
         result "a handle"
@@ -38,12 +38,12 @@ warpt 1
       }
     }
     satisfies {
-      "app.Handle" [
-        "app.Describable"
+      "App.Handle" [
+        "App.Describable"
       ]
     }
     types {
-      "app.Handle" {
+      "App.Handle" {
         linear {
           record {
             name "string"

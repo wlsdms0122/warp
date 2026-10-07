@@ -4,13 +4,13 @@ warpt 1
     answers "1.0"
   }
   name "a-call-through-a-type-parameter-settles-a-closure-answer-to-the-fraction-its-slot-wrote-answers"
-  note "`c` is held at `procedure() -> double` and its closure answers the whole number 1. `app.run` takes `procedure() -> some T`, so `v` reads as `double`. The closure keeps the answer its slot wrote, so the call inside `app.run` settles it to the fraction 1.0, and its text says so."
+  note "`c` is held at `procedure() -> double` and its closure answers the whole number 1. `App.run` takes `procedure() -> some T`, so `v` reads as `double`. The closure keeps the answer its slot wrote, so the call inside `App.run` settles it to the fraction 1.0, and its text says so."
   program {
     imports [
-      "std.text.text"
+      "Standard.Text.text"
     ]
     procedures {
-      "app.run" {
+      "App.run" {
         parameters [
           {
             name "c"
@@ -55,7 +55,7 @@ warpt 1
                     ref "c"
                   }
                 ]
-                procedure "app.run"
+                procedure "App.run"
               }
             }
           }
@@ -67,7 +67,7 @@ warpt 1
                 ref "v"
               }
             ]
-            procedure "std.text.text"
+            procedure "Standard.Text.text"
           }
         }
       }

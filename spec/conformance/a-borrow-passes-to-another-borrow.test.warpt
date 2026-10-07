@@ -7,10 +7,10 @@ warpt 1
   note "A body that borrowed a value written `linear` may lend it on to another slot that borrows. The obligation never moves, and the body that lent it first still hands it on."
   program {
     imports [
-      "app.Handle"
-      "app.close"
-      "app.name"
-      "app.open"
+      "App.Handle"
+      "App.close"
+      "App.name"
+      "App.open"
     ]
     procedures {
       entry {
@@ -20,7 +20,7 @@ warpt 1
             let "handle"
             value {
               call {
-                procedure "app.open"
+                procedure "App.open"
               }
             }
           }
@@ -45,7 +45,7 @@ warpt 1
                     ref "handle"
                   }
                 ]
-                procedure "app.close"
+                procedure "App.close"
               }
             }
           }
@@ -59,7 +59,7 @@ warpt 1
         parameters [
           {
             name "of"
-            type "borrowing app.Handle"
+            type "borrowing App.Handle"
           }
         ]
         result {
@@ -69,7 +69,7 @@ warpt 1
                 ref "of"
               }
             ]
-            procedure "app.name"
+            procedure "App.name"
           }
         }
         returns "string"
@@ -80,34 +80,34 @@ warpt 1
   test 1
   vocabulary {
     procedures {
-      "app.close" {
+      "App.close" {
         parameters [
           {
             name "first"
-            type "consuming app.Handle"
+            type "consuming App.Handle"
           }
         ]
         runs true
       }
-      "app.name" {
+      "App.name" {
         answers "f"
         parameters [
           {
             name "first"
-            type "borrowing app.Handle"
+            type "borrowing App.Handle"
           }
         ]
         returns "string"
       }
-      "app.open" {
-        answers app.Handle {
+      "App.open" {
+        answers App.Handle {
           name "f"
         }
-        returns "app.Handle"
+        returns "App.Handle"
       }
     }
     types {
-      "app.Handle" {
+      "App.Handle" {
         linear {
           record {
             name "string"

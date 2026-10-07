@@ -7,10 +7,10 @@ warpt 1
     ]
   }
   name "a-piece-calling-a-procedure-that-calls-an-isolated-module-variable-stands"
-  note "A module variable that declared its type `isolated procedure` is a slot that said so. A declaration calling it writes only its own names and is isolated, so a piece calling that declaration stands and `std.concurrent.map` runs it."
+  note "A module variable that declared its type `isolated procedure` is a slot that said so. A declaration calling it writes only its own names and is isolated, so a piece calling that declaration stands and `Standard.Concurrent.map` runs it."
   program {
     imports [
-      "std.concurrent.map"
+      "Standard.Concurrent.map"
     ]
     procedures {
       entry {
@@ -49,7 +49,7 @@ warpt 1
                 }
               }
             ]
-            procedure "std.concurrent.map"
+            procedure "Standard.Concurrent.map"
           }
         }
       }

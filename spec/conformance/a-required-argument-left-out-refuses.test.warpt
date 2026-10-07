@@ -4,11 +4,11 @@ warpt 1
     refuses "build"
   }
   name "a-required-argument-left-out-refuses"
-  note "A call hands exactly as many arguments as the callee takes. `app.takes` takes one, so a call handing none refuses at the build, though the slot takes `any`: an argument left out is not an argument holding null."
+  note "A call hands exactly as many arguments as the callee takes. `App.takes` takes one, so a call handing none refuses at the build, though the slot takes `any`: an argument left out is not an argument holding null."
   program {
     imports []
     procedures {
-      "app.takes" {
+      "App.takes" {
         parameters [
           {
             name "it"
@@ -23,7 +23,7 @@ warpt 1
         access "public"
         result {
           call {
-            procedure "app.takes"
+            procedure "App.takes"
           }
         }
       }

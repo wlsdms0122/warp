@@ -7,7 +7,7 @@ warpt 1
   note "Isolation reads names in scope. A closure nested inside this one declares `tally` for itself alone; this closure's own `set tally` still writes the variable it captured, so it is not isolated and does not fit `map`."
   program {
     imports [
-      "std.concurrent.map"
+      "Standard.Concurrent.map"
     ]
     procedures {
       entry {
@@ -57,7 +57,7 @@ warpt 1
                 }
               }
             ]
-            procedure "std.concurrent.map"
+            procedure "Standard.Concurrent.map"
           }
         }
         returns "array<int>"

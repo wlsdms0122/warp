@@ -4,12 +4,12 @@ warpt 1
     refuses "run"
   }
   name "a-value-arriving-through-any-into-a-membership-holding-a-list-of-itself-is-judged-part-by-part"
-  note "`app.M` admits `int` and `array<app.M>`, and `[[1, \"s\"]]` arrives through a name declared `any`. Where it arrives each element is asked of `app.M` as a value of its own, so the string refuses at the run."
+  note "`App.M` admits `int` and `array<App.M>`, and `[[1, \"s\"]]` arrives through a name declared `any`. Where it arrives each element is asked of `App.M` as a value of its own, so the string refuses at the run."
   program {
     constraints {
-      "app.M" [
+      "App.M" [
         "int"
-        "array<app.M>"
+        "array<App.M>"
       ]
     }
     imports []
@@ -28,7 +28,7 @@ warpt 1
             ]
           }
           {
-            type "app.M"
+            type "App.M"
             value {
               ref "raw"
             }

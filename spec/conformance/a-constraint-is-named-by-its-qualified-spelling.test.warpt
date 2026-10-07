@@ -4,10 +4,10 @@ warpt 1
     answers 3
   }
   name "a-constraint-is-named-by-its-qualified-spelling"
-  note "A constraint name is its declared spelling with the declaring module in front. `std` declares Comparable, so a bound that means it writes `std.Comparable`."
+  note "A constraint name is its declared spelling with the declaring module in front. `Standard` declares Comparable, so a bound that means it writes `Standard.Comparable`."
   program {
     imports [
-      "std.Comparable"
+      "Standard.Comparable"
     ]
     procedures {
       entry {
@@ -24,7 +24,7 @@ warpt 1
       }
       keep {
         bounds {
-          T "std.Comparable"
+          T "Standard.Comparable"
         }
         parameters [
           {

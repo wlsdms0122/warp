@@ -4,40 +4,40 @@ warpt 1
     refuses "build"
   }
   name "a-declaration-answering-a-contract-with-a-contract-where-it-writes-memberships-sharing-a-member-that-does-not-answer-refuses"
-  note "The contract hands app.Pockets & app.Wallets and the declaration answering it takes app.Sized there. bank.Coin is a member of both and no document says it answers app.Sized, so a call through the contract handing a coin would reach a slot that refuses it."
+  note "The contract hands App.Pockets & App.Wallets and the declaration answering it takes App.Sized there. Bank.Coin is a member of both and no document says it answers App.Sized, so a call through the contract handing a coin would reach a slot that refuses it."
   program {
     constraints {
-      "app.Pockets" [
-        "bank.Card"
-        "bank.Coin"
+      "App.Pockets" [
+        "Bank.Card"
+        "Bank.Coin"
       ]
-      "app.Wallets" [
-        "bank.Card"
-        "bank.Coin"
+      "App.Wallets" [
+        "Bank.Card"
+        "Bank.Coin"
       ]
     }
     contracts {
-      "app.Shown" {
+      "App.Shown" {
         show {
           parameters [
             {
               name "of"
-              type "app.Shown"
+              type "App.Shown"
             }
             {
               name "n"
-              type "app.Pockets & app.Wallets"
+              type "App.Pockets & App.Wallets"
             }
           ]
           returns "string"
         }
       }
-      "app.Sized" {
+      "App.Sized" {
         size {
           parameters [
             {
               name "of"
-              type "app.Sized"
+              type "App.Sized"
             }
           ]
           returns "int"
@@ -46,25 +46,25 @@ warpt 1
     }
     imports []
     procedures {
-      "bank.Box.show" {
+      "Bank.Box.show" {
         parameters [
           {
             name "of"
-            type "bank.Box"
+            type "Bank.Box"
           }
           {
             name "n"
-            type "app.Sized"
+            type "App.Sized"
           }
         ]
         result "shown"
         returns "string"
       }
-      "bank.Card.size" {
+      "Bank.Card.size" {
         parameters [
           {
             name "of"
-            type "bank.Card"
+            type "Bank.Card"
           }
         ]
         result 4
@@ -82,7 +82,7 @@ warpt 1
                     n 1
                   }
                 }
-                type "bank.Box"
+                type "Bank.Box"
               }
             }
           }
@@ -95,7 +95,7 @@ warpt 1
                     last "4"
                   }
                 }
-                type "bank.Card"
+                type "Bank.Card"
               }
             }
           }
@@ -111,7 +111,7 @@ warpt 1
                     ref "c"
                   }
                 ]
-                procedure "app.Shown.show"
+                procedure "App.Shown.show"
               }
             }
           }
@@ -122,25 +122,25 @@ warpt 1
       }
     }
     satisfies {
-      "bank.Box" [
-        "app.Shown"
+      "Bank.Box" [
+        "App.Shown"
       ]
-      "bank.Card" [
-        "app.Sized"
+      "Bank.Card" [
+        "App.Sized"
       ]
     }
     types {
-      "bank.Box" {
+      "Bank.Box" {
         record {
           n "int"
         }
       }
-      "bank.Card" {
+      "Bank.Card" {
         record {
           last "string"
         }
       }
-      "bank.Coin" {
+      "Bank.Coin" {
         record {
           cents "int"
         }

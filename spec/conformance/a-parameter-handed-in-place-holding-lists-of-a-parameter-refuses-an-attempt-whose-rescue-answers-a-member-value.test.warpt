@@ -4,14 +4,14 @@ warpt 1
     refuses "build"
   }
   name "a-parameter-handed-in-place-holding-lists-of-a-parameter-refuses-an-attempt-whose-rescue-answers-a-member-value"
-  note "A parameter handed in place as `array<array<some T>>`, with `T` bounded by `std.Numeric`, is set to an attempt whose body answers `[[], [x]]` and whose rescue `[[5]]`. Each way is judged on its own, and `5` is a value every member of the bounds takes rather than one of the parameter, so the rescue refuses at the build."
+  note "A parameter handed in place as `array<array<some T>>`, with `T` bounded by `Standard.Numeric`, is set to an attempt whose body answers `[[], [x]]` and whose rescue `[[5]]`. Each way is judged on its own, and `5` is a value every member of the bounds takes rather than one of the parameter, so the rescue refuses at the build."
   program {
     imports [
-      "std.Numeric"
-      "std.control.abort"
+      "Standard.Control.abort"
+      "Standard.Numeric"
     ]
     procedures {
-      "app.g" {
+      "App.g" {
         body [
           {
             set "xs"
@@ -28,7 +28,7 @@ warpt 1
                                 arguments [
                                   "x"
                                 ]
-                                procedure "std.control.abort"
+                                procedure "Standard.Control.abort"
                               }
                             }
                           }
@@ -58,7 +58,7 @@ warpt 1
           }
         ]
         bounds {
-          T "std.Numeric"
+          T "Standard.Numeric"
         }
         parameters [
           {
@@ -93,7 +93,7 @@ warpt 1
                   }
                   1
                 ]
-                procedure "app.g"
+                procedure "App.g"
               }
             }
           }

@@ -4,11 +4,11 @@ warpt 1
     answers []
   }
   name "an-element-past-the-end-of-a-list-handed-back-holds-nothing-to-judge"
-  note "app.g takes a list and its first element in place, at its own type parameters, and proves nothing, so the call judges what it hands back. It empties the list and leaves the element, which is now past the end, so there is nothing there to judge, and the list answers empty."
+  note "App.g takes a list and its first element in place, at its own type parameters, and proves nothing, so the call judges what it hands back. It empties the list and leaves the element, which is now past the end, so there is nothing there to judge, and the list answers empty."
   program {
     imports []
     procedures {
-      "app.g" {
+      "App.g" {
         body [
           {
             let "y"
@@ -22,7 +22,7 @@ warpt 1
                     ref "j"
                   }
                 ]
-                procedure "app.h"
+                procedure "App.h"
               }
             }
           }
@@ -47,7 +47,7 @@ warpt 1
         ]
         result 0
       }
-      "app.h" {
+      "App.h" {
         parameters [
           {
             name "n"
@@ -85,7 +85,7 @@ warpt 1
                   }
                   5
                 ]
-                procedure "app.g"
+                procedure "App.g"
               }
             }
           }

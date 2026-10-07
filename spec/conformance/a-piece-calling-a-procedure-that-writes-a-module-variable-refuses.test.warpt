@@ -4,11 +4,11 @@ warpt 1
     refuses "build"
   }
   name "a-piece-calling-a-procedure-that-writes-a-module-variable-refuses"
-  note "A body is isolated only where every declaration it calls is. A procedure writing a module variable is not, so a closure calling it is not either, and `std.concurrent.all` refuses it as a piece."
+  note "A body is isolated only where every declaration it calls is. A procedure writing a module variable is not, so a closure calling it is not either, and `Standard.Concurrent.all` refuses it as a piece."
   program {
     imports [
-      "std.concurrent.all"
-      "std.math.plus"
+      "Standard.Concurrent.all"
+      "Standard.Math.plus"
     ]
     procedures {
       bump {
@@ -23,7 +23,7 @@ warpt 1
                   }
                   1
                 ]
-                procedure "std.math.plus"
+                procedure "Standard.Math.plus"
               }
             }
           }
@@ -57,7 +57,7 @@ warpt 1
                 }
               }
             ]
-            procedure "std.concurrent.all"
+            procedure "Standard.Concurrent.all"
           }
         }
       }

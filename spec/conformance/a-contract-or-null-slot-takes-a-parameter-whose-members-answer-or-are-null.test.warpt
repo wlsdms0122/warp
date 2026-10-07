@@ -4,20 +4,20 @@ warpt 1
     answers "took"
   }
   name "a-contract-or-null-slot-takes-a-parameter-whose-members-answer-or-are-null"
-  note "app.g hands its some T, bounded by app.Maybe, to app.f, which takes app.Sized?. T is one of the members of app.Maybe, each a bank.Card or null."
+  note "App.g hands its some T, bounded by App.Maybe, to App.f, which takes App.Sized?. T is one of the members of App.Maybe, each a Bank.Card or null."
   program {
     constraints {
-      "app.Maybe" [
-        "bank.Card?"
+      "App.Maybe" [
+        "Bank.Card?"
       ]
     }
     contracts {
-      "app.Sized" {
+      "App.Sized" {
         size {
           parameters [
             {
               name "of"
-              type "app.Sized"
+              type "App.Sized"
             }
           ]
           returns "int"
@@ -26,17 +26,17 @@ warpt 1
     }
     imports []
     procedures {
-      "app.f" {
+      "App.f" {
         parameters [
           {
             name "n"
-            type "app.Sized?"
+            type "App.Sized?"
           }
         ]
         result "took"
         returns "string"
       }
-      "app.g" {
+      "App.g" {
         body [
           {
             let "s"
@@ -47,13 +47,13 @@ warpt 1
                     ref "m"
                   }
                 ]
-                procedure "app.f"
+                procedure "App.f"
               }
             }
           }
         ]
         bounds {
-          T "app.Maybe"
+          T "App.Maybe"
         }
         parameters [
           {
@@ -66,11 +66,11 @@ warpt 1
         }
         returns "string"
       }
-      "bank.Card.size" {
+      "Bank.Card.size" {
         parameters [
           {
             name "of"
-            type "bank.Card"
+            type "Bank.Card"
           }
         ]
         result 4
@@ -88,7 +88,7 @@ warpt 1
                     last "4"
                   }
                 }
-                type "bank.Card"
+                type "Bank.Card"
               }
             }
           }
@@ -101,7 +101,7 @@ warpt 1
                     ref "c"
                   }
                 ]
-                procedure "app.g"
+                procedure "App.g"
               }
             }
           }
@@ -112,17 +112,17 @@ warpt 1
       }
     }
     satisfies {
-      "bank.Card" [
-        "app.Sized"
+      "Bank.Card" [
+        "App.Sized"
       ]
     }
     types {
-      "bank.Card" {
+      "Bank.Card" {
         record {
           last "string"
         }
       }
-      "bank.Coin" {
+      "Bank.Coin" {
         record {
           cents "int"
         }

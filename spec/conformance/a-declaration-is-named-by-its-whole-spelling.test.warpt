@@ -4,21 +4,21 @@ warpt 1
     answers 7
   }
   name "a-declaration-is-named-by-its-whole-spelling"
-  note "The key a document declares a procedure under is its whole name, dot included. The send writes `wallet.fee` inside the declaring document too, and a procedure the document declares is not one it imports."
+  note "The key a document declares a procedure under is its whole name, dot included. The send writes `Wallet.fee` inside the declaring document too, and a procedure the document declares is not one it imports."
   program {
     imports []
     procedures {
+      "Wallet.fee" {
+        result 7
+        returns "int"
+      }
       entry {
         access "public"
         result {
           call {
-            procedure "wallet.fee"
+            procedure "Wallet.fee"
           }
         }
-        returns "int"
-      }
-      "wallet.fee" {
-        result 7
         returns "int"
       }
     }

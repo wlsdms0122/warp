@@ -7,10 +7,10 @@ warpt 1
   note "One arm lets a closure capture an int variable and the other writes null into it, so after the conditional it is held to int and reads int?. Handing it in place to an int? slot refuses: the callee would write null into a box the closure reads as int."
   program {
     imports [
-      "std.math.plus"
+      "Standard.Math.plus"
     ]
     procedures {
-      "app.clear" {
+      "App.clear" {
         body [
           {
             set "v"
@@ -68,7 +68,7 @@ warpt 1
                               }
                               1
                             ]
-                            procedure "std.math.plus"
+                            procedure "Standard.Math.plus"
                           }
                         }
                         returns "int"
@@ -88,7 +88,7 @@ warpt 1
                     ref "x"
                   }
                 ]
-                procedure "app.clear"
+                procedure "App.clear"
               }
             }
           }

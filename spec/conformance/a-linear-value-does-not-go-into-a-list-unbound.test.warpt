@@ -7,7 +7,7 @@ warpt 1
   note "Nothing holds this one yet, and writing it straight into the list is the same loss: the obligation is neither handed on nor still held. It is bound to a name and handed on from there."
   program {
     imports [
-      "app.open"
+      "App.open"
     ]
     procedures {
       entry {
@@ -15,7 +15,7 @@ warpt 1
         result [
           {
             call {
-              procedure "app.open"
+              procedure "App.open"
             }
           }
         ]
@@ -27,15 +27,15 @@ warpt 1
   test 1
   vocabulary {
     procedures {
-      "app.open" {
-        answers app.Handle {
+      "App.open" {
+        answers App.Handle {
           name "f"
         }
-        returns "app.Handle"
+        returns "App.Handle"
       }
     }
     types {
-      "app.Handle" {
+      "App.Handle" {
         linear {
           record {
             name "string"

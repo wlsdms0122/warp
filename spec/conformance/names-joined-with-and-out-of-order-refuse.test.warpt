@@ -4,23 +4,23 @@ warpt 1
     refuses "load"
   }
   name "names-joined-with-and-out-of-order-refuse"
-  note "Names joined with `&` are written in name order, so `app.B & app.A` is a second spelling of `app.A & app.B`. A document says each thing one way, and this one refuses at the load."
+  note "Names joined with `&` are written in name order, so `App.B & App.A` is a second spelling of `App.A & App.B`. A document says each thing one way, and this one refuses at the load."
   program {
     constraints {
-      "app.A" [
+      "App.A" [
         "int"
       ]
-      "app.B" [
+      "App.B" [
         "int"
       ]
     }
     imports []
     procedures {
-      "app.f" {
+      "App.f" {
         parameters [
           {
             name "x"
-            type "app.B & app.A"
+            type "App.B & App.A"
           }
         ]
         result 1

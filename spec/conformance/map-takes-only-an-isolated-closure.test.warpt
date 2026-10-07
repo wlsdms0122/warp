@@ -4,10 +4,10 @@ warpt 1
     refuses "build"
   }
   name "map-takes-only-an-isolated-closure"
-  note "A closure that writes a captured variable is not isolated, and `std.concurrent.map` asks for an isolated one. The build reads the closure's text and refuses."
+  note "A closure that writes a captured variable is not isolated, and `Standard.Concurrent.map` asks for an isolated one. The build reads the closure's text and refuses."
   program {
     imports [
-      "std.concurrent.map"
+      "Standard.Concurrent.map"
     ]
     procedures {
       entry {
@@ -47,7 +47,7 @@ warpt 1
                     }
                   }
                 ]
-                procedure "std.concurrent.map"
+                procedure "Standard.Concurrent.map"
               }
             }
           }

@@ -4,15 +4,15 @@ warpt 1
     refuses "build"
   }
   name "a-handle-borrowed-after-a-consuming-parameter-in-one-call-refuses"
-  note "One call hands a name on in the order the run evaluates its arguments, the callee's parameter order. `app.swap` declares `value`, which consumes, before `of`, which borrows, so the handle is gone by the time `of` reads it, whichever order the call writes them in and whichever order their names sort in."
+  note "One call hands a name on in the order the run evaluates its arguments, the callee's parameter order. `App.swap` declares `value`, which consumes, before `of`, which borrows, so the handle is gone by the time `of` reads it, whichever order the call writes them in and whichever order their names sort in."
   program {
     imports [
-      "app.Handle"
-      "app.close"
-      "app.open"
+      "App.Handle"
+      "App.close"
+      "App.open"
     ]
     procedures {
-      "app.swap" {
+      "App.swap" {
         body [
           {
             value {
@@ -22,7 +22,7 @@ warpt 1
                     ref "value"
                   }
                 ]
-                procedure "app.close"
+                procedure "App.close"
               }
             }
           }
@@ -30,11 +30,11 @@ warpt 1
         parameters [
           {
             name "value"
-            type "consuming app.Handle"
+            type "consuming App.Handle"
           }
           {
             name "of"
-            type "borrowing app.Handle"
+            type "borrowing App.Handle"
           }
         ]
       }
@@ -45,7 +45,7 @@ warpt 1
             let "handle"
             value {
               call {
-                procedure "app.open"
+                procedure "App.open"
               }
             }
           }
@@ -60,7 +60,7 @@ warpt 1
                     ref "handle"
                   }
                 ]
-                procedure "app.swap"
+                procedure "App.swap"
               }
             }
           }
@@ -72,24 +72,24 @@ warpt 1
   test 1
   vocabulary {
     procedures {
-      "app.close" {
+      "App.close" {
         parameters [
           {
             name "first"
-            type "consuming app.Handle"
+            type "consuming App.Handle"
           }
         ]
         runs true
       }
-      "app.open" {
-        answers app.Handle {
+      "App.open" {
+        answers App.Handle {
           name "f"
         }
-        returns "app.Handle"
+        returns "App.Handle"
       }
     }
     types {
-      "app.Handle" {
+      "App.Handle" {
         linear {
           record {
             name "string"

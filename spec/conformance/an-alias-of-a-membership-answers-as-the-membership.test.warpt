@@ -4,20 +4,20 @@ warpt 1
     answers "a card"
   }
   name "an-alias-of-a-membership-answers-as-the-membership"
-  note "app.AnyCard names app.Cards, whose one member is bank.Card, which answers app.Describable. A value of app.AnyCard is a bank.Card, so it is handed where app.Describable is asked."
+  note "App.AnyCard names App.Cards, whose one member is Bank.Card, which answers App.Describable. A value of App.AnyCard is a Bank.Card, so it is handed where App.Describable is asked."
   program {
     constraints {
-      "app.Cards" [
-        "bank.Card"
+      "App.Cards" [
+        "Bank.Card"
       ]
     }
     contracts {
-      "app.Describable" {
+      "App.Describable" {
         describe {
           parameters [
             {
               name "of"
-              type "app.Describable"
+              type "App.Describable"
             }
           ]
           returns "string"
@@ -26,11 +26,11 @@ warpt 1
     }
     imports []
     procedures {
-      "bank.Card.describe" {
+      "Bank.Card.describe" {
         parameters [
           {
             name "of"
-            type "bank.Card"
+            type "Bank.Card"
           }
         ]
         result "a card"
@@ -48,7 +48,7 @@ warpt 1
                     last "1"
                   }
                 }
-                type "bank.Card"
+                type "Bank.Card"
               }
             }
           }
@@ -75,7 +75,7 @@ warpt 1
                     ref "c"
                   }
                 ]
-                procedure "app.Describable.describe"
+                procedure "App.Describable.describe"
               }
             }
           }
@@ -83,7 +83,7 @@ warpt 1
         parameters [
           {
             name "c"
-            type "app.AnyCard"
+            type "App.AnyCard"
           }
         ]
         result {
@@ -93,13 +93,13 @@ warpt 1
       }
     }
     satisfies {
-      "bank.Card" [
-        "app.Describable"
+      "Bank.Card" [
+        "App.Describable"
       ]
     }
     types {
-      "app.AnyCard" "app.Cards"
-      "bank.Card" {
+      "App.AnyCard" "App.Cards"
+      "Bank.Card" {
         record {
           last "string"
         }

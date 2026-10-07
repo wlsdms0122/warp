@@ -4,17 +4,17 @@ warpt 1
     refuses "build"
   }
   name "a-parameter-read-as-dictionaries-of-a-record-and-of-a-nameless-one-is-a-dictionary-of-the-nameless-one-refuses"
-  note "app.pick reads its some T as a dictionary of bank.Card that may be null and as a dictionary of nameless records of its fields. The reading that holds both is a dictionary of the nameless record that may be null, so handing it to a slot of a contract refuses at the build."
+  note "App.pick reads its some T as a dictionary of Bank.Card that may be null and as a dictionary of nameless records of its fields. The reading that holds both is a dictionary of the nameless record that may be null, so handing it to a slot of a contract refuses at the build."
   program {
     contracts {
-      "app.Describable" {
+      "App.Describable" {
         describe {
           const true
           isolated true
           parameters [
             {
               name "of"
-              type "app.Describable"
+              type "App.Describable"
             }
           ]
           returns "string"
@@ -23,17 +23,17 @@ warpt 1
     }
     imports []
     procedures {
-      "app.f" {
+      "App.f" {
         parameters [
           {
             name "xs"
-            type "dictionary<app.Describable>?"
+            type "dictionary<App.Describable>?"
           }
         ]
         result "seen"
         returns "string"
       }
-      "app.pick" {
+      "App.pick" {
         body [
           {
             value {
@@ -73,11 +73,11 @@ warpt 1
         }
         returns "some T"
       }
-      "bank.Card.describe" {
+      "Bank.Card.describe" {
         parameters [
           {
             name "of"
-            type "bank.Card"
+            type "Bank.Card"
           }
         ]
         result "a card"
@@ -88,7 +88,7 @@ warpt 1
         body [
           {
             let "d"
-            type "dictionary<bank.Card>?"
+            type "dictionary<Bank.Card>?"
             value {
               record {
                 k {
@@ -98,7 +98,7 @@ warpt 1
                         last "42"
                       }
                     }
-                    type "bank.Card"
+                    type "Bank.Card"
                   }
                 }
               }
@@ -136,7 +136,7 @@ warpt 1
                     ref "e"
                   }
                 ]
-                procedure "app.pick"
+                procedure "App.pick"
               }
             }
           }
@@ -149,7 +149,7 @@ warpt 1
                     ref "r"
                   }
                 ]
-                procedure "app.f"
+                procedure "App.f"
               }
             }
           }
@@ -160,12 +160,12 @@ warpt 1
       }
     }
     satisfies {
-      "bank.Card" [
-        "app.Describable"
+      "Bank.Card" [
+        "App.Describable"
       ]
     }
     types {
-      "bank.Card" {
+      "Bank.Card" {
         record {
           last "string"
         }

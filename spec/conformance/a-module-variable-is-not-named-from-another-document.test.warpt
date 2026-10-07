@@ -4,7 +4,7 @@ warpt 1
     {
       imports []
       procedures {
-        "ctr.bump" {
+        "Ctr.bump" {
           body [
             {
               set "counter"
@@ -30,7 +30,7 @@ warpt 1
   note "A module variable is the document's own, like a constant. Another document reaches it only through a procedure declared beside it, so a body naming it by ref names nothing it can see, and the document is refused where it is read."
   program {
     imports [
-      "ctr.bump"
+      "Ctr.bump"
     ]
     procedures {
       entry {
@@ -39,7 +39,7 @@ warpt 1
           {
             value {
               call {
-                procedure "ctr.bump"
+                procedure "Ctr.bump"
               }
             }
           }

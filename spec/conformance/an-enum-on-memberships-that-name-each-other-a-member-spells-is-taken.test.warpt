@@ -4,28 +4,28 @@ warpt 1
     answers 0
   }
   name "an-enum-on-memberships-that-name-each-other-a-member-spells-is-taken"
-  note "`app.M` admits `app.N` and `int`, and `app.N` admits `app.M` and `bool`, so a value of `app.M` is an int or a bool, each membership met again adding no member. An `enum` on a parameter declared `app.M` lists `true`, which a bool spells, so the declaration builds and the run answers 0."
+  note "`App.M` admits `App.N` and `int`, and `App.N` admits `App.M` and `bool`, so a value of `App.M` is an int or a bool, each membership met again adding no member. An `enum` on a parameter declared `App.M` lists `true`, which a bool spells, so the declaration builds and the run answers 0."
   program {
     constraints {
-      "app.M" [
-        "app.N"
+      "App.M" [
+        "App.N"
         "int"
       ]
-      "app.N" [
-        "app.M"
+      "App.N" [
+        "App.M"
         "bool"
       ]
     }
     imports []
     procedures {
-      "app.g" {
+      "App.g" {
         parameters [
           {
             enum [
               "true"
             ]
             name "x"
-            type "app.M"
+            type "App.M"
           }
         ]
         result 0

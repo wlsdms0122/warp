@@ -4,15 +4,15 @@ warpt 1
     refuses "build"
   }
   name "a-list-literal-written-into-memberships-that-name-each-other-refuses"
-  note "`app.M` admits `app.N` and `array<int>`, and `app.N` admits `app.M` and `bool`. A variable declared `app.M` starts with `[1, \"s\"]`. Asking `app.N` asks `app.M` of the same literal again, which takes nothing, and neither `array<int>` nor `bool` takes it, so the build refuses."
+  note "`App.M` admits `App.N` and `array<int>`, and `App.N` admits `App.M` and `bool`. A variable declared `App.M` starts with `[1, \"s\"]`. Asking `App.N` asks `App.M` of the same literal again, which takes nothing, and neither `array<int>` nor `bool` takes it, so the build refuses."
   program {
     constraints {
-      "app.M" [
-        "app.N"
+      "App.M" [
+        "App.N"
         "array<int>"
       ]
-      "app.N" [
-        "app.M"
+      "App.N" [
+        "App.M"
         "bool"
       ]
     }
@@ -22,7 +22,7 @@ warpt 1
         access "public"
         body [
           {
-            type "app.M"
+            type "App.M"
             value [
               1
               "s"

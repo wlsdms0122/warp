@@ -4,28 +4,28 @@ warpt 1
     refuses "build"
   }
   name "an-enum-on-memberships-that-name-each-other-no-member-spells-refuses"
-  note "`app.M` admits `app.N` and `int`, and `app.N` admits `app.M` and `bool`, so a value of `app.M` is an int or a bool, each membership met again adding no member. An `enum` on a parameter declared `app.M` lists `s`, which neither an int nor a bool spells, so the build refuses."
+  note "`App.M` admits `App.N` and `int`, and `App.N` admits `App.M` and `bool`, so a value of `App.M` is an int or a bool, each membership met again adding no member. An `enum` on a parameter declared `App.M` lists `s`, which neither an int nor a bool spells, so the build refuses."
   program {
     constraints {
-      "app.M" [
-        "app.N"
+      "App.M" [
+        "App.N"
         "int"
       ]
-      "app.N" [
-        "app.M"
+      "App.N" [
+        "App.M"
         "bool"
       ]
     }
     imports []
     procedures {
-      "app.g" {
+      "App.g" {
         parameters [
           {
             enum [
               "s"
             ]
             name "x"
-            type "app.M"
+            type "App.M"
           }
         ]
         result 0

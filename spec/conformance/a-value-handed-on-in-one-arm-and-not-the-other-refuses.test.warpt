@@ -7,8 +7,8 @@ warpt 1
   note "What a body holds after a conditional cannot depend on which arm ran. A linear value given away in one arm and kept in the other is refused at the build."
   program {
     imports [
-      "app.close"
-      "app.open"
+      "App.close"
+      "App.open"
     ]
     procedures {
       entry {
@@ -18,7 +18,7 @@ warpt 1
             let "handle"
             value {
               call {
-                procedure "app.open"
+                procedure "App.open"
               }
             }
           }
@@ -34,7 +34,7 @@ warpt 1
                             ref "handle"
                           }
                         ]
-                        procedure "app.close"
+                        procedure "App.close"
                       }
                     }
                   }
@@ -60,24 +60,24 @@ warpt 1
   test 1
   vocabulary {
     procedures {
-      "app.close" {
+      "App.close" {
         parameters [
           {
             name "first"
-            type "consuming app.Handle"
+            type "consuming App.Handle"
           }
         ]
         runs true
       }
-      "app.open" {
-        answers app.Handle {
+      "App.open" {
+        answers App.Handle {
           name "f"
         }
-        returns "app.Handle"
+        returns "App.Handle"
       }
     }
     types {
-      "app.Handle" {
+      "App.Handle" {
         linear {
           record {
             name "string"

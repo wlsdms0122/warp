@@ -7,12 +7,12 @@ warpt 1
   note "The contract takes some T and answers any. The declaration answering it takes and answers some U, which the contract's T fills, and an answer of anything takes a T."
   program {
     contracts {
-      "app.Sized" {
+      "App.Sized" {
         size {
           parameters [
             {
               name "of"
-              type "app.Sized"
+              type "App.Sized"
             }
             {
               name "n"
@@ -25,11 +25,11 @@ warpt 1
     }
     imports []
     procedures {
-      "bank.Card.size" {
+      "Bank.Card.size" {
         parameters [
           {
             name "of"
-            type "bank.Card"
+            type "Bank.Card"
           }
           {
             name "n"
@@ -53,7 +53,7 @@ warpt 1
                     last "42"
                   }
                 }
-                type "bank.Card"
+                type "Bank.Card"
               }
             }
           }
@@ -67,7 +67,7 @@ warpt 1
                   }
                   "x"
                 ]
-                procedure "app.Sized.size"
+                procedure "App.Sized.size"
               }
             }
           }
@@ -89,12 +89,12 @@ warpt 1
       }
     }
     satisfies {
-      "bank.Card" [
-        "app.Sized"
+      "Bank.Card" [
+        "App.Sized"
       ]
     }
     types {
-      "bank.Card" {
+      "Bank.Card" {
         record {
           last "string"
         }

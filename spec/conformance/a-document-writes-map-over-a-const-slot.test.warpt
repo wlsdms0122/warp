@@ -11,13 +11,13 @@ warpt 1
   note "A slot asking `const procedure` says what the value in it is, so calling that name is read rather than run, and a document can write `map` itself instead of reaching for the one the vocabulary brings. The call of the value stands as a statement binding `rewritten`, since an operand calling a value refuses at the build."
   program {
     imports [
-      "std.collection.appending"
-      "std.collection.count"
-      "std.math.lessThan"
-      "std.math.times"
+      "Standard.Collection.appending"
+      "Standard.Collection.count"
+      "Standard.Math.lessThan"
+      "Standard.Math.times"
     ]
     procedures {
-      "app.mapped" {
+      "App.mapped" {
         body [
           {
             value []
@@ -61,7 +61,7 @@ warpt 1
                             ref "rewritten"
                           }
                         ]
-                        procedure "std.collection.appending"
+                        procedure "Standard.Collection.appending"
                       }
                     }
                   }
@@ -79,11 +79,11 @@ warpt 1
                               ref "of"
                             }
                           ]
-                          procedure "std.collection.count"
+                          procedure "Standard.Collection.count"
                         }
                       }
                     ]
-                    procedure "std.math.lessThan"
+                    procedure "Standard.Math.lessThan"
                   }
                 }
               }
@@ -138,14 +138,14 @@ warpt 1
                         }
                         2
                       ]
-                      procedure "std.math.times"
+                      procedure "Standard.Math.times"
                     }
                   }
                   returns "int"
                 }
               }
             ]
-            procedure "app.mapped"
+            procedure "App.mapped"
           }
         }
         returns "array<int>"

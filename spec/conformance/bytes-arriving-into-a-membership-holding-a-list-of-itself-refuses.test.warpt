@@ -4,16 +4,16 @@ warpt 1
     refuses "run"
   }
   name "bytes-arriving-into-a-membership-holding-a-list-of-itself-refuses"
-  note "`app.B` admits `array<app.B>` and `string`, and `std.text.encoded` answers bytes that arrive through a name declared `any`. A byte is neither a list nor a string, and asking `app.B` of the bytes as a list asks each byte afresh, so the run refuses as it does for the same list written out."
+  note "`App.B` admits `array<App.B>` and `string`, and `Standard.Text.encoded` answers bytes that arrive through a name declared `any`. A byte is neither a list nor a string, and asking `App.B` of the bytes as a list asks each byte afresh, so the run refuses as it does for the same list written out."
   program {
     constraints {
-      "app.B" [
-        "array<app.B>"
+      "App.B" [
+        "array<App.B>"
         "string"
       ]
     }
     imports [
-      "std.text.encoded"
+      "Standard.Text.encoded"
     ]
     procedures {
       entry {
@@ -28,12 +28,12 @@ warpt 1
                   "hi"
                   "utf8"
                 ]
-                procedure "std.text.encoded"
+                procedure "Standard.Text.encoded"
               }
             }
           }
           {
-            type "app.B"
+            type "App.B"
             value {
               ref "raw"
             }

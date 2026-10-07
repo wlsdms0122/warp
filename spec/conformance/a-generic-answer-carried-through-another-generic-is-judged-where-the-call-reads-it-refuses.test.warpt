@@ -4,13 +4,13 @@ warpt 1
     refuses "run"
   }
   name "a-generic-answer-carried-through-another-generic-is-judged-where-the-call-reads-it-refuses"
-  note "app.h answers its some T with a value of any. app.g answers what app.h answers, so app.g proves nothing of its answer either, and the call app.g(1, \"s\") reads it as an int where it stands."
+  note "App.h answers its some T with a value of any. App.g answers what App.h answers, so App.g proves nothing of its answer either, and the call App.g(1, \"s\") reads it as an int where it stands."
   program {
     imports [
-      "std.math.plus"
+      "Standard.Math.plus"
     ]
     procedures {
-      "app.g" {
+      "App.g" {
         parameters [
           {
             name "n"
@@ -31,12 +31,12 @@ warpt 1
                 ref "junk"
               }
             ]
-            procedure "app.h"
+            procedure "App.h"
           }
         }
         returns "some T"
       }
-      "app.h" {
+      "App.h" {
         parameters [
           {
             name "n"
@@ -63,7 +63,7 @@ warpt 1
                   1
                   "s"
                 ]
-                procedure "app.g"
+                procedure "App.g"
               }
             }
           }
@@ -77,7 +77,7 @@ warpt 1
                   }
                   1
                 ]
-                procedure "std.math.plus"
+                procedure "Standard.Math.plus"
               }
             }
           }

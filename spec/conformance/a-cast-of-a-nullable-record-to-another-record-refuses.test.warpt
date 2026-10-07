@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-cast-of-a-nullable-record-to-another-record-refuses"
-  note "`app.A` and `app.B` are both declared `{ a: string }`. `n` is read as `app.A?`. Two declared records are two types by name, so a value of `app.A?` is one of `app.B` only if it is null, and `app.B` does not take null. No value is both, so the cast `n as app.B` refuses at the build."
+  note "`App.A` and `App.B` are both declared `{ a: string }`. `n` is read as `App.A?`. Two declared records are two types by name, so a value of `App.A?` is one of `App.B` only if it is null, and `App.B` does not take null. No value is both, so the cast `n as App.B` refuses at the build."
   program {
     imports []
     procedures {
@@ -13,7 +13,7 @@ warpt 1
         body [
           {
             let "n"
-            type "app.A?"
+            type "App.A?"
             value {
               record {
                 a "x"
@@ -27,7 +27,7 @@ warpt 1
                 of {
                   ref "n"
                 }
-                type "app.B"
+                type "App.B"
               }
             }
           }
@@ -38,18 +38,18 @@ warpt 1
       }
     }
     types {
-      "app.A" {
+      "App.A" {
         record {
           a "string"
         }
       }
-      "app.B" {
+      "App.B" {
         record {
           a "string"
         }
       }
-      "app.NA" "app.A?"
-      "app.NB" "app.B?"
+      "App.NA" "App.A?"
+      "App.NB" "App.B?"
     }
     warp 1
   }

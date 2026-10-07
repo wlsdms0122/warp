@@ -10,13 +10,13 @@ warpt 1
   note "A contract's procedure writing `isolated` touches no name another body could touch at once, so a closure sending it is isolated and stands in the isolated slot concurrent map asks."
   program {
     contracts {
-      "app.Named" {
+      "App.Named" {
         name {
           isolated true
           parameters [
             {
               name "of"
-              type "app.Named"
+              type "App.Named"
             }
           ]
           returns "string"
@@ -24,15 +24,15 @@ warpt 1
       }
     }
     imports [
-      "std.concurrent.map"
-      "std.text.text"
+      "Standard.Concurrent.map"
+      "Standard.Text.text"
     ]
     procedures {
-      "app.Thing.name" {
+      "App.Thing.name" {
         parameters [
           {
             name "of"
-            type "app.Thing"
+            type "App.Thing"
           }
         ]
         result {
@@ -42,14 +42,14 @@ warpt 1
                 ref "of.id"
               }
             ]
-            procedure "std.text.text"
+            procedure "Standard.Text.text"
           }
         }
         returns "string"
       }
-      "app.names" {
+      "App.names" {
         bounds {
-          T "app.Named"
+          T "App.Named"
         }
         parameters [
           {
@@ -82,14 +82,14 @@ warpt 1
                           ref "item"
                         }
                       ]
-                      procedure "app.Named.name"
+                      procedure "App.Named.name"
                     }
                   }
                   returns "string"
                 }
               }
             ]
-            procedure "std.concurrent.map"
+            procedure "Standard.Concurrent.map"
           }
         }
         returns "array<string>"
@@ -107,7 +107,7 @@ warpt 1
                         id 1
                       }
                     }
-                    type "app.Thing"
+                    type "App.Thing"
                   }
                 }
                 {
@@ -117,24 +117,24 @@ warpt 1
                         id 2
                       }
                     }
-                    type "app.Thing"
+                    type "App.Thing"
                   }
                 }
               ]
             ]
-            procedure "app.names"
+            procedure "App.names"
           }
         }
         returns "array<string>"
       }
     }
     satisfies {
-      "app.Thing" [
-        "app.Named"
+      "App.Thing" [
+        "App.Named"
       ]
     }
     types {
-      "app.Thing" {
+      "App.Thing" {
         record {
           id "int"
         }

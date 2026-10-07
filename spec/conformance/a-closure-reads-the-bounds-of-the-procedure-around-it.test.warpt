@@ -10,12 +10,12 @@ warpt 1
   note "A closure written in a body reads the type parameters of the procedure around it: its `some T` is the `T` the caller filled, held to the bounds the declaration wrote. So a closure over `some T` may send the contract's procedure to what it is handed, the way the body around it may."
   program {
     contracts {
-      "app.Named" {
+      "App.Named" {
         name {
           parameters [
             {
               name "of"
-              type "app.Named"
+              type "App.Named"
             }
           ]
           returns "string"
@@ -23,17 +23,17 @@ warpt 1
       }
     }
     imports [
-      "std.collection.append"
-      "std.collection.count"
-      "std.math.lessThan"
-      "std.text.text"
+      "Standard.Collection.append"
+      "Standard.Collection.count"
+      "Standard.Math.lessThan"
+      "Standard.Text.text"
     ]
     procedures {
-      "app.Thing.name" {
+      "App.Thing.name" {
         parameters [
           {
             name "of"
-            type "app.Thing"
+            type "App.Thing"
           }
         ]
         result {
@@ -43,12 +43,12 @@ warpt 1
                 ref "of.id"
               }
             ]
-            procedure "std.text.text"
+            procedure "Standard.Text.text"
           }
         }
         returns "string"
       }
-      "app.each" {
+      "App.each" {
         body [
           {
             type "array<string>"
@@ -86,7 +86,7 @@ warpt 1
                             ref "got"
                           }
                         ]
-                        procedure "std.collection.append"
+                        procedure "Standard.Collection.append"
                       }
                     }
                   }
@@ -104,11 +104,11 @@ warpt 1
                               ref "of"
                             }
                           ]
-                          procedure "std.collection.count"
+                          procedure "Standard.Collection.count"
                         }
                       }
                     ]
-                    procedure "std.math.lessThan"
+                    procedure "Standard.Math.lessThan"
                   }
                 }
               }
@@ -116,7 +116,7 @@ warpt 1
           }
         ]
         bounds {
-          T "app.Named"
+          T "App.Named"
         }
         parameters [
           {
@@ -140,9 +140,9 @@ warpt 1
         }
         returns "array<string>"
       }
-      "app.names" {
+      "App.names" {
         bounds {
-          T "app.Named"
+          T "App.Named"
         }
         parameters [
           {
@@ -171,14 +171,14 @@ warpt 1
                           ref "item"
                         }
                       ]
-                      procedure "app.Named.name"
+                      procedure "App.Named.name"
                     }
                   }
                   returns "string"
                 }
               }
             ]
-            procedure "app.each"
+            procedure "App.each"
           }
         }
         returns "array<string>"
@@ -196,7 +196,7 @@ warpt 1
                         id 1
                       }
                     }
-                    type "app.Thing"
+                    type "App.Thing"
                   }
                 }
                 {
@@ -206,24 +206,24 @@ warpt 1
                         id 2
                       }
                     }
-                    type "app.Thing"
+                    type "App.Thing"
                   }
                 }
               ]
             ]
-            procedure "app.names"
+            procedure "App.names"
           }
         }
         returns "array<string>"
       }
     }
     satisfies {
-      "app.Thing" [
-        "app.Named"
+      "App.Thing" [
+        "App.Named"
       ]
     }
     types {
-      "app.Thing" {
+      "App.Thing" {
         record {
           id "int"
         }

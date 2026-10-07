@@ -4,14 +4,14 @@ warpt 1
     answers 3.5
   }
   name "a-native-call-filling-a-parameter-beside-the-caller-parameter-from-a-member-value-answers"
-  note "app.g answers std.math.plus(n, 1) with n 2.5. The call judges the answer against double, which holds 3.5."
+  note "App.g answers Standard.Math.plus(n, 1) with n 2.5. The call judges the answer against double, which holds 3.5."
   program {
     imports [
-      "std.Numeric"
-      "std.math.plus"
+      "Standard.Math.plus"
+      "Standard.Numeric"
     ]
     procedures {
-      "app.g" {
+      "App.g" {
         body [
           {
             let "p"
@@ -23,13 +23,13 @@ warpt 1
                   }
                   1
                 ]
-                procedure "std.math.plus"
+                procedure "Standard.Math.plus"
               }
             }
           }
         ]
         bounds {
-          T "std.Numeric"
+          T "Standard.Numeric"
         }
         parameters [
           {
@@ -52,7 +52,7 @@ warpt 1
                 arguments [
                   2.5
                 ]
-                procedure "app.g"
+                procedure "App.g"
               }
             }
           }

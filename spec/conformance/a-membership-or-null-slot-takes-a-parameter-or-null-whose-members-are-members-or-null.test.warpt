@@ -4,29 +4,29 @@ warpt 1
     answers "took"
   }
   name "a-membership-or-null-slot-takes-a-parameter-or-null-whose-members-are-members-or-null"
-  note "app.g reads v as some T or null, T bounded by app.MaybeNum whose one member is int?, and hands it to app.f, which takes app.Num?. Each value is an int or null."
+  note "App.g reads v as some T or null, T bounded by App.MaybeNum whose one member is int?, and hands it to App.f, which takes App.Num?. Each value is an int or null."
   program {
     constraints {
-      "app.MaybeNum" [
+      "App.MaybeNum" [
         "int?"
       ]
-      "app.Num" [
+      "App.Num" [
         "int"
       ]
     }
     imports []
     procedures {
-      "app.f" {
+      "App.f" {
         parameters [
           {
             name "n"
-            type "app.Num?"
+            type "App.Num?"
           }
         ]
         result "took"
         returns "string"
       }
-      "app.g" {
+      "App.g" {
         body [
           {
             var "v"
@@ -55,13 +55,13 @@ warpt 1
                     ref "v"
                   }
                 ]
-                procedure "app.f"
+                procedure "App.f"
               }
             }
           }
         ]
         bounds {
-          T "app.MaybeNum"
+          T "App.MaybeNum"
         }
         parameters [
           {
@@ -84,7 +84,7 @@ warpt 1
                 arguments [
                   3
                 ]
-                procedure "app.g"
+                procedure "App.g"
               }
             }
           }

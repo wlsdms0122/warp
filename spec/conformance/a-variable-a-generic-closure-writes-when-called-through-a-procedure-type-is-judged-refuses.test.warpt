@@ -4,11 +4,11 @@ warpt 1
     refuses "run"
   }
   name "a-variable-a-generic-closure-writes-when-called-through-a-procedure-type-is-judged-refuses"
-  note "app.with keeps x in cell and hands a closure taking some T, which writes cell, to a callback. The callback holds it as procedure<(int) -> int> and sends it a string read as any. The closure may write what T stands for nowhere, so the body proves nothing and the call judges its answer, and the string refuses at the run."
+  note "App.with keeps x in cell and hands a closure taking some T, which writes cell, to a callback. The callback holds it as procedure<(int) -> int> and sends it a string read as any. The closure may write what T stands for nowhere, so the body proves nothing and the call judges its answer, and the string refuses at the run."
   program {
     imports []
     procedures {
-      "app.with" {
+      "App.with" {
         body [
           {
             value {
@@ -137,7 +137,7 @@ warpt 1
                     ref "cb"
                   }
                 ]
-                procedure "app.with"
+                procedure "App.with"
               }
             }
           }

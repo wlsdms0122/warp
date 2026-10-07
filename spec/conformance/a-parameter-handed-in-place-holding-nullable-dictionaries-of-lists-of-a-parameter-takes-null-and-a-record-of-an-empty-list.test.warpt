@@ -9,11 +9,11 @@ warpt 1
     ]
   }
   name "a-parameter-handed-in-place-holding-nullable-dictionaries-of-lists-of-a-parameter-takes-null-and-a-record-of-an-empty-list"
-  note "app.g writes [null, { k: [] }] into xs, a list of dictionaries of lists of T or null, handed in place. Null beside the record is what may be null, and the empty list in the record holds no element, so the literal is a value of array<dictionary<array<some T>>?>."
+  note "App.g writes [null, { k: [] }] into xs, a list of dictionaries of lists of T or null, handed in place. Null beside the record is what may be null, and the empty list in the record holds no element, so the literal is a value of array<dictionary<array<some T>>?>."
   program {
     imports []
     procedures {
-      "app.g" {
+      "App.g" {
         body [
           {
             set "xs"
@@ -63,7 +63,7 @@ warpt 1
                     ref "s"
                   }
                 ]
-                procedure "app.g"
+                procedure "App.g"
               }
             }
           }

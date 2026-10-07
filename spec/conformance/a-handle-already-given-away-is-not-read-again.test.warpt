@@ -7,9 +7,9 @@ warpt 1
   note "A value written `linear` is gone from the name that held it once it is given away. A slot that only borrows still reads it, so the second reading is refused the same as any other."
   program {
     imports [
-      "app.close"
-      "app.name"
-      "app.open"
+      "App.close"
+      "App.name"
+      "App.open"
     ]
     procedures {
       entry {
@@ -19,7 +19,7 @@ warpt 1
             let "handle"
             value {
               call {
-                procedure "app.open"
+                procedure "App.open"
               }
             }
           }
@@ -31,7 +31,7 @@ warpt 1
                     ref "handle"
                   }
                 ]
-                procedure "app.close"
+                procedure "App.close"
               }
             }
           }
@@ -44,7 +44,7 @@ warpt 1
                     ref "handle"
                   }
                 ]
-                procedure "app.name"
+                procedure "App.name"
               }
             }
           }
@@ -60,34 +60,34 @@ warpt 1
   test 1
   vocabulary {
     procedures {
-      "app.close" {
+      "App.close" {
         parameters [
           {
             name "first"
-            type "consuming app.Handle"
+            type "consuming App.Handle"
           }
         ]
         runs true
       }
-      "app.name" {
+      "App.name" {
         answers "f"
         parameters [
           {
             name "first"
-            type "borrowing app.Handle"
+            type "borrowing App.Handle"
           }
         ]
         returns "string"
       }
-      "app.open" {
-        answers app.Handle {
+      "App.open" {
+        answers App.Handle {
           name "f"
         }
-        returns "app.Handle"
+        returns "App.Handle"
       }
     }
     types {
-      "app.Handle" {
+      "App.Handle" {
         linear {
           record {
             name "string"

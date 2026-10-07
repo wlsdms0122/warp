@@ -7,12 +7,12 @@ warpt 1
   note "A call through a contract is answered by the type of its first argument. A call writing nothing there has nothing to answer it, and the build says so."
   program {
     contracts {
-      "app.Describable" {
+      "App.Describable" {
         describe {
           parameters [
             {
               name "of"
-              type "app.Describable"
+              type "App.Describable"
             }
             {
               name "label"
@@ -25,11 +25,11 @@ warpt 1
     }
     imports []
     procedures {
-      "bank.Account.describe" {
+      "Bank.Account.describe" {
         parameters [
           {
             name "of"
-            type "bank.Account"
+            type "Bank.Account"
           }
           {
             name "label"
@@ -45,19 +45,19 @@ warpt 1
         access "public"
         result {
           call {
-            procedure "app.Describable.describe"
+            procedure "App.Describable.describe"
           }
         }
         returns "string"
       }
     }
     satisfies {
-      "bank.Account" [
-        "app.Describable"
+      "Bank.Account" [
+        "App.Describable"
       ]
     }
     types {
-      "bank.Account" {
+      "Bank.Account" {
         record {
           balance "int"
         }

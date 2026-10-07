@@ -4,12 +4,12 @@ warpt 1
     refuses "build"
   }
   name "a-membership-holding-a-list-of-itself-refuses-a-nested-list-of-other-kinds"
-  note "`app.M` admits `int` and `array<app.M>`. In `[[1, \"s\"]]` the inner list is asked of `app.M` as a literal of its own, and `\"s\"` is neither an int nor a list, so the build refuses."
+  note "`App.M` admits `int` and `array<App.M>`. In `[[1, \"s\"]]` the inner list is asked of `App.M` as a literal of its own, and `\"s\"` is neither an int nor a list, so the build refuses."
   program {
     constraints {
-      "app.M" [
+      "App.M" [
         "int"
-        "array<app.M>"
+        "array<App.M>"
       ]
     }
     imports []
@@ -18,7 +18,7 @@ warpt 1
         access "public"
         body [
           {
-            type "app.M"
+            type "App.M"
             value [
               [
                 1

@@ -4,13 +4,13 @@ warpt 1
     answers "rescued"
   }
   name "an-entry-not-written-yet-handed-back-by-a-failing-call-is-rescued"
-  note "app.touch takes an entry of a dictionary in place at its own some T and fails before writing it. The entry not written yet holds nothing to judge, so the failure passes on as it was and the caller rescues it."
+  note "App.touch takes an entry of a dictionary in place at its own some T and fails before writing it. The entry not written yet holds nothing to judge, so the failure passes on as it was and the caller rescues it."
   program {
     imports [
-      "std.control.abort"
+      "Standard.Control.abort"
     ]
     procedures {
-      "app.h" {
+      "App.h" {
         parameters [
           {
             name "n"
@@ -26,7 +26,7 @@ warpt 1
         }
         returns "some T"
       }
-      "app.touch" {
+      "App.touch" {
         body [
           {
             let "y"
@@ -40,7 +40,7 @@ warpt 1
                     ref "j"
                   }
                 ]
-                procedure "app.h"
+                procedure "App.h"
               }
             }
           }
@@ -54,7 +54,7 @@ warpt 1
                         arguments [
                           "boom"
                         ]
-                        procedure "std.control.abort"
+                        procedure "Standard.Control.abort"
                       }
                     }
                   }
@@ -118,7 +118,7 @@ warpt 1
                           3
                           true
                         ]
-                        procedure "app.touch"
+                        procedure "App.touch"
                       }
                     }
                   }

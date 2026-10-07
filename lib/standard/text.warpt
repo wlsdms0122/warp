@@ -2,19 +2,19 @@ warpt 1
 {
   description "Scanning text, written from its characters."
   imports [
-    "std.collection.appending"
-    "std.collection.count"
-    "std.control.abort"
-    "std.logic.equal"
-    "std.logic.not"
-    "std.math.lessThan"
-    "std.math.minus"
-    "std.math.plus"
-    "std.text.characters"
-    "std.text.joined"
+    "Standard.Collection.appending"
+    "Standard.Collection.count"
+    "Standard.Control.abort"
+    "Standard.Logic.equal"
+    "Standard.Logic.not"
+    "Standard.Math.lessThan"
+    "Standard.Math.minus"
+    "Standard.Math.plus"
+    "Standard.Text.characters"
+    "Standard.Text.joined"
   ]
   procedures {
-    "std.text.contains" {
+    "Standard.Text.contains" {
       body [
         {
           let "held"
@@ -25,7 +25,7 @@ warpt 1
                   ref "text"
                 }
               ]
-              procedure "std.text.characters"
+              procedure "Standard.Text.characters"
             }
           }
         }
@@ -38,7 +38,7 @@ warpt 1
                   ref "other"
                 }
               ]
-              procedure "std.text.characters"
+              procedure "Standard.Text.characters"
             }
           }
         }
@@ -68,7 +68,7 @@ warpt 1
                                   ref "probe.index"
                                 }
                               ]
-                              procedure "std.math.plus"
+                              procedure "Standard.Math.plus"
                             }
                           }
                         }
@@ -99,11 +99,11 @@ warpt 1
                                             ref "wanted[probe.index]"
                                           }
                                         ]
-                                        procedure "std.logic.equal"
+                                        procedure "Standard.Logic.equal"
                                       }
                                     }
                                   ]
-                                  procedure "std.logic.not"
+                                  procedure "Standard.Logic.not"
                                 }
                               }
                             }
@@ -123,11 +123,11 @@ warpt 1
                                     ref "wanted"
                                   }
                                 ]
-                                procedure "std.collection.count"
+                                procedure "Standard.Collection.count"
                               }
                             }
                           ]
-                          procedure "std.math.lessThan"
+                          procedure "Standard.Math.lessThan"
                         }
                       }
                     }
@@ -169,7 +169,7 @@ warpt 1
                                         ref "held"
                                       }
                                     ]
-                                    procedure "std.collection.count"
+                                    procedure "Standard.Collection.count"
                                   }
                                 }
                                 {
@@ -179,20 +179,20 @@ warpt 1
                                         ref "wanted"
                                       }
                                     ]
-                                    procedure "std.collection.count"
+                                    procedure "Standard.Collection.count"
                                   }
                                 }
                               ]
-                              procedure "std.math.minus"
+                              procedure "Standard.Math.minus"
                             }
                           }
                           1
                         ]
-                        procedure "std.math.plus"
+                        procedure "Standard.Math.plus"
                       }
                     }
                   ]
-                  procedure "std.math.lessThan"
+                  procedure "Standard.Math.lessThan"
                 }
               }
             }
@@ -213,7 +213,7 @@ warpt 1
       result false
       returns "bool"
     }
-    "std.text.replacing" {
+    "Standard.Text.replacing" {
       body [
         {
           value {
@@ -225,7 +225,7 @@ warpt 1
                       arguments [
                         "replacing asks an empty piece"
                       ]
-                      procedure "std.control.abort"
+                      procedure "Standard.Control.abort"
                     }
                   }
                 }
@@ -238,7 +238,7 @@ warpt 1
                     }
                     ""
                   ]
-                  procedure "std.logic.equal"
+                  procedure "Standard.Logic.equal"
                 }
               }
             }
@@ -273,19 +273,19 @@ warpt 1
                     ref "target"
                   }
                 ]
-                procedure "std.text.split"
+                procedure "Standard.Text.split"
               }
             }
             {
               ref "replacement"
             }
           ]
-          procedure "std.text.joined"
+          procedure "Standard.Text.joined"
         }
       }
       returns "string"
     }
-    "std.text.split" {
+    "Standard.Text.split" {
       body [
         {
           let "held"
@@ -296,7 +296,7 @@ warpt 1
                   ref "text"
                 }
               ]
-              procedure "std.text.characters"
+              procedure "Standard.Text.characters"
             }
           }
         }
@@ -309,7 +309,7 @@ warpt 1
                   ref "held"
                 }
               ]
-              procedure "std.collection.count"
+              procedure "Standard.Collection.count"
             }
           }
         }
@@ -322,7 +322,7 @@ warpt 1
                   ref "separator"
                 }
               ]
-              procedure "std.text.characters"
+              procedure "Standard.Text.characters"
             }
           }
         }
@@ -335,7 +335,7 @@ warpt 1
                   ref "wanted"
                 }
               ]
-              procedure "std.collection.count"
+              procedure "Standard.Collection.count"
             }
           }
         }
@@ -349,7 +349,7 @@ warpt 1
                       arguments [
                         "split asks an empty separator"
                       ]
-                      procedure "std.control.abort"
+                      procedure "Standard.Control.abort"
                     }
                   }
                 }
@@ -362,7 +362,7 @@ warpt 1
                     }
                     0
                   ]
-                  procedure "std.logic.equal"
+                  procedure "Standard.Logic.equal"
                 }
               }
             }
@@ -405,15 +405,15 @@ warpt 1
                                       ref "wantedCount"
                                     }
                                   ]
-                                  procedure "std.math.plus"
+                                  procedure "Standard.Math.plus"
                                 }
                               }
                             ]
-                            procedure "std.math.lessThan"
+                            procedure "Standard.Math.lessThan"
                           }
                         }
                       ]
-                      procedure "std.logic.not"
+                      procedure "Standard.Logic.not"
                     }
                   }
                   var "matched"
@@ -439,7 +439,7 @@ warpt 1
                                           ref "probe.index"
                                         }
                                       ]
-                                      procedure "std.math.plus"
+                                      procedure "Standard.Math.plus"
                                     }
                                   }
                                 }
@@ -470,11 +470,11 @@ warpt 1
                                                     ref "wanted[probe.index]"
                                                   }
                                                 ]
-                                                procedure "std.logic.equal"
+                                                procedure "Standard.Logic.equal"
                                               }
                                             }
                                           ]
-                                          procedure "std.logic.not"
+                                          procedure "Standard.Logic.not"
                                         }
                                       }
                                     }
@@ -491,7 +491,7 @@ warpt 1
                                       ref "wantedCount"
                                     }
                                   ]
-                                  procedure "std.math.lessThan"
+                                  procedure "Standard.Math.lessThan"
                                 }
                               }
                             }
@@ -520,7 +520,7 @@ warpt 1
                                   ref "held[at]"
                                 }
                               ]
-                              procedure "std.collection.appending"
+                              procedure "Standard.Collection.appending"
                             }
                           }
                         }
@@ -534,7 +534,7 @@ warpt 1
                                 }
                                 1
                               ]
-                              procedure "std.math.plus"
+                              procedure "Standard.Math.plus"
                             }
                           }
                         }
@@ -556,11 +556,11 @@ warpt 1
                                       }
                                       ""
                                     ]
-                                    procedure "std.text.joined"
+                                    procedure "Standard.Text.joined"
                                   }
                                 }
                               ]
-                              procedure "std.collection.appending"
+                              procedure "Standard.Collection.appending"
                             }
                           }
                         }
@@ -580,7 +580,7 @@ warpt 1
                                   ref "wantedCount"
                                 }
                               ]
-                              procedure "std.math.plus"
+                              procedure "Standard.Math.plus"
                             }
                           }
                         }
@@ -602,7 +602,7 @@ warpt 1
                       ref "heldCount"
                     }
                   ]
-                  procedure "std.math.lessThan"
+                  procedure "Standard.Math.lessThan"
                 }
               }
             }
@@ -634,16 +634,16 @@ warpt 1
                   }
                   ""
                 ]
-                procedure "std.text.joined"
+                procedure "Standard.Text.joined"
               }
             }
           ]
-          procedure "std.collection.appending"
+          procedure "Standard.Collection.appending"
         }
       }
       returns "array<string>"
     }
-    "std.text.startsWith" {
+    "Standard.Text.startsWith" {
       body [
         {
           let "held"
@@ -654,7 +654,7 @@ warpt 1
                   ref "text"
                 }
               ]
-              procedure "std.text.characters"
+              procedure "Standard.Text.characters"
             }
           }
         }
@@ -667,7 +667,7 @@ warpt 1
                   ref "prefix"
                 }
               ]
-              procedure "std.text.characters"
+              procedure "Standard.Text.characters"
             }
           }
         }
@@ -691,7 +691,7 @@ warpt 1
                             ref "held"
                           }
                         ]
-                        procedure "std.collection.count"
+                        procedure "Standard.Collection.count"
                       }
                     }
                     {
@@ -701,11 +701,11 @@ warpt 1
                             ref "wanted"
                           }
                         ]
-                        procedure "std.collection.count"
+                        procedure "Standard.Collection.count"
                       }
                     }
                   ]
-                  procedure "std.math.lessThan"
+                  procedure "Standard.Math.lessThan"
                 }
               }
             }
@@ -739,11 +739,11 @@ warpt 1
                                     ref "wanted[walk.index]"
                                   }
                                 ]
-                                procedure "std.logic.equal"
+                                procedure "Standard.Logic.equal"
                               }
                             }
                           ]
-                          procedure "std.logic.not"
+                          procedure "Standard.Logic.not"
                         }
                       }
                     }
@@ -763,11 +763,11 @@ warpt 1
                             ref "wanted"
                           }
                         ]
-                        procedure "std.collection.count"
+                        procedure "Standard.Collection.count"
                       }
                     }
                   ]
-                  procedure "std.math.lessThan"
+                  procedure "Standard.Math.lessThan"
                 }
               }
             }

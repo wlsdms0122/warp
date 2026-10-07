@@ -4,12 +4,12 @@ warpt 1
     {
       imports []
       procedures {
-        "bank.Card.show" {
+        "Bank.Card.show" {
           access "public"
           parameters [
             {
               name "of"
-              type "bank.Card"
+              type "Bank.Card"
             }
           ]
           result "card"
@@ -17,7 +17,7 @@ warpt 1
         }
       }
       types {
-        "bank.Card" {
+        "Bank.Card" {
           record {
             last "string"
           }
@@ -30,17 +30,17 @@ warpt 1
     refuses "build"
   }
   name "a-record-handed-at-a-dictionary-of-a-contract-leans-on-each-claim-refuses"
-  note "`app.h` takes `dictionary<app.P>`. The record `{ a: c }` handed there holds a `bank.Card`, which a beside document gives `show` but no document says answers `app.P`. Read as a dictionary, each field leans on its own claim, so the call writes it down and refuses at the build."
+  note "`App.h` takes `dictionary<App.P>`. The record `{ a: c }` handed there holds a `Bank.Card`, which a beside document gives `show` but no document says answers `App.P`. Read as a dictionary, each field leans on its own claim, so the call writes it down and refuses at the build."
   program {
     contracts {
-      "app.P" {
+      "App.P" {
         show {
           const true
           isolated true
           parameters [
             {
               name "of"
-              type "app.P"
+              type "App.P"
             }
           ]
           returns "string"
@@ -48,14 +48,14 @@ warpt 1
       }
     }
     imports [
-      "bank.Card"
+      "Bank.Card"
     ]
     procedures {
-      "app.h" {
+      "App.h" {
         parameters [
           {
             name "x"
-            type "dictionary<app.P>"
+            type "dictionary<App.P>"
           }
         ]
         result {
@@ -65,7 +65,7 @@ warpt 1
                 ref "x.a"
               }
             ]
-            procedure "app.P.show"
+            procedure "App.P.show"
           }
         }
         returns "string"
@@ -82,7 +82,7 @@ warpt 1
                     last "1"
                   }
                 }
-                type "bank.Card"
+                type "Bank.Card"
               }
             }
           }
@@ -99,7 +99,7 @@ warpt 1
                     }
                   }
                 ]
-                procedure "app.h"
+                procedure "App.h"
               }
             }
           }

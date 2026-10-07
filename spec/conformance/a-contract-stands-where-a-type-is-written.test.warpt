@@ -7,12 +7,12 @@ warpt 1
   note "A contract's name stands where a type is written: the slot takes a value of whatever type satisfies it, the body calls the contract's procedure without knowing which type it holds, and no name ties the slot to any other."
   program {
     contracts {
-      "app.Describable" {
+      "App.Describable" {
         describe {
           parameters [
             {
               name "of"
-              type "app.Describable"
+              type "App.Describable"
             }
           ]
           returns "string"
@@ -21,11 +21,11 @@ warpt 1
     }
     imports []
     procedures {
-      "app.tell" {
+      "App.tell" {
         parameters [
           {
             name "it"
-            type "app.Describable"
+            type "App.Describable"
           }
         ]
         result {
@@ -35,16 +35,16 @@ warpt 1
                 ref "it"
               }
             ]
-            procedure "app.Describable.describe"
+            procedure "App.Describable.describe"
           }
         }
         returns "string"
       }
-      "bank.Card.describe" {
+      "Bank.Card.describe" {
         parameters [
           {
             name "of"
-            type "bank.Card"
+            type "Bank.Card"
           }
         ]
         result "a card"
@@ -62,7 +62,7 @@ warpt 1
                     last "42"
                   }
                 }
-                type "bank.Card"
+                type "Bank.Card"
               }
             }
           }
@@ -74,19 +74,19 @@ warpt 1
                 ref "card"
               }
             ]
-            procedure "app.tell"
+            procedure "App.tell"
           }
         }
         returns "string"
       }
     }
     satisfies {
-      "bank.Card" [
-        "app.Describable"
+      "Bank.Card" [
+        "App.Describable"
       ]
     }
     types {
-      "bank.Card" {
+      "Bank.Card" {
         record {
           last "string"
         }

@@ -10,8 +10,8 @@ warpt 1
   note "Overflow is the program's own defect and not a failure of the work, so an `attempt` around it does not catch it: the run refuses, the way it does for an index past the end. The body carries a failure it never reaches, so that the attempt is one the build admits."
   program {
     imports [
-      "std.control.abort"
-      "std.math.plus"
+      "Standard.Control.abort"
+      "Standard.Math.plus"
     ]
     procedures {
       entry {
@@ -30,7 +30,7 @@ warpt 1
                           9223372036854775807
                           1
                         ]
-                        procedure "std.math.plus"
+                        procedure "Standard.Math.plus"
                       }
                     }
                   }
@@ -44,7 +44,7 @@ warpt 1
                                 arguments [
                                   "loud"
                                 ]
-                                procedure "std.control.abort"
+                                procedure "Standard.Control.abort"
                               }
                             }
                           }

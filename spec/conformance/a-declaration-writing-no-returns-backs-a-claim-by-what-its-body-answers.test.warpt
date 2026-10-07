@@ -7,12 +7,12 @@ warpt 1
   note "A declaration answering a contract's procedure that writes no `returns` answers what its body answers, read the way a call site reads it. One whose body answers `int` where the contract writes `string` backs no claim, and is refused where the pair is leaned on."
   program {
     contracts {
-      "app.Named" {
+      "App.Named" {
         name {
           parameters [
             {
               name "of"
-              type "app.Named"
+              type "App.Named"
             }
           ]
           returns "string"
@@ -21,18 +21,18 @@ warpt 1
     }
     imports []
     procedures {
-      "app.Thing.name" {
+      "App.Thing.name" {
         parameters [
           {
             name "of"
-            type "app.Thing"
+            type "App.Thing"
           }
         ]
         result 7
       }
-      "app.tell" {
+      "App.tell" {
         bounds {
-          T "app.Named"
+          T "App.Named"
         }
         parameters [
           {
@@ -47,7 +47,7 @@ warpt 1
                 ref "it"
               }
             ]
-            procedure "app.Named.name"
+            procedure "App.Named.name"
           }
         }
         returns "string"
@@ -64,23 +64,23 @@ warpt 1
                       id 1
                     }
                   }
-                  type "app.Thing"
+                  type "App.Thing"
                 }
               }
             ]
-            procedure "app.tell"
+            procedure "App.tell"
           }
         }
         returns "string"
       }
     }
     satisfies {
-      "app.Thing" [
-        "app.Named"
+      "App.Thing" [
+        "App.Named"
       ]
     }
     types {
-      "app.Thing" {
+      "App.Thing" {
         record {
           id "int"
         }

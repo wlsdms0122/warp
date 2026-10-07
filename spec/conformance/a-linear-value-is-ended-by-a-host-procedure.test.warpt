@@ -7,9 +7,9 @@ warpt 1
   note "Only a procedure with no body ends the obligation, because what a resource is lives outside the document. The body reads the handle through a slot that borrows and then hands it to one that consumes."
   program {
     imports [
-      "app.close"
-      "app.name"
-      "app.open"
+      "App.close"
+      "App.name"
+      "App.open"
     ]
     procedures {
       entry {
@@ -19,7 +19,7 @@ warpt 1
             let "handle"
             value {
               call {
-                procedure "app.open"
+                procedure "App.open"
               }
             }
           }
@@ -32,7 +32,7 @@ warpt 1
                     ref "handle"
                   }
                 ]
-                procedure "app.name"
+                procedure "App.name"
               }
             }
           }
@@ -44,7 +44,7 @@ warpt 1
                     ref "handle"
                   }
                 ]
-                procedure "app.close"
+                procedure "App.close"
               }
             }
           }
@@ -60,34 +60,34 @@ warpt 1
   test 1
   vocabulary {
     procedures {
-      "app.close" {
+      "App.close" {
         parameters [
           {
             name "first"
-            type "consuming app.Handle"
+            type "consuming App.Handle"
           }
         ]
         runs true
       }
-      "app.name" {
+      "App.name" {
         answers "f"
         parameters [
           {
             name "first"
-            type "borrowing app.Handle"
+            type "borrowing App.Handle"
           }
         ]
         returns "string"
       }
-      "app.open" {
-        answers app.Handle {
+      "App.open" {
+        answers App.Handle {
           name "f"
         }
-        returns "app.Handle"
+        returns "App.Handle"
       }
     }
     types {
-      "app.Handle" {
+      "App.Handle" {
         linear {
           record {
             name "string"

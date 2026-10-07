@@ -4,15 +4,15 @@ warpt 1
     answers 2
   }
   name "a-local-list-of-a-parameter-handed-in-place-beside-a-member-value-answers"
-  note "app.g hands ys, its own list of T, in place to std.collection.append beside 5. ys is no parameter handed in place, so the call takes 5 as a write into ys would, and app.g answers the count."
+  note "App.g hands ys, its own list of T, in place to Standard.Collection.append beside 5. ys is no parameter handed in place, so the call takes 5 as a write into ys would, and App.g answers the count."
   program {
     imports [
-      "std.Numeric"
-      "std.collection.append"
-      "std.collection.count"
+      "Standard.Collection.append"
+      "Standard.Collection.count"
+      "Standard.Numeric"
     ]
     procedures {
-      "app.g" {
+      "App.g" {
         body [
           {
             value [
@@ -31,13 +31,13 @@ warpt 1
                   }
                   5
                 ]
-                procedure "std.collection.append"
+                procedure "Standard.Collection.append"
               }
             }
           }
         ]
         bounds {
-          T "std.Numeric"
+          T "Standard.Numeric"
         }
         parameters [
           {
@@ -52,7 +52,7 @@ warpt 1
                 ref "ys"
               }
             ]
-            procedure "std.collection.count"
+            procedure "Standard.Collection.count"
           }
         }
         returns "int"
@@ -67,7 +67,7 @@ warpt 1
                 arguments [
                   2.5
                 ]
-                procedure "app.g"
+                procedure "App.g"
               }
             }
           }

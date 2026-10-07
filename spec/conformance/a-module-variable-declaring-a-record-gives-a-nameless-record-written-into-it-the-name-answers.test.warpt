@@ -4,17 +4,17 @@ warpt 1
     answers "a"
   }
   name "a-module-variable-declaring-a-record-gives-a-nameless-record-written-into-it-the-name-answers"
-  note "`r` is a module variable declaring `bank.A`, and a body writes the nameless record `{ k: \"y\" }` into it. The write settles to what the variable declares, so `r` holds a `bank.A`, and `app.P.show`, which `bank.A` answers, is sent to it."
+  note "`r` is a module variable declaring `Bank.A`, and a body writes the nameless record `{ k: \"y\" }` into it. The write settles to what the variable declares, so `r` holds a `Bank.A`, and `App.P.show`, which `Bank.A` answers, is sent to it."
   program {
     contracts {
-      "app.P" {
+      "App.P" {
         show {
           const true
           isolated true
           parameters [
             {
               name "of"
-              type "app.P"
+              type "App.P"
             }
           ]
           returns "string"
@@ -23,11 +23,11 @@ warpt 1
     }
     imports []
     procedures {
-      "bank.A.show" {
+      "Bank.A.show" {
         parameters [
           {
             name "of"
-            type "bank.A"
+            type "Bank.A"
           }
         ]
         result "a"
@@ -52,18 +52,18 @@ warpt 1
                 ref "r"
               }
             ]
-            procedure "app.P.show"
+            procedure "App.P.show"
           }
         }
       }
     }
     satisfies {
-      "bank.A" [
-        "app.P"
+      "Bank.A" [
+        "App.P"
       ]
     }
     types {
-      "bank.A" {
+      "Bank.A" {
         record {
           k "string"
         }
@@ -71,7 +71,7 @@ warpt 1
     }
     var {
       r {
-        type "bank.A"
+        type "Bank.A"
         value {
           record {
             k "x"

@@ -7,13 +7,13 @@ warpt 1
   note "Text read as an array of its characters is what lets a document write the procedures that scan text. Each character is a string of its own, so the comparison is the value model's one sameness and reads as a person reads."
   program {
     imports [
-      "std.collection.count"
-      "std.logic.equal"
-      "std.math.lessThan"
-      "std.text.characters"
+      "Standard.Collection.count"
+      "Standard.Logic.equal"
+      "Standard.Math.lessThan"
+      "Standard.Text.characters"
     ]
     procedures {
-      "app.startsWith" {
+      "App.startsWith" {
         body [
           {
             let "held"
@@ -24,7 +24,7 @@ warpt 1
                     ref "of"
                   }
                 ]
-                procedure "std.text.characters"
+                procedure "Standard.Text.characters"
               }
             }
           }
@@ -37,7 +37,7 @@ warpt 1
                     ref "value"
                   }
                 ]
-                procedure "std.text.characters"
+                procedure "Standard.Text.characters"
               }
             }
           }
@@ -61,7 +61,7 @@ warpt 1
                               ref "held"
                             }
                           ]
-                          procedure "std.collection.count"
+                          procedure "Standard.Collection.count"
                         }
                       }
                       {
@@ -71,11 +71,11 @@ warpt 1
                               ref "wanted"
                             }
                           ]
-                          procedure "std.collection.count"
+                          procedure "Standard.Collection.count"
                         }
                       }
                     ]
-                    procedure "std.math.lessThan"
+                    procedure "Standard.Math.lessThan"
                   }
                 }
               }
@@ -98,7 +98,7 @@ warpt 1
                             ref "wanted[walk.index]"
                           }
                         ]
-                        procedure "std.logic.equal"
+                        procedure "Standard.Logic.equal"
                       }
                     }
                   }
@@ -120,7 +120,7 @@ warpt 1
                               }
                               false
                             ]
-                            procedure "std.logic.equal"
+                            procedure "Standard.Logic.equal"
                           }
                         }
                       }
@@ -140,11 +140,11 @@ warpt 1
                               ref "wanted"
                             }
                           ]
-                          procedure "std.collection.count"
+                          procedure "Standard.Collection.count"
                         }
                       }
                     ]
-                    procedure "std.math.lessThan"
+                    procedure "Standard.Math.lessThan"
                   }
                 }
               }
@@ -172,7 +172,7 @@ warpt 1
               "warp runtime"
               "warp"
             ]
-            procedure "app.startsWith"
+            procedure "App.startsWith"
           }
         }
         returns "bool"

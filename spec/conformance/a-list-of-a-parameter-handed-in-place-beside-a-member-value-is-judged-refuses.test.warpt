@@ -4,14 +4,14 @@ warpt 1
     refuses "run"
   }
   name "a-list-of-a-parameter-handed-in-place-beside-a-member-value-is-judged-refuses"
-  note "app.g hands ys, its own list of T, in place to std.collection.append beside 5 and answers it. 5 is not a value of T, so the call judges the answer, and T filled with int(0...3) refuses 5 at the run."
+  note "App.g hands ys, its own list of T, in place to Standard.Collection.append beside 5 and answers it. 5 is not a value of T, so the call judges the answer, and T filled with int(0...3) refuses 5 at the run."
   program {
     imports [
-      "std.Numeric"
-      "std.collection.append"
+      "Standard.Collection.append"
+      "Standard.Numeric"
     ]
     procedures {
-      "app.g" {
+      "App.g" {
         body [
           {
             value [
@@ -30,13 +30,13 @@ warpt 1
                   }
                   5
                 ]
-                procedure "std.collection.append"
+                procedure "Standard.Collection.append"
               }
             }
           }
         ]
         bounds {
-          T "std.Numeric"
+          T "Standard.Numeric"
         }
         parameters [
           {
@@ -66,7 +66,7 @@ warpt 1
                     ref "v"
                   }
                 ]
-                procedure "app.g"
+                procedure "App.g"
               }
             }
           }

@@ -4,15 +4,15 @@ warpt 1
     refuses "build"
   }
   name "a-type-no-claim-names-in-a-closures-contract-parameter-refuses"
-  note "Calling a value holds each argument to the position its type declares the way a call to a declaration holds one to its slot. No document claims `bank.Card` answers `app.Describable`, so the call leans on a pair nothing makes and is refused at the build, before the body runs."
+  note "Calling a value holds each argument to the position its type declares the way a call to a declaration holds one to its slot. No document claims `Bank.Card` answers `App.Describable`, so the call leans on a pair nothing makes and is refused at the build, before the body runs."
   program {
     contracts {
-      "app.Describable" {
+      "App.Describable" {
         describe {
           parameters [
             {
               name "of"
-              type "app.Describable"
+              type "App.Describable"
             }
           ]
           returns "string"
@@ -21,11 +21,11 @@ warpt 1
     }
     imports []
     procedures {
-      "bank.Card.describe" {
+      "Bank.Card.describe" {
         parameters [
           {
             name "of"
-            type "bank.Card"
+            type "Bank.Card"
           }
         ]
         result "a card"
@@ -41,7 +41,7 @@ warpt 1
                 parameters [
                   {
                     name "it"
-                    type "app.Describable"
+                    type "App.Describable"
                   }
                 ]
                 result {
@@ -51,7 +51,7 @@ warpt 1
                         ref "it"
                       }
                     ]
-                    procedure "app.Describable.describe"
+                    procedure "App.Describable.describe"
                   }
                 }
                 returns "string"
@@ -67,7 +67,7 @@ warpt 1
                     last "42"
                   }
                 }
-                type "bank.Card"
+                type "Bank.Card"
               }
             }
           }
@@ -93,7 +93,7 @@ warpt 1
       }
     }
     types {
-      "bank.Card" {
+      "Bank.Card" {
         record {
           last "string"
         }

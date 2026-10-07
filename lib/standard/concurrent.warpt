@@ -2,13 +2,13 @@ warpt 1
 {
   description "Running one closure once per element, written from the fan-out that runs a list of them."
   imports [
-    "std.collection.appending"
-    "std.collection.count"
-    "std.concurrent.all"
-    "std.math.lessThan"
+    "Standard.Collection.appending"
+    "Standard.Collection.count"
+    "Standard.Concurrent.all"
+    "Standard.Math.lessThan"
   ]
   procedures {
-    "std.concurrent.map" {
+    "Standard.Concurrent.map" {
       body [
         {
           value []
@@ -73,7 +73,7 @@ warpt 1
                           ref "piece"
                         }
                       ]
-                      procedure "std.collection.appending"
+                      procedure "Standard.Collection.appending"
                     }
                   }
                 }
@@ -91,11 +91,11 @@ warpt 1
                             ref "array"
                           }
                         ]
-                        procedure "std.collection.count"
+                        procedure "Standard.Collection.count"
                       }
                     }
                   ]
-                  procedure "std.math.lessThan"
+                  procedure "Standard.Math.lessThan"
                 }
               }
             }
@@ -128,7 +128,7 @@ warpt 1
               ref "pieces"
             }
           ]
-          procedure "std.concurrent.all"
+          procedure "Standard.Concurrent.all"
         }
       }
       returns "array<some Answer>"

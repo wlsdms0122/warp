@@ -4,10 +4,10 @@ warpt 1
     refuses "build"
   }
   name "a-record-literal-handed-at-a-parameter-bounded-by-a-membership-is-read-part-by-part-refuses"
-  note "`app.g` takes `some T` bounded by `app.M`, which admits `{ a: array<int> }` and `bool`. The call hands `{ a: [1, \"s\"] }`, whose field joins to `array<any>`. Read part by part, no member takes a string in `a`, so the build refuses."
+  note "`App.g` takes `some T` bounded by `App.M`, which admits `{ a: array<int> }` and `bool`. The call hands `{ a: [1, \"s\"] }`, whose field joins to `array<any>`. Read part by part, no member takes a string in `a`, so the build refuses."
   program {
     constraints {
-      "app.M" [
+      "App.M" [
         {
           record {
             a "array<int>"
@@ -18,9 +18,9 @@ warpt 1
     }
     imports []
     procedures {
-      "app.g" {
+      "App.g" {
         bounds {
-          T "app.M"
+          T "App.M"
         }
         parameters [
           {
@@ -50,7 +50,7 @@ warpt 1
                     }
                   }
                 ]
-                procedure "app.g"
+                procedure "App.g"
               }
             }
           }

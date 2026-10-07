@@ -7,18 +7,18 @@ warpt 1
   note "A value of a membership is one of its members and nothing says which, so it stands where a contract is asked when every member satisfies the contract, and the run reads the name the value wears."
   program {
     constraints {
-      "app.Paying" [
-        "bank.Account"
-        "bank.Card"
+      "App.Paying" [
+        "Bank.Account"
+        "Bank.Card"
       ]
     }
     contracts {
-      "app.Describable" {
+      "App.Describable" {
         describe {
           parameters [
             {
               name "of"
-              type "app.Describable"
+              type "App.Describable"
             }
           ]
           returns "string"
@@ -27,23 +27,23 @@ warpt 1
     }
     imports []
     procedures {
-      "app.pick" {
+      "App.pick" {
         parameters [
           {
             name "of"
-            type "app.Paying"
+            type "App.Paying"
           }
         ]
         result {
           ref "of"
         }
-        returns "app.Paying"
+        returns "App.Paying"
       }
-      "app.tell" {
+      "App.tell" {
         parameters [
           {
             name "it"
-            type "app.Describable"
+            type "App.Describable"
           }
         ]
         result {
@@ -53,26 +53,26 @@ warpt 1
                 ref "it"
               }
             ]
-            procedure "app.Describable.describe"
+            procedure "App.Describable.describe"
           }
         }
         returns "string"
       }
-      "bank.Account.describe" {
+      "Bank.Account.describe" {
         parameters [
           {
             name "of"
-            type "bank.Account"
+            type "Bank.Account"
           }
         ]
         result "an account"
         returns "string"
       }
-      "bank.Card.describe" {
+      "Bank.Card.describe" {
         parameters [
           {
             name "of"
-            type "bank.Card"
+            type "Bank.Card"
           }
         ]
         result "a card"
@@ -90,7 +90,7 @@ warpt 1
                     last "42"
                   }
                 }
-                type "bank.Card"
+                type "Bank.Card"
               }
             }
           }
@@ -103,7 +103,7 @@ warpt 1
                     ref "card"
                   }
                 ]
-                procedure "app.pick"
+                procedure "App.pick"
               }
             }
           }
@@ -115,27 +115,27 @@ warpt 1
                 ref "paying"
               }
             ]
-            procedure "app.tell"
+            procedure "App.tell"
           }
         }
         returns "string"
       }
     }
     satisfies {
-      "bank.Account" [
-        "app.Describable"
+      "Bank.Account" [
+        "App.Describable"
       ]
-      "bank.Card" [
-        "app.Describable"
+      "Bank.Card" [
+        "App.Describable"
       ]
     }
     types {
-      "bank.Account" {
+      "Bank.Account" {
         record {
           number "string"
         }
       }
-      "bank.Card" {
+      "Bank.Card" {
         record {
           last "string"
         }

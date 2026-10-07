@@ -13,11 +13,11 @@ warpt 1
     ]
   }
   name "a-parameter-handed-in-place-holding-dictionaries-of-lists-of-a-parameter-takes-records-of-other-fields"
-  note "app.g writes [{ a: [] }, { b: [x] }] into xs, a list of dictionaries of lists of T handed in place, where x is its own some T. The literal is judged part by part, so the two records need not be one type: each is a dictionary of lists of T, and the caller reads both."
+  note "App.g writes [{ a: [] }, { b: [x] }] into xs, a list of dictionaries of lists of T handed in place, where x is its own some T. The literal is judged part by part, so the two records need not be one type: each is a dictionary of lists of T, and the caller reads both."
   program {
     imports []
     procedures {
-      "app.g" {
+      "App.g" {
         body [
           {
             set "xs"
@@ -80,7 +80,7 @@ warpt 1
                   }
                   "b"
                 ]
-                procedure "app.g"
+                procedure "App.g"
               }
             }
           }

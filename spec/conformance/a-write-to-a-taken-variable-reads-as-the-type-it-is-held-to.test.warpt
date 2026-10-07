@@ -10,11 +10,11 @@ warpt 1
   note "One arm lets a closure capture an int variable and the other writes null into it, so after the conditional it is held to int and reads int?. Writing an int into it leaves it reading int, and it is handed in place to an int slot."
   program {
     imports [
-      "std.collection.append"
-      "std.math.plus"
+      "Standard.Collection.append"
+      "Standard.Math.plus"
     ]
     procedures {
-      "app.bump" {
+      "App.bump" {
         body [
           {
             set "c"
@@ -26,7 +26,7 @@ warpt 1
                   }
                   1
                 ]
-                procedure "std.math.plus"
+                procedure "Standard.Math.plus"
               }
             }
           }
@@ -75,7 +75,7 @@ warpt 1
                             }
                           }
                         ]
-                        procedure "std.collection.append"
+                        procedure "Standard.Collection.append"
                       }
                     }
                   }
@@ -98,7 +98,7 @@ warpt 1
                     ref "x"
                   }
                 ]
-                procedure "app.bump"
+                procedure "App.bump"
               }
             }
           }

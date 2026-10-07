@@ -3,12 +3,12 @@ warpt 1
   documents [
     {
       contracts {
-        "app.Describable" {
+        "App.Describable" {
           describe {
             parameters [
               {
                 name "of"
-                type "app.Describable"
+                type "App.Describable"
               }
             ]
             returns "string"
@@ -17,18 +17,18 @@ warpt 1
       }
       imports []
       procedures {
-        "app.nothing" {}
+        "App.nothing" {}
       }
       warp 1
     }
     {
       imports []
       procedures {
-        "t.Card.describe" {
+        "T.Card.describe" {
           parameters [
             {
               name "of"
-              type "t.Card"
+              type "T.Card"
             }
           ]
           result "card"
@@ -36,7 +36,7 @@ warpt 1
         }
       }
       types {
-        "t.Card" {
+        "T.Card" {
           record {
             rank "int"
           }
@@ -46,30 +46,30 @@ warpt 1
     }
     {
       imports [
-        "app.Describable"
-        "t.Card"
+        "App.Describable"
+        "T.Card"
       ]
       procedures {
-        "c.nothing" {}
+        "C.nothing" {}
       }
       satisfies {
-        "t.Card" [
-          "app.Describable"
+        "T.Card" [
+          "App.Describable"
         ]
       }
       warp 1
     }
     {
       imports [
-        "app.Describable"
-        "t.Card"
+        "App.Describable"
+        "T.Card"
       ]
       procedures {
-        "d.nothing" {}
+        "D.nothing" {}
       }
       satisfies {
-        "t.Card" [
-          "app.Describable"
+        "T.Card" [
+          "App.Describable"
         ]
       }
       warp 1
@@ -82,8 +82,8 @@ warpt 1
   note "A claim holds nothing but the pair, so a second document claiming the same pair says what the first said, and the link holds one claim and not two declarations of one name."
   program {
     imports [
-      "app.Describable.describe"
-      "t.Card"
+      "App.Describable.describe"
+      "T.Card"
     ]
     procedures {
       entry {
@@ -98,7 +98,7 @@ warpt 1
                     rank 1
                   }
                 }
-                type "t.Card"
+                type "T.Card"
               }
             }
           }
@@ -110,7 +110,7 @@ warpt 1
                 ref "card"
               }
             ]
-            procedure "app.Describable.describe"
+            procedure "App.Describable.describe"
           }
         }
         returns "string"

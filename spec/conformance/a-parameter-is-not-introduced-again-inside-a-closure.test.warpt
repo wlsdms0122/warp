@@ -4,11 +4,11 @@ warpt 1
     refuses "load"
   }
   name "a-parameter-is-not-introduced-again-inside-a-closure"
-  note "A closure written in a body stands inside the parameters around it. `x` is a parameter of `app.f`, and a `let` taking that spelling in the closure's body refuses at the load."
+  note "A closure written in a body stands inside the parameters around it. `x` is a parameter of `App.f`, and a `let` taking that spelling in the closure's body refuses at the load."
   program {
     imports []
     procedures {
-      "app.f" {
+      "App.f" {
         body [
           {
             let "c"
@@ -48,7 +48,7 @@ warpt 1
             arguments [
               1
             ]
-            procedure "app.f"
+            procedure "App.f"
           }
         }
       }

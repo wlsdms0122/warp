@@ -7,12 +7,12 @@ warpt 1
   note "A call through a contract hands its arguments to the parameters the contract wrote, and a constant is settled against them at the build the way a constant sent to a declaration is. `99` reads `int`, which the range takes as a type, and the value is not one the range admits."
   program {
     contracts {
-      "app.Sized" {
+      "App.Sized" {
         size {
           parameters [
             {
               name "of"
-              type "app.Sized"
+              type "App.Sized"
             }
             {
               name "level"
@@ -25,11 +25,11 @@ warpt 1
     }
     imports []
     procedures {
-      "app.Thing.size" {
+      "App.Thing.size" {
         parameters [
           {
             name "of"
-            type "app.Thing"
+            type "App.Thing"
           }
           {
             name "level"
@@ -53,24 +53,24 @@ warpt 1
                       id 1
                     }
                   }
-                  type "app.Thing"
+                  type "App.Thing"
                 }
               }
               99
             ]
-            procedure "app.Sized.size"
+            procedure "App.Sized.size"
           }
         }
         returns "int"
       }
     }
     satisfies {
-      "app.Thing" [
-        "app.Sized"
+      "App.Thing" [
+        "App.Sized"
       ]
     }
     types {
-      "app.Thing" {
+      "App.Thing" {
         record {
           id "int"
         }

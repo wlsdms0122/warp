@@ -4,13 +4,13 @@ warpt 1
     refuses "run"
   }
   name "a-value-calls-answer-is-judged-against-the-returns-its-slot-wrote-refuses"
-  note "app.callIt takes a procedure that answers int and calls it. The closure handed to it answers any, and what it answers is text, so the answer is judged as an int where the call reads it."
+  note "App.callIt takes a procedure that answers int and calls it. The closure handed to it answers any, and what it answers is text, so the answer is judged as an int where the call reads it."
   program {
     imports [
-      "std.collection.appending"
+      "Standard.Collection.appending"
     ]
     procedures {
-      "app.callIt" {
+      "App.callIt" {
         body [
           {
             let "v"
@@ -43,7 +43,7 @@ warpt 1
                 ref "v"
               }
             ]
-            procedure "std.collection.appending"
+            procedure "Standard.Collection.appending"
           }
         }
         returns "any"
@@ -63,7 +63,7 @@ warpt 1
                     }
                   }
                 ]
-                procedure "app.callIt"
+                procedure "App.callIt"
               }
             }
           }

@@ -75,11 +75,11 @@ The loop's own statement name binds the round it is on, readable everywhere the 
 
 Bounding a loop is the author's to write, with a counter in its condition, and stopping one is the host's **cancellation**, under [running](running.md).
 
-Walking a collection is this construct too: the round is read against the material's count and the element is read at that index, so what a walk needs beyond a loop is `std.collection.count`, a comparison and an index.
+Walking a collection is this construct too: the round is read against the material's count and the element is read at that index, so what a walk needs beyond a loop is `Standard.Collection.count`, a comparison and an index.
 
-Running things at once is **vocabulary**: `std.concurrent`, under [the standard vocabulary](vocabulary.md).
+Running things at once is **vocabulary**: `Standard.Concurrent`, under [the standard vocabulary](vocabulary.md).
 
-**Note.** A closure is the one body that is safe to run beside another, and "takes closures" is a thing a signature can say. A loop's body writes the enclosing names, which no signature can say. So a walk whose rounds write outward or lean on the round before is a loop, and one where each element's work stands alone is a procedure (`std.collection.map`, `filter`, `std.concurrent.map`), which is what lets the concurrent `map` run it at once.
+**Note.** A closure is the one body that is safe to run beside another, and "takes closures" is a thing a signature can say. A loop's body writes the enclosing names, which no signature can say. So a walk whose rounds write outward or lean on the round before is a loop, and one where each element's work stands alone is a procedure (`Standard.Collection.map`, `filter`, `Standard.Concurrent.map`), which is what lets the concurrent `map` run it at once.
 
 **`attempt`**
 
@@ -107,7 +107,7 @@ The envelope is this specification's; what rides in `details` is the procedure's
 
 **What a body may fail with is known before it runs.** The build derives it the way it derives constness and isolation, and the types a failure names itself by (`aborted`, `cast_refused`) are what it derives: a body fails with what its plain casts fail with (`cast_refused`, the one failure the runtime itself raises; `as?` reads the same mismatch as null and raises nothing), with what the declarations it calls fail with, and with whatever its rescues fail with, the body under a rescue being caught. Calling a value leaves the question open, since nothing before the run says which value.
 
-A native procedure says what it may fail with, the way it says whether it is isolated. **A procedure that says nothing fails nothing**, which is right for the many procedures that throw only at an author mistake, and a procedure that can fail says so. `std.control.abort` says `aborted`; `std.concurrent` says `concurrent_failed`, every piece's failure being gathered into that one. A piece that refuses at the run refuses the whole run instead, under [running](running.md), and the failures beside it are not gathered. A procedure that fails and does not say so has broken its contract, the same way one that holds state and calls itself isolated has.
+A native procedure says what it may fail with, the way it says whether it is isolated. **A procedure that says nothing fails nothing**, which is right for the many procedures that throw only at an author mistake, and a procedure that can fail says so. `Standard.Control.abort` says `aborted`; `Standard.Concurrent` says `concurrent_failed`, every piece's failure being gathered into that one. A piece that refuses at the run refuses the whole run instead, under [running](running.md), and the failures beside it are not gathered. A procedure that fails and does not say so has broken its contract, the same way one that holds state and calls itself isolated has.
 
 **`block`**. A body written as a statement, and nothing more: the bare member of the same family as a `conditional` arm or a `loop` round, with the condition left off. Like any statement it *may* take a name, and its name binds what its `result` answers. A block runs here, once, in the same flow, which the text shows, since no expression can carry a block away; so a block may `set` the enclosing variables, exactly as a `conditional` or `loop` body may.
 
@@ -117,7 +117,7 @@ A native procedure says what it may fail with, the way it says whether it is iso
 
 Nothing may be written after a `return`, `break` or `continue` in the same body: it would never run, and the name it would bind would never bind. The same holds after a call whose answer reads `never`, declared under `returns` or read off a body that never finishes, at the build. The rule reaches through structure, because the fact does: a `conditional` both of whose arms leave never finishes either, so nothing may follow it. Held at the **load**, since the arms are text. A construct that can finish (a conditional with no `else`, a loop, an `attempt`, whose rescue may finish normally) is not a leave, however its bodies end.
 
-Failing on purpose is a procedure, `std.control.abort` under [the standard vocabulary](vocabulary.md), declared `returns: never`: the signature says everything checking it needs.
+Failing on purpose is a procedure, `Standard.Control.abort` under [the standard vocabulary](vocabulary.md), declared `returns: never`: the signature says everything checking it needs.
 
 ## Cases
 

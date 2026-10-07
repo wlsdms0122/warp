@@ -4,19 +4,19 @@ warpt 1
     refuses "build"
   }
   name "a-record-read-as-a-dictionary-after-any-at-a-bounded-parameter-refuses"
-  note "`app.f` bounds `T` by `app.Nums`, which admits `int` and `double`, and takes `some T` and then `dictionary<some T>`. The call hands a name read as `any` and then a record whose field is text, so `T` reads `any`, which every bound passes. The record's field is held to the bounds before the two are joined, whichever comes first, and no member takes text, so the call refuses at the build."
+  note "`App.f` bounds `T` by `App.Nums`, which admits `int` and `double`, and takes `some T` and then `dictionary<some T>`. The call hands a name read as `any` and then a record whose field is text, so `T` reads `any`, which every bound passes. The record's field is held to the bounds before the two are joined, whichever comes first, and no member takes text, so the call refuses at the build."
   program {
     constraints {
-      "app.Nums" [
+      "App.Nums" [
         "int"
         "double"
       ]
     }
     imports []
     procedures {
-      "app.f" {
+      "App.f" {
         bounds {
-          T "app.Nums"
+          T "App.Nums"
         }
         parameters [
           {
@@ -59,7 +59,7 @@ warpt 1
                     ref "rec"
                   }
                 ]
-                procedure "app.f"
+                procedure "App.f"
               }
             }
           }

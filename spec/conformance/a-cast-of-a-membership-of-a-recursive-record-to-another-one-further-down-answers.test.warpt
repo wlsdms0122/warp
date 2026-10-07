@@ -4,11 +4,11 @@ warpt 1
     answers null
   }
   name "a-cast-of-a-membership-of-a-recursive-record-to-another-one-further-down-answers"
-  note "`app.T` declares `{ n: app.T? }` and `app.U` declares `{ n: app.U? }`, and `app.M` admits `app.T` and `int`. A nameless record written into `app.M` stays nameless however deep it goes, so a value read as `app.M` may be one whose second `n` `app.U` takes. The cast builds, and the run settles that record under `app.U`."
+  note "`App.T` declares `{ n: App.T? }` and `App.U` declares `{ n: App.U? }`, and `App.M` admits `App.T` and `int`. A nameless record written into `App.M` stays nameless however deep it goes, so a value read as `App.M` may be one whose second `n` `App.U` takes. The cast builds, and the run settles that record under `App.U`."
   program {
     constraints {
-      "app.M" [
-        "app.T"
+      "App.M" [
+        "App.T"
         "int"
       ]
     }
@@ -19,7 +19,7 @@ warpt 1
         body [
           {
             let "m"
-            type "app.M"
+            type "App.M"
             value {
               record {
                 n {
@@ -45,7 +45,7 @@ warpt 1
                   record {
                     n {
                       record {
-                        n "app.U"
+                        n "App.U"
                       }
                     }
                   }
@@ -60,14 +60,14 @@ warpt 1
       }
     }
     types {
-      "app.T" {
+      "App.T" {
         record {
-          n "app.T?"
+          n "App.T?"
         }
       }
-      "app.U" {
+      "App.U" {
         record {
-          n "app.U?"
+          n "App.U?"
         }
       }
     }

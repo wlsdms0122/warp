@@ -7,12 +7,12 @@ warpt 1
   note "The contract answers string and the declaration answering it answers any, holding an int. A call through the contract reads the answer as text, and judges it there."
   program {
     contracts {
-      "app.Describable" {
+      "App.Describable" {
         describe {
           parameters [
             {
               name "of"
-              type "app.Describable"
+              type "App.Describable"
             }
           ]
           returns "string"
@@ -20,14 +20,14 @@ warpt 1
       }
     }
     imports [
-      "std.collection.appending"
+      "Standard.Collection.appending"
     ]
     procedures {
-      "bank.Card.describe" {
+      "Bank.Card.describe" {
         parameters [
           {
             name "of"
-            type "bank.Card"
+            type "Bank.Card"
           }
         ]
         result 5
@@ -45,7 +45,7 @@ warpt 1
                     last "42"
                   }
                 }
-                type "bank.Card"
+                type "Bank.Card"
               }
             }
           }
@@ -58,7 +58,7 @@ warpt 1
                     ref "c"
                   }
                 ]
-                procedure "app.Describable.describe"
+                procedure "App.Describable.describe"
               }
             }
           }
@@ -74,7 +74,7 @@ warpt 1
                     ref "d"
                   }
                 ]
-                procedure "std.collection.appending"
+                procedure "Standard.Collection.appending"
               }
             }
           }
@@ -85,12 +85,12 @@ warpt 1
       }
     }
     satisfies {
-      "bank.Card" [
-        "app.Describable"
+      "Bank.Card" [
+        "App.Describable"
       ]
     }
     types {
-      "bank.Card" {
+      "Bank.Card" {
         record {
           last "string"
         }

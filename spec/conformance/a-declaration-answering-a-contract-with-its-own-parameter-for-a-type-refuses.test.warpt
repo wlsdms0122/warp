@@ -7,12 +7,12 @@ warpt 1
   note "The contract takes an int and answers a string. The declaration answering it takes some T there and answers some T, which the contract's int fills, so it answers an int where the contract writes string."
   program {
     contracts {
-      "app.Describable" {
+      "App.Describable" {
         describe {
           parameters [
             {
               name "of"
-              type "app.Describable"
+              type "App.Describable"
             }
             {
               name "x"
@@ -24,14 +24,14 @@ warpt 1
       }
     }
     imports [
-      "std.text.uppercased"
+      "Standard.Text.uppercased"
     ]
     procedures {
-      "bank.Card.describe" {
+      "Bank.Card.describe" {
         parameters [
           {
             name "of"
-            type "bank.Card"
+            type "Bank.Card"
           }
           {
             name "x"
@@ -55,7 +55,7 @@ warpt 1
                     last "42"
                   }
                 }
-                type "bank.Card"
+                type "Bank.Card"
               }
             }
           }
@@ -69,7 +69,7 @@ warpt 1
                   }
                   1
                 ]
-                procedure "app.Describable.describe"
+                procedure "App.Describable.describe"
               }
             }
           }
@@ -82,7 +82,7 @@ warpt 1
                     ref "d"
                   }
                 ]
-                procedure "std.text.uppercased"
+                procedure "Standard.Text.uppercased"
               }
             }
           }
@@ -93,12 +93,12 @@ warpt 1
       }
     }
     satisfies {
-      "bank.Card" [
-        "app.Describable"
+      "Bank.Card" [
+        "App.Describable"
       ]
     }
     types {
-      "bank.Card" {
+      "Bank.Card" {
         record {
           last "string"
         }

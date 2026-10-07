@@ -11,7 +11,7 @@ A program computes over eight kinds of data, plus one value that is not data:
 | int | `1`, `-3` | signed, 64-bit; overflow **refuses**, it does not wrap |
 | double | `1.0`, `1e2` | IEEE-754 binary64; a document cannot carry infinity or NaN |
 | string | `"hi"` | Unicode text |
-| bytes | `x"6869"` | `array<std.byte>` in a compact spelling (`std.byte` is `int(0...255)`, declared by `std`); what a carrying form carries when the payload is not text |
+| bytes | `x"6869"` | `array<Standard.Byte>` in a compact spelling (`Standard.Byte` is `int(0...255)`, declared by `Standard`); what a carrying form carries when the payload is not text |
 | array | `[ … ]` | ordered |
 | record | `{ … }`, or `Name { … }` | unordered fields, names unique; may carry the **name** of the declared type it settled to |
 | procedure | | code with what it captured; exists only at run time, never in a document |

@@ -12,9 +12,9 @@ warpt 1
   note "The envelope is the same for every failure and `details` is the box the failing procedure fills. `concurrent_failed` puts every piece's reason there, keyed by the piece, and a rescue reads it with a dot through `details`."
   program {
     imports [
-      "std.collection.keys"
-      "std.concurrent.all"
-      "std.control.abort"
+      "Standard.Collection.keys"
+      "Standard.Concurrent.all"
+      "Standard.Control.abort"
     ]
     procedures {
       entry {
@@ -45,7 +45,7 @@ warpt 1
                                           arguments [
                                             "on purpose"
                                           ]
-                                          procedure "std.control.abort"
+                                          procedure "Standard.Control.abort"
                                         }
                                       }
                                     }
@@ -55,7 +55,7 @@ warpt 1
                             }
                           }
                         ]
-                        procedure "std.concurrent.all"
+                        procedure "Standard.Concurrent.all"
                       }
                     }
                   }
@@ -70,7 +70,7 @@ warpt 1
                               ref "tried.details.failures"
                             }
                           ]
-                          procedure "std.collection.keys"
+                          procedure "Standard.Collection.keys"
                         }
                       }
                       type {

@@ -7,12 +7,12 @@ warpt 1
   note "The contract takes an int and the declaration answering it takes a double. Every int a call through the contract hands is a double, so the declaration answers the contract."
   program {
     contracts {
-      "app.Sized" {
+      "App.Sized" {
         size {
           parameters [
             {
               name "of"
-              type "app.Sized"
+              type "App.Sized"
             }
             {
               name "n"
@@ -25,11 +25,11 @@ warpt 1
     }
     imports []
     procedures {
-      "bank.Card.size" {
+      "Bank.Card.size" {
         parameters [
           {
             name "of"
-            type "bank.Card"
+            type "Bank.Card"
           }
           {
             name "n"
@@ -51,7 +51,7 @@ warpt 1
                     last "42"
                   }
                 }
-                type "bank.Card"
+                type "Bank.Card"
               }
             }
           }
@@ -65,7 +65,7 @@ warpt 1
                   }
                   2
                 ]
-                procedure "app.Sized.size"
+                procedure "App.Sized.size"
               }
             }
           }
@@ -76,12 +76,12 @@ warpt 1
       }
     }
     satisfies {
-      "bank.Card" [
-        "app.Sized"
+      "Bank.Card" [
+        "App.Sized"
       ]
     }
     types {
-      "bank.Card" {
+      "Bank.Card" {
         record {
           last "string"
         }

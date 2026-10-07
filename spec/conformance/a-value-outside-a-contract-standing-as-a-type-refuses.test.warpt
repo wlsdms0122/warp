@@ -7,12 +7,12 @@ warpt 1
   note "A contract standing where a type is written holds the slot to what satisfies it, and the build can see the name a value wears: a type no document says satisfies the contract is refused where the call is written."
   program {
     contracts {
-      "app.Describable" {
+      "App.Describable" {
         describe {
           parameters [
             {
               name "of"
-              type "app.Describable"
+              type "App.Describable"
             }
           ]
           returns "string"
@@ -21,11 +21,11 @@ warpt 1
     }
     imports []
     procedures {
-      "app.tell" {
+      "App.tell" {
         parameters [
           {
             name "it"
-            type "app.Describable"
+            type "App.Describable"
           }
         ]
         result {
@@ -35,7 +35,7 @@ warpt 1
                 ref "it"
               }
             ]
-            procedure "app.Describable.describe"
+            procedure "App.Describable.describe"
           }
         }
         returns "string"
@@ -52,7 +52,7 @@ warpt 1
                     last "42"
                   }
                 }
-                type "bank.Card"
+                type "Bank.Card"
               }
             }
           }
@@ -64,14 +64,14 @@ warpt 1
                 ref "card"
               }
             ]
-            procedure "app.tell"
+            procedure "App.tell"
           }
         }
         returns "string"
       }
     }
     types {
-      "bank.Card" {
+      "Bank.Card" {
         record {
           last "string"
         }

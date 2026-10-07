@@ -8,7 +8,7 @@ warpt 1
       constraints []
       contracts [
         [
-          "app.A"
+          "App.A"
           [
             [
               "a"
@@ -20,7 +20,7 @@ warpt 1
                       [
                         [
                           18
-                          "app.A"
+                          "App.A"
                         ]
                       ]
                       []
@@ -40,7 +40,7 @@ warpt 1
           ]
         ]
         [
-          "app.B"
+          "App.B"
           [
             [
               "b"
@@ -52,7 +52,7 @@ warpt 1
                       [
                         [
                           18
-                          "app.B"
+                          "App.B"
                         ]
                       ]
                       []
@@ -74,7 +74,7 @@ warpt 1
       ]
       dependencies []
       document [
-        x"8b41426be17f63c856bb7595add556a7c22115c352963a48cd31589cb200d552"
+        x"de6d1a2ffe66c82970496cf035db81ea873e8a594fbd00ba79406ef84e740a50"
       ]
       leaned []
       lifted []
@@ -94,8 +94,8 @@ warpt 1
                   [
                     20
                     [
-                      "app.A"
-                      "app.B"
+                      "App.A"
+                      "App.B"
                     ]
                   ]
                 ]
@@ -126,7 +126,7 @@ warpt 1
                   [
                     12
                     [
-                      "app.A"
+                      "App.A"
                       "a"
                       [
                         1
@@ -178,23 +178,23 @@ warpt 1
   note "A slot declaring a composition of contracts writes the composition as the document did, its names ascending, and lowers to the bounds a body stands on."
   program {
     contracts {
-      "app.A" {
+      "App.A" {
         a {
           parameters [
             {
               name "of"
-              type "app.A"
+              type "App.A"
             }
           ]
           returns "int"
         }
       }
-      "app.B" {
+      "App.B" {
         b {
           parameters [
             {
               name "of"
-              type "app.B"
+              type "App.B"
             }
           ]
           returns "int"
@@ -208,7 +208,7 @@ warpt 1
         parameters [
           {
             name "v"
-            type "app.A & app.B"
+            type "App.A & App.B"
           }
         ]
         result {
@@ -218,7 +218,7 @@ warpt 1
                 ref "v"
               }
             ]
-            procedure "app.A.a"
+            procedure "App.A.a"
           }
         }
         returns "int"

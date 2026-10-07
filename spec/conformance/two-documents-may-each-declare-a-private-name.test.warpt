@@ -4,15 +4,15 @@ warpt 1
     {
       imports []
       procedures {
-        "app.helper" {
+        "App.helper" {
           access "private"
           result 1
           returns "int"
         }
-        "lib.seven" {
+        "Lib.seven" {
           result {
             call {
-              procedure "app.helper"
+              procedure "App.helper"
             }
           }
           returns "int"
@@ -28,11 +28,11 @@ warpt 1
   note "A private declaration takes no spelling from the link: its own document reaches it, and nothing else does. So two documents may each declare one under one spelling, and each reaches its own, where two declarations any other document could name would refuse."
   program {
     imports [
-      "lib.seven"
-      "std.math.plus"
+      "Lib.seven"
+      "Standard.Math.plus"
     ]
     procedures {
-      "app.helper" {
+      "App.helper" {
         access "private"
         result 7
         returns "int"
@@ -44,16 +44,16 @@ warpt 1
             arguments [
               {
                 call {
-                  procedure "app.helper"
+                  procedure "App.helper"
                 }
               }
               {
                 call {
-                  procedure "lib.seven"
+                  procedure "Lib.seven"
                 }
               }
             ]
-            procedure "std.math.plus"
+            procedure "Standard.Math.plus"
           }
         }
         returns "int"

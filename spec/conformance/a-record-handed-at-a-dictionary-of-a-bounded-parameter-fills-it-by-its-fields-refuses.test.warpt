@@ -4,19 +4,19 @@ warpt 1
     refuses "build"
   }
   name "a-record-handed-at-a-dictionary-of-a-bounded-parameter-fills-it-by-its-fields-refuses"
-  note "`app.g` bounds `T` by `app.M`, which admits `int` and `string`, and takes `dictionary<some T>`. The record `{ b: true }` handed there is read as a dictionary, so its field fills `T` with `bool`, which no member admits, and the call refuses at the build."
+  note "`App.g` bounds `T` by `App.M`, which admits `int` and `string`, and takes `dictionary<some T>`. The record `{ b: true }` handed there is read as a dictionary, so its field fills `T` with `bool`, which no member admits, and the call refuses at the build."
   program {
     constraints {
-      "app.M" [
+      "App.M" [
         "int"
         "string"
       ]
     }
     imports []
     procedures {
-      "app.g" {
+      "App.g" {
         bounds {
-          T "app.M"
+          T "App.M"
         }
         parameters [
           {
@@ -41,7 +41,7 @@ warpt 1
                     }
                   }
                 ]
-                procedure "app.g"
+                procedure "App.g"
               }
             }
           }

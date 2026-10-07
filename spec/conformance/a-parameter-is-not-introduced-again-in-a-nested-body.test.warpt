@@ -4,11 +4,11 @@ warpt 1
     refuses "load"
   }
   name "a-parameter-is-not-introduced-again-in-a-nested-body"
-  note "A body does not introduce its procedure's parameters again, at any depth. `x` is a parameter of `app.f`, and a `let` taking that spelling inside a block refuses at the load."
+  note "A body does not introduce its procedure's parameters again, at any depth. `x` is a parameter of `App.f`, and a `let` taking that spelling inside a block refuses at the load."
   program {
     imports []
     procedures {
-      "app.f" {
+      "App.f" {
         body [
           {
             let "y"
@@ -44,7 +44,7 @@ warpt 1
             arguments [
               1
             ]
-            procedure "app.f"
+            procedure "App.f"
           }
         }
       }

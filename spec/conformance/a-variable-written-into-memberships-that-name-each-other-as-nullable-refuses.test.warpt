@@ -4,15 +4,15 @@ warpt 1
     refuses "build"
   }
   name "a-variable-written-into-memberships-that-name-each-other-as-nullable-refuses"
-  note "`app.M` admits `app.N?` and `array<int>`, and `app.N` admits `app.M?` and `bool`. A variable declared `app.M` starts with a name read as `array<string>`, which is not null, so each `?` is passed through to the membership it names, and asking `app.M` of the same reading again takes nothing. Neither `array<int>` nor `bool` takes it, so the build refuses."
+  note "`App.M` admits `App.N?` and `array<int>`, and `App.N` admits `App.M?` and `bool`. A variable declared `App.M` starts with a name read as `array<string>`, which is not null, so each `?` is passed through to the membership it names, and asking `App.M` of the same reading again takes nothing. Neither `array<int>` nor `bool` takes it, so the build refuses."
   program {
     constraints {
-      "app.M" [
-        "app.N?"
+      "App.M" [
+        "App.N?"
         "array<int>"
       ]
-      "app.N" [
-        "app.M?"
+      "App.N" [
+        "App.M?"
         "bool"
       ]
     }
@@ -29,7 +29,7 @@ warpt 1
             ]
           }
           {
-            type "app.M"
+            type "App.M"
             value {
               ref "s"
             }

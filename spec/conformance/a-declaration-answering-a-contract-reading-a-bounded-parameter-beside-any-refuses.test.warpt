@@ -4,23 +4,23 @@ warpt 1
     refuses "build"
   }
   name "a-declaration-answering-a-contract-reading-a-bounded-parameter-beside-any-refuses"
-  note "`app.C` asks `m` taking text and `any` after the type. `bank.X.m` answers it with two of `some T`, bounded by `app.Nums`, which admits `int` and `double`. Held to the contract, `T` is read as `string` and as `any`, which join to `any`; each reading is held to the bounds as it was read, no member takes text, and the call leaning on the claim refuses at the build."
+  note "`App.C` asks `m` taking text and `any` after the type. `Bank.X.m` answers it with two of `some T`, bounded by `App.Nums`, which admits `int` and `double`. Held to the contract, `T` is read as `string` and as `any`, which join to `any`; each reading is held to the bounds as it was read, no member takes text, and the call leaning on the claim refuses at the build."
   program {
     constraints {
-      "app.Nums" [
+      "App.Nums" [
         "int"
         "double"
       ]
     }
     contracts {
-      "app.C" {
+      "App.C" {
         m {
           const true
           isolated true
           parameters [
             {
               name "of"
-              type "app.C"
+              type "App.C"
             }
             {
               name "a"
@@ -37,14 +37,14 @@ warpt 1
     }
     imports []
     procedures {
-      "bank.X.m" {
+      "Bank.X.m" {
         bounds {
-          T "app.Nums"
+          T "App.Nums"
         }
         parameters [
           {
             name "of"
-            type "bank.X"
+            type "Bank.X"
           }
           {
             name "a"
@@ -63,7 +63,7 @@ warpt 1
         body [
           {
             let "x"
-            type "bank.X"
+            type "Bank.X"
             value {
               record {
                 k "a"
@@ -94,18 +94,18 @@ warpt 1
                 ref "u"
               }
             ]
-            procedure "app.C.m"
+            procedure "App.C.m"
           }
         }
       }
     }
     satisfies {
-      "bank.X" [
-        "app.C"
+      "Bank.X" [
+        "App.C"
       ]
     }
     types {
-      "bank.X" {
+      "Bank.X" {
         record {
           k "string"
         }

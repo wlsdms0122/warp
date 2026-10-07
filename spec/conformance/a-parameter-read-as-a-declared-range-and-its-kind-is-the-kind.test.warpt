@@ -4,18 +4,18 @@ warpt 1
     answers 300
   }
   name "a-parameter-read-as-a-declared-range-and-its-kind-is-the-kind"
-  note "std.math.max reads its some N as std.byte, a declared range, and as int. The reading that holds both is int, whichever came first, so the answer 300 stands."
+  note "Standard.Math.max reads its some N as Standard.Byte, a declared range, and as int. The reading that holds both is int, whichever came first, so the answer 300 stands."
   program {
     imports [
-      "std.byte"
-      "std.math.max"
+      "Standard.Byte"
+      "Standard.Math.max"
     ]
     procedures {
       entry {
         access "public"
         body [
           {
-            type "std.byte"
+            type "Standard.Byte"
             value 5
             var "b"
           }
@@ -35,7 +35,7 @@ warpt 1
                     ref "n"
                   }
                 ]
-                procedure "std.math.max"
+                procedure "Standard.Math.max"
               }
             }
           }

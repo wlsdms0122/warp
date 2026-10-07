@@ -187,12 +187,12 @@ The document
 ```
 warpt 1
 {
-  imports [ "std.math.plus" ]
+  imports [ "Standard.Math.plus" ]
   procedures {
     entry {
       access "public"
       parameters [ { name "n" type "int" } ]
-      result { call { arguments [ { ref "n" } 1 ] procedure "std.math.plus" } }
+      result { call { arguments [ { ref "n" } 1 ] procedure "Standard.Math.plus" } }
       returns "int"
     }
   }
@@ -214,7 +214,7 @@ warpt 1
   document [ x"…" ]
   leaned []
   lifted []
-  numbering [ [ "std.math.plus" ] [] ]
+  numbering [ [ "Standard.Math.plus" ] [] ]
   object 1
   rows [
     [
@@ -238,7 +238,7 @@ warpt 1
 }
 ```
 
-Read it back: `rows` holds `entry`, whose signature takes `n` as `int` (type tag 4) and answers `int`; it is public (`2`), const (`1`) and isolated (`1`) and fails with nothing (`[1 []]`); its answers are what it declares (`true`); its implementation is a body (`0`) with no instructions and a result, a call (`11`) to row `0` of the numbering, which is `std.math.plus`, with two arguments, the first read from slot `0` and the second the literal (`0`) int (`2`) `1`; and its frame has one slot, filled by the parameter, called `n`. The dependency is what the host keyed the standard vocabulary's object under.
+Read it back: `rows` holds `entry`, whose signature takes `n` as `int` (type tag 4) and answers `int`; it is public (`2`), const (`1`) and isolated (`1`) and fails with nothing (`[1 []]`); its answers are what it declares (`true`); its implementation is a body (`0`) with no instructions and a result, a call (`11`) to row `0` of the numbering, which is `Standard.Math.plus`, with two arguments, the first read from slot `0` and the second the literal (`0`) int (`2`) `1`; and its frame has one slot, filled by the parameter, called `n`. The dependency is what the host keyed the standard vocabulary's object under.
 
 ## Cases
 

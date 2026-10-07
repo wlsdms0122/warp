@@ -1,7 +1,7 @@
 warpt 1
 {
   expect {
-    answers app.Handle {
+    answers App.Handle {
       name "f"
     }
   }
@@ -10,7 +10,7 @@ warpt 1
   program {
     imports []
     procedures {
-      "app.open" {
+      "App.open" {
         result {
           as {
             of {
@@ -18,10 +18,10 @@ warpt 1
                 name "f"
               }
             }
-            type "app.Handle"
+            type "App.Handle"
           }
         }
-        returns "app.Handle"
+        returns "App.Handle"
       }
       entry {
         access "public"
@@ -30,7 +30,7 @@ warpt 1
             let "handle"
             value {
               call {
-                procedure "app.open"
+                procedure "App.open"
               }
             }
           }
@@ -38,11 +38,11 @@ warpt 1
         result {
           ref "handle"
         }
-        returns "app.Handle"
+        returns "App.Handle"
       }
     }
     types {
-      "app.Handle" {
+      "App.Handle" {
         linear {
           record {
             name "string"
