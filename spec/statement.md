@@ -16,7 +16,7 @@ The naming key says what the statement does to its name:
 
 **A name may say what it holds**, under **`type`**, written the way a parameter's type is: `{ let "x" type "Double" value 1 }`. The declaration is what the name holds, and the build works out a reading only where the name declares none. What the statement was given has to fit the declaration, and a declaration naming a type nothing declares **refuses at the build**, as does one naming a type parameter: what fills a parameter is a call filling the slot that names it, and a name inside a body is no such slot.
 
-A declaration is a boundary like a parameter's, so **what the name takes is settled against it** the way an argument is: a whole number given to a `Double` is held as a fraction, a value outside a declared range **refuses at the run**, and a record settles to the declared layout.
+A declaration is a boundary like a parameter's, so **what the name takes is settled against it** the way an argument is: a whole literal written where it declares a `Double` is the fraction it names, a value outside a declared range **refuses at the run**, and a record settles to the declared layout.
 
 A `set` reaches a name something else declared and a statement with no naming key introduces none, so `type` beside either **refuses at the load**. So does `type` on a statement whose construct binds the name itself. A `loop`'s round and an `attempt`'s failure are the construct's to say.
 

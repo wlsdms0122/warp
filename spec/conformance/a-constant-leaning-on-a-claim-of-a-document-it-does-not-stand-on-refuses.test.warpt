@@ -1,0 +1,95 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "App.Joinable" {
+          join {
+            const true
+            isolated true
+            parameters [
+              {
+                name "of"
+                type "Self"
+              }
+              {
+                name "other"
+                type "Self"
+              }
+            ]
+            returns "Self"
+          }
+        }
+      }
+      imports []
+      procedures {
+        "App.nothing" {
+          returns "Null"
+        }
+      }
+      warp 1
+    }
+    {
+      imports [
+        "App.Joinable"
+      ]
+      procedures {
+        "Int.join" {
+          parameters [
+            {
+              name "of"
+              type "Int"
+            }
+            {
+              name "other"
+              type "Int"
+            }
+          ]
+          result {
+            ref "of"
+          }
+          returns "Int"
+        }
+      }
+      satisfies {
+        Int [
+          "App.Joinable"
+        ]
+      }
+      warp 1
+    }
+  ]
+  expect {
+    refuses "build"
+  }
+  name "a-constant-leaning-on-a-claim-of-a-document-it-does-not-stand-on-refuses"
+  note "A constant settles at the build, against what its document stands on. The claim that `Int` answers `App.Joinable` is made by a document the program never names, so whether it holds is a fact of the whole list the build does not settle the constant from, whichever order the host handed the documents over in, and the constant refuses."
+  program {
+    const {
+      joined {
+        call {
+          arguments [
+            1
+            2
+          ]
+          procedure "App.Joinable.join"
+        }
+      }
+    }
+    imports [
+      "App.Joinable.join"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          ref "joined"
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

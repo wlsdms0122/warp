@@ -29,7 +29,7 @@ A type is written as a string, or as a record for what a string cannot say:
 | `{ "const procedure": { … } }` | a procedure type with its marks and modifiers on the key, `inout` or `consuming` or `borrowing` first, then `const` and `isolated`, the way they stand in front of the string form |
 | `{ array: <type> }` / `{ dictionary: <type> }` | a list / map of a type that has no string spelling, a procedure type or a record type. Where the element has a spelling the type is written `Array<T>`, and the record form around it **refuses at the load** |
 
-`Int` and `Double` are two types, and neither takes the other: a value's type is fixed at the build, so a whole number never stands where a fraction is declared, and the reverse **refuses** too. A whole number written as a literal is read as the fraction it names where the place it is written into declares a `Double`, a range of fractions included: a slot, an answer, a name that says what it holds, a write, a list or a record's part there, and a parameter a call fills beside a fraction. Anywhere else it is an `Int`, and a name it is bound to holds an `Int`. `Any` accepts everything. A slot that takes either kind of number is bounded by the contract `Standard.Numeric`, under [the standard vocabulary](vocabulary.md).
+`Int` and `Double` are two types, and neither takes the other: a value's type is fixed at the build, so a whole number never stands where a fraction is declared, and the reverse **refuses** too. A whole number written as a literal is read as the fraction it names where the place it is written into declares a `Double`, a range of fractions included: a slot, an answer, a name that says what it holds, a write, a list or a record's part there, and a parameter a call fills beside a fraction, which is what that parameter's bounds are held to. Where one value joins what was written beside it, a list literal's elements or an attempt's two ways, a whole literal beside a fraction is the fraction it names too. Anywhere else it is an `Int`, and a name it is bound to holds an `Int`. Each way out of a body that writes no `returns` is a place of its own, so one answering a whole literal beside another answering a fraction reads `Any`, which the run settles where the answer arrives. `Any` accepts everything. A slot that takes either kind of number is bounded by the contract `Standard.Numeric`, under [the standard vocabulary](vocabulary.md).
 
 **A declared record is nominal.** A type declared in `types` whose structure is a record is a name as well as a structure. When a nameless record settles into a slot declaring the type, it settles to the declared structure and takes the name; a record already under that name is settled again and keeps it; a record under another name **refuses** at the slot, whatever its structure: at the **build** where the build can see the name, at the **run** where the value arrived through `Any`, and `as?` reads it as null. Two declared records of one structure under two names are two types, and a value fits only its own. A declared name whose structure is not a record, an alias such as `Standard.Byte`, attaches no name. An inline record type and `Dictionary<T>` are structural: a named record fits them by structure, and what settles there is built on the slot's own layout, which has no name. `Any` declares nothing, so a value passes it as it is, name included. A declared type may name itself in a field, nullable or as a list's element, so a tree is one declaration. A declared name that comes back to itself through names alone, a `?` included, stands for no type and **refuses at the build**.
 
@@ -141,6 +141,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-bare-dictionary-refuses`
 - `a-bare-name-for-another-modules-procedure-refuses`
 - `a-body-answering-a-value-for-its-own-type-parameter-refuses`
+- `a-body-answering-a-whole-literal-one-way-and-a-fraction-another-is-no-fraction-refuses`
 - `a-body-cannot-answer-what-it-borrowed`
 - `a-body-handing-its-own-type-parameter-in-place-to-a-type-refuses`
 - `a-body-writing-a-value-into-its-own-type-parameter-refuses`
@@ -175,6 +176,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-claim-about-a-list-of-one-kind-refuses`
 - `a-claim-about-a-name-that-is-not-a-record-refuses`
 - `a-claim-about-a-type-no-value-is-refuses`
+- `a-claim-about-array-answered-for-a-list-of-ints-alone-refuses`
 - `a-claim-naming-a-contract-where-the-type-belongs-refuses`
 - `a-claim-naming-a-type-where-a-contract-belongs-refuses`
 - `a-claim-nobody-leans-on-refuses-nowhere`
@@ -189,6 +191,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-closure-reads-the-bounds-of-the-procedure-around-it`
 - `a-closure-without-returns-answering-one-refuses`
 - `a-closures-parameter-names-are-not-part-of-its-type`
+- `a-constant-leaning-on-a-claim-of-a-document-it-does-not-stand-on-refuses`
 - `a-constant-outside-a-range-refuses`
 - `a-contract-asking-no-procedures-is-answered-by-what-claims-it`
 - `a-contract-asking-no-procedures-refuses-what-no-claim-names`
@@ -345,6 +348,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-row-of-readings-of-any-appended-to-a-table-of-text-refuses`
 - `a-signed-bound-refuses`
 - `a-slot-naming-a-linear-type-says-what-it-does`
+- `a-slot-of-null-takes-no-value-of-a-contract-refuses`
 - `a-some-outside-a-signature-refuses`
 - `a-type-form-beside-other-keys-refuses`
 - `a-type-no-claim-names-in-a-closures-contract-parameter-refuses`
@@ -363,6 +367,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-value-handed-on-inside-a-loop-round-refuses`
 - `a-value-of-a-contract-at-two-self-positions-refuses`
 - `a-value-of-a-contract-inside-a-list-at-a-bounded-parameter-refuses`
+- `a-value-of-a-contract-through-an-alias-fills-a-parameter-standing-twice-refuses`
 - `a-value-outside-a-contract-in-a-closures-parameter-refuses`
 - `a-value-outside-a-contract-standing-as-a-type-refuses`
 - `a-value-outside-a-declared-type-refuses-at-the-boundary`
@@ -378,6 +383,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-variable-a-generic-closure-writes-when-called-through-a-procedure-type-is-judged-refuses`
 - `a-variable-handed-back-in-place-is-judged-when-the-call-fails-refuses`
 - `a-variable-handed-in-place-that-a-closure-writes-is-judged-refuses`
+- `a-whole-literal-an-attempt-answers-beside-a-fraction-is-the-fraction`
+- `a-whole-literal-beside-a-fraction-at-a-bounded-parameter-is-held-to-the-bound-as-the-fraction`
 - `a-whole-literal-where-a-bounded-parameter-stands-refuses`
 - `a-whole-literal-written-into-a-fraction-range-is-the-fraction-it-names`
 - `a-whole-number-a-name-holds-is-no-fraction-refuses`

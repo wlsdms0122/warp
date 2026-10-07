@@ -1,0 +1,55 @@
+warpt 1
+{
+  expect {
+    refuses "run"
+  }
+  name "a-body-answering-a-whole-literal-one-way-and-a-fraction-another-is-no-fraction-refuses"
+  note "`App.pick` writes no `returns`, and answers `1` by a `return` and `2.5` by its result. Each way out is a place of its own and none declares a fraction, so the whole literal is the Int it is, and the answer read off the body is `Any`. The entry declares `Double`, which `Any` passes at the build, and the run refuses the Int that arrives."
+  program {
+    imports []
+    procedures {
+      "App.pick" {
+        body [
+          {
+            value {
+              conditional {
+                then [
+                  {
+                    value {
+                      return 1
+                    }
+                  }
+                ]
+                when {
+                  ref "c"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "c"
+            type "Bool"
+          }
+        ]
+        result 2.5
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              true
+            ]
+            procedure "App.pick"
+          }
+        }
+        returns "Double"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

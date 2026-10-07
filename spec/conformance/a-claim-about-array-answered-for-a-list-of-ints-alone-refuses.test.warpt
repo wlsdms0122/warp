@@ -1,0 +1,58 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-claim-about-array-answered-for-a-list-of-ints-alone-refuses"
+  note "A claim about `Array` is about every list, whatever it holds, since a value does not say which elements a slot declared it to hold. `Array.total` takes `Array<Int>` alone, so a list of text handed through the contract would reach a slot that refuses it, and the claim does not hold."
+  program {
+    contracts {
+      "App.Totalable" {
+        total {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "Int"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "Array.total" {
+        parameters [
+          {
+            name "of"
+            type "Array<Int>"
+          }
+        ]
+        result 0
+        returns "Int"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              [
+                "s"
+              ]
+            ]
+            procedure "App.Totalable.total"
+          }
+        }
+        returns "Int"
+      }
+    }
+    satisfies {
+      Array [
+        "App.Totalable"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+
