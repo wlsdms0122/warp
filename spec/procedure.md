@@ -94,7 +94,7 @@ Written as a record, one per entry of `parameters`:
 | `enum` | array of strings, each a value's one spelling. The values this parameter admits | no |
 | `description` | string | no |
 
-A closure literal that writes no `returns`, written where a procedure type says what it answers, answers that: the place completes its signature, so its body is judged against the answer and a literal it answers is read as the place reads it. An answer the call fills is no place's to say.
+A closure literal that writes no `returns`, written where a procedure type says what it answers, answers that: the place completes its signature, so its body is judged against the answer and a literal it answers is read as the place reads it. A place is every one a literal is written into: a name that says what it holds, a write, an argument to a declaration or to a called value, a body's answer and what a `return` carries, and an element or a field of a list or a record written there, so where a closure is written does not decide whether what it answers is judged at the build. An answer the call fills is no place's to say.
 
 The name is the declaration's own, and a closure literal's names are its own the same way. A procedure type carries the types in position order and no names, under [types](type.md), so two closures naming their parameters differently are one type where the types agree. Two parameters under one name **refuse at the load**.
 
@@ -132,6 +132,13 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-candidate-on-a-slot-bounded-by-numbers-meets-either-kind`
 - `a-closure-answered-without-returns-reads-a-module-variable-by-running`
 - `a-closure-carries-what-a-captured-slot-said`
+- `a-closure-literal-a-body-answers-answers-what-its-declaration-answers-refuses`
+- `a-closure-literal-a-return-carries-answers-what-its-declaration-answers-refuses`
+- `a-closure-literal-a-write-hands-a-box-answers-what-the-box-answers-refuses`
+- `a-closure-literal-handed-to-a-called-value-answers-what-the-slot-answers-refuses`
+- `a-closure-literal-in-a-list-answers-what-the-element-answers-refuses`
+- `a-closure-literal-in-a-list-of-procedures-answering-a-declared-record-names-what-it-answers`
+- `a-closure-literal-in-a-record-answers-what-the-field-answers-refuses`
 - `a-closure-that-writes-what-it-captured-is-not-const`
 - `a-closure-writes-its-own-parameter-in-place-and-no-name-it-shadows`
 - `a-closures-parameter-is-not-the-const-procedure-it-shadows`
