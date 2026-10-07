@@ -1,0 +1,46 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-claim-about-a-type-no-value-is-refuses"
+  note "A claim is about a type a value is an instance of, since the run picks what answers by the type the value is. No value is an instance of `Any` by name, so a claim about it is refused where the document is read."
+  program {
+    contracts {
+      "App.Described" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "App.Described"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              1
+            ]
+            procedure "App.Described.describe"
+          }
+        }
+        returns "String"
+      }
+    }
+    satisfies {
+      Any [
+        "App.Described"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+

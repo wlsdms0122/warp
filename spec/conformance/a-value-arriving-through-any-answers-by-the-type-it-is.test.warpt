@@ -1,0 +1,64 @@
+warpt 1
+{
+  expect {
+    answers "a whole number"
+  }
+  name "a-value-arriving-through-any-answers-by-the-type-it-is"
+  note "A reading of `Any` says nothing the build could hold to a contract, so the value is judged where it arrives, by the type it is an instance of. A whole number answers because a document claims the contract for `Int`."
+  program {
+    contracts {
+      "App.Described" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "App.Described"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "App.anything" {
+        result 1
+        returns "Any"
+      }
+      "Int.describe" {
+        parameters [
+          {
+            name "of"
+            type "Int"
+          }
+        ]
+        result "a whole number"
+        returns "String"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                call {
+                  procedure "App.anything"
+                }
+              }
+            ]
+            procedure "App.Described.describe"
+          }
+        }
+        returns "String"
+      }
+    }
+    satisfies {
+      Int [
+        "App.Described"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+

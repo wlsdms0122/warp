@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    refuses "load"
+    refuses "build"
   }
-  name "a-claim-about-a-type-the-language-names-refuses"
-  note "A claim is about a declared type. A value of a type the language names wears no name a run could read, so no declaration could answer a contract for it, and a document claiming one does is refused where it is read."
+  name "a-kind-no-claim-names-refuses"
+  note "A value of a type the language names answers a contract only where a document claims it for that type. A claim about `Int` says nothing about `String`, so handing text where the contract is asked is refused at the build, which reads the type the text is."
   program {
     contracts {
       "App.Described" {
@@ -28,13 +28,20 @@ warpt 1
             type "Int"
           }
         ]
-        result "int"
+        result "a whole number"
         returns "String"
       }
       entry {
         access "public"
-        result 1
-        returns "Int"
+        result {
+          call {
+            arguments [
+              "s"
+            ]
+            procedure "App.Described.describe"
+          }
+        }
+        returns "String"
       }
     }
     satisfies {

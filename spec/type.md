@@ -107,7 +107,7 @@ Only a procedure with **no body** ends the obligation. A body that takes one has
 
 A contract's name stands where a type is written, and so does `A & B`: the slot takes a value of whatever type satisfies every contract and belongs to every membership named. It is a type parameter with no name, so nothing ties one slot's reading to another's, and a call fills nothing. A closure literal's parameter is such a slot too, and a call of the value holds what it hands to the contract by the rule a call to a declaration is held by. A name declared as neither a membership nor a contract joined with `&` **refuses at the build**.
 
-A type **satisfies** a contract when a document says it does. The document writes the claim under `satisfies`, keyed by the type: `satisfies: { "Bank.Account": ["App.Describable"] }`. Any document may make one, about a type it declared or about another document's, which is how a document that arrives later gives a type the procedures a contract asks. A claim about a type this specification names, `Int` or `String`, **refuses at the load**: a value of one wears no name for a run to read, so no declaration could answer for it. A claim about a declared name that is not itself a record, an alias included, **refuses at the build** for the same reason: a value wears the name of the record it is, and of no other.
+A type **satisfies** a contract when a document says it does. The document writes the claim under `satisfies`, keyed by the type: `satisfies: { "Bank.Account": ["App.Describable"] }`. Any document may make one, about a type it declared or about another document's, which is how a document that arrives later gives a type the procedures a contract asks. A type the language names is a type the way a declared one is, and a claim may be about it: `satisfies: { Int: ["App.Describable"] }`, answered by `Int.describe`. A list and a map are named bare, `Array` and `Dictionary`. Every list is an instance of `Array` whatever it holds, since a value does not say which elements a slot declared it to hold, and a claim written about `Array<Int>` **refuses at the load**. Bytes are an instance of `Array`, and a record with no name an instance of `Dictionary`, its names being data. `Any`, `Never`, `Null` and `Procedure` are types no value is an instance of by name, and a claim about one **refuses at the load**. A claim about a declared name that is not itself a record, an alias included, **refuses at the build**: a value of a declared type is an instance of the record it is, and of no other name.
 
 The build holds the claim to the declarations behind it. For every procedure the contract asks, it takes the declaration named for the type and that procedure (`Bank.Account` and `describe` give `Bank.Account.describe`) and holds its signature to the contract's with the type taken first in place of the contract. A name that stands for a declared record names that record's type there, as wherever types are compared, so a declaration may write another name for the record the contract writes. A declaration that wrote no `returns` is held by what its body answers, read the way a call site reads it.
 
@@ -121,11 +121,11 @@ A declaration named for a type and a procedure that no claim names is that docum
 
 A contract asking no procedures **refuses at the build**, since every type would satisfy it. A name is a type or a membership or a contract and never two of them.
 
-A signature bounds a type parameter by a contract the way it bounds one by a membership: `bounds: { T: App.Describable }`, and the slots write `some T`. A value reaching such a slot is judged twice, once per surface, the way a membership's is: at the **build** a reading provably outside refuses, and at the **boundary** the value that arrived is judged by the name it wears.
+A signature bounds a type parameter by a contract the way it bounds one by a membership: `bounds: { T: App.Describable }`, and the slots write `some T`. A value reaching such a slot is judged twice, once per surface, the way a membership's is: at the **build** a reading provably outside refuses, and at the **boundary** the value that arrived is judged by the type it is an instance of.
 
 A body calls a contract's procedure by writing the contract's name and the procedure's with a dot between them: `App.Describable.describe`. That spelling is the contract's declaration of the procedure, and it is a send like any other: a document calling a contract another module declares lists the spelling in `imports`. It names no type's declaration, and what it means is settled by the value at its first position, so a call writing nothing there refuses. What a call hands it and what it answers are the contract's, not any one declaration's.
 
-**The build builds the table and the run reads it.** For every contract, the build gathers every type that satisfies it and lowers one call per type, each against the row that answers, arguments in that row's own slot order. The run reads the name the first argument wears and picks. Nothing is resolved while a program is running.
+**The build builds the table and the run reads it.** For every contract, the build gathers every type that satisfies it and lowers one call per type, each against the row that answers, arguments in that row's own slot order. The run reads the type the first argument is an instance of and picks. Nothing is resolved while a program is running.
 
 A declaration answering a contract's procedure is reached **through the contract**, which is the spelling that says which contract is meant. Two types answering one procedure is the ordinary case. Such a declaration takes exactly the contract's positions and answers what the contract's answer takes: its own type first, then **at the contract's positions** a parameter taking everything the contract's takes there and taking a place only where the contract hands one, the contract's type parameters standing for types no call fills and the declaration's own filled by what the contract writes at the same positions; the names are its own. One declaring a parameter beyond them, `T?` included, **refuses at the build** where the claim is leaned on. The run hands the arguments to the same positions whichever declaration answers.
 
@@ -183,8 +183,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-cast-of-a-recursive-record-to-a-field-it-never-holds-further-down-refuses`
 - `a-cast-of-an-alias-of-a-nullable-record-to-another-record-refuses`
 - `a-cast-to-an-alias-of-a-nullable-record-names-the-record-answers`
+- `a-claim-about-a-list-of-one-kind-refuses`
 - `a-claim-about-a-name-that-is-not-a-record-refuses`
-- `a-claim-about-a-type-the-language-names-refuses`
+- `a-claim-about-a-type-no-value-is-refuses`
 - `a-claim-naming-a-contract-where-the-type-belongs-refuses`
 - `a-claim-naming-a-membership-where-a-contract-belongs-refuses`
 - `a-claim-nobody-leans-on-refuses-nowhere`
@@ -272,6 +273,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-generic-body-appends-its-parameter-to-a-list-of-it-or-null`
 - `a-handle-already-given-away-is-not-read-again`
 - `a-handle-borrowed-after-a-consuming-parameter-in-one-call-refuses`
+- `a-kind-no-claim-names-refuses`
 - `a-linear-type-answers-no-contract`
 - `a-linear-type-inside-another-refuses`
 - `a-linear-value-does-not-go-into-a-list`
@@ -401,6 +403,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-type-parameter-written-nullable-refuses`
 - `a-type-reaching-itself-through-names-alone-refuses`
 - `a-type-that-misses-a-procedure-does-not-answer-the-contract`
+- `a-type-the-language-names-answers-a-contract`
+- `a-value-arriving-through-any-answers-by-the-type-it-is`
 - `a-value-arriving-through-any-into-a-membership-holding-a-list-of-itself-is-judged-part-by-part`
 - `a-value-arriving-through-any-into-memberships-that-name-each-other-refuses`
 - `a-value-called-through-any-is-judged-by-its-own-type`
