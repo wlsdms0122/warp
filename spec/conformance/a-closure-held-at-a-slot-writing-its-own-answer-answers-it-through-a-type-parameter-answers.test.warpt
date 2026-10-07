@@ -3,8 +3,8 @@ warpt 1
   expect {
     answers "a"
   }
-  name "a-call-of-a-value-settles-its-answer-to-the-record-its-slot-wrote-answers"
-  note "`c` is held at `Procedure() -> Bank.A`, and the closure in it writes no `returns` and answers the nameless record `{ k: \"x\" }`. Calling `c` answers what its slot wrote, and that answer meets the declaration and settles to it, so `v` is a `Bank.A` and `App.P.show`, which `Bank.A` answers, is sent to it."
+  name "a-closure-held-at-a-slot-writing-its-own-answer-answers-it-through-a-type-parameter-answers"
+  note "The closure writes `returns Bank.A` and is held at `Procedure() -> Bank.A`, the answer it already gives. `App.run` takes `Procedure() -> some T`, so `v` reads as `Bank.A`, the closure's own `returns` names the record it answers, and `App.P.show` reaches `Bank.A`'s witness."
   program {
     contracts {
       "App.P" {
@@ -23,6 +23,26 @@ warpt 1
     }
     imports []
     procedures {
+      "App.run" {
+        parameters [
+          {
+            name "c"
+            type {
+              procedure {
+                returns "some T"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            procedure {
+              ref "c"
+            }
+          }
+        }
+        returns "some T"
+      }
       "Bank.A.show" {
         parameters [
           {
@@ -50,6 +70,7 @@ warpt 1
                     k "x"
                   }
                 }
+                returns "Bank.A"
               }
             }
           }
@@ -57,9 +78,12 @@ warpt 1
             let "v"
             value {
               call {
-                procedure {
-                  ref "c"
-                }
+                arguments [
+                  {
+                    ref "c"
+                  }
+                ]
+                procedure "App.run"
               }
             }
           }

@@ -3,8 +3,8 @@ warpt 1
   expect {
     answers "a"
   }
-  name "a-call-through-a-type-parameter-settles-a-closure-answer-to-the-record-its-slot-wrote-answers"
-  note "`c` is held at `Procedure() -> Bank.A` and its closure answers the nameless `{ k: \"x\" }`. `App.run` takes `Procedure() -> some T` and answers what calling it answers, so `v` reads as `Bank.A`. The closure keeps the answer its slot wrote, so the call inside `App.run` settles it to `Bank.A`, and `App.P.show` reaches `Bank.A`'s witness."
+  name "a-closure-held-at-a-contract-slot-answers-the-record-it-answers-answers"
+  note "`c` is declared `Procedure() -> Bank.A`, so its closure answers `Bank.A`, the nameless `{ k: \"x\" }` it answers taking the name. `d` holds it again at `Procedure() -> App.P`, which `Bank.A` answers, and a slot hands a value on as it is, so the call inside `App.run` answers a `Bank.A` and `App.P.show` reaches `Bank.A`'s witness."
   program {
     contracts {
       "App.P" {
@@ -74,12 +74,23 @@ warpt 1
             }
           }
           {
+            let "d"
+            type {
+              procedure {
+                returns "App.P"
+              }
+            }
+            value {
+              ref "c"
+            }
+          }
+          {
             let "v"
             value {
               call {
                 arguments [
                   {
-                    ref "c"
+                    ref "d"
                   }
                 ]
                 procedure "App.run"

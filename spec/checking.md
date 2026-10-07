@@ -22,7 +22,7 @@ A program is read, checked and built before any of it runs, the arms nobody take
 - every `inout` parameter is handed a variable's path a write may take; two parameters handed paths under one head hold one box two ways, under [procedures](procedure.md), and nothing keeps them apart;
 - `inout` is written only on a parameter's type, and `var` only on a field of a declared type;
 - what a closure writes into a variable it captured fits what the capturing body holds;
-- a value read under one declared record name fits no slot declaring another; a nameless record reaching such a slot is judged by type and takes the name at the run, and a named record arriving through `Any` is judged by name at the run;
+- a record type fits only a value of exactly it: a value read under one declared record name fits no slot declaring another, nor an inline record type or `Dictionary<T>`; a value read as a nameless record fits no declared record, and one of an inline record type fits only exactly its fields; a record literal written where a declared record is read is judged field by field and takes the name, and a record arriving through `Any` is judged the same way at the run;
 - a constant is the type it was declared as;
 - `break`/`continue` have a loop, `return` fits the declaration, nothing follows any of them;
 - a statement that never finishes (a syntactic leave, or a call whose answer reads `Never`, declared under `returns` or read off a body that never finishes) takes no name, and nothing follows it;
@@ -33,7 +33,7 @@ A program is read, checked and built before any of it runs, the arms nobody take
 **What a variable reads as.** A name a statement fixed reads as what that statement bound, and a variable reads as what the ways through the text could have left in it. The checking follows the flow the running takes:
 
 - a name that **declared** what it holds reads as that declaration, and no write changes it. What is written is held to the declaration instead, a list or record literal part by part along what the declaration asks of each part (every element of a list, every field of a dictionary, each field a record names), an empty list holding no element, so `[{ a: [] }, { a: [1] }]` written where `Array<Dictionary<Array<String>>>` is declared refuses at the build, and so does `[1, "s"]` where `Array<Int>` is. Every slot a value is written into holds it that way: a name's start value or a later write, a parameter of a call or of a called value, and a declared answer, from a result or from a `return`. A block or a loop writes what its result writes, and an attempt writes what its body answers and what its rescue answers, each held on its own as a write on that way would be;
-- a variable a closure captured or a call handed in place is held to the type it read as there, under *what a write reaches* in [statements](statement.md), and a write into it settles to that type and leaves it reading it, since the taker may write any value of it later;
+- a variable a closure captured or a call handed in place is held to the type it read as there, under *what a write reaches* in [statements](statement.md), and a write into it is judged against that type and leaves it reading it, since the taker may write any value of it later;
 - an **unconditional** write retypes any other variable: after `set x` at the top of the flow, `x` reads as what was written, whatever it held before;
 - a write only **some** ways make (one arm of a conditional, a loop's round, an attempt's body) joins with what the name held. Null beside a value reads `T?`: after `var x` and a conditional whose one arm sets an int, `x` reads `Int?`, because the run either took the arm or did not. Two values of different kinds join to `Any`. Where one value joins what was written beside it, a list literal's elements or an attempt's two ways, a whole literal beside a fraction is the fraction it names, as [types](type.md) says; a whole literal a write leaves in a name is the `Int` the name holds. Where readings disagree the slot holds neither, and a join that guessed would be a refusal an author cannot act on. This join is not the variable's own rule: it reads wherever two readings of one slot meet (an attempt's body beside its rescue, an array literal's elements), so an attempt whose rescue answers nothing reads `T?` too, and `[1, null]` reads `Array<Int?>`;
 - a write **both** arms make is unconditional again, whichever arm ran, the write happened, and an arm that **leaves** contributes nothing: no run comes back from it, so the ways that finish are the only ways a reading after the conditional can stand on. `var x` with one arm setting an int and the other returning reads `Int` afterwards, plain;
@@ -52,6 +52,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-document-sending-a-contract-procedure-stands-before-a-later-one`
 - `a-failure-in-a-loop-condition-carries-the-rounds-before-it`
 - `a-failure-in-a-loop-round-carries-the-rounds-before-it`
+- `a-list-holding-a-record-of-more-fields-than-a-record-type-refuses`
 - `a-list-literal-a-block-answers-is-read-position-by-position-refuses`
 - `a-list-literal-a-declared-name-starts-with-is-read-position-by-position-refuses`
 - `a-list-literal-a-loop-answers-is-read-position-by-position-refuses`
@@ -63,7 +64,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-list-literal-of-other-kinds-written-into-a-list-refuses`
 - `a-list-literal-written-into-a-declared-variable-is-read-position-by-position-refuses`
 - `a-list-of-records-handed-to-a-call-is-read-field-by-field-refuses`
-- `a-list-of-records-wider-than-a-record-type-is-taken`
 - `a-name-not-in-normal-form-c-is-refused`
 - `a-procedure-may-be-spelled-like-a-type`
 - `a-procedure-nobody-declares-refuses`

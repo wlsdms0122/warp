@@ -102,7 +102,7 @@ A *row* is a declaration as its own document settled it:
 
     [ label, signature, access, constness, isolation, failing, handsBackAsDeclared, implementation ]
 
-The label is the declared spelling. A row in `lifted` is the same without the label, its fields starting at the signature. `access` is `0` private, `1` internal or `2` public, under *who may name a declaration* in [procedures](procedure.md); a lifted row is private, since nothing names it. `handsBackAsDeclared` is `true` where what the body hands back, its answer and every variable handed to it in place, is at every type parameter that parameter, so nothing a call filled has to be judged again where the call stands, and `false` otherwise. A body proves it only where every call it makes whose answer or variable handed back names a type parameter reaches a row that proved it too, and where nothing it reads as a type parameter may hold what is not a value of it: no call fills one from an argument that is not, such as a reading of `Any`, no write leaves a variable reading as one while it writes what is not, and no closure that is not isolated reaches a variable whose type names one, since a closure read as a procedure type may be called with what the parameter stands for nowhere. A native's row writes `true`, on its host's word. A link reads it as said, the way it reads `constness` and `isolation`, and leaves out the judgement a call takes where the row the call reaches says `true`, or, for the answer alone, where every row a call through a contract may reach settles exactly what the call reads and the call hands nothing back to judge.
+The label is the declared spelling. A row in `lifted` is the same without the label, its fields starting at the signature. `access` is `0` private, `1` internal or `2` public, under *who may name a declaration* in [procedures](procedure.md); a lifted row is private, since nothing names it. `handsBackAsDeclared` is `true` where what the body hands back, its answer and every variable handed to it in place, is at every type parameter that parameter, so nothing a call filled has to be judged again where the call stands, and `false` otherwise. A body proves it only where every call it makes whose answer or variable handed back names a type parameter reaches a row that proved it too, and where nothing it reads as a type parameter may hold what is not a value of it: no call fills one from an argument that is not, such as a reading of `Any`, no write leaves a variable reading as one while it writes what is not, and no closure that is not isolated reaches a variable whose type names one, since a closure read as a procedure type may be called with what the parameter stands for nowhere. A native's row writes `true`, on its host's word. A link reads it as said, the way it reads `constness` and `isolation`, and leaves out the judgement a call takes where the row the call reaches says `true`, or, for the answer alone, where every row a call through a contract may reach answers exactly what the call reads and the call hands nothing back to judge.
 
 The *implementation* is `[0, body, frame]` for a written body, or `[1, sends]` for a native, each send `[position, selector, handing]`: where the send stands among the declaration's sends, the spelling it reaches, and how many arguments it hands over, from the first position of what that spelling declares. The sends stand one to a place from the first, and each reaches the number the document's `numbering` gives its spelling; a native row whose sends say otherwise **refuses**.
 
@@ -114,7 +114,7 @@ An *address* is `[slot, steps]`, each *step* `[0, position, name, optional]` for
 
 ### Operations
 
-An *operation* is `[tag, …]`. These are the constructs and the expression forms of a document with every name the build resolved written as the slot or the row it stands for, and the judgement the build left a call's answer where the call reads it narrower than its callee settles; nothing computes: what a body does it does by calling, under [the standard vocabulary](vocabulary.md).
+An *operation* is `[tag, …]`. These are the constructs and the expression forms of a document with every name the build resolved written as the slot or the row it stands for, and the judgement the build left a call's answer where the call reads it narrower than its callee declares; nothing computes: what a body does it does by calling, under [the standard vocabulary](vocabulary.md).
 
 | tag | operation | fields |
 |---|---|---|
@@ -132,7 +132,7 @@ An *operation* is `[tag, …]`. These are the constructs and the expression form
 | 11 | a call | *call* |
 | 12 | a call through a contract | *dispatch* |
 | 13 | leaving | *reach*, the target name or nothing, what it takes or nothing |
-| 14 | a call judged where it stands | the call's *operation*, the answer's *lowered type* or nothing, `[position, lowered type]` for each variable handed back in place, judged once the call is over through the hold the call made, and the *lowered type* the answer settles to or nothing: what a declaration wrote, a value's slot or a contract, with the type parameters it names left standing, and nothing where the answer is what the call filled a declaration's type parameter with |
+| 14 | a call judged where it stands | the call's *operation*, the answer's *lowered type* or nothing, and `[position, lowered type]` for each variable handed back in place, judged once the call is over through the hold the call made |
 
 A *layout* is `[name, fields]`: the declared name or nothing, and the field names ascending. A *call* is `[procedure, arguments, handed]`: the row the call reaches, numbered by the document; one *operation* or nothing per parameter of the callee, in parameter order, nothing where the call wrote nothing or a hold stands; and `[position, address]` for each parameter handed in place. A *dispatch* is `[contract, procedure, first, arguments]`: the contract's name, the procedure's, the first argument's *operation*, and the arguments after it by position, each an *argument*. Which row answers is the link's, and stands nowhere in an object. An *argument* is `[0, operation]` by value or `[1, address]` by reference: the place a call of a value hands in place, or one a call through a contract hands to whichever row takes it in place.
 
@@ -159,7 +159,7 @@ A *lowered type* is a type as a body stands on it, `[tag, …]`:
 
 ### Values
 
-A *value* is `[tag, …]`: 0 null; 1 bool; 2 int; 3 double; 4 string; 5 bytes, each carrying the value; 6 array, carrying its elements as *value*; 7 record, carrying the name or nothing, the field names, the field values; 8 dictionary, carrying `[name, value]` in name order; 9 a closure, carrying the identity of the document that wrote it, the *declaration* that wrote it, which of that declaration's closures it is, `[slot, value]` for what it captured, and the *lowered types* the slots it was settled into wrote for its answer, in the order it met them. A closure written by a document nobody wrote down, or holding a box of the run that made it, is not a value an object holds, and such an object is not written.
+A *value* is `[tag, …]`: 0 null; 1 bool; 2 int; 3 double; 4 string; 5 bytes, each carrying the value; 6 array, carrying its elements as *value*; 7 record, carrying the name or nothing, the field names, the field values; 8 dictionary, carrying `[name, value]` in name order; 9 a closure, carrying the identity of the document that wrote it, the *declaration* that wrote it, which of that declaration's closures it is, and `[slot, value]` for what it captured. A closure written by a document nobody wrote down, or holding a box of the run that made it, is not a value an object holds, and such an object is not written.
 
 ## Identity and dependencies
 
@@ -275,7 +275,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-writing-a-name-not-in-normal-form-refuses`
 - `an-object-writing-a-tag-the-layout-does-not-name-refuses`
 - `an-object-writing-an-empty-name-refuses`
-- `the-object-numbers-a-type-only-a-variable-start-stands-on`
 - `the-object-of-a-block`
 - `the-object-of-a-call`
 - `the-object-of-a-cast`

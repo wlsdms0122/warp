@@ -1,0 +1,49 @@
+warpt 1
+{
+  arguments {
+    a App.Point {
+      x 1
+    }
+  }
+  expect {
+    refuses "build"
+  }
+  name "a-cast-of-a-declared-record-to-a-record-of-its-fields-refuses"
+  note "A cast writes a name onto a nameless record and never takes one away. `a` is read as `App.Point`, and every value of that type carries the name, so none is a nameless record of its fields: the cast names a type the value never has."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "a"
+            type "App.Point"
+          }
+        ]
+        result {
+          "as?" {
+            of {
+              ref "a"
+            }
+            type {
+              record {
+                x "Int"
+              }
+            }
+          }
+        }
+      }
+    }
+    types {
+      "App.Point" {
+        record {
+          x "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

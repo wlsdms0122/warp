@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    answers 0
+    refuses "build"
   }
-  name "a-list-of-records-wider-than-a-record-type-is-taken"
-  note "`App.g` takes a list of records naming `a` as an int and is handed two records, one of which also has a string `b`. A record type takes a record holding at least its fields, so each part fits and the call answers."
+  name "a-list-holding-a-record-of-more-fields-than-a-record-type-refuses"
+  note "`App.g` takes a list of records of `a`, an int, and is handed two records, one of which also has a string `b`. A record type is exactly its fields, so that record is not one, and the call refuses at the build."
   program {
     imports []
     procedures {

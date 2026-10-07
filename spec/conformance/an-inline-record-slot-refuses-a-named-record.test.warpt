@@ -1,12 +1,10 @@
 warpt 1
 {
   expect {
-    answers {
-      balance 1
-    }
+    refuses "build"
   }
-  name "an-inline-record-slot-takes-a-named-record"
-  note "An inline record declares no name, so it is structural: a named record fits it by type, and what settles there is built on the slot's own layout, which has no name."
+  name "an-inline-record-slot-refuses-a-named-record"
+  note "An inline record declares no name, and a declared record is a value of its own name and of nothing else. Handing an `Account` where `{ balance: Int }` is declared would take the name off, which no place does, so the call refuses at the build."
   program {
     imports []
     procedures {

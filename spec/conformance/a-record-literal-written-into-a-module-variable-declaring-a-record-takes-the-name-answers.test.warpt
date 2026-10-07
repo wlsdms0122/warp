@@ -1,0 +1,86 @@
+warpt 1
+{
+  expect {
+    answers "a"
+  }
+  name "a-record-literal-written-into-a-module-variable-declaring-a-record-takes-the-name-answers"
+  note "`r` is a module variable declaring `Bank.A`, and a body writes the record literal `{ k: \"y\" }` into it. A literal written where `Bank.A` is read takes the name, so `r` holds a `Bank.A`, and `App.P.show`, which `Bank.A` answers, is sent to it."
+  program {
+    contracts {
+      "App.P" {
+        show {
+          const true
+          isolated true
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "Bank.A.show" {
+        parameters [
+          {
+            name "of"
+            type "Bank.A"
+          }
+        ]
+        result "a"
+        returns "String"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            set "r"
+            value {
+              record {
+                k "y"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "r"
+              }
+            ]
+            procedure "App.P.show"
+          }
+        }
+      }
+    }
+    satisfies {
+      "Bank.A" [
+        "App.P"
+      ]
+    }
+    types {
+      "Bank.A" {
+        record {
+          k "String"
+        }
+      }
+    }
+    var {
+      r {
+        type "Bank.A"
+        value {
+          record {
+            k "x"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

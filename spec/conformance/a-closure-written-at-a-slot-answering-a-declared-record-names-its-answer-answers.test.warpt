@@ -3,8 +3,8 @@ warpt 1
   expect {
     answers "a"
   }
-  name "a-module-variable-declaring-a-record-gives-a-nameless-record-written-into-it-the-name-answers"
-  note "`r` is a module variable declaring `Bank.A`, and a body writes the nameless record `{ k: \"y\" }` into it. The write settles to what the variable declares, so `r` holds a `Bank.A`, and `App.P.show`, which `Bank.A` answers, is sent to it."
+  name "a-closure-written-at-a-slot-answering-a-declared-record-names-its-answer-answers"
+  note "`c` is declared `Procedure() -> Bank.A`, and the closure written there writes no `returns`, so it answers what the place it is written into says. The nameless record `{ k: \"x\" }` it answers is a literal written where `Bank.A` is read, and takes the name, so `v` is a `Bank.A` and `App.P.show`, which `Bank.A` answers, is sent to it."
   program {
     contracts {
       "App.P" {
@@ -37,10 +37,29 @@ warpt 1
         access "public"
         body [
           {
-            set "r"
+            let "c"
+            type {
+              procedure {
+                returns "Bank.A"
+              }
+            }
             value {
-              record {
-                k "y"
+              closure {
+                result {
+                  record {
+                    k "x"
+                  }
+                }
+              }
+            }
+          }
+          {
+            let "v"
+            value {
+              call {
+                procedure {
+                  ref "c"
+                }
               }
             }
           }
@@ -49,7 +68,7 @@ warpt 1
           call {
             arguments [
               {
-                ref "r"
+                ref "v"
               }
             ]
             procedure "App.P.show"
@@ -66,16 +85,6 @@ warpt 1
       "Bank.A" {
         record {
           k "String"
-        }
-      }
-    }
-    var {
-      r {
-        type "Bank.A"
-        value {
-          record {
-            k "x"
-          }
         }
       }
     }

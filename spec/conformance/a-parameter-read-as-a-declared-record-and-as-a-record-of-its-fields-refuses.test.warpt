@@ -4,14 +4,10 @@ warpt 1
     trees []
   }
   expect {
-    answers [
-      {
-        a 1
-      }
-    ]
+    refuses "build"
   }
-  name "a-declared-name-and-the-record-it-stands-for-are-one-reading"
-  note "A type parameter read as a declared record's name by one argument and as a record of its fields by the next is one reading, since the name stands for that record, and the call builds. A type parameter settles nothing, so the record is appended as it was written."
+  name "a-parameter-read-as-a-declared-record-and-as-a-record-of-its-fields-refuses"
+  note "A type parameter read as a declared record's name by one argument and as a nameless record of its fields by the next is read two ways: a declared record is its name, and a place gives no value one, so the two are two types and the call refuses at the build."
   program {
     imports [
       "Standard.Collection.appending"

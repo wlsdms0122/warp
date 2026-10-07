@@ -64,7 +64,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-module-variable-closure-called-with-another-count-refuses`
 - `a-module-variable-closure-may-name-its-documents-own-type`
 - `a-module-variable-declares-what-it-holds`
-- `a-module-variable-declaring-a-record-gives-a-nameless-record-written-into-it-the-name-answers`
 - `a-module-variable-handed-in-place-is-one-box`
 - `a-module-variable-is-handed-in-place-to-a-native-procedure`
 - `a-module-variable-is-not-named-from-another-document`
@@ -75,6 +74,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-module-variable-started-with-a-const-closure-takes-one-that-runs`
 - `a-module-variable-starting-as-a-dictionary-takes-new-names`
 - `a-name-declared-as-both-a-constant-and-a-variable-refuses`
+- `a-record-literal-written-into-a-module-variable-declaring-a-record-takes-the-name-answers`
 - `a-result-written-as-null-refuses`
 - `a-send-is-a-declared-spelling-or-an-import`
 - `a-variable-start-reading-another-variable-refuses`

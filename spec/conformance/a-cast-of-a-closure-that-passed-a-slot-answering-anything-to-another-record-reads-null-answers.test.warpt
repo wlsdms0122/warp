@@ -4,7 +4,7 @@ warpt 1
     answers null
   }
   name "a-cast-of-a-closure-that-passed-a-slot-answering-anything-to-another-record-reads-null-answers"
-  note "`c` is held at `Procedure() -> Bank.A`, then at `Procedure() -> Any`, and travels through `Any`. The closure keeps both answers, and a slot takes it only where its answer takes every one of them: `Bank.B` takes `Any` but never a `Bank.A`, so the asking cast to `Procedure() -> Bank.B` reads it as null."
+  note "`c` is declared `Procedure() -> Bank.A`, so its closure answers `Bank.A`. Holding it at `Procedure() -> Any` and in `Any` hands it on as it is, and a slot answering anything does not change what it answers: `Bank.B` never takes a `Bank.A`, so the asking cast to `Procedure() -> Bank.B` reads it as null."
   program {
     imports []
     procedures {

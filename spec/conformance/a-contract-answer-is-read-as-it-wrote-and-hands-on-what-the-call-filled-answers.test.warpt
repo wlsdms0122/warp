@@ -3,8 +3,8 @@ warpt 1
   expect {
     answers "1.0"
   }
-  name "a-contract-answer-settles-what-it-wrote-and-hands-on-what-the-call-filled-answers"
-  note "`App.Paired.pair` takes `some T` and answers `{ v: some T, n: Double }`, and `Bank.Card.pair` writes no `returns` and answers `{ v: a, n: 1.0 }`. The call reads the answer by what the contract wrote, position by position: `n` is a fraction, and `v` is what the call filled `T` with and stands as it came. So the text of `n` is `1.0`."
+  name "a-contract-answer-is-read-as-it-wrote-and-hands-on-what-the-call-filled-answers"
+  note "`App.Paired.pair` takes `some T` and answers `{ v: some T, n: Double }`, and `Bank.Card.pair` writes no `returns` and answers `{ v: a, n: 1.0 }`. The call reads the answer by what the contract wrote, position by position, and judges it there: `n` is a fraction, and `v` is what the call filled `T` with. The answer is handed on as it came, so the text of `n` is `1.0`."
   program {
     contracts {
       "App.Paired" {
