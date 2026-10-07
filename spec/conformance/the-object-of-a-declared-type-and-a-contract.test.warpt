@@ -26,7 +26,7 @@ warpt 1
       ]
       dependencies []
       document [
-        x"3d95e50522616f2da3f43b36da9d1f5b0465d33e661f032e052038f4fd4e9d0f"
+        x"a59528c0d6aba52acb253f46508c63747715f82192413fcacf7ae6ebd192270b"
       ]
       leaned []
       lifted []
@@ -87,7 +87,54 @@ warpt 1
           [
             0
             [
-              []
+              [
+                [
+                  [
+                    [
+                      0
+                      2
+                      [
+                        [
+                          15
+                          0
+                        ]
+                      ]
+                    ]
+                  ]
+                  [
+                    1
+                    [
+                      0
+                      []
+                    ]
+                  ]
+                  "kept"
+                ]
+                [
+                  [
+                    [
+                      0
+                      3
+                      [
+                        [
+                          17
+                          [
+                            "App.Number"
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                  [
+                    1
+                    [
+                      1
+                      []
+                    ]
+                  ]
+                  "number"
+                ]
+              ]
               [
                 [
                   1
@@ -99,7 +146,7 @@ warpt 1
               ]
             ]
             [
-              2
+              4
               [
                 0
                 1
@@ -109,12 +156,16 @@ warpt 1
               [
                 "p"
                 "v"
+                "kept"
+                "number"
               ]
             ]
           ]
         ]
       ]
-      typeNumbering []
+      typeNumbering [
+        "App.Point"
+      ]
       types [
         [
           "App.Point"
@@ -135,7 +186,7 @@ warpt 1
     }
   }
   name "the-object-of-a-declared-type-and-a-contract"
-  note "Declared types and contracts stand as the document wrote them. A body standing on a declared type numbers it under numbering, and a slot declaring a type parameter lowers to the parameter with its bounds, each a contract by its name."
+  note "Declared types and contracts stand as the document wrote them. A body standing on a declared type numbers it under typeNumbering, a slot declaring a type parameter writes it with its bounds, and a name that holds a value of a contract lowers to a composition of the contract's name."
   program {
     contracts {
       "App.Number" {}
@@ -144,6 +195,22 @@ warpt 1
     procedures {
       entry {
         access "public"
+        body [
+          {
+            let "kept"
+            type "App.Point"
+            value {
+              ref "p"
+            }
+          }
+          {
+            let "number"
+            type "App.Number"
+            value {
+              ref "v"
+            }
+          }
+        ]
         bounds {
           T "App.Number"
         }
