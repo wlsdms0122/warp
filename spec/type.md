@@ -326,6 +326,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-range-written-with-the-other-kinds-bounds-refuses`
 - `a-reading-beside-any-at-a-bounded-parameter-is-held-where-it-stands-refuses`
 - `a-reading-outside-a-bound-refuses`
+- `a-record-an-attempt-answers-beside-a-record-of-fractions-holds-fractions`
 - `a-record-field-reading-a-parameter-two-ways-at-a-dictionary-refuses`
 - `a-record-form-array-of-a-named-element-refuses`
 - `a-record-handed-at-a-dictionary-fills-a-parameter-part-by-part-refuses`
