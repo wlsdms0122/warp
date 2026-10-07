@@ -4,10 +4,10 @@ warpt 1
     ratio 1
   }
   expect {
-    answers 1.0
+    refuses "run"
   }
-  name "a-fraction-range-widens-a-whole-number-into-itself"
-  note "A range names the kind it refines, and a fraction range takes a whole number the one way the language widens, so the slot holds the fraction, and the bounds judge what the slot would hold rather than what was written."
+  name "a-fraction-range-takes-no-whole-number-from-outside-refuses"
+  note "A range names the kind it refines, and a fraction range takes fractions alone. A whole number handed in from outside is no fraction, whatever it is worth, so the boundary refuses it."
   program {
     imports []
     procedures {

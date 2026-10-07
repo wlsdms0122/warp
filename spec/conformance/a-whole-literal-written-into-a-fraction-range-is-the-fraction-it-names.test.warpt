@@ -1,0 +1,40 @@
+warpt 1
+{
+  expect {
+    answers 1.0
+  }
+  name "a-whole-literal-written-into-a-fraction-range-is-the-fraction-it-names"
+  note "A whole number written as a literal is read as the fraction it names where its place declares a fraction, a range of them included, so `App.ratio` is handed the fraction 1.0 and the bounds judge that."
+  program {
+    imports []
+    procedures {
+      "App.ratio" {
+        parameters [
+          {
+            name "ratio"
+            type "Double(0.0...1.0)"
+          }
+        ]
+        result {
+          ref "ratio"
+        }
+        returns "Double"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              1
+            ]
+            procedure "App.ratio"
+          }
+        }
+        returns "Double"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

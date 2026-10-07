@@ -32,11 +32,8 @@ What a run does once the build has answered everything it can. Order, boundaries
 
 What `conformance/` asks about this page, by the name each case's file carries.
 
-- `a-call-of-a-value-settles-its-answer-to-the-fraction-its-slot-wrote-answers`
 - `a-call-of-a-value-settles-its-answer-to-the-record-its-slot-wrote-answers`
-- `a-call-through-a-type-parameter-settles-a-closure-answer-to-the-fraction-its-slot-wrote-answers`
 - `a-call-through-a-type-parameter-settles-a-closure-answer-to-the-record-its-slot-wrote-answers`
-- `a-call-through-a-type-parameter-settles-a-closure-answer-to-what-a-module-variable-declared-answers`
 - `a-called-value-answers-what-its-slot-wrote`
 - `a-calls-arguments-are-evaluated-in-position-order`
 - `a-cast-of-a-closure-a-contract-slot-held-back-to-the-number-it-answers-answers`
@@ -47,9 +44,12 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-cast-of-a-closure-that-passed-a-slot-answering-anything-to-another-record-reads-null-answers`
 - `a-cast-of-a-closure-to-a-procedure-answering-another-record-reads-null-answers`
 - `a-closure-a-record-slot-took-the-name-from-settles-into-another-record-slot-answers`
-- `a-closure-a-slot-widened-fills-a-type-parameter-with-what-the-slot-wrote-answers`
+- `a-closure-answering-a-whole-number-does-not-fit-a-slot-answering-a-fraction-refuses`
 - `a-closure-answering-anything-read-as-answering-text-refuses-where-it-is-called`
 - `a-closure-held-at-a-slot-writing-its-own-answer-keeps-that-answer-through-a-type-parameter-answers`
+- `a-closure-literal-a-module-variable-starts-as-answers-what-the-variable-declares`
+- `a-closure-literal-completed-by-its-slot-fills-a-type-parameter-with-that-answer`
+- `a-closure-literal-written-into-a-slot-answers-what-the-slot-says`
 - `a-closure-settled-into-a-contract-slot-keeps-the-record-an-earlier-slot-wrote-answers`
 - `a-contract-answer-settles-what-it-wrote-and-hands-on-what-the-call-filled-answers`
 - `a-contract-answering-a-type-parameter-hands-the-answer-on-as-it-came-answers`

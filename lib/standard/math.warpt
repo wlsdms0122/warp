@@ -11,6 +11,22 @@ warpt 1
     "Standard.Math.absolute" {
       body [
         {
+          let "zero"
+          value {
+            call {
+              arguments [
+                {
+                  ref "number"
+                }
+                {
+                  ref "number"
+                }
+              ]
+              procedure "Standard.Math.minus"
+            }
+          }
+        }
+        {
           value {
             conditional {
               then [
@@ -25,7 +41,9 @@ warpt 1
               when {
                 call {
                   arguments [
-                    0
+                    {
+                      ref "zero"
+                    }
                     {
                       ref "number"
                     }
@@ -50,7 +68,9 @@ warpt 1
       result {
         call {
           arguments [
-            0
+            {
+              ref "zero"
+            }
             {
               ref "number"
             }

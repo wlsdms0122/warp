@@ -4,7 +4,7 @@ warpt 1
     answers "1.0"
   }
   name "a-contract-answer-settles-what-it-wrote-and-hands-on-what-the-call-filled-answers"
-  note "`App.Paired.pair` takes `some T` and answers `{ v: some T, n: double }`, and `Bank.Card.pair` writes no `returns` and answers `{ v: a, n: 1 }`. The call settles the answer to what the contract wrote, position by position: `n` is a fraction, and `v` is what the call filled `T` with and stands as it came. So the text of `n` is `1.0`."
+  note "`App.Paired.pair` takes `some T` and answers `{ v: some T, n: Double }`, and `Bank.Card.pair` writes no `returns` and answers `{ v: a, n: 1.0 }`. The call reads the answer by what the contract wrote, position by position: `n` is a fraction, and `v` is what the call filled `T` with and stands as it came. So the text of `n` is `1.0`."
   program {
     contracts {
       "App.Paired" {
@@ -45,7 +45,7 @@ warpt 1
         ]
         result {
           record {
-            n 1
+            n 1.0
             v {
               ref "a"
             }

@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    answers 10
+    refuses "build"
   }
-  name "a-parameter-read-as-ranges-of-two-kinds-is-the-looser-kind"
-  note "App.pick reads its some T as a range of fractions and as a range of whole numbers, and answers what it was handed through any. The reading that holds both is double, the kind of the looser range, so the 10 is not judged against the narrower range."
+  name "a-parameter-read-as-ranges-of-two-kinds-refuses"
+  note "App.pick reads its some T as a range of fractions and as a range of whole numbers. No value is both a whole number and a fraction, so no one type holds both readings, and the call is refused at the build."
   program {
     imports []
     procedures {

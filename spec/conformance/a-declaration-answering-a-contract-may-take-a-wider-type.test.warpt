@@ -4,7 +4,7 @@ warpt 1
     answers 7
   }
   name "a-declaration-answering-a-contract-may-take-a-wider-type"
-  note "The contract takes an int and the declaration answering it takes a double. Every int a call through the contract hands is a double, so the declaration answers the contract."
+  note "The contract takes an Int and the declaration answering it takes `Int?`. Every Int a call through the contract hands is an `Int?`, so the declaration answers the contract."
   program {
     contracts {
       "App.Sized" {
@@ -33,7 +33,7 @@ warpt 1
           }
           {
             name "n"
-            type "Double"
+            type "Int?"
           }
         ]
         result 7

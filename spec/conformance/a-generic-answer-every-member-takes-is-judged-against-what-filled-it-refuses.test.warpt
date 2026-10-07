@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    refuses "run"
+    refuses "build"
   }
   name "a-generic-answer-every-member-takes-is-judged-against-what-filled-it-refuses"
-  note "App.gen answers some T bounded by App.Real, whose one member is double, and its body answers 2.5. The call fills T with int, which double admits, so the answer is judged as an int where the call reads it."
+  note "App.gen answers some T bounded by App.Real, whose one member is Double, and its body answers 2.5. The call fills T with Int, which App.Real does not admit, so the call is refused at the build."
   program {
     constraints {
       "App.Real" [

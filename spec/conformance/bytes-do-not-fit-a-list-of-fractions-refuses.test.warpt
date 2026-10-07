@@ -1,13 +1,10 @@
 warpt 1
 {
   expect {
-    answers [
-      104.0
-      105.0
-    ]
+    refuses "build"
   }
-  name "an-array-slot-that-changes-a-byte-reads-them-out"
-  note "The compact spelling crosses only where the element declaration would leave a byte as it is. `Array<Double>` widens every one of them, so the elements are read out through the equation and settle one by one. The same widening a `Double` slot does to a whole number, one collection up."
+  name "bytes-do-not-fit-a-list-of-fractions-refuses"
+  note "Bytes are a list of whole numbers in a compact spelling, and a whole number is no fraction. `Array<Double>` takes none of them, so bytes handed there are refused at the build."
   program {
     imports []
     procedures {

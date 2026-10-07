@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    answers "1.0"
+    refuses "build"
   }
-  name "a-call-through-a-type-parameter-settles-a-closure-answer-to-the-fraction-its-slot-wrote-answers"
-  note "`c` is held at `procedure() -> double` and its closure answers the whole number 1. `App.run` takes `procedure() -> some T`, so `v` reads as `Double`. The closure keeps the answer its slot wrote, so the call inside `App.run` settles it to the fraction 1.0, and its text says so."
+  name "a-closure-answering-a-whole-number-does-not-fit-a-slot-answering-a-fraction-refuses"
+  note "A value's type is fixed at the build, and a whole number is no fraction. A closure that writes `returns Int` answers whole numbers, so it does not fit a slot of `Procedure<() -> Double>`: nothing turns the one answer into the other."
   program {
     imports [
       "Standard.Text.text"
@@ -43,6 +43,7 @@ warpt 1
             value {
               closure {
                 result 1
+                returns "Int"
               }
             }
           }

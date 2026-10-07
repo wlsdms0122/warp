@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    answers "1"
+    answers "1.0"
   }
   name "a-contract-answering-a-type-parameter-hands-the-answer-on-as-it-came-answers"
-  note "`App.Two.two` takes two of `some T` and answers `some T`, and `Bank.Card.two` answers the first. Called with 1 and 2.5, `T` is read as a fraction, and the answer is what the call filled the parameter with, so the call judges it and hands it on as it came: the whole number 1, whose text is `1`."
+  note "`App.Two.two` takes two of `some T` and answers `some T`, and `Bank.Card.two` answers the first. Called with 1 and 2.5, `T` is read as a fraction, so the literal 1 is the fraction it names, and the answer is what the call filled the parameter with, handed on as it came: the fraction 1.0, whose text is `1.0`."
   program {
     contracts {
       "App.Two" {

@@ -3,8 +3,8 @@ warpt 1
   expect {
     answers 1.5
   }
-  name "arithmetic-whole-widens-to-fraction"
-  note "Every whole number is a fraction and the reverse is false, so the conversion that cannot lose anything is the one that happens."
+  name "arithmetic-reads-a-whole-literal-beside-a-fraction-as-the-fraction"
+  note "Arithmetic takes two of one kind. A whole number written as a literal beside a fraction is read as the fraction it names, so `1` and `0.5` are two fractions and the sum is 1.5."
   program {
     imports [
       "Standard.Math.plus"

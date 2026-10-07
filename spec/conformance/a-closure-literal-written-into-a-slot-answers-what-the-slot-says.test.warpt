@@ -3,8 +3,8 @@ warpt 1
   expect {
     answers "1.0"
   }
-  name "a-call-of-a-value-settles-its-answer-to-the-fraction-its-slot-wrote-answers"
-  note "`c` is held at `procedure() -> double`, and the closure in it answers the whole number 1. Calling `c` answers what its slot wrote, and that answer settles to it, so `v` is the fraction 1.0, and its text says so."
+  name "a-closure-literal-written-into-a-slot-answers-what-the-slot-says"
+  note "`c` declares `Procedure<() -> Double>`, and the closure literal written there writes no `returns`, so it answers what its place says: its literal 1 is the fraction 1.0, and the text of the answer says so."
   program {
     imports [
       "Standard.Text.text"

@@ -146,9 +146,9 @@ Behaviour at the edges, where implementations quietly differ, stated as requirem
 - Ordering (`lessThan`, `greaterThan`, `sorted`, `min`, `max`) compares two of a kind under `Standard.Comparable`, and text is a kind. A kind the constraint does not admit refuses at the build where the text says so, and at the boundary where the value arrives through `Any`.
 - Whole-number arithmetic with no whole answer **refuses at the run**. It does not wrap and does not silently widen. The rule covers every standard procedure that answers an `Int` and can miss it: `plus`, `minus`, `times` off the int's edge, `absolute` of the int's own minimum, and `floored`/`rounded` of a fraction whose whole part is past the int. `remainder` is not on the list because its answer always fits. A remainder is smaller in size than its divisor, and the one divisor that trips a machine's division instruction still has one: `-9223372036854775808 remainder -1` answers `0`. These run-stage refusals (overflow, and the zero divisor below) are the program's own defect, not a failure of the work: an `attempt` does **not** catch them, the way it does not catch an index past the end. What a rescue catches is `abort` and a procedure's own failure.
 - Fraction arithmetic with no finite answer **refuses at the run** for the same reason: infinity is a value the arithmetic can reach and no document can carry.
-- `dividedBy` answers a fraction, whole or not. Division by zero **refuses at the run**. The quotient is binary64's own: a whole operand reads as the fraction nearest it first, the same widening every mixed operation performs, and the division rounds once more, so two implementations spell the same quotient bit for bit.
+- `dividedBy` answers a fraction, whole or not. Division by zero **refuses at the run**. The quotient is binary64's own: a whole operand reads as the fraction nearest it first, and the division rounds once more, so two implementations spell the same quotient bit for bit.
 - `remainder` truncates toward zero, for wholes and fractions alike: what is left takes the dividend's sign, so `-7 remainder 3` is `-1`, `7 remainder -3` is `1` and `-5.5 remainder 2.0` is `-1.5`. A zero divisor **refuses at the run**, the same as under `dividedBy`.
-- A whole number where a fraction is expected widens; the reverse refuses.
+- A whole number is no fraction, and a fraction is no whole number: a value of one kind where the other is declared refuses. A whole number written as a literal beside fractions, or where a fraction is expected, is read as the fraction it names.
 
 What a host brings beyond these (its own procedures, and which of them answer without running) is the host's, and is the boundary to the outside world: a program reaches nothing except by sending a procedure the host declared.
 
@@ -176,7 +176,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `absolute-drops-the-sign-of-negative-zero`
 - `absolute-floored-and-rounded-answer-a-whole`
 - `absolute-of-the-minimum-refuses`
-- `an-array-slot-that-changes-a-byte-reads-them-out`
 - `an-attempt-does-not-catch-overflow`
 - `an-operand-of-and-that-answers-no-bool-refuses`
 - `append-writes-the-array-in-place`
@@ -186,8 +185,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `arithmetic-divides-to-a-fraction`
 - `arithmetic-on-a-value-it-does-not-take-refuses`
 - `arithmetic-overflow-refuses`
-- `arithmetic-whole-widens-to-fraction`
+- `arithmetic-reads-a-whole-literal-beside-a-fraction-as-the-fraction`
 - `bytes-cross-an-array-slot-in-their-own-spelling`
+- `bytes-do-not-fit-a-list-of-fractions-refuses`
 - `bytes-do-not-order`
 - `case-mapping-takes-no-locale`
 - `characters-answers-grapheme-clusters`
