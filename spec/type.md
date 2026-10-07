@@ -6,13 +6,13 @@ A type is written as a string, or as a record for what a string cannot say:
 
 | written | means |
 |---|---|
-| `null` `Bool` `Int` `Double` `String` | the scalar kinds |
+| `Null` `Bool` `Int` `Double` `String` | the scalar kinds |
 | `Any` | anything |
 | `Never` | never answers. The type `Standard.Control.abort` declares, and what makes a leaving call checkable |
-| `Array<T>` / `Dictionary<T>` | a list / map of `T`; `Array<Any>` is a list of anything, and `array` or `dictionary` written bare **refuses at the load** |
-| `procedure` | some procedure, signature unsaid |
+| `Array<T>` / `Dictionary<T>` | a list / map of `T`; `Array<Any>` is a list of anything, and `Array` or `Dictionary` written bare **refuses at the load** |
+| `Procedure` | some procedure, signature unsaid |
 | `const <Procedure type>` | a procedure that answers without running, under *what answers without running* in [procedures](procedure.md) |
-| `isolated <Procedure type>` | a procedure that touches no name another body could touch at once; `const isolated procedure` says both, `const` first |
+| `isolated <Procedure type>` | a procedure that touches no name another body could touch at once; `const isolated Procedure` says both, `const` first |
 | `inout <type>` | a parameter handed a variable in place; written on a parameter's type and nowhere else |
 | `{ linear: <type> }` | a type whose values are handed on exactly once; written on a type in `types` and nowhere else, and every slot naming that type carries it |
 | `consuming <type>` / `borrowing <type>` | what a parameter does with a linear value: takes the obligation, or reads and leaves it. Written on a parameter's type and nowhere else |
@@ -24,10 +24,10 @@ A type is written as a string, or as a record for what a string cannot say:
 | `Describable & Standard.Comparable` | a value of whatever type satisfies every contract and belongs to every membership named; the names in name order, and each a contract's or a membership's |
 | `Int(0...255)`, `Double(0.0..<1.0)` | a number the slot admits only inside the range. The kind written out, either bound optional but not both, and `..<` leaving the far bound outside |
 | `Int?` (any string spelling and `?`) | the declared type or null. The one union written inline, and it is null-only. Any other is declared as a membership and named |
-| `{ record: { title: string, done: bool } }` | a record type, its fields under `record`; structural, and it names nothing. A field may be called anything |
-| `{ Procedure: { parameters: [<type>, …], returns: … } }` | a procedure type: the types it is called with, in position order, and what it answers. No names, since a name is a declaration's and a value is called by position; a mark such as `inout` is written on the type it stands in front of |
+| `{ record: { title: String, done: Bool } }` | a record type, its fields under `record`; structural, and it names nothing. A field may be called anything |
+| `{ procedure: { parameters: [<type>, …], returns: … } }` | a procedure type: the types it is called with, in position order, and what it answers. No names, since a name is a declaration's and a value is called by position; a mark such as `inout` is written on the type it stands in front of |
 | `{ "const procedure": { … } }` | a procedure type with its marks and modifiers on the key, `inout` or `consuming` or `borrowing` first, then `const` and `isolated`, the way they stand in front of the string form |
-| `{ Array: <type> }` / `{ Dictionary: <type> }` | a list / map of a type that has no string spelling, a procedure type or a record type. Where the element has a spelling the type is written `Array<T>`, and the record form around it **refuses at the load** |
+| `{ array: <type> }` / `{ dictionary: <type> }` | a list / map of a type that has no string spelling, a procedure type or a record type. Where the element has a spelling the type is written `Array<T>`, and the record form around it **refuses at the load** |
 
 Acceptance is one-way where the kinds nest: `Double` accepts an `Int` (a whole number widens to a fraction; the reverse **refuses**), `Any` accepts everything. A slot that takes either kind of number is bounded by the membership `Standard.Numeric`, under [the standard vocabulary](vocabulary.md).
 
@@ -47,7 +47,7 @@ Acceptance is one-way where the kinds nest: `Double` accepts an `Int` (a whole n
   - **The far bound may be left outside.** `a...b` holds it and `a..<b` does not: the half-open interval is what a position below a length is written against, and for a fraction it is the one nothing can spell by moving a bound. The near bound is always inside, which is the convention every half-open interval is already read by; there is one spelling per range because of it. `..<` with nothing after it **refuses at the load**. It says the far bound is outside, and there is no far bound.
   - Before the run, acceptance reads a range as the kind under it on either side. Only what is provably outside is refused early, and a reading's worth is not knowable, so a call handing a declared `Int` to an `Int(0...255)` slot builds and the boundary judges. Two ranges are both the text's fact, so bounds that cannot overlap are refused early, across kinds as well as within one.
   - Either bound may be open (`Int(0...)`, `Int(...255)`); neither may be (`Int(...)` says nothing and **refuses at the load**), and a range whose bounds admit nothing (`Int(9...1)`, or `Int(5..<5)` where the far bound is excluded and the near one stands on it) is a slot no call could fit, **refused at the build** where the declaration wrote it, exactly as an empty `enum` is. A whole bound must be a number an `Int` holds, and a padded or signed spelling (`Int(007...)`, `Int(+1...)`) or a bound past what an `Int` holds both **refuse at the load**, each named as what it is.
-  - A module gives a range a name the way it names any type, and a name takes no range of its own, so `Standard.Byte(0...10)` is not a type: `Standard` declares `Standard.Byte = int(0...255)`, and there is no separate byte kind.
+  - A module gives a range a name the way it names any type, and a name takes no range of its own, so `Standard.Byte(0...10)` is not a type: `Standard` declares `Standard.Byte = Int(0...255)`, and there is no separate byte kind.
   - A bound is written as the value it is, so a fraction bound is a fraction's one spelling. A host may assemble a range bounded by an infinity. It orders like any other bound, and the build takes it, but no document spells one, so **writing that range out refuses**, the way every type a document cannot say does, rather than coming back as something a reader would reject.
 
 `Never` is a real type and fits **every** slot, by never arriving: an expression typed `Never` may be written where any value is expected, such as an argument that calls `Standard.Control.abort`, and evaluating it ends the evaluation it is inside. The statement rules (no name, nothing follows) are statement rules; in expression position there is nothing extra to say, because nothing after the expression is reached at all.

@@ -52,7 +52,7 @@ A *type* is `[tag, …]`:
 |---|---|---|
 | 0 | `Any` | |
 | 1 | `Never` | |
-| 2 | `null` | |
+| 2 | `Null` | |
 | 3 | `Bool` | |
 | 4 | `Int` | |
 | 5 | `Double` | |
@@ -61,7 +61,7 @@ A *type* is `[tag, …]`:
 | 8 | `Array<T>` | *type* |
 | 9 | `Dictionary<T>` | *type* |
 | 10 | record | name → *type* |
-| 11 | `procedure` | *procedure type* or nothing, *constness*, *isolation* |
+| 11 | `Procedure` | *procedure type* or nothing, *constness*, *isolation* |
 | 12 | `var T` | *type* |
 | 13 | `inout T` | *type* |
 | 14 | `linear T` | *type* |
@@ -143,7 +143,7 @@ A *lowered type* is a type as a body stands on it, `[tag, …]`:
 
 | tag | lowered type | fields |
 |---|---|---|
-| 0 to 6 | `Any` `Never` `null` `Bool` `Int` `Double` `String` | |
+| 0 to 6 | `Any` `Never` `Null` `Bool` `Int` `Double` `String` | |
 | 7 | ranged | *refinement* |
 | 8 | array | *lowered type* |
 | 9 | dictionary | *lowered type* |

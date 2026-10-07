@@ -6,7 +6,7 @@ Seven bundles, each taken with what it depends on, so a host grants what its pro
 
 | module | procedures |
 |---|---|
-| `Standard` | None. It declares the memberships `Standard.Numeric`, `Standard.Comparable` and `Standard.Collection`, and the type `Standard.Byte = int(0...255)` |
+| `Standard` | None. It declares the memberships `Standard.Numeric`, `Standard.Comparable` and `Standard.Collection`, and the type `Standard.Byte = Int(0...255)` |
 | `Standard.Logic` | `equal` `notEqual` `not` `and` `or` `select` |
 | `Standard.Math` | `plus` `minus` `times` `dividedBy` `remainder` `min` `max` `absolute` `floored` `rounded` `lessThan` `greaterThan` |
 | `Standard.Text` | `text` `characters` `contains` `startsWith` `uppercased` `lowercased` `trimmed` `split` `joined` `replacing` `decoded` `encoded` |
@@ -96,20 +96,20 @@ One of these is builtin for a reason that is not the set it removes. `trimmed` n
 
 | procedure | parameters | answers |
 |---|---|---|
-| `append` | `Array: inout Array<some Element>`, `element: some Element` | `null`, having written the element onto the end of the array the variable holds, in place |
+| `append` | `array: inout Array<some Element>`, `element: some Element` | `null`, having written the element onto the end of the array the variable holds, in place |
 | `count` | `collection: Standard.Collection`. The membership of `String`, `array` and `dictionary`; bytes stand as an array and a record as a dictionary | `Int` |
-| `contains` | `Array: Array<some Element>`, `element: some Element` | `Bool` |
-| `first`, `last` | `Array: Array<some Element>` | `some Element`. Over nothing there is no element to answer, and the read of one **refuses at the run**, the way any index past the end does |
-| `reversed`, `dropFirst`, `dropLast` | `Array: Array<some Element>` | `Array<some Element>` |
-| `sorted` | `Array: Array<some Element>` | `Array<some Element>`. Bounds `Element: Standard.Comparable` |
-| `appending`, `prepending` | `Array: Array<some Element>`, `element: some Element` | `Array<some Element>` |
-| `gathering` | `Array: Array<some Element>`, `positions: Array<Int>`. Where to read, in the order to read it | `Array<some Element>`, the collection's own, in the collection's spelling. A position the collection does not hold refuses at the run |
-| `map` | `Array: Array<some Element>`, `transform`. `const` procedure, handed the item, answering `some Answer` | `Array<some Answer>` |
-| `filter` | `Array: Array<some Element>`, `isIncluded`. `const` procedure, handed the item, answering `Bool` | `Array<some Element>` |
-| `reduce` | `Array: Array<some Element>`, `initialResult: some Carried`, `nextPartialResult`. `const` procedure, handed the carried value, then the item, answering `some Carried` | `some Carried` |
-| `keys` | `Dictionary: Dictionary<Any>` | `Array<String>` |
-| `values` | `Dictionary: Dictionary<some Entry>` | `Array<some Entry>` |
-| `setting` | `Dictionary: Dictionary<Any>`, `key: String`, `value: Any` | `Dictionary<Any>`. The key becomes a field's name, so a key that is not a name (empty, or not in normal form C) **refuses at the run** |
+| `contains` | `array: Array<some Element>`, `element: some Element` | `Bool` |
+| `first`, `last` | `array: Array<some Element>` | `some Element`. Over nothing there is no element to answer, and the read of one **refuses at the run**, the way any index past the end does |
+| `reversed`, `dropFirst`, `dropLast` | `array: Array<some Element>` | `Array<some Element>` |
+| `sorted` | `array: Array<some Element>` | `Array<some Element>`. Bounds `Element: Standard.Comparable` |
+| `appending`, `prepending` | `array: Array<some Element>`, `element: some Element` | `Array<some Element>` |
+| `gathering` | `array: Array<some Element>`, `positions: Array<Int>`. Where to read, in the order to read it | `Array<some Element>`, the collection's own, in the collection's spelling. A position the collection does not hold refuses at the run |
+| `map` | `array: Array<some Element>`, `transform`. `const` procedure, handed the item, answering `some Answer` | `Array<some Answer>` |
+| `filter` | `array: Array<some Element>`, `isIncluded`. `const` procedure, handed the item, answering `Bool` | `Array<some Element>` |
+| `reduce` | `array: Array<some Element>`, `initialResult: some Carried`, `nextPartialResult`. `const` procedure, handed the carried value, then the item, answering `some Carried` | `some Carried` |
+| `keys` | `dictionary: Dictionary<Any>` | `Array<String>` |
+| `values` | `dictionary: Dictionary<some Entry>` | `Array<some Entry>` |
+| `setting` | `dictionary: Dictionary<Any>`, `key: String`, `value: Any` | `Dictionary<Any>`. The key becomes a field's name, so a key that is not a name (empty, or not in normal form C) **refuses at the run** |
 
 `gathering` is how a procedure answers a collection's own elements. It says which by position, and the answer comes back in the spelling the collection arrived in: bytes rearranged are bytes. This is the whole of what `reversed`, `dropFirst`, `dropLast`, `filter` and `sorted` add to a walk, and it is the reason those are written in Warp rather than asked of an implementation. A body that read the elements out and put them back would answer an array of numbers, because an array it started empty has no spelling to keep. The standard name for reading one collection at another's positions is a **gather**.
 
@@ -124,7 +124,7 @@ One of these is builtin for a reason that is not the set it removes. `trimmed` n
 | procedure | parameters | answers |
 |---|---|---|
 | `all`, `first` | `pieces: Standard.Concurrent.Pieces`. The membership of `Array<isolated Procedure>` and `Dictionary<isolated Procedure>` | `Any` |
-| `map` | `Array: Array<some Element>`, `transform`. `isolated Procedure`, handed the item, then its index, answering `some Answer` | `Array<some Answer>` |
+| `map` | `array: Array<some Element>`, `transform`. `isolated Procedure`, handed the item, then its index, answering `some Answer` | `Array<some Answer>` |
 
 **`Standard.Concurrent`**. Running closures at once. `all` takes a record or an array of closures, runs every one, and answers every answer. A record's under its keys, an array's in its order; a failure fails the whole procedure with every piece's failure reported, keyed by the piece it came from. `first` takes the same and answers the first success, asking the rest to stop; which piece wins is the one timing fact this language admits. `map` takes a collection and one closure, calls it once per element, handing it the element and then its index, and answers in the collection's order. These are procedures rather than grammar because a closure is already the safe unit of concurrent work, and being procedures makes concurrency a permission: what a host does not link, a program cannot do.
 
