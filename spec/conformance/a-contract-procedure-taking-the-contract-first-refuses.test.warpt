@@ -1,0 +1,33 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-contract-procedure-taking-the-contract-first-refuses"
+  note "The contract's own name, written where a type is, is a value of whichever type answers it, and such a value is not one type. The value a contract's procedure is answered about is of the one type answering it, `Self`, so a procedure taking the contract's name first is refused."
+  program {
+    contracts {
+      "App.Named" {
+        name {
+          parameters [
+            {
+              name "of"
+              type "App.Named"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

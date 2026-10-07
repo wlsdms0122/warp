@@ -1,0 +1,43 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "self-outside-a-contract-refuses"
+  note "`Self` stands for the type answering a contract and is written in that contract's procedures alone. A declaration writing it names no type."
+  program {
+    contracts {
+      "App.Ordered" {
+        before {
+          parameters [
+            {
+              name "lhs"
+              type "Self"
+            }
+            {
+              name "rhs"
+              type "Self"
+            }
+          ]
+          returns "Bool"
+        }
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "x"
+            type "Self"
+          }
+        ]
+        result 1
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

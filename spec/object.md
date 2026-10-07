@@ -72,6 +72,7 @@ A *type* is `[tag, …]`:
 | 19 | a type parameter | name, its bounds: names ascending |
 | 20 | a composition `A & B` | names ascending, at least one |
 | 21 | a projection | the parameter projected, the path: *segment* list |
+| 22 | `Self` | |
 
 A *refinement* is `[0, from, to]` over whole numbers or `[1, from, to]` over fractions, each end a list of none or one; the upper end is an *edge*, `[0, bound]` where the bound is inside or `[1, bound]` where it is out. A *segment* is `[0, name, optional]`, `[1, index, optional]` or `[2, path, optional]` for an index read from a path.
 

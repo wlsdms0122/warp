@@ -19,6 +19,7 @@ A type is written as a string, or as a record for what a string cannot say:
 | `var <type>` | a field a path may write through; written on a field of a type declared in `types` and nowhere else |
 | `Task` (any declared name) | the type a module declares under that name, or a value of the membership it declares under that name |
 | `some T` | a type parameter: worked out from the call, same reading everywhere it appears; bounded when the signature's `bounds` names it |
+| `Self` | the type answering a contract, written in that contract's procedures alone |
 | `Describable` (a declared contract's name) | a value of whatever type satisfies the contract. Nothing ties one slot's to another's |
 | `Describable & Standard.Comparable` | a value of whatever type satisfies every contract and belongs to every membership named; the names in name order, and each a contract's or a membership's |
 | `Int(0...255)`, `Double(0.0..<1.0)` | a number the slot admits only inside the range. The kind written out, either bound optional but not both, and `..<` leaving the far bound outside |
@@ -103,13 +104,13 @@ What **refuses at the build**:
 
 Only a procedure with **no body** ends the obligation. A body that takes one has to hand it on like any other, so the chain runs out at a native procedure.
 
-**Contracts.** A membership says which types a name admits. A contract says which **procedures** a value answers, which is the other half of "what may stand here" and the half a list cannot give: the types that answer a procedure are open, and new ones arrive with new documents. A module declares one the way it declares a type: a name bound to the procedures, each written as a signature whose first parameter is the contract itself, since what stands there is whatever satisfies the contract. A contract's procedure taking anything else first **refuses at the build**.
+**Contracts.** A membership says which types a name admits. A contract says which **procedures** a value answers, which is the other half of "what may stand here" and the half a list cannot give: the types that answer a procedure are open, and new ones arrive with new documents. A module declares one the way it declares a type: a name bound to the procedures, each written as a signature whose first parameter is `Self`, the type that answers the contract, since the value standing there is the one the procedure is answered about. `Self` may stand at any of the procedure's positions and in its answer, and it is that one type wherever it stands: a claim reads it as the type the claim is about, and a call through the contract reads it as one type parameter the contract bounds, filled from the call the way any type parameter is. A contract's procedure taking anything else first **refuses at the build**, the contract's own name included, since that is a value of whichever type answers it. `Self` written anywhere but a contract's procedures **refuses at the build**, and `some Self` **refuses at the load**.
 
-A contract's name stands where a type is written, and so does `A & B`: the slot takes a value of whatever type satisfies every contract and belongs to every membership named. It is a type parameter with no name, so nothing ties one slot's reading to another's, and a call fills nothing. A closure literal's parameter is such a slot too, and a call of the value holds what it hands to the contract by the rule a call to a declaration is held by. A name declared as neither a membership nor a contract joined with `&` **refuses at the build**.
+A contract's name stands where a type is written, and so does `A & B`: the slot takes a value of whatever type satisfies every contract and belongs to every membership named. It is a type parameter with no name, so nothing ties one slot's reading to another's, and a call fills nothing. A type parameter a contract bounds is one type wherever it stands, and a value of a contract is of whichever type answers it, so such a value fills one only where the parameter stands alone at one of the procedure's positions: `App.Described.describe` takes one, and a call handing one where the parameter stands twice, `Self` of `lhs` and `rhs` included, or inside a list or a record, **refuses at the build**. A closure literal's parameter is such a slot too, and a call of the value holds what it hands to the contract by the rule a call to a declaration is held by. A name declared as neither a membership nor a contract joined with `&` **refuses at the build**.
 
 A type **satisfies** a contract when a document says it does. The document writes the claim under `satisfies`, keyed by the type: `satisfies: { "Bank.Account": ["App.Describable"] }`. Any document may make one, about a type it declared or about another document's, which is how a document that arrives later gives a type the procedures a contract asks. A type the language names is a type the way a declared one is, and a claim may be about it: `satisfies: { Int: ["App.Describable"] }`, answered by `Int.describe`. A list and a map are named bare, `Array` and `Dictionary`. Every list is an instance of `Array` whatever it holds, since a value does not say which elements a slot declared it to hold, and a claim written about `Array<Int>` **refuses at the load**. Bytes are an instance of `Array`, and a record with no name an instance of `Dictionary`, its names being data. `Any`, `Never`, `Null` and `Procedure` are types no value is an instance of by name, and a claim about one **refuses at the load**. A claim about a declared name that is not itself a record, an alias included, **refuses at the build**: a value of a declared type is an instance of the record it is, and of no other name.
 
-The build holds the claim to the declarations behind it. For every procedure the contract asks, it takes the declaration named for the type and that procedure (`Bank.Account` and `describe` give `Bank.Account.describe`) and holds its signature to the contract's with the type taken first in place of the contract. A name that stands for a declared record names that record's type there, as wherever types are compared, so a declaration may write another name for the record the contract writes. A declaration that wrote no `returns` is held by what its body answers, read the way a call site reads it.
+The build holds the claim to the declarations behind it. For every procedure the contract asks, it takes the declaration named for the type and that procedure (`Bank.Account` and `describe` give `Bank.Account.describe`) and holds its signature to the contract's with the type in place of `Self` wherever the contract writes it. A name that stands for a declared record names that record's type there, as wherever types are compared, so a declaration may write another name for the record the contract writes. A declaration that wrote no `returns` is held by what its body answers, read the way a call site reads it.
 
 Whether a type answers a contract is therefore a fact of the whole list, and a claim may be written in a document the one leaning on it never names. A document handing a type where a contract is asked is not judged where it is compiled: the pair leaves the compile unresolved, the way a procedure the document sends and does not declare leaves it, and **refuses at the call that leaned on it** where the build cannot answer. A claim missing a procedure, or holding one whose signature does not fit, puts its type under no contract and its reason is what that refusal says.
 
@@ -212,7 +213,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-contract-or-null-slot-takes-a-parameter-of-a-membership-whose-member-holds-null`
 - `a-contract-or-null-slot-takes-a-parameter-whose-members-answer-or-are-null`
 - `a-contract-or-null-slot-takes-a-type-answering-the-contract`
-- `a-contract-procedure-takes-the-contract-first`
+- `a-contract-procedure-takes-self-first`
+- `a-contract-procedure-taking-the-contract-first-refuses`
 - `a-contract-slot-refuses-a-membership-with-a-member-that-may-be-null`
 - `a-contract-slot-refuses-a-name-for-what-may-be-null`
 - `a-contract-slot-refuses-what-may-be-null`
@@ -397,6 +399,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-some-outside-a-signature-refuses`
 - `a-type-form-beside-other-keys-refuses`
 - `a-type-no-claim-names-in-a-closures-contract-parameter-refuses`
+- `a-type-parameter-named-self-refuses`
 - `a-type-parameter-read-as-any-and-as-a-type-holds-any`
 - `a-type-parameter-read-loosely-and-tightly-holds-the-loose-reading`
 - `a-type-parameter-read-two-ways-is-refused`
@@ -411,6 +414,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-value-declares-every-parameter-the-slot-hands`
 - `a-value-handed-on-in-one-arm-and-not-the-other-refuses`
 - `a-value-handed-on-inside-a-loop-round-refuses`
+- `a-value-of-a-contract-at-two-self-positions-refuses`
+- `a-value-of-a-contract-inside-a-list-at-a-bounded-parameter-refuses`
 - `a-value-of-a-membership-answers-a-contract-every-member-satisfies`
 - `a-value-of-memberships-that-name-each-other-called-refuses`
 - `a-value-of-memberships-that-name-each-other-cast-to-a-member-answers`
@@ -439,6 +444,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-variable-written-into-memberships-that-name-each-other-through-a-type-name-refuses`
 - `a-whole-number-is-a-fraction`
 - `a-witness-may-write-another-name-for-the-record-a-contract-names`
+- `a-witness-takes-the-claimed-type-wherever-the-contract-writes-self-refuses`
 - `an-alias-of-a-contract-answers-the-contract`
 - `an-alias-of-a-declared-record-settles-to-the-records-name`
 - `an-alias-of-a-membership-answers-as-the-membership`
@@ -465,6 +471,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `records-of-two-layouts-holding-one-value-read-as-a-dictionary-at-a-bounded-parameter-refuses`
 - `records-of-two-layouts-of-member-fields-read-as-a-dictionary-at-a-bounded-parameter-answers`
 - `records-of-two-layouts-read-as-a-dictionary-at-a-bounded-parameter-refuses`
+- `self-in-an-answer-is-what-the-call-filled-it-with`
+- `self-outside-a-contract-refuses`
+- `self-stands-for-the-type-answering-a-contract`
 - `the-far-bound-of-a-range-may-be-left-outside`
 - `two-documents-claiming-one-pair-are-one-claim`
 - `var-written-on-an-inline-record-field-refuses`
