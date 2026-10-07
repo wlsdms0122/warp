@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-closures-parameter-is-not-the-const-procedure-it-shadows"
-  note "A closure's parameter is its own name, whatever a name of the same spelling outside it holds. A closure calling a parameter whose slot says only `procedure` does not answer without running, even where an outer name of that spelling is a `const procedure`, so a slot asking `const procedure` refuses it at the build."
+  note "A closure's parameter is its own name, whatever a name of the same spelling outside it holds. A closure calling a parameter whose slot says only `procedure` does not answer without running, even where an outer name of that spelling is a `const Procedure`, so a slot asking `const Procedure` refuses it at the build."
   program {
     imports []
     procedures {
@@ -17,13 +17,13 @@ warpt 1
                 parameters [
                   {
                     name "x"
-                    type "int"
+                    type "Int"
                   }
                 ]
                 result {
                   ref "x"
                 }
-                returns "int"
+                returns "Int"
               }
             }
           }
@@ -52,13 +52,13 @@ warpt 1
                   {
                     procedure {
                       parameters [
-                        "int"
+                        "Int"
                       ]
-                      returns "int"
+                      returns "Int"
                     }
                   }
                 ]
-                returns "int"
+                returns "Int"
               }
             }
           }
@@ -66,7 +66,7 @@ warpt 1
         result {
           ref "answered"
         }
-        returns "int"
+        returns "Int"
       }
       entry {
         access "public"
@@ -76,9 +76,9 @@ warpt 1
             type {
               "const procedure" {
                 parameters [
-                  "int"
+                  "Int"
                 ]
-                returns "int"
+                returns "Int"
               }
             }
             value {
@@ -86,13 +86,13 @@ warpt 1
                 parameters [
                   {
                     name "x"
-                    type "int"
+                    type "Int"
                   }
                 ]
                 result {
                   ref "x"
                 }
-                returns "int"
+                returns "Int"
               }
             }
           }
@@ -121,9 +121,9 @@ warpt 1
                     type {
                       procedure {
                         parameters [
-                          "int"
+                          "Int"
                         ]
-                        returns "int"
+                        returns "Int"
                       }
                     }
                   }
@@ -131,7 +131,7 @@ warpt 1
                 result {
                   ref "y"
                 }
-                returns "int"
+                returns "Int"
               }
             }
           }
@@ -146,7 +146,7 @@ warpt 1
             procedure "asking"
           }
         }
-        returns "int"
+        returns "Int"
       }
     }
     warp 1

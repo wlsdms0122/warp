@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-constant-a-closure-answers-must-fit-what-it-declared"
-  note "A closure literal writes its `returns` beside its body, so a constant it answers is held to the range the way a declaration's is. `300` reads `int`, which the range takes as a type, and the value is not one the range admits."
+  note "A closure literal writes its `returns` beside its body, so a constant it answers is held to the range the way a declaration's is. `300` reads `Int`, which the range takes as a type, and the value is not one the range admits."
   program {
     imports []
     procedures {
@@ -16,7 +16,7 @@ warpt 1
             value {
               closure {
                 result 300
-                returns "int(0...255)"
+                returns "Int(0...255)"
               }
             }
           }
@@ -34,7 +34,7 @@ warpt 1
         result {
           ref "read"
         }
-        returns "int"
+        returns "Int"
       }
     }
     warp 1

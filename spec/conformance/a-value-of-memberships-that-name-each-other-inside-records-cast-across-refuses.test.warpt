@@ -4,11 +4,11 @@ warpt 1
     refuses "build"
   }
   name "a-value-of-memberships-that-name-each-other-inside-records-cast-across-refuses"
-  note "`App.M` admits `string` and `{ a: App.M }`, and `App.N` admits `int` and `{ a: App.N }`. A string is never an int, and `{ a: App.M }` meets `{ a: App.N }` only by asking the same pair again inside the field, which answers nothing. So no value is both, and a cast of a name read as `App.M` to `App.N` refuses at the build."
+  note "`App.M` admits `String` and `{ a: App.M }`, and `App.N` admits `Int` and `{ a: App.N }`. A string is never an int, and `{ a: App.M }` meets `{ a: App.N }` only by asking the same pair again inside the field, which answers nothing. So no value is both, and a cast of a name read as `App.M` to `App.N` refuses at the build."
   program {
     constraints {
       "App.M" [
-        "string"
+        "String"
         {
           record {
             a "App.M"
@@ -16,7 +16,7 @@ warpt 1
         }
       ]
       "App.N" [
-        "int"
+        "Int"
         {
           record {
             a "App.N"

@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "an-operand-of-and-that-answers-no-bool-refuses"
-  note "`and` and `or` take an array of procedures each declared as answering `bool`. One answering anything else is refused at the build where it is handed."
+  note "`and` and `or` take an array of procedures each declared as answering `Bool`. One answering anything else is refused at the build where it is handed."
   program {
     imports [
       "Standard.Logic.and"
@@ -19,7 +19,7 @@ warpt 1
                 {
                   closure {
                     result 1
-                    returns "int"
+                    returns "Int"
                   }
                 }
               ]
@@ -27,7 +27,7 @@ warpt 1
             procedure "Standard.Logic.and"
           }
         }
-        returns "bool"
+        returns "Bool"
       }
     }
     warp 1

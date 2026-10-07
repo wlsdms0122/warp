@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-cast-to-a-procedure-type-answering-an-alias-of-what-it-answers-refuses"
-  note "`App.I` names `int`. `f` is read as `procedure() returns int`, and the cast names `procedure() returns App.I`: the same procedure type, its answer spelled another way. The cast names what the reading already is, so it refuses at the build."
+  note "`App.I` names `Int`. `f` is read as `procedure() returns int`, and the cast names `procedure() returns App.I`: the same procedure type, its answer spelled another way. The cast names what the reading already is, so it refuses at the build."
   program {
     imports []
     procedures {
@@ -15,7 +15,7 @@ warpt 1
             let "f"
             type {
               procedure {
-                returns "int"
+                returns "Int"
               }
             }
             value {
@@ -46,7 +46,7 @@ warpt 1
       }
     }
     types {
-      "App.I" "int"
+      "App.I" "Int"
     }
     warp 1
   }

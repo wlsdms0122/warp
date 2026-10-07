@@ -4,15 +4,15 @@ warpt 1
     answers 0
   }
   name "null-written-into-memberships-that-name-each-other-as-nullable-is-taken"
-  note "`App.M` admits `int` and `App.N`, and `App.N` admits `string` and `App.M?`. A variable declared `App.M` starts with a name read as null. Asking `App.N` of it reaches `App.M?`, which takes null as every `T?` does, without asking `App.M` of it again, so the value is one of `App.N` and so of `App.M`, and the run answers 0."
+  note "`App.M` admits `Int` and `App.N`, and `App.N` admits `String` and `App.M?`. A variable declared `App.M` starts with a name read as null. Asking `App.N` of it reaches `App.M?`, which takes null as every `T?` does, without asking `App.M` of it again, so the value is one of `App.N` and so of `App.M`, and the run answers 0."
   program {
     constraints {
       "App.M" [
-        "int"
+        "Int"
         "App.N"
       ]
       "App.N" [
-        "string"
+        "String"
         "App.M?"
       ]
     }

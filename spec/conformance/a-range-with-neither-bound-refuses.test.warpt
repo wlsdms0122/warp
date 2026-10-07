@@ -4,7 +4,7 @@ warpt 1
     refuses "load"
   }
   name "a-range-with-neither-bound-refuses"
-  note "Either bound may be left out, and not both: `int(...)` says nothing a bare `int` does not, and is refused where the document is read."
+  note "Either bound may be left out, and not both: `Int(...)` says nothing a bare `Int` does not, and is refused where the document is read."
   program {
     imports []
     procedures {
@@ -13,11 +13,11 @@ warpt 1
         parameters [
           {
             name "item"
-            type "int(...)"
+            type "Int(...)"
           }
         ]
         result 1
-        returns "int"
+        returns "Int"
       }
     }
     warp 1

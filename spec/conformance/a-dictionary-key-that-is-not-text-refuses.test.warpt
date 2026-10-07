@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-dictionary-key-that-is-not-text-refuses"
-  note "What stands between the brackets on a dictionary has to be able to be a string. `k` reads `int`, and `d[k]` refuses at the build."
+  note "What stands between the brackets on a dictionary has to be able to be a string. `k` reads `Int`, and `d[k]` refuses at the build."
   program {
     imports []
     procedures {
@@ -12,11 +12,11 @@ warpt 1
         parameters [
           {
             name "d"
-            type "dictionary<int>"
+            type "Dictionary<Int>"
           }
           {
             name "k"
-            type "int"
+            type "Int"
           }
         ]
         result {

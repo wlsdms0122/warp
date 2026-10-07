@@ -4,12 +4,12 @@ warpt 1
     refuses "build"
   }
   name "a-cast-of-a-record-holding-a-declared-record-to-a-dictionary-of-a-membership-of-another-refuses"
-  note "`Bank.A` and `Bank.B` are both declared `{ k: string }`, and `App.M2` admits `Bank.B` and `int`. The record `{ f: a }`, where `a` is a `Bank.A`, is a dictionary of `App.M2` only if its field is a `Bank.B` or a whole number, and it is neither. No value is both, so the cast `as dictionary<App.M2>` refuses at the build."
+  note "`Bank.A` and `Bank.B` are both declared `{ k: string }`, and `App.M2` admits `Bank.B` and `Int`. The record `{ f: a }`, where `a` is a `Bank.A`, is a dictionary of `App.M2` only if its field is a `Bank.B` or a whole number, and it is neither. No value is both, so the cast `as Dictionary<App.M2>` refuses at the build."
   program {
     constraints {
       "App.M2" [
         "Bank.B"
-        "int"
+        "Int"
       ]
     }
     imports []
@@ -37,7 +37,7 @@ warpt 1
                     }
                   }
                 }
-                type "dictionary<App.M2>"
+                type "Dictionary<App.M2>"
               }
             }
           }
@@ -48,12 +48,12 @@ warpt 1
     types {
       "Bank.A" {
         record {
-          k "string"
+          k "String"
         }
       }
       "Bank.B" {
         record {
-          k "string"
+          k "String"
         }
       }
     }

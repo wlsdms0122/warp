@@ -4,7 +4,7 @@ warpt 1
     refuses "run"
   }
   name "a-called-value-writes-in-place-held-to-its-slots-type"
-  note "A closure writing the parameter it takes in place is held to that parameter's type, the way a declaration's body is: `n` holds `int(0...10)`, and the write of 11 through the closure refuses at the run before it lands in the caller's box."
+  note "A closure writing the parameter it takes in place is held to that parameter's type, the way a declaration's body is: `n` holds `Int(0...10)`, and the write of 11 through the closure refuses at the run before it lands in the caller's box."
   program {
     imports [
       "Standard.Math.plus"
@@ -14,7 +14,7 @@ warpt 1
         access "public"
         body [
           {
-            type "int(0...10)"
+            type "Int(0...10)"
             value 10
             var "n"
           }
@@ -41,7 +41,7 @@ warpt 1
                 parameters [
                   {
                     name "count"
-                    type "inout int(0...10)"
+                    type "inout Int(0...10)"
                   }
                 ]
               }
@@ -65,7 +65,7 @@ warpt 1
         result {
           ref "n"
         }
-        returns "int"
+        returns "Int"
       }
     }
     warp 1

@@ -4,7 +4,7 @@ warpt 1
     answers 2
   }
   name "a-slot-naming-a-const-procedure-type-is-a-const-slot"
-  note "A slot says a procedure it holds answers without running by writing `const procedure`, and a slot naming a declared type that stands for one says the same: a name is what it names. A body calling what that slot holds still answers without running, so an operand may call it."
+  note "A slot says a procedure it holds answers without running by writing `const Procedure`, and a slot naming a declared type that stands for one says the same: a name is what it names. A body calling what that slot holds still answers without running, so an operand may call it."
   program {
     imports [
       "Standard.Math.plus"
@@ -35,7 +35,7 @@ warpt 1
         result {
           ref "a"
         }
-        returns "int"
+        returns "Int"
       }
       entry {
         access "public"
@@ -50,13 +50,13 @@ warpt 1
                         parameters [
                           {
                             name "x"
-                            type "int"
+                            type "Int"
                           }
                         ]
                         result {
                           ref "x"
                         }
-                        returns "int"
+                        returns "Int"
                       }
                     }
                   ]
@@ -68,16 +68,16 @@ warpt 1
             procedure "Standard.Math.plus"
           }
         }
-        returns "int"
+        returns "Int"
       }
     }
     types {
       "App.Pick" {
         "const procedure" {
           parameters [
-            "int"
+            "Int"
           ]
-          returns "int"
+          returns "Int"
         }
       }
     }

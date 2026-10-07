@@ -4,7 +4,7 @@ warpt 1
     answers 1
   }
   name "a-slot-that-wrote-no-returns-opens-its-answer-to-any"
-  note "Calling a value answers what the slot holding it wrote under `returns`; a slot that wrote none opens to `any`, so the answer stands at the build and is settled where it arrives at the run. The cast to `int` stands for that reason: an answer the build read as `int` would make it a cast naming what the reading already is."
+  note "Calling a value answers what the slot holding it wrote under `returns`; a slot that wrote none opens to `Any`, so the answer stands at the build and is settled where it arrives at the run. The cast to `Int` stands for that reason: an answer the build read as `Int` would make it a cast naming what the reading already is."
   program {
     imports []
     procedures {
@@ -35,10 +35,10 @@ warpt 1
             of {
               ref "got"
             }
-            type "int"
+            type "Int"
           }
         }
-        returns "int"
+        returns "Int"
       }
     }
     warp 1

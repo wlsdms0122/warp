@@ -4,16 +4,16 @@ warpt 1
     refuses "build"
   }
   name "a-variable-written-into-memberships-that-name-each-other-refuses"
-  note "`App.M` admits `App.N` and `array<int>`, and `App.N` admits `App.M` and `bool`. A variable declared `App.M` starts with a name read as `array<string>`. Asking `App.N` asks `App.M` of the same reading again, which takes nothing, and neither `array<int>` nor `bool` takes it, so the build refuses as it does for a literal."
+  note "`App.M` admits `App.N` and `Array<Int>`, and `App.N` admits `App.M` and `Bool`. A variable declared `App.M` starts with a name read as `Array<String>`. Asking `App.N` asks `App.M` of the same reading again, which takes nothing, and neither `Array<Int>` nor `Bool` takes it, so the build refuses as it does for a literal."
   program {
     constraints {
       "App.M" [
         "App.N"
-        "array<int>"
+        "Array<Int>"
       ]
       "App.N" [
         "App.M"
-        "bool"
+        "Bool"
       ]
     }
     imports []
@@ -23,7 +23,7 @@ warpt 1
         body [
           {
             let "s"
-            type "array<string>"
+            type "Array<String>"
             value [
               "a"
             ]

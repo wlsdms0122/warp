@@ -11,12 +11,12 @@ A program computes over eight kinds of data, plus one value that is not data:
 | int | `1`, `-3` | signed, 64-bit; overflow **refuses**, it does not wrap |
 | double | `1.0`, `1e2` | IEEE-754 binary64; a document cannot carry infinity or NaN |
 | string | `"hi"` | Unicode text |
-| bytes | `x"6869"` | `array<Standard.Byte>` in a compact spelling (`Standard.Byte` is `int(0...255)`, declared by `Standard`); what a carrying form carries when the payload is not text |
+| bytes | `x"6869"` | `Array<Standard.Byte>` in a compact spelling (`Standard.Byte` is `Int(0...255)`, declared by `Standard`); what a carrying form carries when the payload is not text |
 | array | `[ … ]` | ordered |
 | record | `{ … }`, or `Name { … }` | unordered fields, names unique; may carry the **name** of the declared type it settled to |
 | procedure | | code with what it captured; exists only at run time, never in a document |
 
-**A record's name.** A record made by a literal, answered by a native procedure or read from a document has no name. It takes one the first time it settles into a slot declaring a type whose structure is a record: an argument, an answer, a cast. From then on it carries that name through every slot declaring the type and through `any`; a structural slot, an inline record type or `dictionary<T>`, settles it to the slot's own layout, which has no name, under [Types](type.md).
+**A record's name.** A record made by a literal, answered by a native procedure or read from a document has no name. It takes one the first time it settles into a slot declaring a type whose structure is a record: an argument, an answer, a cast. From then on it carries that name through every slot declaring the type and through `Any`; a structural slot, an inline record type or `Dictionary<T>`, settles it to the slot's own layout, which has no name, under [Types](type.md).
 
 **When two values are the same:**
 

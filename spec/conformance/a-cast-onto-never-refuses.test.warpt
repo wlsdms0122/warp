@@ -7,7 +7,7 @@ warpt 1
     refuses "build"
   }
   name "a-cast-onto-never-refuses"
-  note "A cast names the type a value is read as. `never` is the type nothing arrives as, so a cast onto it is refused at the build."
+  note "A cast names the type a value is read as. `Never` is the type nothing arrives as, so a cast onto it is refused at the build."
   program {
     imports []
     procedures {
@@ -16,7 +16,7 @@ warpt 1
         parameters [
           {
             name "payload"
-            type "any"
+            type "Any"
           }
         ]
         result {
@@ -24,7 +24,7 @@ warpt 1
             of {
               ref "payload"
             }
-            type "never"
+            type "Never"
           }
         }
       }

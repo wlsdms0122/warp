@@ -7,7 +7,7 @@ warpt 1
     ]
   }
   name "an-array-slot-that-changes-a-byte-reads-them-out"
-  note "The compact spelling crosses only where the element declaration would leave a byte as it is. `array<double>` widens every one of them, so the elements are read out through the equation and settle one by one. The same widening a `double` slot does to a whole number, one collection up."
+  note "The compact spelling crosses only where the element declaration would leave a byte as it is. `Array<Double>` widens every one of them, so the elements are read out through the equation and settle one by one. The same widening a `Double` slot does to a whole number, one collection up."
   program {
     imports []
     procedures {
@@ -26,13 +26,13 @@ warpt 1
         parameters [
           {
             name "value"
-            type "array<double>"
+            type "Array<Double>"
           }
         ]
         result {
           ref "value"
         }
-        returns "array<double>"
+        returns "Array<Double>"
       }
     }
     warp 1

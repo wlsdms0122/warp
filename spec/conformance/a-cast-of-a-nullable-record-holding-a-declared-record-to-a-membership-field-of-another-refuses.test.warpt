@@ -4,12 +4,12 @@ warpt 1
     refuses "build"
   }
   name "a-cast-of-a-nullable-record-holding-a-declared-record-to-a-membership-field-of-another-refuses"
-  note "`Bank.A` and `Bank.B` are both declared `{ k: string }`, `App.M2` admits `Bank.B` and `int`, and `n` is read as `App.NRA`, which stands for `{ f: Bank.A }?`. Its field keeps the name `Bank.A` wherever it is settled, so a value of it is one of `{ f: App.M2 }` only if that field is a `Bank.B` or a whole number, and it is neither. No value is both, so the cast refuses at the build."
+  note "`Bank.A` and `Bank.B` are both declared `{ k: string }`, `App.M2` admits `Bank.B` and `Int`, and `n` is read as `App.NRA`, which stands for `{ f: Bank.A }?`. Its field keeps the name `Bank.A` wherever it is settled, so a value of it is one of `{ f: App.M2 }` only if that field is a `Bank.B` or a whole number, and it is neither. No value is both, so the cast refuses at the build."
   program {
     constraints {
       "App.M2" [
         "Bank.B"
-        "int"
+        "Int"
       ]
     }
     imports []
@@ -65,12 +65,12 @@ warpt 1
       }
       "Bank.A" {
         record {
-          k "string"
+          k "String"
         }
       }
       "Bank.B" {
         record {
-          k "string"
+          k "String"
         }
       }
     }

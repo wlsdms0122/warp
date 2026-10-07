@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-variable-of-another-type-is-not-handed-in-place-to-a-called-value"
-  note "A value taking a parameter in place takes the caller's own box, so the variable's declared type is the parameter's: a `double` where `inout int` stands refuses at the build."
+  note "A value taking a parameter in place takes the caller's own box, so the variable's declared type is the parameter's: a `Double` where `inout Int` stands refuses at the build."
   program {
     imports [
       "Standard.Math.plus"
@@ -14,7 +14,7 @@ warpt 1
         access "public"
         body [
           {
-            type "double"
+            type "Double"
             value 10.0
             var "n"
           }
@@ -41,7 +41,7 @@ warpt 1
                 parameters [
                   {
                     name "count"
-                    type "inout int"
+                    type "inout Int"
                   }
                 ]
               }
@@ -65,7 +65,7 @@ warpt 1
         result {
           ref "n"
         }
-        returns "double"
+        returns "Double"
       }
     }
     warp 1

@@ -4,7 +4,7 @@ warpt 1
     answers null
   }
   name "the-asking-cast-reads-another-name-as-null"
-  note "Through `any` the build cannot see the name, so the asking cast reads it at the run: a name that does not match reads as null, the way a type that does not match does."
+  note "Through `Any` the build cannot see the name, so the asking cast reads it at the run: a name that does not match reads as null, the way a type that does not match does."
   program {
     imports []
     procedures {
@@ -41,7 +41,7 @@ warpt 1
         parameters [
           {
             name "account"
-            type "any"
+            type "Any"
           }
         ]
         result {
@@ -58,12 +58,12 @@ warpt 1
     types {
       Account {
         record {
-          balance "int"
+          balance "Int"
         }
       }
       Vault {
         record {
-          balance "int"
+          balance "Int"
         }
       }
     }

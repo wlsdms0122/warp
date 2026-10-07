@@ -4,12 +4,12 @@ warpt 1
     answers 0
   }
   name "a-record-with-a-var-field-handed-at-a-dictionary-fills-a-parameter-by-its-values-answers"
-  note "`App.Box` declares `var a: int` and `b: int?`. `App.f` bounds `T` by `App.M`, which admits `int?` and `string`, and answers the `dictionary<some T>` it takes. Handed a box, the record is read as a dictionary by its fields' values, the `var` off, joined part by part, so `T` reads `int?`, the answer fits the name declaring `dictionary<int?>`, and the run answers 0."
+  note "`App.Box` declares `var a: Int` and `b: Int?`. `App.f` bounds `T` by `App.M`, which admits `Int?` and `String`, and answers the `Dictionary<some T>` it takes. Handed a box, the record is read as a dictionary by its fields' values, the `var` off, joined part by part, so `T` reads `Int?`, the answer fits the name declaring `Dictionary<Int?>`, and the run answers 0."
   program {
     constraints {
       "App.M" [
-        "int?"
-        "string"
+        "Int?"
+        "String"
       ]
     }
     imports []
@@ -21,13 +21,13 @@ warpt 1
         parameters [
           {
             name "d"
-            type "dictionary<some T>"
+            type "Dictionary<some T>"
           }
         ]
         result {
           ref "d"
         }
-        returns "dictionary<some T>"
+        returns "Dictionary<some T>"
       }
       entry {
         access "public"
@@ -44,7 +44,7 @@ warpt 1
           }
           {
             let "r"
-            type "dictionary<int?>"
+            type "Dictionary<Int?>"
             value {
               call {
                 arguments [
@@ -63,8 +63,8 @@ warpt 1
     types {
       "App.Box" {
         record {
-          a "var int"
-          b "int?"
+          a "var Int"
+          b "Int?"
         }
       }
     }

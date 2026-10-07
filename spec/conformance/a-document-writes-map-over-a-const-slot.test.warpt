@@ -8,7 +8,7 @@ warpt 1
     ]
   }
   name "a-document-writes-map-over-a-const-slot"
-  note "A slot asking `const procedure` says what the value in it is, so calling that name is read rather than run, and a document can write `map` itself instead of reaching for the one the vocabulary brings. The call of the value stands as a statement binding `rewritten`, since an operand calling a value refuses at the build."
+  note "A slot asking `const Procedure` says what the value in it is, so calling that name is read rather than run, and a document can write `map` itself instead of reaching for the one the vocabulary brings. The call of the value stands as a statement binding `rewritten`, since an operand calling a value refuses at the build."
   program {
     imports [
       "Standard.Collection.appending"
@@ -93,16 +93,16 @@ warpt 1
         parameters [
           {
             name "of"
-            type "array<int>"
+            type "Array<Int>"
           }
           {
             name "value"
             type {
               "const procedure" {
                 parameters [
-                  "int"
+                  "Int"
                 ]
-                returns "int"
+                returns "Int"
               }
             }
           }
@@ -110,7 +110,7 @@ warpt 1
         result {
           ref "kept"
         }
-        returns "array<int>"
+        returns "Array<Int>"
       }
       entry {
         access "public"
@@ -127,7 +127,7 @@ warpt 1
                   parameters [
                     {
                       name "item"
-                      type "int"
+                      type "Int"
                     }
                   ]
                   result {
@@ -141,14 +141,14 @@ warpt 1
                       procedure "Standard.Math.times"
                     }
                   }
-                  returns "int"
+                  returns "Int"
                 }
               }
             ]
             procedure "App.mapped"
           }
         }
-        returns "array<int>"
+        returns "Array<Int>"
       }
     }
     warp 1

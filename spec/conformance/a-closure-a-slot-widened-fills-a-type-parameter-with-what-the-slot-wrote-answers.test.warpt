@@ -4,7 +4,7 @@ warpt 1
     answers "1.0"
   }
   name "a-closure-a-slot-widened-fills-a-type-parameter-with-what-the-slot-wrote-answers"
-  note "The closure writes `returns int` and is held at `procedure() -> double`, so it answers a fraction from there. Handed to `App.run`, which takes `procedure() -> some T`, it is read as answering the last answer a slot wrote, so `T` is `double`, the slot takes it, and the call inside `App.run` answers the fraction 1.0."
+  note "The closure writes `returns int` and is held at `procedure() -> double`, so it answers a fraction from there. Handed to `App.run`, which takes `procedure() -> some T`, it is read as answering the last answer a slot wrote, so `T` is `Double`, the slot takes it, and the call inside `App.run` answers the fraction 1.0."
   program {
     imports [
       "Standard.Text.text"
@@ -37,13 +37,13 @@ warpt 1
             let "c"
             type {
               procedure {
-                returns "double"
+                returns "Double"
               }
             }
             value {
               closure {
                 result 1
-                returns "int"
+                returns "Int"
               }
             }
           }

@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-field-a-path-writes-through-is-declared-var"
-  note "A declared type says which of its fields a path may write through: `var int` opens the field, and a field written without `var` stops the path at the build."
+  note "A declared type says which of its fields a path may write through: `var Int` opens the field, and a field written without `var` stops the path at the build."
   program {
     imports []
     procedures {
@@ -33,14 +33,14 @@ warpt 1
         result {
           ref "a.balance"
         }
-        returns "int"
+        returns "Int"
       }
     }
     types {
       Account {
         record {
-          balance "int"
-          owner "string"
+          balance "Int"
+          owner "String"
         }
       }
     }

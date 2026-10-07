@@ -4,12 +4,12 @@ warpt 1
     refuses "build"
   }
   name "a-list-literal-a-parameter-of-a-membership-answers-is-read-part-by-part-refuses"
-  note "`App.g` answers `some T`, with `T` bounded by the membership of `array<int>` and `array<string>`, and answers `[i, t]`, an int and a string read from its parameters. A value of the parameter is one every member takes, and the literal is held to each member part by part, so neither list takes it and the build refuses."
+  note "`App.g` answers `some T`, with `T` bounded by the membership of `Array<Int>` and `Array<String>`, and answers `[i, t]`, an int and a string read from its parameters. A value of the parameter is one every member takes, and the literal is held to each member part by part, so neither list takes it and the build refuses."
   program {
     constraints {
       "App.M" [
-        "array<int>"
-        "array<string>"
+        "Array<Int>"
+        "Array<String>"
       ]
     }
     imports []
@@ -25,11 +25,11 @@ warpt 1
           }
           {
             name "i"
-            type "int"
+            type "Int"
           }
           {
             name "t"
-            type "string"
+            type "String"
           }
         ]
         result [

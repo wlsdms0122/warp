@@ -4,16 +4,16 @@ warpt 1
     refuses "build"
   }
   name "a-list-literal-written-into-memberships-that-name-each-other-refuses"
-  note "`App.M` admits `App.N` and `array<int>`, and `App.N` admits `App.M` and `bool`. A variable declared `App.M` starts with `[1, \"s\"]`. Asking `App.N` asks `App.M` of the same literal again, which takes nothing, and neither `array<int>` nor `bool` takes it, so the build refuses."
+  note "`App.M` admits `App.N` and `Array<Int>`, and `App.N` admits `App.M` and `Bool`. A variable declared `App.M` starts with `[1, \"s\"]`. Asking `App.N` asks `App.M` of the same literal again, which takes nothing, and neither `Array<Int>` nor `Bool` takes it, so the build refuses."
   program {
     constraints {
       "App.M" [
         "App.N"
-        "array<int>"
+        "Array<Int>"
       ]
       "App.N" [
         "App.M"
-        "bool"
+        "Bool"
       ]
     }
     imports []

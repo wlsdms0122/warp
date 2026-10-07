@@ -9,16 +9,16 @@ warpt 1
     ]
   }
   name "a-list-literal-answered-at-a-parameter-of-memberships-that-name-each-other-answers"
-  note "`App.M` admits `App.N` and `array<array<int>>`, and `App.N` admits `App.M` and `bool`. `App.g` bounds `T` by `App.M` and answers the literal `[[], [i]]` as `some T`. A value of `T` is one every member of `App.M` takes, and asking `App.N` for it is not asking `App.M` of it again: `App.N` takes it through `App.M`, whose `array<array<int>>` takes it part by part. So the build takes the answer, and the run answers `[[], [1]]`."
+  note "`App.M` admits `App.N` and `Array<Array<Int>>`, and `App.N` admits `App.M` and `Bool`. `App.g` bounds `T` by `App.M` and answers the literal `[[], [i]]` as `some T`. A value of `T` is one every member of `App.M` takes, and asking `App.N` for it is not asking `App.M` of it again: `App.N` takes it through `App.M`, whose `Array<Array<Int>>` takes it part by part. So the build takes the answer, and the run answers `[[], [1]]`."
   program {
     constraints {
       "App.M" [
         "App.N"
-        "array<array<int>>"
+        "Array<Array<Int>>"
       ]
       "App.N" [
         "App.M"
-        "bool"
+        "Bool"
       ]
     }
     imports []
@@ -34,7 +34,7 @@ warpt 1
           }
           {
             name "i"
-            type "int"
+            type "Int"
           }
         ]
         result [

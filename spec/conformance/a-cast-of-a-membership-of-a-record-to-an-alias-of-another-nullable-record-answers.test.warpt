@@ -6,12 +6,12 @@ warpt 1
     }
   }
   name "a-cast-of-a-membership-of-a-record-to-an-alias-of-another-nullable-record-answers"
-  note "`App.A` and `App.B` are both declared `{ a: string }`, `App.NB` stands for `App.B?`, and `App.M` admits `App.A` and `int`. A nameless record written into `App.M` stays nameless, so a value read as `App.M` may be one `App.NB` takes. The cast `m as App.NB` builds, and the run settles the record under `App.B`."
+  note "`App.A` and `App.B` are both declared `{ a: string }`, `App.NB` stands for `App.B?`, and `App.M` admits `App.A` and `Int`. A nameless record written into `App.M` stays nameless, so a value read as `App.M` may be one `App.NB` takes. The cast `m as App.NB` builds, and the run settles the record under `App.B`."
   program {
     constraints {
       "App.M" [
         "App.A"
-        "int"
+        "Int"
       ]
     }
     imports []
@@ -48,13 +48,13 @@ warpt 1
     types {
       "App.A" {
         record {
-          a "string"
+          a "String"
         }
       }
       "App.AA" "App.A"
       "App.B" {
         record {
-          a "string"
+          a "String"
         }
       }
       "App.NA" "App.A?"

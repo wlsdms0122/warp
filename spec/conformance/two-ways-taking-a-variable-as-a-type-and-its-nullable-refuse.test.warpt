@@ -7,7 +7,7 @@ warpt 1
     refuses "build"
   }
   name "two-ways-taking-a-variable-as-a-type-and-its-nullable-refuse"
-  note "One arm makes a closure that takes `n` while it reads `int?` and writes null into it, and the other sets `n` to an int first and takes it as `int`. The first closure goes on writing null whatever the second reads `n` as, so the build refuses where the arms meet."
+  note "One arm makes a closure that takes `n` while it reads `Int?` and writes null into it, and the other sets `n` to an int first and takes it as `Int`. The first closure goes on writing null whatever the second reads `n` as, so the build refuses where the arms meet."
   program {
     imports []
     procedures {
@@ -81,13 +81,13 @@ warpt 1
         parameters [
           {
             name "ready"
-            type "bool"
+            type "Bool"
           }
         ]
         result {
           ref "n"
         }
-        returns "int?"
+        returns "Int?"
       }
     }
     warp 1

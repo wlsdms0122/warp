@@ -4,7 +4,7 @@ warpt 1
     answers "a"
   }
   name "a-write-into-an-entry-of-a-declared-dictionary-settles-the-record-it-names-answers"
-  note "`r` declares `dictionary<Bank.A>`, and `set r.x` writes the nameless `{ k: \"y\" }` into an entry. A write settles to the type its path reaches, so the entry holds a `Bank.A`, and `App.P.show` reaches `Bank.A`'s witness."
+  note "`r` declares `Dictionary<Bank.A>`, and `set r.x` writes the nameless `{ k: \"y\" }` into an entry. A write settles to the type its path reaches, so the entry holds a `Bank.A`, and `App.P.show` reaches `Bank.A`'s witness."
   program {
     contracts {
       "App.P" {
@@ -17,7 +17,7 @@ warpt 1
               type "App.P"
             }
           ]
-          returns "string"
+          returns "String"
         }
       }
     }
@@ -31,7 +31,7 @@ warpt 1
           }
         ]
         result "a"
-        returns "string"
+        returns "String"
       }
       entry {
         access "public"
@@ -50,7 +50,7 @@ warpt 1
             }
           }
           {
-            type "dictionary<Bank.A>"
+            type "Dictionary<Bank.A>"
             value {
               record {
                 x {
@@ -89,7 +89,7 @@ warpt 1
     types {
       "Bank.A" {
         record {
-          k "string"
+          k "String"
         }
       }
     }

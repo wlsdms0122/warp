@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-value-under-a-slot-saying-only-procedure-is-not-const"
-  note "A body calls a value without running only through a name a slot declared `const procedure`. A slot saying only `procedure` says nothing about what it holds, so a body calling through it does not answer without running, and neither does one sending that body."
+  note "A body calls a value without running only through a name a slot declared `const Procedure`. A slot saying only `procedure` says nothing about what it holds, so a body calling through it does not answer without running, and neither does one sending that body."
   program {
     imports []
     procedures {
@@ -24,13 +24,13 @@ warpt 1
         parameters [
           {
             name "body"
-            type "const procedure"
+            type "const Procedure"
           }
         ]
         result {
           ref "answered"
         }
-        returns "string"
+        returns "String"
       }
       entry {
         access "public"
@@ -40,7 +40,7 @@ warpt 1
             value {
               closure {
                 result "answered"
-                returns "string"
+                returns "String"
               }
             }
           }
@@ -58,7 +58,7 @@ warpt 1
                     procedure "relaying"
                   }
                 }
-                returns "string"
+                returns "String"
               }
             }
           }
@@ -78,7 +78,7 @@ warpt 1
         parameters [
           {
             name "body"
-            type "procedure"
+            type "Procedure"
           }
         ]
         result {
@@ -88,7 +88,7 @@ warpt 1
             }
           }
         }
-        returns "string"
+        returns "String"
       }
     }
     warp 1

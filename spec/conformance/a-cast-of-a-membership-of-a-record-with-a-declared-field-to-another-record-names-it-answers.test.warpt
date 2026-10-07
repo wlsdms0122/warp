@@ -4,7 +4,7 @@ warpt 1
     answers "x"
   }
   name "a-cast-of-a-membership-of-a-record-with-a-declared-field-to-another-record-names-it-answers"
-  note "`App.A` and `App.B` are both declared `{ a: string }`, and `App.M` admits `{ f: App.A }` and `int`. A nameless record written into `App.M` stays nameless at every depth, so a value read as `App.M` may be one `{ f: App.B }` takes. The cast builds, and the run settles the field under `App.B`."
+  note "`App.A` and `App.B` are both declared `{ a: string }`, and `App.M` admits `{ f: App.A }` and `Int`. A nameless record written into `App.M` stays nameless at every depth, so a value read as `App.M` may be one `{ f: App.B }` takes. The cast builds, and the run settles the field under `App.B`."
   program {
     constraints {
       "App.M" [
@@ -13,7 +13,7 @@ warpt 1
             f "App.A"
           }
         }
-        "int"
+        "Int"
       ]
     }
     imports []
@@ -58,12 +58,12 @@ warpt 1
     types {
       "App.A" {
         record {
-          a "string"
+          a "String"
         }
       }
       "App.B" {
         record {
-          a "string"
+          a "String"
         }
       }
     }

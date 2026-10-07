@@ -4,7 +4,7 @@ warpt 1
     refuses "run"
   }
   name "a-record-under-another-name-refuses-through-any"
-  note "Through `any` the build cannot see the name, so the slot asks at the run: a `Vault` arriving where `Account` is declared refuses, whatever its structure."
+  note "Through `Any` the build cannot see the name, so the slot asks at the run: a `Vault` arriving where `Account` is declared refuses, whatever its structure."
   program {
     imports []
     procedures {
@@ -48,13 +48,13 @@ warpt 1
         parameters [
           {
             name "it"
-            type "any"
+            type "Any"
           }
         ]
         result {
           ref "it"
         }
-        returns "any"
+        returns "Any"
       }
       read {
         parameters [
@@ -72,12 +72,12 @@ warpt 1
     types {
       Account {
         record {
-          balance "int"
+          balance "Int"
         }
       }
       Vault {
         record {
-          balance "int"
+          balance "Int"
         }
       }
     }

@@ -4,12 +4,12 @@ warpt 1
     answers "a"
   }
   name "a-cast-of-a-closure-a-membership-slot-held-back-to-the-record-it-answers-answers"
-  note "`c` is held at `procedure() -> Bank.A`, then at `procedure() -> App.M`, which admits `Bank.A` and `int`. A membership settles nothing, so that slot adds no answer, and the cast back to `procedure() -> Bank.A` takes the closure: `App.P.show` reaches `Bank.A`'s witness."
+  note "`c` is held at `procedure() -> Bank.A`, then at `procedure() -> App.M`, which admits `Bank.A` and `Int`. A membership settles nothing, so that slot adds no answer, and the cast back to `procedure() -> Bank.A` takes the closure: `App.P.show` reaches `Bank.A`'s witness."
   program {
     constraints {
       "App.M" [
         "Bank.A"
-        "int"
+        "Int"
       ]
     }
     contracts {
@@ -23,7 +23,7 @@ warpt 1
               type "App.P"
             }
           ]
-          returns "string"
+          returns "String"
         }
       }
     }
@@ -37,7 +37,7 @@ warpt 1
           }
         ]
         result "a"
-        returns "string"
+        returns "String"
       }
       entry {
         access "public"
@@ -116,7 +116,7 @@ warpt 1
     types {
       "Bank.A" {
         record {
-          k "string"
+          k "String"
         }
       }
     }

@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-literal-of-names-at-a-contract-bound-leans-on-each-claim-refuses"
-  note "`App.f` bounds `T` by the contract `App.Describable` and takes `array<array<some T>>`. The literal `[ps, qs]` handed there holds a list of `Bank.P`, which a document says answers it, and a list of `Bank.Q`, which none does. Each name read at the parameter leans on its own claim, so the call writes both down and refuses at the build where `Bank.Q` has none."
+  note "`App.f` bounds `T` by the contract `App.Describable` and takes `Array<Array<some T>>`. The literal `[ps, qs]` handed there holds a list of `Bank.P`, which a document says answers it, and a list of `Bank.Q`, which none does. Each name read at the parameter leans on its own claim, so the call writes both down and refuses at the build where `Bank.Q` has none."
   program {
     contracts {
       "App.Describable" {
@@ -17,7 +17,7 @@ warpt 1
               type "App.Describable"
             }
           ]
-          returns "string"
+          returns "String"
         }
       }
     }
@@ -30,11 +30,11 @@ warpt 1
         parameters [
           {
             name "gs"
-            type "array<array<some T>>"
+            type "Array<Array<some T>>"
           }
         ]
         result 0
-        returns "int"
+        returns "Int"
       }
       "Bank.P.describe" {
         parameters [
@@ -44,14 +44,14 @@ warpt 1
           }
         ]
         result "p"
-        returns "string"
+        returns "String"
       }
       entry {
         access "public"
         body [
           {
             let "ps"
-            type "array<Bank.P>"
+            type "Array<Bank.P>"
             value [
               {
                 as {
@@ -67,7 +67,7 @@ warpt 1
           }
           {
             let "qs"
-            type "array<Bank.Q>"
+            type "Array<Bank.Q>"
             value [
               {
                 as {
@@ -113,12 +113,12 @@ warpt 1
     types {
       "Bank.P" {
         record {
-          a "string"
+          a "String"
         }
       }
       "Bank.Q" {
         record {
-          b "string"
+          b "String"
         }
       }
     }

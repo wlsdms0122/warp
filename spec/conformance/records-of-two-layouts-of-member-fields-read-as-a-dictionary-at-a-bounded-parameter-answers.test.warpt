@@ -4,12 +4,12 @@ warpt 1
     answers 0
   }
   name "records-of-two-layouts-of-member-fields-read-as-a-dictionary-at-a-bounded-parameter-answers"
-  note "`App.f` bounds `T` by `App.Nums`, which admits `int` and `double`, and takes `dictionary<{ x: some T }>`. The record handed there holds two records whose fields differ, and their `x` fields read `T` as `int` and as `double`. Each is held to the bounds and each is a member, so the call answers."
+  note "`App.f` bounds `T` by `App.Nums`, which admits `Int` and `Double`, and takes `Dictionary<{ x: some T }>`. The record handed there holds two records whose fields differ, and their `x` fields read `T` as `Int` and as `Double`. Each is held to the bounds and each is a member, so the call answers."
   program {
     constraints {
       "App.Nums" [
-        "int"
-        "double"
+        "Int"
+        "Double"
       ]
     }
     imports []
@@ -31,7 +31,7 @@ warpt 1
           }
         ]
         result 0
-        returns "int"
+        returns "Int"
       }
       entry {
         access "public"

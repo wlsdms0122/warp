@@ -4,7 +4,7 @@ warpt 1
     answers null
   }
   name "a-cast-of-a-closure-held-at-an-any-slot-a-record-slot-and-an-any-slot-again-reads-null-answers"
-  note "The closure is held at `procedure() -> any`, then at `procedure() -> Bank.A`, then at `procedure() -> any` again, and travels through `any`. Meeting `any` again does not drop the `Bank.A` answer between, and `Bank.B` never takes a `Bank.A`: the asking cast to `procedure() -> Bank.B` reads it as null."
+  note "The closure is held at `procedure() -> any`, then at `procedure() -> Bank.A`, then at `procedure() -> any` again, and travels through `Any`. Meeting `Any` again does not drop the `Bank.A` answer between, and `Bank.B` never takes a `Bank.A`: the asking cast to `procedure() -> Bank.B` reads it as null."
   program {
     imports []
     procedures {
@@ -15,7 +15,7 @@ warpt 1
             let "c0"
             type {
               procedure {
-                returns "any"
+                returns "Any"
               }
             }
             value {
@@ -43,7 +43,7 @@ warpt 1
             let "x"
             type {
               procedure {
-                returns "any"
+                returns "Any"
               }
             }
             value {
@@ -52,7 +52,7 @@ warpt 1
           }
           {
             let "a"
-            type "any"
+            type "Any"
             value {
               ref "x"
             }
@@ -81,12 +81,12 @@ warpt 1
     types {
       "Bank.A" {
         record {
-          k "string"
+          k "String"
         }
       }
       "Bank.B" {
         record {
-          k "string"
+          k "String"
         }
       }
     }

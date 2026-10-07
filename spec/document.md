@@ -13,7 +13,7 @@ A document is one record. Every record this grammar names, on this page and on t
 | `description` | string | no |
 | `types` | record: name → type | no |
 | `constraints` | record: name → array of types the name admits | no |
-| `contracts` | record: name → record: procedure → `{ parameters?, returns?, const?, isolated? }`; the two bools ask what a slot asks with `const procedure` and `isolated procedure`, of every declaration answering | no |
+| `contracts` | record: name → record: procedure → `{ parameters?, returns?, const?, isolated? }`; the two bools ask what a slot asks with `const Procedure` and `isolated Procedure`, of every declaration answering | no |
 | `satisfies` | record: type name → array of contract names that type answers | no |
 | `const` | record: name → expression | no |
 | `var` | record: name → expression, or `{ type, value }` where the variable says what it holds; a variable every procedure beside it may read and write | no |

@@ -4,7 +4,7 @@ warpt 1
     answers "a"
   }
   name "a-cast-of-a-list-of-nameless-records-to-a-list-of-a-declared-record-names-them"
-  note "`xs` is a list of the nameless record `{ k: \"x\" }`, and `Bank.A` is declared `{ k: string }`. Casting `xs` as `array<Bank.A>` attaches the name to each element, so it is no cast of what the reading already is, and `App.P.show`, which `Bank.A` answers, is sent to an element."
+  note "`xs` is a list of the nameless record `{ k: \"x\" }`, and `Bank.A` is declared `{ k: string }`. Casting `xs` as `Array<Bank.A>` attaches the name to each element, so it is no cast of what the reading already is, and `App.P.show`, which `Bank.A` answers, is sent to an element."
   program {
     contracts {
       "App.P" {
@@ -17,7 +17,7 @@ warpt 1
               type "App.P"
             }
           ]
-          returns "string"
+          returns "String"
         }
       }
     }
@@ -31,7 +31,7 @@ warpt 1
           }
         ]
         result "a"
-        returns "string"
+        returns "String"
       }
       entry {
         access "public"
@@ -53,7 +53,7 @@ warpt 1
                 of {
                   ref "xs"
                 }
-                type "array<Bank.A>"
+                type "Array<Bank.A>"
               }
             }
           }
@@ -82,18 +82,18 @@ warpt 1
     types {
       "App.KR" {
         record {
-          k "string"
+          k "String"
         }
       }
       "App.NK" "App.KR?"
       "Bank.A" {
         record {
-          k "string"
+          k "String"
         }
       }
       "Bank.B" {
         record {
-          k "string"
+          k "String"
         }
       }
       "Bank.NA" "Bank.A?"

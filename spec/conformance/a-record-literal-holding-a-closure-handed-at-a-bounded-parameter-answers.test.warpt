@@ -4,12 +4,12 @@ warpt 1
     answers 1
   }
   name "a-record-literal-holding-a-closure-handed-at-a-bounded-parameter-answers"
-  note "`App.f` bounds `T` by `App.M`, which admits `int` and `string`, and takes a record whose field `g` is a procedure taking `some T`. A record literal handed there holds a closure taking `int`, and `x` fills `T` with `int`. Only the parts standing at the parameter are held to the bounds, and a closure is judged as any closure handed to its procedure type is, so it builds and answers 1."
+  note "`App.f` bounds `T` by `App.M`, which admits `Int` and `String`, and takes a record whose field `g` is a procedure taking `some T`. A record literal handed there holds a closure taking `Int`, and `x` fills `T` with `Int`. Only the parts standing at the parameter are held to the bounds, and a closure is judged as any closure handed to its procedure type is, so it builds and answers 1."
   program {
     constraints {
       "App.M" [
-        "int"
-        "string"
+        "Int"
+        "String"
       ]
     }
     imports []
@@ -23,13 +23,13 @@ warpt 1
             name "r"
             type {
               record {
-                e "array<int>"
+                e "Array<Int>"
                 g {
                   procedure {
                     parameters [
                       "some T"
                     ]
-                    returns "int"
+                    returns "Int"
                   }
                 }
               }
@@ -52,7 +52,7 @@ warpt 1
             }
           }
         }
-        returns "int"
+        returns "Int"
       }
       entry {
         access "public"
@@ -70,13 +70,13 @@ warpt 1
                           parameters [
                             {
                               name "n"
-                              type "int"
+                              type "Int"
                             }
                           ]
                           result {
                             ref "n"
                           }
-                          returns "int"
+                          returns "Int"
                         }
                       }
                     }

@@ -4,7 +4,7 @@ warpt 1
     answers 1
   }
   name "a-cast-of-a-closure-a-contract-slot-held-back-to-the-number-it-answers-answers"
-  note "`c` is held at `procedure() -> int`, then at `procedure() -> Standard.Numeric`, which `int` answers. Asking a contract of a value settles nothing, so that slot adds no answer, and the cast back to `procedure() -> int` takes the closure."
+  note "`c` is held at `procedure() -> int`, then at `procedure() -> Standard.Numeric`, which `Int` answers. Asking a contract of a value settles nothing, so that slot adds no answer, and the cast back to `procedure() -> int` takes the closure."
   program {
     imports [
       "Standard.Numeric"
@@ -17,7 +17,7 @@ warpt 1
             let "c"
             type {
               procedure {
-                returns "int"
+                returns "Int"
               }
             }
             value {
@@ -46,7 +46,7 @@ warpt 1
                 }
                 type {
                   procedure {
-                    returns "int"
+                    returns "Int"
                   }
                 }
               }

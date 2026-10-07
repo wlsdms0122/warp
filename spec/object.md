@@ -50,16 +50,16 @@ A *type* is `[tag, …]`:
 
 | tag | type | fields |
 |---|---|---|
-| 0 | `any` | |
-| 1 | `never` | |
+| 0 | `Any` | |
+| 1 | `Never` | |
 | 2 | `null` | |
-| 3 | `bool` | |
-| 4 | `int` | |
-| 5 | `double` | |
-| 6 | `string` | |
+| 3 | `Bool` | |
+| 4 | `Int` | |
+| 5 | `Double` | |
+| 6 | `String` | |
 | 7 | ranged | *refinement* |
-| 8 | `array<T>` | *type* |
-| 9 | `dictionary<T>` | *type* |
+| 8 | `Array<T>` | *type* |
+| 9 | `Dictionary<T>` | *type* |
 | 10 | record | name → *type* |
 | 11 | `procedure` | *procedure type* or nothing, *constness*, *isolation* |
 | 12 | `var T` | *type* |
@@ -102,7 +102,7 @@ A *row* is a declaration as its own document settled it:
 
     [ label, signature, access, constness, isolation, failing, handsBackAsDeclared, implementation ]
 
-The label is the declared spelling. A row in `lifted` is the same without the label, its fields starting at the signature. `access` is `0` private, `1` internal or `2` public, under *who may name a declaration* in [procedures](procedure.md); a lifted row is private, since nothing names it. `handsBackAsDeclared` is `true` where what the body hands back, its answer and every variable handed to it in place, is at every type parameter that parameter, so nothing a call filled has to be judged again where the call stands, and `false` otherwise. A body proves it only where every call it makes whose answer or variable handed back names a type parameter reaches a row that proved it too, and where nothing it reads as a type parameter may hold what is not a value of it: no call fills one from an argument that is not, such as a value every member of the bounds takes or a reading of `any`, no write leaves a variable reading as one while it writes what is not, and no closure that is not isolated reaches a variable whose type names one, since a closure read as a procedure type may be called with what the parameter stands for nowhere. A native's row writes `true`, on its host's word. A link reads it as said, the way it reads `constness` and `isolation`, and leaves out the judgement a call takes where the row the call reaches says `true`, or, for the answer alone, where every row a call through a contract may reach settles exactly what the call reads and the call hands nothing back to judge.
+The label is the declared spelling. A row in `lifted` is the same without the label, its fields starting at the signature. `access` is `0` private, `1` internal or `2` public, under *who may name a declaration* in [procedures](procedure.md); a lifted row is private, since nothing names it. `handsBackAsDeclared` is `true` where what the body hands back, its answer and every variable handed to it in place, is at every type parameter that parameter, so nothing a call filled has to be judged again where the call stands, and `false` otherwise. A body proves it only where every call it makes whose answer or variable handed back names a type parameter reaches a row that proved it too, and where nothing it reads as a type parameter may hold what is not a value of it: no call fills one from an argument that is not, such as a value every member of the bounds takes or a reading of `Any`, no write leaves a variable reading as one while it writes what is not, and no closure that is not isolated reaches a variable whose type names one, since a closure read as a procedure type may be called with what the parameter stands for nowhere. A native's row writes `true`, on its host's word. A link reads it as said, the way it reads `constness` and `isolation`, and leaves out the judgement a call takes where the row the call reaches says `true`, or, for the answer alone, where every row a call through a contract may reach settles exactly what the call reads and the call hands nothing back to judge.
 
 The *implementation* is `[0, body, frame]` for a written body, or `[1, sends]` for a native, each send `[position, selector, handing]`: where the send stands among the declaration's sends, the spelling it reaches, and how many arguments it hands over, from the first position of what that spelling declares. The sends stand one to a place from the first, and each reaches the number the document's `numbering` gives its spelling; a native row whose sends say otherwise **refuses**.
 
@@ -142,7 +142,7 @@ A *lowered type* is a type as a body stands on it, `[tag, …]`:
 
 | tag | lowered type | fields |
 |---|---|---|
-| 0 to 6 | `any` `never` `null` `bool` `int` `double` `string` | |
+| 0 to 6 | `Any` `Never` `null` `Bool` `Int` `Double` `String` | |
 | 7 | ranged | *refinement* |
 | 8 | array | *lowered type* |
 | 9 | dictionary | *lowered type* |
@@ -191,9 +191,9 @@ warpt 1
   procedures {
     entry {
       access "public"
-      parameters [ { name "n" type "int" } ]
+      parameters [ { name "n" type "Int" } ]
       result { call { arguments [ { ref "n" } 1 ] procedure "Standard.Math.plus" } }
-      returns "int"
+      returns "Int"
     }
   }
   warp 1
@@ -238,7 +238,7 @@ warpt 1
 }
 ```
 
-Read it back: `rows` holds `entry`, whose signature takes `n` as `int` (type tag 4) and answers `int`; it is public (`2`), const (`1`) and isolated (`1`) and fails with nothing (`[1 []]`); its answers are what it declares (`true`); its implementation is a body (`0`) with no instructions and a result, a call (`11`) to row `0` of the numbering, which is `Standard.Math.plus`, with two arguments, the first read from slot `0` and the second the literal (`0`) int (`2`) `1`; and its frame has one slot, filled by the parameter, called `n`. The dependency is what the host keyed the standard vocabulary's object under.
+Read it back: `rows` holds `entry`, whose signature takes `n` as `Int` (type tag 4) and answers `Int`; it is public (`2`), const (`1`) and isolated (`1`) and fails with nothing (`[1 []]`); its answers are what it declares (`true`); its implementation is a body (`0`) with no instructions and a result, a call (`11`) to row `0` of the numbering, which is `Standard.Math.plus`, with two arguments, the first read from slot `0` and the second the literal (`0`) int (`2`) `1`; and its frame has one slot, filled by the parameter, called `n`. The dependency is what the host keyed the standard vocabulary's object under.
 
 ## Cases
 

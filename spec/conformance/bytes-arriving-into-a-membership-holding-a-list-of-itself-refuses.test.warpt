@@ -4,12 +4,12 @@ warpt 1
     refuses "run"
   }
   name "bytes-arriving-into-a-membership-holding-a-list-of-itself-refuses"
-  note "`App.B` admits `array<App.B>` and `string`, and `Standard.Text.encoded` answers bytes that arrive through a name declared `any`. A byte is neither a list nor a string, and asking `App.B` of the bytes as a list asks each byte afresh, so the run refuses as it does for the same list written out."
+  note "`App.B` admits `Array<App.B>` and `String`, and `Standard.Text.encoded` answers bytes that arrive through a name declared `Any`. A byte is neither a list nor a string, and asking `App.B` of the bytes as a list asks each byte afresh, so the run refuses as it does for the same list written out."
   program {
     constraints {
       "App.B" [
-        "array<App.B>"
-        "string"
+        "Array<App.B>"
+        "String"
       ]
     }
     imports [
@@ -21,7 +21,7 @@ warpt 1
         body [
           {
             let "raw"
-            type "any"
+            type "Any"
             value {
               call {
                 arguments [

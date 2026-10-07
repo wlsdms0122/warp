@@ -4,16 +4,16 @@ warpt 1
     refuses "build"
   }
   name "a-value-of-memberships-that-name-each-other-cast-to-a-type-no-member-holds-refuses"
-  note "`App.M` admits `App.N` and `int`, and `App.N` admits `App.M` and `bool`, so a value of `App.M` is an int or a bool, each membership met again adding no member. No member could also be a string, so a cast of a name read as `App.M` to `string` refuses at the build."
+  note "`App.M` admits `App.N` and `Int`, and `App.N` admits `App.M` and `Bool`, so a value of `App.M` is an int or a bool, each membership met again adding no member. No member could also be a string, so a cast of a name read as `App.M` to `String` refuses at the build."
   program {
     constraints {
       "App.M" [
         "App.N"
-        "int"
+        "Int"
       ]
       "App.N" [
         "App.M"
-        "bool"
+        "Bool"
       ]
     }
     imports []
@@ -32,7 +32,7 @@ warpt 1
             of {
               ref "x"
             }
-            type "string"
+            type "String"
           }
         }
       }

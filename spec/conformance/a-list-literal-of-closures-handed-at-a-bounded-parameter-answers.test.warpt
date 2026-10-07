@@ -4,12 +4,12 @@ warpt 1
     answers 1
   }
   name "a-list-literal-of-closures-handed-at-a-bounded-parameter-answers"
-  note "`App.f` bounds `T` by `App.M`, which admits `int` and `string`, and takes a list of procedures taking `some T`. A list literal handed there holds a closure taking `int` and one taking `any`, and `x` fills `T` with `int`. Only the parts standing at the parameter are held to the bounds, so each closure is judged as any closure handed to its procedure type is, and the call answers 1."
+  note "`App.f` bounds `T` by `App.M`, which admits `Int` and `String`, and takes a list of procedures taking `some T`. A list literal handed there holds a closure taking `Int` and one taking `Any`, and `x` fills `T` with `Int`. Only the parts standing at the parameter are held to the bounds, so each closure is judged as any closure handed to its procedure type is, and the call answers 1."
   program {
     constraints {
       "App.M" [
-        "int"
-        "string"
+        "Int"
+        "String"
       ]
     }
     imports []
@@ -27,7 +27,7 @@ warpt 1
                   parameters [
                     "some T"
                   ]
-                  returns "int"
+                  returns "Int"
                 }
               }
             }
@@ -49,7 +49,7 @@ warpt 1
             }
           }
         }
-        returns "int"
+        returns "Int"
       }
       entry {
         access "public"
@@ -65,13 +65,13 @@ warpt 1
                         parameters [
                           {
                             name "n"
-                            type "int"
+                            type "Int"
                           }
                         ]
                         result {
                           ref "n"
                         }
-                        returns "int"
+                        returns "Int"
                       }
                     }
                     {
@@ -79,11 +79,11 @@ warpt 1
                         parameters [
                           {
                             name "n"
-                            type "any"
+                            type "Any"
                           }
                         ]
                         result 7
-                        returns "int"
+                        returns "Int"
                       }
                     }
                   ]

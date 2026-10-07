@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-cast-of-a-recursive-alias-to-what-it-names-refuses"
-  note "`App.L` names `array<App.L>`, a list of itself. `xs` is read as `App.L`, and the cast names `array<App.L>`, which is what `App.L` names. The cast names what the reading already is, so it refuses at the build."
+  note "`App.L` names `Array<App.L>`, a list of itself. `xs` is read as `App.L`, and the cast names `Array<App.L>`, which is what `App.L` names. The cast names what the reading already is, so it refuses at the build."
   program {
     imports []
     procedures {
@@ -23,7 +23,7 @@ warpt 1
                 of {
                   ref "xs"
                 }
-                type "array<App.L>"
+                type "Array<App.L>"
               }
             }
           }
@@ -34,7 +34,7 @@ warpt 1
       }
     }
     types {
-      "App.L" "array<App.L>"
+      "App.L" "Array<App.L>"
     }
     warp 1
   }

@@ -4,7 +4,7 @@ warpt 1
     refuses "run"
   }
   name "a-write-into-an-entry-of-a-declared-dictionary-settles-to-its-entry-type-refuses"
-  note "`r` declares `dictionary<int(0...3)>`, and `set r.x` writes 9 into an entry. A write settles to the type its path reaches, an entry's included, and 9 is outside `int(0...3)`, so the run refuses the write."
+  note "`r` declares `Dictionary<Int(0...3)>`, and `set r.x` writes 9 into an entry. A write settles to the type its path reaches, an entry's included, and 9 is outside `Int(0...3)`, so the run refuses the write."
   program {
     imports [
       "Standard.Math.plus"
@@ -14,7 +14,7 @@ warpt 1
         access "public"
         body [
           {
-            type "dictionary<int(0...3)>"
+            type "Dictionary<Int(0...3)>"
             value {
               record {
                 x 0

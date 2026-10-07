@@ -4,16 +4,16 @@ warpt 1
     refuses "build"
   }
   name "a-value-of-memberships-that-name-each-other-written-into-a-nullable-slot-refuses"
-  note "`App.M` admits `App.N` and `int`, and `App.N` admits `App.M` and `bool`, so a value of `App.M` is an int or a bool, each membership met again adding no member. A variable declared `int?` starts with a name read as `App.M`. Neither membership declares null, and a bool is not an int, so the build refuses."
+  note "`App.M` admits `App.N` and `Int`, and `App.N` admits `App.M` and `Bool`, so a value of `App.M` is an int or a bool, each membership met again adding no member. A variable declared `Int?` starts with a name read as `App.M`. Neither membership declares null, and a bool is not an int, so the build refuses."
   program {
     constraints {
       "App.M" [
         "App.N"
-        "int"
+        "Int"
       ]
       "App.N" [
         "App.M"
-        "bool"
+        "Bool"
       ]
     }
     imports []
@@ -27,7 +27,7 @@ warpt 1
             var "x"
           }
           {
-            type "int?"
+            type "Int?"
             value {
               ref "x"
             }

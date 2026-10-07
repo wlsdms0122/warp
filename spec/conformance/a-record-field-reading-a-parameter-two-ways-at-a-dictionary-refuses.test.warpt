@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-record-field-reading-a-parameter-two-ways-at-a-dictionary-refuses"
-  note "`App.f` takes `dictionary<{ a: some T, b: some T }>`. The record handed there holds one record whose `a` is a whole number and whose `b` is text, so that one field reads `T` two ways. What two fields read a parameter as joins part by part, and what one field reads it as two ways is a disagreement, so the call refuses at the build."
+  note "`App.f` takes `Dictionary<{ a: some T, b: some T }>`. The record handed there holds one record whose `a` is a whole number and whose `b` is text, so that one field reads `T` two ways. What two fields read a parameter as joins part by part, and what one field reads it as two ways is a disagreement, so the call refuses at the build."
   program {
     imports []
     procedures {
@@ -23,7 +23,7 @@ warpt 1
           }
         ]
         result 0
-        returns "int"
+        returns "Int"
       }
       entry {
         access "public"

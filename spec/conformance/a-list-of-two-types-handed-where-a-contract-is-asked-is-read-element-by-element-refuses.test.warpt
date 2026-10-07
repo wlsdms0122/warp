@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-list-of-two-types-handed-where-a-contract-is-asked-is-read-element-by-element-refuses"
-  note "`App.g` takes `array<App.Describable>` and is handed a list of a `Bank.Account`, which answers the contract, and a `Bank.Other`, which does not. Each element is held to the contract on its own, so `Bank.Other` refuses at the build."
+  note "`App.g` takes `Array<App.Describable>` and is handed a list of a `Bank.Account`, which answers the contract, and a `Bank.Other`, which does not. Each element is held to the contract on its own, so `Bank.Other` refuses at the build."
   program {
     contracts {
       "App.Describable" {
@@ -15,7 +15,7 @@ warpt 1
               type "App.Describable"
             }
           ]
-          returns "string"
+          returns "String"
         }
       }
     }
@@ -25,11 +25,11 @@ warpt 1
         parameters [
           {
             name "xs"
-            type "array<App.Describable>"
+            type "Array<App.Describable>"
           }
         ]
         result 0
-        returns "int"
+        returns "Int"
       }
       "Bank.Account.describe" {
         parameters [
@@ -39,7 +39,7 @@ warpt 1
           }
         ]
         result "acct"
-        returns "string"
+        returns "String"
       }
       entry {
         access "public"
@@ -102,12 +102,12 @@ warpt 1
     types {
       "Bank.Account" {
         record {
-          balance "int"
+          balance "Int"
         }
       }
       "Bank.Other" {
         record {
-          n "int"
+          n "Int"
         }
       }
     }

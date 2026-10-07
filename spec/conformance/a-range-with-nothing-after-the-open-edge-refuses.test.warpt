@@ -4,7 +4,7 @@ warpt 1
     refuses "load"
   }
   name "a-range-with-nothing-after-the-open-edge-refuses"
-  note "`..<` leaves the far bound outside the range, so something has to stand after it. `int(0..<)` names no far bound and is refused where the document is read."
+  note "`..<` leaves the far bound outside the range, so something has to stand after it. `Int(0..<)` names no far bound and is refused where the document is read."
   program {
     imports []
     procedures {
@@ -13,11 +13,11 @@ warpt 1
         parameters [
           {
             name "item"
-            type "int(0..<)"
+            type "Int(0..<)"
           }
         ]
         result 1
-        returns "int"
+        returns "Int"
       }
     }
     warp 1

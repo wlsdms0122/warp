@@ -4,7 +4,7 @@ warpt 1
     answers true
   }
   name "a-const-slot-takes-a-closure-that-calls-a-host-procedure"
-  note "A slot asking `const procedure` takes a closure whose body sends only procedures that answer without running, and a procedure the host answers says which it is."
+  note "A slot asking `const Procedure` takes a closure whose body sends only procedures that answer without running, and a procedure the host answers says which it is."
   program {
     imports [
       "App.yes"
@@ -24,7 +24,7 @@ warpt 1
                         procedure "App.yes"
                       }
                     }
-                    returns "bool"
+                    returns "Bool"
                   }
                 }
               ]
@@ -32,7 +32,7 @@ warpt 1
             procedure "Standard.Logic.and"
           }
         }
-        returns "bool"
+        returns "Bool"
       }
     }
     warp 1
@@ -42,7 +42,7 @@ warpt 1
     procedures {
       "App.yes" {
         answers true
-        returns "bool"
+        returns "Bool"
       }
     }
   }

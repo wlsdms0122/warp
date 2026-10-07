@@ -4,12 +4,12 @@ warpt 1
     refuses "build"
   }
   name "a-list-literal-handed-at-a-parameter-bounded-by-a-membership-of-lists-is-read-part-by-part-refuses"
-  note "`App.g` takes `some T` bounded by `App.M`, which admits `array<int>` and `array<string>`. The call hands `[1, \"s\"]`. Its parts joined read as `array<any>`, which a member takes, but the literal is one of the members part by part, as one written into a slot declaring `App.M` is, and neither takes both an int and a string. So the build refuses."
+  note "`App.g` takes `some T` bounded by `App.M`, which admits `Array<Int>` and `Array<String>`. The call hands `[1, \"s\"]`. Its parts joined read as `Array<Any>`, which a member takes, but the literal is one of the members part by part, as one written into a slot declaring `App.M` is, and neither takes both an int and a string. So the build refuses."
   program {
     constraints {
       "App.M" [
-        "array<int>"
-        "array<string>"
+        "Array<Int>"
+        "Array<String>"
       ]
     }
     imports []

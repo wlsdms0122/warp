@@ -4,7 +4,7 @@ warpt 1
     refuses "load"
   }
   name "a-bound-past-an-int-refuses"
-  note "A whole bound is a number an `int` holds. `99999999999999999999` is past what an `int` holds, and the range refuses at the load."
+  note "A whole bound is a number an `Int` holds. `99999999999999999999` is past what an `Int` holds, and the range refuses at the load."
   program {
     imports []
     procedures {
@@ -12,7 +12,7 @@ warpt 1
         parameters [
           {
             name "x"
-            type "int(0...99999999999999999999)"
+            type "Int(0...99999999999999999999)"
           }
         ]
         result 1

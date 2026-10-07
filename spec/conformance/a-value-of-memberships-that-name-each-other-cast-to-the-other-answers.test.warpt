@@ -4,16 +4,16 @@ warpt 1
     answers 1
   }
   name "a-value-of-memberships-that-name-each-other-cast-to-the-other-answers"
-  note "`App.M` admits `App.N` and `int`, and `App.N` admits `App.M` and `bool`, so a value of either is an int or a bool. A cast of a name read as `App.M` to `App.N` could hold, each pair of memberships met again on the way adding nothing, so it builds, and the run reads 1 as one of `App.N`."
+  note "`App.M` admits `App.N` and `Int`, and `App.N` admits `App.M` and `Bool`, so a value of either is an int or a bool. A cast of a name read as `App.M` to `App.N` could hold, each pair of memberships met again on the way adding nothing, so it builds, and the run reads 1 as one of `App.N`."
   program {
     constraints {
       "App.M" [
         "App.N"
-        "int"
+        "Int"
       ]
       "App.N" [
         "App.M"
-        "bool"
+        "Bool"
       ]
     }
     imports []

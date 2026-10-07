@@ -4,7 +4,7 @@ warpt 1
     refuses "run"
   }
   name "a-value-called-through-any-is-judged-by-its-own-type"
-  note "A value the text opens to `any` carries its type with it, so a call through such a name is judged where it runs: an argument the closure's parameter refuses is refused at the run, and the body never sees it."
+  note "A value the text opens to `Any` carries its type with it, so a call through such a name is judged where it runs: an argument the closure's parameter refuses is refused at the run, and the body never sees it."
   program {
     imports []
     procedures {
@@ -12,13 +12,13 @@ warpt 1
         parameters [
           {
             name "of"
-            type "any"
+            type "Any"
           }
         ]
         result {
           ref "of"
         }
-        returns "any"
+        returns "Any"
       }
       entry {
         access "public"
@@ -30,13 +30,13 @@ warpt 1
                 parameters [
                   {
                     name "n"
-                    type "int"
+                    type "Int"
                   }
                 ]
                 result {
                   ref "n"
                 }
-                returns "int"
+                returns "Int"
               }
             }
           }
@@ -70,7 +70,7 @@ warpt 1
         result {
           ref "made"
         }
-        returns "any"
+        returns "Any"
       }
     }
     warp 1

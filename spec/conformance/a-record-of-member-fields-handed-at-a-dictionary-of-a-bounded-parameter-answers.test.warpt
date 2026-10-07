@@ -4,12 +4,12 @@ warpt 1
     answers 0
   }
   name "a-record-of-member-fields-handed-at-a-dictionary-of-a-bounded-parameter-answers"
-  note "`App.g` bounds `T` by `App.M`, which admits `int` and `string`, and takes `dictionary<some T>`. The record `{ a: 1, b: \"s\" }` handed there is read as a dictionary: its fields joined fill `T`, as a list's elements do, and each field is a member, so it builds and answers 0."
+  note "`App.g` bounds `T` by `App.M`, which admits `Int` and `String`, and takes `Dictionary<some T>`. The record `{ a: 1, b: \"s\" }` handed there is read as a dictionary: its fields joined fill `T`, as a list's elements do, and each field is a member, so it builds and answers 0."
   program {
     constraints {
       "App.M" [
-        "int"
-        "string"
+        "Int"
+        "String"
       ]
     }
     imports []
@@ -21,11 +21,11 @@ warpt 1
         parameters [
           {
             name "x"
-            type "dictionary<some T>"
+            type "Dictionary<some T>"
           }
         ]
         result 0
-        returns "int"
+        returns "Int"
       }
       entry {
         access "public"

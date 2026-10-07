@@ -4,13 +4,13 @@ warpt 1
     refuses "build"
   }
   name "inout-written-on-returns-refuses"
-  note "`inout` is written on a parameter's type and nowhere else. A `returns` written `inout int` refuses at the build."
+  note "`inout` is written on a parameter's type and nowhere else. A `returns` written `inout Int` refuses at the build."
   program {
     imports []
     procedures {
       "App.f" {
         result 1
-        returns "inout int"
+        returns "inout Int"
       }
       entry {
         access "public"

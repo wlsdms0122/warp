@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-const-slot-refuses-a-closure-that-calls-what-runs"
-  note "What a closure sends is a fact about its text, so a slot asking `const procedure` is answered at the build. A procedure that reaches outside the run is not one such a closure may send."
+  note "What a closure sends is a fact about its text, so a slot asking `const Procedure` is answered at the build. A procedure that reaches outside the run is not one such a closure may send."
   program {
     imports [
       "App.ask"
@@ -24,7 +24,7 @@ warpt 1
                         procedure "App.ask"
                       }
                     }
-                    returns "bool"
+                    returns "Bool"
                   }
                 }
               ]
@@ -32,7 +32,7 @@ warpt 1
             procedure "Standard.Logic.and"
           }
         }
-        returns "bool"
+        returns "Bool"
       }
     }
     warp 1
@@ -42,7 +42,7 @@ warpt 1
     procedures {
       "App.ask" {
         answers true
-        returns "bool"
+        returns "Bool"
         runs true
       }
     }

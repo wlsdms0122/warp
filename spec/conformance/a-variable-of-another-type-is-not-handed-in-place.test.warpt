@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-variable-of-another-type-is-not-handed-in-place"
-  note "A parameter handed in place takes the caller's own box, so the variable's declared type is the parameter's all the way in: `array<any>` where `inout array<int>` stands is refused at the build, since nothing settles where nothing is handed over."
+  note "A parameter handed in place takes the caller's own box, so the variable's declared type is the parameter's all the way in: `Array<Any>` where `inout Array<Int>` stands is refused at the build, since nothing settles where nothing is handed over."
   program {
     imports [
       "Standard.Collection.appending"
@@ -32,11 +32,11 @@ warpt 1
         parameters [
           {
             name "into"
-            type "inout array<int>"
+            type "inout Array<Int>"
           }
           {
             name "value"
-            type "int"
+            type "Int"
           }
         ]
       }
@@ -44,7 +44,7 @@ warpt 1
         access "public"
         body [
           {
-            type "array<any>"
+            type "Array<Any>"
             value []
             var "xs"
           }
@@ -63,7 +63,7 @@ warpt 1
           }
         ]
         result 1
-        returns "int"
+        returns "Int"
       }
     }
     warp 1

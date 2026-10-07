@@ -13,13 +13,13 @@ warpt 1
             }
           ]
           result "card"
-          returns "string"
+          returns "String"
         }
       }
       types {
         "Bank.Card" {
           record {
-            last "string"
+            last "String"
           }
         }
       }
@@ -30,7 +30,7 @@ warpt 1
     refuses "build"
   }
   name "a-record-handed-at-a-dictionary-of-a-contract-leans-on-each-claim-refuses"
-  note "`App.h` takes `dictionary<App.P>`. The record `{ a: c }` handed there holds a `Bank.Card`, which a beside document gives `show` but no document says answers `App.P`. Read as a dictionary, each field leans on its own claim, so the call writes it down and refuses at the build."
+  note "`App.h` takes `Dictionary<App.P>`. The record `{ a: c }` handed there holds a `Bank.Card`, which a beside document gives `show` but no document says answers `App.P`. Read as a dictionary, each field leans on its own claim, so the call writes it down and refuses at the build."
   program {
     contracts {
       "App.P" {
@@ -43,7 +43,7 @@ warpt 1
               type "App.P"
             }
           ]
-          returns "string"
+          returns "String"
         }
       }
     }
@@ -55,7 +55,7 @@ warpt 1
         parameters [
           {
             name "x"
-            type "dictionary<App.P>"
+            type "Dictionary<App.P>"
           }
         ]
         result {
@@ -68,7 +68,7 @@ warpt 1
             procedure "App.P.show"
           }
         }
-        returns "string"
+        returns "String"
       }
       entry {
         access "public"
