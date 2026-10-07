@@ -75,6 +75,8 @@ What a constant settles to is written into the compiled document, and a compiled
 - a **body** in another document of the link, since the document it is written in is what the compiled document is made from. A body the constant's own document declares is still being resolved beside it, under *a constant-headed path* in [expressions](expression.md);
 - a procedure this specification **names**, under *what an implementation must write* in [the standard vocabulary](vocabulary.md), since every conforming implementation answers it alike.
 
+A call through a contract settles from the declaration a claim names, and which declarations answer a contract is a fact of the whole list. So a constant settles through a claim only where the claim, and the declaration behind it, stand in a document the constant's document stands on, near or far: what it names, and what those name. A constant whose call through a contract reaches a type no such document claims **refuses at the build**, whichever order the host handed the documents over in.
+
 Settling one **refuses at the build** where it reaches a procedure the host brought, whether the constant called it or called a body that does. A **slot** asking `const Procedure` and an **operand** are untouched: both are read while the program runs, and neither writes anything down.
 
 **A host that wants the build to settle a value of its own writes a document.** A body in another document of the link is what a constant settles from, so a host bakes a value in by laying in a document that declares a procedure answering it, and a constant elsewhere calls that procedure. The document is a document like any other: it has an identity, that identity stands among what a compiled document was built against, under *identity and dependencies* in [objects](object.md), and a value that moved is a build that moves with it. What the rule above turns away is a procedure in the host's own language, whose answer no document carries; a value written in a document is carried whole.
@@ -145,6 +147,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-constant-cannot-settle-from-a-procedure-the-host-brought`
 - `a-constant-cannot-settle-from-what-runs`
 - `a-constant-handed-to-a-called-value-outside-its-range-refuses`
+- `a-constant-leaning-on-a-claim-of-a-document-it-does-not-stand-on-refuses`
 - `a-constant-sent-through-a-contract-outside-its-range-refuses`
 - `a-constant-settles-from-a-body-of-another-document`
 - `a-contract-asking-const-lets-its-call-stand-in-a-const-slot`
