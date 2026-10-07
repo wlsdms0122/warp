@@ -120,7 +120,7 @@ Two documents claiming one pair are one claim: a claim holds nothing but the pai
 
 A declaration named for a type and a procedure that no claim names is that document's procedure and nothing else. So what a link declares never decides what an unrelated document may call things, and a document that names no contract builds the same whichever documents stand beside it.
 
-A contract asking no procedures **refuses at the build**, since every type would satisfy it. A name is a type or a membership or a contract and never two of them.
+A contract may ask no procedures. It is then a mark a claim gives a type, and a type answers it where a document claims it does, as for any contract. A name is a type or a membership or a contract and never two of them.
 
 A signature bounds a type parameter by a contract the way it bounds one by a membership: `bounds: { T: App.Describable }`, and the slots write `some T`. A value reaching such a slot is judged twice, once per surface, the way a membership's is: at the **build** a reading provably outside refuses, and at the **boundary** the value that arrived is judged by the type it is an instance of.
 
@@ -205,7 +205,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-constraint-declared-twice-refuses`
 - `a-constraint-is-named-by-its-qualified-spelling`
 - `a-constraint-that-admits-nothing-refuses`
-- `a-contract-asking-no-procedures-refuses`
+- `a-contract-asking-no-procedures-is-answered-by-what-claims-it`
+- `a-contract-asking-no-procedures-refuses-what-no-claim-names`
 - `a-contract-carries-a-procedure-into-a-generic-body`
 - `a-contract-or-null-slot-refuses-a-type-not-answering-the-contract`
 - `a-contract-or-null-slot-takes-a-membership-whose-members-answer-or-are-null`
