@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    refuses "run"
+    refuses "build"
   }
-  name "a-declaration-answering-a-contract-with-any-is-judged-where-the-call-reads-it-refuses"
-  note "The contract answers String and the declaration answering it answers Any, holding an int. A call through the contract reads the answer as text, and judges it there."
+  name "a-declaration-answering-a-contract-with-any-where-it-asks-text-refuses"
+  note "The contract answers String and the declaration answering it answers Any. A value read as `Any` is no String the build can see, so the declaration does not answer the contract and the build refuses."
   program {
     contracts {
       "App.Describable" {

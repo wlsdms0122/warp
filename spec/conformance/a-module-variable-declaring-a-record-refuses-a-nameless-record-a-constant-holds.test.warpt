@@ -1,0 +1,52 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-module-variable-declaring-a-record-refuses-a-nameless-record-a-constant-holds"
+  note "`r` is a constant holding the nameless record `{ x: 1 }`, and `v` declares `App.Point` and starts as `r`. A start is held to what the variable declares the way a name's value is, and `r` is no literal written where `App.Point` is read, so it is no `App.Point` and the start refuses at the build."
+  program {
+    const {
+      r {
+        record {
+          x 1
+        }
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "p"
+            value {
+              ref "v"
+            }
+          }
+        ]
+        result {
+          ref "p"
+        }
+      }
+    }
+    types {
+      "App.Point" {
+        record {
+          x "Int"
+        }
+      }
+    }
+    var {
+      v {
+        type "App.Point"
+        value {
+          ref "r"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

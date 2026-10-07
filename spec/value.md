@@ -1,6 +1,6 @@
 # The value model
 
-What a value is, and when two of them are one. Nothing on this page needs a program: a value is what a document carries, what a slot settles, what an encoding writes and what a case compares, so every other page reads this one and this one reads none of them.
+What a value is, and when two of them are one. Nothing on this page needs a program: a value is what a document carries, what a slot judges, what an encoding writes and what a case compares, so every other page reads this one and this one reads none of them.
 
 A program computes over eight kinds of data, plus one value that is not data:
 
@@ -13,10 +13,10 @@ A program computes over eight kinds of data, plus one value that is not data:
 | string | `"hi"` | Unicode text |
 | bytes | `x"6869"` | `Array<Standard.Byte>` in a compact spelling (`Standard.Byte` is `Int(0...255)`, declared by `Standard`); what a carrying form carries when the payload is not text |
 | array | `[ … ]` | ordered |
-| record | `{ … }`, or `Name { … }` | unordered fields, names unique; may carry the **name** of the declared type it settled to |
+| record | `{ … }`, or `Name { … }` | unordered fields, names unique; may carry the **name** of a declared record type |
 | procedure | | code with what it captured; exists only at run time, never in a document |
 
-**A record's name.** A record made by a literal, answered by a native procedure or read from a document has no name. It takes one where it is written into a type whose structure is a record: a literal written where the type is read, a value from outside at the door it comes through, and a value read as `Any` crossing into the type, by a cast or a slot that reads it. From then on it carries that name through every slot declaring the type and through `Any`, and fits no other: an inline record type and `Dictionary<T>` take no named record, under [Types](type.md).
+**A record's name.** A record made by a literal, answered by a native procedure or read from a document has no name. It takes one where it is written into a declared type whose structure is a record: a literal written where the type is read, a value from outside at the door it comes through, and a cast to the type. From then on it carries that name through every slot declaring the type and through `Any`, and fits no other: an inline record type and `Dictionary<T>` take no named record, under [Types](type.md).
 
 **When two values are the same:**
 

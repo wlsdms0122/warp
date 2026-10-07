@@ -1,0 +1,96 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-value-read-as-any-handed-to-a-called-value-at-a-type-parameter-of-the-body-refuses"
+  note "Inside `App.run`, `g` is held at `Procedure(some T) -> Any`, and `T` is the body's own, which no call fills and no run can hold a value to. What `g` is handed at that position has to be a value of `T` already, the way a write into a box of it does, and `a`, read as `Any`, is not, so the build refuses."
+  program {
+    imports []
+    procedures {
+      "App.run" {
+        body [
+          {
+            let "a"
+            type "Any"
+            value "s"
+          }
+        ]
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+          {
+            name "g"
+            type {
+              procedure {
+                parameters [
+                  "some T"
+                ]
+                returns "Any"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "a"
+              }
+            ]
+            procedure {
+              ref "g"
+            }
+          }
+        }
+        returns "Any"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                as {
+                  of {
+                    record {
+                      x 1
+                    }
+                  }
+                  type "App.Point"
+                }
+              }
+              {
+                closure {
+                  parameters [
+                    {
+                      name "p"
+                      type "Any"
+                    }
+                  ]
+                  result {
+                    ref "p"
+                  }
+                  returns "Any"
+                }
+              }
+            ]
+            procedure "App.run"
+          }
+        }
+      }
+    }
+    types {
+      "App.Point" {
+        record {
+          x "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

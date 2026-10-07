@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    refuses "run"
+    refuses "build"
   }
-  name "a-piece-arriving-through-any-is-held-to-the-slot-at-the-run"
-  note "The elements of `pieces` join to `Any`, so the build reads nothing it could refuse and the array crosses into `Standard.Concurrent.all` the way any value crosses a slot through `Any`. At the run it is held to `Array<isolated Procedure>`, and an element that is not a closure refuses."
+  name "a-list-of-pieces-joining-to-any-refuses-at-a-fan-out"
+  note "The elements of `pieces` join to `Any`, and `Standard.Concurrent.all` declares a list of closures. A value read as `Any` stands where a type is declared only where a cast says what it is, so the build refuses."
   program {
     imports [
       "Standard.Concurrent.all"

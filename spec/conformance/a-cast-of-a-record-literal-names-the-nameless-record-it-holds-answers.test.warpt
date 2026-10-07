@@ -1,0 +1,63 @@
+warpt 1
+{
+  expect {
+    answers App.H {
+      p App.Point {
+        x 1
+      }
+    }
+  }
+  name "a-cast-of-a-record-literal-names-the-nameless-record-it-holds-answers"
+  note "`r` is the nameless record `{ x: 1 }`. Casting the literal `{ p: r }` as `App.H`, whose `p` is `App.Point`, writes each name onto what it reads, the field included: a cast writes a name onto a nameless value at every depth."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "r"
+            value {
+              record {
+                x 1
+              }
+            }
+          }
+          {
+            let "h"
+            value {
+              as {
+                of {
+                  record {
+                    p {
+                      ref "r"
+                    }
+                  }
+                }
+                type "App.H"
+              }
+            }
+          }
+        ]
+        result {
+          ref "h"
+        }
+      }
+    }
+    types {
+      "App.H" {
+        record {
+          p "App.Point"
+        }
+      }
+      "App.Point" {
+        record {
+          x "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

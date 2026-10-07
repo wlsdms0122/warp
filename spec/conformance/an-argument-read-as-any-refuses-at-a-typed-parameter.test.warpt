@@ -4,10 +4,10 @@ warpt 1
     it null
   }
   expect {
-    refuses "run"
+    refuses "build"
   }
-  name "an-argument-through-any-is-held-to-its-parameter"
-  note "An argument is held to its parameter at the run where the build could not judge it. `uppercased` declares `of: String`; a null that arrives there through `Any` is not a string, and the run says so instead of reading it as nothing."
+  name "an-argument-read-as-any-refuses-at-a-typed-parameter"
+  note "`uppercased` declares `of: String`, and the argument handed there is read as `Any`. A value read as `Any` stands where a type is declared only where a cast says what it is, so the build refuses."
   program {
     imports [
       "Standard.Text.uppercased"

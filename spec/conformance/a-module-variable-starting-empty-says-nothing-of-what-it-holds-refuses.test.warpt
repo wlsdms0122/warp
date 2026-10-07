@@ -1,13 +1,10 @@
 warpt 1
 {
   expect {
-    answers [
-      "a"
-      "b"
-    ]
+    refuses "build"
   }
-  name "a-module-variable-starting-as-a-dictionary-takes-new-names"
-  note "A module variable's type is the type of its settled value, and a dictionary's names are data: what it reads as is what its entries hold, whatever names hold them today. So a variable started as an empty dictionary is written under new names."
+  name "a-module-variable-starting-empty-says-nothing-of-what-it-holds-refuses"
+  note "A module variable that declares no type holds the type of its start, and an empty dictionary holds no entry, so it says nothing of what the box will hold and no write fits it. A variable started empty declares what it holds, so the build refuses."
   program {
     imports [
       "Standard.Collection.keys"

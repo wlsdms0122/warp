@@ -1,12 +1,10 @@
 warpt 1
 {
   expect {
-    answers App.Point {
-      x 1
-    }
+    refuses "build"
   }
-  name "a-closure-answering-anything-held-where-a-declared-record-is-answered-names-its-answer"
-  note "`f` writes no `returns` and answers what it is handed, which it reads as `Any`. Held at a slot whose procedure type answers `App.Point`, a call of it reads the answer as `App.Point`, and the nameless record of that type's fields it answers crosses out of `Any` there and takes the name, as a cast from `Any` would."
+  name "a-closure-answering-anything-does-not-fit-a-slot-answering-a-declared-record-refuses"
+  note "`f` writes no `returns` and answers what it is handed, which it reads as `Any`. A slot whose procedure type answers `App.Point` takes only a closure answering one, and an answer read as `Any` is none the build can see, so the build refuses."
   program {
     imports []
     procedures {

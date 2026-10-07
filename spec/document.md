@@ -18,7 +18,7 @@ A document is one record. Every record this grammar names, on this page and on t
 | `var` | record: name → expression, or `{ type, value }` where the variable says what it holds; a variable every procedure beside it may read and write | no |
 | `procedures` | record: name → procedure | yes, and not empty |
 
-**A module variable.** Its start is written like a constant and settles the same way: at the **build**, from what a constant settles from, beside the constants and reading them, and them only: a start that reads another variable **refuses at the load**. Its type is what it declares under `type`, and where it declares none, the type of that settled value, a procedure the value holds reading as the parameters and answer its start was judged at in that place, without the constness or isolation the build derived for it, since a write may put another procedure there; a start the declared type does not take **refuses at the build**, and every write into it is settled against that type. A variable declares a type for the reason a `var` statement does, under [statements](statement.md): a start that is an empty collection says nothing about what the box will hold. It is private to the document like a constant, as a procedure written `private` is under [procedures](procedure.md), read by the same spelling (`ref`), and written by a `set` in a procedure the document declares, or through a parameter such a procedure hands it to in place; another document reaches it only through such a procedure. A name is a constant or a variable, not both: one declared under both keys **refuses** at the load. Either may be spelled like a procedure: a reference reads the constant or the variable, and a call names the procedure. Every run starts each variable at its settled value, so two runs of one image never see each other.
+**A module variable.** Its start is written like a constant and settles the same way: at the **build**, from what a constant settles from, beside the constants and reading them, and them only: a start that reads another variable **refuses at the load**. Its type is what it declares under `type`, and where it declares none, the type of that settled value, a procedure the value holds reading as the parameters and answer its start was judged at in that place, without the constness or isolation the build derived for it, since a write may put another procedure there; a start the declared type does not take **refuses at the build**, and every write into it is judged against that type. A variable declares a type for the reason a `var` statement does, under [statements](statement.md): a start that is an empty collection says nothing about what the box will hold, so one that declares none and starts empty, an empty list or map at whatever depth, **refuses at the build**. It is private to the document like a constant, as a procedure written `private` is under [procedures](procedure.md), read by the same spelling (`ref`), and written by a `set` in a procedure the document declares, or through a parameter such a procedure hands it to in place; another document reaches it only through such a procedure. A name is a constant or a variable, not both: one declared under both keys **refuses** at the load. Either may be spelled like a procedure: a reference reads the constant or the variable, and a call names the procedure. Every run starts each variable at its settled value, so two runs of one image never see each other.
 
 **The version.** Every document says it, and one that does not **refuses at the load**, as not a document rather than as a malformed one.
 
@@ -64,6 +64,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-module-variable-closure-called-with-another-count-refuses`
 - `a-module-variable-closure-may-name-its-documents-own-type`
 - `a-module-variable-declares-what-it-holds`
+- `a-module-variable-declaring-a-record-refuses-a-nameless-record-a-constant-holds`
 - `a-module-variable-handed-in-place-is-one-box`
 - `a-module-variable-is-handed-in-place-to-a-native-procedure`
 - `a-module-variable-is-not-named-from-another-document`
@@ -71,7 +72,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-module-variable-keeps-the-type-it-started-as`
 - `a-module-variable-start-outside-its-declared-type-refuses`
 - `a-module-variable-started-with-a-const-closure-takes-one-that-runs`
-- `a-module-variable-starting-as-a-dictionary-takes-new-names`
+- `a-module-variable-starting-empty-says-nothing-of-what-it-holds-refuses`
 - `a-name-declared-as-both-a-constant-and-a-variable-refuses`
 - `a-record-literal-written-into-a-module-variable-declaring-a-record-takes-the-name-answers`
 - `a-result-written-as-null-refuses`

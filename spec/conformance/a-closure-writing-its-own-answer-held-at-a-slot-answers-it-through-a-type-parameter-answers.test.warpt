@@ -3,7 +3,7 @@ warpt 1
   expect {
     answers "a"
   }
-  name "a-closure-held-at-a-slot-writing-its-own-answer-answers-it-through-a-type-parameter-answers"
+  name "a-closure-writing-its-own-answer-held-at-a-slot-answers-it-through-a-type-parameter-answers"
   note "The closure writes `returns Bank.A` and is held at `Procedure() -> Bank.A`, the answer it already gives. `App.run` takes `Procedure() -> some T`, so `v` reads as `Bank.A`, the closure's own `returns` names the record it answers, and `App.P.show` reaches `Bank.A`'s witness."
   program {
     contracts {
