@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-record-of-other-fields-with-an-any-field-appended-to-a-declared-list-refuses"
-  note "`people` is declared `Array<{ name: String }>`. Appending `{ name: src.name, age: src.age }`, with `src` a `Dictionary<Any>`, fills the element with what holds `{ name: string }` and `{ name: any, age: any }`, which is `{ name: any }`. A variable handed in place takes only what it is declared as, so the build refuses."
+  note "`people` is declared `Array<{ name: String }>`. Appending `{ name: src.name, age: src.age }`, with `src` a `Dictionary<Any>`, fills the element with what holds `{ name: String }` and `{ name: Any, age: Any }`, which is `{ name: Any }`. A variable handed in place takes only what it is declared as, so the build refuses."
   program {
     imports [
       "Standard.Collection.append"

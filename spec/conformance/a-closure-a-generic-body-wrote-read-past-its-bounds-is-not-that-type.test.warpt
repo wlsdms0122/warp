@@ -4,7 +4,7 @@ warpt 1
     answers null
   }
   name "a-closure-a-generic-body-wrote-read-past-its-bounds-is-not-that-type"
-  note "App.mk answers a closure taking a list of its own some T in place, T bounded by Standard.Numeric, and it is read through any as taking a list of text. Reading its T as text is outside its bounds, so the closure is not of that type, and as? reads it as null."
+  note "App.mk answers a closure taking a list of its own some T in place, T bounded by Standard.Numeric, and it is read through Any as taking a list of text. Reading its T as text is outside its bounds, so the closure is not of that type, and as? reads it as null."
   program {
     imports [
       "Standard.Numeric"

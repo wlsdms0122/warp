@@ -4,7 +4,7 @@ warpt 1
     answers "a"
   }
   name "a-call-through-a-type-parameter-settles-a-closure-answer-to-the-record-its-slot-wrote-answers"
-  note "`c` is held at `procedure() -> Bank.A` and its closure answers the nameless `{ k: \"x\" }`. `App.run` takes `procedure() -> some T` and answers what calling it answers, so `v` reads as `Bank.A`. The closure keeps the answer its slot wrote, so the call inside `App.run` settles it to `Bank.A`, and `App.P.show` reaches `Bank.A`'s witness."
+  note "`c` is held at `Procedure() -> Bank.A` and its closure answers the nameless `{ k: \"x\" }`. `App.run` takes `Procedure() -> some T` and answers what calling it answers, so `v` reads as `Bank.A`. The closure keeps the answer its slot wrote, so the call inside `App.run` settles it to `Bank.A`, and `App.P.show` reaches `Bank.A`'s witness."
   program {
     contracts {
       "App.P" {

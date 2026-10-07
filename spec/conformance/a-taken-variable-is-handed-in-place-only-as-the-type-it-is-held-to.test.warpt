@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-taken-variable-is-handed-in-place-only-as-the-type-it-is-held-to"
-  note "One arm lets a closure capture an int variable and the other writes null into it, so after the conditional it is held to int and reads int?. Handing it in place to an int? slot refuses: the callee would write null into a box the closure reads as int."
+  note "One arm lets a closure capture an Int variable and the other writes null into it, so after the conditional it is held to Int and reads Int?. Handing it in place to an Int? slot refuses: the callee would write null into a box the closure reads as Int."
   program {
     imports [
       "Standard.Numeric.plus"

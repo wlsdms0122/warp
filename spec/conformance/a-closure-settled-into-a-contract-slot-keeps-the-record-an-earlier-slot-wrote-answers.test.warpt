@@ -4,7 +4,7 @@ warpt 1
     answers "a"
   }
   name "a-closure-settled-into-a-contract-slot-keeps-the-record-an-earlier-slot-wrote-answers"
-  note "`c` is held at `procedure() -> Bank.A`, its closure answering the nameless `{ k: \"x\" }`, and `d` holds it again at `procedure() -> App.P`, which `Bank.A` answers. The closure keeps both answers in turn, so the call inside `App.run` settles it to `Bank.A` and then to `App.P`, which a `Bank.A` already is, and `App.P.show` reaches `Bank.A`'s witness."
+  note "`c` is held at `Procedure() -> Bank.A`, its closure answering the nameless `{ k: \"x\" }`, and `d` holds it again at `Procedure() -> App.P`, which `Bank.A` answers. The closure keeps both answers in turn, so the call inside `App.run` settles it to `Bank.A` and then to `App.P`, which a `Bank.A` already is, and `App.P.show` reaches `Bank.A`'s witness."
   program {
     contracts {
       "App.P" {

@@ -4,7 +4,7 @@ warpt 1
     answers null
   }
   name "a-cast-of-a-closure-held-at-an-any-slot-a-record-slot-and-an-any-slot-again-reads-null-answers"
-  note "The closure is held at `procedure() -> any`, then at `procedure() -> Bank.A`, then at `procedure() -> any` again, and travels through `Any`. Meeting `Any` again does not drop the `Bank.A` answer between, and `Bank.B` never takes a `Bank.A`: the asking cast to `procedure() -> Bank.B` reads it as null."
+  note "The closure is held at `Procedure() -> Any`, then at `Procedure() -> Bank.A`, then at `Procedure() -> Any` again, and travels through `Any`. Meeting `Any` again does not drop the `Bank.A` answer between, and `Bank.B` never takes a `Bank.A`: the asking cast to `Procedure() -> Bank.B` reads it as null."
   program {
     imports []
     procedures {

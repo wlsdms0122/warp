@@ -4,7 +4,7 @@ warpt 1
     answers "a"
   }
   name "a-closure-held-at-a-slot-writing-its-own-answer-keeps-that-answer-through-a-type-parameter-answers"
-  note "The closure writes `returns Bank.A` and is held at `procedure() -> Bank.A`, the answer it already gives. `App.run` takes `procedure() -> some T`, so `v` reads as `Bank.A`, the call inside settles the record to `Bank.A`, and `App.P.show` reaches `Bank.A`'s witness."
+  note "The closure writes `returns Bank.A` and is held at `Procedure() -> Bank.A`, the answer it already gives. `App.run` takes `Procedure() -> some T`, so `v` reads as `Bank.A`, the call inside settles the record to `Bank.A`, and `App.P.show` reaches `Bank.A`'s witness."
   program {
     contracts {
       "App.P" {
