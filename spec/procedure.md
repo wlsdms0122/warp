@@ -10,7 +10,7 @@ What a declaration says about itself, and what saying it permits. Four things: t
 | `access` | `public`, `internal` or `private`: who may name the declaration, under *who may name a declaration* below. `internal` when absent | no |
 | `parameters` | list of parameters, in the order the declaration writes them, which is the order every call hands its arguments in | no |
 | `returns` | type. When absent, what a call answers is read off the body | no |
-| `bounds` | record: type parameter → the names of constraints and contracts, one or several joined with `&`; refuses when it names a parameter no slot mentions | no |
+| `bounds` | record: type parameter → the names of contracts, one or several joined with `&`; refuses when it names a parameter no slot mentions | no |
 | `body` | statements | no |
 | `result` | expression. What the procedure answers | no |
 
@@ -209,8 +209,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-entry-taking-a-parameter-in-place-refuses`
 - `an-enum-candidate-written-as-a-number-refuses`
 - `an-enum-no-candidate-of-which-fits-refuses`
-- `an-enum-on-memberships-that-name-each-other-a-member-spells-is-taken`
-- `an-enum-on-memberships-that-name-each-other-no-member-spells-refuses`
 - `an-enum-that-admits-nothing-refuses`
 - `an-enum-with-a-dead-candidate-refuses`
 - `an-internal-entry-refuses`

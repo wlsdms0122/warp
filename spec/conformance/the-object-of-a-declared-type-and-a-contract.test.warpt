@@ -1,0 +1,185 @@
+warpt 1
+{
+  expect {
+    builds {
+      answers []
+      claims [
+        [
+          "Double"
+          [
+            "App.Number"
+          ]
+        ]
+        [
+          "Int"
+          [
+            "App.Number"
+          ]
+        ]
+      ]
+      constants []
+      contracts [
+        [
+          "App.Number"
+          []
+        ]
+      ]
+      dependencies []
+      document [
+        x"3d95e50522616f2da3f43b36da9d1f5b0465d33e661f032e052038f4fd4e9d0f"
+      ]
+      leaned []
+      lifted []
+      numbering [
+        []
+        []
+      ]
+      object 1
+      rows [
+        [
+          "entry"
+          [
+            [
+              [
+                "p"
+                [
+                  [
+                    18
+                    "App.Point"
+                  ]
+                ]
+                []
+                []
+              ]
+              [
+                "v"
+                [
+                  [
+                    19
+                    "T"
+                    [
+                      "App.Number"
+                    ]
+                  ]
+                ]
+                []
+                []
+              ]
+            ]
+            [
+              [
+                19
+                "T"
+                [
+                  "App.Number"
+                ]
+              ]
+            ]
+          ]
+          2
+          1
+          1
+          [
+            1
+            []
+          ]
+          true
+          [
+            0
+            [
+              []
+              [
+                [
+                  1
+                  [
+                    1
+                    []
+                  ]
+                ]
+              ]
+            ]
+            [
+              2
+              [
+                0
+                1
+              ]
+              []
+              []
+              [
+                "p"
+                "v"
+              ]
+            ]
+          ]
+        ]
+      ]
+      typeNumbering []
+      types [
+        [
+          "App.Point"
+          [
+            10
+            [
+              [
+                "x"
+                [
+                  4
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+      variables []
+    }
+  }
+  name "the-object-of-a-declared-type-and-a-contract"
+  note "Declared types and contracts stand as the document wrote them. A body standing on a declared type numbers it under numbering, and a slot declaring a type parameter lowers to the parameter with its bounds, each a contract by its name."
+  program {
+    contracts {
+      "App.Number" {}
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        bounds {
+          T "App.Number"
+        }
+        parameters [
+          {
+            name "p"
+            type "App.Point"
+          }
+          {
+            name "v"
+            type "some T"
+          }
+        ]
+        result {
+          ref "v"
+        }
+        returns "some T"
+      }
+    }
+    satisfies {
+      Double [
+        "App.Number"
+      ]
+      Int [
+        "App.Number"
+      ]
+    }
+    types {
+      "App.Point" {
+        record {
+          x "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

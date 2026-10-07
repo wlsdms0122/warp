@@ -4,12 +4,10 @@ warpt 1
     refuses "build"
   }
   name "a-name-that-is-not-a-bound-joined-with-and-refuses"
-  note "`&` joins the names of memberships and contracts. A declared type joined into one is neither, and the declaration is refused at the build."
+  note "`&` joins the names of contracts. A declared type joined into one is not, and the declaration is refused at the build."
   program {
-    constraints {
-      Text [
-        "String"
-      ]
+    contracts {
+      Text {}
     }
     imports []
     procedures {
@@ -24,6 +22,11 @@ warpt 1
         result 1
         returns "Int"
       }
+    }
+    satisfies {
+      String [
+        "Text"
+      ]
     }
     types {
       Card {

@@ -4,13 +4,8 @@ warpt 1
     answers "shown"
   }
   name "a-declaration-answering-a-contract-may-fill-a-bounded-parameter-with-what-the-bound-takes"
-  note "The contract takes an int at n, and the declaration answering it takes some U there, bounded by App.Whole, which admits int."
+  note "The contract takes an int at n, and the declaration answering it takes some U there, bounded by App.Whole, which Int answers."
   program {
-    constraints {
-      "App.Whole" [
-        "Int"
-      ]
-    }
     contracts {
       "App.Shown" {
         show {
@@ -38,6 +33,7 @@ warpt 1
           returns "Int"
         }
       }
+      "App.Whole" {}
     }
     imports []
     procedures {
@@ -97,6 +93,9 @@ warpt 1
     satisfies {
       "Bank.Card" [
         "App.Shown"
+      ]
+      Int [
+        "App.Whole"
       ]
     }
     types {

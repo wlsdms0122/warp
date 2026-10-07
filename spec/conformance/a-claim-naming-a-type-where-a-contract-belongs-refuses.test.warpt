@@ -1,0 +1,33 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-claim-naming-a-type-where-a-contract-belongs-refuses"
+  note "A claim names a type and the contracts it answers. A type where a contract belongs is a claim no document arriving later can make right, and it is refused at the claim."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+      }
+    }
+    satisfies {
+      "Bank.Account" [
+        "App.Scalar"
+      ]
+    }
+    types {
+      "App.Scalar" "Int"
+      "Bank.Account" {
+        record {
+          balance "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -37,7 +37,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-called-value-answers-what-its-slot-wrote`
 - `a-calls-arguments-are-evaluated-in-position-order`
 - `a-cast-of-a-closure-a-contract-slot-held-back-to-the-number-it-answers-answers`
-- `a-cast-of-a-closure-a-membership-slot-held-back-to-the-record-it-answers-answers`
 - `a-cast-of-a-closure-answering-a-record-held-at-a-slot-answering-anything-to-another-record-reads-null-answers`
 - `a-cast-of-a-closure-answering-anything-that-passed-a-record-slot-and-an-any-slot-reads-null-answers`
 - `a-cast-of-a-closure-held-at-an-any-slot-a-record-slot-and-an-any-slot-again-reads-null-answers`

@@ -4,20 +4,11 @@ warpt 1
     answers 0
   }
   name "a-record-with-a-var-field-handed-at-a-dictionary-fills-a-parameter-by-its-values-answers"
-  note "`App.Box` declares `var a: Int` and `b: Int?`. `App.f` bounds `T` by `App.M`, which admits `Int?` and `String`, and answers the `Dictionary<some T>` it takes. Handed a box, the record is read as a dictionary by its fields' values, the `var` off, joined part by part, so `T` reads `Int?`, the answer fits the name declaring `Dictionary<Int?>`, and the run answers 0."
+  note "`App.Box` declares `var a: Int` and `b: Int?`. `App.f` answers the `Dictionary<some T>` it takes. Handed a box, the record is read as a dictionary by its fields' values, the `var` off, joined part by part, so `T` reads `Int?`, the answer fits the name declaring `Dictionary<Int?>`, and the run answers 0."
   program {
-    constraints {
-      "App.M" [
-        "Int?"
-        "String"
-      ]
-    }
     imports []
     procedures {
       "App.f" {
-        bounds {
-          T "App.M"
-        }
         parameters [
           {
             name "d"

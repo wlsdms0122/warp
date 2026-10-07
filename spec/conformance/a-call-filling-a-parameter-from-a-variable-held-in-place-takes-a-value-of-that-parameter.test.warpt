@@ -9,10 +9,8 @@ warpt 1
   name "a-call-filling-a-parameter-from-a-variable-held-in-place-takes-a-value-of-that-parameter"
   note "App.gen takes a list of its own some T in place and a some T, and appends the one to the other through Standard.Collection.append. Both are T, so the call takes them, and the list answers with the value added."
   program {
-    constraints {
-      "App.Real" [
-        "Double"
-      ]
+    contracts {
+      "App.Real" {}
     }
     imports [
       "Standard.Collection.append"
@@ -79,6 +77,11 @@ warpt 1
           ref "ns"
         }
       }
+    }
+    satisfies {
+      Double [
+        "App.Real"
+      ]
     }
     warp 1
   }

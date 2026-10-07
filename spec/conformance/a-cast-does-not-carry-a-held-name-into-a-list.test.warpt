@@ -6,13 +6,7 @@ warpt 1
   name "a-cast-does-not-carry-a-held-name-into-a-list"
   note "A cast answers what it read, so a cast of a held name written into a list carries the name there, and it refuses like the bare name would. `handle` is closed after the list, so carrying it there is the only thing to refuse."
   program {
-    constraints {
-      "App.Openable" [
-        "App.Handle"
-      ]
-    }
     imports [
-      "App.Handle"
       "App.close"
       "App.open"
     ]
@@ -36,7 +30,11 @@ warpt 1
                   of {
                     ref "handle"
                   }
-                  type "App.Openable"
+                  type {
+                    record {
+                      name "String"
+                    }
+                  }
                 }
               }
             ]

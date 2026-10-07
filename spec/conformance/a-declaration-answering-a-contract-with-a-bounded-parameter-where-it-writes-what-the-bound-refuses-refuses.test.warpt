@@ -4,13 +4,8 @@ warpt 1
     refuses "build"
   }
   name "a-declaration-answering-a-contract-with-a-bounded-parameter-where-it-writes-what-the-bound-refuses-refuses"
-  note "The contract takes a string at n, and the declaration answering it takes some U there, bounded by App.Whole, which admits int alone. Every call through the contract would hand U a string its bound refuses."
+  note "The contract takes a string at n, and the declaration answering it takes some U there, bounded by App.Whole, which Int alone answers. Every call through the contract would hand U a string its bound refuses."
   program {
-    constraints {
-      "App.Whole" [
-        "Int"
-      ]
-    }
     contracts {
       "App.Shown" {
         show {
@@ -38,6 +33,7 @@ warpt 1
           returns "Int"
         }
       }
+      "App.Whole" {}
     }
     imports []
     procedures {
@@ -97,6 +93,9 @@ warpt 1
     satisfies {
       "Bank.Card" [
         "App.Shown"
+      ]
+      Int [
+        "App.Whole"
       ]
     }
     types {

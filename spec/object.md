@@ -14,7 +14,6 @@ An object is one record. It carries **exactly** these keys, and a key none of th
 | `document` | the document's identity, or nothing where the program was never written down | |
 | `dependencies` | the objects behind every declaration this document named, each by what the host keyed it under | ascending by bytes, none twice |
 | `types` | name → *type*, as the document wrote them | by name |
-| `constraints` | name → list of *type* | by name |
 | `contracts` | name → (procedure name → `[ signature, constness, isolation, failing ]`, the two marks and *failing* as a row writes them) | by name, then by name |
 | `claims` | type name → the contracts it says it answers | by name; the contracts ascending |
 | `leaned` | the pairs its bodies lean on: (type, contract, *place*), unresolved | by type, then contract |
@@ -22,7 +21,7 @@ An object is one record. It carries **exactly** these keys, and a key none of th
 | `lifted` | the closures its bodies lifted, each a *row* with no spelling | as the numbering counts them |
 | `answers` | name → *lowered type*: what the build read off a body whose declaration wrote no `returns` | by name |
 | `numbering` | two lists: what it sends, and how many closures each declaration wrote | below |
-| `typeNumbering` | two lists: the declared types its bodies, its `answers` and its `variables` stand on, and the memberships, each ascending by name | below |
+| `typeNumbering` | the declared types its bodies, its `answers` and its `variables` stand on, ascending by name | below |
 | `variables` | (name, *value*): what each variable starts a run holding | by name |
 | `constants` | the constants it declared, by spelling | by name |
 
@@ -32,7 +31,7 @@ An object is one record. It carries **exactly** these keys, and a key none of th
 
 **The rows.** A declaration's row stands under its spelling in `rows`, in name order; the rows its bodies lifted stand in `lifted`, without a spelling, in the order the numbering counts them. A body numbers its calls and its types from the document itself, under [procedures](procedure.md): the spellings it sends first, in name order, then its own declarations in name order, then the closures its declarations wrote, in the order the numbering lists the declarations and, within one, the order the body wrote them. Where a row lands in a link is the link's answer, so nothing here says it, and one object answers every entry asked of it.
 
-**`numbering`** writes what a reading uses and cannot work out: the spellings sent, in name order; then `(declaration, count)` for each declaration that wrote a closure, counts above zero. A *declaration* is `[0, name]` for a procedure and `[1, name]` for a constant or a variable, since a procedure and a constant may be spelled alike; the procedures stand first, then the constants and variables, each in name order, none twice. **`typeNumbering`** writes the declared types the lowered bodies, the `answers` and the starts in `variables` stand on, ascending by name, none twice, then the memberships, likewise: each of them numbers its types in that order. What a number stands for is arithmetic over these lists and the declared spellings, so the numbers themselves are not written.
+**`numbering`** writes what a reading uses and cannot work out: the spellings sent, in name order; then `(declaration, count)` for each declaration that wrote a closure, counts above zero. A *declaration* is `[0, name]` for a procedure and `[1, name]` for a constant or a variable, since a procedure and a constant may be spelled alike; the procedures stand first, then the constants and variables, each in name order, none twice. **`typeNumbering`** writes the declared types the lowered bodies, the `answers` and the starts in `variables` stand on, ascending by name, none twice: each of them numbers its types in that order. A contract a bound names is written by its name and numbered nowhere. What a number stands for is arithmetic over these lists and the declared spellings, so the numbers themselves are not written.
 
 ## How a part is laid out
 
@@ -93,7 +92,7 @@ A *place* is where in a document something was written: `[document, steps]`, the
 | 4 | a statement | its name or nothing, its position |
 | 5 | a landmark in a program nobody wrote down | string |
 
-A *part* is `[tag]`: 0 `procedures`, 1 `constants`, 2 `variables`, 3 `types`, 4 `constraints`, 5 `contracts`, 6 `satisfies`, 7 `imports`, 8 `parameters`, 9 `returns`, 10 `body`, 11 `result`, 12 a cast's subject, carrying `true` for `as?` or `false` for `as`, 13 `callee`, 14 `arguments`, 15 `closure`, 16 a condition, carrying `[0]` for a conditional's or `[1]` for a loop's, 17 `then`, 18 `otherwise`, 19 `rescue`, 20 a record's fields.
+A *part* is `[tag]`: 0 `procedures`, 1 `constants`, 2 `variables`, 3 `types`, 4 `contracts`, 5 `satisfies`, 6 `imports`, 7 `parameters`, 8 `returns`, 9 `body`, 10 `result`, 11 a cast's subject, carrying `true` for `as?` or `false` for `as`, 12 `callee`, 13 `arguments`, 14 `closure`, 15 a condition, carrying `[0]` for a conditional's or `[1]` for a loop's, 16 `then`, 17 `otherwise`, 18 `rescue`, 19 a record's fields.
 
 A *construct* is `[tag]`: 0 literal, 1 reference, 2 array, 3 record, 4 closure, 5 cast, 6 block, 7 conditional, 8 loop, 9 attempt, 10 call, 11 leave, carrying its *reach*: `0` the procedure, `1` the construct, `2` the round.
 
@@ -103,7 +102,7 @@ A *row* is a declaration as its own document settled it:
 
     [ label, signature, access, constness, isolation, failing, handsBackAsDeclared, implementation ]
 
-The label is the declared spelling. A row in `lifted` is the same without the label, its fields starting at the signature. `access` is `0` private, `1` internal or `2` public, under *who may name a declaration* in [procedures](procedure.md); a lifted row is private, since nothing names it. `handsBackAsDeclared` is `true` where what the body hands back, its answer and every variable handed to it in place, is at every type parameter that parameter, so nothing a call filled has to be judged again where the call stands, and `false` otherwise. A body proves it only where every call it makes whose answer or variable handed back names a type parameter reaches a row that proved it too, and where nothing it reads as a type parameter may hold what is not a value of it: no call fills one from an argument that is not, such as a value every member of the bounds takes or a reading of `Any`, no write leaves a variable reading as one while it writes what is not, and no closure that is not isolated reaches a variable whose type names one, since a closure read as a procedure type may be called with what the parameter stands for nowhere. A native's row writes `true`, on its host's word. A link reads it as said, the way it reads `constness` and `isolation`, and leaves out the judgement a call takes where the row the call reaches says `true`, or, for the answer alone, where every row a call through a contract may reach settles exactly what the call reads and the call hands nothing back to judge.
+The label is the declared spelling. A row in `lifted` is the same without the label, its fields starting at the signature. `access` is `0` private, `1` internal or `2` public, under *who may name a declaration* in [procedures](procedure.md); a lifted row is private, since nothing names it. `handsBackAsDeclared` is `true` where what the body hands back, its answer and every variable handed to it in place, is at every type parameter that parameter, so nothing a call filled has to be judged again where the call stands, and `false` otherwise. A body proves it only where every call it makes whose answer or variable handed back names a type parameter reaches a row that proved it too, and where nothing it reads as a type parameter may hold what is not a value of it: no call fills one from an argument that is not, such as a reading of `Any`, no write leaves a variable reading as one while it writes what is not, and no closure that is not isolated reaches a variable whose type names one, since a closure read as a procedure type may be called with what the parameter stands for nowhere. A native's row writes `true`, on its host's word. A link reads it as said, the way it reads `constness` and `isolation`, and leaves out the judgement a call takes where the row the call reaches says `true`, or, for the answer alone, where every row a call through a contract may reach settles exactly what the call reads and the call hands nothing back to judge.
 
 The *implementation* is `[0, body, frame]` for a written body, or `[1, sends]` for a native, each send `[position, selector, handing]`: where the send stands among the declaration's sends, the spelling it reaches, and how many arguments it hands over, from the first position of what that spelling declares. The sends stand one to a place from the first, and each reaches the number the document's `numbering` gives its spelling; a native row whose sends say otherwise **refuses**.
 
@@ -152,13 +151,11 @@ A *lowered type* is a type as a body stands on it, `[tag, …]`:
 | 12 | variable | *lowered type* |
 | 13 | inout | *lowered type* |
 | 14 | nullable | *lowered type* |
-| 15 | a declared type | its place in the first list of `typeNumbering` |
-| 16 | a type parameter | its label, bounds ascending |
-| 17 | a composition | bounds ascending, at least one |
+| 15 | a declared type | its place in `typeNumbering` |
+| 16 | a type parameter | its label, the contracts bounding it ascending |
+| 17 | a composition | the contracts ascending, at least one |
 | 18 | a projection | the parameter projected, *segment* list |
-| 19 | undeclared | its label, why: `[0, name]` nothing declares it, `[1, name]` nothing declares it as a membership or a contract, `[2]` it names itself |
-
-A *bound* is `[0, number]` for a membership, its place in the second list of `typeNumbering`, or `[1, name]` for a contract.
+| 19 | undeclared | its label, why: `[0, name]` nothing declares it, `[1, name]` nothing declares it as a contract, `[2]` it names itself |
 
 ### Values
 
@@ -209,7 +206,6 @@ warpt 1
   answers []
   claims []
   constants []
-  constraints []
   contracts []
   dependencies [ x"…" ]
   document [ x"…" ]
@@ -233,7 +229,7 @@ warpt 1
       ]
     ]
   ]
-  typeNumbering [ [] [] ]
+  typeNumbering []
   types []
   variables []
 }
@@ -286,7 +282,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `the-object-of-a-closure`
 - `the-object-of-a-composition`
 - `the-object-of-a-conditional`
-- `the-object-of-a-declared-type-and-a-constraint`
+- `the-object-of-a-declared-type-and-a-contract`
 - `the-object-of-a-dispatch`
 - `the-object-of-a-leave`
 - `the-object-of-a-literal`

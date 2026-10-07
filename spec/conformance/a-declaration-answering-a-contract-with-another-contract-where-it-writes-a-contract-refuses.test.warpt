@@ -6,16 +6,6 @@ warpt 1
   name "a-declaration-answering-a-contract-with-another-contract-where-it-writes-a-contract-refuses"
   note "The contract hands App.Sized and the declaration answering it takes App.Named there. A type answering App.Sized need not answer App.Named, so a call through the contract could reach a slot that refuses what it hands."
   program {
-    constraints {
-      "App.Pockets" [
-        "Bank.Card"
-        "Bank.Coin"
-      ]
-      "App.Wallets" [
-        "Bank.Card"
-        "Bank.Coin"
-      ]
-    }
     contracts {
       "App.Named" {
         name {

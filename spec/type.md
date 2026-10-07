@@ -17,13 +17,13 @@ A type is written as a string, or as a record for what a string cannot say:
 | `{ linear: <type> }` | a type whose values are handed on exactly once; written on a type in `types` and nowhere else, and every slot naming that type carries it |
 | `consuming <type>` / `borrowing <type>` | what a parameter does with a linear value: takes the obligation, or reads and leaves it. Written on a parameter's type and nowhere else |
 | `var <type>` | a field a path may write through; written on a field of a type declared in `types` and nowhere else |
-| `Task` (any declared name) | the type a module declares under that name, or a value of the membership it declares under that name |
+| `Task` (any declared name) | the type a module declares under that name |
 | `some T` | a type parameter: worked out from the call, same reading everywhere it appears; bounded when the signature's `bounds` names it |
 | `Self` | the type answering a contract, written in that contract's procedures alone |
 | `Describable` (a declared contract's name) | a value of whatever type satisfies the contract. Nothing ties one slot's to another's |
-| `Describable & Standard.Comparable` | a value of whatever type satisfies every contract and belongs to every membership named; the names in name order, and each a contract's or a membership's |
+| `Describable & Standard.Comparable` | a value of whatever type satisfies every contract named; the names in name order, and each a contract's |
 | `Int(0...255)`, `Double(0.0..<1.0)` | a number the slot admits only inside the range. The kind written out, either bound optional but not both, and `..<` leaving the far bound outside |
-| `Int?` (any string spelling and `?`) | the declared type or null. The one union written inline, and it is null-only. Any other is declared as a membership and named |
+| `Int?` (any string spelling and `?`) | the declared type or null. The one union written inline, and it is null-only. Any other is said with a contract the types claim, and the contract is named |
 | `{ record: { title: String, done: Bool } }` | a record type, its fields under `record`; structural, and it names nothing. A field may be called anything |
 | `{ procedure: { parameters: [<type>, …], returns: … } }` | a procedure type: the types it is called with, in position order, and what it answers. No names, since a name is a declaration's and a value is called by position; a mark such as `inout` is written on the type it stands in front of |
 | `{ "const procedure": { … } }` | a procedure type with its marks and modifiers on the key, `inout` or `consuming` or `borrowing` first, then `const` and `isolated`, the way they stand in front of the string form |
@@ -52,9 +52,9 @@ A type is written as a string, or as a record for what a string cannot say:
 
 `Never` is a real type and fits **every** slot, by never arriving: an expression typed `Never` may be written where any value is expected, such as an argument that calls `Standard.Control.abort`, and evaluating it ends the evaluation it is inside. The statement rules (no name, nothing follows) are statement rules; in expression position there is nothing extra to say, because nothing after the expression is reached at all.
 
-**Type parameters.** A declaration may leave a type parameter and let the call fill it: a procedure taking `Array<some T>` and a `some T` answers what it was given. Inside the declaration the parameter is one type its body does not know. A parameter handed in place, or an element of one, takes only a value of that parameter, since the caller reads its own variable as what filled it and nothing settles a write there, and a call filling a parameter from such a variable holds every other argument read at it to the same, so a value every member of the bounds takes is no more a value of the parameter handed to a call than written directly; the call judges the variable against what filled the parameter once the call is over, whether it answered or failed, and a value outside it **refuses at the run** there. The answer takes a value of that parameter, a value every member of a membership bounding it takes, such as a whole number where `Standard.Numeric` bounds it, or a reading of `Any`; the call judges what arrives against what filled the parameter, and a value outside it **refuses at the run** where the call reads it. A list or record literal written there is judged part by part, each element or field against what the slot asks at it, and an empty list holds no element wherever in the literal it stands: `[]` is a value of `Array<some T>`, `[[], [x]]` of `Array<Array<some T>>` where `x` is one of `some T`, and `[{ a: [] }, { b: [x] }]` of `Array<Dictionary<Array<some T>>>`. A call reads a literal handed to it as one type to fill a parameter, its parts joined part by part, so records of other fields read there as `Any`, and handed beside such a parameter it is then judged part by part as a write is. A record handed where a dictionary of the parameter is declared fills it with what each of its fields reads it as, joined part by part as a list's elements are, and each field is held where it stands. Where bounds hold the parameter, a literal handed there is one of their members part by part, as one written into a slot declaring them is, so `[1, "s"]` handed where `App.M` admits `Array<Int>` and `Array<String>` bounds the parameter refuses at the build; only what stands at the parameter is held to them, what a name the literal holds reads as included, and a closure in the literal is judged as any closure handed to its procedure type is. A parameter read twice must be read the same both ways. Two readings where one accepts the other settle on the one that holds both, position by position through lists, dictionaries, what may be null and record fields: a range meeting its kind or another range of it gives the kind, a declared record meeting a nameless record of its fields gives the nameless one, since that is the one a value is sure to fit, two records of other fields give a nameless record of the looser one's fields, each settled with the other's field of that name, a reading of `Any` makes its position `Any`, as it does the whole parameter, and elsewhere the looser stands; a reading that leaves, or an empty list's element, holds no value and fills nothing; two readings that do not fit **refuse at the build**, and do not widen to `Any`. Where bounds hold the parameter, what each argument hands there is held to them before its readings are joined, so text handed beside a reading of `Any` **refuses at the build** though the parameter reads `Any`. Appending a whole number to a list of text is a parameter read as text and as a number, and there is no answer that is both. A closure written in a declaration with a type parameter may name it in its own signature, and the run does not know what filled it: where the closure is judged against a procedure type, the parameter is read as what that type asks there and held to its bounds, refusing there where what it asks is outside them, and a variable handed to it in place at the parameter is judged once the call of the closure is over against what the call holds it as.
+**Type parameters.** A declaration may leave a type parameter and let the call fill it: a procedure taking `Array<some T>` and a `some T` answers what it was given. Inside the declaration the parameter is one type its body does not know. A parameter handed in place, or an element of one, takes only a value of that parameter, since the caller reads its own variable as what filled it and nothing settles a write there, and a call filling a parameter from such a variable holds every other argument read at it to the same, so a value of a type the bounds hold is no more a value of the parameter handed to a call than written directly; the call judges the variable against what filled the parameter once the call is over, whether it answered or failed, and a value outside it **refuses at the run** there. The answer takes a value of that parameter or a reading of `Any`; the call judges what arrives against what filled the parameter, and a value outside it **refuses at the run** where the call reads it. A list or record literal written there is judged part by part, each element or field against what the slot asks at it, and an empty list holds no element wherever in the literal it stands: `[]` is a value of `Array<some T>`, `[[], [x]]` of `Array<Array<some T>>` where `x` is one of `some T`, and `[{ a: [] }, { b: [x] }]` of `Array<Dictionary<Array<some T>>>`. A call reads a literal handed to it as one type to fill a parameter, its parts joined part by part, so records of other fields read there as `Any`, and handed beside such a parameter it is then judged part by part as a write is. A record handed where a dictionary of the parameter is declared fills it with what each of its fields reads it as, joined part by part as a list's elements are, and each field is held where it stands. Where bounds hold the parameter, only what stands at the parameter in a literal handed there is held to them, what a name the literal holds reads as included, and a closure in the literal is judged as any closure handed to its procedure type is. A parameter read twice must be read the same both ways. Two readings where one accepts the other settle on the one that holds both, position by position through lists, dictionaries, what may be null and record fields: a range meeting its kind or another range of it gives the kind, a declared record meeting a nameless record of its fields gives the nameless one, since that is the one a value is sure to fit, two records of other fields give a nameless record of the looser one's fields, each settled with the other's field of that name, a reading of `Any` makes its position `Any`, as it does the whole parameter, and elsewhere the looser stands; a reading that leaves, or an empty list's element, holds no value and fills nothing; two readings that do not fit **refuse at the build**, and do not widen to `Any`. Where bounds hold the parameter, what each argument hands there is held to them before its readings are joined, so text handed beside a reading of `Any` **refuses at the build** though the parameter reads `Any`. Appending a whole number to a list of text is a parameter read as text and as a number, and there is no answer that is both. A closure written in a declaration with a type parameter may name it in its own signature, and the run does not know what filled it: where the closure is judged against a procedure type, the parameter is read as what that type asks there and held to its bounds, refusing there where what it asks is outside them, and a variable handed to it in place at the parameter is judged once the call of the closure is over against what the call holds it as.
 
-**Constraints.** A type parameter may be bounded: a signature declares `bounds: { T: Standard.Comparable }` once, its slots write `some T`, and every occurrence of the name takes only what the constraint admits. A bound may name several, joined with `&`: `bounds: { T: Standard.Comparable & Describable }` holds `T` to what every one of them admits or asks. The signature owns the bound. A slot names the parameter and never the membership, so one bound is one claim however many slots mention the name. A constraint is a **declared membership**. A module binds a name to the types it admits, the way it declares a type. A slot may also declare one as its type, and what stands there is a value of one of the members, which is how the language says **A or B**: the set is declared once under a name, and no slot writes an inline union. A member may name a membership, this one included inside a list or a record: a value is one of a membership where some member takes it, and a member asking the same membership of the same value again takes nothing, since the question came back unanswered. So where `App.M` admits `App.N` and `Array<Int>` and `App.N` admits `App.M` and `Bool`, `App.M` holds an int list or a bool and refuses `[1, "s"]`, at the build and where a value arrives alike, and where `App.M` admits `Int` and `Array<App.M>` it holds `[[1], 2]` and refuses `[[1, "s"]]`. The judgment is made twice, once per surface: at the **build**, a reading provably outside the membership refuses (two booleans meeting `lessThan` never run), and a reading the text says nothing about (`Any`) passes; at the **boundary**, the value that actually arrived is judged against the membership, so what travelled in through `Any` is refused where it arrives. One name is held to one set of bounds: `bounds` writes the set once, every occurrence of the name reads it, and a signature assembled with two occurrences holding different sets is refused at the build and written by no document. `bounds` naming a parameter no slot mentions refuses at the load. Only the declaring procedure writes `bounds`. A procedure *type* nested in a slot carries none, because its parameters are the declaring signature's own slots and the declaring signature owns their bounds. A closure written in the body reads the same names: its `some T` is the `T` the caller filled, held to the bounds the declaration wrote, so a closure may send what the body around it may. A constraint nobody declares, a constraint declared twice under one spelling, one admitting nothing, and a name declared as both a type and a constraint all **refuse at the build**. A member is a **concrete type**: `some`, `Any` and `Never` in member position refuse at the build. Each says nothing a membership could hold. And a type parameter lives in a signature: a declared type writing `some` outside a procedure signature refuses at the build, because nothing there is filled by a call.
+**Bounds.** A type parameter may be bounded: a signature declares `bounds: { T: Standard.Comparable }` once, its slots write `some T`, and every occurrence of the name takes only what answers the contract the bound names, under **Contracts** below. A bound may name several, joined with `&`: `bounds: { T: Standard.Comparable & Describable }` holds `T` to what answers every one of them. The signature owns the bound. A slot names the parameter and never the bound, so one bound is one claim however many slots mention the name. A bound names contracts and nothing else, and what answers one is whatever type a document claims does, so the set a bound holds a parameter to is open. The judgment is made twice, once per surface: at the **build**, a reading provably outside the bound refuses (two booleans meeting `lessThan` never run), and a reading the text says nothing about (`Any`) passes; at the **boundary**, the value that actually arrived is judged by the type it is an instance of, so what travelled in through `Any` is refused where it arrives. One name is held to one set of bounds: `bounds` writes the set once, every occurrence of the name reads it, and a signature assembled with two occurrences holding different sets is refused at the build and written by no document. `bounds` naming a parameter no slot mentions refuses at the load. Only the declaring procedure writes `bounds`. A procedure *type* nested in a slot carries none, because its parameters are the declaring signature's own slots and the declaring signature owns their bounds. A closure written in the body reads the same names: its `some T` is the `T` the caller filled, held to the bounds the declaration wrote, so a closure may send what the body around it may. A bound naming what no module declares as a contract **refuses at the build**. And a type parameter lives in a signature: a declared type writing `some` outside a procedure signature refuses at the build, because nothing there is filled by a call.
 
 **Linear types.** A type written `linear` says the values of it are given away: to a procedure, or as a body's answer. A body holding one hands it on **on every way through, once**, and the build says so before anything runs.
 
@@ -70,8 +70,6 @@ The mark is written on the declaration, so the obligation rides with the name: a
 Either is written on a slot that **names the type**, because the name is what the build follows the value by. On `some T` it **refuses**: what fills a type parameter is the call's, so a body that took the obligation there would have no name to carry it on and the check would end at that slot.
 
 **A linear type answers no contract.** A contract standing where a type is written holds a value under no name of its own, and nothing follows a linear value but the name that holds it. A claim that such a type satisfies a contract **refuses at the build**, where the claim is written.
-
-**A membership is one when every member is,** and `some T` bounded by one is what every member of it is. A membership that admits a linear value beside one that is not **refuses at the build**, where it is declared: a value of it would carry an obligation on some readings and not on others, and which it was is exactly what a membership does not say.
 
 **A declaration whose body answers one writes `returns`.** What a declaration answers is read off its body where nobody wrote it, and the mark is not something a reading keeps, so a caller binding that answer would take an obligation nothing told it about. It **refuses at the build**, by the result and by every `return` that carries a value alike.
 
@@ -104,9 +102,9 @@ What **refuses at the build**:
 
 Only a procedure with **no body** ends the obligation. A body that takes one has to hand it on like any other, so the chain runs out at a native procedure.
 
-**Contracts.** A membership says which types a name admits. A contract says which **procedures** a value answers, which is the other half of "what may stand here" and the half a list cannot give: the types that answer a procedure are open, and new ones arrive with new documents. A module declares one the way it declares a type: a name bound to the procedures, each written as a signature whose first parameter is `Self`, the type that answers the contract, since the value standing there is the one the procedure is answered about. `Self` may stand at any of the procedure's positions and in its answer, and it is that one type wherever it stands: a claim reads it as the type the claim is about, and a call through the contract reads it as one type parameter the contract bounds, filled from the call the way any type parameter is. A contract's procedure taking anything else first **refuses at the build**, the contract's own name included, since that is a value of whichever type answers it. `Self` written anywhere but a contract's procedures **refuses at the build**, and `some Self` **refuses at the load**.
+**Contracts.** A contract says which **procedures** a value answers: the types that answer them are open, and new ones arrive with new documents. A module declares one the way it declares a type: a name bound to the procedures, each written as a signature whose first parameter is `Self`, the type that answers the contract, since the value standing there is the one the procedure is answered about. `Self` may stand at any of the procedure's positions and in its answer, and it is that one type wherever it stands: a claim reads it as the type the claim is about, and a call through the contract reads it as one type parameter the contract bounds, filled from the call the way any type parameter is. A contract's procedure taking anything else first **refuses at the build**, the contract's own name included, since that is a value of whichever type answers it. `Self` written anywhere but a contract's procedures **refuses at the build**, and `some Self` **refuses at the load**.
 
-A contract's name stands where a type is written, and so does `A & B`: the slot takes a value of whatever type satisfies every contract and belongs to every membership named. It is a type parameter with no name, so nothing ties one slot's reading to another's, and a call fills nothing. A type parameter a contract bounds is one type wherever it stands, and a value of a contract is of whichever type answers it, so such a value fills one only where the parameter stands alone at one of the procedure's positions: `App.Described.describe` takes one, and a call handing one where the parameter stands twice, `Self` of `lhs` and `rhs` included, or inside a list or a record, **refuses at the build**. A closure literal's parameter is such a slot too, and a call of the value holds what it hands to the contract by the rule a call to a declaration is held by. A name declared as neither a membership nor a contract joined with `&` **refuses at the build**.
+A contract's name stands where a type is written, and so does `A & B`: the slot takes a value of whatever type satisfies every contract named. This is how the language says **A or B**: each type claims one contract and the slot names it, so no slot writes an inline union. It is a type parameter with no name, so nothing ties one slot's reading to another's, and a call fills nothing. A type parameter a contract bounds is one type wherever it stands, and a value of a contract is of whichever type answers it, so such a value fills one only where the parameter stands alone at one of the procedure's positions: `App.Described.describe` takes one, and a call handing one where the parameter stands twice, `Self` of `lhs` and `rhs` included, or inside a list or a record, **refuses at the build**. A closure literal's parameter is such a slot too, and a call of the value holds what it hands to the contract by the rule a call to a declaration is held by. A name that is not a contract's joined with `&` **refuses at the build**.
 
 A type **satisfies** a contract when a document says it does. The document writes the claim under `satisfies`, keyed by the type: `satisfies: { "Bank.Account": ["App.Describable"] }`. Any document may make one, about a type it declared or about another document's, which is how a document that arrives later gives a type the procedures a contract asks. A type the language names is a type the way a declared one is, and a claim may be about it: `satisfies: { Int: ["App.Describable"] }`, answered by `Int.describe`. A list and a map are named bare, `Array` and `Dictionary`. Every list is an instance of `Array` whatever it holds, since a value does not say which elements a slot declared it to hold, and a claim written about `Array<Int>` **refuses at the load**. Bytes are an instance of `Array`, and a record with no name an instance of `Dictionary`, its names being data. `Any`, `Never`, `Null` and `Procedure` are types no value is an instance of by name, and a claim about one **refuses at the load**. A claim about a declared name that is not itself a record, an alias included, **refuses at the build**: a value of a declared type is an instance of the record it is, and of no other name.
 
@@ -114,15 +112,15 @@ The build holds the claim to the declarations behind it. For every procedure the
 
 Whether a type answers a contract is therefore a fact of the whole list, and a claim may be written in a document the one leaning on it never names. A document handing a type where a contract is asked is not judged where it is compiled: the pair leaves the compile unresolved, the way a procedure the document sends and does not declare leaves it, and **refuses at the call that leaned on it** where the build cannot answer. A claim missing a procedure, or holding one whose signature does not fit, puts its type under no contract and its reason is what that refusal says.
 
-A claim whose two names the list declares as something other than what the claim needs of them **refuses at the build, at the claim**: a contract where the type belongs, a type where the contract belongs, or a membership in either place. One name has one declarer, so no document arriving later makes that right. A name the list declares as nothing at all waits with the rest: the claim holds nothing, and that is refused only **where a call leaned on the pair**, with the reason the claim came to nothing. A claim nobody leans on refuses nowhere.
+A claim whose two names the list declares as something other than what the claim needs of them **refuses at the build, at the claim**: a contract where the type belongs, or a type where the contract belongs. One name has one declarer, so no document arriving later makes that right. A name the list declares as nothing at all waits with the rest: the claim holds nothing, and that is refused only **where a call leaned on the pair**, with the reason the claim came to nothing. A claim nobody leans on refuses nowhere.
 
 Two documents claiming one pair are one claim: a claim holds nothing but the pair, so the second says what the first said.
 
 A declaration named for a type and a procedure that no claim names is that document's procedure and nothing else. So what a link declares never decides what an unrelated document may call things, and a document that names no contract builds the same whichever documents stand beside it.
 
-A contract may ask no procedures. It is then a mark a claim gives a type, and a type answers it where a document claims it does, as for any contract. A name is a type or a membership or a contract and never two of them.
+A contract may ask no procedures. It is then a mark a claim gives a type, and a type answers it where a document claims it does, as for any contract. A name is a type or a contract and never both.
 
-A signature bounds a type parameter by a contract the way it bounds one by a membership: `bounds: { T: App.Describable }`, and the slots write `some T`. A value reaching such a slot is judged twice, once per surface, the way a membership's is: at the **build** a reading provably outside refuses, and at the **boundary** the value that arrived is judged by the type it is an instance of.
+A signature bounds a type parameter by a contract as **Bounds** above says: `bounds: { T: App.Describable }`, and the slots write `some T`. A value reaching such a slot is judged twice, once per surface: at the **build** a reading provably outside refuses, and at the **boundary** the value that arrived is judged by the type it is an instance of.
 
 A body calls a contract's procedure by writing the contract's name and the procedure's with a dot between them: `App.Describable.describe`. That spelling is the contract's declaration of the procedure, and it is a send like any other: a document calling a contract another module declares lists the spelling in `imports`. It names no type's declaration, and what it means is settled by the value at its first position, so a call writing nothing there refuses. What a call hands it and what it answers are the contract's, not any one declaration's.
 
@@ -130,7 +128,7 @@ A body calls a contract's procedure by writing the contract's name and the proce
 
 A declaration answering a contract's procedure is reached **through the contract**, which is the spelling that says which contract is meant. Two types answering one procedure is the ordinary case. Such a declaration takes exactly the contract's positions and answers what the contract's answer takes: its own type first, then **at the contract's positions** a parameter taking everything the contract's takes there and taking a place only where the contract hands one, the contract's type parameters standing for types no call fills and the declaration's own filled by what the contract writes at the same positions; the names are its own. One declaring a parameter beyond them, `T?` included, **refuses at the build** where the claim is leaned on. The run hands the arguments to the same positions whichever declaration answers.
 
-**A name is its declared spelling.** The key a document declares a type, constraint or procedure under is the whole of its name: `Standard.Math.floored` is declared under that key, and `Wallet.Account` under that one. A mention is a declared spelling, written out, and it means the same declaration wherever it was written, inside the declaring document too. A dot is a character of the spelling and nothing more: the language has no nesting, no scope and no prefix, so what a document chooses to put before a dot is the author's convention, and one document may declare `Wallet.fee` beside `Bank.rate` while another declares `Wallet.rate`. A spelling no module in the link declares **refuses at the build** where it is mentioned. There are two namespaces, procedures and types, and a procedure may be spelled like a type. Types, memberships and contracts share the second, and no name in it is two of them, so a mention reaches whatever declares it: a slot names a type or a membership, and a bound names a membership or a contract.
+**A name is its declared spelling.** The key a document declares a type, contract or procedure under is the whole of its name: `Standard.Math.floored` is declared under that key, and `Wallet.Account` under that one. A mention is a declared spelling, written out, and it means the same declaration wherever it was written, inside the declaring document too. A dot is a character of the spelling and nothing more: the language has no nesting, no scope and no prefix, so what a document chooses to put before a dot is the author's convention, and one document may declare `Wallet.fee` beside `Bank.rate` while another declares `Wallet.rate`. A spelling no module in the link declares **refuses at the build** where it is mentioned. There are two namespaces, procedures and types, and a procedure may be spelled like a type. Types and contracts share the second, and no name in it is both, so a mention reaches whatever declares it: a slot names a type or a contract, and a bound names a contract.
 
 The shared `Standard` bundle declares the contracts the standard procedures are bounded by, `Standard.Numeric`, `Standard.Comparable` and `Standard.Collection`, claims them for the types the language names (`Int` and `Double` are numbers that order, `String` orders and has a count, `Array` and `Dictionary` have a count) and declares the procedures answering them, `Int.plus` and the rest, under [the standard vocabulary](vocabulary.md). A bundle whose signatures mention them links with `Standard` in the build.
 
@@ -139,7 +137,7 @@ The shared `Standard` bundle declares the contracts the standard procedures are 
 What `conformance/` asks about this page, by the name each case's file carries.
 
 - `a-bare-array-refuses`
-- `a-bare-constraint-name-refuses`
+- `a-bare-contract-name-refuses`
 - `a-bare-dictionary-refuses`
 - `a-bare-name-for-another-modules-procedure-refuses`
 - `a-body-answering-a-value-for-its-own-type-parameter-refuses`
@@ -154,7 +152,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-borrow-written-into-a-list-refuses`
 - `a-borrowing-slot-reads-and-leaves-the-obligation`
 - `a-bound-may-name-several-and-holds-to-every-one`
-- `a-bound-names-a-membership-another-document-declares`
+- `a-bound-names-a-contract-another-document-declares`
 - `a-bound-naming-a-parameter-no-slot-mentions-refuses`
 - `a-bound-past-an-int-refuses`
 - `a-box-that-handed-one-on-takes-another`
@@ -164,21 +162,12 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-call-filling-a-parameter-beside-the-caller-parameter-from-a-reading-of-any-is-judged-refuses`
 - `a-call-filling-a-parameter-from-a-list-of-any-reads-it-as-any`
 - `a-call-filling-a-parameter-from-a-variable-held-in-place-takes-a-value-of-that-parameter`
-- `a-call-filling-a-parameter-from-a-variable-held-in-place-takes-no-value-its-members-take-refuses`
+- `a-call-filling-a-parameter-from-a-variable-held-in-place-takes-no-other-value-refuses`
 - `a-call-through-a-contract-with-nothing-first-refuses`
 - `a-cast-between-aliases-of-two-nullable-records-reads-null-answers`
 - `a-cast-does-not-carry-a-held-name-into-a-list`
 - `a-cast-naming-a-linear-type-does-not-go-into-a-list`
-- `a-cast-of-a-declared-record-to-a-membership-of-another-record-refuses`
-- `a-cast-of-a-declared-record-to-a-nullable-membership-of-another-record-refuses`
-- `a-cast-of-a-membership-of-a-record-to-an-alias-of-another-nullable-record-answers`
-- `a-cast-of-a-membership-of-a-record-to-another-nullable-record-answers`
-- `a-cast-of-a-membership-of-a-record-with-a-declared-field-to-another-record-names-it-answers`
-- `a-cast-of-a-membership-of-a-recursive-record-to-a-field-it-never-holds-further-down-refuses`
-- `a-cast-of-a-membership-of-a-recursive-record-to-another-one-further-down-answers`
-- `a-cast-of-a-nullable-record-holding-a-declared-record-to-a-membership-field-of-another-refuses`
 - `a-cast-of-a-nullable-record-to-another-record-refuses`
-- `a-cast-of-a-record-holding-a-declared-record-to-a-dictionary-of-a-membership-of-another-refuses`
 - `a-cast-of-a-record-with-a-var-field-to-a-record-it-never-is-refuses`
 - `a-cast-of-a-recursive-record-to-a-field-it-never-holds-further-down-refuses`
 - `a-cast-of-an-alias-of-a-nullable-record-to-another-record-refuses`
@@ -187,7 +176,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-claim-about-a-name-that-is-not-a-record-refuses`
 - `a-claim-about-a-type-no-value-is-refuses`
 - `a-claim-naming-a-contract-where-the-type-belongs-refuses`
-- `a-claim-naming-a-membership-where-a-contract-belongs-refuses`
+- `a-claim-naming-a-type-where-a-contract-belongs-refuses`
 - `a-claim-nobody-leans-on-refuses-nowhere`
 - `a-claim-stands-in-a-document-the-leaning-one-never-names`
 - `a-closure-a-generic-body-wrote-hands-back-in-place-what-is-judged-refuses`
@@ -201,23 +190,19 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-closure-without-returns-answering-one-refuses`
 - `a-closures-parameter-names-are-not-part-of-its-type`
 - `a-constant-outside-a-range-refuses`
-- `a-constraint-declared-twice-refuses`
-- `a-constraint-is-named-by-its-qualified-spelling`
-- `a-constraint-that-admits-nothing-refuses`
 - `a-contract-asking-no-procedures-is-answered-by-what-claims-it`
 - `a-contract-asking-no-procedures-refuses-what-no-claim-names`
 - `a-contract-carries-a-procedure-into-a-generic-body`
+- `a-contract-declared-twice-refuses`
+- `a-contract-is-named-by-its-qualified-spelling`
 - `a-contract-or-null-slot-refuses-a-type-not-answering-the-contract`
-- `a-contract-or-null-slot-takes-a-membership-whose-members-answer-or-are-null`
-- `a-contract-or-null-slot-takes-a-parameter-bounded-by-the-contract-and-a-membership`
-- `a-contract-or-null-slot-takes-a-parameter-of-a-membership-whose-member-holds-null`
-- `a-contract-or-null-slot-takes-a-parameter-whose-members-answer-or-are-null`
+- `a-contract-or-null-slot-takes-a-parameter-bounded-by-the-contract-and-another`
 - `a-contract-or-null-slot-takes-a-type-answering-the-contract`
 - `a-contract-procedure-names-what-it-may-fail-with`
 - `a-contract-procedure-takes-self-first`
 - `a-contract-procedure-taking-the-contract-first-refuses`
-- `a-contract-slot-refuses-a-membership-with-a-member-that-may-be-null`
 - `a-contract-slot-refuses-a-name-for-what-may-be-null`
+- `a-contract-slot-refuses-a-parameter-or-null`
 - `a-contract-slot-refuses-what-may-be-null`
 - `a-contract-stands-in-a-closures-parameter`
 - `a-contract-stands-in-a-declared-types-field`
@@ -225,14 +210,11 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-declaration-answering-a-contract-answering-any-may-answer-its-parameter`
 - `a-declaration-answering-a-contract-fills-its-own-parameter-with-the-contracts`
 - `a-declaration-answering-a-contract-may-answer-a-contract-where-it-promises-it-or-null`
-- `a-declaration-answering-a-contract-may-answer-a-membership-and-the-contract-where-it-promises-it-or-null`
-- `a-declaration-answering-a-contract-may-answer-a-parameter-whose-members-are-members-or-null-where-it-promises-it-or-null`
 - `a-declaration-answering-a-contract-may-answer-a-type-answering-it-where-it-promises-it-or-null`
 - `a-declaration-answering-a-contract-may-answer-an-alias-of-a-record-answering-it`
 - `a-declaration-answering-a-contract-may-answer-an-alias-of-what-it-promises`
-- `a-declaration-answering-a-contract-may-bound-its-parameter-by-a-membership-with-null-where-it-writes-what-may-be-null`
+- `a-declaration-answering-a-contract-may-answer-another-contract-and-the-contract-where-it-promises-it-or-null`
 - `a-declaration-answering-a-contract-may-fill-a-bounded-parameter-with-what-the-bound-takes`
-- `a-declaration-answering-a-contract-may-take-a-contract-every-member-of-its-membership-answers`
 - `a-declaration-answering-a-contract-may-take-a-contract-or-null-where-it-writes-the-contract`
 - `a-declaration-answering-a-contract-may-take-a-value-where-it-hands-a-place`
 - `a-declaration-answering-a-contract-may-take-a-wider-type`
@@ -245,12 +227,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-declaration-answering-a-contract-taking-in-place-where-it-hands-a-value-refuses`
 - `a-declaration-answering-a-contract-with-a-bounded-parameter-where-it-writes-a-parameter-refuses`
 - `a-declaration-answering-a-contract-with-a-bounded-parameter-where-it-writes-what-the-bound-refuses-refuses`
-- `a-declaration-answering-a-contract-with-a-contract-a-member-of-its-membership-does-not-answer-refuses`
 - `a-declaration-answering-a-contract-with-a-contract-where-it-answers-another-refuses`
-- `a-declaration-answering-a-contract-with-a-contract-where-it-writes-memberships-sharing-a-member-that-does-not-answer-refuses`
-- `a-declaration-answering-a-contract-with-a-membership-where-it-writes-a-contract-refuses`
-- `a-declaration-answering-a-contract-with-a-membership-where-it-writes-a-list-of-a-parameter-refuses`
-- `a-declaration-answering-a-contract-with-a-membership-where-it-writes-a-parameter-refuses`
 - `a-declaration-answering-a-contract-with-a-type-not-answering-it-where-it-promises-it-or-null-refuses`
 - `a-declaration-answering-a-contract-with-a-type-where-it-writes-a-contract-refuses`
 - `a-declaration-answering-a-contract-with-a-type-where-it-writes-a-parameter-refuses`
@@ -265,12 +242,11 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-declared-name-and-the-record-it-stands-for-are-one-reading`
 - `a-declared-name-is-a-type`
 - `a-declared-type-names-itself-in-its-fields`
-- `a-dictionary-of-a-membership-or-null-takes-a-record-whose-variable-field-may-be-null`
-- `a-dictionary-of-a-membership-takes-a-record-whose-variable-field-is-of-it`
+- `a-dictionary-of-a-contract-or-null-takes-a-record-whose-variable-field-may-be-null`
+- `a-dictionary-of-a-contract-takes-a-record-whose-variable-field-is-of-it`
 - `a-fraction-is-not-a-whole-number`
 - `a-fraction-range-takes-no-whole-number-from-outside-refuses`
 - `a-generic-answer-carried-through-another-generic-is-judged-where-the-call-reads-it-refuses`
-- `a-generic-answer-every-member-takes-is-judged-against-what-filled-it-refuses`
 - `a-generic-answer-handed-back-in-place-is-judged-once-the-call-is-over-refuses`
 - `a-generic-answer-of-any-is-judged-where-the-call-reads-it-refuses`
 - `a-generic-body-appends-its-parameter-to-a-list-of-it-or-null`
@@ -288,37 +264,19 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-linear-value-that-is-dropped-refuses`
 - `a-linear-value-written-into-a-box-inside-an-attempt-refuses`
 - `a-list-a-closure-hands-in-place-to-a-call-is-judged-refuses`
-- `a-list-literal-a-parameter-of-a-membership-answers-is-read-part-by-part-refuses`
-- `a-list-literal-answered-at-a-parameter-of-memberships-that-name-each-other-answers`
-- `a-list-literal-handed-at-a-parameter-bounded-by-a-membership-of-lists-is-read-part-by-part-refuses`
 - `a-list-literal-of-closures-answering-outside-the-bounds-refuses`
 - `a-list-literal-of-closures-handed-at-a-bounded-parameter-answers`
 - `a-list-literal-of-names-holding-lists-handed-at-a-bounded-parameter-refuses`
-- `a-list-literal-written-into-memberships-that-name-each-other-refuses`
 - `a-list-of-a-reading-of-any-behind-a-name-handed-beside-a-variable-in-place-refuses`
 - `a-list-of-a-reading-of-any-handed-beside-a-variable-in-place-refuses`
 - `a-list-of-two-types-handed-where-a-contract-is-asked-is-read-element-by-element-refuses`
 - `a-literal-of-names-at-a-contract-bound-leans-on-each-claim-refuses`
 - `a-mark-where-nothing-is-linear-refuses`
-- `a-member-that-is-a-type-parameter-refuses`
-- `a-member-that-is-any-refuses`
-- `a-member-that-is-never-refuses`
-- `a-membership-holding-a-list-of-itself-refuses-a-nested-list-of-other-kinds`
-- `a-membership-holding-a-list-of-itself-takes-a-nested-list-of-its-members`
-- `a-membership-mixing-a-linear-type-refuses`
-- `a-membership-or-null-slot-takes-a-parameter-or-null-whose-members-are-members-or-null`
-- `a-membership-or-null-slot-takes-a-parameter-whose-members-are-members-or-null`
-- `a-membership-slot-refuses-a-parameter-or-null`
-- `a-membership-slot-refuses-a-parameter-whose-member-may-be-null`
-- `a-membership-stands-as-a-type`
-- `a-membership-with-null-admits-what-may-be-null-of-another-member`
-- `a-module-declares-a-constraint`
-- `a-name-declared-as-both-a-type-and-a-constraint-refuses`
+- `a-module-declares-a-contract-a-bound-names`
 - `a-name-declared-as-both-a-type-and-a-contract-refuses`
 - `a-name-that-is-not-a-bound-joined-with-and-refuses`
 - `a-named-list-handed-where-a-list-of-a-contract-stands-is-held-to-it`
 - `a-named-record-arrives-as-an-argument`
-- `a-nested-list-literal-handed-at-a-parameter-bounded-by-a-recursive-membership-answers`
 - `a-nullable-of-a-linear-type-refuses`
 - `a-nullable-that-says-nothing-new-behind-a-name-refuses`
 - `a-nullable-that-says-nothing-new-refuses`
@@ -338,15 +296,13 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-parameter-handed-in-place-holding-dictionaries-of-a-parameter-takes-records-of-other-fields-of-it`
 - `a-parameter-handed-in-place-holding-dictionaries-of-lists-of-a-parameter-takes-records-of-an-empty-list-and-of-it`
 - `a-parameter-handed-in-place-holding-dictionaries-of-lists-of-a-parameter-takes-records-of-other-fields`
-- `a-parameter-handed-in-place-holding-lists-of-a-parameter-refuses-an-attempt-whose-rescue-answers-a-member-value`
+- `a-parameter-handed-in-place-holding-lists-of-a-parameter-refuses-an-attempt-whose-rescue-answers-a-number`
 - `a-parameter-handed-in-place-holding-lists-of-a-parameter-takes-a-block-answering-an-empty-list-beside-a-list-of-it`
 - `a-parameter-handed-in-place-holding-lists-of-a-parameter-takes-a-list-of-an-empty-list`
 - `a-parameter-handed-in-place-holding-lists-of-a-parameter-takes-an-empty-list-beside-a-list-of-it`
 - `a-parameter-handed-in-place-holding-nullable-dictionaries-of-lists-of-a-parameter-takes-null-and-a-record-of-an-empty-list`
 - `a-parameter-handed-in-place-takes-no-reading-of-any-refuses`
-- `a-parameter-handed-in-place-takes-no-value-its-members-take-refuses`
 - `a-parameter-naming-a-type-nothing-declares-refuses`
-- `a-parameter-read-as-a-contract-and-as-memberships-that-name-each-other-answers`
 - `a-parameter-read-as-a-declared-range-and-its-kind-is-the-kind`
 - `a-parameter-read-as-a-declared-record-and-its-alias-keeps-the-name`
 - `a-parameter-read-as-a-declared-record-with-a-var-field-and-a-nameless-one-is-handed-in-place-beside-a-nameless-record-answers`
@@ -367,15 +323,14 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-range-with-nothing-after-the-open-edge-refuses`
 - `a-range-written-with-the-other-kinds-bounds-refuses`
 - `a-reading-beside-any-at-a-bounded-parameter-is-held-where-it-stands-refuses`
-- `a-reading-outside-a-constraint-refuses`
+- `a-reading-outside-a-bound-refuses`
 - `a-record-field-reading-a-parameter-two-ways-at-a-dictionary-refuses`
 - `a-record-form-array-of-a-named-element-refuses`
 - `a-record-handed-at-a-dictionary-fills-a-parameter-part-by-part-refuses`
 - `a-record-handed-at-a-dictionary-of-a-bounded-parameter-fills-it-by-its-fields-refuses`
 - `a-record-handed-at-a-dictionary-of-a-contract-leans-on-each-claim-refuses`
-- `a-record-literal-handed-at-a-parameter-bounded-by-a-membership-is-read-part-by-part-refuses`
 - `a-record-literal-holding-a-closure-handed-at-a-bounded-parameter-answers`
-- `a-record-of-member-fields-handed-at-a-dictionary-of-a-bounded-parameter-answers`
+- `a-record-of-fields-answering-the-bound-handed-at-a-dictionary-of-a-bounded-parameter-answers`
 - `a-record-of-other-fields-with-an-any-field-appended-to-a-declared-list-refuses`
 - `a-record-read-as-a-dictionary-after-any-at-a-bounded-parameter-refuses`
 - `a-record-settles-to-the-fields-declared`
@@ -386,7 +341,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-record-whose-fields-do-not-join-handed-at-a-dictionary-of-a-bounded-parameter-refuses`
 - `a-record-with-a-var-field-handed-at-a-dictionary-fills-a-parameter-by-its-values-answers`
 - `a-record-with-a-var-field-handed-at-a-dictionary-fills-a-parameter-by-its-values-refuses`
-- `a-recursive-type-written-into-a-membership-holding-a-list-of-itself-is-taken`
 - `a-return-answering-one-without-returns-refuses`
 - `a-row-of-readings-of-any-appended-to-a-table-of-text-refuses`
 - `a-signed-bound-refuses`
@@ -403,28 +357,18 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-type-that-misses-a-procedure-does-not-answer-the-contract`
 - `a-type-the-language-names-answers-a-contract`
 - `a-value-arriving-through-any-answers-by-the-type-it-is`
-- `a-value-arriving-through-any-into-a-membership-holding-a-list-of-itself-is-judged-part-by-part`
-- `a-value-arriving-through-any-into-memberships-that-name-each-other-refuses`
 - `a-value-called-through-any-is-judged-by-its-own-type`
 - `a-value-declares-every-parameter-the-slot-hands`
 - `a-value-handed-on-in-one-arm-and-not-the-other-refuses`
 - `a-value-handed-on-inside-a-loop-round-refuses`
 - `a-value-of-a-contract-at-two-self-positions-refuses`
 - `a-value-of-a-contract-inside-a-list-at-a-bounded-parameter-refuses`
-- `a-value-of-a-membership-answers-a-contract-every-member-satisfies`
-- `a-value-of-memberships-that-name-each-other-called-refuses`
-- `a-value-of-memberships-that-name-each-other-cast-to-a-member-answers`
-- `a-value-of-memberships-that-name-each-other-cast-to-a-type-no-member-holds-refuses`
-- `a-value-of-memberships-that-name-each-other-cast-to-the-other-answers`
-- `a-value-of-memberships-that-name-each-other-inside-records-cast-across-refuses`
-- `a-value-of-memberships-that-name-each-other-written-into-a-nullable-slot-refuses`
-- `a-value-of-memberships-that-name-each-other-written-into-a-type-no-member-is-refuses`
 - `a-value-outside-a-contract-in-a-closures-parameter-refuses`
 - `a-value-outside-a-contract-standing-as-a-type-refuses`
 - `a-value-outside-a-declared-type-refuses-at-the-boundary`
 - `a-value-taken-inside-an-attempt-body-is-still-owed`
 - `a-value-taking-a-parameter-in-place-does-not-fit-a-slot-handing-a-value`
-- `a-value-through-any-is-judged-against-the-membership-where-it-arrives`
+- `a-value-through-any-is-judged-against-the-bound-where-it-arrives`
 - `a-value-written-into-a-box-inside-a-loop-refuses`
 - `a-value-written-into-a-box-is-still-owed`
 - `a-value-written-into-a-list-element-refuses`
@@ -434,9 +378,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-variable-a-generic-closure-writes-when-called-through-a-procedure-type-is-judged-refuses`
 - `a-variable-handed-back-in-place-is-judged-when-the-call-fails-refuses`
 - `a-variable-handed-in-place-that-a-closure-writes-is-judged-refuses`
-- `a-variable-written-into-memberships-that-name-each-other-as-nullable-refuses`
-- `a-variable-written-into-memberships-that-name-each-other-refuses`
-- `a-variable-written-into-memberships-that-name-each-other-through-a-type-name-refuses`
 - `a-whole-literal-where-a-bounded-parameter-stands-refuses`
 - `a-whole-literal-written-into-a-fraction-range-is-the-fraction-it-names`
 - `a-whole-number-a-name-holds-is-no-fraction-refuses`
@@ -446,7 +387,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-witness-takes-the-claimed-type-wherever-the-contract-writes-self-refuses`
 - `an-alias-of-a-contract-answers-the-contract`
 - `an-alias-of-a-declared-record-settles-to-the-records-name`
-- `an-alias-of-a-membership-answers-as-the-membership`
 - `an-alias-of-a-record-answers-the-records-contracts`
 - `an-answer-read-through-any-is-settled-at-the-boundary`
 - `an-arm-that-leaves-holds-nothing-afterwards`
@@ -458,17 +398,14 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-inout-type-parameter-a-variable-fills-first-reads-the-value`
 - `an-unsaid-generic-answer-carried-through-another-is-judged-where-the-call-reads-it-refuses`
 - `any-written-nullable-refuses`
-- `bytes-arriving-into-a-membership-holding-a-list-of-itself-refuses`
 - `consuming-on-a-type-parameter-refuses`
 - `inout-written-on-a-name-refuses`
 - `inout-written-on-returns-refuses`
 - `linear-on-a-slot-refuses`
 - `never-written-nullable-refuses`
-- `null-written-into-a-membership-that-names-itself-as-nullable-is-taken`
-- `null-written-into-memberships-that-name-each-other-as-nullable-is-taken`
 - `null-written-nullable-refuses`
 - `records-of-two-layouts-holding-one-value-read-as-a-dictionary-at-a-bounded-parameter-refuses`
-- `records-of-two-layouts-of-member-fields-read-as-a-dictionary-at-a-bounded-parameter-answers`
+- `records-of-two-layouts-of-fields-answering-the-bound-read-as-a-dictionary-at-a-bounded-parameter-answers`
 - `records-of-two-layouts-read-as-a-dictionary-at-a-bounded-parameter-refuses`
 - `self-in-an-answer-is-what-the-call-filled-it-with`
 - `self-outside-a-contract-refuses`
@@ -476,7 +413,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `the-far-bound-of-a-range-may-be-left-outside`
 - `two-documents-claiming-one-pair-are-one-claim`
 - `var-written-on-an-inline-record-field-refuses`
-- `what-a-membership-does-not-admit-refuses`
 - `what-was-read-out-of-a-parameter-is-not-the-parameter`
 - `whole-ranges-meeting-past-two-to-the-fifty-third-overlap`
 - `writing-over-a-name-holding-a-linear-value-refuses`

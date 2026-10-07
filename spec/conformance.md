@@ -54,7 +54,7 @@ Each format declares itself, and that is how the two are told apart: a case says
 
 **`vocabulary` is what the runner brings.** Most of what a document may say about a procedure the host answers is not something a case can write down: the code is the host's. So a case writes the part that is in the document, and the runner builds the rest.
 
-It is written as a **module**, because that is what a host takes in: it may declare `types`, `constraints`, `contracts` and `satisfies` the way any document does, and it declares the procedures under `procedures`. It does not say `warp` or `imports`: which version this module is read at is the runner's, and its declarations send nothing. A case writing either **refuses** as a case. The module stands in front of the case's own document in the link, so what the host brings is there to be named. Each procedure is keyed by its name and written the way a declaration is, with four keys of its own beside it:
+It is written as a **module**, because that is what a host takes in: it may declare `types`, `contracts` and `satisfies` the way any document does, and it declares the procedures under `procedures`. It does not say `warp` or `imports`: which version this module is read at is the runner's, and its declarations send nothing. A case writing either **refuses** as a case. The module stands in front of the case's own document in the link, so what the host brings is there to be named. Each procedure is keyed by its name and written the way a declaration is, with four keys of its own beside it:
 
     answers     what it answers, whatever it was sent. Absent: null
     runs        bool. Whether it reaches outside the run. Absent: false,

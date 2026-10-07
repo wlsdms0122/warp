@@ -4,13 +4,10 @@ warpt 1
     refuses "build"
   }
   name "a-list-literal-of-names-holding-lists-handed-at-a-bounded-parameter-refuses"
-  note "`App.f` bounds `T` by `App.M`, which admits `Int` and `String`, and takes `Array<Array<some T>>`. The literal `[xs, ys]` handed there holds two names, `xs` a list of booleans and `ys` a list of whole numbers. What each name reads as stands at the parameter by its elements, and no member of `App.M` takes a boolean, so the call refuses at the build."
+  note "`App.f` bounds `T` by `App.M`, which `Int` and `String` answer, and takes `Array<Array<some T>>`. The literal `[xs, ys]` handed there holds two names, `xs` a list of booleans and `ys` a list of whole numbers. What each name reads as stands at the parameter by its elements, and a boolean does not answer `App.M`, so the call refuses at the build."
   program {
-    constraints {
-      "App.M" [
-        "Int"
-        "String"
-      ]
+    contracts {
+      "App.M" {}
     }
     imports []
     procedures {
@@ -67,6 +64,14 @@ warpt 1
           ref "r"
         }
       }
+    }
+    satisfies {
+      Int [
+        "App.M"
+      ]
+      String [
+        "App.M"
+      ]
     }
     warp 1
   }

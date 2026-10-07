@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-piece-of-first-that-writes-what-it-captured-refuses"
-  note "`Standard.Concurrent.first` takes a membership of isolated closures, the same as `all`. A piece that writes a variable it captured is not isolated, and the build refuses it where it is handed over."
+  note "`Standard.Concurrent.first` takes isolated closures, the same as `all`. A piece that writes a variable it captured is not isolated, and the build refuses it where it is handed over."
   program {
     imports [
       "Standard.Concurrent.first"

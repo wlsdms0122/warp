@@ -1,0 +1,75 @@
+warpt 1
+{
+  expect {
+    answers "took"
+  }
+  name "a-dictionary-of-a-contract-or-null-takes-a-record-whose-variable-field-may-be-null"
+  note "App.f takes Dictionary<App.Num?> and is handed an App.Box, whose one field is var Int?. The field's var says something about the field and nothing about its value, which is an int, answering App.Num, or null."
+  program {
+    contracts {
+      "App.Num" {}
+    }
+    imports []
+    procedures {
+      "App.f" {
+        parameters [
+          {
+            name "d"
+            type "Dictionary<App.Num?>"
+          }
+        ]
+        result "took"
+        returns "String"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            value {
+              as {
+                of {
+                  record {
+                    v 1
+                  }
+                }
+                type "App.Box"
+              }
+            }
+          }
+          {
+            let "s"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "b"
+                  }
+                ]
+                procedure "App.f"
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    satisfies {
+      Int [
+        "App.Num"
+      ]
+    }
+    types {
+      "App.Box" {
+        record {
+          v "var Int?"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

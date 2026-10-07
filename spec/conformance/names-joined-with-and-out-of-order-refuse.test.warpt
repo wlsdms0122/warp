@@ -6,13 +6,9 @@ warpt 1
   name "names-joined-with-and-out-of-order-refuse"
   note "Names joined with `&` are written in name order, so `App.B & App.A` is a second spelling of `App.A & App.B`. A document says each thing one way, and this one refuses at the load."
   program {
-    constraints {
-      "App.A" [
-        "Int"
-      ]
-      "App.B" [
-        "Int"
-      ]
+    contracts {
+      "App.A" {}
+      "App.B" {}
     }
     imports []
     procedures {
@@ -29,6 +25,12 @@ warpt 1
         access "public"
         result 1
       }
+    }
+    satisfies {
+      Int [
+        "App.A"
+        "App.B"
+      ]
     }
     warp 1
   }

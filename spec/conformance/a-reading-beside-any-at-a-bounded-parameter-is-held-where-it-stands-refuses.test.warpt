@@ -4,13 +4,10 @@ warpt 1
     refuses "build"
   }
   name "a-reading-beside-any-at-a-bounded-parameter-is-held-where-it-stands-refuses"
-  note "`App.f` bounds `T` by `App.Nums`, which admits `Int` and `Double`, and takes two of `some T`. The call hands a name read as `String` and a name read as `Any`, so `T` reads `Any`, which every bound passes. What each argument hands is held to the bounds where it stands before the two are joined, and no member takes text, so the call refuses at the build."
+  note "`App.f` bounds `T` by `App.Nums`, which `Int` and `Double` answer, and takes two of `some T`. The call hands a name read as `String` and a name read as `Any`, so `T` reads `Any`, which every bound passes. What each argument hands is held to the bounds where it stands before the two are joined, and text answers no bound, so the call refuses at the build."
   program {
-    constraints {
-      "App.Nums" [
-        "Int"
-        "Double"
-      ]
+    contracts {
+      "App.Nums" {}
     }
     imports []
     procedures {
@@ -67,6 +64,14 @@ warpt 1
           ref "r"
         }
       }
+    }
+    satisfies {
+      Double [
+        "App.Nums"
+      ]
+      Int [
+        "App.Nums"
+      ]
     }
     warp 1
   }

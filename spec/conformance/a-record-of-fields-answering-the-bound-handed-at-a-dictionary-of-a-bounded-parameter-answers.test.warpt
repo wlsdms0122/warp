@@ -1,0 +1,64 @@
+warpt 1
+{
+  expect {
+    answers 0
+  }
+  name "a-record-of-fields-answering-the-bound-handed-at-a-dictionary-of-a-bounded-parameter-answers"
+  note "`App.g` bounds `T` by `App.M`, which `Int` and `String` answer, and takes `Dictionary<some T>`. The record `{ a: 1, b: \"s\" }` handed there is read as a dictionary: its fields joined fill `T`, as a list's elements do, and each field answers it, so it builds and answers 0."
+  program {
+    contracts {
+      "App.M" {}
+    }
+    imports []
+    procedures {
+      "App.g" {
+        bounds {
+          T "App.M"
+        }
+        parameters [
+          {
+            name "x"
+            type "Dictionary<some T>"
+          }
+        ]
+        result 0
+        returns "Int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  {
+                    record {
+                      a 1
+                      b "s"
+                    }
+                  }
+                ]
+                procedure "App.g"
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+      }
+    }
+    satisfies {
+      Int [
+        "App.M"
+      ]
+      String [
+        "App.M"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+

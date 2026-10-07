@@ -6,11 +6,6 @@ warpt 1
   name "a-declaration-answering-a-contract-with-a-bounded-parameter-where-it-writes-a-parameter-refuses"
   note "The contract takes its own some T at n, bounded by nothing, and the declaration answering it takes some U there, bounded by App.Whole. Nothing about T proves it is an int."
   program {
-    constraints {
-      "App.Whole" [
-        "Int"
-      ]
-    }
     contracts {
       "App.Shown" {
         show {
@@ -38,6 +33,7 @@ warpt 1
           returns "Int"
         }
       }
+      "App.Whole" {}
     }
     imports []
     procedures {
@@ -97,6 +93,9 @@ warpt 1
     satisfies {
       "Bank.Card" [
         "App.Shown"
+      ]
+      Int [
+        "App.Whole"
       ]
     }
     types {

@@ -1,0 +1,42 @@
+warpt 1
+{
+  arguments {
+    left true
+  }
+  expect {
+    refuses "run"
+  }
+  name "a-value-through-any-is-judged-against-the-bound-where-it-arrives"
+  note "A reading the text says nothing about passes the build, and the value that arrived is judged against the bound where it arrives. `lessThan` takes what answers `Standard.Comparable`, and a bool does not."
+  program {
+    imports [
+      "Standard.Comparable.lessThan"
+    ]
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "left"
+            type "Any"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "left"
+              }
+              1
+            ]
+            procedure "Standard.Comparable.lessThan"
+          }
+        }
+        returns "Bool"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

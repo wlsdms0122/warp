@@ -10,13 +10,12 @@ A program is read, checked and built before any of it runs, the arms nobody take
 - the documents of a link stand in an order where what each one sends, and every type its signatures name, is declared before it, since what a document says is read against those: the types its sends answer with, what its bodies reach, what its constants settle from. Two documents that each need the other have no such order and **refuse**, as the pair and not as a spot in either;
 - a claim backed by a declaration that does less than the contract asked, running where it asked `const` or touching a shared name where it asked `isolated`, does not hold, under *what answers without running* in [procedures](procedure.md);
 - every procedure sent from another document is not `private`, and a claim backed by a `private` declaration does not hold, under *who may name a declaration* in [procedures](procedure.md); a `private` declaration takes no spelling, so the rule above it counts none;
-- every call fits the declaration it reaches: how many arguments, each at its position, and the answer, with type parameters bound as [types](type.md) says and every bound judged against its constraint's membership;
+- every call fits the declaration it reaches: how many arguments, each at its position, and the answer, with type parameters bound as [types](type.md) says and every bound judged against the contracts it names;
 - every declared type names a type that exists;
 - a condition (a `conditional`'s `when`, a `loop`'s `while`) answers a `Bool`, held where it is written, with `Any` passing the way it passes any other slot;
 - every candidate a parameter's `enum` lists is written in a value's one spelling, the one the declared type's own values wear. A dead candidate no call could ever match refuses, the empty and the all-dead list being the plainest cases. A range's bounds admit something, and so do `type`, range and `enum` together;
 - a slot declared `const` takes only a procedure that answers without running, under *what answers without running* in [procedures](procedure.md); a slot declared `isolated` takes only a procedure the build derived as isolated;
-- a slot declaring a membership takes what the membership admits, and a value of a membership stands only where every one of its members would. A cast tells the members apart, and a cast onto a type the membership never holds refuses the way any impossible cast does;
-- a parameter bounded by a contract takes only a type some document says answers it, and every claim is backed: each procedure the contract asks has a declaration named for the type and the procedure, held to what the contract wrote;
+- a parameter bounded by a contract, and a slot naming one, takes only what a type some document says answers it is, and every claim is backed: each procedure the contract asks has a declaration named for the type and the procedure, held to what the contract wrote;
 - every value of a type written `linear` is handed on exactly once on every way through the body holding it, and to a slot that says `consuming`; every parameter naming such a type says `consuming` or `borrowing`, a parameter naming no such type says neither, and what a body borrowed it does not give away;
 - every `set` writes a path headed by a variable, through fields declared `var` where the type is a declared type, and what it writes fits what the path reaches; a write into a module variable or an `inout` parameter fits what the box holds;
 - every `inout` parameter is handed a variable's path a write may take; two parameters handed paths under one head hold one box two ways, under [procedures](procedure.md), and nothing keeps them apart;
@@ -61,7 +60,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-list-literal-handed-to-a-called-value-is-read-position-by-position-refuses`
 - `a-list-literal-of-an-empty-list-and-text-is-taken-by-every-slot`
 - `a-list-literal-of-other-kinds-written-into-a-list-refuses`
-- `a-list-literal-of-other-kinds-written-into-a-membership-refuses`
 - `a-list-literal-written-into-a-declared-variable-is-read-position-by-position-refuses`
 - `a-list-of-records-handed-to-a-call-is-read-field-by-field-refuses`
 - `a-list-of-records-wider-than-a-record-type-is-taken`

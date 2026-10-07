@@ -4,20 +4,11 @@ warpt 1
     refuses "build"
   }
   name "a-record-handed-at-a-dictionary-fills-a-parameter-part-by-part-refuses"
-  note "`App.f` bounds `T` by `App.M`, which admits `Int?` and `String`, and answers the `Dictionary<{ x: some T }>` it takes. The record handed there holds `{ x: 1 }` and `{ x: null }`, and its fields fill `T` joined part by part, as a list literal's elements do, so `T` reads `Int?`. The answer is then a dictionary of `{ x: int? }`, which the name declaring `Dictionary<{ x: Int }>` does not hold, and it refuses at the build."
+  note "`App.f` answers the `Dictionary<{ x: some T }>` it takes. The record handed there holds `{ x: 1 }` and `{ x: null }`, and its fields fill `T` joined part by part, as a list literal's elements do, so `T` reads `Int?`. The answer is then a dictionary of `{ x: Int? }`, which the name declaring `Dictionary<{ x: Int }>` does not hold, and it refuses at the build."
   program {
-    constraints {
-      "App.M" [
-        "Int?"
-        "String"
-      ]
-    }
     imports []
     procedures {
       "App.f" {
-        bounds {
-          T "App.M"
-        }
         parameters [
           {
             name "d"

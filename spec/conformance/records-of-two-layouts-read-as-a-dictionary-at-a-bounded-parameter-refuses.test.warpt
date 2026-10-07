@@ -4,13 +4,10 @@ warpt 1
     refuses "build"
   }
   name "records-of-two-layouts-read-as-a-dictionary-at-a-bounded-parameter-refuses"
-  note "`App.f` bounds `T` by `App.Nums`, which admits `Int` and `Double`, and takes `Dictionary<{ x: some T }>`. The record handed there holds two records whose fields differ, and their `x` fields read `T` as `Int` and as text, which join part by part to `Any`. What each field reads `T` as is still held to the bounds, and no member takes text, so the call refuses at the build."
+  note "`App.f` bounds `T` by `App.Nums`, which `Int` and `Double` answer, and takes `Dictionary<{ x: some T }>`. The record handed there holds two records whose fields differ, and their `x` fields read `T` as `Int` and as text, which join part by part to `Any`. What each field reads `T` as is still held to the bounds, and text answers no bound, so the call refuses at the build."
   program {
-    constraints {
-      "App.Nums" [
-        "Int"
-        "Double"
-      ]
+    contracts {
+      "App.Nums" {}
     }
     imports []
     procedures {
@@ -72,6 +69,14 @@ warpt 1
           ref "r"
         }
       }
+    }
+    satisfies {
+      Double [
+        "App.Nums"
+      ]
+      Int [
+        "App.Nums"
+      ]
     }
     warp 1
   }
