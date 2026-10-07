@@ -304,8 +304,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-parameter-read-as-a-declared-range-and-its-kind-is-the-kind`
 - `a-parameter-read-as-a-declared-record-and-as-a-record-of-its-fields-refuses`
 - `a-parameter-read-as-a-declared-record-and-its-alias-keeps-the-name`
-- `a-parameter-read-as-dictionaries-of-a-record-and-of-a-nameless-one-is-a-dictionary-of-the-nameless-one-refuses`
-- `a-parameter-read-as-lists-of-a-record-and-of-a-nameless-one-is-a-list-of-the-nameless-one`
+- `a-parameter-read-as-dictionaries-of-a-declared-record-and-of-a-nameless-one-refuses`
+- `a-parameter-read-as-lists-of-a-declared-record-and-of-a-nameless-one-refuses`
 - `a-parameter-read-as-ranges-of-two-kinds-refuses`
 - `a-path-written-from-any-into-a-list-of-a-parameter-is-judged-refuses`
 - `a-procedure-type-answering-a-linear-type-refuses`

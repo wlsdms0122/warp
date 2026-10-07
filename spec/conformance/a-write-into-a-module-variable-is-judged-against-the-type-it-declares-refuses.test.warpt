@@ -3,8 +3,8 @@ warpt 1
   expect {
     refuses "run"
   }
-  name "a-module-variable-settles-what-is-written-into-it-to-the-type-it-declares-refuses"
-  note "`r` is a module variable declaring `Int(0...3)`, and a body writes `Standard.Numeric.plus(4, 5)` into it. A write into a box that said what it holds settles to it, the way a local `var` declaring a type settles each write, so 9 is outside the range and the run refuses at the write."
+  name "a-write-into-a-module-variable-is-judged-against-the-type-it-declares-refuses"
+  note "`r` is a module variable declaring `Int(0...3)`, and a body writes `Standard.Numeric.plus(4, 5)` into it. A write into a box that said what it holds is judged against it, the way a local `var` declaring a type judges each write, so 9 is outside the range and the run refuses at the write."
   program {
     imports [
       "Standard.Numeric.plus"

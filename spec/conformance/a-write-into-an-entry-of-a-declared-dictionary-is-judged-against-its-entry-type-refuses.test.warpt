@@ -3,8 +3,8 @@ warpt 1
   expect {
     refuses "run"
   }
-  name "a-write-into-an-entry-of-a-declared-dictionary-settles-to-its-entry-type-refuses"
-  note "`r` declares `Dictionary<Int(0...3)>`, and `set r.x` writes 9 into an entry. A write settles to the type its path reaches, an entry's included, and 9 is outside `Int(0...3)`, so the run refuses the write."
+  name "a-write-into-an-entry-of-a-declared-dictionary-is-judged-against-its-entry-type-refuses"
+  note "`r` declares `Dictionary<Int(0...3)>`, and `set r.x` writes 9 into an entry. A write is judged against the type its path reaches, an entry's included, and 9 is outside `Int(0...3)`, so the run refuses the write."
   program {
     imports [
       "Standard.Numeric.plus"

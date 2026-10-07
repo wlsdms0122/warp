@@ -169,6 +169,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-parameter-is-not-introduced-again-in-a-nested-body`
 - `a-parameter-is-not-introduced-again-inside-a-closure`
 - `a-procedure-that-can-fail-says-so`
+- `a-record-literal-written-into-an-entry-of-a-declared-dictionary-takes-the-name-answers`
+- `a-record-literal-written-through-a-path-of-a-variable-that-declared-nothing-takes-the-name-answers`
 - `a-rescue-over-a-body-that-cannot-fail-refuses`
 - `a-rescue-reads-a-pieces-own-failure`
 - `a-rescue-reads-the-failure-it-caught`
@@ -191,11 +193,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-way-that-returns-from-an-attempt-is-not-met-after-it`
 - `a-write-index-that-is-not-a-whole-number-refuses`
 - `a-write-indexes-with-a-name`
-- `a-write-into-an-entry-of-a-declared-dictionary-settles-the-record-it-names-answers`
-- `a-write-into-an-entry-of-a-declared-dictionary-settles-to-its-entry-type-refuses`
+- `a-write-into-an-entry-of-a-declared-dictionary-is-judged-against-its-entry-type-refuses`
 - `a-write-makes-an-entry-of-a-dictionary`
 - `a-write-reaches-into-what-a-variable-holds`
-- `a-write-through-a-path-settles-to-what-the-path-reaches-in-a-variable-that-declared-nothing-answers`
 - `a-write-through-an-element-keeps-the-others`
 - `a-write-through-an-optional-segment-refuses`
 - `a-write-through-any-refuses`

@@ -3,8 +3,8 @@ warpt 1
   expect {
     refuses "build"
   }
-  name "a-parameter-read-as-lists-of-a-record-and-of-a-nameless-one-is-a-list-of-the-nameless-one"
-  note "App.pick reads its some T as Array<Bank.Card> and as a list of nameless records of its fields. The reading that holds both is a list of the nameless record, position by position, so the contract call on its first element refuses at the build."
+  name "a-parameter-read-as-lists-of-a-declared-record-and-of-a-nameless-one-refuses"
+  note "App.pick reads its some T as Array<Bank.Card> and as a list of nameless records of its fields. Position by position, a declared record meets a nameless record of its fields, two types neither of which takes the other, so the call refuses at the build."
   program {
     contracts {
       "App.Describable" {

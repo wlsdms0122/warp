@@ -69,7 +69,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-module-variable-is-not-named-from-another-document`
 - `a-module-variable-is-shared-by-the-procedures-beside-it`
 - `a-module-variable-keeps-the-type-it-started-as`
-- `a-module-variable-settles-what-is-written-into-it-to-the-type-it-declares-refuses`
 - `a-module-variable-start-outside-its-declared-type-refuses`
 - `a-module-variable-started-with-a-const-closure-takes-one-that-runs`
 - `a-module-variable-starting-as-a-dictionary-takes-new-names`
@@ -79,6 +78,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-send-is-a-declared-spelling-or-an-import`
 - `a-variable-start-reading-another-variable-refuses`
 - `a-version-that-never-existed-refuses`
+- `a-write-into-a-module-variable-is-judged-against-the-type-it-declares-refuses`
 - `an-access-written-as-what-its-absence-means-refuses`
 - `an-else-written-empty-refuses`
 - `an-overstated-imports-list-refuses`

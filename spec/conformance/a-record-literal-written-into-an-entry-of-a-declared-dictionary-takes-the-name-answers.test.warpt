@@ -3,8 +3,8 @@ warpt 1
   expect {
     answers "a"
   }
-  name "a-write-through-a-path-settles-to-what-the-path-reaches-in-a-variable-that-declared-nothing-answers"
-  note "`w` declares nothing and starts as `{ p: a }`, where `a` is a `Bank.A`. `set w.p` writes the nameless record `{ k: \"y\" }`. A write through a path settles to what the path reaches, which the build reads as `Bank.A`, so `App.P.show` is sent to `w.p`."
+  name "a-record-literal-written-into-an-entry-of-a-declared-dictionary-takes-the-name-answers"
+  note "`r` declares `Dictionary<Bank.A>`, and `set r.x` writes the record literal `{ k: \"y\" }` into an entry. The path reaches `Bank.A`, so the literal takes the name, and `App.P.show` reaches `Bank.A`'s witness."
   program {
     contracts {
       "App.P" {
@@ -50,17 +50,18 @@ warpt 1
             }
           }
           {
+            type "Dictionary<Bank.A>"
             value {
               record {
-                p {
+                x {
                   ref "a"
                 }
               }
             }
-            var "w"
+            var "r"
           }
           {
-            set "w.p"
+            set "r.x"
             value {
               record {
                 k "y"
@@ -72,7 +73,7 @@ warpt 1
           call {
             arguments [
               {
-                ref "w.p"
+                ref "r.x"
               }
             ]
             procedure "App.P.show"

@@ -3,8 +3,8 @@ warpt 1
   expect {
     answers "a"
   }
-  name "a-closure-writing-a-captured-variable-settles-the-write-to-what-it-captured-answers"
-  note "`r` declares nothing and starts as `a`, a `Bank.A`. A closure that captured it writes the nameless record `{ k: \"y\" }` into it. The closure holds `r` to what it read as there, so the write settles to `Bank.A`, and `App.P.show`, which `Bank.A` answers, is sent to `r` after the closure ran."
+  name "a-record-literal-a-closure-writes-into-a-captured-variable-takes-the-name-answers"
+  note "`r` declares nothing and starts as `a`, a `Bank.A`. A closure that captured it writes the record literal `{ k: \"y\" }` into it. The closure holds `r` to what it read as there, so the literal is written where `Bank.A` is read and takes the name, and `App.P.show`, which `Bank.A` answers, is sent to `r` after the closure ran."
   program {
     contracts {
       "App.P" {
