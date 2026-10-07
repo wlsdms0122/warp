@@ -8,17 +8,126 @@ warpt 1
       constraints []
       contracts []
       dependencies [
-        x"df522dd92d4c0339693c2cb95cacc586d186d8081f37696eaf2b13589825d427"
+        x"d29160fad28e19af5bfff76950d8ddb154b1cb2ebfb1fc994d084da877329816"
       ]
       document [
-        x"30e3db4cf169f1d76ce6c868229406ffd4ccdcafd76ac5269f209c9b64537d95"
+        x"df5f234e5acccbb3a3dc127f21e012b778d830ed5a888e7e7ab41ef635806c9c"
       ]
-      leaned []
+      leaned [
+        [
+          "Int"
+          "Standard.Comparable"
+          [
+            [
+              x"df5f234e5acccbb3a3dc127f21e012b778d830ed5a888e7e7ab41ef635806c9c"
+            ]
+            [
+              [
+                1
+                [
+                  0
+                ]
+              ]
+              [
+                0
+                "entry"
+              ]
+              [
+                1
+                [
+                  10
+                ]
+              ]
+              [
+                4
+                [
+                  "walk"
+                ]
+                1
+              ]
+              [
+                2
+                [
+                  8
+                ]
+              ]
+              [
+                1
+                [
+                  16
+                  [
+                    1
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+        [
+          "Int"
+          "Standard.Numeric"
+          [
+            [
+              x"df5f234e5acccbb3a3dc127f21e012b778d830ed5a888e7e7ab41ef635806c9c"
+            ]
+            [
+              [
+                1
+                [
+                  0
+                ]
+              ]
+              [
+                0
+                "entry"
+              ]
+              [
+                1
+                [
+                  10
+                ]
+              ]
+              [
+                4
+                [
+                  "walk"
+                ]
+                1
+              ]
+              [
+                2
+                [
+                  8
+                ]
+              ]
+              [
+                1
+                [
+                  10
+                ]
+              ]
+              [
+                4
+                [
+                  "total"
+                ]
+                0
+              ]
+              [
+                2
+                [
+                  10
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
       lifted []
       numbering [
         [
-          "Standard.Math.lessThan"
-          "Standard.Math.plus"
+          "Standard.Comparable.lessThan"
+          "Standard.Numeric.plus"
         ]
         []
       ]
@@ -74,22 +183,22 @@ warpt 1
                   [
                     9
                     [
-                      11
+                      14
                       [
-                        0
+                        12
                         [
+                          "Standard.Comparable"
+                          "lessThan"
                           [
+                            1
                             [
                               1
                               [
-                                1
                                 [
-                                  [
-                                    0
-                                    0
-                                    "index"
-                                    false
-                                  ]
+                                  0
+                                  0
+                                  "index"
+                                  false
                                 ]
                               ]
                             ]
@@ -98,13 +207,26 @@ warpt 1
                             [
                               0
                               [
-                                2
-                                3
+                                0
+                                [
+                                  2
+                                  3
+                                ]
                               ]
                             ]
                           ]
                         ]
-                        []
+                      ]
+                      [
+                        [
+                          3
+                        ]
+                      ]
+                      []
+                      [
+                        [
+                          3
+                        ]
                       ]
                     ]
                     [
@@ -121,30 +243,50 @@ warpt 1
                             ]
                           ]
                           [
-                            11
+                            14
                             [
-                              1
+                              12
                               [
+                                "Standard.Numeric"
+                                "plus"
                                 [
+                                  1
                                   [
-                                    1
-                                    [
-                                      0
-                                      []
-                                    ]
+                                    0
+                                    []
                                   ]
                                 ]
                                 [
                                   [
                                     0
                                     [
-                                      2
-                                      1
+                                      0
+                                      [
+                                        2
+                                        1
+                                      ]
                                     ]
                                   ]
                                 ]
                               ]
-                              []
+                            ]
+                            [
+                              [
+                                4
+                              ]
+                            ]
+                            []
+                            [
+                              [
+                                16
+                                "Self"
+                                [
+                                  [
+                                    1
+                                    "Standard.Numeric"
+                                  ]
+                                ]
+                              ]
                             ]
                           ]
                           "total"
@@ -196,8 +338,8 @@ warpt 1
   note "A loop carries its condition, its body, the slot its round stands in, and the run of slots its result reads, or none."
   program {
     imports [
-      "Standard.Math.lessThan"
-      "Standard.Math.plus"
+      "Standard.Comparable.lessThan"
+      "Standard.Numeric.plus"
     ]
     procedures {
       entry {
@@ -222,7 +364,7 @@ warpt 1
                           }
                           1
                         ]
-                        procedure "Standard.Math.plus"
+                        procedure "Standard.Numeric.plus"
                       }
                     }
                   }
@@ -235,7 +377,7 @@ warpt 1
                       }
                       3
                     ]
-                    procedure "Standard.Math.lessThan"
+                    procedure "Standard.Comparable.lessThan"
                   }
                 }
               }

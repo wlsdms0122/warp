@@ -4,10 +4,10 @@ warpt 1
     answers 1
   }
   name "first-answers-the-first-success"
-  note "`first` answers the first piece that succeeds and asks the rest to stop. A piece that fails is not a success, so with one piece failing and one answering, the answer is the one that answered."
+  note "`firstKeyed` answers the first piece that succeeds and asks the rest to stop. A piece that fails is not a success, so with one piece failing and one answering, the answer is the one that answered."
   program {
     imports [
-      "Standard.Concurrent.first"
+      "Standard.Concurrent.firstKeyed"
       "Standard.Control.abort"
     ]
     procedures {
@@ -42,7 +42,7 @@ warpt 1
                 }
               }
             ]
-            procedure "Standard.Concurrent.first"
+            procedure "Standard.Concurrent.firstKeyed"
           }
         }
       }

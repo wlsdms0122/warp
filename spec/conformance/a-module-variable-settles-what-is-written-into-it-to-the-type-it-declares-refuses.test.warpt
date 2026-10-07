@@ -4,10 +4,10 @@ warpt 1
     refuses "run"
   }
   name "a-module-variable-settles-what-is-written-into-it-to-the-type-it-declares-refuses"
-  note "`r` is a module variable declaring `Int(0...3)`, and a body writes `Standard.Math.plus(4, 5)` into it. A write into a box that said what it holds settles to it, the way a local `var` declaring a type settles each write, so 9 is outside the range and the run refuses at the write."
+  note "`r` is a module variable declaring `Int(0...3)`, and a body writes `Standard.Numeric.plus(4, 5)` into it. A write into a box that said what it holds settles to it, the way a local `var` declaring a type settles each write, so 9 is outside the range and the run refuses at the write."
   program {
     imports [
-      "Standard.Math.plus"
+      "Standard.Numeric.plus"
     ]
     procedures {
       entry {
@@ -21,7 +21,7 @@ warpt 1
                   4
                   5
                 ]
-                procedure "Standard.Math.plus"
+                procedure "Standard.Numeric.plus"
               }
             }
           }

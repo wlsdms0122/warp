@@ -3,9 +3,9 @@ warpt 1
   description "Ordering the other way round, choosing between two and dropping a sign, written from lessThan and minus."
   imports [
     "Standard.Comparable"
-    "Standard.Math.lessThan"
-    "Standard.Math.minus"
+    "Standard.Comparable.lessThan"
     "Standard.Numeric"
+    "Standard.Numeric.minus"
   ]
   procedures {
     "Standard.Math.absolute" {
@@ -22,7 +22,7 @@ warpt 1
                   ref "number"
                 }
               ]
-              procedure "Standard.Math.minus"
+              procedure "Standard.Numeric.minus"
             }
           }
         }
@@ -48,7 +48,7 @@ warpt 1
                       ref "number"
                     }
                   ]
-                  procedure "Standard.Math.lessThan"
+                  procedure "Standard.Comparable.lessThan"
                 }
               }
             }
@@ -56,7 +56,7 @@ warpt 1
         }
       ]
       bounds {
-        N "Standard.Numeric"
+        N "Standard.Comparable & Standard.Numeric"
       }
       description "The number without its sign."
       parameters [
@@ -75,7 +75,7 @@ warpt 1
               ref "number"
             }
           ]
-          procedure "Standard.Math.minus"
+          procedure "Standard.Numeric.minus"
         }
       }
       returns "some N"
@@ -105,7 +105,7 @@ warpt 1
               ref "lhs"
             }
           ]
-          procedure "Standard.Math.lessThan"
+          procedure "Standard.Comparable.lessThan"
         }
       }
       returns "Bool"
@@ -134,7 +134,7 @@ warpt 1
                       ref "lhs"
                     }
                   ]
-                  procedure "Standard.Math.lessThan"
+                  procedure "Standard.Comparable.lessThan"
                 }
               }
             }
@@ -184,7 +184,7 @@ warpt 1
                       ref "lhs"
                     }
                   ]
-                  procedure "Standard.Math.lessThan"
+                  procedure "Standard.Comparable.lessThan"
                 }
               }
             }

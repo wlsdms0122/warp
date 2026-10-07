@@ -7,11 +7,11 @@ warpt 1
     ]
   }
   name "first-in-which-nothing-succeeds-fails-with-every-piece"
-  note "A `first` in which nothing succeeds fails the way `all` fails: every piece's failure reported, keyed by the piece it came from, so a rescue reads one failure per piece."
+  note "A `firstKeyed` in which nothing succeeds fails the way `allKeyed` fails: every piece's failure reported, keyed by the piece it came from, so a rescue reads one failure per piece."
   program {
     imports [
       "Standard.Collection.keys"
-      "Standard.Concurrent.first"
+      "Standard.Concurrent.firstKeyed"
       "Standard.Control.abort"
     ]
     procedures {
@@ -64,7 +64,7 @@ warpt 1
                             }
                           }
                         ]
-                        procedure "Standard.Concurrent.first"
+                        procedure "Standard.Concurrent.firstKeyed"
                       }
                     }
                   }

@@ -8,16 +8,16 @@ warpt 1
       constraints []
       contracts []
       dependencies [
-        x"df522dd92d4c0339693c2cb95cacc586d186d8081f37696eaf2b13589825d427"
+        x"efd9784a335d23047c743073724915ff8d95ba95193d1633e842cbeeb373393b"
       ]
       document [
-        x"0167f391336baf11867897ada0f4b2ed879da6c156919db408ab3142cc39db8c"
+        x"1cdd8c797b8215370fb14fea491c2dc0fada61a83129ca0e371ca87e86d14e55"
       ]
       leaned []
       lifted []
       numbering [
         [
-          "Standard.Math.plus"
+          "Standard.Collection.appending"
         ]
         []
       ]
@@ -31,7 +31,10 @@ warpt 1
                 "n"
                 [
                   [
-                    4
+                    8
+                    [
+                      4
+                    ]
                   ]
                 ]
                 []
@@ -40,7 +43,10 @@ warpt 1
             ]
             [
               [
-                4
+                8
+                [
+                  4
+                ]
               ]
             ]
           ]
@@ -112,7 +118,7 @@ warpt 1
   note "A call names the row it reaches by the document's own number, which the numbering resolves to the first spelling sent, and stands one operation or nothing per parameter of the callee in parameter order."
   program {
     imports [
-      "Standard.Math.plus"
+      "Standard.Collection.appending"
     ]
     procedures {
       entry {
@@ -120,7 +126,7 @@ warpt 1
         parameters [
           {
             name "n"
-            type "Int"
+            type "Array<Int>"
           }
         ]
         result {
@@ -131,10 +137,10 @@ warpt 1
               }
               1
             ]
-            procedure "Standard.Math.plus"
+            procedure "Standard.Collection.appending"
           }
         }
-        returns "Int"
+        returns "Array<Int>"
       }
     }
     warp 1

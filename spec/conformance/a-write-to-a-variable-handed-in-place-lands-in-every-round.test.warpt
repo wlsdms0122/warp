@@ -7,8 +7,8 @@ warpt 1
   note "Each round writes an int into a variable that started null and hands it in place to an int slot. The write lands in every round, so the variable reads int where it is handed, in the first round and in every one after."
   program {
     imports [
-      "Standard.Math.lessThan"
-      "Standard.Math.plus"
+      "Standard.Comparable.lessThan"
+      "Standard.Numeric.plus"
     ]
     procedures {
       "App.bump" {
@@ -23,7 +23,7 @@ warpt 1
                   }
                   1
                 ]
-                procedure "Standard.Math.plus"
+                procedure "Standard.Numeric.plus"
               }
             }
           }
@@ -77,7 +77,7 @@ warpt 1
                           }
                           1
                         ]
-                        procedure "Standard.Math.plus"
+                        procedure "Standard.Numeric.plus"
                       }
                     }
                   }
@@ -90,7 +90,7 @@ warpt 1
                       }
                       2
                     ]
-                    procedure "Standard.Math.lessThan"
+                    procedure "Standard.Comparable.lessThan"
                   }
                 }
               }

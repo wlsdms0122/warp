@@ -7,7 +7,7 @@ warpt 1
   note "`r` declares `Dictionary<Int(0...3)>`, and `set r.x` writes 9 into an entry. A write settles to the type its path reaches, an entry's included, and 9 is outside `Int(0...3)`, so the run refuses the write."
   program {
     imports [
-      "Standard.Math.plus"
+      "Standard.Numeric.plus"
     ]
     procedures {
       entry {
@@ -30,7 +30,7 @@ warpt 1
                   4
                   5
                 ]
-                procedure "Standard.Math.plus"
+                procedure "Standard.Numeric.plus"
               }
             }
           }

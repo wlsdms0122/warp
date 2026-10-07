@@ -15,7 +15,7 @@ An object is one record. It carries **exactly** these keys, and a key none of th
 | `dependencies` | the objects behind every declaration this document named, each by what the host keyed it under | ascending by bytes, none twice |
 | `types` | name → *type*, as the document wrote them | by name |
 | `constraints` | name → list of *type* | by name |
-| `contracts` | name → (procedure name → `[ signature, constness, isolation ]`, the two marks as a row writes them) | by name, then by name |
+| `contracts` | name → (procedure name → `[ signature, constness, isolation, failing ]`, the two marks and *failing* as a row writes them) | by name, then by name |
 | `claims` | type name → the contracts it says it answers | by name; the contracts ascending |
 | `leaned` | the pairs its bodies lean on: (type, contract, *place*), unresolved | by type, then contract |
 | `rows` | the declarations, each a *row* under its spelling | by name |
@@ -188,13 +188,13 @@ The document
 ```
 warpt 1
 {
-  imports [ "Standard.Math.plus" ]
+  imports [ "Standard.Collection.appending" ]
   procedures {
     entry {
       access "public"
-      parameters [ { name "n" type "Int" } ]
-      result { call { arguments [ { ref "n" } 1 ] procedure "Standard.Math.plus" } }
-      returns "Int"
+      parameters [ { name "n" type "Array<Int>" } ]
+      result { call { arguments [ { ref "n" } 1 ] procedure "Standard.Collection.appending" } }
+      returns "Array<Int>"
     }
   }
   warp 1
@@ -215,12 +215,12 @@ warpt 1
   document [ x"…" ]
   leaned []
   lifted []
-  numbering [ [ "Standard.Math.plus" ] [] ]
+  numbering [ [ "Standard.Collection.appending" ] [] ]
   object 1
   rows [
     [
       "entry"
-      [ [ [ "n" [ [ 4 ] ] [] [] ] ] [ [ 4 ] ] ]
+      [ [ [ "n" [ [ 8 [ 4 ] ] ] [] [] ] ] [ [ 8 [ 4 ] ] ] ]
       2
       1
       1
@@ -239,7 +239,7 @@ warpt 1
 }
 ```
 
-Read it back: `rows` holds `entry`, whose signature takes `n` as `Int` (type tag 4) and answers `Int`; it is public (`2`), const (`1`) and isolated (`1`) and fails with nothing (`[1 []]`); its answers are what it declares (`true`); its implementation is a body (`0`) with no instructions and a result, a call (`11`) to row `0` of the numbering, which is `Standard.Math.plus`, with two arguments, the first read from slot `0` and the second the literal (`0`) int (`2`) `1`; and its frame has one slot, filled by the parameter, called `n`. The dependency is what the host keyed the standard vocabulary's object under.
+Read it back: `rows` holds `entry`, whose signature takes `n` as `Array<Int>` (type tag 8 around tag 4) and answers `Array<Int>`; it is public (`2`), const (`1`) and isolated (`1`) and fails with nothing (`[1 []]`); its answers are what it declares (`true`); its implementation is a body (`0`) with no instructions and a result, a call (`11`) to row `0` of the numbering, which is `Standard.Collection.appending`, with two arguments, the first read from slot `0` and the second the literal (`0`) int (`2`) `1`; and its frame has one slot, filled by the parameter, called `n`. The dependency is what the host keyed the standard vocabulary's object under.
 
 ## Cases
 

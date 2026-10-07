@@ -2,17 +2,17 @@
 
 The procedures every implementation brings, what each answers, and which of them an implementation has to write in native code rather than take from `lib/standard`. This is the layer a program does its work in: the language has no arithmetic, no comparison and no collections of its own, and a program that is granted none of these can compute nothing.
 
-Seven bundles, each taken with what it depends on, so a host grants what its programs have use for and no more. What a bundle depends on is what its written half sends and what its signatures mention, and the written half's `imports` is the list. `Standard` is the shared ground: it declares no procedures, only the memberships and the type the other bundles' signatures mention, so every bundle below links with `Standard` in the link. Beyond that, `Standard.Math` stands alone; `Standard.Logic` links with `Standard.Collection` and `Standard.Math`; `Standard.Collection` with `Standard.Logic` and `Standard.Math`; `Standard.Concurrent` with `Standard.Collection` and `Standard.Math`; `Standard.Text` with `Standard.Collection`, `Standard.Control`, `Standard.Logic` and `Standard.Math`; `Standard.Control` stands alone. Two bundles that send to each other are not a cycle, because a bundle is not a module, below:
+Seven bundles, each taken with what it depends on, so a host grants what its programs have use for and no more. What a bundle depends on is what its written half sends and what its signatures mention, and the written half's `imports` is the list. `Standard` is the shared ground: the contracts `Standard.Numeric`, `Standard.Comparable` and `Standard.Collection`, the claims putting the types the language names under them, the procedures answering those claims, and the type `Standard.Byte` the other bundles' signatures mention. Every bundle below links with `Standard` in the link, and a document calling a contract's procedure stands behind it, so what answers the call stands before the document does. Beyond that, `Standard.Math`, `Standard.Logic` and `Standard.Control` stand alone; `Standard.Collection` links with `Standard.Logic`; `Standard.Concurrent` with `Standard.Collection`; `Standard.Text` with `Standard.Collection`, `Standard.Control` and `Standard.Logic`. Two bundles that send to each other are not a cycle, because a bundle is not a module, below:
 
 | module | procedures |
 |---|---|
-| `Standard` | None. It declares the memberships `Standard.Numeric`, `Standard.Comparable` and `Standard.Collection`, and the type `Standard.Byte = Int(0...255)` |
+| `Standard` | The contracts below, answered for the types the language names: `Int.plus` `Int.minus` `Int.times` `Int.dividedBy` `Int.remainder` `Int.lessThan`, the same six for `Double`, `String.lessThan`, and `Array.count` `Dictionary.count` `String.count`. And the type `Standard.Byte = Int(0...255)` |
 | `Standard.Logic` | `equal` `notEqual` `not` `and` `or` `select` |
-| `Standard.Math` | `plus` `minus` `times` `dividedBy` `remainder` `min` `max` `absolute` `floored` `rounded` `lessThan` `greaterThan` |
+| `Standard.Math` | `min` `max` `absolute` `floored` `rounded` `greaterThan` |
 | `Standard.Text` | `text` `characters` `contains` `startsWith` `uppercased` `lowercased` `trimmed` `split` `joined` `replacing` `decoded` `encoded` |
-| `Standard.Collection` | `append` `count` `contains` `first` `last` `reversed` `appending` `prepending` `gathering` `dropFirst` `dropLast` `sorted` `map` `filter` `reduce` `keys` `values` `setting` |
+| `Standard.Collection` | `append` `contains` `first` `last` `reversed` `appending` `prepending` `gathering` `dropFirst` `dropLast` `sorted` `map` `filter` `reduce` `keys` `values` `setting` |
 | `Standard.Control` | `abort`. Declared `returns: Never` |
-| `Standard.Concurrent` | `all` `first` `map`. Run closures at once. Declares the membership `Standard.Concurrent.Pieces` |
+| `Standard.Concurrent` | `all` `allKeyed` `first` `firstKeyed` `map`. Run closures at once |
 
 ## What an implementation must write
 
@@ -20,20 +20,21 @@ Not all of these. Most are written in Warp, from a small set that cannot be: **b
 
 | bundle | builtin |
 |---|---|
+| `Standard` | every procedure it declares: arithmetic, ordering and counting for each type it claims a contract for |
 | `Standard.Logic` | `equal` |
-| `Standard.Math` | `plus` `minus` `times` `dividedBy` `remainder` `lessThan` `floored` `rounded` |
+| `Standard.Math` | `floored` `rounded` |
 | `Standard.Text` | `text` `joined` `characters` `uppercased` `lowercased` `encoded` `decoded` `trimmed` |
-| `Standard.Collection` | `count` `appending` `gathering` `keys` `setting` |
+| `Standard.Collection` | `appending` `gathering` `keys` `setting` |
 | `Standard.Control` | `abort` |
-| `Standard.Concurrent` | `all` `first` |
+| `Standard.Concurrent` | `all` `allKeyed` `first` `firstKeyed` |
 
-Twenty-five, beside the memberships and the `Standard.Byte` type `Standard` declares. What makes one builtin is that the language cannot express it: arithmetic and ordering are the machine's, case mapping and encoding carry Unicode's tables with them, running at once is the host's scheduler, `appending` is the only way an array grows, and `gathering` the only way an answer keeps the spelling its collection arrived in. Everything else is written from those.
+Thirty-six, beside the contracts and the `Standard.Byte` type `Standard` declares. What makes one builtin is that the language cannot express it: arithmetic, ordering and counting are the machine's, written once for each type answering the contract that asks them, case mapping and encoding carry Unicode's tables with them, running at once is the host's scheduler, `appending` is the only way an array grows, and `gathering` the only way an answer keeps the spelling its collection arrived in. Everything else is written from those.
 
 A procedure being derivable is not a claim that it is unimportant, and a document cannot tell the two apart: `greaterThan` is `lessThan` with its sides swapped, and both are called the same way. An implementation that wants its own `greaterThan` declares one under that name in a module it lays in the link **in place of** the written one, and the link takes it: one name has one declarer, and which body stands behind it is the host's, which is what every name outside the builtin set is open to.
 
 One of these is builtin for a reason that is not the set it removes. `trimmed` names that set, and a body written from `characters` still could not answer it: `characters` answers characters, and whether a character is whitespace is a question about the code points inside it.
 
-**A bundle is not a module.** A module is compiled against the modules standing before it, so the modules of a link have to have an order, and two that send to each other have none. What a bundle declares for its host to answer has no body and so waits for nothing; what it writes in Warp sends to whatever it needs. An implementation that lands both halves of a bundle in one module holds the builtin half to the written half's order, and two bundles whose written halves lean on each other then have no order at all: `Standard.Logic` walks, so it sends `Standard.Collection.count`, and a collection procedure comparing two elements sends `Standard.Logic.equal`. Landing them apart is how the same set of procedures links, and it is what an implementation weighs when it writes a procedure in Warp rather than in its own language.
+**A bundle is not a module.** A module is compiled against the modules standing before it, so the modules of a link have to have an order, and two that send to each other have none. What a bundle declares for its host to answer has no body and so waits for nothing; what it writes in Warp sends to whatever it needs. An implementation that lands both halves of a bundle in one module holds the builtin half to the written half's order, and two bundles whose written halves send to each other's builtin halves then have no order at all. Landing them apart is how the same set of procedures links whatever the written halves send, and it is what an implementation weighs when it writes a procedure in Warp rather than in its own language.
 
 **The signatures, exactly.** A second implementation writes these; it must not have to guess them. The *parameters* column lists them in the order a row writes them, which is the position a call hands each argument at. A slot typed `const Procedure` takes only a procedure that answers without running.
 
@@ -50,18 +51,35 @@ One of these is builtin for a reason that is not the set it removes. `trimmed` n
 
 **`select` is how an operand chooses.** A `conditional` answers nothing and takes no name, and an operand is read rather than run, so choosing among values inside one is a procedure here rather than grammar. The two sides answer one type, worked out from the call the way any type parameter is.
 
+*Standard*
+
+The contracts, each procedure answering without running and touching nothing, and failing with nothing. A call writes the contract's spelling, `Standard.Numeric.plus`, and the run picks the declaration answering it by the type of the first argument: `Int.plus` for whole numbers, `Double.plus` for fractions.
+
+| contract | procedure | parameters | answers |
+|---|---|---|---|
+| `Standard.Numeric` | `plus`, `minus`, `times`, `remainder` | `lhs: Self`, `rhs: Self` | `Self` |
+| `Standard.Numeric` | `dividedBy` | `lhs: Self`, `rhs: Self` | `Double` |
+| `Standard.Comparable` | `lessThan` | `lhs: Self`, `rhs: Self` | `Bool` |
+| `Standard.Collection` | `count` | `collection: Self` | `Int` |
+
+| type | claims |
+|---|---|
+| `Int`, `Double` | `Standard.Comparable`, `Standard.Numeric` |
+| `String` | `Standard.Collection`, `Standard.Comparable` |
+| `Array`, `Dictionary` | `Standard.Collection` |
+
+`count` reads a list's elements, bytes included, a map's entries, a record with no name included, and text's characters as a person reads them. A declared record is an instance of its own name, so `count` takes one only where a document claims `Standard.Collection` for it.
+
 *Standard.Math*
 
 | procedure | parameters | answers |
 |---|---|---|
-| `plus`, `minus`, `times`, `remainder` | `lhs: some N`, `rhs: some N` | `some N`. Bounds `N: Standard.Numeric` |
 | `min`, `max` | `lhs: some T`, `rhs: some T` | `some T`. Bounds `T: Standard.Comparable` |
-| `dividedBy` | `lhs: some N`, `rhs: some N` | `Double`. Bounds `N: Standard.Numeric` |
-| `absolute` | `number: some N` | `some N`. Bounds `N: Standard.Numeric` |
-| `floored`, `rounded` | `number: some N` | `Int`. Bounds `N: Standard.Numeric` |
-| `lessThan`, `greaterThan` | `lhs: some T`, `rhs: some T` | `Bool`. Bounds `T: Standard.Comparable` |
+| `absolute` | `number: some N` | `some N`. Bounds `N: Standard.Comparable & Standard.Numeric` |
+| `floored`, `rounded` | `number: Double` | `Int` |
+| `greaterThan` | `lhs: some T`, `rhs: some T` | `Bool`. Bounds `T: Standard.Comparable` |
 
-`min` and `max` answer one of the two as it arrived. On a tie, where the two order the same, `min` answers `lhs` and `max` answers `rhs`, so `min(1, 1.0)` is `1` and `max(1, 1.0)` is `1.0`.
+`min` and `max` answer one of the two as it arrived. On a tie, where the two order the same, `min` answers `lhs` and `max` answers `rhs`, so `min(0.0, -0.0)` is `0.0` and `max(0.0, -0.0)` is `-0.0`.
 
 `floored` goes to the nearest whole toward the smaller side, below zero too: `-2.1` floors to `-3`. `rounded` goes to the nearest whole, and away from zero at the exact halfway: `2.5` rounds to `3`, `-2.5` to `-3`. `absolute` drops the sign and keeps the kind it was given. Each of these answers an `Int` only when an int holds the answer. The int's edge refuses at the run, as the edge rules below require.
 
@@ -97,7 +115,6 @@ One of these is builtin for a reason that is not the set it removes. `trimmed` n
 | procedure | parameters | answers |
 |---|---|---|
 | `append` | `array: inout Array<some Element>`, `element: some Element` | `null`, having written the element onto the end of the array the variable holds, in place |
-| `count` | `collection: Standard.Collection`. The membership of `String`, `array` and `dictionary`; bytes stand as an array and a record as a dictionary | `Int` |
 | `contains` | `array: Array<some Element>`, `element: some Element` | `Bool` |
 | `first`, `last` | `array: Array<some Element>` | `some Element`. Over nothing there is no element to answer, and the read of one **refuses at the run**, the way any index past the end does |
 | `reversed`, `dropFirst`, `dropLast` | `array: Array<some Element>` | `Array<some Element>` |
@@ -123,27 +140,30 @@ One of these is builtin for a reason that is not the set it removes. `trimmed` n
 
 | procedure | parameters | answers |
 |---|---|---|
-| `all`, `first` | `pieces: Standard.Concurrent.Pieces`. The membership of `Array<isolated Procedure>` and `Dictionary<isolated Procedure>` | `Any` |
+| `all` | `pieces: Array<isolated Procedure>` | `Array<Any>`, each piece's answer in the pieces' order |
+| `allKeyed` | `pieces: Dictionary<isolated Procedure>` | `Dictionary<Any>`, each piece's answer under its key |
+| `first` | `pieces: Array<isolated Procedure>` | `Any` |
+| `firstKeyed` | `pieces: Dictionary<isolated Procedure>` | `Any` |
 | `map` | `array: Array<some Element>`, `transform`. `isolated Procedure`, handed the item, then its index, answering `some Answer` | `Array<some Answer>` |
 
-**`Standard.Concurrent`**. Running closures at once. `all` takes a record or an array of closures, runs every one, and answers every answer. A record's under its keys, an array's in its order; a failure fails the whole procedure with every piece's failure reported, keyed by the piece it came from. `first` takes the same and answers the first success, asking the rest to stop; which piece wins is the one timing fact this language admits. `map` takes a collection and one closure, calls it once per element, handing it the element and then its index, and answers in the collection's order. These are procedures rather than grammar because a closure is already the safe unit of concurrent work, and being procedures makes concurrency a permission: what a host does not link, a program cannot do.
+**`Standard.Concurrent`**. Running closures at once. `all` takes a list of closures, runs every one, and answers every answer in the list's order; `allKeyed` takes closures under keys, a record of them included, and answers each answer under its key. A failure fails the whole procedure with every piece's failure reported, keyed by the piece it came from. `first` and `firstKeyed` take the same and answer the first success, asking the rest to stop; which piece wins is the one timing fact this language admits. `map` takes a collection and one closure, calls it once per element, handing it the element and then its index, and answers in the collection's order. These are procedures rather than grammar because a closure is already the safe unit of concurrent work, and being procedures makes concurrency a permission: what a host does not link, a program cannot do.
 
 The names are plain ones with the module carrying the context, the way `Array.map` and `TaskGroup.next` lean on their types. A call site spells the module, so `Standard.Collection.first` and `Standard.Concurrent.first` are two names, and a link carrying both bundles holds both: every `first` and every `map`, the sequential ones included, is written with its bundle, and concurrency shows at the call site.
 
-What the checking sees: `map` declares its types the way the sequential one does. The collection's `Element` meets the closure's parameter, and the answer's type is the closure's answer, checked at the build. Its `transform` is an `isolated Procedure` taking `item: some Element` and `index: Int` and answering `some Answer`, so a closure that writes a captured variable refuses there before anything runs. `all` and `first` take `Standard.Concurrent.Pieces`, the membership of `Array<isolated Procedure>` and `Dictionary<isolated Procedure>`, so a piece the build reads as something other than a closure, or as a closure that writes what it captured, refuses at the build; a list literal is held to the membership part by part, so a piece that is not a closure refuses there too, and a piece that arrives as `Any` is held to the membership at the run, the way any value crossing a slot through `Any` is. They answer `Any`: the answer is shaped like what went in, and a membership names a set of types rather than tying one of them to another. What a fan-out's answer feeds is checked from `map`, not from these two.
+What the checking sees: `map` declares its types the way the sequential one does. The collection's `Element` meets the closure's parameter, and the answer's type is the closure's answer, checked at the build. Its `transform` is an `isolated Procedure` taking `item: some Element` and `index: Int` and answering `some Answer`, so a closure that writes a captured variable refuses there before anything runs. `all` and `allKeyed` take a list and a map of `isolated Procedure`, and `first` and `firstKeyed` the same, so a piece the build reads as something other than a closure, or as a closure that writes what it captured, refuses at the build; a list or a record literal is held to the slot part by part, so a piece that is not a closure refuses there too, and a piece that arrives as `Any` is held to the slot at the run, the way any value crossing a slot through `Any` is. The pieces declare no answer, so `all` answers `Array<Any>`, `allKeyed` `Dictionary<Any>` and the two `first`s `Any`. What a fan-out's answer feeds is checked from `map`, not from these.
 
-What the procedures hand their closures is one convention, shared with the sequential walks. `Standard.Collection.map` and `filter` hand over the item, `reduce` hands over the carried value then the item, `Standard.Concurrent.map` hands over the item then its index, and a closure written for one of them **declares exactly as many parameters as it is handed, in that order**, under names of its own, whether or not its body goes on to read one. A closure of another count refuses, the same as anywhere else a value is called: a walk is not a second calling convention. `Standard.Concurrent.first` run over nothing is refused, the way `Standard.Collection.first` of nothing is: a procedure that answers exactly one thing has no empty answer. And a `first` in which nothing succeeds fails the way `all` fails: every piece's failure reported, keyed by the piece it came from, a record's by its key and an array's by its index written `[0]`.
+What the procedures hand their closures is one convention, shared with the sequential walks. `Standard.Collection.map` and `filter` hand over the item, `reduce` hands over the carried value then the item, `Standard.Concurrent.map` hands over the item then its index, and a closure written for one of them **declares exactly as many parameters as it is handed, in that order**, under names of its own, whether or not its body goes on to read one. A closure of another count refuses, the same as anywhere else a value is called: a walk is not a second calling convention. `Standard.Concurrent.first` run over nothing is refused, the way `Standard.Collection.first` of nothing is: a procedure that answers exactly one thing has no empty answer. And a `first` or a `firstKeyed` in which nothing succeeds fails the way `all` and `allKeyed` fail: every piece's failure reported, keyed by the piece it came from, a key under its key and a list's piece by its index written `[0]`.
 
-What the vocabulary answers about **bytes**: bytes are not a special material. They are an array of small whole numbers, `Array<Standard.Byte>`, `Standard.Byte` being the range `Int(0...255)` that `Standard` declares, and `x"6869"` is that array's compact spelling, under [values](value.md). There is no type named for the spelling: a slot is written `Array<Standard.Byte>`, or any other array the bytes fit. **The spelling is the value's own fact rather than the slot's**: a bytes value stands where `Array<Int>` is declared and crosses it *whole*, because the slot asked for an array and bytes are one. There is nothing to settle, and unpacking would spend an element per byte to answer questions like `first` that read one. An `Array<…>` slot reads the bytes out one by one only where its element declaration would not leave a byte as it is: `Array<Double>` changes every one of them, a range narrower than `Standard.Byte` has something to ask of each, and a fraction range (`Double(0.0...255.0)`) is both. It widens every byte it takes. An element declared as a **bounded** type parameter asks each value for its membership, and a member of the constraint that takes every byte answers that for all of them at once, so `sorted`, whose element carries `Standard.Comparable`, reads a compact spelling the way `reversed` does rather than by whether its declaration happened to carry a bound. An array of byte worths written out one by one stays as written: the compact spelling is the value's, and no slot puts it on.
+What the vocabulary answers about **bytes**: bytes are not a special material. They are an array of small whole numbers, `Array<Standard.Byte>`, `Standard.Byte` being the range `Int(0...255)` that `Standard` declares, and `x"6869"` is that array's compact spelling, under [values](value.md). There is no type named for the spelling: a slot is written `Array<Standard.Byte>`, or any other array the bytes fit. **The spelling is the value's own fact rather than the slot's**: a bytes value stands where `Array<Int>` is declared and crosses it *whole*, because the slot asked for an array and bytes are one. There is nothing to settle, and unpacking would spend an element per byte to answer questions like `first` that read one. An `Array<…>` slot reads the bytes out one by one only where its element declaration has something to ask of each: a range narrower than `Standard.Byte` does. `Array<Double>` and a fraction range take no byte at all, a byte being a whole number. An element declared as a **bounded** type parameter stands for one type the call filled, so `sorted`, whose element carries `Standard.Comparable`, reads a compact spelling the way `reversed` does. An array of byte worths written out one by one stays as written: the compact spelling is the value's, and no slot puts it on.
 
-An index reads an element out as a `Standard.Byte`, the range `Standard` names, and so does `some Element` filled by bytes: `first` of bytes answers a `Standard.Byte`. The collection vocabulary (`count`, `first`, `contains`, `reversed`, `map`, all of it) applies directly. A procedure that answers a collection's **own** elements (`reversed`, `filter`, `sorted`, `dropFirst`, `dropLast`) answers them in the spelling they arrived in, so bytes stay bytes; put something among them that is not a byte (`appending` a `300`) and the answer is the array it now is. A procedure that builds **new** elements does not: `map` answers whatever its procedure answered, which its declaration says by naming a second type parameter for it. Two bytes *values* still do **not** order, for the array reason rather than an opacity one: `Standard.Comparable` admits numbers and strings among themselves, not collections. Reading bytes *as* text is a procedure that names its encoding: `decoded` and `encoded` are the two directions of one mapping (`encoding: "utf8"`, the only member), and bytes that are not text in that encoding **refuse at the run**. Completing a broken sequence would answer a text nobody sent. `encoded` writes the text's code points as they stand and normalises nothing, and `decoded` keeps a byte order mark as the character it is: normalising the one or dropping the other would be an opinion about the text rather than a reading of it. The list of encodings is this specification's: a member is one every implementation writes, so a host with an encoding of its own declares a procedure of its own rather than widening the list.
+An index reads an element out as a `Standard.Byte`, the range `Standard` names, and so does `some Element` filled by bytes: `first` of bytes answers a `Standard.Byte`. The collection vocabulary (`count`, `first`, `contains`, `reversed`, `map`, all of it) applies directly. A procedure that answers a collection's **own** elements (`reversed`, `filter`, `sorted`, `dropFirst`, `dropLast`) answers them in the spelling they arrived in, so bytes stay bytes; put something among them that is not a byte (`appending` a `300`) and the answer is the array it now is. A procedure that builds **new** elements does not: `map` answers whatever its procedure answered, which its declaration says by naming a second type parameter for it. Two bytes *values* still do **not** order, for the array reason rather than an opacity one: `Standard.Comparable` is claimed for numbers and strings, not for `Array`. Reading bytes *as* text is a procedure that names its encoding: `decoded` and `encoded` are the two directions of one mapping (`encoding: "utf8"`, the only member), and bytes that are not text in that encoding **refuse at the run**. Completing a broken sequence would answer a text nobody sent. `encoded` writes the text's code points as they stand and normalises nothing, and `decoded` keeps a byte order mark as the character it is: normalising the one or dropping the other would be an opinion about the text rather than a reading of it. The list of encodings is this specification's: a member is one every implementation writes, so a host with an encoding of its own declares a procedure of its own rather than widening the list.
 
 **`abort`**. Fail on purpose, with a message. Declared `returns: Never`, which is everything the checking needs: nothing runs after it, and no name binds it. The message is what `message` spells as text. Sent null, the failure says `aborted`. It is a failure like any other, so an `attempt` around it catches it. Leaving is what a rescue does not catch, and this is failing, not leaving.
 
 Behaviour at the edges, where implementations quietly differ, stated as requirements:
 
-- Arithmetic takes two of a kind and answers that kind: both sides and the answer are one type parameter, bounded by `Standard.Numeric`. A whole number added to text **refuses at the build**, and so do two pieces of text, because agreement is not admission.
-- Ordering (`lessThan`, `greaterThan`, `sorted`, `min`, `max`) compares two of a kind under `Standard.Comparable`, and text is a kind. A kind the constraint does not admit refuses at the build where the text says so, and at the boundary where the value arrives through `Any`.
+- Arithmetic takes two of a kind and answers that kind: both sides and the answer are `Self` of `Standard.Numeric`. A whole number added to text **refuses at the build**, and so do two pieces of text, because no claim puts text under `Standard.Numeric`.
+- Ordering (`lessThan`, `greaterThan`, `sorted`, `min`, `max`) compares two of a kind under `Standard.Comparable`, and text is a kind. A kind no claim puts under it refuses at the build where the text says so, and at the run where the value arrives through `Any`, since no declaration answers for it.
 - Whole-number arithmetic with no whole answer **refuses at the run**. It does not wrap and does not silently widen. The rule covers every standard procedure that answers an `Int` and can miss it: `plus`, `minus`, `times` off the int's edge, `absolute` of the int's own minimum, and `floored`/`rounded` of a fraction whose whole part is past the int. `remainder` is not on the list because its answer always fits. A remainder is smaller in size than its divisor, and the one divisor that trips a machine's division instruction still has one: `-9223372036854775808 remainder -1` answers `0`. These run-stage refusals (overflow, and the zero divisor below) are the program's own defect, not a failure of the work: an `attempt` does **not** catch them, the way it does not catch an index past the end. What a rescue catches is `abort` and a procedure's own failure.
 - Fraction arithmetic with no finite answer **refuses at the run** for the same reason: infinity is a value the arithmetic can reach and no document can carry.
 - `dividedBy` answers a fraction, whole or not. Division by zero **refuses at the run**. The quotient is binary64's own: a whole operand reads as the fraction nearest it first, and the division rounds once more, so two implementations spell the same quotient bit for bit.
@@ -163,7 +183,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-document-writes-map-over-a-const-slot`
 - `a-document-writes-startsWith-over-characters`
 - `a-mapped-procedure-chooses-what-it-answers`
-- `a-piece-arriving-through-any-is-held-to-the-membership-at-the-run`
+- `a-piece-arriving-through-any-is-held-to-the-slot-at-the-run`
 - `a-piece-that-is-not-a-closure-refuses`
 - `a-procedure-answering-a-collections-own-elements-keeps-the-spelling`
 - `a-quotient-widens-its-operands`
@@ -195,7 +215,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `concurrent-map-over-nothing-answers-nothing`
 - `contains-asks-a-collection`
 - `count-asks-a-collection`
-- `count-of-a-record-is-its-fields`
+- `count-of-a-declared-record-no-claim-names-refuses`
+- `count-of-a-record-with-no-name-is-its-fields`
 - `count-of-bytes-is-their-length`
 - `decoded-keeps-a-byte-order-mark`
 - `decoded-reads-bytes-as-text-in-a-named-encoding`

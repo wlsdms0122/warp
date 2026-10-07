@@ -7,8 +7,8 @@ warpt 1
   note "The attempt's body sets `n` to a string and then fails, and its rescue breaks out of the loop. The way that breaks went through the body up to the failure, so past the loop `n` may hold the string, and asking whether it is an int stands rather than being a cast the reading already settles."
   program {
     imports [
+      "Standard.Comparable.lessThan"
       "Standard.Control.abort"
-      "Standard.Math.lessThan"
     ]
     procedures {
       check {
@@ -36,7 +36,7 @@ warpt 1
                       }
                       0
                     ]
-                    procedure "Standard.Math.lessThan"
+                    procedure "Standard.Comparable.lessThan"
                   }
                 }
               }

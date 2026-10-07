@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    answers 2
+    refuses "build"
   }
-  name "count-of-a-record-is-its-fields"
-  note "A record stands as a dictionary, so count reads its fields, name or no name."
+  name "count-of-a-declared-record-no-claim-names-refuses"
+  note "A declared record is an instance of its own name, not of `Dictionary`, and `Standard.Collection` is claimed for no declared record here, so count handed one is refused at the build."
   program {
     imports [
       "Standard.Collection.count"

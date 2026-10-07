@@ -4,10 +4,10 @@ warpt 1
     answers 2
   }
   name "a-parameter-read-as-records-of-other-fields-keeps-an-any-field-any"
-  note "`App.pick` takes two of `some E`. The call hands `{ a: \"x\" }` and `{ a: j, b: 2 }` with `j` read as `Any`. The first takes the second by width, and what holds both is a record of the first's fields, each merged with the field of the same name: `{ a: any }`. So `r.a` reads `Any`, `Standard.Math.plus(r.a, 1)` builds, and the run answers 2."
+  note "`App.pick` takes two of `some E`. The call hands `{ a: \"x\" }` and `{ a: j, b: 2 }` with `j` read as `Any`. The first takes the second by width, and what holds both is a record of the first's fields, each merged with the field of the same name: `{ a: any }`. So `r.a` reads `Any`, `Standard.Numeric.plus(r.a, 1)` builds, and the run answers 2."
   program {
     imports [
-      "Standard.Math.plus"
+      "Standard.Numeric.plus"
     ]
     procedures {
       "App.pick" {
@@ -67,7 +67,7 @@ warpt 1
                   }
                   1
                 ]
-                procedure "Standard.Math.plus"
+                procedure "Standard.Numeric.plus"
               }
             }
           }

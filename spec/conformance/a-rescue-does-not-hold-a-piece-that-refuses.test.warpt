@@ -10,8 +10,8 @@ warpt 1
   note "A piece refusing at the run refuses the whole run. A refusal is not a failure, so the rescue around the fan-out does not hold it, and what the other pieces answered is not reported."
   program {
     imports [
-      "Standard.Concurrent.all"
-      "Standard.Math.dividedBy"
+      "Standard.Concurrent.allKeyed"
+      "Standard.Numeric.dividedBy"
     ]
     procedures {
       entry {
@@ -39,7 +39,7 @@ warpt 1
                                           ref "z"
                                         }
                                       ]
-                                      procedure "Standard.Math.dividedBy"
+                                      procedure "Standard.Numeric.dividedBy"
                                     }
                                   }
                                 }
@@ -52,7 +52,7 @@ warpt 1
                             }
                           }
                         ]
-                        procedure "Standard.Concurrent.all"
+                        procedure "Standard.Concurrent.allKeyed"
                       }
                     }
                   }

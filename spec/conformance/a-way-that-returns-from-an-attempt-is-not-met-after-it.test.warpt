@@ -10,8 +10,8 @@ warpt 1
   note "Inside the attempt's body, the arm that sets `n` to a string and takes it there returns from the procedure with nothing that could fail after the taking, so it lands past the attempt and never reaches the write after it. What could fail runs only on the way that goes on, which took nothing, and a later write of an int stands."
   program {
     imports [
+      "Standard.Comparable.lessThan"
       "Standard.Control.abort"
-      "Standard.Math.lessThan"
     ]
     procedures {
       check {
@@ -39,7 +39,7 @@ warpt 1
                       }
                       0
                     ]
-                    procedure "Standard.Math.lessThan"
+                    procedure "Standard.Comparable.lessThan"
                   }
                 }
               }

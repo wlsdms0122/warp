@@ -7,7 +7,7 @@ warpt 1
   note "What concurrent_failed gathers under each piece is the envelope that piece raised, so a rescue reads a piece's own type through details, the way it reads any failure's."
   program {
     imports [
-      "Standard.Concurrent.all"
+      "Standard.Concurrent.allKeyed"
       "Standard.Control.abort"
     ]
     procedures {
@@ -49,7 +49,7 @@ warpt 1
                             }
                           }
                         ]
-                        procedure "Standard.Concurrent.all"
+                        procedure "Standard.Concurrent.allKeyed"
                       }
                     }
                   }

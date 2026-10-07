@@ -7,8 +7,8 @@ warpt 1
   note "The first round sets `n` to a string and continues; a later round fails. The failure lands at the attempt after every round before it, so the rescue reads `n` as what any of those rounds may have left, and asking whether it is an int stands rather than being a cast the reading already settles."
   program {
     imports [
+      "Standard.Comparable.lessThan"
       "Standard.Control.abort"
-      "Standard.Math.lessThan"
     ]
     procedures {
       check {
@@ -36,7 +36,7 @@ warpt 1
                       }
                       0
                     ]
-                    procedure "Standard.Math.lessThan"
+                    procedure "Standard.Comparable.lessThan"
                   }
                 }
               }

@@ -7,7 +7,7 @@ warpt 1
   note "One arm lets a closure capture an int variable and the other writes null into it, so after the conditional it is held to int and reads int?. Handing it in place to an int? slot refuses: the callee would write null into a box the closure reads as int."
   program {
     imports [
-      "Standard.Math.plus"
+      "Standard.Numeric.plus"
     ]
     procedures {
       "App.clear" {
@@ -68,7 +68,7 @@ warpt 1
                               }
                               1
                             ]
-                            procedure "Standard.Math.plus"
+                            procedure "Standard.Numeric.plus"
                           }
                         }
                         returns "Int"
