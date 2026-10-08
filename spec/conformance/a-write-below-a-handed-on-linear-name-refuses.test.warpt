@@ -1,0 +1,73 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-write-below-a-handed-on-linear-name-refuses"
+  note "`hv` handed its value on, and a write below it writes into the value it no longer holds. A write of the whole name would hold a new one."
+  program {
+    imports [
+      "App.HV"
+      "App.closeHV"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            type "App.HV"
+            value {
+              record {
+                name "f"
+              }
+            }
+            var "hv"
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "hv"
+                  }
+                ]
+                procedure "App.closeHV"
+              }
+            }
+          }
+          {
+            set "hv.name"
+            value "z"
+          }
+        ]
+        result 1
+        returns "Any"
+      }
+    }
+    warp 1
+  }
+  test 1
+  vocabulary {
+    procedures {
+      "App.closeHV" {
+        parameters [
+          {
+            name "first"
+            type "consuming App.HV"
+          }
+        ]
+        runs true
+      }
+    }
+    types {
+      "App.HV" {
+        linear {
+          record {
+            name "var String"
+          }
+        }
+      }
+    }
+  }
+}
+

@@ -78,7 +78,7 @@ Either is written on a slot that **names the type**, because the name is what th
 
 **A closure is a procedure, and its body is held to all of this.** It is walked the way a declaration's body is, seeded with what the closure itself was handed: a closure that opens one and reaches its end still holding it is refused exactly as a declaration would be. What it runs an unfixed number of times is the *capture*, and a name the closure declared is its own.
 
-**What such a body may not do is answer one.** A procedure type whose `returns` is linear **refuses at the build**, closure literals included, and a body that wrote no `returns` is held to the same rule by what the walk finds: the rule turns neither on whether a key was typed nor on how the answer was written. Nothing reads inside a body that travels as a value, so what one handed back would arrive with nothing to say it is owed. A declaration is not held to this: what it answers lands on the name its caller binds.
+**What such a body may not do is answer one.** A procedure type whose `returns` is linear **refuses at the build**, closure literals included, and a body that wrote no `returns` is held to the same rule by what the walk finds: the rule turns neither on whether a key was typed nor on how the answer was written. Nothing reads inside a body that travels as a value, so what one handed back would arrive with nothing to say it is owed. A declaration is not held to this: what it answers lands on the name its caller binds, as the type its `returns` declares, so one answering a linear value while it declares another type, `Any` included, **refuses at the build**.
 
 Writing `consuming` or `borrowing` where nothing is linear **refuses at the build** too, the way a `?` that says nothing new does: both say what a slot does with an obligation, and there is none.
 
@@ -93,13 +93,13 @@ What a body may do with one it **borrowed**: read it, read a part of it, bind it
 
 What **refuses at the build**:
 
-- reaching the end of a body still holding one. A `block`, a `conditional` arm, a `loop`'s round, and an `attempt`'s body and rescue are bodies too, and a name one of them introduces is read nowhere after it, as [statements](statement.md) says: one still holding a value where that body ends has dropped it. A name it shadows is another name, and still holds what it held, so leaving the procedure from inside such a body is judged by both;
+- reaching the end of a body still holding one. A `block`, a `conditional` arm, a `loop`'s round, and an `attempt`'s body and rescue are bodies too, and a name one of them introduces is read nowhere after it, as [statements](statement.md) says: one still holding a value where that body ends has dropped it. A loop's result reads what the last round that finished left, so a value a round made and still holds there is one every round before it dropped. A name it shadows is another name, and still holds what it held, so leaving the procedure from inside such a body is judged by both;
 - a statement that names nothing answering one, since what such a statement answers is dropped;
 - handing one on a second time. Within one call that counts in position order, the order the run evaluates the arguments in (see [running](running.md)), so a slot that borrows reads what a consuming slot standing before it already took;
 - handing one on in one arm of a conditional and not the other, since what a body holds afterwards would depend on which arm ran. An arm that **returns** is not one of those arms: no run comes back from it, so what the body holds afterwards stands on the arms that finish. An arm that `break`s is one of them, and is held to the same rule: the run comes back out of the loop still holding what the body around the arm held;
 - handing one on inside a loop's condition or round, inside an `attempt`, or as an operand of a call of a value, or capturing one in a closure, writing in a closure a name that declares one, and writing one into a box inside a loop round or an `attempt`. Each of those runs no fixed number of times, or fails somewhere the text does not show, so "exactly once" is not something the text says. Leaving is not one of these unless it leaves the procedure: a `break` leaves the construct and a `continue` ends the round, and what the body was holding it holds still on the other side of either;
 - writing over a name still holding one;
-- reading a name that handed its value on, or a part of it, a closure's reading included: the name holds nothing once its value is given away;
+- reaching into a name that handed its value on: reading it, a part of it or an index through it, or writing below it, a closure's reach included. The name holds nothing once its value is given away;
 - writing one into a **list or a record**, whether it is a name still holding one, a value nothing holds yet, or what a cast, a block or an `attempt` hands out. What follows the value is the name, and a name does not follow it into a type, so the obligation would be neither handed on nor still held;
 - handing a borrowed one to a slot that says `consuming`, or answering it, or keeping it in a box. Each gives away what this body never took, and a box outlives the call that lent the value;
 - handing a value no name holds, written straight into the call, to a slot that does not say `consuming`. A slot that says `borrowing` leaves the obligation with the caller, and no name of the caller's holds it; a slot that says neither takes it nowhere;
@@ -247,6 +247,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-declaration-answering-a-contract-with-any-where-it-asks-text-refuses`
 - `a-declaration-answering-a-contract-with-its-own-parameter-for-a-type-refuses`
 - `a-declaration-answering-a-contract-with-what-may-be-null-where-it-answers-a-contract-refuses`
+- `a-declaration-answering-a-linear-value-as-any-refuses`
 - `a-declaration-answering-one-without-returns-refuses`
 - `a-declaration-no-claim-names-is-its-documents-own-procedure`
 - `a-declaration-writing-no-returns-backs-a-claim-by-what-its-body-answers`
@@ -283,6 +284,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-list-of-two-types-handed-where-a-contract-is-asked-is-read-element-by-element-refuses`
 - `a-literal-of-names-at-a-contract-bound-leans-on-each-claim-refuses`
 - `a-loop-condition-handing-on-a-linear-value-refuses`
+- `a-loops-result-handing-on-a-name-every-round-made-refuses`
 - `a-loops-result-hands-on-once`
 - `a-mark-where-nothing-is-linear-refuses`
 - `a-module-declares-a-contract-a-bound-names`
@@ -418,6 +420,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-witness-failing-with-what-its-contract-does-not-name-refuses`
 - `a-witness-may-write-another-name-for-the-record-a-contract-names`
 - `a-witness-takes-the-claimed-type-wherever-the-contract-writes-self-refuses`
+- `a-write-below-a-handed-on-linear-name-refuses`
 - `an-alias-of-a-contract-answers-the-contract`
 - `an-alias-of-a-declared-record-gives-a-value-from-outside-the-records-name`
 - `an-alias-of-a-record-answers-the-records-contracts`
@@ -427,6 +430,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-asking-cast-onto-a-linear-type-refuses`
 - `an-attempt-returning-one-without-returns-refuses`
 - `an-empty-list-handed-to-a-generic-answers-a-list-of-any-type`
+- `an-index-through-a-handed-on-linear-name-refuses`
 - `an-inline-record-slot-refuses-a-named-record`
 - `an-inout-type-parameter-a-procedure-slot-fills-first-reads-the-value`
 - `an-inout-type-parameter-a-variable-fills-first-reads-the-value`

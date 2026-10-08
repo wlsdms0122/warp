@@ -1,0 +1,120 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-loops-result-handing-on-a-name-every-round-made-refuses"
+  note "Every round introduces `k` holding a handle, and the result reads the `k` the last round that finished left. Every round before it dropped its own, so the round still holding `k` where it ends refuses."
+  program {
+    imports [
+      "App.Handle"
+      "App.close"
+      "App.mkq"
+      "Standard.Comparable.lessThan"
+    ]
+    procedures {
+      "App.f" {
+        body [
+          {
+            let "x"
+            value {
+              loop {
+                body [
+                  {
+                    let "k"
+                    value {
+                      call {
+                        procedure "App.mkq"
+                      }
+                    }
+                  }
+                ]
+                result {
+                  as {
+                    of {
+                      ref "k"
+                    }
+                    type "App.Handle"
+                  }
+                }
+                while {
+                  call {
+                    arguments [
+                      {
+                        ref "x.index"
+                      }
+                      3
+                    ]
+                    procedure "Standard.Comparable.lessThan"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "x"
+        }
+        returns "App.Handle"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "y"
+            value {
+              call {
+                procedure "App.f"
+              }
+            }
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "y"
+                  }
+                ]
+                procedure "App.close"
+              }
+            }
+          }
+        ]
+        result 1
+        returns "Any"
+      }
+    }
+    warp 1
+  }
+  test 1
+  vocabulary {
+    procedures {
+      "App.close" {
+        parameters [
+          {
+            name "first"
+            type "consuming App.Handle"
+          }
+        ]
+        runs true
+      }
+      "App.mkq" {
+        answers {
+          name "h"
+        }
+        returns "App.Handle"
+      }
+    }
+    types {
+      "App.Handle" {
+        linear {
+          record {
+            name "String"
+          }
+        }
+      }
+    }
+  }
+}
+
