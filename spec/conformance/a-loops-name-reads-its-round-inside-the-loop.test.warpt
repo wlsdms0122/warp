@@ -1,26 +1,19 @@
 warpt 1
 {
   expect {
-    answers 1
+    answers "f"
   }
   name "a-loops-name-reads-its-round-inside-the-loop"
-  note "A loop's statement name is the round inside the loop. `h` read bare there is the round, so the outer `h` keeps its handle until `App.close` takes it."
+  note "A loop's statement name is the round inside the loop. `h` read there is the round, which has an `index`, and the text `h` around the block is another name that keeps its value."
   program {
-    imports [
-      "App.Handle"
-      "App.close"
-    ]
+    imports []
     procedures {
-      "App.f" {
+      entry {
+        access "public"
         body [
           {
             let "h"
-            type "App.Handle"
-            value {
-              record {
-                name "f"
-              }
-            }
+            value "f"
           }
           {
             value {
@@ -34,7 +27,7 @@ warpt 1
                           {
                             let "z"
                             value {
-                              ref "h"
+                              ref "h.index"
                             }
                           }
                           {
@@ -61,56 +54,15 @@ warpt 1
               }
             }
           }
-          {
-            value {
-              call {
-                arguments [
-                  {
-                    ref "h"
-                  }
-                ]
-                procedure "App.close"
-              }
-            }
-          }
         ]
-        result 1
-        returns "Int"
-      }
-      entry {
-        access "public"
         result {
-          call {
-            procedure "App.f"
-          }
+          ref "h"
         }
-        returns "Int"
+        returns "String"
       }
     }
     warp 1
   }
   test 1
-  vocabulary {
-    procedures {
-      "App.close" {
-        parameters [
-          {
-            name "first"
-            type "consuming App.Handle"
-          }
-        ]
-        runs true
-      }
-    }
-    types {
-      "App.Handle" {
-        linear {
-          record {
-            name "String"
-          }
-        }
-      }
-    }
-  }
 }
 

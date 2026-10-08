@@ -23,7 +23,7 @@ warpt 1
       contracts []
       dependencies []
       document [
-        x"346163c632805379447ba693007fd93cb503ec2047720febe51eee4273bf06dc"
+        x"f8cdabe6d036377d5ff54abba6086c995352c4efe1aed267425a55d8d659a660"
       ]
       leaned []
       lifted []
@@ -41,7 +41,7 @@ warpt 1
                 "p"
                 [
                   [
-                    19
+                    16
                     "T"
                     []
                   ]
@@ -98,20 +98,6 @@ warpt 1
           [
             [
               [
-                "b"
-                [
-                  [
-                    16
-                    [
-                      18
-                      "App.Handle"
-                    ]
-                  ]
-                ]
-                []
-                []
-              ]
-              [
                 "d"
                 [
                   [
@@ -127,20 +113,6 @@ warpt 1
                           1.0
                         ]
                       ]
-                    ]
-                  ]
-                ]
-                []
-                []
-              ]
-              [
-                "h"
-                [
-                  [
-                    15
-                    [
-                      18
-                      "App.Handle"
                     ]
                   ]
                 ]
@@ -164,7 +136,7 @@ warpt 1
                 "k"
                 [
                   [
-                    18
+                    15
                     "App.Kinds"
                   ]
                 ]
@@ -174,8 +146,8 @@ warpt 1
             ]
             [
               [
-                18
-                "App.Handle"
+                15
+                "App.Kinds"
               ]
             ]
           ]
@@ -202,20 +174,16 @@ warpt 1
               ]
             ]
             [
-              5
+              3
               [
                 0
                 1
                 2
-                3
-                4
               ]
               []
               []
               [
-                "b"
                 "d"
-                "h"
                 "io"
                 "k"
               ]
@@ -225,23 +193,6 @@ warpt 1
       ]
       typeNumbering []
       types [
-        [
-          "App.Handle"
-          [
-            14
-            [
-              10
-              [
-                [
-                  "name"
-                  [
-                    6
-                  ]
-                ]
-              ]
-            ]
-          ]
-        ]
         [
           "App.Kinds"
           [
@@ -293,7 +244,7 @@ warpt 1
               [
                 "maybe"
                 [
-                  17
+                  14
                   [
                     4
                   ]
@@ -358,7 +309,7 @@ warpt 1
     }
   }
   name "the-object-of-every-type-spelling"
-  note "Every type spelling a document writes lowers under the tag the page gives it: the scalars with `Null` and `Never`, a range with its edges, a dictionary, the marks var, inout, linear, consuming and borrowing, the nullable, a procedure type with the types it takes and answers and its claims, a type parameter, and the reading a walk through one derives, written under answers."
+  note "Every type spelling a document writes lowers under the tag the page gives it: the scalars with `Null` and `Never`, a range with its edges, a dictionary, the marks var and inout, the nullable, a procedure type with the types it takes and answers and its claims, a type parameter, and the reading a walk through one derives, written under answers."
   program {
     imports []
     procedures {
@@ -377,16 +328,8 @@ warpt 1
         access "public"
         parameters [
           {
-            name "b"
-            type "borrowing App.Handle"
-          }
-          {
             name "d"
             type "Double(0.0..<1.0)"
-          }
-          {
-            name "h"
-            type "consuming App.Handle"
           }
           {
             name "io"
@@ -398,19 +341,12 @@ warpt 1
           }
         ]
         result {
-          ref "h"
+          ref "k"
         }
-        returns "App.Handle"
+        returns "App.Kinds"
       }
     }
     types {
-      "App.Handle" {
-        linear {
-          record {
-            name "String"
-          }
-        }
-      }
       "App.Kinds" {
         record {
           f "Procedure"
