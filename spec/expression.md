@@ -101,7 +101,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-index-past-the-end-refuses`
 - `an-index-reference-read-as-a-fraction-refuses`
 - `an-index-reference-read-as-any-refuses`
-- `an-index-reference-that-is-not-a-whole-number-refuses`
+- `an-index-reference-read-as-text-refuses`
 - `an-optional-bracket-reads-an-absent-entry-as-null`
 - `an-optional-cast-to-a-list-of-a-type-parameter-refuses`
 - `an-optional-dot-on-a-field-that-is-there-refuses`

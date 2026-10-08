@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-body-reading-a-module-variable-does-not-answer-without-running"
-  note "What a module variable holds is the run's rather than the text's, so a body reading one does not answer without running, and a slot asking `const Procedure` refuses a closure that does."
+  note "What a module variable holds is the run's rather than the text's, so a body reading one does not answer without running, and a slot asking a `const` procedure type refuses a closure that does."
   program {
     imports []
     procedures {
@@ -24,7 +24,11 @@ warpt 1
         parameters [
           {
             name "body"
-            type "const Procedure"
+            type {
+              "const procedure" {
+                returns "String"
+              }
+            }
           }
         ]
         result {

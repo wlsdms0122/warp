@@ -1,0 +1,50 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-call-of-a-value-read-as-a-contract-refuses"
+  note "A value read as a contract is of a type that answers it, and no procedure answers a contract, so calling one refuses at the build."
+  program {
+    contracts {
+      "App.A" {}
+    }
+    imports []
+    procedures {
+      "App.f" {
+        parameters [
+          {
+            name "g"
+            type "App.A"
+          }
+        ]
+        result {
+          call {
+            procedure {
+              ref "g"
+            }
+          }
+        }
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              1
+            ]
+            procedure "App.f"
+          }
+        }
+      }
+    }
+    satisfies {
+      Int [
+        "App.A"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+

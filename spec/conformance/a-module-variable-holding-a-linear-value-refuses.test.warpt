@@ -1,0 +1,66 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-module-variable-holding-a-linear-value-refuses"
+  note "Every run starts a module variable holding its value, and nothing hands that value on, so a module variable whose type is written linear refuses at the build."
+  program {
+    imports [
+      "App.Handle"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    var {
+      mv {
+        type "App.Handle"
+        value {
+          record {
+            name "f"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+  vocabulary {
+    procedures {
+      "App.close" {
+        parameters [
+          {
+            name "first"
+            type "consuming App.Handle"
+          }
+        ]
+        runs true
+      }
+      "App.name" {
+        answers "f"
+        parameters [
+          {
+            name "first"
+            type "borrowing App.Handle"
+          }
+        ]
+        returns "String"
+      }
+    }
+    types {
+      "App.H2" "App.Handle"
+      "App.Handle" {
+        linear {
+          record {
+            name "String"
+          }
+        }
+      }
+    }
+  }
+}
+

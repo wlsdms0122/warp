@@ -3,8 +3,8 @@ warpt 1
   expect {
     refuses "build"
   }
-  name "an-index-reference-that-is-not-a-whole-number-refuses"
-  note "An index written as a reference is a path of its own, judged where the outer walk stops. One that provably is not a whole number is refused at the build."
+  name "an-index-reference-read-as-text-refuses"
+  note "An index stands where an Int is read, and `which` reads String, so the build refuses the reference."
   program {
     imports []
     procedures {

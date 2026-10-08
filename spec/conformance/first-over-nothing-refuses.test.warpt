@@ -12,21 +12,13 @@ warpt 1
     procedures {
       entry {
         access "public"
-        body [
-          {
-            let "won"
-            value {
-              call {
-                arguments [
-                  []
-                ]
-                procedure "Standard.Concurrent.first"
-              }
-            }
-          }
-        ]
         result {
-          ref "won"
+          call {
+            arguments [
+              []
+            ]
+            procedure "Standard.Concurrent.first"
+          }
         }
       }
     }

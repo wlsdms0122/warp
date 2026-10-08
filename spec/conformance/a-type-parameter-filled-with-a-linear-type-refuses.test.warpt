@@ -1,0 +1,90 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-type-parameter-filled-with-a-linear-type-refuses"
+  note "What fills a type parameter is the call's, so a body taking a value handed on once there has no name to carry the obligation on. A call filling one with a type written linear refuses at the build."
+  program {
+    imports [
+      "App.Handle"
+    ]
+    procedures {
+      "App.id" {
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+        ]
+        result {
+          ref "x"
+        }
+        returns "some T"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "h"
+            value {
+              call {
+                arguments [
+                  {
+                    as {
+                      of {
+                        record {
+                          name "f"
+                        }
+                      }
+                      type "App.Handle"
+                    }
+                  }
+                ]
+                procedure "App.id"
+              }
+            }
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+  vocabulary {
+    procedures {
+      "App.close" {
+        parameters [
+          {
+            name "first"
+            type "consuming App.Handle"
+          }
+        ]
+        runs true
+      }
+      "App.name" {
+        answers "f"
+        parameters [
+          {
+            name "first"
+            type "borrowing App.Handle"
+          }
+        ]
+        returns "String"
+      }
+    }
+    types {
+      "App.H2" "App.Handle"
+      "App.Handle" {
+        linear {
+          record {
+            name "String"
+          }
+        }
+      }
+    }
+  }
+}
+

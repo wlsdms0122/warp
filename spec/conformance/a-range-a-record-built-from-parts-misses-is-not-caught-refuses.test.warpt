@@ -1,0 +1,86 @@
+warpt 1
+{
+  expect {
+    refuses "run"
+  }
+  name "a-range-a-record-built-from-parts-misses-is-not-caught-refuses"
+  note "A record built from parts where a declared record is read is held to its fields where it lands, and a field outside its range refuses at the run there, as any binding does. That is no failure an attempt catches."
+  program {
+    imports []
+    procedures {
+      "App.any" {
+        result 1
+        returns "Any"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "n"
+            type "Int"
+            value 200
+          }
+          {
+            let "t"
+            value {
+              attempt {
+                body [
+                  {
+                    let "z"
+                    value {
+                      as {
+                        of {
+                          call {
+                            procedure "App.any"
+                          }
+                        }
+                        type "Int"
+                      }
+                    }
+                  }
+                  {
+                    let "o"
+                    type "App.O"
+                    value {
+                      record {
+                        k 1
+                        p {
+                          ref "n"
+                        }
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  result "caught"
+                }
+                result "ok"
+              }
+            }
+          }
+        ]
+        result {
+          ref "t"
+        }
+        returns "String"
+      }
+    }
+    types {
+      "App.O" {
+        record {
+          k "Int"
+          p "App.Pct"
+        }
+      }
+      "App.Pct" "Int(0...100)"
+      "App.Point" {
+        record {
+          x "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

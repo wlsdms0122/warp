@@ -1,0 +1,88 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-record-written-into-a-linear-variable-takes-the-obligation-refuses"
+  note "A variable declaring a type written linear takes the obligation again with every whole write into it, a record written there included, so a body that ends still holding the second value refuses at the build."
+  program {
+    imports [
+      "App.Handle"
+      "App.close"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            type "App.Handle"
+            value {
+              record {
+                name "f"
+              }
+            }
+            var "h"
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "h"
+                  }
+                ]
+                procedure "App.close"
+              }
+            }
+          }
+          {
+            set "h"
+            value {
+              record {
+                name "g"
+              }
+            }
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+  vocabulary {
+    procedures {
+      "App.close" {
+        parameters [
+          {
+            name "first"
+            type "consuming App.Handle"
+          }
+        ]
+        runs true
+      }
+      "App.name" {
+        answers "f"
+        parameters [
+          {
+            name "first"
+            type "borrowing App.Handle"
+          }
+        ]
+        returns "String"
+      }
+    }
+    types {
+      "App.H2" "App.Handle"
+      "App.Handle" {
+        linear {
+          record {
+            name "String"
+          }
+        }
+      }
+    }
+  }
+}
+

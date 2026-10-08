@@ -1,0 +1,58 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-procedure-value-cast-to-a-procedure-type-is-called"
+  note "A value of Procedure is called once a cast says what procedure it is: the run judges the closure against the procedure type the cast names, and the call stands on that type."
+  program {
+    imports []
+    procedures {
+      "App.f" {
+        parameters [
+          {
+            name "g"
+            type "Procedure"
+          }
+        ]
+        result {
+          call {
+            procedure {
+              as {
+                of {
+                  ref "g"
+                }
+                type {
+                  procedure {
+                    returns "Int"
+                  }
+                }
+              }
+            }
+          }
+        }
+        returns "Int"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                closure {
+                  result 1
+                  returns "Int"
+                }
+              }
+            ]
+            procedure "App.f"
+          }
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

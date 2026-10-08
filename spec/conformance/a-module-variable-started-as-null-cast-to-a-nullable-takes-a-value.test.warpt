@@ -1,0 +1,37 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-module-variable-started-as-null-cast-to-a-nullable-takes-a-value"
+  note "A start of null says nothing the cast does not, so a module variable started by null cast to Int? holds Int? and takes a whole number afterwards."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            set "v"
+            value 1
+          }
+        ]
+        result {
+          ref "v"
+        }
+        returns "Int?"
+      }
+    }
+    var {
+      v {
+        as {
+          of null
+          type "Int?"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

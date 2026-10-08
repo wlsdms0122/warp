@@ -64,7 +64,7 @@ It is written as a **module**, because that is what a host takes in: it may decl
 
 It answers the same thing every time, because a case asks what a declaration permits rather than what arithmetic does. The names it may declare are `first` and `second`, in that order, since a procedure the host answers reads its arguments at fixed places and a case cannot invent a place in another runner.
 
-This is the only way a case reaches what answering without running permits and what it does not, both of which need a procedure with no body: a slot asking `const Procedure`, an operand calling one, and a constant that settles from one and is refused for it.
+This is the only way a case reaches what answering without running permits and what it does not, both of which need a procedure with no body: a slot asking a `const` procedure type, an operand calling one, and a constant that settles from one and is refused for it.
 
 **`documents` are other documents in the link.** A rule about two documents, a `private` declaration one of them names or a spelling two of them declare, is asked with the program and a document beside it. Each is written as any document is and read the way the program is, and stands between what the runner brings and the program: laid one after another in the order written, each against what stands before it, and the program last, the way a host lays documents as they arrive. One that does not read **refuses** as a case, since the question was about the program. Only a program has documents beside it, and only an object is read under a `document` the case names, so a case writing either key about any other subject **refuses** as a case.
 

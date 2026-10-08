@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-closure-answered-without-returns-reads-a-module-variable-by-running"
-  note "A declaration that writes no returns answers a closure reading a module variable. Its answer is read as a procedure that runs, so handing it to a const Procedure slot refuses, whichever walk read the declaration first."
+  note "A declaration that writes no returns answers a closure reading a module variable. Its answer is read as a procedure that runs, so handing it to a slot of a `const` procedure type refuses, whichever walk read the declaration first."
   program {
     imports []
     procedures {
@@ -24,7 +24,11 @@ warpt 1
         parameters [
           {
             name "body"
-            type "const Procedure"
+            type {
+              "const procedure" {
+                returns "String"
+              }
+            }
           }
         ]
         result {
