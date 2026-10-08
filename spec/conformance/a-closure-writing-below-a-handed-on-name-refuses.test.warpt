@@ -1,0 +1,95 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-closure-writing-below-a-handed-on-name-refuses"
+  note "`hv` handed its value on before the closure, and a write below a name reads the value it holds, so the closure's `set hv.name` reaches into a value `hv` no longer holds."
+  program {
+    imports [
+      "App.closeHV"
+      "App.mkHV"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            value {
+              call {
+                procedure "App.mkHV"
+              }
+            }
+            var "hv"
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "hv"
+                  }
+                ]
+                procedure "App.closeHV"
+              }
+            }
+          }
+          {
+            let "g"
+            value {
+              closure {
+                body [
+                  {
+                    set "hv.name"
+                    value "z"
+                  }
+                ]
+                result 1
+                returns "Int"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            procedure {
+              ref "g"
+            }
+          }
+        }
+        returns "Any"
+      }
+    }
+    warp 1
+  }
+  test 1
+  vocabulary {
+    procedures {
+      "App.closeHV" {
+        parameters [
+          {
+            name "first"
+            type "consuming App.HV"
+          }
+        ]
+        runs true
+      }
+      "App.mkHV" {
+        answers {
+          name "h"
+        }
+        returns "App.HV"
+      }
+    }
+    types {
+      "App.HV" {
+        linear {
+          record {
+            name "var String"
+          }
+        }
+      }
+    }
+  }
+}
+

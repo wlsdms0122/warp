@@ -198,6 +198,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-closure-reads-the-bounds-of-the-procedure-around-it`
 - `a-closure-without-returns-answering-one-refuses`
 - `a-closure-writing-a-name-that-declares-a-linear-type-refuses`
+- `a-closure-writing-below-a-handed-on-name-refuses`
 - `a-closures-parameter-names-are-not-part-of-its-type`
 - `a-closures-parameter-taking-the-spelling-of-a-held-linear-name-captures-nothing`
 - `a-constant-outside-a-range-refuses`
@@ -295,6 +296,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-name-in-an-arm-shadowing-a-linear-name-takes-no-obligation`
 - `a-name-introduced-after-a-block-is-a-new-name-whatever-the-block-handed-on`
 - `a-name-that-is-not-a-bound-joined-with-and-refuses`
+- `a-name-written-whole-after-handing-on-holds-the-new-value`
 - `a-named-list-handed-where-a-list-of-a-contract-stands-is-held-to-it`
 - `a-named-record-arrives-as-an-argument`
 - `a-nameless-record-judged-where-a-declared-record-was-filled-refuses`
