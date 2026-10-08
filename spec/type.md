@@ -335,6 +335,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-reading-beside-any-at-a-bounded-parameter-is-held-where-it-stands-refuses`
 - `a-reading-outside-a-bound-refuses`
 - `a-record-a-block-answers-where-a-declared-record-is-read-takes-the-name`
+- `a-record-a-host-procedure-answers-short-of-its-fields-refuses`
 - `a-record-a-host-procedure-answers-takes-the-name-it-declares`
 - `a-record-a-loop-answers-where-a-declared-record-is-read-takes-the-name`
 - `a-record-an-attempt-answers-beside-a-record-of-fractions-holds-fractions`
