@@ -1,0 +1,35 @@
+warpt 1
+{
+  expect {
+    refuses "run"
+  }
+  name "a-value-a-host-procedure-answers-outside-its-returns-refuses"
+  note "`App.h` declares it answers `Int` and hands back text. What a host procedure answers is judged against its `returns` at the door it comes through, so the answer refuses at the run there, before anything reads it."
+  program {
+    imports [
+      "App.h"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            procedure "App.h"
+          }
+        }
+        returns "Any"
+      }
+    }
+    warp 1
+  }
+  test 1
+  vocabulary {
+    procedures {
+      "App.h" {
+        answers "s"
+        returns "Int"
+      }
+    }
+  }
+}
+
