@@ -26,7 +26,7 @@ warpt 1
       ]
       dependencies []
       document [
-        x"a59528c0d6aba52acb253f46508c63747715f82192413fcacf7ae6ebd192270b"
+        x"0161689a336d8c0a2876bbef77284f08a572516186db36320081e8a22790afd1"
       ]
       leaned []
       lifted []
@@ -44,8 +44,7 @@ warpt 1
                 "p"
                 [
                   [
-                    18
-                    "App.Point"
+                    0
                   ]
                 ]
                 []
@@ -81,7 +80,9 @@ warpt 1
           1
           [
             1
-            []
+            [
+              "cast_refused"
+            ]
           ]
           true
           [
@@ -97,11 +98,19 @@ warpt 1
                     ]
                   ]
                   [
-                    1
+                    6
                     [
-                      0
-                      []
+                      1
+                      [
+                        0
+                        []
+                      ]
                     ]
+                    [
+                      15
+                      0
+                    ]
+                    false
                   ]
                   "kept"
                 ]
@@ -158,7 +167,9 @@ warpt 1
           ]
         ]
       ]
-      typeNumbering []
+      typeNumbering [
+        "App.Point"
+      ]
       types [
         [
           "App.Point"
@@ -179,7 +190,7 @@ warpt 1
     }
   }
   name "the-object-of-a-declared-type-and-a-contract"
-  note "Declared types and contracts stand as the document wrote them. A body standing on a declared type numbers it under typeNumbering, a slot declaring a type parameter writes it with its bounds, and a name that holds a value of a contract lowers to a composition of the contract's name."
+  note "Declared types and contracts stand as the document wrote them. A body standing on a declared type, here by a cast to it, numbers it under typeNumbering, a slot declaring a type parameter writes it with its bounds, and a name that holds a value of a contract lowers to a composition of the contract's name."
   program {
     contracts {
       "App.Number" {}
@@ -191,9 +202,13 @@ warpt 1
         body [
           {
             let "kept"
-            type "App.Point"
             value {
-              ref "p"
+              as {
+                of {
+                  ref "p"
+                }
+                type "App.Point"
+              }
             }
           }
           {
@@ -210,7 +225,7 @@ warpt 1
         parameters [
           {
             name "p"
-            type "App.Point"
+            type "Any"
           }
           {
             name "v"

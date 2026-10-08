@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    refuses "run"
+    refuses "build"
   }
-  name "a-variable-a-closure-writes-from-any-is-judged-refuses"
-  note "App.g keeps x in cell, and a closure it calls writes junk, read as Any, into cell. The body reads cell as T after the call, so it proves nothing and the call judges its answer, and the string refuses at the run."
+  name "a-variable-a-closure-writes-from-any-refuses"
+  note "App.g keeps x in cell, and a closure it calls writes junk, read as Any, into cell. cell holds T, which takes only a value of it, so the write in the closure refuses at the build."
   program {
     imports []
     procedures {

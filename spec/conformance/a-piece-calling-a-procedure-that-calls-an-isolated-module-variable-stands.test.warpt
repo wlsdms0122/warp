@@ -7,7 +7,7 @@ warpt 1
     ]
   }
   name "a-piece-calling-a-procedure-that-calls-an-isolated-module-variable-stands"
-  note "A module variable that declared its type `isolated Procedure` is a slot that said so. A declaration calling it writes only its own names and is isolated, so a piece calling that declaration stands and `Standard.Concurrent.map` runs it."
+  note "A module variable that declared its type an `isolated` procedure type is a slot that said so. A declaration calling it writes only its own names and is isolated, so a piece calling that declaration stands and `Standard.Concurrent.map` runs it."
   program {
     imports [
       "Standard.Concurrent.map"
@@ -69,7 +69,11 @@ warpt 1
     }
     var {
       h {
-        type "isolated Procedure"
+        type {
+          "isolated procedure" {
+            returns "Int"
+          }
+        }
         value {
           closure {
             result 0

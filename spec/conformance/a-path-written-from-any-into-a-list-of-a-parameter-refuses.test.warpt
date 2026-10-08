@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    refuses "run"
+    refuses "build"
   }
-  name "a-path-written-from-any-into-a-list-of-a-parameter-is-judged-refuses"
-  note "App.g writes junk, read as Any, into cell[0], where cell is a list of T. A write through a path leaves cell reading as a list of T, so the body proves nothing and the call judges its answer, and the string refuses at the run."
+  name "a-path-written-from-any-into-a-list-of-a-parameter-refuses"
+  note "App.g writes junk, read as Any, into cell[0], where cell is a list of T. What the path reaches is T, which takes only a value of it, so the write refuses at the build."
   program {
     imports []
     procedures {

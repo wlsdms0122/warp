@@ -39,9 +39,9 @@ A construct's key, `conditional` or `loop`, is read under a statement's `value` 
 - A `?.` or `?[` that could not have read past anything (on a record's declared field, on an array the type says is there) **refuses at the build**, the way a `?` that says nothing new refuses on a type spelling. The claim of absence has to be one the types leave open.
 - The **head of a path takes no mark**. A head is a name a scope holds, and there is nothing before it to read past: a name that answers nothing is a reading gone wrong, not an absence a mark can expect. `?.name` and `?[i]` written first in a path **refuse**, wherever the path is judged, and whether it was written as text or built as segments.
 
-**A constant-headed path** is judged first like any path: the constant's settled value is its declared type, so an absent field or a needless `?.` refuses by the same rules. A procedure that value holds, whole or as an element, an entry or a field, reads as the procedure type its expression was judged at in that place, the constness and isolation the build derived for it included, so a call of it is judged by the parameters and answer that type writes. Then it folds at the build to the value it read, except where an index on it is a reference the run settles (`digits[ch]`, `ch` a parameter): the build binds the constant's value in the body before its first statement, and the run reads past it the way it reads any name, by the rules above. What a constant may settle from is under *what a constant settles from* in [procedures](procedure.md), and a body **its own document** declares is not among them: such a body is itself still being resolved beside the constants it may read, so a constant that runs one would be a cycle with no start, and it refuses at the build. Settling asks native procedures, so a link answers them before any of the program runs. An index written as a reference (`items[i]`) is a path of its own, judged wherever the outer walk stops: a reference that provably is not a whole number refuses at the build, and one that names nothing refuses at the run.
+**A constant-headed path** is judged first like any path: the constant's settled value is its declared type, so an absent field or a needless `?.` refuses by the same rules. A procedure that value holds, whole or as an element, an entry or a field, reads as the procedure type its expression was judged at in that place, the constness and isolation the build derived for it included, so a call of it is judged by the parameters and answer that type writes. Then it folds at the build to the value it read, except where an index on it is a reference the run settles (`digits[ch]`, `ch` a parameter): the build binds the constant's value in the body before its first statement, and the run reads past it the way it reads any name, by the rules above. What a constant may settle from is under *what a constant settles from* in [procedures](procedure.md), and a body **its own document** declares is not among them: such a body is itself still being resolved beside the constants it may read, so a constant that runs one would be a cycle with no start, and it refuses at the build. Settling asks native procedures, so a link answers them before any of the program runs. An index written as a reference (`items[i]`) is a path of its own, judged wherever the outer walk stops: it stands where an `Int` is read, so a reference reading anything else, a fraction or a value read as `Any` included, refuses at the build, and one that names nothing refuses at the run.
 
-The same brackets read a **dictionary** by a key the run settles (`held[name]`), which is what walking one is for: `keys` answers the names and this reads the entry under one. What stands between the brackets is judged where an index is, and has to be able to be a string: one that cannot **refuses at the build**. An entry that is not there refuses at the run the way a written key does, and `?[` reads it as null. A record takes no such reading: its fields are the type's, so a name the run settles has nothing there to be judged against, and the reading **refuses at the build**.
+The same brackets read a **dictionary** by a key the run settles (`held[name]`), which is what walking one is for: `keys` answers the names and this reads the entry under one. What stands between the brackets is judged where an index is, and stands where a `String` is read: one reading anything else **refuses at the build**. An entry that is not there refuses at the run the way a written key does, and `?[` reads it as null. A record takes no such reading: its fields are the type's, so a name the run settles has nothing there to be judged against, and the reading **refuses at the build**.
 
 ## Cases
 
@@ -58,6 +58,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-cast-of-a-nameless-record-to-a-declared-record-of-its-fields-names-it-answers`
 - `a-cast-of-a-record-literal-names-the-nameless-record-it-holds-answers`
 - `a-cast-of-a-record-literal-reads-a-whole-number-in-it-as-an-int-refuses`
+- `a-cast-of-a-record-under-another-name-fails`
 - `a-cast-of-a-recursive-alias-to-what-it-names-refuses`
 - `a-cast-onto-a-type-parameter-refuses`
 - `a-cast-onto-any-refuses`
@@ -85,6 +86,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-dot-on-a-type-with-no-fields-is-refused`
 - `a-dot-on-any-is-refused`
 - `a-dot-through-a-null-the-text-shows-refuses`
+- `a-key-reference-read-as-any-refuses`
 - `a-mapping-with-no-tag-refuses`
 - `a-mapping-with-two-form-keys-refuses`
 - `a-mark-does-not-split-the-field-it-reached`
@@ -97,6 +99,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-asking-cast-of-a-declared-record-read-as-any-to-an-inline-record-reads-null`
 - `an-index-into-any-is-refused`
 - `an-index-past-the-end-refuses`
+- `an-index-reference-read-as-a-fraction-refuses`
+- `an-index-reference-read-as-any-refuses`
 - `an-index-reference-that-is-not-a-whole-number-refuses`
 - `an-optional-bracket-reads-an-absent-entry-as-null`
 - `an-optional-cast-to-a-list-of-a-type-parameter-refuses`

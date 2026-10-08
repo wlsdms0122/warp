@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    refuses "run"
+    refuses "build"
   }
-  name "a-value-taking-a-parameter-in-place-refuses-a-call-handing-values"
-  note "A call of a value whose type says nothing of its parameters hands values, since the build had nothing to hold a variable against. A value it reaches that takes a parameter in place refuses at the run before its body runs."
+  name "a-call-of-a-value-whose-type-writes-no-parameters-refuses"
+  note "A call of a value whose type writes no parameters gives the build nothing to hold an argument or a variable against, so it refuses at the build. A cast says what procedure it is."
   program {
     imports []
     procedures {

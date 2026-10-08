@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    refuses "run"
+    refuses "build"
   }
-  name "a-call-filling-a-parameter-beside-the-caller-parameter-from-a-reading-of-any-is-judged-refuses"
-  note "App.g answers App.pick([n], j), with j read as Array<Any>, which fills E as Array<some T>. j is not a value of it, so the call judges the answer, and the string in j refuses at the run."
+  name "a-call-filling-a-parameter-from-the-bodys-own-and-a-reading-of-any-refuses"
+  note "App.g answers App.pick([n], j), with j read as Array<Any>, which fills E as Array<Any>. App.g then answers Array<Any> where it promises Array<some T>, and a body takes only a value of its own parameter there, so it refuses at the build."
   program {
     imports []
     procedures {

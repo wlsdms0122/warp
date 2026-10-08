@@ -129,6 +129,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-closure-in-a-loop-condition-holds-what-it-takes-for-the-body`
 - `a-closure-parameter-may-take-the-spelling-of-a-name-around-it`
 - `a-closure-whose-body-shadows-a-variable-takes-nothing-of-it`
+- `a-condition-read-as-any-refuses`
 - `a-condition-that-is-not-a-bool-refuses`
 - `a-conditional-both-of-whose-arms-leave-ends-the-body`
 - `a-conditional-writes-the-flow-it-is-in`

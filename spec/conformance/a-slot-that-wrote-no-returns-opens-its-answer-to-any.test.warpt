@@ -4,7 +4,7 @@ warpt 1
     answers 1
   }
   name "a-slot-that-wrote-no-returns-opens-its-answer-to-any"
-  note "Calling a value answers what the slot holding it wrote under `returns`; a slot that wrote none opens to `Any`, so the answer stands at the build and is judged where it arrives at the run. The cast to `Int` stands for that reason: an answer the build read as `Int` would make it a cast naming what the reading already is."
+  note "Calling a value answers what the slot holding it wrote under `returns`, and `one` is declared a procedure type taking nothing that wrote none, so the call answers `Any` whatever the closure in it answers. The cast to `Int` says what it is and is judged at the run; an answer the build read as `Int` would make it a cast naming what the reading already is."
   program {
     imports []
     procedures {
@@ -13,7 +13,9 @@ warpt 1
         body [
           {
             let "one"
-            type "Procedure"
+            type {
+              procedure {}
+            }
             value {
               closure {
                 result 1

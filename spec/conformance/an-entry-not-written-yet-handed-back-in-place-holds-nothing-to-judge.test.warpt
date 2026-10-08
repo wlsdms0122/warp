@@ -13,6 +13,37 @@ warpt 1
     ]
     procedures {
       "App.h" {
+        body [
+          {
+            value {
+              ref "n"
+            }
+            var "cell"
+          }
+          {
+            let "c"
+            value {
+              closure {
+                body [
+                  {
+                    set "cell"
+                    value {
+                      ref "y"
+                    }
+                  }
+                ]
+                parameters [
+                  {
+                    name "y"
+                    type "some T"
+                  }
+                ]
+                result 0
+                returns "Int"
+              }
+            }
+          }
+        ]
         parameters [
           {
             name "n"
@@ -24,7 +55,7 @@ warpt 1
           }
         ]
         result {
-          ref "j"
+          ref "cell"
         }
         returns "some T"
       }

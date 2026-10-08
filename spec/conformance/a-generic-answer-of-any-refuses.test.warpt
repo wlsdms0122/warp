@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    refuses "run"
+    refuses "build"
   }
-  name "a-generic-answer-of-any-is-judged-where-the-call-reads-it-refuses"
-  note "App.gen answers some T, and its body answers a variable declared Any that holds an int. The call fills T with String, so the answer is judged as text where the call reads it."
+  name "a-generic-answer-of-any-refuses"
+  note "App.gen answers some T, and its body answers a variable declared Any. A body does not know what filled its parameter, so a reading of Any is no value of it, and the answer refuses at the build."
   program {
     imports [
       "Standard.Text.uppercased"

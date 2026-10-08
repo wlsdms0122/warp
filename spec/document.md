@@ -72,7 +72,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-module-variable-keeps-the-type-it-started-as`
 - `a-module-variable-start-outside-its-declared-type-refuses`
 - `a-module-variable-started-with-a-const-closure-takes-one-that-runs`
-- `a-module-variable-starting-empty-says-nothing-of-what-it-holds-refuses`
+- `a-module-variable-starting-as-a-dictionary-takes-new-names`
+- `a-module-variable-starting-empty-without-a-type-refuses`
 - `a-name-declared-as-both-a-constant-and-a-variable-refuses`
 - `a-record-literal-written-into-a-module-variable-declaring-a-record-takes-the-name-answers`
 - `a-result-written-as-null-refuses`
