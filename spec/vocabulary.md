@@ -6,7 +6,7 @@ Seven bundles, each taken with what it depends on, so a host grants what its pro
 
 | module | procedures |
 |---|---|
-| `Standard` | The contracts below, answered for the types the language names: `Int.plus` `Int.minus` `Int.times` `Int.dividedBy` `Int.remainder` `Int.lessThan`, the same six for `Double`, `String.lessThan`, and `Array.count` `Dictionary.count` `String.count`. |
+| `Standard` | The contracts below, answered for the types the language names: `Int.plus` `Int.minus` `Int.times` `Int.dividedBy` `Int.remainder` `Int.lessThan`, the same six for `Double`, `String.lessThan`, and `Array.count` `Dictionary.count` `String.count` |
 | `Standard.Logic` | `equal` `notEqual` `not` `and` `or` `select` |
 | `Standard.Math` | `min` `max` `absolute` `floored` `rounded` `greaterThan` |
 | `Standard.Text` | `text` `characters` `contains` `startsWith` `uppercased` `lowercased` `trimmed` `split` `joined` `replacing` `decoded` `encoded` |
@@ -94,8 +94,8 @@ The contracts, each procedure answering without running and touching nothing, an
 | `characters` | `text: String` | `Array<String>` |
 | `split` | `text: String`, `separator: String` | `Array<String>` |
 | `joined` | `strings: Array<String>`, `separator: String`, written between each two | `String` |
-| `decoded` | `bytes: Array<Int>`, `encoding: String` | `String`. **refuses at the run** when the encoding is not one it has, or the bytes are not text in it |
-| `encoded` | `text: String`, `encoding: String` | `Array<Int>`. **refuses at the run** when the encoding is not one it has |
+| `decoded` | `bytes: Array<Int>`, `encoding: String` | `String`. **refuses** when an element is no byte (a whole number from 0 to 255), the encoding is not one it has, or the bytes are not text in it |
+| `encoded` | `text: String`, `encoding: String` | `Array<Int>`. **refuses** when the encoding is not one it has |
 | `replacing` | `text: String`, `target: String`, `replacement: String` | `String` |
 
 `characters` answers the text as an array of its characters, each one a string of its own, counted the way `count` counts. Answered for the whole text rather than read one at a time: a character is an extended grapheme cluster, so where the tenth one starts is only known by walking the nine in front of it, and a body reading them in order would pay that walk every round.
@@ -156,7 +156,7 @@ What the procedures hand their closures is one convention, shared with the seque
 
 What the vocabulary answers about **bytes**: bytes are not a special material. They are an array of whole numbers from 0 to 255, `Array<Int>`, and `x"6869"` is that array's compact spelling, under [values](value.md). There is no type named for the spelling: a slot is written `Array<Int>`, or any other array the bytes fit. **The spelling is the value's own fact rather than the slot's**: a bytes value stands where `Array<Int>` is declared and crosses it *whole*, because the slot asked for an array and bytes are one. There is nothing to settle, and unpacking would spend an element per byte to answer questions like `first` that read one. `Array<Double>` takes no byte at all, a byte being a whole number. An element declared as a **bounded** type parameter stands for one type the call filled, so `sorted`, whose element carries `Standard.Comparable`, reads a compact spelling the way `reversed` does. An array of byte worths written out one by one stays as written: the compact spelling is the value's, and no slot puts it on.
 
-An index reads an element out as an `Int`, and so does `some Element` filled by bytes: `first` of bytes answers an `Int`. The collection vocabulary (`count`, `first`, `contains`, `reversed`, `map`, all of it) applies directly. A procedure that answers a collection's **own** elements (`reversed`, `filter`, `sorted`, `dropFirst`, `dropLast`) answers them in the spelling they arrived in, so bytes stay bytes; put something among them that is not a byte (`appending` a `300`) and the answer is the array it now is. A procedure that builds **new** elements does not: `map` answers whatever its procedure answered, which its declaration says by naming a second type parameter for it. Two bytes *values* still do **not** order, for the array reason rather than an opacity one: `Standard.Comparable` is claimed for numbers and strings, not for `Array`. Reading bytes *as* text is a procedure that names its encoding: `decoded` and `encoded` are the two directions of one mapping (`encoding: "utf8"`, the only encoding they have), and an encoding they do not have or bytes that are not text in that encoding **refuse at the run**. Completing a broken sequence would answer a text nobody sent. `encoded` writes the text's code points as they stand and normalises nothing, and `decoded` keeps a byte order mark as the character it is: normalising the one or dropping the other would be an opinion about the text rather than a reading of it. The encodings are this specification's: each is one every implementation writes, so a host with an encoding of its own declares a procedure of its own rather than widening them.
+An index reads an element out as an `Int`, and so does `some Element` filled by bytes: `first` of bytes answers an `Int`. The collection vocabulary (`count`, `first`, `contains`, `reversed`, `map`, all of it) applies directly. A procedure that answers a collection's **own** elements (`reversed`, `filter`, `sorted`, `dropFirst`, `dropLast`) answers them in the spelling they arrived in, so bytes stay bytes; put something among them that is not a byte (`appending` a `300`) and the answer is the array it now is. A procedure that builds **new** elements does not: `map` answers whatever its procedure answered, which its declaration says by naming a second type parameter for it. Two bytes values do **not** order: `Standard.Comparable` is claimed for numbers and strings, not for `Array`. Reading bytes *as* text is a procedure that names its encoding: `decoded` and `encoded` are the two directions of one mapping (`encoding: "utf8"`, the only encoding they have). An encoding they do not have, an element that is no byte, and bytes that are not text in that encoding **refuse**: at the **build** where the arguments are written as constants, since each procedure judges its own constant arguments then, and at the **run** where they arrive otherwise. Completing a broken sequence would answer a text nobody sent. `encoded` writes the text's code points as they stand and normalises nothing, and `decoded` keeps a byte order mark as the character it is: normalising the one or dropping the other would be an opinion about the text rather than a reading of it. The encodings are this specification's: each is one every implementation writes, so a host with an encoding of its own declares a procedure of its own rather than adding one to them.
 
 **`abort`**. Fail on purpose, with a message. Declared `returns: Never`, which is everything the checking needs: nothing runs after it, and no name binds it. The message is what `message` spells as text. Sent null, the failure says `aborted`. It is a failure like any other, so an `attempt` around it catches it. Leaving is what a rescue does not catch, and this is failing, not leaving.
 
@@ -182,6 +182,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-document-writes-a-short-circuiting-connective`
 - `a-document-writes-map-over-a-const-slot`
 - `a-document-writes-startsWith-over-characters`
+- `a-list-holding-no-byte-handed-to-decoded-as-a-constant-refuses`
 - `a-list-of-pieces-joining-to-any-refuses-at-a-fan-out`
 - `a-mapped-procedure-chooses-what-it-answers`
 - `a-piece-that-is-not-a-closure-refuses`
@@ -197,6 +198,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `absolute-floored-and-rounded-answer-a-whole`
 - `absolute-of-the-minimum-refuses`
 - `an-attempt-does-not-catch-overflow`
+- `an-encoding-a-procedure-does-not-have-arriving-at-the-run-refuses`
+- `an-encoding-a-procedure-does-not-have-written-as-a-constant-refuses`
 - `an-operand-of-and-that-answers-no-bool-refuses`
 - `append-writes-the-array-in-place`
 - `arithmetic-admits-only-numbers`
@@ -278,3 +281,4 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `uppercased-uses-unicode-full-case-mapping`
 - `values-answer-in-canonical-order`
 - `what-is-not-utf8-text-refuses-to-decode`
+- `what-is-not-utf8-text-written-as-a-constant-refuses-to-decode`

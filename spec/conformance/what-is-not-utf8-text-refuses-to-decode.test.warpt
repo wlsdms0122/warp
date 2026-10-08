@@ -4,7 +4,7 @@ warpt 1
     refuses "run"
   }
   name "what-is-not-utf8-text-refuses-to-decode"
-  note "Bytes carry no promise of being text, and completing a broken sequence with replacement characters would answer a text nobody sent. The bytes are a run-time value, so the refusal is the run's."
+  note "Bytes carry no promise of being text, and completing a broken sequence with replacement characters would answer a text nobody sent. The bytes are what a variable holds, so the refusal is the run's."
   program {
     imports [
       "Standard.Text.decoded"
@@ -12,10 +12,18 @@ warpt 1
     procedures {
       entry {
         access "public"
+        body [
+          {
+            value x"ff"
+            var "bytes"
+          }
+        ]
         result {
           call {
             arguments [
-              x"ff"
+              {
+                ref "bytes"
+              }
               "utf8"
             ]
             procedure "Standard.Text.decoded"
