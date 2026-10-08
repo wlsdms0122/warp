@@ -1,0 +1,99 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-closures-parameter-taking-the-spelling-of-a-held-linear-name-captures-nothing"
+  note "The closure's parameter `h` is its own name, so its body reads the number it takes and captures nothing of the outer `h`, which still holds the handle and is closed after."
+  program {
+    imports [
+      "App.Handle"
+      "App.close"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "h"
+            type "App.Handle"
+            value {
+              record {
+                name "f"
+              }
+            }
+          }
+          {
+            let "f"
+            value {
+              closure {
+                body [
+                  {
+                    type "Int"
+                    value {
+                      ref "h"
+                    }
+                    var "z"
+                  }
+                  {
+                    set "z"
+                    value 3
+                  }
+                ]
+                parameters [
+                  {
+                    name "h"
+                    type "Int"
+                  }
+                ]
+                result {
+                  ref "z"
+                }
+                returns "Int"
+              }
+            }
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "h"
+                  }
+                ]
+                procedure "App.close"
+              }
+            }
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+  vocabulary {
+    procedures {
+      "App.close" {
+        parameters [
+          {
+            name "first"
+            type "consuming App.Handle"
+          }
+        ]
+        runs true
+      }
+    }
+    types {
+      "App.Handle" {
+        linear {
+          record {
+            name "String"
+          }
+        }
+      }
+    }
+  }
+}
+

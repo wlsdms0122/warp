@@ -1,0 +1,86 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-name-a-block-introduces-over-a-held-linear-name-is-a-new-name"
+  note "A name a block introduces is its own name. `h` introduced again inside the block as a number and written over there touches nothing of the outer `h`, which still holds the handle and hands it to `App.close` after the block."
+  program {
+    imports [
+      "App.Handle"
+      "App.close"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "h"
+            type "App.Handle"
+            value {
+              record {
+                name "f"
+              }
+            }
+          }
+          {
+            value {
+              block {
+                body [
+                  {
+                    type "Int"
+                    value 2
+                    var "h"
+                  }
+                  {
+                    set "h"
+                    value 3
+                  }
+                ]
+              }
+            }
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "h"
+                  }
+                ]
+                procedure "App.close"
+              }
+            }
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+  vocabulary {
+    procedures {
+      "App.close" {
+        parameters [
+          {
+            name "first"
+            type "consuming App.Handle"
+          }
+        ]
+        runs true
+      }
+    }
+    types {
+      "App.Handle" {
+        linear {
+          record {
+            name "String"
+          }
+        }
+      }
+    }
+  }
+}
+

@@ -1,0 +1,86 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-linear-name-a-block-introduces-hands-on-only-its-own-value-refuses"
+  note "Inside the block `h` is the new name, so closing it hands on the handle the block made. The outer `h` holds its own handle again after the block and reaches the end of the body still holding it."
+  program {
+    imports [
+      "App.Handle"
+      "App.close"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "h"
+            type "App.Handle"
+            value {
+              record {
+                name "f"
+              }
+            }
+          }
+          {
+            value {
+              block {
+                body [
+                  {
+                    let "h"
+                    type "App.Handle"
+                    value {
+                      record {
+                        name "f"
+                      }
+                    }
+                  }
+                  {
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "h"
+                          }
+                        ]
+                        procedure "App.close"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+  vocabulary {
+    procedures {
+      "App.close" {
+        parameters [
+          {
+            name "first"
+            type "consuming App.Handle"
+          }
+        ]
+        runs true
+      }
+    }
+    types {
+      "App.Handle" {
+        linear {
+          record {
+            name "String"
+          }
+        }
+      }
+    }
+  }
+}
+

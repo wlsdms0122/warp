@@ -93,7 +93,7 @@ What a body may do with one it **borrowed**: read it, read a part of it, bind it
 
 What **refuses at the build**:
 
-- reaching the end of a body still holding one;
+- reaching the end of a body still holding one. A body a `block`, a `conditional` arm, a `loop`'s round or an `attempt` writes ends too: a name it introduces is read nowhere after it, as [statements](statement.md) says, so one still holding a value where that body ends has dropped it, and the outer name it hid holds again what it held;
 - handing one on a second time. Within one call that counts in position order, the order the run evaluates the arguments in (see [running](running.md)), so a slot that borrows reads what a consuming slot standing before it already took;
 - handing one on in one arm of a conditional and not the other, since what a body holds afterwards would depend on which arm ran. An arm that **returns** is not one of those arms: no run comes back from it, so what the body holds afterwards stands on the arms that finish. An arm that `break`s is one of them, and is held to the same rule: the run comes back out of the loop still holding what the arm held;
 - handing one on inside a loop round, inside an `attempt`, in a call of a value, or capturing one in a closure, and writing one into a box inside a loop round or an `attempt`. Each of those runs no fixed number of times, or fails somewhere the text does not show, so "exactly once" is not something the text says. Leaving is not one of these unless it leaves the procedure: a `break` leaves the construct and a `continue` ends the round, and what the body was holding it holds still on the other side of either;
@@ -194,6 +194,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-closure-reads-the-bounds-of-the-procedure-around-it`
 - `a-closure-without-returns-answering-one-refuses`
 - `a-closures-parameter-names-are-not-part-of-its-type`
+- `a-closures-parameter-taking-the-spelling-of-a-held-linear-name-captures-nothing`
 - `a-constant-outside-a-range-refuses`
 - `a-contract-asking-no-procedures-is-answered-by-what-claims-it`
 - `a-contract-asking-no-procedures-refuses-what-no-claim-names`
@@ -255,6 +256,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-handle-already-given-away-is-not-read-again`
 - `a-handle-borrowed-after-a-consuming-parameter-in-one-call-refuses`
 - `a-kind-no-claim-names-refuses`
+- `a-linear-name-a-block-introduces-and-keeps-is-dropped-where-the-block-ends-refuses`
+- `a-linear-name-a-block-introduces-hands-on-only-its-own-value-refuses`
 - `a-linear-record-literal-bound-and-dropped-refuses`
 - `a-linear-type-answers-no-contract`
 - `a-linear-type-inside-another-refuses`
@@ -278,8 +281,10 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-module-declares-a-contract-a-bound-names`
 - `a-module-variable-holding-a-linear-value-refuses`
 - `a-module-variable-holding-a-list-of-a-linear-type-refuses`
+- `a-name-a-block-introduces-over-a-held-linear-name-is-a-new-name`
 - `a-name-declared-as-both-a-type-and-a-contract-refuses`
 - `a-name-in-an-arm-shadowing-a-linear-name-takes-no-obligation`
+- `a-name-introduced-after-a-block-that-handed-on-its-spelling-is-a-new-name`
 - `a-name-that-is-not-a-bound-joined-with-and-refuses`
 - `a-named-list-handed-where-a-list-of-a-contract-stands-is-held-to-it`
 - `a-named-record-arrives-as-an-argument`
