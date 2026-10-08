@@ -1,0 +1,123 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-loop-condition-handing-on-a-linear-value-refuses"
+  note "A loop's condition is read once a round and once more, so a condition handing `h` to `App.closeq` hands it on no fixed number of times."
+  program {
+    imports [
+      "App.Handle"
+      "App.closeq"
+      "Standard.Comparable.lessThan"
+    ]
+    procedures {
+      "App.f" {
+        body [
+          {
+            let "h"
+            type "App.Handle"
+            value {
+              record {
+                name "f"
+              }
+            }
+          }
+          {
+            let "r"
+            value {
+              loop {
+                body [
+                  {
+                    value {
+                      conditional {
+                        then [
+                          {
+                            value {
+                              continue null
+                            }
+                          }
+                        ]
+                        when {
+                          call {
+                            arguments [
+                              {
+                                ref "r.index"
+                              }
+                              1
+                            ]
+                            procedure "Standard.Comparable.lessThan"
+                          }
+                        }
+                      }
+                    }
+                  }
+                  {
+                    value {
+                      break null
+                    }
+                  }
+                ]
+                while {
+                  call {
+                    arguments [
+                      {
+                        call {
+                          arguments [
+                            {
+                              ref "h"
+                            }
+                          ]
+                          procedure "App.closeq"
+                        }
+                      }
+                      2
+                    ]
+                    procedure "Standard.Comparable.lessThan"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            procedure "App.f"
+          }
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+  vocabulary {
+    procedures {
+      "App.closeq" {
+        answers 1
+        parameters [
+          {
+            name "first"
+            type "consuming App.Handle"
+          }
+        ]
+        returns "Int"
+      }
+    }
+    types {
+      "App.Handle" {
+        linear {
+          record {
+            name "String"
+          }
+        }
+      }
+    }
+  }
+}
+

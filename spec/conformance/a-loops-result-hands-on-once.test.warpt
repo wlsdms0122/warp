@@ -1,0 +1,123 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-loops-result-hands-on-once"
+  note "A loop's result is read once, after the last round that finished, so answering `h` from it hands `h` on once."
+  program {
+    imports [
+      "App.Handle"
+      "App.close"
+    ]
+    procedures {
+      "App.f" {
+        body [
+          {
+            let "h"
+            type "App.Handle"
+            value {
+              record {
+                name "f"
+              }
+            }
+          }
+          {
+            let "x"
+            value {
+              loop {
+                body [
+                  {
+                    value {
+                      conditional {
+                        then [
+                          {
+                            value {
+                              break null
+                            }
+                          }
+                        ]
+                        when {
+                          ref "c"
+                        }
+                      }
+                    }
+                  }
+                ]
+                result {
+                  ref "h"
+                }
+                while true
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "c"
+            type "Bool"
+          }
+        ]
+        result {
+          ref "x"
+        }
+        returns "App.Handle"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "x"
+            value {
+              call {
+                arguments [
+                  true
+                ]
+                procedure "App.f"
+              }
+            }
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "x"
+                  }
+                ]
+                procedure "App.close"
+              }
+            }
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+  vocabulary {
+    procedures {
+      "App.close" {
+        parameters [
+          {
+            name "first"
+            type "consuming App.Handle"
+          }
+        ]
+        runs true
+      }
+    }
+    types {
+      "App.Handle" {
+        linear {
+          record {
+            name "String"
+          }
+        }
+      }
+    }
+  }
+}
+

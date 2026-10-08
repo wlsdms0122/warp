@@ -97,8 +97,9 @@ What **refuses at the build**:
 - a statement that names nothing answering one, since what such a statement answers is dropped;
 - handing one on a second time. Within one call that counts in position order, the order the run evaluates the arguments in (see [running](running.md)), so a slot that borrows reads what a consuming slot standing before it already took;
 - handing one on in one arm of a conditional and not the other, since what a body holds afterwards would depend on which arm ran. An arm that **returns** is not one of those arms: no run comes back from it, so what the body holds afterwards stands on the arms that finish. An arm that `break`s is one of them, and is held to the same rule: the run comes back out of the loop still holding what the body around the arm held;
-- handing one on inside a loop round, inside an `attempt`, in a call of a value, or capturing one in a closure, writing in a closure a name that declares one, and writing one into a box inside a loop round or an `attempt`. Each of those runs no fixed number of times, or fails somewhere the text does not show, so "exactly once" is not something the text says. Leaving is not one of these unless it leaves the procedure: a `break` leaves the construct and a `continue` ends the round, and what the body was holding it holds still on the other side of either;
+- handing one on inside a loop's condition or round, inside an `attempt`, or as an operand of a call of a value, or capturing one in a closure, writing in a closure a name that declares one, and writing one into a box inside a loop round or an `attempt`. Each of those runs no fixed number of times, or fails somewhere the text does not show, so "exactly once" is not something the text says. Leaving is not one of these unless it leaves the procedure: a `break` leaves the construct and a `continue` ends the round, and what the body was holding it holds still on the other side of either;
 - writing over a name still holding one;
+- reading a name that handed its value on, or a part of it, a closure's reading included: the name holds nothing once its value is given away;
 - writing one into a **list or a record**, whether it is a name still holding one, a value nothing holds yet, or what a cast, a block or an `attempt` hands out. What follows the value is the name, and a name does not follow it into a type, so the obligation would be neither handed on nor still held;
 - handing a borrowed one to a slot that says `consuming`, or answering it, or keeping it in a box. Each gives away what this body never took, and a box outlives the call that lent the value;
 - handing a value no name holds, written straight into the call, to a slot that does not say `consuming`. A slot that says `borrowing` leaves the obligation with the caller, and no name of the caller's holds it; a slot that says neither takes it nowhere;
@@ -168,6 +169,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-call-filling-a-parameter-from-a-variable-held-in-place-takes-a-value-of-that-parameter`
 - `a-call-filling-a-parameter-from-a-variable-held-in-place-takes-no-other-value-refuses`
 - `a-call-filling-a-parameter-from-the-bodys-own-and-a-reading-of-any-refuses`
+- `a-call-inside-an-operand-of-a-value-call-hands-on-once`
 - `a-call-of-a-value-read-as-any-refuses`
 - `a-call-through-a-contract-with-nothing-first-refuses`
 - `a-cast-between-aliases-of-two-nullable-records-reads-null-answers`
@@ -192,6 +194,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-closure-a-generic-body-wrote-taking-a-list-in-place-is-read-as-the-type-it-is-judged-against`
 - `a-closure-a-generic-body-wrote-taking-by-value-is-called-where-a-slot-takes-in-place`
 - `a-closure-capturing-a-linear-value-refuses`
+- `a-closure-reading-a-linear-name-after-it-was-handed-on-refuses`
 - `a-closure-reads-the-bounds-of-the-procedure-around-it`
 - `a-closure-without-returns-answering-one-refuses`
 - `a-closure-writing-a-name-that-declares-a-linear-type-refuses`
@@ -279,6 +282,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-list-of-a-reading-of-any-handed-beside-a-variable-in-place-refuses`
 - `a-list-of-two-types-handed-where-a-contract-is-asked-is-read-element-by-element-refuses`
 - `a-literal-of-names-at-a-contract-bound-leans-on-each-claim-refuses`
+- `a-loop-condition-handing-on-a-linear-value-refuses`
+- `a-loops-result-hands-on-once`
 - `a-mark-where-nothing-is-linear-refuses`
 - `a-module-declares-a-contract-a-bound-names`
 - `a-module-variable-holding-a-linear-value-refuses`
@@ -323,6 +328,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-parameter-read-as-dictionaries-of-a-declared-record-and-of-a-nameless-one-refuses`
 - `a-parameter-read-as-lists-of-a-declared-record-and-of-a-nameless-one-refuses`
 - `a-parameter-read-as-ranges-of-two-kinds-refuses`
+- `a-part-of-a-linear-name-read-after-handing-it-on-refuses`
 - `a-path-written-from-any-into-a-list-of-a-parameter-refuses`
 - `a-procedure-type-answering-a-linear-type-refuses`
 - `a-procedure-value-at-a-slot-writing-a-procedure-type-refuses`
@@ -381,6 +387,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-value-from-outside-is-fitted-to-the-fields-declared`
 - `a-value-handed-on-in-one-arm-and-not-the-other-refuses`
 - `a-value-handed-on-inside-a-loop-round-refuses`
+- `a-value-no-name-holds-handed-on-inside-a-loop-round-refuses`
 - `a-value-no-name-holds-handed-to-a-borrowing-slot-refuses`
 - `a-value-no-name-holds-handed-to-a-slot-saying-nothing-refuses`
 - `a-value-of-a-contract-at-two-self-positions-refuses`

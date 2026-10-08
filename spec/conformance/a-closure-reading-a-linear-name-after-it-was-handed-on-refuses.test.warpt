@@ -1,0 +1,94 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-closure-reading-a-linear-name-after-it-was-handed-on-refuses"
+  note "`h` handed its value on before the closure, and the closure reads `h.name`, a part of a value `h` no longer holds."
+  program {
+    imports [
+      "App.Handle"
+      "App.close"
+    ]
+    procedures {
+      "App.f" {
+        body [
+          {
+            let "h"
+            type "App.Handle"
+            value {
+              record {
+                name "f"
+              }
+            }
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "h"
+                  }
+                ]
+                procedure "App.close"
+              }
+            }
+          }
+          {
+            let "f"
+            value {
+              closure {
+                result {
+                  ref "h.name"
+                }
+                returns "String"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            procedure {
+              ref "f"
+            }
+          }
+        }
+        returns "String"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            procedure "App.f"
+          }
+        }
+        returns "Any"
+      }
+    }
+    warp 1
+  }
+  test 1
+  vocabulary {
+    procedures {
+      "App.close" {
+        parameters [
+          {
+            name "first"
+            type "consuming App.Handle"
+          }
+        ]
+        runs true
+      }
+    }
+    types {
+      "App.Handle" {
+        linear {
+          record {
+            name "String"
+          }
+        }
+      }
+    }
+  }
+}
+

@@ -1,0 +1,104 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-call-inside-an-operand-of-a-value-call-hands-on-once"
+  note "The operand of the value call is `App.closeq(App.mkq())`, which runs once, before the call, so the handle it makes is handed on once. What the value call takes is the number `App.closeq` answers."
+  program {
+    imports [
+      "App.closeq"
+      "App.mkq"
+    ]
+    procedures {
+      "App.f" {
+        body [
+          {
+            let "f"
+            value {
+              closure {
+                parameters [
+                  {
+                    name "x"
+                    type "Any"
+                  }
+                ]
+                result 1
+                returns "Int"
+              }
+            }
+          }
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  {
+                    call {
+                      arguments [
+                        {
+                          call {
+                            procedure "App.mkq"
+                          }
+                        }
+                      ]
+                      procedure "App.closeq"
+                    }
+                  }
+                ]
+                procedure {
+                  ref "f"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+        returns "Int"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            procedure "App.f"
+          }
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+  vocabulary {
+    procedures {
+      "App.closeq" {
+        answers 1
+        parameters [
+          {
+            name "first"
+            type "consuming App.Handle"
+          }
+        ]
+        returns "Int"
+      }
+      "App.mkq" {
+        answers {
+          name "h"
+        }
+        returns "App.Handle"
+      }
+    }
+    types {
+      "App.Handle" {
+        linear {
+          record {
+            name "String"
+          }
+        }
+      }
+    }
+  }
+}
+
