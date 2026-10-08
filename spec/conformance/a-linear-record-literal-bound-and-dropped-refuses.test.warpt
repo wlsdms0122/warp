@@ -6,9 +6,7 @@ warpt 1
   name "a-linear-record-literal-bound-and-dropped-refuses"
   note "A name declaring a type written linear takes the obligation whatever wrote its value, a record literal included, so a body that ends still holding it refuses at the build."
   program {
-    imports [
-      "App.Handle"
-    ]
+    imports []
     procedures {
       entry {
         access "public"
@@ -27,33 +25,7 @@ warpt 1
         returns "Int"
       }
     }
-    warp 1
-  }
-  test 1
-  vocabulary {
-    procedures {
-      "App.close" {
-        parameters [
-          {
-            name "first"
-            type "consuming App.Handle"
-          }
-        ]
-        runs true
-      }
-      "App.name" {
-        answers "f"
-        parameters [
-          {
-            name "first"
-            type "borrowing App.Handle"
-          }
-        ]
-        returns "String"
-      }
-    }
     types {
-      "App.H2" "App.Handle"
       "App.Handle" {
         linear {
           record {
@@ -62,6 +34,8 @@ warpt 1
         }
       }
     }
+    warp 1
   }
+  test 1
 }
 

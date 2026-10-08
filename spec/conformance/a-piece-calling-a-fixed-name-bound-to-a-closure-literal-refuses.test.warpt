@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-piece-calling-a-fixed-name-bound-to-a-closure-literal-refuses"
-  note "A name bound to a closure literal without a type holds what the build worked out for the literal, and no slot declared it `isolated Procedure`. A piece that captured the name and calls it is not isolated, so `Standard.Concurrent.map` refuses it."
+  note "A name bound to a closure literal without a type holds what the build worked out for the literal, and no slot declared it an `isolated` procedure type. A piece that captured the name and calls it is not isolated, so `Standard.Concurrent.map` refuses it."
   program {
     imports [
       "Standard.Concurrent.map"

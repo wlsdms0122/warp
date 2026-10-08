@@ -12,7 +12,7 @@ A document is one record. Every record this grammar names, on this page and on t
 | `imports` | array of strings. Every name the program uses and does not declare: the procedures it sends, and the types and contracts it names | yes, and empty where the program uses none |
 | `description` | string | no |
 | `types` | record: name → type | no |
-| `contracts` | record: name → record: procedure → `{ parameters?, returns?, const?, isolated?, failing? }`, an empty record for a contract asking no procedures; the procedure takes `Self` first, so one leaving `parameters` out **refuses at the build**, under [types](type.md); the two bools ask what a slot asks with `const Procedure` and `isolated Procedure`, of every declaration answering, and `failing` names, as an array of strings, what one may fail with, nothing where it is left out | no |
+| `contracts` | record: name → record: procedure → `{ parameters?, returns?, const?, isolated?, failing? }`, an empty record for a contract asking no procedures; the procedure takes `Self` first, so one leaving `parameters` out **refuses at the build**, under [types](type.md); the two bools ask what a slot asks with a `const` and an `isolated` procedure type, of every declaration answering, and `failing` names, as an array of strings, what one may fail with, nothing where it is left out | no |
 | `satisfies` | record: type name → array of contract names that type answers | no |
 | `const` | record: name → expression | no |
 | `var` | record: name → expression, or `{ type, value }` where the variable says what it holds; a variable every procedure beside it may read and write | no |

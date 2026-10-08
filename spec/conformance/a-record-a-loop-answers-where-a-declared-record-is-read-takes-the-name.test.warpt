@@ -1,0 +1,105 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-record-a-loop-answers-where-a-declared-record-is-read-takes-the-name"
+  note "What a loop answers stands where the name written from it is read, so a record it builds there takes the declared record's name where it is built."
+  program {
+    imports []
+    procedures {
+      "App.useP" {
+        parameters [
+          {
+            name "p"
+            type "App.Point"
+          }
+        ]
+        result {
+          ref "p.x"
+        }
+        returns "Int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "n"
+            type "Int"
+            value 1
+          }
+          {
+            type "App.Point"
+            value {
+              record {
+                x 0
+              }
+            }
+            var "p"
+          }
+          {
+            set "p"
+            value {
+              loop {
+                body []
+                result {
+                  record {
+                    x {
+                      ref "n"
+                    }
+                  }
+                }
+                while false
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "p"
+              }
+            ]
+            procedure "App.useP"
+          }
+        }
+        returns "Int"
+      }
+    }
+    types {
+      "App.Box" {
+        record {
+          ps "Array<App.Point>"
+        }
+      }
+      "App.Idx" "Int"
+      "App.Key" "String"
+      "App.O" {
+        record {
+          p "App.Pct"
+        }
+      }
+      "App.Outer" {
+        record {
+          p "App.Point"
+        }
+      }
+      "App.Outer2" {
+        record {
+          p "var App.Point"
+        }
+      }
+      "App.P2" "App.Point"
+      "App.Pct" "Int(0...100)"
+      "App.Point" {
+        record {
+          x "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

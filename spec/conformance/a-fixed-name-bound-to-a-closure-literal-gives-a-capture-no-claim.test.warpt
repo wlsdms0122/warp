@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-fixed-name-bound-to-a-closure-literal-gives-a-capture-no-claim"
-  note "A name bound to a closure literal without a type holds what the build worked out for the literal, and no slot declared it `const Procedure`. A closure that captured the name and calls it does not answer without running, so the `const Procedure` slot of `Standard.Collection.map` refuses it, as it does when the name is bound inside the closure."
+  note "A name bound to a closure literal without a type holds what the build worked out for the literal, and no slot declared it a `const` procedure type. A closure that captured the name and calls it does not answer without running, so `Standard.Collection.map`'s slot of a `const` procedure type refuses it, as it does when the name is bound inside the closure."
   program {
     imports [
       "Standard.Collection.map"

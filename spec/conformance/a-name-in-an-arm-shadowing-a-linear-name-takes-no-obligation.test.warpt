@@ -1,0 +1,86 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-name-in-an-arm-shadowing-a-linear-name-takes-no-obligation"
+  note "The obligation rides with a name that declares the linear type, and a name an arm declares is its own: `h` written again in the arm as a number and written over there holds no value handed on once, whatever the outer `h` declared."
+  program {
+    imports [
+      "App.Handle"
+      "App.close"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "h"
+            type "App.Handle"
+            value {
+              record {
+                name "f"
+              }
+            }
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "h"
+                  }
+                ]
+                procedure "App.close"
+              }
+            }
+          }
+          {
+            value {
+              conditional {
+                then [
+                  {
+                    value 2
+                    var "h"
+                  }
+                  {
+                    set "h"
+                    value 3
+                  }
+                ]
+                when true
+              }
+            }
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+  vocabulary {
+    procedures {
+      "App.close" {
+        parameters [
+          {
+            name "first"
+            type "consuming App.Handle"
+          }
+        ]
+        runs true
+      }
+    }
+    types {
+      "App.Handle" {
+        linear {
+          record {
+            name "String"
+          }
+        }
+      }
+    }
+  }
+}
+
