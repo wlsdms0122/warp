@@ -4,14 +4,14 @@ warpt 1
     refuses "build"
   }
   name "an-answer-must-fit-what-was-declared"
-  note "A constant answer is a value and not only a type. `300` reads `Int`, which the range takes as a type, and the declaration still refuses it because the value is not one the range admits, the way a constant argument is refused."
+  note "An answer is held to the type the declaration writes: the text it answers is no `Int`."
   program {
     imports []
     procedures {
       entry {
         access "public"
-        result 300
-        returns "Int(0...255)"
+        result "three hundred"
+        returns "Int"
       }
     }
     warp 1

@@ -56,23 +56,22 @@ A *type* is `[tag, …]`:
 | 4 | `Int` | |
 | 5 | `Double` | |
 | 6 | `String` | |
-| 7 | ranged | *refinement* |
-| 8 | `Array<T>` | *type* |
-| 9 | `Dictionary<T>` | *type* |
-| 10 | record | name → *type* |
-| 11 | `Procedure` | *procedure type* or nothing, *constness*, *isolation* |
-| 12 | `var T` | *type* |
-| 13 | `inout T` | *type* |
-| 14 | `T?` | *type* |
-| 15 | a declared name | name |
-| 16 | a type parameter | name, its bounds: names ascending |
-| 17 | a composition `A & B` | names ascending, at least one |
-| 18 | a projection | the parameter projected, the path: *segment* list |
-| 19 | `Self` | |
+| 7 | `Array<T>` | *type* |
+| 8 | `Dictionary<T>` | *type* |
+| 9 | record | name → *type* |
+| 10 | `Procedure` | *procedure type* or nothing, *constness*, *isolation* |
+| 11 | `var T` | *type* |
+| 12 | `inout T` | *type* |
+| 13 | `T?` | *type* |
+| 14 | a declared name | name |
+| 15 | a type parameter | name, its bounds: names ascending |
+| 16 | a composition `A & B` | names ascending, at least one |
+| 17 | a projection | the parameter projected, the path: *segment* list |
+| 18 | `Self` | |
 
-A *refinement* is `[0, from, to]` over whole numbers or `[1, from, to]` over fractions, each end a list of none or one; the upper end is an *edge*, `[0, bound]` where the bound is inside or `[1, bound]` where it is out. A *segment* is `[0, name, optional]`, `[1, index, optional]` or `[2, path, optional]` for an index read from a path.
+A *segment* is `[0, name, optional]`, `[1, index, optional]` or `[2, path, optional]` for an index read from a path.
 
-A *procedure type* is `[parameters, returns]`: a list of *type*, in position order, and a *type* or nothing. A *signature* is `[parameters, returns]`: a list of *parameter*, in the declaration's order, and a *type* or nothing. A *parameter* is `[name, type, candidates, description]`: the name, then each a list of none or one: a *type*; the strings it admits; a string.
+A *procedure type* is `[parameters, returns]`: a list of *type*, in position order, and a *type* or nothing. A *signature* is `[parameters, returns]`: a list of *parameter*, in the declaration's order, and a *type* or nothing. A *parameter* is `[name, type, description]`: the name, then each a list of none or one: a *type*; a string.
 
 *Constness* is `0` unstated or `1` const. *Isolation* is `0` unstated or `1` isolated. *Failing* is `[0]` unstated or `[1, names]`, the names ascending.
 
@@ -129,7 +128,7 @@ An *operation* is `[tag, …]`. These are the constructs and the expression form
 | 11 | a call | *call* |
 | 12 | a call through a contract | *dispatch* |
 | 13 | leaving | *reach*, the target name or nothing, what it takes or nothing |
-| 14 | a call judged where it stands | the call's *operation*, the answer's *lowered type* or nothing, `[position, lowered type]` for each variable handed back in place, judged once the call is over through the hold the call made, and `[position, lowered type]` for each argument a call of a value hands on that the build did not prove a value of what the slot holding the value reads there, in position order at positions it hands a value, judged against that before the value takes it |
+| 14 | a call judged where it stands | the call's *operation*, the answer's *lowered type* or nothing, `[position, lowered type]` for each variable handed back in place, judged once the call is over through the hold the call made |
 
 A *layout* is `[name, fields]`: the declared name or nothing, and the field names ascending. A *call* is `[procedure, arguments, handed]`: the row the call reaches, numbered by the document; one *operation* or nothing per parameter of the callee, in parameter order, nothing where the call wrote nothing or a hold stands; and `[position, address]` for each parameter handed in place. A *dispatch* is `[contract, procedure, first, arguments]`: the contract's name, the procedure's, the first argument's *operation*, and the arguments after it by position, each an *argument*. Which row answers is the link's, and stands nowhere in an object. An *argument* is `[0, operation]` by value or `[1, address]` by reference: the place a call of a value hands in place, or one a call through a contract hands to whichever row takes it in place.
 
@@ -140,19 +139,18 @@ A *lowered type* is a type as a body stands on it, `[tag, …]`:
 | tag | lowered type | fields |
 |---|---|---|
 | 0 to 6 | `Any` `Never` `Null` `Bool` `Int` `Double` `String` | |
-| 7 | ranged | *refinement* |
-| 8 | array | *lowered type* |
-| 9 | dictionary | *lowered type* |
-| 10 | record | `[layout, types]`: the *layout*, and a list of *lowered type* in the layout's field order |
-| 11 | procedure | parameters or nothing, a list of *lowered type* in position order; returns or nothing; *constness*; *isolation* |
-| 12 | variable | *lowered type* |
-| 13 | inout | *lowered type* |
-| 14 | nullable | *lowered type* |
-| 15 | a declared type | its place in `typeNumbering` |
-| 16 | a type parameter | its label, the contracts bounding it ascending |
-| 17 | a composition | the contracts ascending, at least one |
-| 18 | a projection | the parameter projected, *segment* list |
-| 19 | undeclared | its label, why: `[0, name]` nothing declares it, `[1, name]` nothing declares it as a contract, `[2]` it names itself |
+| 7 | array | *lowered type* |
+| 8 | dictionary | *lowered type* |
+| 9 | record | `[layout, types]`: the *layout*, and a list of *lowered type* in the layout's field order |
+| 10 | procedure | parameters or nothing, a list of *lowered type* in position order; returns or nothing; *constness*; *isolation* |
+| 11 | variable | *lowered type* |
+| 12 | inout | *lowered type* |
+| 13 | nullable | *lowered type* |
+| 14 | a declared type | its place in `typeNumbering` |
+| 15 | a type parameter | its label, the contracts bounding it ascending |
+| 16 | a composition | the contracts ascending, at least one |
+| 17 | a projection | the parameter projected, *segment* list |
+| 18 | undeclared | its label, why: `[0, name]` nothing declares it, `[1, name]` nothing declares it as a contract, `[2]` it names itself |
 
 ### Values
 
@@ -213,7 +211,7 @@ warpt 1
   rows [
     [
       "entry"
-      [ [ [ "n" [ [ 8 [ 4 ] ] ] [] [] ] ] [ [ 8 [ 4 ] ] ] ]
+      [ [ [ "n" [ [ 7 [ 4 ] ] ] [] ] ] [ [ 7 [ 4 ] ] ] ]
       2
       1
       1
@@ -232,7 +230,7 @@ warpt 1
 }
 ```
 
-Read it back: `rows` holds `entry`, whose signature takes `n` as `Array<Int>` (type tag 8 around tag 4) and answers `Array<Int>`; it is public (`2`), const (`1`) and isolated (`1`) and fails with nothing (`[1 []]`); its answers are what it declares (`true`); its implementation is a body (`0`) with no instructions and a result, a call (`11`) to row `0` of the numbering, which is `Standard.Collection.appending`, with two arguments, the first read from slot `0` and the second the literal (`0`) int (`2`) `1`; and its frame has one slot, filled by the parameter, called `n`. The dependency is what the host keyed the standard vocabulary's object under.
+Read it back: `rows` holds `entry`, whose signature takes `n` as `Array<Int>` (type tag 7 around tag 4) and answers `Array<Int>`; it is public (`2`), const (`1`) and isolated (`1`) and fails with nothing (`[1 []]`); its answers are what it declares (`true`); its implementation is a body (`0`) with no instructions and a result, a call (`11`) to row `0` of the numbering, which is `Standard.Collection.appending`, with two arguments, the first read from slot `0` and the second the literal (`0`) int (`2`) `1`; and its frame has one slot, filled by the parameter, called `n`. The dependency is what the host keyed the standard vocabulary's object under.
 
 ## Cases
 
@@ -275,7 +273,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-writing-an-empty-name-refuses`
 - `the-object-of-a-block`
 - `the-object-of-a-call`
-- `the-object-of-a-call-of-a-value-handing-on`
 - `the-object-of-a-cast`
 - `the-object-of-a-closure`
 - `the-object-of-a-composition`

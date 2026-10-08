@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-constant-a-closure-answers-must-fit-what-it-declared"
-  note "A closure literal writes its `returns` beside its body, so a constant it answers is held to the range the way a declaration's is. `300` reads `Int`, which the range takes as a type, and the value is not one the range admits."
+  note "A closure literal writes its `returns` beside its body, so what it answers is held to it the way a declaration's answer is: the text it answers is no `Int`."
   program {
     imports []
     procedures {
@@ -15,8 +15,8 @@ warpt 1
             let "level"
             value {
               closure {
-                result 300
-                returns "Int(0...255)"
+                result "three hundred"
+                returns "Int"
               }
             }
           }

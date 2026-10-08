@@ -1,20 +1,18 @@
 warpt 1
 {
   expect {
-    refuses "run"
+    refuses "build"
   }
   name "a-called-value-writes-in-place-held-to-its-slots-type"
-  note "A closure writing the parameter it takes in place is held to that parameter's type, the way a declaration's body is: `n` holds `Int(0...10)`, and the write of 11 through the closure refuses at the run before it lands in the caller's box."
+  note "A closure writing the parameter it takes in place is held to that parameter's type, the way a declaration's body is: `count` is an `inout Int`, and writing text into it refuses at the build."
   program {
-    imports [
-      "Standard.Numeric.plus"
-    ]
+    imports []
     procedures {
       entry {
         access "public"
         body [
           {
-            type "Int(0...10)"
+            type "Int"
             value 10
             var "n"
           }
@@ -25,23 +23,13 @@ warpt 1
                 body [
                   {
                     set "count"
-                    value {
-                      call {
-                        arguments [
-                          {
-                            ref "count"
-                          }
-                          1
-                        ]
-                        procedure "Standard.Numeric.plus"
-                      }
-                    }
+                    value "eleven"
                   }
                 ]
                 parameters [
                   {
                     name "count"
-                    type "inout Int(0...10)"
+                    type "inout Int"
                   }
                 ]
               }

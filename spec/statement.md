@@ -16,7 +16,7 @@ The naming key says what the statement does to its name:
 
 **A name may say what it holds**, under **`type`**, written the way a parameter's type is: `{ let "x" type "Double" value 1 }`. The declaration is what the name holds, and the build works out a reading only where the name declares none. What the statement was given has to fit the declaration, and a declaration naming a type nothing declares **refuses at the build**, as does one naming a type parameter: what fills a parameter is a call filling the slot that names it, and a name inside a body is no such slot.
 
-A declaration is a slot like a parameter's, so **what the name takes is judged against it** the way an argument is: a whole literal written where it declares a `Double` is the fraction it names, a value outside a declared range **refuses at the run**, a record literal written where it declares a record is judged field by field and takes the name, a value read as `Any`, as a contract, or along a path a call decides **refuses at the build** unless a cast says what it is, and any other value is held as it came.
+A declaration is a slot like a parameter's, so **what the name takes is judged against it** the way an argument is: a whole literal written where it declares a `Double` is the fraction it names, a record literal written where it declares a record is judged field by field and takes the name, a value read as `Any`, as a contract, or along a path a call decides **refuses at the build** unless a cast says what it is, and any other value is held as it came.
 
 A `set` reaches a name something else declared and a statement with no naming key introduces none, so `type` beside either **refuses at the load**. So does `type` on a statement whose construct binds the name itself. A `loop`'s round and an `attempt`'s failure are the construct's to say.
 
@@ -137,7 +137,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-construct-key-in-an-argument-refuses`
 - `a-construct-key-outside-a-statement-is-a-field-name`
 - `a-declared-name-is-not-retyped-by-a-write`
-- `a-declared-range-refuses-what-is-outside-it`
 - `a-declared-type-naming-a-type-parameter-refuses`
 - `a-declared-type-nothing-declares-refuses`
 - `a-declining-conditional-writes-nothing`

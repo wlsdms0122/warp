@@ -1,29 +1,19 @@
 warpt 1
 {
   expect {
-    refuses "run"
+    refuses "build"
   }
   name "a-write-into-a-module-variable-is-judged-against-the-type-it-declares-refuses"
-  note "`r` is a module variable declaring `Int(0...3)`, and a body writes `Standard.Numeric.plus(4, 5)` into it. A write into a box that said what it holds is judged against it, the way a local `var` declaring a type judges each write, so 9 is outside the range and the run refuses at the write."
+  note "`r` is a module variable declaring `Int`, and a body writes text into it. A write into a box that said what it holds is judged against it, the way a local `var` declaring a type judges each write, so the write refuses at the build."
   program {
-    imports [
-      "Standard.Numeric.plus"
-    ]
+    imports []
     procedures {
       entry {
         access "public"
         body [
           {
             set "r"
-            value {
-              call {
-                arguments [
-                  4
-                  5
-                ]
-                procedure "Standard.Numeric.plus"
-              }
-            }
+            value "nine"
           }
         ]
         result {
@@ -33,7 +23,7 @@ warpt 1
     }
     var {
       r {
-        type "Int(0...3)"
+        type "Int"
         value 0
       }
     }

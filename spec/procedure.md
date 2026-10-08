@@ -91,16 +91,13 @@ Written as a record, one per entry of `parameters`:
 |---|---|---|
 | `name` | string. The name the body reads the argument by | yes |
 | `type` | type | no; absent means `Any` |
-| `enum` | array of strings, each a value's one spelling. The values this parameter admits | no |
 | `description` | string | no |
 
 A closure literal that writes no `returns`, written where a procedure type says what it answers, answers that: the place completes its signature, so its body is judged against the answer and a literal it answers is read as the place reads it. Written where nothing completes it, it answers what its body hands back, each way out read as a name holds it, the way a declaration that writes no `returns` does, and the build writes that answer into its signature, so the run reads the closure as the build did. An answer no type spells, what a dot on a value of a type parameter reaches, is one only the body around it can read, so the signature answers `Any` there. A place is every one a literal is written into: a name that says what it holds, a write, an argument to a declaration or to a called value, a body's answer and what a `return` carries, and an element or a field of a list or a record written there, so where a closure is written does not decide whether what it answers is judged at the build. An answer the call fills is no place's to say.
 
 The name is the declaration's own, and a closure literal's names are its own the same way. A procedure type carries the types in position order and no names, under [types](type.md), so two closures naming their parameters differently are one type where the types agree. Two parameters under one name **refuse at the load**.
 
-`enum` is judged wherever an argument is judged against the parameter: at the **build** for a constant argument, at the run's boundary otherwise. The declaration itself is judged at the **build**, wherever the parameter is written, nested signatures included, because a declaration may lean on a declared type name, and only the build resolves those: an `enum` listing a candidate the declared type does not admit **refuses**. An argument meets the candidates as the slot reads it, a whole literal written at a `Double` slot read as the fraction it names, and a number meets one by worth: `1` written at a `Double` slot listing `1.0` is admitted. A dead candidate is a member no value the slot takes could ever match, whether live ones stand beside it or not, the empty set being the plainest case. A candidate is written in a value's **one spelling**, the one the slot's own values wear: `007`, `+1`, and `1e0` are second spellings of values that already have one, and `1` on a `Double` slot is the int's spelling, which no fraction ever wears. Each of these is a dead candidate, because no value the slot takes wears their spelling.
-
-**One calling convention.** Lowering puts every parameter in a slot, in the declaration's order, and every call hands its arguments **by position**: a `call` to a declaration, a `call` of a value, a procedure handing values to a closure it was given, and a procedure the host answers sending one it declared. A call hands exactly as many arguments as the callee takes. Any other count **refuses**, at the build where the callee is known and at the run otherwise, and so does an argument the parameter at its position refuses. A `call` of a value holds each argument it hands as a value to what the slot holding the value reads at its position, once every argument is read, before the value's own declaration takes it, since that declaration may read less: what the slot reads there that the build did not prove of the argument, a range above all, is held there, and a value outside it **refuses at the run**, as at any parameter. A type parameter the slot names is the body's own, which no call fills and no run can hold a value to, so what stands there is a value of it already, the way a write into a box of it is, and anything else **refuses at the build**. Writing an argument is giving it: an argument holding null was given, and a slot whose type admits one takes it, `Any`, a `T?`, a type parameter, which stands for what arrived.
+**One calling convention.** Lowering puts every parameter in a slot, in the declaration's order, and every call hands its arguments **by position**: a `call` to a declaration, a `call` of a value, a procedure handing values to a closure it was given, and a procedure the host answers sending one it declared. A call hands exactly as many arguments as the callee takes. Any other count **refuses**, at the build where the callee is known and at the run otherwise, and so does an argument the parameter at its position refuses. A type parameter the slot names is the body's own, which no call fills and no run can hold a value to, so what stands there is a value of it already, the way a write into a box of it is, and anything else **refuses at the build**. Writing an argument is giving it: an argument holding null was given, and a slot whose type admits one takes it, `Any`, a `T?`, a type parameter, which stands for what arrived.
 
 **A parameter handed in place.** A parameter typed `inout T` takes no value: it takes a variable. The argument is `{ ref: <path> }`, and all of this is held at the **build**:
 
@@ -131,8 +128,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-call-short-of-what-the-callee-takes-refuses`
 - `a-call-that-fails-after-writing-has-written`
 - `a-called-value-writes-in-place-held-to-its-slots-type`
-- `a-candidate-meets-a-number-by-worth`
-- `a-candidate-on-a-slot-bounded-by-numbers-meets-either-kind`
 - `a-closure-answered-without-returns-reads-a-module-variable-by-running`
 - `a-closure-carries-what-a-captured-slot-said`
 - `a-closure-literal-a-body-answers-answers-what-its-declaration-answers-refuses`
@@ -152,12 +147,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-const-slot-takes-a-closure-that-calls-a-const-slot`
 - `a-const-slot-takes-a-closure-that-calls-a-host-procedure`
 - `a-constant-argument-its-parameter-does-not-take-refuses`
-- `a-constant-argument-outside-enum-refuses`
 - `a-constant-cannot-settle-from-a-procedure-the-host-brought`
 - `a-constant-cannot-settle-from-what-runs`
-- `a-constant-handed-to-a-called-value-outside-its-range-refuses`
 - `a-constant-leaning-on-a-claim-of-a-document-it-does-not-stand-on-refuses`
-- `a-constant-sent-through-a-contract-outside-its-range-refuses`
 - `a-constant-settles-from-a-body-of-another-document`
 - `a-contract-asking-const-lets-its-call-stand-in-a-const-slot`
 - `a-contract-asking-isolated-lets-its-call-stand-in-an-isolated-slot`
@@ -212,23 +204,17 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-variable-of-another-type-is-not-handed-in-place`
 - `a-variable-of-another-type-is-not-handed-in-place-to-a-called-value`
 - `a-variable-that-declares-nothing-gives-a-capture-no-claim`
-- `a-whole-number-candidate-on-a-fraction-slot-is-dead`
 - `an-access-naming-no-scope-refuses`
 - `an-answer-must-fit-what-was-declared`
 - `an-answer-nobody-wrote-is-read-off-the-body`
 - `an-answer-that-may-be-null-refuses-a-declaration-that-may-not`
 - `an-answer-worked-out-from-itself-says-nothing`
-- `an-argument-outside-enum-refuses-at-the-boundary`
 - `an-argument-read-as-any-refuses-at-a-typed-parameter`
 - `an-effect-in-a-condition-refuses`
 - `an-effect-in-a-contract-calls-operand-refuses`
 - `an-effect-in-an-operand-refuses`
 - `an-effectful-closure-where-const-is-asked-refuses`
 - `an-entry-taking-a-parameter-in-place-refuses`
-- `an-enum-candidate-written-as-a-number-refuses`
-- `an-enum-no-candidate-of-which-fits-refuses`
-- `an-enum-that-admits-nothing-refuses`
-- `an-enum-with-a-dead-candidate-refuses`
 - `an-internal-entry-refuses`
 - `an-internal-procedure-is-named-from-another-document`
 - `an-isolated-closure-writes-its-own-variables`

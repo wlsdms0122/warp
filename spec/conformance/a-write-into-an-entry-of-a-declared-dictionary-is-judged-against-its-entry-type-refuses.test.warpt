@@ -1,20 +1,18 @@
 warpt 1
 {
   expect {
-    refuses "run"
+    refuses "build"
   }
   name "a-write-into-an-entry-of-a-declared-dictionary-is-judged-against-its-entry-type-refuses"
-  note "`r` declares `Dictionary<Int(0...3)>`, and `set r.x` writes 9 into an entry. A write is judged against the type its path reaches, an entry's included, and 9 is outside `Int(0...3)`, so the run refuses the write."
+  note "`r` declares `Dictionary<Int>`, and `set r.x` writes text into an entry. A write is judged against the type its path reaches, an entry's included, so the write refuses at the build."
   program {
-    imports [
-      "Standard.Numeric.plus"
-    ]
+    imports []
     procedures {
       entry {
         access "public"
         body [
           {
-            type "Dictionary<Int(0...3)>"
+            type "Dictionary<Int>"
             value {
               record {
                 x 0
@@ -24,15 +22,7 @@ warpt 1
           }
           {
             set "r.x"
-            value {
-              call {
-                arguments [
-                  4
-                  5
-                ]
-                procedure "Standard.Numeric.plus"
-              }
-            }
+            value "nine"
           }
         ]
         result {

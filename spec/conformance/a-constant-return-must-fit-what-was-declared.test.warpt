@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-constant-return-must-fit-what-was-declared"
-  note "What a `return` carries is held to the declaration the way a `result` is. `300` reads `Int`, which the range takes as a type, and the declaration still refuses it because the value is not one the range admits."
+  note "What a `return` carries is held to the declaration the way a `result` is: the text it carries is no `Int`."
   program {
     imports []
     procedures {
@@ -13,11 +13,11 @@ warpt 1
         body [
           {
             value {
-              return 300
+              return "three hundred"
             }
           }
         ]
-        returns "Int(0...255)"
+        returns "Int"
       }
     }
     warp 1
