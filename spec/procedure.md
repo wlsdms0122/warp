@@ -97,7 +97,7 @@ A closure literal that writes no `returns`, written where a procedure type says 
 
 The name is the declaration's own, and a closure literal's names are its own the same way. A procedure type carries the types in position order and no names, under [types](type.md), so two closures naming their parameters differently are one type where the types agree. Two parameters under one name **refuse at the load**.
 
-**One calling convention.** Lowering puts every parameter in a slot, in the declaration's order, and every call hands its arguments **by position**: a `call` to a declaration, a `call` of a value, a procedure handing values to a closure it was given, and a procedure the host answers sending one it declared. A call hands exactly as many arguments as the callee takes. Any other count **refuses**, at the build where the callee is known and at the run otherwise, and so does an argument the parameter at its position refuses. A type parameter the slot names is the body's own, which no call fills and no run can hold a value to, so what stands there is a value of it already, the way a write into a box of it is, and anything else **refuses at the build**. Writing an argument is giving it: an argument holding null was given, and a slot whose type admits one takes it, `Any`, a `T?`, a type parameter, which stands for what arrived.
+**One calling convention.** Lowering puts every parameter in a slot, in the declaration's order, and every call hands its arguments **by position**: a `call` to a declaration, a `call` of a value, a procedure handing values to a closure it was given, and a procedure the host answers sending one it declared. A call hands exactly as many arguments as the callee takes. Any other count **refuses**, at the build where the callee is known and at the run otherwise, and so does an argument the parameter at its position refuses. In a `call` of a value, a type parameter the slot holding the value names at a position is the body's own, which no call fills and no run can hold a value to, so what stands there is a value of it already, the way a write into a box of it is, and anything else **refuses at the build**. Writing an argument is giving it: an argument holding null was given, and a slot whose type admits one takes it, `Any`, a `T?`, a type parameter, which stands for what arrived.
 
 **A parameter handed in place.** A parameter typed `inout T` takes no value: it takes a variable. The argument is `{ ref: <path> }`, and all of this is held at the **build**:
 
@@ -127,7 +127,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-call-of-another-count-refuses`
 - `a-call-short-of-what-the-callee-takes-refuses`
 - `a-call-that-fails-after-writing-has-written`
-- `a-called-value-writes-in-place-held-to-its-slots-type`
 - `a-closure-answered-without-returns-reads-a-module-variable-by-running`
 - `a-closure-carries-what-a-captured-slot-said`
 - `a-closure-literal-a-body-answers-answers-what-its-declaration-answers-refuses`

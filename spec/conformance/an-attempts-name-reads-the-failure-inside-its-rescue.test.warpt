@@ -1,10 +1,13 @@
 warpt 1
 {
   expect {
-    answers "f"
+    answers {
+      inner "on purpose"
+      outer "f"
+    }
   }
   name "an-attempts-name-reads-the-failure-inside-its-rescue"
-  note "An attempt's statement name is the failure inside its rescue. `h` read there is the failure, which has a `message`, and the text `h` around the block is another name that keeps its value."
+  note "An attempt's statement name is the failure inside its rescue: `h.message` there reads what the failing call said. After the attempt the name reads what the attempt answered, and the text `h` around the block is another name that keeps its value."
   program {
     imports [
       "Standard.Control.abort"
@@ -18,6 +21,7 @@ warpt 1
             value "f"
           }
           {
+            let "inner"
             value {
               block {
                 body [
@@ -38,28 +42,32 @@ warpt 1
                           }
                         ]
                         rescue {
-                          body [
-                            {
-                              let "m"
-                              value {
-                                ref "h.message"
-                              }
-                            }
-                          ]
-                          result 0
+                          result {
+                            ref "h.message"
+                          }
                         }
                       }
                     }
                   }
                 ]
+                result {
+                  ref "h"
+                }
               }
             }
           }
         ]
         result {
-          ref "h"
+          record {
+            inner {
+              ref "inner"
+            }
+            outer {
+              ref "h"
+            }
+          }
         }
-        returns "String"
+        returns "Any"
       }
     }
     warp 1

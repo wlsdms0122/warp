@@ -1,12 +1,17 @@
 warpt 1
 {
   expect {
-    answers "f"
+    answers {
+      inner 2
+      outer "f"
+    }
   }
   name "a-loops-name-reads-its-round-inside-the-loop"
-  note "A loop's statement name is the round inside the loop. `h` read there is the round, which has an `index`, and the text `h` around the block is another name that keeps its value."
+  note "A loop's statement name is the round inside the loop: `h.index` in the condition and the result reads the round, and after rounds 0 and 1 have finished it is 2, where the condition stops the loop. After the loop the name reads what the loop answered, and the text `h` around the block is another name that keeps its value."
   program {
-    imports []
+    imports [
+      "Standard.Comparable.lessThan"
+    ]
     procedures {
       entry {
         access "public"
@@ -16,6 +21,7 @@ warpt 1
             value "f"
           }
           {
+            let "inner"
             value {
               block {
                 body [
@@ -23,42 +29,43 @@ warpt 1
                     let "h"
                     value {
                       loop {
-                        body [
-                          {
-                            let "z"
-                            value {
-                              ref "h.index"
-                            }
-                          }
-                          {
-                            value {
-                              conditional {
-                                then [
-                                  {
-                                    value {
-                                      break null
-                                    }
-                                  }
-                                ]
-                                when true
+                        body []
+                        result {
+                          ref "h.index"
+                        }
+                        while {
+                          call {
+                            arguments [
+                              {
+                                ref "h.index"
                               }
-                            }
+                              2
+                            ]
+                            procedure "Standard.Comparable.lessThan"
                           }
-                        ]
-                        result 0
-                        while true
+                        }
                       }
                     }
                   }
                 ]
+                result {
+                  ref "h"
+                }
               }
             }
           }
         ]
         result {
-          ref "h"
+          record {
+            inner {
+              ref "inner"
+            }
+            outer {
+              ref "h"
+            }
+          }
         }
-        returns "String"
+        returns "Any"
       }
     }
     warp 1
