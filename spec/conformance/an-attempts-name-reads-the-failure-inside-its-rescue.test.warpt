@@ -1,0 +1,117 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "an-attempts-name-reads-the-failure-inside-its-rescue"
+  note "An attempt's statement name is the failure inside its rescue. `h` read bare there is the failure, so the outer `h` keeps its handle until `App.close` takes it."
+  program {
+    imports [
+      "App.Handle"
+      "App.Pct"
+      "App.close"
+    ]
+    procedures {
+      "App.f" {
+        body [
+          {
+            let "h"
+            type "App.Handle"
+            value {
+              record {
+                name "f"
+              }
+            }
+          }
+          {
+            value {
+              block {
+                body [
+                  {
+                    let "h"
+                    value {
+                      attempt {
+                        body [
+                          {
+                            let "u"
+                            value {
+                              as {
+                                of 200
+                                type "App.Pct"
+                              }
+                            }
+                          }
+                        ]
+                        rescue {
+                          body [
+                            {
+                              let "m"
+                              value {
+                                ref "h"
+                              }
+                            }
+                          ]
+                          result 0
+                        }
+                        result 1
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "h"
+                  }
+                ]
+                procedure "App.close"
+              }
+            }
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            procedure "App.f"
+          }
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+  vocabulary {
+    procedures {
+      "App.close" {
+        parameters [
+          {
+            name "first"
+            type "consuming App.Handle"
+          }
+        ]
+        runs true
+      }
+    }
+    types {
+      "App.Handle" {
+        linear {
+          record {
+            name "String"
+          }
+        }
+      }
+      "App.Pct" "Int(0...100)"
+    }
+  }
+}
+

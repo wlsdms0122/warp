@@ -4,7 +4,7 @@ warpt 1
     answers 1
   }
   name "a-closures-parameter-taking-the-spelling-of-a-held-linear-name-captures-nothing"
-  note "The closure's parameter `h` is its own name, so its body reads the number it takes and captures nothing of the outer `h`, which still holds the handle and is closed after."
+  note "The closure's parameter `h` is its own name, so its body answers the number it takes and captures nothing of the outer `h`, which still holds the handle and is closed after."
   program {
     imports [
       "App.Handle"
@@ -27,19 +27,6 @@ warpt 1
             let "f"
             value {
               closure {
-                body [
-                  {
-                    type "Int"
-                    value {
-                      ref "h"
-                    }
-                    var "z"
-                  }
-                  {
-                    set "z"
-                    value 3
-                  }
-                ]
                 parameters [
                   {
                     name "h"
@@ -47,7 +34,7 @@ warpt 1
                   }
                 ]
                 result {
-                  ref "z"
+                  ref "h"
                 }
                 returns "Int"
               }

@@ -1,0 +1,40 @@
+warpt 1
+{
+  expect {
+    answers 2
+  }
+  name "a-write-at-a-constant-position-writes-the-element"
+  note "A whole number constant written between the brackets of a write settles at the build to a position, and the write lands on that element."
+  program {
+    const {
+      K 1
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            type "Array<Int>"
+            value [
+              1
+              1
+            ]
+            var "d"
+          }
+          {
+            set "d[K]"
+            value 2
+          }
+        ]
+        result {
+          ref "d[K]"
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

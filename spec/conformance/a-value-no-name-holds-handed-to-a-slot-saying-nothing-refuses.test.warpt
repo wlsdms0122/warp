@@ -1,0 +1,67 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-value-no-name-holds-handed-to-a-slot-saying-nothing-refuses"
+  note "The cast answers a handle no name holds, and `App.take`'s slot reads `Any` and says nothing about taking it, so nothing takes the obligation."
+  program {
+    imports [
+      "App.Handle"
+      "App.take"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    as {
+                      of {
+                        record {
+                          name "f"
+                        }
+                      }
+                      type "App.Handle"
+                    }
+                  }
+                ]
+                procedure "App.take"
+              }
+            }
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+  vocabulary {
+    procedures {
+      "App.take" {
+        parameters [
+          {
+            name "first"
+            type "Any"
+          }
+        ]
+        runs true
+      }
+    }
+    types {
+      "App.Handle" {
+        linear {
+          record {
+            name "String"
+          }
+        }
+      }
+    }
+  }
+}
+
