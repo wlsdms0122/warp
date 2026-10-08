@@ -4,13 +4,13 @@ warpt 1
     refuses "build"
   }
   name "a-body-handing-its-own-type-parameter-in-place-to-a-type-refuses"
-  note "A declaration holds a value of its type parameter T in a variable and hands it in place to a parameter declared int. In place the two sides are one type, and T is not int inside the declaration."
+  note "A declaration holds a value of its type parameter T in a variable and hands it in place to a parameter declared Int. In place the two sides are one type, and T is not Int inside the declaration."
   program {
     imports [
-      "std.text.uppercased"
+      "Standard.Text.uppercased"
     ]
     procedures {
-      "app.gen" {
+      "App.gen" {
         body [
           {
             value {
@@ -26,7 +26,7 @@ warpt 1
                     ref "y"
                   }
                 ]
-                procedure "app.poke"
+                procedure "App.poke"
               }
             }
           }
@@ -42,7 +42,7 @@ warpt 1
         }
         returns "some T"
       }
-      "app.poke" {
+      "App.poke" {
         body [
           {
             set "v"
@@ -52,7 +52,7 @@ warpt 1
         parameters [
           {
             name "v"
-            type "inout int"
+            type "inout Int"
           }
         ]
         result 0
@@ -67,7 +67,7 @@ warpt 1
                 arguments [
                   "s"
                 ]
-                procedure "app.gen"
+                procedure "App.gen"
               }
             }
           }
@@ -80,7 +80,7 @@ warpt 1
                     ref "r"
                   }
                 ]
-                procedure "std.text.uppercased"
+                procedure "Standard.Text.uppercased"
               }
             }
           }

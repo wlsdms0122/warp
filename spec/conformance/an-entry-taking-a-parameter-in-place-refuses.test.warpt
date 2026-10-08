@@ -10,7 +10,7 @@ warpt 1
   note "A run hands its entry values, and a parameter handed in place takes a variable, so an entry taking one refuses at the run before anything runs, whatever value the run gives under its name."
   program {
     imports [
-      "std.math.plus"
+      "Standard.Numeric.plus"
     ]
     procedures {
       entry {
@@ -26,7 +26,7 @@ warpt 1
                   }
                   1
                 ]
-                procedure "std.math.plus"
+                procedure "Standard.Numeric.plus"
               }
             }
           }
@@ -34,13 +34,13 @@ warpt 1
         parameters [
           {
             name "count"
-            type "inout int"
+            type "inout Int"
           }
         ]
         result {
           ref "count"
         }
-        returns "int"
+        returns "Int"
       }
     }
     warp 1

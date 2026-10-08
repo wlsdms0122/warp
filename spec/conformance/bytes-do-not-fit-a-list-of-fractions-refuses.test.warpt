@@ -1,0 +1,39 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "bytes-do-not-fit-a-list-of-fractions-refuses"
+  note "Bytes are a list of whole numbers in a compact spelling, and a whole number is no fraction. `Array<Double>` takes none of them, so bytes handed there are refused at the build."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              x"6869"
+            ]
+            procedure "keep"
+          }
+        }
+      }
+      keep {
+        parameters [
+          {
+            name "value"
+            type "Array<Double>"
+          }
+        ]
+        result {
+          ref "value"
+        }
+        returns "Array<Double>"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

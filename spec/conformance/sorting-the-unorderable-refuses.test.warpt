@@ -4,10 +4,10 @@ warpt 1
     refuses "build"
   }
   name "sorting-the-unorderable-refuses"
-  note "sorted is bounded by Comparable, the membership the shared std module declares. Booleans carry no ordering, and a literal is a reading the build can see, so the refusal lands before anything runs."
+  note "sorted is bounded by Comparable, the contract the shared Standard module declares. Booleans carry no ordering, and a literal is a reading the build can see, so the refusal lands before anything runs."
   program {
     imports [
-      "std.collection.sorted"
+      "Standard.Collection.sorted"
     ]
     procedures {
       entry {
@@ -20,7 +20,7 @@ warpt 1
                 false
               ]
             ]
-            procedure "std.collection.sorted"
+            procedure "Standard.Collection.sorted"
           }
         }
       }

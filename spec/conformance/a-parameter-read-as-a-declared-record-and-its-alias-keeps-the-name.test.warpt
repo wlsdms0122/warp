@@ -4,26 +4,26 @@ warpt 1
     answers "a card"
   }
   name "a-parameter-read-as-a-declared-record-and-its-alias-keeps-the-name"
-  note "`bank.Alias` names `bank.Card`, a declared record that answers `app.Describable`. `app.pick` takes two of `some T` and is handed a `bank.Card` and a `bank.Alias`. The two are one record under one name, so `T` is that record and keeps its name, and `app.Describable.describe` dispatches to `bank.Card.describe`."
+  note "`Bank.Alias` names `Bank.Card`, a declared record that answers `App.Describable`. `App.pick` takes two of `some T` and is handed a `Bank.Card` and a `Bank.Alias`. The two are one record under one name, so `T` is that record and keeps its name, and `App.Describable.describe` dispatches to `Bank.Card.describe`."
   program {
     contracts {
-      "app.Describable" {
+      "App.Describable" {
         describe {
           const true
           isolated true
           parameters [
             {
               name "of"
-              type "app.Describable"
+              type "Self"
             }
           ]
-          returns "string"
+          returns "String"
         }
       }
     }
     imports []
     procedures {
-      "app.pick" {
+      "App.pick" {
         body [
           {
             value {
@@ -47,7 +47,7 @@ warpt 1
         parameters [
           {
             name "c"
-            type "bool"
+            type "Bool"
           }
           {
             name "x"
@@ -63,15 +63,15 @@ warpt 1
         }
         returns "some T"
       }
-      "bank.Card.describe" {
+      "Bank.Card.describe" {
         parameters [
           {
             name "of"
-            type "bank.Card"
+            type "Bank.Card"
           }
         ]
         result "a card"
-        returns "string"
+        returns "String"
       }
       entry {
         access "public"
@@ -85,7 +85,7 @@ warpt 1
                     last "1"
                   }
                 }
-                type "bank.Alias"
+                type "Bank.Alias"
               }
             }
           }
@@ -102,14 +102,14 @@ warpt 1
                           last "42"
                         }
                       }
-                      type "bank.Card"
+                      type "Bank.Card"
                     }
                   }
                   {
                     ref "c"
                   }
                 ]
-                procedure "app.pick"
+                procedure "App.pick"
               }
             }
           }
@@ -122,7 +122,7 @@ warpt 1
                     ref "r"
                   }
                 ]
-                procedure "app.Describable.describe"
+                procedure "App.Describable.describe"
               }
             }
           }
@@ -133,15 +133,15 @@ warpt 1
       }
     }
     satisfies {
-      "bank.Card" [
-        "app.Describable"
+      "Bank.Card" [
+        "App.Describable"
       ]
     }
     types {
-      "bank.Alias" "bank.Card"
-      "bank.Card" {
+      "Bank.Alias" "Bank.Card"
+      "Bank.Card" {
         record {
-          last "string"
+          last "String"
         }
       }
     }

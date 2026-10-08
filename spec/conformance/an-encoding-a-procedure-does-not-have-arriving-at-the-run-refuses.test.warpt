@@ -1,0 +1,39 @@
+warpt 1
+{
+  expect {
+    refuses "run"
+  }
+  name "an-encoding-a-procedure-does-not-have-arriving-at-the-run-refuses"
+  note "What only the run holds, `encoded` judges where it arrives: the name a variable holds is no encoding it has, so the run refuses the call."
+  program {
+    imports [
+      "Standard.Text.encoded"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            value "utf9"
+            var "named"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              "hi"
+              {
+                ref "named"
+              }
+            ]
+            procedure "Standard.Text.encoded"
+          }
+        }
+        returns "Array<Int>"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

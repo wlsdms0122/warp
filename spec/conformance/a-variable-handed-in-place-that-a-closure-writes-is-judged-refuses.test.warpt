@@ -4,11 +4,11 @@ warpt 1
     refuses "run"
   }
   name "a-variable-handed-in-place-that-a-closure-writes-is-judged-refuses"
-  note "A closure in app.g writes x, handed in place, from its own parameter, and is called through a cast with a string. The body proves nothing, so the caller's variable is judged once the call is over, and the string refuses at the run."
+  note "A closure in App.g writes x, handed in place, from its own parameter, and is called through a cast with a string. The body proves nothing, so the caller's variable is judged once the call is over, and the string refuses at the run."
   program {
     imports []
     procedures {
-      "app.g" {
+      "App.g" {
         body [
           {
             let "c"
@@ -29,13 +29,13 @@ warpt 1
                   }
                 ]
                 result 0
-                returns "int"
+                returns "Int"
               }
             }
           }
           {
             let "a"
-            type "any"
+            type "Any"
             value {
               ref "c"
             }
@@ -50,9 +50,9 @@ warpt 1
                 type {
                   procedure {
                     parameters [
-                      "string"
+                      "String"
                     ]
-                    returns "int"
+                    returns "Int"
                   }
                 }
               }
@@ -95,7 +95,7 @@ warpt 1
                     ref "v"
                   }
                 ]
-                procedure "app.g"
+                procedure "App.g"
               }
             }
           }

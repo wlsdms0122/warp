@@ -4,10 +4,10 @@ warpt 1
     answers 2
   }
   name "a-const-procedure-read-out-of-a-dictionary-answers-without-running"
-  note "A slot writing `dictionary<const procedure>` says it of every entry, the way an array of them does. A body calling an entry it reads out by an index answers without running, so an operand may call it."
+  note "A slot writing `Dictionary<const Procedure>` says it of every entry, the way an array of them does. A body calling an entry it reads out by an index answers without running, so an operand may call it."
   program {
     imports [
-      "std.math.plus"
+      "Standard.Numeric.plus"
     ]
     procedures {
       asking {
@@ -33,22 +33,22 @@ warpt 1
               dictionary {
                 "const procedure" {
                   parameters [
-                    "int"
+                    "Int"
                   ]
-                  returns "int"
+                  returns "Int"
                 }
               }
             }
           }
           {
             name "key"
-            type "string"
+            type "String"
           }
         ]
         result {
           ref "a"
         }
-        returns "int"
+        returns "Int"
       }
       entry {
         access "public"
@@ -65,13 +65,13 @@ warpt 1
                             parameters [
                               {
                                 name "x"
-                                type "int"
+                                type "Int"
                               }
                             ]
                             result {
                               ref "x"
                             }
-                            returns "int"
+                            returns "Int"
                           }
                         }
                       }
@@ -83,10 +83,10 @@ warpt 1
               }
               1
             ]
-            procedure "std.math.plus"
+            procedure "Standard.Numeric.plus"
           }
         }
-        returns "int"
+        returns "Int"
       }
     }
     warp 1

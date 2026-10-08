@@ -1,0 +1,99 @@
+warpt 1
+{
+  expect {
+    answers {
+      p App.Point {
+        x 1
+      }
+      t 2
+    }
+  }
+  name "a-record-literal-handed-to-a-called-value-takes-the-name-beside-a-type-parameter-answers"
+  note "`App.run` calls `g`, held at a procedure type taking `{ p: App.Point, t: some T }`, with a record literal. The call holds the literal to that slot before the closure, which takes `Any`, reads it: `p` is written where `App.Point` is read and takes the name, and `t` is the value that filled `T`."
+  program {
+    imports []
+    procedures {
+      "App.run" {
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+          {
+            name "g"
+            type {
+              procedure {
+                parameters [
+                  {
+                    record {
+                      p "App.Point"
+                      t "some T"
+                    }
+                  }
+                ]
+                returns "Any"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                record {
+                  p {
+                    record {
+                      x 1
+                    }
+                  }
+                  t {
+                    ref "x"
+                  }
+                }
+              }
+            ]
+            procedure {
+              ref "g"
+            }
+          }
+        }
+        returns "Any"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              2
+              {
+                closure {
+                  parameters [
+                    {
+                      name "q"
+                      type "Any"
+                    }
+                  ]
+                  result {
+                    ref "q"
+                  }
+                  returns "Any"
+                }
+              }
+            ]
+            procedure "App.run"
+          }
+        }
+      }
+    }
+    types {
+      "App.Point" {
+        record {
+          x "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

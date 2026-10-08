@@ -1,0 +1,78 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-closure-answering-anything-does-not-fit-a-slot-answering-a-declared-record-refuses"
+  note "`f` writes no `returns` and answers what it is handed, which it reads as `Any`. A slot whose procedure type answers `App.Point` takes only a closure answering one, and an answer read as `Any` is none the build can see, so the build refuses."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "f"
+            value {
+              closure {
+                parameters [
+                  {
+                    name "a"
+                    type "Any"
+                  }
+                ]
+                result {
+                  ref "a"
+                }
+              }
+            }
+          }
+          {
+            let "c"
+            type {
+              procedure {
+                parameters [
+                  "Any"
+                ]
+                returns "App.Point"
+              }
+            }
+            value {
+              ref "f"
+            }
+          }
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  {
+                    record {
+                      x 1
+                    }
+                  }
+                ]
+                procedure {
+                  ref "c"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+      }
+    }
+    types {
+      "App.Point" {
+        record {
+          x "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

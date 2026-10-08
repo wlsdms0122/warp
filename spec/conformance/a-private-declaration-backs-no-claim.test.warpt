@@ -7,34 +7,34 @@ warpt 1
   note "A contract is how a document that never names a declaration calls it, so a private declaration answers no contract. The claim it would back does not hold, and is refused where the pair is leaned on, the way a claim nothing backs is."
   program {
     contracts {
-      "app.Describable" {
+      "App.Describable" {
         describe {
           parameters [
             {
               name "of"
-              type "app.Describable"
+              type "Self"
             }
           ]
-          returns "string"
+          returns "String"
         }
       }
     }
     imports []
     procedures {
-      "app.Handle.describe" {
+      "App.Handle.describe" {
         access "private"
         parameters [
           {
             name "of"
-            type "app.Handle"
+            type "App.Handle"
           }
         ]
         result "a handle"
-        returns "string"
+        returns "String"
       }
-      "app.tell" {
+      "App.tell" {
         bounds {
-          T "app.Describable"
+          T "App.Describable"
         }
         parameters [
           {
@@ -49,10 +49,10 @@ warpt 1
                 ref "it"
               }
             ]
-            procedure "app.Describable.describe"
+            procedure "App.Describable.describe"
           }
         }
-        returns "string"
+        returns "String"
       }
       entry {
         access "public"
@@ -66,7 +66,7 @@ warpt 1
                     name "x"
                   }
                 }
-                type "app.Handle"
+                type "App.Handle"
               }
             }
           }
@@ -78,21 +78,21 @@ warpt 1
                 ref "handle"
               }
             ]
-            procedure "app.tell"
+            procedure "App.tell"
           }
         }
-        returns "string"
+        returns "String"
       }
     }
     satisfies {
-      "app.Handle" [
-        "app.Describable"
+      "App.Handle" [
+        "App.Describable"
       ]
     }
     types {
-      "app.Handle" {
+      "App.Handle" {
         record {
-          name "string"
+          name "String"
         }
       }
     }

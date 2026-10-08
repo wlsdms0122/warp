@@ -1,0 +1,154 @@
+warpt 1
+{
+  expect {
+    answers [
+      "a whole number"
+      "text"
+      "a list"
+      "a map"
+      "a map"
+    ]
+  }
+  name "a-type-the-language-names-answers-a-contract"
+  note "A type the language names is a type the way a declared one is, and a document claims a contract for it the same way. The run picks by the type the value is an instance of: a list by `Array` whatever it holds, a map by `Dictionary`, and a record with no name by `Dictionary`, since its names are data."
+  program {
+    contracts {
+      "App.Described" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "Array.describe" {
+        parameters [
+          {
+            name "of"
+            type "Array<Any>"
+          }
+        ]
+        result "a list"
+        returns "String"
+      }
+      "Dictionary.describe" {
+        parameters [
+          {
+            name "of"
+            type "Dictionary<Any>"
+          }
+        ]
+        result "a map"
+        returns "String"
+      }
+      "Int.describe" {
+        parameters [
+          {
+            name "of"
+            type "Int"
+          }
+        ]
+        result "a whole number"
+        returns "String"
+      }
+      "String.describe" {
+        parameters [
+          {
+            name "of"
+            type "String"
+          }
+        ]
+        result "text"
+        returns "String"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "map"
+            type "Dictionary<Int>"
+            value {
+              record {
+                a 1
+              }
+            }
+          }
+        ]
+        result [
+          {
+            call {
+              arguments [
+                1
+              ]
+              procedure "App.Described.describe"
+            }
+          }
+          {
+            call {
+              arguments [
+                "s"
+              ]
+              procedure "App.Described.describe"
+            }
+          }
+          {
+            call {
+              arguments [
+                [
+                  1
+                ]
+              ]
+              procedure "App.Described.describe"
+            }
+          }
+          {
+            call {
+              arguments [
+                {
+                  ref "map"
+                }
+              ]
+              procedure "App.Described.describe"
+            }
+          }
+          {
+            call {
+              arguments [
+                {
+                  record {
+                    a 1
+                  }
+                }
+              ]
+              procedure "App.Described.describe"
+            }
+          }
+        ]
+        returns "Array<String>"
+      }
+    }
+    satisfies {
+      Array [
+        "App.Described"
+      ]
+      Dictionary [
+        "App.Described"
+      ]
+      Int [
+        "App.Described"
+      ]
+      String [
+        "App.Described"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+

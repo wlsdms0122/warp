@@ -7,12 +7,12 @@ warpt 1
   note "The contract takes some T and answers some T. The declaration answering it takes and answers some U, its own parameter, which the contract's T fills, so it answers what the contract promises."
   program {
     contracts {
-      "app.Sized" {
+      "App.Sized" {
         size {
           parameters [
             {
               name "of"
-              type "app.Sized"
+              type "Self"
             }
             {
               name "n"
@@ -25,11 +25,11 @@ warpt 1
     }
     imports []
     procedures {
-      "bank.Card.size" {
+      "Bank.Card.size" {
         parameters [
           {
             name "of"
-            type "bank.Card"
+            type "Bank.Card"
           }
           {
             name "n"
@@ -53,7 +53,7 @@ warpt 1
                     last "42"
                   }
                 }
-                type "bank.Card"
+                type "Bank.Card"
               }
             }
           }
@@ -67,7 +67,7 @@ warpt 1
                   }
                   "x"
                 ]
-                procedure "app.Sized.size"
+                procedure "App.Sized.size"
               }
             }
           }
@@ -78,14 +78,14 @@ warpt 1
       }
     }
     satisfies {
-      "bank.Card" [
-        "app.Sized"
+      "Bank.Card" [
+        "App.Sized"
       ]
     }
     types {
-      "bank.Card" {
+      "Bank.Card" {
         record {
-          last "string"
+          last "String"
         }
       }
     }

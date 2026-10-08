@@ -4,32 +4,32 @@ warpt 1
     refuses "build"
   }
   name "a-claim-about-a-name-that-is-not-a-record-refuses"
-  note "app.Num names int, and a document claims it answers app.Describable. A value of app.Num wears no name for a run to read, so the claim is one no run could use."
+  note "App.Num names Int, and a document claims it answers App.Describable. A value of App.Num is an instance of `Int` and of no other name, so the claim is about no type a value is."
   program {
     contracts {
-      "app.Describable" {
+      "App.Describable" {
         describe {
           parameters [
             {
               name "of"
-              type "app.Describable"
+              type "Self"
             }
           ]
-          returns "string"
+          returns "String"
         }
       }
     }
     imports []
     procedures {
-      "app.Num.describe" {
+      "App.Num.describe" {
         parameters [
           {
             name "of"
-            type "app.Num"
+            type "App.Num"
           }
         ]
         result "a number"
-        returns "string"
+        returns "String"
       }
       entry {
         access "public"
@@ -51,7 +51,7 @@ warpt 1
                     ref "n"
                   }
                 ]
-                procedure "app.Describable.describe"
+                procedure "App.Describable.describe"
               }
             }
           }
@@ -62,16 +62,16 @@ warpt 1
       }
       make {
         result 3
-        returns "app.Num"
+        returns "App.Num"
       }
     }
     satisfies {
-      "app.Num" [
-        "app.Describable"
+      "App.Num" [
+        "App.Describable"
       ]
     }
     types {
-      "app.Num" "int"
+      "App.Num" "Int"
     }
     warp 1
   }

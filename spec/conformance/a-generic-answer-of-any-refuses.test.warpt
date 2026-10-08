@@ -1,0 +1,69 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-generic-answer-of-any-refuses"
+  note "App.gen answers some T, and its body answers a variable declared Any. A body does not know what filled its parameter, so a reading of Any is no value of it, and the answer refuses at the build."
+  program {
+    imports [
+      "Standard.Text.uppercased"
+    ]
+    procedures {
+      "App.gen" {
+        body [
+          {
+            type "Any"
+            value 5
+            var "y"
+          }
+        ]
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+        ]
+        result {
+          ref "y"
+        }
+        returns "some T"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  "s"
+                ]
+                procedure "App.gen"
+              }
+            }
+          }
+          {
+            let "u"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "r"
+                  }
+                ]
+                procedure "Standard.Text.uppercased"
+              }
+            }
+          }
+        ]
+        result {
+          ref "u"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

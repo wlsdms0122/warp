@@ -4,28 +4,28 @@ warpt 1
     refuses "build"
   }
   name "a-declaration-answering-a-contract-taking-in-place-where-it-hands-a-value-refuses"
-  note "The contract takes an int as a value and the declaration answering it takes inout int there. A call through the contract hands a value, which has no box for the declaration to write, so the claim holds nothing and the call refuses."
+  note "The contract takes an int as a value and the declaration answering it takes inout Int there. A call through the contract hands a value, which has no box for the declaration to write, so the claim holds nothing and the call refuses."
   program {
     contracts {
-      "app.Sized" {
+      "App.Sized" {
         size {
           parameters [
             {
               name "of"
-              type "app.Sized"
+              type "Self"
             }
             {
               name "n"
-              type "int"
+              type "Int"
             }
           ]
-          returns "int"
+          returns "Int"
         }
       }
     }
     imports []
     procedures {
-      "bank.Card.size" {
+      "Bank.Card.size" {
         body [
           {
             set "n"
@@ -35,15 +35,15 @@ warpt 1
         parameters [
           {
             name "of"
-            type "bank.Card"
+            type "Bank.Card"
           }
           {
             name "n"
-            type "inout int"
+            type "inout Int"
           }
         ]
         result 7
-        returns "int"
+        returns "Int"
       }
       entry {
         access "public"
@@ -57,7 +57,7 @@ warpt 1
                     last "42"
                   }
                 }
-                type "bank.Card"
+                type "Bank.Card"
               }
             }
           }
@@ -77,7 +77,7 @@ warpt 1
                     ref "k"
                   }
                 ]
-                procedure "app.Sized.size"
+                procedure "App.Sized.size"
               }
             }
           }
@@ -88,14 +88,14 @@ warpt 1
       }
     }
     satisfies {
-      "bank.Card" [
-        "app.Sized"
+      "Bank.Card" [
+        "App.Sized"
       ]
     }
     types {
-      "bank.Card" {
+      "Bank.Card" {
         record {
-          last "string"
+          last "String"
         }
       }
     }

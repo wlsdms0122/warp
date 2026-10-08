@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-cast-of-a-recursive-record-to-a-field-it-never-holds-further-down-refuses"
-  note "`app.T` declares `{ n: app.T? }`, so a value of it is a chain of records ending in null. `t` is read as `app.T`, and the cast names a record four deep whose last `n` holds a whole number. However deep the chain goes, every `n` holds a record or null and never an int, so no value is both and the cast refuses at the build."
+  note "`App.T` declares `{ n: App.T? }`, so a value of it is a chain of records ending in null. `t` is read as `App.T`, and the cast names a record four deep whose last `n` holds a whole number. However deep the chain goes, every `n` holds a record or null and never an int, so no value is both and the cast refuses at the build."
   program {
     imports []
     procedures {
@@ -13,7 +13,7 @@ warpt 1
         body [
           {
             let "t"
-            type "app.T"
+            type "App.T"
             value {
               record {
                 n {
@@ -43,7 +43,7 @@ warpt 1
                           record {
                             n {
                               record {
-                                n "int"
+                                n "Int"
                               }
                             }
                           }
@@ -62,9 +62,9 @@ warpt 1
       }
     }
     types {
-      "app.T" {
+      "App.T" {
         record {
-          n "app.T?"
+          n "App.T?"
         }
       }
     }

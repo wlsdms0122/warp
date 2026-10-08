@@ -4,11 +4,11 @@ warpt 1
     refuses "run"
   }
   name "a-getter-a-generic-procedure-made-refuses-what-a-cast-setter-wrote-where-it-is-called"
-  note "`app.mk` keeps `x` in a box and answers a record of a setter and a getter over it, both closures over its `T`. Called with 1, `T` reads `int`, so `p.g` is read as a procedure answering `int`. The setter is read through `any` and cast to take a `string`, and its call writes \"s\" into the box. The getter's own `returns` names `T`, which the run does not fill, so the call of `p.g` judges what arrives against `int`, and \"s\" refuses at the run."
+  note "`App.mk` keeps `x` in a box and answers a record of a setter and a getter over it, both closures over its `T`. Called with 1, `T` reads `Int`, so `p.g` is read as a procedure answering `Int`. The setter is read through `Any` and cast to take a `String`, and its call writes \"s\" into the box. The getter's own `returns` names `T`, which the run does not fill, so the call of `p.g` judges what arrives against `Int`, and \"s\" refuses at the run."
   program {
     imports []
     procedures {
-      "app.mk" {
+      "App.mk" {
         body [
           {
             value {
@@ -35,7 +35,7 @@ warpt 1
                   }
                 ]
                 result 0
-                returns "int"
+                returns "Int"
               }
             }
           }
@@ -78,13 +78,13 @@ warpt 1
                 arguments [
                   1
                 ]
-                procedure "app.mk"
+                procedure "App.mk"
               }
             }
           }
           {
             let "a"
-            type "any"
+            type "Any"
             value {
               ref "p.s"
             }
@@ -99,9 +99,9 @@ warpt 1
                 type {
                   procedure {
                     parameters [
-                      "string"
+                      "String"
                     ]
-                    returns "int"
+                    returns "Int"
                   }
                 }
               }

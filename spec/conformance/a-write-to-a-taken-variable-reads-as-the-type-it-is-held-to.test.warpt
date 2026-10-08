@@ -7,14 +7,14 @@ warpt 1
     answers 6
   }
   name "a-write-to-a-taken-variable-reads-as-the-type-it-is-held-to"
-  note "One arm lets a closure capture an int variable and the other writes null into it, so after the conditional it is held to int and reads int?. Writing an int into it leaves it reading int, and it is handed in place to an int slot."
+  note "One arm lets a closure capture an Int variable and the other writes null into it, so after the conditional it is held to Int and reads Int?. Writing an int into it leaves it reading Int, and it is handed in place to an Int slot."
   program {
     imports [
-      "std.collection.append"
-      "std.math.plus"
+      "Standard.Collection.append"
+      "Standard.Numeric.plus"
     ]
     procedures {
-      "app.bump" {
+      "App.bump" {
         body [
           {
             set "c"
@@ -26,7 +26,7 @@ warpt 1
                   }
                   1
                 ]
-                procedure "std.math.plus"
+                procedure "Standard.Numeric.plus"
               }
             }
           }
@@ -34,7 +34,7 @@ warpt 1
         parameters [
           {
             name "c"
-            type "inout int"
+            type "inout Int"
           }
         ]
         result 0
@@ -47,6 +47,13 @@ warpt 1
             var "x"
           }
           {
+            type {
+              array {
+                "const isolated procedure" {
+                  returns "Int"
+                }
+              }
+            }
             value []
             var "fs"
           }
@@ -75,7 +82,7 @@ warpt 1
                             }
                           }
                         ]
-                        procedure "std.collection.append"
+                        procedure "Standard.Collection.append"
                       }
                     }
                   }
@@ -98,7 +105,7 @@ warpt 1
                     ref "x"
                   }
                 ]
-                procedure "app.bump"
+                procedure "App.bump"
               }
             }
           }
@@ -106,7 +113,7 @@ warpt 1
         parameters [
           {
             name "c"
-            type "bool"
+            type "Bool"
           }
         ]
         result {

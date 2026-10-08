@@ -7,12 +7,12 @@ warpt 1
     ]
   }
   name "first-in-which-nothing-succeeds-fails-with-every-piece"
-  note "A `first` in which nothing succeeds fails the way `all` fails: every piece's failure reported, keyed by the piece it came from, so a rescue reads one failure per piece."
+  note "A `firstKeyed` in which nothing succeeds fails the way `allKeyed` fails: every piece's failure reported, keyed by the piece it came from, so a rescue reads one failure per piece."
   program {
     imports [
-      "std.collection.keys"
-      "std.concurrent.first"
-      "std.control.abort"
+      "Standard.Collection.keys"
+      "Standard.Concurrent.firstKeyed"
+      "Standard.Control.abort"
     ]
     procedures {
       entry {
@@ -38,11 +38,12 @@ warpt 1
                                           arguments [
                                             "left"
                                           ]
-                                          procedure "std.control.abort"
+                                          procedure "Standard.Control.abort"
                                         }
                                       }
                                     }
                                   ]
+                                  returns "Int"
                                 }
                               }
                               right {
@@ -54,17 +55,18 @@ warpt 1
                                           arguments [
                                             "right"
                                           ]
-                                          procedure "std.control.abort"
+                                          procedure "Standard.Control.abort"
                                         }
                                       }
                                     }
                                   ]
+                                  returns "Int"
                                 }
                               }
                             }
                           }
                         ]
-                        procedure "std.concurrent.first"
+                        procedure "Standard.Concurrent.firstKeyed"
                       }
                     }
                   }
@@ -78,7 +80,7 @@ warpt 1
                           of {
                             ref "tried.details.failures"
                           }
-                          type "dictionary<any>"
+                          type "Dictionary<Any>"
                         }
                       }
                     }
@@ -90,7 +92,7 @@ warpt 1
                           ref "failures"
                         }
                       ]
-                      procedure "std.collection.keys"
+                      procedure "Standard.Collection.keys"
                     }
                   }
                 }

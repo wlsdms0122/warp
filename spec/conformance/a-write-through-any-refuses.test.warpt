@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-write-through-any-refuses"
-  note "A write's path is judged against the type it reaches, and `any` declares nothing to write into. `set x.a` on a variable declared `any` refuses at the build."
+  note "A write's path is judged against the type it reaches, and `Any` declares nothing to write into. `set x.a` on a variable declared `Any` refuses at the build."
   program {
     imports []
     procedures {
@@ -12,7 +12,7 @@ warpt 1
         access "public"
         body [
           {
-            type "any"
+            type "Any"
             value {
               record {
                 a 1

@@ -1,0 +1,41 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-condition-read-as-any-refuses"
+  note "A condition chooses a way through a body, so it reads a Bool, and c reads Any, which stands only where Any is declared until a cast says what it is. The build refuses the condition."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            type "Any"
+            value true
+          }
+          {
+            value {
+              conditional {
+                then [
+                  {
+                    let "kept"
+                    value 1
+                  }
+                ]
+                when {
+                  ref "c"
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

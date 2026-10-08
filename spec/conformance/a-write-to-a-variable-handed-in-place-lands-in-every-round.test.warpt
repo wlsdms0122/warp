@@ -4,14 +4,14 @@ warpt 1
     answers 2
   }
   name "a-write-to-a-variable-handed-in-place-lands-in-every-round"
-  note "Each round writes an int into a variable that started null and hands it in place to an int slot. The write lands in every round, so the variable reads int where it is handed, in the first round and in every one after."
+  note "Each round writes an int into a variable that started null and hands it in place to an Int slot. The write lands in every round, so the variable reads Int where it is handed, in the first round and in every one after."
   program {
     imports [
-      "std.math.lessThan"
-      "std.math.plus"
+      "Standard.Comparable.lessThan"
+      "Standard.Numeric.plus"
     ]
     procedures {
-      "app.bump" {
+      "App.bump" {
         body [
           {
             set "c"
@@ -23,7 +23,7 @@ warpt 1
                   }
                   1
                 ]
-                procedure "std.math.plus"
+                procedure "Standard.Numeric.plus"
               }
             }
           }
@@ -31,7 +31,7 @@ warpt 1
         parameters [
           {
             name "c"
-            type "inout int"
+            type "inout Int"
           }
         ]
         result 0
@@ -63,7 +63,7 @@ warpt 1
                             ref "x"
                           }
                         ]
-                        procedure "app.bump"
+                        procedure "App.bump"
                       }
                     }
                   }
@@ -77,7 +77,7 @@ warpt 1
                           }
                           1
                         ]
-                        procedure "std.math.plus"
+                        procedure "Standard.Numeric.plus"
                       }
                     }
                   }
@@ -90,7 +90,7 @@ warpt 1
                       }
                       2
                     ]
-                    procedure "std.math.lessThan"
+                    procedure "Standard.Comparable.lessThan"
                   }
                 }
               }

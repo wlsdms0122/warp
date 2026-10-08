@@ -4,19 +4,19 @@ warpt 1
     refuses "build"
   }
   name "a-list-literal-handed-to-a-call-is-read-part-by-part-refuses"
-  note "`app.g` takes `array<int>` and is handed `[i, t]`, an int and a string read from names. The argument is held to the parameter element by element, so the string refuses at the build."
+  note "`App.g` takes `Array<Int>` and is handed `[i, t]`, an int and a string read from names. The argument is held to the parameter element by element, so the string refuses at the build."
   program {
     imports []
     procedures {
-      "app.g" {
+      "App.g" {
         parameters [
           {
             name "xs"
-            type "array<int>"
+            type "Array<Int>"
           }
         ]
         result 0
-        returns "int"
+        returns "Int"
       }
       entry {
         access "public"
@@ -43,7 +43,7 @@ warpt 1
                     }
                   ]
                 ]
-                procedure "app.g"
+                procedure "App.g"
               }
             }
           }

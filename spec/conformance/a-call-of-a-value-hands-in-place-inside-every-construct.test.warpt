@@ -7,9 +7,9 @@ warpt 1
   note "A call of a value hands a variable in place wherever it is written: a body, both arms of a conditional, a loop's round, a block, an attempt and its rescue. A closure is written into a record, an array and an argument the same way, and its own calls are judged and lowered with it."
   program {
     imports [
-      "std.control.abort"
-      "std.logic.not"
-      "std.math.plus"
+      "Standard.Control.abort"
+      "Standard.Logic.not"
+      "Standard.Numeric.plus"
     ]
     procedures {
       entry {
@@ -34,7 +34,7 @@ warpt 1
                           }
                           1
                         ]
-                        procedure "std.math.plus"
+                        procedure "Standard.Numeric.plus"
                       }
                     }
                   }
@@ -42,7 +42,7 @@ warpt 1
                 parameters [
                   {
                     name "c"
-                    type "inout int"
+                    type "inout Int"
                   }
                 ]
               }
@@ -130,7 +130,7 @@ warpt 1
                     arguments [
                       false
                     ]
-                    procedure "std.logic.not"
+                    procedure "Standard.Logic.not"
                   }
                 }
               }
@@ -185,7 +185,7 @@ warpt 1
                 result {
                   ref "m"
                 }
-                returns "int"
+                returns "Int"
               }
             }
           }
@@ -218,7 +218,7 @@ warpt 1
                     result {
                       ref "m"
                     }
-                    returns "int"
+                    returns "Int"
                   }
                 }
               }
@@ -252,7 +252,7 @@ warpt 1
                   result {
                     ref "m"
                   }
-                  returns "int"
+                  returns "Int"
                 }
               }
             ]
@@ -294,7 +294,7 @@ warpt 1
                         arguments [
                           "x"
                         ]
-                        procedure "std.control.abort"
+                        procedure "Standard.Control.abort"
                       }
                     }
                   }
@@ -324,7 +324,7 @@ warpt 1
         result {
           ref "n"
         }
-        returns "int"
+        returns "Int"
       }
       relay {
         body [
@@ -342,7 +342,9 @@ warpt 1
         parameters [
           {
             name "f"
-            type "procedure"
+            type {
+              procedure {}
+            }
           }
         ]
         result {

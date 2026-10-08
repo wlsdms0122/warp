@@ -4,10 +4,10 @@ warpt 1
     refuses "build"
   }
   name "a-piece-that-writes-what-it-captured-refuses"
-  note "`all` takes a membership of isolated closures, so the slot asks. A closure that writes what it captured is not isolated, and the build refuses it where it is handed over."
+  note "`all` takes isolated closures, so the slot asks. A closure that writes what it captured is not isolated, and the build refuses it where it is handed over."
   program {
     imports [
-      "std.concurrent.all"
+      "Standard.Concurrent.all"
     ]
     procedures {
       entry {
@@ -41,7 +41,7 @@ warpt 1
                     ref "pieces"
                   }
                 ]
-                procedure "std.concurrent.all"
+                procedure "Standard.Concurrent.all"
               }
             }
           }
@@ -49,7 +49,7 @@ warpt 1
         result {
           ref "tally"
         }
-        returns "int"
+        returns "Int"
       }
     }
     warp 1

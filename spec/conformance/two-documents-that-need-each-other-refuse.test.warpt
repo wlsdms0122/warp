@@ -3,32 +3,32 @@ warpt 1
   documents [
     {
       imports [
-        "ring.b"
+        "Ring.b"
       ]
       procedures {
-        "ring.a" {
+        "Ring.a" {
           result {
             call {
-              procedure "ring.b"
+              procedure "Ring.b"
             }
           }
-          returns "int"
+          returns "Int"
         }
       }
       warp 1
     }
     {
       imports [
-        "ring.a"
+        "Ring.a"
       ]
       procedures {
-        "ring.b" {
+        "Ring.b" {
           result {
             call {
-              procedure "ring.a"
+              procedure "Ring.a"
             }
           }
-          returns "int"
+          returns "Int"
         }
       }
       warp 1
@@ -41,17 +41,17 @@ warpt 1
   note "A document is read against what it sends and the types its signatures name, so what it needs is compiled before it. Two documents that each need the other have no such order: neither can be the one that goes first, and the pair is refused rather than either document."
   program {
     imports [
-      "ring.a"
+      "Ring.a"
     ]
     procedures {
       entry {
         access "public"
         result {
           call {
-            procedure "ring.a"
+            procedure "Ring.a"
           }
         }
-        returns "int"
+        returns "Int"
       }
     }
     warp 1

@@ -4,33 +4,33 @@ warpt 1
     answers "a card"
   }
   name "a-contract-stands-in-a-declared-types-field"
-  note "A contract's name stands where a type is written, a declared type's field included. A record settling into the declared type holds a value of whatever type satisfies the contract there, and the body calls the contract's procedure on it."
+  note "A contract's name stands where a type is written, a declared type's field included. A value of the declared type holds a value of whatever type satisfies the contract there, and the body calls the contract's procedure on it."
   program {
     contracts {
-      "app.Describable" {
+      "App.Describable" {
         describe {
           const true
           parameters [
             {
               name "of"
-              type "app.Describable"
+              type "Self"
             }
           ]
-          returns "string"
+          returns "String"
         }
       }
     }
     imports []
     procedures {
-      "bank.Card.describe" {
+      "Bank.Card.describe" {
         parameters [
           {
             name "of"
-            type "bank.Card"
+            type "Bank.Card"
           }
         ]
         result "a card"
-        returns "string"
+        returns "String"
       }
       entry {
         access "public"
@@ -49,13 +49,13 @@ warpt 1
                               limit 5
                             }
                           }
-                          type "bank.Card"
+                          type "Bank.Card"
                         }
                       }
                     ]
                   }
                 }
-                type "bank.Wallet"
+                type "Bank.Wallet"
               }
             }
           }
@@ -67,26 +67,26 @@ warpt 1
                 ref "wallet.cards[0]"
               }
             ]
-            procedure "app.Describable.describe"
+            procedure "App.Describable.describe"
           }
         }
-        returns "string"
+        returns "String"
       }
     }
     satisfies {
-      "bank.Card" [
-        "app.Describable"
+      "Bank.Card" [
+        "App.Describable"
       ]
     }
     types {
-      "bank.Card" {
+      "Bank.Card" {
         record {
-          limit "int"
+          limit "Int"
         }
       }
-      "bank.Wallet" {
+      "Bank.Wallet" {
         record {
-          cards "array<app.Describable>"
+          cards "Array<App.Describable>"
         }
       }
     }

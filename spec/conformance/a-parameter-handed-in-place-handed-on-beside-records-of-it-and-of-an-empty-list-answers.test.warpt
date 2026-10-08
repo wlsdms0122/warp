@@ -13,11 +13,11 @@ warpt 1
     ]
   }
   name "a-parameter-handed-in-place-handed-on-beside-records-of-it-and-of-an-empty-list-answers"
-  note "app.g hands xs, a list of dictionaries of lists of T handed in place, on to app.put beside [{ k: [x] }, { k: [] }]. The records are taken field by field whichever stands first, so the literal is a value of array<dictionary<array<some T>>>, and the caller reads both records."
+  note "App.g hands xs, a list of dictionaries of lists of T handed in place, on to App.put beside [{ k: [x] }, { k: [] }]. The records are taken field by field whichever stands first, so the literal is a value of Array<Dictionary<Array<some T>>>, and the caller reads both records."
   program {
     imports []
     procedures {
-      "app.g" {
+      "App.g" {
         body [
           {
             value {
@@ -43,7 +43,7 @@ warpt 1
                     }
                   ]
                 ]
-                procedure "app.put"
+                procedure "App.put"
               }
             }
           }
@@ -51,7 +51,7 @@ warpt 1
         parameters [
           {
             name "xs"
-            type "inout array<dictionary<array<some T>>>"
+            type "inout Array<Dictionary<Array<some T>>>"
           }
           {
             name "x"
@@ -60,7 +60,7 @@ warpt 1
         ]
         result 0
       }
-      "app.put" {
+      "App.put" {
         body [
           {
             set "a"
@@ -96,7 +96,7 @@ warpt 1
                     }
                   }
                 ]
-                type "array<dictionary<array<string>>>"
+                type "Array<Dictionary<Array<String>>>"
               }
             }
             var "s"
@@ -110,7 +110,7 @@ warpt 1
                   }
                   "b"
                 ]
-                procedure "app.g"
+                procedure "App.g"
               }
             }
           }

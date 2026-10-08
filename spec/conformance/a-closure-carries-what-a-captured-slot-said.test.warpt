@@ -11,14 +11,14 @@ warpt 1
   note "What a slot says about the procedure it holds stands wherever the name is read, a closure that captured it included. That is what lets a body build one closure per element and hand the lot to a fan-out: each piece calls the captured procedure and is isolated for the same reason the body around it would be."
   program {
     imports [
-      "std.collection.appending"
-      "std.collection.count"
-      "std.concurrent.all"
-      "std.math.lessThan"
-      "std.math.times"
+      "Standard.Collection.appending"
+      "Standard.Collection.count"
+      "Standard.Comparable.lessThan"
+      "Standard.Concurrent.all"
+      "Standard.Numeric.times"
     ]
     procedures {
-      "app.eachAtOnce" {
+      "App.eachAtOnce" {
         body [
           {
             value []
@@ -74,7 +74,7 @@ warpt 1
                             ref "piece"
                           }
                         ]
-                        procedure "std.collection.appending"
+                        procedure "Standard.Collection.appending"
                       }
                     }
                   }
@@ -92,11 +92,11 @@ warpt 1
                               ref "of"
                             }
                           ]
-                          procedure "std.collection.count"
+                          procedure "Standard.Collection.count"
                         }
                       }
                     ]
-                    procedure "std.math.lessThan"
+                    procedure "Standard.Comparable.lessThan"
                   }
                 }
               }
@@ -106,16 +106,16 @@ warpt 1
         parameters [
           {
             name "of"
-            type "array<int>"
+            type "Array<Int>"
           }
           {
             name "value"
             type {
               "isolated procedure" {
                 parameters [
-                  "int"
+                  "Int"
                 ]
-                returns "int"
+                returns "Int"
               }
             }
           }
@@ -127,10 +127,10 @@ warpt 1
                 ref "pieces"
               }
             ]
-            procedure "std.concurrent.all"
+            procedure "Standard.Concurrent.all"
           }
         }
-        returns "array<int>"
+        returns "Array<Int>"
       }
       entry {
         access "public"
@@ -147,7 +147,7 @@ warpt 1
                   parameters [
                     {
                       name "item"
-                      type "int"
+                      type "Int"
                     }
                   ]
                   result {
@@ -158,17 +158,17 @@ warpt 1
                         }
                         2
                       ]
-                      procedure "std.math.times"
+                      procedure "Standard.Numeric.times"
                     }
                   }
-                  returns "int"
+                  returns "Int"
                 }
               }
             ]
-            procedure "app.eachAtOnce"
+            procedure "App.eachAtOnce"
           }
         }
-        returns "array<int>"
+        returns "Array<Int>"
       }
     }
     warp 1

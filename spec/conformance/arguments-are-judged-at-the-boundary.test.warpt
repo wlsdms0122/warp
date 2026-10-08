@@ -1,0 +1,37 @@
+warpt 1
+{
+  arguments {
+    text "hey"
+    times 2
+  }
+  expect {
+    answers 2
+  }
+  name "arguments-are-judged-at-the-boundary"
+  note "What the host hands the entry is held to the entry's parameters and judged against them before the body sees it."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "text"
+            type "String"
+          }
+          {
+            name "times"
+            type "Int"
+          }
+        ]
+        result {
+          ref "times"
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

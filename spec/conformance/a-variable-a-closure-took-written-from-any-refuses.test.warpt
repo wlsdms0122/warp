@@ -1,0 +1,85 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-variable-a-closure-took-written-from-any-refuses"
+  note "App.g keeps x in cell, a closure takes cell, and the body writes junk, read as Any, into it. cell holds T, which takes only a value of it, so the write refuses at the build."
+  program {
+    imports []
+    procedures {
+      "App.g" {
+        body [
+          {
+            value {
+              ref "x"
+            }
+            var "cell"
+          }
+          {
+            let "c"
+            value {
+              closure {
+                body [
+                  {
+                    let "k"
+                    value {
+                      ref "cell"
+                    }
+                  }
+                ]
+                result {
+                  ref "k"
+                }
+                returns "some T"
+              }
+            }
+          }
+          {
+            set "cell"
+            value {
+              ref "junk"
+            }
+          }
+        ]
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+          {
+            name "junk"
+            type "Any"
+          }
+        ]
+        result {
+          ref "cell"
+        }
+        returns "some T"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  1
+                  "s"
+                ]
+                procedure "App.g"
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

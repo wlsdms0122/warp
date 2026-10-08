@@ -4,10 +4,10 @@ warpt 1
     refuses "build"
   }
   name "a-call-of-a-value-indexed-by-a-module-variable-does-not-answer-without-running"
-  note "Which value a call of a value calls is read like any name. A body reading a module variable to pick the entry it calls out of a `dictionary<const procedure>` answers by the run's state, so it does not answer without running, and an operand may not call it."
+  note "Which value a call of a value calls is read like any name. A body reading a module variable to pick the entry it calls out of a `Dictionary<const Procedure>` answers by the run's state, so it does not answer without running, and an operand may not call it."
   program {
     imports [
-      "std.math.plus"
+      "Standard.Numeric.plus"
     ]
     procedures {
       asking {
@@ -33,9 +33,9 @@ warpt 1
               dictionary {
                 "const procedure" {
                   parameters [
-                    "int"
+                    "Int"
                   ]
-                  returns "int"
+                  returns "Int"
                 }
               }
             }
@@ -44,7 +44,7 @@ warpt 1
         result {
           ref "a"
         }
-        returns "int"
+        returns "Int"
       }
       entry {
         access "public"
@@ -61,13 +61,13 @@ warpt 1
                             parameters [
                               {
                                 name "x"
-                                type "int"
+                                type "Int"
                               }
                             ]
                             result {
                               ref "x"
                             }
-                            returns "int"
+                            returns "Int"
                           }
                         }
                       }
@@ -78,10 +78,10 @@ warpt 1
               }
               1
             ]
-            procedure "std.math.plus"
+            procedure "Standard.Numeric.plus"
           }
         }
-        returns "int"
+        returns "Int"
       }
     }
     var {

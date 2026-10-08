@@ -3,33 +3,33 @@ warpt 1
   documents [
     {
       contracts {
-        "app.Describable" {
+        "App.Describable" {
           describe {
             parameters [
               {
                 name "of"
-                type "app.Describable"
+                type "Self"
               }
             ]
-            returns "string"
+            returns "String"
           }
         }
       }
       imports []
       procedures {
-        "app.nothing" {}
+        "App.nothing" {}
       }
       warp 1
     }
     {
       imports []
       procedures {
-        "t.nothing" {}
+        "T.nothing" {}
       }
       types {
-        "t.Card" {
+        "T.Card" {
           record {
-            rank "int"
+            rank "Int"
           }
         }
       }
@@ -37,15 +37,15 @@ warpt 1
     }
     {
       imports [
-        "app.Describable"
-        "t.Card"
+        "App.Describable"
+        "T.Card"
       ]
       procedures {
-        "c.nothing" {}
+        "C.nothing" {}
       }
       satisfies {
-        "t.Card" [
-          "app.Describable"
+        "T.Card" [
+          "App.Describable"
         ]
       }
       warp 1
@@ -58,7 +58,7 @@ warpt 1
   note "A claim missing a procedure puts its type under no contract, and that is refused only where a call leaned on the pair. A program beside such a claim that never asks the contract of the type builds and runs."
   program {
     imports [
-      "t.Card"
+      "T.Card"
     ]
     procedures {
       entry {
@@ -73,7 +73,7 @@ warpt 1
                     rank 3
                   }
                 }
-                type "t.Card"
+                type "T.Card"
               }
             }
           }
@@ -81,7 +81,7 @@ warpt 1
         result {
           ref "card.rank"
         }
-        returns "int"
+        returns "Int"
       }
     }
     warp 1

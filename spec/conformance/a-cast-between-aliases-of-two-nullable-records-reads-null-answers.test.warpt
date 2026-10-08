@@ -4,7 +4,7 @@ warpt 1
     answers null
   }
   name "a-cast-between-aliases-of-two-nullable-records-reads-null-answers"
-  note "`app.NA` names `app.A?` and `app.NB` names `app.B?`. Each is an alias and stands for what it names, so null is a value of both, the cast could hold and builds, and the run reads null as one of `app.NB`."
+  note "`App.NA` names `App.A?` and `App.NB` names `App.B?`. Each is an alias and stands for what it names, so null is a value of both, the cast could hold and builds, and the run reads null as one of `App.NB`."
   program {
     imports []
     procedures {
@@ -13,7 +13,7 @@ warpt 1
         body [
           {
             let "n"
-            type "app.NA"
+            type "App.NA"
             value null
           }
         ]
@@ -22,24 +22,24 @@ warpt 1
             of {
               ref "n"
             }
-            type "app.NB"
+            type "App.NB"
           }
         }
       }
     }
     types {
-      "app.A" {
+      "App.A" {
         record {
-          a "string"
+          a "String"
         }
       }
-      "app.B" {
+      "App.B" {
         record {
-          b "int"
+          b "Int"
         }
       }
-      "app.NA" "app.A?"
-      "app.NB" "app.B?"
+      "App.NA" "App.A?"
+      "App.NB" "App.B?"
     }
     warp 1
   }

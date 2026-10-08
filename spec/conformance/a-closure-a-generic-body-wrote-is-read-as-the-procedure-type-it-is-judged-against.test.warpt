@@ -4,13 +4,13 @@ warpt 1
     answers 15
   }
   name "a-closure-a-generic-body-wrote-is-read-as-the-procedure-type-it-is-judged-against"
-  note "app.mk answers a closure naming its own some T, and the call reads it as procedure<(int) -> int>. The run does not know what filled the T, so the closure is read as what the call asks there, and calling it answers 15."
+  note "App.mk answers a closure naming its own some T, and the call reads it as Procedure<(Int) -> Int>. The run does not know what filled the T, so the closure is read as what the call asks there, and calling it answers 15."
   program {
     imports [
-      "std.math.plus"
+      "Standard.Numeric.plus"
     ]
     procedures {
-      "app.mk" {
+      "App.mk" {
         parameters [
           {
             name "g"
@@ -69,7 +69,7 @@ warpt 1
                       parameters [
                         {
                           name "n"
-                          type "int"
+                          type "Int"
                         }
                       ]
                       result {
@@ -80,14 +80,14 @@ warpt 1
                             }
                             10
                           ]
-                          procedure "std.math.plus"
+                          procedure "Standard.Numeric.plus"
                         }
                       }
-                      returns "int"
+                      returns "Int"
                     }
                   }
                 ]
-                procedure "app.mk"
+                procedure "App.mk"
               }
             }
           }

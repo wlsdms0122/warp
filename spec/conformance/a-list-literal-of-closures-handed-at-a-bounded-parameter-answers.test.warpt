@@ -4,19 +4,16 @@ warpt 1
     answers 1
   }
   name "a-list-literal-of-closures-handed-at-a-bounded-parameter-answers"
-  note "`app.f` bounds `T` by `app.M`, which admits `int` and `string`, and takes a list of procedures taking `some T`. A list literal handed there holds a closure taking `int` and one taking `any`, and `x` fills `T` with `int`. Only the parts standing at the parameter are held to the bounds, so each closure is judged as any closure handed to its procedure type is, and the call answers 1."
+  note "`App.f` bounds `T` by `App.M`, which `Int` and `String` answer, and takes a list of procedures taking `some T`. A list literal handed there holds a closure taking `Int` and one taking `Any`, and `x` fills `T` with `Int`. Only the parts standing at the parameter are held to the bounds, so each closure is judged as any closure handed to its procedure type is, and the call answers 1."
   program {
-    constraints {
-      "app.M" [
-        "int"
-        "string"
-      ]
+    contracts {
+      "App.M" {}
     }
     imports []
     procedures {
-      "app.f" {
+      "App.f" {
         bounds {
-          T "app.M"
+          T "App.M"
         }
         parameters [
           {
@@ -27,7 +24,7 @@ warpt 1
                   parameters [
                     "some T"
                   ]
-                  returns "int"
+                  returns "Int"
                 }
               }
             }
@@ -49,7 +46,7 @@ warpt 1
             }
           }
         }
-        returns "int"
+        returns "Int"
       }
       entry {
         access "public"
@@ -65,13 +62,13 @@ warpt 1
                         parameters [
                           {
                             name "n"
-                            type "int"
+                            type "Int"
                           }
                         ]
                         result {
                           ref "n"
                         }
-                        returns "int"
+                        returns "Int"
                       }
                     }
                     {
@@ -79,17 +76,17 @@ warpt 1
                         parameters [
                           {
                             name "n"
-                            type "any"
+                            type "Any"
                           }
                         ]
                         result 7
-                        returns "int"
+                        returns "Int"
                       }
                     }
                   ]
                   1
                 ]
-                procedure "app.f"
+                procedure "App.f"
               }
             }
           }
@@ -98,6 +95,14 @@ warpt 1
           ref "r"
         }
       }
+    }
+    satisfies {
+      Int [
+        "App.M"
+      ]
+      String [
+        "App.M"
+      ]
     }
     warp 1
   }

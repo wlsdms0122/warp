@@ -7,7 +7,7 @@ warpt 1
     ]
   }
   name "an-array-literal-joins-its-elements"
-  note "The join reads wherever two readings of one slot meet, and an array literal's elements are such a slot. Null beside a value reads `T?`, so `[1, null]` reads `array<int?>` and fits a declaration that says so."
+  note "The join reads wherever two readings of one slot meet, and an array literal's elements are such a slot. Null beside a value reads `T?`, so `[1, null]` reads `Array<Int?>` and fits a declaration that says so."
   program {
     imports []
     procedures {
@@ -25,7 +25,7 @@ warpt 1
         result {
           ref "items"
         }
-        returns "array<int?>"
+        returns "Array<Int?>"
       }
     }
     warp 1

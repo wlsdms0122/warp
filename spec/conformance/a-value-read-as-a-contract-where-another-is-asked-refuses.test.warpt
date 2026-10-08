@@ -1,0 +1,69 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-value-read-as-a-contract-where-another-is-asked-refuses"
+  note "A value read as a contract stands where a slot asks only contracts it is read as, so one read as App.A & App.B handed where App.C is asked refuses at the build, until a cast says what it is."
+  program {
+    contracts {
+      "App.A" {}
+      "App.B" {}
+      "App.C" {}
+    }
+    imports []
+    procedures {
+      "App.f" {
+        parameters [
+          {
+            name "v"
+            type "App.A & App.B"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "v"
+              }
+            ]
+            procedure "App.g"
+          }
+        }
+        returns "Int"
+      }
+      "App.g" {
+        parameters [
+          {
+            name "c"
+            type "App.C"
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              1
+            ]
+            procedure "App.f"
+          }
+        }
+        returns "Int"
+      }
+    }
+    satisfies {
+      Int [
+        "App.A"
+        "App.B"
+        "App.C"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+

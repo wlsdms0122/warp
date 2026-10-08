@@ -4,10 +4,10 @@ warpt 1
     answers []
   }
   name "concurrent-map-over-nothing-answers-nothing"
-  note "`std.concurrent.map` answers one element per element it was given, in the collection's order, so a map over nothing answers nothing rather than failing."
+  note "`Standard.Concurrent.map` answers one element per element it was given, in the collection's order, so a map over nothing answers nothing rather than failing."
   program {
     imports [
-      "std.concurrent.map"
+      "Standard.Concurrent.map"
     ]
     procedures {
       entry {
@@ -21,11 +21,11 @@ warpt 1
                   parameters [
                     {
                       name "item"
-                      type "any"
+                      type "Any"
                     }
                     {
                       name "index"
-                      type "int"
+                      type "Int"
                     }
                   ]
                   result {
@@ -34,7 +34,7 @@ warpt 1
                 }
               }
             ]
-            procedure "std.concurrent.map"
+            procedure "Standard.Concurrent.map"
           }
         }
       }

@@ -4,55 +4,55 @@ warpt 1
     answers "a card"
   }
   name "a-declaration-answering-a-contract-may-answer-an-alias-of-a-record-answering-it"
-  note "The contract answers app.Describable and the declaration answering it answers bank.Alias, which names bank.Card, and a document says bank.Card answers app.Describable."
+  note "The contract answers App.Describable and the declaration answering it answers Bank.Alias, which names Bank.Card, and a document says Bank.Card answers App.Describable."
   program {
     contracts {
-      "app.Describable" {
+      "App.Describable" {
         describe {
           parameters [
             {
               name "of"
-              type "app.Describable"
+              type "Self"
             }
           ]
-          returns "string"
+          returns "String"
         }
       }
-      "app.Pick" {
+      "App.Pick" {
         pick {
           parameters [
             {
               name "of"
-              type "app.Pick"
+              type "Self"
             }
           ]
-          returns "app.Describable"
+          returns "App.Describable"
         }
       }
     }
     imports []
     procedures {
-      "bank.Card.describe" {
+      "Bank.Card.describe" {
         parameters [
           {
             name "of"
-            type "bank.Card"
+            type "Bank.Card"
           }
         ]
         result "a card"
-        returns "string"
+        returns "String"
       }
-      "bank.Card.pick" {
+      "Bank.Card.pick" {
         parameters [
           {
             name "of"
-            type "bank.Card"
+            type "Bank.Card"
           }
         ]
         result {
           ref "of"
         }
-        returns "bank.Alias"
+        returns "Bank.Alias"
       }
       entry {
         access "public"
@@ -66,7 +66,7 @@ warpt 1
                     last "42"
                   }
                 }
-                type "bank.Card"
+                type "Bank.Card"
               }
             }
           }
@@ -79,7 +79,7 @@ warpt 1
                     ref "c"
                   }
                 ]
-                procedure "app.Pick.pick"
+                procedure "App.Pick.pick"
               }
             }
           }
@@ -92,7 +92,7 @@ warpt 1
                     ref "p"
                   }
                 ]
-                procedure "app.Describable.describe"
+                procedure "App.Describable.describe"
               }
             }
           }
@@ -103,16 +103,16 @@ warpt 1
       }
     }
     satisfies {
-      "bank.Card" [
-        "app.Describable"
-        "app.Pick"
+      "Bank.Card" [
+        "App.Describable"
+        "App.Pick"
       ]
     }
     types {
-      "bank.Alias" "bank.Card"
-      "bank.Card" {
+      "Bank.Alias" "Bank.Card"
+      "Bank.Card" {
         record {
-          last "string"
+          last "String"
         }
       }
     }

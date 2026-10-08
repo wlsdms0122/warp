@@ -7,7 +7,7 @@ warpt 1
     ]
   }
   name "a-constant-closure-stands-in-a-const-slot"
-  note "A constant keeps the one value it settled to, so the closure it holds reads as the type its literal was judged at, the constness the build derived for it included. `std.collection.map` takes it in its `const procedure` slot."
+  note "A constant keeps the one value it settled to, so the closure it holds reads as the type its literal was judged at, the constness the build derived for it included. `Standard.Collection.map` takes it in its slot of a `const` procedure type."
   program {
     const {
       f {
@@ -15,18 +15,18 @@ warpt 1
           parameters [
             {
               name "x"
-              type "int"
+              type "Int"
             }
           ]
           result {
             ref "x"
           }
-          returns "int"
+          returns "Int"
         }
       }
     }
     imports [
-      "std.collection.map"
+      "Standard.Collection.map"
     ]
     procedures {
       entry {
@@ -42,7 +42,7 @@ warpt 1
                 ref "f"
               }
             ]
-            procedure "std.collection.map"
+            procedure "Standard.Collection.map"
           }
         }
       }

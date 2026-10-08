@@ -4,10 +4,10 @@ warpt 1
     refuses "build"
   }
   name "bytes-do-not-order"
-  note "bytes = array<byte>, and arrays do not order: Comparable admits numbers and strings among themselves, not collections. A literal is a reading the build can judge, so the refusal lands before the run."
+  note "bytes = Array<Int>, and arrays do not order: numbers and strings answer Comparable, not collections. A literal is a reading the build can judge, so the refusal lands before the run."
   program {
     imports [
-      "std.math.lessThan"
+      "Standard.Comparable.lessThan"
     ]
     procedures {
       entry {
@@ -18,7 +18,7 @@ warpt 1
               x"01"
               x"02"
             ]
-            procedure "std.math.lessThan"
+            procedure "Standard.Comparable.lessThan"
           }
         }
       }

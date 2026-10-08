@@ -5,19 +5,18 @@ warpt 1
       answers []
       claims []
       constants []
-      constraints []
       contracts []
       dependencies [
-        x"b0b5dbc48fc8ca1e5b36b83b09f1a129786d537a12a823df2faea935ffb0e037"
+        x"5cbf036e64410001a3d66dae4414c0b81f9fb692dc5b66dc7043d9dcb39b2bd4"
       ]
       document [
-        x"2a4ac869b89d53cc261c76756f491311ba8b5a52173f92a2ee4bf1968dd5c9fb"
+        x"13be9a47ffefcec0afc1401d2a7550a69b605d575b40dcf322d1c4792b6ecc10"
       ]
       leaned []
       lifted []
       numbering [
         [
-          "host.ping"
+          "Host.ping"
         ]
         []
       ]
@@ -66,10 +65,7 @@ warpt 1
           ]
         ]
       ]
-      typeNumbering [
-        []
-        []
-      ]
+      typeNumbering []
       types []
       variables []
     }
@@ -78,17 +74,17 @@ warpt 1
   note "A declaration the host answers has no body: its row's implementation is native, carrying the sends it declared, and the object that leans on it names that module's object under dependencies."
   program {
     imports [
-      "host.ping"
+      "Host.ping"
     ]
     procedures {
       entry {
         access "public"
         result {
           call {
-            procedure "host.ping"
+            procedure "Host.ping"
           }
         }
-        returns "int"
+        returns "Int"
       }
     }
     warp 1
@@ -96,9 +92,9 @@ warpt 1
   test 1
   vocabulary {
     procedures {
-      "host.ping" {
+      "Host.ping" {
         answers 7
-        returns "int"
+        returns "Int"
       }
     }
   }

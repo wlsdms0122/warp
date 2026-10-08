@@ -1,0 +1,40 @@
+warpt 1
+{
+  arguments {
+    row {
+      extra 1
+      id "a"
+    }
+  }
+  expect {
+    answers {
+      id "a"
+    }
+  }
+  name "a-value-from-outside-is-fitted-to-the-fields-declared"
+  note "The door a value from outside comes through is the one place a value is fitted to a type: a field the declaration never named is left out there, so `row` holds exactly the fields its record type says."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "row"
+            type {
+              record {
+                id "String"
+              }
+            }
+          }
+        ]
+        result {
+          ref "row"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

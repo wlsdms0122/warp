@@ -1,0 +1,36 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "an-index-reference-read-as-text-refuses"
+  note "An index stands where an Int is read, and `which` reads String, so the build refuses the reference."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "which"
+            value "first"
+          }
+          {
+            let "items"
+            value [
+              1
+              2
+            ]
+          }
+        ]
+        result {
+          ref "items[which]"
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

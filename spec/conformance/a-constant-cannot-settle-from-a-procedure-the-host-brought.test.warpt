@@ -4,17 +4,17 @@ warpt 1
     refuses "build"
   }
   name "a-constant-cannot-settle-from-a-procedure-the-host-brought"
-  note "A constant settles at the build and what it settles to is written into the compiled document, so it settles from what every implementation answers the same way: a body in the link, and the procedures this specification names. `app.seat` answers what the host's code answers, and the compiled document says nothing about which code that was, so folding through it would write a value nothing can be read against."
+  note "A constant settles at the build and what it settles to is written into the compiled document, so it settles from what every implementation answers the same way: a body in the link, and the procedures this specification names. `App.seat` answers what the host's code answers, and the compiled document says nothing about which code that was, so folding through it would write a value nothing can be read against."
   program {
     const {
       seat {
         call {
-          procedure "app.seat"
+          procedure "App.seat"
         }
       }
     }
     imports [
-      "app.seat"
+      "App.seat"
     ]
     procedures {
       entry {
@@ -22,7 +22,7 @@ warpt 1
         result {
           ref "seat"
         }
-        returns "int"
+        returns "Int"
       }
     }
     warp 1
@@ -30,9 +30,9 @@ warpt 1
   test 1
   vocabulary {
     procedures {
-      "app.seat" {
+      "App.seat" {
         answers 7
-        returns "int"
+        returns "Int"
       }
     }
   }

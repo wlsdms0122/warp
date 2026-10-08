@@ -6,12 +6,12 @@ warpt 1
     }
   }
   name "a-walk-is-a-loop-over-the-count"
-  note "Walking a collection is the one repetition the language has: the round read against the material's count, with the element read at that index. A round's contribution is what it writes outward. A mapping that answers without running is std.collection.map's to say, and an effectful round with something to keep writes an outer variable."
+  note "Walking a collection is the one repetition the language has: the round read against the material's count, with the element read at that index. A round's contribution is what it writes outward. A mapping that answers without running is Standard.Collection.map's to say, and an effectful round with something to keep writes an outer variable."
   program {
     imports [
-      "std.collection.count"
-      "std.math.lessThan"
-      "std.math.plus"
+      "Standard.Collection.count"
+      "Standard.Comparable.lessThan"
+      "Standard.Numeric.plus"
     ]
     procedures {
       entry {
@@ -52,7 +52,7 @@ warpt 1
                             ref "item"
                           }
                         ]
-                        procedure "std.math.plus"
+                        procedure "Standard.Numeric.plus"
                       }
                     }
                   }
@@ -70,11 +70,11 @@ warpt 1
                               ref "items"
                             }
                           ]
-                          procedure "std.collection.count"
+                          procedure "Standard.Collection.count"
                         }
                       }
                     ]
-                    procedure "std.math.lessThan"
+                    procedure "Standard.Comparable.lessThan"
                   }
                 }
               }

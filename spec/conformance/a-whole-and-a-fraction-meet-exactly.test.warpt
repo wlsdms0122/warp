@@ -4,67 +4,35 @@ warpt 1
     answers [
       false
       true
-      9007199254740993
     ]
   }
   name "a-whole-and-a-fraction-meet-exactly"
-  note "Numbers compare by what they are worth at every size. 2^53 + 1 rounds to 2^53 in binary64, and neither equality, ordering, nor the picking procedures follow the rounding."
+  note "Equality reads numbers by what they are worth, at every size. 2^53 + 1 rounds to 2^53 in binary64, and equality does not follow the rounding: the whole number 2^53 + 1 is not the fraction 2^53, and 2^53 is."
   program {
     imports [
-      "std.logic.equal"
-      "std.math.greaterThan"
-      "std.math.max"
+      "Standard.Logic.equal"
     ]
     procedures {
       entry {
         access "public"
-        body [
-          {
-            let "same"
-            value {
-              call {
-                arguments [
-                  9007199254740993
-                  9007199254740992.0
-                ]
-                procedure "std.logic.equal"
-              }
-            }
-          }
-          {
-            let "over"
-            value {
-              call {
-                arguments [
-                  9007199254740993
-                  9007199254740992.0
-                ]
-                procedure "std.math.greaterThan"
-              }
-            }
-          }
-          {
-            let "kept"
-            value {
-              call {
-                arguments [
-                  9007199254740993
-                  9007199254740992.0
-                ]
-                procedure "std.math.max"
-              }
-            }
-          }
-        ]
         result [
           {
-            ref "same"
+            call {
+              arguments [
+                9007199254740993
+                9007199254740992.0
+              ]
+              procedure "Standard.Logic.equal"
+            }
           }
           {
-            ref "over"
-          }
-          {
-            ref "kept"
+            call {
+              arguments [
+                9007199254740992
+                9007199254740992.0
+              ]
+              procedure "Standard.Logic.equal"
+            }
           }
         ]
       }

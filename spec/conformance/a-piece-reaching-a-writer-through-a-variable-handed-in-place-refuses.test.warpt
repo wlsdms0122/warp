@@ -4,24 +4,24 @@ warpt 1
     refuses "build"
   }
   name "a-piece-reaching-a-writer-through-a-variable-handed-in-place-refuses"
-  note "A variable handed in place to a slot saying `const isolated procedure`, and kept there by the closure the callee answers, is held to that type from the call on. A later `set` of a closure that writes a captured variable does not fit, so the build refuses it and no piece of `std.concurrent.map` reaches the writer."
+  note "A variable handed in place to a slot saying a `const isolated` procedure type, and kept there by the closure the callee answers, is held to that type from the call on. A later `set` of a closure that writes a captured variable does not fit, so the build refuses it and no piece of `Standard.Concurrent.map` reaches the writer."
   program {
     imports [
-      "std.concurrent.map"
-      "std.math.plus"
+      "Standard.Concurrent.map"
+      "Standard.Numeric.plus"
     ]
     procedures {
-      "app.keep" {
+      "App.keep" {
         parameters [
           {
             name "f"
             type {
               "inout const isolated procedure" {
                 parameters [
-                  "int"
-                  "int"
+                  "Int"
+                  "Int"
                 ]
-                returns "int"
+                returns "Int"
               }
             }
           }
@@ -51,26 +51,26 @@ warpt 1
             parameters [
               {
                 name "x"
-                type "int"
+                type "Int"
               }
               {
                 name "i"
-                type "int"
+                type "Int"
               }
             ]
             result {
               ref "y"
             }
-            returns "int"
+            returns "Int"
           }
         }
         returns {
           "isolated procedure" {
             parameters [
-              "int"
-              "int"
+              "Int"
+              "Int"
             ]
-            returns "int"
+            returns "Int"
           }
         }
       }
@@ -83,17 +83,17 @@ warpt 1
                 parameters [
                   {
                     name "x"
-                    type "int"
+                    type "Int"
                   }
                   {
                     name "i"
-                    type "int"
+                    type "Int"
                   }
                 ]
                 result {
                   ref "x"
                 }
-                returns "int"
+                returns "Int"
               }
             }
             var "h"
@@ -107,7 +107,7 @@ warpt 1
                     ref "h"
                   }
                 ]
-                procedure "app.keep"
+                procedure "App.keep"
               }
             }
           }
@@ -130,7 +130,7 @@ warpt 1
                           }
                           1
                         ]
-                        procedure "std.math.plus"
+                        procedure "Standard.Numeric.plus"
                       }
                     }
                   }
@@ -138,17 +138,17 @@ warpt 1
                 parameters [
                   {
                     name "x"
-                    type "int"
+                    type "Int"
                   }
                   {
                     name "i"
-                    type "int"
+                    type "Int"
                   }
                 ]
                 result {
                   ref "x"
                 }
-                returns "int"
+                returns "Int"
               }
             }
           }
@@ -166,7 +166,7 @@ warpt 1
                     ref "k"
                   }
                 ]
-                procedure "std.concurrent.map"
+                procedure "Standard.Concurrent.map"
               }
             }
           }

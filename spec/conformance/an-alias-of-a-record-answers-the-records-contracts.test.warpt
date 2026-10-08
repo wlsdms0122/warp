@@ -4,32 +4,32 @@ warpt 1
     answers "a card"
   }
   name "an-alias-of-a-record-answers-the-records-contracts"
-  note "bank.Alias names the record bank.Card, which a document says answers app.Describable, so a value of bank.Alias is handed where app.Describable is asked."
+  note "Bank.Alias names the record Bank.Card, which a document says answers App.Describable, so a value of Bank.Alias is handed where App.Describable is asked."
   program {
     contracts {
-      "app.Describable" {
+      "App.Describable" {
         describe {
           parameters [
             {
               name "of"
-              type "app.Describable"
+              type "Self"
             }
           ]
-          returns "string"
+          returns "String"
         }
       }
     }
     imports []
     procedures {
-      "bank.Card.describe" {
+      "Bank.Card.describe" {
         parameters [
           {
             name "of"
-            type "bank.Card"
+            type "Bank.Card"
           }
         ]
         result "a card"
-        returns "string"
+        returns "String"
       }
       entry {
         access "public"
@@ -43,7 +43,7 @@ warpt 1
                     last "1"
                   }
                 }
-                type "bank.Alias"
+                type "Bank.Alias"
               }
             }
           }
@@ -56,7 +56,7 @@ warpt 1
                     ref "c"
                   }
                 ]
-                procedure "app.Describable.describe"
+                procedure "App.Describable.describe"
               }
             }
           }
@@ -67,15 +67,15 @@ warpt 1
       }
     }
     satisfies {
-      "bank.Card" [
-        "app.Describable"
+      "Bank.Card" [
+        "App.Describable"
       ]
     }
     types {
-      "bank.Alias" "bank.Card"
-      "bank.Card" {
+      "Bank.Alias" "Bank.Card"
+      "Bank.Card" {
         record {
-          last "string"
+          last "String"
         }
       }
     }

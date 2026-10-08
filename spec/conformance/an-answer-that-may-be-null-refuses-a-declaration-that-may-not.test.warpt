@@ -7,7 +7,7 @@ warpt 1
     refuses "build"
   }
   name "an-answer-that-may-be-null-refuses-a-declaration-that-may-not"
-  note "A body and the `returns` beside it are one document's text, so what the body reads is held to what the declaration promises without waiting for a run. `as?` reads `int?`, and what may be null does not stand where null was never declared."
+  note "A body and the `returns` beside it are one document's text, so what the body reads is held to what the declaration promises without waiting for a run. `as?` reads `Int?`, and what may be null does not stand where null was never declared."
   program {
     imports []
     procedures {
@@ -16,7 +16,7 @@ warpt 1
         parameters [
           {
             name "payload"
-            type "any"
+            type "Any"
           }
         ]
         result {
@@ -24,10 +24,10 @@ warpt 1
             of {
               ref "payload"
             }
-            type "int"
+            type "Int"
           }
         }
-        returns "int"
+        returns "Int"
       }
     }
     warp 1

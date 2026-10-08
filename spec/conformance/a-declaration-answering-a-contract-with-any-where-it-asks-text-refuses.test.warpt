@@ -1,0 +1,103 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-declaration-answering-a-contract-with-any-where-it-asks-text-refuses"
+  note "The contract answers String and the declaration answering it answers Any. A value read as `Any` is no String the build can see, so the declaration does not answer the contract and the build refuses."
+  program {
+    contracts {
+      "App.Describable" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports [
+      "Standard.Collection.appending"
+    ]
+    procedures {
+      "Bank.Card.describe" {
+        parameters [
+          {
+            name "of"
+            type "Bank.Card"
+          }
+        ]
+        result 5
+        returns "Any"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            value {
+              as {
+                of {
+                  record {
+                    last "42"
+                  }
+                }
+                type "Bank.Card"
+              }
+            }
+          }
+          {
+            let "d"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "c"
+                  }
+                ]
+                procedure "App.Describable.describe"
+              }
+            }
+          }
+          {
+            let "xs"
+            value {
+              call {
+                arguments [
+                  [
+                    "a"
+                  ]
+                  {
+                    ref "d"
+                  }
+                ]
+                procedure "Standard.Collection.appending"
+              }
+            }
+          }
+        ]
+        result {
+          ref "xs"
+        }
+      }
+    }
+    satisfies {
+      "Bank.Card" [
+        "App.Describable"
+      ]
+    }
+    types {
+      "Bank.Card" {
+        record {
+          last "String"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

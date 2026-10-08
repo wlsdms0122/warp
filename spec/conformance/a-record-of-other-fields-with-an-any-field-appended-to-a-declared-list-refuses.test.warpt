@@ -4,10 +4,10 @@ warpt 1
     refuses "build"
   }
   name "a-record-of-other-fields-with-an-any-field-appended-to-a-declared-list-refuses"
-  note "`people` is declared `array<{ name: string }>`. Appending `{ name: src.name, age: src.age }`, with `src` a `dictionary<any>`, fills the element with what holds `{ name: string }` and `{ name: any, age: any }`, which is `{ name: any }`. A variable handed in place takes only what it is declared as, so the build refuses."
+  note "`people` is declared `Array<{ name: String }>`. Appending `{ name: src.name, age: src.age }`, with `src` a `Dictionary<Any>`, reads the element as `{ name: String }` and as `{ age: Any, name: Any }`, two record types of other fields neither of which takes the other, so the build refuses."
   program {
     imports [
-      "std.collection.append"
+      "Standard.Collection.append"
     ]
     procedures {
       entry {
@@ -15,7 +15,7 @@ warpt 1
         body [
           {
             let "raw"
-            type "any"
+            type "Any"
             value {
               record {
                 age 30
@@ -30,7 +30,7 @@ warpt 1
                 of {
                   ref "raw"
                 }
-                type "dictionary<any>"
+                type "Dictionary<Any>"
               }
             }
           }
@@ -38,7 +38,7 @@ warpt 1
             type {
               array {
                 record {
-                  name "string"
+                  name "String"
                 }
               }
             }
@@ -69,7 +69,7 @@ warpt 1
                     }
                   }
                 ]
-                procedure "std.collection.append"
+                procedure "Standard.Collection.append"
               }
             }
           }

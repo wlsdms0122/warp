@@ -1,0 +1,34 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-write-into-a-module-variable-is-judged-against-the-type-it-declares-refuses"
+  note "`r` is a module variable declaring `Int`, and a body writes text into it. A write into a box that said what it holds is judged against it, the way a local `var` declaring a type judges each write, so the write refuses at the build."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            set "r"
+            value "nine"
+          }
+        ]
+        result {
+          ref "r"
+        }
+      }
+    }
+    var {
+      r {
+        type "Int"
+        value 0
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

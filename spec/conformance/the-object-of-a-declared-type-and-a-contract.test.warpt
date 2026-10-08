@@ -1,0 +1,258 @@
+warpt 1
+{
+  expect {
+    builds {
+      answers []
+      claims [
+        [
+          "Double"
+          [
+            "App.Number"
+          ]
+        ]
+        [
+          "Int"
+          [
+            "App.Number"
+          ]
+        ]
+      ]
+      constants []
+      contracts [
+        [
+          "App.Number"
+          []
+        ]
+      ]
+      dependencies []
+      document [
+        x"0161689a336d8c0a2876bbef77284f08a572516186db36320081e8a22790afd1"
+      ]
+      leaned []
+      lifted []
+      numbering [
+        []
+        []
+      ]
+      object 1
+      rows [
+        [
+          "entry"
+          [
+            [
+              [
+                "p"
+                [
+                  [
+                    0
+                  ]
+                ]
+                []
+              ]
+              [
+                "v"
+                [
+                  [
+                    15
+                    "T"
+                    [
+                      "App.Number"
+                    ]
+                  ]
+                ]
+                []
+              ]
+            ]
+            [
+              [
+                15
+                "T"
+                [
+                  "App.Number"
+                ]
+              ]
+            ]
+          ]
+          2
+          1
+          1
+          [
+            1
+            [
+              "cast_refused"
+            ]
+          ]
+          true
+          [
+            0
+            [
+              [
+                [
+                  [
+                    [
+                      0
+                      2
+                      []
+                    ]
+                  ]
+                  [
+                    6
+                    [
+                      1
+                      [
+                        0
+                        []
+                      ]
+                    ]
+                    [
+                      14
+                      0
+                    ]
+                    false
+                  ]
+                  "kept"
+                ]
+                [
+                  [
+                    [
+                      0
+                      3
+                      [
+                        [
+                          16
+                          [
+                            "App.Number"
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                  [
+                    1
+                    [
+                      1
+                      []
+                    ]
+                  ]
+                  "number"
+                ]
+              ]
+              [
+                [
+                  1
+                  [
+                    1
+                    []
+                  ]
+                ]
+              ]
+            ]
+            [
+              4
+              [
+                0
+                1
+              ]
+              []
+              []
+              [
+                "p"
+                "v"
+                "kept"
+                "number"
+              ]
+            ]
+          ]
+        ]
+      ]
+      typeNumbering [
+        "App.Point"
+      ]
+      types [
+        [
+          "App.Point"
+          [
+            9
+            [
+              [
+                "x"
+                [
+                  4
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+      variables []
+    }
+  }
+  name "the-object-of-a-declared-type-and-a-contract"
+  note "Declared types and contracts stand as the document wrote them. A body standing on a declared type, here by a cast to it, numbers it under typeNumbering, a slot declaring a type parameter writes it with its bounds, and a name that holds a value of a contract lowers to a composition of the contract's name."
+  program {
+    contracts {
+      "App.Number" {}
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "kept"
+            value {
+              as {
+                of {
+                  ref "p"
+                }
+                type "App.Point"
+              }
+            }
+          }
+          {
+            let "number"
+            type "App.Number"
+            value {
+              ref "v"
+            }
+          }
+        ]
+        bounds {
+          T "App.Number"
+        }
+        parameters [
+          {
+            name "p"
+            type "Any"
+          }
+          {
+            name "v"
+            type "some T"
+          }
+        ]
+        result {
+          ref "v"
+        }
+        returns "some T"
+      }
+    }
+    satisfies {
+      Double [
+        "App.Number"
+      ]
+      Int [
+        "App.Number"
+      ]
+    }
+    types {
+      "App.Point" {
+        record {
+          x "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

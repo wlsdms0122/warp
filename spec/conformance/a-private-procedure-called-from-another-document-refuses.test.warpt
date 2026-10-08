@@ -4,10 +4,10 @@ warpt 1
     {
       imports []
       procedures {
-        "lib.hidden" {
+        "Lib.hidden" {
           access "private"
           result 7
-          returns "int"
+          returns "Int"
         }
       }
       warp 1
@@ -20,17 +20,17 @@ warpt 1
   note "A private declaration is named from the document that declares it and nowhere else. A call standing in another document reaches it by spelling and is refused at the build, at the call."
   program {
     imports [
-      "lib.hidden"
+      "Lib.hidden"
     ]
     procedures {
       entry {
         access "public"
         result {
           call {
-            procedure "lib.hidden"
+            procedure "Lib.hidden"
           }
         }
-        returns "int"
+        returns "Int"
       }
     }
     warp 1

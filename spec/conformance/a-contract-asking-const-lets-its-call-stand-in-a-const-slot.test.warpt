@@ -10,29 +10,29 @@ warpt 1
   note "A contract's procedure writing `const` answers without running, so a call through it reads as one does: a closure sending it is const, and stands in the const slot map asks. Every declaration answering the contract is held to that where its claim is checked."
   program {
     contracts {
-      "app.Named" {
+      "App.Named" {
         name {
           const true
           parameters [
             {
               name "of"
-              type "app.Named"
+              type "Self"
             }
           ]
-          returns "string"
+          returns "String"
         }
       }
     }
     imports [
-      "std.collection.map"
-      "std.text.text"
+      "Standard.Collection.map"
+      "Standard.Text.text"
     ]
     procedures {
-      "app.Thing.name" {
+      "App.Thing.name" {
         parameters [
           {
             name "of"
-            type "app.Thing"
+            type "App.Thing"
           }
         ]
         result {
@@ -42,19 +42,19 @@ warpt 1
                 ref "of.id"
               }
             ]
-            procedure "std.text.text"
+            procedure "Standard.Text.text"
           }
         }
-        returns "string"
+        returns "String"
       }
-      "app.names" {
+      "App.names" {
         bounds {
-          T "app.Named"
+          T "App.Named"
         }
         parameters [
           {
             name "of"
-            type "array<some T>"
+            type "Array<some T>"
           }
         ]
         result {
@@ -78,17 +78,17 @@ warpt 1
                           ref "item"
                         }
                       ]
-                      procedure "app.Named.name"
+                      procedure "App.Named.name"
                     }
                   }
-                  returns "string"
+                  returns "String"
                 }
               }
             ]
-            procedure "std.collection.map"
+            procedure "Standard.Collection.map"
           }
         }
-        returns "array<string>"
+        returns "Array<String>"
       }
       entry {
         access "public"
@@ -103,7 +103,7 @@ warpt 1
                         id 1
                       }
                     }
-                    type "app.Thing"
+                    type "App.Thing"
                   }
                 }
                 {
@@ -113,26 +113,26 @@ warpt 1
                         id 2
                       }
                     }
-                    type "app.Thing"
+                    type "App.Thing"
                   }
                 }
               ]
             ]
-            procedure "app.names"
+            procedure "App.names"
           }
         }
-        returns "array<string>"
+        returns "Array<String>"
       }
     }
     satisfies {
-      "app.Thing" [
-        "app.Named"
+      "App.Thing" [
+        "App.Named"
       ]
     }
     types {
-      "app.Thing" {
+      "App.Thing" {
         record {
-          id "int"
+          id "Int"
         }
       }
     }

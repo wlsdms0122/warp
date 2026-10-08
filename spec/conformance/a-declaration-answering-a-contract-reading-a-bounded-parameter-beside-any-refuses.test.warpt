@@ -4,47 +4,42 @@ warpt 1
     refuses "build"
   }
   name "a-declaration-answering-a-contract-reading-a-bounded-parameter-beside-any-refuses"
-  note "`app.C` asks `m` taking text and `any` after the type. `bank.X.m` answers it with two of `some T`, bounded by `app.Nums`, which admits `int` and `double`. Held to the contract, `T` is read as `string` and as `any`, which join to `any`; each reading is held to the bounds as it was read, no member takes text, and the call leaning on the claim refuses at the build."
+  note "`App.C` asks `m` taking text and `Any` after the type. `Bank.X.m` answers it with two of `some T`, bounded by `App.Nums`, which `Int` and `Double` answer. Held to the contract, `T` is read as `String` and as `Any`, which join to `Any`; each reading is held to the bounds as it was read, text answers no bound, and the call leaning on the claim refuses at the build."
   program {
-    constraints {
-      "app.Nums" [
-        "int"
-        "double"
-      ]
-    }
     contracts {
-      "app.C" {
+      "App.C" {
         m {
           const true
           isolated true
           parameters [
             {
               name "of"
-              type "app.C"
+              type "Self"
             }
             {
               name "a"
-              type "string"
+              type "String"
             }
             {
               name "b"
-              type "any"
+              type "Any"
             }
           ]
-          returns "int"
+          returns "Int"
         }
       }
+      "App.Nums" {}
     }
     imports []
     procedures {
-      "bank.X.m" {
+      "Bank.X.m" {
         bounds {
-          T "app.Nums"
+          T "App.Nums"
         }
         parameters [
           {
             name "of"
-            type "bank.X"
+            type "Bank.X"
           }
           {
             name "a"
@@ -56,14 +51,14 @@ warpt 1
           }
         ]
         result 0
-        returns "int"
+        returns "Int"
       }
       entry {
         access "public"
         body [
           {
             let "x"
-            type "bank.X"
+            type "Bank.X"
             value {
               record {
                 k "a"
@@ -72,12 +67,12 @@ warpt 1
           }
           {
             let "s"
-            type "string"
+            type "String"
             value "s"
           }
           {
             let "u"
-            type "any"
+            type "Any"
             value 1
           }
         ]
@@ -94,20 +89,26 @@ warpt 1
                 ref "u"
               }
             ]
-            procedure "app.C.m"
+            procedure "App.C.m"
           }
         }
       }
     }
     satisfies {
-      "bank.X" [
-        "app.C"
+      "Bank.X" [
+        "App.C"
+      ]
+      Double [
+        "App.Nums"
+      ]
+      Int [
+        "App.Nums"
       ]
     }
     types {
-      "bank.X" {
+      "Bank.X" {
         record {
-          k "string"
+          k "String"
         }
       }
     }

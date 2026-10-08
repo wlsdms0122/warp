@@ -5,19 +5,18 @@ warpt 1
       answers []
       claims []
       constants []
-      constraints []
       contracts []
       dependencies [
-        x"463787d045dabc766985211bfc1436a3a5ca7d3012592585c14b136fd3234121"
+        x"ca5791b3e8dc93509f493a730eeaf3d35cc4636d6f68e968dc0cd279e96393dc"
       ]
       document [
-        x"23e7d12a9bded1380aa6f261a152aec078025e164651222d42bc57f9ae7b5c81"
+        x"1cdd8c797b8215370fb14fea491c2dc0fada61a83129ca0e371ca87e86d14e55"
       ]
       leaned []
       lifted []
       numbering [
         [
-          "std.math.plus"
+          "Standard.Collection.appending"
         ]
         []
       ]
@@ -31,16 +30,21 @@ warpt 1
                 "n"
                 [
                   [
-                    4
+                    7
+                    [
+                      4
+                    ]
                   ]
                 ]
-                []
                 []
               ]
             ]
             [
               [
-                4
+                7
+                [
+                  4
+                ]
               ]
             ]
           ]
@@ -100,10 +104,7 @@ warpt 1
           ]
         ]
       ]
-      typeNumbering [
-        []
-        []
-      ]
+      typeNumbering []
       types []
       variables []
     }
@@ -112,7 +113,7 @@ warpt 1
   note "A call names the row it reaches by the document's own number, which the numbering resolves to the first spelling sent, and stands one operation or nothing per parameter of the callee in parameter order."
   program {
     imports [
-      "std.math.plus"
+      "Standard.Collection.appending"
     ]
     procedures {
       entry {
@@ -120,7 +121,7 @@ warpt 1
         parameters [
           {
             name "n"
-            type "int"
+            type "Array<Int>"
           }
         ]
         result {
@@ -131,10 +132,10 @@ warpt 1
               }
               1
             ]
-            procedure "std.math.plus"
+            procedure "Standard.Collection.appending"
           }
         }
-        returns "int"
+        returns "Array<Int>"
       }
     }
     warp 1

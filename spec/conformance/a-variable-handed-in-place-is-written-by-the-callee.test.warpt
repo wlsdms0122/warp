@@ -7,7 +7,7 @@ warpt 1
   note "A parameter typed `inout` takes the caller's variable rather than its value. The callee writes the box, and the caller reads what was written."
   program {
     imports [
-      "std.math.plus"
+      "Standard.Numeric.plus"
     ]
     procedures {
       bump {
@@ -22,7 +22,7 @@ warpt 1
                   }
                   1
                 ]
-                procedure "std.math.plus"
+                procedure "Standard.Numeric.plus"
               }
             }
           }
@@ -30,7 +30,7 @@ warpt 1
         parameters [
           {
             name "count"
-            type "inout int"
+            type "inout Int"
           }
         ]
       }
@@ -57,7 +57,7 @@ warpt 1
         result {
           ref "n"
         }
-        returns "int"
+        returns "Int"
       }
     }
     warp 1

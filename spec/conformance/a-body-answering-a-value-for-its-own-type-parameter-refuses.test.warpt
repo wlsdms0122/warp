@@ -4,13 +4,13 @@ warpt 1
     refuses "build"
   }
   name "a-body-answering-a-value-for-its-own-type-parameter-refuses"
-  note "A declaration taking some T and answering some T answers 5. Inside the declaration T is one type the body does not know, so only a value of T answers it, and a call filling T with string would be handed an int."
+  note "A declaration taking some T and answering some T answers 5. Inside the declaration T is one type the body does not know, so only a value of T answers it, and a call filling T with String would be handed an int."
   program {
     imports [
-      "std.text.uppercased"
+      "Standard.Text.uppercased"
     ]
     procedures {
-      "app.gen" {
+      "App.gen" {
         parameters [
           {
             name "x"
@@ -30,7 +30,7 @@ warpt 1
                 arguments [
                   "s"
                 ]
-                procedure "app.gen"
+                procedure "App.gen"
               }
             }
           }
@@ -43,7 +43,7 @@ warpt 1
                     ref "r"
                   }
                 ]
-                procedure "std.text.uppercased"
+                procedure "Standard.Text.uppercased"
               }
             }
           }

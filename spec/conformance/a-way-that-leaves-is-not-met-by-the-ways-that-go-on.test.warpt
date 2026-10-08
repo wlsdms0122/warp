@@ -10,7 +10,7 @@ warpt 1
   note "The arm that sets `n` to a string and takes it there returns, so no write after the conditional runs on that way. Only the other arm, which takes `n` as an int, reaches what follows, and a later write of an int stands."
   program {
     imports [
-      "std.math.plus"
+      "Standard.Numeric.plus"
     ]
     procedures {
       entry {
@@ -39,7 +39,7 @@ warpt 1
                                   }
                                   1
                                 ]
-                                procedure "std.math.plus"
+                                procedure "Standard.Numeric.plus"
                               }
                             }
                           }
@@ -83,13 +83,13 @@ warpt 1
         parameters [
           {
             name "ready"
-            type "bool"
+            type "Bool"
           }
         ]
         result {
           ref "n"
         }
-        returns "int"
+        returns "Int"
       }
     }
     warp 1

@@ -4,42 +4,42 @@ warpt 1
     answers "took"
   }
   name "a-contract-or-null-slot-takes-a-type-answering-the-contract"
-  note "app.f takes app.Sized? and is handed a bank.Card, which a document says answers app.Sized."
+  note "App.f takes App.Sized? and is handed a Bank.Card, which a document says answers App.Sized."
   program {
     contracts {
-      "app.Sized" {
+      "App.Sized" {
         size {
           parameters [
             {
               name "of"
-              type "app.Sized"
+              type "Self"
             }
           ]
-          returns "int"
+          returns "Int"
         }
       }
     }
     imports []
     procedures {
-      "app.f" {
+      "App.f" {
         parameters [
           {
             name "n"
-            type "app.Sized?"
+            type "App.Sized?"
           }
         ]
         result "took"
-        returns "string"
+        returns "String"
       }
-      "bank.Card.size" {
+      "Bank.Card.size" {
         parameters [
           {
             name "of"
-            type "bank.Card"
+            type "Bank.Card"
           }
         ]
         result 4
-        returns "int"
+        returns "Int"
       }
       entry {
         access "public"
@@ -53,7 +53,7 @@ warpt 1
                     last "4"
                   }
                 }
-                type "bank.Card"
+                type "Bank.Card"
               }
             }
           }
@@ -66,7 +66,7 @@ warpt 1
                     ref "c"
                   }
                 ]
-                procedure "app.f"
+                procedure "App.f"
               }
             }
           }
@@ -77,24 +77,24 @@ warpt 1
       }
     }
     satisfies {
-      "bank.Card" [
-        "app.Sized"
+      "Bank.Card" [
+        "App.Sized"
       ]
     }
     types {
-      "bank.Box" {
+      "Bank.Box" {
         record {
-          n "int"
+          n "Int"
         }
       }
-      "bank.Card" {
+      "Bank.Card" {
         record {
-          last "string"
+          last "String"
         }
       }
-      "bank.Coin" {
+      "Bank.Coin" {
         record {
-          cents "int"
+          cents "Int"
         }
       }
     }

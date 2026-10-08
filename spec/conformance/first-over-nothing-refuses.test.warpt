@@ -7,26 +7,18 @@ warpt 1
   note "A procedure that answers exactly one thing has no empty answer."
   program {
     imports [
-      "std.concurrent.first"
+      "Standard.Concurrent.first"
     ]
     procedures {
       entry {
         access "public"
-        body [
-          {
-            let "won"
-            value {
-              call {
-                arguments [
-                  []
-                ]
-                procedure "std.concurrent.first"
-              }
-            }
-          }
-        ]
         result {
-          ref "won"
+          call {
+            arguments [
+              []
+            ]
+            procedure "Standard.Concurrent.first"
+          }
         }
       }
     }

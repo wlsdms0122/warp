@@ -1,0 +1,43 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-type-parameter-named-self-refuses"
+  note "`Self` is the type answering a contract, read as such in that contract's procedures, so no type parameter takes its name. `some Self` is refused where the document is read."
+  program {
+    contracts {
+      "App.Ordered" {
+        before {
+          parameters [
+            {
+              name "lhs"
+              type "Self"
+            }
+            {
+              name "rhs"
+              type "Self"
+            }
+          ]
+          returns "Bool"
+        }
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "x"
+            type "some Self"
+          }
+        ]
+        result 1
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

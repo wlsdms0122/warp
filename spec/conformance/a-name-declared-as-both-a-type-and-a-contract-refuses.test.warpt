@@ -4,18 +4,18 @@ warpt 1
     refuses "build"
   }
   name "a-name-declared-as-both-a-type-and-a-contract-refuses"
-  note "Types, memberships and contracts share one namespace, and a name in it is one of them. A name declared as a type and as a contract is refused."
+  note "Types and contracts share one namespace, and a name in it is one of them. A name declared as a type and as a contract is refused."
   program {
     contracts {
-      "app.Thing" {
+      "App.Thing" {
         describe {
           parameters [
             {
               name "of"
-              type "app.Thing"
+              type "Self"
             }
           ]
-          returns "string"
+          returns "String"
         }
       }
     }
@@ -27,7 +27,7 @@ warpt 1
       }
     }
     types {
-      "app.Thing" "int"
+      "App.Thing" "Int"
     }
     warp 1
   }

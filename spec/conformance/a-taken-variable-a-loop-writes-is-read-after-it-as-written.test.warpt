@@ -4,11 +4,11 @@ warpt 1
     refuses "build"
   }
   name "a-taken-variable-a-loop-writes-is-read-after-it-as-written"
-  note "A loop's round writes an int into a variable that started null and lets a closure capture it. After the loop the variable reads int?, which an answer declared null does not take."
+  note "A loop's round writes an int into a variable that started null and lets a closure capture it. After the loop the variable reads Int?, which an answer declared Null does not take."
   program {
     imports [
-      "std.collection.append"
-      "std.math.lessThan"
+      "Standard.Collection.append"
+      "Standard.Comparable.lessThan"
     ]
     procedures {
       entry {
@@ -49,7 +49,7 @@ warpt 1
                             }
                           }
                         ]
-                        procedure "std.collection.append"
+                        procedure "Standard.Collection.append"
                       }
                     }
                   }
@@ -66,7 +66,7 @@ warpt 1
                       }
                       1
                     ]
-                    procedure "std.math.lessThan"
+                    procedure "Standard.Comparable.lessThan"
                   }
                 }
               }
@@ -76,7 +76,7 @@ warpt 1
         result {
           ref "x"
         }
-        returns "null"
+        returns "Null"
       }
     }
     warp 1

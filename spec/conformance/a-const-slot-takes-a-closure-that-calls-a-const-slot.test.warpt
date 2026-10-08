@@ -4,13 +4,13 @@ warpt 1
     answers true
   }
   name "a-const-slot-takes-a-closure-that-calls-a-const-slot"
-  note "A procedure that calls a name its own slot said holds a procedure answering without running answers without running itself. So a closure sending it fits a slot asking `const procedure`."
+  note "A procedure that calls a name its own slot said holds a procedure answering without running answers without running itself. So a closure sending it fits a slot asking a `const` procedure type."
   program {
     imports [
-      "std.logic.and"
+      "Standard.Logic.and"
     ]
     procedures {
-      "app.asking" {
+      "App.asking" {
         body [
           {
             let "answered"
@@ -28,7 +28,7 @@ warpt 1
             name "body"
             type {
               "const procedure" {
-                returns "bool"
+                returns "Bool"
               }
             }
           }
@@ -36,7 +36,7 @@ warpt 1
         result {
           ref "answered"
         }
-        returns "bool"
+        returns "Bool"
       }
       entry {
         access "public"
@@ -52,22 +52,22 @@ warpt 1
                           {
                             closure {
                               result true
-                              returns "bool"
+                              returns "Bool"
                             }
                           }
                         ]
-                        procedure "app.asking"
+                        procedure "App.asking"
                       }
                     }
-                    returns "bool"
+                    returns "Bool"
                   }
                 }
               ]
             ]
-            procedure "std.logic.and"
+            procedure "Standard.Logic.and"
           }
         }
-        returns "bool"
+        returns "Bool"
       }
     }
     warp 1

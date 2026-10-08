@@ -1,0 +1,31 @@
+warpt 1
+{
+  expect {
+    refuses "run"
+  }
+  name "first-keyed-over-nothing-refuses"
+  note "A procedure that answers exactly one thing has no empty answer, over a map as over a list."
+  program {
+    imports [
+      "Standard.Concurrent.firstKeyed"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                record {}
+              }
+            ]
+            procedure "Standard.Concurrent.firstKeyed"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

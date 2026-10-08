@@ -1,0 +1,116 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-record-a-host-procedure-answers-takes-the-name-it-declares"
+  note "What a procedure the host answers hands back is a value from outside, fitted at the door it comes through to what the procedure declares, so a nameless record it answers takes the declared record's name and a slot of that record takes it."
+  program {
+    imports [
+      "App.Point"
+      "App.hp"
+    ]
+    procedures {
+      "App.useP" {
+        parameters [
+          {
+            name "p"
+            type "App.Point"
+          }
+        ]
+        result {
+          ref "p.x"
+        }
+        returns "Int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "p"
+            value {
+              call {
+                procedure "App.hp"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "p"
+              }
+            ]
+            procedure "App.useP"
+          }
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+  vocabulary {
+    procedures {
+      "App.ho" {
+        answers {
+          p {
+            x 1
+          }
+        }
+        returns "App.Outer"
+      }
+      "App.hp" {
+        answers {
+          x 1
+        }
+        returns "App.Point"
+      }
+      "App.hps" {
+        answers [
+          {
+            x 1
+          }
+        ]
+        returns "Array<App.Point>"
+      }
+      "App.hq" {
+        answers {
+          x 1
+        }
+        returns "App.Point?"
+      }
+      "App.hx" {
+        answers {
+          x 1
+          y 2
+        }
+        returns "App.Point"
+      }
+      "App.take" {
+        answers 7
+        parameters [
+          {
+            name "first"
+            type "App.Point"
+          }
+        ]
+        returns "Int"
+      }
+    }
+    types {
+      "App.Outer" {
+        record {
+          p "App.Point"
+        }
+      }
+      "App.Point" {
+        record {
+          x "Int"
+        }
+      }
+    }
+  }
+}
+

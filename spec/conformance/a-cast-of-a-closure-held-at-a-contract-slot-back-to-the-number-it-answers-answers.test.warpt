@@ -1,0 +1,69 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-cast-of-a-closure-held-at-a-contract-slot-back-to-the-number-it-answers-answers"
+  note "`c` is declared `Procedure() -> Int`, so its closure answers `Int`, and holding it at `Procedure() -> Standard.Numeric`, which `Int` answers, hands it on as it is. The cast back to `Procedure() -> Int` takes the closure."
+  program {
+    imports [
+      "Standard.Numeric"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            type {
+              procedure {
+                returns "Int"
+              }
+            }
+            value {
+              closure {
+                result 1
+              }
+            }
+          }
+          {
+            let "j"
+            type {
+              procedure {
+                returns "Standard.Numeric"
+              }
+            }
+            value {
+              ref "c"
+            }
+          }
+          {
+            let "e"
+            value {
+              as {
+                of {
+                  ref "j"
+                }
+                type {
+                  procedure {
+                    returns "Int"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            procedure {
+              ref "e"
+            }
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

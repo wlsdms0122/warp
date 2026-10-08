@@ -7,17 +7,17 @@ warpt 1
   note "A procedure the host answers is declared by the module that brings it, and private is that module's own scope. A program calling one stands in another document and is refused at the build, the way a call to any other document's private declaration is."
   program {
     imports [
-      "app.seat"
+      "App.seat"
     ]
     procedures {
       entry {
         access "public"
         result {
           call {
-            procedure "app.seat"
+            procedure "App.seat"
           }
         }
-        returns "int"
+        returns "Int"
       }
     }
     warp 1
@@ -25,10 +25,10 @@ warpt 1
   test 1
   vocabulary {
     procedures {
-      "app.seat" {
+      "App.seat" {
         access "private"
         answers 7
-        returns "int"
+        returns "Int"
       }
     }
   }

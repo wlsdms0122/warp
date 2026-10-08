@@ -7,39 +7,39 @@ warpt 1
   note "What a slot takes has nothing to do with whether the operand written into it is read or run. A call through a contract reaches whatever type arrives, and its operands are data all the same."
   program {
     contracts {
-      "app.Describable" {
+      "App.Describable" {
         describe {
           parameters [
             {
               name "of"
-              type "app.Describable"
+              type "Self"
             }
             {
               name "note"
-              type "any"
+              type "Any"
             }
           ]
-          returns "string"
+          returns "String"
         }
       }
     }
     imports [
-      "std.concurrent.all"
+      "Standard.Concurrent.all"
     ]
     procedures {
-      "bank.Account.describe" {
+      "Bank.Account.describe" {
         parameters [
           {
             name "of"
-            type "bank.Account"
+            type "Bank.Account"
           }
           {
             name "note"
-            type "any"
+            type "Any"
           }
         ]
         result "an account"
-        returns "string"
+        returns "String"
       }
       entry {
         access "public"
@@ -53,7 +53,7 @@ warpt 1
                     balance 1
                   }
                 }
-                type "bank.Account"
+                type "Bank.Account"
               }
             }
           }
@@ -69,25 +69,25 @@ warpt 1
                   arguments [
                     []
                   ]
-                  procedure "std.concurrent.all"
+                  procedure "Standard.Concurrent.all"
                 }
               }
             ]
-            procedure "app.Describable.describe"
+            procedure "App.Describable.describe"
           }
         }
-        returns "string"
+        returns "String"
       }
     }
     satisfies {
-      "bank.Account" [
-        "app.Describable"
+      "Bank.Account" [
+        "App.Describable"
       ]
     }
     types {
-      "bank.Account" {
+      "Bank.Account" {
         record {
-          balance "int"
+          balance "Int"
         }
       }
     }

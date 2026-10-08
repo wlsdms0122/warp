@@ -4,52 +4,85 @@ warpt 1
     refuses "run"
   }
   name "a-generic-answer-handed-back-in-place-is-judged-once-the-call-is-over-refuses"
-  note "app.put appends what app.h answers to the list handed to it in place, and app.h answers its any for its own some T. Nothing proves app.put hands back what it declares, so the call judges the list of the caller against array<string> once it is over, and the 5 in it refuses at the run."
+  note "App.put appends what App.h answers to the list handed to it in place. App.h's closure writes cell from its own some T and is called through a cast with a number, so nothing proves App.put hands back what it declares, the call judges the list of the caller against Array<String> once it is over, and the 5 in it refuses at the run."
   program {
     imports [
-      "std.collection.append"
+      "Standard.Collection.append"
     ]
     procedures {
-      "app.h" {
-        parameters [
-          {
-            name "n"
-            type "some T"
-          }
-          {
-            name "junk"
-            type "any"
-          }
-        ]
-        result {
-          ref "junk"
-        }
-        returns "some T"
-      }
-      "app.put" {
+      "App.h" {
         body [
           {
+            value {
+              ref "n"
+            }
+            var "cell"
+          }
+          {
+            let "c"
+            value {
+              closure {
+                body [
+                  {
+                    set "cell"
+                    value {
+                      ref "y"
+                    }
+                  }
+                ]
+                parameters [
+                  {
+                    name "y"
+                    type "some T"
+                  }
+                ]
+                result 0
+                returns "Int"
+              }
+            }
+          }
+          {
+            let "a"
+            type "Any"
+            value {
+              ref "c"
+            }
+          }
+          {
+            let "w"
+            value {
+              as {
+                of {
+                  ref "a"
+                }
+                type {
+                  procedure {
+                    parameters [
+                      "Int"
+                    ]
+                    returns "Int"
+                  }
+                }
+              }
+            }
+          }
+          {
+            let "z"
             value {
               call {
                 arguments [
                   {
-                    ref "xs"
-                  }
-                  {
-                    call {
-                      arguments [
-                        {
-                          ref "n"
-                        }
-                        {
-                          ref "junk"
-                        }
-                      ]
-                      procedure "app.h"
+                    as {
+                      of {
+                        ref "junk"
+                      }
+                      type "Int"
                     }
                   }
                 ]
-                procedure "std.collection.append"
+                procedure {
+                  ref "w"
+                }
               }
             }
           }
@@ -61,11 +94,60 @@ warpt 1
           }
           {
             name "junk"
-            type "any"
+            type "Any"
+          }
+        ]
+        result {
+          ref "cell"
+        }
+        returns "some T"
+      }
+      "App.put" {
+        body [
+          {
+            let "got"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "n"
+                  }
+                  {
+                    ref "junk"
+                  }
+                ]
+                procedure "App.h"
+              }
+            }
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "xs"
+                  }
+                  {
+                    ref "got"
+                  }
+                ]
+                procedure "Standard.Collection.append"
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "n"
+            type "some T"
+          }
+          {
+            name "junk"
+            type "Any"
           }
           {
             name "xs"
-            type "inout array<some T>"
+            type "inout Array<some T>"
           }
         ]
         result 0
@@ -89,7 +171,7 @@ warpt 1
                     ref "s"
                   }
                 ]
-                procedure "app.put"
+                procedure "App.put"
               }
             }
           }

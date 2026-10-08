@@ -9,11 +9,11 @@ warpt 1
     ]
   }
   name "a-parameter-handed-in-place-holding-lists-of-a-parameter-takes-a-block-answering-an-empty-list-beside-a-list-of-it"
-  note "A parameter handed in place as `array<array<some T>>` is set to a block whose result is `[[], [x]]`, with `x` one of `some T`. The block writes what its result writes, so the literal is judged part by part as it is written directly: the empty list holds no element and `[x]` holds the parameter."
+  note "A parameter handed in place as `Array<Array<some T>>` is set to a block whose result is `[[], [x]]`, with `x` one of `some T`. The block writes what its result writes, so the literal is judged part by part as it is written directly: the empty list holds no element and `[x]` holds the parameter."
   program {
     imports []
     procedures {
-      "app.g" {
+      "App.g" {
         body [
           {
             set "xs"
@@ -34,7 +34,7 @@ warpt 1
         parameters [
           {
             name "xs"
-            type "inout array<array<some T>>"
+            type "inout Array<Array<some T>>"
           }
           {
             name "x"
@@ -50,7 +50,7 @@ warpt 1
             value {
               as {
                 of []
-                type "array<array<int>>"
+                type "Array<Array<Int>>"
               }
             }
             var "s"
@@ -64,7 +64,7 @@ warpt 1
                   }
                   1
                 ]
-                procedure "app.g"
+                procedure "App.g"
               }
             }
           }

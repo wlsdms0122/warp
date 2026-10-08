@@ -4,14 +4,90 @@ warpt 1
     refuses "run"
   }
   name "a-variable-handed-back-in-place-is-judged-when-the-call-fails-refuses"
-  note "app.put writes a value of any into the list handed to it in place and then fails, and the caller rescues. The list is judged before the failure passes on, so the 5 in it refuses at the run rather than reaching the rescue."
+  note "App.put appends what App.h answers to the list handed to it in place and then fails, and the caller rescues. App.h's closure writes cell from its own some T and is called through a cast with a number, so the list is judged before the failure passes on, and the 5 in it refuses at the run rather than reaching the rescue."
   program {
     imports [
-      "std.collection.append"
-      "std.control.abort"
+      "Standard.Collection.append"
+      "Standard.Control.abort"
     ]
     procedures {
-      "app.h" {
+      "App.h" {
+        body [
+          {
+            value {
+              ref "n"
+            }
+            var "cell"
+          }
+          {
+            let "c"
+            value {
+              closure {
+                body [
+                  {
+                    set "cell"
+                    value {
+                      ref "y"
+                    }
+                  }
+                ]
+                parameters [
+                  {
+                    name "y"
+                    type "some T"
+                  }
+                ]
+                result 0
+                returns "Int"
+              }
+            }
+          }
+          {
+            let "a"
+            type "Any"
+            value {
+              ref "c"
+            }
+          }
+          {
+            let "w"
+            value {
+              as {
+                of {
+                  ref "a"
+                }
+                type {
+                  procedure {
+                    parameters [
+                      "Int"
+                    ]
+                    returns "Int"
+                  }
+                }
+              }
+            }
+          }
+          {
+            let "z"
+            value {
+              call {
+                arguments [
+                  {
+                    as {
+                      of {
+                        ref "junk"
+                      }
+                      type "Int"
+                    }
+                  }
+                ]
+                procedure {
+                  ref "w"
+                }
+              }
+            }
+          }
+        ]
         parameters [
           {
             name "n"
@@ -19,16 +95,32 @@ warpt 1
           }
           {
             name "junk"
-            type "any"
+            type "Any"
           }
         ]
         result {
-          ref "junk"
+          ref "cell"
         }
         returns "some T"
       }
-      "app.put" {
+      "App.put" {
         body [
+          {
+            let "got"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "n"
+                  }
+                  {
+                    ref "junk"
+                  }
+                ]
+                procedure "App.h"
+              }
+            }
+          }
           {
             value {
               call {
@@ -37,20 +129,10 @@ warpt 1
                     ref "xs"
                   }
                   {
-                    call {
-                      arguments [
-                        {
-                          ref "n"
-                        }
-                        {
-                          ref "junk"
-                        }
-                      ]
-                      procedure "app.h"
-                    }
+                    ref "got"
                   }
                 ]
-                procedure "std.collection.append"
+                procedure "Standard.Collection.append"
               }
             }
           }
@@ -64,7 +146,7 @@ warpt 1
                         arguments [
                           "boom"
                         ]
-                        procedure "std.control.abort"
+                        procedure "Standard.Control.abort"
                       }
                     }
                   }
@@ -83,15 +165,15 @@ warpt 1
           }
           {
             name "junk"
-            type "any"
+            type "Any"
           }
           {
             name "xs"
-            type "inout array<some T>"
+            type "inout Array<some T>"
           }
           {
             name "stop"
-            type "bool"
+            type "Bool"
           }
         ]
         result 0
@@ -120,7 +202,7 @@ warpt 1
                           }
                           true
                         ]
-                        procedure "app.put"
+                        procedure "App.put"
                       }
                     }
                   }

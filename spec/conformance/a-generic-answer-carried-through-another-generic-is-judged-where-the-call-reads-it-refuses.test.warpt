@@ -4,13 +4,13 @@ warpt 1
     refuses "run"
   }
   name "a-generic-answer-carried-through-another-generic-is-judged-where-the-call-reads-it-refuses"
-  note "app.h answers its some T with a value of any. app.g answers what app.h answers, so app.g proves nothing of its answer either, and the call app.g(1, \"s\") reads it as an int where it stands."
+  note "App.h keeps n in cell, and a closure writing cell from its own some T is read as Any and called through a cast with text, which the run cannot hold to what filled T. App.h proves nothing of its answer, App.g answers what App.h answers and proves nothing either, and the call App.g(1, \"s\") reads it as an int where it stands, so the text refuses at the run."
   program {
     imports [
-      "std.math.plus"
+      "Standard.Numeric.plus"
     ]
     procedures {
-      "app.g" {
+      "App.g" {
         parameters [
           {
             name "n"
@@ -18,7 +18,7 @@ warpt 1
           }
           {
             name "junk"
-            type "any"
+            type "Any"
           }
         ]
         result {
@@ -31,12 +31,88 @@ warpt 1
                 ref "junk"
               }
             ]
-            procedure "app.h"
+            procedure "App.h"
           }
         }
         returns "some T"
       }
-      "app.h" {
+      "App.h" {
+        body [
+          {
+            value {
+              ref "n"
+            }
+            var "cell"
+          }
+          {
+            let "c"
+            value {
+              closure {
+                body [
+                  {
+                    set "cell"
+                    value {
+                      ref "y"
+                    }
+                  }
+                ]
+                parameters [
+                  {
+                    name "y"
+                    type "some T"
+                  }
+                ]
+                result 0
+                returns "Int"
+              }
+            }
+          }
+          {
+            let "a"
+            type "Any"
+            value {
+              ref "c"
+            }
+          }
+          {
+            let "w"
+            value {
+              as {
+                of {
+                  ref "a"
+                }
+                type {
+                  procedure {
+                    parameters [
+                      "String"
+                    ]
+                    returns "Int"
+                  }
+                }
+              }
+            }
+          }
+          {
+            let "z"
+            value {
+              call {
+                arguments [
+                  {
+                    as {
+                      of {
+                        ref "junk"
+                      }
+                      type "String"
+                    }
+                  }
+                ]
+                procedure {
+                  ref "w"
+                }
+              }
+            }
+          }
+        ]
         parameters [
           {
             name "n"
@@ -44,11 +120,11 @@ warpt 1
           }
           {
             name "junk"
-            type "any"
+            type "Any"
           }
         ]
         result {
-          ref "junk"
+          ref "cell"
         }
         returns "some T"
       }
@@ -63,7 +139,7 @@ warpt 1
                   1
                   "s"
                 ]
-                procedure "app.g"
+                procedure "App.g"
               }
             }
           }
@@ -77,7 +153,7 @@ warpt 1
                   }
                   1
                 ]
-                procedure "std.math.plus"
+                procedure "Standard.Numeric.plus"
               }
             }
           }

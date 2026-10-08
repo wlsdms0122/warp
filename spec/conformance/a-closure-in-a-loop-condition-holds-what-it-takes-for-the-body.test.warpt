@@ -4,23 +4,23 @@ warpt 1
     refuses "build"
   }
   name "a-closure-in-a-loop-condition-holds-what-it-takes-for-the-body"
-  note "The loop's condition hands `app.ready` a closure that takes `n`, so every round after the first starts with `n` held to the int it was taken as. The body's write of a string into `n` does not fit, and the build refuses it."
+  note "The loop's condition hands `App.ready` a closure that takes `n`, so every round after the first starts with `n` held to the Int it was taken as. The body's write of a string into `n` does not fit, and the build refuses it."
   program {
     imports []
     procedures {
-      "app.ready" {
+      "App.ready" {
         parameters [
           {
             name "peek"
             type {
               procedure {
-                returns "int"
+                returns "Int"
               }
             }
           }
         ]
         result true
-        returns "bool"
+        returns "Bool"
       }
       entry {
         access "public"
@@ -51,11 +51,11 @@ warpt 1
                           result {
                             ref "n"
                           }
-                          returns "int"
+                          returns "Int"
                         }
                       }
                     ]
-                    procedure "app.ready"
+                    procedure "App.ready"
                   }
                 }
               }
@@ -63,7 +63,7 @@ warpt 1
           }
         ]
         result 1
-        returns "int"
+        returns "Int"
       }
     }
     warp 1

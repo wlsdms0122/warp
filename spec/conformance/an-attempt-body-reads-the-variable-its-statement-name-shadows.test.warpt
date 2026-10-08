@@ -7,8 +7,8 @@ warpt 1
   note "An attempt binds its statement's name to the failure in the rescue alone, so its body reads the variable around it under that spelling. A closure whose `let n = attempt` body reads the outer `n` takes `n`, and a later `set` of `n` to another type refuses at the build."
   program {
     imports [
-      "std.control.abort"
-      "std.math.lessThan"
+      "Standard.Comparable.lessThan"
+      "Standard.Control.abort"
     ]
     procedures {
       check {
@@ -23,7 +23,7 @@ warpt 1
                         arguments [
                           "negative"
                         ]
-                        procedure "std.control.abort"
+                        procedure "Standard.Control.abort"
                       }
                     }
                   }
@@ -36,7 +36,7 @@ warpt 1
                       }
                       0
                     ]
-                    procedure "std.math.lessThan"
+                    procedure "Standard.Comparable.lessThan"
                   }
                 }
               }
@@ -46,13 +46,13 @@ warpt 1
         parameters [
           {
             name "x"
-            type "int"
+            type "Int"
           }
         ]
         result {
           ref "x"
         }
-        returns "int"
+        returns "Int"
       }
       entry {
         access "public"
@@ -98,7 +98,7 @@ warpt 1
                 result {
                   ref "n"
                 }
-                returns "int"
+                returns "Int"
               }
             }
           }
@@ -108,7 +108,7 @@ warpt 1
           }
         ]
         result 1
-        returns "int"
+        returns "Int"
       }
     }
     warp 1

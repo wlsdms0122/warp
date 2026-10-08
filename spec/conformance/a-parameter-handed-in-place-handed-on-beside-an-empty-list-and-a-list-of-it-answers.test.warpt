@@ -9,11 +9,11 @@ warpt 1
     ]
   }
   name "a-parameter-handed-in-place-handed-on-beside-an-empty-list-and-a-list-of-it-answers"
-  note "app.g hands xs, a list of lists of T handed in place, on to app.put beside [[], [x]], where x is its own some T. The empty list holds no element, so the literal is a value of array<array<some T>>, and the caller reads both lists."
+  note "App.g hands xs, a list of lists of T handed in place, on to App.put beside [[], [x]], where x is its own some T. The empty list holds no element, so the literal is a value of Array<Array<some T>>, and the caller reads both lists."
   program {
     imports []
     procedures {
-      "app.g" {
+      "App.g" {
         body [
           {
             value {
@@ -31,7 +31,7 @@ warpt 1
                     ]
                   ]
                 ]
-                procedure "app.put"
+                procedure "App.put"
               }
             }
           }
@@ -39,7 +39,7 @@ warpt 1
         parameters [
           {
             name "xs"
-            type "inout array<array<some T>>"
+            type "inout Array<Array<some T>>"
           }
           {
             name "x"
@@ -48,7 +48,7 @@ warpt 1
         ]
         result 0
       }
-      "app.put" {
+      "App.put" {
         body [
           {
             set "a"
@@ -89,7 +89,7 @@ warpt 1
                   }
                   "b"
                 ]
-                procedure "app.g"
+                procedure "App.g"
               }
             }
           }

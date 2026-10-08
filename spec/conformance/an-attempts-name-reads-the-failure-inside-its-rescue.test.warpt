@@ -1,0 +1,77 @@
+warpt 1
+{
+  expect {
+    answers {
+      inner "on purpose"
+      outer "f"
+    }
+  }
+  name "an-attempts-name-reads-the-failure-inside-its-rescue"
+  note "An attempt's statement name is the failure inside its rescue: `h.message` there reads what the failing call said. After the attempt the name reads what the attempt answered, and the text `h` around the block is another name that keeps its value."
+  program {
+    imports [
+      "Standard.Control.abort"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "h"
+            value "f"
+          }
+          {
+            let "inner"
+            value {
+              block {
+                body [
+                  {
+                    let "h"
+                    value {
+                      attempt {
+                        body [
+                          {
+                            value {
+                              call {
+                                arguments [
+                                  "on purpose"
+                                ]
+                                procedure "Standard.Control.abort"
+                              }
+                            }
+                          }
+                        ]
+                        rescue {
+                          result {
+                            ref "h.message"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+                result {
+                  ref "h"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          record {
+            inner {
+              ref "inner"
+            }
+            outer {
+              ref "h"
+            }
+          }
+        }
+        returns "Any"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

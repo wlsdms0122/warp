@@ -1,0 +1,65 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-slot-of-null-takes-no-value-of-a-contract-refuses"
+  note "A value of a contract is of a type that answers it, and null is of no such type, so a slot declaring `Null` is provably no place for one. Handing a value of `App.Marked` there refuses at the build."
+  program {
+    contracts {
+      "App.Marked" {}
+    }
+    imports []
+    procedures {
+      "App.f" {
+        parameters [
+          {
+            name "n"
+            type "Null"
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+      "App.g" {
+        parameters [
+          {
+            name "x"
+            type "App.Marked"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "x"
+              }
+            ]
+            procedure "App.f"
+          }
+        }
+        returns "Int"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              1
+            ]
+            procedure "App.g"
+          }
+        }
+        returns "Int"
+      }
+    }
+    satisfies {
+      Int [
+        "App.Marked"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+

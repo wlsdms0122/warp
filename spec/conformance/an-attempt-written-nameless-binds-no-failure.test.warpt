@@ -7,14 +7,14 @@ warpt 1
   note "An attempt written with no naming key binds no failure and rescues the same."
   program {
     imports [
-      "std.control.abort"
+      "Standard.Control.abort"
     ]
     procedures {
       entry {
         access "public"
         body [
           {
-            type "string"
+            type "String"
             value "ran"
             var "said"
           }
@@ -28,7 +28,7 @@ warpt 1
                         arguments [
                           "stop"
                         ]
-                        procedure "std.control.abort"
+                        procedure "Standard.Control.abort"
                       }
                     }
                   }
@@ -48,7 +48,7 @@ warpt 1
         result {
           ref "said"
         }
-        returns "string"
+        returns "String"
       }
     }
     warp 1

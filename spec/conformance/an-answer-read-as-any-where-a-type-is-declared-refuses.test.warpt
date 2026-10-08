@@ -1,0 +1,32 @@
+warpt 1
+{
+  arguments {
+    payload "not a whole number"
+  }
+  expect {
+    refuses "build"
+  }
+  name "an-answer-read-as-any-where-a-type-is-declared-refuses"
+  note "`Any` declares nothing about what is there, so a body answering one reads nothing a declaration of `Int` could take. A value read as `Any` stands where a type is declared only where a cast says what it is, so the build refuses."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "payload"
+            type "Any"
+          }
+        ]
+        result {
+          ref "payload"
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

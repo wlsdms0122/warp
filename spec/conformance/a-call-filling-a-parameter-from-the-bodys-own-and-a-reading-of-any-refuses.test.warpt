@@ -1,0 +1,90 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-call-filling-a-parameter-from-the-bodys-own-and-a-reading-of-any-refuses"
+  note "App.g answers App.pick([n], j), with j read as Array<Any>, which fills E as Array<Any>. App.g then answers Array<Any> where it promises Array<some T>, and a body takes only a value of its own parameter there, so it refuses at the build."
+  program {
+    imports []
+    procedures {
+      "App.g" {
+        body [
+          {
+            let "p"
+            value {
+              call {
+                arguments [
+                  [
+                    {
+                      ref "n"
+                    }
+                  ]
+                  {
+                    ref "j"
+                  }
+                ]
+                procedure "App.pick"
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "n"
+            type "some T"
+          }
+          {
+            name "j"
+            type "Array<Any>"
+          }
+        ]
+        result {
+          ref "p"
+        }
+        returns "Array<some T>"
+      }
+      "App.pick" {
+        parameters [
+          {
+            name "a"
+            type "some E"
+          }
+          {
+            name "b"
+            type "some E"
+          }
+        ]
+        result {
+          ref "b"
+        }
+        returns "some E"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  1
+                  [
+                    "s"
+                  ]
+                ]
+                procedure "App.g"
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

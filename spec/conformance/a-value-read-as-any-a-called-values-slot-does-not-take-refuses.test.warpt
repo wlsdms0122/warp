@@ -1,0 +1,70 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-value-read-as-any-a-called-values-slot-does-not-take-refuses"
+  note "`g` is held at `Procedure(App.Point) -> Any`, and its closure takes `Any`. A call of `g` hands its argument at what the slot reads, and `a`, read as `Any`, is no `App.Point` the build can see, so the build refuses, though the closure would take anything."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "a"
+            type "Any"
+            value "s"
+          }
+          {
+            let "g"
+            type {
+              procedure {
+                parameters [
+                  "App.Point"
+                ]
+                returns "Any"
+              }
+            }
+            value {
+              closure {
+                parameters [
+                  {
+                    name "p"
+                    type "Any"
+                  }
+                ]
+                result {
+                  ref "p"
+                }
+                returns "Any"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "a"
+              }
+            ]
+            procedure {
+              ref "g"
+            }
+          }
+        }
+      }
+    }
+    types {
+      "App.Point" {
+        record {
+          x "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

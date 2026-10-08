@@ -1,0 +1,304 @@
+warpt 1
+{
+  description "Negation, difference, choosing and the connectives, written from equality."
+  imports [
+    "Standard.Collection.count"
+    "Standard.Comparable.lessThan"
+    "Standard.Logic.equal"
+  ]
+  procedures {
+    "Standard.Logic.and" {
+      body [
+        {
+          let "walk"
+          value {
+            loop {
+              body [
+                {
+                  let "side"
+                  value {
+                    ref "conditions[walk.index]"
+                  }
+                }
+                {
+                  let "answered"
+                  value {
+                    call {
+                      procedure {
+                        ref "side"
+                      }
+                    }
+                  }
+                }
+                {
+                  value {
+                    conditional {
+                      then [
+                        {
+                          value {
+                            return false
+                          }
+                        }
+                      ]
+                      when {
+                        call {
+                          arguments [
+                            {
+                              ref "answered"
+                            }
+                          ]
+                          procedure "Standard.Logic.not"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+              while {
+                call {
+                  arguments [
+                    {
+                      ref "walk.index"
+                    }
+                    {
+                      call {
+                        arguments [
+                          {
+                            ref "conditions"
+                          }
+                        ]
+                        procedure "Standard.Collection.count"
+                      }
+                    }
+                  ]
+                  procedure "Standard.Comparable.lessThan"
+                }
+              }
+            }
+          }
+        }
+      ]
+      description "Whether every one answers true, asked until one does not."
+      parameters [
+        {
+          name "conditions"
+          type {
+            array {
+              "const procedure" {
+                returns "Bool"
+              }
+            }
+          }
+        }
+      ]
+      result true
+      returns "Bool"
+    }
+    "Standard.Logic.not" {
+      description "The opposite of a truth."
+      parameters [
+        {
+          name "value"
+          type "Bool"
+        }
+      ]
+      result {
+        call {
+          arguments [
+            {
+              ref "value"
+            }
+            false
+          ]
+          procedure "Standard.Logic.equal"
+        }
+      }
+      returns "Bool"
+    }
+    "Standard.Logic.notEqual" {
+      description "Whether two values differ."
+      parameters [
+        {
+          name "lhs"
+          type "Any"
+        }
+        {
+          name "rhs"
+          type "Any"
+        }
+      ]
+      result {
+        call {
+          arguments [
+            {
+              call {
+                arguments [
+                  {
+                    ref "lhs"
+                  }
+                  {
+                    ref "rhs"
+                  }
+                ]
+                procedure "Standard.Logic.equal"
+              }
+            }
+            false
+          ]
+          procedure "Standard.Logic.equal"
+        }
+      }
+      returns "Bool"
+    }
+    "Standard.Logic.or" {
+      body [
+        {
+          let "walk"
+          value {
+            loop {
+              body [
+                {
+                  let "side"
+                  value {
+                    ref "conditions[walk.index]"
+                  }
+                }
+                {
+                  let "answered"
+                  value {
+                    call {
+                      procedure {
+                        ref "side"
+                      }
+                    }
+                  }
+                }
+                {
+                  value {
+                    conditional {
+                      then [
+                        {
+                          value {
+                            return true
+                          }
+                        }
+                      ]
+                      when {
+                        ref "answered"
+                      }
+                    }
+                  }
+                }
+              ]
+              while {
+                call {
+                  arguments [
+                    {
+                      ref "walk.index"
+                    }
+                    {
+                      call {
+                        arguments [
+                          {
+                            ref "conditions"
+                          }
+                        ]
+                        procedure "Standard.Collection.count"
+                      }
+                    }
+                  ]
+                  procedure "Standard.Comparable.lessThan"
+                }
+              }
+            }
+          }
+        }
+      ]
+      description "Whether one answers true, asked until one does."
+      parameters [
+        {
+          name "conditions"
+          type {
+            array {
+              "const procedure" {
+                returns "Bool"
+              }
+            }
+          }
+        }
+      ]
+      result false
+      returns "Bool"
+    }
+    "Standard.Logic.select" {
+      body [
+        {
+          value {
+            conditional {
+              then [
+                {
+                  let "taken"
+                  value {
+                    call {
+                      procedure {
+                        ref "then"
+                      }
+                    }
+                  }
+                }
+                {
+                  value {
+                    return {
+                      ref "taken"
+                    }
+                  }
+                }
+              ]
+              when {
+                ref "condition"
+              }
+            }
+          }
+        }
+        {
+          let "left"
+          value {
+            call {
+              procedure {
+                ref "else"
+              }
+            }
+          }
+        }
+      ]
+      description "The value one of two sides answers, chosen by a truth."
+      parameters [
+        {
+          name "condition"
+          type "Bool"
+        }
+        {
+          name "then"
+          type {
+            "const procedure" {
+              returns "some Answer"
+            }
+          }
+        }
+        {
+          name "else"
+          type {
+            "const procedure" {
+              returns "some Answer"
+            }
+          }
+        }
+      ]
+      result {
+        ref "left"
+      }
+      returns "some Answer"
+    }
+  }
+  warp 1
+}

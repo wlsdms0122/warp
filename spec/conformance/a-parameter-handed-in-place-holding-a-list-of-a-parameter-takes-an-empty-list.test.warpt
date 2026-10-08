@@ -4,11 +4,11 @@ warpt 1
     answers []
   }
   name "a-parameter-handed-in-place-holding-a-list-of-a-parameter-takes-an-empty-list"
-  note "app.clear takes array<some T> in place and writes []. An empty list holds no element, so it is a list of whatever filled T."
+  note "App.clear takes Array<some T> in place and writes []. An empty list holds no element, so it is a list of whatever filled T."
   program {
     imports []
     procedures {
-      "app.clear" {
+      "App.clear" {
         body [
           {
             set "xs"
@@ -18,7 +18,7 @@ warpt 1
         parameters [
           {
             name "xs"
-            type "inout array<some T>"
+            type "inout Array<some T>"
           }
         ]
         result 0
@@ -41,7 +41,7 @@ warpt 1
                     ref "s"
                   }
                 ]
-                procedure "app.clear"
+                procedure "App.clear"
               }
             }
           }

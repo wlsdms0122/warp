@@ -1,0 +1,36 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "an-index-reference-read-as-a-fraction-refuses"
+  note "An index stands where an Int is read, and a Double is another type: a fraction never stands where a whole number is, whatever its value, so the build refuses the reference."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "which"
+            value 1.0
+          }
+          {
+            let "items"
+            value [
+              1
+              2
+            ]
+          }
+        ]
+        result {
+          ref "items[which]"
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

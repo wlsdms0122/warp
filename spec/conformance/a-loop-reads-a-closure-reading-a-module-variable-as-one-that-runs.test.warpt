@@ -4,10 +4,10 @@ warpt 1
     refuses "build"
   }
   name "a-loop-reads-a-closure-reading-a-module-variable-as-one-that-runs"
-  note "A loop's round hands a variable to a const procedure slot and then writes into it a closure reading a module variable. The round after reads that closure as one that runs, so the hand refuses."
+  note "A loop's round hands a variable to a slot of a `const` procedure type and then writes into it a closure reading a module variable. The round after reads that closure as one that runs, so the hand refuses."
   program {
     imports [
-      "std.math.lessThan"
+      "Standard.Comparable.lessThan"
     ]
     procedures {
       asking {
@@ -26,13 +26,17 @@ warpt 1
         parameters [
           {
             name "body"
-            type "const procedure"
+            type {
+              "const procedure" {
+                returns "String"
+              }
+            }
           }
         ]
         result {
           ref "answered"
         }
-        returns "string"
+        returns "String"
       }
       entry {
         access "public"
@@ -41,7 +45,7 @@ warpt 1
             value {
               closure {
                 result "x"
-                returns "string"
+                returns "String"
               }
             }
             var "g"
@@ -71,7 +75,7 @@ warpt 1
                         result {
                           ref "standing"
                         }
-                        returns "string"
+                        returns "String"
                       }
                     }
                   }
@@ -84,7 +88,7 @@ warpt 1
                       }
                       2
                     ]
-                    procedure "std.math.lessThan"
+                    procedure "Standard.Comparable.lessThan"
                   }
                 }
               }

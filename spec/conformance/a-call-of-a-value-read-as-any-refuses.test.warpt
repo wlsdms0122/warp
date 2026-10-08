@@ -1,0 +1,80 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-call-of-a-value-read-as-any-refuses"
+  note "A value the text opens to `Any` writes no parameters the build can hold an argument against, so calling it refuses at the build. A cast says what procedure it is."
+  program {
+    imports []
+    procedures {
+      "App.blind" {
+        parameters [
+          {
+            name "of"
+            type "Any"
+          }
+        ]
+        result {
+          ref "of"
+        }
+        returns "Any"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "double"
+            value {
+              closure {
+                parameters [
+                  {
+                    name "n"
+                    type "Int"
+                  }
+                ]
+                result {
+                  ref "n"
+                }
+                returns "Int"
+              }
+            }
+          }
+          {
+            let "held"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "double"
+                  }
+                ]
+                procedure "App.blind"
+              }
+            }
+          }
+          {
+            let "made"
+            value {
+              call {
+                arguments [
+                  1
+                ]
+                procedure {
+                  ref "held"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "made"
+        }
+        returns "Any"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

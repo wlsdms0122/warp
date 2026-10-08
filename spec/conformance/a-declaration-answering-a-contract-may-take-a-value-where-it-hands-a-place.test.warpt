@@ -4,38 +4,38 @@ warpt 1
     answers 9
   }
   name "a-declaration-answering-a-contract-may-take-a-value-where-it-hands-a-place"
-  note "The contract takes inout int and the declaration answering it takes an int. A position taking a value may stand where a place is handed, the way a closure's may, and reads what the variable holds, which the call leaves as it was."
+  note "The contract takes inout Int and the declaration answering it takes an int. A position taking a value may stand where a place is handed, the way a closure's may, and reads what the variable holds, which the call leaves as it was."
   program {
     contracts {
-      "app.Sized" {
+      "App.Sized" {
         size {
           parameters [
             {
               name "of"
-              type "app.Sized"
+              type "Self"
             }
             {
               name "n"
-              type "inout int"
+              type "inout Int"
             }
           ]
-          returns "int"
+          returns "Int"
         }
       }
     }
     imports [
-      "std.math.plus"
+      "Standard.Numeric.plus"
     ]
     procedures {
-      "bank.Card.size" {
+      "Bank.Card.size" {
         parameters [
           {
             name "of"
-            type "bank.Card"
+            type "Bank.Card"
           }
           {
             name "n"
-            type "int"
+            type "Int"
           }
         ]
         result {
@@ -46,10 +46,10 @@ warpt 1
               }
               1
             ]
-            procedure "std.math.plus"
+            procedure "Standard.Numeric.plus"
           }
         }
-        returns "int"
+        returns "Int"
       }
       entry {
         access "public"
@@ -63,7 +63,7 @@ warpt 1
                     last "42"
                   }
                 }
-                type "bank.Card"
+                type "Bank.Card"
               }
             }
           }
@@ -83,7 +83,7 @@ warpt 1
                     ref "k"
                   }
                 ]
-                procedure "app.Sized.size"
+                procedure "App.Sized.size"
               }
             }
           }
@@ -99,7 +99,7 @@ warpt 1
                     ref "k"
                   }
                 ]
-                procedure "std.math.plus"
+                procedure "Standard.Numeric.plus"
               }
             }
           }
@@ -110,14 +110,14 @@ warpt 1
       }
     }
     satisfies {
-      "bank.Card" [
-        "app.Sized"
+      "Bank.Card" [
+        "App.Sized"
       ]
     }
     types {
-      "bank.Card" {
+      "Bank.Card" {
         record {
-          last "string"
+          last "String"
         }
       }
     }

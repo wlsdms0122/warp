@@ -7,10 +7,10 @@ warpt 1
     ]
   }
   name "a-piece-calling-an-isolated-procedure-read-out-of-a-record-field-stands"
-  note "A slot declaring a record type says what each of its fields holds. A body calling what a field declared `isolated procedure` holds is isolated, so a piece of `std.concurrent.map` calling that body stands."
+  note "A slot declaring a record type says what each of its fields holds. A body calling what a field declared an `isolated` procedure type holds is isolated, so a piece of `Standard.Concurrent.map` calling that body stands."
   program {
     imports [
-      "std.concurrent.map"
+      "Standard.Concurrent.map"
     ]
     procedures {
       asking {
@@ -39,9 +39,9 @@ warpt 1
                 f {
                   "isolated procedure" {
                     parameters [
-                      "int"
+                      "Int"
                     ]
-                    returns "int"
+                    returns "Int"
                   }
                 }
               }
@@ -49,13 +49,13 @@ warpt 1
           }
           {
             name "item"
-            type "int"
+            type "Int"
           }
         ]
         result {
           ref "a"
         }
-        returns "int"
+        returns "Int"
       }
       entry {
         access "public"
@@ -71,11 +71,11 @@ warpt 1
                   parameters [
                     {
                       name "item"
-                      type "int"
+                      type "Int"
                     }
                     {
                       name "index"
-                      type "int"
+                      type "Int"
                     }
                   ]
                   result {
@@ -88,13 +88,13 @@ warpt 1
                                 parameters [
                                   {
                                     name "x"
-                                    type "int"
+                                    type "Int"
                                   }
                                 ]
                                 result {
                                   ref "x"
                                 }
-                                returns "int"
+                                returns "Int"
                               }
                             }
                           }
@@ -106,14 +106,14 @@ warpt 1
                       procedure "asking"
                     }
                   }
-                  returns "int"
+                  returns "Int"
                 }
               }
             ]
-            procedure "std.concurrent.map"
+            procedure "Standard.Concurrent.map"
           }
         }
-        returns "array<int>"
+        returns "Array<Int>"
       }
     }
     warp 1

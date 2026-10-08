@@ -1,0 +1,67 @@
+warpt 1
+{
+  expect {
+    answers 5
+  }
+  name "self-in-an-answer-is-what-the-call-filled-it-with"
+  note "A contract's answer written `Self` is read as what the call filled `Self` with, as any type parameter's is. Handed a whole number, the call answers a whole number, and a name declared `Int` takes it at the build."
+  program {
+    contracts {
+      "App.Copyable" {
+        copy {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "Self"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "Int.copy" {
+        parameters [
+          {
+            name "of"
+            type "Int"
+          }
+        ]
+        result {
+          ref "of"
+        }
+        returns "Int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "n"
+            type "Int"
+            value {
+              call {
+                arguments [
+                  5
+                ]
+                procedure "App.Copyable.copy"
+              }
+            }
+          }
+        ]
+        result {
+          ref "n"
+        }
+        returns "Int"
+      }
+    }
+    satisfies {
+      Int [
+        "App.Copyable"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+

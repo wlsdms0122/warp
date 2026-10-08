@@ -7,7 +7,7 @@ warpt 1
     refuses "build"
   }
   name "a-write-only-one-arm-makes-reads-back-nullable"
-  note "The run either took the arm or did not, so afterwards the name holds the write or the null it started with. Int?, and a slot declared int refuses it where names resolve."
+  note "The run either took the arm or did not, so afterwards the name holds the write or the null it started with. Int?, and a slot declared Int refuses it where names resolve."
   program {
     imports []
     procedures {
@@ -49,7 +49,7 @@ warpt 1
         parameters [
           {
             name "ready"
-            type "bool"
+            type "Bool"
           }
         ]
       }
@@ -57,7 +57,7 @@ warpt 1
         parameters [
           {
             name "it"
-            type "int"
+            type "Int"
           }
         ]
         result true

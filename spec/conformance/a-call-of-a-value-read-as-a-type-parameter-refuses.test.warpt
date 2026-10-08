@@ -1,0 +1,46 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-call-of-a-value-read-as-a-type-parameter-refuses"
+  note "A value read as a type parameter writes no parameters the build can hold an argument against, so calling it refuses at the build."
+  program {
+    imports []
+    procedures {
+      "App.f" {
+        parameters [
+          {
+            name "g"
+            type "some T"
+          }
+        ]
+        result {
+          call {
+            procedure {
+              ref "g"
+            }
+          }
+        }
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                closure {
+                  result 1
+                }
+              }
+            ]
+            procedure "App.f"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

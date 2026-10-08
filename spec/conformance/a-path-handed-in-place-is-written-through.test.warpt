@@ -10,7 +10,7 @@ warpt 1
   note "A path into a variable is handed in place too. The callee holds the caller's box through that path, and each write lands there as it is made."
   program {
     imports [
-      "std.math.plus"
+      "Standard.Numeric.plus"
     ]
     procedures {
       bump {
@@ -25,7 +25,7 @@ warpt 1
                   }
                   1
                 ]
-                procedure "std.math.plus"
+                procedure "Standard.Numeric.plus"
               }
             }
           }
@@ -33,7 +33,7 @@ warpt 1
         parameters [
           {
             name "count"
-            type "inout int"
+            type "inout Int"
           }
         ]
       }
@@ -63,7 +63,7 @@ warpt 1
         result {
           ref "xs"
         }
-        returns "array<int>"
+        returns "Array<Int>"
       }
     }
     warp 1

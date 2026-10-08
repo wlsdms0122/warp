@@ -4,55 +4,55 @@ warpt 1
     answers "a card"
   }
   name "a-declaration-answering-a-contract-may-answer-an-alias-of-what-it-promises"
-  note "The contract answers app.Describable and the declaration answering it answers app.D, which names app.Describable."
+  note "The contract answers App.Describable and the declaration answering it answers App.D, which names App.Describable."
   program {
     contracts {
-      "app.Describable" {
+      "App.Describable" {
         describe {
           parameters [
             {
               name "of"
-              type "app.Describable"
+              type "Self"
             }
           ]
-          returns "string"
+          returns "String"
         }
       }
-      "app.Maker" {
+      "App.Maker" {
         make {
           parameters [
             {
               name "of"
-              type "app.Maker"
+              type "Self"
             }
           ]
-          returns "app.Describable"
+          returns "App.Describable"
         }
       }
     }
     imports []
     procedures {
-      "bank.Card.describe" {
+      "Bank.Card.describe" {
         parameters [
           {
             name "of"
-            type "bank.Card"
+            type "Bank.Card"
           }
         ]
         result "a card"
-        returns "string"
+        returns "String"
       }
-      "bank.Card.make" {
+      "Bank.Card.make" {
         parameters [
           {
             name "of"
-            type "bank.Card"
+            type "Bank.Card"
           }
         ]
         result {
           ref "of"
         }
-        returns "app.D"
+        returns "App.D"
       }
       entry {
         access "public"
@@ -66,7 +66,7 @@ warpt 1
                     last "1"
                   }
                 }
-                type "bank.Card"
+                type "Bank.Card"
               }
             }
           }
@@ -79,7 +79,7 @@ warpt 1
                     ref "c"
                   }
                 ]
-                procedure "app.Maker.make"
+                procedure "App.Maker.make"
               }
             }
           }
@@ -91,22 +91,22 @@ warpt 1
                 ref "m"
               }
             ]
-            procedure "app.Describable.describe"
+            procedure "App.Describable.describe"
           }
         }
       }
     }
     satisfies {
-      "bank.Card" [
-        "app.Describable"
-        "app.Maker"
+      "Bank.Card" [
+        "App.Describable"
+        "App.Maker"
       ]
     }
     types {
-      "app.D" "app.Describable"
-      "bank.Card" {
+      "App.D" "App.Describable"
+      "Bank.Card" {
         record {
-          last "string"
+          last "String"
         }
       }
     }

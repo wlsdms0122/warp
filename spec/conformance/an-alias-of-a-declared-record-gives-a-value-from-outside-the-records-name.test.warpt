@@ -1,0 +1,43 @@
+warpt 1
+{
+  arguments {
+    who {
+      name "a"
+    }
+  }
+  expect {
+    answers Person {
+      name "a"
+    }
+  }
+  name "an-alias-of-a-declared-record-gives-a-value-from-outside-the-records-name"
+  note "A declared name standing for a declared record is an alias, and judges by what it stands for: a nameless record from outside written into the alias at the door takes the record's own name."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "who"
+            type "Someone"
+          }
+        ]
+        result {
+          ref "who"
+        }
+      }
+    }
+    types {
+      Person {
+        record {
+          name "String"
+        }
+      }
+      Someone "Person"
+    }
+    warp 1
+  }
+  test 1
+}
+

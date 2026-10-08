@@ -7,36 +7,36 @@ warpt 1
   note "A composition inside a slot holds what arrives wherever it stands, through the name a declared type gave the list: a list of a type no document says satisfies the contract is refused where the call is written."
   program {
     contracts {
-      "app.Describable" {
+      "App.Describable" {
         describe {
           parameters [
             {
               name "of"
-              type "app.Describable"
+              type "Self"
             }
           ]
-          returns "string"
+          returns "String"
         }
       }
     }
     imports []
     procedures {
-      "app.tellAll" {
+      "App.tellAll" {
         parameters [
           {
             name "them"
-            type "array<app.Describable>"
+            type "Array<App.Describable>"
           }
         ]
         result 1
-        returns "int"
+        returns "Int"
       }
       entry {
         access "public"
         parameters [
           {
             name "cards"
-            type "app.Cards"
+            type "App.Cards"
           }
         ]
         result {
@@ -46,17 +46,17 @@ warpt 1
                 ref "cards"
               }
             ]
-            procedure "app.tellAll"
+            procedure "App.tellAll"
           }
         }
-        returns "int"
+        returns "Int"
       }
     }
     types {
-      "app.Cards" "array<bank.Card>"
-      "bank.Card" {
+      "App.Cards" "Array<Bank.Card>"
+      "Bank.Card" {
         record {
-          last "string"
+          last "String"
         }
       }
     }

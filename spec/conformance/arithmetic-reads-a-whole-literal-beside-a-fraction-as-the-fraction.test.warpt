@@ -1,0 +1,31 @@
+warpt 1
+{
+  expect {
+    answers 1.5
+  }
+  name "arithmetic-reads-a-whole-literal-beside-a-fraction-as-the-fraction"
+  note "Arithmetic takes two of one kind. A whole number written as a literal beside a fraction is read as the fraction it names, so `1` and `0.5` are two fractions and the sum is 1.5."
+  program {
+    imports [
+      "Standard.Numeric.plus"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              1
+              0.5
+            ]
+            procedure "Standard.Numeric.plus"
+          }
+        }
+        returns "Double"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

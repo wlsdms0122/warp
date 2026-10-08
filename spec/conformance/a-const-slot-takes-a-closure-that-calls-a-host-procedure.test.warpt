@@ -4,11 +4,11 @@ warpt 1
     answers true
   }
   name "a-const-slot-takes-a-closure-that-calls-a-host-procedure"
-  note "A slot asking `const procedure` takes a closure whose body sends only procedures that answer without running, and a procedure the host answers says which it is."
+  note "A slot asking a `const` procedure type takes a closure whose body sends only procedures that answer without running, and a procedure the host answers says which it is."
   program {
     imports [
-      "app.yes"
-      "std.logic.and"
+      "App.yes"
+      "Standard.Logic.and"
     ]
     procedures {
       entry {
@@ -21,18 +21,18 @@ warpt 1
                   closure {
                     result {
                       call {
-                        procedure "app.yes"
+                        procedure "App.yes"
                       }
                     }
-                    returns "bool"
+                    returns "Bool"
                   }
                 }
               ]
             ]
-            procedure "std.logic.and"
+            procedure "Standard.Logic.and"
           }
         }
-        returns "bool"
+        returns "Bool"
       }
     }
     warp 1
@@ -40,9 +40,9 @@ warpt 1
   test 1
   vocabulary {
     procedures {
-      "app.yes" {
+      "App.yes" {
         answers true
-        returns "bool"
+        returns "Bool"
       }
     }
   }

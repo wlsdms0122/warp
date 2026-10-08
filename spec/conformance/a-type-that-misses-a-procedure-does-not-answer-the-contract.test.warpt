@@ -4,26 +4,26 @@ warpt 1
     refuses "build"
   }
   name "a-type-that-misses-a-procedure-does-not-answer-the-contract"
-  note "A claim missing a procedure the contract asks puts its type under no contract. `bank.Plain` is claimed for `app.Describable` and nothing declares `bank.Plain.describe`, so the call leaning on the pair refuses at the build."
+  note "A claim missing a procedure the contract asks puts its type under no contract. `Bank.Plain` is claimed for `App.Describable` and nothing declares `Bank.Plain.describe`, so the call leaning on the pair refuses at the build."
   program {
     contracts {
-      "app.Describable" {
+      "App.Describable" {
         describe {
           parameters [
             {
               name "of"
-              type "app.Describable"
+              type "Self"
             }
           ]
-          returns "string"
+          returns "String"
         }
       }
     }
     imports []
     procedures {
-      "app.tell" {
+      "App.tell" {
         bounds {
-          T "app.Describable"
+          T "App.Describable"
         }
         parameters [
           {
@@ -38,20 +38,20 @@ warpt 1
                 ref "it"
               }
             ]
-            procedure "app.Describable.describe"
+            procedure "App.Describable.describe"
           }
         }
-        returns "string"
+        returns "String"
       }
-      "bank.Account.describe" {
+      "Bank.Account.describe" {
         parameters [
           {
             name "of"
-            type "bank.Account"
+            type "Bank.Account"
           }
         ]
         result "an account"
-        returns "string"
+        returns "String"
       }
       entry {
         access "public"
@@ -65,7 +65,7 @@ warpt 1
                     note "x"
                   }
                 }
-                type "bank.Plain"
+                type "Bank.Plain"
               }
             }
           }
@@ -77,29 +77,29 @@ warpt 1
                 ref "plain"
               }
             ]
-            procedure "app.tell"
+            procedure "App.tell"
           }
         }
-        returns "string"
+        returns "String"
       }
     }
     satisfies {
-      "bank.Account" [
-        "app.Describable"
+      "Bank.Account" [
+        "App.Describable"
       ]
-      "bank.Plain" [
-        "app.Describable"
+      "Bank.Plain" [
+        "App.Describable"
       ]
     }
     types {
-      "bank.Account" {
+      "Bank.Account" {
         record {
-          balance "int"
+          balance "Int"
         }
       }
-      "bank.Plain" {
+      "Bank.Plain" {
         record {
-          note "string"
+          note "String"
         }
       }
     }

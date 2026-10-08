@@ -10,8 +10,8 @@ warpt 1
   note "Case mapping is Unicode's default and no locale's tailoring: `i` uppercases to `I` and `I` lowercases to `i` everywhere, whatever the machine's locale says about a dotted i."
   program {
     imports [
-      "std.text.lowercased"
-      "std.text.uppercased"
+      "Standard.Text.lowercased"
+      "Standard.Text.uppercased"
     ]
     procedures {
       entry {
@@ -22,7 +22,7 @@ warpt 1
               arguments [
                 "i"
               ]
-              procedure "std.text.uppercased"
+              procedure "Standard.Text.uppercased"
             }
           }
           {
@@ -30,11 +30,11 @@ warpt 1
               arguments [
                 "I"
               ]
-              procedure "std.text.lowercased"
+              procedure "Standard.Text.lowercased"
             }
           }
         ]
-        returns "array<string>"
+        returns "Array<String>"
       }
     }
     warp 1

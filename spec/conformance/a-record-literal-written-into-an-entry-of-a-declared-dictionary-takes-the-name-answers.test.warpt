@@ -1,0 +1,100 @@
+warpt 1
+{
+  expect {
+    answers "a"
+  }
+  name "a-record-literal-written-into-an-entry-of-a-declared-dictionary-takes-the-name-answers"
+  note "`r` declares `Dictionary<Bank.A>`, and `set r.x` writes the record literal `{ k: \"y\" }` into an entry. The path reaches `Bank.A`, so the literal takes the name, and `App.P.show` reaches `Bank.A`'s witness."
+  program {
+    contracts {
+      "App.P" {
+        show {
+          const true
+          isolated true
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "Bank.A.show" {
+        parameters [
+          {
+            name "of"
+            type "Bank.A"
+          }
+        ]
+        result "a"
+        returns "String"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "a"
+            value {
+              as {
+                of {
+                  record {
+                    k "x"
+                  }
+                }
+                type "Bank.A"
+              }
+            }
+          }
+          {
+            type "Dictionary<Bank.A>"
+            value {
+              record {
+                x {
+                  ref "a"
+                }
+              }
+            }
+            var "r"
+          }
+          {
+            set "r.x"
+            value {
+              record {
+                k "y"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "r.x"
+              }
+            ]
+            procedure "App.P.show"
+          }
+        }
+      }
+    }
+    satisfies {
+      "Bank.A" [
+        "App.P"
+      ]
+    }
+    types {
+      "Bank.A" {
+        record {
+          k "String"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

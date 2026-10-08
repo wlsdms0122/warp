@@ -1,0 +1,37 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-dictionary-read-at-a-constant-key-reads-the-entry"
+  note "A constant read between the brackets settles at the build, and text there names an entry the way a written key does."
+  program {
+    const {
+      K "a"
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "d"
+            type "Dictionary<Int>"
+            value {
+              record {
+                a 1
+              }
+            }
+          }
+        ]
+        result {
+          ref "d[K]"
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -4,7 +4,7 @@ warpt 1
     answers 1
   }
   name "a-constant-closure-taking-a-parameter-in-place-is-handed-a-variable"
-  note "A constant holds the type its expression was judged at, so `bump` reads as a procedure type writing `inout int`. The build hands `n` in place at that position, and the closure writes it."
+  note "A constant holds the type its expression was judged at, so `bump` reads as a procedure type writing `inout Int`. The build hands `n` in place at that position, and the closure writes it."
   program {
     const {
       bump {
@@ -20,7 +20,7 @@ warpt 1
                     }
                     1
                   ]
-                  procedure "std.math.plus"
+                  procedure "Standard.Numeric.plus"
                 }
               }
             }
@@ -28,14 +28,14 @@ warpt 1
           parameters [
             {
               name "c"
-              type "inout int"
+              type "inout Int"
             }
           ]
         }
       }
     }
     imports [
-      "std.math.plus"
+      "Standard.Numeric.plus"
     ]
     procedures {
       entry {
@@ -63,7 +63,7 @@ warpt 1
         result {
           ref "n"
         }
-        returns "int"
+        returns "Int"
       }
     }
     warp 1

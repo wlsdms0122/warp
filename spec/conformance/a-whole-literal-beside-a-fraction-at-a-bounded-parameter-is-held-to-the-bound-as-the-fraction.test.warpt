@@ -1,0 +1,67 @@
+warpt 1
+{
+  expect {
+    answers 2.0
+  }
+  name "a-whole-literal-beside-a-fraction-at-a-bounded-parameter-is-held-to-the-bound-as-the-fraction"
+  note "`App.Scalable` is claimed for `Double` alone. `scale` is handed `2` and `0.5` where `Self` stands twice, so `Self` reads `Double` and the call hands `2` on as the fraction it names. That fraction is what the bound is held to, and nothing leans on a claim about `Int`."
+  program {
+    contracts {
+      "App.Scalable" {
+        scale {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+            {
+              name "by"
+              type "Self"
+            }
+          ]
+          returns "Self"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "Double.scale" {
+        parameters [
+          {
+            name "of"
+            type "Double"
+          }
+          {
+            name "by"
+            type "Double"
+          }
+        ]
+        result {
+          ref "of"
+        }
+        returns "Double"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              2
+              0.5
+            ]
+            procedure "App.Scalable.scale"
+          }
+        }
+        returns "Double"
+      }
+    }
+    satisfies {
+      Double [
+        "App.Scalable"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+

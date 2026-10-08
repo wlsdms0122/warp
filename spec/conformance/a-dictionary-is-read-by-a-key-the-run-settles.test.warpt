@@ -10,13 +10,13 @@ warpt 1
   note "A dictionary's names are data, so a key the run settles reads an entry the way a written key does. That is what lets a document walk a dictionary at all, and `values` is what walking one is for."
   program {
     imports [
-      "std.collection.appending"
-      "std.collection.count"
-      "std.collection.keys"
-      "std.math.lessThan"
+      "Standard.Collection.appending"
+      "Standard.Collection.count"
+      "Standard.Collection.keys"
+      "Standard.Comparable.lessThan"
     ]
     procedures {
-      "app.values" {
+      "App.values" {
         body [
           {
             let "names"
@@ -27,7 +27,7 @@ warpt 1
                     ref "of"
                   }
                 ]
-                procedure "std.collection.keys"
+                procedure "Standard.Collection.keys"
               }
             }
           }
@@ -58,7 +58,7 @@ warpt 1
                             ref "of[name]"
                           }
                         ]
-                        procedure "std.collection.appending"
+                        procedure "Standard.Collection.appending"
                       }
                     }
                   }
@@ -76,11 +76,11 @@ warpt 1
                               ref "names"
                             }
                           ]
-                          procedure "std.collection.count"
+                          procedure "Standard.Collection.count"
                         }
                       }
                     ]
-                    procedure "std.math.lessThan"
+                    procedure "Standard.Comparable.lessThan"
                   }
                 }
               }
@@ -90,13 +90,13 @@ warpt 1
         parameters [
           {
             name "of"
-            type "dictionary<int>"
+            type "Dictionary<Int>"
           }
         ]
         result {
           ref "held"
         }
-        returns "array<int>"
+        returns "Array<Int>"
       }
       entry {
         access "public"
@@ -110,10 +110,10 @@ warpt 1
                 }
               }
             ]
-            procedure "app.values"
+            procedure "App.values"
           }
         }
-        returns "array<int>"
+        returns "Array<Int>"
       }
     }
     warp 1

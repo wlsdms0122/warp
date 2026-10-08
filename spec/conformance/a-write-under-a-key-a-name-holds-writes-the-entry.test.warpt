@@ -1,0 +1,45 @@
+warpt 1
+{
+  expect {
+    answers {
+      a 5
+    }
+  }
+  name "a-write-under-a-key-a-name-holds-writes-the-entry"
+  note "The brackets on a dictionary read the name between them as a key, in a write as in a read, so a set through d[k] with k holding text writes that entry."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            type "Dictionary<Int>"
+            value {
+              record {
+                a 0
+              }
+            }
+            var "d"
+          }
+          {
+            let "k"
+            type "String"
+            value "a"
+          }
+          {
+            set "d[k]"
+            value 5
+          }
+        ]
+        result {
+          ref "d"
+        }
+        returns "Dictionary<Int>"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

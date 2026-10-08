@@ -4,17 +4,17 @@ warpt 1
     refuses "build"
   }
   name "a-list-literal-a-block-answers-is-read-position-by-position-refuses"
-  note "A name declared `array<dictionary<array<string>>>` starts with a block whose result is `[{ a: [] }, { a: [1] }]`. The block writes what its result writes, so the literal is held to the declaration position by position as it would be written directly, and the list of ints refuses at the build."
+  note "A name declared `Array<Dictionary<Array<String>>>` starts with a block whose result is `[{ a: [] }, { a: [1] }]`. The block writes what its result writes, so the literal is held to the declaration position by position as it would be written directly, and the list of ints refuses at the build."
   program {
     imports [
-      "std.collection.count"
+      "Standard.Collection.count"
     ]
     procedures {
       entry {
         access "public"
         body [
           {
-            type "array<dictionary<array<string>>>"
+            type "Array<Dictionary<Array<String>>>"
             value {
               block {
                 result [
@@ -44,7 +44,7 @@ warpt 1
                     ref "ys"
                   }
                 ]
-                procedure "std.collection.count"
+                procedure "Standard.Collection.count"
               }
             }
           }

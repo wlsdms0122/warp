@@ -7,10 +7,10 @@ warpt 1
     }
   }
   name "all-answers-every-piece-under-its-key"
-  note "Running at once is a procedure, not grammar. `std.concurrent.all` runs every piece it is handed and answers each piece's answer under the key the piece stood under."
+  note "Running at once is a procedure, not grammar. `Standard.Concurrent.allKeyed` runs every piece it is handed under a key and answers each piece's answer under the key the piece stood under."
   program {
     imports [
-      "std.concurrent.all"
+      "Standard.Concurrent.allKeyed"
     ]
     procedures {
       entry {
@@ -36,7 +36,7 @@ warpt 1
                     }
                   }
                 ]
-                procedure "std.concurrent.all"
+                procedure "Standard.Concurrent.allKeyed"
               }
             }
           }

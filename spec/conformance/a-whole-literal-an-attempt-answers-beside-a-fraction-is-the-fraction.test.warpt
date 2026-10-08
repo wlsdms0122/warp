@@ -1,0 +1,57 @@
+warpt 1
+{
+  arguments {
+    payload 3
+  }
+  expect {
+    answers 1.0
+  }
+  name "a-whole-literal-an-attempt-answers-beside-a-fraction-is-the-fraction"
+  note "An attempt's two ways answer one value. Its body answers a whole literal and its rescue a fraction, so the literal is the fraction it names, the way one written beside fractions in a list is, and the attempt answers `1.0` where its body ran through."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "tried"
+            value {
+              attempt {
+                body [
+                  {
+                    value {
+                      as {
+                        of {
+                          ref "payload"
+                        }
+                        type "Int"
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  result 2.5
+                }
+                result 1
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "payload"
+            type "Any"
+          }
+        ]
+        result {
+          ref "tried"
+        }
+        returns "Double"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

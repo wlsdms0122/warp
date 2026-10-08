@@ -4,12 +4,12 @@ warpt 1
     answers 1
   }
   name "a-write-to-a-taken-variable-lands-in-every-round"
-  note "Each round writes an int into a variable that started null and lets a closure capture it. The write lands in every round, so the variable reads int where the round adds to it, and after the loop."
+  note "Each round writes an int into a variable that started null and lets a closure capture it. The write lands in every round, so the variable reads Int where the round adds to it, and after the loop."
   program {
     imports [
-      "std.collection.append"
-      "std.math.lessThan"
-      "std.math.plus"
+      "Standard.Collection.append"
+      "Standard.Comparable.lessThan"
+      "Standard.Numeric.plus"
     ]
     procedures {
       entry {
@@ -23,6 +23,13 @@ warpt 1
             var "i"
           }
           {
+            type {
+              array {
+                "const isolated procedure" {
+                  returns "Int"
+                }
+              }
+            }
             value []
             var "fs"
           }
@@ -50,7 +57,7 @@ warpt 1
                             }
                           }
                         ]
-                        procedure "std.collection.append"
+                        procedure "Standard.Collection.append"
                       }
                     }
                   }
@@ -64,7 +71,7 @@ warpt 1
                           }
                           1
                         ]
-                        procedure "std.math.plus"
+                        procedure "Standard.Numeric.plus"
                       }
                     }
                   }
@@ -78,7 +85,7 @@ warpt 1
                           }
                           1
                         ]
-                        procedure "std.math.plus"
+                        procedure "Standard.Numeric.plus"
                       }
                     }
                   }
@@ -91,7 +98,7 @@ warpt 1
                       }
                       2
                     ]
-                    procedure "std.math.lessThan"
+                    procedure "Standard.Comparable.lessThan"
                   }
                 }
               }

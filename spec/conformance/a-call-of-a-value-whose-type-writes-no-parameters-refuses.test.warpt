@@ -1,0 +1,74 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-call-of-a-value-whose-type-writes-no-parameters-refuses"
+  note "A call of a value whose type writes no parameters gives the build nothing to hold an argument or a variable against, so it refuses at the build. A cast says what procedure it is."
+  program {
+    imports []
+    procedures {
+      calling {
+        body [
+          {
+            let "answered"
+            value {
+              call {
+                arguments [
+                  10
+                ]
+                procedure {
+                  ref "read"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "read"
+            type "Procedure"
+          }
+        ]
+        result {
+          ref "answered"
+        }
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "reading"
+            value {
+              closure {
+                parameters [
+                  {
+                    name "count"
+                    type "Int"
+                  }
+                ]
+                result {
+                  ref "count"
+                }
+                returns "Int"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "reading"
+              }
+            ]
+            procedure "calling"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

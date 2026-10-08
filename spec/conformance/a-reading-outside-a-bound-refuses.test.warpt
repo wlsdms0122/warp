@@ -1,0 +1,31 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-reading-outside-a-bound-refuses"
+  note "Both sides of lessThan agree, and agreement is not answering: Int, Double and String answer Comparable, and these readings are booleans the build can see. The sameness half and the bound half are both said before anything runs."
+  program {
+    imports [
+      "Standard.Comparable.lessThan"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              true
+              false
+            ]
+            procedure "Standard.Comparable.lessThan"
+          }
+        }
+        returns "Bool"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

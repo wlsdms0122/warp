@@ -4,18 +4,18 @@ warpt 1
     refuses "build"
   }
   name "an-attempt-whose-rescue-answers-a-list-literal-of-other-elements-refuses"
-  note "A variable declared `array<dictionary<array<string>>>` is set to an attempt whose body answers a list that fits and whose rescue answers `[{ a: [] }, { a: [1] }]`. The rescue is a way the attempt writes on, so its answer is held to the declaration on its own and refuses at the build, though this run never takes it."
+  note "A variable declared `Array<Dictionary<Array<String>>>` is set to an attempt whose body answers a list that fits and whose rescue answers `[{ a: [] }, { a: [1] }]`. The rescue is a way the attempt writes on, so its answer is held to the declaration on its own and refuses at the build, though this run never takes it."
   program {
     imports [
-      "std.collection.count"
-      "std.control.abort"
+      "Standard.Collection.count"
+      "Standard.Control.abort"
     ]
     procedures {
       entry {
         access "public"
         body [
           {
-            type "array<dictionary<array<string>>>"
+            type "Array<Dictionary<Array<String>>>"
             value [
               {
                 record {
@@ -47,7 +47,7 @@ warpt 1
                                 arguments [
                                   "x"
                                 ]
-                                procedure "std.control.abort"
+                                procedure "Standard.Control.abort"
                               }
                             }
                           }
@@ -99,7 +99,7 @@ warpt 1
                     ref "ys"
                   }
                 ]
-                procedure "std.collection.count"
+                procedure "Standard.Collection.count"
               }
             }
           }

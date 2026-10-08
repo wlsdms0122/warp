@@ -4,11 +4,11 @@ warpt 1
     refuses "build"
   }
   name "a-piece-calling-a-host-procedure-that-is-not-isolated-refuses"
-  note "A procedure the host answers says whether it is isolated, and one that says it is not strikes every body that reaches it. A closure calling one is not isolated, and `std.concurrent.map` refuses it as a piece."
+  note "A procedure the host answers says whether it is isolated, and one that says it is not strikes every body that reaches it. A closure calling one is not isolated, and `Standard.Concurrent.map` refuses it as a piece."
   program {
     imports [
-      "app.count"
-      "std.concurrent.map"
+      "App.count"
+      "Standard.Concurrent.map"
     ]
     procedures {
       entry {
@@ -25,22 +25,22 @@ warpt 1
                   parameters [
                     {
                       name "item"
-                      type "int"
+                      type "Int"
                     }
                     {
                       name "index"
-                      type "int"
+                      type "Int"
                     }
                   ]
                   result {
                     call {
-                      procedure "app.count"
+                      procedure "App.count"
                     }
                   }
                 }
               }
             ]
-            procedure "std.concurrent.map"
+            procedure "Standard.Concurrent.map"
           }
         }
       }
@@ -50,11 +50,11 @@ warpt 1
   test 1
   vocabulary {
     procedures {
-      "app.count" {
+      "App.count" {
         access "public"
         answers 1
         isolated false
-        returns "int"
+        returns "Int"
       }
     }
   }

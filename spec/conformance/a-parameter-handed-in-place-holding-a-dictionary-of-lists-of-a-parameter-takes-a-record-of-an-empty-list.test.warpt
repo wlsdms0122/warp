@@ -6,11 +6,11 @@ warpt 1
     }
   }
   name "a-parameter-handed-in-place-holding-a-dictionary-of-lists-of-a-parameter-takes-a-record-of-an-empty-list"
-  note "app.g writes { k: [] } into d, a dictionary of lists of T handed in place. The empty list in the field holds no element, so the record is a value of dictionary<array<some T>>, and the caller reads k as an empty list."
+  note "App.g writes { k: [] } into d, a dictionary of lists of T handed in place. The empty list in the field holds no element, so the record is a value of Dictionary<Array<some T>>, and the caller reads k as an empty list."
   program {
     imports []
     procedures {
-      "app.g" {
+      "App.g" {
         body [
           {
             set "d"
@@ -24,7 +24,7 @@ warpt 1
         parameters [
           {
             name "d"
-            type "inout dictionary<array<some T>>"
+            type "inout Dictionary<Array<some T>>"
           }
         ]
         result 0
@@ -42,7 +42,7 @@ warpt 1
                     ]
                   }
                 }
-                type "dictionary<array<string>>"
+                type "Dictionary<Array<String>>"
               }
             }
             var "s"
@@ -55,7 +55,7 @@ warpt 1
                     ref "s"
                   }
                 ]
-                procedure "app.g"
+                procedure "App.g"
               }
             }
           }

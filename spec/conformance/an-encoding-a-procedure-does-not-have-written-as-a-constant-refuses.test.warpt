@@ -1,0 +1,31 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "an-encoding-a-procedure-does-not-have-written-as-a-constant-refuses"
+  note "`encoded` judges its own constant arguments before any run: `utf9` is no encoding it has, so the build refuses the call, as the run refuses one it only meets there."
+  program {
+    imports [
+      "Standard.Text.encoded"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              "hi"
+              "utf9"
+            ]
+            procedure "Standard.Text.encoded"
+          }
+        }
+        returns "Array<Int>"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

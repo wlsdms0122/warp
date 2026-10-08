@@ -3,14 +3,14 @@ warpt 1
   documents [
     {
       imports [
-        "std.math.times"
+        "Standard.Numeric.times"
       ]
       procedures {
-        "k.twice" {
+        "K.twice" {
           parameters [
             {
               name "of"
-              type "int"
+              type "Int"
             }
           ]
           result {
@@ -21,10 +21,10 @@ warpt 1
                 }
                 2
               ]
-              procedure "std.math.times"
+              procedure "Standard.Numeric.times"
             }
           }
-          returns "int"
+          returns "Int"
         }
       }
       warp 1
@@ -42,12 +42,12 @@ warpt 1
           arguments [
             6
           ]
-          procedure "k.twice"
+          procedure "K.twice"
         }
       }
     }
     imports [
-      "k.twice"
+      "K.twice"
     ]
     procedures {
       entry {
@@ -55,7 +55,7 @@ warpt 1
         result {
           ref "twelve"
         }
-        returns "int"
+        returns "Int"
       }
     }
     warp 1

@@ -1,0 +1,159 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-parameter-read-as-lists-of-a-declared-record-and-of-a-nameless-one-refuses"
+  note "App.pick reads its some T as Array<Bank.Card> and as a list of nameless records of its fields. Position by position, a declared record meets a nameless record of its fields, two types neither of which takes the other, so the call refuses at the build."
+  program {
+    contracts {
+      "App.Describable" {
+        describe {
+          const true
+          isolated true
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports [
+      "Standard.Collection.first"
+    ]
+    procedures {
+      "App.pick" {
+        body [
+          {
+            value {
+              conditional {
+                then [
+                  {
+                    value {
+                      return {
+                        ref "x"
+                      }
+                    }
+                  }
+                ]
+                when {
+                  ref "c"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "c"
+            type "Bool"
+          }
+          {
+            name "x"
+            type "some T"
+          }
+          {
+            name "y"
+            type "some T"
+          }
+        ]
+        result {
+          ref "y"
+        }
+        returns "some T"
+      }
+      "Bank.Card.describe" {
+        parameters [
+          {
+            name "of"
+            type "Bank.Card"
+          }
+        ]
+        result "a card"
+        returns "String"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  false
+                  [
+                    {
+                      as {
+                        of {
+                          record {
+                            last "42"
+                          }
+                        }
+                        type "Bank.Card"
+                      }
+                    }
+                  ]
+                  [
+                    {
+                      record {
+                        last "x"
+                      }
+                    }
+                  ]
+                ]
+                procedure "App.pick"
+              }
+            }
+          }
+          {
+            let "f"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "r"
+                  }
+                ]
+                procedure "Standard.Collection.first"
+              }
+            }
+          }
+          {
+            let "s"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "f"
+                  }
+                ]
+                procedure "App.Describable.describe"
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    satisfies {
+      "Bank.Card" [
+        "App.Describable"
+      ]
+    }
+    types {
+      "Bank.Card" {
+        record {
+          last "String"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -3,21 +3,21 @@ warpt 1
   documents [
     {
       contracts {
-        "app.Describable" {
+        "App.Describable" {
           describe {
             parameters [
               {
                 name "of"
-                type "app.Describable"
+                type "Self"
               }
             ]
-            returns "string"
+            returns "String"
           }
         }
       }
       imports []
       procedures {
-        "app.ask" {
+        "App.ask" {
           result 1
         }
       }
@@ -32,15 +32,15 @@ warpt 1
   program {
     imports []
     procedures {
-      "bank.Account.describe" {
+      "Bank.Account.describe" {
         parameters [
           {
             name "of"
-            type "bank.Account"
+            type "Bank.Account"
           }
         ]
         result 1
-        returns "int"
+        returns "Int"
       }
       entry {
         access "public"
@@ -54,19 +54,19 @@ warpt 1
                       balance 1
                     }
                   }
-                  type "bank.Account"
+                  type "Bank.Account"
                 }
               }
             ]
-            procedure "bank.Account.describe"
+            procedure "Bank.Account.describe"
           }
         }
       }
     }
     types {
-      "bank.Account" {
+      "Bank.Account" {
         record {
-          balance "int"
+          balance "Int"
         }
       }
     }

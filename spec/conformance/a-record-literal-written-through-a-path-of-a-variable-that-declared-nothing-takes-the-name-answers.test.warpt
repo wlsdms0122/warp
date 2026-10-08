@@ -1,0 +1,99 @@
+warpt 1
+{
+  expect {
+    answers "a"
+  }
+  name "a-record-literal-written-through-a-path-of-a-variable-that-declared-nothing-takes-the-name-answers"
+  note "`w` declares nothing and starts as `{ p: a }`, where `a` is a `Bank.A`. `set w.p` writes the record literal `{ k: \"y\" }`. The build reads what the path reaches as `Bank.A`, so the literal is written where `Bank.A` is read and takes the name, and `App.P.show` is sent to `w.p`."
+  program {
+    contracts {
+      "App.P" {
+        show {
+          const true
+          isolated true
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "Bank.A.show" {
+        parameters [
+          {
+            name "of"
+            type "Bank.A"
+          }
+        ]
+        result "a"
+        returns "String"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "a"
+            value {
+              as {
+                of {
+                  record {
+                    k "x"
+                  }
+                }
+                type "Bank.A"
+              }
+            }
+          }
+          {
+            value {
+              record {
+                p {
+                  ref "a"
+                }
+              }
+            }
+            var "w"
+          }
+          {
+            set "w.p"
+            value {
+              record {
+                k "y"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "w.p"
+              }
+            ]
+            procedure "App.P.show"
+          }
+        }
+      }
+    }
+    satisfies {
+      "Bank.A" [
+        "App.P"
+      ]
+    }
+    types {
+      "Bank.A" {
+        record {
+          k "String"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

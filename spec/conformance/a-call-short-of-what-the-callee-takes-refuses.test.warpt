@@ -4,11 +4,11 @@ warpt 1
     refuses "build"
   }
   name "a-call-short-of-what-the-callee-takes-refuses"
-  note "A call hands exactly what the callee takes. `app.pick` takes two, and a call handing one is refused where it is written, whatever the one it hands was read as."
+  note "A call hands exactly what the callee takes. `App.pick` takes two, and a call handing one is refused where it is written, whatever the one it hands was read as."
   program {
     imports []
     procedures {
-      "app.pick" {
+      "App.pick" {
         parameters [
           {
             name "a"
@@ -29,7 +29,7 @@ warpt 1
         body [
           {
             let "x"
-            type "int?"
+            type "Int?"
             value 1
           }
         ]
@@ -40,7 +40,7 @@ warpt 1
                 ref "x"
               }
             ]
-            procedure "app.pick"
+            procedure "App.pick"
           }
         }
       }

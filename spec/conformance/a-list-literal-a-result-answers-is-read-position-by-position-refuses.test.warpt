@@ -4,13 +4,13 @@ warpt 1
     refuses "build"
   }
   name "a-list-literal-a-result-answers-is-read-position-by-position-refuses"
-  note "app.g declares it answers array<dictionary<array<string>>>, and its result is [{ a: [] }, { a: [1] }]. The declared answer holds what the result writes into it, its elements joined position by position, so the build refuses the result."
+  note "App.g declares it answers Array<Dictionary<Array<String>>>, and its result is [{ a: [] }, { a: [1] }]. The declared answer holds what the result writes into it, its elements joined position by position, so the build refuses the result."
   program {
     imports [
-      "std.collection.count"
+      "Standard.Collection.count"
     ]
     procedures {
-      "app.g" {
+      "App.g" {
         body [
           {
             let "k"
@@ -22,7 +22,7 @@ warpt 1
         parameters [
           {
             name "x"
-            type "int"
+            type "Int"
           }
         ]
         result [
@@ -39,7 +39,7 @@ warpt 1
             }
           }
         ]
-        returns "array<dictionary<array<string>>>"
+        returns "Array<Dictionary<Array<String>>>"
       }
       entry {
         access "public"
@@ -51,7 +51,7 @@ warpt 1
                 arguments [
                   1
                 ]
-                procedure "app.g"
+                procedure "App.g"
               }
             }
           }
@@ -64,7 +64,7 @@ warpt 1
                     ref "r"
                   }
                 ]
-                procedure "std.collection.count"
+                procedure "Standard.Collection.count"
               }
             }
           }

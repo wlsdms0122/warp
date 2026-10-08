@@ -7,51 +7,51 @@ warpt 1
   note "A declaration answering a contract's procedure takes its own type first and then what the contract asks at the same positions, since the run hands the arguments to the same positions whichever declaration answers. One taking them the other way round refuses at the build, where the claim is leaned on."
   program {
     contracts {
-      "app.Labelled" {
+      "App.Labelled" {
         label {
           parameters [
             {
               name "of"
-              type "app.Labelled"
+              type "Self"
             }
             {
               name "a"
-              type "int"
+              type "Int"
             }
             {
               name "b"
-              type "string"
+              type "String"
             }
           ]
-          returns "string"
+          returns "String"
         }
       }
     }
     imports []
     procedures {
-      "app.Card.label" {
+      "App.Card.label" {
         parameters [
           {
             name "of"
-            type "app.Card"
+            type "App.Card"
           }
           {
             name "b"
-            type "string"
+            type "String"
           }
           {
             name "a"
-            type "int"
+            type "Int"
           }
         ]
         result {
           ref "b"
         }
-        returns "string"
+        returns "String"
       }
-      "app.tell" {
+      "App.tell" {
         bounds {
-          T "app.Labelled"
+          T "App.Labelled"
         }
         parameters [
           {
@@ -68,10 +68,10 @@ warpt 1
               1
               "x"
             ]
-            procedure "app.Labelled.label"
+            procedure "App.Labelled.label"
           }
         }
-        returns "string"
+        returns "String"
       }
       entry {
         access "public"
@@ -85,7 +85,7 @@ warpt 1
                     last "42"
                   }
                 }
-                type "app.Card"
+                type "App.Card"
               }
             }
           }
@@ -97,21 +97,21 @@ warpt 1
                 ref "card"
               }
             ]
-            procedure "app.tell"
+            procedure "App.tell"
           }
         }
-        returns "string"
+        returns "String"
       }
     }
     satisfies {
-      "app.Card" [
-        "app.Labelled"
+      "App.Card" [
+        "App.Labelled"
       ]
     }
     types {
-      "app.Card" {
+      "App.Card" {
         record {
-          last "string"
+          last "String"
         }
       }
     }

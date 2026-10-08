@@ -4,19 +4,16 @@ warpt 1
     refuses "build"
   }
   name "a-list-literal-of-closures-answering-outside-the-bounds-refuses"
-  note "`app.f` bounds `T` by `app.M`, which admits `int` and `string`, and takes a list of procedures answering `some T`. The literal handed there holds a closure answering `int` and one answering `bool`. A closure's answer stands at the parameter and is held to the bounds, as it is for a closure handed alone, and no member takes a boolean, so the call refuses at the build."
+  note "`App.f` bounds `T` by `App.M`, which `Int` and `String` answer, and takes a list of procedures answering `some T`. The literal handed there holds a closure answering `Int` and one answering `Bool`. A closure's answer stands at the parameter and is held to the bounds, as it is for a closure handed alone, and a boolean answers no bound, so the call refuses at the build."
   program {
-    constraints {
-      "app.M" [
-        "int"
-        "string"
-      ]
+    contracts {
+      "App.M" {}
     }
     imports []
     procedures {
-      "app.f" {
+      "App.f" {
         bounds {
-          T "app.M"
+          T "App.M"
         }
         parameters [
           {
@@ -51,18 +48,18 @@ warpt 1
                     {
                       closure {
                         result 1
-                        returns "int"
+                        returns "Int"
                       }
                     }
                     {
                       closure {
                         result true
-                        returns "bool"
+                        returns "Bool"
                       }
                     }
                   ]
                 ]
-                procedure "app.f"
+                procedure "App.f"
               }
             }
           }
@@ -71,6 +68,14 @@ warpt 1
           ref "r"
         }
       }
+    }
+    satisfies {
+      Int [
+        "App.M"
+      ]
+      String [
+        "App.M"
+      ]
     }
     warp 1
   }

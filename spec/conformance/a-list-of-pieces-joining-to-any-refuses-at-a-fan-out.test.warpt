@@ -1,0 +1,44 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-list-of-pieces-joining-to-any-refuses-at-a-fan-out"
+  note "The elements of `pieces` join to `Any`, and `Standard.Concurrent.all` declares a list of closures. A value read as `Any` stands where a type is declared only where a cast says what it is, so the build refuses."
+  program {
+    imports [
+      "Standard.Concurrent.all"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "pieces"
+            value [
+              {
+                closure {
+                  result 1
+                }
+              }
+              1
+            ]
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "pieces"
+              }
+            ]
+            procedure "Standard.Concurrent.all"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

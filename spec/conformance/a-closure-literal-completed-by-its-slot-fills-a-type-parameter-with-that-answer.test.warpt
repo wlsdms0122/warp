@@ -1,0 +1,79 @@
+warpt 1
+{
+  expect {
+    answers "1.0"
+  }
+  name "a-closure-literal-completed-by-its-slot-fills-a-type-parameter-with-that-answer"
+  note "`c` declares `Procedure<() -> Double>` and the closure literal written there answers what its place says, the fraction 1.0. `App.run` takes `Procedure<() -> some T>`, so `T` is `Double`, and the call inside `App.run` answers the fraction."
+  program {
+    imports [
+      "Standard.Text.text"
+    ]
+    procedures {
+      "App.run" {
+        parameters [
+          {
+            name "c"
+            type {
+              procedure {
+                returns "some T"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            procedure {
+              ref "c"
+            }
+          }
+        }
+        returns "some T"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            type {
+              procedure {
+                returns "Double"
+              }
+            }
+            value {
+              closure {
+                result 1
+              }
+            }
+          }
+          {
+            let "v"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "c"
+                  }
+                ]
+                procedure "App.run"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "v"
+              }
+            ]
+            procedure "Standard.Text.text"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

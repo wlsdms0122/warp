@@ -1,0 +1,154 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-value-read-as-any-sent-to-a-closure-held-at-a-procedure-type-refuses"
+  note "App.with hands a closure taking some T to a callback, which holds it as Procedure<(Int) -> Int> and sends it a string read as Any. A value read as `Any` is no Int the build can see, so the call refuses at the build."
+  program {
+    imports []
+    procedures {
+      "App.with" {
+        body [
+          {
+            value {
+              ref "x"
+            }
+            var "cell"
+          }
+          {
+            let "s"
+            value {
+              closure {
+                body [
+                  {
+                    set "cell"
+                    value {
+                      ref "y"
+                    }
+                  }
+                ]
+                parameters [
+                  {
+                    name "y"
+                    type "some T"
+                  }
+                ]
+                result 0
+                returns "Int"
+              }
+            }
+          }
+          {
+            let "z"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "s"
+                  }
+                ]
+                procedure {
+                  ref "run"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+          {
+            name "run"
+            type {
+              procedure {
+                parameters [
+                  {
+                    procedure {
+                      parameters [
+                        "some T"
+                      ]
+                      returns "Int"
+                    }
+                  }
+                ]
+                returns "Int"
+              }
+            }
+          }
+        ]
+        result {
+          ref "cell"
+        }
+        returns "some T"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "cb"
+            value {
+              closure {
+                body [
+                  {
+                    let "a"
+                    type "Any"
+                    value "s"
+                  }
+                ]
+                parameters [
+                  {
+                    name "f"
+                    type {
+                      procedure {
+                        parameters [
+                          "Int"
+                        ]
+                        returns "Int"
+                      }
+                    }
+                  }
+                ]
+                result {
+                  call {
+                    arguments [
+                      {
+                        ref "a"
+                      }
+                    ]
+                    procedure {
+                      ref "f"
+                    }
+                  }
+                }
+                returns "Int"
+              }
+            }
+          }
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  1
+                  {
+                    ref "cb"
+                  }
+                ]
+                procedure "App.with"
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

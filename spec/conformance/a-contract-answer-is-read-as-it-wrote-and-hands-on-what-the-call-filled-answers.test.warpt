@@ -1,0 +1,114 @@
+warpt 1
+{
+  expect {
+    answers "1.0"
+  }
+  name "a-contract-answer-is-read-as-it-wrote-and-hands-on-what-the-call-filled-answers"
+  note "`App.Paired.pair` takes `some T` and answers `{ v: some T, n: Double }`, and `Bank.Card.pair` writes no `returns` and answers `{ v: a, n: 1.0 }`. The call reads the answer by what the contract wrote, position by position, and judges it there: `n` is a fraction, and `v` is what the call filled `T` with. The answer is handed on as it came, so the text of `n` is `1.0`."
+  program {
+    contracts {
+      "App.Paired" {
+        pair {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+            {
+              name "a"
+              type "some T"
+            }
+          ]
+          returns {
+            record {
+              n "Double"
+              v "some T"
+            }
+          }
+        }
+      }
+    }
+    imports [
+      "Standard.Text.text"
+    ]
+    procedures {
+      "Bank.Card.pair" {
+        parameters [
+          {
+            name "of"
+            type "Bank.Card"
+          }
+          {
+            name "a"
+            type "some U"
+          }
+        ]
+        result {
+          record {
+            n 1.0
+            v {
+              ref "a"
+            }
+          }
+        }
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            value {
+              as {
+                of {
+                  record {
+                    last "42"
+                  }
+                }
+                type "Bank.Card"
+              }
+            }
+          }
+          {
+            let "p"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "c"
+                  }
+                  "x"
+                ]
+                procedure "App.Paired.pair"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "p.n"
+              }
+            ]
+            procedure "Standard.Text.text"
+          }
+        }
+      }
+    }
+    satisfies {
+      "Bank.Card" [
+        "App.Paired"
+      ]
+    }
+    types {
+      "Bank.Card" {
+        record {
+          last "String"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

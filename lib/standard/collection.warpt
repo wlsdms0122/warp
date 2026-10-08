@@ -1,0 +1,1233 @@
+warpt 1
+{
+  description "Reading a collection by walking it, written from its count and its index."
+  imports [
+    "Standard.Collection.appending"
+    "Standard.Collection.count"
+    "Standard.Collection.gathering"
+    "Standard.Collection.keys"
+    "Standard.Comparable"
+    "Standard.Comparable.lessThan"
+    "Standard.Logic.equal"
+    "Standard.Numeric.minus"
+    "Standard.Numeric.plus"
+  ]
+  procedures {
+    "Standard.Collection.append" {
+      body [
+        {
+          set "array"
+          value {
+            call {
+              arguments [
+                {
+                  ref "array"
+                }
+                {
+                  ref "element"
+                }
+              ]
+              procedure "Standard.Collection.appending"
+            }
+          }
+        }
+      ]
+      description "Writes one element onto the end of the array a variable holds, in place."
+      parameters [
+        {
+          name "array"
+          type "inout Array<some Element>"
+        }
+        {
+          name "element"
+          type "some Element"
+        }
+      ]
+      returns "Null"
+    }
+    "Standard.Collection.contains" {
+      body [
+        {
+          value false
+          var "found"
+        }
+        {
+          let "walk"
+          value {
+            loop {
+              body [
+                {
+                  value {
+                    conditional {
+                      then [
+                        {
+                          set "found"
+                          value true
+                        }
+                        {
+                          value {
+                            break null
+                          }
+                        }
+                      ]
+                      when {
+                        call {
+                          arguments [
+                            {
+                              ref "array[walk.index]"
+                            }
+                            {
+                              ref "element"
+                            }
+                          ]
+                          procedure "Standard.Logic.equal"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+              while {
+                call {
+                  arguments [
+                    {
+                      ref "walk.index"
+                    }
+                    {
+                      call {
+                        arguments [
+                          {
+                            ref "array"
+                          }
+                        ]
+                        procedure "Standard.Collection.count"
+                      }
+                    }
+                  ]
+                  procedure "Standard.Comparable.lessThan"
+                }
+              }
+            }
+          }
+        }
+      ]
+      description "Whether an array holds a value."
+      parameters [
+        {
+          name "array"
+          type "Array<some Element>"
+        }
+        {
+          name "element"
+          type "some Element"
+        }
+      ]
+      result {
+        ref "found"
+      }
+      returns "Bool"
+    }
+    "Standard.Collection.dropFirst" {
+      body [
+        {
+          value []
+          var "places"
+        }
+        {
+          let "walk"
+          value {
+            loop {
+              body [
+                {
+                  set "places"
+                  value {
+                    call {
+                      arguments [
+                        {
+                          ref "places"
+                        }
+                        {
+                          call {
+                            arguments [
+                              {
+                                ref "walk.index"
+                              }
+                              1
+                            ]
+                            procedure "Standard.Numeric.plus"
+                          }
+                        }
+                      ]
+                      procedure "Standard.Collection.appending"
+                    }
+                  }
+                }
+              ]
+              while {
+                call {
+                  arguments [
+                    {
+                      ref "walk.index"
+                    }
+                    {
+                      call {
+                        arguments [
+                          {
+                            call {
+                              arguments [
+                                {
+                                  ref "array"
+                                }
+                              ]
+                              procedure "Standard.Collection.count"
+                            }
+                          }
+                          1
+                        ]
+                        procedure "Standard.Numeric.minus"
+                      }
+                    }
+                  ]
+                  procedure "Standard.Comparable.lessThan"
+                }
+              }
+            }
+          }
+        }
+      ]
+      description "The elements after the first."
+      parameters [
+        {
+          name "array"
+          type "Array<some Element>"
+        }
+      ]
+      result {
+        call {
+          arguments [
+            {
+              ref "array"
+            }
+            {
+              ref "places"
+            }
+          ]
+          procedure "Standard.Collection.gathering"
+        }
+      }
+      returns "Array<some Element>"
+    }
+    "Standard.Collection.dropLast" {
+      body [
+        {
+          value []
+          var "places"
+        }
+        {
+          let "walk"
+          value {
+            loop {
+              body [
+                {
+                  set "places"
+                  value {
+                    call {
+                      arguments [
+                        {
+                          ref "places"
+                        }
+                        {
+                          ref "walk.index"
+                        }
+                      ]
+                      procedure "Standard.Collection.appending"
+                    }
+                  }
+                }
+              ]
+              while {
+                call {
+                  arguments [
+                    {
+                      ref "walk.index"
+                    }
+                    {
+                      call {
+                        arguments [
+                          {
+                            call {
+                              arguments [
+                                {
+                                  ref "array"
+                                }
+                              ]
+                              procedure "Standard.Collection.count"
+                            }
+                          }
+                          1
+                        ]
+                        procedure "Standard.Numeric.minus"
+                      }
+                    }
+                  ]
+                  procedure "Standard.Comparable.lessThan"
+                }
+              }
+            }
+          }
+        }
+      ]
+      description "The elements before the last."
+      parameters [
+        {
+          name "array"
+          type "Array<some Element>"
+        }
+      ]
+      result {
+        call {
+          arguments [
+            {
+              ref "array"
+            }
+            {
+              ref "places"
+            }
+          ]
+          procedure "Standard.Collection.gathering"
+        }
+      }
+      returns "Array<some Element>"
+    }
+    "Standard.Collection.filter" {
+      body [
+        {
+          value []
+          var "places"
+        }
+        {
+          let "walk"
+          value {
+            loop {
+              body [
+                {
+                  let "kept"
+                  value {
+                    call {
+                      arguments [
+                        {
+                          ref "array[walk.index]"
+                        }
+                      ]
+                      procedure {
+                        ref "isIncluded"
+                      }
+                    }
+                  }
+                }
+                {
+                  value {
+                    conditional {
+                      then [
+                        {
+                          set "places"
+                          value {
+                            call {
+                              arguments [
+                                {
+                                  ref "places"
+                                }
+                                {
+                                  ref "walk.index"
+                                }
+                              ]
+                              procedure "Standard.Collection.appending"
+                            }
+                          }
+                        }
+                      ]
+                      when {
+                        ref "kept"
+                      }
+                    }
+                  }
+                }
+              ]
+              while {
+                call {
+                  arguments [
+                    {
+                      ref "walk.index"
+                    }
+                    {
+                      call {
+                        arguments [
+                          {
+                            ref "array"
+                          }
+                        ]
+                        procedure "Standard.Collection.count"
+                      }
+                    }
+                  ]
+                  procedure "Standard.Comparable.lessThan"
+                }
+              }
+            }
+          }
+        }
+      ]
+      description "The elements a procedure answers true for."
+      parameters [
+        {
+          name "array"
+          type "Array<some Element>"
+        }
+        {
+          name "isIncluded"
+          type {
+            "const procedure" {
+              parameters [
+                "some Element"
+              ]
+              returns "Bool"
+            }
+          }
+        }
+      ]
+      result {
+        call {
+          arguments [
+            {
+              ref "array"
+            }
+            {
+              ref "places"
+            }
+          ]
+          procedure "Standard.Collection.gathering"
+        }
+      }
+      returns "Array<some Element>"
+    }
+    "Standard.Collection.first" {
+      description "The first element."
+      parameters [
+        {
+          name "array"
+          type "Array<some Element>"
+        }
+      ]
+      result {
+        ref "array[0]"
+      }
+      returns "some Element"
+    }
+    "Standard.Collection.last" {
+      body [
+        {
+          let "at"
+          value {
+            call {
+              arguments [
+                {
+                  call {
+                    arguments [
+                      {
+                        ref "array"
+                      }
+                    ]
+                    procedure "Standard.Collection.count"
+                  }
+                }
+                1
+              ]
+              procedure "Standard.Numeric.minus"
+            }
+          }
+        }
+      ]
+      description "The last element."
+      parameters [
+        {
+          name "array"
+          type "Array<some Element>"
+        }
+      ]
+      result {
+        ref "array[at]"
+      }
+      returns "some Element"
+    }
+    "Standard.Collection.map" {
+      body [
+        {
+          value []
+          var "answers"
+        }
+        {
+          let "walk"
+          value {
+            loop {
+              body [
+                {
+                  let "answered"
+                  value {
+                    call {
+                      arguments [
+                        {
+                          ref "array[walk.index]"
+                        }
+                      ]
+                      procedure {
+                        ref "transform"
+                      }
+                    }
+                  }
+                }
+                {
+                  set "answers"
+                  value {
+                    call {
+                      arguments [
+                        {
+                          ref "answers"
+                        }
+                        {
+                          ref "answered"
+                        }
+                      ]
+                      procedure "Standard.Collection.appending"
+                    }
+                  }
+                }
+              ]
+              while {
+                call {
+                  arguments [
+                    {
+                      ref "walk.index"
+                    }
+                    {
+                      call {
+                        arguments [
+                          {
+                            ref "array"
+                          }
+                        ]
+                        procedure "Standard.Collection.count"
+                      }
+                    }
+                  ]
+                  procedure "Standard.Comparable.lessThan"
+                }
+              }
+            }
+          }
+        }
+      ]
+      description "Each element answered by a procedure, in order."
+      parameters [
+        {
+          name "array"
+          type "Array<some Element>"
+        }
+        {
+          name "transform"
+          type {
+            "const procedure" {
+              parameters [
+                "some Element"
+              ]
+              returns "some Answer"
+            }
+          }
+        }
+      ]
+      result {
+        ref "answers"
+      }
+      returns "Array<some Answer>"
+    }
+    "Standard.Collection.prepending" {
+      body [
+        {
+          let "back"
+          value {
+            call {
+              arguments [
+                {
+                  ref "array"
+                }
+              ]
+              procedure "Standard.Collection.reversed"
+            }
+          }
+        }
+        {
+          let "grown"
+          value {
+            call {
+              arguments [
+                {
+                  ref "back"
+                }
+                {
+                  ref "element"
+                }
+              ]
+              procedure "Standard.Collection.appending"
+            }
+          }
+        }
+      ]
+      description "The elements with one more at the front."
+      parameters [
+        {
+          name "array"
+          type "Array<some Element>"
+        }
+        {
+          name "element"
+          type "some Element"
+        }
+      ]
+      result {
+        call {
+          arguments [
+            {
+              ref "grown"
+            }
+          ]
+          procedure "Standard.Collection.reversed"
+        }
+      }
+      returns "Array<some Element>"
+    }
+    "Standard.Collection.reduce" {
+      body [
+        {
+          value {
+            ref "initialResult"
+          }
+          var "carried"
+        }
+        {
+          let "walk"
+          value {
+            loop {
+              body [
+                {
+                  let "answered"
+                  value {
+                    call {
+                      arguments [
+                        {
+                          ref "carried"
+                        }
+                        {
+                          ref "array[walk.index]"
+                        }
+                      ]
+                      procedure {
+                        ref "nextPartialResult"
+                      }
+                    }
+                  }
+                }
+                {
+                  set "carried"
+                  value {
+                    ref "answered"
+                  }
+                }
+              ]
+              while {
+                call {
+                  arguments [
+                    {
+                      ref "walk.index"
+                    }
+                    {
+                      call {
+                        arguments [
+                          {
+                            ref "array"
+                          }
+                        ]
+                        procedure "Standard.Collection.count"
+                      }
+                    }
+                  ]
+                  procedure "Standard.Comparable.lessThan"
+                }
+              }
+            }
+          }
+        }
+      ]
+      description "The elements folded into one, starting from a value."
+      parameters [
+        {
+          name "array"
+          type "Array<some Element>"
+        }
+        {
+          name "initialResult"
+          type "some Carried"
+        }
+        {
+          name "nextPartialResult"
+          type {
+            "const procedure" {
+              parameters [
+                "some Carried"
+                "some Element"
+              ]
+              returns "some Carried"
+            }
+          }
+        }
+      ]
+      result {
+        ref "carried"
+      }
+      returns "some Carried"
+    }
+    "Standard.Collection.reversed" {
+      body [
+        {
+          value []
+          var "places"
+        }
+        {
+          let "walk"
+          value {
+            loop {
+              body [
+                {
+                  set "places"
+                  value {
+                    call {
+                      arguments [
+                        {
+                          ref "places"
+                        }
+                        {
+                          call {
+                            arguments [
+                              {
+                                call {
+                                  arguments [
+                                    {
+                                      ref "array"
+                                    }
+                                  ]
+                                  procedure "Standard.Collection.count"
+                                }
+                              }
+                              {
+                                call {
+                                  arguments [
+                                    {
+                                      ref "walk.index"
+                                    }
+                                    1
+                                  ]
+                                  procedure "Standard.Numeric.plus"
+                                }
+                              }
+                            ]
+                            procedure "Standard.Numeric.minus"
+                          }
+                        }
+                      ]
+                      procedure "Standard.Collection.appending"
+                    }
+                  }
+                }
+              ]
+              while {
+                call {
+                  arguments [
+                    {
+                      ref "walk.index"
+                    }
+                    {
+                      call {
+                        arguments [
+                          {
+                            ref "array"
+                          }
+                        ]
+                        procedure "Standard.Collection.count"
+                      }
+                    }
+                  ]
+                  procedure "Standard.Comparable.lessThan"
+                }
+              }
+            }
+          }
+        }
+      ]
+      description "The elements back to front."
+      parameters [
+        {
+          name "array"
+          type "Array<some Element>"
+        }
+      ]
+      result {
+        call {
+          arguments [
+            {
+              ref "array"
+            }
+            {
+              ref "places"
+            }
+          ]
+          procedure "Standard.Collection.gathering"
+        }
+      }
+      returns "Array<some Element>"
+    }
+    "Standard.Collection.sorted" {
+      body [
+        {
+          let "total"
+          value {
+            call {
+              arguments [
+                {
+                  ref "array"
+                }
+              ]
+              procedure "Standard.Collection.count"
+            }
+          }
+        }
+        {
+          value []
+          var "ranks"
+        }
+        {
+          let "outer"
+          value {
+            loop {
+              body [
+                {
+                  value 0
+                  var "rank"
+                }
+                {
+                  let "inner"
+                  value {
+                    loop {
+                      body [
+                        {
+                          value true
+                          var "tie"
+                        }
+                        {
+                          value {
+                            conditional {
+                              then [
+                                {
+                                  set "rank"
+                                  value {
+                                    call {
+                                      arguments [
+                                        {
+                                          ref "rank"
+                                        }
+                                        1
+                                      ]
+                                      procedure "Standard.Numeric.plus"
+                                    }
+                                  }
+                                }
+                                {
+                                  set "tie"
+                                  value false
+                                }
+                              ]
+                              when {
+                                call {
+                                  arguments [
+                                    {
+                                      ref "array[inner.index]"
+                                    }
+                                    {
+                                      ref "array[outer.index]"
+                                    }
+                                  ]
+                                  procedure "Standard.Comparable.lessThan"
+                                }
+                              }
+                            }
+                          }
+                        }
+                        {
+                          value {
+                            conditional {
+                              then [
+                                {
+                                  set "tie"
+                                  value false
+                                }
+                              ]
+                              when {
+                                call {
+                                  arguments [
+                                    {
+                                      ref "array[outer.index]"
+                                    }
+                                    {
+                                      ref "array[inner.index]"
+                                    }
+                                  ]
+                                  procedure "Standard.Comparable.lessThan"
+                                }
+                              }
+                            }
+                          }
+                        }
+                        {
+                          value {
+                            conditional {
+                              then [
+                                {
+                                  value {
+                                    conditional {
+                                      then [
+                                        {
+                                          set "rank"
+                                          value {
+                                            call {
+                                              arguments [
+                                                {
+                                                  ref "rank"
+                                                }
+                                                1
+                                              ]
+                                              procedure "Standard.Numeric.plus"
+                                            }
+                                          }
+                                        }
+                                      ]
+                                      when {
+                                        call {
+                                          arguments [
+                                            {
+                                              ref "inner.index"
+                                            }
+                                            {
+                                              ref "outer.index"
+                                            }
+                                          ]
+                                          procedure "Standard.Comparable.lessThan"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                              when {
+                                ref "tie"
+                              }
+                            }
+                          }
+                        }
+                      ]
+                      while {
+                        call {
+                          arguments [
+                            {
+                              ref "inner.index"
+                            }
+                            {
+                              ref "total"
+                            }
+                          ]
+                          procedure "Standard.Comparable.lessThan"
+                        }
+                      }
+                    }
+                  }
+                }
+                {
+                  set "ranks"
+                  value {
+                    call {
+                      arguments [
+                        {
+                          ref "ranks"
+                        }
+                        {
+                          ref "rank"
+                        }
+                      ]
+                      procedure "Standard.Collection.appending"
+                    }
+                  }
+                }
+              ]
+              while {
+                call {
+                  arguments [
+                    {
+                      ref "outer.index"
+                    }
+                    {
+                      ref "total"
+                    }
+                  ]
+                  procedure "Standard.Comparable.lessThan"
+                }
+              }
+            }
+          }
+        }
+        {
+          value []
+          var "places"
+        }
+        {
+          let "pick"
+          value {
+            loop {
+              body [
+                {
+                  let "scan"
+                  value {
+                    loop {
+                      body [
+                        {
+                          value true
+                          var "same"
+                        }
+                        {
+                          value {
+                            conditional {
+                              then [
+                                {
+                                  set "same"
+                                  value false
+                                }
+                              ]
+                              when {
+                                call {
+                                  arguments [
+                                    {
+                                      ref "ranks[scan.index]"
+                                    }
+                                    {
+                                      ref "pick.index"
+                                    }
+                                  ]
+                                  procedure "Standard.Comparable.lessThan"
+                                }
+                              }
+                            }
+                          }
+                        }
+                        {
+                          value {
+                            conditional {
+                              then [
+                                {
+                                  set "same"
+                                  value false
+                                }
+                              ]
+                              when {
+                                call {
+                                  arguments [
+                                    {
+                                      ref "pick.index"
+                                    }
+                                    {
+                                      ref "ranks[scan.index]"
+                                    }
+                                  ]
+                                  procedure "Standard.Comparable.lessThan"
+                                }
+                              }
+                            }
+                          }
+                        }
+                        {
+                          value {
+                            conditional {
+                              then [
+                                {
+                                  set "places"
+                                  value {
+                                    call {
+                                      arguments [
+                                        {
+                                          ref "places"
+                                        }
+                                        {
+                                          ref "scan.index"
+                                        }
+                                      ]
+                                      procedure "Standard.Collection.appending"
+                                    }
+                                  }
+                                }
+                              ]
+                              when {
+                                ref "same"
+                              }
+                            }
+                          }
+                        }
+                      ]
+                      while {
+                        call {
+                          arguments [
+                            {
+                              ref "scan.index"
+                            }
+                            {
+                              ref "total"
+                            }
+                          ]
+                          procedure "Standard.Comparable.lessThan"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+              while {
+                call {
+                  arguments [
+                    {
+                      ref "pick.index"
+                    }
+                    {
+                      ref "total"
+                    }
+                  ]
+                  procedure "Standard.Comparable.lessThan"
+                }
+              }
+            }
+          }
+        }
+      ]
+      bounds {
+        Element "Standard.Comparable"
+      }
+      description "The elements in order, for numbers or for strings."
+      parameters [
+        {
+          name "array"
+          type "Array<some Element>"
+        }
+      ]
+      result {
+        call {
+          arguments [
+            {
+              ref "array"
+            }
+            {
+              ref "places"
+            }
+          ]
+          procedure "Standard.Collection.gathering"
+        }
+      }
+      returns "Array<some Element>"
+    }
+    "Standard.Collection.values" {
+      body [
+        {
+          let "names"
+          value {
+            call {
+              arguments [
+                {
+                  ref "dictionary"
+                }
+              ]
+              procedure "Standard.Collection.keys"
+            }
+          }
+        }
+        {
+          value []
+          var "held"
+        }
+        {
+          let "walk"
+          value {
+            loop {
+              body [
+                {
+                  let "name"
+                  value {
+                    ref "names[walk.index]"
+                  }
+                }
+                {
+                  set "held"
+                  value {
+                    call {
+                      arguments [
+                        {
+                          ref "held"
+                        }
+                        {
+                          ref "dictionary[name]"
+                        }
+                      ]
+                      procedure "Standard.Collection.appending"
+                    }
+                  }
+                }
+              ]
+              while {
+                call {
+                  arguments [
+                    {
+                      ref "walk.index"
+                    }
+                    {
+                      call {
+                        arguments [
+                          {
+                            ref "names"
+                          }
+                        ]
+                        procedure "Standard.Collection.count"
+                      }
+                    }
+                  ]
+                  procedure "Standard.Comparable.lessThan"
+                }
+              }
+            }
+          }
+        }
+      ]
+      description "What a record holds, by its names in order."
+      parameters [
+        {
+          name "dictionary"
+          type "Dictionary<some Entry>"
+        }
+      ]
+      result {
+        ref "held"
+      }
+      returns "Array<some Entry>"
+    }
+  }
+  warp 1
+}

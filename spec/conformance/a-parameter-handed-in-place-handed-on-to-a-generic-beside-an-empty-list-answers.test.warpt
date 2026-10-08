@@ -6,13 +6,13 @@ warpt 1
     ]
   }
   name "a-parameter-handed-in-place-handed-on-to-a-generic-beside-an-empty-list-answers"
-  note "app.g hands xs, a list of T handed in place, on to app.put beside []. An empty list holds no element, so it is a value of array<some T>, and the caller's list is empty before it appends b."
+  note "App.g hands xs, a list of T handed in place, on to App.put beside []. An empty list holds no element, so it is a value of Array<some T>, and the caller's list is empty before it appends b."
   program {
     imports [
-      "std.collection.append"
+      "Standard.Collection.append"
     ]
     procedures {
-      "app.g" {
+      "App.g" {
         body [
           {
             value {
@@ -23,7 +23,7 @@ warpt 1
                   }
                   []
                 ]
-                procedure "app.put"
+                procedure "App.put"
               }
             }
           }
@@ -31,12 +31,12 @@ warpt 1
         parameters [
           {
             name "xs"
-            type "inout array<some T>"
+            type "inout Array<some T>"
           }
         ]
         result 0
       }
-      "app.put" {
+      "App.put" {
         body [
           {
             set "a"
@@ -74,7 +74,7 @@ warpt 1
                     ref "s"
                   }
                 ]
-                procedure "app.g"
+                procedure "App.g"
               }
             }
           }
@@ -87,7 +87,7 @@ warpt 1
                   }
                   "b"
                 ]
-                procedure "std.collection.append"
+                procedure "Standard.Collection.append"
               }
             }
           }

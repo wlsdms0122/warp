@@ -4,10 +4,10 @@ warpt 1
     answers "rescued"
   }
   name "a-procedure-that-can-fail-says-so"
-  note "`std.control.abort` says it raises `aborted`, so the attempt around it stands and the rescue reads the procedure the failure names itself by."
+  note "`Standard.Control.abort` says it raises `aborted`, so the attempt around it stands and the rescue reads the procedure the failure names itself by."
   program {
     imports [
-      "std.control.abort"
+      "Standard.Control.abort"
     ]
     procedures {
       entry {
@@ -26,7 +26,7 @@ warpt 1
                     arguments [
                       "no"
                     ]
-                    procedure "std.control.abort"
+                    procedure "Standard.Control.abort"
                   }
                 }
               }
@@ -36,7 +36,7 @@ warpt 1
         result {
           ref "tried"
         }
-        returns "string"
+        returns "String"
       }
     }
     warp 1

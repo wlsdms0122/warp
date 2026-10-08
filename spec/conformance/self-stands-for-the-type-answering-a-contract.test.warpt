@@ -1,0 +1,79 @@
+warpt 1
+{
+  expect {
+    answers true
+  }
+  name "self-stands-for-the-type-answering-a-contract"
+  note "`Self` in a contract's procedure is the type answering the contract, wherever it is written. A claim reads it as the type the claim is about, so `Int.before` takes two whole numbers, and a call through the contract reads `Self` as one type it fills from the call: both arguments are whole numbers here."
+  program {
+    contracts {
+      "App.Ordered" {
+        before {
+          parameters [
+            {
+              name "lhs"
+              type "Self"
+            }
+            {
+              name "rhs"
+              type "Self"
+            }
+          ]
+          returns "Bool"
+        }
+      }
+    }
+    imports [
+      "Standard.Comparable.lessThan"
+    ]
+    procedures {
+      "Int.before" {
+        parameters [
+          {
+            name "lhs"
+            type "Int"
+          }
+          {
+            name "rhs"
+            type "Int"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "lhs"
+              }
+              {
+                ref "rhs"
+              }
+            ]
+            procedure "Standard.Comparable.lessThan"
+          }
+        }
+        returns "Bool"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              1
+              2
+            ]
+            procedure "App.Ordered.before"
+          }
+        }
+        returns "Bool"
+      }
+    }
+    satisfies {
+      Int [
+        "App.Ordered"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+

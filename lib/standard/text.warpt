@@ -1,0 +1,793 @@
+warpt 1
+{
+  description "Scanning text, written from its characters."
+  imports [
+    "Standard.Collection.appending"
+    "Standard.Collection.count"
+    "Standard.Comparable.lessThan"
+    "Standard.Control.abort"
+    "Standard.Logic.equal"
+    "Standard.Logic.not"
+    "Standard.Numeric.minus"
+    "Standard.Numeric.plus"
+    "Standard.Text.characters"
+    "Standard.Text.joined"
+  ]
+  procedures {
+    "Standard.Text.contains" {
+      body [
+        {
+          let "held"
+          value {
+            call {
+              arguments [
+                {
+                  ref "text"
+                }
+              ]
+              procedure "Standard.Text.characters"
+            }
+          }
+        }
+        {
+          let "wanted"
+          value {
+            call {
+              arguments [
+                {
+                  ref "other"
+                }
+              ]
+              procedure "Standard.Text.characters"
+            }
+          }
+        }
+        {
+          let "walk"
+          value {
+            loop {
+              body [
+                {
+                  value true
+                  var "same"
+                }
+                {
+                  let "probe"
+                  value {
+                    loop {
+                      body [
+                        {
+                          let "at"
+                          value {
+                            call {
+                              arguments [
+                                {
+                                  ref "walk.index"
+                                }
+                                {
+                                  ref "probe.index"
+                                }
+                              ]
+                              procedure "Standard.Numeric.plus"
+                            }
+                          }
+                        }
+                        {
+                          value {
+                            conditional {
+                              then [
+                                {
+                                  set "same"
+                                  value false
+                                }
+                                {
+                                  value {
+                                    break null
+                                  }
+                                }
+                              ]
+                              when {
+                                call {
+                                  arguments [
+                                    {
+                                      call {
+                                        arguments [
+                                          {
+                                            ref "held[at]"
+                                          }
+                                          {
+                                            ref "wanted[probe.index]"
+                                          }
+                                        ]
+                                        procedure "Standard.Logic.equal"
+                                      }
+                                    }
+                                  ]
+                                  procedure "Standard.Logic.not"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                      while {
+                        call {
+                          arguments [
+                            {
+                              ref "probe.index"
+                            }
+                            {
+                              call {
+                                arguments [
+                                  {
+                                    ref "wanted"
+                                  }
+                                ]
+                                procedure "Standard.Collection.count"
+                              }
+                            }
+                          ]
+                          procedure "Standard.Comparable.lessThan"
+                        }
+                      }
+                    }
+                  }
+                }
+                {
+                  value {
+                    conditional {
+                      then [
+                        {
+                          value {
+                            return true
+                          }
+                        }
+                      ]
+                      when {
+                        ref "same"
+                      }
+                    }
+                  }
+                }
+              ]
+              while {
+                call {
+                  arguments [
+                    {
+                      ref "walk.index"
+                    }
+                    {
+                      call {
+                        arguments [
+                          {
+                            call {
+                              arguments [
+                                {
+                                  call {
+                                    arguments [
+                                      {
+                                        ref "held"
+                                      }
+                                    ]
+                                    procedure "Standard.Collection.count"
+                                  }
+                                }
+                                {
+                                  call {
+                                    arguments [
+                                      {
+                                        ref "wanted"
+                                      }
+                                    ]
+                                    procedure "Standard.Collection.count"
+                                  }
+                                }
+                              ]
+                              procedure "Standard.Numeric.minus"
+                            }
+                          }
+                          1
+                        ]
+                        procedure "Standard.Numeric.plus"
+                      }
+                    }
+                  ]
+                  procedure "Standard.Comparable.lessThan"
+                }
+              }
+            }
+          }
+        }
+      ]
+      description "Whether a string holds another inside it."
+      parameters [
+        {
+          name "text"
+          type "String"
+        }
+        {
+          name "other"
+          type "String"
+        }
+      ]
+      result false
+      returns "Bool"
+    }
+    "Standard.Text.replacing" {
+      body [
+        {
+          value {
+            conditional {
+              then [
+                {
+                  value {
+                    call {
+                      arguments [
+                        "replacing asks an empty piece"
+                      ]
+                      procedure "Standard.Control.abort"
+                    }
+                  }
+                }
+              ]
+              when {
+                call {
+                  arguments [
+                    {
+                      ref "target"
+                    }
+                    ""
+                  ]
+                  procedure "Standard.Logic.equal"
+                }
+              }
+            }
+          }
+        }
+      ]
+      description "Every occurrence of a piece swapped for another."
+      parameters [
+        {
+          name "text"
+          type "String"
+        }
+        {
+          name "target"
+          type "String"
+        }
+        {
+          name "replacement"
+          type "String"
+        }
+      ]
+      result {
+        call {
+          arguments [
+            {
+              call {
+                arguments [
+                  {
+                    ref "text"
+                  }
+                  {
+                    ref "target"
+                  }
+                ]
+                procedure "Standard.Text.split"
+              }
+            }
+            {
+              ref "replacement"
+            }
+          ]
+          procedure "Standard.Text.joined"
+        }
+      }
+      returns "String"
+    }
+    "Standard.Text.split" {
+      body [
+        {
+          let "held"
+          value {
+            call {
+              arguments [
+                {
+                  ref "text"
+                }
+              ]
+              procedure "Standard.Text.characters"
+            }
+          }
+        }
+        {
+          let "heldCount"
+          value {
+            call {
+              arguments [
+                {
+                  ref "held"
+                }
+              ]
+              procedure "Standard.Collection.count"
+            }
+          }
+        }
+        {
+          let "wanted"
+          value {
+            call {
+              arguments [
+                {
+                  ref "separator"
+                }
+              ]
+              procedure "Standard.Text.characters"
+            }
+          }
+        }
+        {
+          let "wantedCount"
+          value {
+            call {
+              arguments [
+                {
+                  ref "wanted"
+                }
+              ]
+              procedure "Standard.Collection.count"
+            }
+          }
+        }
+        {
+          value {
+            conditional {
+              then [
+                {
+                  value {
+                    call {
+                      arguments [
+                        "split asks an empty separator"
+                      ]
+                      procedure "Standard.Control.abort"
+                    }
+                  }
+                }
+              ]
+              when {
+                call {
+                  arguments [
+                    {
+                      ref "wantedCount"
+                    }
+                    0
+                  ]
+                  procedure "Standard.Logic.equal"
+                }
+              }
+            }
+          }
+        }
+        {
+          value []
+          var "pieces"
+        }
+        {
+          value []
+          var "current"
+        }
+        {
+          value 0
+          var "at"
+        }
+        {
+          let "walk"
+          value {
+            loop {
+              body [
+                {
+                  value {
+                    call {
+                      arguments [
+                        {
+                          call {
+                            arguments [
+                              {
+                                ref "heldCount"
+                              }
+                              {
+                                call {
+                                  arguments [
+                                    {
+                                      ref "at"
+                                    }
+                                    {
+                                      ref "wantedCount"
+                                    }
+                                  ]
+                                  procedure "Standard.Numeric.plus"
+                                }
+                              }
+                            ]
+                            procedure "Standard.Comparable.lessThan"
+                          }
+                        }
+                      ]
+                      procedure "Standard.Logic.not"
+                    }
+                  }
+                  var "matched"
+                }
+                {
+                  value {
+                    conditional {
+                      then [
+                        {
+                          let "probe"
+                          value {
+                            loop {
+                              body [
+                                {
+                                  let "offset"
+                                  value {
+                                    call {
+                                      arguments [
+                                        {
+                                          ref "at"
+                                        }
+                                        {
+                                          ref "probe.index"
+                                        }
+                                      ]
+                                      procedure "Standard.Numeric.plus"
+                                    }
+                                  }
+                                }
+                                {
+                                  value {
+                                    conditional {
+                                      then [
+                                        {
+                                          set "matched"
+                                          value false
+                                        }
+                                        {
+                                          value {
+                                            break null
+                                          }
+                                        }
+                                      ]
+                                      when {
+                                        call {
+                                          arguments [
+                                            {
+                                              call {
+                                                arguments [
+                                                  {
+                                                    ref "held[offset]"
+                                                  }
+                                                  {
+                                                    ref "wanted[probe.index]"
+                                                  }
+                                                ]
+                                                procedure "Standard.Logic.equal"
+                                              }
+                                            }
+                                          ]
+                                          procedure "Standard.Logic.not"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                              while {
+                                call {
+                                  arguments [
+                                    {
+                                      ref "probe.index"
+                                    }
+                                    {
+                                      ref "wantedCount"
+                                    }
+                                  ]
+                                  procedure "Standard.Comparable.lessThan"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                      when {
+                        ref "matched"
+                      }
+                    }
+                  }
+                }
+                {
+                  value {
+                    conditional {
+                      else [
+                        {
+                          set "current"
+                          value {
+                            call {
+                              arguments [
+                                {
+                                  ref "current"
+                                }
+                                {
+                                  ref "held[at]"
+                                }
+                              ]
+                              procedure "Standard.Collection.appending"
+                            }
+                          }
+                        }
+                        {
+                          set "at"
+                          value {
+                            call {
+                              arguments [
+                                {
+                                  ref "at"
+                                }
+                                1
+                              ]
+                              procedure "Standard.Numeric.plus"
+                            }
+                          }
+                        }
+                      ]
+                      then [
+                        {
+                          set "pieces"
+                          value {
+                            call {
+                              arguments [
+                                {
+                                  ref "pieces"
+                                }
+                                {
+                                  call {
+                                    arguments [
+                                      {
+                                        ref "current"
+                                      }
+                                      ""
+                                    ]
+                                    procedure "Standard.Text.joined"
+                                  }
+                                }
+                              ]
+                              procedure "Standard.Collection.appending"
+                            }
+                          }
+                        }
+                        {
+                          set "current"
+                          value []
+                        }
+                        {
+                          set "at"
+                          value {
+                            call {
+                              arguments [
+                                {
+                                  ref "at"
+                                }
+                                {
+                                  ref "wantedCount"
+                                }
+                              ]
+                              procedure "Standard.Numeric.plus"
+                            }
+                          }
+                        }
+                      ]
+                      when {
+                        ref "matched"
+                      }
+                    }
+                  }
+                }
+              ]
+              while {
+                call {
+                  arguments [
+                    {
+                      ref "at"
+                    }
+                    {
+                      ref "heldCount"
+                    }
+                  ]
+                  procedure "Standard.Comparable.lessThan"
+                }
+              }
+            }
+          }
+        }
+      ]
+      description "The text cut on a separator."
+      parameters [
+        {
+          name "text"
+          type "String"
+        }
+        {
+          name "separator"
+          type "String"
+        }
+      ]
+      result {
+        call {
+          arguments [
+            {
+              ref "pieces"
+            }
+            {
+              call {
+                arguments [
+                  {
+                    ref "current"
+                  }
+                  ""
+                ]
+                procedure "Standard.Text.joined"
+              }
+            }
+          ]
+          procedure "Standard.Collection.appending"
+        }
+      }
+      returns "Array<String>"
+    }
+    "Standard.Text.startsWith" {
+      body [
+        {
+          let "held"
+          value {
+            call {
+              arguments [
+                {
+                  ref "text"
+                }
+              ]
+              procedure "Standard.Text.characters"
+            }
+          }
+        }
+        {
+          let "wanted"
+          value {
+            call {
+              arguments [
+                {
+                  ref "prefix"
+                }
+              ]
+              procedure "Standard.Text.characters"
+            }
+          }
+        }
+        {
+          value {
+            conditional {
+              then [
+                {
+                  value {
+                    return false
+                  }
+                }
+              ]
+              when {
+                call {
+                  arguments [
+                    {
+                      call {
+                        arguments [
+                          {
+                            ref "held"
+                          }
+                        ]
+                        procedure "Standard.Collection.count"
+                      }
+                    }
+                    {
+                      call {
+                        arguments [
+                          {
+                            ref "wanted"
+                          }
+                        ]
+                        procedure "Standard.Collection.count"
+                      }
+                    }
+                  ]
+                  procedure "Standard.Comparable.lessThan"
+                }
+              }
+            }
+          }
+        }
+        {
+          let "walk"
+          value {
+            loop {
+              body [
+                {
+                  value {
+                    conditional {
+                      then [
+                        {
+                          value {
+                            return false
+                          }
+                        }
+                      ]
+                      when {
+                        call {
+                          arguments [
+                            {
+                              call {
+                                arguments [
+                                  {
+                                    ref "held[walk.index]"
+                                  }
+                                  {
+                                    ref "wanted[walk.index]"
+                                  }
+                                ]
+                                procedure "Standard.Logic.equal"
+                              }
+                            }
+                          ]
+                          procedure "Standard.Logic.not"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+              while {
+                call {
+                  arguments [
+                    {
+                      ref "walk.index"
+                    }
+                    {
+                      call {
+                        arguments [
+                          {
+                            ref "wanted"
+                          }
+                        ]
+                        procedure "Standard.Collection.count"
+                      }
+                    }
+                  ]
+                  procedure "Standard.Comparable.lessThan"
+                }
+              }
+            }
+          }
+        }
+      ]
+      description "Whether a string begins with another."
+      parameters [
+        {
+          name "text"
+          type "String"
+        }
+        {
+          name "prefix"
+          type "String"
+        }
+      ]
+      result true
+      returns "Bool"
+    }
+  }
+  warp 1
+}

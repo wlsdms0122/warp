@@ -1,0 +1,45 @@
+warpt 1
+{
+  expect {
+    answers 3
+  }
+  name "a-contract-is-named-by-its-qualified-spelling"
+  note "A contract name is its declared spelling with the declaring module in front. `Standard` declares Comparable, so a bound that means it writes `Standard.Comparable`."
+  program {
+    imports [
+      "Standard.Comparable"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              3
+            ]
+            procedure "keep"
+          }
+        }
+        returns "Int"
+      }
+      keep {
+        bounds {
+          T "Standard.Comparable"
+        }
+        parameters [
+          {
+            name "value"
+            type "some T"
+          }
+        ]
+        result {
+          ref "value"
+        }
+        returns "some T"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

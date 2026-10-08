@@ -4,13 +4,13 @@ warpt 1
     refuses "build"
   }
   name "a-taken-variable-is-handed-in-place-only-as-the-type-it-is-held-to"
-  note "One arm lets a closure capture an int variable and the other writes null into it, so after the conditional it is held to int and reads int?. Handing it in place to an int? slot refuses: the callee would write null into a box the closure reads as int."
+  note "One arm lets a closure capture an Int variable and the other writes null into it, so after the conditional it is held to Int and reads Int?. Handing it in place to an Int? slot refuses: the callee would write null into a box the closure reads as Int."
   program {
     imports [
-      "std.math.plus"
+      "Standard.Numeric.plus"
     ]
     procedures {
-      "app.clear" {
+      "App.clear" {
         body [
           {
             set "v"
@@ -20,7 +20,7 @@ warpt 1
         parameters [
           {
             name "v"
-            type "inout int?"
+            type "inout Int?"
           }
         ]
         result 0
@@ -35,13 +35,13 @@ warpt 1
           {
             type {
               procedure {
-                returns "int"
+                returns "Int"
               }
             }
             value {
               closure {
                 result 0
-                returns "int"
+                returns "Int"
               }
             }
             var "keep"
@@ -68,10 +68,10 @@ warpt 1
                               }
                               1
                             ]
-                            procedure "std.math.plus"
+                            procedure "Standard.Numeric.plus"
                           }
                         }
-                        returns "int"
+                        returns "Int"
                       }
                     }
                   }
@@ -88,7 +88,7 @@ warpt 1
                     ref "x"
                   }
                 ]
-                procedure "app.clear"
+                procedure "App.clear"
               }
             }
           }
@@ -106,7 +106,7 @@ warpt 1
         result {
           ref "r"
         }
-        returns "int"
+        returns "Int"
       }
     }
     warp 1

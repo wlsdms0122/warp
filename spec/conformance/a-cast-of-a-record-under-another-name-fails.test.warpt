@@ -1,0 +1,93 @@
+warpt 1
+{
+  expect {
+    answers "cast_refused"
+  }
+  name "a-cast-of-a-record-under-another-name-fails"
+  note "A record type is exact by its name, and a cast reading a value read as Any judges it at the run the way the build would have. A Vault is no Account, though their fields are one, so the plain cast fails with cast_refused, which the attempt catches."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "held"
+            value {
+              as {
+                of {
+                  record {
+                    balance 1
+                  }
+                }
+                type "Vault"
+              }
+            }
+          }
+          {
+            let "tried"
+            value {
+              attempt {
+                body [
+                  {
+                    let "got"
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "held"
+                          }
+                        ]
+                        procedure "read"
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  result {
+                    ref "tried.type"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "tried"
+        }
+      }
+      read {
+        parameters [
+          {
+            name "account"
+            type "Any"
+          }
+        ]
+        result {
+          as {
+            of {
+              ref "account"
+            }
+            type "Account"
+          }
+        }
+        returns "Account"
+      }
+    }
+    types {
+      Account {
+        record {
+          balance "Int"
+        }
+      }
+      Vault {
+        record {
+          balance "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

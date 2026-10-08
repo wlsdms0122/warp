@@ -1,0 +1,42 @@
+warpt 1
+{
+  expect {
+    refuses "run"
+  }
+  name "what-is-no-byte-arriving-at-the-run-refuses-to-decode"
+  note "Bytes are whole numbers from 0 to 255, and what only the run holds `decoded` judges where it arrives: the list a variable holds has `300` in it, so the run refuses the call."
+  program {
+    imports [
+      "Standard.Text.decoded"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            value [
+              104
+              300
+            ]
+            var "bytes"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "bytes"
+              }
+              "utf8"
+            ]
+            procedure "Standard.Text.decoded"
+          }
+        }
+        returns "String"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

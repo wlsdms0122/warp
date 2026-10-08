@@ -4,10 +4,14 @@ warpt 1
     refuses "load"
   }
   name "a-send-is-a-declared-spelling-or-an-import"
-  note "The document declares `wallet.fee` and sends `fee`. That spelling is not one the document declares, so it is a procedure the document imports, and a list that leaves it out is refused when the module is made."
+  note "The document declares `Wallet.fee` and sends `fee`. That spelling is not one the document declares, so it is a procedure the document imports, and a list that leaves it out is refused when the module is made."
   program {
     imports []
     procedures {
+      "Wallet.fee" {
+        result 7
+        returns "Int"
+      }
       entry {
         access "public"
         result {
@@ -15,11 +19,7 @@ warpt 1
             procedure "fee"
           }
         }
-        returns "int"
-      }
-      "wallet.fee" {
-        result 7
-        returns "int"
+        returns "Int"
       }
     }
     warp 1

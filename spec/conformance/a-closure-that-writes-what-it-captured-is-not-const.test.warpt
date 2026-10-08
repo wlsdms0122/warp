@@ -4,11 +4,11 @@ warpt 1
     refuses "build"
   }
   name "a-closure-that-writes-what-it-captured-is-not-const"
-  note "A name a closure captured is a box outside the closure, so writing it reaches the run's state the way writing a module variable does. A slot asking `const procedure` refuses the closure at the build."
+  note "A name a closure captured is a box outside the closure, so writing it reaches the run's state the way writing a module variable does. A slot asking a `const` procedure type refuses the closure at the build."
   program {
     imports [
-      "std.collection.map"
-      "std.math.plus"
+      "Standard.Collection.map"
+      "Standard.Numeric.plus"
     ]
     procedures {
       entry {
@@ -42,7 +42,7 @@ warpt 1
                                   ref "item"
                                 }
                               ]
-                              procedure "std.math.plus"
+                              procedure "Standard.Numeric.plus"
                             }
                           }
                         }
@@ -50,17 +50,17 @@ warpt 1
                       parameters [
                         {
                           name "item"
-                          type "int"
+                          type "Int"
                         }
                       ]
                       result {
                         ref "item"
                       }
-                      returns "int"
+                      returns "Int"
                     }
                   }
                 ]
-                procedure "std.collection.map"
+                procedure "Standard.Collection.map"
               }
             }
           }
@@ -68,7 +68,7 @@ warpt 1
         result {
           ref "seen"
         }
-        returns "int"
+        returns "Int"
       }
     }
     warp 1

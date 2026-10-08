@@ -10,8 +10,8 @@ warpt 1
   note "A conditional answers nothing, so a body that answers without running chooses with a procedure. The side not chosen goes unasked, which is why both sides are procedures."
   program {
     imports [
-      "std.logic.select"
-      "std.math.lessThan"
+      "Standard.Comparable.lessThan"
+      "Standard.Logic.select"
     ]
     procedures {
       entry {
@@ -19,7 +19,7 @@ warpt 1
         parameters [
           {
             name "item"
-            type "int"
+            type "Int"
           }
         ]
         result {
@@ -33,26 +33,26 @@ warpt 1
                     }
                     10
                   ]
-                  procedure "std.math.lessThan"
+                  procedure "Standard.Comparable.lessThan"
                 }
               }
               {
                 closure {
                   result "small"
-                  returns "string"
+                  returns "String"
                 }
               }
               {
                 closure {
                   result "large"
-                  returns "string"
+                  returns "String"
                 }
               }
             ]
-            procedure "std.logic.select"
+            procedure "Standard.Logic.select"
           }
         }
-        returns "string"
+        returns "String"
       }
     }
     warp 1

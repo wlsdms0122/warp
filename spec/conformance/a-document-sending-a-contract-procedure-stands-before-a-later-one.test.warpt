@@ -3,48 +3,48 @@ warpt 1
   documents [
     {
       contracts {
-        "app.Describable" {
+        "App.Describable" {
           describe {
             const true
             parameters [
               {
                 name "of"
-                type "app.Describable"
+                type "Self"
               }
             ]
-            returns "string"
+            returns "String"
           }
         }
       }
       imports []
       procedures {
-        "app.nothing" {
-          returns "null"
+        "App.nothing" {
+          returns "Null"
         }
       }
       warp 1
     }
     {
       imports [
-        "app.Describable"
-        "app.Describable.describe"
+        "App.Describable"
+        "App.Describable.describe"
       ]
       procedures {
-        "bank.Account.describe" {
+        "Bank.Account.describe" {
           parameters [
             {
               name "of"
-              type "bank.Account"
+              type "Bank.Account"
             }
           ]
           result "an account"
-          returns "string"
+          returns "String"
         }
-        "bank.tell" {
+        "Bank.tell" {
           parameters [
             {
               name "of"
-              type "bank.Account"
+              type "Bank.Account"
             }
           ]
           result {
@@ -54,21 +54,21 @@ warpt 1
                   ref "of"
                 }
               ]
-              procedure "app.Describable.describe"
+              procedure "App.Describable.describe"
             }
           }
-          returns "string"
+          returns "String"
         }
       }
       satisfies {
-        "bank.Account" [
-          "app.Describable"
+        "Bank.Account" [
+          "App.Describable"
         ]
       }
       types {
-        "bank.Account" {
+        "Bank.Account" {
           record {
-            balance "int"
+            balance "Int"
           }
         }
       }
@@ -82,8 +82,8 @@ warpt 1
   note "A call to a contract's procedure is answered by the link through the contract, not by a row a document declares, so a document sending one stands laid beside a document laid after it. The documents beside the program are laid one after another, and the program comes last."
   program {
     imports [
-      "bank.Account"
-      "bank.tell"
+      "Bank.Account"
+      "Bank.tell"
     ]
     procedures {
       entry {
@@ -98,7 +98,7 @@ warpt 1
                     balance 1
                   }
                 }
-                type "bank.Account"
+                type "Bank.Account"
               }
             }
           }
@@ -110,10 +110,10 @@ warpt 1
                 ref "account"
               }
             ]
-            procedure "bank.tell"
+            procedure "Bank.tell"
           }
         }
-        returns "string"
+        returns "String"
       }
     }
     warp 1

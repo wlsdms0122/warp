@@ -4,9 +4,9 @@ warpt 1
     builds {
       answers [
         [
-          "app.read"
+          "App.read"
           [
-            18
+            17
             "T"
             [
               [
@@ -20,11 +20,10 @@ warpt 1
       ]
       claims []
       constants []
-      constraints []
       contracts []
       dependencies []
       document [
-        x"8f7f5667f1c821156d3f00c47c9f4b6629763f2d8d821fc37bcce1cea68e6202"
+        x"9c04aa4d1e7ca1e61de742e7d8588d5f188e48c47dcb33f83aa266830df7aecb"
       ]
       leaned []
       lifted []
@@ -35,19 +34,18 @@ warpt 1
       object 1
       rows [
         [
-          "app.read"
+          "App.read"
           [
             [
               [
                 "p"
                 [
                   [
-                    19
+                    15
                     "T"
                     []
                   ]
                 ]
-                []
                 []
               ]
             ]
@@ -99,84 +97,32 @@ warpt 1
           [
             [
               [
-                "b"
-                [
-                  [
-                    16
-                    [
-                      18
-                      "app.Handle"
-                    ]
-                  ]
-                ]
-                []
-                []
-              ]
-              [
-                "d"
-                [
-                  [
-                    7
-                    [
-                      1
-                      [
-                        0.0
-                      ]
-                      [
-                        [
-                          1
-                          1.0
-                        ]
-                      ]
-                    ]
-                  ]
-                ]
-                []
-                []
-              ]
-              [
-                "h"
-                [
-                  [
-                    15
-                    [
-                      18
-                      "app.Handle"
-                    ]
-                  ]
-                ]
-                []
-                []
-              ]
-              [
                 "io"
                 [
                   [
-                    13
+                    12
                     [
                       4
                     ]
                   ]
                 ]
                 []
-                []
               ]
               [
                 "k"
                 [
                   [
-                    18
-                    "app.Kinds"
+                    14
+                    "App.Kinds"
                   ]
                 ]
-                []
                 []
               ]
             ]
             [
               [
-                18
-                "app.Handle"
+                14
+                "App.Kinds"
               ]
             ]
           ]
@@ -196,27 +142,21 @@ warpt 1
                 [
                   1
                   [
-                    2
+                    1
                     []
                   ]
                 ]
               ]
             ]
             [
-              5
+              2
               [
                 0
                 1
-                2
-                3
-                4
               ]
               []
               []
               [
-                "b"
-                "d"
-                "h"
                 "io"
                 "k"
               ]
@@ -224,37 +164,17 @@ warpt 1
           ]
         ]
       ]
-      typeNumbering [
-        []
-        []
-      ]
+      typeNumbering []
       types [
         [
-          "app.Handle"
+          "App.Kinds"
           [
-            14
-            [
-              10
-              [
-                [
-                  "name"
-                  [
-                    6
-                  ]
-                ]
-              ]
-            ]
-          ]
-        ]
-        [
-          "app.Kinds"
-          [
-            10
+            9
             [
               [
                 "f"
                 [
-                  11
+                  10
                   []
                   0
                   0
@@ -263,7 +183,7 @@ warpt 1
               [
                 "flag"
                 [
-                  12
+                  11
                   [
                     3
                   ]
@@ -272,7 +192,7 @@ warpt 1
               [
                 "g"
                 [
-                  11
+                  10
                   [
                     [
                       [
@@ -297,7 +217,7 @@ warpt 1
               [
                 "maybe"
                 [
-                  17
+                  13
                   [
                     4
                   ]
@@ -310,27 +230,9 @@ warpt 1
                 ]
               ]
               [
-                "ranged"
-                [
-                  7
-                  [
-                    0
-                    [
-                      0
-                    ]
-                    [
-                      [
-                        0
-                        9
-                      ]
-                    ]
-                  ]
-                ]
-              ]
-              [
                 "stop"
                 [
-                  11
+                  10
                   [
                     [
                       []
@@ -348,7 +250,7 @@ warpt 1
               [
                 "table"
                 [
-                  9
+                  8
                   [
                     6
                   ]
@@ -362,11 +264,11 @@ warpt 1
     }
   }
   name "the-object-of-every-type-spelling"
-  note "Every type spelling a document writes lowers under the tag the page gives it: the scalars with null and never, a range with its edges, a dictionary, the marks var, inout, linear, consuming and borrowing, the nullable, a procedure type with the types it takes and answers and its claims, a type parameter, and the reading a walk through one derives, written under answers."
+  note "Every type spelling a document writes lowers under the tag the page gives it: the scalars with `Null` and `Never`, a dictionary, the marks var and inout, the nullable, a procedure type with the types it takes and answers and its claims, a type parameter, and the reading a walk through one derives, written under answers."
   program {
     imports []
     procedures {
-      "app.read" {
+      "App.read" {
         parameters [
           {
             name "p"
@@ -381,62 +283,42 @@ warpt 1
         access "public"
         parameters [
           {
-            name "b"
-            type "borrowing app.Handle"
-          }
-          {
-            name "d"
-            type "double(0.0..<1.0)"
-          }
-          {
-            name "h"
-            type "consuming app.Handle"
-          }
-          {
             name "io"
-            type "inout int"
+            type "inout Int"
           }
           {
             name "k"
-            type "app.Kinds"
+            type "App.Kinds"
           }
         ]
         result {
-          ref "h"
+          ref "k"
         }
-        returns "app.Handle"
+        returns "App.Kinds"
       }
     }
     types {
-      "app.Handle" {
-        linear {
-          record {
-            name "string"
-          }
-        }
-      }
-      "app.Kinds" {
+      "App.Kinds" {
         record {
-          f "procedure"
-          flag "var bool"
+          f "Procedure"
+          flag "var Bool"
           g {
             "const isolated procedure" {
               parameters [
-                "string"
-                "int"
+                "String"
+                "Int"
               ]
-              returns "int"
+              returns "Int"
             }
           }
-          maybe "int?"
-          none "null"
-          ranged "int(0...9)"
+          maybe "Int?"
+          none "Null"
           stop {
             procedure {
-              returns "never"
+              returns "Never"
             }
           }
-          table "dictionary<string>"
+          table "Dictionary<String>"
         }
       }
     }

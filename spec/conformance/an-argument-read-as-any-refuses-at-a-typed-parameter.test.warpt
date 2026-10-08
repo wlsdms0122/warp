@@ -1,0 +1,41 @@
+warpt 1
+{
+  arguments {
+    it null
+  }
+  expect {
+    refuses "build"
+  }
+  name "an-argument-read-as-any-refuses-at-a-typed-parameter"
+  note "`uppercased` declares `of: String`, and the argument handed there is read as `Any`. A value read as `Any` stands where a type is declared only where a cast says what it is, so the build refuses."
+  program {
+    imports [
+      "Standard.Text.uppercased"
+    ]
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "it"
+            type "Any"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "it"
+              }
+            ]
+            procedure "Standard.Text.uppercased"
+          }
+        }
+        returns "String"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

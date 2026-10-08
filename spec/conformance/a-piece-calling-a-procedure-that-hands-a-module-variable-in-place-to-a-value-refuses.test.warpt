@@ -4,11 +4,11 @@ warpt 1
     refuses "build"
   }
   name "a-piece-calling-a-procedure-that-hands-a-module-variable-in-place-to-a-value-refuses"
-  note "A body handing a module variable in place to a value writes it through that value, the way it would through a declaration, so it is not isolated. A piece of `std.concurrent.map` calling such a procedure refuses at the build."
+  note "A body handing a module variable in place to a value writes it through that value, the way it would through a declaration, so it is not isolated. A piece of `Standard.Concurrent.map` calling such a procedure refuses at the build."
   program {
     imports [
-      "std.concurrent.map"
-      "std.math.plus"
+      "Standard.Concurrent.map"
+      "Standard.Numeric.plus"
     ]
     procedures {
       adding {
@@ -34,7 +34,7 @@ warpt 1
             type {
               "isolated procedure" {
                 parameters [
-                  "inout int"
+                  "inout Int"
                 ]
               }
             }
@@ -59,7 +59,7 @@ warpt 1
                           }
                           1
                         ]
-                        procedure "std.math.plus"
+                        procedure "Standard.Numeric.plus"
                       }
                     }
                   }
@@ -67,7 +67,7 @@ warpt 1
                 parameters [
                   {
                     name "count"
-                    type "inout int"
+                    type "inout Int"
                   }
                 ]
               }
@@ -100,11 +100,11 @@ warpt 1
                       parameters [
                         {
                           name "item"
-                          type "int"
+                          type "Int"
                         }
                         {
                           name "index"
-                          type "int"
+                          type "Int"
                         }
                       ]
                       result {
@@ -113,7 +113,7 @@ warpt 1
                     }
                   }
                 ]
-                procedure "std.concurrent.map"
+                procedure "Standard.Concurrent.map"
               }
             }
           }
@@ -121,7 +121,7 @@ warpt 1
         result {
           ref "total"
         }
-        returns "int"
+        returns "Int"
       }
     }
     var {

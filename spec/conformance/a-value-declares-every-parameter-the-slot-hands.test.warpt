@@ -4,11 +4,11 @@ warpt 1
     refuses "build"
   }
   name "a-value-declares-every-parameter-the-slot-hands"
-  note "A value standing in a procedure-typed slot takes exactly the positions the slot hands. `std.concurrent.map` hands its closure the item and then its index, so a closure declaring `item` alone does not fit, and the build refuses where the value is handed."
+  note "A value standing in a procedure-typed slot takes exactly the positions the slot hands. `Standard.Concurrent.map` hands its closure the item and then its index, so a closure declaring `item` alone does not fit, and the build refuses where the value is handed."
   program {
     imports [
-      "std.concurrent.map"
-      "std.math.plus"
+      "Standard.Concurrent.map"
+      "Standard.Numeric.plus"
     ]
     procedures {
       entry {
@@ -25,7 +25,7 @@ warpt 1
                   parameters [
                     {
                       name "item"
-                      type "int"
+                      type "Int"
                     }
                   ]
                   result {
@@ -36,17 +36,17 @@ warpt 1
                         }
                         1
                       ]
-                      procedure "std.math.plus"
+                      procedure "Standard.Numeric.plus"
                     }
                   }
-                  returns "int"
+                  returns "Int"
                 }
               }
             ]
-            procedure "std.concurrent.map"
+            procedure "Standard.Concurrent.map"
           }
         }
-        returns "array<int>"
+        returns "Array<Int>"
       }
     }
     warp 1

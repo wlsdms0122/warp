@@ -1,0 +1,101 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-contract-slot-refuses-a-parameter-or-null"
+  note "App.g reads v as some T or null, T bounded by App.Num, and hands it to App.f, which takes App.Num. Null answers no contract."
+  program {
+    contracts {
+      "App.Num" {}
+    }
+    imports []
+    procedures {
+      "App.f" {
+        parameters [
+          {
+            name "n"
+            type "App.Num"
+          }
+        ]
+        result "took"
+        returns "String"
+      }
+      "App.g" {
+        body [
+          {
+            var "v"
+          }
+          {
+            value {
+              conditional {
+                then [
+                  {
+                    set "v"
+                    value {
+                      ref "m"
+                    }
+                  }
+                ]
+                when true
+              }
+            }
+          }
+          {
+            let "s"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "v"
+                  }
+                ]
+                procedure "App.f"
+              }
+            }
+          }
+        ]
+        bounds {
+          T "App.Num"
+        }
+        parameters [
+          {
+            name "m"
+            type "some T"
+          }
+        ]
+        result {
+          ref "s"
+        }
+        returns "String"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "s"
+            value {
+              call {
+                arguments [
+                  3
+                ]
+                procedure "App.g"
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    satisfies {
+      Int [
+        "App.Num"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+

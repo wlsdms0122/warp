@@ -1,0 +1,76 @@
+warpt 1
+{
+  expect {
+    answers null
+  }
+  name "a-record-literal-handed-to-a-called-value-takes-the-name-its-slot-reads-answers"
+  note "`g` is held at `Procedure(App.Point) -> Any`, and its closure takes `Any` and reads what it is handed `as? { x: Int }`. The record literal a call of `g` hands is written where `App.Point` is read, so it arrives an `App.Point`, which no inline record type holds, and the asking cast reads null."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "g"
+            type {
+              procedure {
+                parameters [
+                  "App.Point"
+                ]
+                returns "Any"
+              }
+            }
+            value {
+              closure {
+                parameters [
+                  {
+                    name "p"
+                    type "Any"
+                  }
+                ]
+                result {
+                  "as?" {
+                    of {
+                      ref "p"
+                    }
+                    type {
+                      record {
+                        x "Int"
+                      }
+                    }
+                  }
+                }
+                returns "Any"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                record {
+                  x 1
+                }
+              }
+            ]
+            procedure {
+              ref "g"
+            }
+          }
+        }
+      }
+    }
+    types {
+      "App.Point" {
+        record {
+          x "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

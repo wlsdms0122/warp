@@ -9,12 +9,12 @@ warpt 1
     const {
       now {
         call {
-          procedure "app.clock"
+          procedure "App.clock"
         }
       }
     }
     imports [
-      "app.clock"
+      "App.clock"
     ]
     procedures {
       entry {
@@ -22,7 +22,7 @@ warpt 1
         result {
           ref "now"
         }
-        returns "int"
+        returns "Int"
       }
     }
     warp 1
@@ -30,9 +30,9 @@ warpt 1
   test 1
   vocabulary {
     procedures {
-      "app.clock" {
+      "App.clock" {
         answers 7
-        returns "int"
+        returns "Int"
         runs true
       }
     }

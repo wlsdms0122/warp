@@ -4,40 +4,40 @@ warpt 1
     refuses "build"
   }
   name "a-declaration-answering-a-contract-with-a-type-where-it-writes-a-parameter-refuses"
-  note "The contract takes some T, which is its own and no call through it fills. The declaration answering it takes int there, so a call through the contract handing a string would reach a slot that refuses it."
+  note "The contract takes some T, which is its own and no call through it fills. The declaration answering it takes Int there, so a call through the contract handing a string would reach a slot that refuses it."
   program {
     contracts {
-      "app.Sized" {
+      "App.Sized" {
         size {
           parameters [
             {
               name "of"
-              type "app.Sized"
+              type "Self"
             }
             {
               name "n"
               type "some T"
             }
           ]
-          returns "int"
+          returns "Int"
         }
       }
     }
     imports []
     procedures {
-      "bank.Card.size" {
+      "Bank.Card.size" {
         parameters [
           {
             name "of"
-            type "bank.Card"
+            type "Bank.Card"
           }
           {
             name "n"
-            type "int"
+            type "Int"
           }
         ]
         result 7
-        returns "int"
+        returns "Int"
       }
       entry {
         access "public"
@@ -51,7 +51,7 @@ warpt 1
                     last "42"
                   }
                 }
-                type "bank.Card"
+                type "Bank.Card"
               }
             }
           }
@@ -65,7 +65,7 @@ warpt 1
                   }
                   "x"
                 ]
-                procedure "app.Sized.size"
+                procedure "App.Sized.size"
               }
             }
           }
@@ -76,14 +76,14 @@ warpt 1
       }
     }
     satisfies {
-      "bank.Card" [
-        "app.Sized"
+      "Bank.Card" [
+        "App.Sized"
       ]
     }
     types {
-      "bank.Card" {
+      "Bank.Card" {
         record {
-          last "string"
+          last "String"
         }
       }
     }

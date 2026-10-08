@@ -10,8 +10,8 @@ warpt 1
   note "Writing a variable the closure itself declared touches nothing outside it, so the closure is isolated and runs beside the others."
   program {
     imports [
-      "std.concurrent.map"
-      "std.math.times"
+      "Standard.Concurrent.map"
+      "Standard.Numeric.times"
     ]
     procedures {
       entry {
@@ -42,7 +42,7 @@ warpt 1
                             }
                             2
                           ]
-                          procedure "std.math.times"
+                          procedure "Standard.Numeric.times"
                         }
                       }
                     }
@@ -50,24 +50,24 @@ warpt 1
                   parameters [
                     {
                       name "item"
-                      type "int"
+                      type "Int"
                     }
                     {
                       name "index"
-                      type "int"
+                      type "Int"
                     }
                   ]
                   result {
                     ref "held"
                   }
-                  returns "int"
+                  returns "Int"
                 }
               }
             ]
-            procedure "std.concurrent.map"
+            procedure "Standard.Concurrent.map"
           }
         }
-        returns "array<int>"
+        returns "Array<Int>"
       }
     }
     warp 1

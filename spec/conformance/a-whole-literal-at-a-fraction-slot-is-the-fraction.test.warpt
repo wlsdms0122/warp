@@ -1,0 +1,40 @@
+warpt 1
+{
+  expect {
+    answers 2.0
+  }
+  name "a-whole-literal-at-a-fraction-slot-is-the-fraction"
+  note "A whole number written as a literal at a `Double` slot is the fraction it names. A fraction is no whole number, and the reverse refuses."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              2
+            ]
+            procedure "wants"
+          }
+        }
+        returns "Double"
+      }
+      wants {
+        parameters [
+          {
+            name "it"
+            type "Double"
+          }
+        ]
+        result {
+          ref "it"
+        }
+        returns "Double"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

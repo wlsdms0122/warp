@@ -7,12 +7,12 @@ warpt 1
   note "A slot asking for an array of procedures that answer without running says it about every element, so calling one is read rather than run. A document can therefore write `and` itself, stopping at the first side that settles the answer."
   program {
     imports [
-      "std.collection.count"
-      "std.logic.not"
-      "std.math.lessThan"
+      "Standard.Collection.count"
+      "Standard.Comparable.lessThan"
+      "Standard.Logic.not"
     ]
     procedures {
-      "app.and" {
+      "App.and" {
         body [
           {
             let "walk"
@@ -52,7 +52,7 @@ warpt 1
                                 ref "answered"
                               }
                             ]
-                            procedure "std.logic.not"
+                            procedure "Standard.Logic.not"
                           }
                         }
                       }
@@ -72,11 +72,11 @@ warpt 1
                               ref "of"
                             }
                           ]
-                          procedure "std.collection.count"
+                          procedure "Standard.Collection.count"
                         }
                       }
                     ]
-                    procedure "std.math.lessThan"
+                    procedure "Standard.Comparable.lessThan"
                   }
                 }
               }
@@ -89,14 +89,14 @@ warpt 1
             type {
               array {
                 "const procedure" {
-                  returns "bool"
+                  returns "Bool"
                 }
               }
             }
           }
         ]
         result true
-        returns "bool"
+        returns "Bool"
       }
       entry {
         access "public"
@@ -107,21 +107,21 @@ warpt 1
                 {
                   closure {
                     result true
-                    returns "bool"
+                    returns "Bool"
                   }
                 }
                 {
                   closure {
                     result false
-                    returns "bool"
+                    returns "Bool"
                   }
                 }
               ]
             ]
-            procedure "app.and"
+            procedure "App.and"
           }
         }
-        returns "bool"
+        returns "Bool"
       }
     }
     warp 1

@@ -1,18 +1,18 @@
 warpt 1
 {
   expect {
-    answers "1"
+    answers "1.0"
   }
   name "a-contract-answering-a-type-parameter-hands-the-answer-on-as-it-came-answers"
-  note "`app.Two.two` takes two of `some T` and answers `some T`, and `bank.Card.two` answers the first. Called with 1 and 2.5, `T` is read as a fraction, and the answer is what the call filled the parameter with, so the call judges it and hands it on as it came: the whole number 1, whose text is `1`."
+  note "`App.Two.two` takes two of `some T` and answers `some T`, and `Bank.Card.two` answers the first. Called with 1 and 2.5, `T` is read as a fraction, so the literal 1 is the fraction it names, and the answer is what the call filled the parameter with, handed on as it came: the fraction 1.0, whose text is `1.0`."
   program {
     contracts {
-      "app.Two" {
+      "App.Two" {
         two {
           parameters [
             {
               name "of"
-              type "app.Two"
+              type "Self"
             }
             {
               name "a"
@@ -28,14 +28,14 @@ warpt 1
       }
     }
     imports [
-      "std.text.text"
+      "Standard.Text.text"
     ]
     procedures {
-      "bank.Card.two" {
+      "Bank.Card.two" {
         parameters [
           {
             name "of"
-            type "bank.Card"
+            type "Bank.Card"
           }
           {
             name "a"
@@ -63,7 +63,7 @@ warpt 1
                     last "42"
                   }
                 }
-                type "bank.Card"
+                type "Bank.Card"
               }
             }
           }
@@ -78,7 +78,7 @@ warpt 1
                   1
                   2.5
                 ]
-                procedure "app.Two.two"
+                procedure "App.Two.two"
               }
             }
           }
@@ -90,20 +90,20 @@ warpt 1
                 ref "t"
               }
             ]
-            procedure "std.text.text"
+            procedure "Standard.Text.text"
           }
         }
       }
     }
     satisfies {
-      "bank.Card" [
-        "app.Two"
+      "Bank.Card" [
+        "App.Two"
       ]
     }
     types {
-      "bank.Card" {
+      "Bank.Card" {
         record {
-          last "string"
+          last "String"
         }
       }
     }

@@ -7,26 +7,26 @@ warpt 1
   note "A parameter a contract writes `inout` takes a variable, the same as one a declaration writes. A literal has no box to write, so handing one in place through the contract refuses at the build."
   program {
     contracts {
-      "app.Bumping" {
+      "App.Bumping" {
         bump {
           parameters [
             {
               name "of"
-              type "app.Bumping"
+              type "Self"
             }
             {
               name "count"
-              type "inout int"
+              type "inout Int"
             }
           ]
         }
       }
     }
     imports [
-      "std.math.plus"
+      "Standard.Numeric.plus"
     ]
     procedures {
-      "app.Thing.bump" {
+      "App.Thing.bump" {
         body [
           {
             set "count"
@@ -38,7 +38,7 @@ warpt 1
                   }
                   1
                 ]
-                procedure "std.math.plus"
+                procedure "Standard.Numeric.plus"
               }
             }
           }
@@ -46,11 +46,11 @@ warpt 1
         parameters [
           {
             name "of"
-            type "app.Thing"
+            type "App.Thing"
           }
           {
             name "count"
-            type "inout int"
+            type "inout Int"
           }
         ]
       }
@@ -68,28 +68,28 @@ warpt 1
                           id 1
                         }
                       }
-                      type "app.Thing"
+                      type "App.Thing"
                     }
                   }
                   10
                 ]
-                procedure "app.Bumping.bump"
+                procedure "App.Bumping.bump"
               }
             }
           }
         ]
-        returns "null"
+        returns "Null"
       }
     }
     satisfies {
-      "app.Thing" [
-        "app.Bumping"
+      "App.Thing" [
+        "App.Bumping"
       ]
     }
     types {
-      "app.Thing" {
+      "App.Thing" {
         record {
-          id "int"
+          id "Int"
         }
       }
     }

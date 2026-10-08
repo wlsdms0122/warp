@@ -4,51 +4,47 @@ warpt 1
     refuses "build"
   }
   name "a-declaration-answering-a-contract-with-a-bounded-parameter-where-it-writes-what-the-bound-refuses-refuses"
-  note "The contract takes a string at n, and the declaration answering it takes some U there, bounded by app.Whole, which admits int alone. Every call through the contract would hand U a string its bound refuses."
+  note "The contract takes a string at n, and the declaration answering it takes some U there, bounded by App.Whole, which Int alone answers. Every call through the contract would hand U a string its bound refuses."
   program {
-    constraints {
-      "app.Whole" [
-        "int"
-      ]
-    }
     contracts {
-      "app.Shown" {
+      "App.Shown" {
         show {
           parameters [
             {
               name "of"
-              type "app.Shown"
+              type "Self"
             }
             {
               name "n"
-              type "string"
+              type "String"
             }
           ]
-          returns "string"
+          returns "String"
         }
       }
-      "app.Sized" {
+      "App.Sized" {
         size {
           parameters [
             {
               name "of"
-              type "app.Sized"
+              type "Self"
             }
           ]
-          returns "int"
+          returns "Int"
         }
       }
+      "App.Whole" {}
     }
     imports []
     procedures {
-      "bank.Card.show" {
+      "Bank.Card.show" {
         bounds {
-          U "app.Whole"
+          U "App.Whole"
         }
         parameters [
           {
             name "of"
-            type "bank.Card"
+            type "Bank.Card"
           }
           {
             name "n"
@@ -56,7 +52,7 @@ warpt 1
           }
         ]
         result "shown"
-        returns "string"
+        returns "String"
       }
       entry {
         access "public"
@@ -70,7 +66,7 @@ warpt 1
                     last "4"
                   }
                 }
-                type "bank.Card"
+                type "Bank.Card"
               }
             }
           }
@@ -84,7 +80,7 @@ warpt 1
                   }
                   "x"
                 ]
-                procedure "app.Shown.show"
+                procedure "App.Shown.show"
               }
             }
           }
@@ -95,19 +91,22 @@ warpt 1
       }
     }
     satisfies {
-      "bank.Card" [
-        "app.Shown"
+      "Bank.Card" [
+        "App.Shown"
+      ]
+      Int [
+        "App.Whole"
       ]
     }
     types {
-      "bank.Card" {
+      "Bank.Card" {
         record {
-          last "string"
+          last "String"
         }
       }
-      "bank.Coin" {
+      "Bank.Coin" {
         record {
-          cents "int"
+          cents "Int"
         }
       }
     }

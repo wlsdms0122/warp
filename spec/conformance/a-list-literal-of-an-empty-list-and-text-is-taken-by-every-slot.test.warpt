@@ -4,13 +4,13 @@ warpt 1
     answers 2
   }
   name "a-list-literal-of-an-empty-list-and-text-is-taken-by-every-slot"
-  note "[{ a: [] }, { a: [\"s\"] }] is a declared name's start value, a called value's argument, a declaration's argument and its result, each slot declaring array<dictionary<array<string>>>. The empty list holds no element, so every slot takes the literal and the program answers the count."
+  note "[{ a: [] }, { a: [\"s\"] }] is a declared name's start value, a called value's argument, a declaration's argument and its result, each slot declaring Array<Dictionary<Array<String>>>. The empty list holds no element, so every slot takes the literal and the program answers the count."
   program {
     imports [
-      "std.collection.count"
+      "Standard.Collection.count"
     ]
     procedures {
-      "app.g" {
+      "App.g" {
         body [
           {
             let "k"
@@ -21,7 +21,7 @@ warpt 1
                     ref "xs"
                   }
                 ]
-                procedure "std.collection.count"
+                procedure "Standard.Collection.count"
               }
             }
           }
@@ -29,7 +29,7 @@ warpt 1
         parameters [
           {
             name "xs"
-            type "array<dictionary<array<string>>>"
+            type "Array<Dictionary<Array<String>>>"
           }
         ]
         result [
@@ -46,13 +46,13 @@ warpt 1
             }
           }
         ]
-        returns "array<dictionary<array<string>>>"
+        returns "Array<Dictionary<Array<String>>>"
       }
       entry {
         access "public"
         body [
           {
-            type "array<dictionary<array<string>>>"
+            type "Array<Dictionary<Array<String>>>"
             value [
               {
                 record {
@@ -83,7 +83,7 @@ warpt 1
                             ref "xs"
                           }
                         ]
-                        procedure "std.collection.count"
+                        procedure "Standard.Collection.count"
                       }
                     }
                   }
@@ -91,13 +91,13 @@ warpt 1
                 parameters [
                   {
                     name "xs"
-                    type "array<dictionary<array<string>>>"
+                    type "Array<Dictionary<Array<String>>>"
                   }
                 ]
                 result {
                   ref "k"
                 }
-                returns "int"
+                returns "Int"
               }
             }
           }
@@ -147,7 +147,7 @@ warpt 1
                     }
                   ]
                 ]
-                procedure "app.g"
+                procedure "App.g"
               }
             }
           }
@@ -160,7 +160,7 @@ warpt 1
                     ref "r"
                   }
                 ]
-                procedure "std.collection.count"
+                procedure "Standard.Collection.count"
               }
             }
           }

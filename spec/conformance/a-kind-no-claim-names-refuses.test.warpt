@@ -1,0 +1,56 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-kind-no-claim-names-refuses"
+  note "A value of a type the language names answers a contract only where a document claims it for that type. A claim about `Int` says nothing about `String`, so handing text where the contract is asked is refused at the build, which reads the type the text is."
+  program {
+    contracts {
+      "App.Described" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "Int.describe" {
+        parameters [
+          {
+            name "of"
+            type "Int"
+          }
+        ]
+        result "a whole number"
+        returns "String"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              "s"
+            ]
+            procedure "App.Described.describe"
+          }
+        }
+        returns "String"
+      }
+    }
+    satisfies {
+      Int [
+        "App.Described"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+

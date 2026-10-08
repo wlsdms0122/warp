@@ -7,7 +7,7 @@ warpt 1
     refuses "build"
   }
   name "a-write-a-loop-round-makes-reads-back-nullable"
-  note "A loop's round runs some number of times, none included, so a write inside it joins with what the name held. After it the name reads `int?`, and a slot declared `int` refuses it."
+  note "A loop's round runs some number of times, none included, so a write inside it joins with what the name held. After it the name reads `Int?`, and a slot declared `Int` refuses it."
   program {
     imports []
     procedures {
@@ -54,7 +54,7 @@ warpt 1
         parameters [
           {
             name "ready"
-            type "bool"
+            type "Bool"
           }
         ]
       }
@@ -62,7 +62,7 @@ warpt 1
         parameters [
           {
             name "it"
-            type "int"
+            type "Int"
           }
         ]
         result true

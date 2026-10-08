@@ -4,30 +4,30 @@ warpt 1
     answers "hi"
   }
   name "a-declaration-answering-a-contract-names-its-parameters-its-own-way"
-  note "A call through a contract hands its arguments by position, so a declaration answering it takes them at the contract's positions under names of its own: `bank.Account.describe` calls what `app.Describable` calls `label` its `prefix`."
+  note "A call through a contract hands its arguments by position, so a declaration answering it takes them at the contract's positions under names of its own: `Bank.Account.describe` calls what `App.Describable` calls `label` its `prefix`."
   program {
     contracts {
-      "app.Describable" {
+      "App.Describable" {
         describe {
           parameters [
             {
               name "of"
-              type "app.Describable"
+              type "Self"
             }
             {
               name "label"
-              type "string"
+              type "String"
             }
           ]
-          returns "string"
+          returns "String"
         }
       }
     }
     imports []
     procedures {
-      "app.tell" {
+      "App.tell" {
         bounds {
-          T "app.Describable"
+          T "App.Describable"
         }
         parameters [
           {
@@ -43,26 +43,26 @@ warpt 1
               }
               "hi"
             ]
-            procedure "app.Describable.describe"
+            procedure "App.Describable.describe"
           }
         }
-        returns "string"
+        returns "String"
       }
-      "bank.Account.describe" {
+      "Bank.Account.describe" {
         parameters [
           {
             name "account"
-            type "bank.Account"
+            type "Bank.Account"
           }
           {
             name "prefix"
-            type "string"
+            type "String"
           }
         ]
         result {
           ref "prefix"
         }
-        returns "string"
+        returns "String"
       }
       entry {
         access "public"
@@ -76,7 +76,7 @@ warpt 1
                     balance 1
                   }
                 }
-                type "bank.Account"
+                type "Bank.Account"
               }
             }
           }
@@ -88,21 +88,21 @@ warpt 1
                 ref "account"
               }
             ]
-            procedure "app.tell"
+            procedure "App.tell"
           }
         }
-        returns "string"
+        returns "String"
       }
     }
     satisfies {
-      "bank.Account" [
-        "app.Describable"
+      "Bank.Account" [
+        "App.Describable"
       ]
     }
     types {
-      "bank.Account" {
+      "Bank.Account" {
         record {
-          balance "int"
+          balance "Int"
         }
       }
     }

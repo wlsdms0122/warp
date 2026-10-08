@@ -6,11 +6,11 @@ warpt 1
     ]
   }
   name "a-parameter-handed-in-place-holding-a-list-of-a-parameter-or-null-takes-a-list-of-it"
-  note "app.gen takes array<some T>? in place and writes a list of its own some T into it, which is a list of what filled T."
+  note "App.gen takes Array<some T>? in place and writes a list of its own some T into it, which is a list of what filled T."
   program {
     imports []
     procedures {
-      "app.gen" {
+      "App.gen" {
         body [
           {
             set "x"
@@ -24,7 +24,7 @@ warpt 1
         parameters [
           {
             name "x"
-            type "inout array<some T>?"
+            type "inout Array<some T>?"
           }
           {
             name "y"
@@ -37,7 +37,7 @@ warpt 1
         access "public"
         body [
           {
-            type "array<string>?"
+            type "Array<String>?"
             value [
               "a"
             ]
@@ -53,7 +53,7 @@ warpt 1
                   }
                   "b"
                 ]
-                procedure "app.gen"
+                procedure "App.gen"
               }
             }
           }

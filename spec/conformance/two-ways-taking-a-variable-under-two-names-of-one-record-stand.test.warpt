@@ -7,7 +7,7 @@ warpt 1
     answers 1
   }
   name "two-ways-taking-a-variable-under-two-names-of-one-record-stand"
-  note "`app.Spot` names `app.Point`, so the two name one declared record. One arm takes `n` while it reads `app.Spot`, and the other sets it to an `app.Point` and takes it there. They held the box to one type, and where they meet the build stands."
+  note "`App.Spot` names `App.Point`, so the two name one declared record. One arm takes `n` while it reads `App.Spot`, and the other sets it to an `App.Point` and takes it there. They held the box to one type, and where they meet the build stands."
   program {
     imports []
     procedures {
@@ -22,7 +22,7 @@ warpt 1
                     x 1
                   }
                 }
-                type "app.Spot"
+                type "App.Spot"
               }
             }
             var "n"
@@ -40,7 +40,7 @@ warpt 1
                             x 2
                           }
                         }
-                        type "app.Point"
+                        type "App.Point"
                       }
                     }
                   }
@@ -77,20 +77,20 @@ warpt 1
         parameters [
           {
             name "ready"
-            type "bool"
+            type "Bool"
           }
         ]
         result 1
-        returns "int"
+        returns "Int"
       }
     }
     types {
-      "app.Point" {
+      "App.Point" {
         record {
-          x "int"
+          x "Int"
         }
       }
-      "app.Spot" "app.Point"
+      "App.Spot" "App.Point"
     }
     warp 1
   }

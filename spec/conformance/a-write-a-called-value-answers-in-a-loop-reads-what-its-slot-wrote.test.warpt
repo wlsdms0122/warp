@@ -7,8 +7,8 @@ warpt 1
   note "A loop's round is read until the writes it makes settle, and a call of a value answers what the slot holding it wrote under `returns` there too. So a variable a round sets to that answer reads as it, and the condition's dot on it stands."
   program {
     imports [
-      "std.math.lessThan"
-      "std.math.plus"
+      "Standard.Comparable.lessThan"
+      "Standard.Numeric.plus"
     ]
     procedures {
       entry {
@@ -31,7 +31,7 @@ warpt 1
                     name "c"
                     type {
                       record {
-                        at "int"
+                        at "Int"
                       }
                     }
                   }
@@ -46,14 +46,14 @@ warpt 1
                           }
                           1
                         ]
-                        procedure "std.math.plus"
+                        procedure "Standard.Numeric.plus"
                       }
                     }
                   }
                 }
                 returns {
                   record {
-                    at "int"
+                    at "Int"
                   }
                 }
               }
@@ -88,7 +88,7 @@ warpt 1
                       }
                       3
                     ]
-                    procedure "std.math.lessThan"
+                    procedure "Standard.Comparable.lessThan"
                   }
                 }
               }

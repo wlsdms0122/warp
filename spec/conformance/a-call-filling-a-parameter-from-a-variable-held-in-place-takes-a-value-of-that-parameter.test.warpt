@@ -7,18 +7,16 @@ warpt 1
     ]
   }
   name "a-call-filling-a-parameter-from-a-variable-held-in-place-takes-a-value-of-that-parameter"
-  note "app.gen takes a list of its own some T in place and a some T, and appends the one to the other through std.collection.append. Both are T, so the call takes them, and the list answers with the value added."
+  note "App.gen takes a list of its own some T in place and a some T, and appends the one to the other through Standard.Collection.append. Both are T, so the call takes them, and the list answers with the value added."
   program {
-    constraints {
-      "app.Real" [
-        "double"
-      ]
+    contracts {
+      "App.Real" {}
     }
     imports [
-      "std.collection.append"
+      "Standard.Collection.append"
     ]
     procedures {
-      "app.gen" {
+      "App.gen" {
         body [
           {
             value {
@@ -31,18 +29,18 @@ warpt 1
                     ref "y"
                   }
                 ]
-                procedure "std.collection.append"
+                procedure "Standard.Collection.append"
               }
             }
           }
         ]
         bounds {
-          T "app.Real"
+          T "App.Real"
         }
         parameters [
           {
             name "xs"
-            type "inout array<some T>"
+            type "inout Array<some T>"
           }
           {
             name "y"
@@ -70,7 +68,7 @@ warpt 1
                   }
                   2.5
                 ]
-                procedure "app.gen"
+                procedure "App.gen"
               }
             }
           }
@@ -79,6 +77,11 @@ warpt 1
           ref "ns"
         }
       }
+    }
+    satisfies {
+      Double [
+        "App.Real"
+      ]
     }
     warp 1
   }

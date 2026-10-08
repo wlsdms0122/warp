@@ -4,13 +4,13 @@ warpt 1
     answers 5
   }
   name "a-parameter-handed-in-place-holding-a-procedure-of-a-parameter-takes-a-closure-of-it"
-  note "app.swap takes procedure<(some T) -> some T> in place and writes a closure taking and answering some T. The closure is const and isolated, which a slot that does not ask for either takes."
+  note "App.swap takes Procedure<(some T) -> some T> in place and writes a closure taking and answering some T. The closure is const and isolated, which a slot that does not ask for either takes."
   program {
     imports [
-      "std.math.plus"
+      "Standard.Numeric.plus"
     ]
     procedures {
-      "app.swap" {
+      "App.swap" {
         body [
           {
             set "f"
@@ -52,9 +52,9 @@ warpt 1
             type {
               procedure {
                 parameters [
-                  "int"
+                  "Int"
                 ]
-                returns "int"
+                returns "Int"
               }
             }
             value {
@@ -62,7 +62,7 @@ warpt 1
                 parameters [
                   {
                     name "n"
-                    type "int"
+                    type "Int"
                   }
                 ]
                 result {
@@ -73,10 +73,10 @@ warpt 1
                       }
                       1
                     ]
-                    procedure "std.math.plus"
+                    procedure "Standard.Numeric.plus"
                   }
                 }
-                returns "int"
+                returns "Int"
               }
             }
             var "g"
@@ -89,7 +89,7 @@ warpt 1
                     ref "g"
                   }
                 ]
-                procedure "app.swap"
+                procedure "App.swap"
               }
             }
           }

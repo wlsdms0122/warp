@@ -7,8 +7,8 @@ warpt 1
   note "What concurrent_failed gathers under each piece is the envelope that piece raised, so a rescue reads a piece's own type through details, the way it reads any failure's."
   program {
     imports [
-      "std.concurrent.all"
-      "std.control.abort"
+      "Standard.Concurrent.allKeyed"
+      "Standard.Control.abort"
     ]
     procedures {
       entry {
@@ -39,7 +39,7 @@ warpt 1
                                           arguments [
                                             "on purpose"
                                           ]
-                                          procedure "std.control.abort"
+                                          procedure "Standard.Control.abort"
                                         }
                                       }
                                     }
@@ -49,7 +49,7 @@ warpt 1
                             }
                           }
                         ]
-                        procedure "std.concurrent.all"
+                        procedure "Standard.Concurrent.allKeyed"
                       }
                     }
                   }
@@ -63,7 +63,7 @@ warpt 1
                           of {
                             ref "tried.details.failures"
                           }
-                          type "dictionary<any>"
+                          type "Dictionary<Any>"
                         }
                       }
                     }
@@ -76,7 +76,9 @@ warpt 1
                           }
                           type {
                             record {
-                              type "string"
+                              details "Dictionary<Any>"
+                              message "String"
+                              type "String"
                             }
                           }
                         }

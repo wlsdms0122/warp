@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-cast-to-a-list-of-an-alias-of-the-record-a-list-holds-refuses"
-  note "`bank.BB` stands for `bank.B`, a declared record. `xs` is read as `array<bank.B>`, so casting it as `array<bank.BB>` names what the reading already is under another spelling of the same record, and the build refuses the cast as needless."
+  note "`Bank.BB` stands for `Bank.B`, a declared record. `xs` is read as `Array<Bank.B>`, so casting it as `Array<Bank.BB>` names what the reading already is under another spelling of the same record, and the build refuses the cast as needless."
   program {
     imports []
     procedures {
@@ -13,7 +13,7 @@ warpt 1
         body [
           {
             let "xs"
-            type "array<bank.B>"
+            type "Array<Bank.B>"
             value [
               {
                 record {
@@ -29,7 +29,7 @@ warpt 1
                 of {
                   ref "xs"
                 }
-                type "array<bank.BB>"
+                type "Array<Bank.BB>"
               }
             }
           }
@@ -38,12 +38,12 @@ warpt 1
       }
     }
     types {
-      "bank.B" {
+      "Bank.B" {
         record {
-          k "string"
+          k "String"
         }
       }
-      "bank.BB" "bank.B"
+      "Bank.BB" "Bank.B"
     }
     warp 1
   }

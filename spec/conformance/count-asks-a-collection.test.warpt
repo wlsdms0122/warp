@@ -4,10 +4,10 @@ warpt 1
     refuses "build"
   }
   name "count-asks-a-collection"
-  note "count takes what std.Collection admits: text, a list, a map. A number has no count, and a constant one is refused where the call is written rather than answered nothing at the run."
+  note "count takes what answers Standard.Collection: text, a list, a map. A number has no count, and a constant one is refused where the call is written rather than answered nothing at the run."
   program {
     imports [
-      "std.collection.count"
+      "Standard.Collection.count"
     ]
     procedures {
       entry {
@@ -17,10 +17,10 @@ warpt 1
             arguments [
               1
             ]
-            procedure "std.collection.count"
+            procedure "Standard.Collection.count"
           }
         }
-        returns "int"
+        returns "Int"
       }
     }
     warp 1

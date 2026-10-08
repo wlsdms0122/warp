@@ -7,15 +7,15 @@ warpt 1
   note "A loop written with no naming key binds no round and runs the same: a `break` naming no loop still ends it."
   program {
     imports [
-      "std.math.lessThan"
-      "std.math.plus"
+      "Standard.Comparable.lessThan"
+      "Standard.Numeric.plus"
     ]
     procedures {
       entry {
         access "public"
         body [
           {
-            type "int"
+            type "Int"
             value 0
             var "i"
           }
@@ -33,7 +33,7 @@ warpt 1
                           }
                           1
                         ]
-                        procedure "std.math.plus"
+                        procedure "Standard.Numeric.plus"
                       }
                     }
                   }
@@ -55,7 +55,7 @@ warpt 1
                                 ref "i"
                               }
                             ]
-                            procedure "std.math.lessThan"
+                            procedure "Standard.Comparable.lessThan"
                           }
                         }
                       }
@@ -70,7 +70,7 @@ warpt 1
         result {
           ref "i"
         }
-        returns "int"
+        returns "Int"
       }
     }
     warp 1

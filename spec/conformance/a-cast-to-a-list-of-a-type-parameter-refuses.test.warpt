@@ -4,13 +4,13 @@ warpt 1
     refuses "build"
   }
   name "a-cast-to-a-list-of-a-type-parameter-refuses"
-  note "app.decode answers raw as array<some T>. A type parameter inside a cast's type names no type, since nothing in a body fills one, so the build refuses the cast as it refuses a name saying it holds array<some T>."
+  note "App.decode answers raw as Array<some T>. A type parameter inside a cast's type names no type, since nothing in a body fills one, so the build refuses the cast as it refuses a name saying it holds Array<some T>."
   program {
     imports [
-      "std.collection.appending"
+      "Standard.Collection.appending"
     ]
     procedures {
-      "app.decode" {
+      "App.decode" {
         parameters [
           {
             name "sample"
@@ -18,7 +18,7 @@ warpt 1
           }
           {
             name "raw"
-            type "any"
+            type "Any"
           }
         ]
         result {
@@ -26,17 +26,17 @@ warpt 1
             of {
               ref "raw"
             }
-            type "array<some T>"
+            type "Array<some T>"
           }
         }
-        returns "array<some T>"
+        returns "Array<some T>"
       }
       entry {
         access "public"
         body [
           {
             let "raw"
-            type "any"
+            type "Any"
             value [
               "7"
               "8"
@@ -52,7 +52,7 @@ warpt 1
                     ref "raw"
                   }
                 ]
-                procedure "app.decode"
+                procedure "App.decode"
               }
             }
           }
@@ -66,7 +66,7 @@ warpt 1
                   }
                   9
                 ]
-                procedure "std.collection.appending"
+                procedure "Standard.Collection.appending"
               }
             }
           }

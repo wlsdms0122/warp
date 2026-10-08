@@ -7,7 +7,7 @@ warpt 1
   note "Each arm of the conditional makes a closure that takes `n`: one while it holds an int, one after the arm set it to a string. Either closure may be the one that ran, so a write after the arms meet would have to fit both types, and the build refuses where they meet."
   program {
     imports [
-      "std.math.plus"
+      "Standard.Numeric.plus"
     ]
     procedures {
       entry {
@@ -55,7 +55,7 @@ warpt 1
                                   }
                                   1
                                 ]
-                                procedure "std.math.plus"
+                                procedure "Standard.Numeric.plus"
                               }
                             }
                           }
@@ -74,11 +74,11 @@ warpt 1
         parameters [
           {
             name "ready"
-            type "bool"
+            type "Bool"
           }
         ]
         result 1
-        returns "int"
+        returns "Int"
       }
     }
     warp 1

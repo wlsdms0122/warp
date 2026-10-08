@@ -1,0 +1,46 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-claim-about-a-list-of-one-kind-refuses"
+  note "A list is a list whatever it holds, and a value does not say which elements a slot declared it to hold, so a claim names the list bare, `Array`. A claim written about `Array<Int>` names no type and is refused where the document is read."
+  program {
+    contracts {
+      "App.Described" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              1
+            ]
+            procedure "App.Described.describe"
+          }
+        }
+        returns "String"
+      }
+    }
+    satisfies {
+      "Array<Int>" [
+        "App.Described"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+

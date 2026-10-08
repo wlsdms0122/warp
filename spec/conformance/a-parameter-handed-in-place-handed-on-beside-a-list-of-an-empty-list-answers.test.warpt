@@ -6,11 +6,11 @@ warpt 1
     ]
   }
   name "a-parameter-handed-in-place-handed-on-beside-a-list-of-an-empty-list-answers"
-  note "app.g hands xs, a list of lists of T handed in place, on to app.put beside [[]]. The empty list inside holds no element, so [[]] is a value of array<array<some T>> as a write would take it, and the caller reads a list holding one empty list."
+  note "App.g hands xs, a list of lists of T handed in place, on to App.put beside [[]]. The empty list inside holds no element, so [[]] is a value of Array<Array<some T>> as a write would take it, and the caller reads a list holding one empty list."
   program {
     imports []
     procedures {
-      "app.g" {
+      "App.g" {
         body [
           {
             value {
@@ -23,7 +23,7 @@ warpt 1
                     []
                   ]
                 ]
-                procedure "app.put"
+                procedure "App.put"
               }
             }
           }
@@ -31,12 +31,12 @@ warpt 1
         parameters [
           {
             name "xs"
-            type "inout array<array<some T>>"
+            type "inout Array<Array<some T>>"
           }
         ]
         result 0
       }
-      "app.put" {
+      "App.put" {
         body [
           {
             set "a"
@@ -76,7 +76,7 @@ warpt 1
                     ref "s"
                   }
                 ]
-                procedure "app.g"
+                procedure "App.g"
               }
             }
           }

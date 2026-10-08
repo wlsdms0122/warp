@@ -9,34 +9,34 @@ warpt 1
     answers true
   }
   name "a-procedure-may-be-spelled-like-a-type"
-  note "Procedures and types are two namespaces. A name in one says nothing about the other, so one document may declare a procedure and a type under `app.Account` at once, and each is reached by what mentions it: a call reaches the procedure, a slot reaches the type."
+  note "Procedures and types are two namespaces. A name in one says nothing about the other, so one document may declare a procedure and a type under `App.Account` at once, and each is reached by what mentions it: a call reaches the procedure, a slot reaches the type."
   program {
     imports []
     procedures {
-      "app.Account" {
+      "App.Account" {
         result true
-        returns "bool"
+        returns "Bool"
       }
       entry {
         access "public"
         parameters [
           {
             name "held"
-            type "app.Account"
+            type "App.Account"
           }
         ]
         result {
           call {
-            procedure "app.Account"
+            procedure "App.Account"
           }
         }
-        returns "bool"
+        returns "Bool"
       }
     }
     types {
-      "app.Account" {
+      "App.Account" {
         record {
-          open "bool"
+          open "Bool"
         }
       }
     }

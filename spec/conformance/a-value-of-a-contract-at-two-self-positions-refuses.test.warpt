@@ -1,0 +1,100 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-value-of-a-contract-at-two-self-positions-refuses"
+  note "A value of a contract is of whichever type answers it, so two of them are not known to be one type, and `Self` is one type wherever it stands. Handing them where a procedure writes `Self` twice is refused at the build, whichever types the run would bring."
+  program {
+    contracts {
+      "App.Ordered" {
+        before {
+          parameters [
+            {
+              name "lhs"
+              type "Self"
+            }
+            {
+              name "rhs"
+              type "Self"
+            }
+          ]
+          returns "Bool"
+        }
+      }
+    }
+    imports [
+      "Standard.Comparable.lessThan"
+    ]
+    procedures {
+      "App.check" {
+        parameters [
+          {
+            name "x"
+            type "App.Ordered"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "x"
+              }
+              {
+                ref "x"
+              }
+            ]
+            procedure "App.Ordered.before"
+          }
+        }
+        returns "Bool"
+      }
+      "Int.before" {
+        parameters [
+          {
+            name "lhs"
+            type "Int"
+          }
+          {
+            name "rhs"
+            type "Int"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "lhs"
+              }
+              {
+                ref "rhs"
+              }
+            ]
+            procedure "Standard.Comparable.lessThan"
+          }
+        }
+        returns "Bool"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              1
+            ]
+            procedure "App.check"
+          }
+        }
+        returns "Bool"
+      }
+    }
+    satisfies {
+      Int [
+        "App.Ordered"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -4,10 +4,10 @@ warpt 1
     refuses "build"
   }
   name "a-variable-a-closure-captured-is-not-retyped-after"
-  note "A variable a closure captured holds the type it read as there from the capture on, since the closure writes the box as that type when it is called. Writing a string into the int it was captured as refuses at the build."
+  note "A variable a closure captured holds the type it read as there from the capture on, since the closure writes the box as that type when it is called. Writing a string into the Int it was captured as refuses at the build."
   program {
     imports [
-      "std.text.uppercased"
+      "Standard.Text.uppercased"
     ]
     procedures {
       entry {
@@ -52,7 +52,7 @@ warpt 1
                     ref "n"
                   }
                 ]
-                procedure "std.text.uppercased"
+                procedure "Standard.Text.uppercased"
               }
             }
           }
@@ -60,7 +60,7 @@ warpt 1
         result {
           ref "u"
         }
-        returns "string"
+        returns "String"
       }
     }
     warp 1

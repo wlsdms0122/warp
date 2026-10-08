@@ -4,10 +4,10 @@ warpt 1
     refuses "build"
   }
   name "a-piece-of-first-that-writes-what-it-captured-refuses"
-  note "`std.concurrent.first` takes a membership of isolated closures, the same as `all`. A piece that writes a variable it captured is not isolated, and the build refuses it where it is handed over."
+  note "`Standard.Concurrent.first` takes isolated closures, the same as `all`. A piece that writes a variable it captured is not isolated, and the build refuses it where it is handed over."
   program {
     imports [
-      "std.concurrent.first"
+      "Standard.Concurrent.first"
     ]
     procedures {
       entry {
@@ -37,7 +37,7 @@ warpt 1
                     }
                   }
                 ]
-                procedure "std.concurrent.first"
+                procedure "Standard.Concurrent.first"
               }
             }
           }
@@ -45,7 +45,7 @@ warpt 1
         result {
           ref "tally"
         }
-        returns "int"
+        returns "Int"
       }
     }
     warp 1

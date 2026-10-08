@@ -4,54 +4,54 @@ warpt 1
     refuses "build"
   }
   name "a-literal-of-names-at-a-contract-bound-leans-on-each-claim-refuses"
-  note "`app.f` bounds `T` by the contract `app.Describable` and takes `array<array<some T>>`. The literal `[ps, qs]` handed there holds a list of `bank.P`, which a document says answers it, and a list of `bank.Q`, which none does. Each name read at the parameter leans on its own claim, so the call writes both down and refuses at the build where `bank.Q` has none."
+  note "`App.f` bounds `T` by the contract `App.Describable` and takes `Array<Array<some T>>`. The literal `[ps, qs]` handed there holds a list of `Bank.P`, which a document says answers it, and a list of `Bank.Q`, which none does. Each name read at the parameter leans on its own claim, so the call writes both down and refuses at the build where `Bank.Q` has none."
   program {
     contracts {
-      "app.Describable" {
+      "App.Describable" {
         describe {
           const true
           isolated true
           parameters [
             {
               name "of"
-              type "app.Describable"
+              type "Self"
             }
           ]
-          returns "string"
+          returns "String"
         }
       }
     }
     imports []
     procedures {
-      "app.f" {
+      "App.f" {
         bounds {
-          T "app.Describable"
+          T "App.Describable"
         }
         parameters [
           {
             name "gs"
-            type "array<array<some T>>"
+            type "Array<Array<some T>>"
           }
         ]
         result 0
-        returns "int"
+        returns "Int"
       }
-      "bank.P.describe" {
+      "Bank.P.describe" {
         parameters [
           {
             name "of"
-            type "bank.P"
+            type "Bank.P"
           }
         ]
         result "p"
-        returns "string"
+        returns "String"
       }
       entry {
         access "public"
         body [
           {
             let "ps"
-            type "array<bank.P>"
+            type "Array<Bank.P>"
             value [
               {
                 as {
@@ -60,14 +60,14 @@ warpt 1
                       a "1"
                     }
                   }
-                  type "bank.P"
+                  type "Bank.P"
                 }
               }
             ]
           }
           {
             let "qs"
-            type "array<bank.Q>"
+            type "Array<Bank.Q>"
             value [
               {
                 as {
@@ -76,7 +76,7 @@ warpt 1
                       b "1"
                     }
                   }
-                  type "bank.Q"
+                  type "Bank.Q"
                 }
               }
             ]
@@ -95,7 +95,7 @@ warpt 1
                     }
                   ]
                 ]
-                procedure "app.f"
+                procedure "App.f"
               }
             }
           }
@@ -106,19 +106,19 @@ warpt 1
       }
     }
     satisfies {
-      "bank.P" [
-        "app.Describable"
+      "Bank.P" [
+        "App.Describable"
       ]
     }
     types {
-      "bank.P" {
+      "Bank.P" {
         record {
-          a "string"
+          a "String"
         }
       }
-      "bank.Q" {
+      "Bank.Q" {
         record {
-          b "string"
+          b "String"
         }
       }
     }

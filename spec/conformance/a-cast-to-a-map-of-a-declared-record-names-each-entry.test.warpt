@@ -1,0 +1,105 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-cast-to-a-map-of-a-declared-record-names-each-entry"
+  note "A cast names what it reads the way the type it names does, so a nameless record cast to Dictionary<App.Point> holds each entry under App.Point."
+  program {
+    imports []
+    procedures {
+      "App.useP" {
+        parameters [
+          {
+            name "p"
+            type "App.Point"
+          }
+        ]
+        result {
+          ref "p.x"
+        }
+        returns "Int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "n"
+            type "Int"
+            value 1
+          }
+          {
+            let "a"
+            type "Any"
+            value {
+              record {
+                a {
+                  record {
+                    x {
+                      ref "n"
+                    }
+                  }
+                }
+              }
+            }
+          }
+          {
+            let "d"
+            value {
+              as {
+                of {
+                  ref "a"
+                }
+                type "Dictionary<App.Point>"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "d.a"
+              }
+            ]
+            procedure "App.useP"
+          }
+        }
+        returns "Int"
+      }
+    }
+    types {
+      "App.Box" {
+        record {
+          ps "Array<App.Point>"
+        }
+      }
+      "App.Idx" "Int"
+      "App.Key" "String"
+      "App.O" {
+        record {
+          p "Int"
+        }
+      }
+      "App.Outer" {
+        record {
+          p "App.Point"
+        }
+      }
+      "App.Outer2" {
+        record {
+          p "var App.Point"
+        }
+      }
+      "App.P2" "App.Point"
+      "App.Point" {
+        record {
+          x "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

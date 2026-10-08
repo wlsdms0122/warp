@@ -1,13 +1,14 @@
 warpt 1
 {
   expect {
-    answers 1
+    answers "0.0"
   }
   name "min-answers-lhs-on-a-tie"
-  note "Two values that order the same are a tie, and on a tie min answers lhs as it arrived: 1 and 1.0 are one worth in two kinds, so which side came back shows."
+  note "Two values that order the same are a tie, and on a tie min answers lhs as it arrived: 0.0 and -0.0 are one worth, and their text tells which came back."
   program {
     imports [
-      "std.math.min"
+      "Standard.Math.min"
+      "Standard.Text.text"
     ]
     procedures {
       entry {
@@ -15,10 +16,17 @@ warpt 1
         result {
           call {
             arguments [
-              1
-              1.0
+              {
+                call {
+                  arguments [
+                    0.0
+                    -0.0
+                  ]
+                  procedure "Standard.Math.min"
+                }
+              }
             ]
-            procedure "std.math.min"
+            procedure "Standard.Text.text"
           }
         }
       }

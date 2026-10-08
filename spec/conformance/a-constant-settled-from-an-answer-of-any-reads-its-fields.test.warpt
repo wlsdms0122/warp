@@ -4,13 +4,13 @@ warpt 1
     {
       imports []
       procedures {
-        "k.make" {
+        "K.make" {
           result {
             record {
               x 1
             }
           }
-          returns "any"
+          returns "Any"
         }
       }
       warp 1
@@ -20,17 +20,17 @@ warpt 1
     answers 1
   }
   name "a-constant-settled-from-an-answer-of-any-reads-its-fields"
-  note "`k.make` declares it answers `any`, and the constant settled from it is a record with `x`. The constant's settled value is its type, so a dot reads `x` without `as` and the program builds."
+  note "`K.make` declares it answers `Any`, and the constant settled from it is a record with `x`. The constant's settled value is its type, so a dot reads `x` without `as` and the program builds."
   program {
     const {
       made {
         call {
-          procedure "k.make"
+          procedure "K.make"
         }
       }
     }
     imports [
-      "k.make"
+      "K.make"
     ]
     procedures {
       entry {
@@ -38,7 +38,7 @@ warpt 1
         result {
           ref "made.x"
         }
-        returns "int"
+        returns "Int"
       }
     }
     warp 1

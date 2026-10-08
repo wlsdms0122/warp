@@ -4,49 +4,49 @@ warpt 1
     refuses "build"
   }
   name "a-contract-slot-refuses-what-may-be-null"
-  note "app.f takes app.Sized and is handed a variable declared bank.Card?. bank.Card answers app.Sized, but a reading that may be null does not fit a plain slot, and null answers no contract."
+  note "App.f takes App.Sized and is handed a variable declared Bank.Card?. Bank.Card answers App.Sized, but a reading that may be null does not fit a plain slot, and null answers no contract."
   program {
     contracts {
-      "app.Sized" {
+      "App.Sized" {
         size {
           parameters [
             {
               name "of"
-              type "app.Sized"
+              type "Self"
             }
           ]
-          returns "int"
+          returns "Int"
         }
       }
     }
     imports []
     procedures {
-      "app.f" {
+      "App.f" {
         parameters [
           {
             name "n"
-            type "app.Sized"
+            type "App.Sized"
           }
         ]
         result "took"
-        returns "string"
+        returns "String"
       }
-      "bank.Card.size" {
+      "Bank.Card.size" {
         parameters [
           {
             name "of"
-            type "bank.Card"
+            type "Bank.Card"
           }
         ]
         result 4
-        returns "int"
+        returns "Int"
       }
       entry {
         access "public"
         body [
           {
             let "c"
-            type "bank.Card?"
+            type "Bank.Card?"
             value {
               as {
                 of {
@@ -54,7 +54,7 @@ warpt 1
                     last "4"
                   }
                 }
-                type "bank.Card"
+                type "Bank.Card"
               }
             }
           }
@@ -67,7 +67,7 @@ warpt 1
                     ref "c"
                   }
                 ]
-                procedure "app.f"
+                procedure "App.f"
               }
             }
           }
@@ -78,24 +78,24 @@ warpt 1
       }
     }
     satisfies {
-      "bank.Card" [
-        "app.Sized"
+      "Bank.Card" [
+        "App.Sized"
       ]
     }
     types {
-      "bank.Box" {
+      "Bank.Box" {
         record {
-          n "int"
+          n "Int"
         }
       }
-      "bank.Card" {
+      "Bank.Card" {
         record {
-          last "string"
+          last "String"
         }
       }
-      "bank.Coin" {
+      "Bank.Coin" {
         record {
-          cents "int"
+          cents "Int"
         }
       }
     }

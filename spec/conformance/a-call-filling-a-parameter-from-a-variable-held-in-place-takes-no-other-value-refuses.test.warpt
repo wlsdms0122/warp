@@ -1,0 +1,80 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-call-filling-a-parameter-from-a-variable-held-in-place-takes-no-other-value-refuses"
+  note "App.gen takes a list of its own some T, bounded by App.Real, in place and appends 2.5 to it through Standard.Collection.append. The call fills the element type from the list held in place, so the 2.5 beside it has to be a value of T, and a fraction is not one: T may be filled with any type answering App.Real. The build refuses it, the way it refuses writing 2.5 directly."
+  program {
+    contracts {
+      "App.Real" {}
+    }
+    imports [
+      "Standard.Collection.append"
+    ]
+    procedures {
+      "App.gen" {
+        body [
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "xs"
+                  }
+                  2.5
+                ]
+                procedure "Standard.Collection.append"
+              }
+            }
+          }
+        ]
+        bounds {
+          T "App.Real"
+        }
+        parameters [
+          {
+            name "xs"
+            type "inout Array<some T>"
+          }
+        ]
+        result 0
+      }
+      entry {
+        access "public"
+        body [
+          {
+            value [
+              1
+            ]
+            var "ns"
+          }
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "ns"
+                  }
+                ]
+                procedure "App.gen"
+              }
+            }
+          }
+        ]
+        result {
+          ref "ns"
+        }
+      }
+    }
+    satisfies {
+      Double [
+        "App.Real"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+

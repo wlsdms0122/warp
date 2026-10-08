@@ -1,0 +1,215 @@
+warpt 1
+{
+  description "Ordering the other way round, choosing between two and dropping a sign, written from lessThan and minus."
+  imports [
+    "Standard.Comparable"
+    "Standard.Comparable.lessThan"
+    "Standard.Numeric"
+    "Standard.Numeric.minus"
+  ]
+  procedures {
+    "Standard.Math.absolute" {
+      body [
+        {
+          let "zero"
+          value {
+            call {
+              arguments [
+                {
+                  ref "number"
+                }
+                {
+                  ref "number"
+                }
+              ]
+              procedure "Standard.Numeric.minus"
+            }
+          }
+        }
+        {
+          value {
+            conditional {
+              then [
+                {
+                  value {
+                    return {
+                      ref "number"
+                    }
+                  }
+                }
+              ]
+              when {
+                call {
+                  arguments [
+                    {
+                      ref "zero"
+                    }
+                    {
+                      ref "number"
+                    }
+                  ]
+                  procedure "Standard.Comparable.lessThan"
+                }
+              }
+            }
+          }
+        }
+      ]
+      bounds {
+        N "Standard.Comparable & Standard.Numeric"
+      }
+      description "The number without its sign."
+      parameters [
+        {
+          name "number"
+          type "some N"
+        }
+      ]
+      result {
+        call {
+          arguments [
+            {
+              ref "zero"
+            }
+            {
+              ref "number"
+            }
+          ]
+          procedure "Standard.Numeric.minus"
+        }
+      }
+      returns "some N"
+    }
+    "Standard.Math.greaterThan" {
+      bounds {
+        T "Standard.Comparable"
+      }
+      description "Whether the first is larger, by the one order."
+      parameters [
+        {
+          name "lhs"
+          type "some T"
+        }
+        {
+          name "rhs"
+          type "some T"
+        }
+      ]
+      result {
+        call {
+          arguments [
+            {
+              ref "rhs"
+            }
+            {
+              ref "lhs"
+            }
+          ]
+          procedure "Standard.Comparable.lessThan"
+        }
+      }
+      returns "Bool"
+    }
+    "Standard.Math.max" {
+      body [
+        {
+          value {
+            conditional {
+              then [
+                {
+                  value {
+                    return {
+                      ref "lhs"
+                    }
+                  }
+                }
+              ]
+              when {
+                call {
+                  arguments [
+                    {
+                      ref "rhs"
+                    }
+                    {
+                      ref "lhs"
+                    }
+                  ]
+                  procedure "Standard.Comparable.lessThan"
+                }
+              }
+            }
+          }
+        }
+      ]
+      bounds {
+        T "Standard.Comparable"
+      }
+      description "The larger of two of a kind, by the one order."
+      parameters [
+        {
+          name "lhs"
+          type "some T"
+        }
+        {
+          name "rhs"
+          type "some T"
+        }
+      ]
+      result {
+        ref "rhs"
+      }
+      returns "some T"
+    }
+    "Standard.Math.min" {
+      body [
+        {
+          value {
+            conditional {
+              then [
+                {
+                  value {
+                    return {
+                      ref "rhs"
+                    }
+                  }
+                }
+              ]
+              when {
+                call {
+                  arguments [
+                    {
+                      ref "rhs"
+                    }
+                    {
+                      ref "lhs"
+                    }
+                  ]
+                  procedure "Standard.Comparable.lessThan"
+                }
+              }
+            }
+          }
+        }
+      ]
+      bounds {
+        T "Standard.Comparable"
+      }
+      description "The smaller of two of a kind, by the one order."
+      parameters [
+        {
+          name "lhs"
+          type "some T"
+        }
+        {
+          name "rhs"
+          type "some T"
+        }
+      ]
+      result {
+        ref "lhs"
+      }
+      returns "some T"
+    }
+  }
+  warp 1
+}

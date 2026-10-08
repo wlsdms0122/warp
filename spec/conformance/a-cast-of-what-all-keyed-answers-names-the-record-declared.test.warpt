@@ -1,0 +1,64 @@
+warpt 1
+{
+  expect {
+    answers 2
+  }
+  name "a-cast-of-what-all-keyed-answers-names-the-record-declared"
+  note "What `allKeyed` answers is a map holding each piece's answer under the key the piece stood under. A cast to a declared record of those keys writes the record's name onto it, and a dot reads a field."
+  program {
+    imports [
+      "Standard.Concurrent.allKeyed"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "both"
+            value {
+              as {
+                of {
+                  call {
+                    arguments [
+                      {
+                        record {
+                          left {
+                            closure {
+                              result 1
+                            }
+                          }
+                          right {
+                            closure {
+                              result 2
+                            }
+                          }
+                        }
+                      }
+                    ]
+                    procedure "Standard.Concurrent.allKeyed"
+                  }
+                }
+                type "Answers"
+              }
+            }
+          }
+        ]
+        result {
+          ref "both.right"
+        }
+        returns "Int"
+      }
+    }
+    types {
+      Answers {
+        record {
+          left "Int"
+          right "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

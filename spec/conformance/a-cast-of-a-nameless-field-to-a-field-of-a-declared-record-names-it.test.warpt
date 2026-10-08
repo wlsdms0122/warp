@@ -4,34 +4,34 @@ warpt 1
     answers "a"
   }
   name "a-cast-of-a-nameless-field-to-a-field-of-a-declared-record-names-it"
-  note "`s` holds a record whose field `p` is the nameless record `{ k: \"x\" }`, and `bank.A` is declared `{ k: string }`. Casting it as `{ p: bank.A }` attaches the name to the field, so it is no cast of what the reading already is, and `app.P.show` is sent to the field."
+  note "`s` holds a record whose field `p` is the nameless record `{ k: \"x\" }`, and `Bank.A` is declared `{ k: String }`. Casting it as `{ p: Bank.A }` attaches the name to the field, so it is no cast of what the reading already is, and `App.P.show` is sent to the field."
   program {
     contracts {
-      "app.P" {
+      "App.P" {
         show {
           const true
           isolated true
           parameters [
             {
               name "of"
-              type "app.P"
+              type "Self"
             }
           ]
-          returns "string"
+          returns "String"
         }
       }
     }
     imports []
     procedures {
-      "bank.A.show" {
+      "Bank.A.show" {
         parameters [
           {
             name "of"
-            type "bank.A"
+            type "Bank.A"
           }
         ]
         result "a"
-        returns "string"
+        returns "String"
       }
       entry {
         access "public"
@@ -57,7 +57,7 @@ warpt 1
                 }
                 type {
                   record {
-                    p "bank.A"
+                    p "Bank.A"
                   }
                 }
               }
@@ -71,35 +71,35 @@ warpt 1
                 ref "s.p"
               }
             ]
-            procedure "app.P.show"
+            procedure "App.P.show"
           }
         }
       }
     }
     satisfies {
-      "bank.A" [
-        "app.P"
+      "Bank.A" [
+        "App.P"
       ]
     }
     types {
-      "app.KR" {
+      "App.KR" {
         record {
-          k "string"
+          k "String"
         }
       }
-      "app.NK" "app.KR?"
-      "bank.A" {
+      "App.NK" "App.KR?"
+      "Bank.A" {
         record {
-          k "string"
+          k "String"
         }
       }
-      "bank.B" {
+      "Bank.B" {
         record {
-          k "string"
+          k "String"
         }
       }
-      "bank.NA" "bank.A?"
-      "bank.NB" "bank.B?"
+      "Bank.NA" "Bank.A?"
+      "Bank.NB" "Bank.B?"
     }
     warp 1
   }

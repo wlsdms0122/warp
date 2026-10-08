@@ -4,11 +4,11 @@ warpt 1
     answers []
   }
   name "an-element-past-the-end-of-a-list-handed-back-holds-nothing-to-judge"
-  note "app.g takes a list and its first element in place, at its own type parameters, and proves nothing, so the call judges what it hands back. It empties the list and leaves the element, which is now past the end, so there is nothing there to judge, and the list answers empty."
+  note "App.g takes a list and its first element in place, at its own type parameters, and proves nothing, so the call judges what it hands back. It empties the list and leaves the element, which is now past the end, so there is nothing there to judge, and the list answers empty."
   program {
     imports []
     procedures {
-      "app.g" {
+      "App.g" {
         body [
           {
             let "y"
@@ -22,7 +22,7 @@ warpt 1
                     ref "j"
                   }
                 ]
-                procedure "app.h"
+                procedure "App.h"
               }
             }
           }
@@ -34,7 +34,7 @@ warpt 1
         parameters [
           {
             name "a"
-            type "inout array<some T>"
+            type "inout Array<some T>"
           }
           {
             name "b"
@@ -42,12 +42,43 @@ warpt 1
           }
           {
             name "j"
-            type "any"
+            type "Any"
           }
         ]
         result 0
       }
-      "app.h" {
+      "App.h" {
+        body [
+          {
+            value {
+              ref "n"
+            }
+            var "cell"
+          }
+          {
+            let "c"
+            value {
+              closure {
+                body [
+                  {
+                    set "cell"
+                    value {
+                      ref "y"
+                    }
+                  }
+                ]
+                parameters [
+                  {
+                    name "y"
+                    type "some T"
+                  }
+                ]
+                result 0
+                returns "Int"
+              }
+            }
+          }
+        ]
         parameters [
           {
             name "n"
@@ -55,11 +86,11 @@ warpt 1
           }
           {
             name "j"
-            type "any"
+            type "Any"
           }
         ]
         result {
-          ref "j"
+          ref "cell"
         }
         returns "some T"
       }
@@ -85,7 +116,7 @@ warpt 1
                   }
                   5
                 ]
-                procedure "app.g"
+                procedure "App.g"
               }
             }
           }

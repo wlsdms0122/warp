@@ -4,53 +4,53 @@ warpt 1
     refuses "load"
   }
   name "claims-written-out-of-order-refuse"
-  note "The contracts a type answers under `satisfies` are written in name order, so `app.Y` before `app.X` is a second spelling of the same claims. A document says each thing one way, and this one refuses at the load."
+  note "The contracts a type answers under `satisfies` are written in name order, so `App.Y` before `App.X` is a second spelling of the same claims. A document says each thing one way, and this one refuses at the load."
   program {
     contracts {
-      "app.X" {
+      "App.X" {
         d {
           parameters [
             {
               name "of"
-              type "app.X"
+              type "Self"
             }
           ]
-          returns "string"
+          returns "String"
         }
       }
-      "app.Y" {
+      "App.Y" {
         e {
           parameters [
             {
               name "of"
-              type "app.Y"
+              type "Self"
             }
           ]
-          returns "string"
+          returns "String"
         }
       }
     }
     imports []
     procedures {
-      "bank.A.d" {
+      "Bank.A.d" {
         parameters [
           {
             name "of"
-            type "bank.A"
+            type "Bank.A"
           }
         ]
         result "a"
-        returns "string"
+        returns "String"
       }
-      "bank.A.e" {
+      "Bank.A.e" {
         parameters [
           {
             name "of"
-            type "bank.A"
+            type "Bank.A"
           }
         ]
         result "a"
-        returns "string"
+        returns "String"
       }
       entry {
         access "public"
@@ -58,15 +58,15 @@ warpt 1
       }
     }
     satisfies {
-      "bank.A" [
-        "app.Y"
-        "app.X"
+      "Bank.A" [
+        "App.Y"
+        "App.X"
       ]
     }
     types {
-      "bank.A" {
+      "Bank.A" {
         record {
-          n "int"
+          n "Int"
         }
       }
     }
