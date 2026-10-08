@@ -71,7 +71,7 @@ A conditional is a statement: it **answers nothing**, and it **takes no name**. 
 | `body` | statements | yes |
 | `result` | expression | no |
 
-The loop's own statement name binds the round it is on, readable everywhere the loop is still speaking: the `while` condition, the `body` and the `result`. A loop written nameless binds no round: a `break` or `continue` naming no loop still ends it, and one naming a loop passes through it. The condition reads the state before the round it would start, so `round.index` there is how many rounds have finished, and the `result`, read once the condition or a `break` has ended the loop, reads it the same way. What a loop answers is its `result` read in what the last round that *finished* left behind; a round cut short contributed nothing. A loop naming no result answers nothing.
+The loop's own statement name binds the round it is on, readable everywhere the loop is still speaking: the `while` condition, the `body` and the `result`. A loop written nameless binds no round: a `break` or `continue` naming no loop still ends it, and one naming a loop passes through it. The condition reads the state before the round it would start, so `round.index` there is how many rounds have finished, and the `result` reads the round the loop ended on: the one a `break` left, or the one the condition declined to start. What a loop answers is its `result` read in what the last round that *finished* left behind; a round cut short contributed nothing. A loop naming no result answers nothing.
 
 Bounding a loop is the author's to write, with a counter in its condition, and stopping one is the host's **cancellation**, under [running](running.md).
 
@@ -197,6 +197,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-write-index-that-is-not-a-whole-number-refuses`
 - `a-write-indexes-with-a-name`
 - `a-write-into-an-entry-of-a-declared-dictionary-is-judged-against-its-entry-type-refuses`
+- `a-write-into-an-inout-parameter-is-judged-against-its-type-refuses`
 - `a-write-makes-an-entry-of-a-dictionary`
 - `a-write-reaches-into-what-a-variable-holds`
 - `a-write-through-an-element-keeps-the-others`

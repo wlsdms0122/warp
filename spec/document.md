@@ -83,7 +83,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-variable-start-reading-another-variable-refuses`
 - `a-version-that-never-existed-refuses`
 - `a-write-into-a-module-variable-is-judged-against-the-type-it-declares-refuses`
-- `a-write-into-an-inout-parameter-is-judged-against-its-type-refuses`
 - `an-access-written-as-what-its-absence-means-refuses`
 - `an-else-written-empty-refuses`
 - `an-overstated-imports-list-refuses`
