@@ -69,7 +69,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-cast-to-a-list-of-an-alias-of-the-record-a-list-holds-refuses`
 - `a-cast-to-a-map-of-a-declared-record-names-each-entry`
 - `a-cast-to-a-procedure-type-answering-an-alias-of-what-it-answers-refuses`
-- `a-closure-answer-must-fit-what-it-declared`
 - `a-closure-answers-what-it-declared`
 - `a-closure-reads-a-variable-through-its-box`
 - `a-closure-write-keeps-the-captured-type`

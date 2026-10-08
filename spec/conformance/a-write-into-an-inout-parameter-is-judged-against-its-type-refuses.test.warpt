@@ -1,0 +1,57 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-write-into-an-inout-parameter-is-judged-against-its-type-refuses"
+  note "`n` is an `inout Int`, and the body writes text into it. A write into a box handed in place is judged against the type the box holds, as a write into a module variable is, so the write refuses at the build."
+  program {
+    imports []
+    procedures {
+      "App.bump" {
+        body [
+          {
+            set "n"
+            value "eleven"
+          }
+        ]
+        parameters [
+          {
+            name "n"
+            type "inout Int"
+          }
+        ]
+        result 0
+      }
+      entry {
+        access "public"
+        body [
+          {
+            type "Int"
+            value 10
+            var "x"
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "x"
+                  }
+                ]
+                procedure "App.bump"
+              }
+            }
+          }
+        ]
+        result {
+          ref "x"
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
