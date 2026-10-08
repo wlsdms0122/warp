@@ -238,7 +238,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 
 - `a-document-is-not-an-object`
 - `an-object-counting-no-closures-for-a-declaration-refuses`
-- `an-object-handing-on-at-a-position-it-hands-no-value-refuses`
 - `an-object-leaning-on-one-object-twice-refuses`
 - `an-object-leaning-on-what-is-not-laid-refuses`
 - `an-object-links-and-runs`
