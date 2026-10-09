@@ -168,7 +168,7 @@ Behaviour at the edges, where implementations quietly differ, stated as requirem
 - Fraction arithmetic with no finite answer **refuses at the run** for the same reason: infinity is a value the arithmetic can reach and no document can carry.
 - `dividedBy` answers a fraction, whole or not. Division by zero **refuses at the run**. The quotient is binary64's own: a whole operand reads as the fraction nearest it first, and the division rounds once more, so two implementations spell the same quotient bit for bit.
 - `remainder` truncates toward zero, for wholes and fractions alike: what is left takes the dividend's sign, so `-7 remainder 3` is `-1`, `7 remainder -3` is `1` and `-5.5 remainder 2.0` is `-1.5`. A zero divisor **refuses at the run**, the same as under `dividedBy`.
-- A whole number is no fraction, and a fraction is no whole number: a value of one kind where the other is declared refuses. A whole number written as a literal beside fractions, or where a fraction is expected, is read as the fraction it names.
+- A whole number is no fraction, and a fraction is no whole number: a value of one kind where the other is declared refuses. Where a whole number written as a literal is read as the fraction it names is under [types](type.md).
 
 What a host brings beyond these (its own procedures, and which of them answer without running) is the host's, and is the boundary to the outside world: a program reaches nothing except by sending a procedure the host declared.
 
