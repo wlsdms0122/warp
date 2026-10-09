@@ -6,7 +6,7 @@ A scalar is itself, a literal. A string is always literal text; nothing inside i
 
 | form | means |
 |---|---|
-| `{ ref: a.b[0] }` | a name, resolved in the consuming scope |
+| `{ ref: a.b[0] }` | a name, resolved in the scope that reads it |
 | `{ record: { … } }` | a record, its fields each an expression. A field may be called anything, `ref` and `value` included |
 | `{ call: <call> }` | a call where a value is wanted; same grammar as the `call` construct |
 | `{ closure: <procedure> }` | a procedure written where a value is wanted; same grammar as a procedure |
