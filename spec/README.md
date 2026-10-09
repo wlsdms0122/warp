@@ -72,7 +72,7 @@ Each page is one part of the language, and each page of rules ends with the case
 | page | what it says |
 |---|---|
 | [The value model](value.md) | what a value is, and when two are the same |
-| [Types](type.md) | what a type is, what a slot takes, contracts, ownership |
+| [Types](type.md) | what a type is, what a slot takes, type parameters, contracts |
 | [The document format](document.md) | what a document is, and the module it holds |
 | [Procedures](procedure.md) | a declaration, what the host answers, what answers without running, a parameter |
 | [Statements](statement.md) | what a statement is, and the constructs |
