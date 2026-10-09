@@ -1,0 +1,133 @@
+warpt 1
+{
+  expect {
+    answers []
+  }
+  name "an-element-handed-in-place-beside-its-list-is-past-the-end-once-the-list-is-emptied"
+  note "App.g takes a list and its first element in place, at its own type parameters. It empties the list and leaves the element, which now stands past the end, so nothing is written there, and the list answers empty."
+  program {
+    imports []
+    procedures {
+      "App.g" {
+        body [
+          {
+            let "y"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "b"
+                  }
+                  {
+                    ref "j"
+                  }
+                ]
+                procedure "App.h"
+              }
+            }
+          }
+          {
+            set "a"
+            value []
+          }
+        ]
+        parameters [
+          {
+            name "a"
+            type "inout Array<some T>"
+          }
+          {
+            name "b"
+            type "inout some T"
+          }
+          {
+            name "j"
+            type "Any"
+          }
+        ]
+        result 0
+      }
+      "App.h" {
+        body [
+          {
+            value {
+              ref "n"
+            }
+            var "cell"
+          }
+          {
+            let "c"
+            value {
+              closure {
+                body [
+                  {
+                    set "cell"
+                    value {
+                      ref "y"
+                    }
+                  }
+                ]
+                parameters [
+                  {
+                    name "y"
+                    type "some T"
+                  }
+                ]
+                result 0
+                returns "Int"
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "n"
+            type "some T"
+          }
+          {
+            name "j"
+            type "Any"
+          }
+        ]
+        result {
+          ref "cell"
+        }
+        returns "some T"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            value [
+              1
+            ]
+            var "xs"
+          }
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "xs"
+                  }
+                  {
+                    ref "xs[0]"
+                  }
+                  5
+                ]
+                procedure "App.g"
+              }
+            }
+          }
+        ]
+        result {
+          ref "xs"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

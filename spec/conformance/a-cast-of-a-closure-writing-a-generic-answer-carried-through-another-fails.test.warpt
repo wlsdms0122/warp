@@ -1,0 +1,187 @@
+warpt 1
+{
+  expect {
+    answers "cast_refused"
+  }
+  name "a-cast-of-a-closure-writing-a-generic-answer-carried-through-another-fails"
+  note "App.h keeps n in cell and writes a closure that sets cell from its own some T, held as Any. App.g answers what App.h answers. The cast reading the closure as taking text fails with cast_refused, since only App.h's call filled its T, so nothing outside T reaches cell and the attempt in the entry catches the failure."
+  program {
+    imports [
+      "Standard.Numeric.plus"
+    ]
+    procedures {
+      "App.g" {
+        parameters [
+          {
+            name "n"
+            type "some T"
+          }
+          {
+            name "junk"
+            type "Any"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "n"
+              }
+              {
+                ref "junk"
+              }
+            ]
+            procedure "App.h"
+          }
+        }
+        returns "some T"
+      }
+      "App.h" {
+        body [
+          {
+            value {
+              ref "n"
+            }
+            var "cell"
+          }
+          {
+            let "c"
+            value {
+              closure {
+                body [
+                  {
+                    set "cell"
+                    value {
+                      ref "y"
+                    }
+                  }
+                ]
+                parameters [
+                  {
+                    name "y"
+                    type "some T"
+                  }
+                ]
+                result 0
+                returns "Int"
+              }
+            }
+          }
+          {
+            let "a"
+            type "Any"
+            value {
+              ref "c"
+            }
+          }
+          {
+            let "w"
+            value {
+              as {
+                of {
+                  ref "a"
+                }
+                type {
+                  procedure {
+                    parameters [
+                      "String"
+                    ]
+                    returns "Int"
+                  }
+                }
+              }
+            }
+          }
+          {
+            let "z"
+            value {
+              call {
+                arguments [
+                  {
+                    as {
+                      of {
+                        ref "junk"
+                      }
+                      type "String"
+                    }
+                  }
+                ]
+                procedure {
+                  ref "w"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "n"
+            type "some T"
+          }
+          {
+            name "junk"
+            type "Any"
+          }
+        ]
+        result {
+          ref "cell"
+        }
+        returns "some T"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "tried"
+            value {
+              attempt {
+                body [
+                  {
+                    let "r"
+                    value {
+                      call {
+                        arguments [
+                          1
+                          "s"
+                        ]
+                        procedure "App.g"
+                      }
+                    }
+                  }
+                  {
+                    let "y"
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "r"
+                          }
+                          1
+                        ]
+                        procedure "Standard.Numeric.plus"
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  result {
+                    ref "tried.type"
+                  }
+                }
+                result {
+                  ref "y"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "tried"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -39,6 +39,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-cast-of-a-closure-held-at-a-contract-slot-back-to-the-number-it-answers-answers`
 - `a-cast-of-a-closure-its-place-gave-a-record-answer-held-at-a-slot-answering-anything-to-another-record-reads-null-answers`
 - `a-cast-of-a-closure-to-a-procedure-answering-another-record-reads-null-answers`
+- `a-cast-of-a-closure-writing-an-answer-read-as-never-fails`
+- `a-cast-of-a-setter-a-generic-procedure-made-fails-before-its-getter-reads`
 - `a-cast-of-what-all-keyed-answers-names-the-record-declared`
 - `a-closure-answering-a-whole-number-does-not-fit-a-slot-answering-a-fraction-refuses`
 - `a-closure-answering-anything-does-not-fit-a-slot-answering-a-declared-record-refuses`
@@ -72,5 +74,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `all-answers-every-piece-under-its-key`
 - `an-answer-nobody-wrote-takes-what-a-called-values-slot-wrote`
 - `an-argument-refused-at-its-slot-is-not-rescued-past-a-failure-after-it`
+- `an-element-handed-in-place-beside-its-list-is-past-the-end-once-the-list-is-emptied`
 - `an-entry-not-written-yet-handed-back-by-a-failing-call-is-rescued`
+- `an-entry-not-written-yet-handed-in-place-and-left-alone-stays-unwritten`
 - `every-way-out-of-a-body-is-one-of-its-answers`

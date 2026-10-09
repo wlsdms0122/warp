@@ -98,7 +98,15 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-call-of-a-value-read-as-any-refuses`
 - `a-call-through-a-contract-with-nothing-first-refuses`
 - `a-cast-between-aliases-of-two-nullable-records-reads-null-answers`
+- `a-cast-of-a-closure-appending-to-a-list-of-its-makers-parameter-fails`
 - `a-cast-of-a-closure-over-a-type-parameter-its-making-call-filled-fails`
+- `a-cast-of-a-closure-taking-a-list-of-its-makers-parameter-in-place-fails`
+- `a-cast-of-a-closure-taking-its-makers-parameter-to-one-taking-in-place-fails`
+- `a-cast-of-a-closure-writing-a-generic-answer-carried-through-another-fails`
+- `a-cast-of-a-closure-writing-a-variable-handed-in-place-fails`
+- `a-cast-of-a-closure-writing-an-answer-a-caller-appends-in-place-fails`
+- `a-cast-of-a-closure-writing-an-unsaid-generic-answer-carried-through-another-fails`
+- `a-cast-of-a-closure-writing-where-a-declared-record-was-filled-fails`
 - `a-cast-of-a-nullable-record-to-another-record-refuses`
 - `a-cast-of-a-record-with-a-var-field-to-a-record-it-never-is-refuses`
 - `a-cast-of-a-recursive-record-to-a-field-it-never-holds-further-down-refuses`
@@ -312,6 +320,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-variable-a-closure-took-written-from-any-refuses`
 - `a-variable-a-closure-writes-from-any-refuses`
 - `a-variable-a-closure-writes-with-a-value-of-the-parameter-answers`
+- `a-variable-handed-in-place-to-a-call-whose-cast-fails-stays-as-it-was`
 - `a-variable-written-an-alias-and-what-it-stands-for-holds-that-type`
 - `a-whole-literal-an-attempt-answers-beside-a-fraction-is-no-fraction-refuses`
 - `a-whole-literal-at-a-fraction-slot-is-the-fraction`
