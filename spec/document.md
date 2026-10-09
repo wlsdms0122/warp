@@ -16,7 +16,7 @@ A document is one record. Every record this grammar names, on this page and on t
 | `satisfies` | record: type name → array of contract names that type answers | no |
 | `const` | record: name → expression | no |
 | `var` | record: name → expression, or `{ type, value }` where the variable says what it holds; a variable every procedure beside it may read and write | no |
-| `procedures` | record: name → procedure | yes, and not empty |
+| `procedures` | record: name → procedure | yes, and may be empty |
 
 **A module variable.** Its start is written like a constant and settles the same way: at the **build**, from what a constant settles from, beside the constants and reading them, and them only: a start that reads another variable **refuses at the load**. Its type is what it declares under `type`, and where it declares none, the type its start reads as, a cast's type where a cast is written there, a procedure the value holds reading as the parameters and answer its start was judged at in that place, without the constness or isolation the build derived for it, since a write may put another procedure there; a start the declared type does not take **refuses at the build**, and every write into it is judged against that type. A start that reads as an empty collection says nothing about what the box will hold, so a variable that declares no type and whose start reads as an empty list or map, at whatever depth and under no cast, **refuses at the build**. It is private to the document like a constant, as a procedure written `private` is under [procedures](procedure.md), read by the same spelling (`ref`), and written by a `set` in a procedure the document declares, or through a parameter such a procedure hands it to in place; another document reaches it only through such a procedure. A name is a constant or a variable, not both: one declared under both keys **refuses** at the load. Either may be spelled like a procedure: a reference reads the constant or the variable, and a call names the procedure. Every run starts each variable at its settled value, so two runs of one image never see each other.
 
@@ -54,7 +54,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-constant-is-a-name-a-body-reads`
 - `a-constant-may-be-spelled-like-a-procedure`
 - `a-constant-sees-only-the-constants-beside-it`
-- `a-document-declaring-no-procedures-refuses`
+- `a-document-declaring-no-procedure-stands-beside-one-that-names-it`
 - `a-document-that-says-no-version-refuses`
 - `a-document-without-imports-refuses`
 - `a-field-read-names-no-type`
