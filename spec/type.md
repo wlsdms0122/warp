@@ -123,6 +123,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-closure-a-generic-body-wrote-taking-a-list-in-place-is-read-as-the-type-it-is-judged-against`
 - `a-closure-a-generic-body-wrote-taking-by-value-is-called-where-a-slot-takes-in-place`
 - `a-closure-alone-fills-a-parameter-with-what-it-takes`
+- `a-closure-inside-a-closure-reads-the-bounds-of-the-procedure-around-them`
 - `a-closure-parameter-saying-nothing-takes-the-element-the-list-beside-it-fills`
 - `a-closure-reads-the-bounds-of-the-procedure-around-it`
 - `a-closure-taking-anything-beside-a-declared-record-leaves-the-parameter-the-record`
