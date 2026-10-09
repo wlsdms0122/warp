@@ -14,7 +14,7 @@ A document is one record. Every record this grammar names, on this page and on t
 | `types` | record: name → type | no |
 | `contracts` | record: name → record: procedure → `{ parameters?, returns?, const?, isolated?, failing? }`, an empty record for a contract asking no procedures; the procedure takes `Self` first, so one leaving `parameters` out **refuses at the load**, and writes no `bounds`, so one writing them **refuses at the load**, under [types](type.md); the two bools ask what a slot asks with a `const` and an `isolated` procedure type, of every declaration answering, and `failing` names, as an array of strings, what one may fail with, nothing where it is left out | no |
 | `satisfies` | record: type name → array of contract names that type answers | no |
-| `const` | record: name → expression | no |
+| `const` | record: name → expression; a constant may read the constants beside it, and constants that read each other back have no order to settle in and **refuse at the load** | no |
 | `var` | record: name → expression, or `{ type, value }` where the variable says what it holds; a variable every procedure beside it may read and write | no |
 | `procedures` | record: name → procedure | yes, and may be empty |
 
