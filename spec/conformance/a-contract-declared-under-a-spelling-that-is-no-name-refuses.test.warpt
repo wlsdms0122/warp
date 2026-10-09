@@ -1,0 +1,56 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-contract-declared-under-a-spelling-that-is-no-name-refuses"
+  note "A contract stands in the types namespace beside the types, and is named the way a type is. `Array<Int>` is no name, so a contract declared under it refuses at the load."
+  program {
+    contracts {
+      "Array<Int>" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "Int.describe" {
+        parameters [
+          {
+            name "of"
+            type "Int"
+          }
+        ]
+        result "a whole number"
+        returns "String"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              1
+            ]
+            procedure "Array<Int>.describe"
+          }
+        }
+        returns "String"
+      }
+    }
+    satisfies {
+      Int [
+        "Array<Int>"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+

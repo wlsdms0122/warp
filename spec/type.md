@@ -71,7 +71,7 @@ A body calls a contract's procedure by writing the contract's name and the proce
 
 A declaration answering a contract's procedure is reached **through the contract**, which is the spelling that says which contract is meant. Two types answering one procedure is the ordinary case. Such a declaration takes exactly the contract's positions and answers what the contract's answer takes: its own type first, then **at the contract's positions** a parameter taking everything the contract's takes there and taking a place only where the contract hands one, the contract's type parameters standing for types no call fills and the declaration's own filled by what the contract writes at the same positions; the names are its own. One declaring a parameter beyond them, `T?` included, **refuses at the build** where the claim is leaned on. The run hands the arguments to the same positions whichever declaration answers.
 
-**A name is its declared spelling.** The key a document declares a type, contract or procedure under is the whole of its name: `Standard.Math.floored` is declared under that key, and `Wallet.Account` under that one. A mention is a declared spelling, written out, and it means the same declaration wherever it was written, inside the declaring document too. A dot is a character of the spelling and nothing more: the language has no nesting, no scope and no prefix, so what a document chooses to put before a dot is the author's convention, and one document may declare `Wallet.fee` beside `Bank.rate` while another declares `Wallet.rate`. A spelling no module in the link declares **refuses at the build** where it is mentioned. There are two namespaces, procedures and types, and a procedure may be spelled like a type. A contract's procedure stands in the first under its dotted spelling, so a procedure a document declares under that same spelling **refuses at the build**. Types and contracts share the second, and no name in it is both, so a mention reaches whatever declares it: a slot names a type or a contract, and a bound names a contract.
+**A name is its declared spelling.** The key a document declares a type, contract or procedure under is the whole of its name: `Standard.Math.floored` is declared under that key, and `Wallet.Account` under that one. A mention is a declared spelling, written out, and it means the same declaration wherever it was written, inside the declaring document too. A dot is a character of the spelling and nothing more: the language has no nesting, no scope and no prefix, so what a document chooses to put before a dot is the author's convention, and one document may declare `Wallet.fee` beside `Bank.rate` while another declares `Wallet.rate`. A spelling no module in the link declares **refuses at the build** where it is mentioned. There are two namespaces, procedures and types, and a procedure may be spelled like a type. A contract's procedure stands in the first under its dotted spelling, so a procedure a document declares under that same spelling **refuses at the build**. Types and contracts share the second, and no name in it is both, so a mention reaches whatever declares it: a slot names a type or a contract, and a bound names a contract. A name in the second, declared or mentioned in a slot, a bound, a cast or a claim, is identifiers joined by dots and none of the names the language gives its own types, so a document declares no `Int` and mentions no `consuming Int`; any other spelling **refuses at the load**.
 
 The shared `Standard` bundle declares the contracts the standard procedures are bounded by, `Standard.Numeric`, `Standard.Comparable` and `Standard.Collection`, claims them for the types the language names (`Int` and `Double` are numbers that order, `String` orders and has a count, `Array` and `Dictionary` have a count) and declares the procedures answering them, `Int.plus` and the rest, under [the standard vocabulary](vocabulary.md). A bundle whose signatures mention them links with `Standard` in the build.
 
@@ -127,6 +127,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-contract-asking-no-procedures-refuses-what-no-claim-names`
 - `a-contract-carries-a-procedure-into-a-generic-body`
 - `a-contract-declared-twice-refuses`
+- `a-contract-declared-under-a-spelling-that-is-no-name-refuses`
 - `a-contract-is-named-by-its-qualified-spelling`
 - `a-contract-or-null-slot-refuses-a-type-not-answering-the-contract`
 - `a-contract-or-null-slot-takes-a-parameter-bounded-by-the-contract-and-another`
@@ -253,7 +254,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-row-of-readings-of-any-appended-to-a-table-of-text-refuses`
 - `a-slot-of-a-type-takes-no-value-read-as-a-contract-refuses`
 - `a-some-outside-a-signature-refuses`
+- `a-type-declared-under-a-name-the-language-gives-refuses`
 - `a-type-form-beside-other-keys-refuses`
+- `a-type-mention-that-is-no-name-refuses`
 - `a-type-no-claim-names-in-a-closures-contract-parameter-refuses`
 - `a-type-parameter-named-self-refuses`
 - `a-type-parameter-read-as-any-and-as-a-type-holds-any`
