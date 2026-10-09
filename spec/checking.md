@@ -12,7 +12,7 @@ A program is read, checked and built before any of it runs, the arms nobody take
 - every procedure sent from another document is not `private`, and a claim backed by a `private` declaration does not hold, under *who may name a declaration* in [procedures](procedure.md); a `private` declaration takes no spelling, so the rule above it counts none;
 - every call fits the declaration it reaches: how many arguments, each at its position, and the answer, with type parameters bound as [types](type.md) says and every bound judged against the contracts it names;
 - every declared type names a type that exists;
-- a condition (a `conditional`'s `when`, a `loop`'s `while`) answers a `Bool`, held where it is written, a value read as `Any`, as a contract, or along a path a call decides refusing there as at any slot of a type unless a cast says what it is;
+- a condition (a `conditional`'s `when`, a `loop`'s `while`) answers a `Bool`, held where it is written as any slot of a type is, under *what a slot takes, exactly* in [types](type.md);
 - an index written as a reference reads `Int`, and a key read by brackets on a dictionary reads `String`, under [expressions](expression.md);
 - a call of a value reaches one whose type writes its parameters; one whose type writes none (`Procedure`, `Any`, a type parameter, a contract) is called only through a cast, under [procedures](procedure.md);
 - inside a generic body every place reading its own type parameter takes only a value of it, under [types](type.md);
@@ -22,7 +22,7 @@ A program is read, checked and built before any of it runs, the arms nobody take
 - every `set` writes through fields declared `var` where the type is a declared type, and what it writes fits what the path reaches; a write into a module variable or an `inout` parameter fits what the box holds;
 - every `inout` parameter is handed a variable's path a write may take; two parameters handed paths under one head hold one box two ways, under [procedures](procedure.md), and nothing keeps them apart;
 - what a closure writes into a variable it captured fits what the capturing body holds;
-- a record type fits only a value of exactly it: a value read under one declared record name fits no slot declaring another, nor an inline record type or `Dictionary<T>`; a value read as a nameless record fits no declared record, and one of an inline record type fits only exactly its fields; a record literal written where a declared record is read is judged field by field and takes the name, and a value read as `Any`, as a contract, or along a path a call decides fits no slot of a type, and a cast says what it is;
+- a record type fits only a value of exactly it: a value read under one declared record name fits no slot declaring another, nor an inline record type or `Dictionary<T>`; a value read as a nameless record fits no declared record, and one of an inline record type fits only exactly its fields; and a record literal written where a declared record is read is judged field by field and takes the name;
 - a constant is the type it was declared as;
 - a procedure the host answers may judge the arguments a call writes as constants, and a call whose constants it refuses **refuses at the build**; of the standard vocabulary, `Standard.Text.encoded` and `decoded` judge theirs, under [the standard vocabulary](vocabulary.md);
 - what `return` carries fits the declaration;

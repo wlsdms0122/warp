@@ -68,9 +68,9 @@ This is the only way a case reaches what answering without running permits and w
 
 **`documents` are other documents in the link.** A rule about two documents, a `private` declaration one of them names or a spelling two of them declare, is asked with the program and a document beside it. Each is written as any document is and read the way the program is, and stands between what the runner brings and the program: laid one after another in the order written, each against what stands before it, and the program last, the way a host lays documents as they arrive. One that does not read **refuses** as a case, since the question was about the program. Only a program has documents beside it, and only an object is read under a `document` the case names, so a case writing either key about any other subject **refuses** as a case.
 
-A case says `test 1`, and a runner refuses any other: the format moves when what a case may say moves, on its own schedule. Current format: **1**.
+A case says `test 1`, and a runner refuses any other. Current format: **1**.
 
-Both kinds matter equally. **An implementation that accepts a program another refuses has failed in the same way as one that answers differently**, so half of these say what must *not* run, and where it must stop. The stage is part of the answer: refusing at run what another implementation refuses at build means something already happened before the refusal, and what already happened cannot be taken back. That is why the build stands in front of the run.
+Both kinds matter equally. **An implementation that accepts a program another refuses has failed in the same way as one that answers differently**, so half of these say what must *not* run, and where it must stop. The stage is part of the answer, for the reason [the specification](README.md) gives.
 
 ## What a runner does
 
@@ -84,11 +84,11 @@ A runner reaches inside nothing and imports what any host imports. One that coul
 
 ## How a case is written
 
-A case may be written by hand, since the text reader takes any layout, or authored as any document is (a front end, a literal in a host language). Either way it is run through the writer before it lands in `conformance/`, so every case sits in the writer's layout and a diff shows what changed rather than who indented it. An implementation adding cases writes its own dumper anyway. It is the same writer conformance already requires of it.
+A case may be written by hand, since the text reader takes any layout, or authored as any document is (a front end, a literal in a host language). Either way it is run through the writer before it lands in `conformance/`, so every case sits in the writer's layout and a diff shows what changed rather than who indented it.
 
 So the suite is the first thing a new implementation reads with its own reader. The reader is proven before it by the cases that carry bytes, and one whose reader disagrees with those cannot trust anything the rest of the suite tells it.
 
-The extension is `.test.warpt` and not `.warpt`, and both halves are true at once: the file *is* warpt text, which is why the text reader reads it, and what it holds is a test rather than a document, which is why nothing that runs programs will take it. Naming the format outright, with a single extension of its own, would make a file that is spelled in warpt look like it is not, and every tool that highlights or formats warpt would have to be told about it twice.
+The extension is `.test.warpt` and not `.warpt`, and both halves are true at once: the file *is* warpt text, which is why the text reader reads it, and what it holds is a test rather than a document, which is why nothing that runs programs will take it.
 
 ## Cases
 

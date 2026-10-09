@@ -1,0 +1,36 @@
+warpt 1
+{
+  expect {
+    answers "[\"<procedure>\"]"
+  }
+  name "text-of-a-list-holding-a-procedure-quotes-its-marker"
+  note "Inside a container a procedure is quoted as a string is, its marker being its spelling at any depth, so `text` of a list holding a closure is `[\"<procedure>\"]`."
+  program {
+    imports [
+      "Standard.Text.text"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              [
+                {
+                  closure {
+                    result 1
+                  }
+                }
+              ]
+            ]
+            procedure "Standard.Text.text"
+          }
+        }
+        returns "String"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

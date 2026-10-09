@@ -12,7 +12,7 @@ A program computes over seven kinds of data, plus one value that is not data:
 | double | `1.0`, `1e2` | IEEE-754 binary64; a document cannot carry infinity or NaN |
 | string | `"hi"` | Unicode text |
 | array | `[ … ]`, or `x"6869"` | ordered; `x"…"` is **bytes**, the compact spelling of an `Array<Int>` whose every element is from 0 to 255, what a carrying form carries when the payload is not text |
-| record | `{ … }`, or `Name { … }` | unordered fields, names unique; may carry the **name** of a declared record type |
+| record | `{ … }`, or `Name { … }` | unordered fields, names unique; may carry a **name**, a type's name under [checking](checking.md), which a slot of a declared record takes only where it is that record's |
 | procedure | | code with what it captured; exists only at run time, never in a document |
 
 **A record's name.** A record made by a literal, handed back by a procedure the host answers or read from a document has no name, and a literal a program writes with one (`Ghost.T { x 1 }` in a text) **refuses at the load**. It takes one where it is written into a declared type whose structure is a record: a literal written where the type is read, a value from outside at the door it comes through, and a cast to the type. From then on it carries that name through every slot declaring the type and through `Any`, and fits no other: an inline record type and `Dictionary<T>` take no named record, under [Types](type.md).
@@ -21,7 +21,7 @@ A program computes over seven kinds of data, plus one value that is not data:
 
 - A whole number and a fraction of the same worth are the same value. Numbers are compared by what they are worth, not by which of the two they are, and exactly, at **every** size: `9007199254740993` (2^53 + 1) is not equal to `9007199254740992.0`, however binary64 would round it. Ordering compares two of one type, under [the standard vocabulary](vocabulary.md).
 - A fraction that is not a number is not equal to itself. There is one such value, no way to write it down, and the standard vocabulary never answers one. Arithmetic with no finite answer refuses instead, so it arises only from a host's own procedure.
-- Bytes are the same when their bytes are, in order. Bytes are not text: no encoding is assumed, so no Unicode rule applies. Beside an **array**, worth unifies the way it does across numeric width: `x"6869"` and `[104, 105]` are worth the same. One collection of the same whole numbers in the same order, spelled two ways, and `equal` says so. Which spelling a value wears takes no part in sameness.
+- Bytes are the same when their bytes are, in order. Bytes are not text: no encoding is assumed, so no Unicode rule applies. Beside an **array**, worth unifies the way it does between a whole number and a fraction: `x"6869"` and `[104, 105]` are worth the same. One collection of the same whole numbers in the same order, spelled two ways, and `equal` says so. Which spelling a value wears takes no part in sameness.
 - Arrays are the same when their elements are, in order.
 - Records are the same when they hold the same field names bound to the same values and the same type name, or none. A record has no order, so order is not part of the answer; the name is part of what a record holds, so an `Account` and a `Vault` with the same fields are two values.
 - Null is the same as null.
