@@ -1,0 +1,44 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-contract-procedure-named-with-a-dot-refuses"
+  note "A call reaches a contract's procedure by the contract's name, a dot and the procedure's. `App.P` asking `a.b` and `App.P.a` asking `b` would both be `App.P.a.b`, so a contract's procedure is named by one identifier, and the document refuses at the load."
+  program {
+    contracts {
+      "App.P" {
+        "a.b" {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "Int"
+        }
+      }
+      "App.P.a" {
+        b {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "Int"
+        }
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
