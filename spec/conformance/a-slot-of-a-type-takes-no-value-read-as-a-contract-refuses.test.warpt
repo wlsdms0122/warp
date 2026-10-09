@@ -3,8 +3,8 @@ warpt 1
   expect {
     refuses "build"
   }
-  name "a-slot-of-null-takes-no-value-of-a-contract-refuses"
-  note "A value of a contract is of a type that answers it, and null is of no such type, so a slot declaring `Null` is provably no place for one. Handing a value of `App.Marked` there refuses at the build."
+  name "a-slot-of-a-type-takes-no-value-read-as-a-contract-refuses"
+  note "A value read as a contract is of whichever type answers it, and the build does not know which, so a slot of a type takes it only through a cast. `Int` answers `App.Marked`, and handing a value read as `App.Marked` where `Int` is declared still refuses at the build."
   program {
     contracts {
       "App.Marked" {}
@@ -15,7 +15,7 @@ warpt 1
         parameters [
           {
             name "n"
-            type "Null"
+            type "Int"
           }
         ]
         result 1

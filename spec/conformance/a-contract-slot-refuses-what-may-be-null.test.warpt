@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-contract-slot-refuses-what-may-be-null"
-  note "App.f takes App.Sized and is handed a variable declared Bank.Card?. Bank.Card answers App.Sized, but a reading that may be null does not fit a plain slot, and null answers no contract."
+  note "App.f takes App.Sized and is handed a variable declared Bank.Card?. A reading that may be null answers where both the type and `Null` do. Bank.Card answers App.Sized, and no document claims it for `Null`."
   program {
     contracts {
       "App.Sized" {

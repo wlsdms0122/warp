@@ -1,0 +1,104 @@
+warpt 1
+{
+  expect {
+    answers "nothing"
+  }
+  name "a-contract-slot-takes-what-may-be-null-where-both-answer"
+  note "A reading of `Bank.Card?` is a card or null, so it answers a contract where both `Bank.Card` and `Null` do. Both are claimed for `App.Described`, so the variable stands where the contract is asked, and its null answers by `Null.describe`."
+  program {
+    contracts {
+      "App.Described" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "App.tell" {
+        parameters [
+          {
+            name "it"
+            type "App.Described"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "it"
+              }
+            ]
+            procedure "App.Described.describe"
+          }
+        }
+        returns "String"
+      }
+      "Bank.Card.describe" {
+        parameters [
+          {
+            name "of"
+            type "Bank.Card"
+          }
+        ]
+        result "a card"
+        returns "String"
+      }
+      "Null.describe" {
+        parameters [
+          {
+            name "of"
+            type "Null"
+          }
+        ]
+        result "nothing"
+        returns "String"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            type "Bank.Card?"
+            value null
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "c"
+              }
+            ]
+            procedure "App.tell"
+          }
+        }
+        returns "String"
+      }
+    }
+    satisfies {
+      "Bank.Card" [
+        "App.Described"
+      ]
+      Null [
+        "App.Described"
+      ]
+    }
+    types {
+      "Bank.Card" {
+        record {
+          last "String"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,61 @@
+warpt 1
+{
+  expect {
+    answers "a procedure"
+  }
+  name "a-claim-about-procedure-is-answered-for-a-closure"
+  note "Every procedure value is an instance of `Procedure`, whatever it takes and answers, as every list is of `Array`. A closure handed where `App.Described` is asked answers by `Procedure.describe`, which a document claims for it."
+  program {
+    contracts {
+      "App.Described" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "Procedure.describe" {
+        parameters [
+          {
+            name "of"
+            type "Procedure"
+          }
+        ]
+        result "a procedure"
+        returns "String"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                closure {
+                  result 1
+                  returns "Int"
+                }
+              }
+            ]
+            procedure "App.Described.describe"
+          }
+        }
+        returns "String"
+      }
+    }
+    satisfies {
+      Procedure [
+        "App.Described"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,56 @@
+warpt 1
+{
+  expect {
+    answers "nothing"
+  }
+  name "a-claim-about-null-is-answered-for-null"
+  note "`Null` is a type a value is an instance of, as `Int` is, so a document may claim a contract for it. Null handed where `App.Described` is asked answers by `Null.describe`."
+  program {
+    contracts {
+      "App.Described" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "Null.describe" {
+        parameters [
+          {
+            name "of"
+            type "Null"
+          }
+        ]
+        result "nothing"
+        returns "String"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              null
+            ]
+            procedure "App.Described.describe"
+          }
+        }
+        returns "String"
+      }
+    }
+    satisfies {
+      Null [
+        "App.Described"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+
