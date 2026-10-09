@@ -4,10 +4,10 @@ warpt 1
     refuses "load"
   }
   name "a-type-mention-that-is-no-name-refuses"
-  note "A name in the types namespace is identifiers joined by dots. `consuming Int` is none, so a slot writing it refuses at the load, though the imports list names it."
+  note "A name in the types namespace is identifiers joined by dots. `a b` is none, so a slot writing it refuses at the load, though the imports list names it."
   program {
     imports [
-      "consuming Int"
+      "a b"
     ]
     procedures {
       entry {
@@ -25,7 +25,7 @@ warpt 1
         parameters [
           {
             name "value"
-            type "consuming Int"
+            type "a b"
           }
         ]
         result {

@@ -1,0 +1,38 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-closure-naming-a-type-parameter-its-procedure-does-not-declare-refuses"
+  note "A closure's `some T` is the `T` of the procedure it is written in. `entry` declares no type parameter, so nothing fills the `T` its closure writes, and the document refuses at the load whether or not the closure is called."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "g"
+            value {
+              closure {
+                parameters [
+                  {
+                    name "y"
+                    type "some T"
+                  }
+                ]
+                result {
+                  ref "y"
+                }
+              }
+            }
+          }
+        ]
+        result 1
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
