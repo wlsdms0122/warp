@@ -26,7 +26,7 @@ A declaration is named from inside its scope and refused from outside it. Three 
 | `internal` | every document in the link |
 | `public` | the link, and the host that assembled it |
 
-A declaration that writes nothing is `internal`: what a document declares is the program's, and only what says so is the host's. A run starts from a `public` declaration and from no other: the host names one when it starts the run, and naming one that is `internal` or `private` **refuses at the run**, before anything runs, the way naming one nothing declares does. A call standing in one document that reaches a `private` declaration of another **refuses at the build**, at the call, and so does a procedure the host answers whose declared sends reach one. A `private` declaration takes no spelling from the link: its own document reaches it, and two documents may each declare one under one spelling, where two declarations any other document could name **refuse** under [checking](checking.md). A `private` declaration backs no claim: a contract is how a document that never names a declaration calls it, so a claim it would answer does not hold, and is refused where the pair is leaned on the way a claim nothing backs is. A procedure the host answers declared `private` in a module the host assembled with no document **refuses where the module is made**: `private` names a document, and there is none. `access` written as any other value **refuses at the load**.
+A declaration that writes nothing is `internal`: what a document declares is the program's, and only what says so is the host's. A run starts from a `public` declaration and from no other: the host names one when it starts the run, and naming one that is `internal` or `private` **refuses at the run**, before anything runs, the way naming one nothing declares does. A call standing in one document that reaches a `private` declaration of another **refuses at the build**, at the call, and so does a procedure the host answers whose declared sends reach one. A `private` declaration takes no spelling from the link: its own document reaches it, and two documents may each declare one under one spelling, where two declarations any other document could name **refuse** under [checking](checking.md). A `private` declaration backs no claim: a contract is how a document that never names a declaration calls it, so a claim it would answer does not hold, and is refused where the pair is leaned on the way a claim nothing backs is. A procedure the host answers declared `private` in a module the host assembled with no document **refuses at the load**: `private` names a document, and there is none. `access` written as any other value **refuses at the load**.
 
 A constant and a module variable are the document's own and write no `access`, under [documents](document.md): a name is a scope question, and another document reaches either only through a procedure declared beside it.
 
@@ -36,7 +36,7 @@ A declaration's `access` travels with it: an object writes it on the row, under 
 
 A procedure the host answers is not written in a document. A declaration in a document with no `body` and no `result` is a procedure that answers nothing. The host's procedure arrives at the link in a module the host assembled in its own language, declared there under its spelling with what a body's text would have shown: its signature, the **procedures it sends**, because there is no text to read them off, whether it **touches** a name another body could touch at the same time, what it may **fail** with, and whether it **answers without running**, because what it keeps and what it reaches in the host language is outside any document. A call reaches one of these the way it reaches any other declaration, and is judged against the signature the same way.
 
-**Its sends are held to the rest of what it said.** They are declared beside the signature, so the build reads them. A send names the declaration it reaches, so a send naming a contract's procedure **refuses at the build**: which declaration answers one is a call's first argument to say, and a send has no call to read it from. A procedure declaring it answers without running and sending one that answers only by running **refuses at the build**, and so does one declaring it touches nothing shared and sending one that does. Neither is something a host language can catch.
+**Its sends are held to the rest of what it said.** They are declared beside the signature, so the build reads them. A send names the declaration it reaches, so a send naming a contract's procedure **refuses at the build**: which declaration answers one is a call's first argument to say, and a send has no call to read it from. A procedure declaring it answers without running and sending one that answers only by running **refuses at the build**, and so does one declaring it touches nothing shared and sending one that does.
 
 **Nothing else about a procedure the host answers is checked.** One that reaches outside the run and says it does not has broken its contract, and the defect belongs to whoever put it in the link rather than to the program that called it, which is where its claim about what it touches is taken too.
 
@@ -62,7 +62,7 @@ The build works this out over every declaration at once. It starts with all of t
 
 - a **constant** and a **module variable** settle at the **build**, from these procedures alone, and from a narrower set of them still, under *what a constant settles from* below;
 - a slot may **ask** for one, writing a `const` procedure type. That is how `Standard.Logic.and` takes sides it may decline to read and how `Standard.Collection.filter` takes a predicate that cannot reach the world;
-- an **operand** may call one (a call's arguments, a `conditional`'s `when`, a `loop`'s `while`). Each of those is read rather than run, so an operand calling anything else **refuses at the build**, and so does one calling a value.
+- an **operand** may call one (a call's arguments, a `conditional`'s `when`, a `loop`'s `while`). Each of those is read rather than run, so an operand calling any other declaration **refuses at the build**. An operand, a constant or a variable's start calling a value **refuses at the load**: which procedure a value is, is the run's answer, and the text alone shows the call.
 
 A call through a contract reaches whichever declaration the value turns out to be, so what it reads as is what the contract asked of every one of them. A contract's procedure writing `const` answers without running and one writing `isolated` touches no name another body could touch at once, the way a slot asks the same of a procedure with a `const` and an `isolated` procedure type; a call through such a procedure stands wherever a call to a declaration that does stands, an operand and a `const` body among them, and a claim backed by a declaration that does less than the contract asked **does not hold**, and is refused where the pair is leaned on. A contract's procedure writing neither may run, so a call through it is no operand and a body sending it is not `const`. What a contract's procedure may fail with it names under `failing`, nothing where it names none, and a call through it may fail with that and nothing else, the way a call to a declaration fails with what its body may: a claim backed by a declaration that may fail with more than the contract names does not hold, and is refused where the pair is leaned on.
 
@@ -81,7 +81,7 @@ Settling one **refuses at the build** where it reaches a procedure the host brou
 
 **A value the build settles is written in a document.** A body in another document of the link is what a constant settles from, so a value baked in is a document declaring a procedure that answers it, which a constant elsewhere calls. The document is a document like any other: it has an identity, that identity stands among what a compiled document was built against, under *identity and dependencies* in [objects](object.md), and a value that moved is a build that moves with it. What the rule above turns away is a procedure in the host's own language, whose answer no document carries; a value written in a document is carried whole.
 
-What settles at the build, a constant or a variable's start, settles to a value. A body run at the build may answer a closure holding a variable of that run, and settling to one **refuses at the build** as well: the run is over when the build is, and a compiled document carries no box of it.
+What settles at the build, a constant or a variable's start, settles to a value. A body run at the build may answer a closure holding a variable of that run, and settling to one **refuses at the build** as well: the run is over when the build is, and a compiled document carries no box of it. Whatever stops one settling, a refusal the standard vocabulary gives at the run or a failure, which nothing there rescues, **refuses at the build** too, whether or not anything reads the constant or the variable.
 
 ## A parameter
 
@@ -90,7 +90,7 @@ Written as a record, one per entry of `parameters`:
 | key | takes | required |
 |---|---|---|
 | `name` | string. The name the body reads the argument by | yes |
-| `type` | type | no; absent means `Any` |
+| `type` | type | no; absent means `Any`, and `Any` written out **refuses at the load**, since leaving it out says it |
 | `description` | string | no |
 
 A closure literal that writes no `returns`, written where a procedure type says what it answers, answers that: the place completes its signature, so its body is judged against the answer and a literal it answers is read as the place reads it. Written where nothing completes it, it answers what its body hands back, each way out read as a name holds it, the way a declaration that writes no `returns` does, and the build writes that answer into its signature, so the run reads the closure as the build did. An answer no type spells, what a dot on a value of a type parameter reaches, is one only the body around it can read, so the signature answers `Any` there. A place is every one a literal is written into: a name that says what it holds, a write, an argument to a declaration or to a called value, a body's answer and what a `return` carries, and an element or a field of a list or a record written there, so where a closure is written does not decide whether what it answers is judged at the build. An answer the call fills is no place's to say.
@@ -105,7 +105,7 @@ The name is the declaration's own, and a closure literal's names are its own the
 - the path is one a write may take, under *what a write reaches* in [statements](statement.md);
 - the variable's type is the same type as the parameter's, all the way in: what it declared, else what it reads as. A variable a closure or a call holds to a type, under *what a write reaches* in [statements](statement.md), is handed only where that type is the parameter's too. Nothing is judged here, because nothing is handed over: the body reads and writes the caller's own box, so a variable of another type would be written values it does not hold.
 
-Inside the body the parameter is a variable, and `set` writes it. The parameter holds the caller's box through the path it was handed: a read finds what the path holds now, and each write lands in the box as it is made. One box reached two ways, by a parameter and by a name or by two parameters, is still one box, so a write through either is seen through the other at once. A call that fails after writing has written, the same as a variable written before a failure. A body that writes through one does not answer without running, by the rule that such a body writes no name.
+Inside the body the parameter is a variable, and `set` writes it. The parameter holds the caller's box through the path it was handed: a read finds what the path holds now, and each write lands in the box as it is made. One box reached two ways, by a parameter and by a name or by two parameters, is still one box, so a write through either is seen through the other at once. A call that fails after writing has written, the same as a variable written before a failure. A body that writes through one does not answer without running, by the rule that such a body writes no name. What a procedure the host answers writes through one is a value from outside: it is fitted to the parameter's type and judged against it at the door it comes through, and a value that does not fit **refuses at the run** there.
 
 A variable is handed in place only by a call a body writes: a `call` to a declaration, and a `call` of a value whose type the build reads as a procedure type writing its parameters, at each position that type writes `inout`, held at the **build** to the three rules above; a value whose type writes no parameters (`Procedure`, `Any`, a type parameter, a contract) is called only once a cast says what procedure it is, and a call of one **refuses at the build**. A value standing there whose own parameter takes a value reads what the variable holds. Every other way in hands values: a run hands its entry values, and a procedure the host answers hands values to what it sends and to a procedure it was handed. So an entry taking a parameter in place **refuses at the run** before anything runs; a procedure the host answers declaring a send to one, or a parameter asking for a procedure that takes one, **refuses at the build**; and a value taking one that is handed a value **refuses at the run** before its body runs.
 
@@ -145,11 +145,11 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-const-slot-refuses-a-closure-that-calls-what-runs`
 - `a-const-slot-takes-a-closure-that-calls-a-const-slot`
 - `a-const-slot-takes-a-closure-that-calls-a-host-procedure`
-- `a-constant-argument-its-parameter-does-not-take-refuses`
 - `a-constant-cannot-settle-from-a-procedure-the-host-brought`
 - `a-constant-cannot-settle-from-what-runs`
 - `a-constant-leaning-on-a-claim-of-a-document-it-does-not-stand-on-refuses`
 - `a-constant-settles-from-a-body-of-another-document`
+- `a-constant-whose-settling-is-refused-refuses-at-the-build`
 - `a-contract-asking-const-lets-its-call-stand-in-a-const-slot`
 - `a-contract-asking-isolated-lets-its-call-stand-in-an-isolated-slot`
 - `a-contract-call-that-may-run-is-no-operand`
@@ -161,6 +161,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-fixed-name-is-not-handed-in-place`
 - `a-fixed-name-is-not-handed-in-place-to-a-called-value`
 - `a-list-literal-handed-to-a-called-value-at-a-list-naming-itself-answers`
+- `a-literal-argument-its-parameter-does-not-take-refuses`
 - `a-loop-reads-a-closure-reading-a-module-variable-as-one-that-runs`
 - `a-name-declared-inside-a-nested-closure-does-not-cover-a-captured-one`
 - `a-parameter-declared-twice-refuses`

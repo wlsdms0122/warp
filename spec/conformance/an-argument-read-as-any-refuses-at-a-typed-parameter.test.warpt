@@ -7,7 +7,7 @@ warpt 1
     refuses "build"
   }
   name "an-argument-read-as-any-refuses-at-a-typed-parameter"
-  note "`uppercased` declares `of: String`, and the argument handed there is read as `Any`. A value read as `Any` stands where a type is declared only where a cast says what it is, so the build refuses."
+  note "`uppercased` declares `text: String`, and the argument handed there is read as `Any`. A value read as `Any` stands where a type is declared only where a cast says what it is, so the build refuses."
   program {
     imports [
       "Standard.Text.uppercased"
@@ -18,7 +18,6 @@ warpt 1
         parameters [
           {
             name "it"
-            type "Any"
           }
         ]
         result {

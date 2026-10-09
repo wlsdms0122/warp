@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    refuses "load"
+    refuses "build"
   }
-  name "a-claim-about-a-list-of-one-kind-refuses"
-  note "A list is a list whatever it holds, and a value does not say which elements a slot declared it to hold, so a claim names the list bare, `Array`. A claim written about `Array<Int>` names no type and is refused where the document is read."
+  name "a-type-no-claim-names-refuses"
+  note "A value of a type the language names answers a contract only where a document claims it for that type. A claim about `Int` says nothing about `String`, so handing text where the contract is asked is refused at the build, which reads the type the text is."
   program {
     contracts {
       "App.Described" {
@@ -21,12 +21,22 @@ warpt 1
     }
     imports []
     procedures {
+      "Int.describe" {
+        parameters [
+          {
+            name "of"
+            type "Int"
+          }
+        ]
+        result "a whole number"
+        returns "String"
+      }
       entry {
         access "public"
         result {
           call {
             arguments [
-              1
+              "s"
             ]
             procedure "App.Described.describe"
           }
@@ -35,7 +45,7 @@ warpt 1
       }
     }
     satisfies {
-      "Array<Int>" [
+      Int [
         "App.Described"
       ]
     }

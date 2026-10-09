@@ -4,9 +4,9 @@ An encoding is bytes for a value tree. Two are specified, and they are not peers
 
 1. **A whole number and a fraction are told apart.** However the encoding does it, `1` and `1.0` must arrive as the values they were. They are one value to a program and two byte strings here, so two documents a program cannot tell apart may carry two signatures: the encoding is faithful to what was written, and sameness of worth is the value model's, not the bytes'.
 2. **The same document is the same bytes, in binary.** Writers are canonical: record keys are written in one order, **ascending by their UTF-8 bytes**, and every value has one spelling. This is what makes a document cacheable, comparable and signable, and the binary reader holds the same line: non-canonical bytes **refuse**, they are not normalised. The text reader is the one that is forgiving, under Warp text below: text is for people, and the binary is the document.
-3. **Nothing but data.** A procedure value has already run far enough to close over a scope; no encoding writes one, one that captured nothing included, so no reader needs a rule about which captures are empty. Infinity and NaN are likewise refused on the way out and on the way in.
+3. **Nothing but data.** A procedure value has already run far enough to close over a scope, and no encoding writes one, one that captured nothing included. Infinity and NaN are likewise refused on the way out and on the way in.
 
-Every reader also refuses: bytes after the document ends, bytes that end inside a value, and nesting deeper than **128** containers. A container is an array, a record or a dictionary, the document's own record being the first, and bytes are none: they open nothing. The depth is an exact bound, not a floor: a document 129 deep is not a document anywhere, and one 128 deep is a document everywhere.
+Every reader also refuses: bytes after the document ends, bytes that end inside a value, and nesting deeper than **128** containers. A container is an array or a record, the document's own record being the first, and bytes are none: they open nothing. The depth is an exact bound, not a floor: a document 129 deep is not a document anywhere, and one 128 deep is a document everywhere.
 
 **A writer refuses at the bound and nowhere short of it.** A writer is handed a value someone built, a host or a front end, and one that gave out at some depth of its own would refuse a document the bound admits.
 
@@ -42,7 +42,7 @@ Each value is a tag byte, then its payload:
 | `0x06` | array | count varint, then that many values |
 | `0x07` | record | count varint, then that many of: key (length varint + UTF-8), value |
 | `0x08` | bytes | length varint, then that many raw bytes |
-| `0x09` | named record | name (length varint + UTF-8), then count and fields exactly as `0x07` writes them. The name is a declared type's spelling and holds a type's name grammar, under [checking](checking.md); any other **refuses** |
+| `0x09` | named record | name (length varint + UTF-8), then count and fields exactly as `0x07` writes them. The name holds a type's name grammar, under [checking](checking.md); any other **refuses** |
 
 - **Varint** is unsigned LEB128: seven bits a byte, low bits first, high bit says another byte follows. At most 64 bits of payload. The largest zigzagged value takes exactly ten bytes, the tenth carrying bit 63 alone, so an eleventh byte, or a tenth-byte bit that would carry past bit 63, **refuses**; overflow is not wrapped, masked or truncated. A trailing zero group (`0x80 0x00` for zero) is a longer spelling of the same number and **refuses**. One value, one spelling.
 - **ZigZag** maps signed to unsigned: `(n << 1) ^ (n >> 63)`.
