@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-slot-of-a-type-takes-no-value-read-as-a-contract-refuses"
-  note "A value read as a contract is of whichever type answers it, and the build does not know which, so a slot of a type takes it only through a cast. `Int` answers `App.Marked`, and handing a value read as `App.Marked` where `Int` is declared still refuses at the build."
+  note "A value read as a contract is of whichever type answers it, and the build does not know which, so a slot of a type takes it only through a cast. Handing a value read as `App.Marked` where `Int` is declared refuses at the build, though `Int` answers `App.Marked`."
   program {
     contracts {
       "App.Marked" {}

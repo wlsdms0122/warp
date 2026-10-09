@@ -3,8 +3,8 @@ warpt 1
   expect {
     refuses "build"
   }
-  name "a-contract-slot-refuses-a-name-for-what-may-be-null"
-  note "App.f takes App.Sized and is handed a variable declared Bank.MaybeCard, which names Bank.Card?. The name stands for what may be null, and no document claims App.Sized for `Null`."
+  name "a-contract-slot-refuses-what-may-be-null-where-null-does-not-answer"
+  note "App.f takes App.Sized and is handed a variable declared Bank.Card?. A reading that may be null answers where both the type and `Null` do. Bank.Card answers App.Sized, and no document claims it for `Null`."
   program {
     contracts {
       "App.Sized" {
@@ -46,7 +46,7 @@ warpt 1
         body [
           {
             let "c"
-            type "Bank.MaybeCard"
+            type "Bank.Card?"
             value {
               as {
                 of {
@@ -98,7 +98,6 @@ warpt 1
           cents "Int"
         }
       }
-      "Bank.MaybeCard" "Bank.Card?"
     }
     warp 1
   }

@@ -1,0 +1,91 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-value-of-what-may-be-null-at-two-self-positions-refuses"
+  note "A value of what may be null is of the type or of `Null`, and `Self` is one type wherever it stands. `Int` and `Null` both answer `App.Same`, and handing a reading of `Int?` beside an int at `lhs` and `rhs` refuses at the build, since the two may be of two types."
+  program {
+    contracts {
+      "App.Same" {
+        same {
+          parameters [
+            {
+              name "lhs"
+              type "Self"
+            }
+            {
+              name "rhs"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "Int.same" {
+        parameters [
+          {
+            name "lhs"
+            type "Int"
+          }
+          {
+            name "rhs"
+            type "Int"
+          }
+        ]
+        result "ii"
+        returns "String"
+      }
+      "Null.same" {
+        parameters [
+          {
+            name "lhs"
+            type "Null"
+          }
+          {
+            name "rhs"
+            type "Null"
+          }
+        ]
+        result "nn"
+        returns "String"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            type "Int?"
+            value null
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "c"
+              }
+              1
+            ]
+            procedure "App.Same.same"
+          }
+        }
+        returns "String"
+      }
+    }
+    satisfies {
+      Int [
+        "App.Same"
+      ]
+      Null [
+        "App.Same"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+

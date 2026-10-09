@@ -1,0 +1,125 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-value-of-a-contract-or-null-at-two-self-positions-refuses"
+  note "A value read as `App.Same?` is of whichever type answers the contract, or `Null`, and `Self` is one type wherever it stands, so handing two such readings at `lhs` and `rhs` refuses at the build."
+  program {
+    contracts {
+      "App.Same" {
+        same {
+          parameters [
+            {
+              name "lhs"
+              type "Self"
+            }
+            {
+              name "rhs"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "App.pair" {
+        parameters [
+          {
+            name "a"
+            type "App.Same?"
+          }
+          {
+            name "b"
+            type "App.Same?"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "a"
+              }
+              {
+                ref "b"
+              }
+            ]
+            procedure "App.Same.same"
+          }
+        }
+        returns "String"
+      }
+      "Int.same" {
+        parameters [
+          {
+            name "lhs"
+            type "Int"
+          }
+          {
+            name "rhs"
+            type "Int"
+          }
+        ]
+        result "ii"
+        returns "String"
+      }
+      "Null.same" {
+        parameters [
+          {
+            name "lhs"
+            type "Null"
+          }
+          {
+            name "rhs"
+            type "Null"
+          }
+        ]
+        result "nn"
+        returns "String"
+      }
+      "String.same" {
+        parameters [
+          {
+            name "lhs"
+            type "String"
+          }
+          {
+            name "rhs"
+            type "String"
+          }
+        ]
+        result "ss"
+        returns "String"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              1
+              "s"
+            ]
+            procedure "App.pair"
+          }
+        }
+        returns "String"
+      }
+    }
+    satisfies {
+      Int [
+        "App.Same"
+      ]
+      Null [
+        "App.Same"
+      ]
+      String [
+        "App.Same"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+

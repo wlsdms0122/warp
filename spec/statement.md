@@ -215,7 +215,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-attempts-name-reads-the-failure-inside-its-rescue`
 - `an-inner-constant-of-an-outer-name-is-not-written`
 - `break-ends-the-loop`
-- `calling-a-value-bounded-to-numbers-refuses`
 - `calling-a-value-no-procedure-could-be-refuses`
 - `calling-a-value-read-as-a-nullable-number-refuses`
 - `calling-a-value-that-may-be-null-refuses`
