@@ -150,7 +150,6 @@ A *lowered type* is a type as a body stands on it, `[tag, …]`:
 | 15 | a type parameter | its label, the contracts bounding it ascending |
 | 16 | a composition | the contracts ascending, at least one |
 | 17 | a projection | the parameter projected, *segment* list |
-| 18 | undeclared | its label, why: `[0, name]` nothing declares it, `[1, name]` nothing declares it as a contract, `[2]` it names itself |
 
 ### Values
 
