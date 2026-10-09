@@ -153,7 +153,7 @@ A *lowered type* is a type as a body stands on it, `[tag, …]`:
 
 ### Values
 
-A *value* is `[tag, …]`: 0 null; 1 bool; 2 int; 3 double; 4 string; 5 bytes, each carrying the value; 6 array, carrying its elements as *value*; 7 record, carrying the name or nothing, the field names, the field values; 8 dictionary, carrying `[name, value]` in name order; 9 a closure, carrying the identity of the document that wrote it, the *declaration* that wrote it, which of that declaration's closures it is, and `[slot, value]` for what it captured. A closure written by a document nobody wrote down, or holding a box of the run that made it, is not a value an object holds, and such an object is not written.
+A *value* is `[tag, …]`: 0 null; 1 bool; 2 int; 3 double; 4 string; 5 bytes, each carrying the value; 6 array, carrying its elements as *value*; 7 record, carrying the name or nothing, the field names in name order, the field values; 8 a closure, carrying the identity of the document that wrote it, the *declaration* that wrote it, which of that declaration's closures it is, and `[slot, value]` for what it captured. A closure written by a document nobody wrote down, or holding a box of the run that made it, is not a value an object holds, and such an object is not written.
 
 ## Identity and dependencies
 
