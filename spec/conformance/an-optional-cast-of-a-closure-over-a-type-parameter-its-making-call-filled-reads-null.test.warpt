@@ -1,16 +1,19 @@
 warpt 1
 {
   expect {
-    answers [
-      "a"
-    ]
+    answers null
   }
-  name "a-closure-a-generic-body-wrote-taking-by-value-is-called-where-a-slot-takes-in-place"
-  note "App.mk answers a closure taking its own some T by value, and it is read through Any as a procedure taking a list of text in place. Taking by value writes nothing back, so the call of the value judges nothing once it is over, the way it does for a closure written with a type, and the list stays as it was."
+  name "an-optional-cast-of-a-closure-over-a-type-parameter-its-making-call-filled-reads-null"
+  note "`App.mk` answers a closure taking its own `some T`, which only the call that made it fills, and `a` holds it as `Any`. The closure is a value of no procedure type here, so `as?` reads it as null."
   program {
-    imports []
+    imports [
+      "Standard.Numeric"
+    ]
     procedures {
       "App.mk" {
+        bounds {
+          T "Standard.Numeric"
+        }
         parameters [
           {
             name "x"
@@ -47,25 +50,23 @@ warpt 1
             value {
               call {
                 arguments [
-                  [
-                    "z"
-                  ]
+                  5
                 ]
                 procedure "App.mk"
               }
             }
           }
           {
-            let "f"
+            let "r"
             value {
-              as {
+              "as?" {
                 of {
                   ref "a"
                 }
                 type {
                   procedure {
                     parameters [
-                      "inout Array<String>"
+                      "Double"
                     ]
                     returns "Int"
                   }
@@ -73,29 +74,9 @@ warpt 1
               }
             }
           }
-          {
-            value [
-              "a"
-            ]
-            var "s"
-          }
-          {
-            value {
-              call {
-                arguments [
-                  {
-                    ref "s"
-                  }
-                ]
-                procedure {
-                  ref "f"
-                }
-              }
-            }
-          }
         ]
         result {
-          ref "s"
+          ref "r"
         }
       }
     }
