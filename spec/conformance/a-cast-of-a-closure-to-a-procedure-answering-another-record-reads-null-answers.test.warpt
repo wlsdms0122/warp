@@ -4,7 +4,7 @@ warpt 1
     answers null
   }
   name "a-cast-of-a-closure-to-a-procedure-answering-another-record-reads-null-answers"
-  note "`c` is declared `Procedure() -> Bank.A`, so its closure, which writes no `returns`, answers `Bank.A`, and it travels through `Any`. `Bank.B` never takes a `Bank.A`, so the asking cast to `Procedure() -> Bank.B` reads it as null."
+  note "`c` is declared `{ procedure: { returns: Bank.A } }`, so its closure, which writes no `returns`, answers `Bank.A`, and it travels through `Any`. `Bank.B` never takes a `Bank.A`, so the asking cast to `{ procedure: { returns: Bank.B } }` reads it as null."
   program {
     imports []
     procedures {
