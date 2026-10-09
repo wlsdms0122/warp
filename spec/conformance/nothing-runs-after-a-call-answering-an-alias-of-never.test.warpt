@@ -1,0 +1,53 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "nothing-runs-after-a-call-answering-an-alias-of-never"
+  note "`App.f` declares `App.N`, a name for `Never`, so a statement after its call would never run, and the build refuses it as it refuses one after a call declaring `Never`."
+  program {
+    imports [
+      "Standard.Control.abort"
+    ]
+    procedures {
+      "App.f" {
+        body [
+          {
+            value {
+              call {
+                arguments [
+                  "no"
+                ]
+                procedure "Standard.Control.abort"
+              }
+            }
+          }
+        ]
+        returns "App.N"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            value {
+              call {
+                procedure "App.f"
+              }
+            }
+          }
+          {
+            let "y"
+            value 2
+          }
+        ]
+        result 1
+      }
+    }
+    types {
+      "App.N" "Never"
+    }
+    warp 1
+  }
+  test 1
+}
+
