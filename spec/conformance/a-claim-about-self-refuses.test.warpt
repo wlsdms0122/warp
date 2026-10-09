@@ -1,0 +1,39 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-claim-about-self-refuses"
+  note "A claim is about a type a value is an instance of. `Self` names a type only inside a contract's procedures, so a claim about it is refused where the document is read."
+  program {
+    contracts {
+      "App.Described" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    satisfies {
+      Self [
+        "App.Described"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+

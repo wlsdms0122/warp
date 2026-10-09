@@ -28,7 +28,7 @@ An implementation implements the **current** version only.
 
 **Note.** A reader that filled in a missing version would be answering, on the sender's behalf, the one question that has to be answerable from the bytes alone, and a file of some other kind would get as far as having its keys judged. A later version may add keys, and checking the keys first would turn "I am too old for this" into "this is malformed". A document written for another version is refused as that, rather than read by rules it was not written to and run to a different answer.
 
-**The imports list.** Every name the program *uses* and does not itself declare, each by its declared spelling: `Standard.Numeric.plus`, never `plus`. Two kinds of name are in it, and they are the two kinds a link resolves. The procedures the program sends, from procedure bodies, from constants and from a variable's start alike; and the types and contracts it names, in a declaration, a bound, a local binding, a cast, a closure's signature or a claim. A native procedure's sends are in it too. What a body sends is read off its text; a module the host assembled in its own language holds procedures with no text a reader could read, so each declares the procedures it sends and those count the same.
+**The imports list.** Every name the program *uses* and does not itself declare, each by its declared spelling: `Standard.Numeric.plus`, never `plus`. Two kinds of name are in it, and they are the two kinds a link resolves. The procedures the program sends, from procedure bodies, from constants and from a variable's start alike; and the types and contracts it names, in a declaration, a bound, a local binding, a cast, a closure's signature or a claim. The sends a procedure the host answers declares are in it too. What a body sends is read off its text; a module the host assembled in its own language holds procedures with no text a reader could read, so each declares the procedures it sends and those count the same.
 
 The list holds spellings and not kinds: a spelling in it asks for whatever the link declares under it, so a program using the procedure and the type of one spelling lists it once. The list is that set exactly, not a bound around it: **reading refuses** a document whose list disagrees with what its program uses, in either direction. It refuses at the load, since what a program uses is a fact of its text alone. The list is read before the program: the host lays the link from it, whatever kind each spelling turns out to declare, so a list saying less would be trusted and wrong, and a list saying more asks for what the program has no use for.
 
@@ -66,7 +66,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-module-variable-declares-what-it-holds`
 - `a-module-variable-declaring-a-record-refuses-a-nameless-record-a-constant-holds`
 - `a-module-variable-handed-in-place-is-one-box`
-- `a-module-variable-is-handed-in-place-to-a-native-procedure`
+- `a-module-variable-is-handed-in-place-to-a-procedure-the-host-answers`
 - `a-module-variable-is-not-named-from-another-document`
 - `a-module-variable-is-shared-by-the-procedures-beside-it`
 - `a-module-variable-keeps-the-type-it-started-as`

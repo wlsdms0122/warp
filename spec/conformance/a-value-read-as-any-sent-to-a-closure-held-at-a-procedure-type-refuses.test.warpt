@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-value-read-as-any-sent-to-a-closure-held-at-a-procedure-type-refuses"
-  note "App.with hands a closure taking some T to a callback, which holds it as Procedure<(Int) -> Int> and sends it a string read as Any. A value read as `Any` is no Int the build can see, so the call refuses at the build."
+  note "App.with hands a closure taking some T to a callback, which holds it as `{ procedure: { parameters: [Int], returns: Int } }` and sends it a string read as Any. A value read as `Any` is no Int the build can see, so the call refuses at the build."
   program {
     imports []
     procedures {

@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-closure-literal-handed-to-a-called-value-answers-what-the-slot-answers-refuses"
-  note "`g` takes `Procedure() -> App.Point`, and the closure literal a call of `g` hands it writes no `returns`, so it answers what the slot answers. Its body answers `{ x: 1, y: 2 }`, which is no `App.Point`, so it refuses at the build as the same closure written at a name declaring that type does."
+  note "`g` takes `{ procedure: { returns: App.Point } }`, and the closure literal a call of `g` hands it writes no `returns`, so it answers what the slot answers. Its body answers `{ x: 1, y: 2 }`, which is no `App.Point`, so it refuses at the build as the same closure written at a name declaring that type does."
   program {
     imports []
     procedures {

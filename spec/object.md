@@ -98,11 +98,11 @@ A *row* is a declaration as its own document settled it:
 
     [ label, signature, access, constness, isolation, failing, handsBackAsDeclared, implementation ]
 
-The label is the declared spelling. A row in `lifted` is the same without the label, its fields starting at the signature. `access` is `0` private, `1` internal or `2` public, under *who may name a declaration* in [procedures](procedure.md); a lifted row is private, since nothing names it. `handsBackAsDeclared` is `true` where what the body hands back, its answer and every variable handed to it in place, is at every type parameter that parameter, so nothing a call filled has to be judged again where the call stands, and `false` otherwise. A body proves it only where every call it makes whose answer or variable handed back names a type parameter reaches a row that proved it too, and where nothing it reads as a type parameter may hold what is not a value of it. The build holds every place reading one to a value of it, so what remains is a closure that is not isolated reaching a variable whose type names one: a cast may call such a closure with what the parameter stands for nowhere. A native's row writes `true`, on its host's word. A link reads it as said, the way it reads `constness` and `isolation`, and leaves out the judgement a call takes where the row the call reaches says `true`, or, for the answer alone, where every row a call through a contract may reach answers exactly what the call reads and the call hands nothing back to judge.
+The label is the declared spelling. A row in `lifted` is the same without the label, its fields starting at the signature. `access` is `0` private, `1` internal or `2` public, under *who may name a declaration* in [procedures](procedure.md); a lifted row is private, since nothing names it. `handsBackAsDeclared` is `true` where what the body hands back, its answer and every variable handed to it in place, is at every type parameter that parameter, so nothing a call filled has to be judged again where the call stands, and `false` otherwise. A body proves it only where every call it makes whose answer or variable handed back names a type parameter reaches a row that proved it too, and where nothing it reads as a type parameter may hold what is not a value of it. The build holds every place reading one to a value of it, so what remains is a closure that is not isolated reaching a variable whose type names one: a cast may call such a closure with what the parameter stands for nowhere. The row of a procedure the host answers writes `true`, on its host's word. A link reads it as said, the way it reads `constness` and `isolation`, and leaves out the judgement a call takes where the row the call reaches says `true`, or, for the answer alone, where every row a call through a contract may reach answers exactly what the call reads and the call hands nothing back to judge.
 
-The *implementation* is `[0, body, frame]` for a written body, or `[1, sends]` for a native, each send `[position, selector, handing]`: where the send stands among the declaration's sends, the spelling it reaches, and how many arguments it hands over, from the first position of what that spelling declares. The sends stand one to a place from the first, and each reaches the number the document's `numbering` gives its spelling; a native row whose sends say otherwise **refuses**.
+The *implementation* is `[0, body, frame]` for a written body, or `[1, sends]` for a procedure the host answers, each send `[position, selector, handing]`: where the send stands among the declaration's sends, the spelling it reaches, and how many arguments it hands over, from the first position of what that spelling declares. The sends stand one to a place from the first, and each reaches the number the document's `numbering` gives its spelling; a row whose sends say otherwise **refuses**.
 
-A *frame* is `[size, parameters, variables, captures, names]`: how many slots; which slots the parameters fill, in parameter order; `[variable, slot]` for each module variable the body reads, by its position in `variables`; which slots a closure fills from what it took with it; and what each slot was called, one name per slot, for a refusal that names one. A body standing on a slot the frame does not hold, or a frame naming fewer slots than it has, **refuses**.
+A *frame* is `[size, parameters, variables, captures, names]`: how many slots; which slots the parameters fill, in parameter order; `[variable, slot]` for each module variable the body reads, by its position in `variables`; which slots a closure fills from what it took with it; and what each slot was called, one name per slot, for a refusal that names one. A body standing on a slot the frame does not hold, or a frame naming other than one name per slot, **refuses**.
 
 A *body* is `[instructions, result]`, the result an *operation* or nothing. An *instruction* is `[binding, operation, label]`: the binding or nothing, what to compute, and the string a trace calls the statement. A *binding* is `[0, slot, settling]` to bind, `[1, slot, settling]` to declare, or `[2, address, settling]` to assign, `settling` a *lowered type*, or nothing where the name declares nothing or the build proved the value one of the type as it stands.
 
@@ -166,9 +166,15 @@ What an object leaned on is written under `dependencies` by what the host keyed 
 
 A reading refuses what it cannot read and traps on nothing: the reading runs inside a host's process, and a trap there ends the host. What refuses is the layout, above, and what a layout admits but the language cannot stand on:
 
-- a lifted row where the numbering counts no closure, a count of none for a declaration it counts, and counts that add up past what an int holds
-- a body standing on a slot past its frame, a loop keeping a run its frame does not hold, a frame naming fewer slots than it has, a call standing more arguments than the row it reaches takes
-- a native row whose sends do not stand one to a place from the first, or reach a spelling the document's `numbering` does not number
+- a lifted row where the numbering counts no closure, a numbering counting more closures than `lifted` holds, a count of none for a declaration it counts, and counts that add up past what an int holds
+- a frame naming other than one name per slot, standing other than one slot per parameter its declaration takes, or standing a parameter, a variable or a capture past its end
+- a body standing on a slot past its frame or on a variable past its document's `variables`, and a loop keeping a run its frame does not hold
+- a call standing other than as many arguments as the row it reaches takes, where that row is the document's own, or handing in place at a position past the arguments it stands
+- a closure literal taking what it captured into slots other than the captures of its own row's frame
+- a call judged where it stands that wraps no call, hands back in place at a position the call hands nothing in place or out of order, or judges nothing
+- a `keeps` that ends before it begins
+- a record, built from parts or as a lowered type, holding other than one part per field its layout names
+- a row of a procedure the host answers whose sends do not stand one to a place from the first, or reach a spelling the document's `numbering` does not number
 - an object standing against a document other than the one it was kept under
 
 Every one of these is refused where the object is read, before it is laid beside anything. What only a link can answer, which row a number is, which type answers a contract, is refused at `build`, under [checking](checking.md).
@@ -257,9 +263,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-whose-frame-names-fewer-slots-than-it-holds-refuses`
 - `an-object-whose-layout-names-stand-out-of-order-refuses`
 - `an-object-whose-loop-keeps-a-run-past-its-frame-refuses`
-- `an-object-whose-native-sends-a-spelling-its-numbering-does-not-number-refuses`
 - `an-object-whose-numbering-closures-stand-out-of-name-order-refuses`
 - `an-object-whose-numbering-sends-stand-out-of-name-order-refuses`
+- `an-object-whose-procedure-the-host-answers-sends-a-spelling-its-numbering-does-not-number-refuses`
 - `an-object-whose-rows-stand-out-of-name-order-refuses`
 - `an-object-whose-type-numbering-stands-out-of-name-order-refuses`
 - `an-object-whose-types-stand-out-of-name-order-refuses`
@@ -276,6 +282,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `the-object-of-a-closure`
 - `the-object-of-a-composition`
 - `the-object-of-a-conditional`
+- `the-object-of-a-declaration-the-host-answers`
 - `the-object-of-a-declared-type-and-a-contract`
 - `the-object-of-a-dispatch`
 - `the-object-of-a-leave`
@@ -283,7 +290,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `the-object-of-a-local`
 - `the-object-of-a-loop`
 - `the-object-of-a-module-constant-and-a-variable`
-- `the-object-of-a-native-declaration`
 - `the-object-of-a-record-built-from-parts`
 - `the-object-of-an-array-built-from-parts`
 - `the-object-of-an-attempt`

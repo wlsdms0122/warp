@@ -163,7 +163,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-list-literal-handed-to-a-called-value-at-a-list-naming-itself-answers`
 - `a-loop-reads-a-closure-reading-a-module-variable-as-one-that-runs`
 - `a-name-declared-inside-a-nested-closure-does-not-cover-a-captured-one`
-- `a-native-procedure-is-handed-a-path-indexed-with-a-name`
 - `a-parameter-declared-twice-refuses`
 - `a-parameter-handed-in-place-reads-what-the-box-holds-now`
 - `a-path-handed-in-place-is-written-through`
@@ -177,6 +176,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-private-procedure-the-host-brings-is-not-named`
 - `a-procedure-handing-a-parameter-in-place-to-a-value-does-not-answer-without-running`
 - `a-procedure-that-writes-in-place-does-not-answer-without-running`
+- `a-procedure-the-host-answers-is-handed-a-path-indexed-with-a-name`
 - `a-procedure-value-cast-to-a-procedure-type-is-called`
 - `a-record-literal-a-closure-writes-into-a-captured-variable-takes-the-name-answers`
 - `a-record-literal-handed-to-a-called-value-takes-the-name-beside-a-type-parameter-answers`
