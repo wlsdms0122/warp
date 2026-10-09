@@ -4,7 +4,7 @@ warpt 1
     refuses "load"
   }
   name "a-bracket-that-closes-nothing-in-a-path-is-refused"
-  note "A `]` in a path closes a `[` written before it. One that closes nothing is not read as part of a name, even where a statement introduced a name spelled with it."
+  note "A `]` in a path closes a `[` written before it. One that closes nothing is no part of a name, so `a]` is refused though `a` is declared."
   program {
     imports []
     procedures {
@@ -12,7 +12,7 @@ warpt 1
         access "public"
         body [
           {
-            let "a]"
+            let "a"
             value 1
           }
         ]

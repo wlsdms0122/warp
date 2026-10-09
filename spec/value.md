@@ -16,7 +16,7 @@ A program computes over eight kinds of data, plus one value that is not data:
 | record | `{ … }`, or `Name { … }` | unordered fields, names unique; may carry the **name** of a declared record type |
 | procedure | | code with what it captured; exists only at run time, never in a document |
 
-**A record's name.** A record made by a literal, handed back by a procedure the host answers or read from a document has no name. It takes one where it is written into a declared type whose structure is a record: a literal written where the type is read, a value from outside at the door it comes through, and a cast to the type. From then on it carries that name through every slot declaring the type and through `Any`, and fits no other: an inline record type and `Dictionary<T>` take no named record, under [Types](type.md).
+**A record's name.** A record made by a literal, handed back by a procedure the host answers or read from a document has no name, and a literal a program writes with one (`Ghost.T { x 1 }` in a text) **refuses at the load**. It takes one where it is written into a declared type whose structure is a record: a literal written where the type is read, a value from outside at the door it comes through, and a cast to the type. From then on it carries that name through every slot declaring the type and through `Any`, and fits no other: an inline record type and `Dictionary<T>` take no named record, under [Types](type.md).
 
 **When two values are the same:**
 
@@ -34,6 +34,7 @@ A program computes over eight kinds of data, plus one value that is not data:
 What `conformance/` asks about this page, by the name each case's file carries.
 
 - `a-procedure-is-the-same-as-no-value`
+- `a-record-literal-written-with-a-name-refuses`
 - `a-whole-and-a-fraction-meet-exactly`
 - `a-whole-fraction-stays-a-fraction`
 - `arrays-in-another-order-are-two-values`

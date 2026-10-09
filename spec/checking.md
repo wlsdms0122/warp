@@ -2,7 +2,7 @@
 
 Which stage answers which refusal. This page is a list rather than a rule, and the list is the contract: two implementations can agree on every answer a program gives and still not be the same language, if one of them refuses a program the other runs or refuses it later.
 
-A program is read, checked and built before any of it runs, the arms nobody takes included. All of the following are answered while nothing has happened yet. The first, the leaves (`break`/`continue` having a loop, nothing following one), the names in normal form C, a procedure's `access` being one of its three values and a claim keyed by a name no value is an instance of (`Any`, `Never`, `Self`, or a spelling like `Array<Int>`) are answered at `load`, since a document answers them alone; the rest at `build`, since each is judged against a signature or another document. What the grammar pages refuse as form (a type spelled wrong, a rescue answering nothing, a leave with nothing to leave) is `load` too, and those pages say so where the form is written. The stage is the rule's: a call that misfits a declaration in its own document refuses at `build` all the same.
+A program is read, checked and built before any of it runs, the arms nobody takes included. All of the following are answered while nothing has happened yet. The first, the leaves (`break`/`continue` having a loop, nothing following one), the names in normal form C and each one a document declares as a value read back by a path, a procedure's `access` being one of its three values, a literal writing no record's name, where `inout`, `var`, `Self` and a type parameter are written and a name in the types namespace that is no name a document may declare (a claim keyed by `Any`, `Never`, `Self` or a spelling like `Array<Int>` among them) are answered at `load`, since a document answers them alone; the rest at `build`, since each is judged against a signature or another document. What the grammar pages refuse as form (a type spelled wrong, a rescue answering nothing, a leave with nothing to leave) is `load` too, and those pages say so where the form is written. The stage is the rule's: a call that misfits a declaration in its own document refuses at `build` all the same.
 
 - every `ref` resolves to a parameter, a constant, a module variable, a statement written before it, a binding the construct holding it opened (a loop's round, an attempt's failure), or a path through them;
 - every procedure sent is declared by some module in the link, exactly once;
@@ -28,7 +28,7 @@ A program is read, checked and built before any of it runs, the arms nobody take
 - a procedure the host answers may judge the arguments a call writes as constants, and a call whose constants it refuses **refuses at the build**; of the standard vocabulary, `Standard.Text.encoded` and `decoded` judge theirs, under [the standard vocabulary](vocabulary.md);
 - `break`/`continue` have a loop, `return` fits the declaration, nothing follows any of them;
 - a statement that never finishes (a syntactic leave, or a call whose answer reads `Never`, declared under `returns` or read off a body that never finishes) takes no name, and nothing follows it;
-- every name the program writes as a value is **written**, and is **normal form C**, compared as bytes: a statement's, a binding's (a loop's round, an attempt's failure), a parameter's, and each segment of a `ref`. Record *keys* hold this line at the encodings; these are the names that live in string values, and this is where they hold it. One name has one byte spelling, so a declaration and a reference can only meet by being the same bytes. `é` written two ways is a refusal, not two names. Nothing written is no name: a declaration is called something, and a reference writes something, and neither is done by writing nothing.
+- every name the program writes as a value is **written**, and is **normal form C**, compared as bytes: a constant's, a module variable's, a statement's, a binding's (a loop's round, an attempt's failure), a parameter's, and each segment of a `ref`. Each one a document declares is a name a path reads back as its key: a path is written with `.`, `[`, `]` and `?`, so a name holding one, or white space at either end, is one no `ref` or `set` reaches, and **refuses at the load** where it is declared. A dot is a step of a path and a character of a type's name, so the two namespaces have two grammars. Record *keys* hold this line at the encodings; these are the names that live in string values, and this is where they hold it. One name has one byte spelling, so a declaration and a reference can only meet by being the same bytes. `é` written two ways is a refusal, not two names. Nothing written is no name: a declaration is called something, and a reference writes something, and neither is done by writing nothing.
 
 `imports` is held at `load`, under *the imports list* in [documents](document.md), because a host decides from it before any of this runs.
 
@@ -66,12 +66,14 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-list-literal-of-other-kinds-written-into-a-list-refuses`
 - `a-list-literal-written-into-a-declared-variable-is-read-position-by-position-refuses`
 - `a-list-of-records-handed-to-a-call-is-read-field-by-field-refuses`
+- `a-module-variable-name-no-path-reads-refuses`
 - `a-name-not-in-normal-form-c-is-refused`
 - `a-procedure-may-be-spelled-like-a-type`
 - `a-procedure-nobody-declares-refuses`
 - `a-procedure-only-an-untaken-arm-sends-is-still-needed`
 - `a-procedure-two-modules-declare-refuses`
 - `a-reference-to-a-statement-written-later-refuses`
+- `a-statement-name-no-path-reads-refuses`
 - `a-write-a-called-value-answers-in-a-loop-reads-what-its-slot-wrote`
 - `a-write-a-loop-round-makes-reads-back-nullable`
 - `a-write-an-attempt-body-makes-reads-back-nullable`
