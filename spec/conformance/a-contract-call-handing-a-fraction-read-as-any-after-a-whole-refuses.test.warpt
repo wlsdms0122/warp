@@ -1,0 +1,40 @@
+warpt 1
+{
+  expect {
+    refuses "run"
+  }
+  name "a-contract-call-handing-a-fraction-read-as-any-after-a-whole-refuses"
+  note "The first argument is an Int, so Int.plus answers. What arrives at its second position is a fraction, and an Int slot takes no fraction: the boundary refuses it before Int.plus is asked."
+  program {
+    imports [
+      "Standard.Numeric.plus"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "held"
+            type "Any"
+            value 0.5
+          }
+        ]
+        result {
+          call {
+            arguments [
+              1
+              {
+                ref "held"
+              }
+            ]
+            procedure "Standard.Numeric.plus"
+          }
+        }
+        returns "Any"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

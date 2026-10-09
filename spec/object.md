@@ -128,9 +128,9 @@ An *operation* is `[tag, …]`. These are the constructs and the expression form
 | 11 | a call | *call* |
 | 12 | a call through a contract | *dispatch* |
 | 13 | leaving | *reach*, the target name or nothing, what it takes or nothing |
-| 14 | a call judged where it stands | the call's *operation*, the answer's *lowered type* or nothing, `[position, lowered type]` for each variable handed back in place, judged once the call is over through the hold the call made |
+| 14 | a call judged where it stands | the call, an *operation* tagged 5, 11 or 12; the answer's *lowered type* or nothing; `[position, lowered type]` for each variable handed back in place, in position order, judged once the call is over through the hold the call made |
 
-A *layout* is `[name, fields]`: the declared name or nothing, and the field names ascending. A *call* is `[procedure, arguments, handed]`: the row the call reaches, numbered by the document; one *operation* or nothing per parameter of the callee, in parameter order, nothing where the call wrote nothing or a hold stands; and `[position, address]` for each parameter handed in place. A *dispatch* is `[contract, procedure, first, arguments]`: the contract's name, the procedure's, the first argument's *operation*, and the arguments after it by position, each an *argument*. Which row answers is the link's, and stands nowhere in an object. An *argument* is `[0, operation]` by value or `[1, address]` by reference: the place a call of a value hands in place, or one a call through a contract hands to whichever row takes it in place.
+A *layout* is `[name, fields]`: the declared name or nothing, and the field names ascending. A *call* is `[procedure, arguments, handed, judged]`: the row the call reaches, numbered by the document; one *operation* or nothing per parameter of the callee, in parameter order, nothing where the call wrote nothing or a hold stands; `[position, address]` for each parameter handed in place; and the positions, ascending, whose argument the run judges at the row's slot, which are those the build did not prove a value of the slot's type as it stands. A *dispatch* is `[contract, procedure, first, arguments]`: the contract's name, the procedure's, the first argument's *operation*, and the arguments after it by position, each an *argument*. Which row answers is the link's, and stands nowhere in an object. An *argument* is `[0, operation]` by value or `[1, address]` by reference: the place a call of a value hands in place, or one a call through a contract hands to whichever row takes it in place.
 
 ### Lowered types
 
@@ -150,7 +150,6 @@ A *lowered type* is a type as a body stands on it, `[tag, …]`:
 | 15 | a type parameter | its label, the contracts bounding it ascending |
 | 16 | a composition | the contracts ascending, at least one |
 | 17 | a projection | the parameter projected, *segment* list |
-| 18 | undeclared | its label, why: `[0, name]` nothing declares it, `[1, name]` nothing declares it as a contract, `[2]` it names itself |
 
 ### Values
 
@@ -225,7 +224,7 @@ warpt 1
       true
       [
         0
-        [ [] [ [ 11 [ 0 [ [ [ 1 [ 0 [] ] ] ] [ [ 0 [ 2 1 ] ] ] ] [] ] ] ] ]
+        [ [] [ [ 11 [ 0 [ [ [ 1 [ 0 [] ] ] ] [ [ 0 [ 2 1 ] ] ] ] [] [] ] ] ] ]
         [ 1 [ 0 ] [] [] [ "n" ] ]
       ]
     ]
@@ -236,7 +235,7 @@ warpt 1
 }
 ```
 
-Read it back: `rows` holds `entry`, whose signature takes `n` as `Array<Int>` (type tag 7 around tag 4) and answers `Array<Int>`; it is public (`2`), const (`1`) and isolated (`1`) and fails with nothing (`[1 []]`); its answers are what it declares (`true`); its implementation is a body (`0`) with no instructions and a result, a call (`11`) to row `0` of the numbering, which is `Standard.Collection.appending`, with two arguments, the first read from slot `0` and the second the literal (`0`) int (`2`) `1`; and its frame has one slot, filled by the parameter, called `n`. The dependency is what the host keyed the standard vocabulary's object under.
+Read it back: `rows` holds `entry`, whose signature takes `n` as `Array<Int>` (type tag 7 around tag 4) and answers `Array<Int>`; it is public (`2`), const (`1`) and isolated (`1`) and fails with nothing (`[1 []]`); its answers are what it declares (`true`); its implementation is a body (`0`) with no instructions and a result, a call (`11`) to row `0` of the numbering, which is `Standard.Collection.appending`, with two arguments, the first read from slot `0` and the second the literal (`0`) int (`2`) `1`, neither handed in place and neither judged at the row's slot, since the build proved each a value of it; and its frame has one slot, filled by the parameter, called `n`. The dependency is what the host keyed the standard vocabulary's object under.
 
 ## Cases
 
@@ -278,6 +277,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-writing-an-empty-name-refuses`
 - `the-object-of-a-block`
 - `the-object-of-a-call`
+- `the-object-of-a-call-judging-an-argument`
 - `the-object-of-a-cast`
 - `the-object-of-a-closure`
 - `the-object-of-a-composition`

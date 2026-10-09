@@ -1,0 +1,82 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-list-of-an-alias-of-any-handed-to-a-value-at-a-list-of-a-contract-refuses"
+  note "A call of a value is held to what its slot's type takes, as a call to a declaration is. The slot takes a list of App.Shape, and each element of an Array<App.Loose> is read as Any, so the call refuses at the build whatever the closure standing there takes."
+  program {
+    contracts {
+      "App.Shape" {}
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "d"
+            type "Array<App.Loose>"
+            value [
+              5
+            ]
+          }
+          {
+            let "g"
+            type {
+              procedure {
+                parameters [
+                  "Array<App.Shape>"
+                ]
+                returns "Any"
+              }
+            }
+            value {
+              closure {
+                parameters [
+                  {
+                    name "p"
+                    type "Any"
+                  }
+                ]
+                result {
+                  ref "p"
+                }
+                returns "Any"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "d"
+              }
+            ]
+            procedure {
+              ref "g"
+            }
+          }
+        }
+        returns "Any"
+      }
+    }
+    satisfies {
+      "App.Point" [
+        "App.Shape"
+      ]
+    }
+    types {
+      "App.Loose" "Any"
+      "App.Point" {
+        record {
+          x "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,63 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "an-alias-of-any-at-a-nullable-contract-slot-refuses"
+  note "A slot taking App.Shape or null asks the contract of whatever is not null, and a value read through an alias of Any is of a type the build does not know, so the call refuses at the build."
+  program {
+    contracts {
+      "App.Shape" {}
+    }
+    imports []
+    procedures {
+      "App.g" {
+        parameters [
+          {
+            name "p"
+            type "App.Shape?"
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "d"
+            type "App.Loose"
+            value 5
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "d"
+              }
+            ]
+            procedure "App.g"
+          }
+        }
+        returns "Int"
+      }
+    }
+    satisfies {
+      "App.Point" [
+        "App.Shape"
+      ]
+    }
+    types {
+      "App.Loose" "Any"
+      "App.Point" {
+        record {
+          x "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
