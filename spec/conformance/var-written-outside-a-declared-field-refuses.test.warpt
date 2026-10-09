@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    refuses "build"
+    refuses "load"
   }
   name "var-written-outside-a-declared-field-refuses"
-  note "`var` is written on a field of a declared type and nowhere else, since only such a field is written through. A parameter written `var` is refused."
+  note "`var` is written on a field of a declared type and nowhere else, since only such a field is written through. A parameter written `var` is refused at the load."
   program {
     imports []
     procedures {

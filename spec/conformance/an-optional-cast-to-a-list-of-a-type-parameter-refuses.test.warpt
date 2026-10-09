@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    refuses "build"
+    refuses "load"
   }
   name "an-optional-cast-to-a-list-of-a-type-parameter-refuses"
-  note "App.decode reads raw as? Array<some T>. The optional cast names the same type, with a type parameter inside it, and the build refuses it the same way."
+  note "App.decode reads raw as? Array<some T>. The optional cast names the same type, with a type parameter inside it, and it refuses at the load the same way."
   program {
     imports []
     procedures {
