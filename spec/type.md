@@ -177,6 +177,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-declaration-writing-no-returns-backs-a-claim-by-what-its-body-answers`
 - `a-declared-name-is-a-type`
 - `a-declared-type-names-itself-in-its-fields`
+- `a-dictionary-of-an-alias-of-any-at-a-dictionary-of-a-contract-refuses`
 - `a-fraction-is-not-a-whole-number`
 - `a-generic-answer-carried-through-another-generic-is-judged-where-the-call-reads-it-refuses`
 - `a-generic-answer-handed-back-in-place-is-judged-once-the-call-is-over-refuses`
@@ -189,6 +190,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-list-literal-of-names-holding-lists-handed-at-a-bounded-parameter-refuses`
 - `a-list-of-a-reading-of-any-behind-a-name-handed-beside-a-variable-in-place-refuses`
 - `a-list-of-a-reading-of-any-handed-beside-a-variable-in-place-refuses`
+- `a-list-of-an-alias-of-any-handed-to-a-value-at-a-list-of-a-contract-refuses`
 - `a-list-of-two-types-handed-where-a-contract-is-asked-is-read-element-by-element-refuses`
 - `a-literal-of-names-at-a-contract-bound-leans-on-each-claim-refuses`
 - `a-module-declares-a-contract-a-bound-names`
@@ -294,6 +296,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-alias-of-a-contract-answers-the-contract`
 - `an-alias-of-a-declared-record-gives-a-value-from-outside-the-records-name`
 - `an-alias-of-a-record-answers-the-records-contracts`
+- `an-alias-of-any-another-document-declares-at-a-contract-slot-refuses`
+- `an-alias-of-any-at-a-contract-slot-refuses`
+- `an-alias-of-any-at-a-nullable-contract-slot-refuses`
 - `an-answer-read-as-any-where-a-type-is-declared-refuses`
 - `an-array-of-bytes-and-a-list-of-numbers-joins-to-a-list-of-lists`
 - `an-empty-list-handed-to-a-generic-answers-a-list-of-any-type`
