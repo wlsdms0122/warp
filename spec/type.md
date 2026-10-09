@@ -103,7 +103,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-cast-of-a-recursive-record-to-a-field-it-never-holds-further-down-refuses`
 - `a-cast-of-an-alias-of-a-nullable-record-to-another-record-refuses`
 - `a-cast-to-an-alias-of-a-nullable-record-names-the-record-answers`
-- `a-claim-about-a-list-of-one-kind-refuses`
+- `a-claim-about-a-list-of-one-type-refuses`
 - `a-claim-about-a-name-that-is-not-a-record-refuses`
 - `a-claim-about-any-refuses`
 - `a-claim-about-array-answered-for-a-list-of-ints-alone-refuses`
@@ -202,7 +202,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-generic-answer-handed-back-in-place-is-judged-once-the-call-is-over-refuses`
 - `a-generic-answer-of-any-refuses`
 - `a-generic-body-appends-its-parameter-to-a-list-of-it-or-null`
-- `a-kind-no-claim-names-refuses`
 - `a-list-a-closure-hands-in-place-to-a-call-is-judged-refuses`
 - `a-list-literal-of-closures-answering-outside-the-bounds-refuses`
 - `a-list-literal-of-closures-handed-at-a-bounded-parameter-answers`
@@ -284,6 +283,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-type-form-beside-other-keys-refuses`
 - `a-type-mention-that-is-no-name-refuses`
 - `a-type-no-claim-names-in-a-closures-contract-parameter-refuses`
+- `a-type-no-claim-names-refuses`
 - `a-type-parameter-named-for-a-type-the-language-names-refuses`
 - `a-type-parameter-named-self-refuses`
 - `a-type-parameter-read-as-any-and-as-a-type-holds-any`

@@ -182,7 +182,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-document-writes-a-short-circuiting-connective`
 - `a-document-writes-map-over-a-const-slot`
 - `a-document-writes-startsWith-over-characters`
-- `a-list-holding-no-byte-handed-to-decoded-as-a-constant-refuses`
+- `a-list-holding-no-byte-handed-to-decoded-refuses-at-the-run`
 - `a-list-of-pieces-joining-to-any-refuses-at-a-fan-out`
 - `a-mapped-procedure-chooses-what-it-answers`
 - `a-piece-that-is-not-a-closure-refuses`
@@ -198,12 +198,11 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `absolute-floored-and-rounded-answer-a-whole`
 - `absolute-of-the-minimum-refuses`
 - `an-attempt-does-not-catch-overflow`
-- `an-encoding-a-procedure-does-not-have-arriving-at-the-run-refuses`
-- `an-encoding-a-procedure-does-not-have-written-as-a-constant-refuses`
+- `an-encoding-a-procedure-does-not-have-refuses-at-the-run`
 - `an-operand-of-and-that-answers-no-bool-refuses`
 - `append-writes-the-array-in-place`
 - `arithmetic-admits-only-numbers`
-- `arithmetic-answers-the-kind-it-was-given`
+- `arithmetic-answers-the-type-it-was-given`
 - `arithmetic-divide-by-zero-refuses`
 - `arithmetic-divides-to-a-fraction`
 - `arithmetic-on-a-value-it-does-not-take-refuses`
@@ -251,7 +250,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `minus-off-the-ints-edge-refuses`
 - `not-and-notequal-say-the-opposite`
 - `or-does-not-ask-past-the-first-yes`
-- `ordering-compares-two-of-a-kind`
+- `ordering-compares-two-of-one-type`
 - `prepending-writes-the-front`
 - `reduce-folds-in-order`
 - `remainder-at-the-ints-minimum-answers`
@@ -282,6 +281,4 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `trimming-takes-unicode-whitespace-from-both-ends`
 - `uppercased-uses-unicode-full-case-mapping`
 - `values-answer-in-canonical-order`
-- `what-is-no-byte-arriving-at-the-run-refuses-to-decode`
-- `what-is-not-utf8-text-arriving-at-the-run-refuses-to-decode`
-- `what-is-not-utf8-text-written-as-a-constant-refuses-to-decode`
+- `what-is-not-utf8-text-refuses-to-decode-at-the-run`

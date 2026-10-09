@@ -145,7 +145,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-const-slot-refuses-a-closure-that-calls-what-runs`
 - `a-const-slot-takes-a-closure-that-calls-a-const-slot`
 - `a-const-slot-takes-a-closure-that-calls-a-host-procedure`
-- `a-constant-argument-its-parameter-does-not-take-refuses`
 - `a-constant-cannot-settle-from-a-procedure-the-host-brought`
 - `a-constant-cannot-settle-from-what-runs`
 - `a-constant-leaning-on-a-claim-of-a-document-it-does-not-stand-on-refuses`
@@ -162,6 +161,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-fixed-name-is-not-handed-in-place`
 - `a-fixed-name-is-not-handed-in-place-to-a-called-value`
 - `a-list-literal-handed-to-a-called-value-at-a-list-naming-itself-answers`
+- `a-literal-argument-its-parameter-does-not-take-refuses`
 - `a-loop-reads-a-closure-reading-a-module-variable-as-one-that-runs`
 - `a-name-declared-inside-a-nested-closure-does-not-cover-a-captured-one`
 - `a-parameter-declared-twice-refuses`

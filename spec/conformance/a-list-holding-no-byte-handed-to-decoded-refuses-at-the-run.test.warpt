@@ -3,8 +3,8 @@ warpt 1
   expect {
     refuses "run"
   }
-  name "what-is-no-byte-arriving-at-the-run-refuses-to-decode"
-  note "Bytes are whole numbers from 0 to 255: the list a variable holds has `300` in it, so the run refuses the call."
+  name "a-list-holding-no-byte-handed-to-decoded-refuses-at-the-run"
+  note "Bytes are whole numbers from 0 to 255, and `decoded` says what it takes when it runs, whatever wrote the argument: `300` is no byte, so the call refuses at the run."
   program {
     imports [
       "Standard.Text.decoded"
@@ -12,21 +12,13 @@ warpt 1
     procedures {
       entry {
         access "public"
-        body [
-          {
-            value [
-              104
-              300
-            ]
-            var "bytes"
-          }
-        ]
         result {
           call {
             arguments [
-              {
-                ref "bytes"
-              }
+              [
+                104
+                300
+              ]
               "utf8"
             ]
             procedure "Standard.Text.decoded"
