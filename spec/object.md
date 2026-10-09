@@ -64,14 +64,14 @@ A *type* is `[tag, …]`:
 | 12 | `inout T` | *type* |
 | 13 | `T?` | *type* |
 | 14 | a declared name | name |
-| 15 | a type parameter | name, its bounds: names ascending |
+| 15 | a type parameter | name |
 | 16 | a composition `A & B` | names ascending, at least one |
 | 17 | a projection | the parameter projected, the path: *segment* list |
 | 18 | `Self` | |
 
 A *segment* is `[0, name, optional]`, `[1, index, optional]` or `[2, path, optional]` for an index read from a path.
 
-A *procedure type* is `[parameters, returns]`: a list of *type*, in position order, and a *type* or nothing. A *signature* is `[parameters, returns]`: a list of *parameter*, in the declaration's order, and a *type* or nothing. A *parameter* is `[name, type, description]`: the name, then each a list of none or one: a *type*; a string.
+A *procedure type* is `[parameters, returns]`: a list of *type*, in position order, and a *type* or nothing. A *signature* is `[parameters, returns, bounds]`: a list of *parameter*, in the declaration's order; a *type* or nothing; and name → the contracts bounding the type parameter of that name, ascending, at least one, for each type parameter the signature bounds. A *parameter* is `[name, type, description]`: the name, then each a list of none or one: a *type*; a string.
 
 *Constness* is `0` unstated or `1` const. *Isolation* is `0` unstated or `1` isolated. *Failing* is `[0]` unstated or `[1, names]`, the names ascending.
 
@@ -88,7 +88,7 @@ A *place* is where in a document something was written: `[document, steps]`, the
 | 4 | a statement | its name or nothing, its position |
 | 5 | a landmark in a program nobody wrote down | string |
 
-A *part* is `[tag]`: 0 `procedures`, 1 `constants`, 2 `variables`, 3 `types`, 4 `contracts`, 5 `satisfies`, 6 `imports`, 7 `parameters`, 8 `returns`, 9 `body`, 10 `result`, 11 a cast's subject, carrying `true` for `as?` or `false` for `as`, 12 `callee`, 13 `arguments`, 14 `closure`, 15 a condition, carrying `[0]` for a conditional's or `[1]` for a loop's, 16 `then`, 17 `otherwise`, 18 `rescue`, 19 a record's fields.
+A *part* is `[tag]`: 0 `procedures`, 1 `constants`, 2 `variables`, 3 `types`, 4 `contracts`, 5 `satisfies`, 6 `imports`, 7 `parameters`, 8 `returns`, 9 `body`, 10 `result`, 11 a cast's subject, carrying `true` for `as?` or `false` for `as`, 12 `callee`, 13 `arguments`, 14 `closure`, 15 a condition, carrying `[0]` for a conditional's or `[1]` for a loop's, 16 `then`, 17 `otherwise`, 18 `rescue`, 19 a record's fields, 20 `bounds`.
 
 A *construct* is `[tag]`: 0 literal, 1 reference, 2 array, 3 record, 4 closure, 5 cast, 6 block, 7 conditional, 8 loop, 9 attempt, 10 call, 11 leave, carrying its *reach*: `0` the procedure, `1` the construct, `2` the round.
 
@@ -216,7 +216,7 @@ warpt 1
   rows [
     [
       "entry"
-      [ [ [ "n" [ [ 7 [ 4 ] ] ] [] ] ] [ [ 7 [ 4 ] ] ] ]
+      [ [ [ "n" [ [ 7 [ 4 ] ] ] [] ] ] [ [ 7 [ 4 ] ] ] [] ]
       2
       1
       1
@@ -235,13 +235,14 @@ warpt 1
 }
 ```
 
-Read it back: `rows` holds `entry`, whose signature takes `n` as `Array<Int>` (type tag 7 around tag 4) and answers `Array<Int>`; it is public (`2`), const (`1`) and isolated (`1`) and fails with nothing (`[1 []]`); its answers are what it declares (`true`); its implementation is a body (`0`) with no instructions and a result, a call (`11`) to row `0` of the numbering, which is `Standard.Collection.appending`, with two arguments, the first read from slot `0` and the second the literal (`0`) int (`2`) `1`, neither handed in place and neither judged at the row's slot, since the build proved each a value of it; and its frame has one slot, filled by the parameter, called `n`. The dependency is what the host keyed the standard vocabulary's object under.
+Read it back: `rows` holds `entry`, whose signature takes `n` as `Array<Int>` (type tag 7 around tag 4), answers `Array<Int>` and bounds nothing (`[]`); it is public (`2`), const (`1`) and isolated (`1`) and fails with nothing (`[1 []]`); its answers are what it declares (`true`); its implementation is a body (`0`) with no instructions and a result, a call (`11`) to row `0` of the numbering, which is `Standard.Collection.appending`, with two arguments, the first read from slot `0` and the second the literal (`0`) int (`2`) `1`, neither handed in place and neither judged at the row's slot, since the build proved each a value of it; and its frame has one slot, filled by the parameter, called `n`. The dependency is what the host keyed the standard vocabulary's object under.
 
 ## Cases
 
 What `conformance/` asks about this page, by the name each case's file carries.
 
 - `a-document-is-not-an-object`
+- `an-object-bounding-a-type-parameter-by-nothing-refuses`
 - `an-object-counting-no-closures-for-a-declaration-refuses`
 - `an-object-leaning-on-one-object-twice-refuses`
 - `an-object-leaning-on-what-is-not-laid-refuses`
