@@ -20,7 +20,7 @@ A program computes over eight kinds of data, plus one value that is not data:
 
 **When two values are the same:**
 
-- A whole number and a fraction of the same worth are the same value. Numbers are compared by what they are worth, not by which of the two they are, and exactly, at **every** size: `9007199254740993` (2^53 + 1) is neither equal to nor below `9007199254740992.0`, however binary64 would round it, and ordering and `sorted` read the same worth equality does.
+- A whole number and a fraction of the same worth are the same value. Numbers are compared by what they are worth, not by which of the two they are, and exactly, at **every** size: `9007199254740993` (2^53 + 1) is not equal to `9007199254740992.0`, however binary64 would round it. Ordering compares two of one type, under [the standard vocabulary](vocabulary.md).
 - A fraction that is not a number is not equal to itself. There is one such value, no way to write it down, and the standard vocabulary never answers one. Arithmetic with no finite answer refuses instead, so it arises only from a host's own procedure.
 - Bytes are the same when their bytes are, in order. Bytes are not text: no encoding is assumed, so no Unicode rule applies. Beside an **array**, worth unifies the way it does across numeric width: `x"6869"` and `[104, 105]` are worth the same. One collection of the same whole numbers in the same order, spelled two ways, and `equal` says so. Which spelling a value wears takes no part in sameness.
 - Arrays are the same when their elements are, in order.
