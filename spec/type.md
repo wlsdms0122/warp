@@ -213,6 +213,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-named-record-arrives-as-an-argument`
 - `a-nameless-record-judged-where-a-declared-record-was-filled-refuses`
 - `a-null-arriving-at-a-bounded-parameter-is-held-to-the-claims-about-null`
+- `a-nullable-const-procedure-reads-as-written`
 - `a-nullable-that-says-nothing-new-behind-a-name-refuses`
 - `a-nullable-that-says-nothing-new-refuses`
 - `a-parameter-handed-in-place-handed-on-beside-a-list-of-an-empty-list-answers`
