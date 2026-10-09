@@ -48,6 +48,7 @@ The same brackets read a **dictionary** by a key the run settles (`held[name]`),
 What `conformance/` asks about this page, by the name each case's file carries.
 
 - `a-bracket-that-closes-nothing-in-a-path-is-refused`
+- `a-cast-from-any-to-a-record-naming-itself-answers`
 - `a-cast-names-the-record-it-reads`
 - `a-cast-naming-a-type-nothing-declares-refuses`
 - `a-cast-naming-what-the-reading-already-is-refuses`

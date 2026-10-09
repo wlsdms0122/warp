@@ -1,0 +1,58 @@
+warpt 1
+{
+  arguments {
+    a App.P {
+      x 1
+    }
+  }
+  expect {
+    refuses "run"
+  }
+  name "a-named-record-from-outside-short-of-a-field-at-a-contract-slot-refuses"
+  note "The entry asks `App.Shape` and is handed a value under the name `App.P`, which a document claims answers it. A value under a declared record's name answers a contract as that record, so the door holds it to `App.P`, and one without `w` refuses there."
+  program {
+    contracts {
+      "App.Shape" {}
+    }
+    imports [
+      "Standard.Text.text"
+    ]
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "a"
+            type "App.Shape"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "a"
+              }
+            ]
+            procedure "Standard.Text.text"
+          }
+        }
+      }
+    }
+    satisfies {
+      "App.P" [
+        "App.Shape"
+      ]
+    }
+    types {
+      "App.P" {
+        record {
+          w "Int"
+          x "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

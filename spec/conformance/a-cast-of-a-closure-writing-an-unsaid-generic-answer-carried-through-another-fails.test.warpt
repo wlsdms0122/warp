@@ -1,14 +1,12 @@
 warpt 1
 {
   expect {
-    refuses "run"
+    answers "cast_refused"
   }
-  name "a-generic-answer-carried-through-another-generic-is-judged-where-the-call-reads-it-refuses"
-  note "App.h keeps n in cell, and a closure writing cell from its own some T is read as Any and called through a cast with text, which the run cannot hold to what filled T. App.h proves nothing of its answer, App.g answers what App.h answers and proves nothing either, and the call App.g(1, \"s\") reads it as an int where it stands, so the text refuses at the run."
+  name "a-cast-of-a-closure-writing-an-unsaid-generic-answer-carried-through-another-fails"
+  note "App.g writes no returns, and what was read off its body is its some T, carried from App.h, whose closure sets cell from its own some T and is held as Any. The cast reading it as taking text fails with cast_refused, since only App.h's call filled its T, and the attempt in the entry catches the failure."
   program {
-    imports [
-      "Standard.Numeric.plus"
-    ]
+    imports []
     procedures {
       "App.g" {
         parameters [
@@ -34,7 +32,6 @@ warpt 1
             procedure "App.h"
           }
         }
-        returns "some T"
       }
       "App.h" {
         body [
@@ -132,34 +129,37 @@ warpt 1
         access "public"
         body [
           {
-            let "r"
+            let "tried"
             value {
-              call {
-                arguments [
-                  1
-                  "s"
-                ]
-                procedure "App.g"
-              }
-            }
-          }
-          {
-            let "y"
-            value {
-              call {
-                arguments [
+              attempt {
+                body [
                   {
-                    ref "r"
+                    let "r"
+                    value {
+                      call {
+                        arguments [
+                          1
+                          "s"
+                        ]
+                        procedure "App.g"
+                      }
+                    }
                   }
-                  1
                 ]
-                procedure "Standard.Numeric.plus"
+                rescue {
+                  result {
+                    ref "tried.type"
+                  }
+                }
+                result {
+                  ref "r"
+                }
               }
             }
           }
         ]
         result {
-          ref "y"
+          ref "tried"
         }
       }
     }

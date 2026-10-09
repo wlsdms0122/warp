@@ -4,10 +4,10 @@ warpt 1
     absent null
   }
   expect {
-    answers "nothing"
+    refuses "build"
   }
   name "a-null-arriving-at-a-bounded-parameter-is-held-to-the-claims-about-null"
-  note "A reading of `Any` says nothing the build can hold to a bound, so what arrives is judged at the run by the type it is an instance of. Null arrives where `some T` is bounded by `App.Described`, and answers because a document claims the contract for `Null`."
+  note "`absent` is read as `Any`, which stands where `some T` is bounded by `App.Described` only through a cast, so the build refuses, whatever arrives."
   program {
     contracts {
       "App.Described" {

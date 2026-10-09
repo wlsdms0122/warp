@@ -1,16 +1,41 @@
 warpt 1
 {
   expect {
-    refuses "run"
+    answers "cast_refused"
   }
-  name "a-variable-handed-back-in-place-is-judged-when-the-call-fails-refuses"
-  note "App.put appends what App.h answers to the list handed to it in place and then fails, and the caller rescues. App.h's closure writes cell from its own some T and is called through a cast with a number, so the list is judged before the failure passes on, and the 5 in it refuses at the run rather than reaching the rescue."
+  name "a-cast-of-a-closure-writing-a-generic-answer-carried-through-another-fails"
+  note "App.h keeps n in cell and writes a closure that sets cell from its own some T, held as Any. App.g answers what App.h answers. The cast reading the closure as taking text fails with cast_refused, since only App.h's call filled its T, so nothing outside T reaches cell and the attempt in the entry catches the failure."
   program {
     imports [
-      "Standard.Collection.append"
-      "Standard.Control.abort"
+      "Standard.Numeric.plus"
     ]
     procedures {
+      "App.g" {
+        parameters [
+          {
+            name "n"
+            type "some T"
+          }
+          {
+            name "junk"
+            type "Any"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "n"
+              }
+              {
+                ref "junk"
+              }
+            ]
+            procedure "App.h"
+          }
+        }
+        returns "some T"
+      }
       "App.h" {
         body [
           {
@@ -59,7 +84,7 @@ warpt 1
                 type {
                   procedure {
                     parameters [
-                      "Int"
+                      "String"
                     ]
                     returns "Int"
                   }
@@ -77,7 +102,7 @@ warpt 1
                       of {
                         ref "junk"
                       }
-                      type "Int"
+                      type "String"
                     }
                   }
                 ]
@@ -103,123 +128,55 @@ warpt 1
         }
         returns "some T"
       }
-      "App.put" {
-        body [
-          {
-            let "got"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "n"
-                  }
-                  {
-                    ref "junk"
-                  }
-                ]
-                procedure "App.h"
-              }
-            }
-          }
-          {
-            value {
-              call {
-                arguments [
-                  {
-                    ref "xs"
-                  }
-                  {
-                    ref "got"
-                  }
-                ]
-                procedure "Standard.Collection.append"
-              }
-            }
-          }
-          {
-            value {
-              conditional {
-                then [
-                  {
-                    value {
-                      call {
-                        arguments [
-                          "boom"
-                        ]
-                        procedure "Standard.Control.abort"
-                      }
-                    }
-                  }
-                ]
-                when {
-                  ref "stop"
-                }
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "n"
-            type "some T"
-          }
-          {
-            name "junk"
-            type "Any"
-          }
-          {
-            name "xs"
-            type "inout Array<some T>"
-          }
-          {
-            name "stop"
-            type "Bool"
-          }
-        ]
-        result 0
-      }
       entry {
         access "public"
         body [
           {
-            value [
-              "a"
-            ]
-            var "s"
-          }
-          {
+            let "tried"
             value {
               attempt {
                 body [
                   {
+                    let "r"
                     value {
                       call {
                         arguments [
-                          "b"
-                          5
-                          {
-                            ref "s"
-                          }
-                          true
+                          1
+                          "s"
                         ]
-                        procedure "App.put"
+                        procedure "App.g"
+                      }
+                    }
+                  }
+                  {
+                    let "y"
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "r"
+                          }
+                          1
+                        ]
+                        procedure "Standard.Numeric.plus"
                       }
                     }
                   }
                 ]
                 rescue {
-                  body [
-                    {
-                      value 0
-                    }
-                  ]
+                  result {
+                    ref "tried.type"
+                  }
+                }
+                result {
+                  ref "y"
                 }
               }
             }
           }
         ]
         result {
-          ref "s"
+          ref "tried"
         }
       }
     }

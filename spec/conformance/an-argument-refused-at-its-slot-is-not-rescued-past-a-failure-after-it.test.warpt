@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    refuses "run"
+    refuses "build"
   }
   name "an-argument-refused-at-its-slot-is-not-rescued-past-a-failure-after-it"
-  note "The first argument is read as `Any` and holds `true`, which does not answer `Standard.Comparable`, so the run judges it at its slot as it is read and refuses there. The second argument, which fails, is never read, so the rescue around the call holds nothing."
+  note "The first argument is read as `Any` and stands where `App.f` bounds `some N` by `Standard.Comparable`, which a reading of `Any` stands at only through a cast, so the build refuses before anything runs."
   program {
     imports [
       "Standard.Comparable"

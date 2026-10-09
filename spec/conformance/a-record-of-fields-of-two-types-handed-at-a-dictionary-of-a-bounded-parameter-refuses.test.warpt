@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    answers 0
+    refuses "build"
   }
-  name "a-record-of-fields-answering-the-bound-handed-at-a-dictionary-of-a-bounded-parameter-answers"
-  note "`App.g` bounds `T` by `App.M`, which `Int` and `String` answer, and takes `Dictionary<some T>`. The record `{ a: 1, b: \"s\" }` handed there is read as a dictionary: its fields joined fill `T`, as a list's elements do, and each field answers it, so it builds and answers 0."
+  name "a-record-of-fields-of-two-types-handed-at-a-dictionary-of-a-bounded-parameter-refuses"
+  note "`App.g` bounds `T` by `App.M`, which `Int` and `String` answer, and takes `Dictionary<some T>`. The record `{ a: 1, b: \"s\" }` handed there is read as a dictionary: its fields joined fill `T` with `Any`, which answers no contract, so the build refuses though each field answers. A bounded parameter is one type."
   program {
     contracts {
       "App.M" {}

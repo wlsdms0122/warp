@@ -1,38 +1,13 @@
 warpt 1
 {
   expect {
-    refuses "run"
+    answers "cast_refused"
   }
-  name "an-unsaid-generic-answer-carried-through-another-is-judged-where-the-call-reads-it-refuses"
-  note "App.g writes no returns, and what was read off its body is its some T, carried from App.h, whose closure writes cell from its own some T and is called through a cast with text. App.g proves nothing, so the call reading Int judges the answer, and the text refuses at the run."
+  name "a-cast-of-a-closure-writing-where-a-declared-record-was-filled-fails"
+  note "App.h keeps n in cell and writes a closure that sets cell from its own some T, held as Any. The entry fills T with App.R. The cast reading the closure as taking a nameless record fails with cast_refused, since only App.h's call filled its T, and the attempt in the entry catches the failure."
   program {
     imports []
     procedures {
-      "App.g" {
-        parameters [
-          {
-            name "n"
-            type "some T"
-          }
-          {
-            name "junk"
-            type "Any"
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "n"
-              }
-              {
-                ref "junk"
-              }
-            ]
-            procedure "App.h"
-          }
-        }
-      }
       "App.h" {
         body [
           {
@@ -81,7 +56,11 @@ warpt 1
                 type {
                   procedure {
                     parameters [
-                      "String"
+                      {
+                        record {
+                          x "Int"
+                        }
+                      }
                     ]
                     returns "Int"
                   }
@@ -95,11 +74,8 @@ warpt 1
               call {
                 arguments [
                   {
-                    as {
-                      of {
-                        ref "junk"
-                      }
-                      type "String"
+                    record {
+                      x 7
                     }
                   }
                 ]
@@ -115,10 +91,6 @@ warpt 1
             name "n"
             type "some T"
           }
-          {
-            name "junk"
-            type "Any"
-          }
         ]
         result {
           ref "cell"
@@ -129,20 +101,54 @@ warpt 1
         access "public"
         body [
           {
-            let "r"
+            let "tried"
             value {
-              call {
-                arguments [
-                  1
-                  "s"
+              attempt {
+                body [
+                  {
+                    let "p"
+                    type "App.R"
+                    value {
+                      record {
+                        x 1
+                      }
+                    }
+                  }
+                  {
+                    let "r"
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "p"
+                          }
+                        ]
+                        procedure "App.h"
+                      }
+                    }
+                  }
                 ]
-                procedure "App.g"
+                rescue {
+                  result {
+                    ref "tried.type"
+                  }
+                }
+                result {
+                  ref "r.x"
+                }
               }
             }
           }
         ]
         result {
-          ref "r"
+          ref "tried"
+        }
+      }
+    }
+    types {
+      "App.R" {
+        record {
+          x "Int"
         }
       }
     }

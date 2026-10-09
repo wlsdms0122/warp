@@ -1,0 +1,61 @@
+warpt 1
+{
+  expect {
+    answers [
+      [
+        1
+        2
+      ]
+      [
+        3
+      ]
+    ]
+  }
+  name "an-alias-beside-what-it-stands-for-in-a-list-literal-joins-as-that-type"
+  note "`App.L` is a spelling of `Array<Int>`, so `a`, read as `App.L`, and the literal `[3]` beside it are two lists of `Int`. The literal `ys` joins them as `Array<Array<Int>>`, which is what `y` declares."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "a"
+            type "App.L"
+            value [
+              1
+              2
+            ]
+          }
+          {
+            let "ys"
+            value [
+              {
+                ref "a"
+              }
+              [
+                3
+              ]
+            ]
+          }
+          {
+            let "y"
+            type "Array<Array<Int>>"
+            value {
+              ref "ys"
+            }
+          }
+        ]
+        result {
+          ref "y"
+        }
+      }
+    }
+    types {
+      "App.L" "Array<Int>"
+    }
+    warp 1
+  }
+  test 1
+}
+

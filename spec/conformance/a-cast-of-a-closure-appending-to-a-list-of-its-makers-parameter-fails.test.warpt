@@ -1,24 +1,43 @@
 warpt 1
 {
   expect {
-    refuses "run"
+    answers "cast_refused"
   }
-  name "a-variable-handed-in-place-that-a-closure-writes-is-judged-refuses"
-  note "A closure in App.g writes x, handed in place, from its own parameter, and is called through a cast with a string. The body proves nothing, so the caller's variable is judged once the call is over, and the string refuses at the run."
+  name "a-cast-of-a-closure-appending-to-a-list-of-its-makers-parameter-fails"
+  note "A closure in App.g appends its parameter to cell, a list of T, and is held as Any. The cast reading it as taking a string fails with cast_refused, since only App.g's call filled its T, so cell holds only values of T and the attempt in the entry catches the failure."
   program {
-    imports []
+    imports [
+      "Standard.Collection.append"
+    ]
     procedures {
       "App.g" {
         body [
+          {
+            value [
+              {
+                ref "x"
+              }
+            ]
+            var "cell"
+          }
           {
             let "c"
             value {
               closure {
                 body [
                   {
-                    set "x"
                     value {
-                      ref "y"
+                      call {
+                        arguments [
+                          {
+                            ref "cell"
+                          }
+                          {
+                            ref "y"
+                          }
+                        ]
+                        procedure "Standard.Collection.append"
+                      }
                     }
                   }
                 ]
@@ -75,33 +94,48 @@ warpt 1
         parameters [
           {
             name "x"
-            type "inout some T"
+            type "some T"
           }
         ]
-        result 0
+        result {
+          ref "cell"
+        }
+        returns "Array<some T>"
       }
       entry {
         access "public"
         body [
           {
-            value 1
-            var "v"
-          }
-          {
+            let "tried"
             value {
-              call {
-                arguments [
+              attempt {
+                body [
                   {
-                    ref "v"
+                    let "r"
+                    value {
+                      call {
+                        arguments [
+                          1
+                        ]
+                        procedure "App.g"
+                      }
+                    }
                   }
                 ]
-                procedure "App.g"
+                rescue {
+                  result {
+                    ref "tried.type"
+                  }
+                }
+                result {
+                  ref "r"
+                }
               }
             }
           }
         ]
         result {
-          ref "v"
+          ref "tried"
         }
       }
     }

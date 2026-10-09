@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    answers 2
+    refuses "build"
   }
   name "a-call-filling-a-parameter-from-a-list-of-any-reads-it-as-any"
-  note "App.pick fills E from [\"a\"] and from [j], j read as Any. E reads Array<Any> rather than Array<String>, so first of the answer reads Any and Standard.Numeric.plus takes it, and the run answers 2."
+  note "App.pick fills E from [\"a\"] and from [j], j read as Any. E reads Array<Any> rather than Array<String>, so first of the answer reads Any, which stands where `Standard.Numeric.plus` asks a contract only through a cast, and the build refuses."
   program {
     imports [
       "Standard.Collection.first"

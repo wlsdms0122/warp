@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    answers 0
+    answers "cast_refused"
   }
-  name "a-closure-a-generic-body-wrote-read-within-its-bounds-is-the-type-it-is-judged-against"
-  note "App.mk answers a closure taking its own some T, bounded by Standard.Numeric, and it is read through Any as taking a double. Reading its T as Double is within its bounds, so the cast holds and the call answers 0."
+  name "a-cast-of-a-closure-over-a-type-parameter-its-making-call-filled-fails"
+  note "`App.mk` answers a closure taking its own `some T`, which only the call that made it fills, and `a` holds it as `Any`. No value says what filled `T`, so the closure is a value of no procedure type here, and the cast to one fails with cast_refused, which the attempt catches."
   program {
     imports [
       "Standard.Numeric"
@@ -57,32 +57,33 @@ warpt 1
             }
           }
           {
-            let "f"
-            value {
-              as {
-                of {
-                  ref "a"
-                }
-                type {
-                  procedure {
-                    parameters [
-                      "Double"
-                    ]
-                    returns "Int"
-                  }
-                }
-              }
-            }
-          }
-          {
             let "r"
             value {
-              call {
-                arguments [
-                  2.5
+              attempt {
+                body [
+                  {
+                    let "f"
+                    value {
+                      as {
+                        of {
+                          ref "a"
+                        }
+                        type {
+                          procedure {
+                            parameters [
+                              "Double"
+                            ]
+                            returns "Int"
+                          }
+                        }
+                      }
+                    }
+                  }
                 ]
-                procedure {
-                  ref "f"
+                rescue {
+                  result {
+                    ref "r.type"
+                  }
                 }
               }
             }

@@ -1,0 +1,50 @@
+warpt 1
+{
+  arguments {
+    r {
+      f 3
+    }
+  }
+  expect {
+    answers 3
+  }
+  name "an-optional-read-of-a-field-naming-an-alias-of-a-nullable-reads-that-nullable"
+  note "`App.OI` is a spelling of `Int?`, and `r?.f` reads a field of that type past a possible absence. What may be null already, read past an absence, is what it was, so the read is `Int?` and stands where `y` declares `Int?`."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "y"
+            type "Int?"
+            value {
+              ref "r?.f"
+            }
+          }
+        ]
+        parameters [
+          {
+            name "r"
+            type "App.R?"
+          }
+        ]
+        result {
+          ref "y"
+        }
+      }
+    }
+    types {
+      "App.OI" "Int?"
+      "App.R" {
+        record {
+          f "App.OI"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    refuses "build"
+    refuses "load"
   }
   name "a-cast-of-a-recursive-alias-to-what-it-names-refuses"
-  note "`App.L` names `Array<App.L>`, a list of itself. `xs` is read as `App.L`, and the cast names `Array<App.L>`, which is what `App.L` names. The cast names what the reading already is, so it refuses at the build."
+  note "`App.L` names `Array<App.L>`, a list of itself. A name that is no record and comes back to itself spells no type, so the document refuses at the load before any cast is read."
   program {
     imports []
     procedures {
