@@ -142,6 +142,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-contract-stands-in-a-declared-types-field`
 - `a-contract-stands-where-a-type-is-written`
 - `a-declaration-answering-a-contract-answering-any-may-answer-its-parameter`
+- `a-declaration-answering-a-contract-failing-with-what-the-contract-does-not-name-refuses`
 - `a-declaration-answering-a-contract-fills-its-own-parameter-with-the-contracts`
 - `a-declaration-answering-a-contract-may-answer-a-contract-where-it-promises-it-or-null`
 - `a-declaration-answering-a-contract-may-answer-a-type-answering-it-where-it-promises-it-or-null`
@@ -154,10 +155,12 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-declaration-answering-a-contract-may-take-a-wider-type`
 - `a-declaration-answering-a-contract-may-take-any-where-it-writes-a-contract`
 - `a-declaration-answering-a-contract-may-take-anything-where-it-writes-a-parameter`
+- `a-declaration-answering-a-contract-may-write-another-name-for-the-record-the-contract-names`
 - `a-declaration-answering-a-contract-names-its-parameters-its-own-way`
 - `a-declaration-answering-a-contract-reading-a-bounded-parameter-beside-any-refuses`
 - `a-declaration-answering-a-contract-takes-its-parameters-in-the-contracts-order`
 - `a-declaration-answering-a-contract-takes-no-parameter-beyond-it`
+- `a-declaration-answering-a-contract-takes-the-claimed-type-wherever-the-contract-writes-self-refuses`
 - `a-declaration-answering-a-contract-taking-in-place-where-it-hands-a-value-refuses`
 - `a-declaration-answering-a-contract-with-a-bounded-parameter-where-it-writes-a-parameter-refuses`
 - `a-declaration-answering-a-contract-with-a-bounded-parameter-where-it-writes-what-the-bound-refuses-refuses`
@@ -190,7 +193,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-literal-of-names-at-a-contract-bound-leans-on-each-claim-refuses`
 - `a-module-declares-a-contract-a-bound-names`
 - `a-name-declared-as-both-a-type-and-a-contract-refuses`
-- `a-name-that-is-not-a-bound-joined-with-and-refuses`
+- `a-name-that-is-not-a-contracts-joined-with-and-refuses`
 - `a-named-list-handed-where-a-list-of-a-contract-stands-is-held-to-it`
 - `a-named-record-arrives-as-an-argument`
 - `a-nameless-record-judged-where-a-declared-record-was-filled-refuses`
@@ -285,9 +288,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-whole-literal-beside-a-fraction-at-a-bounded-parameter-is-held-to-the-bound-as-the-fraction`
 - `a-whole-literal-where-a-bounded-parameter-stands-refuses`
 - `a-whole-number-a-name-holds-is-no-fraction-refuses`
-- `a-witness-failing-with-what-its-contract-does-not-name-refuses`
-- `a-witness-may-write-another-name-for-the-record-a-contract-names`
-- `a-witness-takes-the-claimed-type-wherever-the-contract-writes-self-refuses`
 - `an-alias-of-a-contract-answers-the-contract`
 - `an-alias-of-a-declared-record-gives-a-value-from-outside-the-records-name`
 - `an-alias-of-a-record-answers-the-records-contracts`

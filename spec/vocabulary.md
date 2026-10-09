@@ -187,7 +187,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-mapped-procedure-chooses-what-it-answers`
 - `a-piece-that-is-not-a-closure-refuses`
 - `a-procedure-answering-a-collections-own-elements-keeps-the-spelling`
-- `a-quotient-widens-its-operands`
+- `a-quotient-reads-a-whole-operand-as-the-nearest-fraction`
 - `a-space-carrying-a-mark-is-not-trimmed`
 - `a-string-holding-another-is-a-text-question`
 - `a-string-not-holding-another-answers-false`

@@ -263,9 +263,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-whose-frame-names-fewer-slots-than-it-holds-refuses`
 - `an-object-whose-layout-names-stand-out-of-order-refuses`
 - `an-object-whose-loop-keeps-a-run-past-its-frame-refuses`
-- `an-object-whose-native-sends-a-spelling-its-numbering-does-not-number-refuses`
 - `an-object-whose-numbering-closures-stand-out-of-name-order-refuses`
 - `an-object-whose-numbering-sends-stand-out-of-name-order-refuses`
+- `an-object-whose-procedure-the-host-answers-sends-a-spelling-its-numbering-does-not-number-refuses`
 - `an-object-whose-rows-stand-out-of-name-order-refuses`
 - `an-object-whose-type-numbering-stands-out-of-name-order-refuses`
 - `an-object-whose-types-stand-out-of-name-order-refuses`
@@ -282,6 +282,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `the-object-of-a-closure`
 - `the-object-of-a-composition`
 - `the-object-of-a-conditional`
+- `the-object-of-a-declaration-the-host-answers`
 - `the-object-of-a-declared-type-and-a-contract`
 - `the-object-of-a-dispatch`
 - `the-object-of-a-leave`
@@ -289,7 +290,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `the-object-of-a-local`
 - `the-object-of-a-loop`
 - `the-object-of-a-module-constant-and-a-variable`
-- `the-object-of-a-native-declaration`
 - `the-object-of-a-record-built-from-parts`
 - `the-object-of-an-array-built-from-parts`
 - `the-object-of-an-attempt`
