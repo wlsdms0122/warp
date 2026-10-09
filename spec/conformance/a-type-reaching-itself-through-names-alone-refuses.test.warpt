@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    refuses "build"
+    refuses "load"
   }
   name "a-type-reaching-itself-through-names-alone-refuses"
-  note "A declared type may name itself inside a field or a list, which is how a tree is one declaration. A chain of names that comes back to itself through names alone, a `?` included, stands for no type."
+  note "`App.A` names `App.B?`, and `App.B` names `App.A`: neither is a record, so the chain spells no type, and the document says so alone. A type that holds itself is a declared record."
   program {
     imports []
     procedures {

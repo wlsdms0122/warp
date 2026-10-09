@@ -179,6 +179,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-procedure-the-host-answers-is-handed-a-path-indexed-with-a-name`
 - `a-procedure-value-cast-to-a-procedure-type-is-called`
 - `a-record-literal-a-closure-writes-into-a-captured-variable-takes-the-name-answers`
+- `a-record-literal-handed-to-a-called-value-at-a-record-naming-itself-answers`
 - `a-record-literal-handed-to-a-called-value-takes-the-name-beside-a-type-parameter-answers`
 - `a-record-literal-handed-to-a-called-value-takes-the-name-its-slot-reads-answers`
 - `a-required-argument-left-out-refuses`
