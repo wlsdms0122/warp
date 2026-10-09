@@ -88,7 +88,7 @@ A *place* is where in a document something was written: `[document, steps]`, the
 | 4 | a statement | its name or nothing, its position |
 | 5 | a landmark in a program nobody wrote down | string |
 
-A *part* is `[tag]`: 0 `procedures`, 1 `constants`, 2 `variables`, 3 `types`, 4 `contracts`, 5 `satisfies`, 6 `imports`, 7 `parameters`, 8 `returns`, 9 `body`, 10 `result`, 11 a cast's subject, carrying `true` for `as?` or `false` for `as`, 12 `callee`, 13 `arguments`, 14 `closure`, 15 a condition, carrying `[0]` for a conditional's or `[1]` for a loop's, 16 `then`, 17 `otherwise`, 18 `rescue`, 19 a record's fields.
+A *part* is `[tag]`: 0 `procedures`, 1 `constants`, 2 `variables`, 3 `types`, 4 `contracts`, 5 `satisfies`, 6 `imports`, 7 `parameters`, 8 `returns`, 9 `body`, 10 `result`, 11 a cast's subject, carrying `true` for `as?` or `false` for `as`, 12 `callee`, 13 `arguments`, 14 `closure`, 15 a condition, carrying `[0]` for a conditional's or `[1]` for a loop's, 16 `then`, 17 `otherwise`, 18 `rescue`, 19 a record's fields, 20 `bounds`.
 
 A *construct* is `[tag]`: 0 literal, 1 reference, 2 array, 3 record, 4 closure, 5 cast, 6 block, 7 conditional, 8 loop, 9 attempt, 10 call, 11 leave, carrying its *reach*: `0` the procedure, `1` the construct, `2` the round.
 
