@@ -1,0 +1,66 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-claim-about-null-takes-a-list-of-null-where-the-contract-takes-a-list-of-self-or-null"
+  note "`Array<Self?>` read for a claim about `Null` is `Array<Null>`, so the declaration writes that at the position, and the claim holds."
+  program {
+    contracts {
+      "App.Q" {
+        q {
+          parameters [
+            {
+              name "s"
+              type "Self"
+            }
+            {
+              name "t"
+              type "Array<Self?>"
+            }
+          ]
+          returns "Int"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "Null.q" {
+        parameters [
+          {
+            name "s"
+            type "Null"
+          }
+          {
+            name "t"
+            type "Array<Null>"
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              null
+              [
+                null
+              ]
+            ]
+            procedure "App.Q.q"
+          }
+        }
+      }
+    }
+    satisfies {
+      Null [
+        "App.Q"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+

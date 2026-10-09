@@ -1,0 +1,64 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-claim-about-null-takes-null-where-the-contract-takes-self-or-null"
+  note "For a claim about `Null`, `Self?` is `Null` or null, which is `Null`, so `Null.pick` writes `Null` at the position where the contract writes `Self?`, and the claim holds."
+  program {
+    contracts {
+      "App.Pick" {
+        pick {
+          parameters [
+            {
+              name "s"
+              type "Self"
+            }
+            {
+              name "t"
+              type "Self?"
+            }
+          ]
+          returns "Int"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "Null.pick" {
+        parameters [
+          {
+            name "s"
+            type "Null"
+          }
+          {
+            name "t"
+            type "Null"
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              null
+              null
+            ]
+            procedure "App.Pick.pick"
+          }
+        }
+      }
+    }
+    satisfies {
+      Null [
+        "App.Pick"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+

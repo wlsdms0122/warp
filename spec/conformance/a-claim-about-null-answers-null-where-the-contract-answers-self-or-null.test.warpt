@@ -1,0 +1,54 @@
+warpt 1
+{
+  expect {
+    answers null
+  }
+  name "a-claim-about-null-answers-null-where-the-contract-answers-self-or-null"
+  note "For a claim about `Null`, `Self?` in the answer is `Null`, so `Null.find` answering `Null` holds the claim, as a parameter written `Null` does where the contract takes `Self?`."
+  program {
+    contracts {
+      "App.Pick" {
+        find {
+          parameters [
+            {
+              name "s"
+              type "Self"
+            }
+          ]
+          returns "Self?"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "Null.find" {
+        parameters [
+          {
+            name "s"
+            type "Null"
+          }
+        ]
+        returns "Null"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              null
+            ]
+            procedure "App.Pick.find"
+          }
+        }
+      }
+    }
+    satisfies {
+      Null [
+        "App.Pick"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+
