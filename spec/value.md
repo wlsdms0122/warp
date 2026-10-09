@@ -2,7 +2,7 @@
 
 What a value is, and when two of them are one. Nothing on this page needs a program: a value is what a document carries, what a slot judges, what an encoding writes and what a case compares, so every other page reads this one and this one reads none of them.
 
-A program computes over eight kinds of data, plus one value that is not data:
+A program computes over seven kinds of data, plus one value that is not data:
 
 | kind | writes as | notes |
 |---|---|---|
@@ -11,8 +11,7 @@ A program computes over eight kinds of data, plus one value that is not data:
 | int | `1`, `-3` | signed, 64-bit; overflow **refuses**, it does not wrap |
 | double | `1.0`, `1e2` | IEEE-754 binary64; a document cannot carry infinity or NaN |
 | string | `"hi"` | Unicode text |
-| bytes | `x"6869"` | `Array<Int>` in a compact spelling, each element from 0 to 255; what a carrying form carries when the payload is not text |
-| array | `[ … ]` | ordered |
+| array | `[ … ]`, or `x"6869"` | ordered; `x"…"` is **bytes**, the compact spelling of an `Array<Int>` whose every element is from 0 to 255, what a carrying form carries when the payload is not text |
 | record | `{ … }`, or `Name { … }` | unordered fields, names unique; may carry the **name** of a declared record type |
 | procedure | | code with what it captured; exists only at run time, never in a document |
 
