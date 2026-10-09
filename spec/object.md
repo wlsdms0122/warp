@@ -128,7 +128,7 @@ An *operation* is `[tag, …]`. These are the constructs and the expression form
 | 11 | a call | *call* |
 | 12 | a call through a contract | *dispatch* |
 | 13 | leaving | *reach*, the target name or nothing, what it takes or nothing |
-| 14 | a call judged where it stands | the call's *operation*, the answer's *lowered type* or nothing, `[position, lowered type]` for each variable handed back in place, judged once the call is over through the hold the call made |
+| 14 | a call judged where it stands | the call, an *operation* tagged 5, 11 or 12; the answer's *lowered type* or nothing; `[position, lowered type]` for each variable handed back in place, in position order, judged once the call is over through the hold the call made |
 
 A *layout* is `[name, fields]`: the declared name or nothing, and the field names ascending. A *call* is `[procedure, arguments, handed]`: the row the call reaches, numbered by the document; one *operation* or nothing per parameter of the callee, in parameter order, nothing where the call wrote nothing or a hold stands; and `[position, address]` for each parameter handed in place. A *dispatch* is `[contract, procedure, first, arguments]`: the contract's name, the procedure's, the first argument's *operation*, and the arguments after it by position, each an *argument*. Which row answers is the link's, and stands nowhere in an object. An *argument* is `[0, operation]` by value or `[1, address]` by reference: the place a call of a value hands in place, or one a call through a contract hands to whichever row takes it in place.
 
