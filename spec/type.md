@@ -112,6 +112,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-claim-about-null-is-answered-for-null`
 - `a-claim-about-procedure-answered-for-one-procedure-type-alone-refuses`
 - `a-claim-about-procedure-is-answered-for-a-closure`
+- `a-claim-about-self-refuses`
 - `a-claim-naming-a-contract-where-the-type-belongs-refuses`
 - `a-claim-naming-a-type-where-a-contract-belongs-refuses`
 - `a-claim-nobody-leans-on-refuses-nowhere`
