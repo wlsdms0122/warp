@@ -4,10 +4,10 @@ warpt 1
     payload 3
   }
   expect {
-    answers 1.0
+    refuses "build"
   }
   name "a-record-an-attempt-answers-beside-a-record-of-fractions-holds-fractions"
-  note "An attempt's two ways join the way a list literal's elements do, field by field. Its body answers `{ a: 1 }` and its rescue `{ a: 2.5 }`, so the field is read as a fraction, the whole literal in it is the fraction it names, and `tried.a` answers `1.0`."
+  note "An attempt's two ways are each a place of their own, and they meet field by field. Its body answers `{ a: 1 }`, whose field is the Int it is, and its rescue `{ a: 2.5 }`, so `tried.a` reads `Any`. The entry declares `Double`, so the build refuses."
   program {
     imports []
     procedures {
