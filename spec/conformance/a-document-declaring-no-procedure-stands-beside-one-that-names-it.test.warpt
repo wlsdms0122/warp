@@ -1,0 +1,49 @@
+warpt 1
+{
+  documents [
+    {
+      imports []
+      procedures {}
+      types {
+        "Geo.Point" {
+          record {
+            x "Int"
+          }
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    answers 2
+  }
+  name "a-document-declaring-no-procedure-stands-beside-one-that-names-it"
+  note "`procedures` is required and may be empty. A document declaring only a type is read, and the program beside it names the type."
+  program {
+    imports [
+      "Geo.Point"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "p"
+            type "Geo.Point"
+            value {
+              record {
+                x 2
+              }
+            }
+          }
+        ]
+        result {
+          ref "p.x"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

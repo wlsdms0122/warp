@@ -10,7 +10,7 @@ What a declaration says about itself, and what saying it permits. Four things: t
 | `access` | `public`, `internal` or `private`: who may name the declaration, under *who may name a declaration* below. `internal` when absent | no |
 | `parameters` | list of parameters, in the order the declaration writes them, which is the order every call hands its arguments in | no |
 | `returns` | type. When absent, what a call answers is read off the body | no |
-| `bounds` | record: type parameter → the names of contracts, one or several joined with `&`; refuses when it names a parameter no slot mentions | no |
+| `bounds` | record: type parameter → the names of contracts, one or several joined with `&`; one naming a parameter no slot mentions **refuses at the load**, under [types](type.md) | no |
 | `body` | statements | no |
 | `result` | expression. What the procedure answers | no |
 
@@ -36,7 +36,7 @@ A declaration's `access` travels with it: an object writes it on the row, under 
 
 A procedure the host answers is not written in a document. A declaration in a document with no `body` and no `result` is a procedure that answers nothing. The host's procedure arrives at the link in a module the host assembled in its own language, declared there under its spelling with what a body's text would have shown: its signature, the **procedures it sends**, because there is no text to read them off, whether it **touches** a name another body could touch at the same time, what it may **fail** with, and whether it **answers without running**, because what it keeps and what it reaches in the host language is outside any document. A call reaches one of these the way it reaches any other declaration, and is judged against the signature the same way.
 
-**Its sends are held to the rest of what it said.** They are declared beside the signature, so the build reads them. A send names the declaration it reaches, so a send naming a contract's procedure **refuses at the build**: which declaration answers one is a call's first argument to say, and a send has no call to read it from. A procedure declaring it answers without running and sending one that answers only by running **refuses at the build**, and so does one declaring it touches nothing shared and sending one that does. Neither is something a host language can catch. What a procedure may fail with is not held this way, because a host language can catch: declaring it fails nothing while sending one that fails is describing itself rather than contradicting itself.
+**Its sends are held to the rest of what it said.** They are declared beside the signature, so the build reads them. A send names the declaration it reaches, so a send naming a contract's procedure **refuses at the build**: which declaration answers one is a call's first argument to say, and a send has no call to read it from. A procedure declaring it answers without running and sending one that answers only by running **refuses at the build**, and so does one declaring it touches nothing shared and sending one that does. Neither is something a host language can catch.
 
 **Nothing else about a procedure the host answers is checked.** One that reaches outside the run and says it does not has broken its contract, and the defect belongs to whoever put it in the link rather than to the program that called it, which is where its claim about what it touches is taken too.
 

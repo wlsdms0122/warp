@@ -1,0 +1,29 @@
+warpt 1
+{
+  expect {
+    answers null
+  }
+  name "a-nullable-const-procedure-reads-as-written"
+  note "A trailing `?` wraps the whole spelling, a modifier in front of it included, so `const Procedure?` is a procedure answering without running, or null."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "f"
+            type "const Procedure?"
+            value null
+          }
+        ]
+        result {
+          ref "f"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

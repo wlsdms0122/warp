@@ -1,0 +1,28 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-type-parameter-named-for-a-type-the-language-names-refuses"
+  note "A type parameter's name is one identifier and no word the language writes itself. `some Int` beside `Int` would read one spelling two ways, so the document refuses at the load."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "x"
+            type "some Int"
+          }
+        ]
+        result {
+          ref "x"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

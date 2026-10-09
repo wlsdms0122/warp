@@ -8,7 +8,7 @@ These pages are written the way a protocol is written: they say what a conformin
 
 ## What Warp is
 
-A runtime build system: a front end, an IR and a runtime, composed so that any front end works with any runtime. Where an ordinary language goes source to build to machine code, Warp is the half in front of that, and what it answers with is a language again. This specification is that language. Turning it into machine code belongs to the toolchain that built the runtime.
+A runtime build system: a front end, an IR and a runtime, composed so that any front end works with any runtime. This specification is the IR, the language a front end writes and a runtime builds. Turning it into machine code belongs to the toolchain that built the runtime.
 
 What a build does here is what a build does anywhere. It reads, it checks, it links, and nothing runs until it has answered. The three things that differ are **when**, **where** and **how much at a time**: the build runs while a program is already running, on the machine the program is running on, and one document at a time.
 
@@ -61,7 +61,7 @@ Refusals happen at one of three stages, and the stage is part of the behaviour:
 
 Two implementations that run the same programs identically and disagree about which programs to refuse, or *where*, are not the same language. A refusal at the run where another implementation refuses at the build means something already happened, and what already happened cannot be taken back.
 
-The cases under `conformance/` name the stages **`load`**, **`build`** and **`run`**. `load` is reading plus the checks a document answers alone, listed in [checking](checking.md). A document is checked as it is loaded, and to the host the two are one refusal surface. `build` is everything judged against a signature or another document: what a call fits, what a slot takes, which module declares a procedure, which type answers a contract. `run` is running. The stage is the rule's and not the program's: a `ref` that resolves nowhere in its own document refuses at `load`, a call in that same document handing the wrong kind refuses at `build`, and a procedure no module declares refuses at `build`.
+The cases under `conformance/` name the stages **`load`**, **`build`** and **`run`**. `load` is reading plus the checks a document answers alone, listed in [checking](checking.md). A document is checked as it is loaded, and to the host the two are one refusal surface. `build` is everything judged against a signature or another document: what a call fits, what a slot takes, which module declares a procedure, which type answers a contract. `run` is running. The stage is the rule's and not the program's: a `ref` that resolves nowhere in its own document refuses at `load`, a call in that same document handing a value of the wrong type refuses at `build`, and a procedure no module declares refuses at `build`.
 
 Building is compiling and linking, the way it is anywhere else. Compiling settles what each document says on its own, against the interfaces of the documents it reaches. Linking lays the compiled documents down together and answers what only the list can answer, such as which type answers which contract. Which of the two refused is not part of the stage, because nothing has run either way.
 

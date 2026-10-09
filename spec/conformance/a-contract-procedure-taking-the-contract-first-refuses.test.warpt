@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    refuses "build"
+    refuses "load"
   }
   name "a-contract-procedure-taking-the-contract-first-refuses"
-  note "The contract's own name, written where a type is, is a value of whichever type answers it, and such a value is not one type. The value a contract's procedure is answered about is of the one type answering it, `Self`, so a procedure taking the contract's name first is refused."
+  note "The contract's own name, written where a type is, is a value of whichever type answers it, and such a value is not one type. The value a contract's procedure is answered about is of the one type answering it, `Self`, so a procedure taking the contract's name first is refused at the load, where the contract's text is read."
   program {
     contracts {
       "App.Named" {

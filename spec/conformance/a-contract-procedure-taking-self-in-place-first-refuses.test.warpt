@@ -1,0 +1,33 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-contract-procedure-taking-self-in-place-first-refuses"
+  note "A contract's procedure is answered about the value it takes first, and a call through the contract picks the declaration by that value. A place handed in is no value standing there, so `inout Self` first refuses at the load."
+  program {
+    contracts {
+      "App.Named" {
+        name {
+          parameters [
+            {
+              name "of"
+              type "inout Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
