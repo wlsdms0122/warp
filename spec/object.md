@@ -102,7 +102,7 @@ The label is the declared spelling. A row in `lifted` is the same without the la
 
 The *implementation* is `[0, body, frame]` for a written body, or `[1, sends]` for a native, each send `[position, selector, handing]`: where the send stands among the declaration's sends, the spelling it reaches, and how many arguments it hands over, from the first position of what that spelling declares. The sends stand one to a place from the first, and each reaches the number the document's `numbering` gives its spelling; a native row whose sends say otherwise **refuses**.
 
-A *frame* is `[size, parameters, variables, captures, names]`: how many slots; which slots the parameters fill, in parameter order; `[variable, slot]` for each module variable the body reads, by its position in `variables`; which slots a closure fills from what it took with it; and what each slot was called, one name per slot, for a refusal that names one. A body standing on a slot the frame does not hold, or a frame naming fewer slots than it has, **refuses**.
+A *frame* is `[size, parameters, variables, captures, names]`: how many slots; which slots the parameters fill, in parameter order; `[variable, slot]` for each module variable the body reads, by its position in `variables`; which slots a closure fills from what it took with it; and what each slot was called, one name per slot, for a refusal that names one. A body standing on a slot the frame does not hold, or a frame naming other than one name per slot, **refuses**.
 
 A *body* is `[instructions, result]`, the result an *operation* or nothing. An *instruction* is `[binding, operation, label]`: the binding or nothing, what to compute, and the string a trace calls the statement. A *binding* is `[0, slot, settling]` to bind, `[1, slot, settling]` to declare, or `[2, address, settling]` to assign, `settling` a *lowered type*, or nothing where the name declares nothing or the build proved the value one of the type as it stands.
 
@@ -166,8 +166,14 @@ What an object leaned on is written under `dependencies` by what the host keyed 
 
 A reading refuses what it cannot read and traps on nothing: the reading runs inside a host's process, and a trap there ends the host. What refuses is the layout, above, and what a layout admits but the language cannot stand on:
 
-- a lifted row where the numbering counts no closure, a count of none for a declaration it counts, and counts that add up past what an int holds
-- a body standing on a slot past its frame, a loop keeping a run its frame does not hold, a frame naming fewer slots than it has, a call standing more arguments than the row it reaches takes
+- a lifted row where the numbering counts no closure, a numbering counting more closures than `lifted` holds, a count of none for a declaration it counts, and counts that add up past what an int holds
+- a frame naming other than one name per slot, standing other than one slot per parameter its declaration takes, or standing a parameter, a variable or a capture past its end
+- a body standing on a slot past its frame or on a variable past its document's `variables`, and a loop keeping a run its frame does not hold
+- a call standing other than as many arguments as the row it reaches takes, where that row is the document's own, or handing in place at a position past the arguments it stands
+- a closure literal taking what it captured into slots other than the captures of its own row's frame
+- a call judged where it stands that wraps no call, hands back in place at a position the call hands nothing in place or out of order, or judges nothing
+- a `keeps` that ends before it begins
+- a record, built from parts or as a lowered type, holding other than one part per field its layout names
 - a native row whose sends do not stand one to a place from the first, or reach a spelling the document's `numbering` does not number
 - an object standing against a document other than the one it was kept under
 
