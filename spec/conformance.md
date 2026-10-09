@@ -54,7 +54,7 @@ Each format declares itself, and that is how the two are told apart: a case says
 
 **`vocabulary` is what the runner brings.** Most of what a document may say about a procedure the host answers is not something a case can write down: the code is the host's. So a case writes the part that is in the document, and the runner builds the rest.
 
-It is written as a **module**, because that is what a host takes in: it may declare `types`, `contracts` and `satisfies` the way any document does, it declares the procedures under `procedures`, and it writes nothing else. Which version this module is read at is the runner's and its declarations send nothing, so it says no `warp` and no `imports`, and what a program keeps beside its procedures, `const`, `var` and a `description`, is a document's. A case writing any other key **refuses** as a case. The module stands in front of the case's own document in the link, so what the host brings is there to be named. Each procedure is keyed by its name and written the way a declaration is, with four keys of its own beside it:
+It is written as a **module**, because that is what a host takes in: it may declare `types`, `contracts` and `satisfies` the way any document does, it declares the procedures under `procedures`, and a case writing any other key there **refuses** as a case. Which version this module is read at is the runner's and its declarations send nothing, so it says no `warp` and no `imports`, and what a program keeps beside its procedures, `const`, `var` and a `description`, is a document's. The module stands in front of the case's own document in the link, so what the host brings is there to be named. Each procedure is keyed by its name and written the way a declaration is, with four keys of its own beside it:
 
     answers     what it answers, whatever it was sent. Absent: null
     runs        bool. Whether it reaches outside the run. Absent: false,
@@ -68,7 +68,7 @@ This is the only way a case reaches what answering without running permits and w
 
 **`documents` are other documents in the link.** A rule about two documents, a `private` declaration one of them names or a spelling two of them declare, is asked with the program and a document beside it. Each is written as any document is and read the way the program is, and stands between what the runner brings and the program: laid one after another in the order written, each against what stands before it, and the program last, the way a host lays documents as they arrive. One that does not read **refuses** as a case, since the question was about the program. Only a program has documents beside it, and only an object is read under a `document` the case names, so a case writing either key about any other subject **refuses** as a case.
 
-A case says `test 1`, and a runner refuses any other. Current format: **1**.
+Current format: **1**, and a runner refuses any other.
 
 Both kinds matter equally. **An implementation that accepts a program another refuses has failed in the same way as one that answers differently**, so half of these say what must *not* run, and where it must stop. The stage is part of the answer, for the reason [the specification](README.md) gives.
 
@@ -86,9 +86,7 @@ A runner reaches inside nothing and imports what any host imports. One that coul
 
 A case may be written by hand, since the text reader takes any layout, or authored as any document is (a front end, a literal in a host language). Either way it is run through the writer before it lands in `conformance/`, so every case sits in the writer's layout and a diff shows what changed rather than who indented it.
 
-So the suite is the first thing a new implementation reads with its own reader. The reader is proven before it by the cases that carry bytes, and one whose reader disagrees with those cannot trust anything the rest of the suite tells it.
-
-The extension is `.test.warpt` and not `.warpt`, and both halves are true at once: the file *is* warpt text, which is why the text reader reads it, and what it holds is a test rather than a document, which is why nothing that runs programs will take it.
+The extension is `.test.warpt`: the file is warpt text, which the text reader reads, and what it holds is a test, which nothing that runs programs takes.
 
 ## Cases
 
