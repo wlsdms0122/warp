@@ -37,7 +37,7 @@ A type is written as a string, or as a record for what a string cannot say:
 - `Any` passes the value through untouched, null and procedures included. Nothing is judged, because nothing was declared.
 - A value read as `Any`, as a contract, or along a path a call decides through a type parameter is of a type the build does not know. It stands where `Any` is declared, where a call fills a type parameter, and where a contract it is read as is asked; anywhere else it **refuses at the build**, and a cast says what it is. An empty list or map reads as holding `Never`: it holds no element, so it is a value of a list or a map of any type.
 - A **record type** says which fields there are, and a value fits only with exactly them: one short and one over both **refuse**, each field is judged against its type, and the value is held as it came. To hand on fewer fields, write a record literal of them; to keep names the declaration does not have, declare `Dictionary<T>`, where the names are the value's own. The door a value from outside comes through is the one place a value is fitted: a field the declaration never named is left out there, at whatever depth a record, a list, a map or what may be null holds it.
-- A **declared name** whose structure is not a record is an alias: judging resolves the name and judges by what it stands for. One whose structure is a record is nominal, under *a declared record is nominal* above.
+- A **declared name** whose structure is not a record is an alias, a second spelling of what it stands for: the build reads every mention of it as that type, so it takes, joins and answers wherever that type does. One that comes back to itself through a structure (`App.L` naming `Array<App.L>`) is that structure, its own name standing inside it. One whose structure is a record is nominal, under *a declared record is nominal* above.
 - A **nullable** (`T?`) passes null through and judges anything else against the declared half. `T?` takes `T`, null and `T?`; a `T?` reading does not fit a plain `T` slot. The `?` is written once, on the whole spelling, and only where it says something new: `Int??`, `Null?`, `Any?`, `Never?` and `some T?` each **refuse at the load**, and the same `?` behind a declared name standing for one of them **refuses at the build**, where the name resolves. A type with no string spelling, a record, has no `?` to trail; a nullable record is reached through a declared name (`Task?`).
 - The numeric edge is value-independent: `Int` refuses every fraction, `2.0` included, and `Double` every whole number. A literal read as a fraction names the binary64 fraction nearest it, so digits past 2^53 round as binary64 rounds.
 
@@ -254,6 +254,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-procedure-a-call-filled-from-a-declared-record-takes-no-int-refuses`
 - `a-procedure-value-at-a-slot-writing-a-procedure-type-refuses`
 - `a-reading-beside-any-at-a-bounded-parameter-is-held-where-it-stands-refuses`
+- `a-reading-of-any-stands-at-an-alias-of-any`
 - `a-reading-outside-a-bound-refuses`
 - `a-record-a-block-answers-where-a-declared-record-is-read-takes-the-name`
 - `a-record-a-host-procedure-answers-short-of-its-fields-refuses`
@@ -312,11 +313,13 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-variable-a-closure-writes-with-a-value-of-the-parameter-answers`
 - `a-variable-handed-back-in-place-is-judged-when-the-call-fails-refuses`
 - `a-variable-handed-in-place-that-a-closure-writes-is-judged-refuses`
+- `a-variable-written-an-alias-and-what-it-stands-for-holds-that-type`
 - `a-whole-literal-an-attempt-answers-beside-a-fraction-is-no-fraction-refuses`
 - `a-whole-literal-at-a-fraction-slot-is-the-fraction`
 - `a-whole-literal-beside-a-fraction-at-a-bounded-parameter-is-held-to-the-bound-as-the-fraction`
 - `a-whole-literal-where-a-bounded-parameter-stands-refuses`
 - `a-whole-number-a-name-holds-is-no-fraction-refuses`
+- `an-alias-beside-what-it-stands-for-in-a-list-literal-joins-as-that-type`
 - `an-alias-of-a-contract-answers-the-contract`
 - `an-alias-of-a-declared-record-gives-a-value-from-outside-the-records-name`
 - `an-alias-of-a-record-answers-the-records-contracts`
@@ -330,12 +333,14 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-inline-record-slot-refuses-a-named-record`
 - `an-inout-type-parameter-a-procedure-slot-fills-first-reads-the-value`
 - `an-inout-type-parameter-a-variable-fills-first-reads-the-value`
+- `an-optional-read-of-a-field-naming-an-alias-of-a-nullable-reads-that-nullable`
 - `an-unsaid-generic-answer-carried-through-another-is-judged-where-the-call-reads-it-refuses`
 - `any-written-nullable-refuses`
 - `inout-written-on-a-name-refuses`
 - `inout-written-on-returns-refuses`
 - `never-written-nullable-refuses`
 - `null-written-nullable-refuses`
+- `procedures-apart-only-by-an-alias-join-as-one-procedure-type`
 - `self-in-an-answer-is-what-the-call-filled-it-with`
 - `self-outside-a-contract-refuses`
 - `self-stands-for-the-type-answering-a-contract`

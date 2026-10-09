@@ -160,6 +160,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-name-introduced-again-in-a-nested-block-is-a-new-name`
 - `a-name-on-a-body-that-never-comes-back-refuses`
 - `a-name-on-a-call-answering-an-alias-of-never-is-refused`
+- `a-name-on-a-call-of-a-declared-procedure-type-answering-an-alias-of-never-is-refused`
 - `a-name-on-a-conditional-is-refused`
 - `a-name-on-a-return-refuses`
 - `a-name-on-what-never-finishes-is-refused`
