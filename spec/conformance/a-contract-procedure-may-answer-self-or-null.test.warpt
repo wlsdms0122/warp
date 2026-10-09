@@ -1,0 +1,66 @@
+warpt 1
+{
+  expect {
+    answers 5
+  }
+  name "a-contract-procedure-may-answer-self-or-null"
+  note "`App.Find.find` answers `Self?`. The claim about `Int` reads it as `Int?`, which `Int.find` answers, and the call through the contract, filling `Self` with `Int`, answers `Int?`, held where `Int?` is declared."
+  program {
+    contracts {
+      "App.Find" {
+        find {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "Self?"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "Int.find" {
+        parameters [
+          {
+            name "of"
+            type "Int"
+          }
+        ]
+        result {
+          ref "of"
+        }
+        returns "Int?"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "found"
+            type "Int?"
+            value {
+              call {
+                arguments [
+                  5
+                ]
+                procedure "App.Find.find"
+              }
+            }
+          }
+        ]
+        result {
+          ref "found"
+        }
+      }
+    }
+    satisfies {
+      Int [
+        "App.Find"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+

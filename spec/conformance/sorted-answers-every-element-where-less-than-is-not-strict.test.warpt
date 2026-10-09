@@ -1,0 +1,128 @@
+warpt 1
+{
+  expect {
+    answers [
+      1
+      2
+      2
+    ]
+  }
+  name "sorted-answers-every-element-where-less-than-is-not-strict"
+  note "`App.Score.lessThan` answers whether `lhs.v` is at most `rhs.v`, which is no strict order: a score is less than itself. `sorted` still answers every element once, so the three scores come back, here in order."
+  program {
+    imports [
+      "Standard.Collection.map"
+      "Standard.Collection.sorted"
+      "Standard.Comparable"
+      "Standard.Comparable.lessThan"
+      "Standard.Logic.not"
+    ]
+    procedures {
+      "App.Score.lessThan" {
+        parameters [
+          {
+            name "lhs"
+            type "App.Score"
+          }
+          {
+            name "rhs"
+            type "App.Score"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                call {
+                  arguments [
+                    {
+                      ref "rhs.v"
+                    }
+                    {
+                      ref "lhs.v"
+                    }
+                  ]
+                  procedure "Standard.Comparable.lessThan"
+                }
+              }
+            ]
+            procedure "Standard.Logic.not"
+          }
+        }
+        returns "Bool"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "scores"
+            type "Array<App.Score>"
+            value [
+              {
+                record {
+                  v 2
+                }
+              }
+              {
+                record {
+                  v 1
+                }
+              }
+              {
+                record {
+                  v 2
+                }
+              }
+            ]
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                call {
+                  arguments [
+                    {
+                      ref "scores"
+                    }
+                  ]
+                  procedure "Standard.Collection.sorted"
+                }
+              }
+              {
+                closure {
+                  parameters [
+                    {
+                      name "s"
+                      type "App.Score"
+                    }
+                  ]
+                  result {
+                    ref "s.v"
+                  }
+                  returns "Int"
+                }
+              }
+            ]
+            procedure "Standard.Collection.map"
+          }
+        }
+      }
+    }
+    satisfies {
+      "App.Score" [
+        "Standard.Comparable"
+      ]
+    }
+    types {
+      "App.Score" {
+        record {
+          v "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

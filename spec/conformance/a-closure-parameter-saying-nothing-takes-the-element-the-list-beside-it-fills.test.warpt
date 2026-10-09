@@ -1,0 +1,116 @@
+warpt 1
+{
+  expect {
+    answers [
+      [
+        1
+        2
+        3
+      ]
+      1
+      1
+    ]
+  }
+  name "a-closure-parameter-saying-nothing-takes-the-element-the-list-beside-it-fills"
+  note "Each closure's parameters write no type, so each takes `Any`. What a procedure handed to a call takes is what it accepts, not a value the call hands, so the list beside it fills `Element` with `Int` and each closure is judged against that: `filter` answers `Array<Int>`, `first` of it an `Int`, and `reduce` carries the `Int` its closure answers, each held where `Int` is declared."
+  program {
+    imports [
+      "Standard.Collection.filter"
+      "Standard.Collection.first"
+      "Standard.Collection.reduce"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "kept"
+            type "Array<Int>"
+            value {
+              call {
+                arguments [
+                  [
+                    1
+                    2
+                    3
+                  ]
+                  {
+                    closure {
+                      parameters [
+                        {
+                          name "v"
+                        }
+                      ]
+                      result true
+                      returns "Bool"
+                    }
+                  }
+                ]
+                procedure "Standard.Collection.filter"
+              }
+            }
+          }
+          {
+            let "carried"
+            type "Int"
+            value {
+              call {
+                arguments [
+                  [
+                    1
+                    2
+                    3
+                  ]
+                  0
+                  {
+                    closure {
+                      parameters [
+                        {
+                          name "acc"
+                        }
+                        {
+                          name "x"
+                        }
+                      ]
+                      result 1
+                      returns "Int"
+                    }
+                  }
+                ]
+                procedure "Standard.Collection.reduce"
+              }
+            }
+          }
+          {
+            let "head"
+            type "Int"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "kept"
+                  }
+                ]
+                procedure "Standard.Collection.first"
+              }
+            }
+          }
+        ]
+        result [
+          {
+            ref "kept"
+          }
+          {
+            ref "carried"
+          }
+          {
+            ref "head"
+          }
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

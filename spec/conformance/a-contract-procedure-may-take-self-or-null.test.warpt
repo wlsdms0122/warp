@@ -1,0 +1,65 @@
+warpt 1
+{
+  expect {
+    answers "ip"
+  }
+  name "a-contract-procedure-may-take-self-or-null"
+  note "`App.Pick.pick` takes `Self` and then `Self?`. The claim about `Int` reads the second as `Int?`, which `Int.pick` takes, and the call fills `Self` with `Int` from its first argument and hands null at the second."
+  program {
+    contracts {
+      "App.Pick" {
+        pick {
+          parameters [
+            {
+              name "lhs"
+              type "Self"
+            }
+            {
+              name "rhs"
+              type "Self?"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "Int.pick" {
+        parameters [
+          {
+            name "lhs"
+            type "Int"
+          }
+          {
+            name "rhs"
+            type "Int?"
+          }
+        ]
+        result "ip"
+        returns "String"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              1
+              null
+            ]
+            procedure "App.Pick.pick"
+          }
+        }
+        returns "String"
+      }
+    }
+    satisfies {
+      Int [
+        "App.Pick"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+

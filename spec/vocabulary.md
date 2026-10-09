@@ -118,7 +118,7 @@ The contracts, each procedure answering without running and touching nothing, an
 | `contains` | `array: Array<some Element>`, `element: some Element` | `Bool` |
 | `first`, `last` | `array: Array<some Element>` | `some Element`. Over nothing there is no element to answer, and the read of one **refuses at the run**, the way any index past the end does |
 | `reversed`, `dropFirst`, `dropLast` | `array: Array<some Element>` | `Array<some Element>` |
-| `sorted` | `array: Array<some Element>` | `Array<some Element>`. Bounds `Element: Standard.Comparable` |
+| `sorted` | `array: Array<some Element>` | `Array<some Element>`, every element once, in order where `lessThan` is a strict order. Bounds `Element: Standard.Comparable` |
 | `appending`, `prepending` | `array: Array<some Element>`, `element: some Element` | `Array<some Element>` |
 | `gathering` | `array: Array<some Element>`, `positions: Array<Int>`. Where to read, in the order to read it | `Array<some Element>`, the collection's own, in the collection's spelling. A position the collection does not hold refuses at the run |
 | `map` | `array: Array<some Element>`, `transform`. `const` procedure, handed the item, answering `some Answer` | `Array<some Answer>` |
@@ -264,6 +264,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `rounded-past-the-int-refuses`
 - `setting-answers-a-new-record`
 - `setting-refuses-a-key-that-is-not-a-name`
+- `sorted-answers-every-element-where-less-than-is-not-strict`
 - `sorted-orders-what-it-was-given`
 - `sorting-the-unorderable-refuses`
 - `split-cuts-and-joined-writes`

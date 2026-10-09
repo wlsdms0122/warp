@@ -1,0 +1,89 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-closure-taking-anything-beside-a-declared-record-leaves-the-parameter-the-record"
+  note "`App.keep` takes `some T` and a procedure taking `some T`. The point fills `T` with `App.Point`, and the closure, taking `Any`, takes every `App.Point` the slot may hand it, so the call answers `App.Point` and `p` holds it."
+  program {
+    imports []
+    procedures {
+      "App.keep" {
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+          {
+            name "f"
+            type {
+              procedure {
+                parameters [
+                  "some T"
+                ]
+                returns "Any"
+              }
+            }
+          }
+        ]
+        result {
+          ref "x"
+        }
+        returns "some T"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "p"
+            type "App.Point"
+            value {
+              call {
+                arguments [
+                  {
+                    as {
+                      of {
+                        record {
+                          x 1
+                        }
+                      }
+                      type "App.Point"
+                    }
+                  }
+                  {
+                    closure {
+                      parameters [
+                        {
+                          name "q"
+                          type "Any"
+                        }
+                      ]
+                      result {
+                        ref "q"
+                      }
+                      returns "Any"
+                    }
+                  }
+                ]
+                procedure "App.keep"
+              }
+            }
+          }
+        ]
+        result {
+          ref "p.x"
+        }
+      }
+    }
+    types {
+      "App.Point" {
+        record {
+          x "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
