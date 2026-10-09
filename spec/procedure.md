@@ -90,7 +90,7 @@ Written as a record, one per entry of `parameters`:
 | key | takes | required |
 |---|---|---|
 | `name` | string. The name the body reads the argument by | yes |
-| `type` | type | no; absent means `Any` |
+| `type` | type | no; absent means `Any`, and `Any` written out **refuses at the load**, since leaving it out says it |
 | `description` | string | no |
 
 A closure literal that writes no `returns`, written where a procedure type says what it answers, answers that: the place completes its signature, so its body is judged against the answer and a literal it answers is read as the place reads it. Written where nothing completes it, it answers what its body hands back, each way out read as a name holds it, the way a declaration that writes no `returns` does, and the build writes that answer into its signature, so the run reads the closure as the build did. An answer no type spells, what a dot on a value of a type parameter reaches, is one only the body around it can read, so the signature answers `Any` there. A place is every one a literal is written into: a name that says what it holds, a write, an argument to a declaration or to a called value, a body's answer and what a `return` carries, and an element or a field of a list or a record written there, so where a closure is written does not decide whether what it answers is judged at the build. An answer the call fills is no place's to say.
