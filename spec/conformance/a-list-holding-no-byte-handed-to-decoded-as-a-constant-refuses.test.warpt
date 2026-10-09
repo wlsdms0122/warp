@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    refuses "build"
+    refuses "run"
   }
   name "a-list-holding-no-byte-handed-to-decoded-as-a-constant-refuses"
-  note "Bytes are whole numbers from 0 to 255, and `decoded` judges its own constant arguments before any run: `300` is no byte, so the build refuses the call."
+  note "Bytes are whole numbers from 0 to 255, and what a value means is the procedure's to say when it runs: `300` is no byte, so the run refuses the call, though the list is written as a constant."
   program {
     imports [
       "Standard.Text.decoded"

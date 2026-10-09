@@ -1,0 +1,61 @@
+warpt 1
+{
+  expect {
+    answers "[{\"a\":1.0},{\"a\":2.0}]"
+  }
+  name "a-list-literal-of-records-reads-a-whole-field-beside-a-fraction-as-the-fraction"
+  note "The two records are written together in one list literal, so their fields join part by part and the whole literal `1` beside `2.0` is the fraction it names: `r` reads `Array<{ a: Double }>`, which `y` holds, and the list holds `1.0`."
+  program {
+    imports [
+      "Standard.Text.text"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "r"
+            value [
+              {
+                record {
+                  a 1
+                }
+              }
+              {
+                record {
+                  a 2.0
+                }
+              }
+            ]
+          }
+          {
+            let "y"
+            type {
+              array {
+                record {
+                  a "Double"
+                }
+              }
+            }
+            value {
+              ref "r"
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "y"
+              }
+            ]
+            procedure "Standard.Text.text"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

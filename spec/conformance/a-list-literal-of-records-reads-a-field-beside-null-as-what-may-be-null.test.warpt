@@ -1,0 +1,61 @@
+warpt 1
+{
+  expect {
+    answers "[{\"a\":1},{\"a\":null}]"
+  }
+  name "a-list-literal-of-records-reads-a-field-beside-null-as-what-may-be-null"
+  note "Records of the same fields written together in a list literal join field by field, and null beside a whole number reads as what may be null: `r` reads `Array<{ a: Int? }>`, which `y` holds."
+  program {
+    imports [
+      "Standard.Text.text"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "r"
+            value [
+              {
+                record {
+                  a 1
+                }
+              }
+              {
+                record {
+                  a null
+                }
+              }
+            ]
+          }
+          {
+            let "y"
+            type {
+              array {
+                record {
+                  a "Int?"
+                }
+              }
+            }
+            value {
+              ref "r"
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "y"
+              }
+            ]
+            procedure "Standard.Text.text"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -124,6 +124,7 @@ Failing on purpose is a procedure, `Standard.Control.abort` under [the standard 
 What `conformance/` asks about this page, by the name each case's file carries.
 
 - `a-block-writes-the-flow-it-is-in`
+- `a-body-ending-in-a-call-answering-an-alias-of-never-answers-as-declared`
 - `a-closure-a-constant-holds-does-not-take-a-variables-name`
 - `a-closure-does-not-leave-what-wrote-it`
 - `a-closure-in-a-loop-condition-holds-what-it-takes-for-the-body`
@@ -158,6 +159,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-name-declared-again-inside-an-arm-is-a-new-name`
 - `a-name-introduced-again-in-a-nested-block-is-a-new-name`
 - `a-name-on-a-body-that-never-comes-back-refuses`
+- `a-name-on-a-call-answering-an-alias-of-never-is-refused`
 - `a-name-on-a-conditional-is-refused`
 - `a-name-on-a-return-refuses`
 - `a-name-on-what-never-finishes-is-refused`
@@ -188,6 +190,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-var-field-lets-a-path-through`
 - `a-variable-a-closure-captured-is-not-retyped-after`
 - `a-walk-is-a-loop-over-the-count`
+- `a-way-ending-in-a-call-answering-an-alias-of-never-contributes-nothing`
 - `a-way-that-leaves-is-not-met-by-the-ways-that-go-on`
 - `a-way-that-returns-from-a-loop-is-not-met-after-it`
 - `a-way-that-returns-from-an-attempt-is-not-met-after-it`
@@ -223,6 +226,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `leaving-answers-from-the-middle`
 - `leaving-is-not-failing`
 - `leaving-needs-something-to-leave`
+- `nothing-runs-after-a-call-answering-an-alias-of-never`
 - `nothing-runs-after-leaving`
 - `nothing-runs-after-what-never-finishes`
 - `return-inside-a-closure-answers-the-closure`

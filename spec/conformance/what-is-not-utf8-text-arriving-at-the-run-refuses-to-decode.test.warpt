@@ -4,7 +4,7 @@ warpt 1
     refuses "run"
   }
   name "what-is-not-utf8-text-arriving-at-the-run-refuses-to-decode"
-  note "Bytes carry no promise of being text, and completing a broken sequence with replacement characters would answer a text nobody sent. The bytes are what a variable holds, so the refusal is the run's."
+  note "Bytes carry no promise of being text, and completing a broken sequence with replacement characters would answer a text nobody sent. The bytes a variable holds are not UTF-8, so the run refuses the call."
   program {
     imports [
       "Standard.Text.decoded"
