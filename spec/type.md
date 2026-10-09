@@ -65,7 +65,7 @@ A declaration named for a type and a procedure that no claim names is that docum
 
 A contract may ask no procedures. It is then a mark a claim gives a type, and a type answers it where a document claims it does, as for any contract. A name is a type or a contract and never both.
 
-A signature bounds a type parameter by a contract as **Bounds** above says: `bounds: { T: App.Describable }`, and the slots write `some T`. A value reaching such a slot is judged twice, once per surface: at the **build** a reading provably outside refuses, and at the **boundary** the value that arrived is judged by the type it is an instance of.
+A signature bounds a type parameter by a contract as **Bounds** above says: `bounds: { T: App.Describable }`, and the slots write `some T`. A value reaching such a slot is judged on two surfaces: at the **build** a reading provably outside refuses, and where the build does not know the type of what a reading holds, `Any` among them, the value that arrived is judged at the **boundary** by the type it is an instance of.
 
 A body calls a contract's procedure by writing the contract's name and the procedure's with a dot between them: `App.Describable.describe`. That spelling is the contract's declaration of the procedure, and it is a send like any other: a document calling a contract another module declares lists the spelling in `imports`. It names no type's declaration, and what it means is settled by the value at its first position, so a call writing nothing there **refuses at the build**. What a call hands it and what it answers are the contract's, not any one declaration's.
 
