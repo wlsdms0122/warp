@@ -4,10 +4,10 @@ warpt 1
     payload 3
   }
   expect {
-    answers 1.0
+    refuses "build"
   }
-  name "a-whole-literal-an-attempt-answers-beside-a-fraction-is-the-fraction"
-  note "An attempt's two ways answer one value. Its body answers a whole literal and its rescue a fraction, so the literal is the fraction it names, the way one written beside fractions in a list is, and the attempt answers `1.0` where its body ran through."
+  name "a-whole-literal-an-attempt-answers-beside-a-fraction-is-no-fraction-refuses"
+  note "An attempt's two ways are each a place of their own, and `tried` declares nothing. Its body answers a whole literal, which is the Int it is, and its rescue a fraction, so `tried` reads `Any`. The entry declares `Double`, and a value read as `Any` stands where a type is declared only where a cast says what it is, so the build refuses."
   program {
     imports []
     procedures {

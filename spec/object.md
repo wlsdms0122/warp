@@ -128,9 +128,9 @@ An *operation* is `[tag, …]`. These are the constructs and the expression form
 | 11 | a call | *call* |
 | 12 | a call through a contract | *dispatch* |
 | 13 | leaving | *reach*, the target name or nothing, what it takes or nothing |
-| 14 | a call judged where it stands | the call, an *operation* tagged 5, 11 or 12; the answer's *lowered type* or nothing; `[position, lowered type]` for each variable handed back in place, in position order, judged once the call is over through the hold the call made |
+| 14 | a call judged where it stands | the call, an *operation* tagged 5, 11 or 12; the answer's *lowered type* or nothing; `[position, lowered type]` for each variable handed back in place, in position order, judged once the call is over through the address the call handed in place |
 
-A *layout* is `[name, fields]`: the declared name or nothing, and the field names ascending. A *call* is `[procedure, arguments, handed, judged]`: the row the call reaches, numbered by the document; one *operation* or nothing per parameter of the callee, in parameter order, nothing where the call wrote nothing or a hold stands; `[position, address]` for each parameter handed in place; and the positions, ascending, whose argument the run judges at the row's slot, which are those the build did not prove a value of the slot's type as it stands. A *dispatch* is `[contract, procedure, first, arguments]`: the contract's name, the procedure's, the first argument's *operation*, and the arguments after it by position, each an *argument*. Which row answers is the link's, and stands nowhere in an object. An *argument* is `[0, operation]` by value or `[1, address]` by reference: the place a call of a value hands in place, or one a call through a contract hands to whichever row takes it in place.
+A *layout* is `[name, fields]`: the declared name or nothing, and the field names ascending. A *call* is `[procedure, arguments, handed, judged]`: the row the call reaches, numbered by the document; one *operation* or nothing per parameter of the callee, in parameter order, nothing where the call wrote nothing or hands that parameter an address in place; `[position, address]` for each parameter handed in place; and the positions, ascending, whose argument the run judges at the row's slot, which are those the build did not prove a value of the slot's type as it stands. A *dispatch* is `[contract, procedure, first, arguments]`: the contract's name, the procedure's, the first argument's *operation*, and the arguments after it by position, each an *argument*. Which row answers is the link's, and stands nowhere in an object. An *argument* is `[0, operation]` by value or `[1, address]` by reference: the place a call of a value hands in place, or one a call through a contract hands to whichever row takes it in place.
 
 ### Lowered types
 
@@ -153,7 +153,7 @@ A *lowered type* is a type as a body stands on it, `[tag, …]`:
 
 ### Values
 
-A *value* is `[tag, …]`: 0 null; 1 bool; 2 int; 3 double; 4 string; 5 bytes, each carrying the value; 6 array, carrying its elements as *value*; 7 record, carrying the name or nothing, the field names, the field values; 8 dictionary, carrying `[name, value]` in name order; 9 a closure, carrying the identity of the document that wrote it, the *declaration* that wrote it, which of that declaration's closures it is, and `[slot, value]` for what it captured. A closure written by a document nobody wrote down, or holding a box of the run that made it, is not a value an object holds, and such an object is not written.
+A *value* is `[tag, …]`: 0 null; 1 bool; 2 int; 3 double; 4 string; 5 bytes, each carrying the value; 6 array, carrying its elements as *value*; 7 record, carrying the name or nothing, the field names in name order, the field values; 8 a closure, carrying the identity of the document that wrote it, the *declaration* that wrote it, which of that declaration's closures it is, and `[slot, value]` for what it captured. A closure written by a document nobody wrote down, or holding a box of the run that made it, is not a value an object holds, and such an object is not written.
 
 ## Identity and dependencies
 
@@ -258,7 +258,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-whose-claims-stand-out-of-name-order-refuses`
 - `an-object-whose-closure-counts-add-up-past-an-int-refuses`
 - `an-object-whose-dependencies-stand-out-of-name-order-refuses`
-- `an-object-whose-dictionary-entries-stand-out-of-name-order-refuses`
 - `an-object-whose-entry-is-not-public-refuses`
 - `an-object-whose-frame-names-fewer-slots-than-it-holds-refuses`
 - `an-object-whose-layout-names-stand-out-of-order-refuses`
@@ -266,6 +265,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-whose-numbering-closures-stand-out-of-name-order-refuses`
 - `an-object-whose-numbering-sends-stand-out-of-name-order-refuses`
 - `an-object-whose-procedure-the-host-answers-sends-a-spelling-its-numbering-does-not-number-refuses`
+- `an-object-whose-record-fields-stand-out-of-name-order-refuses`
 - `an-object-whose-rows-stand-out-of-name-order-refuses`
 - `an-object-whose-type-numbering-stands-out-of-name-order-refuses`
 - `an-object-whose-types-stand-out-of-name-order-refuses`
