@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    refuses "build"
+    refuses "run"
   }
   name "what-is-not-utf8-text-written-as-a-constant-refuses-to-decode"
-  note "Bytes carry no promise of being text, and completing a broken sequence with replacement characters would answer a text nobody sent. The bytes are written as a constant, and `decoded` judges its own constant arguments, so the refusal is the build's."
+  note "Bytes carry no promise of being text, and completing a broken sequence with replacement characters would answer a text nobody sent. Whether bytes are text is `decoded`'s to say when it runs, so the refusal is the run's, though the bytes are written as a constant."
   program {
     imports [
       "Standard.Text.decoded"
