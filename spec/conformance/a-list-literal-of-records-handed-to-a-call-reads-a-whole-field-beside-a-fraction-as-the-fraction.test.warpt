@@ -1,0 +1,72 @@
+warpt 1
+{
+  expect {
+    answers "{\"a\":1.0}"
+  }
+  name "a-list-literal-of-records-handed-to-a-call-reads-a-whole-field-beside-a-fraction-as-the-fraction"
+  note "The same list literal written as a call's argument reads as it does bound to a name: its records join field by field, so `T` is `{ a: Double }` and the first element answers `{ a: 1.0 }`."
+  program {
+    imports [
+      "Standard.Text.text"
+    ]
+    procedures {
+      "App.g" {
+        parameters [
+          {
+            name "x"
+            type "Array<some T>"
+          }
+        ]
+        result {
+          ref "x[0]"
+        }
+        returns "some T"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "y"
+            type {
+              record {
+                a "Double"
+              }
+            }
+            value {
+              call {
+                arguments [
+                  [
+                    {
+                      record {
+                        a 1
+                      }
+                    }
+                    {
+                      record {
+                        a 2.0
+                      }
+                    }
+                  ]
+                ]
+                procedure "App.g"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "y"
+              }
+            ]
+            procedure "Standard.Text.text"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
