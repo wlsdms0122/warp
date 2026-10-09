@@ -18,7 +18,7 @@ A program is read, checked and built before any of it runs, the arms nobody take
 - inside a generic body every place reading its own type parameter takes only a value of it, under [types](type.md);
 - a slot declared `const` takes only a procedure that answers without running, under *what answers without running* in [procedures](procedure.md); a slot declared `isolated` takes only a procedure the build derived as isolated;
 - a parameter bounded by a contract, and a slot naming one, takes only a value of a type some document says answers it, and every claim is backed: each procedure the contract asks has a declaration named for the type and the procedure, held to what the contract wrote;
-- a contract's procedure takes `Self` first, and `Self` is written in a contract's procedures alone; a value of a contract fills a type parameter only where that parameter stands alone at one position, under [types](type.md);
+- a contract's procedure takes `Self` first, and `Self` is written in a contract's procedures alone; a value of a contract or of what may be null fills a bounded type parameter only where that parameter stands alone at one position, under [types](type.md);
 - every `set` writes a path headed by a variable, through fields declared `var` where the type is a declared type, and what it writes fits what the path reaches; a write into a module variable or an `inout` parameter fits what the box holds;
 - every `inout` parameter is handed a variable's path a write may take; two parameters handed paths under one head hold one box two ways, under [procedures](procedure.md), and nothing keeps them apart;
 - `inout` is written only on a parameter's type, and `var` only on a field of a declared type;
