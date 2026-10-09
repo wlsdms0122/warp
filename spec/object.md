@@ -100,9 +100,9 @@ A *row* is a declaration as its own document settled it:
 
 The label is the declared spelling. A row in `lifted` is the same without the label, its fields starting at the signature. `access` is `0` private, `1` internal or `2` public, under *who may name a declaration* in [procedures](procedure.md); a lifted row is private, since nothing names it. `handsBackAsDeclared` is `true` where what the body hands back, its answer and every variable handed to it in place, is at every type parameter that parameter, so nothing a call filled has to be judged again where the call stands, and `false` otherwise. A body proves it only where every call it makes whose answer or variable handed back names a type parameter reaches a row that proved it too, and where nothing it reads as a type parameter may hold what is not a value of it. The build holds every place reading one to a value of it, so what remains is a closure that is not isolated reaching a variable whose type names one: a cast may call such a closure with what the parameter stands for nowhere. The row of a procedure the host answers writes `true`, on its host's word. A link reads it as said, the way it reads `constness` and `isolation`, and leaves out the judgement a call takes where the row the call reaches says `true`, or, for the answer alone, where every row a call through a contract may reach answers exactly what the call reads and the call hands nothing back to judge.
 
-The *implementation* is `[0, body, frame]` for a written body, or `[1, sends]` for a procedure the host answers, each send `[position, selector, handing]`: where the send stands among the declaration's sends, the spelling it reaches, and how many arguments it hands over, from the first position of what that spelling declares. The sends stand one to a place from the first, and each reaches the number the document's `numbering` gives its spelling; a row whose sends say otherwise **refuses**.
+The *implementation* is `[0, body, frame]` for a written body, or `[1, sends]` for a procedure the host answers, each send `[position, selector, handing]`: where the send stands among the declaration's sends, the spelling it reaches, and how many arguments it hands over, from the first position of what that spelling declares. The sends stand one to a place from the first, and each reaches the number the document's `numbering` gives its spelling.
 
-A *frame* is `[size, parameters, variables, captures, names]`: how many slots; which slots the parameters fill, in parameter order; `[variable, slot]` for each module variable the body reads, by its position in `variables`; which slots a closure fills from what it took with it; and what each slot was called, one name per slot, for a refusal that names one. A body standing on a slot the frame does not hold, or a frame naming other than one name per slot, **refuses**.
+A *frame* is `[size, parameters, variables, captures, names]`: how many slots; which slots the parameters fill, in parameter order; `[variable, slot]` for each module variable the body reads, by its position in `variables`; which slots a closure fills from what it took with it; and what each slot was called, one name per slot, for a refusal that names one.
 
 A *body* is `[instructions, result]`, the result an *operation* or nothing. An *instruction* is `[binding, operation, label]`: the binding or nothing, what to compute, and the string a trace calls the statement. A *binding* is `[0, slot, settling]` to bind, `[1, slot, settling]` to declare, or `[2, address, settling]` to assign, `settling` a *lowered type*, or nothing where the name declares nothing or the build proved the value one of the type as it stands.
 
@@ -157,7 +157,7 @@ A *value* is `[tag, …]`: 0 null; 1 bool; 2 int; 3 double; 4 string; 5 bytes, e
 
 ## Identity and dependencies
 
-A document is told from another by the **digest of its canonical binary writing**, SHA-256 of the bytes the binary writer produces, and by nothing it says about itself. It is derived and never declared. An object does write one down, under `document`, so a reading is handed the identity the object was kept under and an object saying it belongs somewhere else **refuses**.
+A document is told from another by the **digest of its canonical binary writing**, SHA-256 of the bytes the binary writer produces, and by nothing it says about itself. It is derived and never declared. An object does write one down, under `document`, so a reading is handed the identity the object was kept under.
 
 What an object leaned on is written under `dependencies` by what the host keyed each object under. The language derives nothing there: what tells one compile of a document from another is the host's cache, and the host hands the same key back when it reads the object. An object leaning on one the host worked no key out for is not written.
 
@@ -170,7 +170,7 @@ A reading refuses what it cannot read and traps on nothing: the reading runs ins
 - a body standing on a slot past its frame or on a variable past its document's `variables`, and a loop keeping a run its frame does not hold
 - a call standing other than as many arguments as the row it reaches takes, where that row is the document's own, or handing in place at a position past the arguments it stands
 - a closure literal taking what it captured into slots other than the captures of its own row's frame
-- a call judged where it stands that wraps no call, hands back in place at a position the call hands nothing in place or out of order, or judges nothing
+- a call judged where it stands that hands back in place out of position order, or judges nothing
 - a `keeps` that ends before it begins
 - a record, built from parts or as a lowered type, holding other than one part per field its layout names
 - a row of a procedure the host answers whose sends do not stand one to a place from the first, or reach a spelling the document's `numbering` does not number
