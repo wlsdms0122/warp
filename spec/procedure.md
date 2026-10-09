@@ -158,8 +158,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-fixed-name-bound-to-a-calls-answer-gives-a-capture-no-claim`
 - `a-fixed-name-bound-to-a-closure-literal-gives-a-capture-no-claim`
 - `a-fixed-name-bound-to-a-const-slot-carries-its-claim`
-- `a-fixed-name-is-not-handed-in-place-to-a-called-value`
 - `a-fixed-name-is-not-handed-in-place`
+- `a-fixed-name-is-not-handed-in-place-to-a-called-value`
 - `a-list-literal-handed-to-a-called-value-at-a-list-naming-itself-answers`
 - `a-loop-reads-a-closure-reading-a-module-variable-as-one-that-runs`
 - `a-name-declared-inside-a-nested-closure-does-not-cover-a-captured-one`
@@ -187,9 +187,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-taken-variable-handed-in-place-as-its-held-type-while-it-reads-another-refuses`
 - `a-taken-variable-is-handed-in-place-only-as-the-type-it-is-held-to`
 - `a-taken-variable-is-handed-in-place-to-a-value-only-as-the-type-it-is-held-to`
+- `a-value-is-not-handed-in-place`
 - `a-value-is-not-handed-in-place-through-a-contract`
 - `a-value-is-not-handed-in-place-to-a-called-value`
-- `a-value-is-not-handed-in-place`
 - `a-value-read-as-any-a-called-values-slot-does-not-take-refuses`
 - `a-value-read-as-any-handed-to-a-called-value-at-a-type-parameter-of-the-body-refuses`
 - `a-value-taking-a-value-reads-the-variable-its-slot-hands-in-place`
@@ -200,8 +200,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-variable-handed-in-place-is-written-by-a-called-value`
 - `a-variable-handed-in-place-is-written-by-the-callee`
 - `a-variable-holding-a-const-procedure-is-not-a-const-slot`
-- `a-variable-of-another-type-is-not-handed-in-place-to-a-called-value`
 - `a-variable-of-another-type-is-not-handed-in-place`
+- `a-variable-of-another-type-is-not-handed-in-place-to-a-called-value`
 - `a-variable-that-declares-nothing-gives-a-capture-no-claim`
 - `an-access-naming-no-scope-refuses`
 - `an-answer-must-fit-what-was-declared`
