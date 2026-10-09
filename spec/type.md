@@ -248,7 +248,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-record-a-host-procedure-answers-short-of-its-fields-refuses`
 - `a-record-a-host-procedure-answers-takes-the-name-it-declares`
 - `a-record-a-loop-answers-where-a-declared-record-is-read-takes-the-name`
-- `a-record-an-attempt-answers-beside-a-record-of-fractions-holds-fractions`
+- `a-record-an-attempt-answers-beside-a-record-of-fractions-holds-no-fraction-refuses`
 - `a-record-built-where-a-declared-record-is-read-keeps-its-closure`
 - `a-record-field-reading-a-parameter-two-ways-at-a-dictionary-refuses`
 - `a-record-form-array-of-a-named-element-refuses`
@@ -299,7 +299,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-variable-a-closure-writes-with-a-value-of-the-parameter-answers`
 - `a-variable-handed-back-in-place-is-judged-when-the-call-fails-refuses`
 - `a-variable-handed-in-place-that-a-closure-writes-is-judged-refuses`
-- `a-whole-literal-an-attempt-answers-beside-a-fraction-is-the-fraction`
+- `a-whole-literal-an-attempt-answers-beside-a-fraction-is-no-fraction-refuses`
 - `a-whole-literal-at-a-fraction-slot-is-the-fraction`
 - `a-whole-literal-beside-a-fraction-at-a-bounded-parameter-is-held-to-the-bound-as-the-fraction`
 - `a-whole-literal-where-a-bounded-parameter-stands-refuses`
