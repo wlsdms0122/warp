@@ -19,7 +19,7 @@ A type is written as a string, or as a record for what a string cannot say:
 | `some T` | a type parameter: worked out from the call, same reading everywhere it appears; bounded when the signature's `bounds` names it |
 | `Self` | the type answering a contract, written in that contract's procedures alone |
 | `Describable` (a declared contract's name) | a value of whatever type satisfies the contract. Nothing ties one slot's to another's |
-| `Describable & Standard.Comparable` | a value of whatever type satisfies every contract named; the names in name order, and each a contract's |
+| `Describable & Standard.Comparable` | a value of whatever type satisfies every contract named; two names or more, in name order, and each a contract's |
 | `Int?` (any string spelling and `?`) | the declared type or null |
 | `{ record: { title: String, done: Bool } }` | a record type, its fields under `record`; structural, and it names nothing. A field may be called anything |
 | `{ procedure: { parameters: [<type>, …], returns: … } }` | a procedure type: the types it is called with, in position order, and what it answers. No names, since a name is a declaration's and a value is called by position; a mark such as `inout` is written on the type it stands in front of |
