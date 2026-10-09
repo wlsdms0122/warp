@@ -27,7 +27,7 @@ A cast that names a type nothing declares **refuses at the build**, wherever it 
 
 A construct's key, `conditional` or `loop`, is read under a statement's `value` and nowhere else, under [statements](statement.md).
 
-**A dot reads a name and nothing else.** Every `ref` path is judged where names resolve, and the judgment is written into the image; the value that arrives at run time has no say in it. A procedure is sent with a written `call`, which spells the declaration it means. Segment by segment:
+**A dot reads a name and nothing else.** Every `ref` path is judged where names resolve, and the judgement is written into the image; the value that arrives at run time has no say in it. A procedure is sent with a written `call`, which spells the declaration it means. Segment by segment:
 
 - On a **record type**, a dot reads the field the type declares. A field it does not declare **refuses at the build**, `?.` or not. The type rules the field out, and no spelling reads past that. A procedure on a record is written as a call. A record type says which fields there are, and a value fits it only with exactly them, so there is nothing else to reach. To read names a declaration does not have, take `Dictionary<Any>`.
 - On a **dictionary**, a dot reads an entry; which names are there is the run's fact. An absent entry **refuses at the run**, unless the segment is written `?.`, which reads it as null.

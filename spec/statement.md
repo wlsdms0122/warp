@@ -97,7 +97,7 @@ The envelope is this specification's; what rides in `details` is the procedure's
 { ref "failed.details.failures" }
 ```
 
-`cast_refused` has no procedure behind it, so this specification names its `details` too: **`expected`**, the type the cast wrote, and **`actual`**, the kind the value arrived as, both as text. Both halves, because what was asked for is readable from the program and what turned up is not.
+`cast_refused` has no procedure behind it, so this specification names its `details` too: **`expected`**, the type the cast wrote, and **`actual`**, the type the value is an instance of, both as text. Both halves, because what was asked for is readable from the program and what turned up is not.
 
 ```
 { ref "failed.details.actual" }
