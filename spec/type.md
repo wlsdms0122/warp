@@ -14,7 +14,7 @@ A type is written as a string, or as a record for what a string cannot say:
 | `const <procedure type>` | a procedure that answers without running, under *what answers without running* in [procedures](procedure.md) |
 | `isolated <procedure type>` | a procedure that touches no name another body could touch at once; `const isolated <procedure type>` says both, `const` first |
 | `inout <type>` | a parameter handed a variable in place; written on a parameter's type and nowhere else |
-| `var <type>` | a field a path may write through; written on a field of a type declared in `types` and nowhere else |
+| `var <type>` | a field a path may write through; written on a field of the record a type declared in `types` is, and nowhere else: a record inside one, or in a list or map one is, is an inline record, whose fields are written through as they are |
 | `Task` (any declared name) | the type a module declares under that name |
 | `some T` | a type parameter: worked out from the call, same reading everywhere it appears; bounded when the signature's `bounds` names it |
 | `Self` | the type answering a contract, written in that contract's procedures alone |
