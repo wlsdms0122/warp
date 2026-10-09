@@ -1,0 +1,93 @@
+warpt 1
+{
+  arguments {
+    left true
+  }
+  expect {
+    answers "cast_refused"
+  }
+  name "a-value-cast-from-any-to-a-contract-it-does-not-answer-fails"
+  note "The cast reads `left` as `App.Described`, and the run holds the value to the contract by the type it is an instance of. A bool answers no claim of it, so the cast fails with cast_refused before `App.Described.describe` is asked, which the attempt catches."
+  program {
+    contracts {
+      "App.Described" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "Int.describe" {
+        parameters [
+          {
+            name "of"
+            type "Int"
+          }
+        ]
+        result "a whole number"
+        returns "String"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "tried"
+            value {
+              attempt {
+                body [
+                  {
+                    let "got"
+                    value {
+                      call {
+                        arguments [
+                          {
+                            as {
+                              of {
+                                ref "left"
+                              }
+                              type "App.Described"
+                            }
+                          }
+                        ]
+                        procedure "App.Described.describe"
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  result {
+                    ref "tried.type"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "left"
+            type "Any"
+          }
+        ]
+        result {
+          ref "tried"
+        }
+      }
+    }
+    satisfies {
+      Int [
+        "App.Described"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+

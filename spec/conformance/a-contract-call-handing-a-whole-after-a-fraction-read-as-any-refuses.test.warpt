@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    refuses "run"
+    refuses "build"
   }
   name "a-contract-call-handing-a-whole-after-a-fraction-read-as-any-refuses"
-  note "The first argument arrives a fraction, so Double.plus answers. The whole literal beside a reading of Any is the Int it is, and a Double slot takes no whole number: the boundary refuses it before Double.plus is asked."
+  note "`held` is read as `Any` and stands first, where `Standard.Numeric.plus` asks `Self`, which a reading of `Any` stands at only through a cast, so the build refuses before any row is picked."
   program {
     imports [
       "Standard.Numeric.plus"

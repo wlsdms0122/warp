@@ -1,0 +1,69 @@
+warpt 1
+{
+  expect {
+    answers "a whole number"
+  }
+  name "a-value-cast-from-any-to-a-contract-answers-by-the-type-it-is"
+  note "The cast reads what `App.anything` answers, read as `Any`, as `App.Described`, and the run holds the value to the contract by the type it is an instance of. A whole number answers because a document claims the contract for `Int`, and the call picks `Int.describe`."
+  program {
+    contracts {
+      "App.Described" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "App.anything" {
+        result 1
+        returns "Any"
+      }
+      "Int.describe" {
+        parameters [
+          {
+            name "of"
+            type "Int"
+          }
+        ]
+        result "a whole number"
+        returns "String"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                as {
+                  of {
+                    call {
+                      procedure "App.anything"
+                    }
+                  }
+                  type "App.Described"
+                }
+              }
+            ]
+            procedure "App.Described.describe"
+          }
+        }
+        returns "String"
+      }
+    }
+    satisfies {
+      Int [
+        "App.Described"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+

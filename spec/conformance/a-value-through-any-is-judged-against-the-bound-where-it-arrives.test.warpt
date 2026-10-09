@@ -4,10 +4,10 @@ warpt 1
     left true
   }
   expect {
-    refuses "run"
+    refuses "build"
   }
   name "a-value-through-any-is-judged-against-the-bound-where-it-arrives"
-  note "A reading the text says nothing about passes the build, and the value that arrived is judged against the bound where it arrives. `lessThan` takes what answers `Standard.Comparable`, and a bool does not."
+  note "`left` is read as `Any`, which stands where `lessThan` asks `Standard.Comparable` only through a cast, so the build refuses, whatever arrives."
   program {
     imports [
       "Standard.Comparable.lessThan"

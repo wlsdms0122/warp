@@ -1,0 +1,92 @@
+warpt 1
+{
+  expect {
+    answers 2
+  }
+  name "a-parameter-filled-from-a-list-of-any-reads-any-which-a-cast-opens"
+  note "App.pick fills E from [\"a\"] and from [j], j read as Any. E reads Array<Any> rather than Array<String>, so first of the answer reads Any, and a cast to Int opens it, which a reading of String never could. `Standard.Numeric.plus` takes the Int, and the run answers 2."
+  program {
+    imports [
+      "Standard.Collection.first"
+      "Standard.Numeric.plus"
+    ]
+    procedures {
+      "App.pick" {
+        parameters [
+          {
+            name "a"
+            type "some E"
+          }
+          {
+            name "b"
+            type "some E"
+          }
+        ]
+        result {
+          ref "b"
+        }
+        returns "some E"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "j"
+            type "Any"
+            value 1
+          }
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  [
+                    "a"
+                  ]
+                  [
+                    {
+                      ref "j"
+                    }
+                  ]
+                ]
+                procedure "App.pick"
+              }
+            }
+          }
+          {
+            let "q"
+            value {
+              call {
+                arguments [
+                  {
+                    as {
+                      of {
+                        call {
+                          arguments [
+                            {
+                              ref "r"
+                            }
+                          ]
+                          procedure "Standard.Collection.first"
+                        }
+                      }
+                      type "Int"
+                    }
+                  }
+                  1
+                ]
+                procedure "Standard.Numeric.plus"
+              }
+            }
+          }
+        ]
+        result {
+          ref "q"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

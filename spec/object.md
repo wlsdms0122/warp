@@ -278,7 +278,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-writing-an-empty-name-refuses`
 - `the-object-of-a-block`
 - `the-object-of-a-call`
-- `the-object-of-a-call-judging-an-argument`
 - `the-object-of-a-cast`
 - `the-object-of-a-closure`
 - `the-object-of-a-composition`
