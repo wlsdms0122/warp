@@ -1,0 +1,137 @@
+warpt 1
+{
+  expect {
+    refuses "run"
+  }
+  name "an-answer-read-as-never-from-a-body-that-proves-nothing-refuses"
+  note "App.f answers its own T, and a closure it writes reaches a variable of T without being isolated, so a cast may call it with what T stands for nowhere and App.f proves nothing of what it answers. App.h fills T with an empty list, so its call reads Never; the call still judges what arrives against that reading, and the String the cast closure wrote refuses at the run where App.h calls App.f."
+  program {
+    imports [
+      "Standard.Collection.appending"
+    ]
+    procedures {
+      "App.f" {
+        body [
+          {
+            value {
+              ref "xs"
+            }
+            var "ys"
+          }
+          {
+            let "c"
+            value {
+              closure {
+                body [
+                  {
+                    set "ys"
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "ys"
+                          }
+                          {
+                            ref "z"
+                          }
+                        ]
+                        procedure "Standard.Collection.appending"
+                      }
+                    }
+                  }
+                ]
+                parameters [
+                  {
+                    name "z"
+                    type "some T"
+                  }
+                ]
+                result 0
+              }
+            }
+          }
+          {
+            let "a"
+            type "Any"
+            value {
+              ref "c"
+            }
+          }
+          {
+            let "d"
+            value {
+              as {
+                of {
+                  ref "a"
+                }
+                type {
+                  procedure {
+                    parameters [
+                      "String"
+                    ]
+                    returns "Int"
+                  }
+                }
+              }
+            }
+          }
+          {
+            value {
+              call {
+                arguments [
+                  "s"
+                ]
+                procedure {
+                  ref "d"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "xs"
+            type "Array<some T>"
+          }
+        ]
+        result {
+          ref "ys[0]"
+        }
+        returns "some T"
+      }
+      "App.h" {
+        result {
+          call {
+            arguments [
+              []
+            ]
+            procedure "App.f"
+          }
+        }
+        returns "Int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "k"
+            value {
+              call {
+                procedure "App.h"
+              }
+            }
+          }
+        ]
+        result [
+          {
+            ref "k"
+          }
+        ]
+        returns "Any"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

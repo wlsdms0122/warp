@@ -72,6 +72,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-value-a-host-procedure-answers-outside-its-returns-refuses`
 - `all-answers-every-piece-under-its-key`
 - `an-answer-nobody-wrote-takes-what-a-called-values-slot-wrote`
+- `an-answer-read-as-never-from-a-body-that-proves-nothing-refuses`
 - `an-element-past-the-end-of-a-list-handed-back-holds-nothing-to-judge`
 - `an-entry-not-written-yet-handed-back-by-a-failing-call-is-rescued`
 - `an-entry-not-written-yet-handed-back-in-place-holds-nothing-to-judge`
