@@ -131,6 +131,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-closure-naming-a-type-parameter-its-procedure-does-not-declare-refuses`
 - `a-closure-parameter-saying-nothing-takes-the-element-the-list-beside-it-fills`
 - `a-closure-reads-the-bounds-of-the-procedure-around-it`
+- `a-closure-taking-any-stands-where-its-slot-hands-a-contract`
 - `a-closure-taking-anything-beside-a-declared-record-leaves-the-parameter-the-record`
 - `a-closure-taking-int-beside-a-declared-record-refuses`
 - `a-closure-writing-bounds-refuses`
