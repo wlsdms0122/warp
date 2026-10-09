@@ -1,0 +1,81 @@
+warpt 1
+{
+  expect {
+    refuses "run"
+  }
+  name "an-argument-refused-at-its-slot-is-not-rescued-past-a-failure-after-it"
+  note "The first argument is read as `Any` and holds `true`, which does not answer `Standard.Comparable`, so the run judges it at its slot as it is read and refuses there. The second argument, which fails, is never read, so the rescue around the call holds nothing."
+  program {
+    imports [
+      "Standard.Comparable"
+      "Standard.Control.abort"
+    ]
+    procedures {
+      "App.f" {
+        bounds {
+          N "Standard.Comparable"
+        }
+        parameters [
+          {
+            name "x"
+            type "some N"
+          }
+          {
+            name "y"
+            type "Int"
+          }
+        ]
+        result 0
+        returns "Int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "held"
+            type "Any"
+            value true
+          }
+          {
+            let "tried"
+            value {
+              attempt {
+                body [
+                  {
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "held"
+                          }
+                          {
+                            call {
+                              arguments [
+                                "second"
+                              ]
+                              procedure "Standard.Control.abort"
+                            }
+                          }
+                        ]
+                        procedure "App.f"
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  result "rescued"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "tried"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
