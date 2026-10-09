@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    refuses "load"
+    answers "nothing"
   }
-  name "a-claim-about-a-type-no-value-is-refuses"
-  note "A claim is about a type a value is an instance of, since the run picks what answers by the type the value is. No value is an instance of `Any` by name, so a claim about it is refused where the document is read."
+  name "a-claim-about-null-is-answered-for-null"
+  note "`Null` is a type a value is an instance of, as `Int` is, so a document may claim a contract for it. Null handed where `App.Described` is asked answers by `Null.describe`."
   program {
     contracts {
       "App.Described" {
@@ -21,12 +21,22 @@ warpt 1
     }
     imports []
     procedures {
+      "Null.describe" {
+        parameters [
+          {
+            name "of"
+            type "Null"
+          }
+        ]
+        result "nothing"
+        returns "String"
+      }
       entry {
         access "public"
         result {
           call {
             arguments [
-              1
+              null
             ]
             procedure "App.Described.describe"
           }
@@ -35,7 +45,7 @@ warpt 1
       }
     }
     satisfies {
-      Any [
+      Null [
         "App.Described"
       ]
     }

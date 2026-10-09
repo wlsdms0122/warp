@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "calling-a-value-bounded-to-numbers-refuses"
-  note "A type parameter bounded by `Standard.Numeric` stands for an `Int` or a `Double` at every call, and neither is a procedure. Calling a value of it refuses at the build, whatever a call fills it with."
+  note "A type parameter bounded by `Standard.Numeric` stands for whichever type a call fills it with, and its type writes no parameters the build can hold an argument against, bound or no bound. Calling a value of it refuses at the build until a cast says what procedure it is."
   program {
     imports [
       "Standard.Numeric"
