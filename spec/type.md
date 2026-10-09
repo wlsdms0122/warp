@@ -311,5 +311,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `self-outside-a-contract-refuses`
 - `self-stands-for-the-type-answering-a-contract`
 - `two-documents-claiming-one-pair-are-one-claim`
+- `var-written-on-a-field-a-name-says-it-holds-refuses`
 - `var-written-on-an-inline-record-field-refuses`
 - `what-was-read-out-of-a-parameter-is-not-the-parameter`
