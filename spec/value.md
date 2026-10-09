@@ -16,7 +16,7 @@ A program computes over eight kinds of data, plus one value that is not data:
 | record | `{ … }`, or `Name { … }` | unordered fields, names unique; may carry the **name** of a declared record type |
 | procedure | | code with what it captured; exists only at run time, never in a document |
 
-**A record's name.** A record made by a literal, answered by a native procedure or read from a document has no name. It takes one where it is written into a declared type whose structure is a record: a literal written where the type is read, a value from outside at the door it comes through, and a cast to the type. From then on it carries that name through every slot declaring the type and through `Any`, and fits no other: an inline record type and `Dictionary<T>` take no named record, under [Types](type.md).
+**A record's name.** A record made by a literal, handed back by a procedure the host answers or read from a document has no name. It takes one where it is written into a declared type whose structure is a record: a literal written where the type is read, a value from outside at the door it comes through, and a cast to the type. From then on it carries that name through every slot declaring the type and through `Any`, and fits no other: an inline record type and `Dictionary<T>` take no named record, under [Types](type.md).
 
 **When two values are the same:**
 
