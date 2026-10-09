@@ -126,6 +126,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-closures-parameter-names-are-not-part-of-its-type`
 - `a-contract-asking-no-procedures-is-answered-by-what-claims-it`
 - `a-contract-asking-no-procedures-refuses-what-no-claim-names`
+- `a-contract-call-handing-a-fraction-read-as-any-after-a-whole-refuses`
+- `a-contract-call-handing-a-whole-after-a-fraction-read-as-any-refuses`
 - `a-contract-carries-a-procedure-into-a-generic-body`
 - `a-contract-declared-twice-refuses`
 - `a-contract-is-named-by-its-qualified-spelling`
