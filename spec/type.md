@@ -11,8 +11,8 @@ A type is written as a string, or as a record for what a string cannot say:
 | `Never` | never answers. The type `Standard.Control.abort` declares, and what makes a leaving call checkable |
 | `Array<T>` / `Dictionary<T>` | a list / map of `T`; `Array<Any>` is a list of anything, and `Array` or `Dictionary` written bare **refuses at the load** |
 | `Procedure` | some procedure, signature unsaid: a value of it stands where `Procedure` or `Any` is declared, and is called, or handed where a procedure type is written, only once a cast says what procedure it is |
-| `const <Procedure type>` | a procedure that answers without running, under *what answers without running* in [procedures](procedure.md) |
-| `isolated <Procedure type>` | a procedure that touches no name another body could touch at once; `const isolated <Procedure type>` says both, `const` first |
+| `const <procedure type>` | a procedure that answers without running, under *what answers without running* in [procedures](procedure.md) |
+| `isolated <procedure type>` | a procedure that touches no name another body could touch at once; `const isolated <procedure type>` says both, `const` first |
 | `inout <type>` | a parameter handed a variable in place; written on a parameter's type and nowhere else |
 | `var <type>` | a field a path may write through; written on a field of a type declared in `types` and nowhere else |
 | `Task` (any declared name) | the type a module declares under that name |

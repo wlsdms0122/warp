@@ -9,7 +9,7 @@ A scalar is itself, a literal. A string is always literal text; nothing inside i
 | `{ ref: a.b[0] }` | a name, resolved in the consuming scope |
 | `{ record: { … } }` | a record, its fields each an expression. A field may be called anything, `ref` and `value` included |
 | `{ call: <call> }` | a call where a value is wanted; same grammar as the `call` construct |
-| `{ closure: <Procedure> }` | a procedure written where a value is wanted; same grammar as a procedure |
+| `{ closure: <procedure> }` | a procedure written where a value is wanted; same grammar as a procedure |
 | `{ as: { of: <value>, type: <type> } }` | read the value as that type. The door onto what `Any` declares nothing about |
 | `{ as?: { of: <value>, type: <type> } }` | the same, reading a mismatch as null rather than refusing; the answer is `T?` |
 
