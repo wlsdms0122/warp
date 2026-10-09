@@ -81,7 +81,7 @@ Settling one **refuses at the build** where it reaches a procedure the host brou
 
 **A value the build settles is written in a document.** A body in another document of the link is what a constant settles from, so a value baked in is a document declaring a procedure that answers it, which a constant elsewhere calls. The document is a document like any other: it has an identity, that identity stands among what a compiled document was built against, under *identity and dependencies* in [objects](object.md), and a value that moved is a build that moves with it. What the rule above turns away is a procedure in the host's own language, whose answer no document carries; a value written in a document is carried whole.
 
-What settles at the build, a constant or a variable's start, settles to a value. A body run at the build may answer a closure holding a variable of that run, and settling to one **refuses at the build** as well: the run is over when the build is, and a compiled document carries no box of it.
+What settles at the build, a constant or a variable's start, settles to a value. A body run at the build may answer a closure holding a variable of that run, and settling to one **refuses at the build** as well: the run is over when the build is, and a compiled document carries no box of it. Whatever stops one settling, a refusal the standard vocabulary gives at the run or a failure, which nothing there rescues, **refuses at the build** too, whether or not anything reads the constant or the variable.
 
 ## A parameter
 
@@ -150,6 +150,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-constant-cannot-settle-from-what-runs`
 - `a-constant-leaning-on-a-claim-of-a-document-it-does-not-stand-on-refuses`
 - `a-constant-settles-from-a-body-of-another-document`
+- `a-constant-whose-settling-is-refused-refuses-at-the-build`
 - `a-contract-asking-const-lets-its-call-stand-in-a-const-slot`
 - `a-contract-asking-isolated-lets-its-call-stand-in-an-isolated-slot`
 - `a-contract-call-that-may-run-is-no-operand`
