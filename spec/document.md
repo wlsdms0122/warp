@@ -11,7 +11,7 @@ A document is one map. Every map this grammar names, on this page and on the pag
 | `warp` | int. The language version this document is written for | yes |
 | `imports` | array of strings. Every name the program uses and does not declare: the procedures it sends, and the types and contracts it names | yes, and empty where the program uses none |
 | `description` | string | no |
-| `types` | map: name → type | no |
+| `types` | map: name → `{ record: { field: type, … } }` for a record and its fields, or a type, which the name is then a second spelling of, under [types](type.md) | no |
 | `contracts` | map: name → map: procedure → `{ parameters, returns?, const?, isolated?, failing? }`, an empty map for a contract asking no procedures; the procedure takes `Self` first, so one leaving `parameters` out **refuses at the load**, and writes no `bounds`, so one writing them **refuses at the load**, under [types](type.md); the two bools ask what a slot asks with a `const` and an `isolated` procedure type, of every declaration answering, and `failing` names, as an array of strings, what one may fail with, nothing where it is left out | no |
 | `satisfies` | map: type name → array of contract names that type answers | no |
 | `const` | map: name → expression; a constant may read the constants beside it, and constants that read each other back have no order to settle in and **refuse at the load** | no |
