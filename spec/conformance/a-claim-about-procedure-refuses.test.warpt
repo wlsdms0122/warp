@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    answers "a procedure"
+    refuses "load"
   }
-  name "a-claim-about-procedure-is-answered-for-a-closure"
-  note "Every procedure value is an instance of `Procedure`, whatever it takes and answers, as every list is of `Array`. A closure handed where `App.Described` is asked answers by `Procedure.describe`, which a document claims for it."
+  name "a-claim-about-procedure-refuses"
+  note "A claim is about a type a value is an instance of by name. `Procedure` names a structure, what a procedure takes and answers, and no declaration, so a claim about it is refused where the document is read, and a closure answers no contract."
   program {
     contracts {
       "App.Described" {
@@ -21,16 +21,6 @@ warpt 1
     }
     imports []
     procedures {
-      "Procedure.describe" {
-        parameters [
-          {
-            name "of"
-            type "Procedure"
-          }
-        ]
-        result "a procedure"
-        returns "String"
-      }
       entry {
         access "public"
         result {
