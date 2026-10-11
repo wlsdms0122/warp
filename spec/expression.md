@@ -77,11 +77,11 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-constant-closure-stands-in-a-const-slot`
 - `a-constant-closure-taking-a-parameter-in-place-is-handed-a-variable`
 - `a-constant-list-hands-an-element-on-at-its-element-type-refuses`
-- `a-constant-read-at-an-index-the-run-settles`
+- `a-constant-read-at-an-index-the-run-reads`
 - `a-constant-record-hands-a-field-on-at-its-own-type`
 - `a-constant-settled-from-an-answer-of-any-reads-its-fields`
 - `a-constant-that-runs-a-body-of-its-own-document-refuses`
-- `a-dictionary-is-read-by-a-key-the-run-settles`
+- `a-dictionary-is-read-by-a-key-the-run-reads`
 - `a-dictionary-key-that-is-not-text-refuses`
 - `a-dictionary-read-at-a-constant-key-reads-the-entry`
 - `a-dot-on-a-type-with-no-fields-is-refused`
@@ -99,7 +99,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-read-at-a-constant-key-that-is-not-a-name-refuses`
 - `a-read-at-an-index-below-zero-refuses`
 - `a-record-field-may-carry-a-tags-name`
-- `a-record-read-by-a-key-the-run-settles-refuses`
+- `a-record-read-by-a-key-the-run-reads-refuses`
 - `a-write-at-a-constant-index-below-zero-refuses`
 - `a-write-at-an-index-below-zero-refuses`
 - `an-absent-dictionary-entry-refuses`
