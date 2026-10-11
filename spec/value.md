@@ -35,6 +35,7 @@ A program computes over eight kinds of data, plus one value that is not data:
 
 What `conformance/` asks about this page, by the name each case's file carries.
 
+- `a-map-is-never-the-same-as-a-record`
 - `a-procedure-is-the-same-as-no-value`
 - `a-record-literal-written-with-a-name-refuses`
 - `a-whole-and-a-fraction-meet-exactly`
