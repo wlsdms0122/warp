@@ -1156,7 +1156,7 @@ warpt 1
     "Standard.Collection.values" {
       body [
         {
-          let "names"
+          let "keys"
           value {
             call {
               arguments [
@@ -1178,9 +1178,9 @@ warpt 1
             loop {
               body [
                 {
-                  let "name"
+                  let "key"
                   value {
-                    ref "names[walk.index]"
+                    ref "keys[walk.index]"
                   }
                 }
                 {
@@ -1192,7 +1192,7 @@ warpt 1
                           ref "held"
                         }
                         {
-                          ref "dictionary[name]"
+                          ref "dictionary[key]"
                         }
                       ]
                       procedure "Standard.Collection.appending"
@@ -1210,7 +1210,7 @@ warpt 1
                       call {
                         arguments [
                           {
-                            ref "names"
+                            ref "keys"
                           }
                         ]
                         procedure "Standard.Collection.count"
@@ -1224,11 +1224,14 @@ warpt 1
           }
         }
       ]
-      description "What a map holds, by its names in order."
+      bounds {
+        Key "Hashable"
+      }
+      description "What a map holds, by its keys in the key order."
       parameters [
         {
           name "dictionary"
-          type "Dictionary<String, some Entry>"
+          type "Dictionary<some Key, some Entry>"
         }
       ]
       result {

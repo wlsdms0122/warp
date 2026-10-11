@@ -124,9 +124,9 @@ The contracts, each procedure answering without running and touching nothing, an
 | `map` | `array: Array<some Element>`, `transform`. `const` procedure, handed the item, answering `some Answer` | `Array<some Answer>` |
 | `filter` | `array: Array<some Element>`, `isIncluded`. `const` procedure, handed the item, answering `Bool` | `Array<some Element>` |
 | `reduce` | `array: Array<some Element>`, `initialResult: some Carried`, `nextPartialResult`. `const` procedure, handed the carried value, then the item, answering `some Carried` | `some Carried` |
-| `keys` | `dictionary: Dictionary<String, Any>` | `Array<String>` |
-| `values` | `dictionary: Dictionary<String, some Entry>` | `Array<some Entry>` |
-| `setting` | `dictionary: Dictionary<String, some Value>`, `key: String`, `value: some Value` | `Dictionary<String, some Value>`, the map's entries and the value read as one type, so a value and entries of two types that neither takes **refuse at the build**; the entries of a record handed there are joined part by part first, so fields of two such types read it as `Any`. The key becomes a field's name, so a key that is not a name (empty, or not in normal form C) **refuses at the run** |
+| `keys` | `dictionary: Dictionary<some Key, Any>` | `Array<some Key>`, the keys the map holds, in its key order. Bounds `Key: Hashable` |
+| `values` | `dictionary: Dictionary<some Key, some Entry>` | `Array<some Entry>`, what the map holds, in its key order. Bounds `Key: Hashable` |
+| `setting` | `dictionary: Dictionary<some Key, some Value>`, `key: some Key`, `value: some Value` | `Dictionary<some Key, some Value>`, the map with the entry under the key written. The map's keys and the key read as one type, and its entries and the value as another, so two types there that neither takes **refuse at the build**. Bounds `Key: Hashable` |
 
 `gathering` is how a procedure answers a collection's own elements. It says which by position, and the answer comes back in the spelling the collection arrived in: bytes rearranged are bytes. This is the whole of what `reversed`, `dropFirst`, `dropLast`, `filter` and `sorted` add to a walk, and it is the reason those are written in Warp rather than asked of an implementation. A body that read the elements out and put them back would answer an array of numbers, because an array it started empty has no spelling to keep. The standard name for reading one collection at another's positions is a **gather**.
 
@@ -237,6 +237,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `greater-than-mirrors-less-than`
 - `indexing-bytes-answers-a-whole-number`
 - `joined-over-nothing-answers-empty-text`
+- `keys-answer-a-maps-own-keys-in-the-key-order`
 - `keys-answer-in-canonical-order`
 - `lowercased-ends-a-word-with-final-sigma`
 - `lowercased-folds-the-case`
@@ -260,8 +261,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `replacing-swaps-every-occurrence`
 - `reversed-turns-the-order-around`
 - `rounded-past-the-int-refuses`
+- `setting-a-key-of-another-type-than-the-maps-refuses`
 - `setting-answers-a-new-map`
-- `setting-refuses-a-key-that-is-not-a-name`
+- `setting-writes-a-key-of-the-maps-own-type`
 - `sorted-answers-every-element-where-less-than-is-not-strict`
 - `sorted-orders-what-it-was-given`
 - `sorting-the-unorderable-refuses`
@@ -280,4 +282,5 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `trimming-takes-unicode-whitespace-from-both-ends`
 - `uppercased-uses-unicode-full-case-mapping`
 - `values-answer-in-canonical-order`
+- `values-of-a-map-keyed-by-whole-numbers-answer-in-the-key-order`
 - `what-is-not-utf8-text-refuses-to-decode-at-the-run`
