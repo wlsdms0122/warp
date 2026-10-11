@@ -56,7 +56,7 @@ Each format declares itself, and that is how the two are told apart: a case says
 
 **`vocabulary` is what the runner brings.** Most of what a document may say about a procedure the host answers is not something a case can write down: the code is the host's. So a case writes the part that is in the document, and the runner builds the rest.
 
-It is written as a **module**, because that is what a host takes in: it may declare `types`, `contracts`, `satisfies` and `procedures` the way any document does, the procedures it brings under `procedures`, and a case writing any other key there **refuses** as a case. Which version this module is read at is the runner's and its declarations send nothing, so it says no `warp` and no `imports`, and what a program keeps beside its procedures, `const`, `var` and a `description`, is a document's. The module stands in front of the case's own document in the link, so what the host brings is there to be named. Each procedure is keyed by its name and written the way a declaration is, with four keys of its own beside it:
+It is written as a **module**, because that is what a host takes in: it lists what it uses under `imports` and may declare `types`, `contracts`, `satisfies` and `procedures`, the way any document does, the procedures it brings under `procedures`, and a case writing any other key there **refuses** as a case. Which version this module is read at is the runner's, so it says no `warp`, and what a program keeps beside its procedures, `const`, `var` and a `description`, is a document's. The module stands in front of the case's own document in the link, so what the host brings is there to be named. Each procedure is keyed by its name and written the way a declaration is, with four keys of its own beside it:
 
     answers     what it answers, whatever it was sent. Absent: null
     runs        bool. Whether it reaches outside the run. Absent: false,
@@ -95,3 +95,4 @@ The extension is `.test.warpt`: the file is warpt text, which the text reader re
 What `conformance/` asks about this page, by the name each case's file carries.
 
 - `a-program-without-an-entry-refuses`
+- `a-vocabulary-imports-the-contract-a-bound-names-answers`
