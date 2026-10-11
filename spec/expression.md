@@ -102,7 +102,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-write-at-a-constant-index-below-zero-refuses`
 - `a-write-at-an-index-below-zero-refuses`
 - `an-absent-dictionary-entry-refuses`
-- `an-alias-coming-back-to-itself-through-a-list-refuses`
 - `an-asking-cast-of-a-declared-record-read-as-any-to-an-inline-record-reads-null`
 - `an-element-of-a-constant-list-reads-as-its-element-type-refuses`
 - `an-element-of-a-constant-record-field-reads-as-its-element-type-refuses`

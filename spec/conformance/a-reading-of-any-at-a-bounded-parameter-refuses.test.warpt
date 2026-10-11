@@ -7,7 +7,7 @@ warpt 1
     refuses "build"
   }
   name "a-reading-of-any-at-a-bounded-parameter-refuses"
-  note "`absent` is read as `Any`, which stands where `some T` is bounded by `App.Described` only through a cast, so the build refuses, whatever arrives."
+  note "`absent` writes no type, so it is read as `Any`, and `App.tell` bounds its `some T` by `App.Described`. A reading of `Any` stands at a bounded parameter only through a cast, so the build refuses, whatever arrives, null included."
   program {
     contracts {
       "App.Described" {

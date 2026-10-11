@@ -39,8 +39,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-cast-of-a-closure-held-at-a-contract-slot-back-to-the-number-it-answers-answers`
 - `a-cast-of-a-closure-its-place-gave-a-record-answer-held-at-a-slot-answering-anything-to-another-record-reads-null-answers`
 - `a-cast-of-a-closure-to-a-procedure-answering-another-record-reads-null-answers`
-- `a-cast-of-a-closure-writing-an-answer-read-as-never-fails`
-- `a-cast-of-a-setter-a-generic-procedure-made-fails-before-its-getter-reads`
 - `a-cast-of-what-all-keyed-answers-names-the-record-declared`
 - `a-closure-answering-a-whole-number-does-not-fit-a-slot-answering-a-fraction-refuses`
 - `a-closure-answering-anything-does-not-fit-a-slot-answering-a-declared-record-refuses`

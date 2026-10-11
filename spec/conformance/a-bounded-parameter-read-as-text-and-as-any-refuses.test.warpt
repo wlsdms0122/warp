@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-bounded-parameter-read-as-text-and-as-any-refuses"
-  note "`App.f` bounds `T` by `App.Nums`, which `Int` and `Double` answer, and takes two of `some T`. The call hands a name read as `String` and a name read as `Any`, so `T` reads `Any`, which every bound passes. What each argument hands is held to the bounds where it stands before the two are joined, and text answers no bound, so the call refuses at the build."
+  note "`App.f` bounds `T` by `App.Nums`, which `Int` and `Double` answer, and takes two of `some T`. The call hands a name read as `String` and a name read as `Any`, which makes the parameter `Any`, and a reading of `Any` stands at a bounded parameter only through a cast, so the call refuses at the build."
   program {
     contracts {
       "App.Nums" {}

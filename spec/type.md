@@ -92,7 +92,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-bound-names-a-contract-another-document-declares`
 - `a-bound-naming-a-parameter-no-slot-mentions-refuses`
 - `a-bounded-parameter-read-as-text-and-as-any-refuses`
-- `a-call-filling-a-parameter-from-a-list-of-any-reads-it-as-any`
 - `a-call-filling-a-parameter-from-a-variable-held-in-place-takes-a-value-of-that-parameter`
 - `a-call-filling-a-parameter-from-a-variable-held-in-place-takes-no-other-value-refuses`
 - `a-call-filling-a-parameter-from-the-bodys-own-and-a-reading-of-any-refuses`
@@ -106,11 +105,13 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-cast-of-a-closure-writing-a-generic-answer-carried-through-another-fails`
 - `a-cast-of-a-closure-writing-a-variable-handed-in-place-fails`
 - `a-cast-of-a-closure-writing-an-answer-a-caller-appends-in-place-fails`
+- `a-cast-of-a-closure-writing-an-answer-read-as-never-fails`
 - `a-cast-of-a-closure-writing-an-unsaid-generic-answer-carried-through-another-fails`
 - `a-cast-of-a-closure-writing-where-a-declared-record-was-filled-fails`
 - `a-cast-of-a-nullable-record-to-another-record-refuses`
 - `a-cast-of-a-record-with-a-var-field-to-a-record-it-never-is-refuses`
 - `a-cast-of-a-recursive-record-to-a-field-it-never-holds-further-down-refuses`
+- `a-cast-of-a-setter-a-generic-procedure-made-fails-before-its-getter-reads`
 - `a-cast-of-an-alias-of-a-nullable-record-to-another-record-refuses`
 - `a-cast-to-an-alias-of-a-nullable-record-names-the-record-answers`
 - `a-claim-about-a-list-of-one-type-refuses`
@@ -145,7 +146,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-closures-parameter-names-are-not-part-of-its-type`
 - `a-contract-asking-no-procedures-is-answered-by-what-claims-it`
 - `a-contract-asking-no-procedures-refuses-what-no-claim-names`
-- `a-contract-call-handing-a-whole-after-a-fraction-read-as-any-refuses`
 - `a-contract-carries-a-procedure-into-a-generic-body`
 - `a-contract-declared-twice-refuses`
 - `a-contract-declared-under-a-spelling-that-is-no-name-refuses`
@@ -280,7 +280,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-record-literal-holding-a-closure-handed-at-a-bounded-parameter-answers`
 - `a-record-of-fields-of-two-types-handed-at-a-dictionary-of-a-bounded-parameter-refuses`
 - `a-record-of-other-fields-with-an-any-field-appended-to-a-declared-list-refuses`
-- `a-record-read-as-a-dictionary-after-any-at-a-bounded-parameter-refuses`
 - `a-record-type-may-name-a-field-for-a-form`
 - `a-record-under-another-name-refuses`
 - `a-record-whose-fields-do-not-join-handed-at-a-dictionary-of-a-bounded-parameter-refuses`
@@ -317,7 +316,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-value-read-as-a-contract-where-another-is-asked-refuses`
 - `a-value-read-as-any-sent-to-a-closure-held-at-a-procedure-type-refuses`
 - `a-value-taking-a-parameter-in-place-does-not-fit-a-slot-handing-a-value`
-- `a-value-through-any-is-judged-against-the-bound-where-it-arrives`
 - `a-variable-a-closure-took-written-from-any-refuses`
 - `a-variable-a-closure-writes-from-any-refuses`
 - `a-variable-a-closure-writes-with-a-value-of-the-parameter-answers`
@@ -329,6 +327,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-whole-literal-where-a-bounded-parameter-stands-refuses`
 - `a-whole-number-a-name-holds-is-no-fraction-refuses`
 - `an-alias-beside-what-it-stands-for-in-a-list-literal-joins-as-that-type`
+- `an-alias-coming-back-to-itself-through-a-list-refuses`
 - `an-alias-of-a-contract-answers-the-contract`
 - `an-alias-of-a-declared-record-gives-a-value-from-outside-the-records-name`
 - `an-alias-of-a-record-answers-the-records-contracts`
@@ -345,6 +344,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-optional-cast-of-a-closure-over-a-type-parameter-its-making-call-filled-reads-null`
 - `an-optional-read-of-a-field-naming-an-alias-of-a-nullable-reads-that-nullable`
 - `any-written-nullable-refuses`
+- `elements-of-different-types-join-to-any`
 - `inout-written-on-a-name-refuses`
 - `inout-written-on-returns-refuses`
 - `never-written-nullable-refuses`
