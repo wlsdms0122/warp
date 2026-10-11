@@ -141,7 +141,7 @@ A *lowered type* is a type as a body stands on it, `[tag, …]`:
 | 7 | array | *lowered type* |
 | 8 | dictionary | *lowered type* |
 | 9 | record | `[layout, types]`: the *layout*, and a list of *lowered type* in the layout's field order |
-| 10 | procedure | parameters or nothing, a list of *lowered type* in position order; returns or nothing; *constness*; *isolation* |
+| 10 | procedure | parameters or nothing, a list of *lowered type* in position order; returns or nothing, nothing where the parameters are nothing; *constness*; *isolation* |
 | 11 | variable | *lowered type* |
 | 12 | inout | *lowered type* |
 | 13 | nullable | *lowered type* |
@@ -173,6 +173,7 @@ A reading refuses what it cannot read and traps on nothing: the reading runs ins
 - a contract's procedure whose *failing* is `[0]`
 - a declared type that is no record and comes back to itself through what it stands for, which the load refuses in a document, under [types](type.md)
 - a record, built from parts or as a lowered type, holding other than one part per field its layout names
+- a lowered procedure type writing what it answers and not what it takes
 - a row of a procedure the host answers whose sends do not stand one to a place from the first, or reach a spelling the document's `numbering` does not number
 - an object standing against a document other than the one it was kept under
 
@@ -279,6 +280,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-writing-a-composition-of-one-name-refuses`
 - `an-object-writing-a-count-below-zero-refuses`
 - `an-object-writing-a-name-not-in-normal-form-refuses`
+- `an-object-writing-a-procedure-type-that-answers-without-parameters-refuses`
 - `an-object-writing-a-tag-the-layout-does-not-name-refuses`
 - `an-object-writing-an-empty-name-refuses`
 - `an-object-writing-any-as-a-parameter-type-refuses`
