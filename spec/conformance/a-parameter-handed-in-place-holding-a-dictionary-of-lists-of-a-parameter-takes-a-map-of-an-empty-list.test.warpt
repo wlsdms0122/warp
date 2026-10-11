@@ -2,25 +2,23 @@ warpt 1
 {
   expect {
     answers {
-      a "b"
+      k []
     }
   }
-  name "a-parameter-handed-in-place-holding-a-dictionary-of-a-parameter-takes-a-record-of-it"
-  note "App.gen takes Dictionary<String, some T> in place and writes a map literal of its own some T into it. A map literal whose every value the entry takes is such a dictionary."
+  name "a-parameter-handed-in-place-holding-a-dictionary-of-lists-of-a-parameter-takes-a-map-of-an-empty-list"
+  note "App.g writes a map literal holding `[]` under `k` into d, a dictionary of lists of T handed in place. The empty list in the entry holds no element, so the map is a value of Dictionary<String, Array<some T>>, and the caller reads k as an empty list."
   program {
     imports []
     procedures {
-      "App.gen" {
+      "App.g" {
         body [
           {
-            set "x"
+            set "d"
             value {
               dictionary [
                 [
-                  "a"
-                  {
-                    ref "y"
-                  }
+                  "k"
+                  []
                 ]
               ]
             }
@@ -28,12 +26,8 @@ warpt 1
         ]
         parameters [
           {
-            name "x"
-            type "inout Dictionary<String, some T>"
-          }
-          {
-            name "y"
-            type "some T"
+            name "d"
+            type "inout Dictionary<String, Array<some T>>"
           }
         ]
         result 0
@@ -42,28 +36,28 @@ warpt 1
         access "public"
         body [
           {
-            type "Dictionary<String, String>"
+            type "Dictionary<String, Array<String>>"
             value {
               dictionary [
                 [
-                  "a"
-                  "z"
+                  "k"
+                  [
+                    "a"
+                  ]
                 ]
               ]
             }
             var "s"
           }
           {
-            let "r"
             value {
               call {
                 arguments [
                   {
                     ref "s"
                   }
-                  "b"
                 ]
-                procedure "App.gen"
+                procedure "App.g"
               }
             }
           }

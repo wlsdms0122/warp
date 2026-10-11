@@ -260,7 +260,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `replacing-swaps-every-occurrence`
 - `reversed-turns-the-order-around`
 - `rounded-past-the-int-refuses`
-- `setting-answers-a-new-record`
+- `setting-answers-a-new-map`
 - `setting-refuses-a-key-that-is-not-a-name`
 - `sorted-answers-every-element-where-less-than-is-not-strict`
 - `sorted-orders-what-it-was-given`

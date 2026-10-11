@@ -3,17 +3,17 @@ warpt 1
   expect {
     answers [
       {
-        a []
+        k []
       }
       {
-        b [
+        k [
           "b"
         ]
       }
     ]
   }
-  name "a-parameter-handed-in-place-holding-dictionaries-of-lists-of-a-parameter-takes-records-of-other-fields"
-  note "App.g writes a list of two map literals into xs, a list of dictionaries of lists of T handed in place, one holding `[]` under `a` and one holding `[x]` under `b`, where x is its own some T. The literal is judged part by part, so the two maps need not hold one key: each is a dictionary of lists of T, and the caller reads both."
+  name "a-parameter-handed-in-place-holding-dictionaries-of-lists-of-a-parameter-takes-maps-of-an-empty-list-and-of-it"
+  note "App.g writes a list of two map literals into xs, a list of dictionaries of lists of T handed in place, one holding `[]` under `k` and one holding `[x]` there, where x is its own some T. The two maps are taken entry by entry, and the empty list beside the list of x holds no element, so the literal is a value of Array<Dictionary<String, Array<some T>>>."
   program {
     imports []
     procedures {
@@ -25,7 +25,7 @@ warpt 1
               {
                 dictionary [
                   [
-                    "a"
+                    "k"
                     []
                   ]
                 ]
@@ -33,7 +33,7 @@ warpt 1
               {
                 dictionary [
                   [
-                    "b"
+                    "k"
                     [
                       {
                         ref "x"

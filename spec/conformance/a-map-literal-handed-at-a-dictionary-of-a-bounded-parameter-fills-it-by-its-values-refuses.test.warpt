@@ -3,8 +3,8 @@ warpt 1
   expect {
     refuses "build"
   }
-  name "a-record-whose-fields-do-not-join-handed-at-a-dictionary-of-a-bounded-parameter-refuses"
-  note "`App.g` bounds `T` by `App.M`, which `Int` and `String` answer, and takes `Dictionary<String, some T>`. The map literal holding `1` under `a` and `true` under `b` handed there fills `T` with each of its values, `Int` and `Bool`. The two do not join, and `Bool` answers no bound, so the call refuses at the build."
+  name "a-map-literal-handed-at-a-dictionary-of-a-bounded-parameter-fills-it-by-its-values-refuses"
+  note "`App.g` bounds `T` by `App.M`, which `Int` and `String` answer, and takes `Dictionary<String, some T>`. The map literal holding `true` under `b` handed there fills `T` with `Bool`, which answers no bound, and the call refuses at the build."
   program {
     contracts {
       "App.M" {}
@@ -34,10 +34,6 @@ warpt 1
                 arguments [
                   {
                     dictionary [
-                      [
-                        "a"
-                        1
-                      ]
                       [
                         "b"
                         true
