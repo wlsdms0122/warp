@@ -1,10 +1,14 @@
 warpt 1
 {
   expect {
-    refuses "run"
+    answers {
+      1 "a"
+      2 "b"
+      3 "c"
+    }
   }
-  name "setting-refuses-a-key-that-is-not-a-name"
-  note "The key setting writes is a name, and an empty text names nothing."
+  name "setting-writes-a-key-of-the-maps-own-type"
+  note "setting's key is of the map's own key type, so a map keyed by whole numbers takes a whole number there and answers with the entry made in the key order."
   program {
     imports [
       "Standard.Collection.setting"
@@ -18,13 +22,17 @@ warpt 1
               {
                 dictionary [
                   [
-                    "a"
+                    3
+                    "c"
+                  ]
+                  [
                     1
+                    "a"
                   ]
                 ]
               }
-              ""
               2
+              "b"
             ]
             procedure "Standard.Collection.setting"
           }
