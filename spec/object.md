@@ -14,7 +14,7 @@ An object is one record. It carries **exactly** these keys, and a key none of th
 | `document` | the document's identity, or nothing where the program was never written down | |
 | `dependencies` | the objects behind every declaration this document named, each by what the host keyed it under | ascending by bytes, none twice |
 | `types` | name → *type*, as the document wrote them | by name |
-| `contracts` | name → (procedure name → `[ signature, constness, isolation, failing ]`, the two marks and *failing* as a row writes them) | by name, then by name |
+| `contracts` | name → (procedure name → `[ signature, constness, isolation, failing ]`, the two marks as a row writes them and *failing* as `[1, names]`) | by name, then by name |
 | `claims` | type name → the contracts it says it answers | by name; the contracts ascending |
 | `leaned` | the pairs its bodies lean on: (type, contract, *place*), unresolved | by type, then contract |
 | `rows` | the declarations, each a *row* under its spelling | by name |
@@ -25,7 +25,7 @@ An object is one record. It carries **exactly** these keys, and a key none of th
 | `variables` | (name, *value*): what each variable starts a run holding | by name |
 | `constants` | the constants it declared, by spelling | by name |
 
-**The record is keyed and its parts are not.** The record names each part by its key; inside a part the fields stand in order and a kind says itself by its tag. A reading holds an object to the format it reads before it reads a part.
+**The record is keyed and its parts are not.** The record names each part by its key; inside a part the fields stand in order and a variant says itself by its tag. A reading holds an object to the format it reads before it reads a part.
 
 **Order is spelling.** Every list a name keys stands ascending by the names' bytes, none twice, and so does every set written as a list. That is the whole of what makes one object one value: a dictionary lends no order, so the layout says one, and a reading takes no other. A list out of order, or naming one thing twice, **refuses**.
 
@@ -35,12 +35,12 @@ An object is one record. It carries **exactly** these keys, and a key none of th
 
 ## How a part is laid out
 
-Inside the record, a part is written as its fields **in order**, and a kind as its **tag** before them, so a reading beside the same tables reads it back and one that is not refuses it. The rules, used everywhere below:
+Inside the record, a part is written as its fields **in order**, and a variant as its **tag** before them, so a reading beside the same tables reads it back and one that is not refuses it. The rules, used everywhere below:
 
 - A *name* is a string, and one that is not in normal form, or not a name, **refuses**.
 - A list a name keys is `[[name, value] …]`, in name order.
 - A field that may hold nothing is a list of none or one: `[]` or `[value]`. So a value that is itself null is told from no value at all.
-- A kind is `[tag, fields …]`, and a tag this page does not name **refuses**.
+- A variant is `[tag, fields …]`, and a tag this page does not name **refuses**.
 - A count, a slot, a row and a position are whole numbers at or above zero, and one below zero **refuses** where it is read.
 
 ### Types, as a document writes them
@@ -65,15 +65,15 @@ A *type* is `[tag, …]`:
 | 13 | `T?` | *type* |
 | 14 | a declared name | name |
 | 15 | a type parameter | name |
-| 16 | a composition `A & B` | names ascending, at least one |
+| 16 | a composition `A & B` | names ascending, two or more: one contract is written as its name, tag 14 |
 | 17 | a projection | the parameter projected, the path: *segment* list |
 | 18 | `Self` | |
 
 A *segment* is `[0, name, optional]`, `[1, index, optional]` or `[2, path, optional]` for an index read from a path.
 
-A *procedure type* is `[parameters, returns]`: a list of *type*, in position order, and a *type* or nothing. A *signature* is `[parameters, returns, bounds]`: a list of *parameter*, in the declaration's order; a *type* or nothing; and name → the contracts bounding the type parameter of that name, ascending, at least one, for each type parameter the signature bounds. A *parameter* is `[name, type, description]`: the name, then each a list of none or one: a *type*; a string.
+A *procedure type* is `[parameters, returns]`: a list of *type*, in position order, and a *type* or nothing. A *signature* is `[parameters, returns, bounds]`: a list of *parameter*, in the declaration's order; a *type* or nothing; and name → the contracts bounding the type parameter of that name, ascending, at least one, for each type parameter the signature bounds. A *parameter* is `[name, type, description]`: the name, then each a list of none or one: a *type*, none where the parameter takes anything, so `Any` is never written there; a string.
 
-*Constness* is `0` unstated or `1` const. *Isolation* is `0` unstated or `1` isolated. *Failing* is `[0]` unstated or `[1, names]`, the names ascending.
+*Constness* is `0` unstated or `1` const. *Isolation* is `0` unstated or `1` isolated. *Failing* is `[0]` unstated or `[1, names]`, the names ascending. A contract's procedure says which failures it may raise, so its *failing* is `[1, names]` alone.
 
 ### Places
 
@@ -129,7 +129,7 @@ An *operation* is `[tag, …]`. These are the constructs and the expression form
 | 12 | a call through a contract | *dispatch* |
 | 13 | leaving | *reach*, the target name or nothing, what it takes or nothing |
 
-A *layout* is `[name, fields]`: the declared name or nothing, and the field names ascending. A *call* is `[procedure, arguments, handed]`: the row the call reaches, numbered by the document; one *operation* or nothing per parameter of the callee, in parameter order, nothing where the call wrote nothing or hands that parameter an address in place; and `[position, address]` for each parameter handed in place. A *dispatch* is `[contract, procedure, first, arguments]`: the contract's name, the procedure's, the first argument's *operation*, and the arguments after it by position, each an *argument*. Which row answers is the link's, and stands nowhere in an object. An *argument* is `[0, operation]` by value or `[1, address]` by reference: the place a call of a value hands in place, or one a call through a contract hands to whichever row takes it in place.
+A *layout* is `[name, fields]`: the declared name or nothing, and the field names ascending. A *call* is `[procedure, arguments, handed]`: the row the call reaches, numbered by the document; one *operation* or nothing per parameter of the callee, in parameter order, nothing where the call wrote nothing or hands that parameter an address in place; and `[position, address]` for each parameter handed in place, by position ascending. A *dispatch* is `[contract, procedure, first, arguments]`: the contract's name, the procedure's, the first argument's *operation*, and the arguments after it by position, each an *argument*. Which row answers is the link's, and stands nowhere in an object. An *argument* is `[0, operation]` by value or `[1, address]` by reference: the place a call of a value hands in place, or one a call through a contract hands to whichever row takes it in place.
 
 ### Lowered types
 
@@ -167,14 +167,16 @@ A reading refuses what it cannot read and traps on nothing: the reading runs ins
 - a lifted row where the numbering counts no closure, a numbering counting more closures than `lifted` holds, a count of none for a declaration it counts, and counts that add up past what an int holds
 - a frame naming other than one name per slot, standing other than one slot per parameter its declaration takes, or standing a parameter, a variable or a capture past its end
 - a body standing on a slot past its frame or on a variable past its document's `variables`, and a loop keeping a run its frame does not hold
-- a call standing other than as many arguments as the row it reaches takes, where that row is the document's own, or handing in place at a position past the arguments it stands
+- a call handing in place at a position past the arguments it stands, or at one position twice
 - a closure literal taking what it captured into slots other than the captures of its own row's frame
 - a `keeps` that ends before it begins
+- a contract's procedure whose *failing* is `[0]`
+- a declared type that is no record and comes back to itself through what it stands for, which the load refuses in a document, under [types](type.md)
 - a record, built from parts or as a lowered type, holding other than one part per field its layout names
 - a row of a procedure the host answers whose sends do not stand one to a place from the first, or reach a spelling the document's `numbering` does not number
 - an object standing against a document other than the one it was kept under
 
-Every one of these is refused where the object is read, before it is laid beside anything. What only a link can answer, which row a number is, which type answers a contract, is refused at `build`, under [checking](checking.md).
+Every one of these is refused where the object is read, before it is laid beside anything. What only a row beside it can answer, which row a number is and whether a call stands as many arguments as that row takes, and which type answers a contract, is refused at `build`, where a compile lays the object down or a link does, under [checking](checking.md).
 
 ## One object
 
@@ -254,6 +256,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-whose-call-stands-more-arguments-than-its-callee-takes-refuses`
 - `an-object-whose-claims-stand-out-of-name-order-refuses`
 - `an-object-whose-closure-counts-add-up-past-an-int-refuses`
+- `an-object-whose-contract-procedure-leaves-its-failing-unstated-refuses`
 - `an-object-whose-dependencies-stand-out-of-name-order-refuses`
 - `an-object-whose-entry-is-not-public-refuses`
 - `an-object-whose-frame-names-fewer-slots-than-it-holds-refuses`
@@ -265,14 +268,18 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-whose-record-fields-stand-out-of-name-order-refuses`
 - `an-object-whose-rows-stand-out-of-name-order-refuses`
 - `an-object-whose-type-numbering-stands-out-of-name-order-refuses`
+- `an-object-whose-types-name-each-other-refuses`
+- `an-object-whose-types-name-each-other-under-a-question-mark-refuses`
 - `an-object-whose-types-stand-out-of-name-order-refuses`
 - `an-object-whose-variables-stand-out-of-name-order-refuses`
 - `an-object-with-a-key-nothing-names-refuses`
 - `an-object-with-a-lifted-row-nothing-counts-refuses`
+- `an-object-writing-a-composition-of-one-name-refuses`
 - `an-object-writing-a-count-below-zero-refuses`
 - `an-object-writing-a-name-not-in-normal-form-refuses`
 - `an-object-writing-a-tag-the-layout-does-not-name-refuses`
 - `an-object-writing-an-empty-name-refuses`
+- `an-object-writing-any-as-a-parameter-type-refuses`
 - `the-object-of-a-block`
 - `the-object-of-a-call`
 - `the-object-of-a-cast`

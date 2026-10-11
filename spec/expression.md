@@ -9,7 +9,7 @@ A scalar is itself, a literal. A string is always literal text; nothing inside i
 | `{ ref: a.b[0] }` | a name, resolved in the scope that reads it |
 | `{ record: { … } }` | a record, its fields each an expression. A field may be called anything, `ref` and `value` included |
 | `{ call: <call> }` | a call where a value is wanted; same grammar as the `call` construct |
-| `{ closure: <procedure> }` | a procedure written where a value is wanted; same grammar as a procedure |
+| `{ closure: <procedure> }` | a procedure written where a value is wanted; same grammar as a procedure, without `access` and `bounds`: nothing names a closure, and its `some T` is the `T` of the procedure it is written in. A closure writing either **refuses at the load** |
 | `{ as: { of: <value>, type: <type> } }` | read the value as that type: how a value the build could not type, one read as `Any` or as a contract, is held to one |
 | `{ as?: { of: <value>, type: <type> } }` | the same, reading a mismatch as null rather than refusing; the answer is `T?` |
 
@@ -71,6 +71,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-closure-reads-a-variable-through-its-box`
 - `a-closure-write-keeps-the-captured-type`
 - `a-closure-writes-what-it-captured`
+- `a-closure-writing-access-refuses`
 - `a-constant-closure-called-with-another-count-refuses`
 - `a-constant-closure-called-with-another-type-refuses`
 - `a-constant-closure-stands-in-a-const-slot`
