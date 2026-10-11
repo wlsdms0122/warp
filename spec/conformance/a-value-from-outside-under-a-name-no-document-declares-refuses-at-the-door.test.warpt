@@ -1,0 +1,40 @@
+warpt 1
+{
+  arguments {
+    a App.Z {
+      x 1
+    }
+  }
+  expect {
+    refuses "run"
+  }
+  name "a-value-from-outside-under-a-name-no-document-declares-refuses-at-the-door"
+  note "The host hands `a` under `App.Z`, which no document declares, where the entry declares nothing. A name a value carries is held to the record it declares at every door, `Any` included, and `App.Z` names no type here, so the run refuses before the entry runs."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "a"
+          }
+        ]
+        result {
+          ref "a"
+        }
+      }
+    }
+    types {
+      "App.A" "App.P"
+      "App.P" {
+        record {
+          x "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
