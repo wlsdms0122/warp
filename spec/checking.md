@@ -88,7 +88,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-attempt-written-into-a-slot-holds-each-way-on-its-own-refuses`
 - `an-empty-name-refuses`
 - `an-untaken-arm-is-checked-too`
-- `elements-of-different-kinds-join-to-any`
+- `elements-of-different-types-join-to-any`
 - `inout-written-outside-a-parameter-refuses`
 - `one-document-handed-twice-refuses`
 - `two-documents-that-need-each-other-refuse`

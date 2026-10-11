@@ -91,6 +91,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-bound-may-name-several-and-holds-to-every-one`
 - `a-bound-names-a-contract-another-document-declares`
 - `a-bound-naming-a-parameter-no-slot-mentions-refuses`
+- `a-bounded-parameter-read-as-text-and-as-any-refuses`
 - `a-call-filling-a-parameter-from-a-list-of-any-reads-it-as-any`
 - `a-call-filling-a-parameter-from-a-variable-held-in-place-takes-a-value-of-that-parameter`
 - `a-call-filling-a-parameter-from-a-variable-held-in-place-takes-no-other-value-refuses`
@@ -144,7 +145,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-closures-parameter-names-are-not-part-of-its-type`
 - `a-contract-asking-no-procedures-is-answered-by-what-claims-it`
 - `a-contract-asking-no-procedures-refuses-what-no-claim-names`
-- `a-contract-call-handing-a-fraction-read-as-any-after-a-whole-refuses`
 - `a-contract-call-handing-a-whole-after-a-fraction-read-as-any-refuses`
 - `a-contract-carries-a-procedure-into-a-generic-body`
 - `a-contract-declared-twice-refuses`
@@ -225,7 +225,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-named-record-arrives-as-an-argument`
 - `a-named-record-from-outside-at-a-contract-slot-is-fitted-to-its-record`
 - `a-named-record-from-outside-short-of-a-field-at-a-contract-slot-refuses`
-- `a-null-arriving-at-a-bounded-parameter-is-held-to-the-claims-about-null`
 - `a-null-cast-to-a-contract-is-held-to-the-claims-about-null`
 - `a-nullable-const-procedure-reads-as-written`
 - `a-nullable-that-says-nothing-new-behind-a-name-refuses`
@@ -260,7 +259,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-path-written-from-any-into-a-list-of-a-parameter-refuses`
 - `a-procedure-a-call-filled-from-a-declared-record-takes-no-int-refuses`
 - `a-procedure-value-at-a-slot-writing-a-procedure-type-refuses`
-- `a-reading-beside-any-at-a-bounded-parameter-is-held-where-it-stands-refuses`
+- `a-reading-of-any-at-a-bounded-parameter-refuses`
+- `a-reading-of-any-at-a-contract-procedure-refuses`
+- `a-reading-of-any-beside-a-whole-at-a-contract-procedure-refuses`
 - `a-reading-of-any-stands-at-an-alias-of-any`
 - `a-reading-outside-a-bound-refuses`
 - `a-record-a-block-answers-where-a-declared-record-is-read-takes-the-name`
@@ -301,7 +302,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-type-reaching-itself-through-names-alone-refuses`
 - `a-type-that-misses-a-procedure-does-not-answer-the-contract`
 - `a-type-the-language-names-answers-a-contract`
-- `a-value-arriving-through-any-answers-by-the-type-it-is`
 - `a-value-cast-from-any-to-a-contract-answers-by-the-type-it-is`
 - `a-value-cast-from-any-to-a-contract-it-does-not-answer-fails`
 - `a-value-declares-every-parameter-the-slot-hands`

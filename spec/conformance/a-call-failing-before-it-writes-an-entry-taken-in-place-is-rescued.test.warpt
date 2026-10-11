@@ -3,7 +3,7 @@ warpt 1
   expect {
     answers "rescued"
   }
-  name "an-entry-not-written-yet-handed-back-by-a-failing-call-is-rescued"
+  name "a-call-failing-before-it-writes-an-entry-taken-in-place-is-rescued"
   note "App.touch takes an entry of a dictionary in place at its own some T and fails before writing it. The entry not written yet holds nothing to judge, so the failure passes on as it was and the caller rescues it."
   program {
     imports [

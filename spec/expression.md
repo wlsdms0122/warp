@@ -57,7 +57,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-cast-of-a-record-literal-names-the-nameless-record-it-holds-answers`
 - `a-cast-of-a-record-literal-reads-a-whole-number-in-it-as-an-int-refuses`
 - `a-cast-of-a-record-under-another-name-fails`
-- `a-cast-of-a-recursive-alias-to-what-it-names-refuses`
 - `a-cast-onto-a-type-parameter-refuses`
 - `a-cast-onto-any-refuses`
 - `a-cast-onto-never-refuses`
@@ -103,6 +102,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-write-at-a-constant-index-below-zero-refuses`
 - `a-write-at-an-index-below-zero-refuses`
 - `an-absent-dictionary-entry-refuses`
+- `an-alias-coming-back-to-itself-through-a-list-refuses`
 - `an-asking-cast-of-a-declared-record-read-as-any-to-an-inline-record-reads-null`
 - `an-element-of-a-constant-list-reads-as-its-element-type-refuses`
 - `an-element-of-a-constant-record-field-reads-as-its-element-type-refuses`

@@ -32,6 +32,7 @@ What a run does once the build has answered everything it can. Order, boundaries
 
 What `conformance/` asks about this page, by the name each case's file carries.
 
+- `a-call-failing-before-it-writes-an-entry-taken-in-place-is-rescued`
 - `a-called-value-answers-what-its-slot-wrote`
 - `a-calls-arguments-are-evaluated-in-position-order`
 - `a-cast-of-a-closure-answering-a-record-held-at-a-slot-answering-anything-to-another-record-reads-null-answers`
@@ -72,8 +73,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-value-a-host-procedure-answers-outside-its-returns-refuses`
 - `all-answers-every-piece-under-its-key`
 - `an-answer-nobody-wrote-takes-what-a-called-values-slot-wrote`
-- `an-argument-refused-at-its-slot-is-not-rescued-past-a-failure-after-it`
+- `an-argument-that-refuses-is-not-rescued-past-a-failure-after-it`
 - `an-element-handed-in-place-beside-its-list-is-past-the-end-once-the-list-is-emptied`
-- `an-entry-not-written-yet-handed-back-by-a-failing-call-is-rescued`
 - `an-entry-not-written-yet-handed-in-place-and-left-alone-stays-unwritten`
 - `every-way-out-of-a-body-is-one-of-its-answers`
