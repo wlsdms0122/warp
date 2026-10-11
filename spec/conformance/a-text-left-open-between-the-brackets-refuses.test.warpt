@@ -1,14 +1,11 @@
 warpt 1
 {
   expect {
-    refuses "build"
+    refuses "load"
   }
-  name "a-read-at-a-constant-key-that-is-not-a-name-refuses"
-  note "A constant between the brackets settles at the build, and empty text names no entry, so the read refuses there."
+  name "a-text-left-open-between-the-brackets-refuses"
+  note "A text between the brackets is closed by a quote, and one never closed leaves the path unfinished."
   program {
-    const {
-      K ""
-    }
     imports []
     procedures {
       entry {
@@ -18,14 +15,17 @@ warpt 1
             let "d"
             type "Dictionary<String, Int>"
             value {
-              record {
-                a 1
-              }
+              dictionary [
+                [
+                  "a"
+                  1
+                ]
+              ]
             }
           }
         ]
         result {
-          ref "d[K]"
+          ref "d[\"a]"
         }
         returns "Int"
       }

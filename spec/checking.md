@@ -14,7 +14,7 @@ A program is read, checked and built before any of it runs, the arms nobody take
 - every declared type names a type that exists;
 - every map type is keyed by a type that answers `Hashable`, under *a map's key* in [types](type.md);
 - a condition (a `conditional`'s `when`, a `loop`'s `while`) answers a `Bool`, held where it is written as any slot of a type is, under *what a slot takes, exactly* in [types](type.md);
-- an index written as a reference reads `Int`, and a key read by brackets on a dictionary reads `String`, under [expressions](expression.md);
+- what stands between brackets reads `Int` on a list and the map's key type on a map, under [expressions](expression.md);
 - a call of a value reaches one whose type writes its parameters; one whose type writes none (`Procedure`, `Any`, a type parameter, a contract) is called only through a cast, under [procedures](procedure.md);
 - inside a generic body every place reading its own type parameter takes only a value of it, under [types](type.md);
 - a slot declared `const` takes only a procedure that answers without running, under *what answers without running* in [procedures](procedure.md); a slot declared `isolated` takes only a procedure the build derived as isolated;
