@@ -4,7 +4,7 @@ warpt 1
     answers 1
   }
   name "a-break-from-a-rescue-carries-what-the-body-did-before-failing"
-  note "The attempt's body sets `n` to a string and then fails, and its rescue breaks out of the loop. The way that breaks went through the body up to the failure, so past the loop `n` may hold the string, and asking whether it is an int stands rather than being a cast the reading already settles."
+  note "The attempt's body sets `n` to a string and then fails, and its rescue breaks out of the loop. The way that breaks went through the body up to the failure, so past the loop `n` may hold the string, and asking whether it is an int stands rather than being a cast the reading already decides."
   program {
     imports [
       "Standard.Comparable.lessThan"

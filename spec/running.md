@@ -32,7 +32,6 @@ What a run does once the build has answered everything it can. Order, boundaries
 
 What `conformance/` asks about this page, by the name each case's file carries.
 
-- `a-call-failing-before-it-writes-an-entry-taken-in-place-is-rescued`
 - `a-called-value-answers-what-its-slot-wrote`
 - `a-calls-arguments-are-evaluated-in-position-order`
 - `a-cast-of-a-closure-answering-a-record-held-at-a-slot-answering-anything-to-another-record-reads-null-answers`

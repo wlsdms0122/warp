@@ -63,7 +63,7 @@ Two implementations that run the same programs identically and disagree about wh
 
 The cases under `conformance/` name the stages **`load`**, **`build`** and **`run`**. `load` is reading plus the checks a document answers alone, listed in [checking](checking.md). A document is checked as it is loaded, and to the host the two are one refusal surface. `build` is everything judged against a signature or another document: what a call fits, what a slot takes, which module declares a procedure, which type answers a contract. `run` is running. The stage is the rule's and not the program's: a `ref` that resolves nowhere in its own document refuses at `load`, a call in that same document handing a value of the wrong type refuses at `build`, and a procedure no module declares refuses at `build`.
 
-Building is compiling and linking, the way it is anywhere else. Compiling settles what each document says on its own, against the interfaces of the documents it reaches. Linking lays the compiled documents down together and answers what only the list can answer, such as which type answers which contract. Which of the two refused is not part of the stage, because nothing has run either way.
+Building is compiling and linking, the way it is anywhere else. Compiling judges what each document says on its own, against the interfaces of the documents it reaches. Linking lays the compiled documents down together and answers what only the list can answer, such as which type answers which contract. Which of the two refused is not part of the stage, because nothing has run either way.
 
 ## The pages
 

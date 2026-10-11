@@ -56,7 +56,7 @@ A procedure **answers without running** when nothing it reaches stands outside t
 
 A construct reaches nothing on its own. Which part of a `conditional`, `loop`, `attempt` or `block` runs is decided inside the body, so one of them is read exactly as far as the parts it holds are, and the same goes for `return`, `break` and `continue`. A name the body introduces is the body's own: a `let` and a `var` both make one, neither leaves the body, and so declaring either says nothing about what the body reaches.
 
-The build works this out over every declaration at once. It starts with all of them and strikes out whatever reaches something struck, so two procedures that call each other settle together rather than each waiting on the other. A procedure with **no body** says it about itself instead, and the sends it declared are held to what it said, under *a procedure the host answers* above. A closure literal is judged by the same rule, and the answer travels with the closure as a value, so a slot reads it wherever the value arrives. What it captured it is judged with: a name the enclosing scope held under a slot that said a `const` procedure type is one the closure may call, which is what lets a body build a closure per element and hand the lot to `Standard.Concurrent.all`. A variable that declared it holds one is such a name too, since every write into it is held to the declaration; a variable that declared nothing is held from the capture on to the type it read as there, under *what a write reaches* in [statements](statement.md), and that type is a reading the build worked out, so it says nothing the closure can hold on to. **Isolation reads a captured name the same way**, through a slot that said an `isolated` procedure type.
+The build works this out over every declaration at once. It starts with all of them and strikes out whatever reaches something struck, so two procedures that call each other are decided together rather than each waiting on the other. A procedure with **no body** says it about itself instead, and the sends it declared are held to what it said, under *a procedure the host answers* above. A closure literal is judged by the same rule, and the answer travels with the closure as a value, so a slot reads it wherever the value arrives. What it captured it is judged with: a name the enclosing scope held under a slot that said a `const` procedure type is one the closure may call, which is what lets a body build a closure per element and hand the lot to `Standard.Concurrent.all`. A variable that declared it holds one is such a name too, since every write into it is held to the declaration; a variable that declared nothing is held from the capture on to the type it read as there, under *what a write reaches* in [statements](statement.md), and that type is a reading the build worked out, so it says nothing the closure can hold on to. **Isolation reads a captured name the same way**, through a slot that said an `isolated` procedure type.
 
 **What it permits.** Three places, and they are what the claim is for:
 
@@ -68,14 +68,14 @@ A call through a contract reaches whichever declaration the value turns out to b
 
 Choosing among values in an operand is a procedure, `Standard.Logic.select`, under [the standard vocabulary](vocabulary.md).
 
-**What a constant settles from.** Answering without running is what lets a procedure be run at the build. It does not settle *which* run's answer that is. A procedure reaches nothing outside the run it was handed and still answers one thing in one run and another in the next: a host brings a procedure that reads the device it is on, and every run of it inside a run agrees.
+**What a constant settles from.** Answering without running is what lets a procedure be run at the build. It does not decide *which* run's answer that is. A procedure reaches nothing outside the run it was handed and still answers one thing in one run and another in the next: a host brings a procedure that reads the device it is on, and every run of it inside a run agrees.
 
 What a constant settles to is written into the compiled document, and a compiled document outlives the run that made it. It is kept, it is read again, and it may be made on one machine and read on another. So a constant settles from what answers the same wherever that document is read, which is two things and not three:
 
 - a **body** in another document of the link, since the document it is written in is what the compiled document is made from. A body the constant's own document declares is still being resolved beside it, under *a constant-headed path* in [expressions](expression.md);
 - a procedure this specification **names**, under *what an implementation must write* in [the standard vocabulary](vocabulary.md), since every conforming implementation answers it alike.
 
-A call through a contract settles from the declaration a claim names, and which declarations answer a contract is a fact of the whole list. So a constant settles through a contract only where the declaration answering it stands in a document the constant's document stands on, near or far: what it names, and what those name. A constant whose call through a contract reaches a type no such document declares an answer for **refuses at the build**, however the host handed the documents over, and the claim it ran on is still held at the link.
+A call through a contract is answered by the declaration a claim names, and which declarations answer a contract is a fact of the whole list. So a constant settles through a contract only where the declaration answering it stands in a document the constant's document stands on, near or far: what it names, and what those name. A constant whose call through a contract reaches a type no such document declares an answer for **refuses at the build**, however the host handed the documents over, and the claim it ran on is still held at the link.
 
 Settling one **refuses at the build** where it reaches a procedure the host brought, whether the constant called it or called a body that does. A **slot** asking a `const` procedure type and an **operand** are untouched: both are read while the program runs, and neither writes anything down.
 
@@ -116,6 +116,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-body-reading-a-module-variable-does-not-answer-without-running`
 - `a-body-that-branches-answers-without-running`
 - `a-body-that-loops-answers-without-running`
+- `a-call-failing-before-it-writes-an-entry-taken-in-place-is-rescued`
 - `a-call-of-a-value-hands-in-place-inside-every-construct`
 - `a-call-of-a-value-hands-its-arguments-by-position`
 - `a-call-of-a-value-indexed-by-a-module-variable-does-not-answer-without-running`

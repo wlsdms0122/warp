@@ -1,6 +1,6 @@
 # Known costs
 
-Each of these is settled. What remains is a cost the decision lands on an implementation, or a limit of the suite, and a second implementation is told here rather than left to find it.
+Each of these is decided. What remains is a cost the decision lands on an implementation, or a limit of the suite, and a second implementation is told here rather than left to find it.
 
 - **The text decision is cheap in Swift and dear elsewhere.** Grapheme-cluster counting and canonical equivalence come with the platform in Swift and are a library obligation in most other languages; the decision stands, and the cost lands on implementations unevenly.
 - **The suite covers the constructs, the vocabulary, the encodings and the objects, and a few rules no case can hold.** Every construct, the naming and leaving rules, the version and the imports list, the boundary judgements, every standard procedure, what a binary reader must refuse and what a build writes down for each operation are held as cases, and each page names its own under *Cases*. The rest no case can hold:

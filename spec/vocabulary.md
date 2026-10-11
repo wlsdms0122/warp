@@ -44,10 +44,10 @@ One of these is builtin for a reason that is not the set it removes. `trimmed` n
 |---|---|---|
 | `equal`, `notEqual` | `lhs: Any`, `rhs: Any` | `Bool` |
 | `not` | `value: Bool` | `Bool` |
-| `and`, `or` | `conditions`. A list of `const` procedures taking nothing, each answering `Bool`, so one answering anything else **refuses at the build** where it is handed | `Bool`. Over nothing, `and` answers `true` and `or` answers `false`: no side settled the answer, so the chain's own answer stands |
+| `and`, `or` | `conditions`. A list of `const` procedures taking nothing, each answering `Bool`, so one answering anything else **refuses at the build** where it is handed | `Bool`. Over nothing, `and` answers `true` and `or` answers `false`: no side decided the answer, so the chain's own answer stands |
 | `select` | `condition: Bool`, `then`, `else`. `const` procedures taking nothing, each answering `some Answer` | `some Answer` |
 
-`and` and `or` take procedures precisely so they need not run them all: the sides are read in order and the procedure stops at the first side that settles the answer. The first false, the first true. What follows the stop is never evaluated. `select` takes them for the same reason and asks exactly one, so a side that would refuse is never a refusal of the side that was chosen. `equal` and `notEqual` answer by the value model's one sameness, and `not` turns a `Bool` around.
+`and` and `or` take procedures precisely so they need not run them all: the sides are read in order and the procedure stops at the first side that decides the answer. The first false, the first true. What follows the stop is never evaluated. `select` takes them for the same reason and asks exactly one, so a side that would refuse is never a refusal of the side that was chosen. `equal` and `notEqual` answer by the value model's one sameness, and `not` turns a `Bool` around.
 
 **`select` is how an operand chooses.** A `conditional` answers nothing, under [statements](statement.md), and an operand is read rather than run, so choosing among values inside one is a procedure here rather than grammar. The two sides answer one type, worked out from the call the way any type parameter is.
 
