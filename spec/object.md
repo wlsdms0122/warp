@@ -254,6 +254,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-standing-against-another-document-refuses`
 - `an-object-whose-body-stands-past-its-frame-refuses`
 - `an-object-whose-call-stands-more-arguments-than-its-callee-takes-refuses`
+- `an-object-whose-call-through-a-contract-stands-more-arguments-than-its-rows-take-refuses`
 - `an-object-whose-claims-stand-out-of-name-order-refuses`
 - `an-object-whose-closure-counts-add-up-past-an-int-refuses`
 - `an-object-whose-contract-procedure-leaves-its-failing-unstated-refuses`
