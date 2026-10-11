@@ -1,0 +1,84 @@
+warpt 1
+{
+  expect {
+    answers {
+      p App.Point {
+        x 1
+      }
+      t 2
+    }
+  }
+  name "a-record-literal-handed-to-a-declaration-takes-the-name-beside-a-type-parameter-answers"
+  note "`App.run` sends `App.h`, whose slot `{ p: App.Point, t: some U }` the call fills with `run`'s own `T`. The literal is held part by part: `p` is written where `App.Point` is read and takes the name, and only `t`, which stands at the parameter, is held to being a value of `T`, which `x` is."
+  program {
+    imports []
+    procedures {
+      "App.h" {
+        parameters [
+          {
+            name "r"
+            type {
+              record {
+                p "App.Point"
+                t "some U"
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+        returns "Any"
+      }
+      "App.run" {
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                record {
+                  p {
+                    record {
+                      x 1
+                    }
+                  }
+                  t {
+                    ref "x"
+                  }
+                }
+              }
+            ]
+            procedure "App.h"
+          }
+        }
+        returns "Any"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              2
+            ]
+            procedure "App.run"
+          }
+        }
+      }
+    }
+    types {
+      "App.Point" {
+        record {
+          x "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
