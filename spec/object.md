@@ -265,6 +265,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-whose-frame-names-fewer-slots-than-it-holds-refuses`
 - `an-object-whose-layout-names-stand-out-of-order-refuses`
 - `an-object-whose-loop-keeps-a-run-past-its-frame-refuses`
+- `an-object-whose-map-keys-stand-out-of-the-key-order-refuses`
 - `an-object-whose-numbering-closures-stand-out-of-name-order-refuses`
 - `an-object-whose-numbering-sends-stand-out-of-name-order-refuses`
 - `an-object-whose-procedure-the-host-answers-sends-a-spelling-its-numbering-does-not-number-refuses`
@@ -297,6 +298,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `the-object-of-a-literal`
 - `the-object-of-a-local`
 - `the-object-of-a-loop`
+- `the-object-of-a-map-a-variable-starts-with`
+- `the-object-of-a-map-built-from-parts`
 - `the-object-of-a-module-constant-and-a-variable`
 - `the-object-of-a-record-built-from-parts`
 - `the-object-of-a-write-at-a-constant-key`
