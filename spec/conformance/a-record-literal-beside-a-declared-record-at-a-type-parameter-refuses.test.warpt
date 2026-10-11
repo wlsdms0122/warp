@@ -1,0 +1,69 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-record-literal-beside-a-declared-record-at-a-type-parameter-refuses"
+  note "A type parameter is no declared record, whatever a call fills it with. `App.same` takes `some T` twice, and the record literal handed beside an `App.P` is written where a type parameter is read, so it has no record to be and refuses at the build."
+  program {
+    imports []
+    procedures {
+      "App.same" {
+        parameters [
+          {
+            name "a"
+            type "some T"
+          }
+          {
+            name "b"
+            type "some T"
+          }
+        ]
+        result {
+          ref "a"
+        }
+        returns "some T"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "p"
+            type "App.P"
+            value {
+              record {
+                x 1
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "p"
+              }
+              {
+                record {
+                  x 2
+                }
+              }
+            ]
+            procedure "App.same"
+          }
+        }
+        returns "App.P"
+      }
+    }
+    types {
+      "App.P" {
+        record {
+          x "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -3,8 +3,8 @@ warpt 1
   expect {
     refuses "build"
   }
-  name "a-record-of-fields-of-two-types-handed-at-a-dictionary-of-a-bounded-parameter-refuses"
-  note "`App.g` bounds `T` by `App.M`, which `Int` and `String` answer, and takes `Dictionary<String, some T>`. The record `{ a: 1, b: \"s\" }` handed there is read as a dictionary: its fields joined fill `T` with `Any`, which answers no contract, so the build refuses though each field answers. A bounded parameter is one type."
+  name "a-map-literal-of-values-of-two-types-handed-at-a-dictionary-of-a-bounded-parameter-refuses"
+  note "`App.g` bounds `T` by `App.M`, which `Int` and `String` answer, and takes `Dictionary<String, some T>`. The map literal holding `1` under `a` and `\"s\"` under `b` handed there fills `T` with its values joined, `Any`, which answers no contract, so the build refuses though each value answers. A bounded parameter is one type."
   program {
     contracts {
       "App.M" {}
@@ -33,10 +33,16 @@ warpt 1
               call {
                 arguments [
                   {
-                    record {
-                      a 1
-                      b "s"
-                    }
+                    dictionary [
+                      [
+                        "a"
+                        1
+                      ]
+                      [
+                        "b"
+                        "s"
+                      ]
+                    ]
                   }
                 ]
                 procedure "App.g"

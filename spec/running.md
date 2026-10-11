@@ -50,7 +50,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-closure-written-at-a-slot-answering-a-declared-record-names-its-answer-through-a-type-parameter-answers`
 - `a-contract-answer-is-read-as-it-wrote-and-hands-on-what-the-call-filled-answers`
 - `a-contract-answering-a-type-parameter-hands-the-answer-on-as-it-came-answers`
-- `a-field-the-declared-answer-does-not-name-refuses`
 - `a-piece-calling-a-fixed-name-bound-to-a-closure-literal-refuses`
 - `a-piece-calling-a-host-procedure-that-is-not-isolated-refuses`
 - `a-piece-calling-a-procedure-that-calls-an-isolated-module-variable-stands`

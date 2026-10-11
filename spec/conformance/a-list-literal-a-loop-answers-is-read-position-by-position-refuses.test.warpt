@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-list-literal-a-loop-answers-is-read-position-by-position-refuses"
-  note "A variable declared `Array<Dictionary<String, Array<String>>>` is set to a loop whose result is `[{ a: [] }, { a: [1] }]`. The loop writes what its result writes, so the literal is held to the declaration position by position, and the list of ints refuses at the build."
+  note "A variable declared `Array<Dictionary<String, Array<String>>>` is set to a loop whose result is a list of two map literals, one holding `[]` under `a` and one holding `[1]`. The loop writes what its result writes, so the literal is held to the declaration position by position, and the list of ints refuses at the build."
   program {
     imports [
       "Standard.Collection.count"
@@ -17,16 +17,22 @@ warpt 1
             type "Array<Dictionary<String, Array<String>>>"
             value [
               {
-                record {
-                  a []
-                }
+                dictionary [
+                  [
+                    "a"
+                    []
+                  ]
+                ]
               }
               {
-                record {
-                  a [
-                    "s"
+                dictionary [
+                  [
+                    "a"
+                    [
+                      "s"
+                    ]
                   ]
-                }
+                ]
               }
             ]
             var "ys"
@@ -43,16 +49,22 @@ warpt 1
                 ]
                 result [
                   {
-                    record {
-                      a []
-                    }
+                    dictionary [
+                      [
+                        "a"
+                        []
+                      ]
+                    ]
                   }
                   {
-                    record {
-                      a [
-                        1
+                    dictionary [
+                      [
+                        "a"
+                        [
+                          1
+                        ]
                       ]
-                    }
+                    ]
                   }
                 ]
                 while false
