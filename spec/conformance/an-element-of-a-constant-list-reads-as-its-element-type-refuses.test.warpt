@@ -1,0 +1,37 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "an-element-of-a-constant-list-reads-as-its-element-type-refuses"
+  note "A constant's list has one element type, the join of every element's, and a path on the constant reads by it. `[1, \"s\"]` holds `Array<Any>`, so `k[0]` reads `Any` though it settles to `1`, and a name declaring `Int` refuses it at the build."
+  program {
+    const {
+      k [
+        1
+        "s"
+      ]
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "x"
+            type "Int"
+            value {
+              ref "k[0]"
+            }
+          }
+        ]
+        result {
+          ref "x"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

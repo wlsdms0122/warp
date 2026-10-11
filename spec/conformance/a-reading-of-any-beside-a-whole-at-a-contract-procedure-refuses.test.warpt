@@ -3,8 +3,8 @@ warpt 1
   expect {
     refuses "build"
   }
-  name "a-contract-call-handing-a-whole-after-a-fraction-read-as-any-refuses"
-  note "`held` is read as `Any` and stands first, where `Standard.Numeric.plus` asks `Self`, which a reading of `Any` stands at only through a cast, so the build refuses before any row is picked."
+  name "a-reading-of-any-beside-a-whole-at-a-contract-procedure-refuses"
+  note "`held` is read as `Any` and stands at the second `Self` of `Standard.Numeric.plus`, beside a whole number at the first. A reading of `Any` stands where a contract is asked only through a cast, at whichever position, so the build refuses before any row is picked."
   program {
     imports [
       "Standard.Numeric.plus"
@@ -22,10 +22,10 @@ warpt 1
         result {
           call {
             arguments [
+              1
               {
                 ref "held"
               }
-              1
             ]
             procedure "Standard.Numeric.plus"
           }

@@ -160,7 +160,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-fixed-name-bound-to-a-const-slot-carries-its-claim`
 - `a-fixed-name-is-not-handed-in-place`
 - `a-fixed-name-is-not-handed-in-place-to-a-called-value`
-- `a-list-literal-handed-to-a-called-value-at-a-list-naming-itself-answers`
 - `a-literal-argument-its-parameter-does-not-take-refuses`
 - `a-loop-reads-a-closure-reading-a-module-variable-as-one-that-runs`
 - `a-name-declared-inside-a-nested-closure-does-not-cover-a-captured-one`
@@ -183,6 +182,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-record-literal-handed-to-a-called-value-at-a-record-naming-itself-answers`
 - `a-record-literal-handed-to-a-called-value-takes-the-name-beside-a-type-parameter-answers`
 - `a-record-literal-handed-to-a-called-value-takes-the-name-its-slot-reads-answers`
+- `a-record-literal-handed-to-a-declaration-takes-the-name-beside-a-type-parameter-answers`
 - `a-required-argument-left-out-refuses`
 - `a-slot-handing-a-const-procedure-in-place-is-a-const-slot`
 - `a-slot-naming-a-const-procedure-type-is-a-const-slot`

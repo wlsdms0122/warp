@@ -3,8 +3,8 @@ warpt 1
   expect {
     refuses "build"
   }
-  name "a-value-arriving-through-any-answers-by-the-type-it-is"
-  note "`App.anything` answers `Any`, which stands where `App.Described.describe` asks the contract only through a cast, so the build refuses, whatever the run would hand there."
+  name "a-reading-of-any-at-a-contract-procedure-refuses"
+  note "`App.anything` answers `Any`, and the call hands it at `Self`, where `App.Described.describe` asks the contract. A reading of `Any` stands where a contract is asked only through a cast, so the build refuses, whatever the run would hand there."
   program {
     contracts {
       "App.Described" {

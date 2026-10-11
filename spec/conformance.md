@@ -52,9 +52,11 @@ Each format declares itself, and that is how the two are told apart: a case says
 
 `expect` holds one of `answers`, `reads`, `spells`, `builds` or `refuses`. One slot, so "one of them and exactly one" is the record rather than a rule about keys that could all be written or none.
 
+**What a case expects is matched strictly.** An answer, and what `reads` and `spells` read, match the value written where both are of one kind and one spelling, part by part: a whole number does not match a fraction, nor bytes the array of the same numbers, though `equal` answers that each pair is one value under [values](value.md). Text matches as values compare it, and a record matches one of the same fields and the same name, or none.
+
 **`vocabulary` is what the runner brings.** Most of what a document may say about a procedure the host answers is not something a case can write down: the code is the host's. So a case writes the part that is in the document, and the runner builds the rest.
 
-It is written as a **module**, because that is what a host takes in: it may declare `types`, `contracts` and `satisfies` the way any document does, it declares the procedures under `procedures`, and a case writing any other key there **refuses** as a case. Which version this module is read at is the runner's and its declarations send nothing, so it says no `warp` and no `imports`, and what a program keeps beside its procedures, `const`, `var` and a `description`, is a document's. The module stands in front of the case's own document in the link, so what the host brings is there to be named. Each procedure is keyed by its name and written the way a declaration is, with four keys of its own beside it:
+It is written as a **module**, because that is what a host takes in: it may declare `types`, `contracts`, `satisfies` and `procedures` the way any document does, the procedures it brings under `procedures`, and a case writing any other key there **refuses** as a case. Which version this module is read at is the runner's and its declarations send nothing, so it says no `warp` and no `imports`, and what a program keeps beside its procedures, `const`, `var` and a `description`, is a document's. The module stands in front of the case's own document in the link, so what the host brings is there to be named. Each procedure is keyed by its name and written the way a declaration is, with four keys of its own beside it:
 
     answers     what it answers, whatever it was sent. Absent: null
     runs        bool. Whether it reaches outside the run. Absent: false,
@@ -62,7 +64,7 @@ It is written as a **module**, because that is what a host takes in: it may decl
     isolated    bool. Absent: true
     failing     array of strings. What it may fail with. Absent: empty
 
-It answers the same thing every time, because a case asks what a declaration permits rather than what arithmetic does. The names it may declare are `first` and `second`, in that order, since a procedure the host answers reads its arguments at fixed places and a case cannot invent a place in another runner.
+It answers the same thing every time, because a case asks what a declaration permits rather than what arithmetic does. The parameter names it may declare are `first` and `second`, in that order, since a procedure the host answers reads its arguments at fixed places and a case cannot invent a place in another runner.
 
 This is the only way a case reaches what answering without running permits and what it does not, both of which need a procedure with no body: a slot asking a `const` procedure type, an operand calling one, and a constant that settles from one and is refused for it.
 

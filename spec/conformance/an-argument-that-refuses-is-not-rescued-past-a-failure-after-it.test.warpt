@@ -1,28 +1,23 @@
 warpt 1
 {
   expect {
-    refuses "build"
+    refuses "run"
   }
-  name "an-argument-refused-at-its-slot-is-not-rescued-past-a-failure-after-it"
-  note "The first argument is read as `Any` and stands where `App.f` bounds `some N` by `Standard.Comparable`, which a reading of `Any` stands at only through a cast, so the build refuses before anything runs."
+  name "an-argument-that-refuses-is-not-rescued-past-a-failure-after-it"
+  note "The first argument divides by zero, which refuses at the run, and the second would fail with `abort`. The arguments are evaluated in position order, so the refusal comes first, and a refusal is no failure an attempt rescues: the run refuses."
   program {
     imports [
-      "Standard.Comparable"
       "Standard.Control.abort"
+      "Standard.Numeric.dividedBy"
     ]
     procedures {
       "App.f" {
-        bounds {
-          N "Standard.Comparable"
-        }
         parameters [
           {
             name "x"
-            type "some N"
           }
           {
             name "y"
-            type "Int"
           }
         ]
         result 0
@@ -31,11 +26,6 @@ warpt 1
       entry {
         access "public"
         body [
-          {
-            let "held"
-            type "Any"
-            value true
-          }
           {
             let "tried"
             value {
@@ -46,7 +36,13 @@ warpt 1
                       call {
                         arguments [
                           {
-                            ref "held"
+                            call {
+                              arguments [
+                                1
+                                0
+                              ]
+                              procedure "Standard.Numeric.dividedBy"
+                            }
                           }
                           {
                             call {
@@ -72,6 +68,7 @@ warpt 1
         result {
           ref "tried"
         }
+        returns "Any"
       }
     }
     warp 1
