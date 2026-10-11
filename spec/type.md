@@ -239,7 +239,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-parameter-handed-in-place-handed-on-beside-an-empty-list-and-a-list-of-it-answers`
 - `a-parameter-handed-in-place-handed-on-beside-an-empty-list-answers`
 - `a-parameter-handed-in-place-handed-on-beside-maps-of-it-and-of-an-empty-list-answers`
-- `a-parameter-handed-in-place-handed-on-beside-records-of-other-fields-refuses`
 - `a-parameter-handed-in-place-handed-on-to-a-generic-beside-an-empty-list-answers`
 - `a-parameter-handed-in-place-holding-a-dictionary-of-a-parameter-takes-a-map-of-it`
 - `a-parameter-handed-in-place-holding-a-dictionary-of-lists-of-a-parameter-takes-a-map-of-an-empty-list`
@@ -269,12 +268,14 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-record-a-block-answers-where-a-declared-record-is-read-takes-the-name`
 - `a-record-a-host-procedure-answers-short-of-its-fields-refuses`
 - `a-record-a-loop-answers-where-a-declared-record-is-read-takes-the-name`
-- `a-record-an-attempt-answers-beside-a-record-of-fractions-holds-no-fraction-refuses`
 - `a-record-built-where-a-declared-record-is-read-keeps-its-closure`
 - `a-record-form-array-of-a-named-element-refuses`
 - `a-record-from-outside-under-another-name-refuses-at-the-door`
 - `a-record-from-outside-under-its-name-at-any-is-held-to-its-record-refuses`
+- `a-record-literal-a-name-that-declares-nothing-holds-refuses`
 - `a-record-literal-answered-where-a-declared-record-is-answered-takes-the-name`
+- `a-record-literal-beside-a-declared-record-at-a-type-parameter-refuses`
+- `a-record-literal-short-of-a-field-its-record-declares-refuses`
 - `a-record-literal-written-where-no-declared-record-is-read-refuses`
 - `a-record-of-fields-of-two-types-handed-at-a-dictionary-of-a-bounded-parameter-refuses`
 - `a-record-type-may-name-a-field-for-a-form`
@@ -356,6 +357,4 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `self-outside-a-contract-refuses`
 - `self-stands-for-the-type-answering-a-contract`
 - `two-documents-claiming-one-pair-are-one-claim`
-- `var-written-on-a-field-a-name-says-it-holds-refuses`
-- `var-written-on-an-inline-record-field-refuses`
 - `what-was-read-out-of-a-parameter-is-not-the-parameter`

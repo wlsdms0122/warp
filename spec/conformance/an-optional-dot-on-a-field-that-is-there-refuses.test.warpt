@@ -13,6 +13,7 @@ warpt 1
         body [
           {
             let "point"
+            type "App.Point"
             value {
               record {
                 x 1
@@ -22,6 +23,13 @@ warpt 1
         ]
         result {
           ref "point?.x"
+        }
+      }
+    }
+    types {
+      "App.Point" {
+        record {
+          x "Int"
         }
       }
     }
