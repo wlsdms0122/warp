@@ -6,7 +6,7 @@ An object is a **value**, and nothing more than one: it is written by the binary
 
 ## What an object holds
 
-An object is one record. It carries **exactly** these keys, and a key none of them names, or one of them missing, **refuses**. Current format: **1**.
+An object is one map. It carries **exactly** these keys, and a key none of them names, or one of them missing, **refuses**. Current format: **1**.
 
 | key | holds | order |
 |---|---|---|
@@ -25,9 +25,9 @@ An object is one record. It carries **exactly** these keys, and a key none of th
 | `variables` | (name, *value*): what each variable starts a run holding | by name |
 | `constants` | the constants it declared, by spelling | by name |
 
-**The record is keyed and its parts are not.** The record names each part by its key; inside a part the fields stand in order and a variant says itself by its tag. A reading holds an object to the format it reads before it reads a part.
+**The map is keyed and its parts are not.** The map names each part by its key; inside a part the fields stand in order and a variant says itself by its tag. A reading holds an object to the format it reads before it reads a part.
 
-**Order is spelling.** Every list a name keys stands ascending by the names' bytes, none twice, and so does every set written as a list. That is the whole of what makes one object one value: a dictionary lends no order, so the layout says one, and a reading takes no other. A list out of order, or naming one thing twice, **refuses**.
+**Order is spelling.** Every list a name keys stands ascending by the names' bytes, none twice, and so does every set written as a list. That is the whole of what makes one object one value: a list keeps the order it is written in, so the layout says which, and a reading takes no other. A list out of order, or naming one thing twice, **refuses**.
 
 **The rows.** A declaration's row stands under its spelling in `rows`, in name order; the rows its bodies lifted stand in `lifted`, without a spelling, in the order the numbering counts them. A body numbers its calls and its types from the document itself, under [procedures](procedure.md): the spellings it sends first, in name order, then its own declarations in name order, then the closures its declarations wrote, in the order the numbering lists the declarations and, within one, the order the body wrote them. Where a row lands in a link is the link's answer, so nothing here says it, and one object answers every entry asked of it.
 
@@ -35,7 +35,7 @@ An object is one record. It carries **exactly** these keys, and a key none of th
 
 ## How a part is laid out
 
-Inside the record, a part is written as its fields **in order**, and a variant as its **tag** before them, so a reading beside the same tables reads it back and one that is not refuses it. The rules, used everywhere below:
+Inside the map, a part is written as its fields **in order**, and a variant as its **tag** before them, so a reading beside the same tables reads it back and one that is not refuses it. The rules, used everywhere below:
 
 - A *name* is a string, and one that is not in normal form, or not a name, **refuses**.
 - A list a name keys is `[[name, value] …]`, in name order.
