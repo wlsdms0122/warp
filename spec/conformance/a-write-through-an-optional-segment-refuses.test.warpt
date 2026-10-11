@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    refuses "build"
+    refuses "load"
   }
   name "a-write-through-an-optional-segment-refuses"
-  note "A write reads no absence, so a path written through `?.` is not written through. `set x?.a` refuses at the build."
+  note "A write reads no absence, so a path written through `?.` is not written through. The text shows the mark, so `set x?.a` refuses at the load."
   program {
     imports []
     procedures {
