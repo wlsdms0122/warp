@@ -219,8 +219,11 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-map-keyed-by-a-type-parameter-bounded-by-hashable-answers`
 - `a-map-keyed-by-a-type-parameter-no-bound-holds-refuses`
 - `a-map-keyed-by-any-refuses`
+- `a-map-keyed-by-lists-finds-a-list-by-its-elements`
+- `a-map-keyed-by-what-may-be-null-holds-null-as-a-key`
 - `a-map-literal-handed-at-a-dictionary-of-a-bounded-parameter-fills-it-by-its-values-refuses`
 - `a-map-literal-handed-at-a-dictionary-of-a-contract-leans-on-each-claim-refuses`
+- `a-map-literal-of-keys-of-two-types-handed-at-a-dictionary-of-a-bounded-key-refuses`
 - `a-map-literal-of-values-of-two-types-handed-at-a-dictionary-of-a-bounded-parameter-refuses`
 - `a-map-literal-reads-a-whole-key-beside-a-fraction-as-the-fraction`
 - `a-map-literal-whose-values-do-not-join-handed-at-a-dictionary-of-a-bounded-parameter-refuses`

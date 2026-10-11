@@ -1,0 +1,46 @@
+warpt 1
+{
+  expect {
+    answers "none"
+  }
+  name "a-map-keyed-by-what-may-be-null-holds-null-as-a-key"
+  note "`Int?` answers `Hashable`, because `Int` and `Null` both do, so it is a map's key type, and `null` is one of its keys like any other: the entry under it is read by a name holding null."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "d"
+            type "Dictionary<Int?, String>"
+            value {
+              dictionary [
+                [
+                  1
+                  "one"
+                ]
+                [
+                  null
+                  "none"
+                ]
+              ]
+            }
+          }
+          {
+            let "k"
+            type "Int?"
+            value null
+          }
+        ]
+        result {
+          ref "d[k]"
+        }
+        returns "String"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
