@@ -36,6 +36,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-record-literal-written-with-a-name-refuses`
 - `a-whole-and-a-fraction-meet-exactly`
 - `a-whole-fraction-stays-a-fraction`
+- `a-whole-key-and-a-fraction-of-its-worth-are-one-key`
 - `arrays-in-another-order-are-two-values`
 - `bytes-and-an-array-share-their-worth`
 - `null-is-the-same-as-null`

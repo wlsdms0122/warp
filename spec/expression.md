@@ -1,6 +1,6 @@
 # Expressions
 
-What is read rather than run. A literal, a name, a path through one, a cast, a record, an array, a call and a closure written where a value is wanted. The line between this page and [statements](statement.md) is the line an operand stands on: a construct runs a body and is refused here.
+What is read rather than run. A literal, a name, a path through one, a cast, a record, a map, an array, a call and a closure written where a value is wanted. The line between this page and [statements](statement.md) is the line an operand stands on: a construct runs a body and is refused here.
 
 A scalar is itself, a literal. A string is always literal text; nothing inside it is ever re-parsed. An array is an array of expressions. A mapping is an expression by its **one key**, and that key is one of these:
 
@@ -8,6 +8,7 @@ A scalar is itself, a literal. A string is always literal text; nothing inside i
 |---|---|
 | `{ ref: a.b[0] }` | a name, resolved in the scope that reads it |
 | `{ record: { … } }` | a record, its fields each an expression. A field may be called anything, `ref` and `value` included |
+| `{ dictionary: [[<key>, <value>], …] }` | a map, its entries each a list of two expressions, a key and a value. The entries are made in the order written, so a key written twice holds the later value. The keys join to one type and the values to another, the way a list literal's elements do, an empty one holding `Never` at both; written where a map type is declared, every key and value is held to it part by part. An entry that is not a list of two **refuses at the load** |
 | `{ call: <call> }` | a call where a value is wanted; same grammar as the `call` construct |
 | `{ closure: <procedure> }` | a procedure written where a value is wanted; same grammar as a procedure, without `access` and `bounds`: nothing names a closure, and its `some T` is the `T` of the procedure it is written in. A closure writing either **refuses at the load** |
 | `{ as: { of: <value>, type: <type> } }` | read the value as that type: how a value the build could not type, one read as `Any` or as a contract, is held to one |
@@ -86,6 +87,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-dot-through-a-null-the-text-shows-refuses`
 - `a-field-of-a-constant-list-element-reads-as-the-joined-field-refuses`
 - `a-key-reference-read-as-any-refuses`
+- `a-map-literal-makes-its-entries-in-order`
+- `a-map-literal-written-where-a-map-is-declared-is-held-part-by-part-refuses`
 - `a-mapping-with-no-tag-refuses`
 - `a-mapping-with-two-form-keys-refuses`
 - `a-mark-does-not-split-the-field-it-reached`
@@ -102,6 +105,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-absent-dictionary-entry-refuses`
 - `an-element-of-a-constant-list-reads-as-its-element-type-refuses`
 - `an-element-of-a-constant-record-field-reads-as-its-element-type-refuses`
+- `an-empty-map-literal-is-a-map-of-any-types`
 - `an-index-into-any-is-refused`
 - `an-index-past-the-end-refuses`
 - `an-index-past-what-an-int-holds-refuses`

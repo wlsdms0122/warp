@@ -1,0 +1,39 @@
+warpt 1
+{
+  expect {
+    answers {
+      a 1
+      b 3
+    }
+  }
+  name "a-map-literal-makes-its-entries-in-order"
+  note "A map literal writes its entries as a list, each a key and a value, and makes them in the order written, so a key written twice holds the later value. The map holds its keys in the key order, whatever order they were written in."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result {
+          dictionary [
+            [
+              "b"
+              2
+            ]
+            [
+              "a"
+              1
+            ]
+            [
+              "b"
+              3
+            ]
+          ]
+        }
+        returns "Dictionary<String, Int>"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
