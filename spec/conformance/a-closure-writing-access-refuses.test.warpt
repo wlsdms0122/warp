@@ -1,0 +1,54 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-closure-writing-access-refuses"
+  note "Who may name a declaration is what `access` says, and nothing names a closure. The closure here writes `access` and is otherwise one the entry hands `App.g`, so the document refuses at the load."
+  program {
+    imports []
+    procedures {
+      "App.g" {
+        parameters [
+          {
+            name "f"
+            type {
+              procedure {
+                returns "Int"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            procedure {
+              ref "f"
+            }
+          }
+        }
+        returns "Int"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                closure {
+                  access "private"
+                  result 7
+                  returns "Int"
+                }
+              }
+            ]
+            procedure "App.g"
+          }
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
