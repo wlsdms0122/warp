@@ -214,6 +214,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-list-of-an-alias-of-any-handed-to-a-value-at-a-list-of-a-contract-refuses`
 - `a-list-of-two-types-handed-where-a-contract-is-asked-is-read-element-by-element-refuses`
 - `a-literal-of-names-at-a-contract-bound-leans-on-each-claim-refuses`
+- `a-map-handed-through-a-claim-about-dictionary-reads-as-the-map-it-is-refuses`
 - `a-map-keyed-by-a-declared-record-claimed-hashable-answers`
 - `a-map-keyed-by-a-declared-record-no-document-claims-hashable-refuses`
 - `a-map-keyed-by-a-type-parameter-bounded-by-hashable-answers`
