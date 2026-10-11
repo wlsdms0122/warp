@@ -4,7 +4,7 @@ warpt 1
     answers 1
   }
   name "a-failure-in-a-loop-round-carries-the-rounds-before-it"
-  note "The first round sets `n` to a string and continues; a later round fails. The failure lands at the attempt after every round before it, so the rescue reads `n` as what any of those rounds may have left, and asking whether it is an int stands rather than being a cast the reading already settles."
+  note "The first round sets `n` to a string and continues; a later round fails. The failure lands at the attempt after every round before it, so the rescue reads `n` as what any of those rounds may have left, and asking whether it is an int stands rather than being a cast the reading already decides."
   program {
     imports [
       "Standard.Comparable.lessThan"

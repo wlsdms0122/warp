@@ -94,7 +94,7 @@ A *construct* is `[tag]`: 0 literal, 1 reference, 2 array, 3 record, 4 closure, 
 
 ### Rows
 
-A *row* is a declaration as its own document settled it:
+A *row* is a declaration as its own document compiled it:
 
     [ label, signature, access, constness, isolation, failing, implementation ]
 
