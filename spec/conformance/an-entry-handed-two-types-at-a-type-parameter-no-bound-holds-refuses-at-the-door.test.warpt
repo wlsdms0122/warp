@@ -1,0 +1,77 @@
+warpt 1
+{
+  arguments {
+    x 5
+    y "s"
+  }
+  expect {
+    refuses "run"
+  }
+  name "an-entry-handed-two-types-at-a-type-parameter-no-bound-holds-refuses-at-the-door"
+  note "`x` and `y` are both `some T`, which no bound holds, and the host hands `5` and `\"s\"`. A type parameter is one type whether a bound holds it or not, as a call reading `5` and text there refuses at the build, so the run refuses at the door."
+  program {
+    imports [
+      "Standard.Text.text"
+    ]
+    procedures {
+      "App.lt" {
+        parameters [
+          {
+            name "a"
+            type "some U"
+          }
+          {
+            name "b"
+            type "some U"
+          }
+        ]
+        result [
+          {
+            ref "a"
+          }
+          {
+            ref "b"
+          }
+        ]
+        returns "Array<some U>"
+      }
+      entry {
+        access "public"
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+          {
+            name "y"
+            type "some T"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                call {
+                  arguments [
+                    {
+                      ref "x"
+                    }
+                    {
+                      ref "y"
+                    }
+                  ]
+                  procedure "App.lt"
+                }
+              }
+            ]
+            procedure "Standard.Text.text"
+          }
+        }
+        returns "String"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

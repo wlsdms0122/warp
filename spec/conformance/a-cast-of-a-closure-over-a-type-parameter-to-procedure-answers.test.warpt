@@ -1,0 +1,75 @@
+warpt 1
+{
+  expect {
+    answers "ok"
+  }
+  name "a-cast-of-a-closure-over-a-type-parameter-to-procedure-answers"
+  note "`App.mk` answers a closure taking its own `some T`, which only the call that made it fills, and `a` holds it as `Any`. `Procedure` writes no signature, and every procedure is an instance of it, so the cast reads the closure and the run answers."
+  program {
+    imports []
+    procedures {
+      "App.mk" {
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+        ]
+        result {
+          closure {
+            parameters [
+              {
+                name "y"
+                type "some T"
+              }
+            ]
+            result {
+              ref "y"
+            }
+            returns "some T"
+          }
+        }
+        returns {
+          procedure {
+            parameters [
+              "some T"
+            ]
+            returns "some T"
+          }
+        }
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "a"
+            type "Any"
+            value {
+              call {
+                arguments [
+                  5
+                ]
+                procedure "App.mk"
+              }
+            }
+          }
+          {
+            let "p"
+            value {
+              as {
+                of {
+                  ref "a"
+                }
+                type "Procedure"
+              }
+            }
+          }
+        ]
+        result "ok"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
