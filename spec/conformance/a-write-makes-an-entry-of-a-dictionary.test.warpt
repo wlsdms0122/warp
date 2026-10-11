@@ -4,7 +4,7 @@ warpt 1
     answers 2
   }
   name "a-write-makes-an-entry-of-a-dictionary"
-  note "A dictionary's keys are data, so a write under a key it does not hold yet makes the entry."
+  note "A map's keys are data, so a write under a key it does not hold yet makes the entry."
   program {
     imports []
     procedures {
@@ -24,12 +24,12 @@ warpt 1
             var "held"
           }
           {
-            set "held.b"
+            set "held[\"b\"]"
             value 2
           }
         ]
         result {
-          ref "held.b"
+          ref "held[\"b\"]"
         }
         returns "Int"
       }

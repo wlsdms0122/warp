@@ -94,16 +94,16 @@ A rescue catches failure (what the world did), not leaving (what the program sai
 The envelope is this specification's; what rides in `details` is the procedure's own. `concurrent_failed` puts `failures` there: every piece's failure, keyed by the piece, a map's by its key and an array's by its index written `[0]`, and each is the envelope that piece raised, so a rescue reads a piece's own `type`, `message` and `details` through it.
 
 ```
-{ ref "failed.details.failures" }
+{ ref "failed.details[\"failures\"]" }
 ```
 
 `cast_refused` has no procedure behind it, so this specification names its `details` too: **`expected`**, the type the cast wrote, and **`actual`**, the type the value is an instance of, both as text. Both halves, because what was asked for is readable from the program and what turned up is not.
 
 ```
-{ ref "failed.details.actual" }
+{ ref "failed.details[\"actual\"]" }
 ```
 
-`details` holds `Any`, so a value read out of it is read as anything until a type is named for it. A field the envelope does not name is not reached by a dot on the failure itself: `failed.failures` names nothing.
+`details` holds `Any`, so a value read out of it is read as anything until a type is named for it. A field the envelope does not name is not reached by a dot on the failure itself: `failed.failures` names nothing, and what `details` holds is read through brackets, `failed.details["failures"]`.
 
 **What a body may fail with is known before it runs.** The build derives it the way it derives constness and isolation, and the types a failure names itself by (`aborted`, `cast_refused`) are what it derives: a body fails with what its plain casts fail with (`cast_refused`, the one failure the runtime itself raises; `as?` reads the same mismatch as null and raises nothing), with what the declarations it calls fail with, and with whatever its rescues fail with, the body under a rescue being caught. Calling a value leaves the question open, since nothing before the run says which value.
 
