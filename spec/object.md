@@ -13,7 +13,7 @@ An object is one record. It carries **exactly** these keys, and a key none of th
 | `object` | int. This layout's format. Read before anything laid out by it, the keys included | |
 | `document` | the document's identity, or nothing where the program was never written down | |
 | `dependencies` | the objects behind every declaration this document named, each by what the host keyed it under | ascending by bytes, none twice |
-| `types` | name → *type*, as the document wrote them | by name |
+| `types` | name → *type*, as the document wrote them: a record as tag 9, an alias as the type it stands for | by name |
 | `contracts` | name → (procedure name → `[ signature, constness, isolation, failing ]`, the two marks as a row writes them and *failing* as `[1, names]`) | by name, then by name |
 | `claims` | type name → the contracts it says it answers | by name; the contracts ascending |
 | `leaned` | the pairs its bodies lean on: (type, contract, *place*), unresolved | by type, then contract |
@@ -58,7 +58,7 @@ A *type* is `[tag, …]`:
 | 6 | `String` | |
 | 7 | `Array<T>` | *type* |
 | 8 | `Dictionary<K, V>` | the key's *type*, the value's *type* |
-| 9 | record | name → *type* |
+| 9 | record, written only as a declared type in `types` | name → *type* |
 | 10 | `Procedure` | *procedure type* or nothing, *constness*, *isolation* |
 | 11 | `var T` | *type* |
 | 12 | `inout T` | *type* |

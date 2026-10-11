@@ -2,7 +2,7 @@
 
 What a name may stand for, and what a slot takes. A type is judged at the build against the declarations the grammar read; what a type *admits* is asked of a value at a boundary, which is sometimes the build and sometimes the run. Reads [the value model](value.md). Read by procedures, statements and expressions, each of which writes a slot.
 
-A type is written as a string, or as a record for what a string cannot say:
+A type is written as a string, or as a mapping for what a string cannot say:
 
 | written | means |
 |---|---|
@@ -14,23 +14,22 @@ A type is written as a string, or as a record for what a string cannot say:
 | `const <procedure type>` | a procedure that answers without running, under *what answers without running* in [procedures](procedure.md) |
 | `isolated <procedure type>` | a procedure that touches no name another body could touch at once; `const isolated <procedure type>` says both, `const` first |
 | `inout <type>` | a parameter handed a variable in place; written on a parameter's type and nowhere else |
-| `var <type>` | a field a path may write through; written on a field of the record a type declared in `types` is, and nowhere else: a record inside one, or in a list or map one is, is an inline record, whose fields are written through as they are |
+| `var <type>` | a field a path may write through; written on a field of a record a type in `types` declares, and nowhere else |
 | `Task` (any declared name) | the type a module declares under that name |
 | `some T` | a type parameter: worked out from the call, same reading everywhere it appears; bounded when the signature's `bounds` names it |
 | `Self` | the type answering a contract, written in that contract's procedures alone |
 | `Describable` (a declared contract's name) | a value of whatever type satisfies the contract. Nothing ties one slot's to another's |
 | `Describable & Standard.Comparable` | a value of whatever type satisfies every contract named; two names or more, in name order, and each a contract's |
 | `Int?` (any string spelling and `?`) | the declared type or null |
-| `{ record: { title: String, done: Bool } }` | a record type, its fields under `record`; structural, and it names nothing. A field may be called anything |
 | `{ procedure: { parameters: [<type>, …], returns: … } }` | a procedure type: the types it is called with, in position order, and what it answers. No names, since a name is a declaration's and a value is called by position; a mark such as `inout` is written on the type it stands in front of |
 | `{ "const procedure": { … } }` | a procedure type with its marks and modifiers on the key, `inout` first, then `const` and `isolated`, the way they stand in front of the string form |
-| `{ array: <type> }` / `{ dictionary: { key: <type>, value: <type> } }` | a list / map of a type that has no string spelling, a procedure type or a record type. Where every type inside has a spelling the type is written `Array<T>` or `Dictionary<K, V>`, and the record form around it **refuses at the load** |
+| `{ array: <type> }` / `{ dictionary: { key: <type>, value: <type> } }` | a list / map of a procedure type that writes its signature, which has no string spelling. Where every type inside has a spelling the type is written `Array<T>` or `Dictionary<K, V>`, and the form around it **refuses at the load** |
 
 `Int` and `Double` are two types, and neither takes the other: a value's type is fixed at the build, so a whole number never stands where a fraction is declared, and the reverse **refuses at the build** too. A whole number written as a literal is read as the fraction it names where the place it is written into declares a `Double`: a slot, an answer, a name that says what it holds, a write, a list or a record's part there, and a parameter a call fills beside a fraction, which is what that parameter's bounds are held to. Where one value joins what was written beside it, a list literal's elements at every depth, a record's fields among them, a whole literal beside a fraction is the fraction it names too. Anywhere else it is an `Int`, and a name it is bound to holds an `Int`. Two readings of one place join part by part: null beside a value reads as what may be null, two lists join by their elements and two maps by their entries, two records of the same fields field by field, and two procedures to a procedure that keeps the parameters and answer both write alike and the constness and isolation both carry; two parts that still differ read `Any`. Where ways that each answer meet, each way out of a body that writes no `returns` and each of an attempt's two ways is a place of its own, so one answering a whole literal beside another answering a fraction reads `Any`, which a slot of a type takes only through a cast. `Any` accepts everything. A slot that takes either kind of number is bounded by the contract `Standard.Numeric`, under [the standard vocabulary](vocabulary.md).
 
-**A declared record is nominal.** A type declared in `types` whose structure is a record is a name as well as a structure, and a value of it carries the name. A record type is exact: a declared record fits a value under its own name and no other, and an inline record type a nameless value of exactly its fields, so two declared records of one structure under two names are two types, a declared record does not fit an inline record type or `Dictionary<String, T>` of its fields, and a nameless value does not fit a declared record. A slot judges a value and hands it on as it came; it does not rebuild one. A name is written onto a nameless record in three places only: a record literal written where a declared record is read, which the build judges field by field against the declaration; a value from outside, at the door it comes through, what a procedure the host answers hands back included; and a cast, `as` or `as?`, to a declared record, where the run judges the value as the build would have. A literal and a cast each take a nameless record of exactly the declared fields, and the door one holding at least them, fitted under *what a slot takes, exactly* below; a record under another name **refuses** at the **build** where the build can see the name and at the **run** at the door it comes through, and where a cast reads a value read as `Any` or as a contract, the cast fails with `cast_refused` and `as?` reads it as null. A declared name whose structure is not a record, an alias, attaches no name. A value from outside holds a name only as a record's: at every door, whatever the slot declares, `Any` included, a record under a name is held to the record the name declares, fitted to it and judged against it, an alias's name becoming its record's, and one under a name that declares no record **refuses at the run**. So every record under a name is a value of that record. A declared record may name itself in a field, nullable or as a list's element, so a tree is one declaration. A declared name that is no record and comes back to itself through what it stands for, through names alone, a `?` or a structure, spells no type and **refuses at the load**: a type that holds itself is a declared record.
+**A declared record is nominal.** A record type is written once, as the structure of a type declared in `types`, `{ record: { title: String, done: Bool } }` under the type's name, its fields under `record`, each called anything; everywhere else a type names it. It is a name as well as a structure, and a value of it carries the name. A record type is exact: a declared record fits a value under its own name and no other, so two declared records of one structure under two names are two types, a declared record does not fit `Dictionary<String, T>` of its fields, and a nameless value does not fit a declared record. A slot judges a value and hands it on as it came; it does not rebuild one. A name is written onto a nameless record in three places only: a record literal written where a declared record is read, which the build judges field by field against the declaration; a value from outside, at the door it comes through, what a procedure the host answers hands back included; and a cast, `as` or `as?`, to a declared record, where the run judges the value as the build would have. A literal and a cast each take a nameless record of exactly the declared fields, and the door one holding at least them, fitted under *what a slot takes, exactly* below; a record under another name **refuses** at the **build** where the build can see the name and at the **run** at the door it comes through, and where a cast reads a value read as `Any` or as a contract, the cast fails with `cast_refused` and `as?` reads it as null. A declared name whose structure is not a record, an alias, attaches no name. A value from outside holds a name only as a record's: at every door, whatever the slot declares, `Any` included, a record under a name is held to the record the name declares, fitted to it and judged against it, an alias's name becoming its record's, and one under a name that declares no record **refuses at the run**. So every record under a name is a value of that record. A declared record may name itself in a field, nullable or as a list's element, so a tree is one declaration. A declared name that is no record and comes back to itself through what it stands for, through names alone, a `?` or a structure, spells no type and **refuses at the load**: a type that holds itself is a declared record.
 
-`inout` and `var` stand in front of the whole type, `?` included: `inout Int?` is a nullable handed in place. They stand in front of a string spelling or on the key a procedure type is written under, and a record type has neither, so a marked record is a declared name. They say something about the slot and nothing about the value, so what fits the slot is judged by the type after the procedure. Writing either where it is not allowed **refuses at the load**. A slot asking `isolated` takes what the build derived as isolated. Answering without running is a separate claim and does not stand in for it. A value standing in a procedure-typed slot takes exactly the positions the slot's type hands, each accepting what the slot may hand at that position, and answers what the slot's `returns` accepts. The names the value's declaration wrote are its own and take no part: one closure fits two slots that name their parameter differently. That is held at the **build** where the value's type is known, and at the **run** where a cast reads a value read as `Any` or as a contract, under *one calling convention* in [procedures](procedure.md).
+`inout` and `var` stand in front of the whole type, `?` included: `inout Int?` is a nullable handed in place. They stand in front of a string spelling or on the key a procedure type is written under. They say something about the slot and nothing about the value, so what fits the slot is judged by the type after the procedure. Writing either where it is not allowed **refuses at the load**. A slot asking `isolated` takes what the build derived as isolated. Answering without running is a separate claim and does not stand in for it. A value standing in a procedure-typed slot takes exactly the positions the slot's type hands, each accepting what the slot may hand at that position, and answers what the slot's `returns` accepts. The names the value's declaration wrote are its own and take no part: one closure fits two slots that name their parameter differently. That is held at the **build** where the value's type is known, and at the **run** where a cast reads a value read as `Any` or as a contract, under *one calling convention* in [procedures](procedure.md).
 
 **What a slot takes, exactly.** Where a value meets a declaration (an argument, an answer, and a write into a box that said what it holds), the judgement is one rule per type:
 
@@ -38,7 +37,7 @@ A type is written as a string, or as a record for what a string cannot say:
 - A value read as `Any`, as a contract, or along a path a call decides through a type parameter is of a type the build does not know. It stands where `Any` is declared and where a call fills a type parameter no bound holds, and a value read as a contract stands where a contract it is read as is asked, a bound among them; anywhere else it **refuses at the build**, and a cast says what it is. An empty list or map reads as holding `Never`: it holds no element, so it is a value of a list or a map of any type.
 - A **record type** says which fields there are, and a value fits only with exactly them: one short and one over both **refuse**, each field is judged against its type, and the value is held as it came. To hand on fewer fields, write a record literal of them; to keep names the declaration does not have, declare `Dictionary<String, T>`, where the names are the value's own. The door a value from outside comes through is the one place a value is fitted: a field the declaration never named is left out there, at whatever depth a record, a list, a map or what may be null holds it.
 - A **declared name** whose structure is not a record is an alias, a second spelling of what it stands for: the build reads every mention of it as that type, so it takes, joins and answers wherever that type does. One whose structure is a record is nominal, under *a declared record is nominal* above.
-- A **nullable** (`T?`) passes null through and judges anything else against the declared half. `T?` takes `T`, null and `T?`; a `T?` reading does not fit a plain `T` slot. The `?` is written once, on the whole spelling, and only where it says something new: `Int??`, `Null?`, `Any?`, `Never?` and `some T?` each **refuse at the load**, and the same `?` behind a declared name standing for one of them **refuses at the build**, where the name resolves. A type with no string spelling, a record or a procedure type that writes its signature, has no `?` to trail; a nullable one is reached through a declared name (`Task?`).
+- A **nullable** (`T?`) passes null through and judges anything else against the declared half. `T?` takes `T`, null and `T?`; a `T?` reading does not fit a plain `T` slot. The `?` is written once, on the whole spelling, and only where it says something new: `Int??`, `Null?`, `Any?`, `Never?` and `some T?` each **refuse at the load**, and the same `?` behind a declared name standing for one of them **refuses at the build**, where the name resolves. A procedure type that writes its signature has no string spelling and no `?` to trail; a nullable one is reached through a declared name.
 - The numeric edge is value-independent: `Int` refuses every fraction, `2.0` included, and `Double` every whole number. A literal read as a fraction names the binary64 fraction nearest it, so digits past 2^53 round as binary64 rounds.
 
 `Never` is a real type and fits **every** slot, by never arriving: an expression typed `Never` may be written where any value is expected, such as an argument that calls `Standard.Control.abort`, and evaluating it ends the evaluation it is inside. The statement rules (no name, nothing follows) are statement rules.
@@ -114,11 +113,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-cast-of-a-closure-writing-an-unsaid-generic-answer-carried-through-another-fails`
 - `a-cast-of-a-closure-writing-where-a-declared-record-was-filled-fails`
 - `a-cast-of-a-nullable-record-to-another-record-refuses`
-- `a-cast-of-a-record-with-a-var-field-to-a-record-it-never-is-refuses`
-- `a-cast-of-a-recursive-record-to-a-field-it-never-holds-further-down-refuses`
 - `a-cast-of-a-setter-a-generic-procedure-made-fails-before-its-getter-reads`
 - `a-cast-of-an-alias-of-a-nullable-record-to-another-record-refuses`
-- `a-cast-to-an-alias-of-a-nullable-record-names-the-record-answers`
 - `a-claim-about-a-list-of-one-type-refuses`
 - `a-claim-about-a-name-that-is-not-a-record-refuses`
 - `a-claim-about-any-refuses`
@@ -214,9 +210,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-list-literal-of-closures-answering-outside-the-bounds-refuses`
 - `a-list-literal-of-closures-handed-at-a-bounded-parameter-answers`
 - `a-list-literal-of-names-holding-lists-handed-at-a-bounded-parameter-refuses`
-- `a-list-literal-of-records-handed-to-a-call-reads-a-whole-field-beside-a-fraction-as-the-fraction`
-- `a-list-literal-of-records-reads-a-field-beside-null-as-what-may-be-null`
-- `a-list-literal-of-records-reads-a-whole-field-beside-a-fraction-as-the-fraction`
 - `a-list-of-a-reading-of-any-behind-a-name-handed-beside-a-variable-in-place-refuses`
 - `a-list-of-a-reading-of-any-handed-beside-a-variable-in-place-refuses`
 - `a-list-of-an-alias-of-any-handed-to-a-value-at-a-list-of-a-contract-refuses`
@@ -264,7 +257,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-parameter-naming-a-type-nothing-declares-refuses`
 - `a-parameter-read-as-a-declared-record-and-as-a-record-of-its-fields-refuses`
 - `a-parameter-read-as-a-declared-record-and-its-alias-keeps-the-name`
-- `a-parameter-read-as-dictionaries-of-a-declared-record-and-of-a-nameless-one-refuses`
 - `a-parameter-read-as-lists-of-a-declared-record-and-of-a-nameless-one-refuses`
 - `a-path-written-from-any-into-a-list-of-a-parameter-refuses`
 - `a-procedure-a-call-filled-from-a-declared-record-takes-no-int-refuses`
@@ -280,17 +272,13 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-record-a-loop-answers-where-a-declared-record-is-read-takes-the-name`
 - `a-record-an-attempt-answers-beside-a-record-of-fractions-holds-no-fraction-refuses`
 - `a-record-built-where-a-declared-record-is-read-keeps-its-closure`
-- `a-record-field-reading-a-parameter-two-ways-at-a-dictionary-refuses`
 - `a-record-form-array-of-a-named-element-refuses`
 - `a-record-from-outside-under-another-name-refuses-at-the-door`
 - `a-record-from-outside-under-its-name-at-any-is-held-to-its-record-refuses`
-- `a-record-handed-at-a-dictionary-fills-a-parameter-part-by-part-refuses`
 - `a-record-handed-at-a-dictionary-of-a-bounded-parameter-fills-it-by-its-fields-refuses`
 - `a-record-handed-at-a-dictionary-of-a-contract-leans-on-each-claim-refuses`
 - `a-record-literal-answered-where-a-declared-record-is-answered-takes-the-name`
-- `a-record-literal-holding-a-closure-handed-at-a-bounded-parameter-answers`
 - `a-record-of-fields-of-two-types-handed-at-a-dictionary-of-a-bounded-parameter-refuses`
-- `a-record-of-other-fields-with-an-any-field-appended-to-a-declared-list-refuses`
 - `a-record-type-may-name-a-field-for-a-form`
 - `a-record-under-another-name-refuses`
 - `a-record-whose-fields-do-not-join-handed-at-a-dictionary-of-a-bounded-parameter-refuses`
@@ -357,7 +345,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-array-of-bytes-and-a-list-of-numbers-joins-to-a-list-of-lists`
 - `an-attempt-answering-records-of-the-same-fields-two-ways-joins-them-field-by-field`
 - `an-empty-list-handed-to-a-generic-answers-a-list-of-any-type`
-- `an-inline-record-slot-refuses-a-named-record`
 - `an-inout-type-parameter-a-procedure-slot-fills-first-reads-the-value`
 - `an-inout-type-parameter-a-variable-fills-first-reads-the-value`
 - `an-optional-cast-of-a-closure-over-a-type-parameter-its-making-call-filled-reads-null`

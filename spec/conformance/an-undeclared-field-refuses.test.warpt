@@ -13,15 +13,18 @@ warpt 1
         parameters [
           {
             name "task"
-            type {
-              record {
-                id "String"
-              }
-            }
+            type "App.Task"
           }
         ]
         result {
           ref "task.done"
+        }
+      }
+    }
+    types {
+      "App.Task" {
+        record {
+          id "String"
         }
       }
     }

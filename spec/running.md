@@ -73,8 +73,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-argument-that-refuses-is-not-rescued-past-a-failure-after-it`
 - `an-element-handed-in-place-beside-its-list-is-past-the-end-once-the-list-is-emptied`
 - `an-entry-handed-a-list-of-two-types-at-a-bounded-type-parameter-refuses-at-the-door`
-- `an-entry-handed-a-record-of-two-types-at-a-bounded-type-parameter-refuses-at-the-door`
-- `an-entry-handed-a-record-of-two-types-at-a-type-parameter-no-bound-holds-refuses-at-the-door`
 - `an-entry-handed-two-types-at-a-bounded-type-parameter-refuses-at-the-door`
 - `an-entry-handed-two-types-at-a-type-parameter-no-bound-holds-refuses-at-the-door`
 - `an-entry-not-written-yet-handed-in-place-and-left-alone-stays-unwritten`

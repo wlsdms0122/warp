@@ -19,7 +19,7 @@ A path is a name, then `.name` for a field and `[…]` for an index. A `[` left 
 
 A **cast** names the type a value is read as. The type is written the way any type is: a name, or the mapping a record or a signature is written as. From the cast on, the reading *is* that type, so every dot after it is judged against it; the run is left the one question the build cannot answer, which is what actually arrived, and it answers it by judging the value against the type, leaving nothing out. A cast is how a value read as `Any`, as a contract, or along a path a call decides reaches a slot of a type, since the build does not know which type it is. A plain `as` **fails at the run** with `cast_refused` when the value is not that type. It is a failure like any other, so an `attempt` catches it, and `as?` reads that mismatch as null, which is the author saying they expected it.
 
-A cast that names the type the reading already **is** refuses at the build, the way a needless `?.` does: the claim says nothing. The test is sameness, not admission: a reading of `Int?` cast to `Int` names something the types leave open, and only the run can say whether it holds. A cast to a declared record name is one of the places a name is written: reading a nameless record as `Account` attaches the name, so it is never a cast of what the reading already is, and only a reading that is already `Account` makes it one, at whatever depth the name stands and under whatever alias of `Account` either side writes. A cast writes a name and never takes one away: a reading under one declared record cast to another, to an inline record type or to `Dictionary<String, T>` names a type no value it reads is, null and an empty list or map aside where both take one, and **refuses at the build**, and so does a cast to a record type of other fields than the reading's, since a record type is exactly its fields. A cast reads a value and is no place a literal is written into: a whole literal in its operand, at any depth, is the `Int` it is, so `{ x: 1 } as { x: Double }` names a type no value is both and **refuses at the build**, and `[1] as Array<Double>` builds, the empty list being a value of both, and fails at the run. A cast onto `Any` or `Never` refuses at the build for the other half of the same reason: those name no type to read. A type parameter written anywhere inside a cast's type (`Array<some T>`) **refuses at the load** as it does on a name saying what it holds: nothing in a body fills one, so there is no type there to judge what arrives against.
+A cast that names the type the reading already **is** refuses at the build, the way a needless `?.` does: the claim says nothing. The test is sameness, not admission: a reading of `Int?` cast to `Int` names something the types leave open, and only the run can say whether it holds. A cast to a declared record name is one of the places a name is written: reading a nameless record as `Account` attaches the name, so it is never a cast of what the reading already is, and only a reading that is already `Account` makes it one, at whatever depth the name stands and under whatever alias of `Account` either side writes. A cast writes a name and never takes one away: a reading under one declared record cast to another or to `Dictionary<String, T>` names a type no value it reads is, null and an empty list or map aside where both take one, and **refuses at the build**. A cast reads a value and is no place a literal is written into: a whole literal in its operand, at any depth, is the `Int` it is, so `[1] as Array<Double>` builds, the empty list being a value of both, and fails at the run. A cast onto `Any` or `Never` refuses at the build for the other half of the same reason: those name no type to read. A type parameter written anywhere inside a cast's type (`Array<some T>`) **refuses at the load** as it does on a name saying what it holds: nothing in a body fills one, so there is no type there to judge what arrives against.
 
 A cast that names a type nothing declares **refuses at the build**, wherever it is written, by the rule every type spelling is held to. `as?` reads a value that is not the named type as null; it does not read a name that names nothing as null, because that is the declaration being wrong rather than the value.
 
@@ -50,12 +50,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-cast-names-the-record-it-reads`
 - `a-cast-naming-a-type-nothing-declares-refuses`
 - `a-cast-naming-what-the-reading-already-is-refuses`
-- `a-cast-of-a-declared-record-to-a-record-of-its-fields-refuses`
 - `a-cast-of-a-list-of-nameless-records-to-a-list-of-a-declared-record-names-them`
-- `a-cast-of-a-nameless-field-to-a-field-of-a-declared-record-names-it`
 - `a-cast-of-a-nameless-record-to-a-declared-record-of-its-fields-names-it-answers`
 - `a-cast-of-a-record-literal-names-the-nameless-record-it-holds-answers`
-- `a-cast-of-a-record-literal-reads-a-whole-number-in-it-as-an-int-refuses`
 - `a-cast-of-a-record-under-another-name-fails`
 - `a-cast-onto-a-type-parameter-refuses`
 - `a-cast-onto-any-refuses`
@@ -103,7 +100,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-write-at-a-constant-index-below-zero-refuses`
 - `a-write-at-an-index-below-zero-refuses`
 - `an-absent-dictionary-entry-refuses`
-- `an-asking-cast-of-a-declared-record-read-as-any-to-an-inline-record-reads-null`
 - `an-element-of-a-constant-list-reads-as-its-element-type-refuses`
 - `an-element-of-a-constant-record-field-reads-as-its-element-type-refuses`
 - `an-index-into-any-is-refused`

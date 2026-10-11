@@ -23,7 +23,7 @@ A program is read, checked and built before any of it runs, the arms nobody take
 - every `set` writes through fields declared `var` where the type is a declared type, and what it writes fits what the path reaches; a write into a module variable or an `inout` parameter fits what the box holds;
 - every `inout` parameter is handed a variable's path a write may take; two parameters handed paths under one head hold one box two ways, under [procedures](procedure.md), and nothing keeps them apart;
 - what a closure writes into a variable it captured fits what the capturing body holds;
-- a record type fits only a value of exactly it: a value read under one declared record name fits no slot declaring another, nor an inline record type or `Dictionary<String, T>`; a value read as a nameless record fits no declared record, and one of an inline record type fits only exactly its fields; and a record literal written where a declared record is read is judged field by field and takes the name;
+- a record type fits only a value of exactly it: a value read under one declared record name fits no slot declaring another, nor `Dictionary<String, T>`; a value read as a nameless record fits no declared record; and a record literal written where a declared record is read is judged field by field and takes the name;
 - a constant is the type it was declared as;
 - what `return` carries fits the declaration;
 - a statement whose call answers `Never`, declared under `returns` or read off a body that never finishes, never finishes: it takes no name, and nothing follows it;
