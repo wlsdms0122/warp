@@ -13,7 +13,7 @@ A program computes over eight kinds of data, plus one value that is not data:
 | string | `"hi"` | Unicode text |
 | array | `[ … ]`, or `x"6869"` | ordered; `x"…"` is **bytes**, the compact spelling of an `Array<Int>` whose every element is from 0 to 255, what a carrying form carries when the payload is not text |
 | map | `{ … }` | entries, each a value under a key that is a value, every key once; held in the key order below |
-| record | `Name { … }` | unordered fields, names unique; carries the **name** of the declared record it is, a type's name under [checking](checking.md), which a slot of a declared record takes only where it is that record's |
+| record | `Name { … }` | unordered fields, names unique; carries the **name** of the declared record it is, a type's name under [checking](checking.md) or one the language declares, which a slot of a declared record takes only where it is that record's |
 | procedure | | code with what it captured; exists only at run time, never in a document |
 
 **A record's name.** Every record is a value of a declared record and carries its name. A record literal is read as the declared record of the place it is written into and takes that name there, and a literal a program writes with one (`Ghost.T { x 1 }` in a text) **refuses at the load**. A record carries its name through every slot declaring the type and through `Any`, and fits no other: `Dictionary<String, T>` takes no record, and a declared record takes no map, under [Types](type.md). A value from outside under a name, through `Any` included, is held at the door to the record the name declares, under *a declared record is nominal* in [Types](type.md).

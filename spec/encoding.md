@@ -42,7 +42,7 @@ Each value is a tag byte, then its payload:
 | `0x06` | array | count varint, then that many values |
 | `0x07` | map | count varint, then that many of: key, which is any value, then the value under it |
 | `0x08` | bytes | length varint, then that many raw bytes |
-| `0x09` | record | name (length varint + UTF-8), count varint, then that many of: field name (length varint + UTF-8), value. The name holds a type's name grammar, under [checking](checking.md); any other **refuses** |
+| `0x09` | record | name (length varint + UTF-8), count varint, then that many of: field name (length varint + UTF-8), value. The name holds a type's name grammar, under [checking](checking.md), or is a name the language declares itself, as `Failure` and `Round` are; any other **refuses** |
 
 - **Varint** is unsigned LEB128: seven bits a byte, low bits first, high bit says another byte follows. At most 64 bits of payload. The largest zigzagged value takes exactly ten bytes, the tenth carrying bit 63 alone, so an eleventh byte, or a tenth-byte bit that would carry past bit 63, **refuses**; overflow is not wrapped, masked or truncated. A trailing zero group (`0x80 0x00` for zero) is a longer spelling of the same number and **refuses**. One value, one spelling.
 - **ZigZag** maps signed to unsigned: `(n << 1) ^ (n >> 63)`.
@@ -91,7 +91,7 @@ The layout:
 - `null`, `true` and `false` are bare keywords. **A number with a point or an exponent is a fraction; with neither it is whole**. The difference is grammar, not a reader's guess. A double is spelled as the shortest decimal that reads back to the same binary64 (a Ryū/Grisu-class rendering), with the point or exponent always present. Which form those digits take is the document's rule, not a host library's: writing the value `d.ddd…×10^k`, the point form when `-5 < k < 16`, otherwise the exponent form, its exponent written `e` with an explicit sign and at least two digits. `0.0001` but `1e-05`, `1000000000000000.0` but `1e+16`, so one value keeps one spelling down to its last character. An int is spelled with no leading zeros and a `-` only when negative.
 - A string is double-quoted. Exactly `"`, `\` and the three control characters with short escapes are escaped as `\"` `\\` `\n` `\r` `\t`; every other control character (below U+0020) as `\uXXXX` with lowercase hex; **nothing else is escaped**, and no character that has a shorter escape may take a longer one.
 - Bytes are `x"…"`. Lowercase hex, two digits a byte, no spaces.
-- A record is its name, a space, and its fields as a map writes its entries: `Bank.Account { balance 1 }`. In value position a bare token followed by `{` is the name where it holds a type's name grammar, under [checking](checking.md); a bare token that spells a scalar (`null`, `true`, `false`, a number) or a type the language names (`Int`, `Array`) is never one.
+- A record is its name, a space, and its fields as a map writes its entries: `Bank.Account { balance 1 }`. In value position a bare token followed by `{` is the name where it is one a record may carry, as under `0x09` above; a bare token that spells a scalar (`null`, `true`, `false`, a number) or a type the language names (`Int`, `Array`) is never one.
 
 Layout is free on the way in. A reader takes keys in any order, any whitespace between tokens and any indentation, because a text is written by a person as often as by a writer. The writer still lays a text out one way, keys in the key order, fields ascending and two spaces an indent, so a text that has been through a writer is the same bytes everywhere, and that is the form the conformance cases are kept in. Text written as a key bare or quoted is one key either way. What is not free is the spelling of a value: a fraction written `1.50` and an escape spelled long **refuse**, since those are two texts for one value rather than two layouts of one text. Nor is a key written twice, two keys that are one value included, or a field named twice, which **refuses**: two values under one key are two documents, not one document laid out twice. Sameness of documents is the binary's promise, above, and a text makes it by being written out. A text that is refused is refused with the line and column the reader stood at, both counted from one, the column in scalars: a text is the encoding a person edits, and a refusal that names no place leaves them to find it.
 
@@ -113,6 +113,7 @@ What `conformance/` asks about this page, by the name each case's file carries. 
 - `a-record-key-written-twice-refuses`
 - `a-record-name-that-is-not-declarable-refuses`
 - `a-record-named-for-a-type-the-language-names-refuses`
+- `a-record-the-language-declares-reads-and-writes-back`
 - `a-string-that-is-not-utf8-refuses`
 - `a-text-key-not-in-normal-form-c-is-kept`
 - `a-varint-carrying-past-bit-63-refuses`
