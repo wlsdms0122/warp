@@ -1,0 +1,39 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-field-of-a-constant-list-element-reads-as-the-joined-field-refuses"
+  note "The two records join field by field, so the list's element type is `{ a: Int, b: Any }`, and `k[0].b` reads `Any` though it settles to `\"x\"`. An answer declaring `String` refuses it at the build."
+  program {
+    const {
+      k [
+        {
+          record {
+            a 1
+            b "x"
+          }
+        }
+        {
+          record {
+            a 2
+            b 3
+          }
+        }
+      ]
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result {
+          ref "k[0].b"
+        }
+        returns "String"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
