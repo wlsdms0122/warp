@@ -14,7 +14,7 @@ An object is one record. It carries **exactly** these keys, and a key none of th
 | `document` | the document's identity, or nothing where the program was never written down | |
 | `dependencies` | the objects behind every declaration this document named, each by what the host keyed it under | ascending by bytes, none twice |
 | `types` | name → *type*, as the document wrote them | by name |
-| `contracts` | name → (procedure name → `[ signature, constness, isolation, failing ]`, the two marks and *failing* as a row writes them) | by name, then by name |
+| `contracts` | name → (procedure name → `[ signature, constness, isolation, failing ]`, the two marks as a row writes them and *failing* as `[1, names]`) | by name, then by name |
 | `claims` | type name → the contracts it says it answers | by name; the contracts ascending |
 | `leaned` | the pairs its bodies lean on: (type, contract, *place*), unresolved | by type, then contract |
 | `rows` | the declarations, each a *row* under its spelling | by name |
@@ -73,7 +73,7 @@ A *segment* is `[0, name, optional]`, `[1, index, optional]` or `[2, path, optio
 
 A *procedure type* is `[parameters, returns]`: a list of *type*, in position order, and a *type* or nothing. A *signature* is `[parameters, returns, bounds]`: a list of *parameter*, in the declaration's order; a *type* or nothing; and name → the contracts bounding the type parameter of that name, ascending, at least one, for each type parameter the signature bounds. A *parameter* is `[name, type, description]`: the name, then each a list of none or one: a *type*; a string.
 
-*Constness* is `0` unstated or `1` const. *Isolation* is `0` unstated or `1` isolated. *Failing* is `[0]` unstated or `[1, names]`, the names ascending.
+*Constness* is `0` unstated or `1` const. *Isolation* is `0` unstated or `1` isolated. *Failing* is `[0]` unstated or `[1, names]`, the names ascending. A contract's procedure says which failures it may raise, so its *failing* is `[1, names]` alone.
 
 ### Places
 
@@ -170,6 +170,7 @@ A reading refuses what it cannot read and traps on nothing: the reading runs ins
 - a call handing in place at a position past the arguments it stands
 - a closure literal taking what it captured into slots other than the captures of its own row's frame
 - a `keeps` that ends before it begins
+- a contract's procedure whose *failing* is `[0]`
 - a declared type that is no record and comes back to itself through what it stands for, which the load refuses in a document, under [types](type.md)
 - a record, built from parts or as a lowered type, holding other than one part per field its layout names
 - a row of a procedure the host answers whose sends do not stand one to a place from the first, or reach a spelling the document's `numbering` does not number
@@ -255,6 +256,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-whose-call-stands-more-arguments-than-its-callee-takes-refuses`
 - `an-object-whose-claims-stand-out-of-name-order-refuses`
 - `an-object-whose-closure-counts-add-up-past-an-int-refuses`
+- `an-object-whose-contract-procedure-leaves-its-failing-unstated-refuses`
 - `an-object-whose-dependencies-stand-out-of-name-order-refuses`
 - `an-object-whose-entry-is-not-public-refuses`
 - `an-object-whose-frame-names-fewer-slots-than-it-holds-refuses`
