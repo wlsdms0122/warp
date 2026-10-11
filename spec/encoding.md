@@ -100,17 +100,17 @@ Layout is free on the way in. A reader takes keys in any order, any whitespace b
 What `conformance/` asks about this page, by the name each case's file carries. These carry bytes or text rather than a program, under *what a case is* in [conformance](conformance.md).
 
 - `a-byte-order-mark-in-a-string-is-kept`
+- `a-field-name-not-in-normal-form-c-refuses`
 - `a-format-that-never-existed-refuses`
 - `a-key-led-by-a-byte-order-mark-sorts-by-its-bytes`
 - `a-key-that-is-a-byte-order-mark-is-kept`
 - `a-later-format-refuses`
 - `a-length-past-the-end-of-the-document-refuses`
 - `a-map-key-the-same-as-the-one-before-refuses`
+- `a-map-key-written-twice-refuses`
 - `a-map-keyed-by-values-reads-and-writes-back`
 - `a-named-record-reads-and-writes-back`
 - `a-number-written-longer-than-it-is-refuses`
-- `a-record-key-not-in-normal-form-c-refuses`
-- `a-record-key-written-twice-refuses`
 - `a-record-name-that-is-not-declarable-refuses`
 - `a-record-named-for-a-type-the-language-names-refuses`
 - `a-record-the-language-declares-reads-and-writes-back`
@@ -118,15 +118,15 @@ What `conformance/` asks about this page, by the name each case's file carries. 
 - `a-text-key-not-in-normal-form-c-is-kept`
 - `a-varint-carrying-past-bit-63-refuses`
 - `a-varint-of-eleven-bytes-refuses`
-- `an-empty-record-key-refuses`
+- `an-empty-field-name-refuses`
 - `an-infinity-refuses`
 - `bytes-after-the-document-ends-refuse`
 - `bytes-that-do-not-begin-as-a-document-refuse`
 - `bytes-that-end-inside-a-value-refuse`
 - `map-keys-out-of-order-refuse`
 - `nesting-past-the-bound-refuses`
-- `record-keys-out-of-order-refuse`
-- `the-golden-record-reads-and-writes-back`
+- `record-fields-out-of-order-refuse`
+- `the-golden-map-reads-and-writes-back`
 - `the-spellings-a-text-reads-are-pinned-by-bytes`
 
 Text:
@@ -158,4 +158,4 @@ Text:
 - `bytes-written-with-an-odd-digit-refuse`
 - `text-after-the-document-ends-refuses`
 - `text-that-is-not-utf8-refuses`
-- `the-golden-record-spells-as-text`
+- `the-golden-map-spells-as-text`
