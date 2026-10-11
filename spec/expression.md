@@ -10,7 +10,7 @@ A scalar is itself, a literal. A string is always literal text; nothing inside i
 | `{ record: { … } }` | a record, its fields each an expression. A field may be called anything, `ref` and `value` included |
 | `{ call: <call> }` | a call where a value is wanted; same grammar as the `call` construct |
 | `{ closure: <procedure> }` | a procedure written where a value is wanted; same grammar as a procedure |
-| `{ as: { of: <value>, type: <type> } }` | read the value as that type. The door onto what `Any` declares nothing about |
+| `{ as: { of: <value>, type: <type> } }` | read the value as that type: how a value the build could not type, one read as `Any` or as a contract, is held to one |
 | `{ as?: { of: <value>, type: <type> } }` | the same, reading a mismatch as null rather than refusing; the answer is `T?` |
 
 A mapping with another key, or with more than one, **refuses at the load**. A key names a form and never a field, so no field name is reserved.
