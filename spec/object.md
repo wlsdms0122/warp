@@ -129,7 +129,7 @@ An *operation* is `[tag, …]`. These are the constructs and the expression form
 | 12 | a call through a contract | *dispatch* |
 | 13 | leaving | *reach*, the target name or nothing, what it takes or nothing |
 
-A *layout* is `[name, fields]`: the declared name or nothing, and the field names ascending. A *call* is `[procedure, arguments, handed]`: the row the call reaches, numbered by the document; one *operation* or nothing per parameter of the callee, in parameter order, nothing where the call wrote nothing or hands that parameter an address in place; and `[position, address]` for each parameter handed in place, by position ascending. A *dispatch* is `[contract, procedure, first, arguments]`: the contract's name, the procedure's, the first argument's *operation*, and the arguments after it by position, each an *argument*. Which row answers is the link's, and stands nowhere in an object. An *argument* is `[0, operation]` by value or `[1, address]` by reference: the place a call of a value hands in place, or one a call through a contract hands to whichever row takes it in place.
+A *layout* is `[name, fields]`: the declared name or nothing, and the field names ascending. A *call* is `[procedure, arguments, handed]`: the row the call reaches, numbered by the document; one *operation* or nothing per parameter of the callee, in parameter order, nothing exactly where the call hands that parameter an address in place; and `[position, address]` for each parameter handed in place, by position ascending. A *dispatch* is `[contract, procedure, first, arguments]`: the contract's name, the procedure's, the first argument's *operation*, and the arguments after it by position, each an *argument*. Which row answers is the link's, and stands nowhere in an object. An *argument* is `[0, operation]` by value or `[1, address]` by reference: the place a call of a value hands in place, or one a call through a contract hands to whichever row takes it in place.
 
 ### Lowered types
 
@@ -141,7 +141,7 @@ A *lowered type* is a type as a body stands on it, `[tag, …]`:
 | 7 | array | *lowered type* |
 | 8 | dictionary | *lowered type* |
 | 9 | record | `[layout, types]`: the *layout*, and a list of *lowered type* in the layout's field order |
-| 10 | procedure | parameters or nothing, a list of *lowered type* in position order; returns or nothing; *constness*; *isolation* |
+| 10 | procedure | parameters or nothing, a list of *lowered type* in position order; returns or nothing, nothing where the parameters are nothing; *constness*; *isolation* |
 | 11 | variable | *lowered type* |
 | 12 | inout | *lowered type* |
 | 13 | nullable | *lowered type* |
@@ -167,16 +167,17 @@ A reading refuses what it cannot read and traps on nothing: the reading runs ins
 - a lifted row where the numbering counts no closure, a numbering counting more closures than `lifted` holds, a count of none for a declaration it counts, and counts that add up past what an int holds
 - a frame naming other than one name per slot, standing other than one slot per parameter its declaration takes, or standing a parameter, a variable or a capture past its end
 - a body standing on a slot past its frame or on a variable past its document's `variables`, and a loop keeping a run its frame does not hold
-- a call handing in place at a position past the arguments it stands, or at one position twice
+- a call handing in place at other positions than the ones it writes nothing at, or out of ascending order
 - a closure literal taking what it captured into slots other than the captures of its own row's frame
 - a `keeps` that ends before it begins
 - a contract's procedure whose *failing* is `[0]`
 - a declared type that is no record and comes back to itself through what it stands for, which the load refuses in a document, under [types](type.md)
 - a record, built from parts or as a lowered type, holding other than one part per field its layout names
+- a lowered procedure type writing what it answers and not what it takes
 - a row of a procedure the host answers whose sends do not stand one to a place from the first, or reach a spelling the document's `numbering` does not number
 - an object standing against a document other than the one it was kept under
 
-Every one of these is refused where the object is read, before it is laid beside anything. What only a row beside it can answer, which row a number is and whether a call stands as many arguments as that row takes, and which type answers a contract, is refused at `build`, where a compile lays the object down or a link does, under [checking](checking.md).
+Every one of these is refused where the object is read, before it is laid beside anything. What only the documents beside it can answer is refused at `build`, where a compile lays the object down or a link does, under [checking](checking.md): which row a number is and whether a call stands as many arguments as that row takes, which type answers a contract, and whether what it sends and every type its declared types, signatures and bodies name is declared by it or by a document standing before it, so two objects that need each other refuse as two documents do.
 
 ## One object
 
@@ -254,6 +255,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-standing-against-another-document-refuses`
 - `an-object-whose-body-stands-past-its-frame-refuses`
 - `an-object-whose-call-stands-more-arguments-than-its-callee-takes-refuses`
+- `an-object-whose-call-through-a-contract-stands-more-arguments-than-its-rows-take-refuses`
+- `an-object-whose-call-writes-an-argument-where-it-hands-in-place-refuses`
 - `an-object-whose-claims-stand-out-of-name-order-refuses`
 - `an-object-whose-closure-counts-add-up-past-an-int-refuses`
 - `an-object-whose-contract-procedure-leaves-its-failing-unstated-refuses`
@@ -277,6 +280,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-writing-a-composition-of-one-name-refuses`
 - `an-object-writing-a-count-below-zero-refuses`
 - `an-object-writing-a-name-not-in-normal-form-refuses`
+- `an-object-writing-a-procedure-type-that-answers-without-parameters-refuses`
 - `an-object-writing-a-tag-the-layout-does-not-name-refuses`
 - `an-object-writing-an-empty-name-refuses`
 - `an-object-writing-any-as-a-parameter-type-refuses`
