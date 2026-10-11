@@ -65,7 +65,9 @@ A declaration named for a type and a procedure that no claim names is that docum
 
 A contract may ask no procedures. It is then a mark a claim gives a type, and a type answers it where a document claims it does, as for any contract.
 
-**A map's key.** The language names one contract, `Hashable`, which asks no procedures and which the key of every map type answers. The language claims it for `Null`, `Bool`, `Int`, `Double`, `String`, `Array` and `Dictionary`, and a declared record answers it where a document claims it does: `satisfies: { "App.Point": ["Hashable"] }`. Which keys are one key is the value model's sameness, under [the value model](value.md), and no procedure decides it. A map type whose key does not answer `Hashable`, `Any`, a procedure type or a type parameter its bounds do not hold to it among them, **refuses at the build** where it is written, reached or not, and one whose key leans on a claim refuses where the link cannot answer it, under the rule above.
+**What the language declares.** The language declares three names itself, which stand in every link ahead of its documents: the contract `Hashable` below, and the records `Failure`, which a rescue binds, and `Round`, which a loop binds, under [statements](statement.md). No document declares one of them, and a mention of one, in a slot, a bound, a cast or a claim, is that declaration.
+
+**A map's key.** The language declares one contract, `Hashable`, which asks no procedures and which the key of every map type answers. The language claims it for `Null`, `Bool`, `Int`, `Double`, `String`, `Array` and `Dictionary`, and a declared record answers it where a document claims it does: `satisfies: { "App.Point": ["Hashable"] }`. Which keys are one key is the value model's sameness, under [the value model](value.md), and no procedure decides it. A map type whose key does not answer `Hashable`, `Any`, a procedure type or a type parameter its bounds do not hold to it among them, **refuses at the build** where it is written, reached or not, and one whose key leans on a claim refuses where the link cannot answer it, under the rule above.
 
 A body calls a contract's procedure by writing the contract's name and the procedure's with a dot between them: `App.Describable.describe`. That spelling is the contract's declaration of the procedure, and it is a send like any other: a document calling a contract another module declares lists the spelling in `imports`. It names no type's declaration, and what it means is decided by the value at its first position, so a call writing nothing there **refuses at the build**. What a call hands it and what it answers are the contract's, not any one declaration's.
 
@@ -295,6 +297,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-row-of-readings-of-any-appended-to-a-table-of-text-refuses`
 - `a-slot-of-a-type-takes-no-value-read-as-a-contract-refuses`
 - `a-some-outside-a-signature-refuses`
+- `a-type-declared-under-a-name-the-language-declares-refuses`
 - `a-type-declared-under-a-name-the-language-gives-refuses`
 - `a-type-declared-under-a-word-a-type-spelling-writes-refuses`
 - `a-type-form-beside-other-keys-refuses`

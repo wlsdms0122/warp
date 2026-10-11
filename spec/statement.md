@@ -71,7 +71,7 @@ A conditional is a statement: it **answers nothing**, and it **takes no name**. 
 | `body` | statements | yes |
 | `result` | expression | no |
 
-The loop's own statement name binds the round it is on, readable everywhere the loop is still speaking: the `while` condition, the `body` and the `result`. A loop written nameless binds no round: a `break` or `continue` naming no loop still ends it, and one naming a loop passes through it. The condition reads the state before the round it would start, so `round.index` there is how many rounds have finished, and the `result` reads the round the loop ended on: the one a `break` left, or the one the condition declined to start. What a loop answers is its `result` read in what the last round that *finished* left behind; a round cut short contributed nothing. A loop naming no result answers nothing.
+The loop's own statement name binds the round it is on, a `Round`, a record the language declares as `{ index: Int }`, readable everywhere the loop is still speaking: the `while` condition, the `body` and the `result`. A loop written nameless binds no round: a `break` or `continue` naming no loop still ends it, and one naming a loop passes through it. The condition reads the state before the round it would start, so `round.index` there is how many rounds have finished, and the `result` reads the round the loop ended on: the one a `break` left, or the one the condition declined to start. What a loop answers is its `result` read in what the last round that *finished* left behind; a round cut short contributed nothing. A loop naming no result answers nothing.
 
 Bounding a loop is the author's to write, with a counter in its condition, and stopping one is the host's **cancellation**, under [running](running.md).
 
@@ -89,7 +89,7 @@ Running things at once is **vocabulary**: `Standard.Concurrent`, under [the stan
 | `result` | expression | no |
 | `rescue` | block. Runs if the body fails | yes |
 
-A rescue catches failure (what the world did), not leaving (what the program said). A rescue with nothing in it, no statement to run for effect and no `result` to answer, **refuses at the load**: it would swallow a failure into null without a trace. A rescue over a body that cannot fail, one the build derives no failure for, **refuses at the build** for the other half of the same reason: it is a body no run reaches. A refusal at the run is not a failure and does not make a body one that can fail, under [running](running.md). This is the one exception to a block's optional `result`, and the failure is the reason. The statement's own name binds the failure **while the rescue runs**, an attempt written nameless binds none, and what a name binds is a **record declared `{ record: { type: String, message: String, details: Dictionary<String, Any> } }`**. `type` names what happened (`aborted`, `concurrent_failed`), `message` is text for a person, and `details` is what the failing procedure carried. Every failure holds all three by construction: a runtime assembles the payload from what a failure declares, so no procedure can hand over one without them.
+A rescue catches failure (what the world did), not leaving (what the program said). A rescue with nothing in it, no statement to run for effect and no `result` to answer, **refuses at the load**: it would swallow a failure into null without a trace. A rescue over a body that cannot fail, one the build derives no failure for, **refuses at the build** for the other half of the same reason: it is a body no run reaches. A refusal at the run is not a failure and does not make a body one that can fail, under [running](running.md). This is the one exception to a block's optional `result`, and the failure is the reason. The statement's own name binds the failure **while the rescue runs**, an attempt written nameless binds none, and what a name binds is a **`Failure`**, a record the language declares as `{ type: String, message: String, details: Dictionary<String, Any> }`, under [types](type.md). `type` names what happened (`aborted`, `concurrent_failed`), `message` is text for a person, and `details` is what the failing procedure carried. Every failure holds all three by construction: a runtime assembles the payload from what a failure declares, so no procedure can hand over one without them.
 
 The envelope is this specification's; what rides in `details` is the procedure's own. `concurrent_failed` puts `failures` there: every piece's failure, keyed by the piece, a record's by its key and an array's by its index written `[0]`, and each is the envelope that piece raised, so a rescue reads a piece's own `type`, `message` and `details` through it.
 
@@ -145,6 +145,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-field-a-path-writes-through-is-declared-var`
 - `a-fixed-name-cannot-be-written`
 - `a-let-without-a-value-refuses`
+- `a-loop-binds-a-round-the-language-declares`
 - `a-loop-condition-that-is-not-a-bool-refuses`
 - `a-loop-reads-how-many-rounds-passed`
 - `a-loop-result-reads-a-body-name-as-the-last-finished-round-left-it`
@@ -174,6 +175,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-procedure-that-can-fail-says-so`
 - `a-record-literal-written-into-an-entry-of-a-declared-dictionary-takes-the-name-answers`
 - `a-record-literal-written-through-a-path-of-a-variable-that-declared-nothing-takes-the-name-answers`
+- `a-rescue-binds-a-failure-the-language-declares`
 - `a-rescue-over-a-body-that-cannot-fail-refuses`
 - `a-rescue-reads-a-pieces-own-failure`
 - `a-rescue-reads-the-failure-it-caught`
