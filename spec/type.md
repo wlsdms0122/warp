@@ -338,6 +338,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-alias-of-any-another-document-declares-at-a-contract-slot-refuses`
 - `an-alias-of-any-at-a-contract-slot-refuses`
 - `an-alias-of-any-at-a-nullable-contract-slot-refuses`
+- `an-answer-from-outside-under-a-name-no-document-declares-where-no-returns-is-written-refuses-at-the-door`
+- `an-answer-from-outside-under-an-alias-where-no-returns-is-written-is-a-value-of-its-record-answers`
+- `an-answer-from-outside-under-its-name-where-no-returns-is-written-is-held-to-its-record-refuses`
 - `an-answer-read-as-any-where-a-type-is-declared-refuses`
 - `an-array-of-bytes-and-a-list-of-numbers-joins-to-a-list-of-lists`
 - `an-attempt-answering-records-of-the-same-fields-two-ways-joins-them-field-by-field`
