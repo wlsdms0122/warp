@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "every-way-out-of-a-body-is-one-of-its-answers"
-  note "A declaration that wrote no `returns` answers what every way out of its body answers, each `return` beside the result. A record from the result and text from a `return` join to `Any`, and a dot on that is refused at the build."
+  note "A declaration that wrote no `returns` answers what every way out of its body answers, each `return` beside the result. An `App.Counts` from the result and text from a `return` join to `Any`, and a dot on that is refused at the build."
   program {
     imports [
       "Standard.Logic.equal"
@@ -36,6 +36,15 @@ warpt 1
               }
             }
           }
+          {
+            let "c"
+            type "App.Counts"
+            value {
+              record {
+                total 7
+              }
+            }
+          }
         ]
         parameters [
           {
@@ -44,9 +53,7 @@ warpt 1
           }
         ]
         result {
-          record {
-            total 7
-          }
+          ref "c"
         }
       }
       entry {
@@ -66,6 +73,13 @@ warpt 1
         ]
         result {
           ref "said.total"
+        }
+      }
+    }
+    types {
+      "App.Counts" {
+        record {
+          total "Int"
         }
       }
     }

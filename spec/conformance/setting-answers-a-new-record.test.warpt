@@ -12,7 +12,7 @@ warpt 1
     ]
   }
   name "setting-answers-a-new-record"
-  note "setting answers a record with the field written, and a new record: the one it was given still holds what it held."
+  note "setting answers a map with the entry written, and a new map: the one it was given still holds what it held."
   program {
     imports [
       "Standard.Collection.setting"
@@ -24,9 +24,12 @@ warpt 1
           {
             let "data"
             value {
-              record {
-                a 1
-              }
+              dictionary [
+                [
+                  "a"
+                  1
+                ]
+              ]
             }
           }
           {

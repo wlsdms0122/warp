@@ -7,7 +7,7 @@ warpt 1
     ]
   }
   name "values-answer-in-canonical-order"
-  note "values walks a record the one way a record can be walked. Its canonical order, names ascending, so the same record answers the same walk on every run."
+  note "values walks a map the one way a map can be walked: in its key order, text ascending, so the same map answers the same walk on every run."
   program {
     imports [
       "Standard.Collection.values"
@@ -19,10 +19,16 @@ warpt 1
           call {
             arguments [
               {
-                record {
-                  a 1
-                  b 2
-                }
+                dictionary [
+                  [
+                    "a"
+                    1
+                  ]
+                  [
+                    "b"
+                    2
+                  ]
+                ]
               }
             ]
             procedure "Standard.Collection.values"

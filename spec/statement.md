@@ -4,7 +4,7 @@ What a body is made of. A statement binds a name to an expression, and a **const
 
 ## A statement
 
-A record carrying **at most one** naming key and its expression under **`value`**: `{ let "x" value { call {…} } }`, `{ value { loop {…} } }`. A construct sits inside `value` under its own key, and that is the one place a construct key is read. A construct key anywhere else is not a construct: a bare mapping in an operand, such as an argument or an element of an array, is read as an expression form and **refuses at the load**, and under `record` the key is a field name like any other.
+A map carrying **at most one** naming key and its expression under **`value`**: `{ let "x" value { call {…} } }`, `{ value { loop {…} } }`. A construct sits inside `value` under its own key, and that is the one place a construct key is read. A construct key anywhere else is not a construct: a bare mapping in an operand, such as an argument or an element of an array, is read as an expression form and **refuses at the load**, and under `record` the key is a field name like any other.
 
 The naming key says what the statement does to its name:
 
@@ -91,7 +91,7 @@ Running things at once is **vocabulary**: `Standard.Concurrent`, under [the stan
 
 A rescue catches failure (what the world did), not leaving (what the program said). A rescue with nothing in it, no statement to run for effect and no `result` to answer, **refuses at the load**: it would swallow a failure into null without a trace. A rescue over a body that cannot fail, one the build derives no failure for, **refuses at the build** for the other half of the same reason: it is a body no run reaches. A refusal at the run is not a failure and does not make a body one that can fail, under [running](running.md). This is the one exception to a block's optional `result`, and the failure is the reason. The statement's own name binds the failure **while the rescue runs**, an attempt written nameless binds none, and what a name binds is a **`Failure`**, a record the language declares as `{ type: String, message: String, details: Dictionary<String, Any> }`, under [types](type.md). `type` names what happened (`aborted`, `concurrent_failed`), `message` is text for a person, and `details` is what the failing procedure carried. Every failure holds all three by construction: a runtime assembles the payload from what a failure declares, so no procedure can hand over one without them.
 
-The envelope is this specification's; what rides in `details` is the procedure's own. `concurrent_failed` puts `failures` there: every piece's failure, keyed by the piece, a record's by its key and an array's by its index written `[0]`, and each is the envelope that piece raised, so a rescue reads a piece's own `type`, `message` and `details` through it.
+The envelope is this specification's; what rides in `details` is the procedure's own. `concurrent_failed` puts `failures` there: every piece's failure, keyed by the piece, a map's by its key and an array's by its index written `[0]`, and each is the envelope that piece raised, so a rescue reads a piece's own `type`, `message` and `details` through it.
 
 ```
 { ref "failed.details.failures" }
@@ -174,7 +174,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-parameter-is-not-introduced-again-inside-a-closure`
 - `a-procedure-that-can-fail-says-so`
 - `a-record-literal-written-into-an-entry-of-a-declared-dictionary-takes-the-name-answers`
-- `a-record-literal-written-through-a-path-of-a-variable-that-declared-nothing-takes-the-name-answers`
 - `a-rescue-binds-a-failure-the-language-declares`
 - `a-rescue-over-a-body-that-cannot-fail-refuses`
 - `a-rescue-reads-a-pieces-own-failure`

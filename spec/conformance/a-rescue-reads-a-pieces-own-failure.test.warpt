@@ -24,29 +24,35 @@ warpt 1
                       call {
                         arguments [
                           {
-                            record {
-                              fine {
-                                closure {
-                                  result "ok"
+                            dictionary [
+                              [
+                                "fine"
+                                {
+                                  closure {
+                                    result "ok"
+                                  }
                                 }
-                              }
-                              fragile {
-                                closure {
-                                  body [
-                                    {
-                                      value {
-                                        call {
-                                          arguments [
-                                            "on purpose"
-                                          ]
-                                          procedure "Standard.Control.abort"
+                              ]
+                              [
+                                "fragile"
+                                {
+                                  closure {
+                                    body [
+                                      {
+                                        value {
+                                          call {
+                                            arguments [
+                                              "on purpose"
+                                            ]
+                                            procedure "Standard.Control.abort"
+                                          }
                                         }
                                       }
-                                    }
-                                  ]
+                                    ]
+                                  }
                                 }
-                              }
-                            }
+                              ]
+                            ]
                           }
                         ]
                         procedure "Standard.Concurrent.allKeyed"

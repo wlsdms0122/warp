@@ -7,7 +7,7 @@ warpt 1
     ]
   }
   name "a-dictionary-is-read-by-a-key-the-run-reads"
-  note "A dictionary's names are data, so a key the run reads finds an entry the way a written key does. That is what lets a document walk a dictionary at all, and `values` is what walking one is for."
+  note "A dictionary's keys are data, so a key the run reads finds an entry the way a written key does. That is what lets a document walk a dictionary at all, and `values` is what walking one is for."
   program {
     imports [
       "Standard.Collection.appending"
@@ -104,10 +104,16 @@ warpt 1
           call {
             arguments [
               {
-                record {
-                  first 1
-                  second 2
-                }
+                dictionary [
+                  [
+                    "first"
+                    1
+                  ]
+                  [
+                    "second"
+                    2
+                  ]
+                ]
               }
             ]
             procedure "App.values"

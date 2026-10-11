@@ -28,28 +28,34 @@ warpt 1
                       call {
                         arguments [
                           {
-                            record {
-                              broken {
-                                closure {
-                                  result {
-                                    call {
-                                      arguments [
-                                        1
-                                        {
-                                          ref "z"
-                                        }
-                                      ]
-                                      procedure "Standard.Numeric.dividedBy"
+                            dictionary [
+                              [
+                                "broken"
+                                {
+                                  closure {
+                                    result {
+                                      call {
+                                        arguments [
+                                          1
+                                          {
+                                            ref "z"
+                                          }
+                                        ]
+                                        procedure "Standard.Numeric.dividedBy"
+                                      }
                                     }
                                   }
                                 }
-                              }
-                              fine {
-                                closure {
-                                  result 1
+                              ]
+                              [
+                                "fine"
+                                {
+                                  closure {
+                                    result 1
+                                  }
                                 }
-                              }
-                            }
+                              ]
+                            ]
                           }
                         ]
                         procedure "Standard.Concurrent.allKeyed"

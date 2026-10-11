@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-record-handed-at-a-dictionary-of-a-bounded-parameter-fills-it-by-its-fields-refuses"
-  note "`App.g` bounds `T` by `App.M`, which `Int` and `String` answer, and takes `Dictionary<String, some T>`. The record `{ b: true }` handed there is read as a dictionary, so its field fills `T` with `Bool`, which answers no bound, and the call refuses at the build."
+  note "`App.g` bounds `T` by `App.M`, which `Int` and `String` answer, and takes `Dictionary<String, some T>`. The map literal holding `true` under `b` handed there fills `T` with `Bool`, which answers no bound, and the call refuses at the build."
   program {
     contracts {
       "App.M" {}
@@ -33,9 +33,12 @@ warpt 1
               call {
                 arguments [
                   {
-                    record {
-                      b true
-                    }
+                    dictionary [
+                      [
+                        "b"
+                        true
+                      ]
+                    ]
                   }
                 ]
                 procedure "App.g"

@@ -6,7 +6,7 @@ warpt 1
     }
   }
   name "a-parameter-handed-in-place-holding-a-dictionary-of-a-parameter-takes-a-record-of-it"
-  note "App.gen takes Dictionary<String, some T> in place and writes a record of its own some T into it. A record whose every field the entry takes is such a dictionary."
+  note "App.gen takes Dictionary<String, some T> in place and writes a map literal of its own some T into it. A map literal whose every value the entry takes is such a dictionary."
   program {
     imports []
     procedures {
@@ -15,11 +15,14 @@ warpt 1
           {
             set "x"
             value {
-              record {
-                a {
-                  ref "y"
-                }
-              }
+              dictionary [
+                [
+                  "a"
+                  {
+                    ref "y"
+                  }
+                ]
+              ]
             }
           }
         ]
@@ -39,15 +42,14 @@ warpt 1
         access "public"
         body [
           {
+            type "Dictionary<String, String>"
             value {
-              as {
-                of {
-                  record {
-                    a "z"
-                  }
-                }
-                type "Dictionary<String, String>"
-              }
+              dictionary [
+                [
+                  "a"
+                  "z"
+                ]
+              ]
             }
             var "s"
           }

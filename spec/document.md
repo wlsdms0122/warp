@@ -64,7 +64,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-module-variable-closure-called-with-another-count-refuses`
 - `a-module-variable-closure-may-name-its-documents-own-type`
 - `a-module-variable-declares-what-it-holds`
-- `a-module-variable-declaring-a-record-refuses-a-nameless-record-a-constant-holds`
 - `a-module-variable-handed-in-place-is-one-box`
 - `a-module-variable-is-handed-in-place-to-a-procedure-the-host-answers`
 - `a-module-variable-is-not-named-from-another-document`
