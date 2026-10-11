@@ -1,0 +1,38 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-type-parameter-only-the-answer-names-refuses"
+  note "A call fills a type parameter from what it hands, so `App.f` answering `some T` with no parameter naming `T` is filled by nothing and refuses at the load."
+  program {
+    imports [
+      "Standard.Control.abort"
+    ]
+    procedures {
+      "App.f" {
+        result {
+          call {
+            arguments [
+              "never"
+            ]
+            procedure "Standard.Control.abort"
+          }
+        }
+        returns "some T"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            procedure "App.f"
+          }
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
