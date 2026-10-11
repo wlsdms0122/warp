@@ -222,6 +222,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-map-literal-handed-at-a-dictionary-of-a-bounded-parameter-fills-it-by-its-values-refuses`
 - `a-map-literal-handed-at-a-dictionary-of-a-contract-leans-on-each-claim-refuses`
 - `a-map-literal-of-values-of-two-types-handed-at-a-dictionary-of-a-bounded-parameter-refuses`
+- `a-map-literal-reads-a-whole-key-beside-a-fraction-as-the-fraction`
 - `a-map-literal-whose-values-do-not-join-handed-at-a-dictionary-of-a-bounded-parameter-refuses`
 - `a-map-type-written-with-one-type-refuses`
 - `a-module-declares-a-contract-a-bound-names`

@@ -4,7 +4,7 @@ warpt 1
     answers 1
   }
   name "a-whole-key-and-a-fraction-of-its-worth-are-one-key"
-  note "A map's keys are found by the value model's sameness, so `1` and `1.0` are one key: the second entry writes over the first, and the map holds one."
+  note "A map's keys are found by the value model's sameness, so the whole number `1` and the fraction `1.0` are one key: the second entry writes over the first, and the map holds one. `one` and `fraction` are read as `Hashable`, a contract, so no key is a whole literal beside a fraction and each is what its name holds, and `count`, whose row takes a map under any key its bound holds to `Hashable`, answers the map they made."
   program {
     imports [
       "Standard.Collection.count"
@@ -12,17 +12,33 @@ warpt 1
     procedures {
       entry {
         access "public"
+        body [
+          {
+            let "one"
+            type "Hashable"
+            value 1
+          }
+          {
+            let "fraction"
+            type "Hashable"
+            value 1.0
+          }
+        ]
         result {
           call {
             arguments [
               {
                 dictionary [
                   [
-                    1
+                    {
+                      ref "one"
+                    }
                     "a"
                   ]
                   [
-                    1.0
+                    {
+                      ref "fraction"
+                    }
                     "b"
                   ]
                 ]
@@ -31,6 +47,7 @@ warpt 1
             procedure "Standard.Collection.count"
           }
         }
+        returns "Int"
       }
     }
     warp 1
