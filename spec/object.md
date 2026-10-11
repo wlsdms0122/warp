@@ -167,7 +167,7 @@ A reading refuses what it cannot read and traps on nothing: the reading runs ins
 - a lifted row where the numbering counts no closure, a numbering counting more closures than `lifted` holds, a count of none for a declaration it counts, and counts that add up past what an int holds
 - a frame naming other than one name per slot, standing other than one slot per parameter its declaration takes, or standing a parameter, a variable or a capture past its end
 - a body standing on a slot past its frame or on a variable past its document's `variables`, and a loop keeping a run its frame does not hold
-- a call standing other than as many arguments as the row it reaches takes, where that row is the document's own, or handing in place at a position past the arguments it stands
+- a call handing in place at a position past the arguments it stands
 - a closure literal taking what it captured into slots other than the captures of its own row's frame
 - a `keeps` that ends before it begins
 - a declared type that is no record and comes back to itself through what it stands for, which the load refuses in a document, under [types](type.md)
@@ -175,7 +175,7 @@ A reading refuses what it cannot read and traps on nothing: the reading runs ins
 - a row of a procedure the host answers whose sends do not stand one to a place from the first, or reach a spelling the document's `numbering` does not number
 - an object standing against a document other than the one it was kept under
 
-Every one of these is refused where the object is read, before it is laid beside anything. What only a link can answer, which row a number is, which type answers a contract, is refused at `build`, under [checking](checking.md).
+Every one of these is refused where the object is read, before it is laid beside anything. What only a row beside it can answer, which row a number is and whether a call stands as many arguments as that row takes, and which type answers a contract, is refused at `build`, where a compile lays the object down or a link does, under [checking](checking.md).
 
 ## One object
 
