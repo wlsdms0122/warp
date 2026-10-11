@@ -16,7 +16,7 @@ warpt 1
     ]
   }
   name "a-parameter-handed-in-place-holding-dictionaries-of-a-parameter-takes-records-of-other-fields-of-it"
-  note "App.g writes [{ a: [x] }, { b: [x, x] }] into xs, a list of dictionaries of lists of T handed in place. Each record is a dictionary of lists of its own some T, though the two are not one type, so the literal is a value of Array<Dictionary<Array<some T>>>."
+  note "App.g writes [{ a: [x] }, { b: [x, x] }] into xs, a list of dictionaries of lists of T handed in place. Each record is a dictionary of lists of its own some T, though the two are not one type, so the literal is a value of Array<Dictionary<String, Array<some T>>>."
   program {
     imports []
     procedures {
@@ -52,7 +52,7 @@ warpt 1
         parameters [
           {
             name "xs"
-            type "inout Array<Dictionary<Array<some T>>>"
+            type "inout Array<Dictionary<String, Array<some T>>>"
           }
           {
             name "x"
@@ -76,7 +76,7 @@ warpt 1
                     }
                   }
                 ]
-                type "Array<Dictionary<Array<String>>>"
+                type "Array<Dictionary<String, Array<String>>>"
               }
             }
             var "s"

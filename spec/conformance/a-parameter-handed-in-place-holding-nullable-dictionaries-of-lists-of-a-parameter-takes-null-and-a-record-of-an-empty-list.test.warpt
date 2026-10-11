@@ -9,7 +9,7 @@ warpt 1
     ]
   }
   name "a-parameter-handed-in-place-holding-nullable-dictionaries-of-lists-of-a-parameter-takes-null-and-a-record-of-an-empty-list"
-  note "App.g writes [null, { k: [] }] into xs, a list of dictionaries of lists of T or null, handed in place. Null beside the record is what may be null, and the empty list in the record holds no element, so the literal is a value of Array<Dictionary<Array<some T>>?>."
+  note "App.g writes [null, { k: [] }] into xs, a list of dictionaries of lists of T or null, handed in place. Null beside the record is what may be null, and the empty list in the record holds no element, so the literal is a value of Array<Dictionary<String, Array<some T>>?>."
   program {
     imports []
     procedures {
@@ -30,7 +30,7 @@ warpt 1
         parameters [
           {
             name "xs"
-            type "inout Array<Dictionary<Array<some T>>?>"
+            type "inout Array<Dictionary<String, Array<some T>>?>"
           }
         ]
         result 0
@@ -50,7 +50,7 @@ warpt 1
                     }
                   }
                 ]
-                type "Array<Dictionary<Array<String>>?>"
+                type "Array<Dictionary<String, Array<String>>?>"
               }
             }
             var "s"

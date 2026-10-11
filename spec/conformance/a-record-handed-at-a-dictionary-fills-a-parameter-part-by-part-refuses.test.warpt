@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-record-handed-at-a-dictionary-fills-a-parameter-part-by-part-refuses"
-  note "`App.f` answers the `Dictionary<{ x: some T }>` it takes. The record handed there holds `{ x: 1 }` and `{ x: null }`, and its fields fill `T` joined part by part, as a list literal's elements do, so `T` reads `Int?`. The answer is then a dictionary of `{ x: Int? }`, which the name declaring `Dictionary<{ x: Int }>` does not hold, and it refuses at the build."
+  note "`App.f` answers the `Dictionary<String, { x: some T }>` it takes. The record handed there holds `{ x: 1 }` and `{ x: null }`, and its fields fill `T` joined part by part, as a list literal's elements do, so `T` reads `Int?`. The answer is then a dictionary of `{ x: Int? }`, which the name declaring `Dictionary<String, { x: Int }>` does not hold, and it refuses at the build."
   program {
     imports []
     procedures {
@@ -14,8 +14,11 @@ warpt 1
             name "d"
             type {
               dictionary {
-                record {
-                  x "some T"
+                key "String"
+                value {
+                  record {
+                    x "some T"
+                  }
                 }
               }
             }
@@ -26,8 +29,11 @@ warpt 1
         }
         returns {
           dictionary {
-            record {
-              x "some T"
+            key "String"
+            value {
+              record {
+                x "some T"
+              }
             }
           }
         }
@@ -39,8 +45,11 @@ warpt 1
             let "r"
             type {
               dictionary {
-                record {
-                  x "Int"
+                key "String"
+                value {
+                  record {
+                    x "Int"
+                  }
                 }
               }
             }

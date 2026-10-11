@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-list-literal-a-declared-name-starts-with-is-read-position-by-position-refuses"
-  note "ys declares Array<Dictionary<Array<String>>> and starts as [{ a: [] }, { a: [1] }]. The start value is held to the declaration as a later write is, its elements joined position by position, so the record whose a holds a number refuses at the build."
+  note "ys declares Array<Dictionary<String, Array<String>>> and starts as [{ a: [] }, { a: [1] }]. The start value is held to the declaration as a later write is, its elements joined position by position, so the record whose a holds a number refuses at the build."
   program {
     imports [
       "Standard.Collection.count"
@@ -14,7 +14,7 @@ warpt 1
         access "public"
         body [
           {
-            type "Array<Dictionary<Array<String>>>"
+            type "Array<Dictionary<String, Array<String>>>"
             value [
               {
                 record {

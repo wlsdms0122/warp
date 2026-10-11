@@ -30,7 +30,7 @@ warpt 1
     refuses "build"
   }
   name "a-record-handed-at-a-dictionary-of-a-contract-leans-on-each-claim-refuses"
-  note "`App.h` takes `Dictionary<App.P>`. The record `{ a: c }` handed there holds a `Bank.Card`, which a beside document gives `show` but no document says answers `App.P`. Read as a dictionary, each field leans on its own claim, so the call writes it down and refuses at the build."
+  note "`App.h` takes `Dictionary<String, App.P>`. The record `{ a: c }` handed there holds a `Bank.Card`, which a beside document gives `show` but no document says answers `App.P`. Read as a dictionary, each field leans on its own claim, so the call writes it down and refuses at the build."
   program {
     contracts {
       "App.P" {
@@ -55,7 +55,7 @@ warpt 1
         parameters [
           {
             name "x"
-            type "Dictionary<App.P>"
+            type "Dictionary<String, App.P>"
           }
         ]
         result {

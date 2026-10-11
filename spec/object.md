@@ -57,7 +57,7 @@ A *type* is `[tag, …]`:
 | 5 | `Double` | |
 | 6 | `String` | |
 | 7 | `Array<T>` | *type* |
-| 8 | `Dictionary<T>` | *type* |
+| 8 | `Dictionary<K, V>` | the key's *type*, the value's *type* |
 | 9 | record | name → *type* |
 | 10 | `Procedure` | *procedure type* or nothing, *constness*, *isolation* |
 | 11 | `var T` | *type* |
@@ -139,7 +139,7 @@ A *lowered type* is a type as a body stands on it, `[tag, …]`:
 |---|---|---|
 | 0 to 6 | `Any` `Never` `Null` `Bool` `Int` `Double` `String` | |
 | 7 | array | *lowered type* |
-| 8 | dictionary | *lowered type* |
+| 8 | dictionary | the key's *lowered type*, the value's *lowered type* |
 | 9 | record | `[layout, types]`: the *layout*, and a list of *lowered type* in the layout's field order |
 | 10 | procedure | parameters or nothing, a list of *lowered type* in position order; returns or nothing, nothing where the parameters are nothing; *constness*; *isolation* |
 | 11 | variable | *lowered type* |

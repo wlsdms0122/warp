@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-record-of-fields-of-two-types-handed-at-a-dictionary-of-a-bounded-parameter-refuses"
-  note "`App.g` bounds `T` by `App.M`, which `Int` and `String` answer, and takes `Dictionary<some T>`. The record `{ a: 1, b: \"s\" }` handed there is read as a dictionary: its fields joined fill `T` with `Any`, which answers no contract, so the build refuses though each field answers. A bounded parameter is one type."
+  note "`App.g` bounds `T` by `App.M`, which `Int` and `String` answer, and takes `Dictionary<String, some T>`. The record `{ a: 1, b: \"s\" }` handed there is read as a dictionary: its fields joined fill `T` with `Any`, which answers no contract, so the build refuses though each field answers. A bounded parameter is one type."
   program {
     contracts {
       "App.M" {}
@@ -18,7 +18,7 @@ warpt 1
         parameters [
           {
             name "x"
-            type "Dictionary<some T>"
+            type "Dictionary<String, some T>"
           }
         ]
         result 0

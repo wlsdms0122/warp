@@ -38,10 +38,13 @@ warpt 1
         returns "String"
       }
       "Dictionary.describe" {
+        bounds {
+          Key "Hashable"
+        }
         parameters [
           {
             name "of"
-            type "Dictionary<Any>"
+            type "Dictionary<some Key, Any>"
           }
         ]
         result "a map"
@@ -72,7 +75,7 @@ warpt 1
         body [
           {
             let "map"
-            type "Dictionary<Int>"
+            type "Dictionary<String, Int>"
             value {
               record {
                 a 1

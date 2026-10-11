@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-list-literal-written-into-a-declared-variable-is-read-position-by-position-refuses"
-  note "ys declares Array<Dictionary<Array<String>>>, and [{ a: [] }, { a: [1] }] is written into it. The literal is read as its elements joined position by position, the empty list holding no element, so it holds a record whose a is a list of numbers, and the build refuses it where text is declared."
+  note "ys declares Array<Dictionary<String, Array<String>>>, and [{ a: [] }, { a: [1] }] is written into it. The literal is read as its elements joined position by position, the empty list holding no element, so it holds a record whose a is a list of numbers, and the build refuses it where text is declared."
   program {
     imports [
       "Standard.Collection.count"
@@ -14,7 +14,7 @@ warpt 1
         access "public"
         body [
           {
-            type "Array<Dictionary<Array<String>>>"
+            type "Array<Dictionary<String, Array<String>>>"
             value []
             var "ys"
           }

@@ -7,7 +7,7 @@ warpt 1
     ]
   }
   name "a-module-variable-started-by-a-cast-holds-the-casts-type"
-  note "A module variable that declares no type holds the type its start reads as, and the start here is an empty map cast to `Dictionary<Int>`, so the variable holds the cast's type and is written under new names, a dictionary's names being data."
+  note "A module variable that declares no type holds the type its start reads as, and the start here is an empty map cast to `Dictionary<String, Int>`, so the variable holds the cast's type and is written under new names, a dictionary's names being data."
   program {
     imports [
       "Standard.Collection.keys"
@@ -67,7 +67,7 @@ warpt 1
           of {
             record {}
           }
-          type "Dictionary<Int>"
+          type "Dictionary<String, Int>"
         }
       }
     }

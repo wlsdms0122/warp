@@ -27,7 +27,7 @@ warpt 1
         parameters [
           {
             name "xs"
-            type "Dictionary<App.Describable>?"
+            type "Dictionary<String, App.Describable>?"
           }
         ]
         result "seen"
@@ -88,7 +88,7 @@ warpt 1
         body [
           {
             let "d"
-            type "Dictionary<Bank.Card>?"
+            type "Dictionary<String, Bank.Card>?"
             value {
               record {
                 k {
@@ -108,8 +108,11 @@ warpt 1
             let "e"
             type {
               dictionary {
-                record {
-                  last "String"
+                key "String"
+                value {
+                  record {
+                    last "String"
+                  }
                 }
               }
             }
