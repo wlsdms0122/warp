@@ -170,6 +170,7 @@ A reading refuses what it cannot read and traps on nothing: the reading runs ins
 - a call standing other than as many arguments as the row it reaches takes, where that row is the document's own, or handing in place at a position past the arguments it stands
 - a closure literal taking what it captured into slots other than the captures of its own row's frame
 - a `keeps` that ends before it begins
+- a declared type that is no record and comes back to itself through what it stands for, which the load refuses in a document, under [types](type.md)
 - a record, built from parts or as a lowered type, holding other than one part per field its layout names
 - a row of a procedure the host answers whose sends do not stand one to a place from the first, or reach a spelling the document's `numbering` does not number
 - an object standing against a document other than the one it was kept under
@@ -265,6 +266,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-whose-record-fields-stand-out-of-name-order-refuses`
 - `an-object-whose-rows-stand-out-of-name-order-refuses`
 - `an-object-whose-type-numbering-stands-out-of-name-order-refuses`
+- `an-object-whose-types-name-each-other-refuses`
+- `an-object-whose-types-name-each-other-under-a-question-mark-refuses`
 - `an-object-whose-types-stand-out-of-name-order-refuses`
 - `an-object-whose-variables-stand-out-of-name-order-refuses`
 - `an-object-with-a-key-nothing-names-refuses`
