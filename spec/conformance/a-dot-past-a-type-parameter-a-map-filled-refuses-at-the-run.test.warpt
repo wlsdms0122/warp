@@ -1,0 +1,45 @@
+warpt 1
+{
+  expect {
+    refuses "run"
+  }
+  name "a-dot-past-a-type-parameter-a-map-filled-refuses-at-the-run"
+  note "Past a type parameter a dot stands as written and what the call filled answers it. A map has no field to read, so where the call fills `T` with one, `d.a` refuses at the run."
+  program {
+    imports []
+    procedures {
+      "App.f" {
+        parameters [
+          {
+            name "d"
+            type "some T"
+          }
+        ]
+        result {
+          ref "d.a"
+        }
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                dictionary [
+                  [
+                    "a"
+                    1
+                  ]
+                ]
+              }
+            ]
+            procedure "App.f"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

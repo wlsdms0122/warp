@@ -1,0 +1,37 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-key-written-between-the-brackets-of-another-type-than-the-key-refuses"
+  note "A key written between the brackets is judged against the map's key type as what it is, so the text \"1\" on `Dictionary<Int, Int>` refuses at the build."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "d"
+            type "Dictionary<Int, Int>"
+            value {
+              dictionary [
+                [
+                  1
+                  2
+                ]
+              ]
+            }
+          }
+        ]
+        result {
+          ref "d[\"1\"]"
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

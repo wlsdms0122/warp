@@ -16,7 +16,7 @@ A scalar is itself, a literal. A string is always literal text; nothing inside i
 
 A mapping with another key, or with more than one, **refuses at the load**. A key names a form and never a field, so no field name is reserved.
 
-A path is a name, then `.name` for a field and `[…]` for an index. A `[` left open, or a `]` that closes none, **refuses at the load**.
+A path is a name, then `.name` for a field and `[…]` for what a list or a map holds. Between the brackets stands a whole number, a text between double quotes, or a path of its own; inside the quotes `\"` is a quote, `\\` a backslash and every other character itself, so each text has one spelling. A `[` left open, a `]` that closes none, a text left open, or a backslash before anything but a quote or a backslash **refuses at the load**.
 
 A **cast** names the type a value is read as. The type is written the way any type is: a name, or the mapping a signature is written as. From the cast on, the reading *is* that type, so every dot after it is judged against it; the run is left the one question the build cannot answer, which is what actually arrived, and it answers it by judging the value against the type, leaving nothing out. A cast is how a value read as `Any`, as a contract, or along a path a call decides reaches a slot of a type, since the build does not know which type it is. A plain `as` **fails at the run** with `cast_refused` when the value is not that type. It is a failure like any other, so an `attempt` catches it, and `as?` reads that mismatch as null, which is the author saying they expected it.
 
@@ -28,24 +28,24 @@ A construct's key, `conditional` or `loop`, is read under a statement's `value` 
 
 **A dot reads a name and nothing else.** Every `ref` path is judged where names resolve, and the judgement is written into the image; the value that arrives at run time has no say in it. A procedure is sent with a written `call`, which spells the declaration it means. Segment by segment:
 
-- On a **record type**, a dot reads the field the type declares. A field it does not declare **refuses at the build**, `?.` or not. The type rules the field out, and no spelling reads past that. A procedure on a record is written as a call. A record type says which fields there are, and a value fits it only with exactly them, so there is nothing else to reach. To read names a declaration does not have, take `Dictionary<String, Any>`.
-- On a **dictionary**, a dot reads an entry; which names are there is the run's fact. An absent entry **refuses at the run**, unless the segment is written `?.`, which reads it as null.
-- On a type that has no fields (`String`, `Int`, `Double`, `Bool`, a list, a procedure), a dot **refuses at the build**: there is no name there to read, and the procedure by that spelling is reached by writing the call.
+- On a **record type**, a dot reads the field the type declares. A field it does not declare **refuses at the build**, `?.` or not. The type rules the field out, and no spelling reads past that. A procedure on a record is written as a call. A record type says which fields there are, and a value fits it only with exactly them, so there is nothing else to reach. To read names a declaration does not have, take `Dictionary<String, Any>` and read it through brackets.
+- On a type that has no fields (`String`, `Int`, `Double`, `Bool`, a list, a map, a procedure), a dot **refuses at the build**: there is no name there to read. The procedure by that spelling is reached by writing the call, and what a list or a map holds through brackets.
 - On **`Any`**, a dot or an index **refuses at the build**. Nothing is declared here, so there is nothing for the reading to be judged against, and a dot nothing declares is the one thing a run would have to decide for itself. The type is read by naming it: `{ as: { of: <value>, type: <type> } }` says what the author expects, and every dot after it is judged against that.
-- On a **type parameter** (`some T`), whose type is the call's fact, a dot **reads data**: the type is declared, at the call rather than here, so the segments stand as written and what the call filled in answers them. What the dot reaches is a type the call decides too. Dots go on standing after it, but it is **not the parameter**: `item` is the type the call filled in and `item.a` is a field of that type, which is a different unknown, and it carries none of the parameter's bound. So a name holding `item` on one way through and `item.a` on another holds neither, and one holding `item.a` twice holds one type. Which field of which parameter a walk reached is all that decides this. So `item.a` and `item?.a` are one field read twice. A mark says what is expected of the *value* and says nothing about where the walk landed. A name given to a step along the way arrives where the unbroken walk arrives (`held` holding `item.a`, then `held.b`, is `item.a.b`), and two parameters written `some T` hold one type, so the same field of either is the same field.
-- **Null is not read through.** A segment reading a null, or one whose reading says it may be (`T?`), **refuses**: at the build where the text shows it, at the run otherwise. `?.` is the one spelling that expects absence on a name: it reads the null (or the absent entry) as null for the whole path, and the path's own reading is nullable for the same reason. `?[` is that same mark on an index. On an array what it expects absent is the **array itself**, never an element; on a dictionary it is the entry, as `?.` does.
-- An **index past the end refuses at the run**. The array is there and says how long it is, so a reading that misses it read the length wrong. `?[` does not change this: it is `?.`'s mark on an index. It expects the **array's** absence, not the element's, so `items?[0]` reads a null array as null for the whole path, and still refuses past the end of one that arrived. Digits between the brackets are a whole number however many there are, a position and never a name, so one past what an `Int` holds **refuses at the load**. A whole number below zero is no position: one written between the brackets **refuses at the load**, a constant settling to one **refuses at the build**, and one the run reads refuses at the run as a position past the end does.
+- On a **type parameter** (`some T`), whose type is the call's fact, a dot **reads data**: the type is declared, at the call rather than here, so the segments stand as written and what the call filled in answers them, a value with no such field refusing at the run. What the dot reaches is a type the call decides too. Dots go on standing after it, but it is **not the parameter**: `item` is the type the call filled in and `item.a` is a field of that type, which is a different unknown, and it carries none of the parameter's bound. So a name holding `item` on one way through and `item.a` on another holds neither, and one holding `item.a` twice holds one type. Which field of which parameter a walk reached is all that decides this. So `item.a` and `item?.a` are one field read twice. A mark says what is expected of the *value* and says nothing about where the walk landed. A name given to a step along the way arrives where the unbroken walk arrives (`held` holding `item.a`, then `held.b`, is `item.a.b`), and two parameters written `some T` hold one type, so the same field of either is the same field.
+- **Null is not read through.** A segment reading a null, or one whose reading says it may be (`T?`), **refuses**: at the build where the text shows it, at the run otherwise. `?.` is the one spelling that expects absence on a name: it reads the null as null for the whole path, and the path's own reading is nullable for the same reason. `?[` is that same mark on brackets. On a list what it expects absent is the **list itself**, never an element; on a map it is the map or the entry.
+- An **index past the end refuses at the run**. The array is there and says how long it is, so a reading that misses it read the length wrong. `?[` does not change this: it is `?.`'s mark on an index. It expects the **array's** absence, not the element's, so `items?[0]` reads a null array as null for the whole path, and still refuses past the end of one that arrived. Digits between the brackets are a whole number however many there are, and never a name, so one past what an `Int` holds **refuses at the load**. On a list a whole number below zero is no position: one written or settled between the brackets **refuses at the build**, and one the run reads refuses at the run as a position past the end does.
 - A `?.` or `?[` that could not have read past anything (on a record's declared field, on an array the type says is there) **refuses at the build**, the way a `?` that says nothing new refuses on a type spelling. The claim of absence has to be one the types leave open.
 - The **head of a path takes no mark**. A head is a name a scope holds, and there is nothing before it to read past: a name that answers nothing is a reading gone wrong, not an absence a mark can expect. `?.name` and `?[i]` written first in a path **refuse at the load**, wherever the path is judged, and whether it was written as text or built as segments.
 
-**A constant-headed path** is judged first like any path: the constant's settled value is its declared type, so an absent field or a needless `?.` refuses by the same rules, and the path reads as the type its place in that type has: a field its own, and an element or an entry the list's or map's one element type, which joins every element's, so `k[0]` of `[1, "s"]` reads `Any`. A procedure the value holds, whole or as a field, reads as the procedure type its expression was judged at, the constness and isolation the build derived for it included. A call of it is judged by the parameters and answer that type writes. Then it folds at the build to the value it read, except where an index on it is a reference the run reads (`digits[ch]`, `ch` a parameter): there the run reads the constant's value past the index the way it reads any name, by the rules above. What a constant may settle from is under *what a constant settles from* in [procedures](procedure.md), and a body **its own document** declares is not among them: such a body is itself still being resolved beside the constants it may read, so a constant that runs one would be a cycle with no start, and it refuses at the build. Settling asks procedures the host answers, so a link answers them before any of the program runs. An index written as a reference (`items[i]`) is a path of its own, judged wherever the outer walk stops: it stands where an `Int` is read, so a reference reading anything else, a fraction or a value read as `Any` included, refuses at the build.
+**A constant-headed path** is judged first like any path: the constant's settled value is its declared type, so an absent field or a needless `?.` refuses by the same rules, and the path reads as the type its place in that type has: a field its own, and an element or an entry the list's or map's one element type, which joins every element's, so `k[0]` of `[1, "s"]` reads `Any`. A procedure the value holds, whole or as a field, reads as the procedure type its expression was judged at, the constness and isolation the build derived for it included. A call of it is judged by the parameters and answer that type writes. Then it folds at the build to the value it read, except where an index on it is a reference the run reads (`digits[ch]`, `ch` a parameter): there the run reads the constant's value past the index the way it reads any name, by the rules above. What a constant may settle from is under *what a constant settles from* in [procedures](procedure.md), and a body **its own document** declares is not among them: such a body is itself still being resolved beside the constants it may read, so a constant that runs one would be a cycle with no start, and it refuses at the build. Settling asks procedures the host answers, so a link answers them before any of the program runs.
 
-The same brackets read a **dictionary** by a key the run reads (`held[name]`), which is what walking one is for: `keys` answers the names and this reads the entry under one. What stands between the brackets is judged where an index is, and stands where a `String` is read: one reading anything else **refuses at the build**. An entry that is not there refuses at the run the way a written key does, and `?[` reads it as null. A constant written between the brackets settles at the build, a whole number to a position and text to a key, and text that is not a name **refuses at the build**. A record takes no such reading: its fields are the type's, so a name the run reads has nothing there to be judged against, and the reading **refuses at the build**.
+**Brackets read what a list or a map holds** at the value between them, judged against what is indexed: on a list it stands where an `Int` is read, a position, and on a map where the map's key type is read, a key. So `d[3]` on `Dictionary<Int, String>` reads the entry under `3`, `d["a"]` on `Dictionary<String, Int>` the entry under `"a"`, and `d[k]` the entry under what `k` holds; a key finds the entry under the key that is the same value, under [values](value.md). A value written there stands as what it is, so one of another type than is read there **refuses at the build**, and so does a path there reading another type, a fraction or a value read as `Any` included. A path between the brackets is a path of its own, judged as one even where the outer walk stops; past a type parameter what it reads is judged at the run against what arrived, as a dot there is. Brackets on any other type, a declared record among them, **refuse at the build**: a record's fields are its type's, read by a dot. An entry the map does not hold refuses at the run, and `?[` reads it as null. A constant written between the brackets settles at the build to the value it reads, which then stands as one written there would.
 
 ## Cases
 
 What `conformance/` asks about this page, by the name each case's file carries.
 
+- `a-backslash-before-what-it-does-not-escape-refuses`
 - `a-bracket-that-closes-nothing-in-a-path-is-refused`
 - `a-cast-from-any-to-a-record-naming-itself-answers`
 - `a-cast-naming-a-type-nothing-declares-refuses`
@@ -67,6 +67,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-closure-write-keeps-the-captured-type`
 - `a-closure-writes-what-it-captured`
 - `a-closure-writing-access-refuses`
+- `a-constant-between-the-brackets-settles-to-a-key-of-its-type`
 - `a-constant-closure-called-with-another-count-refuses`
 - `a-constant-closure-called-with-another-type-refuses`
 - `a-constant-closure-stands-in-a-const-slot`
@@ -77,12 +78,17 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-constant-settled-from-an-answer-of-any-reads-its-fields`
 - `a-constant-that-runs-a-body-of-its-own-document-refuses`
 - `a-dictionary-is-read-by-a-key-the-run-reads`
-- `a-dictionary-key-that-is-not-text-refuses`
 - `a-dictionary-read-at-a-constant-key-reads-the-entry`
+- `a-dot-on-a-map-refuses`
 - `a-dot-on-a-type-with-no-fields-is-refused`
 - `a-dot-on-any-is-refused`
+- `a-dot-past-a-type-parameter-a-map-filled-refuses-at-the-run`
 - `a-dot-through-a-null-the-text-shows-refuses`
+- `a-key-reference-of-another-type-than-the-key-refuses`
 - `a-key-reference-read-as-any-refuses`
+- `a-key-written-between-the-brackets-of-another-type-than-the-key-refuses`
+- `a-map-keyed-by-whole-numbers-reads-a-key-between-the-brackets`
+- `a-map-keyed-by-whole-numbers-reads-a-key-the-run-reads`
 - `a-map-literal-makes-its-entries-in-order`
 - `a-map-literal-written-where-a-map-is-declared-is-held-part-by-part-refuses`
 - `a-mapping-with-no-tag-refuses`
@@ -91,12 +97,16 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-marked-head-is-refused`
 - `a-named-step-arrives-where-the-walk-arrives`
 - `a-path-reads-through-what-a-name-holds`
+- `a-quoted-key-holds-what-a-path-is-spelled-with`
+- `a-quoted-text-between-the-brackets-reads-an-entry`
 - `a-read-at-a-constant-index-below-zero-refuses`
-- `a-read-at-a-constant-key-that-is-not-a-name-refuses`
 - `a-read-at-an-index-below-zero-refuses`
 - `a-record-field-may-carry-a-tags-name`
 - `a-record-literal-a-cast-reads-is-the-record-the-cast-names-answers`
 - `a-record-read-by-a-key-the-run-reads-refuses`
+- `a-text-left-open-between-the-brackets-refuses`
+- `a-type-parameter-filled-by-a-map-is-read-at-a-key-the-run-reads`
+- `a-whole-number-below-zero-is-a-key-of-a-map`
 - `a-write-at-a-constant-index-below-zero-refuses`
 - `a-write-at-an-index-below-zero-refuses`
 - `an-absent-dictionary-entry-refuses`
@@ -119,6 +129,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `reading-what-may-be-null-takes-the-optional-dot`
 - `the-asking-cast-reads-a-mismatch-as-null`
 - `the-asking-cast-reads-another-name-as-null`
+- `the-empty-text-is-a-key`
 - `the-optional-bracket-answers-null-for-the-null`
 - `the-optional-bracket-on-an-array-that-is-there-is-refused`
 - `the-optional-bracket-reads-through-a-nullable`

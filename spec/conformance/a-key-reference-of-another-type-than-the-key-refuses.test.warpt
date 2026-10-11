@@ -3,8 +3,8 @@ warpt 1
   expect {
     refuses "build"
   }
-  name "a-dictionary-key-that-is-not-text-refuses"
-  note "A key stands where a String is read, and `k` reads `Int`, so `d[k]` refuses at the build."
+  name "a-key-reference-of-another-type-than-the-key-refuses"
+  note "What stands between the brackets of a map stands where its key type is read, and `k` reads `Int` on `Dictionary<String, Int>`, so `d[k]` refuses at the build."
   program {
     imports []
     procedures {
@@ -29,9 +29,12 @@ warpt 1
           call {
             arguments [
               {
-                record {
-                  a 1
-                }
+                dictionary [
+                  [
+                    "a"
+                    1
+                  ]
+                ]
               }
               0
             ]

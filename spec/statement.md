@@ -28,7 +28,7 @@ A statement with no naming key, `{ value … }`, runs its expression and binds n
 - The leaving constructs (`return`, `break`, `continue`) take **no** naming key at all: such a statement never finishes, so its name could never bind, and a key that promises a binding that cannot happen **refuses**. The same rule reaches a **call**: a statement whose call answers `Never`, declared under `returns` or read off a body that never finishes, binds nothing and takes no name. Held at the **build**, because only the build knows what a call answers, where the leaves the text shows are held at the load.
 - A **`conditional`** takes no naming key either, for the other reason: it finishes, but it answers nothing, under **`conditional`** below.
 
-**What a write reaches.** A `set` names a path, and the head of the path is the variable written. A segment after the head written optional (`?.`, `?[`) **refuses at the load**, because a write reads no absence. Every segment after the head is judged at the **build** against the type the walk has reached: a field of a type declared in `types` is passed through only when the declaration wrote it `var`; an entry of a `Dictionary<String, T>` and an element of an array are passed through as they are, and a `Dictionary<String, T>` entry the value does not hold yet is made by the write; `Any` and a nullable type are not written into. What is written has to fit the type the path reaches, and is judged against it, so a box that said what it holds holds a value of its declaration after a write as it did after its declaration, and a box that said nothing holds what the build reads the path as. A write to a whole local variable retypes it unless the variable declared what it holds, under *what a variable reads as* in [checking](checking.md). A variable a closure captured, or a call handed in place, holds from there on the type it read as there, and a later write has to fit it, since the closure or the callee reads and writes the box as that type. Two ways that took one variable as different types **refuse at the build** where they meet, since what each took goes on writing its own type; two names for one declared record are one type. A way meets the others where its leave lands. A write to a module variable or to an `inout` parameter has to fit the type the box holds and retypes nothing. At the run the value is computed first, and then the box is rewritten once, so nothing observes the box halfway. An index written as a name (`xs[i]`) is read where the write stands and reads `Int`, held at the build; the write lands on that one position. On a `Dictionary<String, T>` the name between the brackets reads `String`, and the write lands on that entry, made where the value does not hold it yet; text that is not a name (empty, or not in normal form C) **refuses at the run**, as `setting`'s key does. A constant written between the brackets settles at the build the way a read's does, under [expressions](expression.md).
+**What a write reaches.** A `set` names a path, and the head of the path is the variable written. A segment after the head written optional (`?.`, `?[`) **refuses at the load**, because a write reads no absence. Every segment after the head is judged at the **build** against the type the walk has reached: a field of a type declared in `types` is passed through only when the declaration wrote it `var`; an entry of a map and an element of a list are passed through as they are, and an entry the map does not hold yet is made by the write; `Any` and a nullable type are not written into. What is written has to fit the type the path reaches, and is judged against it, so a box that said what it holds holds a value of its declaration after a write as it did after its declaration, and a box that said nothing holds what the build reads the path as. A write to a whole local variable retypes it unless the variable declared what it holds, under *what a variable reads as* in [checking](checking.md). A variable a closure captured, or a call handed in place, holds from there on the type it read as there, and a later write has to fit it, since the closure or the callee reads and writes the box as that type. Two ways that took one variable as different types **refuse at the build** where they meet, since what each took goes on writing its own type; two names for one declared record are one type. A way meets the others where its leave lands. A write to a module variable or to an `inout` parameter has to fit the type the box holds and retypes nothing. At the run the value is computed first, and then the box is rewritten once, so nothing observes the box halfway. What stands between the brackets is judged as a read's is, under [expressions](expression.md), and a path there is read where the write stands: the write lands on that one position of a list, or on that entry of a map, made where the map does not hold it yet.
 
 **A `var` may stand alone.** A statement that is only `{ var "name" }`, with no `value`, introduces the name with nothing in it yet, and a name holding nothing holds null. It is the declaration a conditional's arms write into; what the name reads as afterwards is under *what a variable reads as* in [checking](checking.md). The other two spellings say something about a value, so they still require one, and one written without it **refuses at the load**.
 
@@ -94,16 +94,16 @@ A rescue catches failure (what the world did), not leaving (what the program sai
 The envelope is this specification's; what rides in `details` is the procedure's own. `concurrent_failed` puts `failures` there: every piece's failure, keyed by the piece, a map's by its key and an array's by its index written `[0]`, and each is the envelope that piece raised, so a rescue reads a piece's own `type`, `message` and `details` through it.
 
 ```
-{ ref "failed.details.failures" }
+{ ref "failed.details[\"failures\"]" }
 ```
 
 `cast_refused` has no procedure behind it, so this specification names its `details` too: **`expected`**, the type the cast wrote, and **`actual`**, the type the value is an instance of, both as text. Both halves, because what was asked for is readable from the program and what turned up is not.
 
 ```
-{ ref "failed.details.actual" }
+{ ref "failed.details[\"actual\"]" }
 ```
 
-`details` holds `Any`, so a value read out of it is read as anything until a type is named for it. A field the envelope does not name is not reached by a dot on the failure itself: `failed.failures` names nothing.
+`details` holds `Any`, so a value read out of it is read as anything until a type is named for it. A field the envelope does not name is not reached by a dot on the failure itself: `failed.failures` names nothing, and what `details` holds is read through brackets, `failed.details["failures"]`.
 
 **What a body may fail with is known before it runs.** The build derives it the way it derives constness and isolation, and the types a failure names itself by (`aborted`, `cast_refused`) are what it derives: a body fails with what its plain casts fail with (`cast_refused`, the one failure the runtime itself raises; `as?` reads the same mismatch as null and raises nothing), with what the declarations it calls fail with, and with whatever its rescues fail with, the body under a rescue being caught. Calling a value leaves the question open, since nothing before the run says which value.
 
@@ -196,7 +196,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-way-that-leaves-is-not-met-by-the-ways-that-go-on`
 - `a-way-that-returns-from-a-loop-is-not-met-after-it`
 - `a-way-that-returns-from-an-attempt-is-not-met-after-it`
-- `a-write-at-a-constant-key-that-is-not-a-name-refuses`
 - `a-write-at-a-constant-key-writes-the-entry`
 - `a-write-at-a-constant-position-writes-the-element`
 - `a-write-index-that-is-not-a-whole-number-refuses`
@@ -212,6 +211,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-write-to-a-taken-variable-reads-as-the-type-it-is-held-to`
 - `a-write-to-a-variable-handed-in-place-lands-in-every-round`
 - `a-write-under-a-key-a-name-holds-writes-the-entry`
+- `a-write-under-a-whole-number-key-makes-the-entry`
 - `an-attempt-body-reads-the-variable-its-statement-name-shadows`
 - `an-attempt-catches-a-cast-that-did-not-match`
 - `an-attempt-under-a-set-binds-no-failure`

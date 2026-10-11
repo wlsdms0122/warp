@@ -69,7 +69,7 @@ A *type* is `[tag, …]`:
 | 17 | a projection | the parameter projected, the path: *segment* list |
 | 18 | `Self` | |
 
-A *segment* is `[0, name, optional]`, `[1, index, optional]` or `[2, path, optional]` for an index read from a path.
+A *segment* is `[0, name, optional]`, `[1, value, optional]` for a *value* written between the brackets, or `[2, path, optional]` for one read from a path.
 
 A *procedure type* is `[parameters, returns]`: a list of *type*, in position order, and a *type* or nothing. A *signature* is `[parameters, returns, bounds]`: a list of *parameter*, in the declaration's order; a *type* or nothing; and name → the contracts bounding the type parameter of that name, ascending, at least one, for each type parameter the signature bounds. A *parameter* is `[name, type, description]`: the name, then each a list of none or one: a *type*, none where the parameter takes anything, so `Any` is never written there; a string.
 
@@ -106,7 +106,7 @@ A *frame* is `[size, parameters, variables, captures, names]`: how many slots; w
 
 A *body* is `[instructions, result]`, the result an *operation* or nothing. An *instruction* is `[binding, operation, label]`: the binding or nothing, what to compute, and the string a trace calls the statement. A *binding* is `[0, slot]` to bind, `[1, slot]` to declare, or `[2, address]` to assign.
 
-An *address* is `[slot, steps]`, each *step* `[0, position, name, optional]` for a field of a record whose layout the build proved, `[1, name, optional]` for a key only the run knows, `[2, index, optional]`, or `[3, address, optional]` for an index read from a slot.
+An *address* is `[slot, steps]`, each *step* `[0, position, name, optional]` for a field of a record whose layout the build proved, `[1, name, optional]` for a field read by its name, of a value whose type a call decides, `[2, value, optional]` for a *value* between the brackets, a position on a list and a key on a map, or `[3, address, optional]` for one read from a slot.
 
 ### Operations
 

@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    refuses "load"
+    refuses "build"
   }
   name "a-write-at-an-index-below-zero-refuses"
-  note "`set d[-1]` writes a whole number below zero between the brackets, which is no position in any list, so the write refuses at the load."
+  note "`set d[-1]` on a list writes a whole number below zero between the brackets, which is no position, so the write refuses at the build, where what is written into is known."
   program {
     imports []
     procedures {

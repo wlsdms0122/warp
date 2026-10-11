@@ -7,7 +7,7 @@ warpt 1
     refuses "run"
   }
   name "an-absent-dictionary-entry-refuses"
-  note "A dictionary's entries are data, so which names are there is a run's fact. The plain dot promises the entry is there. An absent one refuses rather than inventing a null nobody wrote."
+  note "A map's entries are data, so which keys are there is a run's fact. The plain bracket promises the entry is there. An absent one refuses rather than inventing a null nobody wrote."
   program {
     imports []
     procedures {
@@ -20,7 +20,7 @@ warpt 1
           }
         ]
         result {
-          ref "data.missing"
+          ref "data[\"missing\"]"
         }
       }
     }
