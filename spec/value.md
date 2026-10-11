@@ -1,6 +1,6 @@
 # The value model
 
-What a value is, and when two of them are one. Nothing on this page needs a program: a value is what a document carries, what a slot judges, what an encoding writes and what a case compares, so every other page reads this one and this one reads none of them.
+What a value is, and when two of them are one. Nothing on this page needs a program: a value is what a document carries, what a slot judges and what an encoding writes, so every other page reads this one and this one reads none of them.
 
 A program computes over seven kinds of data, plus one value that is not data:
 
@@ -17,7 +17,7 @@ A program computes over seven kinds of data, plus one value that is not data:
 
 **A record's name.** A record made by a literal has no name, and a literal a program writes with one (`Ghost.T { x 1 }` in a text) **refuses at the load**. It takes one where it is written into a declared type whose structure is a record: a literal written where the type is read, a value from outside at the door it comes through, and a cast to the type. From then on it carries that name through every slot declaring the type and through `Any`, and fits no other: an inline record type and `Dictionary<T>` take no named record, under [Types](type.md). `Any` declares nothing, so a value from outside passes it as it arrives, a name it carries included.
 
-**When two values are the same:**
+**When two values are the same**, which is what `Standard.Logic.equal` answers:
 
 - A whole number and a fraction of the same worth are the same value. Numbers are compared by what they are worth, not by which of the two they are, and exactly, at **every** size: `9007199254740993` (2^53 + 1) is not equal to `9007199254740992.0`, however binary64 would round it. Ordering compares two of one type, under [the standard vocabulary](vocabulary.md).
 - A fraction that is not a number is not equal to itself. There is one such value, no way to write it down, and the standard vocabulary never answers one. Arithmetic with no finite answer refuses instead, so it arises only from a host's own procedure.
