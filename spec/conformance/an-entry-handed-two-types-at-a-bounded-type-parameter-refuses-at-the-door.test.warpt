@@ -1,0 +1,143 @@
+warpt 1
+{
+  arguments {
+    x 5
+    y "s"
+  }
+  expect {
+    refuses "run"
+  }
+  name "an-entry-handed-two-types-at-a-bounded-type-parameter-refuses-at-the-door"
+  note "`x` and `y` are both `some T`, bounded by `App.C`, which `Int` and `String` both answer, and the host hands `5` and `\"s\"`. The door fills `T` from what the values read as, the way a call fills it, and a type parameter is one type, so the run refuses before anything runs."
+  program {
+    contracts {
+      "App.C" {
+        f {
+          parameters [
+            {
+              name "s"
+              type "Self"
+            }
+            {
+              name "o"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports [
+      "Standard.Text.joined"
+      "Standard.Text.text"
+    ]
+    procedures {
+      "Int.f" {
+        body [
+          {
+            let "m"
+            type "Int"
+            value {
+              ref "o"
+            }
+          }
+        ]
+        parameters [
+          {
+            name "s"
+            type "Int"
+          }
+          {
+            name "o"
+            type "Int"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              [
+                "Int.f got"
+                {
+                  call {
+                    arguments [
+                      {
+                        ref "m"
+                      }
+                    ]
+                    procedure "Standard.Text.text"
+                  }
+                }
+              ]
+              " "
+            ]
+            procedure "Standard.Text.joined"
+          }
+        }
+        returns "String"
+      }
+      "String.f" {
+        parameters [
+          {
+            name "s"
+            type "String"
+          }
+          {
+            name "o"
+            type "String"
+          }
+        ]
+        result "String.f"
+        returns "String"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "x"
+                  }
+                  {
+                    ref "y"
+                  }
+                ]
+                procedure "App.C.f"
+              }
+            }
+          }
+        ]
+        bounds {
+          T "App.C"
+        }
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+          {
+            name "y"
+            type "some T"
+          }
+        ]
+        result {
+          ref "r"
+        }
+        returns "String"
+      }
+    }
+    satisfies {
+      Int [
+        "App.C"
+      ]
+      String [
+        "App.C"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+
