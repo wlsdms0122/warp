@@ -129,7 +129,7 @@ An *operation* is `[tag, …]`. These are the constructs and the expression form
 | 12 | a call through a contract | *dispatch* |
 | 13 | leaving | *reach*, the target name or nothing, what it takes or nothing |
 
-A *layout* is `[name, fields]`: the declared name or nothing, and the field names ascending. A *call* is `[procedure, arguments, handed]`: the row the call reaches, numbered by the document; one *operation* or nothing per parameter of the callee, in parameter order, nothing where the call wrote nothing or hands that parameter an address in place; and `[position, address]` for each parameter handed in place, by position ascending. A *dispatch* is `[contract, procedure, first, arguments]`: the contract's name, the procedure's, the first argument's *operation*, and the arguments after it by position, each an *argument*. Which row answers is the link's, and stands nowhere in an object. An *argument* is `[0, operation]` by value or `[1, address]` by reference: the place a call of a value hands in place, or one a call through a contract hands to whichever row takes it in place.
+A *layout* is `[name, fields]`: the declared name or nothing, and the field names ascending. A *call* is `[procedure, arguments, handed]`: the row the call reaches, numbered by the document; one *operation* or nothing per parameter of the callee, in parameter order, nothing exactly where the call hands that parameter an address in place; and `[position, address]` for each parameter handed in place, by position ascending. A *dispatch* is `[contract, procedure, first, arguments]`: the contract's name, the procedure's, the first argument's *operation*, and the arguments after it by position, each an *argument*. Which row answers is the link's, and stands nowhere in an object. An *argument* is `[0, operation]` by value or `[1, address]` by reference: the place a call of a value hands in place, or one a call through a contract hands to whichever row takes it in place.
 
 ### Lowered types
 
@@ -167,7 +167,7 @@ A reading refuses what it cannot read and traps on nothing: the reading runs ins
 - a lifted row where the numbering counts no closure, a numbering counting more closures than `lifted` holds, a count of none for a declaration it counts, and counts that add up past what an int holds
 - a frame naming other than one name per slot, standing other than one slot per parameter its declaration takes, or standing a parameter, a variable or a capture past its end
 - a body standing on a slot past its frame or on a variable past its document's `variables`, and a loop keeping a run its frame does not hold
-- a call handing in place at a position past the arguments it stands, or at one position twice
+- a call handing in place at other positions than the ones it writes nothing at, or out of ascending order
 - a closure literal taking what it captured into slots other than the captures of its own row's frame
 - a `keeps` that ends before it begins
 - a contract's procedure whose *failing* is `[0]`
@@ -255,6 +255,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-whose-body-stands-past-its-frame-refuses`
 - `an-object-whose-call-stands-more-arguments-than-its-callee-takes-refuses`
 - `an-object-whose-call-through-a-contract-stands-more-arguments-than-its-rows-take-refuses`
+- `an-object-whose-call-writes-an-argument-where-it-hands-in-place-refuses`
 - `an-object-whose-claims-stand-out-of-name-order-refuses`
 - `an-object-whose-closure-counts-add-up-past-an-int-refuses`
 - `an-object-whose-contract-procedure-leaves-its-failing-unstated-refuses`
