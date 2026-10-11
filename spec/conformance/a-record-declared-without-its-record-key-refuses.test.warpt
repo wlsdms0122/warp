@@ -1,0 +1,25 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-record-declared-without-its-record-key-refuses"
+  note "A record is declared under its name in `types` as `{ record: { … } }`, its fields under `record`. A mapping of fields with nothing around them is no record and no type."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+      }
+    }
+    types {
+      "App.Point" {
+        x "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
