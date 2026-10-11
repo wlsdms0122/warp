@@ -5,7 +5,7 @@ warpt 1
     key "1"
   }
   expect {
-    answers {
+    answers App.Found {
       found 1
       name "0"
       nested 0
@@ -16,15 +16,16 @@ warpt 1
   program {
     const {
       digits {
-        as {
-          of {
-            record {
-              "0" 0
-              "1" 1
-            }
-          }
-          type "Dictionary<Int>"
-        }
+        dictionary [
+          [
+            "0"
+            0
+          ]
+          [
+            "1"
+            1
+          ]
+        ]
       }
       names [
         "1"
@@ -58,12 +59,15 @@ warpt 1
             }
           }
         }
-        returns {
-          record {
-            found "Int"
-            name "String"
-            nested "Int"
-          }
+        returns "App.Found"
+      }
+    }
+    types {
+      "App.Found" {
+        record {
+          found "Int"
+          name "String"
+          nested "Int"
         }
       }
     }

@@ -1,34 +1,46 @@
 warpt 1
 {
   expect {
-    answers 1
+    answers true
   }
   name "a-construct-key-outside-a-statement-is-a-field-name"
-  note "A construct key is read directly under a statement's `value` and nowhere else. Under `record` it is a field name like any other, so the argument is a record with one field named `conditional`, and `count` reads it as such."
+  note "A construct key is read directly under a statement's `value` and nowhere else. Under `record` it is a field name like any other, so the value is a record with one field named `conditional`, and a path reads through it."
   program {
-    imports [
-      "Standard.Collection.count"
-    ]
+    imports []
     procedures {
       entry {
         access "public"
-        result {
-          call {
-            arguments [
-              {
-                record {
-                  conditional {
-                    record {
-                      when true
-                    }
+        body [
+          {
+            let "c"
+            type "App.C"
+            value {
+              record {
+                conditional {
+                  record {
+                    when true
                   }
                 }
               }
-            ]
-            procedure "Standard.Collection.count"
+            }
           }
+        ]
+        result {
+          ref "c.conditional.when"
         }
-        returns "Int"
+        returns "Bool"
+      }
+    }
+    types {
+      "App.C" {
+        record {
+          conditional "App.When"
+        }
+      }
+      "App.When" {
+        record {
+          when "Bool"
+        }
       }
     }
     warp 1

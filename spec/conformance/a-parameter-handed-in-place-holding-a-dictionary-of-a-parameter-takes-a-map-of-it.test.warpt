@@ -1,0 +1,80 @@
+warpt 1
+{
+  expect {
+    answers {
+      a "b"
+    }
+  }
+  name "a-parameter-handed-in-place-holding-a-dictionary-of-a-parameter-takes-a-map-of-it"
+  note "App.gen takes Dictionary<String, some T> in place and writes a map literal of its own some T into it. A map literal whose every value the entry takes is such a dictionary."
+  program {
+    imports []
+    procedures {
+      "App.gen" {
+        body [
+          {
+            set "x"
+            value {
+              dictionary [
+                [
+                  "a"
+                  {
+                    ref "y"
+                  }
+                ]
+              ]
+            }
+          }
+        ]
+        parameters [
+          {
+            name "x"
+            type "inout Dictionary<String, some T>"
+          }
+          {
+            name "y"
+            type "some T"
+          }
+        ]
+        result 0
+      }
+      entry {
+        access "public"
+        body [
+          {
+            type "Dictionary<String, String>"
+            value {
+              dictionary [
+                [
+                  "a"
+                  "z"
+                ]
+              ]
+            }
+            var "s"
+          }
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "s"
+                  }
+                  "b"
+                ]
+                procedure "App.gen"
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

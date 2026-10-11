@@ -1,6 +1,6 @@
 # Expressions
 
-What is read rather than run. A literal, a name, a path through one, a cast, a record, an array, a call and a closure written where a value is wanted. The line between this page and [statements](statement.md) is the line an operand stands on: a construct runs a body and is refused here.
+What is read rather than run. A literal, a name, a path through one, a cast, a record, a map, an array, a call and a closure written where a value is wanted. The line between this page and [statements](statement.md) is the line an operand stands on: a construct runs a body and is refused here.
 
 A scalar is itself, a literal. A string is always literal text; nothing inside it is ever re-parsed. An array is an array of expressions. A mapping is an expression by its **one key**, and that key is one of these:
 
@@ -8,6 +8,7 @@ A scalar is itself, a literal. A string is always literal text; nothing inside i
 |---|---|
 | `{ ref: a.b[0] }` | a name, resolved in the scope that reads it |
 | `{ record: { … } }` | a record, its fields each an expression. A field may be called anything, `ref` and `value` included |
+| `{ dictionary: [[<key>, <value>], …] }` | a map, its entries each a list of two expressions, a key and a value. The entries are made in the order written, so a key written twice holds the later value. The keys join to one type and the values to another, the way a list literal's elements do, an empty one holding `Never` at both; written where a map type is declared, every key and value is held to it part by part. An entry that is not a list of two **refuses at the load** |
 | `{ call: <call> }` | a call where a value is wanted; same grammar as the `call` construct |
 | `{ closure: <procedure> }` | a procedure written where a value is wanted; same grammar as a procedure, without `access` and `bounds`: nothing names a closure, and its `some T` is the `T` of the procedure it is written in. A closure writing either **refuses at the load** |
 | `{ as: { of: <value>, type: <type> } }` | read the value as that type: how a value the build could not type, one read as `Any` or as a contract, is held to one |
@@ -17,9 +18,9 @@ A mapping with another key, or with more than one, **refuses at the load**. A ke
 
 A path is a name, then `.name` for a field and `[…]` for an index. A `[` left open, or a `]` that closes none, **refuses at the load**.
 
-A **cast** names the type a value is read as. The type is written the way any type is: a name, or the mapping a record or a signature is written as. From the cast on, the reading *is* that type, so every dot after it is judged against it; the run is left the one question the build cannot answer, which is what actually arrived, and it answers it by judging the value against the type, leaving nothing out. A cast is how a value read as `Any`, as a contract, or along a path a call decides reaches a slot of a type, since the build does not know which type it is. A plain `as` **fails at the run** with `cast_refused` when the value is not that type. It is a failure like any other, so an `attempt` catches it, and `as?` reads that mismatch as null, which is the author saying they expected it.
+A **cast** names the type a value is read as. The type is written the way any type is: a name, or the mapping a signature is written as. From the cast on, the reading *is* that type, so every dot after it is judged against it; the run is left the one question the build cannot answer, which is what actually arrived, and it answers it by judging the value against the type, leaving nothing out. A cast is how a value read as `Any`, as a contract, or along a path a call decides reaches a slot of a type, since the build does not know which type it is. A plain `as` **fails at the run** with `cast_refused` when the value is not that type. It is a failure like any other, so an `attempt` catches it, and `as?` reads that mismatch as null, which is the author saying they expected it.
 
-A cast that names the type the reading already **is** refuses at the build, the way a needless `?.` does: the claim says nothing. The test is sameness, not admission: a reading of `Int?` cast to `Int` names something the types leave open, and only the run can say whether it holds. A cast to a declared record name is one of the places a name is written: reading a nameless record as `Account` attaches the name, so it is never a cast of what the reading already is, and only a reading that is already `Account` makes it one, at whatever depth the name stands and under whatever alias of `Account` either side writes. A cast writes a name and never takes one away: a reading under one declared record cast to another, to an inline record type or to `Dictionary<T>` names a type no value it reads is, null and an empty list or map aside where both take one, and **refuses at the build**, and so does a cast to a record type of other fields than the reading's, since a record type is exactly its fields. A cast reads a value and is no place a literal is written into: a whole literal in its operand, at any depth, is the `Int` it is, so `{ x: 1 } as { x: Double }` names a type no value is both and **refuses at the build**, and `[1] as Array<Double>` builds, the empty list being a value of both, and fails at the run. A cast onto `Any` or `Never` refuses at the build for the other half of the same reason: those name no type to read. A type parameter written anywhere inside a cast's type (`Array<some T>`) **refuses at the load** as it does on a name saying what it holds: nothing in a body fills one, so there is no type there to judge what arrives against.
+A cast that names the type the reading already **is** refuses at the build, the way a needless `?.` does: the claim says nothing. The test is sameness, not admission: a reading of `Int?` cast to `Int` names something the types leave open, and only the run can say whether it holds. A cast's type is a place a record literal is read as, under *a declared record is nominal* in [types](type.md): a record literal a cast to `Account` reads is an `Account`, so it is never a cast of what the reading already is, and only a reading that is already `Account` makes it one, at whatever depth the name stands and under whatever alias of `Account` either side writes. A cast writes no name onto a value and never takes one away: a reading under one declared record cast to another or to `Dictionary<String, T>` names a type no value it reads is, null and an empty list or map aside where both take one, and **refuses at the build**, and a map arriving where a cast reads a declared record is no value of it, so the cast fails with `cast_refused` and `as?` reads it as null. A cast reads a value and is no place a literal is written into: a whole literal in its operand, at any depth, is the `Int` it is, so `[1] as Array<Double>` builds, the empty list being a value of both, and fails at the run. A cast onto `Any` or `Never` refuses at the build for the other half of the same reason: those name no type to read. A type parameter written anywhere inside a cast's type (`Array<some T>`) **refuses at the load** as it does on a name saying what it holds: nothing in a body fills one, so there is no type there to judge what arrives against.
 
 A cast that names a type nothing declares **refuses at the build**, wherever it is written, by the rule every type spelling is held to. `as?` reads a value that is not the named type as null; it does not read a name that names nothing as null, because that is the declaration being wrong rather than the value.
 
@@ -27,7 +28,7 @@ A construct's key, `conditional` or `loop`, is read under a statement's `value` 
 
 **A dot reads a name and nothing else.** Every `ref` path is judged where names resolve, and the judgement is written into the image; the value that arrives at run time has no say in it. A procedure is sent with a written `call`, which spells the declaration it means. Segment by segment:
 
-- On a **record type**, a dot reads the field the type declares. A field it does not declare **refuses at the build**, `?.` or not. The type rules the field out, and no spelling reads past that. A procedure on a record is written as a call. A record type says which fields there are, and a value fits it only with exactly them, so there is nothing else to reach. To read names a declaration does not have, take `Dictionary<Any>`.
+- On a **record type**, a dot reads the field the type declares. A field it does not declare **refuses at the build**, `?.` or not. The type rules the field out, and no spelling reads past that. A procedure on a record is written as a call. A record type says which fields there are, and a value fits it only with exactly them, so there is nothing else to reach. To read names a declaration does not have, take `Dictionary<String, Any>`.
 - On a **dictionary**, a dot reads an entry; which names are there is the run's fact. An absent entry **refuses at the run**, unless the segment is written `?.`, which reads it as null.
 - On a type that has no fields (`String`, `Int`, `Double`, `Bool`, a list, a procedure), a dot **refuses at the build**: there is no name there to read, and the procedure by that spelling is reached by writing the call.
 - On **`Any`**, a dot or an index **refuses at the build**. Nothing is declared here, so there is nothing for the reading to be judged against, and a dot nothing declares is the one thing a run would have to decide for itself. The type is read by naming it: `{ as: { of: <value>, type: <type> } }` says what the author expects, and every dot after it is judged against that.
@@ -50,12 +51,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-cast-names-the-record-it-reads`
 - `a-cast-naming-a-type-nothing-declares-refuses`
 - `a-cast-naming-what-the-reading-already-is-refuses`
-- `a-cast-of-a-declared-record-to-a-record-of-its-fields-refuses`
-- `a-cast-of-a-list-of-nameless-records-to-a-list-of-a-declared-record-names-them`
-- `a-cast-of-a-nameless-field-to-a-field-of-a-declared-record-names-it`
-- `a-cast-of-a-nameless-record-to-a-declared-record-of-its-fields-names-it-answers`
-- `a-cast-of-a-record-literal-names-the-nameless-record-it-holds-answers`
-- `a-cast-of-a-record-literal-reads-a-whole-number-in-it-as-an-int-refuses`
 - `a-cast-of-a-record-under-another-name-fails`
 - `a-cast-onto-a-type-parameter-refuses`
 - `a-cast-onto-any-refuses`
@@ -65,7 +60,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-cast-to-a-dictionary-of-a-type-parameter-refuses`
 - `a-cast-to-a-list-of-a-type-parameter-refuses`
 - `a-cast-to-a-list-of-an-alias-of-the-record-a-list-holds-refuses`
-- `a-cast-to-a-map-of-a-declared-record-names-each-entry`
 - `a-cast-to-a-procedure-type-answering-an-alias-of-what-it-answers-refuses`
 - `a-closure-answers-what-it-declared`
 - `a-closure-reads-a-variable-through-its-box`
@@ -87,8 +81,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-dot-on-a-type-with-no-fields-is-refused`
 - `a-dot-on-any-is-refused`
 - `a-dot-through-a-null-the-text-shows-refuses`
-- `a-field-of-a-constant-list-element-reads-as-the-joined-field-refuses`
 - `a-key-reference-read-as-any-refuses`
+- `a-map-literal-makes-its-entries-in-order`
+- `a-map-literal-written-where-a-map-is-declared-is-held-part-by-part-refuses`
 - `a-mapping-with-no-tag-refuses`
 - `a-mapping-with-two-form-keys-refuses`
 - `a-mark-does-not-split-the-field-it-reached`
@@ -103,9 +98,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-write-at-a-constant-index-below-zero-refuses`
 - `a-write-at-an-index-below-zero-refuses`
 - `an-absent-dictionary-entry-refuses`
-- `an-asking-cast-of-a-declared-record-read-as-any-to-an-inline-record-reads-null`
 - `an-element-of-a-constant-list-reads-as-its-element-type-refuses`
 - `an-element-of-a-constant-record-field-reads-as-its-element-type-refuses`
+- `an-empty-map-literal-is-a-map-of-any-types`
 - `an-index-into-any-is-refused`
 - `an-index-past-the-end-refuses`
 - `an-index-past-what-an-int-holds-refuses`

@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-list-literal-a-return-answers-is-read-position-by-position-refuses"
-  note "App.g declares it answers Array<Dictionary<Array<String>>>, and one way through returns [{ a: [] }, { a: [1] }]. A return writes into the declared answer as the result does, so the build refuses it."
+  note "App.g declares it answers Array<Dictionary<String, Array<String>>>, and one way through returns [{ a: [] }, { a: [1] }]. A return writes into the declared answer as the result does, so the build refuses it."
   program {
     imports [
       "Standard.Collection.count"
@@ -62,7 +62,7 @@ warpt 1
             }
           }
         ]
-        returns "Array<Dictionary<Array<String>>>"
+        returns "Array<Dictionary<String, Array<String>>>"
       }
       entry {
         access "public"

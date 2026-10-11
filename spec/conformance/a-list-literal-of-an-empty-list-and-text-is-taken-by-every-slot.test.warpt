@@ -4,7 +4,7 @@ warpt 1
     answers 2
   }
   name "a-list-literal-of-an-empty-list-and-text-is-taken-by-every-slot"
-  note "[{ a: [] }, { a: [\"s\"] }] is a declared name's start value, a called value's argument, a declaration's argument and its result, each slot declaring Array<Dictionary<Array<String>>>. The empty list holds no element, so every slot takes the literal and the program answers the count."
+  note "[{ a: [] }, { a: [\"s\"] }] is a declared name's start value, a called value's argument, a declaration's argument and its result, each slot declaring Array<Dictionary<String, Array<String>>>. The empty list holds no element, so every slot takes the literal and the program answers the count."
   program {
     imports [
       "Standard.Collection.count"
@@ -29,42 +29,54 @@ warpt 1
         parameters [
           {
             name "xs"
-            type "Array<Dictionary<Array<String>>>"
+            type "Array<Dictionary<String, Array<String>>>"
           }
         ]
         result [
           {
-            record {
-              a []
-            }
+            dictionary [
+              [
+                "a"
+                []
+              ]
+            ]
           }
           {
-            record {
-              a [
-                "s"
+            dictionary [
+              [
+                "a"
+                [
+                  "s"
+                ]
               ]
-            }
+            ]
           }
         ]
-        returns "Array<Dictionary<Array<String>>>"
+        returns "Array<Dictionary<String, Array<String>>>"
       }
       entry {
         access "public"
         body [
           {
-            type "Array<Dictionary<Array<String>>>"
+            type "Array<Dictionary<String, Array<String>>>"
             value [
               {
-                record {
-                  a []
-                }
+                dictionary [
+                  [
+                    "a"
+                    []
+                  ]
+                ]
               }
               {
-                record {
-                  a [
-                    "s"
+                dictionary [
+                  [
+                    "a"
+                    [
+                      "s"
+                    ]
                   ]
-                }
+                ]
               }
             ]
             var "ys"
@@ -91,7 +103,7 @@ warpt 1
                 parameters [
                   {
                     name "xs"
-                    type "Array<Dictionary<Array<String>>>"
+                    type "Array<Dictionary<String, Array<String>>>"
                   }
                 ]
                 result {
@@ -108,16 +120,22 @@ warpt 1
                 arguments [
                   [
                     {
-                      record {
-                        a []
-                      }
+                      dictionary [
+                        [
+                          "a"
+                          []
+                        ]
+                      ]
                     }
                     {
-                      record {
-                        a [
-                          "s"
+                      dictionary [
+                        [
+                          "a"
+                          [
+                            "s"
+                          ]
                         ]
-                      }
+                      ]
                     }
                   ]
                 ]
@@ -134,16 +152,22 @@ warpt 1
                 arguments [
                   [
                     {
-                      record {
-                        a []
-                      }
+                      dictionary [
+                        [
+                          "a"
+                          []
+                        ]
+                      ]
                     }
                     {
-                      record {
-                        a [
-                          "s"
+                      dictionary [
+                        [
+                          "a"
+                          [
+                            "s"
+                          ]
                         ]
-                      }
+                      ]
                     }
                   ]
                 ]

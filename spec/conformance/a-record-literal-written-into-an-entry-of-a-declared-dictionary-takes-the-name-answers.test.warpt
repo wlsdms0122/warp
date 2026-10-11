@@ -4,7 +4,7 @@ warpt 1
     answers "a"
   }
   name "a-record-literal-written-into-an-entry-of-a-declared-dictionary-takes-the-name-answers"
-  note "`r` declares `Dictionary<Bank.A>`, and `set r.x` writes the record literal `{ k: \"y\" }` into an entry. The path reaches `Bank.A`, so the literal takes the name, and `App.P.show` reaches `Bank.A.show`."
+  note "`r` declares `Dictionary<String, Bank.A>`, and `set r.x` writes the record literal `{ k: \"y\" }` into an entry. The path reaches `Bank.A`, so the literal takes the name, and `App.P.show` reaches `Bank.A.show`."
   program {
     contracts {
       "App.P" {
@@ -50,13 +50,16 @@ warpt 1
             }
           }
           {
-            type "Dictionary<Bank.A>"
+            type "Dictionary<String, Bank.A>"
             value {
-              record {
-                x {
-                  ref "a"
-                }
-              }
+              dictionary [
+                [
+                  "x"
+                  {
+                    ref "a"
+                  }
+                ]
+              ]
             }
             var "r"
           }

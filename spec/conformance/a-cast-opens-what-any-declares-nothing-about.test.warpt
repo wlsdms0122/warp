@@ -1,7 +1,7 @@
 warpt 1
 {
   arguments {
-    payload {
+    payload App.Named {
       name "warp"
     }
   }
@@ -23,11 +23,7 @@ warpt 1
                 of {
                   ref "payload"
                 }
-                type {
-                  record {
-                    name "String"
-                  }
-                }
+                type "App.Named"
               }
             }
           }
@@ -41,6 +37,13 @@ warpt 1
           ref "read.name"
         }
         returns "String"
+      }
+    }
+    types {
+      "App.Named" {
+        record {
+          name "String"
+        }
       }
     }
     warp 1

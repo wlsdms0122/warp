@@ -34,18 +34,7 @@ warpt 1
         parameters [
           {
             name "body"
-            type {
-              record {
-                f {
-                  "isolated procedure" {
-                    parameters [
-                      "Int"
-                    ]
-                    returns "Int"
-                  }
-                }
-              }
-            }
+            type "App.Holder"
           }
           {
             name "item"
@@ -114,6 +103,20 @@ warpt 1
           }
         }
         returns "Array<Int>"
+      }
+    }
+    types {
+      "App.Holder" {
+        record {
+          f {
+            "isolated procedure" {
+              parameters [
+                "Int"
+              ]
+              returns "Int"
+            }
+          }
+        }
       }
     }
     warp 1

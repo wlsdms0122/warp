@@ -8,7 +8,7 @@ warpt 1
     ]
   }
   name "keys-answer-in-canonical-order"
-  note "A record has no order, so keys answers in the record's canonical order. Names ascending, and a program that walks it gets the same walk on every run."
+  note "A map holds its keys in the key order, so keys answers in that order: text ascending, and a program that walks it gets the same walk on every run."
   program {
     imports [
       "Standard.Collection.keys"
@@ -20,11 +20,20 @@ warpt 1
           {
             let "data"
             value {
-              record {
-                a 2
-                b 1
-                c 3
-              }
+              dictionary [
+                [
+                  "a"
+                  2
+                ]
+                [
+                  "b"
+                  1
+                ]
+                [
+                  "c"
+                  3
+                ]
+              ]
             }
           }
           {

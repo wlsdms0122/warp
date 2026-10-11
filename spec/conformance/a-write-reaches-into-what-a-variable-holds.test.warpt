@@ -1,7 +1,7 @@
 warpt 1
 {
   expect {
-    answers {
+    answers App.Point {
       x 5
       y 2
     }
@@ -15,6 +15,7 @@ warpt 1
         access "public"
         body [
           {
+            type "App.Point"
             value {
               record {
                 x 1
@@ -31,11 +32,14 @@ warpt 1
         result {
           ref "p"
         }
-        returns {
-          record {
-            x "Int"
-            y "Int"
-          }
+        returns "App.Point"
+      }
+    }
+    types {
+      "App.Point" {
+        record {
+          x "var Int"
+          y "Int"
         }
       }
     }

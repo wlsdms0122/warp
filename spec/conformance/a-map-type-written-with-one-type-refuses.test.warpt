@@ -1,0 +1,29 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-map-type-written-with-one-type-refuses"
+  note "A map type says two types between its brackets, its key's and its value's, as `Dictionary<String, Int>`. One type there is no spelling of a map, so a type written that way refuses at the load."
+  program {
+    imports []
+    procedures {
+      "App.f" {
+        parameters [
+          {
+            name "m"
+            type "Dictionary<Int>"
+          }
+        ]
+        result 1
+      }
+      entry {
+        access "public"
+        result 1
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,7 +1,7 @@
 warpt 1
 {
   expect {
-    answers {
+    answers App.Pair {
       first 1
       second "x"
     }
@@ -38,12 +38,7 @@ warpt 1
                     }
                   }
                 }
-                returns {
-                  record {
-                    first "Int"
-                    second "String"
-                  }
-                }
+                returns "App.Pair"
               }
             }
           }
@@ -65,11 +60,14 @@ warpt 1
         result {
           ref "made"
         }
-        returns {
-          record {
-            first "Int"
-            second "String"
-          }
+        returns "App.Pair"
+      }
+    }
+    types {
+      "App.Pair" {
+        record {
+          first "Int"
+          second "String"
         }
       }
     }

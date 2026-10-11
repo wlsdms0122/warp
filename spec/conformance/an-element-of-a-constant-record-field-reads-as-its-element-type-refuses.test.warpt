@@ -4,15 +4,20 @@ warpt 1
     refuses "build"
   }
   name "an-element-of-a-constant-record-field-reads-as-its-element-type-refuses"
-  note "A field keeps its own type, `Array<Any>` here, and an element of it reads that list's element type, so `k.a[1]` reads `Any` though it settles to `\"s\"`. A name declaring `String` refuses it at the build."
+  note "A field reads at the type its declaration writes, `Array<Any>` here, and an element of it reads that list's element type, so `k.a[1]` reads `Any` though it settles to `\"s\"`. A name declaring `String` refuses it at the build."
   program {
     const {
       k {
-        record {
-          a [
-            1
-            "s"
-          ]
+        as {
+          of {
+            record {
+              a [
+                1
+                "s"
+              ]
+            }
+          }
+          type "App.K"
         }
       }
     }
@@ -31,6 +36,13 @@ warpt 1
         ]
         result {
           ref "x"
+        }
+      }
+    }
+    types {
+      "App.K" {
+        record {
+          a "Array<Any>"
         }
       }
     }

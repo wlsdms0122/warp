@@ -4,7 +4,7 @@ warpt 1
     refuses "run"
   }
   name "setting-refuses-a-key-that-is-not-a-name"
-  note "The key setting writes becomes a field's name, and an empty text names nothing."
+  note "The key setting writes is a name, and an empty text names nothing."
   program {
     imports [
       "Standard.Collection.setting"
@@ -16,9 +16,12 @@ warpt 1
           call {
             arguments [
               {
-                record {
-                  a 1
-                }
+                dictionary [
+                  [
+                    "a"
+                    1
+                  ]
+                ]
               }
               ""
               2

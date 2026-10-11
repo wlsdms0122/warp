@@ -36,15 +36,25 @@ warpt 1
                       call {
                         arguments [
                           {
-                            record {
-                              a 1
-                              b 2
+                            as {
+                              of {
+                                record {
+                                  a 1
+                                  b 2
+                                }
+                              }
+                              type "App.P"
                             }
                           }
                           {
-                            record {
-                              a 1
-                              b 2
+                            as {
+                              of {
+                                record {
+                                  a 1
+                                  b 2
+                                }
+                              }
+                              type "App.P"
                             }
                           }
                         ]
@@ -78,6 +88,14 @@ warpt 1
           }
         }
         returns "Bool"
+      }
+    }
+    types {
+      "App.P" {
+        record {
+          a "Int"
+          b "Int"
+        }
       }
     }
     warp 1

@@ -30,29 +30,35 @@ warpt 1
                       call {
                         arguments [
                           {
-                            record {
-                              fine {
-                                closure {
-                                  result "ok"
+                            dictionary [
+                              [
+                                "fine"
+                                {
+                                  closure {
+                                    result "ok"
+                                  }
                                 }
-                              }
-                              fragile {
-                                closure {
-                                  body [
-                                    {
-                                      value {
-                                        call {
-                                          arguments [
-                                            "on purpose"
-                                          ]
-                                          procedure "Standard.Control.abort"
+                              ]
+                              [
+                                "fragile"
+                                {
+                                  closure {
+                                    body [
+                                      {
+                                        value {
+                                          call {
+                                            arguments [
+                                              "on purpose"
+                                            ]
+                                            procedure "Standard.Control.abort"
+                                          }
                                         }
                                       }
-                                    }
-                                  ]
+                                    ]
+                                  }
                                 }
-                              }
-                            }
+                              ]
+                            ]
                           }
                         ]
                         procedure "Standard.Concurrent.allKeyed"
@@ -62,26 +68,32 @@ warpt 1
                 ]
                 rescue {
                   result {
-                    record {
-                      pieces {
-                        call {
-                          arguments [
-                            {
-                              as {
-                                of {
-                                  ref "tried.details.failures"
+                    dictionary [
+                      [
+                        "pieces"
+                        {
+                          call {
+                            arguments [
+                              {
+                                as {
+                                  of {
+                                    ref "tried.details.failures"
+                                  }
+                                  type "Dictionary<String, Any>"
                                 }
-                                type "Dictionary<Any>"
                               }
-                            }
-                          ]
-                          procedure "Standard.Collection.keys"
+                            ]
+                            procedure "Standard.Collection.keys"
+                          }
                         }
-                      }
-                      type {
-                        ref "tried.type"
-                      }
-                    }
+                      ]
+                      [
+                        "type"
+                        {
+                          ref "tried.type"
+                        }
+                      ]
+                    ]
                   }
                 }
               }

@@ -1,0 +1,29 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-map-keyed-by-any-refuses"
+  note "A map's key is of a type that answers `Hashable`, the contract the language names. `Any` answers no contract until a cast says what a value is, so a map keyed by it refuses at the build, reached or not."
+  program {
+    imports []
+    procedures {
+      "App.f" {
+        parameters [
+          {
+            name "m"
+            type "Dictionary<Any, Int>"
+          }
+        ]
+        result 1
+      }
+      entry {
+        access "public"
+        result 1
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

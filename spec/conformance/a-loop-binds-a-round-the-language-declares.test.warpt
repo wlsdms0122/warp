@@ -1,0 +1,87 @@
+warpt 1
+{
+  expect {
+    answers 2
+  }
+  name "a-loop-binds-a-round-the-language-declares"
+  note "What a loop binds each round is a `Round`, a record the language declares, so a slot that declares `Round` takes it as it is and reads its `index`."
+  program {
+    imports [
+      "Standard.Comparable.lessThan"
+      "Standard.Numeric.plus"
+    ]
+    procedures {
+      "App.reached" {
+        parameters [
+          {
+            name "at"
+            type "Round"
+          }
+        ]
+        result {
+          ref "at.index"
+        }
+        returns "Int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            value 0
+            var "count"
+          }
+          {
+            let "walk"
+            value {
+              loop {
+                body [
+                  {
+                    set "count"
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "count"
+                          }
+                          1
+                        ]
+                        procedure "Standard.Numeric.plus"
+                      }
+                    }
+                  }
+                ]
+                result {
+                  call {
+                    arguments [
+                      {
+                        ref "walk"
+                      }
+                    ]
+                    procedure "App.reached"
+                  }
+                }
+                while {
+                  call {
+                    arguments [
+                      {
+                        ref "walk.index"
+                      }
+                      2
+                    ]
+                    procedure "Standard.Comparable.lessThan"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "walk"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

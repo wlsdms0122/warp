@@ -4,7 +4,7 @@ warpt 1
     refuses "run"
   }
   name "a-record-a-host-procedure-answers-short-of-its-fields-refuses"
-  note "The door a host's answer comes through takes a nameless record holding at least the fields the declaration names. `App.h` answers one holding none of `App.Point`'s, so the answer refuses at the run where it comes through, before anything reads it."
+  note "The door a host's answer comes through takes a record of `App.Point` holding at least the fields the declaration names. `App.h` answers one holding none of them, so the answer refuses at the run where it comes through, before anything reads it."
   program {
     imports [
       "App.h"
@@ -27,7 +27,7 @@ warpt 1
     imports []
     procedures {
       "App.h" {
-        answers {}
+        answers App.Point {}
         returns "App.Point"
       }
     }
