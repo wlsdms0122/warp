@@ -1,0 +1,181 @@
+warpt 1
+{
+  expect {
+    builds {
+      answers []
+      claims []
+      constants [
+        "K"
+      ]
+      contracts []
+      dependencies []
+      document [
+        x"f1ec55acb745a622e1111e432a07300052e77c1fb703e2c709466caf5cfe0072"
+      ]
+      leaned [
+        [
+          "String"
+          "Hashable"
+          [
+            [
+              x"f1ec55acb745a622e1111e432a07300052e77c1fb703e2c709466caf5cfe0072"
+            ]
+            [
+              [
+                1
+                [
+                  0
+                ]
+              ]
+              [
+                0
+                "entry"
+              ]
+              [
+                1
+                [
+                  8
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+      lifted []
+      numbering [
+        []
+        []
+      ]
+      object 1
+      rows [
+        [
+          "entry"
+          [
+            []
+            [
+              [
+                8
+                [
+                  6
+                ]
+                [
+                  4
+                ]
+              ]
+            ]
+            []
+          ]
+          2
+          1
+          1
+          [
+            1
+            []
+          ]
+          [
+            0
+            [
+              [
+                [
+                  [
+                    [
+                      1
+                      0
+                    ]
+                  ]
+                  [
+                    14
+                    []
+                  ]
+                  "d"
+                ]
+                [
+                  [
+                    [
+                      2
+                      [
+                        0
+                        [
+                          [
+                            2
+                            [
+                              4
+                              "a"
+                            ]
+                            false
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                  [
+                    0
+                    [
+                      2
+                      1
+                    ]
+                  ]
+                  "d"
+                ]
+              ]
+              [
+                [
+                  1
+                  [
+                    0
+                    []
+                  ]
+                ]
+              ]
+            ]
+            [
+              1
+              []
+              []
+              []
+              [
+                "d"
+              ]
+            ]
+          ]
+        ]
+      ]
+      typeNumbering []
+      types []
+      variables []
+    }
+  }
+  name "the-object-of-a-write-at-a-constant-key"
+  note "A constant between the brackets of a write is folded into the address the write lands at, as every constant a body reads is: the step carries the key the constant settled to, and the body binds no slot for the constant."
+  program {
+    const {
+      K "a"
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            type "Dictionary<String, Int>"
+            value {
+              dictionary []
+            }
+            var "d"
+          }
+          {
+            set "d[K]"
+            value 1
+          }
+        ]
+        result {
+          ref "d"
+        }
+        returns "Dictionary<String, Int>"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
