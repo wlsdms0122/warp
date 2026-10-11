@@ -271,7 +271,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-record-a-loop-answers-where-a-declared-record-is-read-takes-the-name`
 - `a-record-built-where-a-declared-record-is-read-keeps-its-closure`
 - `a-record-declared-without-its-record-key-refuses`
-- `a-record-form-array-of-a-named-element-refuses`
 - `a-record-from-outside-under-another-name-refuses-at-the-door`
 - `a-record-from-outside-under-its-name-at-any-is-held-to-its-record-refuses`
 - `a-record-literal-a-name-that-declares-nothing-holds-refuses`
@@ -288,6 +287,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-type-declared-under-a-name-the-language-declares-refuses`
 - `a-type-declared-under-a-name-the-language-gives-refuses`
 - `a-type-declared-under-a-word-a-type-spelling-writes-refuses`
+- `a-type-form-array-of-an-element-with-a-spelling-refuses`
 - `a-type-form-beside-other-keys-refuses`
 - `a-type-mention-that-is-no-name-refuses`
 - `a-type-no-claim-names-in-a-closures-contract-parameter-refuses`
