@@ -1,0 +1,30 @@
+warpt 1
+{
+  expect {
+    answers [
+      1.0
+    ]
+  }
+  name "a-cast-writes-a-whole-literal-it-reads-as-the-fraction-its-type-names-answers"
+  note "The type a cast names is a place a literal in what it reads is written into, as a slot is. `[1]` read as `Array<Double>` holds the fraction `1` names, so the cast holds and answers `[1.0]`."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result {
+          as {
+            of [
+              1
+            ]
+            type "Array<Double>"
+          }
+        }
+        returns "Array<Double>"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
