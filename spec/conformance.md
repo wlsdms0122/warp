@@ -64,7 +64,7 @@ It is written as a **module**, because that is what a host takes in: it may decl
     isolated    bool. Absent: true
     failing     array of strings. What it may fail with. Absent: empty
 
-It answers the same thing every time, because a case asks what a declaration permits rather than what arithmetic does. The names it may declare are `first` and `second`, in that order, since a procedure the host answers reads its arguments at fixed places and a case cannot invent a place in another runner.
+It answers the same thing every time, because a case asks what a declaration permits rather than what arithmetic does. The parameter names it may declare are `first` and `second`, in that order, since a procedure the host answers reads its arguments at fixed places and a case cannot invent a place in another runner.
 
 This is the only way a case reaches what answering without running permits and what it does not, both of which need a procedure with no body: a slot asking a `const` procedure type, an operand calling one, and a constant that settles from one and is refused for it.
 
