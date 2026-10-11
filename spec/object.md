@@ -25,7 +25,7 @@ An object is one record. It carries **exactly** these keys, and a key none of th
 | `variables` | (name, *value*): what each variable starts a run holding | by name |
 | `constants` | the constants it declared, by spelling | by name |
 
-**The record is keyed and its parts are not.** The record names each part by its key; inside a part the fields stand in order and a kind says itself by its tag. A reading holds an object to the format it reads before it reads a part.
+**The record is keyed and its parts are not.** The record names each part by its key; inside a part the fields stand in order and a variant says itself by its tag. A reading holds an object to the format it reads before it reads a part.
 
 **Order is spelling.** Every list a name keys stands ascending by the names' bytes, none twice, and so does every set written as a list. That is the whole of what makes one object one value: a dictionary lends no order, so the layout says one, and a reading takes no other. A list out of order, or naming one thing twice, **refuses**.
 
@@ -35,12 +35,12 @@ An object is one record. It carries **exactly** these keys, and a key none of th
 
 ## How a part is laid out
 
-Inside the record, a part is written as its fields **in order**, and a kind as its **tag** before them, so a reading beside the same tables reads it back and one that is not refuses it. The rules, used everywhere below:
+Inside the record, a part is written as its fields **in order**, and a variant as its **tag** before them, so a reading beside the same tables reads it back and one that is not refuses it. The rules, used everywhere below:
 
 - A *name* is a string, and one that is not in normal form, or not a name, **refuses**.
 - A list a name keys is `[[name, value] …]`, in name order.
 - A field that may hold nothing is a list of none or one: `[]` or `[value]`. So a value that is itself null is told from no value at all.
-- A kind is `[tag, fields …]`, and a tag this page does not name **refuses**.
+- A variant is `[tag, fields …]`, and a tag this page does not name **refuses**.
 - A count, a slot, a row and a position are whole numbers at or above zero, and one below zero **refuses** where it is read.
 
 ### Types, as a document writes them
