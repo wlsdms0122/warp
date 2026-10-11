@@ -11,7 +11,7 @@ A scalar is itself, a literal. A string is always literal text; nothing inside i
 | `{ call: <call> }` | a call where a value is wanted; same grammar as the `call` construct |
 | `{ closure: <procedure> }` | a procedure written where a value is wanted; same grammar as a procedure, without `access` and `bounds`: nothing names a closure, and its `some T` is the `T` of the procedure it is written in. A closure writing either **refuses at the load** |
 | `{ as: { of: <value>, type: <type> } }` | read the value as that type: how a value the build could not type, one read as `Any` or as a contract, is held to one |
-| `{ as?: { of: <value>, type: <type> } }` | the same, reading a mismatch as null rather than refusing; the answer is `T?` |
+| `{ as?: { of: <value>, type: <type> } }` | the same, reading a mismatch as null rather than failing; the answer is `T?` |
 
 A mapping with another key, or with more than one, **refuses at the load**. A key names a form and never a field, so no field name is reserved.
 
