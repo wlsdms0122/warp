@@ -48,7 +48,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 
 - `a-bracket-that-closes-nothing-in-a-path-is-refused`
 - `a-cast-from-any-to-a-record-naming-itself-answers`
-- `a-cast-names-the-record-it-reads`
 - `a-cast-naming-a-type-nothing-declares-refuses`
 - `a-cast-naming-what-the-reading-already-is-refuses`
 - `a-cast-of-a-map-to-a-declared-record-refuses`
@@ -96,6 +95,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-read-at-a-constant-key-that-is-not-a-name-refuses`
 - `a-read-at-an-index-below-zero-refuses`
 - `a-record-field-may-carry-a-tags-name`
+- `a-record-literal-a-cast-reads-is-the-record-the-cast-names-answers`
 - `a-record-read-by-a-key-the-run-reads-refuses`
 - `a-write-at-a-constant-index-below-zero-refuses`
 - `a-write-at-an-index-below-zero-refuses`

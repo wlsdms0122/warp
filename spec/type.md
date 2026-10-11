@@ -221,6 +221,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-map-keyed-by-any-refuses`
 - `a-map-literal-handed-at-a-dictionary-of-a-bounded-parameter-fills-it-by-its-values-refuses`
 - `a-map-literal-handed-at-a-dictionary-of-a-contract-leans-on-each-claim-refuses`
+- `a-map-literal-of-values-of-two-types-handed-at-a-dictionary-of-a-bounded-parameter-refuses`
 - `a-map-literal-whose-values-do-not-join-handed-at-a-dictionary-of-a-bounded-parameter-refuses`
 - `a-map-type-written-with-one-type-refuses`
 - `a-module-declares-a-contract-a-bound-names`
@@ -277,7 +278,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-record-literal-beside-a-declared-record-at-a-type-parameter-refuses`
 - `a-record-literal-short-of-a-field-its-record-declares-refuses`
 - `a-record-literal-written-where-no-declared-record-is-read-refuses`
-- `a-record-of-fields-of-two-types-handed-at-a-dictionary-of-a-bounded-parameter-refuses`
 - `a-record-type-may-name-a-field-for-a-form`
 - `a-record-under-another-name-refuses`
 - `a-row-of-readings-of-any-appended-to-a-table-of-text-refuses`
