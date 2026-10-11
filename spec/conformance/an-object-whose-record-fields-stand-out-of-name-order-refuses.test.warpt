@@ -4,7 +4,7 @@ warpt 1
     refuses "load"
   }
   name "an-object-whose-record-fields-stand-out-of-name-order-refuses"
-  note "A record value writes its field names in name order, the order the writing puts them in, whether it carries a name or none. A reading that took them in any order would read two writings as one object."
+  note "A record value writes its field names in name order, the order the writing puts them in. Here `seen` starts a run holding an `App.R` written with `b` before `a`, which a reading refuses: one that took the fields in any order would read two writings as one object."
   object {
     answers []
     claims []
@@ -12,7 +12,7 @@ warpt 1
     contracts []
     dependencies []
     document [
-      x"c21b21e967ec75a5c6534b6e2bc1333c957bd12ded0f8b627d4c898fbce1b506"
+      x"a58a34716614997dfe79be5333b9ba694e1281fe041e3414794d97fcf1e72ee5"
     ]
     leaned []
     lifted []
@@ -28,10 +28,8 @@ warpt 1
           []
           [
             [
-              8
-              [
-                4
-              ]
+              14
+              "App.R"
             ]
           ]
           []
@@ -75,13 +73,34 @@ warpt 1
       ]
     ]
     typeNumbering []
-    types []
+    types [
+      [
+        "App.R"
+        [
+          9
+          [
+            [
+              "a"
+              [
+                4
+              ]
+            ]
+            [
+              "b"
+              [
+                4
+              ]
+            ]
+          ]
+        ]
+      ]
+    ]
     variables [
       [
         "seen"
         [
           7
-          []
+          "App.R"
           [
             "b"
             "a"

@@ -265,6 +265,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-whose-frame-names-fewer-slots-than-it-holds-refuses`
 - `an-object-whose-layout-names-stand-out-of-order-refuses`
 - `an-object-whose-loop-keeps-a-run-past-its-frame-refuses`
+- `an-object-whose-map-keys-stand-out-of-the-key-order-refuses`
 - `an-object-whose-numbering-closures-stand-out-of-name-order-refuses`
 - `an-object-whose-numbering-sends-stand-out-of-name-order-refuses`
 - `an-object-whose-procedure-the-host-answers-sends-a-spelling-its-numbering-does-not-number-refuses`
