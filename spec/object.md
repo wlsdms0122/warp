@@ -300,6 +300,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `the-object-of-a-loop`
 - `the-object-of-a-module-constant-and-a-variable`
 - `the-object-of-a-record-built-from-parts`
+- `the-object-of-a-write-at-a-constant-key`
 - `the-object-of-an-array-built-from-parts`
 - `the-object-of-an-attempt`
 - `the-object-of-every-type-spelling`
