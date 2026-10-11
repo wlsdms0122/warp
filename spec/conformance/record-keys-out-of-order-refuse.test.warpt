@@ -1,11 +1,11 @@
 warpt 1
 {
-  bytes x"574152500107020162030201610302"
+  bytes x"57415250010903412e50020162030201610302"
   expect {
     refuses "load"
   }
   name "record-keys-out-of-order-refuse"
-  note "Writers are canonical: a record's keys ascend by their UTF-8 bytes. A reader that sorted them instead would give one document two byte spellings, and what a signature was checked against could differ from what the reader went on to read."
+  note "Writers are canonical: a record's fields ascend by their names' UTF-8 bytes. A reader that sorted them instead would give one document two byte spellings, and what a signature was checked against could differ from what the reader went on to read."
   test 1
 }
 

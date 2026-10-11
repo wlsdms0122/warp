@@ -1,8 +1,8 @@
 # The document format
 
-What a document is: the record a program travels as, and the module it declares. This page is the outline. What each of its slots holds is [procedures](procedure.md), [statements](statement.md), [expressions](expression.md) and [types](type.md), and the bytes it arrives as are [encodings](encoding.md).
+What a document is: the map a program travels as, and the module it declares. This page is the outline. What each of its slots holds is [procedures](procedure.md), [statements](statement.md), [expressions](expression.md) and [types](type.md), and the bytes it arrives as are [encodings](encoding.md).
 
-A document is one record. Every record this grammar names, on this page and on the pages it points to, is **closed**: a key none of them names **refuses at the load**. Every slot marked *expression*, *block*, *statements* or *type* takes the grammar of that name.
+A document is one map. Every map this grammar names, on this page and on the pages it points to, is keyed by names, text in normal form C with something in it, and is **closed**: a key that is no name, and a key none of them names, **refuse at the load**. Every slot marked *expression*, *block*, *statements* or *type* takes the grammar of that name.
 
 ## The module
 
@@ -11,12 +11,12 @@ A document is one record. Every record this grammar names, on this page and on t
 | `warp` | int. The language version this document is written for | yes |
 | `imports` | array of strings. Every name the program uses and does not declare: the procedures it sends, and the types and contracts it names | yes, and empty where the program uses none |
 | `description` | string | no |
-| `types` | record: name → type | no |
-| `contracts` | record: name → record: procedure → `{ parameters, returns?, const?, isolated?, failing? }`, an empty record for a contract asking no procedures; the procedure takes `Self` first, so one leaving `parameters` out **refuses at the load**, and writes no `bounds`, so one writing them **refuses at the load**, under [types](type.md); the two bools ask what a slot asks with a `const` and an `isolated` procedure type, of every declaration answering, and `failing` names, as an array of strings, what one may fail with, nothing where it is left out | no |
-| `satisfies` | record: type name → array of contract names that type answers | no |
-| `const` | record: name → expression; a constant may read the constants beside it, and constants that read each other back have no order to settle in and **refuse at the load** | no |
-| `var` | record: name → expression, or `{ type, value }` where the variable says what it holds; a variable every procedure beside it may read and write | no |
-| `procedures` | record: name → procedure | no |
+| `types` | map: name → type | no |
+| `contracts` | map: name → map: procedure → `{ parameters, returns?, const?, isolated?, failing? }`, an empty map for a contract asking no procedures; the procedure takes `Self` first, so one leaving `parameters` out **refuses at the load**, and writes no `bounds`, so one writing them **refuses at the load**, under [types](type.md); the two bools ask what a slot asks with a `const` and an `isolated` procedure type, of every declaration answering, and `failing` names, as an array of strings, what one may fail with, nothing where it is left out | no |
+| `satisfies` | map: type name → array of contract names that type answers | no |
+| `const` | map: name → expression; a constant may read the constants beside it, and constants that read each other back have no order to settle in and **refuse at the load** | no |
+| `var` | map: name → expression, or `{ type, value }` where the variable says what it holds; a variable every procedure beside it may read and write | no |
+| `procedures` | map: name → procedure | no |
 
 **A module variable.** Its start is written like a constant and settles the same way: at the **build**, from what a constant settles from, beside the constants and reading them, and them only: a start that reads another variable **refuses at the load**. Its type is what it declares under `type`, and where it declares none, the type its start reads as (a cast's type where a cast is written there, and where it reads a constant, the type its place in the constant's type has, under *a constant-headed path* in [expressions](expression.md)), without the constness or isolation the build derived for a procedure it holds, since a write may put another procedure there; a start the declared type does not take **refuses at the build**, and every write into it is judged against that type. A start that reads as an empty collection says nothing about what the box will hold, so a variable that declares no type and whose start reads as an empty list or map, at whatever depth and under no cast, **refuses at the build**. It is private to the document like a constant, as a procedure written `private` is under [procedures](procedure.md), read by the same spelling (`ref`), and written by a `set` in a procedure the document declares, or through a parameter such a procedure hands it to in place; another document reaches it only through such a procedure. A name is a constant or a variable, not both: one declared under both keys **refuses** at the load. Either may be spelled like a procedure: a reference reads the constant or the variable, and a call names the procedure. Every run starts each variable at its settled value, so two runs of one image never see each other.
 
