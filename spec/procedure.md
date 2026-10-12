@@ -85,7 +85,7 @@ What settles at the build, a constant or a variable's start, settles to a value.
 
 ## A parameter
 
-Written as a record, one per entry of `parameters`:
+Written as a mapping, one per entry of `parameters`:
 
 | key | takes | required |
 |---|---|---|
