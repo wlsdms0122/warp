@@ -1,0 +1,104 @@
+warpt 1
+{
+  expect {
+    answers "aborted"
+  }
+  name "a-call-of-a-value-fails-with-what-its-slots-procedure-type-names"
+  note "`apply` calls `step`, whose type may fail with `aborted`, so `apply` may fail with `aborted` and the attempt around the call is one a run reaches; the closure handed aborts, and the rescue reads the failure."
+  program {
+    imports [
+      "Standard.Control.abort"
+    ]
+    procedures {
+      apply {
+        parameters [
+          {
+            name "of"
+            type "Int"
+          }
+          {
+            name "step"
+            type {
+              "const procedure" {
+                failing [
+                  "aborted"
+                ]
+                parameters [
+                  "Int"
+                ]
+                returns "Int"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "of"
+              }
+            ]
+            procedure {
+              ref "step"
+            }
+          }
+        }
+        returns "Int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "failed"
+            value {
+              attempt {
+                body [
+                  {
+                    value {
+                      call {
+                        arguments [
+                          1
+                          {
+                            closure {
+                              parameters [
+                                {
+                                  name "x"
+                                  type "Int"
+                                }
+                              ]
+                              result {
+                                call {
+                                  arguments [
+                                    "no"
+                                  ]
+                                  procedure "Standard.Control.abort"
+                                }
+                              }
+                              returns "Int"
+                            }
+                          }
+                        ]
+                        procedure "apply"
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  result {
+                    ref "failed.type"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "failed"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

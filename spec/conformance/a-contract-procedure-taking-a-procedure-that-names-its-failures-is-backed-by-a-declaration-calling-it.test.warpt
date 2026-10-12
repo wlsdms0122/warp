@@ -1,0 +1,112 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-contract-procedure-taking-a-procedure-that-names-its-failures-is-backed-by-a-declaration-calling-it"
+  note "A procedure type names what it may fail with, the way a contract's procedure does. `run` takes `step`, whose type may fail with `aborted`, and `Int.run` calls it: a call of a value fails with what the slot it came out of names, so `Int.run` may fail with `aborted`, which `run` lets it, and the claim holds."
+  program {
+    contracts {
+      "App.Runner" {
+        run {
+          failing [
+            "aborted"
+          ]
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+            {
+              name "step"
+              type {
+                "const procedure" {
+                  failing [
+                    "aborted"
+                  ]
+                  parameters [
+                    "Int"
+                  ]
+                  returns "Int"
+                }
+              }
+            }
+          ]
+          returns "Int"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "Int.run" {
+        parameters [
+          {
+            name "of"
+            type "Int"
+          }
+          {
+            name "step"
+            type {
+              "const procedure" {
+                failing [
+                  "aborted"
+                ]
+                parameters [
+                  "Int"
+                ]
+                returns "Int"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "of"
+              }
+            ]
+            procedure {
+              ref "step"
+            }
+          }
+        }
+        returns "Int"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              1
+              {
+                closure {
+                  parameters [
+                    {
+                      name "x"
+                      type "Int"
+                    }
+                  ]
+                  result {
+                    ref "x"
+                  }
+                  returns "Int"
+                }
+              }
+            ]
+            procedure "App.Runner.run"
+          }
+        }
+        returns "Int"
+      }
+    }
+    satisfies {
+      Int [
+        "App.Runner"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+

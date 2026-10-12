@@ -125,6 +125,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 
 - `a-block-writes-the-flow-it-is-in`
 - `a-body-ending-in-a-call-answering-an-alias-of-never-answers-as-declared`
+- `a-call-of-a-value-fails-with-what-its-slots-procedure-type-names`
 - `a-closure-a-constant-holds-does-not-take-a-variables-name`
 - `a-closure-does-not-leave-what-wrote-it`
 - `a-closure-in-a-loop-condition-holds-what-it-takes-for-the-body`
@@ -219,6 +220,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-write-under-a-key-a-name-holds-writes-the-entry`
 - `a-write-under-a-whole-number-key-makes-the-entry`
 - `a-write-whose-value-rewrites-its-head-lands-where-the-head-then-holds-answers`
+- `an-attempt-around-a-call-of-a-value-whose-type-fails-with-nothing-refuses`
 - `an-attempt-body-reads-the-variable-its-statement-name-shadows`
 - `an-attempt-catches-a-cast-that-did-not-match`
 - `an-attempt-under-a-set-binds-no-failure`

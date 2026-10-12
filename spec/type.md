@@ -136,6 +136,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-closure-a-generic-body-wrote-read-past-its-bounds-is-not-that-type`
 - `a-closure-a-generic-body-wrote-taking-a-list-in-place-is-read-as-the-type-it-is-judged-against`
 - `a-closure-alone-fills-a-parameter-with-what-it-takes`
+- `a-closure-handed-in-place-fails-with-exactly-what-the-slot-names`
 - `a-closure-inside-a-closure-reads-the-bounds-of-the-procedure-around-them`
 - `a-closure-naming-a-type-parameter-its-procedure-does-not-declare-refuses`
 - `a-closure-parameter-saying-nothing-takes-the-element-the-list-beside-it-fills`
@@ -143,6 +144,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-closure-taking-any-stands-where-its-slot-hands-a-contract`
 - `a-closure-taking-anything-beside-a-declared-record-leaves-the-parameter-the-record`
 - `a-closure-taking-int-beside-a-declared-record-refuses`
+- `a-closure-that-may-fail-where-the-procedure-type-fails-with-nothing-refuses`
 - `a-closure-writing-bounds-refuses`
 - `a-closures-parameter-names-are-not-part-of-its-type`
 - `a-constant-of-keys-of-two-types-settled-from-a-hashable-keyed-map-answers`
@@ -210,6 +212,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-fraction-is-not-a-whole-number`
 - `a-generic-answer-of-any-refuses`
 - `a-generic-body-appends-its-parameter-to-a-list-of-it-or-null`
+- `a-list-holding-a-closure-that-may-fail-where-its-elements-fail-with-nothing-refuses`
 - `a-list-literal-of-closures-answering-outside-the-bounds-refuses`
 - `a-list-literal-of-closures-handed-at-a-bounded-parameter-answers`
 - `a-list-literal-of-names-holding-lists-handed-at-a-bounded-parameter-refuses`

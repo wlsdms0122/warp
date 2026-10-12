@@ -1,0 +1,98 @@
+warpt 1
+{
+  expect {
+    answers "cast_refused"
+  }
+  name "a-cast-of-a-closure-that-may-fail-to-a-procedure-type-failing-nothing-fails"
+  note "A closure carries what it may fail with. Read as `Any` and cast to a procedure type that fails with nothing, one that aborts is not that type, and the cast fails with `cast_refused`."
+  program {
+    imports [
+      "Standard.Control.abort"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "any"
+            value {
+              call {
+                arguments [
+                  {
+                    closure {
+                      parameters [
+                        {
+                          name "x"
+                          type "Int"
+                        }
+                      ]
+                      result {
+                        call {
+                          arguments [
+                            "no"
+                          ]
+                          procedure "Standard.Control.abort"
+                        }
+                      }
+                      returns "Int"
+                    }
+                  }
+                ]
+                procedure "hide"
+              }
+            }
+          }
+          {
+            let "failed"
+            value {
+              attempt {
+                body [
+                  {
+                    let "f"
+                    value {
+                      as {
+                        of {
+                          ref "any"
+                        }
+                        type {
+                          procedure {
+                            failing []
+                            parameters [
+                              "Int"
+                            ]
+                            returns "Int"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  result {
+                    ref "failed.type"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "failed"
+        }
+      }
+      hide {
+        parameters [
+          {
+            name "v"
+          }
+        ]
+        result {
+          ref "v"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

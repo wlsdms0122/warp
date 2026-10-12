@@ -1,0 +1,109 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-declaration-calling-a-procedure-that-may-abort-backs-no-contract-naming-nothing-refuses"
+  note "`step` may fail with `aborted`, so `Int.run`, which calls it, may too, and `run` names no failure: the claim does not hold, and the call leaning on it is refused at the build."
+  program {
+    contracts {
+      "App.Runner" {
+        run {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+            {
+              name "step"
+              type {
+                "const procedure" {
+                  failing [
+                    "aborted"
+                  ]
+                  parameters [
+                    "Int"
+                  ]
+                  returns "Int"
+                }
+              }
+            }
+          ]
+          returns "Int"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "Int.run" {
+        parameters [
+          {
+            name "of"
+            type "Int"
+          }
+          {
+            name "step"
+            type {
+              "const procedure" {
+                failing [
+                  "aborted"
+                ]
+                parameters [
+                  "Int"
+                ]
+                returns "Int"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "of"
+              }
+            ]
+            procedure {
+              ref "step"
+            }
+          }
+        }
+        returns "Int"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              1
+              {
+                closure {
+                  parameters [
+                    {
+                      name "x"
+                      type "Int"
+                    }
+                  ]
+                  result {
+                    ref "x"
+                  }
+                  returns "Int"
+                }
+              }
+            ]
+            procedure "App.Runner.run"
+          }
+        }
+        returns "Int"
+      }
+    }
+    satisfies {
+      Int [
+        "App.Runner"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+
