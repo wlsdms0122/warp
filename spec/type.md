@@ -66,7 +66,7 @@ A contract may ask no procedures. It is then a mark a claim gives a type, and a 
 
 **What the language declares.** The language declares three names itself, which stand in every link ahead of its documents: the contract `Hashable` below, and the records `Failure`, which a rescue binds, and `Round`, which a loop binds, under [statements](statement.md). A document declaring one of them **refuses at the load**, and a mention of one is that declaration: a slot, a cast and a claim may name any of the three, so `satisfies: { Round: ["Hashable"] }` keys a map by `Round`, and a bound and a part joined with `&`, which name contracts, name `Hashable` alone.
 
-**A map's key.** The language declares one contract, `Hashable`, which asks no procedures and which the key of every map type answers. The language claims it for `Null`, `Bool`, `Int`, `Double`, `String`, `Array` and `Dictionary`, and a declared record answers it where a document claims it does: `satisfies: { "App.Point": ["Hashable"] }`. Which keys are one key is the value model's sameness, under [the value model](value.md), and no procedure decides it. Every map type is keyed so, written or read: a map type whose key does not answer `Hashable`, `Any`, a procedure type or a type parameter its bounds do not hold to it among them, **refuses at the build** where it is written, reached or not, and so does a map literal whose keys read as such a type where its place declares no map, since the literal reads as a map keyed by what its keys join to; where the place declares a map, each key is held to the key it declares. One whose key leans on a claim refuses where the link cannot answer it, under the rule above.
+**A map's key.** The language declares one contract, `Hashable`, which asks no procedures and which the key of every map type answers. The language claims it for `Null`, `Bool`, `Int`, `Double`, `String`, `Array` and `Dictionary`, and a declared record answers it where a document claims it does: `satisfies: { "App.Point": ["Hashable"] }`. Which keys are one key is the value model's sameness, under [the value model](value.md), and no procedure decides it. Every map type is keyed so, written or read: a map type whose key does not answer `Hashable`, `Any`, a procedure type or a type parameter its bounds do not hold to it among them, **refuses at the build** where it is written, reached or not, and so does a map literal whose keys read as such a type where its place declares no map, since the literal reads as a map keyed by what its keys join to; where the place declares a map, each key is held to the key it declares. A constant's type is its value's, so a map it holds whose keys join to `Any` reads `Any` whole, as two maps keyed apart do, except where the expression it settled from was read as a map type, whose key it takes: settled from a call answering `Dictionary<Hashable, Int>`, a map holding `1` and `"a"` is a value of that type. One whose key leans on a claim refuses where the link cannot answer it, under the rule above.
 
 A body calls a contract's procedure by writing the contract's name and the procedure's with a dot between them: `App.Describable.describe`. That spelling is the contract's declaration of the procedure, and it is a send like any other: a document calling a contract another module declares lists the spelling in `imports`. It names no type's declaration, and what it means is decided by the value at its first position, so a call writing nothing there **refuses at the build**. What a call hands it and what it answers are the contract's, not any one declaration's.
 
@@ -145,6 +145,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-closure-taking-int-beside-a-declared-record-refuses`
 - `a-closure-writing-bounds-refuses`
 - `a-closures-parameter-names-are-not-part-of-its-type`
+- `a-constant-of-keys-of-two-types-settled-from-a-hashable-keyed-map-answers`
+- `a-constant-of-keys-of-two-types-settled-from-an-answer-of-any-reads-any-refuses`
 - `a-contract-asking-no-procedures-is-answered-by-what-claims-it`
 - `a-contract-asking-no-procedures-refuses-what-no-claim-names`
 - `a-contract-carries-a-procedure-into-a-generic-body`
@@ -292,6 +294,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-record-literal-answered-where-a-declared-record-is-answered-takes-the-name`
 - `a-record-literal-at-a-type-parameter-nothing-fills-with-a-record-refuses`
 - `a-record-literal-beside-a-declared-record-at-a-type-parameter-reads-as-that-record-answers`
+- `a-record-literal-in-a-list-beside-a-list-of-another-record-at-a-type-parameter-refuses`
+- `a-record-literal-in-a-list-handed-first-beside-a-list-of-another-record-at-a-type-parameter-refuses`
 - `a-record-literal-short-of-a-field-its-record-declares-refuses`
 - `a-record-literal-written-where-no-declared-record-is-read-refuses`
 - `a-record-the-language-declares-joined-with-and-refuses`
