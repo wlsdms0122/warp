@@ -78,6 +78,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-module-variable-started-by-a-cast-to-a-nullable-takes-null`
 - `a-module-variable-started-with-a-const-closure-takes-one-that-runs`
 - `a-module-variable-starting-empty-without-a-type-refuses`
+- `a-module-variable-writing-no-type-holds-a-procedure-without-what-its-start-fails-with`
 - `a-name-declared-as-both-a-constant-and-a-variable-refuses`
 - `a-record-literal-written-into-a-module-variable-declaring-a-record-takes-the-name-answers`
 - `a-result-written-as-null-refuses`

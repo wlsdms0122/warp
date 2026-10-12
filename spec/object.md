@@ -287,6 +287,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-writing-a-tag-the-layout-does-not-name-refuses`
 - `an-object-writing-an-empty-name-refuses`
 - `an-object-writing-any-as-a-parameter-type-refuses`
+- `an-object-writing-what-a-procedure-type-may-fail-with-and-not-what-it-takes-refuses`
 - `the-object-of-a-block`
 - `the-object-of-a-call`
 - `the-object-of-a-cast`

@@ -1,0 +1,63 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-module-variable-writing-no-type-holds-a-procedure-without-what-its-start-fails-with"
+  note "A module variable that writes no type holds the type its start reads as, with every procedure in it read without the failing its type says, since a write may put another procedure there. `step` starts as a closure that fails with nothing, and a write of one that may abort stands."
+  program {
+    imports [
+      "Standard.Control.abort"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            set "step"
+            value {
+              closure {
+                parameters [
+                  {
+                    name "x"
+                    type "Int"
+                  }
+                ]
+                result {
+                  call {
+                    arguments [
+                      "no"
+                    ]
+                    procedure "Standard.Control.abort"
+                  }
+                }
+                returns "Int"
+              }
+            }
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+    }
+    var {
+      step {
+        closure {
+          parameters [
+            {
+              name "x"
+              type "Int"
+            }
+          ]
+          result {
+            ref "x"
+          }
+          returns "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
