@@ -1,0 +1,61 @@
+warpt 1
+{
+  arguments {
+    d {
+      App.P {
+        x 1
+      } 1
+      App.P {
+        x 1
+        y 2
+      } 2
+    }
+  }
+  expect {
+    refuses "run"
+  }
+  name "a-map-from-outside-whose-keys-the-door-makes-one-key-refuses"
+  note "The host hands two keys that differ only in `y`, a field `App.P` does not declare. The door leaves `y` out of a record in a key as it does in a value, which makes the two keys one, and a map holding one key twice refuses there, as one written so does."
+  program {
+    imports [
+      "Standard.Collection.count"
+    ]
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "d"
+            type "Dictionary<App.P, Int>"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "d"
+              }
+            ]
+            procedure "Standard.Collection.count"
+          }
+        }
+        returns "Int"
+      }
+    }
+    satisfies {
+      "App.P" [
+        "Hashable"
+      ]
+    }
+    types {
+      "App.P" {
+        record {
+          x "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
