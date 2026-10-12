@@ -4,7 +4,7 @@ warpt 1
     answers null
   }
   name "a-record-literal-handed-to-a-called-value-takes-the-name-its-slot-reads-answers"
-  note "`g` is held at `{ procedure: { parameters: [App.Point], returns: Any } }`, and its closure takes `Any` and reads what it is handed `as? { x: Int }`. The record literal a call of `g` hands is written where `App.Point` is read, so it arrives an `App.Point`, which no inline record type holds, and the asking cast reads null."
+  note "`g` is held at `{ procedure: { parameters: [App.Point], returns: Any } }`, and its closure takes `Any` and reads what it is handed `as? App.X`, a record of the same field under another name. The record literal a call of `g` hands is written where `App.Point` is read, so it arrives an `App.Point`, which is no `App.X`, and the asking cast reads null."
   program {
     imports []
     procedures {
