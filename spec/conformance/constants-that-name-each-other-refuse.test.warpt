@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    refuses "build"
+    refuses "load"
   }
   name "constants-that-name-each-other-refuse"
-  note "A constant may name another declared beside it, so the order they settle in is the order they read each other. Two that read each other have no such order and neither can be first, so the build refuses rather than reading one of them as the nothing an unsettled name would be."
+  note "A constant may name another declared beside it, so the order they settle in is the order they read each other. Two that read each other have no such order and neither can be first, which the document's text alone shows, so it refuses at the load."
   program {
     const {
       ceiling {

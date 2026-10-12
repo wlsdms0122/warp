@@ -1,0 +1,178 @@
+warpt 1
+{
+  expect {
+    answers "cast_refused"
+  }
+  name "a-cast-of-a-setter-a-generic-procedure-made-fails-before-its-getter-reads"
+  note "`App.mk` keeps `x` in a box and answers a record of a setter and a getter over it, both closures over its `T`, which the record holds as `Procedure`. Called with 1, the setter is read through `Any` and cast to take a `String`, which fails with cast_refused, since only the call of `App.mk` filled its `T`. The getter is never read, and the attempt in the entry catches the failure."
+  program {
+    imports []
+    procedures {
+      "App.mk" {
+        body [
+          {
+            value {
+              ref "x"
+            }
+            var "cell"
+          }
+          {
+            let "s"
+            value {
+              closure {
+                body [
+                  {
+                    set "cell"
+                    value {
+                      ref "y"
+                    }
+                  }
+                ]
+                parameters [
+                  {
+                    name "y"
+                    type "some T"
+                  }
+                ]
+                result 0
+                returns "Int"
+              }
+            }
+          }
+          {
+            let "g"
+            value {
+              closure {
+                result {
+                  ref "cell"
+                }
+                returns "some T"
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+        ]
+        result {
+          record {
+            g {
+              ref "g"
+            }
+            s {
+              ref "s"
+            }
+          }
+        }
+        returns "App.Pair"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "tried"
+            value {
+              attempt {
+                body [
+                  {
+                    let "p"
+                    value {
+                      call {
+                        arguments [
+                          1
+                        ]
+                        procedure "App.mk"
+                      }
+                    }
+                  }
+                  {
+                    let "a"
+                    type "Any"
+                    value {
+                      ref "p.s"
+                    }
+                  }
+                  {
+                    let "h"
+                    value {
+                      as {
+                        of {
+                          ref "a"
+                        }
+                        type {
+                          procedure {
+                            parameters [
+                              "String"
+                            ]
+                            returns "Int"
+                          }
+                        }
+                      }
+                    }
+                  }
+                  {
+                    let "z"
+                    value {
+                      call {
+                        arguments [
+                          "s"
+                        ]
+                        procedure {
+                          ref "h"
+                        }
+                      }
+                    }
+                  }
+                  {
+                    let "r"
+                    value {
+                      call {
+                        procedure {
+                          as {
+                            of {
+                              ref "p.g"
+                            }
+                            type {
+                              procedure {
+                                returns "Int"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  result {
+                    ref "tried.type"
+                  }
+                }
+                result {
+                  ref "r"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "tried"
+        }
+      }
+    }
+    types {
+      "App.Pair" {
+        record {
+          g "Procedure"
+          s "Procedure"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

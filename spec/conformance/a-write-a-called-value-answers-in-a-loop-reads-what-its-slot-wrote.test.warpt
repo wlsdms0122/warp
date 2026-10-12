@@ -4,7 +4,7 @@ warpt 1
     answers 3
   }
   name "a-write-a-called-value-answers-in-a-loop-reads-what-its-slot-wrote"
-  note "A loop's round is read until the writes it makes settle, and a call of a value answers what the slot holding it wrote under `returns` there too. So a variable a round sets to that answer reads as it, and the condition's dot on it stands."
+  note "A loop's round is read until the writes it makes stop changing, and a call of a value answers what the slot holding it wrote under `returns` there too. So a variable a round sets to that answer reads as it, and the condition's dot on it stands."
   program {
     imports [
       "Standard.Comparable.lessThan"
@@ -15,6 +15,7 @@ warpt 1
         access "public"
         body [
           {
+            type "App.Counter"
             value {
               record {
                 at 0
@@ -29,11 +30,7 @@ warpt 1
                 parameters [
                   {
                     name "c"
-                    type {
-                      record {
-                        at "Int"
-                      }
-                    }
+                    type "App.Counter"
                   }
                 ]
                 result {
@@ -51,11 +48,7 @@ warpt 1
                     }
                   }
                 }
-                returns {
-                  record {
-                    at "Int"
-                  }
-                }
+                returns "App.Counter"
               }
             }
           }
@@ -97,6 +90,13 @@ warpt 1
         ]
         result {
           ref "c.at"
+        }
+      }
+    }
+    types {
+      "App.Counter" {
+        record {
+          at "Int"
         }
       }
     }

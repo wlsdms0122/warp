@@ -1,0 +1,88 @@
+warpt 1
+{
+  arguments {
+    absent null
+  }
+  expect {
+    refuses "build"
+  }
+  name "a-reading-of-any-at-a-bounded-parameter-refuses"
+  note "`absent` writes no type, so it is read as `Any`, and `App.tell` bounds its `some T` by `App.Described`. A reading of `Any` stands at a bounded parameter only through a cast, so the build refuses, whatever arrives, null included."
+  program {
+    contracts {
+      "App.Described" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "App.tell" {
+        bounds {
+          T "App.Described"
+        }
+        parameters [
+          {
+            name "it"
+            type "some T"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "it"
+              }
+            ]
+            procedure "App.Described.describe"
+          }
+        }
+        returns "String"
+      }
+      "Null.describe" {
+        parameters [
+          {
+            name "of"
+            type "Null"
+          }
+        ]
+        result "nothing"
+        returns "String"
+      }
+      entry {
+        access "public"
+        parameters [
+          {
+            name "absent"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "absent"
+              }
+            ]
+            procedure "App.tell"
+          }
+        }
+        returns "String"
+      }
+    }
+    satisfies {
+      Null [
+        "App.Described"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+

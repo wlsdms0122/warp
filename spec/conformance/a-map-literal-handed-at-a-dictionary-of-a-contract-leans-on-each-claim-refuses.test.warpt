@@ -1,0 +1,119 @@
+warpt 1
+{
+  documents [
+    {
+      imports []
+      procedures {
+        "Bank.Card.show" {
+          access "public"
+          parameters [
+            {
+              name "of"
+              type "Bank.Card"
+            }
+          ]
+          result "card"
+          returns "String"
+        }
+      }
+      types {
+        "Bank.Card" {
+          record {
+            last "String"
+          }
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    refuses "build"
+  }
+  name "a-map-literal-handed-at-a-dictionary-of-a-contract-leans-on-each-claim-refuses"
+  note "`App.h` takes `Dictionary<String, App.P>`. The map literal holding `c` under `a` handed there holds a `Bank.Card`, which a beside document gives `show` but no document says answers `App.P`. Each value leans on its own claim, so the call writes it down and refuses at the build."
+  program {
+    contracts {
+      "App.P" {
+        show {
+          const true
+          isolated true
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports [
+      "Bank.Card"
+    ]
+    procedures {
+      "App.h" {
+        parameters [
+          {
+            name "x"
+            type "Dictionary<String, App.P>"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "x[\"a\"]"
+              }
+            ]
+            procedure "App.P.show"
+          }
+        }
+        returns "String"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            value {
+              as {
+                of {
+                  record {
+                    last "1"
+                  }
+                }
+                type "Bank.Card"
+              }
+            }
+          }
+          {
+            let "s"
+            value {
+              call {
+                arguments [
+                  {
+                    dictionary [
+                      [
+                        "a"
+                        {
+                          ref "c"
+                        }
+                      ]
+                    ]
+                  }
+                ]
+                procedure "App.h"
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

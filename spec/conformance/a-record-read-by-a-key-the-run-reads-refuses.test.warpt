@@ -1,0 +1,54 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-record-read-by-a-key-the-run-reads-refuses"
+  note "A record's fields are its type's, so a key the run reads has nothing there to be judged against. `r[k]` on a record type refuses at the build."
+  program {
+    imports []
+    procedures {
+      "App.f" {
+        parameters [
+          {
+            name "r"
+            type "App.A"
+          }
+          {
+            name "k"
+            type "String"
+          }
+        ]
+        result {
+          ref "r[k]"
+        }
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                record {
+                  a 1
+                }
+              }
+              "a"
+            ]
+            procedure "App.f"
+          }
+        }
+      }
+    }
+    types {
+      "App.A" {
+        record {
+          a "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

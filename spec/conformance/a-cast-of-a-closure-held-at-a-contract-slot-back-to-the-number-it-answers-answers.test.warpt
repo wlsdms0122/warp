@@ -4,7 +4,7 @@ warpt 1
     answers 1
   }
   name "a-cast-of-a-closure-held-at-a-contract-slot-back-to-the-number-it-answers-answers"
-  note "`c` is declared `Procedure() -> Int`, so its closure answers `Int`, and holding it at `Procedure() -> Standard.Numeric`, which `Int` answers, hands it on as it is. The cast back to `Procedure() -> Int` takes the closure."
+  note "`c` is declared `{ procedure: { returns: Int } }`, so its closure answers `Int`, and holding it at `{ procedure: { returns: Standard.Numeric } }`, which `Int` answers, hands it on as it is. The cast back to `{ procedure: { returns: Int } }` takes the closure."
   program {
     imports [
       "Standard.Numeric"

@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    refuses "build"
+    refuses "load"
   }
   name "a-cast-to-a-dictionary-of-a-type-parameter-refuses"
-  note "App.g reads a value of Any as Dictionary<some T>. A type parameter inside a cast's type names no type to judge what arrives against, so the build refuses the cast."
+  note "App.g reads a value of Any as Dictionary<String, some T>. A type parameter inside a cast's type names no type to judge what arrives against, so the cast refuses at the load."
   program {
     imports []
     procedures {
@@ -26,7 +26,7 @@ warpt 1
                 of {
                   ref "a"
                 }
-                type "Dictionary<some T>"
+                type "Dictionary<String, some T>"
               }
             }
           }
@@ -40,7 +40,7 @@ warpt 1
         result {
           ref "y"
         }
-        returns "Dictionary<some T>"
+        returns "Dictionary<String, some T>"
       }
       entry {
         access "public"

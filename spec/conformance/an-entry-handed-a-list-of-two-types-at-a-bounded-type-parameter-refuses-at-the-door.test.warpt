@@ -1,0 +1,141 @@
+warpt 1
+{
+  arguments {
+    xs [
+      5
+      "s"
+    ]
+  }
+  expect {
+    refuses "run"
+  }
+  name "an-entry-handed-a-list-of-two-types-at-a-bounded-type-parameter-refuses-at-the-door"
+  note "`xs` is `Array<some T>`, bounded by `App.C`, which `Int` and `String` both answer, and the host hands `[5, \"s\"]`. Its elements join to `Any`, which fills `T` and answers no contract, so the run refuses at the door."
+  program {
+    contracts {
+      "App.C" {
+        f {
+          parameters [
+            {
+              name "s"
+              type "Self"
+            }
+            {
+              name "o"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports [
+      "Standard.Text.joined"
+      "Standard.Text.text"
+    ]
+    procedures {
+      "Int.f" {
+        body [
+          {
+            let "m"
+            type "Int"
+            value {
+              ref "o"
+            }
+          }
+        ]
+        parameters [
+          {
+            name "s"
+            type "Int"
+          }
+          {
+            name "o"
+            type "Int"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              [
+                "Int.f got"
+                {
+                  call {
+                    arguments [
+                      {
+                        ref "m"
+                      }
+                    ]
+                    procedure "Standard.Text.text"
+                  }
+                }
+              ]
+              " "
+            ]
+            procedure "Standard.Text.joined"
+          }
+        }
+        returns "String"
+      }
+      "String.f" {
+        parameters [
+          {
+            name "s"
+            type "String"
+          }
+          {
+            name "o"
+            type "String"
+          }
+        ]
+        result "String.f"
+        returns "String"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "xs[0]"
+                  }
+                  {
+                    ref "xs[1]"
+                  }
+                ]
+                procedure "App.C.f"
+              }
+            }
+          }
+        ]
+        bounds {
+          T "App.C"
+        }
+        parameters [
+          {
+            name "xs"
+            type "Array<some T>"
+          }
+        ]
+        result {
+          ref "r"
+        }
+        returns "String"
+      }
+    }
+    satisfies {
+      Int [
+        "App.C"
+      ]
+      String [
+        "App.C"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+

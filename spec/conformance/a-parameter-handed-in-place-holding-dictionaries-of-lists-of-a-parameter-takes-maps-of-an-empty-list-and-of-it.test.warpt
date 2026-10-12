@@ -1,0 +1,102 @@
+warpt 1
+{
+  expect {
+    answers [
+      {
+        k []
+      }
+      {
+        k [
+          "b"
+        ]
+      }
+    ]
+  }
+  name "a-parameter-handed-in-place-holding-dictionaries-of-lists-of-a-parameter-takes-maps-of-an-empty-list-and-of-it"
+  note "App.g writes a list of two map literals into xs, a list of dictionaries of lists of T handed in place, one holding `[]` under `k` and one holding `[x]` there, where x is its own some T. The two maps are taken entry by entry, and the empty list beside the list of x holds no element, so the literal is a value of Array<Dictionary<String, Array<some T>>>."
+  program {
+    imports []
+    procedures {
+      "App.g" {
+        body [
+          {
+            set "xs"
+            value [
+              {
+                dictionary [
+                  [
+                    "k"
+                    []
+                  ]
+                ]
+              }
+              {
+                dictionary [
+                  [
+                    "k"
+                    [
+                      {
+                        ref "x"
+                      }
+                    ]
+                  ]
+                ]
+              }
+            ]
+          }
+        ]
+        parameters [
+          {
+            name "xs"
+            type "inout Array<Dictionary<String, Array<some T>>>"
+          }
+          {
+            name "x"
+            type "some T"
+          }
+        ]
+        result 0
+      }
+      entry {
+        access "public"
+        body [
+          {
+            type "Array<Dictionary<String, Array<String>>>"
+            value [
+              {
+                dictionary [
+                  [
+                    "k"
+                    [
+                      "a"
+                    ]
+                  ]
+                ]
+              }
+            ]
+            var "s"
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "s"
+                  }
+                  "b"
+                ]
+                procedure "App.g"
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

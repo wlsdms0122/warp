@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-write-into-an-entry-of-a-declared-dictionary-is-judged-against-its-entry-type-refuses"
-  note "`r` declares `Dictionary<Int>`, and `set r.x` writes text into an entry. A write is judged against the type its path reaches, an entry's included, so the write refuses at the build."
+  note "`r` declares `Dictionary<String, Int>`, and `set r[\"x\"]` writes text into an entry. A write is judged against the type its path reaches, an entry's included, so the write refuses at the build."
   program {
     imports []
     procedures {
@@ -12,21 +12,24 @@ warpt 1
         access "public"
         body [
           {
-            type "Dictionary<Int>"
+            type "Dictionary<String, Int>"
             value {
-              record {
-                x 0
-              }
+              dictionary [
+                [
+                  "x"
+                  0
+                ]
+              ]
             }
             var "r"
           }
           {
-            set "r.x"
+            set "r[\"x\"]"
             value "nine"
           }
         ]
         result {
-          ref "r.x"
+          ref "r[\"x\"]"
         }
       }
     }

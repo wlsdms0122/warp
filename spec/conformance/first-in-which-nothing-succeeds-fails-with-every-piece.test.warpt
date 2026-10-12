@@ -28,42 +28,48 @@ warpt 1
                       call {
                         arguments [
                           {
-                            record {
-                              left {
-                                closure {
-                                  body [
-                                    {
-                                      value {
-                                        call {
-                                          arguments [
-                                            "left"
-                                          ]
-                                          procedure "Standard.Control.abort"
+                            dictionary [
+                              [
+                                "left"
+                                {
+                                  closure {
+                                    body [
+                                      {
+                                        value {
+                                          call {
+                                            arguments [
+                                              "left"
+                                            ]
+                                            procedure "Standard.Control.abort"
+                                          }
                                         }
                                       }
-                                    }
-                                  ]
-                                  returns "Int"
+                                    ]
+                                    returns "Int"
+                                  }
                                 }
-                              }
-                              right {
-                                closure {
-                                  body [
-                                    {
-                                      value {
-                                        call {
-                                          arguments [
-                                            "right"
-                                          ]
-                                          procedure "Standard.Control.abort"
+                              ]
+                              [
+                                "right"
+                                {
+                                  closure {
+                                    body [
+                                      {
+                                        value {
+                                          call {
+                                            arguments [
+                                              "right"
+                                            ]
+                                            procedure "Standard.Control.abort"
+                                          }
                                         }
                                       }
-                                    }
-                                  ]
-                                  returns "Int"
+                                    ]
+                                    returns "Int"
+                                  }
                                 }
-                              }
-                            }
+                              ]
+                            ]
                           }
                         ]
                         procedure "Standard.Concurrent.firstKeyed"
@@ -78,9 +84,9 @@ warpt 1
                       value {
                         as {
                           of {
-                            ref "tried.details.failures"
+                            ref "tried.details[\"failures\"]"
                           }
-                          type "Dictionary<Any>"
+                          type "Dictionary<String, Any>"
                         }
                       }
                     }

@@ -1,0 +1,32 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-read-at-an-index-below-zero-refuses"
+  note "`d[-1]` on a list writes a whole number below zero between the brackets, which is no position, so the path refuses at the build, where what is indexed is known."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            type "Array<Int>"
+            value [
+              1
+            ]
+            var "d"
+          }
+        ]
+        result {
+          ref "d[-1]"
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

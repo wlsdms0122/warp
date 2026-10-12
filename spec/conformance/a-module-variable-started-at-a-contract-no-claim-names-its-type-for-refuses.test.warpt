@@ -1,0 +1,31 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-module-variable-started-at-a-contract-no-claim-names-its-type-for-refuses"
+  note "`v` declares `App.Marked`, and starts as `1`. No document claims `App.Marked` for `Int`, so the declared type does not take the start, as it would not take `1` handed at a parameter of `App.Marked`."
+  program {
+    contracts {
+      "App.Marked" {}
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result {
+          ref "v"
+        }
+      }
+    }
+    var {
+      v {
+        type "App.Marked"
+        value 1
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

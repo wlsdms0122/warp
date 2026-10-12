@@ -1,0 +1,51 @@
+warpt 1
+{
+  expect {
+    answers {
+      1 "a"
+      2 "b"
+    }
+  }
+  name "all-keyed-answers-under-keys-of-any-type"
+  note "allKeyed takes a map of closures under keys of any type that answers Hashable and answers each piece's answer under the key it stood under, here whole numbers in the key order."
+  program {
+    imports [
+      "Standard.Concurrent.allKeyed"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                dictionary [
+                  [
+                    2
+                    {
+                      closure {
+                        result "b"
+                      }
+                    }
+                  ]
+                  [
+                    1
+                    {
+                      closure {
+                        result "a"
+                      }
+                    }
+                  ]
+                ]
+              }
+            ]
+            procedure "Standard.Concurrent.allKeyed"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

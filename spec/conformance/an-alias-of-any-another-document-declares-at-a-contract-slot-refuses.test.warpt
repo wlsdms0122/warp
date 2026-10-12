@@ -1,0 +1,79 @@
+warpt 1
+{
+  documents [
+    {
+      imports []
+      procedures {
+        "Lo.unused" {
+          result 0
+          returns "Int"
+        }
+      }
+      types {
+        "Lo.Loose" "Any"
+      }
+      warp 1
+    }
+  ]
+  expect {
+    refuses "build"
+  }
+  name "an-alias-of-any-another-document-declares-at-a-contract-slot-refuses"
+  note "Lo.Loose is declared in the document beside this one and stands for Any there. The alias is judged by what it stands for wherever it is declared, so a value read as it refuses at the build where App.Shape is asked."
+  program {
+    contracts {
+      "App.Shape" {}
+    }
+    imports [
+      "Lo.Loose"
+    ]
+    procedures {
+      "App.g" {
+        parameters [
+          {
+            name "p"
+            type "App.Shape"
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "d"
+            type "Lo.Loose"
+            value 5
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "d"
+              }
+            ]
+            procedure "App.g"
+          }
+        }
+        returns "Int"
+      }
+    }
+    satisfies {
+      "App.Point" [
+        "App.Shape"
+      ]
+    }
+    types {
+      "App.Point" {
+        record {
+          x "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

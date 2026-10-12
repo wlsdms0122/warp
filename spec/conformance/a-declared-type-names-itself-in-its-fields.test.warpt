@@ -1,7 +1,7 @@
 warpt 1
 {
   expect {
-    answers {
+    answers App.Head {
       first 1
       kids 2
     }
@@ -73,15 +73,16 @@ warpt 1
             }
           }
         }
-        returns {
-          record {
-            first "Int"
-            kids "Int"
-          }
-        }
+        returns "App.Head"
       }
     }
     types {
+      "App.Head" {
+        record {
+          first "Int"
+          kids "Int"
+        }
+      }
       "T.Node" {
         record {
           kids "Array<T.Node>"

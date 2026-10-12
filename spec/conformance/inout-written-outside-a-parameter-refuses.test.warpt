@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    refuses "build"
+    refuses "load"
   }
   name "inout-written-outside-a-parameter-refuses"
-  note "`inout` is written on a parameter's type and nowhere else, since only a parameter is handed a variable in place. A declared type's field written `inout` is refused."
+  note "`inout` is written on a parameter's type and nowhere else, since only a parameter is handed a variable in place. A declared type's field written `inout` is refused at the load."
   program {
     imports []
     procedures {

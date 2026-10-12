@@ -1,0 +1,49 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "keys-of-a-map-keyed-by-hashable-refuses"
+  note "`keys` fills `Key`, bounded by `Hashable`, from the map it is handed, and a map read as `Dictionary<Hashable, Int>` holds keys of more than one type. A value of a contract fills a bounded parameter only where the parameter stands alone, and `Key` stands inside a map, so the call refuses at the build."
+  program {
+    imports [
+      "Standard.Collection.keys"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "d"
+            type "Dictionary<Hashable, Int>"
+            value {
+              dictionary [
+                [
+                  "b"
+                  1
+                ]
+                [
+                  2
+                  2
+                ]
+              ]
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "d"
+              }
+            ]
+            procedure "Standard.Collection.keys"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

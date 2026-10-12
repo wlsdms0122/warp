@@ -1,0 +1,31 @@
+warpt 1
+{
+  expect {
+    refuses "run"
+  }
+  name "an-encoding-a-procedure-does-not-have-refuses-at-the-run"
+  note "Which encodings `encoded` has is the procedure's to say when it runs, whatever wrote the name: `utf9` is no encoding it has, so the call refuses at the run."
+  program {
+    imports [
+      "Standard.Text.encoded"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              "hi"
+              "utf9"
+            ]
+            procedure "Standard.Text.encoded"
+          }
+        }
+        returns "Array<Int>"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

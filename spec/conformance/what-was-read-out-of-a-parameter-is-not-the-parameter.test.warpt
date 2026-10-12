@@ -10,18 +10,27 @@ warpt 1
     procedures {
       entry {
         access "public"
+        body [
+          {
+            let "of"
+            type "App.Outer"
+            value {
+              record {
+                inner {
+                  record {
+                    count "mine"
+                  }
+                }
+              }
+            }
+          }
+        ]
         result {
           call {
             arguments [
               true
               {
-                record {
-                  inner {
-                    record {
-                      count "mine"
-                    }
-                  }
-                }
+                ref "of"
               }
             ]
             procedure "peek"
@@ -69,6 +78,18 @@ warpt 1
           ref "held.count"
         }
         returns "Any"
+      }
+    }
+    types {
+      "App.Inner" {
+        record {
+          count "String"
+        }
+      }
+      "App.Outer" {
+        record {
+          inner "App.Inner"
+        }
       }
     }
     warp 1

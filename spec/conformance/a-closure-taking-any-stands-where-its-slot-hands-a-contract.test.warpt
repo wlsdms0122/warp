@@ -1,0 +1,87 @@
+warpt 1
+{
+  expect {
+    answers App.Point {
+      x 1
+    }
+  }
+  name "a-closure-taking-any-stands-where-its-slot-hands-a-contract"
+  note "`g` declares a procedure handed a value of `App.Shape`, and the closure written there takes `Any`, which takes every such value. What a procedure takes is what it accepts, not a value standing where the contract is asked, so the closure stands there and the call answers the point it was handed."
+  program {
+    contracts {
+      "App.Shape" {}
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            value {
+              as {
+                of {
+                  record {
+                    x 1
+                  }
+                }
+                type "App.Point"
+              }
+            }
+          }
+          {
+            let "g"
+            type {
+              procedure {
+                parameters [
+                  "App.Shape"
+                ]
+                returns "Any"
+              }
+            }
+            value {
+              closure {
+                parameters [
+                  {
+                    name "p"
+                  }
+                ]
+                result {
+                  ref "p"
+                }
+                returns "Any"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "c"
+              }
+            ]
+            procedure {
+              ref "g"
+            }
+          }
+        }
+      }
+    }
+    satisfies {
+      "App.Point" [
+        "App.Shape"
+      ]
+    }
+    types {
+      "App.Point" {
+        record {
+          x "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

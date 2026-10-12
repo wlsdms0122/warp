@@ -1,0 +1,49 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-cast-of-a-map-to-a-declared-record-refuses"
+  note "A declared record is nominal and a map is no value of it, whatever its keys. `m` is read as `Dictionary<String, Int>`, so a cast of it to `App.P` names a type no value it reads is, and refuses at the build."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "m"
+            type "Dictionary<String, Int>"
+            value {
+              dictionary [
+                [
+                  "x"
+                  1
+                ]
+              ]
+            }
+          }
+        ]
+        result {
+          as {
+            of {
+              ref "m"
+            }
+            type "App.P"
+          }
+        }
+        returns "App.P"
+      }
+    }
+    types {
+      "App.P" {
+        record {
+          x "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,51 @@
+warpt 1
+{
+  expect {
+    refuses "run"
+  }
+  name "an-answer-from-outside-under-a-name-no-document-declares-where-no-returns-is-written-refuses-at-the-door"
+  note "`App.v` writes no `returns` and answers a record under `App.Z`, which no document declares. Its answer comes in through the door at `Any`, where a record under a name that declares no record refuses, so the run refuses there."
+  program {
+    imports [
+      "App.v"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "r"
+            value {
+              call {
+                procedure "App.v"
+              }
+            }
+          }
+        ]
+        result "ok"
+      }
+    }
+    warp 1
+  }
+  test 1
+  vocabulary {
+    imports []
+    procedures {
+      "App.v" {
+        answers App.Z {
+          a 1
+        }
+        runs true
+      }
+    }
+    types {
+      "App.P" {
+        record {
+          a "Int"
+        }
+      }
+      "App.Q" "App.P"
+    }
+  }
+}
+

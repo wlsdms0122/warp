@@ -1,0 +1,32 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-map-keyed-by-a-type-parameter-bounded-by-hashable-answers"
+  note "A type parameter its bounds hold to `Hashable` answers it, so a map keyed by one is a map whatever key type a call fills it with, and the document builds."
+  program {
+    imports []
+    procedures {
+      "App.f" {
+        bounds {
+          K "Hashable"
+        }
+        parameters [
+          {
+            name "m"
+            type "Dictionary<some K, Int>"
+          }
+        ]
+        result 1
+      }
+      entry {
+        access "public"
+        result 1
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

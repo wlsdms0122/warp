@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    refuses "build"
+    refuses "load"
   }
   name "an-operand-calling-a-value-refuses"
-  note "An operand is read rather than run, and which procedure a value is, is the run's answer. A call of `f` written as an argument refuses at the build, though `f` is declared a `const` procedure type; written as a statement it stands."
+  note "An operand is read rather than run, and which procedure a value is, is the run's answer. The text alone shows a call of a value, so a call of `f` written as an argument refuses at the load, though `f` is declared a `const` procedure type; written as a statement it stands."
   program {
     imports [
       "Standard.Numeric.plus"

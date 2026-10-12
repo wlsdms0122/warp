@@ -4,7 +4,7 @@ warpt 1
     answers 1
   }
   name "a-dictionary-read-at-a-constant-key-reads-the-entry"
-  note "A constant read between the brackets settles at the build, and text there names an entry the way a written key does."
+  note "A constant read between the brackets settles at the build to the key it reads, which finds its entry the way a written key does."
   program {
     const {
       K "a"
@@ -16,11 +16,14 @@ warpt 1
         body [
           {
             let "d"
-            type "Dictionary<Int>"
+            type "Dictionary<String, Int>"
             value {
-              record {
-                a 1
-              }
+              dictionary [
+                [
+                  "a"
+                  1
+                ]
+              ]
             }
           }
         ]

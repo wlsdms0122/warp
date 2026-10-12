@@ -1,0 +1,230 @@
+warpt 1
+{
+  expect {
+    answers [
+      "a"
+    ]
+  }
+  name "a-variable-handed-in-place-to-a-call-whose-cast-fails-stays-as-it-was"
+  note "App.put appends what App.h answers to the list handed to it in place and then fails, and the caller rescues. App.h's closure sets cell from its own some T, and the cast reading it as taking a number fails with cast_refused, since only App.h's call filled its T. The failure passes before anything is appended, the rescue holds it, and the list answers as it was."
+  program {
+    imports [
+      "Standard.Collection.append"
+      "Standard.Control.abort"
+    ]
+    procedures {
+      "App.h" {
+        body [
+          {
+            value {
+              ref "n"
+            }
+            var "cell"
+          }
+          {
+            let "c"
+            value {
+              closure {
+                body [
+                  {
+                    set "cell"
+                    value {
+                      ref "y"
+                    }
+                  }
+                ]
+                parameters [
+                  {
+                    name "y"
+                    type "some T"
+                  }
+                ]
+                result 0
+                returns "Int"
+              }
+            }
+          }
+          {
+            let "a"
+            type "Any"
+            value {
+              ref "c"
+            }
+          }
+          {
+            let "w"
+            value {
+              as {
+                of {
+                  ref "a"
+                }
+                type {
+                  procedure {
+                    parameters [
+                      "Int"
+                    ]
+                    returns "Int"
+                  }
+                }
+              }
+            }
+          }
+          {
+            let "z"
+            value {
+              call {
+                arguments [
+                  {
+                    as {
+                      of {
+                        ref "junk"
+                      }
+                      type "Int"
+                    }
+                  }
+                ]
+                procedure {
+                  ref "w"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "n"
+            type "some T"
+          }
+          {
+            name "junk"
+          }
+        ]
+        result {
+          ref "cell"
+        }
+        returns "some T"
+      }
+      "App.put" {
+        body [
+          {
+            let "got"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "n"
+                  }
+                  {
+                    ref "junk"
+                  }
+                ]
+                procedure "App.h"
+              }
+            }
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "xs"
+                  }
+                  {
+                    ref "got"
+                  }
+                ]
+                procedure "Standard.Collection.append"
+              }
+            }
+          }
+          {
+            value {
+              conditional {
+                then [
+                  {
+                    value {
+                      call {
+                        arguments [
+                          "boom"
+                        ]
+                        procedure "Standard.Control.abort"
+                      }
+                    }
+                  }
+                ]
+                when {
+                  ref "stop"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "n"
+            type "some T"
+          }
+          {
+            name "junk"
+          }
+          {
+            name "xs"
+            type "inout Array<some T>"
+          }
+          {
+            name "stop"
+            type "Bool"
+          }
+        ]
+        result 0
+      }
+      entry {
+        access "public"
+        body [
+          {
+            value [
+              "a"
+            ]
+            var "s"
+          }
+          {
+            value {
+              attempt {
+                body [
+                  {
+                    value {
+                      call {
+                        arguments [
+                          "b"
+                          5
+                          {
+                            ref "s"
+                          }
+                          true
+                        ]
+                        procedure "App.put"
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  body [
+                    {
+                      value 0
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

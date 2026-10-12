@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    refuses "build"
+    refuses "load"
   }
   name "self-outside-a-contract-refuses"
-  note "`Self` stands for the type answering a contract and is written in that contract's procedures alone. A declaration writing it names no type."
+  note "`Self` stands for the type answering a contract and is written in that contract's procedures alone. A declaration writing it names no type, and refuses at the load."
   program {
     contracts {
       "App.Ordered" {

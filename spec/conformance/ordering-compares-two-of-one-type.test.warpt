@@ -1,0 +1,31 @@
+warpt 1
+{
+  expect {
+    answers true
+  }
+  name "ordering-compares-two-of-one-type"
+  note "The procedures that order values take what answers Standard.Comparable, and text answers it, so two pieces of text order."
+  program {
+    imports [
+      "Standard.Comparable.lessThan"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              "a"
+              "b"
+            ]
+            procedure "Standard.Comparable.lessThan"
+          }
+        }
+        returns "Bool"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,81 @@
+warpt 1
+{
+  documents [
+    {
+      imports []
+      procedures {
+        "K.make" {
+          body [
+            {
+              let "m"
+              type "Dictionary<Hashable, Int>"
+              value {
+                dictionary [
+                  [
+                    1
+                    1
+                  ]
+                  [
+                    "a"
+                    2
+                  ]
+                ]
+              }
+            }
+          ]
+          result {
+            ref "m"
+          }
+          returns "Dictionary<Hashable, Int>"
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    answers 2
+  }
+  name "a-constant-of-keys-of-two-types-settled-from-a-hashable-keyed-map-answers"
+  note "`K.make` answers `Dictionary<Hashable, Int>`, and the map it answers holds `1` and `\"a\"`. The constant settled from it takes the key its call was read as, since keys of two types join to `Any`, which keys no map, so it stands where `Dictionary<Hashable, Int>` is declared and `count` answers 2."
+  program {
+    const {
+      made {
+        call {
+          procedure "K.make"
+        }
+      }
+    }
+    imports [
+      "K.make"
+      "Standard.Collection.count"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "d"
+            type "Dictionary<Hashable, Int>"
+            value {
+              ref "made"
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "d"
+              }
+            ]
+            procedure "Standard.Collection.count"
+          }
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,30 @@
+warpt 1
+{
+  expect {
+    refuses "run"
+  }
+  name "what-is-not-utf8-text-refuses-to-decode-at-the-run"
+  note "Bytes carry no promise of being text, and completing a broken sequence with replacement characters would answer a text nobody sent. Whether bytes are text is `decoded`'s to say when it runs, whatever wrote them, so the call refuses at the run."
+  program {
+    imports [
+      "Standard.Text.decoded"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              x"ff"
+              "utf8"
+            ]
+            procedure "Standard.Text.decoded"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

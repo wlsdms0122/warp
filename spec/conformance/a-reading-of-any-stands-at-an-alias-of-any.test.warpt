@@ -1,0 +1,49 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-reading-of-any-stands-at-an-alias-of-any"
+  note "`App.Json` is a spelling of `Any`, so `App.h` declares `Any` at `x`, and `v`, read as `Any`, stands there with no cast."
+  program {
+    imports []
+    procedures {
+      "App.h" {
+        parameters [
+          {
+            name "x"
+            type "App.Json"
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "v"
+            type "Any"
+            value 5
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "v"
+              }
+            ]
+            procedure "App.h"
+          }
+        }
+      }
+    }
+    types {
+      "App.Json" "Any"
+    }
+    warp 1
+  }
+  test 1
+}
+

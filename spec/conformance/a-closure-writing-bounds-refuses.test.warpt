@@ -1,0 +1,81 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-closure-writing-bounds-refuses"
+  note "Only the declaring procedure writes `bounds`. `App.f` bounds nothing, and the closure it writes bounds the same `T` by `Standard.Comparable`, so the document refuses at the load."
+  program {
+    imports [
+      "Standard.Comparable"
+      "Standard.Comparable.lessThan"
+    ]
+    procedures {
+      "App.f" {
+        body [
+          {
+            let "g"
+            value {
+              closure {
+                bounds {
+                  T "Standard.Comparable"
+                }
+                parameters [
+                  {
+                    name "y"
+                    type "some T"
+                  }
+                ]
+                result {
+                  call {
+                    arguments [
+                      {
+                        ref "y"
+                      }
+                      {
+                        ref "y"
+                      }
+                    ]
+                    procedure "Standard.Comparable.lessThan"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "x"
+              }
+            ]
+            procedure {
+              ref "g"
+            }
+          }
+        }
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              true
+            ]
+            procedure "App.f"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

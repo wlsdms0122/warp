@@ -1,0 +1,64 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-reading-of-any-at-a-contract-procedure-refuses"
+  note "`App.anything` answers `Any`, and the call hands it at `Self`, where `App.Described.describe` asks the contract. A reading of `Any` stands where a contract is asked only through a cast, so the build refuses, whatever the run would hand there."
+  program {
+    contracts {
+      "App.Described" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "App.anything" {
+        result 1
+        returns "Any"
+      }
+      "Int.describe" {
+        parameters [
+          {
+            name "of"
+            type "Int"
+          }
+        ]
+        result "a whole number"
+        returns "String"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                call {
+                  procedure "App.anything"
+                }
+              }
+            ]
+            procedure "App.Described.describe"
+          }
+        }
+        returns "String"
+      }
+    }
+    satisfies {
+      Int [
+        "App.Described"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+

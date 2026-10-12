@@ -7,7 +7,7 @@ warpt 1
     answers "taken"
   }
   name "the-side-select-does-not-choose-goes-unasked"
-  note "Both sides are procedures so the one not chosen is never asked. The side left alone here would refuse its cast at the run, and the answer shows it was never read."
+  note "Both sides are procedures so the one not chosen is never asked. The side left alone here would fail its cast at the run, and the answer shows it was never read."
   program {
     imports [
       "Standard.Logic.select"
@@ -18,7 +18,6 @@ warpt 1
         parameters [
           {
             name "payload"
-            type "Any"
           }
         ]
         result {

@@ -1,0 +1,57 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-record-literal-written-through-a-field-without-var-refuses"
+  note "`App.W` declares its field `p` as the record `App.A` and not `var`. A write through `w.p` is stopped by the field at the build, before its value is read, so a record literal written there refuses for the field, as a value of any other spelling does."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            type "App.W"
+            value {
+              record {
+                p {
+                  record {
+                    k "x"
+                  }
+                }
+              }
+            }
+            var "w"
+          }
+          {
+            set "w.p"
+            value {
+              record {
+                k "y"
+              }
+            }
+          }
+        ]
+        result {
+          ref "w.p.k"
+        }
+      }
+    }
+    types {
+      "App.A" {
+        record {
+          k "String"
+        }
+      }
+      "App.W" {
+        record {
+          p "App.A"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

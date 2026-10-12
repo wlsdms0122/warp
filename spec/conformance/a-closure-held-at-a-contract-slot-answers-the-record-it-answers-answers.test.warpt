@@ -4,7 +4,7 @@ warpt 1
     answers "a"
   }
   name "a-closure-held-at-a-contract-slot-answers-the-record-it-answers-answers"
-  note "`c` is declared `Procedure() -> Bank.A`, so its closure answers `Bank.A`, the nameless `{ k: \"x\" }` it answers taking the name. `d` holds it again at `Procedure() -> App.P`, which `Bank.A` answers, and a slot hands a value on as it is, so the call inside `App.run` answers a `Bank.A` and `App.P.show` reaches `Bank.A`'s witness."
+  note "`c` is declared `{ procedure: { returns: Bank.A } }`, so its closure answers `Bank.A`, the record literal `{ k: \"x\" }` it answers taking the name. `d` holds it again at `{ procedure: { returns: App.P } }`, which `Bank.A` answers, and a slot hands a value on as it is, so the call inside `App.run` answers a `Bank.A` and `App.P.show` reaches `Bank.A.show`."
   program {
     contracts {
       "App.P" {

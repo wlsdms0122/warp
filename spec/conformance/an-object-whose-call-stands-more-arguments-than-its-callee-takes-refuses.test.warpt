@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    refuses "load"
+    refuses "build"
   }
   name "an-object-whose-call-stands-more-arguments-than-its-callee-takes-refuses"
-  note "A call stands one argument per parameter of the row it reaches. Where that row is the object's own, the reading answers it and refuses a call standing more."
+  note "A call stands one argument per parameter of the row it reaches, and which row that is the build answers, for a row of the object's own as for another document's. So the object reads, and the build refuses the call standing more."
   object {
     answers []
     claims []
@@ -31,6 +31,7 @@ warpt 1
               4
             ]
           ]
+          []
         ]
         2
         1
@@ -39,7 +40,6 @@ warpt 1
           1
           []
         ]
-        true
         [
           0
           [
@@ -59,7 +59,15 @@ warpt 1
                         ]
                       ]
                     ]
-                    []
+                    [
+                      [
+                        0
+                        [
+                          2
+                          3
+                        ]
+                      ]
+                    ]
                   ]
                   []
                 ]
@@ -94,6 +102,7 @@ warpt 1
               4
             ]
           ]
+          []
         ]
         1
         1
@@ -102,7 +111,6 @@ warpt 1
           1
           []
         ]
-        true
         [
           0
           [

@@ -1,0 +1,101 @@
+warpt 1
+{
+  expect {
+    answers "cast_refused"
+  }
+  name "a-cast-of-a-closure-over-a-type-parameter-its-making-call-filled-fails"
+  note "`App.mk` answers a closure taking its own `some T`, which only the call that made it fills, and `a` holds it as `Any`. No value says what filled `T`, so the closure is a value of no procedure type here, and the cast to one fails with cast_refused, which the attempt catches."
+  program {
+    imports [
+      "Standard.Numeric"
+    ]
+    procedures {
+      "App.mk" {
+        bounds {
+          T "Standard.Numeric"
+        }
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+        ]
+        result {
+          closure {
+            parameters [
+              {
+                name "y"
+                type "some T"
+              }
+            ]
+            result 0
+            returns "Int"
+          }
+        }
+        returns {
+          procedure {
+            parameters [
+              "some T"
+            ]
+            returns "Int"
+          }
+        }
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "a"
+            type "Any"
+            value {
+              call {
+                arguments [
+                  5
+                ]
+                procedure "App.mk"
+              }
+            }
+          }
+          {
+            let "r"
+            value {
+              attempt {
+                body [
+                  {
+                    let "f"
+                    value {
+                      as {
+                        of {
+                          ref "a"
+                        }
+                        type {
+                          procedure {
+                            parameters [
+                              "Double"
+                            ]
+                            returns "Int"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  result {
+                    ref "r.type"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

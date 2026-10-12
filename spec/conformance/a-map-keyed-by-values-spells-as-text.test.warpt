@@ -1,0 +1,25 @@
+warpt 1
+{
+  expect {
+    spells {
+      null 1
+      true 2
+      -3 3
+      1.5 4
+      "" 5
+      a 6
+      "null" 7
+      [
+        1
+        2
+      ] 8
+      {} 9
+      A.P {} 10
+    }
+  }
+  name "a-map-keyed-by-values-spells-as-text"
+  note "In key position a bare identifier is text, and `null`, `true` and `false` are the values they write, so the text `null` is quoted there. Any other key is written as the value it is, and the value under it follows on the line the key ends on."
+  test 1
+  text "warpt 1\n{\n  null 1\n  true 2\n  -3 3\n  1.5 4\n  \"\" 5\n  a 6\n  \"null\" 7\n  [\n    1\n    2\n  ] 8\n  {} 9\n  A.P {} 10\n}\n"
+}
+

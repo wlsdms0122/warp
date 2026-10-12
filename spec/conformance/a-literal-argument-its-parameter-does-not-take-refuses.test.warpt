@@ -1,0 +1,39 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-literal-argument-its-parameter-does-not-take-refuses"
+  note "Every argument is judged against the slot it fills at the build, a literal as any other value, so a call passing a literal the slot does not take refuses at the build."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              "not a number"
+            ]
+            procedure "wants"
+          }
+        }
+      }
+      wants {
+        parameters [
+          {
+            name "it"
+            type "Int"
+          }
+        ]
+        result {
+          ref "it"
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

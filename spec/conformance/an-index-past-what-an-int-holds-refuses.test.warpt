@@ -1,0 +1,35 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "an-index-past-what-an-int-holds-refuses"
+  note "A whole number between brackets is a position and never a name, so one past what an Int holds refuses at the load, beside a name spelled the same that the body declares."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "99999999999999999999"
+            value 1
+          }
+          {
+            let "d"
+            value [
+              10
+              20
+            ]
+          }
+        ]
+        result {
+          ref "d[99999999999999999999]"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

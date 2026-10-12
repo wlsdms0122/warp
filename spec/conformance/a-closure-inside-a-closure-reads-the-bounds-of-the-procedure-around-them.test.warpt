@@ -1,0 +1,79 @@
+warpt 1
+{
+  expect {
+    answers 2
+  }
+  name "a-closure-inside-a-closure-reads-the-bounds-of-the-procedure-around-them"
+  note "A closure written inside another closure reads the type parameters of the procedure around both: its `some T` is held to the bounds that procedure wrote, though the closure between them names no `T`, so it may send the procedures of the contract the bound names."
+  program {
+    imports [
+      "Standard.Comparable"
+      "Standard.Comparable.lessThan"
+    ]
+    procedures {
+      "App.f" {
+        body [
+          {
+            let "outer"
+            value {
+              closure {
+                result {
+                  closure {
+                    parameters [
+                      {
+                        name "y"
+                        type "some T"
+                      }
+                    ]
+                    result {
+                      call {
+                        arguments [
+                          {
+                            ref "y"
+                          }
+                          {
+                            ref "y"
+                          }
+                        ]
+                        procedure "Standard.Comparable.lessThan"
+                      }
+                    }
+                    returns "Bool"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        bounds {
+          T "Standard.Comparable"
+        }
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+        ]
+        result {
+          ref "x"
+        }
+        returns "some T"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              2
+            ]
+            procedure "App.f"
+          }
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

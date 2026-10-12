@@ -1,0 +1,160 @@
+warpt 1
+{
+  expect {
+    answers "cast_refused"
+  }
+  name "a-cast-of-a-closure-writing-where-a-declared-record-was-filled-fails"
+  note "App.h keeps n in cell and writes a closure that sets cell from its own some T, held as Any. The entry fills T with App.R. The cast reading the closure as taking an App.X, a record of the same fields under another name, fails with cast_refused, since only App.h's call filled its T, and the attempt in the entry catches the failure."
+  program {
+    imports []
+    procedures {
+      "App.h" {
+        body [
+          {
+            value {
+              ref "n"
+            }
+            var "cell"
+          }
+          {
+            let "c"
+            value {
+              closure {
+                body [
+                  {
+                    set "cell"
+                    value {
+                      ref "y"
+                    }
+                  }
+                ]
+                parameters [
+                  {
+                    name "y"
+                    type "some T"
+                  }
+                ]
+                result 0
+                returns "Int"
+              }
+            }
+          }
+          {
+            let "a"
+            type "Any"
+            value {
+              ref "c"
+            }
+          }
+          {
+            let "w"
+            value {
+              as {
+                of {
+                  ref "a"
+                }
+                type {
+                  procedure {
+                    parameters [
+                      "App.X"
+                    ]
+                    returns "Int"
+                  }
+                }
+              }
+            }
+          }
+          {
+            let "z"
+            value {
+              call {
+                arguments [
+                  {
+                    record {
+                      x 7
+                    }
+                  }
+                ]
+                procedure {
+                  ref "w"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "n"
+            type "some T"
+          }
+        ]
+        result {
+          ref "cell"
+        }
+        returns "some T"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "tried"
+            value {
+              attempt {
+                body [
+                  {
+                    let "p"
+                    type "App.R"
+                    value {
+                      record {
+                        x 1
+                      }
+                    }
+                  }
+                  {
+                    let "r"
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "p"
+                          }
+                        ]
+                        procedure "App.h"
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  result {
+                    ref "tried.type"
+                  }
+                }
+                result {
+                  ref "r.x"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "tried"
+        }
+      }
+    }
+    types {
+      "App.R" {
+        record {
+          x "Int"
+        }
+      }
+      "App.X" {
+        record {
+          x "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

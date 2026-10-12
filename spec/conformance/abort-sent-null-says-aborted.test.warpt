@@ -7,7 +7,7 @@ warpt 1
     }
   }
   name "abort-sent-null-says-aborted"
-  note "`abort` takes `of: Any`, and null is a value `Any` admits. Null spells nothing, and a refusal says something, so the message is `aborted`. A bare `var` holds null, and `abort` reads it."
+  note "`abort` takes `message: Any`, and null is a value `Any` admits. Null spells nothing, and a failure says something, so the message is `aborted`. A bare `var` holds null, and `abort` reads it."
   program {
     imports [
       "Standard.Control.abort"
@@ -39,14 +39,20 @@ warpt 1
                 ]
                 rescue {
                   result {
-                    record {
-                      message {
-                        ref "tried.message"
-                      }
-                      type {
-                        ref "tried.type"
-                      }
-                    }
+                    dictionary [
+                      [
+                        "message"
+                        {
+                          ref "tried.message"
+                        }
+                      ]
+                      [
+                        "type"
+                        {
+                          ref "tried.type"
+                        }
+                      ]
+                    ]
                   }
                 }
               }

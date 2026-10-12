@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-closure-literal-in-a-list-answers-what-the-element-answers-refuses"
-  note "`c` declares a list of `Procedure() -> App.Point`, and the closure literal written as its element writes no `returns`, so it answers what the element answers. Its body answers `{ x: 1, y: 2 }`, which is no `App.Point`, so it refuses at the build as the same closure written at a name declaring that type does."
+  note "`c` declares a list of `{ procedure: { returns: App.Point } }`, and the closure literal written as its element writes no `returns`, so it answers what the element answers. Its body answers `{ x: 1, y: 2 }`, which is no `App.Point`, so it refuses at the build as the same closure written at a name declaring that type does."
   program {
     imports []
     procedures {

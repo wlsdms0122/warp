@@ -1,0 +1,40 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-reading-of-any-beside-a-whole-at-a-contract-procedure-refuses"
+  note "`held` is read as `Any` and stands at the second `Self` of `Standard.Numeric.plus`, beside a whole number at the first. A reading of `Any` stands where a contract is asked only through a cast, at whichever position, so the build refuses before any row is picked."
+  program {
+    imports [
+      "Standard.Numeric.plus"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "held"
+            type "Any"
+            value 0.5
+          }
+        ]
+        result {
+          call {
+            arguments [
+              1
+              {
+                ref "held"
+              }
+            ]
+            procedure "Standard.Numeric.plus"
+          }
+        }
+        returns "Any"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

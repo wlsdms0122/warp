@@ -1110,7 +1110,15 @@ warpt 1
                       ref "pick.index"
                     }
                     {
-                      ref "total"
+                      call {
+                        arguments [
+                          {
+                            ref "total"
+                          }
+                          1
+                        ]
+                        procedure "Standard.Numeric.plus"
+                      }
                     }
                   ]
                   procedure "Standard.Comparable.lessThan"
@@ -1123,7 +1131,7 @@ warpt 1
       bounds {
         Element "Standard.Comparable"
       }
-      description "The elements in order, for numbers or for strings."
+      description "The elements in the order lessThan puts them in, for any type that orders."
       parameters [
         {
           name "array"
@@ -1148,7 +1156,7 @@ warpt 1
     "Standard.Collection.values" {
       body [
         {
-          let "names"
+          let "keys"
           value {
             call {
               arguments [
@@ -1170,9 +1178,9 @@ warpt 1
             loop {
               body [
                 {
-                  let "name"
+                  let "key"
                   value {
-                    ref "names[walk.index]"
+                    ref "keys[walk.index]"
                   }
                 }
                 {
@@ -1184,7 +1192,7 @@ warpt 1
                           ref "held"
                         }
                         {
-                          ref "dictionary[name]"
+                          ref "dictionary[key]"
                         }
                       ]
                       procedure "Standard.Collection.appending"
@@ -1202,7 +1210,7 @@ warpt 1
                       call {
                         arguments [
                           {
-                            ref "names"
+                            ref "keys"
                           }
                         ]
                         procedure "Standard.Collection.count"
@@ -1216,11 +1224,14 @@ warpt 1
           }
         }
       ]
-      description "What a record holds, by its names in order."
+      bounds {
+        Key "Hashable"
+      }
+      description "What a map holds, by its keys in the key order."
       parameters [
         {
           name "dictionary"
-          type "Dictionary<some Entry>"
+          type "Dictionary<some Key, some Entry>"
         }
       ]
       result {

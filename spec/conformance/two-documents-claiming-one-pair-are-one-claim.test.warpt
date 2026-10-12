@@ -16,9 +16,6 @@ warpt 1
         }
       }
       imports []
-      procedures {
-        "App.nothing" {}
-      }
       warp 1
     }
     {
@@ -45,13 +42,11 @@ warpt 1
       warp 1
     }
     {
+      description "a claim"
       imports [
         "App.Describable"
         "T.Card"
       ]
-      procedures {
-        "C.nothing" {}
-      }
       satisfies {
         "T.Card" [
           "App.Describable"
@@ -60,13 +55,11 @@ warpt 1
       warp 1
     }
     {
+      description "the same claim again"
       imports [
         "App.Describable"
         "T.Card"
       ]
-      procedures {
-        "D.nothing" {}
-      }
       satisfies {
         "T.Card" [
           "App.Describable"
@@ -79,7 +72,7 @@ warpt 1
     answers "card"
   }
   name "two-documents-claiming-one-pair-are-one-claim"
-  note "A claim holds nothing but the pair, so a second document claiming the same pair says what the first said, and the link holds one claim and not two declarations of one name."
+  note "A claim holds nothing but the pair, so a second document claiming the same pair says what the first said, whatever else the two say, and the link holds one claim and not two declarations of one name."
   program {
     imports [
       "App.Describable.describe"

@@ -1,0 +1,87 @@
+warpt 1
+{
+  expect {
+    answers null
+  }
+  name "an-optional-cast-of-a-closure-over-a-type-parameter-its-making-call-filled-reads-null"
+  note "`App.mk` answers a closure taking its own `some T`, which only the call that made it fills, and `a` holds it as `Any`. The closure is a value of no procedure type here, so `as?` reads it as null."
+  program {
+    imports [
+      "Standard.Numeric"
+    ]
+    procedures {
+      "App.mk" {
+        bounds {
+          T "Standard.Numeric"
+        }
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+        ]
+        result {
+          closure {
+            parameters [
+              {
+                name "y"
+                type "some T"
+              }
+            ]
+            result 0
+            returns "Int"
+          }
+        }
+        returns {
+          procedure {
+            parameters [
+              "some T"
+            ]
+            returns "Int"
+          }
+        }
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "a"
+            type "Any"
+            value {
+              call {
+                arguments [
+                  5
+                ]
+                procedure "App.mk"
+              }
+            }
+          }
+          {
+            let "r"
+            value {
+              "as?" {
+                of {
+                  ref "a"
+                }
+                type {
+                  procedure {
+                    parameters [
+                      "Double"
+                    ]
+                    returns "Int"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

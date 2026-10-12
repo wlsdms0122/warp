@@ -4,7 +4,7 @@ warpt 1
     answers true
   }
   name "values-are-the-same-by-what-they-hold"
-  note "A whole number and a fraction of the same worth are one value, two records holding the same fields bound to the same values are one value, and two arrays holding the same elements in the same order are one value."
+  note "A whole number and a fraction of the same worth are one value, two records of one name holding the same fields bound to the same values are one value, and two arrays holding the same elements in the same order are one value."
   program {
     imports [
       "Standard.Logic.and"
@@ -36,15 +36,25 @@ warpt 1
                       call {
                         arguments [
                           {
-                            record {
-                              a 1
-                              b 2
+                            as {
+                              of {
+                                record {
+                                  a 1
+                                  b 2
+                                }
+                              }
+                              type "App.P"
                             }
                           }
                           {
-                            record {
-                              a 1
-                              b 2
+                            as {
+                              of {
+                                record {
+                                  a 1
+                                  b 2
+                                }
+                              }
+                              type "App.P"
                             }
                           }
                         ]
@@ -78,6 +88,14 @@ warpt 1
           }
         }
         returns "Bool"
+      }
+    }
+    types {
+      "App.P" {
+        record {
+          a "Int"
+          b "Int"
+        }
       }
     }
     warp 1

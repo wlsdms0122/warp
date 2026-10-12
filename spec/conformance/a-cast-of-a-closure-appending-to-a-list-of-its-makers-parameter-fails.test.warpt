@@ -1,0 +1,146 @@
+warpt 1
+{
+  expect {
+    answers "cast_refused"
+  }
+  name "a-cast-of-a-closure-appending-to-a-list-of-its-makers-parameter-fails"
+  note "A closure in App.g appends its parameter to cell, a list of T, and is held as Any. The cast reading it as taking a string fails with cast_refused, since only App.g's call filled its T, so cell holds only values of T and the attempt in the entry catches the failure."
+  program {
+    imports [
+      "Standard.Collection.append"
+    ]
+    procedures {
+      "App.g" {
+        body [
+          {
+            value [
+              {
+                ref "x"
+              }
+            ]
+            var "cell"
+          }
+          {
+            let "c"
+            value {
+              closure {
+                body [
+                  {
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "cell"
+                          }
+                          {
+                            ref "y"
+                          }
+                        ]
+                        procedure "Standard.Collection.append"
+                      }
+                    }
+                  }
+                ]
+                parameters [
+                  {
+                    name "y"
+                    type "some T"
+                  }
+                ]
+                result 0
+                returns "Int"
+              }
+            }
+          }
+          {
+            let "a"
+            type "Any"
+            value {
+              ref "c"
+            }
+          }
+          {
+            let "h"
+            value {
+              as {
+                of {
+                  ref "a"
+                }
+                type {
+                  procedure {
+                    parameters [
+                      "String"
+                    ]
+                    returns "Int"
+                  }
+                }
+              }
+            }
+          }
+          {
+            let "z"
+            value {
+              call {
+                arguments [
+                  "s"
+                ]
+                procedure {
+                  ref "h"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+        ]
+        result {
+          ref "cell"
+        }
+        returns "Array<some T>"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "tried"
+            value {
+              attempt {
+                body [
+                  {
+                    let "r"
+                    value {
+                      call {
+                        arguments [
+                          1
+                        ]
+                        procedure "App.g"
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  result {
+                    ref "tried.type"
+                  }
+                }
+                result {
+                  ref "r"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "tried"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

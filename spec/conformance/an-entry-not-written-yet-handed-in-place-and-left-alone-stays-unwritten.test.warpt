@@ -1,0 +1,161 @@
+warpt 1
+{
+  expect {
+    answers {
+      a 1
+    }
+  }
+  name "an-entry-not-written-yet-handed-in-place-and-left-alone-stays-unwritten"
+  note "App.touch takes an entry of a dictionary in place at its own some T. The entry is not written yet and App.touch writes nothing, so the entry stays unwritten, and the dictionary answers as it was."
+  program {
+    imports [
+      "Standard.Control.abort"
+    ]
+    procedures {
+      "App.h" {
+        body [
+          {
+            value {
+              ref "n"
+            }
+            var "cell"
+          }
+          {
+            let "c"
+            value {
+              closure {
+                body [
+                  {
+                    set "cell"
+                    value {
+                      ref "y"
+                    }
+                  }
+                ]
+                parameters [
+                  {
+                    name "y"
+                    type "some T"
+                  }
+                ]
+                result 0
+                returns "Int"
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "n"
+            type "some T"
+          }
+          {
+            name "j"
+          }
+        ]
+        result {
+          ref "cell"
+        }
+        returns "some T"
+      }
+      "App.touch" {
+        body [
+          {
+            let "y"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "n"
+                  }
+                  {
+                    ref "j"
+                  }
+                ]
+                procedure "App.h"
+              }
+            }
+          }
+          {
+            value {
+              conditional {
+                then [
+                  {
+                    value {
+                      call {
+                        arguments [
+                          "boom"
+                        ]
+                        procedure "Standard.Control.abort"
+                      }
+                    }
+                  }
+                ]
+                when {
+                  ref "stop"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "x"
+            type "inout some T"
+          }
+          {
+            name "n"
+            type "some T"
+          }
+          {
+            name "j"
+          }
+          {
+            name "stop"
+            type "Bool"
+          }
+        ]
+        result 0
+        returns "Int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            type "Dictionary<String, Int>"
+            value {
+              dictionary [
+                [
+                  "a"
+                  1
+                ]
+              ]
+            }
+            var "d"
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "d[\"new\"]"
+                  }
+                  2
+                  3
+                  false
+                ]
+                procedure "App.touch"
+              }
+            }
+          }
+        ]
+        result {
+          ref "d"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,39 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-write-at-a-constant-index-below-zero-refuses"
+  note "`K` settles to -1, a whole number below zero, which is no position in any list, so `set d[K]` refuses at the build."
+  program {
+    const {
+      K -1
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            type "Array<Int>"
+            value [
+              1
+            ]
+            var "d"
+          }
+          {
+            set "d[K]"
+            value 2
+          }
+        ]
+        result {
+          ref "d[0]"
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

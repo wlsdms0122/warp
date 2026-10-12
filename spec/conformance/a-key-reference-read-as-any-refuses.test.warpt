@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-key-reference-read-as-any-refuses"
-  note "A key stands where a String is read, and k reads Any, which stands only where Any is declared until a cast says what it is, so the build refuses the reference."
+  note "On a map keyed by text a key stands where a String is read, and k reads Any, which stands only where Any is declared until a cast says what it is, so the build refuses the reference."
   program {
     imports []
     procedures {
@@ -18,11 +18,14 @@ warpt 1
           }
           {
             let "held"
-            type "Dictionary<Int>"
+            type "Dictionary<String, Int>"
             value {
-              record {
-                a 1
-              }
+              dictionary [
+                [
+                  "a"
+                  1
+                ]
+              ]
             }
           }
         ]

@@ -1,0 +1,103 @@
+warpt 1
+{
+  expect {
+    builds {
+      answers []
+      claims []
+      constants []
+      contracts []
+      dependencies [
+        x"9ad3d0757ac55136d0f5be197f70fa6be3b49be7a0db2418ee6a2228b1e2c73d"
+      ]
+      document [
+        x"ee15b70d6a2ebc4b4eab7d436e2fbe38b722a0ff162c3680f116a564532ddee1"
+      ]
+      leaned []
+      lifted []
+      numbering [
+        [
+          "Host.ping"
+        ]
+        []
+      ]
+      object 1
+      rows [
+        [
+          "entry"
+          [
+            []
+            [
+              [
+                4
+              ]
+            ]
+            []
+          ]
+          2
+          1
+          1
+          [
+            1
+            []
+          ]
+          [
+            0
+            [
+              []
+              [
+                [
+                  11
+                  [
+                    0
+                    []
+                    []
+                  ]
+                ]
+              ]
+            ]
+            [
+              0
+              []
+              []
+              []
+              []
+            ]
+          ]
+        ]
+      ]
+      typeNumbering []
+      types []
+      variables []
+    }
+  }
+  name "the-object-of-a-declaration-the-host-answers"
+  note "A declaration the host answers has no body: its row's implementation is the host's, carrying the sends it declared, and the object that leans on it names that module's object under dependencies."
+  program {
+    imports [
+      "Host.ping"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            procedure "Host.ping"
+          }
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+  vocabulary {
+    imports []
+    procedures {
+      "Host.ping" {
+        answers 7
+        returns "Int"
+      }
+    }
+  }
+}
+

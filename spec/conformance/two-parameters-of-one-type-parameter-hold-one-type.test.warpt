@@ -12,27 +12,43 @@ warpt 1
     procedures {
       entry {
         access "public"
+        body [
+          {
+            let "also"
+            type "App.Outer"
+            value {
+              record {
+                inner {
+                  record {
+                    count 2
+                  }
+                }
+              }
+            }
+          }
+          {
+            let "of"
+            type "App.Outer"
+            value {
+              record {
+                inner {
+                  record {
+                    count 1
+                  }
+                }
+              }
+            }
+          }
+        ]
         result {
           call {
             arguments [
               {
-                record {
-                  inner {
-                    record {
-                      count 2
-                    }
-                  }
-                }
+                ref "also"
               }
               true
               {
-                record {
-                  inner {
-                    record {
-                      count 1
-                    }
-                  }
-                }
+                ref "of"
               }
             ]
             procedure "peek"
@@ -89,6 +105,18 @@ warpt 1
         ]
         result {
           ref "seen.count"
+        }
+      }
+    }
+    types {
+      "App.Inner" {
+        record {
+          count "Int"
+        }
+      }
+      "App.Outer" {
+        record {
+          inner "App.Inner"
         }
       }
     }

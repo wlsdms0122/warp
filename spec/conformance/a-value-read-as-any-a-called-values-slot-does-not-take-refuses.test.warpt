@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-value-read-as-any-a-called-values-slot-does-not-take-refuses"
-  note "`g` is held at `Procedure(App.Point) -> Any`, and its closure takes `Any`. A call of `g` hands its argument at what the slot reads, and `a`, read as `Any`, is no `App.Point` the build can see, so the build refuses, though the closure would take anything."
+  note "`g` is held at `{ procedure: { parameters: [App.Point], returns: Any } }`, and its closure takes `Any`. A call of `g` hands its argument at what the slot reads, and `a`, read as `Any`, is no `App.Point` the build can see, so the build refuses, though the closure would take anything."
   program {
     imports []
     procedures {
@@ -31,7 +31,6 @@ warpt 1
                 parameters [
                   {
                     name "p"
-                    type "Any"
                   }
                 ]
                 result {

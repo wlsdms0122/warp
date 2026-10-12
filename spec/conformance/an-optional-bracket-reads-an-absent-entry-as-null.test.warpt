@@ -4,7 +4,7 @@ warpt 1
     answers null
   }
   name "an-optional-bracket-reads-an-absent-entry-as-null"
-  note "On a dictionary `?[` expects the entry's absence, as `?.` does: a key the run settles that names no entry reads as null rather than refusing."
+  note "On a dictionary `?[` expects the entry's absence, as `?.` does: a key the run reads that names no entry reads as null rather than refusing."
   program {
     imports []
     procedures {
@@ -12,7 +12,7 @@ warpt 1
         parameters [
           {
             name "of"
-            type "Dictionary<Int>"
+            type "Dictionary<String, Int>"
           }
           {
             name "key"
@@ -30,9 +30,12 @@ warpt 1
           call {
             arguments [
               {
-                record {
-                  a 1
-                }
+                dictionary [
+                  [
+                    "a"
+                    1
+                  ]
+                ]
               }
               "b"
             ]

@@ -1,0 +1,65 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-declaration-answering-a-contract-takes-the-claimed-type-wherever-the-contract-writes-self-refuses"
+  note "A claim reads `Self` as the type it is about at every position the contract writes it, not only the first. `Int.before` taking text second does not answer `before` for `Int`, and the call leaning on the claim is refused."
+  program {
+    contracts {
+      "App.Ordered" {
+        before {
+          parameters [
+            {
+              name "lhs"
+              type "Self"
+            }
+            {
+              name "rhs"
+              type "Self"
+            }
+          ]
+          returns "Bool"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "Int.before" {
+        parameters [
+          {
+            name "lhs"
+            type "Int"
+          }
+          {
+            name "rhs"
+            type "String"
+          }
+        ]
+        result true
+        returns "Bool"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              1
+              2
+            ]
+            procedure "App.Ordered.before"
+          }
+        }
+        returns "Bool"
+      }
+    }
+    satisfies {
+      Int [
+        "App.Ordered"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,65 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-declaration-answering-a-contract-failing-with-what-the-contract-does-not-name-refuses"
+  note "A contract that names no failure lets nothing fail out of the procedures it asks. `Int.check` aborts, which `check` does not let it, so the claim does not hold and the call leaning on it is refused at the build."
+  program {
+    contracts {
+      "App.Checked" {
+        check {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "Int"
+        }
+      }
+    }
+    imports [
+      "Standard.Control.abort"
+    ]
+    procedures {
+      "Int.check" {
+        parameters [
+          {
+            name "of"
+            type "Int"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              "no"
+            ]
+            procedure "Standard.Control.abort"
+          }
+        }
+        returns "Int"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              1
+            ]
+            procedure "App.Checked.check"
+          }
+        }
+        returns "Int"
+      }
+    }
+    satisfies {
+      Int [
+        "App.Checked"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+

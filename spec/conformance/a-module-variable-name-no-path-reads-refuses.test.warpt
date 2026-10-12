@@ -1,0 +1,25 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-module-variable-name-no-path-reads-refuses"
+  note "A module variable is read and written by a path, and a dot is a step of one, so a variable declared as `App.v` is a name no `set` reaches. It refuses at the load where it is declared."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 0
+      }
+    }
+    var {
+      "App.v" [
+        1
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+

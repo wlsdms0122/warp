@@ -8,7 +8,7 @@ warpt 1
     ]
   }
   name "text-spells-a-record-on-one-line"
-  note "text spells a container on one line: a dictionary's entries between braces as the key quoted, a colon and the value; a named record the same with its name and a space in front; an empty one as its two braces."
+  note "text spells a container on one line: a map's entries between braces as the key in its own spelling, text quoted, a colon and the value; a named record the same with its name and a space in front; an empty one as its two braces."
   program {
     imports [
       "Standard.Text.text"
@@ -23,10 +23,16 @@ warpt 1
               call {
                 arguments [
                   {
-                    record {
-                      a "x"
-                      b 1
-                    }
+                    dictionary [
+                      [
+                        "a"
+                        "x"
+                      ]
+                      [
+                        "b"
+                        1
+                      ]
+                    ]
                   }
                 ]
                 procedure "Standard.Text.text"
@@ -59,7 +65,7 @@ warpt 1
               call {
                 arguments [
                   {
-                    record {}
+                    dictionary []
                   }
                 ]
                 procedure "Standard.Text.text"

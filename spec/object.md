@@ -6,15 +6,15 @@ An object is a **value**, and nothing more than one: it is written by the binary
 
 ## What an object holds
 
-An object is one record. It carries **exactly** these keys, and a key none of them names, or one of them missing, **refuses**. Current format: **1**.
+An object is one map. It carries **exactly** these keys, and a key none of them names, or one of them missing, **refuses**. Current format: **1**.
 
 | key | holds | order |
 |---|---|---|
 | `object` | int. This layout's format. Read before anything laid out by it, the keys included | |
 | `document` | the document's identity, or nothing where the program was never written down | |
 | `dependencies` | the objects behind every declaration this document named, each by what the host keyed it under | ascending by bytes, none twice |
-| `types` | name → *type*, as the document wrote them | by name |
-| `contracts` | name → (procedure name → `[ signature, constness, isolation, failing ]`, the two marks and *failing* as a row writes them) | by name, then by name |
+| `types` | name → *type*, as the document wrote them: a record as tag 9, an alias as the type it stands for | by name |
+| `contracts` | name → (procedure name → `[ signature, constness, isolation, failing ]`, the two marks as a row writes them and *failing* as `[1, names]`) | by name, then by name |
 | `claims` | type name → the contracts it says it answers | by name; the contracts ascending |
 | `leaned` | the pairs its bodies lean on: (type, contract, *place*), unresolved | by type, then contract |
 | `rows` | the declarations, each a *row* under its spelling | by name |
@@ -25,9 +25,9 @@ An object is one record. It carries **exactly** these keys, and a key none of th
 | `variables` | (name, *value*): what each variable starts a run holding | by name |
 | `constants` | the constants it declared, by spelling | by name |
 
-**The record is keyed and its parts are not.** The record names each part by its key; inside a part the fields stand in order and a kind says itself by its tag. A reading holds an object to the format it reads before it reads a part.
+**The map is keyed and its parts are not.** The map names each part by its key; inside a part the fields stand in order and a variant says itself by its tag. A reading holds an object to the format it reads before it reads a part.
 
-**Order is spelling.** Every list a name keys stands ascending by the names' bytes, none twice, and so does every set written as a list. That is the whole of what makes one object one value: a dictionary lends no order, so the layout says one, and a reading takes no other. A list out of order, or naming one thing twice, **refuses**.
+**Order is spelling.** Every list a name keys stands ascending by the names' bytes, none twice, and so does every set written as a list. That is the whole of what makes one object one value: a list keeps the order it is written in, so the layout says which, and a reading takes no other. A list out of order, or naming one thing twice, **refuses**.
 
 **The rows.** A declaration's row stands under its spelling in `rows`, in name order; the rows its bodies lifted stand in `lifted`, without a spelling, in the order the numbering counts them. A body numbers its calls and its types from the document itself, under [procedures](procedure.md): the spellings it sends first, in name order, then its own declarations in name order, then the closures its declarations wrote, in the order the numbering lists the declarations and, within one, the order the body wrote them. Where a row lands in a link is the link's answer, so nothing here says it, and one object answers every entry asked of it.
 
@@ -35,12 +35,12 @@ An object is one record. It carries **exactly** these keys, and a key none of th
 
 ## How a part is laid out
 
-Inside the record, a part is written as its fields **in order**, and a kind as its **tag** before them, so a reading beside the same tables reads it back and one that is not refuses it. The rules, used everywhere below:
+Inside the map, a part is written as its fields **in order**, and a variant as its **tag** before them, so a reading beside the same tables reads it back and one that is not refuses it. The rules, used everywhere below:
 
 - A *name* is a string, and one that is not in normal form, or not a name, **refuses**.
 - A list a name keys is `[[name, value] …]`, in name order.
 - A field that may hold nothing is a list of none or one: `[]` or `[value]`. So a value that is itself null is told from no value at all.
-- A kind is `[tag, fields …]`, and a tag this page does not name **refuses**.
+- A variant is `[tag, fields …]`, and a tag this page does not name **refuses**.
 - A count, a slot, a row and a position are whole numbers at or above zero, and one below zero **refuses** where it is read.
 
 ### Types, as a document writes them
@@ -57,23 +57,23 @@ A *type* is `[tag, …]`:
 | 5 | `Double` | |
 | 6 | `String` | |
 | 7 | `Array<T>` | *type* |
-| 8 | `Dictionary<T>` | *type* |
-| 9 | record | name → *type* |
+| 8 | `Dictionary<K, V>` | the key's *type*, the value's *type* |
+| 9 | record, written only as a declared type in `types` | name → *type* |
 | 10 | `Procedure` | *procedure type* or nothing, *constness*, *isolation* |
 | 11 | `var T` | *type* |
 | 12 | `inout T` | *type* |
 | 13 | `T?` | *type* |
 | 14 | a declared name | name |
-| 15 | a type parameter | name, its bounds: names ascending |
-| 16 | a composition `A & B` | names ascending, at least one |
+| 15 | a type parameter | name |
+| 16 | a composition `A & B` | names ascending, two or more: one contract is written as its name, tag 14 |
 | 17 | a projection | the parameter projected, the path: *segment* list |
 | 18 | `Self` | |
 
-A *segment* is `[0, name, optional]`, `[1, index, optional]` or `[2, path, optional]` for an index read from a path.
+A *segment* is `[0, name, optional]`, `[1, value, optional]` for a *value* written between the brackets, or `[2, path, optional]` for one read from a path.
 
-A *procedure type* is `[parameters, returns]`: a list of *type*, in position order, and a *type* or nothing. A *signature* is `[parameters, returns]`: a list of *parameter*, in the declaration's order, and a *type* or nothing. A *parameter* is `[name, type, description]`: the name, then each a list of none or one: a *type*; a string.
+A *procedure type* is `[parameters, returns]`: a list of *type*, in position order, and a *type* or nothing. A *signature* is `[parameters, returns, bounds]`: a list of *parameter*, in the declaration's order; a *type* or nothing; and name → the contracts bounding the type parameter of that name, ascending, at least one, for each type parameter the signature bounds. A *parameter* is `[name, type, description]`: the name, then each a list of none or one: a *type*, none where the parameter takes anything, so `Any` is never written there; a string.
 
-*Constness* is `0` unstated or `1` const. *Isolation* is `0` unstated or `1` isolated. *Failing* is `[0]` unstated or `[1, names]`, the names ascending.
+*Constness* is `0` unstated or `1` const. *Isolation* is `0` unstated or `1` isolated. *Failing* is `[0]` unstated or `[1, names]`, the names ascending. A contract's procedure says which failures it may raise, so its *failing* is `[1, names]` alone.
 
 ### Places
 
@@ -88,29 +88,29 @@ A *place* is where in a document something was written: `[document, steps]`, the
 | 4 | a statement | its name or nothing, its position |
 | 5 | a landmark in a program nobody wrote down | string |
 
-A *part* is `[tag]`: 0 `procedures`, 1 `constants`, 2 `variables`, 3 `types`, 4 `contracts`, 5 `satisfies`, 6 `imports`, 7 `parameters`, 8 `returns`, 9 `body`, 10 `result`, 11 a cast's subject, carrying `true` for `as?` or `false` for `as`, 12 `callee`, 13 `arguments`, 14 `closure`, 15 a condition, carrying `[0]` for a conditional's or `[1]` for a loop's, 16 `then`, 17 `otherwise`, 18 `rescue`, 19 a record's fields.
+A *part* is `[tag]`: 0 `procedures`, 1 `constants`, 2 `variables`, 3 `types`, 4 `contracts`, 5 `satisfies`, 6 `imports`, 7 `parameters`, 8 `returns`, 9 `body`, 10 `result`, 11 a cast's subject, carrying `true` for `as?` or `false` for `as`, 12 `callee`, 13 `arguments`, 14 `closure`, 15 a condition, carrying `[0]` for a conditional's or `[1]` for a loop's, 16 `then`, 17 `otherwise`, 18 `rescue`, 19 a record's fields, 20 `bounds`, 21 a map literal's entries.
 
-A *construct* is `[tag]`: 0 literal, 1 reference, 2 array, 3 record, 4 closure, 5 cast, 6 block, 7 conditional, 8 loop, 9 attempt, 10 call, 11 leave, carrying its *reach*: `0` the procedure, `1` the construct, `2` the round.
+A *construct* is `[tag]`: 0 literal, 1 reference, 2 array, 3 record, 4 closure, 5 cast, 6 block, 7 conditional, 8 loop, 9 attempt, 10 call, 11 leave, carrying its *reach*: `0` the procedure, `1` the construct, `2` the round, 12 map.
 
 ### Rows
 
-A *row* is a declaration as its own document settled it:
+A *row* is a declaration as its own document compiled it:
 
-    [ label, signature, access, constness, isolation, failing, handsBackAsDeclared, implementation ]
+    [ label, signature, access, constness, isolation, failing, implementation ]
 
-The label is the declared spelling. A row in `lifted` is the same without the label, its fields starting at the signature. `access` is `0` private, `1` internal or `2` public, under *who may name a declaration* in [procedures](procedure.md); a lifted row is private, since nothing names it. `handsBackAsDeclared` is `true` where what the body hands back, its answer and every variable handed to it in place, is at every type parameter that parameter, so nothing a call filled has to be judged again where the call stands, and `false` otherwise. A body proves it only where every call it makes whose answer or variable handed back names a type parameter reaches a row that proved it too, and where nothing it reads as a type parameter may hold what is not a value of it. The build holds every place reading one to a value of it, so what remains is a closure that is not isolated reaching a variable whose type names one: a cast may call such a closure with what the parameter stands for nowhere. A native's row writes `true`, on its host's word. A link reads it as said, the way it reads `constness` and `isolation`, and leaves out the judgement a call takes where the row the call reaches says `true`, or, for the answer alone, where every row a call through a contract may reach answers exactly what the call reads and the call hands nothing back to judge.
+The label is the declared spelling. A row in `lifted` is the same without the label, its fields starting at the signature. `access` is `0` private, `1` internal or `2` public, under *who may name a declaration* in [procedures](procedure.md); a lifted row is private, since nothing names it.
 
-The *implementation* is `[0, body, frame]` for a written body, or `[1, sends]` for a native, each send `[position, selector, handing]`: where the send stands among the declaration's sends, the spelling it reaches, and how many arguments it hands over, from the first position of what that spelling declares. The sends stand one to a place from the first, and each reaches the number the document's `numbering` gives its spelling; a native row whose sends say otherwise **refuses**.
+The *implementation* is `[0, body, frame]` for a written body, or `[1, sends]` for a procedure the host answers, each send `[position, selector, handing]`: where the send stands among the declaration's sends, the spelling it reaches, and how many arguments it hands over, from the first position of what that spelling declares. The sends stand one to a place from the first, and each reaches the number the document's `numbering` gives its spelling.
 
-A *frame* is `[size, parameters, variables, captures, names]`: how many slots; which slots the parameters fill, in parameter order; `[variable, slot]` for each module variable the body reads, by its position in `variables`; which slots a closure fills from what it took with it; and what each slot was called, one name per slot, for a refusal that names one. A body standing on a slot the frame does not hold, or a frame naming fewer slots than it has, **refuses**.
+A *frame* is `[size, parameters, variables, captures, names]`: how many slots; which slots the parameters fill, in parameter order; `[variable, slot]` for each module variable the body reads, by its position in `variables`; which slots a closure fills from what it took with it; and what each slot was called, one name per slot, for a refusal that names one.
 
-A *body* is `[instructions, result]`, the result an *operation* or nothing. An *instruction* is `[binding, operation, label]`: the binding or nothing, what to compute, and the string a trace calls the statement. A *binding* is `[0, slot, settling]` to bind, `[1, slot, settling]` to declare, or `[2, address, settling]` to assign, `settling` a *lowered type*, or nothing where the name declares nothing or the build proved the value one of the type as it stands.
+A *body* is `[instructions, result]`, the result an *operation* or nothing. An *instruction* is `[binding, operation, label]`: the binding or nothing, what to compute, and the string a trace calls the statement. A *binding* is `[0, slot]` to bind, `[1, slot]` to declare, or `[2, address]` to assign.
 
-An *address* is `[slot, steps]`, each *step* `[0, position, name, optional]` for a field of a record whose layout the build proved, `[1, name, optional]` for a key only the run knows, `[2, index, optional]`, or `[3, address, optional]` for an index read from a slot.
+An *address* is `[slot, steps]`, each *step* `[0, position, name, optional]` for a field of a record whose layout the build proved, `[1, name, optional]` for a field read by its name, of a value whose type a call decides, `[2, value, optional]` for a *value* between the brackets, a position on a list and a key on a map, or `[3, address, optional]` for one read from a slot.
 
 ### Operations
 
-An *operation* is `[tag, …]`. These are the constructs and the expression forms of a document with every name the build resolved written as the slot or the row it stands for, and the judgements the build left a call where it stands; nothing computes: what a body does it does by calling, under [the standard vocabulary](vocabulary.md).
+An *operation* is `[tag, …]`. These are the constructs and the expression forms of a document with every name the build resolved written as the slot or the row it stands for; nothing computes: what a body does it does by calling, under [the standard vocabulary](vocabulary.md).
 
 | tag | operation | fields |
 |---|---|---|
@@ -128,9 +128,9 @@ An *operation* is `[tag, …]`. These are the constructs and the expression form
 | 11 | a call | *call* |
 | 12 | a call through a contract | *dispatch* |
 | 13 | leaving | *reach*, the target name or nothing, what it takes or nothing |
-| 14 | a call judged where it stands | the call's *operation*, the answer's *lowered type* or nothing, `[position, lowered type]` for each variable handed back in place, judged once the call is over through the hold the call made |
+| 14 | a map built from parts | a list of `[key, value]`, each an *operation*, in the order written |
 
-A *layout* is `[name, fields]`: the declared name or nothing, and the field names ascending. A *call* is `[procedure, arguments, handed]`: the row the call reaches, numbered by the document; one *operation* or nothing per parameter of the callee, in parameter order, nothing where the call wrote nothing or a hold stands; and `[position, address]` for each parameter handed in place. A *dispatch* is `[contract, procedure, first, arguments]`: the contract's name, the procedure's, the first argument's *operation*, and the arguments after it by position, each an *argument*. Which row answers is the link's, and stands nowhere in an object. An *argument* is `[0, operation]` by value or `[1, address]` by reference: the place a call of a value hands in place, or one a call through a contract hands to whichever row takes it in place.
+A *layout* is `[name, fields]`: the declared record's name, and the field names ascending. A *call* is `[procedure, arguments, handed]`: the row the call reaches, numbered by the document; one *operation* or nothing per parameter of the callee, in parameter order, nothing exactly where the call hands that parameter an address in place; and `[position, address]` for each parameter handed in place, by position ascending. A *dispatch* is `[contract, procedure, first, arguments]`: the contract's name, the procedure's, the first argument's *operation*, and the arguments after it by position, each an *argument*. Which row answers is the link's, and stands nowhere in an object. An *argument* is `[0, operation]` by value or `[1, address]` by reference: the place a call of a value hands in place, or one a call through a contract hands to whichever row takes it in place.
 
 ### Lowered types
 
@@ -140,9 +140,8 @@ A *lowered type* is a type as a body stands on it, `[tag, …]`:
 |---|---|---|
 | 0 to 6 | `Any` `Never` `Null` `Bool` `Int` `Double` `String` | |
 | 7 | array | *lowered type* |
-| 8 | dictionary | *lowered type* |
-| 9 | record | `[layout, types]`: the *layout*, and a list of *lowered type* in the layout's field order |
-| 10 | procedure | parameters or nothing, a list of *lowered type* in position order; returns or nothing; *constness*; *isolation* |
+| 8 | dictionary | the key's *lowered type*, the value's *lowered type* |
+| 10 | procedure | parameters or nothing, a list of *lowered type* in position order; returns or nothing, nothing where the parameters are nothing; *constness*; *isolation* |
 | 11 | variable | *lowered type* |
 | 12 | inout | *lowered type* |
 | 13 | nullable | *lowered type* |
@@ -150,15 +149,14 @@ A *lowered type* is a type as a body stands on it, `[tag, …]`:
 | 15 | a type parameter | its label, the contracts bounding it ascending |
 | 16 | a composition | the contracts ascending, at least one |
 | 17 | a projection | the parameter projected, *segment* list |
-| 18 | undeclared | its label, why: `[0, name]` nothing declares it, `[1, name]` nothing declares it as a contract, `[2]` it names itself |
 
 ### Values
 
-A *value* is `[tag, …]`: 0 null; 1 bool; 2 int; 3 double; 4 string; 5 bytes, each carrying the value; 6 array, carrying its elements as *value*; 7 record, carrying the name or nothing, the field names, the field values; 8 dictionary, carrying `[name, value]` in name order; 9 a closure, carrying the identity of the document that wrote it, the *declaration* that wrote it, which of that declaration's closures it is, and `[slot, value]` for what it captured. A closure written by a document nobody wrote down, or holding a box of the run that made it, is not a value an object holds, and such an object is not written.
+A *value* is `[tag, …]`: 0 null; 1 bool; 2 int; 3 double; 4 string; 5 bytes, each carrying the value; 6 array, carrying its elements as *value*; 7 record, carrying its name, the field names in name order, the field values; 8 a closure, carrying the identity of the document that wrote it, the *declaration* that wrote it, which of that declaration's closures it is, and `[slot, value]` for what it captured; 9 map, carrying its keys as *value* in the key order and its values beside them, a key out of that order or written twice **refusing**. A closure written by a document nobody wrote down, or holding a box of the run that made it, is not a value an object holds, and such an object is not written.
 
 ## Identity and dependencies
 
-A document is told from another by the **digest of its canonical binary writing**, SHA-256 of the bytes the binary writer produces, and by nothing it says about itself. It is derived and never declared. An object does write one down, under `document`, so a reading is handed the identity the object was kept under and an object saying it belongs somewhere else **refuses**.
+A document is told from another by the **digest of its canonical binary writing**, SHA-256 of the bytes the binary writer produces, and by nothing it says about itself. It is derived and never declared. An object does write one down, under `document`, so a reading is handed the identity the object was kept under.
 
 What an object leaned on is written under `dependencies` by what the host keyed each object under. The language derives nothing there: what tells one compile of a document from another is the host's cache, and the host hands the same key back when it reads the object. An object leaning on one the host worked no key out for is not written.
 
@@ -166,12 +164,22 @@ What an object leaned on is written under `dependencies` by what the host keyed 
 
 A reading refuses what it cannot read and traps on nothing: the reading runs inside a host's process, and a trap there ends the host. What refuses is the layout, above, and what a layout admits but the language cannot stand on:
 
-- a lifted row where the numbering counts no closure, a count of none for a declaration it counts, and counts that add up past what an int holds
-- a body standing on a slot past its frame, a loop keeping a run its frame does not hold, a frame naming fewer slots than it has, a call standing more arguments than the row it reaches takes
-- a native row whose sends do not stand one to a place from the first, or reach a spelling the document's `numbering` does not number
+- a lifted row where the numbering counts no closure, a numbering counting more closures than `lifted` holds, a count of none for a declaration it counts, and counts that add up past what an int holds
+- a frame naming other than one name per slot, standing other than one slot per parameter its declaration takes, or standing a parameter, a variable or a capture past its end
+- a body standing on a slot past its frame or on a variable past its document's `variables`, and a loop keeping a run its frame does not hold
+- a call handing in place at other positions than the ones it writes nothing at, or out of ascending order
+- a closure literal taking what it captured into slots other than the captures of its own row's frame
+- a `keeps` that ends before it begins
+- a contract's procedure whose *failing* is `[0]`
+- a declared type that is no record and comes back to itself through what it stands for, which the load refuses in a document, under [types](type.md)
+- a record built from parts holding other than one part per field its layout names
+- a lowered procedure type writing what it answers and not what it takes
+- a row of a procedure the host answers whose sends do not stand one to a place from the first, or reach a spelling the document's `numbering` does not number
 - an object standing against a document other than the one it was kept under
 
-Every one of these is refused where the object is read, before it is laid beside anything. What only a link can answer, which row a number is, which type answers a contract, is refused at `build`, under [checking](checking.md).
+Every one of these is refused where the object is read, before it is laid beside anything. What only the documents beside it can answer is refused at `build`, where a compile lays the object down or a link does, under [checking](checking.md): which row a number is and whether a call stands as many arguments as that row takes, which type answers a contract, and whether what it sends and every type its declared types, signatures and bodies name is declared by it or by a document standing before it, so two objects that need each other refuse as two documents do.
+
+The names an object writes are the ones its document wrote, and each held the grammar of where it is written when that document was loaded, under [checking](checking.md): a type's, a contract's, a claim's, a bound's and a part joined with `&` alike. An object is what a build wrote, so a reading asks those names nothing again, and what a name stands for beside the documents is the link's to say, for an object as for a document.
 
 ## One object
 
@@ -211,12 +219,11 @@ warpt 1
   rows [
     [
       "entry"
-      [ [ [ "n" [ [ 7 [ 4 ] ] ] [] ] ] [ [ 7 [ 4 ] ] ] ]
+      [ [ [ "n" [ [ 7 [ 4 ] ] ] [] ] ] [ [ 7 [ 4 ] ] ] [] ]
       2
       1
       1
       [ 1 [] ]
-      true
       [
         0
         [ [] [ [ 11 [ 0 [ [ [ 1 [ 0 [] ] ] ] [ [ 0 [ 2 1 ] ] ] ] [] ] ] ] ]
@@ -230,13 +237,14 @@ warpt 1
 }
 ```
 
-Read it back: `rows` holds `entry`, whose signature takes `n` as `Array<Int>` (type tag 7 around tag 4) and answers `Array<Int>`; it is public (`2`), const (`1`) and isolated (`1`) and fails with nothing (`[1 []]`); its answers are what it declares (`true`); its implementation is a body (`0`) with no instructions and a result, a call (`11`) to row `0` of the numbering, which is `Standard.Collection.appending`, with two arguments, the first read from slot `0` and the second the literal (`0`) int (`2`) `1`; and its frame has one slot, filled by the parameter, called `n`. The dependency is what the host keyed the standard vocabulary's object under.
+Read it back: `rows` holds `entry`, whose signature takes `n` as `Array<Int>` (type tag 7 around tag 4), answers `Array<Int>` and bounds nothing (`[]`); it is public (`2`), const (`1`) and isolated (`1`) and fails with nothing (`[1 []]`); its implementation is a body (`0`) with no instructions and a result, a call (`11`) to row `0` of the numbering, which is `Standard.Collection.appending`, with two arguments, the first read from slot `0` and the second the literal (`0`) int (`2`) `1`, neither handed in place; and its frame has one slot, filled by the parameter, called `n`. The dependency is what the host keyed the standard vocabulary's object under.
 
 ## Cases
 
 What `conformance/` asks about this page, by the name each case's file carries.
 
 - `a-document-is-not-an-object`
+- `an-object-bounding-a-type-parameter-by-nothing-refuses`
 - `an-object-counting-no-closures-for-a-declaration-refuses`
 - `an-object-leaning-on-one-object-twice-refuses`
 - `an-object-leaning-on-what-is-not-laid-refuses`
@@ -249,42 +257,55 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-standing-against-another-document-refuses`
 - `an-object-whose-body-stands-past-its-frame-refuses`
 - `an-object-whose-call-stands-more-arguments-than-its-callee-takes-refuses`
+- `an-object-whose-call-through-a-contract-stands-more-arguments-than-its-rows-take-refuses`
+- `an-object-whose-call-writes-an-argument-where-it-hands-in-place-refuses`
 - `an-object-whose-claims-stand-out-of-name-order-refuses`
 - `an-object-whose-closure-counts-add-up-past-an-int-refuses`
+- `an-object-whose-contract-procedure-leaves-its-failing-unstated-refuses`
 - `an-object-whose-dependencies-stand-out-of-name-order-refuses`
-- `an-object-whose-dictionary-entries-stand-out-of-name-order-refuses`
 - `an-object-whose-entry-is-not-public-refuses`
 - `an-object-whose-frame-names-fewer-slots-than-it-holds-refuses`
 - `an-object-whose-layout-names-stand-out-of-order-refuses`
 - `an-object-whose-loop-keeps-a-run-past-its-frame-refuses`
-- `an-object-whose-native-sends-a-spelling-its-numbering-does-not-number-refuses`
+- `an-object-whose-map-keys-stand-out-of-the-key-order-refuses`
 - `an-object-whose-numbering-closures-stand-out-of-name-order-refuses`
 - `an-object-whose-numbering-sends-stand-out-of-name-order-refuses`
+- `an-object-whose-procedure-the-host-answers-sends-a-spelling-its-numbering-does-not-number-refuses`
+- `an-object-whose-record-fields-stand-out-of-name-order-refuses`
 - `an-object-whose-rows-stand-out-of-name-order-refuses`
 - `an-object-whose-type-numbering-stands-out-of-name-order-refuses`
+- `an-object-whose-types-name-each-other-refuses`
+- `an-object-whose-types-name-each-other-under-a-question-mark-refuses`
 - `an-object-whose-types-stand-out-of-name-order-refuses`
 - `an-object-whose-variables-stand-out-of-name-order-refuses`
 - `an-object-with-a-key-nothing-names-refuses`
 - `an-object-with-a-lifted-row-nothing-counts-refuses`
+- `an-object-writing-a-composition-of-one-name-refuses`
 - `an-object-writing-a-count-below-zero-refuses`
 - `an-object-writing-a-name-not-in-normal-form-refuses`
+- `an-object-writing-a-procedure-type-that-answers-without-parameters-refuses`
 - `an-object-writing-a-tag-the-layout-does-not-name-refuses`
 - `an-object-writing-an-empty-name-refuses`
+- `an-object-writing-any-as-a-parameter-type-refuses`
 - `the-object-of-a-block`
 - `the-object-of-a-call`
 - `the-object-of-a-cast`
 - `the-object-of-a-closure`
 - `the-object-of-a-composition`
 - `the-object-of-a-conditional`
+- `the-object-of-a-declaration-the-host-answers`
 - `the-object-of-a-declared-type-and-a-contract`
 - `the-object-of-a-dispatch`
+- `the-object-of-a-field-read-past-a-possible-absence`
 - `the-object-of-a-leave`
 - `the-object-of-a-literal`
 - `the-object-of-a-local`
 - `the-object-of-a-loop`
+- `the-object-of-a-map-a-variable-starts-with`
+- `the-object-of-a-map-built-from-parts`
 - `the-object-of-a-module-constant-and-a-variable`
-- `the-object-of-a-native-declaration`
 - `the-object-of-a-record-built-from-parts`
+- `the-object-of-a-write-at-a-constant-key`
 - `the-object-of-an-array-built-from-parts`
 - `the-object-of-an-attempt`
 - `the-object-of-every-type-spelling`

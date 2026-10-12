@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    refuses "build"
+    refuses "load"
   }
   name "a-cast-to-a-list-of-a-type-parameter-refuses"
-  note "App.decode answers raw as Array<some T>. A type parameter inside a cast's type names no type, since nothing in a body fills one, so the build refuses the cast as it refuses a name saying it holds Array<some T>."
+  note "App.decode answers raw as Array<some T>. A type parameter inside a cast's type names no type, since nothing in a body fills one, so the cast refuses at the load as a name saying it holds Array<some T> does."
   program {
     imports [
       "Standard.Collection.appending"
@@ -18,7 +18,6 @@ warpt 1
           }
           {
             name "raw"
-            type "Any"
           }
         ]
         result {

@@ -1,0 +1,41 @@
+warpt 1
+{
+  arguments {
+    account Account {
+      balance 3
+    }
+  }
+  expect {
+    answers 3
+  }
+  name "a-record-arrives-as-an-argument"
+  note "A record written into the arguments under a name arrives carrying it, and fits the slot that declares that name."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "account"
+            type "Account"
+          }
+        ]
+        result {
+          ref "account.balance"
+        }
+        returns "Int"
+      }
+    }
+    types {
+      Account {
+        record {
+          balance "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

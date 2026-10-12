@@ -1,0 +1,40 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-type-mention-that-is-no-name-refuses"
+  note "A name in the types namespace is identifiers joined by dots. `a b` is none, so a slot writing it refuses at the load, though the imports list names it."
+  program {
+    imports [
+      "a b"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              1
+            ]
+            procedure "keep"
+          }
+        }
+      }
+      keep {
+        parameters [
+          {
+            name "value"
+            type "a b"
+          }
+        ]
+        result {
+          ref "value"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

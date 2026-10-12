@@ -1,0 +1,38 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-map-literal-keyed-by-a-closure-refuses"
+  note "A procedure answers no contract, so a map literal whose key is a closure reads as a map keyed by a procedure type, which does not answer `Hashable`, and it refuses at the build where it is written."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "d"
+            value {
+              dictionary [
+                [
+                  {
+                    closure {
+                      result 1
+                    }
+                  }
+                  1
+                ]
+              ]
+            }
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

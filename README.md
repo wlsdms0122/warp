@@ -2,20 +2,7 @@
 
 A runtime build system: front ends, an IR and runtimes, where any front end works with any runtime. It is for the boundary between a running program and code that arrives after the program was built. Warp defines that boundary as a language, so each program does not design its own.
 
-An ordinary language goes one way:
-
-```
-source  ->  build  ->  machine code
-```
-
-Warp is the half in front of that:
-
-```
-source  ->  build  ->  IR        (Warp)
-                       IR  ->  build  ->  machine code   (the runtime's own toolchain)
-```
-
-It takes a language, builds it, and answers with a language again: the IR document. The runtime builds that document when it arrives and runs it. The ordinary toolchain that built the runtime is what reaches machine code, and Warp has no part in that half.
+A front end writes a program as an IR document, the language the specification under `spec/` describes. A runtime builds that document where it arrives, the whole of it before any of it runs, and runs it.
 
 ## Why it exists
 

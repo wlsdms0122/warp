@@ -1,0 +1,75 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-name-on-a-call-of-a-declared-procedure-type-answering-an-alias-of-never-is-refused"
+  note "`App.F` declares a procedure type answering `App.N`, a spelling of `Never`. A call of `f`, read as `App.F`, answers `Never`, so it never finishes and `y` could never bind."
+  program {
+    imports [
+      "Standard.Control.abort"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "f"
+            type "App.F"
+            value {
+              closure {
+                body [
+                  {
+                    value {
+                      call {
+                        arguments [
+                          "no"
+                        ]
+                        procedure "Standard.Control.abort"
+                      }
+                    }
+                  }
+                ]
+                parameters [
+                  {
+                    name "x"
+                    type "Int"
+                  }
+                ]
+                returns "Never"
+              }
+            }
+          }
+          {
+            let "y"
+            value {
+              call {
+                arguments [
+                  1
+                ]
+                procedure {
+                  ref "f"
+                }
+              }
+            }
+          }
+        ]
+        result 1
+      }
+    }
+    types {
+      "App.F" {
+        procedure {
+          parameters [
+            "Int"
+          ]
+          returns "App.N"
+        }
+      }
+      "App.N" "Never"
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -17,29 +17,35 @@ warpt 1
           call {
             arguments [
               {
-                record {
-                  fine {
-                    closure {
-                      result 1
+                dictionary [
+                  [
+                    "fine"
+                    {
+                      closure {
+                        result 1
+                      }
                     }
-                  }
-                  fragile {
-                    closure {
-                      body [
-                        {
-                          value {
-                            call {
-                              arguments [
-                                "on purpose"
-                              ]
-                              procedure "Standard.Control.abort"
+                  ]
+                  [
+                    "fragile"
+                    {
+                      closure {
+                        body [
+                          {
+                            value {
+                              call {
+                                arguments [
+                                  "on purpose"
+                                ]
+                                procedure "Standard.Control.abort"
+                              }
                             }
                           }
-                        }
-                      ]
+                        ]
+                      }
                     }
-                  }
-                }
+                  ]
+                ]
               }
             ]
             procedure "Standard.Concurrent.firstKeyed"

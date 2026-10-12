@@ -1,0 +1,63 @@
+warpt 1
+{
+  arguments {
+    a App.P {
+      x 1
+      y 2
+    }
+  }
+  expect {
+    answers "App.P {\"x\":1}"
+  }
+  name "a-record-from-outside-at-a-contract-slot-is-fitted-to-its-record"
+  note "The entry asks `App.Shape` and is handed a value under the name `App.P` holding a field `App.P` does not declare. The door fits a value under a declared record's name to that record where its slot asks contracts, so `y` is left out, as at a slot declaring `App.P`."
+  program {
+    contracts {
+      "App.Shape" {}
+    }
+    imports [
+      "Standard.Text.text"
+    ]
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "a"
+            type "App.Shape"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "a"
+              }
+            ]
+            procedure "Standard.Text.text"
+          }
+        }
+      }
+    }
+    satisfies {
+      "App.P" [
+        "App.Shape"
+      ]
+    }
+    types {
+      "App.P" {
+        record {
+          x "Int"
+        }
+      }
+      "App.Q" {
+        record {
+          x "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

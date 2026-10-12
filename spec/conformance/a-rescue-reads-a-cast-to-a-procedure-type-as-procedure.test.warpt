@@ -1,0 +1,79 @@
+warpt 1
+{
+  arguments {
+    payload "not a procedure"
+  }
+  expect {
+    answers {
+      actual "String"
+      expected "const Procedure"
+    }
+  }
+  name "a-rescue-reads-a-cast-to-a-procedure-type-as-procedure"
+  note "A procedure type's signature has no string spelling, so `cast_refused`'s `expected` spells a cast to one by what stands in front of it and `Procedure`."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "tried"
+            value {
+              attempt {
+                body [
+                  {
+                    value {
+                      as {
+                        of {
+                          ref "payload"
+                        }
+                        type {
+                          "const procedure" {
+                            parameters [
+                              "Int"
+                            ]
+                            returns "Int"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  result {
+                    dictionary [
+                      [
+                        "actual"
+                        {
+                          ref "tried.details[\"actual\"]"
+                        }
+                      ]
+                      [
+                        "expected"
+                        {
+                          ref "tried.details[\"expected\"]"
+                        }
+                      ]
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "payload"
+          }
+        ]
+        result {
+          ref "tried"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
