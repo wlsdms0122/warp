@@ -1,18 +1,18 @@
 warpt 1
 {
   arguments {
-    row {
+    row App.Row {
       extra 1
       id "a"
     }
   }
   expect {
-    answers {
+    answers App.Row {
       id "a"
     }
   }
   name "a-value-from-outside-is-fitted-to-the-fields-declared"
-  note "The door a value from outside comes through is the one place a value is fitted to a type: a field the declaration never named is left out there, so `row` holds exactly the fields its record type says."
+  note "The door a value from outside comes through is the one place a value is fitted to a type: a field the declared record never named is left out there, so `row` holds exactly the fields `App.Row` declares."
   program {
     imports []
     procedures {
@@ -21,15 +21,18 @@ warpt 1
         parameters [
           {
             name "row"
-            type {
-              record {
-                id "String"
-              }
-            }
+            type "App.Row"
           }
         ]
         result {
           ref "row"
+        }
+      }
+    }
+    types {
+      "App.Row" {
+        record {
+          id "String"
         }
       }
     }

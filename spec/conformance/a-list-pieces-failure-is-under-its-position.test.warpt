@@ -1,0 +1,97 @@
+warpt 1
+{
+  expect {
+    answers [
+      1
+    ]
+  }
+  name "a-list-pieces-failure-is-under-its-position"
+  note "concurrent_failed holds a list piece's failure under the piece's position, a whole number, the way a map piece's stands under its key, so a rescue reads the failures as a map keyed by Int."
+  program {
+    imports [
+      "Standard.Collection.keys"
+      "Standard.Concurrent.all"
+      "Standard.Control.abort"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "tried"
+            value {
+              attempt {
+                body [
+                  {
+                    value {
+                      call {
+                        arguments [
+                          [
+                            {
+                              closure {
+                                result "ok"
+                              }
+                            }
+                            {
+                              closure {
+                                body [
+                                  {
+                                    value {
+                                      call {
+                                        arguments [
+                                          "on purpose"
+                                        ]
+                                        procedure "Standard.Control.abort"
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            }
+                          ]
+                        ]
+                        procedure "Standard.Concurrent.all"
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  body [
+                    {
+                      let "failures"
+                      value {
+                        as {
+                          of {
+                            ref "tried.details[\"failures\"]"
+                          }
+                          type "Dictionary<Int, Any>"
+                        }
+                      }
+                    }
+                  ]
+                  result {
+                    call {
+                      arguments [
+                        {
+                          ref "failures"
+                        }
+                      ]
+                      procedure "Standard.Collection.keys"
+                    }
+                  }
+                }
+                result []
+              }
+            }
+          }
+        ]
+        result {
+          ref "tried"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

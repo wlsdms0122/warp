@@ -1,0 +1,54 @@
+warpt 1
+{
+  expect {
+    answers "a"
+  }
+  name "a-map-keyed-by-lists-finds-a-list-by-its-elements"
+  note "`Array<Int>` answers `Hashable` through the language's claim about every list, so a list is a map's key, and a list written apart from the map, `k`, finds the entry under the same elements in the same order."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "d"
+            type "Dictionary<Array<Int>, String>"
+            value {
+              dictionary [
+                [
+                  [
+                    1
+                    2
+                  ]
+                  "a"
+                ]
+                [
+                  [
+                    1
+                  ]
+                  "b"
+                ]
+              ]
+            }
+          }
+          {
+            let "k"
+            type "Array<Int>"
+            value [
+              1
+              2
+            ]
+          }
+        ]
+        result {
+          ref "d[k]"
+        }
+        returns "String"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

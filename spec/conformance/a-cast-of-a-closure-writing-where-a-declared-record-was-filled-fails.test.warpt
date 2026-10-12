@@ -4,7 +4,7 @@ warpt 1
     answers "cast_refused"
   }
   name "a-cast-of-a-closure-writing-where-a-declared-record-was-filled-fails"
-  note "App.h keeps n in cell and writes a closure that sets cell from its own some T, held as Any. The entry fills T with App.R. The cast reading the closure as taking a nameless record fails with cast_refused, since only App.h's call filled its T, and the attempt in the entry catches the failure."
+  note "App.h keeps n in cell and writes a closure that sets cell from its own some T, held as Any. The entry fills T with App.R. The cast reading the closure as taking an App.X, a record of the same fields under another name, fails with cast_refused, since only App.h's call filled its T, and the attempt in the entry catches the failure."
   program {
     imports []
     procedures {
@@ -56,11 +56,7 @@ warpt 1
                 type {
                   procedure {
                     parameters [
-                      {
-                        record {
-                          x "Int"
-                        }
-                      }
+                      "App.X"
                     ]
                     returns "Int"
                   }
@@ -147,6 +143,11 @@ warpt 1
     }
     types {
       "App.R" {
+        record {
+          x "Int"
+        }
+      }
+      "App.X" {
         record {
           x "Int"
         }

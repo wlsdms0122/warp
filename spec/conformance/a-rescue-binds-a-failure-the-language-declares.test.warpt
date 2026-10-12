@@ -1,0 +1,69 @@
+warpt 1
+{
+  expect {
+    answers "on purpose"
+  }
+  name "a-rescue-binds-a-failure-the-language-declares"
+  note "What a rescue binds is a `Failure`, a record the language declares, so a slot that declares `Failure` takes it as it is and reads its fields."
+  program {
+    imports [
+      "Standard.Control.abort"
+    ]
+    procedures {
+      "App.told" {
+        parameters [
+          {
+            name "failed"
+            type "Failure"
+          }
+        ]
+        result {
+          ref "failed.message"
+        }
+        returns "String"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "tried"
+            value {
+              attempt {
+                body [
+                  {
+                    value {
+                      call {
+                        arguments [
+                          "on purpose"
+                        ]
+                        procedure "Standard.Control.abort"
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  result {
+                    call {
+                      arguments [
+                        {
+                          ref "tried"
+                        }
+                      ]
+                      procedure "App.told"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "tried"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,41 @@
+warpt 1
+{
+  expect {
+    answers "z"
+  }
+  name "a-whole-number-below-zero-is-a-key-of-a-map"
+  note "A whole number below zero is no position of a list, and on a map keyed by `Int` it is a key like any other."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "d"
+            type "Dictionary<Int, String>"
+            value {
+              dictionary [
+                [
+                  -1
+                  "z"
+                ]
+                [
+                  1
+                  "a"
+                ]
+              ]
+            }
+          }
+        ]
+        result {
+          ref "d[-1]"
+        }
+        returns "String"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

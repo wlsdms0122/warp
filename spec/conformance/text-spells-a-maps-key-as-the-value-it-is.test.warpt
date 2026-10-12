@@ -1,0 +1,63 @@
+warpt 1
+{
+  expect {
+    answers [
+      "{2:\"a\",10:\"b\"}"
+      "{[1,2]:true}"
+    ]
+  }
+  name "text-spells-a-maps-key-as-the-value-it-is"
+  note "text spells a map's key the way it spells any value inside a container: a whole number bare and a list between brackets, where a text key is quoted, the entries in the key order."
+  program {
+    imports [
+      "Standard.Text.text"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result [
+          {
+            call {
+              arguments [
+                {
+                  dictionary [
+                    [
+                      10
+                      "b"
+                    ]
+                    [
+                      2
+                      "a"
+                    ]
+                  ]
+                }
+              ]
+              procedure "Standard.Text.text"
+            }
+          }
+          {
+            call {
+              arguments [
+                {
+                  dictionary [
+                    [
+                      [
+                        1
+                        2
+                      ]
+                      true
+                    ]
+                  ]
+                }
+              ]
+              procedure "Standard.Text.text"
+            }
+          }
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

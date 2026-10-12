@@ -4,7 +4,7 @@ warpt 1
     answers "aborted"
   }
   name "a-rescue-reads-a-pieces-own-failure"
-  note "What concurrent_failed gathers under each piece is the envelope that piece raised, so a rescue reads a piece's own type through details, the way it reads any failure's."
+  note "What concurrent_failed gathers under each piece is the failure that piece raised, a `Failure` like every failure a rescue binds, so a rescue reads a piece's own type through details once a cast says it is one."
   program {
     imports [
       "Standard.Concurrent.allKeyed"
@@ -24,29 +24,35 @@ warpt 1
                       call {
                         arguments [
                           {
-                            record {
-                              fine {
-                                closure {
-                                  result "ok"
+                            dictionary [
+                              [
+                                "fine"
+                                {
+                                  closure {
+                                    result "ok"
+                                  }
                                 }
-                              }
-                              fragile {
-                                closure {
-                                  body [
-                                    {
-                                      value {
-                                        call {
-                                          arguments [
-                                            "on purpose"
-                                          ]
-                                          procedure "Standard.Control.abort"
+                              ]
+                              [
+                                "fragile"
+                                {
+                                  closure {
+                                    body [
+                                      {
+                                        value {
+                                          call {
+                                            arguments [
+                                              "on purpose"
+                                            ]
+                                            procedure "Standard.Control.abort"
+                                          }
                                         }
                                       }
-                                    }
-                                  ]
+                                    ]
+                                  }
                                 }
-                              }
-                            }
+                              ]
+                            ]
                           }
                         ]
                         procedure "Standard.Concurrent.allKeyed"
@@ -61,9 +67,9 @@ warpt 1
                       value {
                         as {
                           of {
-                            ref "tried.details.failures"
+                            ref "tried.details[\"failures\"]"
                           }
-                          type "Dictionary<Any>"
+                          type "Dictionary<String, Any>"
                         }
                       }
                     }
@@ -72,15 +78,9 @@ warpt 1
                       value {
                         as {
                           of {
-                            ref "failures.fragile"
+                            ref "failures[\"fragile\"]"
                           }
-                          type {
-                            record {
-                              details "Dictionary<Any>"
-                              message "String"
-                              type "String"
-                            }
-                          }
+                          type "Failure"
                         }
                       }
                     }

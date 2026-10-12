@@ -10,7 +10,7 @@ What a declaration says about itself, and what saying it permits. Four things: t
 | `access` | `public`, `internal` or `private`: who may name the declaration, under *who may name a declaration* below. `internal` when absent | no |
 | `parameters` | list of parameters, in the order the declaration writes them, which is the order every call hands its arguments in | no |
 | `returns` | type. When absent, what a call answers is read off the body | no |
-| `bounds` | record: type parameter → the names of contracts, one or several joined with `&`; one naming a parameter no slot mentions **refuses at the load**, under [types](type.md) | no |
+| `bounds` | map: type parameter → the names of contracts, one or several joined with `&`; one naming a parameter no slot mentions **refuses at the load**, under [types](type.md) | no |
 | `body` | statements | no |
 | `result` | expression. What the procedure answers | no |
 
@@ -93,7 +93,7 @@ Written as a record, one per entry of `parameters`:
 | `type` | type | no; absent means `Any`, and `Any` written out **refuses at the load**, since leaving it out says it |
 | `description` | string | no |
 
-A closure literal that writes no `returns`, written where a procedure type says what it answers, answers that: the place completes its signature, so its body is judged against the answer and a literal it answers is read as the place reads it. Written where nothing completes it, it answers what its body hands back, each way out read as a name holds it, the way a declaration that writes no `returns` does, and the build writes that answer into its signature, so the run reads the closure as the build did. An answer no type spells, what a dot on a value of a type parameter reaches, is one only the body around it can read, so the signature answers `Any` there. A place is every one a literal is written into: a name that says what it holds, a write, an argument to a declaration or to a called value, a body's answer and what a `return` carries, and an element or a field of a list or a record written there, so where a closure is written does not decide whether what it answers is judged at the build. An answer the call fills is no place's to say.
+A closure literal that writes no `returns`, written where a procedure type says what it answers, answers that: the place completes its signature, so its body is judged against the answer and a literal it answers is read as the place reads it. Written where nothing completes it, it answers what its body hands back, each way out read as a name holds it, the way a declaration that writes no `returns` does, and the build writes that answer into its signature, so the run reads the closure as the build did. An answer no type spells, what a dot on a value of a type parameter reaches, is one only the body around it can read, so the signature answers `Any` there. A place is every one a literal is written into, under [types](type.md), the type a cast names among them, so where a closure is written does not decide whether what it answers is judged at the build. An answer the call fills is no place's to say.
 
 The name is the declaration's own, and a closure literal's names are its own the same way. A procedure type carries the types in position order and no names, under [types](type.md), so two closures naming their parameters differently are one type where the types agree. Two parameters under one name **refuse at the load**.
 
@@ -131,6 +131,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-closure-answered-without-returns-reads-a-module-variable-by-running`
 - `a-closure-carries-what-a-captured-slot-said`
 - `a-closure-literal-a-body-answers-answers-what-its-declaration-answers-refuses`
+- `a-closure-literal-a-cast-reads-answers-what-its-procedure-type-answers`
 - `a-closure-literal-a-return-carries-answers-what-its-declaration-answers-refuses`
 - `a-closure-literal-a-write-hands-a-box-answers-what-the-box-answers-refuses`
 - `a-closure-literal-handed-to-a-called-value-answers-what-the-slot-answers-refuses`
@@ -141,7 +142,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-closure-writes-its-own-parameter-in-place-and-no-name-it-shadows`
 - `a-closures-parameter-is-not-the-const-procedure-it-shadows`
 - `a-const-procedure-read-out-of-a-dictionary-answers-without-running`
-- `a-const-procedure-read-out-of-a-dictionary-by-a-dot-answers-without-running`
 - `a-const-procedure-read-out-of-a-record-field-answers-without-running`
 - `a-const-slot-refuses-a-closure-that-calls-what-runs`
 - `a-const-slot-takes-a-closure-that-calls-a-const-slot`
@@ -181,9 +181,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-procedure-value-cast-to-a-procedure-type-is-called`
 - `a-record-literal-a-closure-writes-into-a-captured-variable-takes-the-name-answers`
 - `a-record-literal-handed-to-a-called-value-at-a-record-naming-itself-answers`
-- `a-record-literal-handed-to-a-called-value-takes-the-name-beside-a-type-parameter-answers`
 - `a-record-literal-handed-to-a-called-value-takes-the-name-its-slot-reads-answers`
-- `a-record-literal-handed-to-a-declaration-takes-the-name-beside-a-type-parameter-answers`
 - `a-required-argument-left-out-refuses`
 - `a-slot-handing-a-const-procedure-in-place-is-a-const-slot`
 - `a-slot-naming-a-const-procedure-type-is-a-const-slot`

@@ -1,0 +1,36 @@
+warpt 1
+{
+  expect {
+    answers "five"
+  }
+  name "a-write-under-a-whole-number-key-makes-the-entry"
+  note "A write through brackets on a map lands on the entry under the key between them, made where the map does not hold it yet, whatever the key type."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            type "Dictionary<Int, String>"
+            value {
+              dictionary []
+            }
+            var "d"
+          }
+          {
+            set "d[5]"
+            value "five"
+          }
+        ]
+        result {
+          ref "d[5]"
+        }
+        returns "String"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-list-literal-a-block-answers-is-read-position-by-position-refuses"
-  note "A name declared `Array<Dictionary<Array<String>>>` starts with a block whose result is `[{ a: [] }, { a: [1] }]`. The block writes what its result writes, so the literal is held to the declaration position by position as it would be written directly, and the list of ints refuses at the build."
+  note "A name declared `Array<Dictionary<String, Array<String>>>` starts with a block whose result is a list of two map literals, one holding `[]` under `a` and one holding `[1]`. The block writes what its result writes, so the literal is held to the declaration position by position as it would be written directly, and the list of ints refuses at the build."
   program {
     imports [
       "Standard.Collection.count"
@@ -14,21 +14,27 @@ warpt 1
         access "public"
         body [
           {
-            type "Array<Dictionary<Array<String>>>"
+            type "Array<Dictionary<String, Array<String>>>"
             value {
               block {
                 result [
                   {
-                    record {
-                      a []
-                    }
+                    dictionary [
+                      [
+                        "a"
+                        []
+                      ]
+                    ]
                   }
                   {
-                    record {
-                      a [
-                        1
+                    dictionary [
+                      [
+                        "a"
+                        [
+                          1
+                        ]
                       ]
-                    }
+                    ]
                   }
                 ]
               }

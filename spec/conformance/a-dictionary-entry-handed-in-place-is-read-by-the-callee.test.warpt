@@ -38,15 +38,14 @@ warpt 1
         access "public"
         body [
           {
+            type "Dictionary<String, Int>"
             value {
-              as {
-                of {
-                  record {
-                    a 1
-                  }
-                }
-                type "Dictionary<Int>"
-              }
+              dictionary [
+                [
+                  "a"
+                  1
+                ]
+              ]
             }
             var "d"
           }
@@ -55,7 +54,7 @@ warpt 1
               call {
                 arguments [
                   {
-                    ref "d.a"
+                    ref "d[\"a\"]"
                   }
                 ]
                 procedure "bump"
@@ -64,7 +63,7 @@ warpt 1
           }
         ]
         result {
-          ref "d.a"
+          ref "d[\"a\"]"
         }
         returns "Int"
       }

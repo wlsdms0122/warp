@@ -29,18 +29,7 @@ warpt 1
         parameters [
           {
             name "body"
-            type {
-              record {
-                f {
-                  "const procedure" {
-                    parameters [
-                      "Int"
-                    ]
-                    returns "Int"
-                  }
-                }
-              }
-            }
+            type "App.Holder"
           }
         ]
         result {
@@ -84,6 +73,20 @@ warpt 1
           }
         }
         returns "Int"
+      }
+    }
+    types {
+      "App.Holder" {
+        record {
+          f {
+            "const procedure" {
+              parameters [
+                "Int"
+              ]
+              returns "Int"
+            }
+          }
+        }
       }
     }
     warp 1

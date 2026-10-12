@@ -6,11 +6,10 @@ warpt 1
       "text"
       "a list"
       "a map"
-      "a map"
     ]
   }
   name "a-type-the-language-names-answers-a-contract"
-  note "A type the language names is a type the way a declared one is, and a document claims a contract for it the same way. The run picks by the type the value is an instance of: a list by `Array` whatever it holds, a map by `Dictionary`, and a record with no name by `Dictionary`, since its names are data."
+  note "A type the language names is a type the way a declared one is, and a document claims a contract for it the same way. The run picks by the type the value is an instance of: a list by `Array` whatever it holds, and a map by `Dictionary` whatever it holds."
   program {
     contracts {
       "App.Described" {
@@ -38,10 +37,13 @@ warpt 1
         returns "String"
       }
       "Dictionary.describe" {
+        bounds {
+          Key "Hashable"
+        }
         parameters [
           {
             name "of"
-            type "Dictionary<Any>"
+            type "Dictionary<some Key, Any>"
           }
         ]
         result "a map"
@@ -72,11 +74,14 @@ warpt 1
         body [
           {
             let "map"
-            type "Dictionary<Int>"
+            type "Dictionary<String, Int>"
             value {
-              record {
-                a 1
-              }
+              dictionary [
+                [
+                  "a"
+                  1
+                ]
+              ]
             }
           }
         ]
@@ -112,18 +117,6 @@ warpt 1
               arguments [
                 {
                   ref "map"
-                }
-              ]
-              procedure "App.Described.describe"
-            }
-          }
-          {
-            call {
-              arguments [
-                {
-                  record {
-                    a 1
-                  }
                 }
               ]
               procedure "App.Described.describe"

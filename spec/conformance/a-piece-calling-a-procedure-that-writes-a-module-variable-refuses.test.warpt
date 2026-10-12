@@ -38,24 +38,22 @@ warpt 1
         result {
           call {
             arguments [
-              {
-                record {
-                  left {
-                    closure {
-                      result 1
-                    }
+              [
+                {
+                  closure {
+                    result 1
                   }
-                  right {
-                    closure {
-                      result {
-                        call {
-                          procedure "bump"
-                        }
+                }
+                {
+                  closure {
+                    result {
+                      call {
+                        procedure "bump"
                       }
                     }
                   }
                 }
-              }
+              ]
             ]
             procedure "Standard.Concurrent.all"
           }

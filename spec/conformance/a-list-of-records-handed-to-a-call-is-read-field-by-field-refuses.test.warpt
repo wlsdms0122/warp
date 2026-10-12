@@ -12,13 +12,7 @@ warpt 1
         parameters [
           {
             name "ps"
-            type {
-              array {
-                record {
-                  a "Int"
-                }
-              }
-            }
+            type "Array<App.A>"
           }
         ]
         result 0
@@ -64,6 +58,13 @@ warpt 1
         ]
         result {
           ref "r"
+        }
+      }
+    }
+    types {
+      "App.A" {
+        record {
+          a "Int"
         }
       }
     }

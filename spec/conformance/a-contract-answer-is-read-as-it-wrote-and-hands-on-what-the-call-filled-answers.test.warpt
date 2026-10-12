@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    answers "1.0"
+    answers "x"
   }
   name "a-contract-answer-is-read-as-it-wrote-and-hands-on-what-the-call-filled-answers"
-  note "`App.Paired.pair` takes `some T` and answers `{ v: some T, n: Double }`, and `Bank.Card.pair` writes no `returns` and answers `{ v: a, n: 1.0 }`. The call reads the answer by what the contract wrote, position by position, and judges it there: `n` is a fraction, and `v` is what the call filled `T` with. The answer is handed on as it came, so the text of `n` is `1.0`."
+  note "`App.Paired.pair` takes `some T` and answers `Array<some T>`, and `Bank.Card.pair` writes no `returns` and answers `[a]`. The call reads the answer by what the contract wrote, filled with what the call filled `T` with, so `p[0]` reads the text handed in."
   program {
     contracts {
       "App.Paired" {
@@ -19,18 +19,11 @@ warpt 1
               type "some T"
             }
           ]
-          returns {
-            record {
-              n "Double"
-              v "some T"
-            }
-          }
+          returns "Array<some T>"
         }
       }
     }
-    imports [
-      "Standard.Text.text"
-    ]
+    imports []
     procedures {
       "Bank.Card.pair" {
         parameters [
@@ -43,14 +36,11 @@ warpt 1
             type "some U"
           }
         ]
-        result {
-          record {
-            n 1.0
-            v {
-              ref "a"
-            }
+        result [
+          {
+            ref "a"
           }
-        }
+        ]
       }
       entry {
         access "public"
@@ -84,14 +74,7 @@ warpt 1
           }
         ]
         result {
-          call {
-            arguments [
-              {
-                ref "p.n"
-              }
-            ]
-            procedure "Standard.Text.text"
-          }
+          ref "p[0]"
         }
       }
     }

@@ -13,15 +13,7 @@ warpt 1
         body [
           {
             let "c"
-            type {
-              record {
-                f {
-                  procedure {
-                    returns "App.Point"
-                  }
-                }
-              }
-            }
+            type "App.Holder"
             value {
               record {
                 f {
@@ -48,6 +40,15 @@ warpt 1
       }
     }
     types {
+      "App.Holder" {
+        record {
+          f {
+            procedure {
+              returns "App.Point"
+            }
+          }
+        }
+      }
       "App.Point" {
         record {
           x "Int"

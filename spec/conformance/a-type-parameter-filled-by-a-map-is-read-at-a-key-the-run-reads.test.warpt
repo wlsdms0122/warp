@@ -1,0 +1,50 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-type-parameter-filled-by-a-map-is-read-at-a-key-the-run-reads"
+  note "Past a type parameter brackets stand as written, and what arrived says whether the value between them is a position or a key: the call fills `T` with a map, so `d[k]` reads the entry under what `k` holds."
+  program {
+    imports []
+    procedures {
+      "App.f" {
+        parameters [
+          {
+            name "d"
+            type "some T"
+          }
+          {
+            name "k"
+            type "String"
+          }
+        ]
+        result {
+          ref "d[k]"
+        }
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                dictionary [
+                  [
+                    "a"
+                    1
+                  ]
+                ]
+              }
+              "a"
+            ]
+            procedure "App.f"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

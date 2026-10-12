@@ -1,0 +1,56 @@
+warpt 1
+{
+  expect {
+    answers "x"
+  }
+  name "a-map-keyed-by-whole-numbers-reads-a-key-the-run-reads"
+  note "A path between the brackets of a map stands where the map's key type is read, so on `Dictionary<Int, String>` an `Int` the run reads finds the entry under it."
+  program {
+    imports []
+    procedures {
+      "App.read" {
+        parameters [
+          {
+            name "of"
+            type "Dictionary<Int, String>"
+          }
+          {
+            name "key"
+            type "Int"
+          }
+        ]
+        result {
+          ref "of[key]"
+        }
+        returns "String"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                dictionary [
+                  [
+                    0
+                    "y"
+                  ]
+                  [
+                    7
+                    "x"
+                  ]
+                ]
+              }
+              7
+            ]
+            procedure "App.read"
+          }
+        }
+        returns "String"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

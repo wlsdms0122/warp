@@ -6,73 +6,78 @@ warpt 1
     ]
   }
   name "a-constant-record-hands-a-field-on-at-its-own-type"
-  note "A record constant's fields keep their own types, so `k.a`, a `const` closure beside a field that runs, stands where `map` asks a `const` procedure."
+  note "A constant of a declared record reads each field at the type its declaration writes, so `k.a`, declared a `const` procedure beside a field that runs, stands where `map` asks a `const` procedure."
   program {
     const {
       k {
-        record {
-          a {
-            closure {
-              parameters [
-                {
-                  name "x"
-                  type "Int"
-                }
-              ]
-              result {
-                ref "x"
-              }
-              returns "Int"
-            }
-          }
-          b {
-            closure {
-              body [
-                {
-                  let "h"
-                  value {
-                    closure {
-                      parameters [
-                        {
-                          name "q"
-                          type "Int"
-                        }
-                      ]
-                      result {
-                        ref "q"
-                      }
-                      returns "Int"
+        as {
+          of {
+            record {
+              a {
+                closure {
+                  parameters [
+                    {
+                      name "x"
+                      type "Int"
                     }
+                  ]
+                  result {
+                    ref "x"
                   }
+                  returns "Int"
                 }
-                {
-                  let "z"
-                  value {
-                    call {
-                      arguments [
-                        {
-                          ref "x"
+              }
+              b {
+                closure {
+                  body [
+                    {
+                      let "h"
+                      value {
+                        closure {
+                          parameters [
+                            {
+                              name "q"
+                              type "Int"
+                            }
+                          ]
+                          result {
+                            ref "q"
+                          }
+                          returns "Int"
                         }
-                      ]
-                      procedure {
-                        ref "h"
                       }
                     }
+                    {
+                      let "z"
+                      value {
+                        call {
+                          arguments [
+                            {
+                              ref "x"
+                            }
+                          ]
+                          procedure {
+                            ref "h"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                  parameters [
+                    {
+                      name "x"
+                      type "Int"
+                    }
+                  ]
+                  result {
+                    ref "z"
                   }
+                  returns "Int"
                 }
-              ]
-              parameters [
-                {
-                  name "x"
-                  type "Int"
-                }
-              ]
-              result {
-                ref "z"
               }
-              returns "Int"
             }
           }
+          type "App.K"
         }
       }
     }
@@ -93,6 +98,28 @@ warpt 1
               }
             ]
             procedure "Standard.Collection.map"
+          }
+        }
+      }
+    }
+    types {
+      "App.K" {
+        record {
+          a {
+            "const procedure" {
+              parameters [
+                "Int"
+              ]
+              returns "Int"
+            }
+          }
+          b {
+            procedure {
+              parameters [
+                "Int"
+              ]
+              returns "Int"
+            }
           }
         }
       }

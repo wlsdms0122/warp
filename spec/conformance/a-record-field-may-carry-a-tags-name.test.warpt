@@ -1,7 +1,7 @@
 warpt 1
 {
   expect {
-    answers {
+    answers App.R {
       ref "nowhere"
       value 1
     }
@@ -26,6 +26,15 @@ warpt 1
               ref "n"
             }
           }
+        }
+        returns "App.R"
+      }
+    }
+    types {
+      "App.R" {
+        record {
+          ref "String"
+          value "Int"
         }
       }
     }

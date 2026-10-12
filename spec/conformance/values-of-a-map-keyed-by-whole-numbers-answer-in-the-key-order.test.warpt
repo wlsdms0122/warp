@@ -1,0 +1,48 @@
+warpt 1
+{
+  expect {
+    answers [
+      "a"
+      "b"
+      "c"
+    ]
+  }
+  name "values-of-a-map-keyed-by-whole-numbers-answer-in-the-key-order"
+  note "values walks a map in its key order whatever its keys are: under whole numbers, ascending by worth."
+  program {
+    imports [
+      "Standard.Collection.values"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                dictionary [
+                  [
+                    2
+                    "b"
+                  ]
+                  [
+                    10
+                    "c"
+                  ]
+                  [
+                    1
+                    "a"
+                  ]
+                ]
+              }
+            ]
+            procedure "Standard.Collection.values"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

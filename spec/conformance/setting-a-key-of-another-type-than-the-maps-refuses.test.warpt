@@ -1,0 +1,38 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "setting-a-key-of-another-type-than-the-maps-refuses"
+  note "setting reads the map's keys and the key it writes as one type: text keys beside a whole number fill that type two ways, and the call refuses at the build."
+  program {
+    imports [
+      "Standard.Collection.setting"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                dictionary [
+                  [
+                    "a"
+                    1
+                  ]
+                ]
+              }
+              2
+              3
+            ]
+            procedure "Standard.Collection.setting"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

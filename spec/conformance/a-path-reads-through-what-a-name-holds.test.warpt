@@ -13,6 +13,7 @@ warpt 1
         body [
           {
             let "data"
+            type "App.Data"
             value {
               record {
                 list [
@@ -25,6 +26,13 @@ warpt 1
         ]
         result {
           ref "data.list[1]"
+        }
+      }
+    }
+    types {
+      "App.Data" {
+        record {
+          list "Array<Int>"
         }
       }
     }

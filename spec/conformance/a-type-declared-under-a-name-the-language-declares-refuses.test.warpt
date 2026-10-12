@@ -1,0 +1,27 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-type-declared-under-a-name-the-language-declares-refuses"
+  note "The language declares `Hashable`, `Failure` and `Round` itself, ahead of every document, so a document declaring a type under one of them is refused where it is read."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+      }
+    }
+    types {
+      Round {
+        record {
+          index "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

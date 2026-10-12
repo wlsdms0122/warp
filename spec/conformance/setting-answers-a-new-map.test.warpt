@@ -1,0 +1,65 @@
+warpt 1
+{
+  expect {
+    answers [
+      {
+        a 1
+        b 2
+      }
+      {
+        a 1
+      }
+    ]
+  }
+  name "setting-answers-a-new-map"
+  note "setting answers a map with the entry written, and a new map: the one it was given still holds what it held."
+  program {
+    imports [
+      "Standard.Collection.setting"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "data"
+            value {
+              dictionary [
+                [
+                  "a"
+                  1
+                ]
+              ]
+            }
+          }
+          {
+            let "grown"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "data"
+                  }
+                  "b"
+                  2
+                ]
+                procedure "Standard.Collection.setting"
+              }
+            }
+          }
+        ]
+        result [
+          {
+            ref "grown"
+          }
+          {
+            ref "data"
+          }
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

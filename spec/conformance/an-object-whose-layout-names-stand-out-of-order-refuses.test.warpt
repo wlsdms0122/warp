@@ -4,30 +4,14 @@ warpt 1
     refuses "load"
   }
   name "an-object-whose-layout-names-stand-out-of-order-refuses"
-  note "A lowered record's layout writes its field names in name order beside their types. Names out of order would pair each name with another's type."
+  note "A record built from parts writes its layout's field names in name order, one operation each in that order. Names out of order would pair each name with another's operation."
   object {
     answers [
       [
         "entry"
         [
-          9
-          [
-            [
-              []
-              [
-                "b"
-                "a"
-              ]
-            ]
-            [
-              [
-                4
-              ]
-              [
-                6
-              ]
-            ]
-          ]
+          14
+          0
         ]
       ]
     ]
@@ -69,10 +53,10 @@ warpt 1
                 3
                 [
                   [
-                    []
+                    "App.R"
                     [
-                      "a"
                       "b"
+                      "a"
                     ]
                   ]
                   [
@@ -105,8 +89,31 @@ warpt 1
         ]
       ]
     ]
-    typeNumbering []
-    types []
+    typeNumbering [
+      "App.R"
+    ]
+    types [
+      [
+        "App.R"
+        [
+          9
+          [
+            [
+              "a"
+              [
+                4
+              ]
+            ]
+            [
+              "b"
+              [
+                6
+              ]
+            ]
+          ]
+        ]
+      ]
+    ]
     variables []
   }
   test 1

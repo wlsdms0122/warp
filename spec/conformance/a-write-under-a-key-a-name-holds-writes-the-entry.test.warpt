@@ -6,7 +6,7 @@ warpt 1
     }
   }
   name "a-write-under-a-key-a-name-holds-writes-the-entry"
-  note "The brackets on a dictionary read the name between them as a key, in a write as in a read, so a set through d[k] with k holding text writes that entry."
+  note "The brackets on a map read what stands between them as a key, in a write as in a read, so a set through d[k] with k holding text writes that entry."
   program {
     imports []
     procedures {
@@ -14,11 +14,14 @@ warpt 1
         access "public"
         body [
           {
-            type "Dictionary<Int>"
+            type "Dictionary<String, Int>"
             value {
-              record {
-                a 0
-              }
+              dictionary [
+                [
+                  "a"
+                  0
+                ]
+              ]
             }
             var "d"
           }
@@ -35,7 +38,7 @@ warpt 1
         result {
           ref "d"
         }
-        returns "Dictionary<Int>"
+        returns "Dictionary<String, Int>"
       }
     }
     warp 1

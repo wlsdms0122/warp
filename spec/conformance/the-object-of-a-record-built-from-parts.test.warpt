@@ -6,24 +6,8 @@ warpt 1
         [
           "entry"
           [
-            9
-            [
-              [
-                []
-                [
-                  "a"
-                  "b"
-                ]
-              ]
-              [
-                [
-                  4
-                ]
-                [
-                  4
-                ]
-              ]
-            ]
+            14
+            0
           ]
         ]
       ]
@@ -32,7 +16,7 @@ warpt 1
       contracts []
       dependencies []
       document [
-        x"8bde11bd9ff582639e98d8bd82855ccef33fb269e433494f86b3c212670d80a2"
+        x"18cc662593961ce57be4672ca7ee2c211b45041feeb155ae97b47b56664e0a77"
       ]
       leaned []
       lifted []
@@ -69,40 +53,57 @@ warpt 1
           [
             0
             [
-              []
               [
                 [
-                  3
                   [
                     [
-                      []
-                      [
-                        "a"
-                        "b"
-                      ]
+                      0
+                      1
                     ]
+                  ]
+                  [
+                    3
                     [
                       [
-                        1
+                        "App.P"
                         [
-                          0
-                          []
+                          "a"
+                          "b"
                         ]
                       ]
                       [
-                        0
                         [
-                          2
-                          2
+                          1
+                          [
+                            0
+                            []
+                          ]
+                        ]
+                        [
+                          0
+                          [
+                            2
+                            2
+                          ]
                         ]
                       ]
                     ]
+                  ]
+                  "p"
+                ]
+              ]
+              [
+                [
+                  1
+                  [
+                    1
+                    []
                   ]
                 ]
               ]
             ]
             [
-              1
+              2
               [
                 0
               ]
@@ -110,13 +111,37 @@ warpt 1
               []
               [
                 "n"
+                "p"
               ]
             ]
           ]
         ]
       ]
-      typeNumbering []
-      types []
+      typeNumbering [
+        "App.P"
+      ]
+      types [
+        [
+          "App.P"
+          [
+            9
+            [
+              [
+                "a"
+                [
+                  4
+                ]
+              ]
+              [
+                "b"
+                [
+                  4
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
       variables []
     }
   }
@@ -127,6 +152,20 @@ warpt 1
     procedures {
       entry {
         access "public"
+        body [
+          {
+            let "p"
+            type "App.P"
+            value {
+              record {
+                a {
+                  ref "n"
+                }
+                b 2
+              }
+            }
+          }
+        ]
         parameters [
           {
             name "n"
@@ -134,12 +173,15 @@ warpt 1
           }
         ]
         result {
-          record {
-            a {
-              ref "n"
-            }
-            b 2
-          }
+          ref "p"
+        }
+      }
+    }
+    types {
+      "App.P" {
+        record {
+          a "Int"
+          b "Int"
         }
       }
     }

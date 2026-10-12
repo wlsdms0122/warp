@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-dictionary-of-an-alias-of-any-at-a-dictionary-of-a-contract-refuses"
-  note "Each entry of a Dictionary<App.Loose> is read as Any, which stands nowhere a contract is asked, so handing it where a Dictionary<App.Shape> is declared refuses at the build."
+  note "Each entry of a Dictionary<String, App.Loose> is read as Any, which stands nowhere a contract is asked, so handing it where a Dictionary<String, App.Shape> is declared refuses at the build."
   program {
     contracts {
       "App.Shape" {}
@@ -15,7 +15,7 @@ warpt 1
         parameters [
           {
             name "p"
-            type "Dictionary<App.Shape>"
+            type "Dictionary<String, App.Shape>"
           }
         ]
         result 1
@@ -26,11 +26,14 @@ warpt 1
         body [
           {
             let "d"
-            type "Dictionary<App.Loose>"
+            type "Dictionary<String, App.Loose>"
             value {
-              record {
-                k 5
-              }
+              dictionary [
+                [
+                  "k"
+                  5
+                ]
+              ]
             }
           }
         ]
