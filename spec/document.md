@@ -61,6 +61,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-front-end-shorthand-refuses-in-a-document`
 - `a-later-document-refuses`
 - `a-list-leaving-out-a-type-the-program-names-refuses`
+- `a-mapping-keyed-by-what-is-no-name-refuses`
 - `a-module-variable-closure-called-with-another-count-refuses`
 - `a-module-variable-closure-may-name-its-documents-own-type`
 - `a-module-variable-declares-what-it-holds`
