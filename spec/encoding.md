@@ -2,7 +2,7 @@
 
 An encoding is bytes for a value tree. Two are specified, and they are not peers: the binary is the document and the text is for people. An encoding carries a tree and never learns what a tree means, so a document, an [object](object.md) and a conformance case travel under the same two, and each says what it is under a key of its own, read before anything laid out by it. The file suffixes `.warp` and `.warpt` name the encoding and nothing about what the file holds; what identifies bytes is the header, since bytes that cross a wire carry no name. Whatever the encoding, three promises hold:
 
-1. **A whole number and a fraction are told apart.** However the encoding does it, `1` and `1.0` must arrive as the values they were. They are two values of two types, `Int` and `Double`, under [types](type.md), which only `equal` takes as one worth: the encoding is faithful to what was written, and sameness of worth is the value model's, not the bytes'.
+1. **A whole number and a fraction are told apart.** However the encoding does it, `1` and `1.0` must arrive as the values they were. They are of two types, `Int` and `Double`, under [types](type.md), and one value only by the sameness under [values](value.md): the encoding is faithful to what was written, and sameness of worth is the value model's, not the bytes'.
 2. **The same document is the same bytes, in binary.** Writers are canonical: a map's keys are written in one order, **the key order** under [values](value.md), a record's fields **ascending by their names' UTF-8 bytes**, and every value has one spelling. This is what makes a document cacheable, comparable and signable, and the binary reader holds the same line: non-canonical bytes **refuse**, they are not normalised. The text reader is the one that is forgiving, under Warp text below: text is for people, and the binary is the document.
 3. **Nothing but data.** A procedure value has already run far enough to close over a scope, and no encoding writes one, one that captured nothing included. Infinity and NaN are likewise refused on the way out and on the way in.
 
@@ -109,10 +109,10 @@ What `conformance/` asks about this page, by the name each case's file carries. 
 - `a-map-key-the-same-as-the-one-before-refuses`
 - `a-map-key-written-twice-refuses`
 - `a-map-keyed-by-values-reads-and-writes-back`
-- `a-named-record-reads-and-writes-back`
 - `a-number-written-longer-than-it-is-refuses`
 - `a-record-name-that-is-not-declarable-refuses`
 - `a-record-named-for-a-type-the-language-names-refuses`
+- `a-record-reads-and-writes-back`
 - `a-record-the-language-declares-reads-and-writes-back`
 - `a-string-that-is-not-utf8-refuses`
 - `a-text-key-not-in-normal-form-c-is-kept`
@@ -137,9 +137,9 @@ Text:
 - `a-fraction-not-in-its-one-writing-refuses`
 - `a-fraction-reads-by-its-point-or-exponent`
 - `a-map-keyed-by-values-spells-as-text`
-- `a-named-record-reads-from-text`
 - `a-quote-running-into-a-bare-token-refuses`
 - `a-quoted-key-and-a-bare-key-are-one-key`
+- `a-record-reads-from-text`
 - `a-text-control-character-written-raw-refuses`
 - `a-text-format-header-not-in-its-one-writing-refuses`
 - `a-text-key-written-twice-refuses`

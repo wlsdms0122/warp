@@ -1,0 +1,21 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-mapping-keyed-by-what-is-no-name-refuses"
+  note "Every mapping a document writes is keyed by names. `entry` writes the key `1`, a whole number and no name, beside the keys a procedure takes, so the document refuses at the load, at the mapping that writes it."
+  program {
+    imports []
+    procedures {
+      entry {
+        1 2
+        access "public"
+        result 1
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

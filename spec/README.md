@@ -55,7 +55,7 @@ Refusals happen at one of three stages, and the stage is part of the behaviour:
 
 1. **Loading**. The bytes or the tree are not a document, or the document does not hold together on its own: a name resolves nowhere in it, a statement follows a leave, its `imports` list is not what its program uses.
 2. **Building**. The document holds together, and the program it writes is not sound against the declarations it reaches: a call does not fit the declaration, a procedure no module provides, a type nobody declared. Nothing has run yet.
-3. **Running**. The program was sound and the run went past what it holds: division by zero, overflow, an index or a key that is not there, a value its slot does not take at a boundary.
+3. **Running**. The program was sound and the run went past what it holds: division by zero, overflow, an index or a key that is not there, a value its slot does not take at a door.
 
 **Note.** A paragraph opening with **Note.** is not a requirement. It says what a rule is for, what an implementation is likely to get wrong, or what the rule would cost written another way. Removing every one of them removes nothing an implementation is held to, and the cases under `conformance/` never measure one.
 

@@ -242,9 +242,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-name-declared-as-both-a-type-and-a-contract-refuses`
 - `a-name-that-is-not-a-contracts-joined-with-and-refuses`
 - `a-named-list-handed-where-a-list-of-a-contract-stands-is-held-to-it`
-- `a-named-record-arrives-as-an-argument`
-- `a-named-record-from-outside-at-a-contract-slot-is-fitted-to-its-record`
-- `a-named-record-from-outside-short-of-a-field-at-a-contract-slot-refuses`
 - `a-null-cast-to-a-contract-is-held-to-the-claims-about-null`
 - `a-nullable-const-procedure-reads-as-written`
 - `a-nullable-that-says-nothing-new-behind-a-name-refuses`
@@ -283,8 +280,11 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-record-a-block-answers-where-a-declared-record-is-read-takes-the-name`
 - `a-record-a-host-procedure-answers-short-of-its-fields-refuses`
 - `a-record-a-loop-answers-where-a-declared-record-is-read-takes-the-name`
+- `a-record-arrives-as-an-argument`
 - `a-record-built-where-a-declared-record-is-read-keeps-its-closure`
 - `a-record-declared-without-its-record-key-refuses`
+- `a-record-from-outside-at-a-contract-slot-is-fitted-to-its-record`
+- `a-record-from-outside-short-of-a-field-at-a-contract-slot-refuses`
 - `a-record-from-outside-under-another-name-refuses-at-the-door`
 - `a-record-from-outside-under-its-name-at-any-is-held-to-its-record-refuses`
 - `a-record-literal-a-name-that-declares-nothing-holds-refuses`
@@ -333,7 +333,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-value-of-what-may-be-null-at-two-self-positions-refuses`
 - `a-value-outside-a-contract-in-a-closures-parameter-refuses`
 - `a-value-outside-a-contract-standing-as-a-type-refuses`
-- `a-value-outside-a-declared-type-refuses-at-the-boundary`
+- `a-value-outside-a-declared-type-refuses-at-the-door`
 - `a-value-read-as-a-contract-where-another-is-asked-refuses`
 - `a-value-read-as-any-sent-to-a-closure-held-at-a-procedure-type-refuses`
 - `a-value-taking-a-parameter-in-place-does-not-fit-a-slot-handing-a-value`
