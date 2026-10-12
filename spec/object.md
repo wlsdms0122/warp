@@ -294,6 +294,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `the-object-of-a-declaration-the-host-answers`
 - `the-object-of-a-declared-type-and-a-contract`
 - `the-object-of-a-dispatch`
+- `the-object-of-a-field-read-past-a-possible-absence`
 - `the-object-of-a-leave`
 - `the-object-of-a-literal`
 - `the-object-of-a-local`

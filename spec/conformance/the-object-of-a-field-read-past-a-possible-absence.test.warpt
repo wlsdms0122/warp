@@ -1,0 +1,256 @@
+warpt 1
+{
+  expect {
+    builds {
+      answers [
+        [
+          "entry"
+          [
+            4
+          ]
+        ]
+      ]
+      claims []
+      constants []
+      contracts []
+      dependencies []
+      document [
+        x"6ca6f4390528b9e99d561314b9e7ab44d872aa6db139f0f7c05e9bce91e5e505"
+      ]
+      leaned []
+      lifted []
+      numbering [
+        []
+        []
+      ]
+      object 1
+      rows [
+        [
+          "entry"
+          [
+            [
+              [
+                "p"
+                [
+                  [
+                    13
+                    [
+                      14
+                      "App.P"
+                    ]
+                  ]
+                ]
+                []
+              ]
+              [
+                "q"
+                [
+                  [
+                    14
+                    "App.P"
+                  ]
+                ]
+                []
+              ]
+              [
+                "xs"
+                [
+                  [
+                    13
+                    [
+                      7
+                      [
+                        14
+                        "App.P"
+                      ]
+                    ]
+                  ]
+                ]
+                []
+              ]
+            ]
+            []
+            []
+          ]
+          2
+          1
+          1
+          [
+            1
+            []
+          ]
+          [
+            0
+            [
+              [
+                [
+                  [
+                    [
+                      0
+                      3
+                    ]
+                  ]
+                  [
+                    1
+                    [
+                      0
+                      [
+                        [
+                          0
+                          1
+                          "y"
+                          true
+                        ]
+                      ]
+                    ]
+                  ]
+                  "a"
+                ]
+                [
+                  [
+                    [
+                      0
+                      4
+                    ]
+                  ]
+                  [
+                    1
+                    [
+                      2
+                      [
+                        [
+                          2
+                          [
+                            2
+                            0
+                          ]
+                          true
+                        ]
+                        [
+                          0
+                          1
+                          "y"
+                          false
+                        ]
+                      ]
+                    ]
+                  ]
+                  "b"
+                ]
+              ]
+              [
+                [
+                  1
+                  [
+                    1
+                    [
+                      [
+                        0
+                        1
+                        "y"
+                        false
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+            [
+              5
+              [
+                0
+                1
+                2
+              ]
+              []
+              []
+              [
+                "p"
+                "q"
+                "xs"
+                "a"
+                "b"
+              ]
+            ]
+          ]
+        ]
+      ]
+      typeNumbering []
+      types [
+        [
+          "App.P"
+          [
+            9
+            [
+              [
+                "x"
+                [
+                  4
+                ]
+              ]
+              [
+                "y"
+                [
+                  4
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+      variables []
+    }
+  }
+  name "the-object-of-a-field-read-past-a-possible-absence"
+  note "A dot after `?.` or after `?[` reads a field of the declared record the walk reached past the absence, so its step stands at the field's place with the mark riding on it, as a dot after a plain segment does. `p?.y`, `xs?[0].y` and `q.y` each read `y` at place 1, and none by the name a value whose type a call decides is read by."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "a"
+            value {
+              ref "p?.y"
+            }
+          }
+          {
+            let "b"
+            value {
+              ref "xs?[0].y"
+            }
+          }
+        ]
+        parameters [
+          {
+            name "p"
+            type "App.P?"
+          }
+          {
+            name "q"
+            type "App.P"
+          }
+          {
+            name "xs"
+            type "Array<App.P>?"
+          }
+        ]
+        result {
+          ref "q.y"
+        }
+      }
+    }
+    types {
+      "App.P" {
+        record {
+          x "Int"
+          y "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
