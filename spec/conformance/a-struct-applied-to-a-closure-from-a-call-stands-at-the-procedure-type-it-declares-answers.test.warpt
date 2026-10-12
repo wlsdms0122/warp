@@ -1,0 +1,91 @@
+warpt 1
+{
+  expect {
+    answers 2
+  }
+  name "a-struct-applied-to-a-closure-from-a-call-stands-at-the-procedure-type-it-declares-answers"
+  note "A closure's constness, isolation and failing are what the build derived for it, and a struct holding one is read as applied to its positions and answer, so a call answering it stands where the struct is applied to the declared procedure type."
+  program {
+    imports []
+    procedures {
+      "App.wrap" {
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+        ]
+        result {
+          struct {
+            item {
+              ref "x"
+            }
+          }
+        }
+        returns "App.Box<some T>"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            type "App.Box<App.F>"
+            value {
+              call {
+                arguments [
+                  {
+                    closure {
+                      parameters [
+                        {
+                          name "x"
+                          type "Int"
+                        }
+                      ]
+                      result {
+                        ref "x"
+                      }
+                      returns "Int"
+                    }
+                  }
+                ]
+                procedure "App.wrap"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              2
+            ]
+            procedure {
+              ref "b.item"
+            }
+          }
+        }
+        returns "Int"
+      }
+    }
+    types {
+      "App.Box" {
+        struct {
+          item "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+      "App.F" {
+        procedure {
+          parameters [
+            "Int"
+          ]
+          returns "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

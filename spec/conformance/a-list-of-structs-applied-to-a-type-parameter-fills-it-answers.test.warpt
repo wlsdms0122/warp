@@ -1,0 +1,65 @@
+warpt 1
+{
+  expect {
+    answers 3
+  }
+  name "a-list-of-structs-applied-to-a-type-parameter-fills-it-answers"
+  note "`Array<App.Box<some T>>` is walked into through the list's element and then through what the struct is applied to, so a list of `App.Box<Int>` fills `T` with `Int`."
+  program {
+    imports []
+    procedures {
+      "App.first" {
+        parameters [
+          {
+            name "bs"
+            type "Array<App.Box<some T>>"
+          }
+        ]
+        result {
+          ref "bs[0].item"
+        }
+        returns "some T"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "bs"
+            type "Array<App.Box<Int>>"
+            value [
+              {
+                struct {
+                  item 3
+                }
+              }
+            ]
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "bs"
+              }
+            ]
+            procedure "App.first"
+          }
+        }
+        returns "Int"
+      }
+    }
+    types {
+      "App.Box" {
+        struct {
+          item "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

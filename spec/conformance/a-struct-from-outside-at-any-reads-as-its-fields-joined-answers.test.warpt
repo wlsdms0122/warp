@@ -1,0 +1,58 @@
+warpt 1
+{
+  arguments {
+    p App.Pair {
+      a 1
+      b null
+    }
+  }
+  expect {
+    answers null
+  }
+  name "a-struct-from-outside-at-any-reads-as-its-fields-joined-answers"
+  note "At `Any` a struct from outside reads as applied to its fields' readings joined, so a pair holding an `Int` and a null is an `App.Pair<Int?>`, and a cast to it answers."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "q"
+            value {
+              as {
+                of {
+                  ref "p"
+                }
+                type "App.Pair<Int?>"
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "p"
+          }
+        ]
+        result {
+          ref "q.b"
+        }
+        returns "Int?"
+      }
+    }
+    types {
+      "App.Pair" {
+        struct {
+          a "some T"
+          b "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,55 @@
+warpt 1
+{
+  expect {
+    answers 2
+  }
+  name "a-struct-bounding-its-key-parameter-holds-a-map-answers"
+  note "`App.Cache` holds `Dictionary<some K, some V>` and bounds `K` by `Hashable`, which is what a map's key answers, so the struct is declared and a value of `App.Cache<String, Int>` reads its map."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            type "App.Cache<String, Int>"
+            value {
+              struct {
+                table {
+                  dictionary [
+                    [
+                      "a"
+                      2
+                    ]
+                  ]
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "c.table[\"a\"]"
+        }
+        returns "Int?"
+      }
+    }
+    types {
+      "App.Cache" {
+        bounds {
+          K "Hashable"
+        }
+        struct {
+          table "Dictionary<some K, some V>"
+        }
+        typeParameters [
+          "K"
+          "V"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

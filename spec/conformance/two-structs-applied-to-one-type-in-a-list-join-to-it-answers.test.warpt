@@ -1,0 +1,83 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "two-structs-applied-to-one-type-in-a-list-join-to-it-answers"
+  note "Two readings of one struct applied to the same types are that one type, so a list of two `App.Box<Int>` hands `App.first` a list of `App.Box<Int>`."
+  program {
+    imports []
+    procedures {
+      "App.first" {
+        parameters [
+          {
+            name "bs"
+            type "Array<App.Box<some T>>"
+          }
+        ]
+        result {
+          ref "bs[0].item"
+        }
+        returns "some T"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "a"
+            type "App.Box<Int>"
+            value {
+              struct {
+                item 1
+              }
+            }
+          }
+          {
+            let "b"
+            type "App.Box<Int>"
+            value {
+              struct {
+                item 2
+              }
+            }
+          }
+          {
+            let "xs"
+            value [
+              {
+                ref "a"
+              }
+              {
+                ref "b"
+              }
+            ]
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "xs"
+              }
+            ]
+            procedure "App.first"
+          }
+        }
+        returns "Int"
+      }
+    }
+    types {
+      "App.Box" {
+        struct {
+          item "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

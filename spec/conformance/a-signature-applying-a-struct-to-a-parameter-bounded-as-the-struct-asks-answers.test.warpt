@@ -1,0 +1,70 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-signature-applying-a-struct-to-a-parameter-bounded-as-the-struct-asks-answers"
+  note "A signature bounding `K` by `Hashable` may apply `App.Cache` to `some K`, since the parameter answers what the struct holds that position to."
+  program {
+    imports []
+    procedures {
+      "App.size" {
+        bounds {
+          K "Hashable"
+        }
+        parameters [
+          {
+            name "c"
+            type "App.Cache<some K, Int>"
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            type "App.Cache<String, Int>"
+            value {
+              struct {
+                table {
+                  dictionary []
+                }
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "c"
+              }
+            ]
+            procedure "App.size"
+          }
+        }
+        returns "Int"
+      }
+    }
+    types {
+      "App.Cache" {
+        bounds {
+          K "Hashable"
+        }
+        struct {
+          table "Dictionary<some K, some V>"
+        }
+        typeParameters [
+          "K"
+          "V"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

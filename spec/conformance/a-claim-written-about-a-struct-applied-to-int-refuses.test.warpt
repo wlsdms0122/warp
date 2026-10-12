@@ -1,0 +1,79 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-claim-written-about-a-struct-applied-to-int-refuses"
+  note "A claim is keyed by a type's name. `App.Box<Int>` is no name, so the claim is refused at the load."
+  program {
+    contracts {
+      "App.Describable" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "App.Box.describe" {
+        parameters [
+          {
+            name "of"
+            type "App.Box<some T>"
+          }
+        ]
+        result "box"
+        returns "String"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            type "App.Box<Int>"
+            value {
+              struct {
+                item 1
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "b"
+              }
+            ]
+            procedure "App.Describable.describe"
+          }
+        }
+        returns "String"
+      }
+    }
+    satisfies {
+      "App.Box<Int>" [
+        "App.Describable"
+      ]
+    }
+    types {
+      "App.Box" {
+        struct {
+          item "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

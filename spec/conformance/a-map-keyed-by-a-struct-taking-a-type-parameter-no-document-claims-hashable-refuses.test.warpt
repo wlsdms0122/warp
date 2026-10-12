@@ -1,0 +1,40 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-map-keyed-by-a-struct-taking-a-type-parameter-no-document-claims-hashable-refuses"
+  note "What a struct is applied to does not make it a map's key. No document says `App.Box` answers `Hashable`, so a map keyed by `App.Box<Int>` is refused."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "m"
+            type "Dictionary<App.Box<Int>, Int>"
+            value {
+              dictionary []
+            }
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+    }
+    types {
+      "App.Box" {
+        struct {
+          item "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

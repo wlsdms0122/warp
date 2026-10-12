@@ -1,0 +1,103 @@
+warpt 1
+{
+  documents [
+    {
+      imports []
+      procedures {
+        "App.listMaybe" {
+          parameters [
+            {
+              name "x"
+              type "Int"
+            }
+          ]
+          result [
+            {
+              ref "x"
+            }
+          ]
+          returns "Array<Int?>"
+        }
+        "App.wrapMaybe" {
+          parameters [
+            {
+              name "x"
+              type "Int"
+            }
+          ]
+          result {
+            struct {
+              item {
+                ref "x"
+              }
+            }
+          }
+          returns "App.Box<Int?>"
+        }
+      }
+      types {
+        "App.Box" {
+          struct {
+            item "some T"
+          }
+          typeParameters [
+            "T"
+          ]
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    refuses "build"
+  }
+  name "a-constant-of-a-struct-keeps-what-it-was-applied-to-refuses"
+  note "A value says nothing of what a struct is applied to, so a constant struct is the struct its expression was judged as. Judged at `App.Box<Int?>`, it does not stand where `App.Box<Int>` is declared, though it holds an `Int`."
+  program {
+    const {
+      k {
+        call {
+          arguments [
+            1
+          ]
+          procedure "App.wrapMaybe"
+        }
+      }
+    }
+    imports [
+      "App.Box"
+      "App.wrapMaybe"
+    ]
+    procedures {
+      "App.need" {
+        parameters [
+          {
+            name "b"
+            type "App.Box<Int>"
+          }
+        ]
+        result {
+          ref "b.item"
+        }
+        returns "Int"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                ref "k"
+              }
+            ]
+            procedure "App.need"
+          }
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

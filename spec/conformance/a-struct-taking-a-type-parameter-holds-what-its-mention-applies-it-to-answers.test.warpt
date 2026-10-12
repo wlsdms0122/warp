@@ -1,0 +1,44 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-struct-taking-a-type-parameter-holds-what-its-mention-applies-it-to-answers"
+  note "`App.Box` lists `T` under `typeParameters` and its field writes `some T`. `App.Box<Int>` is the struct with `T` read as `Int`, so the literal is judged field by field against `Int` and the field reads back as one."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            type "App.Box<Int>"
+            value {
+              struct {
+                item 1
+              }
+            }
+          }
+        ]
+        result {
+          ref "b.item"
+        }
+        returns "Int"
+      }
+    }
+    types {
+      "App.Box" {
+        struct {
+          item "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

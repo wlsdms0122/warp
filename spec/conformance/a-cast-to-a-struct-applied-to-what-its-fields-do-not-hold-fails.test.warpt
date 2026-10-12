@@ -1,0 +1,91 @@
+warpt 1
+{
+  expect {
+    answers "cast_refused"
+  }
+  name "a-cast-to-a-struct-applied-to-what-its-fields-do-not-hold-fails"
+  note "A cast to `App.Box<String>` judges the value's fields against `String`. The field holds an `Int`, so the cast fails with `cast_refused`."
+  program {
+    imports []
+    procedures {
+      "App.hide" {
+        parameters [
+          {
+            name "v"
+          }
+        ]
+        result {
+          ref "v"
+        }
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            type "App.Box<Int>"
+            value {
+              struct {
+                item 1
+              }
+            }
+          }
+          {
+            let "any"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "b"
+                  }
+                ]
+                procedure "App.hide"
+              }
+            }
+          }
+          {
+            let "failed"
+            value {
+              attempt {
+                body [
+                  {
+                    let "c"
+                    value {
+                      as {
+                        of {
+                          ref "any"
+                        }
+                        type "App.Box<String>"
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  result {
+                    ref "failed.type"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "failed"
+        }
+      }
+    }
+    types {
+      "App.Box" {
+        struct {
+          item "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

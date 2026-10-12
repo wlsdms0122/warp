@@ -1,0 +1,29 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-struct-listing-no-type-parameters-refuses"
+  note "A struct taking no type parameters leaves `typeParameters` out, so an empty list is refused at the load."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    types {
+      "App.Box" {
+        struct {
+          item "Int"
+        }
+        typeParameters []
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

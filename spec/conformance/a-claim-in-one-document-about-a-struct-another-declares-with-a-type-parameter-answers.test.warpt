@@ -1,0 +1,87 @@
+warpt 1
+{
+  documents [
+    {
+      imports []
+      types {
+        "App.Box" {
+          struct {
+            item "some T"
+          }
+          typeParameters [
+            "T"
+          ]
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    answers "box"
+  }
+  name "a-claim-in-one-document-about-a-struct-another-declares-with-a-type-parameter-answers"
+  note "A claim about a struct taking type parameters may be made by any document. This one claims `App.Box` from the document beside it, answered for every value of it."
+  program {
+    contracts {
+      "App.Describable" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports [
+      "App.Box"
+    ]
+    procedures {
+      "App.Box.describe" {
+        parameters [
+          {
+            name "of"
+            type "App.Box<some T>"
+          }
+        ]
+        result "box"
+        returns "String"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            type "App.Box<Int>"
+            value {
+              struct {
+                item 1
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "b"
+              }
+            ]
+            procedure "App.Describable.describe"
+          }
+        }
+        returns "String"
+      }
+    }
+    satisfies {
+      "App.Box" [
+        "App.Describable"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+

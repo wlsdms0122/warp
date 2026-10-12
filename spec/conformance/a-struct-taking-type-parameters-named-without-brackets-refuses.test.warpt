@@ -1,0 +1,42 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-struct-taking-type-parameters-named-without-brackets-refuses"
+  note "A struct listing type parameters is named with one type per parameter. Named bare it is applied to nothing, which is another count, refused at the build where the name resolves."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            type "App.Box"
+            value {
+              struct {
+                item 1
+              }
+            }
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+    }
+    types {
+      "App.Box" {
+        struct {
+          item "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

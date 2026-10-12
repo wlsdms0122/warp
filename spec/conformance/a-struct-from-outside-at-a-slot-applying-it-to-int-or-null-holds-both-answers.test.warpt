@@ -1,0 +1,46 @@
+warpt 1
+{
+  arguments {
+    p App.Pair {
+      a 1
+      b null
+    }
+  }
+  expect {
+    answers null
+  }
+  name "a-struct-from-outside-at-a-slot-applying-it-to-int-or-null-holds-both-answers"
+  note "Where the slot applies a struct to types, the door judges the value's fields against the struct so applied. `App.Pair<Int?>` takes a pair holding an `Int` and a null."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "p"
+            type "App.Pair<Int?>"
+          }
+        ]
+        result {
+          ref "p.b"
+        }
+        returns "Int?"
+      }
+    }
+    types {
+      "App.Pair" {
+        struct {
+          a "some T"
+          b "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

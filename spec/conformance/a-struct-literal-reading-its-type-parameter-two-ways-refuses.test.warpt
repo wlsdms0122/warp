@@ -1,0 +1,56 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-struct-literal-reading-its-type-parameter-two-ways-refuses"
+  note "`App.Pair` writes `some T` in both fields. A literal reading the parameter as `Int` in one and as `String` in the other fills the call's `T` with the first, and the other field is refused against it."
+  program {
+    imports []
+    procedures {
+      "App.first" {
+        parameters [
+          {
+            name "p"
+            type "App.Pair<some T>"
+          }
+        ]
+        result {
+          ref "p.a"
+        }
+        returns "some T"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                struct {
+                  a 1
+                  b "x"
+                }
+              }
+            ]
+            procedure "App.first"
+          }
+        }
+        returns "Int"
+      }
+    }
+    types {
+      "App.Pair" {
+        struct {
+          a "some T"
+          b "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

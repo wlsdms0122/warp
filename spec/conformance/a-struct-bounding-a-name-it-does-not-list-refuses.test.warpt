@@ -1,0 +1,34 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-struct-bounding-a-name-it-does-not-list-refuses"
+  note "A struct's `bounds` hold the type parameters it lists. Bounding `U`, which `typeParameters` does not list, is refused at the load."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    types {
+      "App.Box" {
+        bounds {
+          U "Hashable"
+        }
+        struct {
+          item "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

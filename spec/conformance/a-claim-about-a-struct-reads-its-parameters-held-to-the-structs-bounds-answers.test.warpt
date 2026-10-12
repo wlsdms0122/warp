@@ -1,0 +1,88 @@
+warpt 1
+{
+  expect {
+    answers "cache"
+  }
+  name "a-claim-about-a-struct-reads-its-parameters-held-to-the-structs-bounds-answers"
+  note "A claim about `App.Cache` reads each of its type parameters as one no call fills, held to the bounds the struct declares, so a declaration taking `App.Cache<some K, some V>` with `K` bounded by `Hashable` answers it."
+  program {
+    contracts {
+      "App.Describable" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "App.Cache.describe" {
+        bounds {
+          K "Hashable"
+        }
+        parameters [
+          {
+            name "of"
+            type "App.Cache<some K, some V>"
+          }
+        ]
+        result "cache"
+        returns "String"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            type "App.Cache<String, Int>"
+            value {
+              struct {
+                table {
+                  dictionary []
+                }
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "c"
+              }
+            ]
+            procedure "App.Describable.describe"
+          }
+        }
+        returns "String"
+      }
+    }
+    satisfies {
+      "App.Cache" [
+        "App.Describable"
+      ]
+    }
+    types {
+      "App.Cache" {
+        bounds {
+          K "Hashable"
+        }
+        struct {
+          table "Dictionary<some K, some V>"
+        }
+        typeParameters [
+          "K"
+          "V"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

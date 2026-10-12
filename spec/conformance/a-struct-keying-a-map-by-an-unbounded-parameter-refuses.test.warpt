@@ -1,0 +1,32 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-struct-keying-a-map-by-an-unbounded-parameter-refuses"
+  note "A map's key answers `Hashable`, and a type parameter answers what its bounds name. `App.Cache` keys its map by `K` and bounds nothing, so the declaration is refused at the build."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    types {
+      "App.Cache" {
+        struct {
+          table "Dictionary<some K, some V>"
+        }
+        typeParameters [
+          "K"
+          "V"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
