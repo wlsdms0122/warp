@@ -287,7 +287,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-record-literal-a-name-that-declares-nothing-holds-refuses`
 - `a-record-literal-answered-where-a-declared-record-is-answered-takes-the-name`
 - `a-record-literal-at-a-type-parameter-nothing-fills-with-a-record-refuses`
-- `a-record-literal-beside-a-declared-record-at-a-type-parameter-refuses`
+- `a-record-literal-beside-a-declared-record-at-a-type-parameter-reads-as-that-record-answers`
 - `a-record-literal-short-of-a-field-its-record-declares-refuses`
 - `a-record-literal-written-where-no-declared-record-is-read-refuses`
 - `a-record-the-language-declares-joined-with-and-refuses`
