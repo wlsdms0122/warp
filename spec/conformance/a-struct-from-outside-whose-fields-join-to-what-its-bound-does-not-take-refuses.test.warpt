@@ -1,0 +1,150 @@
+warpt 1
+{
+  arguments {
+    x App.Pair {
+      a 1
+      b "x"
+    }
+  }
+  expect {
+    refuses "run"
+  }
+  name "a-struct-from-outside-whose-fields-join-to-what-its-bound-does-not-take-refuses"
+  note "A struct from outside at a slot that applies it to nothing reads as applied to its fields' readings joined, as a list value reads as its elements joined. `App.Pair` holding an `Int` and a `String` reads `App.Pair<Any>`, and `Any` answers none of the contract the parameter is bounded by, so the door refuses the value."
+  program {
+    contracts {
+      "App.Described" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "Int"
+        }
+      }
+      "App.Same" {
+        measure {
+          parameters [
+            {
+              name "lhs"
+              type "Self"
+            }
+            {
+              name "rhs"
+              type "Self"
+            }
+          ]
+          returns "Int"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "App.Pair.describe" {
+        bounds {
+          T "App.Same"
+        }
+        parameters [
+          {
+            name "of"
+            type "App.Pair<some T>"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "of.a"
+              }
+              {
+                ref "of.b"
+              }
+            ]
+            procedure "App.Same.measure"
+          }
+        }
+        returns "Int"
+      }
+      "Int.measure" {
+        parameters [
+          {
+            name "lhs"
+            type "Int"
+          }
+          {
+            name "rhs"
+            type "Int"
+          }
+        ]
+        result {
+          ref "rhs"
+        }
+        returns "Int"
+      }
+      "String.measure" {
+        parameters [
+          {
+            name "lhs"
+            type "String"
+          }
+          {
+            name "rhs"
+            type "String"
+          }
+        ]
+        result 7
+        returns "Int"
+      }
+      entry {
+        access "public"
+        parameters [
+          {
+            name "x"
+            type "App.Described"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "x"
+              }
+            ]
+            procedure "App.Described.describe"
+          }
+        }
+        returns "Int"
+      }
+    }
+    satisfies {
+      "App.Pair" [
+        "App.Described"
+      ]
+      Int [
+        "App.Same"
+      ]
+      String [
+        "App.Same"
+      ]
+    }
+    types {
+      "App.Pair" {
+        bounds {
+          T "App.Same"
+        }
+        struct {
+          a "some T"
+          b "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

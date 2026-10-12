@@ -1,0 +1,43 @@
+warpt 1
+{
+  arguments {
+    x 1
+  }
+  expect {
+    refuses "build"
+  }
+  name "a-contract-written-with-brackets-refuses"
+  note "Only a struct listing type parameters is applied to types. A contract's name written with brackets is refused at the build, where the name resolves."
+  program {
+    contracts {
+      "App.Described" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "x"
+            type "App.Described<Int>"
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

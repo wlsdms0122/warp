@@ -1,0 +1,63 @@
+warpt 1
+{
+  expect {
+    answers []
+  }
+  name "a-procedure-answering-a-struct-of-an-empty-list-stands-at-it-applied-to-a-list-of-int-answers"
+  note "What a call fills a parameter with from an empty list holds no element, so `App.wrap([])` answers a struct that stands where it is applied to a list of `Int`."
+  program {
+    imports []
+    procedures {
+      "App.wrap" {
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+        ]
+        result {
+          struct {
+            item {
+              ref "x"
+            }
+          }
+        }
+        returns "App.Box<some T>"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            type "App.Box<Array<Int>>"
+            value {
+              call {
+                arguments [
+                  []
+                ]
+                procedure "App.wrap"
+              }
+            }
+          }
+        ]
+        result {
+          ref "b.item"
+        }
+        returns "Array<Int>"
+      }
+    }
+    types {
+      "App.Box" {
+        struct {
+          item "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

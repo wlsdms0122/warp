@@ -1,0 +1,45 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-signature-applying-a-struct-to-a-parameter-its-bounds-do-not-hold-refuses"
+  note "`App.Cache` bounds `K` by `Hashable`, and a type parameter answers what its own bounds name. A signature applying `App.Cache` to `some K` that its bounds do not hold to `Hashable` is refused at the build."
+  program {
+    imports []
+    procedures {
+      "App.size" {
+        parameters [
+          {
+            name "c"
+            type "App.Cache<some K, Int>"
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    types {
+      "App.Cache" {
+        bounds {
+          K "Hashable"
+        }
+        struct {
+          table "Dictionary<some K, some V>"
+        }
+        typeParameters [
+          "K"
+          "V"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,74 @@
+warpt 1
+{
+  documents [
+    {
+      imports []
+      procedures {
+        "App.wrap" {
+          parameters [
+            {
+              name "x"
+              type "some T"
+            }
+          ]
+          result {
+            struct {
+              item {
+                ref "x"
+              }
+            }
+          }
+          returns "App.Box<some T>"
+        }
+      }
+      types {
+        "App.Box" {
+          struct {
+            item "some T"
+          }
+          typeParameters [
+            "T"
+          ]
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    answers 3
+  }
+  name "a-struct-another-document-declares-with-a-type-parameter-is-applied-here-answers"
+  note "A struct taking type parameters is applied by a mention in any document of the link. This one applies `App.Box` from the document beside it to `Int`."
+  program {
+    imports [
+      "App.Box"
+      "App.wrap"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            type "App.Box<Int>"
+            value {
+              call {
+                arguments [
+                  3
+                ]
+                procedure "App.wrap"
+              }
+            }
+          }
+        ]
+        result {
+          ref "b.item"
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

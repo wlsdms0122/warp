@@ -1,0 +1,79 @@
+warpt 1
+{
+  expect {
+    answers "box"
+  }
+  name "a-claim-about-a-struct-taking-a-type-parameter-holds-for-every-value-of-it-answers"
+  note "A claim names a struct taking type parameters bare, and is about every value of it whatever it is applied to. `App.Box.describe` takes `App.Box<some T>`, so the call through the contract reaches it for an `App.Box<Int>`."
+  program {
+    contracts {
+      "App.Describable" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "App.Box.describe" {
+        parameters [
+          {
+            name "of"
+            type "App.Box<some T>"
+          }
+        ]
+        result "box"
+        returns "String"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            type "App.Box<Int>"
+            value {
+              struct {
+                item 1
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "b"
+              }
+            ]
+            procedure "App.Describable.describe"
+          }
+        }
+        returns "String"
+      }
+    }
+    satisfies {
+      "App.Box" [
+        "App.Describable"
+      ]
+    }
+    types {
+      "App.Box" {
+        struct {
+          item "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

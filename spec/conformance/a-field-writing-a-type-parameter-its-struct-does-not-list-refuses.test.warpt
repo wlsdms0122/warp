@@ -1,0 +1,31 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-field-writing-a-type-parameter-its-struct-does-not-list-refuses"
+  note "A field writes `some T` only for a `T` its struct lists under `typeParameters`. `some U` names none, and nothing fills it, so the load refuses it."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    types {
+      "App.Box" {
+        struct {
+          item "some U"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

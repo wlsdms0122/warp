@@ -1,0 +1,122 @@
+warpt 1
+{
+  arguments {
+    x App.Shelf {
+      item true
+    }
+  }
+  expect {
+    refuses "run"
+  }
+  name "a-struct-from-outside-at-any-holding-what-its-bound-does-not-take-refuses"
+  note "A struct from outside at a slot that applies it to nothing is applied to what its fields fill its parameters with, as a door fills a slot's. `App.Shelf` bounds `T` by `App.Shown`, and a `Bool` in its field answers no procedure of it, so the door refuses the value."
+  program {
+    contracts {
+      "App.Described" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+      "App.Shown" {
+        show {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "App.Shelf.describe" {
+        bounds {
+          T "App.Shown"
+        }
+        parameters [
+          {
+            name "of"
+            type "App.Shelf<some T>"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "of.item"
+              }
+            ]
+            procedure "App.Shown.show"
+          }
+        }
+        returns "String"
+      }
+      "Int.show" {
+        parameters [
+          {
+            name "of"
+            type "Int"
+          }
+        ]
+        result "int"
+        returns "String"
+      }
+      entry {
+        access "public"
+        parameters [
+          {
+            name "x"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                as {
+                  of {
+                    ref "x"
+                  }
+                  type "App.Described"
+                }
+              }
+            ]
+            procedure "App.Described.describe"
+          }
+        }
+        returns "String"
+      }
+    }
+    satisfies {
+      "App.Shelf" [
+        "App.Described"
+      ]
+      Int [
+        "App.Shown"
+      ]
+    }
+    types {
+      "App.Shelf" {
+        bounds {
+          T "App.Shown"
+        }
+        struct {
+          item "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

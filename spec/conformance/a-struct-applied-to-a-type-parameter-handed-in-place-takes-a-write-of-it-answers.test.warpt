@@ -1,0 +1,77 @@
+warpt 1
+{
+  expect {
+    answers "y"
+  }
+  name "a-struct-applied-to-a-type-parameter-handed-in-place-takes-a-write-of-it-answers"
+  note "`App.reset` takes `inout App.Box<some T>` and a `some T`, and writes the one into the other's field. The caller's `App.Box<String>` reads the write back."
+  program {
+    imports []
+    procedures {
+      "App.reset" {
+        body [
+          {
+            set "b.item"
+            value {
+              ref "to"
+            }
+          }
+        ]
+        parameters [
+          {
+            name "b"
+            type "inout App.Box<some T>"
+          }
+          {
+            name "to"
+            type "some T"
+          }
+        ]
+      }
+      entry {
+        access "public"
+        body [
+          {
+            type "App.Box<String>"
+            value {
+              struct {
+                item "x"
+              }
+            }
+            var "b"
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "b"
+                  }
+                  "y"
+                ]
+                procedure "App.reset"
+              }
+            }
+          }
+        ]
+        result {
+          ref "b.item"
+        }
+        returns "String"
+      }
+    }
+    types {
+      "App.Box" {
+        struct {
+          item "var some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

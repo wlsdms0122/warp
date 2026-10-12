@@ -1,0 +1,46 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-struct-naming-itself-applied-to-a-list-of-its-parameter-answers"
+  note "`App.Nest` names itself in a field applied to `Array<some T>`, a type that grows at every depth. A mention opens one depth at a time, so the declaration stands and a value reads its field."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "n"
+            type "App.Nest<Int>"
+            value {
+              struct {
+                inner null
+                v 1
+              }
+            }
+          }
+        ]
+        result {
+          ref "n.v"
+        }
+        returns "Int"
+      }
+    }
+    types {
+      "App.Nest" {
+        struct {
+          inner "App.Nest<Array<some T>>?"
+          v "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

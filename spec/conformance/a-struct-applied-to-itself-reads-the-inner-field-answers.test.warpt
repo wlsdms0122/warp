@@ -1,0 +1,48 @@
+warpt 1
+{
+  expect {
+    answers 4
+  }
+  name "a-struct-applied-to-itself-reads-the-inner-field-answers"
+  note "`App.Box<App.Box<Int>>` reads its field as `App.Box<Int>`, so the inner literal is that struct and its field reads as `Int`."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            type "App.Box<App.Box<Int>>"
+            value {
+              struct {
+                item {
+                  struct {
+                    item 4
+                  }
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "b.item.item"
+        }
+        returns "Int"
+      }
+    }
+    types {
+      "App.Box" {
+        struct {
+          item "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

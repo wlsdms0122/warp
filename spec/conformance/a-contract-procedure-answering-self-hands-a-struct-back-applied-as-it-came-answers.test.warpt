@@ -1,0 +1,87 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-contract-procedure-answering-self-hands-a-struct-back-applied-as-it-came-answers"
+  note "A call through a contract reads `Self` as the type handed, so a procedure answering `Self` for an `App.Box<Int>` answers an `App.Box<Int>`, whose field reads as `Int`."
+  program {
+    contracts {
+      "App.Same" {
+        same {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "Self"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "App.Box.same" {
+        parameters [
+          {
+            name "of"
+            type "App.Box<some T>"
+          }
+        ]
+        result {
+          ref "of"
+        }
+        returns "App.Box<some T>"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            type "App.Box<Int>"
+            value {
+              struct {
+                item 1
+              }
+            }
+          }
+          {
+            let "c"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "b"
+                  }
+                ]
+                procedure "App.Same.same"
+              }
+            }
+          }
+        ]
+        result {
+          ref "c.item"
+        }
+        returns "Int"
+      }
+    }
+    satisfies {
+      "App.Box" [
+        "App.Same"
+      ]
+    }
+    types {
+      "App.Box" {
+        struct {
+          item "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

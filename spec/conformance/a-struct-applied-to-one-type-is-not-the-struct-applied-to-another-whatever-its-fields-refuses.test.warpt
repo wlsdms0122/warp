@@ -1,0 +1,56 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-struct-applied-to-one-type-is-not-the-struct-applied-to-another-whatever-its-fields-refuses"
+  note "`App.Tagged` lists `Tag`, which no field writes. Mentions applied to two tags are two types though their fields are alike, so one does not stand where the other is declared."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "a"
+            type "App.Tagged<App.A, Int>"
+            value {
+              struct {
+                raw 1
+              }
+            }
+          }
+          {
+            let "b"
+            type "App.Tagged<App.B, Int>"
+            value {
+              ref "a"
+            }
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+    }
+    types {
+      "App.A" {
+        struct {}
+      }
+      "App.B" {
+        struct {}
+      }
+      "App.Tagged" {
+        struct {
+          raw "some Raw"
+        }
+        typeParameters [
+          "Tag"
+          "Raw"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

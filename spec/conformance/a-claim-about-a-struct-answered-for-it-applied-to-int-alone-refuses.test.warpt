@@ -1,0 +1,79 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-claim-about-a-struct-answered-for-it-applied-to-int-alone-refuses"
+  note "A claim about `App.Box` is about every value of it, and a call through the contract hands the declaration any of them. `App.Box.describe` takes `App.Box<Int>` alone, so the claim does not hold and the call leaning on it is refused."
+  program {
+    contracts {
+      "App.Describable" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "App.Box.describe" {
+        parameters [
+          {
+            name "of"
+            type "App.Box<Int>"
+          }
+        ]
+        result "box"
+        returns "String"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            type "App.Box<Int>"
+            value {
+              struct {
+                item 1
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "b"
+              }
+            ]
+            procedure "App.Describable.describe"
+          }
+        }
+        returns "String"
+      }
+    }
+    satisfies {
+      "App.Box" [
+        "App.Describable"
+      ]
+    }
+    types {
+      "App.Box" {
+        struct {
+          item "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

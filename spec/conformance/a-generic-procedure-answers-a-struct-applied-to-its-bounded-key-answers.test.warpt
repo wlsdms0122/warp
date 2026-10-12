@@ -1,0 +1,76 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-generic-procedure-answers-a-struct-applied-to-its-bounded-key-answers"
+  note "`App.single` bounds `K` by `Hashable` and answers `App.Cache<some K, Int>`, so a call handing a `String` answers an `App.Cache<String, Int>`."
+  program {
+    imports []
+    procedures {
+      "App.single" {
+        bounds {
+          K "Hashable"
+        }
+        parameters [
+          {
+            name "k"
+            type "some K"
+          }
+        ]
+        result {
+          struct {
+            table {
+              dictionary [
+                [
+                  {
+                    ref "k"
+                  }
+                  1
+                ]
+              ]
+            }
+          }
+        }
+        returns "App.Cache<some K, Int>"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            value {
+              call {
+                arguments [
+                  "a"
+                ]
+                procedure "App.single"
+              }
+            }
+          }
+        ]
+        result {
+          ref "c.table[\"a\"]"
+        }
+        returns "Int?"
+      }
+    }
+    types {
+      "App.Cache" {
+        bounds {
+          K "Hashable"
+        }
+        struct {
+          table "Dictionary<some K, some V>"
+        }
+        typeParameters [
+          "K"
+          "V"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

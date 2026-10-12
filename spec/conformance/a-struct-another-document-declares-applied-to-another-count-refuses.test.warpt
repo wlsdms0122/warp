@@ -1,0 +1,64 @@
+warpt 1
+{
+  documents [
+    {
+      imports []
+      procedures {
+        "App.wrap" {
+          parameters [
+            {
+              name "x"
+              type "some T"
+            }
+          ]
+          result {
+            struct {
+              item {
+                ref "x"
+              }
+            }
+          }
+          returns "App.Box<some T>"
+        }
+      }
+      types {
+        "App.Box" {
+          struct {
+            item "some T"
+          }
+          typeParameters [
+            "T"
+          ]
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    refuses "build"
+  }
+  name "a-struct-another-document-declares-applied-to-another-count-refuses"
+  note "How many types a struct takes is its declaration's, read where the name resolves, so a mention in another document applying `App.Box` to two is refused at the build."
+  program {
+    imports [
+      "App.Box"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            type "App.Box<Int, Int>?"
+            value null
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

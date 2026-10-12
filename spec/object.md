@@ -58,12 +58,12 @@ A *type* is `[tag, …]`:
 | 6 | `String` | |
 | 7 | `Array<T>` | *type* |
 | 8 | `Dictionary<K, V>` | the key's *type*, the value's *type* |
-| 9 | struct, written only as a declared type in `types` | name → *type* |
+| 9 | struct, written only as a declared type in `types` | name → *type*; where it takes type parameters, then their names in order, at least one and none twice, and name → the contracts bounding the type parameter of that name, ascending, at least one, for each one it bounds |
 | 10 | `Procedure` | *procedure type* or nothing, *constness*, *isolation* |
 | 11 | `var T` | *type* |
 | 12 | `inout T` | *type* |
 | 13 | `T?` | *type* |
-| 14 | a declared name | name |
+| 14 | a declared name | name; where it applies a struct to types, then a list of *type*, at least one |
 | 15 | a type parameter | name |
 | 16 | a composition `A & B` | names ascending, two or more: one contract is written as its name, tag 14 |
 | 17 | a projection | the parameter projected, the path: *segment* list |
@@ -88,7 +88,7 @@ A *place* is where in a document something was written: `[document, steps]`, the
 | 4 | a statement | its name or nothing, its position |
 | 5 | a landmark in a program nobody wrote down | string |
 
-A *part* is `[tag]`: 0 `procedures`, 1 `constants`, 2 `variables`, 3 `types`, 4 `contracts`, 5 `satisfies`, 6 `imports`, 7 `parameters`, 8 `returns`, 9 `body`, 10 `result`, 11 a cast's subject, carrying `true` for `as?` or `false` for `as`, 12 `callee`, 13 `arguments`, 14 `closure`, 15 a condition, carrying `[0]` for a conditional's or `[1]` for a loop's, 16 `then`, 17 `otherwise`, 18 `rescue`, 19 a struct's fields, 20 `bounds`, 21 a map literal's entries.
+A *part* is `[tag]`: 0 `procedures`, 1 `constants`, 2 `variables`, 3 `types`, 4 `contracts`, 5 `satisfies`, 6 `imports`, 7 `parameters`, 8 `returns`, 9 `body`, 10 `result`, 11 a cast's subject, carrying `true` for `as?` or `false` for `as`, 12 `callee`, 13 `arguments`, 14 `closure`, 15 a condition, carrying `[0]` for a conditional's or `[1]` for a loop's, 16 `then`, 17 `otherwise`, 18 `rescue`, 19 a struct's fields, 20 `bounds`, 21 a map literal's entries, 22 a struct's `typeParameters`.
 
 A *construct* is `[tag]`: 0 literal, 1 reference, 2 array, 3 struct, 4 closure, 5 cast, 6 block, 7 conditional, 8 loop, 9 attempt, 10 call, 11 leave, carrying its *reach*: `0` the procedure, `1` the construct, `2` the round, 12 map.
 
@@ -145,7 +145,7 @@ A *lowered type* is a type as a body stands on it, `[tag, …]`:
 | 11 | variable | *lowered type* |
 | 12 | inout | *lowered type* |
 | 13 | nullable | *lowered type* |
-| 14 | a declared type | its place in `typeNumbering` |
+| 14 | a declared type | its place in `typeNumbering`; where it applies a struct to types, then a list of *lowered type*, at least one |
 | 15 | a type parameter | its label, the contracts bounding it ascending |
 | 16 | a composition | the contracts ascending, at least one |
 | 17 | a projection | the parameter projected, *segment* list |
@@ -244,15 +244,19 @@ Read it back: `rows` holds `entry`, whose signature takes `n` as `Array<Int>` (t
 What `conformance/` asks about this page, by the name each case's file carries.
 
 - `a-document-is-not-an-object`
+- `an-object-applying-a-struct-to-no-types-refuses`
 - `an-object-bounding-a-type-parameter-by-nothing-refuses`
 - `an-object-counting-no-closures-for-a-declaration-refuses`
 - `an-object-leaning-on-one-object-twice-refuses`
 - `an-object-leaning-on-what-is-not-laid-refuses`
 - `an-object-links-and-runs`
+- `an-object-listing-a-type-parameter-twice-refuses`
+- `an-object-listing-no-type-parameters-for-a-struct-refuses`
 - `an-object-missing-a-part-refuses`
 - `an-object-naming-one-type-twice-refuses`
 - `an-object-of-a-later-format-refuses`
 - `an-object-of-a-later-format-with-keys-of-its-own-refuses`
+- `an-object-of-a-struct-taking-a-type-parameter-links-and-runs`
 - `an-object-runs-with-what-the-entry-is-given`
 - `an-object-standing-against-another-document-refuses`
 - `an-object-whose-body-stands-past-its-frame-refuses`
@@ -306,6 +310,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `the-object-of-a-map-built-from-parts`
 - `the-object-of-a-module-constant-and-a-variable`
 - `the-object-of-a-struct-built-from-parts`
+- `the-object-of-a-struct-taking-a-type-parameter`
 - `the-object-of-a-write-at-a-constant-key`
 - `the-object-of-an-array-built-from-parts`
 - `the-object-of-an-attempt`

@@ -1,0 +1,70 @@
+warpt 1
+{
+  expect {
+    answers 9
+  }
+  name "a-struct-applied-to-int-handed-in-place-is-written-through-answers"
+  note "A struct applied to `Int` handed in place is the caller's box, and a write through its `var` field is what the caller reads back."
+  program {
+    imports []
+    procedures {
+      "App.bump" {
+        body [
+          {
+            set "b.item"
+            value 9
+          }
+        ]
+        parameters [
+          {
+            name "b"
+            type "inout App.Box<Int>"
+          }
+        ]
+      }
+      entry {
+        access "public"
+        body [
+          {
+            type "App.Box<Int>"
+            value {
+              struct {
+                item 1
+              }
+            }
+            var "b"
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "b"
+                  }
+                ]
+                procedure "App.bump"
+              }
+            }
+          }
+        ]
+        result {
+          ref "b.item"
+        }
+        returns "Int"
+      }
+    }
+    types {
+      "App.Box" {
+        struct {
+          item "var some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

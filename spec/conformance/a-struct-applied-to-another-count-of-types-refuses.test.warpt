@@ -1,0 +1,42 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-struct-applied-to-another-count-of-types-refuses"
+  note "`App.Box` lists one type parameter, so a mention applying it to two is refused at the build where the name resolves."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            type "App.Box<Int, Int>"
+            value {
+              struct {
+                item 1
+              }
+            }
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+    }
+    types {
+      "App.Box" {
+        struct {
+          item "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

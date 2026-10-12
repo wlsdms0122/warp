@@ -4,7 +4,7 @@ warpt 1
     refuses "load"
   }
   name "a-some-outside-a-signature-refuses"
-  note "A type parameter lives in a signature, since a call is what fills it. A declared type writing `some T` in a field has nothing to fill it, and is refused at the load."
+  note "A type parameter lives in a signature, where a call fills it, or in a struct listing it under `typeParameters`, where a mention fills it. A struct writing `some T` in a field and listing no `T` has nothing to fill it, and is refused at the load."
   program {
     imports []
     procedures {

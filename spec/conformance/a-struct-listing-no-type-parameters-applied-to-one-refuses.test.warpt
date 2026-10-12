@@ -1,0 +1,35 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-struct-listing-no-type-parameters-applied-to-one-refuses"
+  note "`App.Plain` lists no type parameters, so a mention writing brackets applies it to another count, refused at the build."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "p"
+            type "App.Plain<Int>?"
+            value null
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+    }
+    types {
+      "App.Plain" {
+        struct {
+          x "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -16,7 +16,8 @@ A type is written as a string, or as a mapping for what a string cannot say:
 | `inout <type>` | a parameter handed a variable in place; written on a parameter's type and nowhere else |
 | `var <type>` | a field a path may write through; written on a field of a struct a type in `types` declares, and nowhere else |
 | `Task` (any declared name) | the type a module declares under that name |
-| `some T` | a type parameter: worked out from the call, same reading everywhere it appears; bounded when the signature's `bounds` names it |
+| `Box<Int>` (a declared struct and the types it is applied to) | the struct a module declares under that name with its type parameters read as the types between the brackets, in the order it lists them; another count, a struct that lists none named with brackets and one that lists some named without, **refuse at the build**, where the name resolves, and so do brackets on any other declared name, a contract's or an alias's, and on a name nothing declares. Brackets after a type the language names other than `Array` and `Dictionary` **refuse at the load** |
+| `some T` | a type parameter: worked out from the call, same reading everywhere it appears; bounded when the signature's `bounds` names it. In a field of a struct listing it, the type a mention applies the struct to at its position |
 | `Self` | the type answering a contract, written in that contract's procedures alone |
 | `Describable` (a declared contract's name) | a value of whatever type satisfies the contract. Nothing ties one slot's to another's |
 | `Describable & Standard.Comparable` | a value of whatever type satisfies every contract named; two names or more, in name order, and each a contract's |
@@ -27,7 +28,9 @@ A type is written as a string, or as a mapping for what a string cannot say:
 
 `Int` and `Double` are two types, and neither takes the other: a value's type is fixed at the build, so a whole number never stands where a fraction is declared, and the reverse **refuses at the build** too. A literal is read as the place it is written into reads it, where a place is a slot, an answer, a name that says what it holds, a write, a list's, a map's or a struct's part there, what stands between a path's brackets, which reads an `Int` on a list and the key type on a map, the type a cast, `as` or `as?`, names, and a type parameter a call fills, read as what the readings of the call's arguments fill it with once they join, which is what the parameter's bounds are held to; a struct literal there fills nothing, and reads as the declared struct the others fill it with. A whole number written as a literal is read as the fraction it names where its place reads a `Double`. Where one value joins what was written beside it, a list literal's elements at every depth and a map literal's keys and its values, a whole literal beside a fraction is the fraction it names too. Anywhere else it is an `Int`, and a name it is bound to holds an `Int`. Two readings of one place join part by part: null beside a value reads as what may be null, two lists join by their elements and two maps by their keys and their values, two maps whose keys join to `Any` reading `Any` whole, since a map's key answers `Hashable`, and two procedures to a procedure that keeps the parameters and answer both write alike, the constness and isolation both carry and what either may fail with; two parts that still differ read `Any`. Where ways that each answer meet, each way out of a body that writes no `returns` and each of an attempt's two ways is a place of its own, so one answering a whole literal beside another answering a fraction reads `Any`, which a slot of a type takes only through a cast. `Any` accepts everything. A slot that takes either kind of number is bounded by the contract `Standard.Numeric`, under [the standard vocabulary](vocabulary.md).
 
-**A declared struct is nominal.** A struct type is written once, as the structure of a type declared in `types`, `{ struct: { title: String, done: Bool } }` under the type's name, its fields under `struct`, each called anything; everywhere else a type names it. It is a name as well as a structure, and a value of it carries the name. A struct type is exact: a declared struct fits a value under its own name and no other, so two declared structs of one structure under two names are two types, and a declared struct and `Dictionary<String, T>` of its fields take nothing of each other. A slot judges a value and hands it on as it came; it does not rebuild one. A struct literal is read, as every literal is, as the place it is written into reads it: the declared struct that place reads. The build judges it there field by field against the declaration, exactly the declared fields, and it takes the struct's name. A struct literal written where no declared struct is read, at `Any`, at a contract, at a type parameter no call fills with a declared struct or at a name that declares nothing, **refuses at the build**. A struct under another name **refuses** at the **build** where the build can see the name and at the **run** at the door it comes through, and where a cast reads a value read as `Any` or as a contract, the cast fails with `cast_refused` and `as?` reads it as null. A declared name whose structure is not a struct, an alias, attaches no name. A value from outside holds a name only as a struct's: at every door, whatever the slot declares, `Any` included, a struct under a name is held to the struct the name declares, fitted to it and judged against it, an alias's name becoming its struct's, and one under a name that declares no struct **refuses at the run**, and so does a map at a declared struct, which takes no map. A map's key is a value, held there as its value is, and two keys of one map that this makes one key, a struct under an alias's name beside one under its struct's or two structs apart only in a field left out, **refuse at the run**, as a map written with one key twice does. So every struct under a name is a value of that struct. A declared struct may name itself in a field, nullable or as a list's element, so a tree is one declaration. A declared name that is no struct and comes back to itself through what it stands for, through names alone, a `?` or a structure, spells no type and **refuses at the load**: a type that holds itself is a declared struct.
+**A declared struct is nominal.** A struct type is written once, as the structure of a type declared in `types`, `{ struct: { title: String, done: Bool } }` under the type's name, its fields under `struct`, each called anything; everywhere else a type names it. It is a name as well as a structure, and a value of it carries the name. A struct type is exact: a declared struct fits a value under its own name and no other, so two declared structs of one structure under two names are two types, and a declared struct and `Dictionary<String, T>` of its fields take nothing of each other. A slot judges a value and hands it on as it came; it does not rebuild one. A struct literal is read, as every literal is, as the place it is written into reads it: the declared struct that place reads. The build judges it there field by field against the declaration, exactly the declared fields, and it takes the struct's name. A struct literal written where no declared struct is read, at `Any`, at a contract, at a type parameter no call fills with a declared struct or at a name that declares nothing, **refuses at the build**. A struct under another name **refuses** at the **build** where the build can see the name and at the **run** at the door it comes through, and where a cast reads a value read as `Any` or as a contract, the cast fails with `cast_refused` and `as?` reads it as null. A declared name whose structure is not a struct, an alias, attaches no name. A value from outside holds a name only as a struct's: at every door, whatever the slot declares, `Any` included, a struct under a name is held to the struct the name declares, fitted to it and judged against it, an alias's name becoming its struct's, and one under a name that declares no struct **refuses at the run**, and so does a map at a declared struct, which takes no map. A map's key is a value, held there as its value is, and two keys of one map that this makes one key, a struct under an alias's name beside one under its struct's or two structs apart only in a field left out, **refuse at the run**, as a map written with one key twice does. So every struct under a name is a value of that struct. A declared struct may name itself in a field, nullable or as a list's element, so a tree is one declaration.
+
+**A struct may take type parameters.** It lists them in order under `typeParameters`, `{ struct: { item: "some T" }, typeParameters: [T] }`, and may hold each to contracts under `bounds` the way a signature does, `bounds: { K: Hashable }`; a field writes one as `some T`, and a field naming one the struct does not list, a bound naming one, a name listed twice and an empty list each **refuse at the load**. A mention applies the struct to one type per parameter, `Box<Int>`, `Box<some T>` in a signature, and is the struct with each parameter read as the type at its position, so every judgement above asks that of its fields. A type standing at a bounded position answers the contracts its bound names, a type parameter by its own bounds, the way a map's key answers `Hashable`, or **refuses at the build** where the mention is written. A value of one carries the struct's name and its fields, and nothing of what it was applied to, as a list carries no element type. Two mentions of one struct are one type only where they are applied to the same types, what a reading says of one value and no declaration writes read as what is declared: a whole literal as the number it names, `Never` as any type, and a procedure as its positions and answer, the constness, isolation and failing derived for it meeting what is declared: `Box<Int>` does not stand where `Box<Int?>` is declared, though a list of `Int` stands where a list of `Int?` is, two readings applied to different types join to `Any`, and a constant holding one is the struct its expression was judged as, or, judged at `Any`, what its value reads as, its fields' readings joined. A call filling a type parameter walks into what the struct is applied to as into a list's element. A struct literal is read as applied to what its place applies the struct to, and where the place leaves a position to a call, to what the fields standing on that parameter read as, joined as a call's arguments fill a parameter, `Never` where no field reads one, as an empty list's element is. A door and a cast judge a value's fields against the struct applied to what the slot or the cast writes, and an alias's name, `Pair: "Box<Int>"`, against the struct applied to what the alias writes. Where nothing does, at `Any`, a contract or a type parameter, a struct from outside reads as applied to its fields' readings joined, as a list value reads as its elements joined, and a bounded parameter is held to its bounds, which `Any`, what readings of several types join to, answers none: such a value **refuses at the run** at the door. A procedure type that writes its signature has no string spelling, and one standing at a position is reached through a declared name, as a nullable one is. An alias takes no type parameters, and a mention applying one **refuses at the build**: what it stands for may be a struct applied to types, `Pair: "Box<Int>"`. A declared name that is no struct and comes back to itself through what it stands for, through names alone, a `?` or a structure, spells no type and **refuses at the load**: a type that holds itself is a declared struct.
 
 `inout` and `var` stand in front of the whole type, `?` included: `inout Int?` is a nullable handed in place. They stand in front of a string spelling or on the key a procedure type is written under. They say something about the slot and nothing about the value, so what fits the slot is judged by the type after the procedure. Writing either where it is not allowed **refuses at the load**. A slot asking `isolated` takes what the build derived as isolated. Answering without running is a separate claim and does not stand in for it. A value standing in a procedure-typed slot takes exactly the positions the slot's type hands, each accepting what the slot may hand at that position, answers what the slot's `returns` accepts, and fails with no more than the slot's `failing` names where it names anything. What a closure may fail with is read off its body, as its constness is. The names the value's declaration wrote are its own and take no part: one closure fits two slots that name their parameter differently. That is held at the **build** where the value's type is known, and at the **run** where a cast reads a value read as `Any` or as a contract, under *one calling convention* in [procedures](procedure.md).
 
@@ -44,13 +47,13 @@ A type is written as a string, or as a mapping for what a string cannot say:
 
 **Type parameters.** A declaration may leave a type parameter and let the call fill it: a procedure taking `Array<some T>` and a `some T` answers what it was given. Inside the declaration the parameter is one type its body does not know, so every place there that reads it takes only a value of it: the answer, a write into a variable of it or into a part of one, a parameter handed in place, and an argument at a slot a call fills from it. A reading of `Any` or of a contract, and a value of a type the bounds hold, is no value of the parameter, and each **refuses at the build**; a call reads the answer as what filled the parameter. A procedure handed to the call is a value, and what it takes at a position is what it accepts there, not a value the call hands: where anything else handed fills a parameter, the procedure is judged against what filled it, by the rule a procedure-typed slot takes a value, and only where nothing else fills it does what the procedure takes fill it, so a closure whose parameter writes no type, handed to `filter` beside a list of `Int`, leaves `Element` `Int`. Two positions of procedures taking it as two types, one of which takes the other, fill it with the one both take: `(Int) -> Int` beside a closure whose parameter writes no type fills it with `Int`. The run does not know what filled it either, so a closure the body wrote that names the parameter in its own signature is, outside the call that made it, a value of no procedure type that writes a signature, and a value of `Procedure`, which writes none: a door handing one in at such a type **refuses at the run**, and a cast reading one as such a type fails with `cast_refused`. A list or map literal written there is judged part by part, each element, key or value against what the slot asks at it, and an empty list holds no element wherever in the literal it stands: `[]` is a value of `Array<some T>`, `[[], [x]]` of `Array<Array<some T>>` where `x` is one of `some T`, and a list of two map literals, one holding `[]` under `a` and one holding `[x]` under `b`, of `Array<Dictionary<String, Array<some T>>>`. A call reads a literal handed to it as one type to fill a parameter, its parts joined part by part, and handed beside such a parameter it is then judged part by part as a write is. A map literal handed where a map of the parameter is declared fills it with what each of its keys and values reads it as where it stands at the parameter, joined part by part as a list's elements are, an empty one holding no entry, and each key and value is held where it stands. Where bounds hold the parameter, only what stands at the parameter in a literal handed there is held to them, what a name the literal holds reads as included, and a closure in the literal is judged as any closure handed to its procedure type is. A parameter read twice must be read the same both ways. Two readings where one accepts the other join to the one that holds both, position by position through lists, dictionaries and what may be null: a reading of `Any` makes its position `Any`, as it does the whole parameter, and elsewhere the looser stands; a reading that leaves, or an empty list's element, holds no value, and a parameter only such readings read is filled with `Never`, so `[]` handed at `Array<some T>` answers a list of any type, and a call answering that parameter alone reads `Never` and takes no name, the way a call of `Standard.Control.abort` does; two readings that do not fit **refuse at the build**, and do not widen to `Any`: two declared structs, or a declared struct and a map, are two types neither of which takes the other. Where bounds hold the parameter, what each argument hands there is held to them before its readings are joined, so a reading among them that does not answer **refuses at the build**, and so does a parameter the readings fill with `Any`, though each answers: a bounded parameter is one type. Appending a whole number to a list of text is a parameter read as text and as a number, and there is no answer that is both.
 
-**Bounds.** A type parameter may be bounded: a signature declares `bounds: { T: Standard.Comparable }` once, its slots write `some T`, and every occurrence of the name takes only what answers the contract the bound names, under **Contracts** below. A bound may name several, joined with `&`: `bounds: { T: Describable & Standard.Comparable }` holds `T` to what answers every one of them. The signature owns the bound. A slot names the parameter and never the bound, so one bound is one claim however many slots mention the name. A bound names contracts and nothing else, and what answers one is whatever type a document claims does, so the set a bound holds a parameter to is open. The judgement is the **build**'s: a reading whose type does not answer the bound refuses (two booleans meeting `lessThan` never run), and so does a reading whose type the build does not know, under *what a slot takes, exactly* above; a cast judges what actually arrived at the **run** by the type it is an instance of. `bounds` naming a parameter no slot mentions refuses at the load. Only the declaring procedure writes `bounds`, and a closure writes none, under [expressions](expression.md). A procedure *type* nested in a slot carries none, because its parameters are the declaring signature's own slots and the declaring signature owns their bounds. A closure written in the body reads the same names: its `some T` is the `T` the caller filled, held to the bounds the declaration wrote, so a closure may send what the body around it may, and one writing a `some T` the procedure around it does not declare, or written where no procedure is, **refuses at the load**. A bound naming what no module declares as a contract **refuses at the build**, and one naming a type the language names or a struct it declares, neither of which is a contract, **refuses at the load**. And a type parameter lives in a signature and is filled by what a call hands: a declared type writing `some` outside a procedure signature, and a signature naming one in what it answers and at none of its parameters, at any depth of a procedure-typed one included, each **refuse at the load**, because nothing there is filled by a call.
+**Bounds.** A type parameter may be bounded: a signature declares `bounds: { T: Standard.Comparable }` once, its slots write `some T`, and every occurrence of the name takes only what answers the contract the bound names, under **Contracts** below. A bound may name several, joined with `&`: `bounds: { T: Describable & Standard.Comparable }` holds `T` to what answers every one of them. The signature owns the bound. A slot names the parameter and never the bound, so one bound is one claim however many slots mention the name. A bound names contracts and nothing else, and what answers one is whatever type a document claims does, so the set a bound holds a parameter to is open. The judgement is the **build**'s: a reading whose type does not answer the bound refuses (two booleans meeting `lessThan` never run), and so does a reading whose type the build does not know, under *what a slot takes, exactly* above; a cast judges what actually arrived at the **run** by the type it is an instance of. `bounds` naming a parameter no slot mentions refuses at the load. Only the declaring procedure writes `bounds`, and a closure writes none, under [expressions](expression.md). A procedure *type* nested in a slot carries none, because its parameters are the declaring signature's own slots and the declaring signature owns their bounds. A closure written in the body reads the same names: its `some T` is the `T` the caller filled, held to the bounds the declaration wrote, so a closure may send what the body around it may, and one writing a `some T` the procedure around it does not declare, or written where no procedure is, **refuses at the load**. A bound naming what no module declares as a contract **refuses at the build**, and one naming a type the language names or a struct it declares, neither of which is a contract, **refuses at the load**. And a type parameter lives in a signature and is filled by what a call hands, or in a struct that lists it and is filled by a mention: a declared type writing `some` for a name it does not list, an alias's included, and a signature naming one in what it answers and at none of its parameters, at any depth of a procedure-typed one included, each **refuse at the load**, because nothing there fills it.
 
 **Contracts.** A contract says which **procedures** a value answers: the types that answer them are open, and new ones arrive with new documents. A module declares one the way it declares a type: a name bound to the procedures, each written as a signature whose first parameter is `Self`, the type that answers the contract, since the value standing there is the one the procedure is answered about. `Self` may stand at any of the procedure's positions and in its answer, `Self?` included, and it is that one type wherever it stands: a claim reads it as the type the claim is about, and `Self?` as that type or null, which for a claim about `Null` is `Null` itself, so a declaration backing such a claim writes `Null` there, at a parameter as in its answer, and a call through the contract reads it as one type parameter the contract bounds, filled from the call the way any type parameter is. A contract's procedure taking anything else first **refuses at the load**, the contract's own name included, since that is a value of whichever type answers it, and so does one taking `inout Self` first, since a call through the contract picks the declaration by the value standing there and a place handed in is no value. `Self` written anywhere but a contract's procedures **refuses at the load**, and so does `some Self`.
 
 A contract's name stands where a type is written, and so does `A & B`: the slot takes a value of whatever type satisfies every contract named. This is how the language says **A or B**: each type claims one contract and the slot names it. Either is a type parameter with no name, so nothing ties one slot's reading to another's, and a call fills nothing. A value read as a contract is of a type the build does not know and stands where *what a slot takes, exactly* above says: a value read as `A` does not stand where `B` is asked, and one read as `A & B` stands where either is. A reading of what may be null is a value of the type or of `Null`, so it answers a contract where both do. A type parameter a contract bounds is one type wherever it stands, while a value of a contract is of whichever type answers it and a value of what may be null of the type or `Null`, so either fills one only where the parameter stands alone at one of the procedure's positions: `App.Described.describe` takes one, and a call handing one where the parameter stands twice, `Self` of `lhs` and `rhs` included, or inside a list or a map, **refuses at the build**. A closure literal's parameter is such a slot too, and a call of the value holds what it hands to the contract by the rule a call to a declaration is held by. A name that is not a contract's joined with `&` **refuses at the build**, and a type the language names or a struct it declares joined with `&` **refuses at the load**.
 
-A type **satisfies** a contract when a document says it does. The document writes the claim under `satisfies`, keyed by the type: `satisfies: { "Bank.Account": ["App.Describable"] }`. Any document may make one, about a type it declared or about another document's, which is how a document that arrives later gives a type the procedures a contract asks. A type the language names is a type the way a declared one is, and a claim may be about it: `satisfies: { Int: ["App.Describable"] }`, answered by `Int.describe`. A list and a map are named bare, `Array` and `Dictionary`. Every list is an instance of `Array` whatever it holds, since a value does not say which elements a slot declared it to hold, and a claim written about `Array<Int>` **refuses at the load**. A claim about `Array` is a claim about every list, and one about `Dictionary` about every map, so a declaration answering it takes one whatever it holds, a map under whatever keys, `Dictionary<some K, Any>` with `bounds: { K: Hashable }`: a claim answered by one taking `Array<Int>` or `Dictionary<String, Any>` alone does not hold, and a call leaning on it **refuses at the build**. A list written as bytes is an instance of `Array` as every list is. `Any` and `Never` are types no value is an instance of by name, `Procedure` and a procedure type name a structure and no type, and `Self` names a type only inside a contract's procedures, so a claim about any of them **refuses at the load**, and a procedure answers no contract. A claim about a declared name that is not itself a struct, an alias included, **refuses at the build**: a value of a declared type is an instance of the struct it is, and of no other name.
+A type **satisfies** a contract when a document says it does. The document writes the claim under `satisfies`, keyed by the type: `satisfies: { "Bank.Account": ["App.Describable"] }`. Any document may make one, about a type it declared or about another document's, which is how a document that arrives later gives a type the procedures a contract asks. A type the language names is a type the way a declared one is, and a claim may be about it: `satisfies: { Int: ["App.Describable"] }`, answered by `Int.describe`. A list and a map are named bare, `Array` and `Dictionary`. Every list is an instance of `Array` whatever it holds, since a value does not say which elements a slot declared it to hold, and a claim written about `Array<Int>` **refuses at the load**. A claim about `Array` is a claim about every list, and one about `Dictionary` about every map, so a declaration answering it takes one whatever it holds, a map under whatever keys, `Dictionary<some K, Any>` with `bounds: { K: Hashable }`: a claim answered by one taking `Array<Int>` or `Dictionary<String, Any>` alone does not hold, and a call leaning on it **refuses at the build**. A struct taking type parameters is named bare the same way, and a claim about it is about every value of it whatever it is applied to, each parameter one no call fills, held to the bounds the struct declares, so a declaration answering it takes `Box<some T>`: one taking `Box<Int>` alone does not hold. A list written as bytes is an instance of `Array` as every list is. `Any` and `Never` are types no value is an instance of by name, `Procedure` and a procedure type name a structure and no type, and `Self` names a type only inside a contract's procedures, so a claim about any of them **refuses at the load**, and a procedure answers no contract. A claim about a declared name that is not itself a struct, an alias included, **refuses at the build**: a value of a declared type is an instance of the struct it is, and of no other name.
 
 The build holds the claim to the declarations behind it. For every procedure the contract asks, it takes the declaration named for the type and that procedure (`Bank.Account` and `describe` give `Bank.Account.describe`) and holds its signature to the contract's with the type in place of `Self` wherever the contract writes it. A name that stands for a declared struct names that struct's type there, as wherever types are compared, so a declaration may write another name for the struct the contract writes. A declaration that wrote no `returns` is held by what its body answers, read the way a call site reads it.
 
@@ -98,6 +101,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-call-filling-a-parameter-from-a-variable-held-in-place-takes-a-value-of-that-parameter`
 - `a-call-filling-a-parameter-from-a-variable-held-in-place-takes-no-other-value-refuses`
 - `a-call-filling-a-parameter-from-the-bodys-own-and-a-reading-of-any-refuses`
+- `a-call-fills-a-type-parameter-through-a-struct-applied-to-it-answers`
 - `a-call-of-a-value-read-as-any-refuses`
 - `a-call-through-a-contract-with-nothing-first-refuses`
 - `a-cast-between-aliases-of-two-nullable-structs-reads-null-answers`
@@ -114,9 +118,16 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-cast-of-a-closure-writing-where-a-declared-struct-was-filled-fails`
 - `a-cast-of-a-nullable-struct-to-another-struct-refuses`
 - `a-cast-of-a-setter-a-generic-procedure-made-fails-before-its-getter-reads`
+- `a-cast-of-a-struct-applied-to-int-to-it-applied-to-text-refuses`
+- `a-cast-of-a-struct-to-the-struct-applied-to-what-it-already-is-refuses`
 - `a-cast-of-an-alias-of-a-nullable-struct-to-another-struct-refuses`
+- `a-cast-to-a-struct-applied-to-what-its-fields-do-not-hold-fails`
+- `a-cast-to-a-struct-applied-to-what-its-fields-hold-answers`
 - `a-claim-about-a-list-of-one-type-refuses`
 - `a-claim-about-a-name-that-is-not-a-struct-refuses`
+- `a-claim-about-a-struct-answered-for-it-applied-to-int-alone-refuses`
+- `a-claim-about-a-struct-reads-its-parameters-held-to-the-structs-bounds-answers`
+- `a-claim-about-a-struct-taking-a-type-parameter-holds-for-every-value-of-it-answers`
 - `a-claim-about-a-struct-the-language-declares-keys-a-map-by-it-answers`
 - `a-claim-about-any-refuses`
 - `a-claim-about-array-answered-for-a-list-of-ints-alone-refuses`
@@ -128,10 +139,12 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-claim-about-procedure-refuses`
 - `a-claim-about-self-refuses`
 - `a-claim-answering-self-or-null-with-another-type-refuses`
+- `a-claim-in-one-document-about-a-struct-another-declares-with-a-type-parameter-answers`
 - `a-claim-naming-a-contract-where-the-type-belongs-refuses`
 - `a-claim-naming-a-type-where-a-contract-belongs-refuses`
 - `a-claim-nobody-leans-on-refuses-nowhere`
 - `a-claim-stands-in-a-document-the-leaning-one-never-names`
+- `a-claim-written-about-a-struct-applied-to-int-refuses`
 - `a-closure-a-generic-body-wrote-is-read-as-the-procedure-type-it-is-judged-against`
 - `a-closure-a-generic-body-wrote-read-past-its-bounds-is-not-that-type`
 - `a-closure-a-generic-body-wrote-taking-a-list-in-place-is-read-as-the-type-it-is-judged-against`
@@ -147,6 +160,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-closure-that-may-fail-where-the-procedure-type-fails-with-nothing-refuses`
 - `a-closure-writing-bounds-refuses`
 - `a-closures-parameter-names-are-not-part-of-its-type`
+- `a-constant-of-a-struct-judged-at-any-reads-as-its-fields-joined-refuses`
+- `a-constant-of-a-struct-keeps-what-it-was-applied-to-refuses`
 - `a-constant-of-keys-of-two-types-settled-from-a-hashable-keyed-map-answers`
 - `a-constant-of-keys-of-two-types-settled-from-an-answer-of-any-reads-any-refuses`
 - `a-contract-asking-no-procedures-is-answered-by-what-claims-it`
@@ -158,6 +173,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-contract-or-null-slot-refuses-a-type-not-answering-the-contract`
 - `a-contract-or-null-slot-takes-a-parameter-bounded-by-the-contract-and-another`
 - `a-contract-or-null-slot-takes-a-type-answering-the-contract`
+- `a-contract-procedure-answering-self-hands-a-struct-back-applied-as-it-came-answers`
 - `a-contract-procedure-may-answer-self-or-null`
 - `a-contract-procedure-may-take-self-or-null`
 - `a-contract-procedure-named-with-a-dot-refuses`
@@ -172,6 +188,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-contract-stands-in-a-closures-parameter`
 - `a-contract-stands-in-a-declared-types-field`
 - `a-contract-stands-where-a-type-is-written`
+- `a-contract-written-with-brackets-refuses`
 - `a-declaration-answering-a-contract-answering-any-may-answer-its-parameter`
 - `a-declaration-answering-a-contract-failing-with-what-the-contract-does-not-name-refuses`
 - `a-declaration-answering-a-contract-fills-its-own-parameter-with-the-contracts`
@@ -209,9 +226,12 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-declared-name-is-a-type`
 - `a-declared-type-names-itself-in-its-fields`
 - `a-dictionary-of-an-alias-of-any-at-a-dictionary-of-a-contract-refuses`
+- `a-field-of-a-struct-applied-to-int-read-as-text-refuses`
+- `a-field-writing-a-type-parameter-its-struct-does-not-list-refuses`
 - `a-fraction-is-not-a-whole-number`
 - `a-generic-answer-of-any-refuses`
 - `a-generic-body-appends-its-parameter-to-a-list-of-it-or-null`
+- `a-generic-procedure-answers-a-struct-applied-to-its-bounded-key-answers`
 - `a-list-holding-a-closure-that-may-fail-where-its-elements-fail-with-nothing-refuses`
 - `a-list-literal-of-closures-answering-outside-the-bounds-refuses`
 - `a-list-literal-of-closures-handed-at-a-bounded-parameter-answers`
@@ -219,6 +239,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-list-of-a-reading-of-any-behind-a-name-handed-beside-a-variable-in-place-refuses`
 - `a-list-of-a-reading-of-any-handed-beside-a-variable-in-place-refuses`
 - `a-list-of-an-alias-of-any-handed-to-a-value-at-a-list-of-a-contract-refuses`
+- `a-list-of-structs-applied-to-a-type-parameter-fills-it-answers`
 - `a-list-of-two-maps-whose-keys-join-to-any-holds-each-as-any-refuses`
 - `a-list-of-two-types-handed-where-a-contract-is-asked-is-read-element-by-element-refuses`
 - `a-literal-of-names-at-a-contract-bound-leans-on-each-claim-refuses`
@@ -228,6 +249,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-map-key-from-outside-under-an-alias-is-a-value-of-its-struct-answers`
 - `a-map-keyed-by-a-declared-struct-claimed-hashable-answers`
 - `a-map-keyed-by-a-declared-struct-no-document-claims-hashable-refuses`
+- `a-map-keyed-by-a-struct-taking-a-type-parameter-claimed-hashable-answers`
+- `a-map-keyed-by-a-struct-taking-a-type-parameter-no-document-claims-hashable-refuses`
 - `a-map-keyed-by-a-type-parameter-bounded-by-hashable-answers`
 - `a-map-keyed-by-a-type-parameter-no-bound-holds-refuses`
 - `a-map-keyed-by-any-refuses`
@@ -245,6 +268,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-map-literal-whose-values-do-not-join-handed-at-a-dictionary-of-a-bounded-parameter-refuses`
 - `a-map-type-written-with-one-type-refuses`
 - `a-module-declares-a-contract-a-bound-names`
+- `a-module-variable-starting-at-a-struct-applied-to-an-empty-list-refuses`
 - `a-name-declared-as-both-a-type-and-a-contract-refuses`
 - `a-name-that-is-not-a-contracts-joined-with-and-refuses`
 - `a-named-list-handed-where-a-list-of-a-contract-stands-is-held-to-it`
@@ -277,6 +301,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-parameter-read-as-a-declared-struct-and-its-alias-keeps-the-name`
 - `a-path-written-from-any-into-a-list-of-a-parameter-refuses`
 - `a-procedure-a-call-filled-from-a-declared-struct-takes-no-int-refuses`
+- `a-procedure-answering-a-struct-of-an-empty-list-stands-at-it-applied-to-a-list-of-int-answers`
+- `a-procedure-answers-a-struct-applied-to-its-type-parameter-answers`
 - `a-procedure-value-at-a-slot-writing-a-procedure-type-refuses`
 - `a-reading-of-any-at-a-bounded-parameter-refuses`
 - `a-reading-of-any-at-a-contract-procedure-refuses`
@@ -284,26 +310,60 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-reading-of-any-stands-at-an-alias-of-any`
 - `a-reading-outside-a-bound-refuses`
 - `a-row-of-readings-of-any-appended-to-a-table-of-text-refuses`
+- `a-signature-applying-a-struct-to-a-parameter-bounded-as-the-struct-asks-answers`
+- `a-signature-applying-a-struct-to-a-parameter-its-bounds-do-not-hold-refuses`
 - `a-slot-of-a-type-takes-no-value-read-as-a-contract-refuses`
 - `a-some-outside-a-signature-refuses`
 - `a-struct-a-block-answers-where-a-declared-struct-is-read-takes-the-name`
 - `a-struct-a-host-procedure-answers-short-of-its-fields-refuses`
 - `a-struct-a-loop-answers-where-a-declared-struct-is-read-takes-the-name`
+- `a-struct-another-document-declares-applied-to-another-count-refuses`
+- `a-struct-another-document-declares-with-a-type-parameter-is-applied-here-answers`
+- `a-struct-applied-to-a-closure-from-a-call-stands-at-the-procedure-type-it-declares-answers`
+- `a-struct-applied-to-a-type-its-bound-does-not-take-refuses`
+- `a-struct-applied-to-a-type-parameter-handed-in-place-takes-a-write-of-it-answers`
+- `a-struct-applied-to-another-count-of-types-refuses`
+- `a-struct-applied-to-int-handed-in-place-is-written-through-answers`
+- `a-struct-applied-to-int-where-it-is-applied-to-int-or-null-refuses`
+- `a-struct-applied-to-int-where-it-is-applied-to-text-refuses`
+- `a-struct-applied-to-itself-reads-the-inner-field-answers`
+- `a-struct-applied-to-one-type-is-not-the-struct-applied-to-another-whatever-its-fields-refuses`
 - `a-struct-arrives-as-an-argument`
+- `a-struct-bounding-a-name-it-does-not-list-refuses`
+- `a-struct-bounding-its-key-parameter-holds-a-map-answers`
 - `a-struct-built-where-a-declared-struct-is-read-keeps-its-closure`
 - `a-struct-declared-without-its-struct-key-refuses`
+- `a-struct-field-holding-a-procedure-of-its-type-parameter-is-called-answers`
 - `a-struct-from-outside-at-a-contract-slot-is-fitted-to-its-struct`
+- `a-struct-from-outside-at-a-slot-applying-it-to-int-or-null-holds-both-answers`
+- `a-struct-from-outside-at-any-holding-what-its-bound-does-not-take-refuses`
+- `a-struct-from-outside-at-any-reads-as-its-fields-joined-answers`
 - `a-struct-from-outside-short-of-a-field-at-a-contract-slot-refuses`
+- `a-struct-from-outside-under-an-alias-of-a-struct-applied-to-int-is-held-to-int-refuses`
 - `a-struct-from-outside-under-another-name-refuses-at-the-door`
 - `a-struct-from-outside-under-its-name-at-any-is-held-to-its-struct-refuses`
+- `a-struct-from-outside-whose-fields-join-to-what-its-bound-does-not-take-refuses`
+- `a-struct-holding-a-procedure-of-its-parameter-does-not-stand-applied-to-another-type-refuses`
+- `a-struct-holding-an-empty-list-written-into-one-handed-in-place-answers`
+- `a-struct-keying-a-map-by-an-unbounded-parameter-refuses`
+- `a-struct-listing-no-type-parameters-applied-to-one-refuses`
+- `a-struct-listing-no-type-parameters-refuses`
 - `a-struct-literal-a-name-that-declares-nothing-holds-refuses`
 - `a-struct-literal-answered-where-a-declared-struct-is-answered-takes-the-name`
 - `a-struct-literal-at-a-type-parameter-nothing-fills-with-a-struct-refuses`
 - `a-struct-literal-beside-a-declared-struct-at-a-type-parameter-reads-as-that-struct-answers`
+- `a-struct-literal-handed-at-a-struct-of-a-type-parameter-fills-it-from-its-fields-answers`
+- `a-struct-literal-holding-an-empty-list-beside-an-int-fills-a-call-answers`
 - `a-struct-literal-in-a-list-beside-a-list-of-another-struct-at-a-type-parameter-refuses`
 - `a-struct-literal-in-a-list-handed-first-beside-a-list-of-another-struct-at-a-type-parameter-refuses`
+- `a-struct-literal-inside-a-struct-literal-at-a-type-parameter-refuses`
+- `a-struct-literal-reading-its-type-parameter-two-ways-refuses`
 - `a-struct-literal-short-of-a-field-its-struct-declares-refuses`
 - `a-struct-literal-written-where-no-declared-struct-is-read-refuses`
+- `a-struct-naming-itself-applied-to-a-list-of-its-parameter-answers`
+- `a-struct-naming-itself-applied-to-its-parameter-answers`
+- `a-struct-taking-a-type-parameter-holds-what-its-mention-applies-it-to-answers`
+- `a-struct-taking-type-parameters-named-without-brackets-refuses`
 - `a-struct-the-language-declares-joined-with-and-refuses`
 - `a-struct-type-may-name-a-field-for-a-form`
 - `a-struct-under-another-name-refuses`
@@ -327,6 +387,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-type-reaching-itself-through-names-alone-refuses`
 - `a-type-that-misses-a-procedure-does-not-answer-the-contract`
 - `a-type-the-language-names-answers-a-contract`
+- `a-type-the-language-names-written-with-brackets-refuses`
 - `a-value-cast-from-any-to-a-contract-answers-by-the-type-it-is`
 - `a-value-cast-from-any-to-a-contract-it-does-not-answer-fails`
 - `a-value-declares-every-parameter-the-slot-hands`
@@ -345,6 +406,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-value-read-as-a-contract-where-another-is-asked-refuses`
 - `a-value-read-as-any-sent-to-a-closure-held-at-a-procedure-type-refuses`
 - `a-value-taking-a-parameter-in-place-does-not-fit-a-slot-handing-a-value`
+- `a-var-field-of-a-struct-taking-a-type-parameter-is-written-through-answers`
 - `a-variable-a-closure-took-written-from-any-refuses`
 - `a-variable-a-closure-writes-from-any-refuses`
 - `a-variable-a-closure-writes-with-a-value-of-the-parameter-answers`
@@ -354,13 +416,16 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-whole-literal-at-a-fraction-slot-is-the-fraction`
 - `a-whole-literal-beside-a-fraction-at-a-bounded-parameter-is-held-to-the-bound-as-the-fraction`
 - `a-whole-literal-between-the-brackets-of-a-map-keyed-by-fractions-is-the-fraction`
+- `a-whole-literal-in-a-struct-beside-a-fraction-in-one-struct-reads-as-the-fraction-answers`
 - `a-whole-literal-where-a-bounded-parameter-stands-refuses`
 - `a-whole-number-a-name-holds-is-no-fraction-refuses`
+- `an-alias-applied-to-a-type-refuses`
 - `an-alias-beside-what-it-stands-for-in-a-list-literal-joins-as-that-type`
 - `an-alias-coming-back-to-itself-through-a-list-refuses`
 - `an-alias-of-a-contract-answers-the-contract`
 - `an-alias-of-a-declared-struct-gives-a-value-from-outside-the-structs-name`
 - `an-alias-of-a-struct-answers-the-structs-contracts`
+- `an-alias-of-a-struct-applied-to-int-reads-as-it-answers`
 - `an-alias-of-any-another-document-declares-at-a-contract-slot-refuses`
 - `an-alias-of-any-at-a-contract-slot-refuses`
 - `an-alias-of-any-at-a-nullable-contract-slot-refuses`
@@ -370,6 +435,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-answer-read-as-any-where-a-type-is-declared-refuses`
 - `an-array-of-bytes-and-a-list-of-numbers-joins-to-a-list-of-lists`
 - `an-empty-list-handed-to-a-generic-answers-a-list-of-any-type`
+- `an-entry-answers-a-struct-applied-to-int`
 - `an-inout-type-parameter-a-procedure-slot-fills-first-reads-the-value`
 - `an-inout-type-parameter-a-variable-fills-first-reads-the-value`
 - `an-optional-cast-of-a-closure-over-a-type-parameter-its-making-call-filled-reads-null`
@@ -385,4 +451,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `self-outside-a-contract-refuses`
 - `self-stands-for-the-type-answering-a-contract`
 - `two-documents-claiming-one-pair-are-one-claim`
+- `two-structs-applied-to-one-type-in-a-list-join-to-it-answers`
+- `two-structs-applied-to-two-types-in-a-list-join-to-anything-refuses`
 - `what-was-read-out-of-a-parameter-is-not-the-parameter`

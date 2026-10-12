@@ -1,0 +1,38 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-type-the-language-names-written-with-brackets-refuses"
+  note "Only `Array`, `Dictionary` and a struct listing type parameters are written with brackets. `Int<Int>` is refused at the load."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            type "Int<Int>"
+            value 1
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+    }
+    types {
+      "App.Box" {
+        struct {
+          item "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

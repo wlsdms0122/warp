@@ -1,0 +1,51 @@
+warpt 1
+{
+  expect {
+    answers 2
+  }
+  name "a-struct-naming-itself-applied-to-its-parameter-answers"
+  note "`App.List` names itself in a field, applied to its own parameter, so a list of two is one declaration and its second head reads as `Int`."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "l"
+            type "App.List<Int>"
+            value {
+              struct {
+                head 1
+                tail {
+                  struct {
+                    head 2
+                    tail null
+                  }
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "l.tail?.head"
+        }
+        returns "Int?"
+      }
+    }
+    types {
+      "App.List" {
+        struct {
+          head "some T"
+          tail "App.List<some T>?"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

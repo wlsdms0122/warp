@@ -1,0 +1,80 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-struct-holding-a-procedure-of-its-parameter-does-not-stand-applied-to-another-type-refuses"
+  note "`App.Holder` holds a procedure taking its parameter. A struct is one type only at the same arguments, so `App.Holder<Int>` does not stand where `App.Holder<Int?>` is declared, and nothing can hand its procedure a null."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "h"
+            type "App.Holder<Int>"
+            value {
+              struct {
+                run {
+                  closure {
+                    parameters [
+                      {
+                        name "x"
+                        type "Int"
+                      }
+                    ]
+                    result [
+                      {
+                        ref "x"
+                      }
+                    ]
+                    returns "Array<Int>"
+                  }
+                }
+              }
+            }
+          }
+          {
+            let "g"
+            type "App.Holder<Int?>"
+            value {
+              ref "h"
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              null
+            ]
+            procedure {
+              ref "g.run"
+            }
+          }
+        }
+        returns "Array<Int>"
+      }
+    }
+    types {
+      "App.Holder" {
+        struct {
+          run {
+            procedure {
+              parameters [
+                "some T"
+              ]
+              returns "Array<Int>"
+            }
+          }
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

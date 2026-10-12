@@ -1,0 +1,66 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-struct-literal-inside-a-struct-literal-at-a-type-parameter-refuses"
+  note "The outer literal handed at `App.Box<some T>` reads its field at `some T`, a type parameter nothing else fills with a declared struct, so the inner literal takes no name and is refused."
+  program {
+    imports []
+    procedures {
+      "App.unwrap" {
+        parameters [
+          {
+            name "b"
+            type "App.Box<some T>"
+          }
+        ]
+        result {
+          ref "b.item"
+        }
+        returns "some T"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "x"
+            value {
+              call {
+                arguments [
+                  {
+                    struct {
+                      item {
+                        struct {
+                          item 6
+                        }
+                      }
+                    }
+                  }
+                ]
+                procedure "App.unwrap"
+              }
+            }
+          }
+        ]
+        result {
+          ref "x.item"
+        }
+        returns "Int"
+      }
+    }
+    types {
+      "App.Box" {
+        struct {
+          item "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

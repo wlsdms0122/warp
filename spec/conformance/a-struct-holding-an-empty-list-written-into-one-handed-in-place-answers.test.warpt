@@ -1,0 +1,92 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-struct-holding-an-empty-list-written-into-one-handed-in-place-answers"
+  note "A box handed in place takes what reads as its own type, and a struct applied to a list of nothing reads as applied to a list of the parameter."
+  program {
+    imports []
+    procedures {
+      "App.clear" {
+        body [
+          {
+            set "b"
+            value {
+              call {
+                arguments [
+                  []
+                ]
+                procedure "App.wrap"
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "b"
+            type "inout App.Box<Array<some T>>"
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+      "App.wrap" {
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+        ]
+        result {
+          struct {
+            item {
+              ref "x"
+            }
+          }
+        }
+        returns "App.Box<some T>"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            type "App.Box<Array<Int>>"
+            value {
+              struct {
+                item [
+                  1
+                ]
+              }
+            }
+            var "b"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "b"
+              }
+            ]
+            procedure "App.clear"
+          }
+        }
+        returns "Int"
+      }
+    }
+    types {
+      "App.Box" {
+        struct {
+          item "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
