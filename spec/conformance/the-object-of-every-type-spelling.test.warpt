@@ -23,7 +23,7 @@ warpt 1
       contracts []
       dependencies []
       document [
-        x"40280921b2f9e176e587e8887ffb28d2de6dbbffaa5725e72281c1a825776fe4"
+        x"9479d0c487bab59f72318c92440f1ae795413f562e75d9660c86029762bd496b"
       ]
       leaned [
         [
@@ -31,7 +31,7 @@ warpt 1
           "Hashable"
           [
             [
-              x"40280921b2f9e176e587e8887ffb28d2de6dbbffaa5725e72281c1a825776fe4"
+              x"9479d0c487bab59f72318c92440f1ae795413f562e75d9660c86029762bd496b"
             ]
             [
               [
@@ -239,6 +239,12 @@ warpt 1
                           4
                         ]
                       ]
+                      [
+                        1
+                        [
+                          "aborted"
+                        ]
+                      ]
                     ]
                   ]
                   1
@@ -272,6 +278,9 @@ warpt 1
                           1
                         ]
                       ]
+                      [
+                        0
+                      ]
                     ]
                   ]
                   0
@@ -298,7 +307,7 @@ warpt 1
     }
   }
   name "the-object-of-every-type-spelling"
-  note "Every type spelling a document writes lowers under the tag the page gives it: the scalars with `Null` and `Never`, a dictionary, the marks var and inout, the nullable, a procedure type with the types it takes and answers and its claims, a type parameter, and the reading a walk through one derives, written under answers."
+  note "Every type spelling a document writes lowers under the tag the page gives it: the scalars with `Null` and `Never`, a dictionary, the marks var and inout, the nullable, a procedure type with the types it takes and answers, what it may fail with and its claims, a type parameter, and the reading a walk through one derives, written under answers."
   program {
     imports []
     procedures {
@@ -338,6 +347,9 @@ warpt 1
           flag "var Bool"
           g {
             "const isolated procedure" {
+              failing [
+                "aborted"
+              ]
               parameters [
                 "String"
                 "Int"

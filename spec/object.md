@@ -71,7 +71,7 @@ A *type* is `[tag, …]`:
 
 A *segment* is `[0, name, optional]`, `[1, value, optional]` for a *value* written between the brackets, or `[2, path, optional]` for one read from a path.
 
-A *procedure type* is `[parameters, returns]`: a list of *type*, in position order, and a *type* or nothing. A *signature* is `[parameters, returns, bounds]`: a list of *parameter*, in the declaration's order; a *type* or nothing; and name → the contracts bounding the type parameter of that name, ascending, at least one, for each type parameter the signature bounds. A *parameter* is `[name, type, description]`: the name, then each a list of none or one: a *type*, none where the parameter takes anything, so `Any` is never written there; a string.
+A *procedure type* is `[parameters, returns, failing]`: a list of *type*, in position order, a *type* or nothing, and a *failing*. A *signature* is `[parameters, returns, bounds]`: a list of *parameter*, in the declaration's order; a *type* or nothing; and name → the contracts bounding the type parameter of that name, ascending, at least one, for each type parameter the signature bounds. A *parameter* is `[name, type, description]`: the name, then each a list of none or one: a *type*, none where the parameter takes anything, so `Any` is never written there; a string.
 
 *Constness* is `0` unstated or `1` const. *Isolation* is `0` unstated or `1` isolated. *Failing* is `[0]` unstated or `[1, names]`, the names ascending. A contract's procedure says which failures it may raise, so its *failing* is `[1, names]` alone.
 
@@ -141,7 +141,7 @@ A *lowered type* is a type as a body stands on it, `[tag, …]`:
 | 0 to 6 | `Any` `Never` `Null` `Bool` `Int` `Double` `String` | |
 | 7 | array | *lowered type* |
 | 8 | dictionary | the key's *lowered type*, the value's *lowered type* |
-| 10 | procedure | parameters or nothing, a list of *lowered type* in position order; returns or nothing, nothing where the parameters are nothing; *constness*; *isolation* |
+| 10 | procedure | parameters or nothing, a list of *lowered type* in position order; returns or nothing, nothing where the parameters are nothing; a *failing* or nothing, nothing exactly where the parameters are nothing; *constness*; *isolation* |
 | 11 | variable | *lowered type* |
 | 12 | inout | *lowered type* |
 | 13 | nullable | *lowered type* |
@@ -173,7 +173,7 @@ A reading refuses what it cannot read and traps on nothing: the reading runs ins
 - a contract's procedure whose *failing* is `[0]`
 - a declared type that is no record and comes back to itself through what it stands for, which the load refuses in a document, under [types](type.md)
 - a record built from parts holding other than one part per field its layout names
-- a lowered procedure type writing what it answers and not what it takes
+- a lowered procedure type writing what it answers and not what it takes, or writing what it may fail with other than exactly where it writes what it takes
 - a row of a procedure the host answers whose sends do not stand one to a place from the first, or reach a spelling the document's `numbering` does not number
 - an object standing against a document other than the one it was kept under
 
