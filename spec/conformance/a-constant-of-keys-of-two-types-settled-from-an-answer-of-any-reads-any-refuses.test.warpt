@@ -1,0 +1,72 @@
+warpt 1
+{
+  documents [
+    {
+      imports []
+      procedures {
+        "K.make" {
+          body [
+            {
+              let "m"
+              type "Dictionary<Hashable, Int>"
+              value {
+                dictionary [
+                  [
+                    1
+                    1
+                  ]
+                  [
+                    "a"
+                    2
+                  ]
+                ]
+              }
+            }
+          ]
+          result {
+            ref "m"
+          }
+          returns "Any"
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    refuses "build"
+  }
+  name "a-constant-of-keys-of-two-types-settled-from-an-answer-of-any-reads-any-refuses"
+  note "`K.make` declares it answers `Any`, and the map it answers holds `1` and `\"a\"`. Keys of two types join to `Any`, which keys no map, and nothing written says which key the map has, so the constant reads `Any` whole, as two maps keyed apart do, and handing it to `count` without `as` refuses at the build."
+  program {
+    const {
+      made {
+        call {
+          procedure "K.make"
+        }
+      }
+    }
+    imports [
+      "K.make"
+      "Standard.Collection.count"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                ref "made"
+              }
+            ]
+            procedure "Standard.Collection.count"
+          }
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
