@@ -1,0 +1,44 @@
+warpt 1
+{
+  arguments {
+    d {
+      App.Z {
+        x 1
+      } 1
+    }
+  }
+  expect {
+    refuses "run"
+  }
+  name "a-map-key-from-outside-under-a-name-no-document-declares-refuses-at-the-door"
+  note "The host hands a map keyed by a record under `App.Z`, which no document declares, where the entry declares nothing. The door holds a key to the record its name declares as it holds a value, so a key under a name that declares no record refuses there."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "d"
+          }
+        ]
+        result 1
+      }
+    }
+    satisfies {
+      "App.P" [
+        "Hashable"
+      ]
+    }
+    types {
+      "App.P" {
+        record {
+          x "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
