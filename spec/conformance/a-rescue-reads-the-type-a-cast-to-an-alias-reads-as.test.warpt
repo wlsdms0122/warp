@@ -1,0 +1,80 @@
+warpt 1
+{
+  arguments {
+    payload "not a record"
+  }
+  expect {
+    answers {
+      actual "String"
+      expected "App.P"
+    }
+  }
+  name "a-rescue-reads-the-type-a-cast-to-an-alias-reads-as"
+  note "An alias is a second spelling of what it stands for, and no judgement sees it, so a cast to `App.A` reads as `App.P` and `cast_refused`'s `expected` names `App.P`."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "tried"
+            value {
+              attempt {
+                body [
+                  {
+                    value {
+                      as {
+                        of {
+                          ref "payload"
+                        }
+                        type "App.A"
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  result {
+                    dictionary [
+                      [
+                        "actual"
+                        {
+                          ref "tried.details[\"actual\"]"
+                        }
+                      ]
+                      [
+                        "expected"
+                        {
+                          ref "tried.details[\"expected\"]"
+                        }
+                      ]
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "payload"
+          }
+        ]
+        result {
+          ref "tried"
+        }
+      }
+    }
+    types {
+      "App.A" "App.P"
+      "App.P" {
+        record {
+          x "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
