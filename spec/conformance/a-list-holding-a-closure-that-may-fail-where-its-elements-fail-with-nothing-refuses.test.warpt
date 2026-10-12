@@ -1,0 +1,84 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-list-holding-a-closure-that-may-fail-where-its-elements-fail-with-nothing-refuses"
+  note "Two closures in one list join to a procedure that may fail with what either may. One of these aborts, and the list's element type fails with nothing, so the argument is refused at the build."
+  program {
+    imports [
+      "Standard.Control.abort"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              [
+                {
+                  closure {
+                    parameters [
+                      {
+                        name "x"
+                        type "Int"
+                      }
+                    ]
+                    result {
+                      ref "x"
+                    }
+                    returns "Int"
+                  }
+                }
+                {
+                  closure {
+                    parameters [
+                      {
+                        name "x"
+                        type "Int"
+                      }
+                    ]
+                    result {
+                      call {
+                        arguments [
+                          "no"
+                        ]
+                        procedure "Standard.Control.abort"
+                      }
+                    }
+                    returns "Int"
+                  }
+                }
+              ]
+            ]
+            procedure "take"
+          }
+        }
+        returns "Int"
+      }
+      take {
+        parameters [
+          {
+            name "steps"
+            type {
+              array {
+                "const procedure" {
+                  failing []
+                  parameters [
+                    "Int"
+                  ]
+                  returns "Int"
+                }
+              }
+            }
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

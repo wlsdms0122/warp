@@ -154,6 +154,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-contract-asking-const-lets-its-call-stand-in-a-const-slot`
 - `a-contract-asking-isolated-lets-its-call-stand-in-an-isolated-slot`
 - `a-contract-call-that-may-run-is-no-operand`
+- `a-contract-procedure-taking-a-procedure-that-names-its-failures-is-backed-by-a-declaration-calling-it`
+- `a-declaration-calling-a-procedure-that-may-abort-backs-no-contract-naming-nothing-refuses`
+- `a-declaration-calling-a-procedure-whose-type-names-no-failure-backs-no-contract-refuses`
 - `a-declaration-that-runs-backs-no-const-contract`
 - `a-dictionary-entry-handed-in-place-is-read-by-the-callee`
 - `a-fixed-name-bound-to-a-calls-answer-gives-a-capture-no-claim`

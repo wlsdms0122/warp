@@ -1,0 +1,76 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-closure-handed-in-place-fails-with-exactly-what-the-slot-names"
+  note "A slot handed a variable in place is one type with it. `s` holds a closure that fails with nothing, and the slot's type says nothing of failing, so the two are two types and the call is refused at the build."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            value {
+              closure {
+                parameters [
+                  {
+                    name "x"
+                    type "Int"
+                  }
+                ]
+                result {
+                  ref "x"
+                }
+                returns "Int"
+              }
+            }
+            var "s"
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "s"
+                  }
+                ]
+                procedure "keep"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              1
+            ]
+            procedure {
+              ref "s"
+            }
+          }
+        }
+        returns "Int"
+      }
+      keep {
+        parameters [
+          {
+            name "step"
+            type {
+              "inout const isolated procedure" {
+                parameters [
+                  "Int"
+                ]
+                returns "Int"
+              }
+            }
+          }
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

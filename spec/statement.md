@@ -105,7 +105,7 @@ The envelope is this specification's; what rides in `details` is the procedure's
 
 `details` holds `Any`, so a value read out of it is read as anything until a type is named for it. A field the envelope does not name is not reached by a dot on the failure itself: `failed.failures` **refuses at the build**, and what `details` holds is read through brackets, `failed.details["failures"]`.
 
-**What a body may fail with is known before it runs.** The build derives it the way it derives constness and isolation, and the types a failure names itself by (`aborted`, `cast_refused`) are what it derives: a body fails with what its plain casts fail with (`cast_refused`, the one failure the runtime itself raises; `as?` reads the same mismatch as null and raises nothing), with what the declarations it calls fail with, and with whatever its rescues fail with, the body under a rescue being caught. Calling a value leaves the question open, since nothing before the run says which value.
+**What a body may fail with is known before it runs.** The build derives it the way it derives constness and isolation, and the types a failure names itself by (`aborted`, `cast_refused`) are what it derives: a body fails with what its plain casts fail with (`cast_refused`, the one failure the runtime itself raises; `as?` reads the same mismatch as null and raises nothing), with what the declarations it calls fail with, and with whatever its rescues fail with, the body under a rescue being caught. Calling a value fails with what the procedure type of the slot it came out of names under `failing`, the slot's word, as it is for constness under *what answers without running* in [procedures](procedure.md), since nothing before the run says which value; where the slot names nothing, or writes no signature, the call may fail with anything.
 
 A procedure the host answers says what it may fail with, the way it says whether it is isolated. **A procedure that says nothing fails nothing**, which is right for the many procedures that throw only at an author mistake, and a procedure that can fail says so. `Standard.Control.abort` says `aborted`; `Standard.Concurrent` says `concurrent_failed`, every piece's failure being gathered into that one. A piece that refuses at the run refuses the whole run instead, under [running](running.md), and the failures beside it are not gathered. A procedure that fails and does not say so has broken its contract, the same way one that holds state and calls itself isolated has.
 
@@ -125,6 +125,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 
 - `a-block-writes-the-flow-it-is-in`
 - `a-body-ending-in-a-call-answering-an-alias-of-never-answers-as-declared`
+- `a-call-of-a-value-fails-with-what-its-slots-procedure-type-names`
 - `a-closure-a-constant-holds-does-not-take-a-variables-name`
 - `a-closure-does-not-leave-what-wrote-it`
 - `a-closure-in-a-loop-condition-holds-what-it-takes-for-the-body`
@@ -219,6 +220,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-write-under-a-key-a-name-holds-writes-the-entry`
 - `a-write-under-a-whole-number-key-makes-the-entry`
 - `a-write-whose-value-rewrites-its-head-lands-where-the-head-then-holds-answers`
+- `an-attempt-around-a-call-of-a-value-whose-type-fails-with-nothing-refuses`
 - `an-attempt-body-reads-the-variable-its-statement-name-shadows`
 - `an-attempt-catches-a-cast-that-did-not-match`
 - `an-attempt-under-a-set-binds-no-failure`

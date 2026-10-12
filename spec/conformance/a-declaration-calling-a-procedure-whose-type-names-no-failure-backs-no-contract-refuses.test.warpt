@@ -1,0 +1,108 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-declaration-calling-a-procedure-whose-type-names-no-failure-backs-no-contract-refuses"
+  note "`step`'s type says nothing of what it may fail with, so a call of it may fail with anything, and no list a contract names holds that: `Int.run` backs no claim of `run`, whatever `run` lets fail."
+  program {
+    contracts {
+      "App.Runner" {
+        run {
+          failing [
+            "aborted"
+            "cast_refused"
+            "concurrent_failed"
+          ]
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+            {
+              name "step"
+              type {
+                "const procedure" {
+                  parameters [
+                    "Int"
+                  ]
+                  returns "Int"
+                }
+              }
+            }
+          ]
+          returns "Int"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "Int.run" {
+        parameters [
+          {
+            name "of"
+            type "Int"
+          }
+          {
+            name "step"
+            type {
+              "const procedure" {
+                parameters [
+                  "Int"
+                ]
+                returns "Int"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "of"
+              }
+            ]
+            procedure {
+              ref "step"
+            }
+          }
+        }
+        returns "Int"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              1
+              {
+                closure {
+                  parameters [
+                    {
+                      name "x"
+                      type "Int"
+                    }
+                  ]
+                  result {
+                    ref "x"
+                  }
+                  returns "Int"
+                }
+              }
+            ]
+            procedure "App.Runner.run"
+          }
+        }
+        returns "Int"
+      }
+    }
+    satisfies {
+      Int [
+        "App.Runner"
+      ]
+    }
+    warp 1
+  }
+  test 1
+}
+
