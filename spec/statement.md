@@ -202,6 +202,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-write-at-a-constant-position-writes-the-element`
 - `a-write-index-that-is-not-a-whole-number-refuses`
 - `a-write-indexes-with-a-name`
+- `a-write-into-an-element-of-bytes-lands-on-that-element-answers`
 - `a-write-into-an-entry-of-a-declared-dictionary-is-judged-against-its-entry-type-refuses`
 - `a-write-into-an-inout-parameter-is-judged-against-its-type-refuses`
 - `a-write-makes-an-entry-of-a-dictionary`
