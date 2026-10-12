@@ -72,6 +72,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-module-variable-start-outside-its-declared-type-refuses`
 - `a-module-variable-started-as-null-cast-to-a-nullable-takes-a-value`
 - `a-module-variable-started-at-a-constants-element-holds-the-lists-element-type`
+- `a-module-variable-started-at-a-contract-no-claim-names-its-type-for-refuses`
 - `a-module-variable-started-by-a-cast-holds-the-casts-type`
 - `a-module-variable-started-by-a-cast-to-a-nullable-takes-null`
 - `a-module-variable-started-with-a-const-closure-takes-one-that-runs`
