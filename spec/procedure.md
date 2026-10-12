@@ -219,7 +219,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-internal-procedure-is-named-from-another-document`
 - `an-isolated-closure-writes-its-own-variables`
 - `an-operand-calling-a-value-refuses`
-- `arguments-are-judged-at-the-boundary`
+- `arguments-are-judged-at-the-door`
 - `body-answers-only-what-it-declares`
 - `null-is-an-argument-a-document-can-write`
 - `two-documents-may-each-declare-a-private-name`

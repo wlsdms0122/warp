@@ -109,10 +109,10 @@ What `conformance/` asks about this page, by the name each case's file carries. 
 - `a-map-key-the-same-as-the-one-before-refuses`
 - `a-map-key-written-twice-refuses`
 - `a-map-keyed-by-values-reads-and-writes-back`
-- `a-named-record-reads-and-writes-back`
 - `a-number-written-longer-than-it-is-refuses`
 - `a-record-name-that-is-not-declarable-refuses`
 - `a-record-named-for-a-type-the-language-names-refuses`
+- `a-record-reads-and-writes-back`
 - `a-record-the-language-declares-reads-and-writes-back`
 - `a-string-that-is-not-utf8-refuses`
 - `a-text-key-not-in-normal-form-c-is-kept`
@@ -137,9 +137,9 @@ Text:
 - `a-fraction-not-in-its-one-writing-refuses`
 - `a-fraction-reads-by-its-point-or-exponent`
 - `a-map-keyed-by-values-spells-as-text`
-- `a-named-record-reads-from-text`
 - `a-quote-running-into-a-bare-token-refuses`
 - `a-quoted-key-and-a-bare-key-are-one-key`
+- `a-record-reads-from-text`
 - `a-text-control-character-written-raw-refuses`
 - `a-text-format-header-not-in-its-one-writing-refuses`
 - `a-text-key-written-twice-refuses`
