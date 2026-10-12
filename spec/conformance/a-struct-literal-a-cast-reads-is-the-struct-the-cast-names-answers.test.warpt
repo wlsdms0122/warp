@@ -1,0 +1,39 @@
+warpt 1
+{
+  expect {
+    answers Bank.Account {
+      balance 1
+    }
+  }
+  name "a-struct-literal-a-cast-reads-is-the-struct-the-cast-names-answers"
+  note "A cast's type is a place a struct literal is read as the declared struct it names: the literal `as` reads takes the declared name."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result {
+          as {
+            of {
+              struct {
+                balance 1
+              }
+            }
+            type "Bank.Account"
+          }
+        }
+        returns "Any"
+      }
+    }
+    types {
+      "Bank.Account" {
+        struct {
+          balance "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -46,12 +46,12 @@ A procedure the host answers is not written in a document. A declaration in a do
 
 ## What answers without running
 
-Some of what a program writes is **read** and some of it is **run**. A literal, a name, a record, an index, a cast: reading those is what the language does to data. A **construct** runs a body, and it is the only thing that does. That line is what an operand stands on, under *what it permits* below; it is not what this section is about.
+Some of what a program writes is **read** and some of it is **run**. A literal, a name, a struct, an index, a cast: reading those is what the language does to data. A **construct** runs a body, and it is the only thing that does. That line is what an operand stands on, under *what it permits* below; it is not what this section is about.
 
 A procedure **answers without running** when nothing it reaches stands outside the run it was handed:
 
 - it reads no module variable and writes no name it does not own: a module variable, a name a closure captured, or a parameter handed in place, whether written by `set` or handed in place to a call. What such a name holds is the run's rather than the text's, and a name the body introduces or a parameter it holds outright is its own;
-- it calls a value only where a slot declared it a `const` procedure type: the name the slot gave, a fixed name bound to such a name, which follows the declared type it reads, or what a path reaches inside one of those by the type the slot wrote (an element of an array, an entry of a dictionary, a field of a record type). The value was judged against that type when it was handed over, so that is the one place something before the run says what the value answers. A type the build worked out (a closure literal's, a call's answer, a cast's) is a reading rather than a declaration, so a name bound to one carries no claim. The claim is the slot's and so it stands wherever the name is read, a closure that **captured** the name included;
+- it calls a value only where a slot declared it a `const` procedure type: the name the slot gave, a fixed name bound to such a name, which follows the declared type it reads, or what a path reaches inside one of those by the type the slot wrote (an element of an array, an entry of a dictionary, a field of a struct type). The value was judged against that type when it was handed over, so that is the one place something before the run says what the value answers. A type the build worked out (a closure literal's, a call's answer, a cast's) is a reading rather than a declaration, so a name bound to one carries no claim. The claim is the slot's and so it stands wherever the name is read, a closure that **captured** the name included;
 - and every procedure it sends answers without running.
 
 A construct reaches nothing on its own. Which part of a `conditional`, `loop`, `attempt` or `block` runs is decided inside the body, so one of them is read exactly as far as the parts it holds are, and the same goes for `return`, `break` and `continue`. A name the body introduces is the body's own: a `let` and a `var` both make one, neither leaves the body, and so declaring either says nothing about what the body reaches.
@@ -136,13 +136,13 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-closure-literal-a-write-hands-a-box-answers-what-the-box-answers-refuses`
 - `a-closure-literal-handed-to-a-called-value-answers-what-the-slot-answers-refuses`
 - `a-closure-literal-in-a-list-answers-what-the-element-answers-refuses`
-- `a-closure-literal-in-a-list-of-procedures-answering-a-declared-record-names-what-it-answers`
-- `a-closure-literal-in-a-record-answers-what-the-field-answers-refuses`
+- `a-closure-literal-in-a-list-of-procedures-answering-a-declared-struct-names-what-it-answers`
+- `a-closure-literal-in-a-struct-answers-what-the-field-answers-refuses`
 - `a-closure-that-writes-what-it-captured-is-not-const`
 - `a-closure-writes-its-own-parameter-in-place-and-no-name-it-shadows`
 - `a-closures-parameter-is-not-the-const-procedure-it-shadows`
 - `a-const-procedure-read-out-of-a-dictionary-answers-without-running`
-- `a-const-procedure-read-out-of-a-record-field-answers-without-running`
+- `a-const-procedure-read-out-of-a-struct-field-answers-without-running`
 - `a-const-slot-refuses-a-closure-that-calls-what-runs`
 - `a-const-slot-takes-a-closure-that-calls-a-const-slot`
 - `a-const-slot-takes-a-closure-that-calls-a-host-procedure`
@@ -182,12 +182,12 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-procedure-that-writes-in-place-does-not-answer-without-running`
 - `a-procedure-the-host-answers-is-handed-a-path-indexed-with-a-name`
 - `a-procedure-value-cast-to-a-procedure-type-is-called`
-- `a-record-literal-a-closure-writes-into-a-captured-variable-takes-the-name-answers`
-- `a-record-literal-handed-to-a-called-value-at-a-record-naming-itself-answers`
-- `a-record-literal-handed-to-a-called-value-takes-the-name-its-slot-reads-answers`
 - `a-required-argument-left-out-refuses`
 - `a-slot-handing-a-const-procedure-in-place-is-a-const-slot`
 - `a-slot-naming-a-const-procedure-type-is-a-const-slot`
+- `a-struct-literal-a-closure-writes-into-a-captured-variable-takes-the-name-answers`
+- `a-struct-literal-handed-to-a-called-value-at-a-struct-naming-itself-answers`
+- `a-struct-literal-handed-to-a-called-value-takes-the-name-its-slot-reads-answers`
 - `a-taken-variable-handed-in-place-as-its-held-type-while-it-reads-another-refuses`
 - `a-taken-variable-is-handed-in-place-only-as-the-type-it-is-held-to`
 - `a-taken-variable-is-handed-in-place-to-a-value-only-as-the-type-it-is-held-to`

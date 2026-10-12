@@ -1,0 +1,86 @@
+warpt 1
+{
+  expect {
+    answers null
+  }
+  name "a-cast-of-a-closure-its-place-gave-a-struct-answer-held-at-a-slot-answering-anything-to-another-struct-reads-null-answers"
+  note "`c` is declared `{ procedure: { returns: Bank.A } }`, so its closure answers `Bank.A`. Holding it at `{ procedure: { returns: Any } }` and in `Any` hands it on as it is, and a slot answering anything does not change what it answers: `Bank.B` never takes a `Bank.A`, so the asking cast to `{ procedure: { returns: Bank.B } }` reads it as null."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            type {
+              procedure {
+                returns "Bank.A"
+              }
+            }
+            value {
+              closure {
+                result {
+                  struct {
+                    k "x"
+                  }
+                }
+              }
+            }
+          }
+          {
+            let "x"
+            type {
+              procedure {
+                returns "Any"
+              }
+            }
+            value {
+              ref "c"
+            }
+          }
+          {
+            let "a"
+            type "Any"
+            value {
+              ref "x"
+            }
+          }
+          {
+            let "v"
+            value {
+              "as?" {
+                of {
+                  ref "a"
+                }
+                type {
+                  procedure {
+                    returns "Bank.B"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "v"
+        }
+      }
+    }
+    types {
+      "Bank.A" {
+        struct {
+          k "String"
+        }
+      }
+      "Bank.B" {
+        struct {
+          k "String"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

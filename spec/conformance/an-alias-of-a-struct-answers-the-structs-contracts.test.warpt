@@ -1,0 +1,86 @@
+warpt 1
+{
+  expect {
+    answers "a card"
+  }
+  name "an-alias-of-a-struct-answers-the-structs-contracts"
+  note "Bank.Alias names the struct Bank.Card, which a document says answers App.Describable, so a value of Bank.Alias is handed where App.Describable is asked."
+  program {
+    contracts {
+      "App.Describable" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "Bank.Card.describe" {
+        parameters [
+          {
+            name "of"
+            type "Bank.Card"
+          }
+        ]
+        result "a card"
+        returns "String"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            value {
+              as {
+                of {
+                  struct {
+                    last "1"
+                  }
+                }
+                type "Bank.Alias"
+              }
+            }
+          }
+          {
+            let "s"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "c"
+                  }
+                ]
+                procedure "App.Describable.describe"
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+    }
+    satisfies {
+      "Bank.Card" [
+        "App.Describable"
+      ]
+    }
+    types {
+      "Bank.Alias" "Bank.Card"
+      "Bank.Card" {
+        struct {
+          last "String"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

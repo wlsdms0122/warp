@@ -1,0 +1,33 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-struct-literal-short-of-a-field-its-struct-declares-refuses"
+  note "A struct literal is judged against the declared struct of its place, exactly the declared fields. `App.P` declares `x` and `y`, and the literal answered where it is declared writes `x` alone, so it refuses at the build."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result {
+          struct {
+            x 1
+          }
+        }
+        returns "App.P"
+      }
+    }
+    types {
+      "App.P" {
+        struct {
+          x "Int"
+          y "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

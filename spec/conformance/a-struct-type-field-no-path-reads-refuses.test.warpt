@@ -1,0 +1,27 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-struct-type-field-no-path-reads-refuses"
+  note "A field of a struct type is reached by a path alone, so its name is a value's name. `a.b` is two steps to a path, so no path reaches the field, and the document refuses at the load."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+      }
+    }
+    types {
+      "App.T" {
+        struct {
+          "a.b" "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

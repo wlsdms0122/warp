@@ -1,0 +1,25 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-struct-literal-written-where-no-declared-struct-is-read-refuses"
+  note "A struct literal is read as the declared struct of the place it is written into. `entry` answers `Any`, which declares no struct, so the literal has no struct to be and refuses at the build."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result {
+          struct {
+            a 1
+          }
+        }
+        returns "Any"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

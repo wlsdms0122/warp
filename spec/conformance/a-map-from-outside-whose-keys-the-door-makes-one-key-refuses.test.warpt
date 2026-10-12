@@ -15,7 +15,7 @@ warpt 1
     refuses "run"
   }
   name "a-map-from-outside-whose-keys-the-door-makes-one-key-refuses"
-  note "The host hands two keys that differ only in `y`, a field `App.P` does not declare. The door leaves `y` out of a record in a key as it does in a value, which makes the two keys one, and a map holding one key twice refuses there, as one written so does."
+  note "The host hands two keys that differ only in `y`, a field `App.P` does not declare. The door leaves `y` out of a struct in a key as it does in a value, which makes the two keys one, and a map holding one key twice refuses there, as one written so does."
   program {
     imports [
       "Standard.Collection.count"
@@ -49,7 +49,7 @@ warpt 1
     }
     types {
       "App.P" {
-        record {
+        struct {
           x "Int"
         }
       }

@@ -1,0 +1,69 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-struct-under-another-name-refuses"
+  note "Two declared structs of one type under two names are two types. A value read as a `Vault` fits no `Account` slot, and the build reads that off the cast."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "held"
+            value {
+              as {
+                of {
+                  struct {
+                    balance 1
+                  }
+                }
+                type "Vault"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "held"
+              }
+            ]
+            procedure "read"
+          }
+        }
+        returns "Int"
+      }
+      read {
+        parameters [
+          {
+            name "account"
+            type "Account"
+          }
+        ]
+        result {
+          ref "account.balance"
+        }
+        returns "Int"
+      }
+    }
+    types {
+      Account {
+        struct {
+          balance "Int"
+        }
+      }
+      Vault {
+        struct {
+          balance "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

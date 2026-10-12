@@ -1,0 +1,126 @@
+warpt 1
+{
+  expect {
+    answers [
+      1
+      2
+    ]
+  }
+  name "a-piece-calling-an-isolated-procedure-read-out-of-a-struct-field-stands"
+  note "A slot declaring a struct type says what each of its fields holds. A body calling what a field declared an `isolated` procedure type holds is isolated, so a piece of `Standard.Concurrent.map` calling that body stands."
+  program {
+    imports [
+      "Standard.Concurrent.map"
+    ]
+    procedures {
+      asking {
+        body [
+          {
+            let "a"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "item"
+                  }
+                ]
+                procedure {
+                  ref "body.f"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "body"
+            type "App.Holder"
+          }
+          {
+            name "item"
+            type "Int"
+          }
+        ]
+        result {
+          ref "a"
+        }
+        returns "Int"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              [
+                1
+                2
+              ]
+              {
+                closure {
+                  parameters [
+                    {
+                      name "item"
+                      type "Int"
+                    }
+                    {
+                      name "index"
+                      type "Int"
+                    }
+                  ]
+                  result {
+                    call {
+                      arguments [
+                        {
+                          struct {
+                            f {
+                              closure {
+                                parameters [
+                                  {
+                                    name "x"
+                                    type "Int"
+                                  }
+                                ]
+                                result {
+                                  ref "x"
+                                }
+                                returns "Int"
+                              }
+                            }
+                          }
+                        }
+                        {
+                          ref "item"
+                        }
+                      ]
+                      procedure "asking"
+                    }
+                  }
+                  returns "Int"
+                }
+              }
+            ]
+            procedure "Standard.Concurrent.map"
+          }
+        }
+        returns "Array<Int>"
+      }
+    }
+    types {
+      "App.Holder" {
+        struct {
+          f {
+            "isolated procedure" {
+              parameters [
+                "Int"
+              ]
+              returns "Int"
+            }
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

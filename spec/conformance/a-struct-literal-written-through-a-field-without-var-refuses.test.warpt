@@ -1,0 +1,57 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-struct-literal-written-through-a-field-without-var-refuses"
+  note "`App.W` declares its field `p` as the struct `App.A` and not `var`. A write through `w.p` is stopped by the field at the build, before its value is read, so a struct literal written there refuses for the field, as a value of any other spelling does."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            type "App.W"
+            value {
+              struct {
+                p {
+                  struct {
+                    k "x"
+                  }
+                }
+              }
+            }
+            var "w"
+          }
+          {
+            set "w.p"
+            value {
+              struct {
+                k "y"
+              }
+            }
+          }
+        ]
+        result {
+          ref "w.p.k"
+        }
+      }
+    }
+    types {
+      "App.A" {
+        struct {
+          k "String"
+        }
+      }
+      "App.W" {
+        struct {
+          p "App.A"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

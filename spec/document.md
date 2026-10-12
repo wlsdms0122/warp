@@ -11,7 +11,7 @@ A document is one map. Every map this grammar names, on this page and on the pag
 | `warp` | int. The language version this document is written for | yes |
 | `imports` | array of strings. Every name the program uses and does not declare: the procedures it sends, and the types and contracts it names | yes, and empty where the program uses none |
 | `description` | string | no |
-| `types` | map: name → `{ record: { field: type, … } }` for a record and its fields, or a type, which the name is then a second spelling of, under [types](type.md) | no |
+| `types` | map: name → `{ struct: { field: type, … } }` for a struct and its fields, or a type, which the name is then a second spelling of, under [types](type.md) | no |
 | `contracts` | map: name → map: procedure → `{ parameters, returns?, const?, isolated?, failing? }`, an empty map for a contract asking no procedures; the procedure takes `Self` first, so one leaving `parameters` out **refuses at the load**, and writes no `bounds`, so one writing them **refuses at the load**, under [types](type.md); the two bools ask what a slot asks with a `const` and an `isolated` procedure type, of every declaration answering, and `failing` names, as an array of strings, what one may fail with, nothing where it is left out | no |
 | `satisfies` | map: type name → array of contract names that type answers | no |
 | `const` | map: name → expression; a constant may read the constants beside it, and constants that read each other back have no order to settle in and **refuse at the load** | no |
@@ -44,7 +44,7 @@ A program has one document. Reading **refuses at the load** a document that says
 
 A front end may offer shorthands that stand in for what the language already writes, such as operator keys like `is:` in a condition slot or a `{ format:, with: }` template. They are the front end's own: it spends them before the document leaves, and what leaves writes the language's own forms.
 
-A reader of documents **refuses** a shorthand where it meets one, the way it refuses any mapping that is no form of the document's: a record is written under `record`, so a mapping of `format` and `with` is never read as a record that happens to have those fields.
+A reader of documents **refuses** a shorthand where it meets one, the way it refuses any mapping that is no form of the document's: a struct is written under `struct`, so a mapping of `format` and `with` is never read as a struct that happens to have those fields.
 
 ## Cases
 
@@ -80,9 +80,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-module-variable-starting-empty-without-a-type-refuses`
 - `a-module-variable-writing-no-type-holds-a-procedure-without-what-its-start-fails-with`
 - `a-name-declared-as-both-a-constant-and-a-variable-refuses`
-- `a-record-literal-written-into-a-module-variable-declaring-a-record-takes-the-name-answers`
 - `a-result-written-as-null-refuses`
 - `a-send-is-a-declared-spelling-or-an-import`
+- `a-struct-literal-written-into-a-module-variable-declaring-a-struct-takes-the-name-answers`
 - `a-variable-start-reading-another-variable-refuses`
 - `a-version-that-never-existed-refuses`
 - `a-write-into-a-module-variable-is-judged-against-the-type-it-declares-refuses`

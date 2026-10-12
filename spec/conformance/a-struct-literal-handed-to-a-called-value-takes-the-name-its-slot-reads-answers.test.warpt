@@ -1,0 +1,76 @@
+warpt 1
+{
+  expect {
+    answers null
+  }
+  name "a-struct-literal-handed-to-a-called-value-takes-the-name-its-slot-reads-answers"
+  note "`g` is held at `{ procedure: { parameters: [App.Point], returns: Any } }`, and its closure takes `Any` and reads what it is handed `as? App.X`, a struct of the same field under another name. The struct literal a call of `g` hands is written where `App.Point` is read, so it arrives an `App.Point`, which is no `App.X`, and the asking cast reads null."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "g"
+            type {
+              procedure {
+                parameters [
+                  "App.Point"
+                ]
+                returns "Any"
+              }
+            }
+            value {
+              closure {
+                parameters [
+                  {
+                    name "p"
+                  }
+                ]
+                result {
+                  "as?" {
+                    of {
+                      ref "p"
+                    }
+                    type "App.X"
+                  }
+                }
+                returns "Any"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                struct {
+                  x 1
+                }
+              }
+            ]
+            procedure {
+              ref "g"
+            }
+          }
+        }
+      }
+    }
+    types {
+      "App.Point" {
+        struct {
+          x "Int"
+        }
+      }
+      "App.X" {
+        struct {
+          x "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

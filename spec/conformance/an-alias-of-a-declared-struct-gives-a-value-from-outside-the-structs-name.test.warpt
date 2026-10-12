@@ -1,0 +1,43 @@
+warpt 1
+{
+  arguments {
+    who Someone {
+      name "a"
+    }
+  }
+  expect {
+    answers Person {
+      name "a"
+    }
+  }
+  name "an-alias-of-a-declared-struct-gives-a-value-from-outside-the-structs-name"
+  note "A declared name standing for a declared struct is an alias, and judges by what it stands for: a struct from outside under the alias's name takes the struct's own name at the door."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "who"
+            type "Someone"
+          }
+        ]
+        result {
+          ref "who"
+        }
+      }
+    }
+    types {
+      Person {
+        struct {
+          name "String"
+        }
+      }
+      Someone "Person"
+    }
+    warp 1
+  }
+  test 1
+}
+

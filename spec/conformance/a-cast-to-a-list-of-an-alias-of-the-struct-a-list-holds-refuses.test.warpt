@@ -1,0 +1,52 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-cast-to-a-list-of-an-alias-of-the-struct-a-list-holds-refuses"
+  note "`Bank.BB` stands for `Bank.B`, a declared struct. `xs` is read as `Array<Bank.B>`, so casting it as `Array<Bank.BB>` names what the reading already is under another spelling of the same struct, and the build refuses the cast as needless."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "xs"
+            type "Array<Bank.B>"
+            value [
+              {
+                struct {
+                  k "x"
+                }
+              }
+            ]
+          }
+          {
+            let "ys"
+            value {
+              as {
+                of {
+                  ref "xs"
+                }
+                type "Array<Bank.BB>"
+              }
+            }
+          }
+        ]
+        result 0
+      }
+    }
+    types {
+      "Bank.B" {
+        struct {
+          k "String"
+        }
+      }
+      "Bank.BB" "Bank.B"
+    }
+    warp 1
+  }
+  test 1
+}
+

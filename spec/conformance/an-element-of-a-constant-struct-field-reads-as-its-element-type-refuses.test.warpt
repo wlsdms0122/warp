@@ -1,0 +1,53 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "an-element-of-a-constant-struct-field-reads-as-its-element-type-refuses"
+  note "A field reads at the type its declaration writes, `Array<Any>` here, and an element of it reads that list's element type, so `k.a[1]` reads `Any` though it settles to `\"s\"`. A name declaring `String` refuses it at the build."
+  program {
+    const {
+      k {
+        as {
+          of {
+            struct {
+              a [
+                1
+                "s"
+              ]
+            }
+          }
+          type "App.K"
+        }
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "x"
+            type "String"
+            value {
+              ref "k.a[1]"
+            }
+          }
+        ]
+        result {
+          ref "x"
+        }
+      }
+    }
+    types {
+      "App.K" {
+        struct {
+          a "Array<Any>"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,11 @@
+warpt 1
+{
+  bytes x"57415250010903496e7400"
+  expect {
+    refuses "load"
+  }
+  name "a-struct-named-for-a-type-the-language-names-refuses"
+  note "A struct's name is a declared type's spelling, and no document declares a type under `Int`, the name the language gives its own. A struct named `Int` is no value of a declared type, so the binary refuses it."
+  test 1
+}
+
