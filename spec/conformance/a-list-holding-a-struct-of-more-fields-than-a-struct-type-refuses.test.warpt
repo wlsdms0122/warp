@@ -1,0 +1,78 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-list-holding-a-struct-of-more-fields-than-a-struct-type-refuses"
+  note "`App.g` takes a list of structs of `a`, an int, and is handed two structs, one of which also has a string `b`. A struct type is exactly its fields, so that struct is not one, and the call refuses at the build."
+  program {
+    imports []
+    procedures {
+      "App.g" {
+        parameters [
+          {
+            name "ps"
+            type "Array<App.A>"
+          }
+        ]
+        result 0
+        returns "Int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "i"
+            value 1
+          }
+          {
+            let "t"
+            value "s"
+          }
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  [
+                    {
+                      struct {
+                        a {
+                          ref "i"
+                        }
+                      }
+                    }
+                    {
+                      struct {
+                        a {
+                          ref "i"
+                        }
+                        b {
+                          ref "t"
+                        }
+                      }
+                    }
+                  ]
+                ]
+                procedure "App.g"
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+      }
+    }
+    types {
+      "App.A" {
+        struct {
+          a "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

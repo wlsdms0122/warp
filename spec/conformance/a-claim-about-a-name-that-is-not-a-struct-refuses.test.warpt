@@ -1,0 +1,80 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-claim-about-a-name-that-is-not-a-struct-refuses"
+  note "App.Num names Int, and a document claims it answers App.Describable. A value of App.Num is an instance of `Int` and of no other name, so the claim is about no type a value is."
+  program {
+    contracts {
+      "App.Describable" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "App.Num.describe" {
+        parameters [
+          {
+            name "of"
+            type "App.Num"
+          }
+        ]
+        result "a number"
+        returns "String"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "n"
+            value {
+              call {
+                procedure "make"
+              }
+            }
+          }
+          {
+            let "s"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "n"
+                  }
+                ]
+                procedure "App.Describable.describe"
+              }
+            }
+          }
+        ]
+        result {
+          ref "s"
+        }
+      }
+      make {
+        result 3
+        returns "App.Num"
+      }
+    }
+    satisfies {
+      "App.Num" [
+        "App.Describable"
+      ]
+    }
+    types {
+      "App.Num" "Int"
+    }
+    warp 1
+  }
+  test 1
+}
+

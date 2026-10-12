@@ -1,0 +1,65 @@
+warpt 1
+{
+  expect {
+    answers false
+  }
+  name "a-map-is-never-the-same-as-a-struct"
+  note "A struct holds the name of the struct it is, and a map holds none: an `App.P` holding `1` in `x` and a map holding `1` under the text `\"x\"` are two values, so `equal` answers false."
+  program {
+    imports [
+      "Standard.Logic.equal"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "point"
+            type "App.P"
+            value {
+              struct {
+                x 1
+              }
+            }
+          }
+          {
+            let "map"
+            type "Dictionary<String, Int>"
+            value {
+              dictionary [
+                [
+                  "x"
+                  1
+                ]
+              ]
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "point"
+              }
+              {
+                ref "map"
+              }
+            ]
+            procedure "Standard.Logic.equal"
+          }
+        }
+        returns "Bool"
+      }
+    }
+    types {
+      "App.P" {
+        struct {
+          x "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

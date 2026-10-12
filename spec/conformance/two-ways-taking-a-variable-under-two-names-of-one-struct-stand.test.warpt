@@ -1,0 +1,99 @@
+warpt 1
+{
+  arguments {
+    ready true
+  }
+  expect {
+    answers 1
+  }
+  name "two-ways-taking-a-variable-under-two-names-of-one-struct-stand"
+  note "`App.Spot` names `App.Point`, so the two name one declared struct. One arm takes `n` while it reads `App.Spot`, and the other sets it to an `App.Point` and takes it there. They held the box to one type, and where they meet the build stands."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            value {
+              as {
+                of {
+                  struct {
+                    x 1
+                  }
+                }
+                type "App.Spot"
+              }
+            }
+            var "n"
+          }
+          {
+            value {
+              conditional {
+                else [
+                  {
+                    set "n"
+                    value {
+                      as {
+                        of {
+                          struct {
+                            x 2
+                          }
+                        }
+                        type "App.Point"
+                      }
+                    }
+                  }
+                  {
+                    let "b"
+                    value {
+                      closure {
+                        result {
+                          ref "n"
+                        }
+                      }
+                    }
+                  }
+                ]
+                then [
+                  {
+                    let "a"
+                    value {
+                      closure {
+                        result {
+                          ref "n"
+                        }
+                      }
+                    }
+                  }
+                ]
+                when {
+                  ref "ready"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "ready"
+            type "Bool"
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+    }
+    types {
+      "App.Point" {
+        struct {
+          x "Int"
+        }
+      }
+      "App.Spot" "App.Point"
+    }
+    warp 1
+  }
+  test 1
+}
+

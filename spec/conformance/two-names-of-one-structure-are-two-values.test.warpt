@@ -4,7 +4,7 @@ warpt 1
     answers false
   }
   name "two-names-of-one-structure-are-two-values"
-  note "The name is part of what a record holds: an `Account` and a `Vault` with the same fields are not equal."
+  note "The name is part of what a struct holds: an `Account` and a `Vault` with the same fields are not equal."
   program {
     imports [
       "Standard.Logic.equal"
@@ -18,7 +18,7 @@ warpt 1
             value {
               as {
                 of {
-                  record {
+                  struct {
                     balance 1
                   }
                 }
@@ -31,7 +31,7 @@ warpt 1
             value {
               as {
                 of {
-                  record {
+                  struct {
                     balance 1
                   }
                 }
@@ -58,12 +58,12 @@ warpt 1
     }
     types {
       Account {
-        record {
+        struct {
           balance "Int"
         }
       }
       Vault {
-        record {
+        struct {
           balance "Int"
         }
       }

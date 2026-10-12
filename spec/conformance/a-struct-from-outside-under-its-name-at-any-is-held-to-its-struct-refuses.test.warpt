@@ -1,0 +1,40 @@
+warpt 1
+{
+  arguments {
+    a App.P {
+      x "s"
+    }
+  }
+  expect {
+    refuses "run"
+  }
+  name "a-struct-from-outside-under-its-name-at-any-is-held-to-its-struct-refuses"
+  note "The host hands `a` as an `App.P` whose `x` is text, where the entry declares nothing. A struct under a declared struct's name is a value of that struct wherever it comes in, so the door judges it against `App.P` and the run refuses."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "a"
+          }
+        ]
+        result {
+          ref "a"
+        }
+      }
+    }
+    types {
+      "App.A" "App.P"
+      "App.P" {
+        struct {
+          x "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

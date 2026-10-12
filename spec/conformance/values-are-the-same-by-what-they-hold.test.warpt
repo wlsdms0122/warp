@@ -4,7 +4,7 @@ warpt 1
     answers true
   }
   name "values-are-the-same-by-what-they-hold"
-  note "A whole number and a fraction of the same worth are one value, two records of one name holding the same fields bound to the same values are one value, and two arrays holding the same elements in the same order are one value."
+  note "A whole number and a fraction of the same worth are one value, two structs of one name holding the same fields bound to the same values are one value, and two arrays holding the same elements in the same order are one value."
   program {
     imports [
       "Standard.Logic.and"
@@ -38,7 +38,7 @@ warpt 1
                           {
                             as {
                               of {
-                                record {
+                                struct {
                                   a 1
                                   b 2
                                 }
@@ -49,7 +49,7 @@ warpt 1
                           {
                             as {
                               of {
-                                record {
+                                struct {
                                   a 1
                                   b 2
                                 }
@@ -92,7 +92,7 @@ warpt 1
     }
     types {
       "App.P" {
-        record {
+        struct {
           a "Int"
           b "Int"
         }

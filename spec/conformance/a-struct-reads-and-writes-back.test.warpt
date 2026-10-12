@@ -1,0 +1,14 @@
+warpt 1
+{
+  bytes x"574152500109094170702e506f696e74020178030101790304"
+  expect {
+    spells App.Point {
+      x -1
+      y 2
+    }
+  }
+  name "a-struct-reads-and-writes-back"
+  note "A struct is `0x09` with its name in front and a map is `0x07`, and a whole number is zigzagged, so a negative one is not a longer spelling of a positive. Two rules one document cannot state apart from the bytes that hold them."
+  test 1
+}
+

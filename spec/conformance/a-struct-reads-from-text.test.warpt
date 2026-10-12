@@ -1,0 +1,13 @@
+warpt 1
+{
+  expect {
+    reads Bank.Account {
+      balance 1
+    }
+  }
+  name "a-struct-reads-from-text"
+  note "In value position a bare token followed by `{` is a struct's name. The name is a declared type's spelling, and the struct under it reads with that name on."
+  test 1
+  text "warpt 1\nBank.Account { balance 1 }\n"
+}
+

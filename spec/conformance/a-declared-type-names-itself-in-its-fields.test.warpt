@@ -21,7 +21,7 @@ warpt 1
             value {
               as {
                 of {
-                  record {
+                  struct {
                     kids []
                     left null
                     n 1
@@ -36,7 +36,7 @@ warpt 1
             value {
               as {
                 of {
-                  record {
+                  struct {
                     kids [
                       {
                         ref "leaf"
@@ -57,7 +57,7 @@ warpt 1
           }
         ]
         result {
-          record {
+          struct {
             first {
               ref "root.kids[0].n"
             }
@@ -78,13 +78,13 @@ warpt 1
     }
     types {
       "App.Head" {
-        record {
+        struct {
           first "Int"
           kids "Int"
         }
       }
       "T.Node" {
-        record {
+        struct {
           kids "Array<T.Node>"
           left "T.Node?"
           n "Int"

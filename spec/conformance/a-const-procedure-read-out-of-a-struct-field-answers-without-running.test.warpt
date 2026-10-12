@@ -1,0 +1,96 @@
+warpt 1
+{
+  expect {
+    answers 2
+  }
+  name "a-const-procedure-read-out-of-a-struct-field-answers-without-running"
+  note "A slot declaring a struct type says what each of its fields holds, and the value was judged against it when it was handed over. A body calling what a field declared a `const` procedure type holds answers without running, the way one calling an element or an entry does, so an operand may call it."
+  program {
+    imports [
+      "Standard.Numeric.plus"
+    ]
+    procedures {
+      asking {
+        body [
+          {
+            let "a"
+            value {
+              call {
+                arguments [
+                  1
+                ]
+                procedure {
+                  ref "body.f"
+                }
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "body"
+            type "App.Holder"
+          }
+        ]
+        result {
+          ref "a"
+        }
+        returns "Int"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                call {
+                  arguments [
+                    {
+                      struct {
+                        f {
+                          closure {
+                            parameters [
+                              {
+                                name "x"
+                                type "Int"
+                              }
+                            ]
+                            result {
+                              ref "x"
+                            }
+                            returns "Int"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                  procedure "asking"
+                }
+              }
+              1
+            ]
+            procedure "Standard.Numeric.plus"
+          }
+        }
+        returns "Int"
+      }
+    }
+    types {
+      "App.Holder" {
+        struct {
+          f {
+            "const procedure" {
+              parameters [
+                "Int"
+              ]
+              returns "Int"
+            }
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

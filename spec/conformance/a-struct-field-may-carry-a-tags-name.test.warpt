@@ -1,0 +1,45 @@
+warpt 1
+{
+  expect {
+    answers App.R {
+      ref "nowhere"
+      value 1
+    }
+  }
+  name "a-struct-field-may-carry-a-tags-name"
+  note "A struct is written under `struct`, and what stands under it are its fields, each an expression. A field may be called `ref` or `value`, and its value is still read as the expression it is."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "n"
+            value 1
+          }
+        ]
+        result {
+          struct {
+            ref "nowhere"
+            value {
+              ref "n"
+            }
+          }
+        }
+        returns "App.R"
+      }
+    }
+    types {
+      "App.R" {
+        struct {
+          ref "String"
+          value "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

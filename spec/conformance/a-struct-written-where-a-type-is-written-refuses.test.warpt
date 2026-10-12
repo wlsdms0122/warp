@@ -1,0 +1,30 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-struct-written-where-a-type-is-written-refuses"
+  note "A struct is declared once, under its name in `types` as `{ struct: { … } }`, and a type names it everywhere else. Written where a type is written, `{ struct: { … } }` is no type."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "point"
+            type {
+              struct {
+                x "Int"
+              }
+            }
+          }
+        ]
+        result 1
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -11,7 +11,7 @@ warpt 1
     refuses "run"
   }
   name "a-map-key-from-outside-under-a-name-no-document-declares-refuses-at-the-door"
-  note "The host hands a map keyed by a record under `App.Z`, which no document declares, where the entry declares nothing. The door holds a key to the record its name declares as it holds a value, so a key under a name that declares no record refuses there."
+  note "The host hands a map keyed by a struct under `App.Z`, which no document declares, where the entry declares nothing. The door holds a key to the struct its name declares as it holds a value, so a key under a name that declares no struct refuses there."
   program {
     imports []
     procedures {
@@ -32,7 +32,7 @@ warpt 1
     }
     types {
       "App.P" {
-        record {
+        struct {
           x "Int"
         }
       }

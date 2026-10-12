@@ -1,0 +1,45 @@
+warpt 1
+{
+  arguments {
+    a Vault {
+      balance 3
+    }
+  }
+  expect {
+    refuses "run"
+  }
+  name "a-struct-from-outside-under-another-name-refuses-at-the-door"
+  note "The entry declares `Account`, and the host hands a `Vault` of the same fields. A declared struct fits only its own name, and the door fits a value's fields and never its name, so the run refuses it."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "a"
+            type "Account"
+          }
+        ]
+        result {
+          ref "a"
+        }
+      }
+    }
+    types {
+      Account {
+        struct {
+          balance "Int"
+        }
+      }
+      Vault {
+        struct {
+          balance "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

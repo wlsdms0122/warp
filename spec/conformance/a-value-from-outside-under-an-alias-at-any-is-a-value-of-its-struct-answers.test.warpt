@@ -1,0 +1,59 @@
+warpt 1
+{
+  arguments {
+    a App.A {
+      x 1
+    }
+  }
+  expect {
+    answers true
+  }
+  name "a-value-from-outside-under-an-alias-at-any-is-a-value-of-its-struct-answers"
+  note "`App.A` is an alias of the struct `App.P`, and the host hands `a` under the alias's name where the entry declares nothing. The door holds every name a value carries to the struct the name declares, so `a` arrives as an `App.P` and equals the one the cast names."
+  program {
+    imports [
+      "Standard.Logic.equal"
+    ]
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "a"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "a"
+              }
+              {
+                as {
+                  of {
+                    struct {
+                      x 1
+                    }
+                  }
+                  type "App.P"
+                }
+              }
+            ]
+            procedure "Standard.Logic.equal"
+          }
+        }
+      }
+    }
+    types {
+      "App.A" "App.P"
+      "App.P" {
+        struct {
+          x "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

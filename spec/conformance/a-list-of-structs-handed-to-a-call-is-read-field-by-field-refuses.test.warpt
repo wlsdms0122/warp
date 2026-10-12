@@ -1,0 +1,75 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-list-of-structs-handed-to-a-call-is-read-field-by-field-refuses"
+  note "`App.g` takes a list of structs whose field `a` is an int and is handed two structs, one whose `a` is a string. Each struct is held to the struct type by the fields it names, so the string refuses at the build."
+  program {
+    imports []
+    procedures {
+      "App.g" {
+        parameters [
+          {
+            name "ps"
+            type "Array<App.A>"
+          }
+        ]
+        result 0
+        returns "Int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "i"
+            value 1
+          }
+          {
+            let "t"
+            value "s"
+          }
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  [
+                    {
+                      struct {
+                        a {
+                          ref "i"
+                        }
+                      }
+                    }
+                    {
+                      struct {
+                        a {
+                          ref "t"
+                        }
+                      }
+                    }
+                  ]
+                ]
+                procedure "App.g"
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+      }
+    }
+    types {
+      "App.A" {
+        struct {
+          a "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

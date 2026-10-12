@@ -20,12 +20,12 @@ One file, one question: a subject, what to ask it with, and what should happen.
     document    bytes. The identity the runner reads the object under, where
                 it is not the one the object writes; only an object case
                 writes it
-    arguments   what the entry procedure is given, if anything; a record
+    arguments   what the entry procedure is given, if anything; a struct
                 under a name is written as the text encoding writes one
     vocabulary  the procedures the runner brings, if any
     documents   documents laid beside the program, if any, each written as
                 a document is; only a program case writes them
-    expect      answers <value>   it runs and answers this, named records
+    expect      answers <value>   it runs and answers this, named structs
                                   written the same way
                 reads <value>     it reads as that value
                 spells <value>    it reads as that value, and writing that
@@ -52,7 +52,7 @@ Each format declares itself, and that is how the two are told apart: a case says
 
 `expect` holds one of `answers`, `reads`, `spells`, `builds` or `refuses`. One slot, so "one of them and exactly one" is the shape of the map rather than a rule about keys that could all be written or none.
 
-**What a case expects is matched strictly.** An answer, and what `reads` and `spells` read, match the value written where both are of one kind and one spelling, part by part: a whole number does not match a fraction, nor bytes the array of the same numbers, though `equal` answers that each pair is one value under [values](value.md). Text matches as values compare it, a map matches one of matching keys bound to matching values, and a record one of the same name and the same fields.
+**What a case expects is matched strictly.** An answer, and what `reads` and `spells` read, match the value written where both are of one kind and one spelling, part by part: a whole number does not match a fraction, nor bytes the array of the same numbers, though `equal` answers that each pair is one value under [values](value.md). Text matches as values compare it, a map matches one of matching keys bound to matching values, and a struct one of the same name and the same fields.
 
 **`vocabulary` is what the runner brings.** Most of what a document may say about a procedure the host answers is not something a case can write down: the code is the host's. So a case writes the part that is in the document, and the runner builds the rest.
 

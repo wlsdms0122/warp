@@ -1,0 +1,25 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-struct-declared-without-its-struct-key-refuses"
+  note "A struct is declared under its name in `types` as `{ struct: { … } }`, its fields under `struct`. A mapping of fields with nothing around them is no struct and no type."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+      }
+    }
+    types {
+      "App.Point" {
+        x "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,115 @@
+warpt 1
+{
+  expect {
+    answers "a"
+  }
+  name "a-struct-literal-a-closure-writes-into-a-captured-variable-takes-the-name-answers"
+  note "`r` declares nothing and starts as `a`, a `Bank.A`. A closure that captured it writes the struct literal `{ k: \"y\" }` into it. The closure holds `r` to what it read as there, so the literal is written where `Bank.A` is read and takes the name, and `App.P.show`, which `Bank.A` answers, is sent to `r` after the closure ran."
+  program {
+    contracts {
+      "App.P" {
+        show {
+          const true
+          isolated true
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "Bank.A.show" {
+        parameters [
+          {
+            name "of"
+            type "Bank.A"
+          }
+        ]
+        result "a"
+        returns "String"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "a"
+            value {
+              as {
+                of {
+                  struct {
+                    k "x"
+                  }
+                }
+                type "Bank.A"
+              }
+            }
+          }
+          {
+            value {
+              ref "a"
+            }
+            var "r"
+          }
+          {
+            let "w"
+            value {
+              closure {
+                body [
+                  {
+                    set "r"
+                    value {
+                      struct {
+                        k "y"
+                      }
+                    }
+                  }
+                ]
+                result 0
+              }
+            }
+          }
+          {
+            let "z"
+            value {
+              call {
+                procedure {
+                  ref "w"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "r"
+              }
+            ]
+            procedure "App.P.show"
+          }
+        }
+      }
+    }
+    satisfies {
+      "Bank.A" [
+        "App.P"
+      ]
+    }
+    types {
+      "Bank.A" {
+        struct {
+          k "String"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

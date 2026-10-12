@@ -1,0 +1,58 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-cast-of-an-alias-of-a-nullable-struct-to-another-struct-refuses"
+  note "`App.A` and `App.B` are both declared `{ a: String }`, and `App.NA` stands for `App.A?`. `n` is read as `App.NA`, which names `App.A` through the alias, so a value of it is one of `App.B` only if it is null, and `App.B` does not take null. No value is both, so the cast `n as App.B` refuses at the build."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "n"
+            type "App.NA"
+            value {
+              struct {
+                a "x"
+              }
+            }
+          }
+          {
+            let "b"
+            value {
+              as {
+                of {
+                  ref "n"
+                }
+                type "App.B"
+              }
+            }
+          }
+        ]
+        result {
+          ref "b"
+        }
+      }
+    }
+    types {
+      "App.A" {
+        struct {
+          a "String"
+        }
+      }
+      "App.B" {
+        struct {
+          a "String"
+        }
+      }
+      "App.NA" "App.A?"
+      "App.NB" "App.B?"
+    }
+    warp 1
+  }
+  test 1
+}
+

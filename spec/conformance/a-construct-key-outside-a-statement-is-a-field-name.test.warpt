@@ -4,7 +4,7 @@ warpt 1
     answers true
   }
   name "a-construct-key-outside-a-statement-is-a-field-name"
-  note "A construct key is read directly under a statement's `value` and nowhere else. Under `record` it is a field name like any other, so the value is a record with one field named `conditional`, and a path reads through it."
+  note "A construct key is read directly under a statement's `value` and nowhere else. Under `struct` it is a field name like any other, so the value is a struct with one field named `conditional`, and a path reads through it."
   program {
     imports []
     procedures {
@@ -15,9 +15,9 @@ warpt 1
             let "c"
             type "App.C"
             value {
-              record {
+              struct {
                 conditional {
-                  record {
+                  struct {
                     when true
                   }
                 }
@@ -33,12 +33,12 @@ warpt 1
     }
     types {
       "App.C" {
-        record {
+        struct {
           conditional "App.When"
         }
       }
       "App.When" {
-        record {
+        struct {
           when "Bool"
         }
       }

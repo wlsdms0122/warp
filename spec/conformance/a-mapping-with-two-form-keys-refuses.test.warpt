@@ -7,7 +7,7 @@ warpt 1
     refuses "load"
   }
   name "a-mapping-with-two-form-keys-refuses"
-  note "A mapping where a value is wanted is an expression by its one key. One carrying both `ref` and `record` is no form, and refuses at the load."
+  note "A mapping where a value is wanted is an expression by its one key. One carrying both `ref` and `struct` is no form, and refuses at the load."
   program {
     imports []
     procedures {
@@ -20,8 +20,8 @@ warpt 1
           }
         ]
         result {
-          record {}
           ref "x"
+          struct {}
         }
       }
     }

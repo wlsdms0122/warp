@@ -1,0 +1,45 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-struct-type-may-name-a-field-for-a-form"
+  note "A struct type is written under `struct`, so its fields may be called anything, `array` included, which alone would be the form of a list."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "held"
+            value {
+              as {
+                of {
+                  struct {
+                    array 1
+                  }
+                }
+                type "App.Holder"
+              }
+            }
+          }
+        ]
+        result {
+          ref "held.array"
+        }
+        returns "Int"
+      }
+    }
+    types {
+      "App.Holder" {
+        struct {
+          array "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

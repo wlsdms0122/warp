@@ -15,11 +15,11 @@ warpt 1
             let "of"
             type "App.Outer"
             value {
-              record {
+              struct {
                 inner {
-                  record {
+                  struct {
                     count {
-                      record {
+                      struct {
                         deep 1
                       }
                     }
@@ -92,17 +92,17 @@ warpt 1
     }
     types {
       "App.Deep" {
-        record {
+        struct {
           deep "Int"
         }
       }
       "App.Inner" {
-        record {
+        struct {
           count "App.Deep"
         }
       }
       "App.Outer" {
-        record {
+        struct {
           inner "App.Inner"
         }
       }

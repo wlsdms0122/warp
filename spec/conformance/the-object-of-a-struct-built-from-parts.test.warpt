@@ -1,0 +1,192 @@
+warpt 1
+{
+  expect {
+    builds {
+      answers [
+        [
+          "entry"
+          [
+            14
+            0
+          ]
+        ]
+      ]
+      claims []
+      constants []
+      contracts []
+      dependencies []
+      document [
+        x"7a9867e09b36d3dfdb138db0cfb82ef6fd8501c8abcd1206d81f02a08d7a46d1"
+      ]
+      leaned []
+      lifted []
+      numbering [
+        []
+        []
+      ]
+      object 1
+      rows [
+        [
+          "entry"
+          [
+            [
+              [
+                "n"
+                [
+                  [
+                    4
+                  ]
+                ]
+                []
+              ]
+            ]
+            []
+            []
+          ]
+          2
+          1
+          1
+          [
+            1
+            []
+          ]
+          [
+            0
+            [
+              [
+                [
+                  [
+                    [
+                      0
+                      1
+                    ]
+                  ]
+                  [
+                    3
+                    [
+                      [
+                        "App.P"
+                        [
+                          "a"
+                          "b"
+                        ]
+                      ]
+                      [
+                        [
+                          1
+                          [
+                            0
+                            []
+                          ]
+                        ]
+                        [
+                          0
+                          [
+                            2
+                            2
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                  "p"
+                ]
+              ]
+              [
+                [
+                  1
+                  [
+                    1
+                    []
+                  ]
+                ]
+              ]
+            ]
+            [
+              2
+              [
+                0
+              ]
+              []
+              []
+              [
+                "n"
+                "p"
+              ]
+            ]
+          ]
+        ]
+      ]
+      typeNumbering [
+        "App.P"
+      ]
+      types [
+        [
+          "App.P"
+          [
+            9
+            [
+              [
+                "a"
+                [
+                  4
+                ]
+              ]
+              [
+                "b"
+                [
+                  4
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+      variables []
+    }
+  }
+  name "the-object-of-a-struct-built-from-parts"
+  note "A struct built from parts carries its layout, the field names ascending, and one operation per field in that order. A declaration that wrote no returns has what the build read off its body written under answers."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "p"
+            type "App.P"
+            value {
+              struct {
+                a {
+                  ref "n"
+                }
+                b 2
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "n"
+            type "Int"
+          }
+        ]
+        result {
+          ref "p"
+        }
+      }
+    }
+    types {
+      "App.P" {
+        struct {
+          a "Int"
+          b "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

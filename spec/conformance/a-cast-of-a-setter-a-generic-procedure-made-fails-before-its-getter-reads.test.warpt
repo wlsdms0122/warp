@@ -4,7 +4,7 @@ warpt 1
     answers "cast_refused"
   }
   name "a-cast-of-a-setter-a-generic-procedure-made-fails-before-its-getter-reads"
-  note "`App.mk` keeps `x` in a box and answers a record of a setter and a getter over it, both closures over its `T`, which the record holds as `Procedure`. Called with 1, the setter is read through `Any` and cast to take a `String`, which fails with cast_refused, since only the call of `App.mk` filled its `T`. The getter is never read, and the attempt in the entry catches the failure."
+  note "`App.mk` keeps `x` in a box and answers a struct of a setter and a getter over it, both closures over its `T`, which the struct holds as `Procedure`. Called with 1, the setter is read through `Any` and cast to take a `String`, which fails with cast_refused, since only the call of `App.mk` filled its `T`. The getter is never read, and the attempt in the entry catches the failure."
   program {
     imports []
     procedures {
@@ -58,7 +58,7 @@ warpt 1
           }
         ]
         result {
-          record {
+          struct {
             g {
               ref "g"
             }
@@ -165,7 +165,7 @@ warpt 1
     }
     types {
       "App.Pair" {
-        record {
+        struct {
           g "Procedure"
           s "Procedure"
         }

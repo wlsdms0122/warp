@@ -1,0 +1,103 @@
+warpt 1
+{
+  expect {
+    answers "a"
+  }
+  name "a-struct-literal-written-into-an-entry-of-a-declared-dictionary-takes-the-name-answers"
+  note "`r` declares `Dictionary<String, Bank.A>`, and `set r[\"x\"]` writes the struct literal `{ k: \"y\" }` into an entry. The path reaches `Bank.A`, so the literal takes the name, and `App.P.show` reaches `Bank.A.show`."
+  program {
+    contracts {
+      "App.P" {
+        show {
+          const true
+          isolated true
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    imports []
+    procedures {
+      "Bank.A.show" {
+        parameters [
+          {
+            name "of"
+            type "Bank.A"
+          }
+        ]
+        result "a"
+        returns "String"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "a"
+            value {
+              as {
+                of {
+                  struct {
+                    k "x"
+                  }
+                }
+                type "Bank.A"
+              }
+            }
+          }
+          {
+            type "Dictionary<String, Bank.A>"
+            value {
+              dictionary [
+                [
+                  "x"
+                  {
+                    ref "a"
+                  }
+                ]
+              ]
+            }
+            var "r"
+          }
+          {
+            set "r[\"x\"]"
+            value {
+              struct {
+                k "y"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "r[\"x\"]"
+              }
+            ]
+            procedure "App.P.show"
+          }
+        }
+      }
+    }
+    satisfies {
+      "Bank.A" [
+        "App.P"
+      ]
+    }
+    types {
+      "Bank.A" {
+        struct {
+          k "String"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

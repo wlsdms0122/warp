@@ -15,7 +15,7 @@ warpt 1
       contracts []
       dependencies []
       document [
-        x"6ca6f4390528b9e99d561314b9e7ab44d872aa6db139f0f7c05e9bce91e5e505"
+        x"4ffdcdcd3808c3089aa6cb296e3bde55f7ca1f146799e0f0f5ba214d77503f79"
       ]
       leaned []
       lifted []
@@ -202,7 +202,7 @@ warpt 1
     }
   }
   name "the-object-of-a-field-read-past-a-possible-absence"
-  note "A dot after `?.` or after `?[` reads a field of the declared record the walk reached past the absence, so its step stands at the field's place with the mark riding on it, as a dot after a plain segment does. `p?.y`, `xs?[0].y` and `q.y` each read `y` at place 1, and none by the name a value whose type a call decides is read by."
+  note "A dot after `?.` or after `?[` reads a field of the declared struct the walk reached past the absence, so its step stands at the field's place with the mark riding on it, as a dot after a plain segment does. `p?.y`, `xs?[0].y` and `q.y` each read `y` at place 1, and none by the name a value whose type a call decides is read by."
   program {
     imports []
     procedures {
@@ -243,7 +243,7 @@ warpt 1
     }
     types {
       "App.P" {
-        record {
+        struct {
           x "Int"
           y "Int"
         }
