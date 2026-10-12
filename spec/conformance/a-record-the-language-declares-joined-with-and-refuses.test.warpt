@@ -1,0 +1,30 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-record-the-language-declares-joined-with-and-refuses"
+  note "`&` joins the names of contracts, and `Round` is a record the language declares, which the load knows is no contract, so the composition refuses there."
+  program {
+    contracts {
+      "App.Text" {}
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "it"
+            type "App.Text & Round"
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
