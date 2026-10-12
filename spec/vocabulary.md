@@ -240,6 +240,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `joined-over-nothing-answers-empty-text`
 - `keys-answer-a-maps-own-keys-in-the-key-order`
 - `keys-answer-in-canonical-order`
+- `keys-of-a-map-keyed-by-hashable-refuses`
 - `lowercased-ends-a-word-with-final-sigma`
 - `lowercased-folds-the-case`
 - `map-answers-in-the-collections-order`
