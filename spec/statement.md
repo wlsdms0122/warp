@@ -97,7 +97,7 @@ The envelope is this specification's; what rides in `details` is the procedure's
 { ref "failed.details[\"failures\"]" }
 ```
 
-`cast_refused` has no procedure behind it, so this specification names its `details` too: **`expected`**, the type the cast wrote, and **`actual`**, the type the value is an instance of, both as text. Both halves, because what was asked for is readable from the program and what turned up is not.
+`cast_refused` has no procedure behind it, so this specification names its `details` too: **`expected`**, the type the cast reads as, so a cast to an alias names what the alias stands for, and **`actual`**, the type the value is an instance of, both as text: `expected` in the type's string spelling, a procedure type, whose signature has none, spelled as what stands in front of it and `Procedure` (`const Procedure`), and `actual` by the type's name. Both halves, because what was asked for is readable from the program and what turned up is not.
 
 ```
 { ref "failed.details[\"actual\"]" }
@@ -178,8 +178,10 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-record-literal-written-through-a-field-without-var-refuses`
 - `a-rescue-binds-a-failure-the-language-declares`
 - `a-rescue-over-a-body-that-cannot-fail-refuses`
+- `a-rescue-reads-a-cast-to-a-procedure-type-as-procedure`
 - `a-rescue-reads-a-pieces-own-failure`
 - `a-rescue-reads-the-failure-it-caught`
+- `a-rescue-reads-the-type-a-cast-to-an-alias-reads-as`
 - `a-rescue-reads-what-a-cast-refused`
 - `a-rescue-reads-what-a-failure-carried`
 - `a-rescue-that-answers-nothing-answers-null`
