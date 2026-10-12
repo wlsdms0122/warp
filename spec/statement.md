@@ -175,6 +175,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-parameter-is-not-introduced-again-inside-a-closure`
 - `a-procedure-that-can-fail-says-so`
 - `a-record-literal-written-into-an-entry-of-a-declared-dictionary-takes-the-name-answers`
+- `a-record-literal-written-through-a-field-without-var-refuses`
 - `a-rescue-binds-a-failure-the-language-declares`
 - `a-rescue-over-a-body-that-cannot-fail-refuses`
 - `a-rescue-reads-a-pieces-own-failure`
