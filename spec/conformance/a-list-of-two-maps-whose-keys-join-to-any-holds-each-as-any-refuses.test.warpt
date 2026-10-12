@@ -1,0 +1,46 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-list-of-two-maps-whose-keys-join-to-any-holds-each-as-any-refuses"
+  note "Two maps join by their keys and their values, and keys of `Int` and `String` join to `Any`, which answers no `Hashable`, so no map type holds both: the two read `Any` whole, and brackets on an element read through `Any`, which a type is read out of only by a cast."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "xs"
+            value [
+              {
+                dictionary [
+                  [
+                    1
+                    "a"
+                  ]
+                ]
+              }
+              {
+                dictionary [
+                  [
+                    "b"
+                    "c"
+                  ]
+                ]
+              }
+            ]
+          }
+        ]
+        result {
+          ref "xs[0][1]"
+        }
+        returns "String"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
