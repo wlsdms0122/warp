@@ -162,7 +162,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-claim-about-procedure-refuses`
 - `a-claim-about-self-refuses`
 - `a-claim-another-document-makes-is-imported-and-answers`
+- `a-claim-answering-self-item-key-with-another-type-refuses`
 - `a-claim-answering-self-or-null-with-another-type-refuses`
+- `a-claim-answers-a-contract-procedure-writing-an-associated-type-of-an-associated-type-answers`
 - `a-claim-imported-brings-nothing-its-maker-stands-on`
 - `a-claim-in-a-document-the-program-names-nothing-of-refuses`
 - `a-claim-in-one-document-about-a-struct-another-declares-with-a-type-parameter-answers`
@@ -344,6 +346,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-name-that-is-not-a-contracts-joined-with-and-refuses`
 - `a-named-list-handed-where-a-list-of-a-contract-stands-is-held-to-it`
 - `a-null-cast-to-a-contract-is-held-to-the-claims-about-null`
+- `a-nullable-associated-type-bounded-hashable-fills-a-list-answers`
 - `a-nullable-const-procedure-reads-as-written`
 - `a-nullable-that-says-nothing-new-behind-a-name-refuses`
 - `a-nullable-that-says-nothing-new-refuses`
