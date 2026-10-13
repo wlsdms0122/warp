@@ -14,29 +14,33 @@ warpt 1
   program {
     contracts {
       "App.Described" {
-        describe {
-          parameters [
-            {
-              name "of"
-              type "Self"
-            }
-          ]
-          returns "Int"
+        procedures {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "Self"
+              }
+            ]
+            returns "Int"
+          }
         }
       }
       "App.Same" {
-        measure {
-          parameters [
-            {
-              name "lhs"
-              type "Self"
-            }
-            {
-              name "rhs"
-              type "Self"
-            }
-          ]
-          returns "Int"
+        procedures {
+          measure {
+            parameters [
+              {
+                name "lhs"
+                type "Self"
+              }
+              {
+                name "rhs"
+                type "Self"
+              }
+            ]
+            returns "Int"
+          }
         }
       }
     }

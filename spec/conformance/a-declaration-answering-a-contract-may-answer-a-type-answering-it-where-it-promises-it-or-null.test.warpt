@@ -8,32 +8,36 @@ warpt 1
   program {
     contracts {
       "App.Shown" {
-        show {
-          failing [
-            "cast_refused"
-          ]
-          parameters [
-            {
-              name "of"
-              type "Self"
-            }
-            {
-              name "n"
-              type "App.Sized"
-            }
-          ]
-          returns "App.Sized?"
+        procedures {
+          show {
+            failing [
+              "cast_refused"
+            ]
+            parameters [
+              {
+                name "of"
+                type "Self"
+              }
+              {
+                name "n"
+                type "App.Sized"
+              }
+            ]
+            returns "App.Sized?"
+          }
         }
       }
       "App.Sized" {
-        size {
-          parameters [
-            {
-              name "of"
-              type "Self"
-            }
-          ]
-          returns "Int"
+        procedures {
+          size {
+            parameters [
+              {
+                name "of"
+                type "Self"
+              }
+            ]
+            returns "Int"
+          }
         }
       }
     }
