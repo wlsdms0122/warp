@@ -1,0 +1,140 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "App.Describable" {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "Self"
+              }
+            ]
+            returns "String"
+          }
+        }
+      }
+      imports []
+      warp 1
+    }
+    {
+      imports []
+      types {
+        "T.Card" {
+          procedures {
+            describe {
+              parameters [
+                {
+                  name "of"
+                  type "T.Card"
+                }
+              ]
+              result "card"
+              returns "String"
+            }
+          }
+          struct {
+            rank "Int"
+          }
+        }
+      }
+      warp 1
+    }
+    {
+      extensions {
+        "T.Card" {
+          satisfies [
+            "App.Describable"
+          ]
+        }
+      }
+      imports [
+        "App.Describable"
+        "T.Card"
+      ]
+      warp 1
+    }
+    {
+      imports [
+        "App.Describable"
+        "T.Card"
+      ]
+      procedures {
+        "App.probe" {
+          access "public"
+          body [
+            {
+              let "two"
+              type "Any"
+              value {
+                as {
+                  of {
+                    struct {
+                      rank 1
+                    }
+                  }
+                  type "T.Card"
+                }
+              }
+            }
+          ]
+          result {
+            "as?" {
+              of {
+                ref "two"
+              }
+              type "App.Describable"
+            }
+          }
+          returns "App.Describable?"
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    answers "card"
+  }
+  name "a-constant-asking-a-claim-it-imports-settles"
+  note "The same constant, the program importing the claim: settling it casts the card to App.Describable within the program's reach, and the program describes it."
+  program {
+    const {
+      folded {
+        call {
+          procedure "App.probe"
+        }
+      }
+    }
+    imports [
+      "App.Describable"
+      "App.Describable.describe"
+      "App.probe"
+      "T.Card: App.Describable"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                as {
+                  of {
+                    ref "folded"
+                  }
+                  type "App.Describable"
+                }
+              }
+            ]
+            procedure "App.Describable.describe"
+          }
+        }
+        returns "String"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

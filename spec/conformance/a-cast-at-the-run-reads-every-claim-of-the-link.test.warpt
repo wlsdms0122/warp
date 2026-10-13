@@ -1,0 +1,134 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "App.Describable" {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "Self"
+              }
+            ]
+            returns "String"
+          }
+        }
+      }
+      imports []
+      warp 1
+    }
+    {
+      imports []
+      types {
+        "T.Card" {
+          procedures {
+            describe {
+              parameters [
+                {
+                  name "of"
+                  type "T.Card"
+                }
+              ]
+              result "card"
+              returns "String"
+            }
+          }
+          struct {
+            rank "Int"
+          }
+        }
+      }
+      warp 1
+    }
+    {
+      extensions {
+        "T.Card" {
+          satisfies [
+            "App.Describable"
+          ]
+        }
+      }
+      imports [
+        "App.Describable"
+        "T.Card"
+      ]
+      warp 1
+    }
+    {
+      imports [
+        "App.Describable"
+        "T.Card"
+      ]
+      procedures {
+        "App.probe" {
+          access "public"
+          body [
+            {
+              let "two"
+              type "Any"
+              value {
+                as {
+                  of {
+                    struct {
+                      rank 1
+                    }
+                  }
+                  type "T.Card"
+                }
+              }
+            }
+          ]
+          result {
+            "as?" {
+              of {
+                ref "two"
+              }
+              type "App.Describable"
+            }
+          }
+          returns "App.Describable?"
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    answers "card"
+  }
+  name "a-cast-at-the-run-reads-every-claim-of-the-link"
+  note "A cast at the run judges what arrives against every claim the link holds. The program stands on nothing of the document claiming T.Card answers App.Describable, and the cast `App.probe` writes, run, answers the card, which the program describes."
+  program {
+    imports [
+      "App.Describable"
+      "App.Describable.describe"
+      "App.probe"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                as {
+                  of {
+                    call {
+                      procedure "App.probe"
+                    }
+                  }
+                  type "App.Describable"
+                }
+              }
+            ]
+            procedure "App.Describable.describe"
+          }
+        }
+        returns "String"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

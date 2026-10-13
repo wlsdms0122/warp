@@ -16,31 +16,31 @@ warpt 1
         }
       }
       imports []
+      warp 1
+    }
+    {
+      imports []
       types {
-        "App.Box" {
+        "T.Card" {
           struct {
-            item "some T"
+            rank "Int"
           }
-          typeParameters [
-            "T"
-          ]
         }
       }
       warp 1
     }
     {
       extensions {
-        "App.Box<some T: Hashable>" {
+        "T.Card" {
           procedures {
             describe {
-              access "public"
               parameters [
                 {
                   name "of"
-                  type "App.Box<some T>"
+                  type "T.Card"
                 }
               ]
-              result "box"
+              result "given"
               returns "String"
             }
           }
@@ -50,8 +50,22 @@ warpt 1
         }
       }
       imports [
-        "App.Box"
         "App.Describable"
+        "T.Card"
+      ]
+      warp 1
+    }
+    {
+      extensions {
+        "T.Card" {
+          satisfies [
+            "App.Describable"
+          ]
+        }
+      }
+      imports [
+        "App.Describable"
+        "T.Card"
       ]
       warp 1
     }
@@ -59,49 +73,34 @@ warpt 1
   expect {
     refuses "build"
   }
-  name "a-claim-under-a-head-in-a-document-the-leaning-one-never-names-refuses-a-value-it-does-not-take"
-  note "The program hands a box of its own App.Plain, which the link reads in its own rows and holds to `App.Box<some T: Hashable>`, written in a document the program never names, and the head does not take it."
+  name "a-copy-of-a-claim-that-does-not-hold-refuses-beside-one-that-does"
+  note "One document claims T.Card answers App.Describable and gives it `describe`; another makes the same claim and stands on nothing giving it. Each copy is held where it is written, so the second refuses at the build, at the claim, however the host listed the two."
   program {
     imports [
-      "App.Box"
-      "App.Describable.describe"
+      "T.Card"
     ]
     procedures {
       entry {
         access "public"
         body [
           {
-            let "b"
-            type "App.Box<App.Plain>"
+            let "card"
             value {
-              struct {
-                item {
+              as {
+                of {
                   struct {
-                    x 1
+                    rank 3
                   }
                 }
+                type "T.Card"
               }
             }
           }
         ]
         result {
-          call {
-            arguments [
-              {
-                ref "b"
-              }
-            ]
-            procedure "App.Describable.describe"
-          }
+          ref "card.rank"
         }
-        returns "String"
-      }
-    }
-    types {
-      "App.Plain" {
-        struct {
-          x "Int"
-        }
+        returns "Int"
       }
     }
     warp 1

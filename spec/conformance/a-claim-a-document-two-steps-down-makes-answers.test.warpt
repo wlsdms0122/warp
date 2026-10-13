@@ -53,17 +53,67 @@ warpt 1
         "App.Describable"
         "T.Card"
       ]
+      procedures {
+        "Glue.mark" {
+          access "public"
+          result 1
+          returns "Int"
+        }
+      }
+      warp 1
+    }
+    {
+      imports [
+        "App.Describable"
+        "App.Describable.describe"
+        "Glue.mark"
+      ]
+      procedures {
+        "Lib.tell" {
+          access "public"
+          body [
+            {
+              let "marked"
+              value {
+                call {
+                  procedure "Glue.mark"
+                }
+              }
+            }
+          ]
+          bounds {
+            T "App.Describable"
+          }
+          parameters [
+            {
+              name "of"
+              type "some T"
+            }
+          ]
+          result {
+            call {
+              arguments [
+                {
+                  ref "of"
+                }
+              ]
+              procedure "App.Describable.describe"
+            }
+          }
+          returns "String"
+        }
+      }
       warp 1
     }
   ]
   expect {
     answers "card"
   }
-  name "a-claim-stands-in-a-document-the-leaning-one-never-names"
-  note "Whether a type answers a contract is a fact of the whole list. The contract, the type and the claim that joins them each stand in their own document, and the program leaning on the pair names the contract and the type and never the document that made the claim."
+  name "a-claim-a-document-two-steps-down-makes-answers"
+  note "What a document stands on is what it names and, through that, what those documents name. The program calls Lib.tell, whose document calls Glue.mark, whose document claims T.Card answers App.Describable, so the claim is within the program's reach."
   program {
     imports [
-      "App.Describable.describe"
+      "Lib.tell"
       "T.Card"
     ]
     procedures {
@@ -91,7 +141,7 @@ warpt 1
                 ref "card"
               }
             ]
-            procedure "App.Describable.describe"
+            procedure "Lib.tell"
           }
         }
         returns "String"

@@ -1,0 +1,112 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "App.Describable" {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "Self"
+              }
+            ]
+            returns "String"
+          }
+        }
+      }
+      imports []
+      types {
+        "App.Box" {
+          struct {
+            item "some T"
+          }
+          typeParameters [
+            "T"
+          ]
+        }
+      }
+      warp 1
+    }
+    {
+      extensions {
+        "App.Box<some T: Hashable>" {
+          procedures {
+            describe {
+              access "public"
+              parameters [
+                {
+                  name "of"
+                  type "App.Box<some T>"
+                }
+              ]
+              result "box"
+              returns "String"
+            }
+          }
+          satisfies [
+            "App.Describable"
+          ]
+        }
+      }
+      imports [
+        "App.Box"
+        "App.Describable"
+      ]
+      warp 1
+    }
+  ]
+  expect {
+    refuses "build"
+  }
+  name "a-claim-under-a-head-another-document-makes-refuses-a-value-it-does-not-take"
+  note "The program imports the claim under `App.Box<some T: Hashable>` and hands a box of its own App.Plain, which answers no `Hashable`, so the head does not take it and the call refuses at the build."
+  program {
+    imports [
+      "App.Box"
+      "App.Box: App.Describable"
+      "App.Describable.describe"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            type "App.Box<App.Plain>"
+            value {
+              struct {
+                item {
+                  struct {
+                    x 1
+                  }
+                }
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "b"
+              }
+            ]
+            procedure "App.Describable.describe"
+          }
+        }
+        returns "String"
+      }
+    }
+    types {
+      "App.Plain" {
+        struct {
+          x "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

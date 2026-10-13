@@ -1,0 +1,231 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "App.Describable" {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "Self"
+              }
+            ]
+            returns "String"
+          }
+        }
+      }
+      imports []
+      warp 1
+    }
+    {
+      imports []
+      types {
+        "T.Card" {
+          procedures {
+            describe {
+              parameters [
+                {
+                  name "of"
+                  type "T.Card"
+                }
+              ]
+              result "card"
+              returns "String"
+            }
+          }
+          struct {
+            rank "Int"
+          }
+        }
+      }
+      warp 1
+    }
+    {
+      extensions {
+        "T.Card" {
+          satisfies [
+            "App.Describable"
+          ]
+        }
+      }
+      imports [
+        "App.Describable"
+        "T.Card"
+      ]
+      warp 1
+    }
+  ]
+  expect {
+    builds {
+      answers []
+      claims []
+      constants []
+      contracts []
+      dependencies [
+        x"0b4138135193f65b58e3c06a6add68a995220b827651617fa7ae49ad0bc80042"
+        x"5eb8e4e31c5312262ec18d2f7225117bf7c69bd3fd5b4b0aa869c86950dedac8"
+        x"d733b5c04658fec3d1315bf6429a6d7d971ec952bec6db241c9f8088cb9c580c"
+      ]
+      document [
+        x"2d6276ae8853479194f73bf300b58d18b4e477565fbd8f1c53623cb9bbb3c803"
+      ]
+      importedClaims [
+        [
+          "T.Card"
+          "App.Describable"
+        ]
+      ]
+      lifted []
+      members []
+      numbering [
+        [
+          "App.Describable.describe"
+        ]
+        []
+      ]
+      object 1
+      rows [
+        [
+          "entry"
+          [
+            []
+            [
+              [
+                6
+              ]
+            ]
+            []
+          ]
+          2
+          0
+          0
+          [
+            1
+            [
+              "cast_refused"
+            ]
+          ]
+          [
+            0
+            [
+              [
+                [
+                  [
+                    [
+                      0
+                      0
+                    ]
+                  ]
+                  [
+                    6
+                    [
+                      3
+                      [
+                        [
+                          "T.Card"
+                          [
+                            "rank"
+                          ]
+                        ]
+                        [
+                          [
+                            0
+                            [
+                              2
+                              1
+                            ]
+                          ]
+                        ]
+                      ]
+                    ]
+                    [
+                      14
+                      0
+                    ]
+                    false
+                  ]
+                  "card"
+                ]
+              ]
+              [
+                [
+                  12
+                  [
+                    "App.Describable"
+                    "describe"
+                    [
+                      1
+                      [
+                        0
+                        []
+                      ]
+                    ]
+                    []
+                  ]
+                ]
+              ]
+            ]
+            [
+              1
+              []
+              []
+              []
+              [
+                "card"
+              ]
+            ]
+          ]
+        ]
+      ]
+      typeNumbering [
+        "T.Card"
+      ]
+      types []
+      variables []
+    }
+  }
+  name "the-object-of-an-imported-claim"
+  note "An object lists the claims its document imports, by the type and the contract, so what it stands on is read off the object."
+  program {
+    imports [
+      "App.Describable.describe"
+      "T.Card"
+      "T.Card: App.Describable"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "card"
+            value {
+              as {
+                of {
+                  struct {
+                    rank 1
+                  }
+                }
+                type "T.Card"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "card"
+              }
+            ]
+            procedure "App.Describable.describe"
+          }
+        }
+        returns "String"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

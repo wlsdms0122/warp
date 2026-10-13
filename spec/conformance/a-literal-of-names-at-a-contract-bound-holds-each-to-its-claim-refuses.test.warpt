@@ -3,8 +3,8 @@ warpt 1
   expect {
     refuses "build"
   }
-  name "a-literal-of-names-at-a-contract-bound-leans-on-each-claim-refuses"
-  note "`App.f` bounds `T` by the contract `App.Describable` and takes `Array<Array<some T>>`. The literal `[ps, qs]` handed there holds a list of `Bank.P`, which a document says answers it, and a list of `Bank.Q`, which none does. Each name read at the parameter leans on its own claim, so the call writes both down and refuses at the build where `Bank.Q` has none."
+  name "a-literal-of-names-at-a-contract-bound-holds-each-to-its-claim-refuses"
+  note "`App.f` bounds `T` by the contract `App.Describable` and takes `Array<Array<some T>>`. The literal `[ps, qs]` handed there holds a list of `Bank.P`, which a document says answers it, and a list of `Bank.Q`, which none does. Each name read at the parameter is held to its own claim, so the call refuses at the build where `Bank.Q` has none."
   program {
     contracts {
       "App.Describable" {

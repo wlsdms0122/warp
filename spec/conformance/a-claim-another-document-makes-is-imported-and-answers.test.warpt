@@ -16,66 +16,71 @@ warpt 1
         }
       }
       imports []
+      warp 1
+    }
+    {
+      imports []
       types {
-        "App.Box" {
-          struct {
-            item "some T"
+        "T.Card" {
+          procedures {
+            describe {
+              parameters [
+                {
+                  name "of"
+                  type "T.Card"
+                }
+              ]
+              result "card"
+              returns "String"
+            }
           }
-          typeParameters [
-            "T"
-          ]
+          struct {
+            rank "Int"
+          }
         }
       }
       warp 1
     }
     {
       extensions {
-        "App.Box<some T: Hashable>" {
-          procedures {
-            describe {
-              access "public"
-              parameters [
-                {
-                  name "of"
-                  type "App.Box<some T>"
-                }
-              ]
-              result "box"
-              returns "String"
-            }
-          }
+        "T.Card" {
           satisfies [
             "App.Describable"
           ]
         }
       }
       imports [
-        "App.Box"
         "App.Describable"
+        "T.Card"
       ]
       warp 1
     }
   ]
   expect {
-    answers "box"
+    answers "card"
   }
-  name "a-claim-under-a-head-in-a-document-the-leaning-one-never-names-answers"
-  note "The claim under `App.Box<some T: Hashable>` is written in a document the program never names, so the compile writes down the box of `Int` it hands and the link holds that reading to the head."
+  name "a-claim-another-document-makes-is-imported-and-answers"
+  note "The contract, the type and the claim joining them each stand in their own document. A claim declares no name, so the program reaches the document making it by writing the pair among its imports, and the claim is within its reach."
   program {
     imports [
-      "App.Box"
       "App.Describable.describe"
+      "T.Card"
+      "T.Card: App.Describable"
     ]
     procedures {
       entry {
         access "public"
         body [
           {
-            let "b"
-            type "App.Box<Int>"
+            let "card"
             value {
-              struct {
-                item 1
+              as {
+                of {
+                  struct {
+                    rank 1
+                  }
+                }
+                type "T.Card"
               }
             }
           }
@@ -84,7 +89,7 @@ warpt 1
           call {
             arguments [
               {
-                ref "b"
+                ref "card"
               }
             ]
             procedure "App.Describable.describe"

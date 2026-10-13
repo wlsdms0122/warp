@@ -19,14 +19,21 @@ warpt 1
       warp 1
     }
     {
-      imports [
-        "App.Describable"
-      ]
+      imports []
       types {
-        "App.Card" {
-          satisfies [
-            "App.Describable"
-          ]
+        "T.Card" {
+          procedures {
+            describe {
+              parameters [
+                {
+                  name "of"
+                  type "T.Card"
+                }
+              ]
+              result "card"
+              returns "String"
+            }
+          }
           struct {
             rank "Int"
           }
@@ -34,33 +41,31 @@ warpt 1
       }
       warp 1
     }
-  ]
-  expect {
-    answers "card"
-  }
-  name "a-member-another-document-gives-a-struct-answers-its-claim"
-  note "App.Card claims App.Describable where it is declared and gives itself no `describe`; another document gives it one, and the claim is held to the type's member of that name wherever it was given."
-  program {
-    extensions {
-      "App.Card" {
-        procedures {
-          describe {
-            access "public"
-            parameters [
-              {
-                name "of"
-                type "App.Card"
-              }
-            ]
-            result "card"
-            returns "String"
-          }
+    {
+      extensions {
+        "T.Card" {
+          satisfies [
+            "App.Describable"
+          ]
         }
       }
+      imports [
+        "App.Describable"
+        "T.Card"
+      ]
+      warp 1
     }
+  ]
+  expect {
+    refuses "load"
+  }
+  name "an-import-written-as-neither-a-name-nor-a-claim-refuses"
+  note "An import is a name or a claim, written as the type and the contract it is about with a colon between. One spelling three parts refuses at the load."
+  program {
     imports [
-      "App.Card"
       "App.Describable.describe"
+      "T.Card"
+      "T.Card: App.Describable: App.Describable"
     ]
     procedures {
       entry {
@@ -75,7 +80,7 @@ warpt 1
                     rank 1
                   }
                 }
-                type "App.Card"
+                type "T.Card"
               }
             }
           }

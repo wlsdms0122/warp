@@ -9,7 +9,7 @@ A document is one map. Every map this grammar names, on this page and on the pag
 | key | takes | required |
 |---|---|---|
 | `warp` | int. The language version this document is written for | yes |
-| `imports` | array of strings. Every name the program uses and does not declare: the procedures it sends, and the types and contracts it names | yes, and empty where the program uses none |
+| `imports` | array of strings. Every name the program uses and does not declare: the procedures it sends, and the types and contracts it names; and the claims of other documents it stands on, each written as the type and the contract it is about | yes, and empty where the program uses none |
 | `description` | string | no |
 | `types` | map: name → `{ struct: { field: type, … }, typeParameters?, bounds?, satisfies?, procedures? }` for a struct, its fields, the type parameters it takes in order and their bounds, the contracts it answers and its members, or a type, which the name is then a second spelling of, under [types](type.md) | no |
 | `contracts` | map: name → map: procedure → `{ parameters, returns?, const?, isolated?, failing? }`, an empty map for a contract asking no procedures; the procedure takes `Self` first, so one leaving `parameters` out **refuses at the load**, and writes no `bounds`, so one writing them **refuses at the load**, under [types](type.md); the two bools ask what a slot asks with a `const` and an `isolated` procedure type, of every declaration answering, and `failing` names, as an array of strings, what one may fail with, nothing where it is left out | no |
@@ -32,6 +32,8 @@ An implementation implements the **current** version only.
 
 The list holds spellings and not kinds: a spelling in it asks for whatever the link declares under it, so a program using the procedure and the type of one spelling lists it once. The list is that set exactly, not a bound around it: **reading refuses** a document whose list disagrees with what its program uses, in either direction. It refuses at the load, since what a program uses is a fact of its text alone. The list is read before the program: the host lays the link from it, whatever kind each spelling turns out to declare, so a list saying less would be trusted and wrong, and a list saying more asks for what the program has no use for.
 
+**A claim among the imports.** A claim declares no name, so a document stands on a claim another document makes by writing the pair the claim is about, the type's name and the contract's with a colon and a space between: `"T.Card: App.Describable"`. What it stands on is what its build asks a contract of, under [types](type.md): a claim made in a document it stands on is within its reach already, and one made in a document it does not stand on is reached this way alone. Which claims a document asks of is its build's, not its text's, so a claim among the imports is not held to the program's use as a name is. An import naming a claim the document makes itself or one the language makes, and one written as neither a name nor a pair, **refuse at the load**, and one naming a claim no document in the link makes **refuses at the build**. What it stands on is the claim, every copy of it the link holds, and not what the documents making it stand on.
+
 **A module asks and does not carry.** What the list names is supplied by whatever else stands in the link, and a module that shipped its own copy of a bundle it uses would put that bundle's declarations in the link twice, which the build refuses by the rule that one name has one declarer. Which modules are in a link is decided where the link is assembled. The same holds for the types and contracts a signature mentions: the list names them, and what declares them is still the link's to bring.
 
 A document says its list, and one that does not **refuses at the load**, the way one that does not say its version does: the list is read before the program and the link is laid from it, so a reader with no list cannot tell a program that uses nothing from one that uses everything, and the empty list is what says the first.
@@ -50,11 +52,13 @@ A reader of documents **refuses** a shorthand where it meets one, the way it ref
 
 What `conformance/` asks about this page, by the name each case's file carries.
 
+- `a-claim-import-whose-type-is-no-types-name-refuses`
 - `a-constant-closure-may-name-its-documents-own-type`
 - `a-constant-is-a-name-a-body-reads`
 - `a-constant-may-be-spelled-like-a-procedure`
 - `a-constant-sees-only-the-constants-beside-it`
 - `a-document-declaring-no-procedure-stands-beside-one-that-names-it`
+- `a-document-importing-a-claim-it-makes-refuses`
 - `a-document-that-says-no-version-refuses`
 - `a-document-without-imports-refuses`
 - `a-field-read-names-no-type`
@@ -88,6 +92,10 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-write-into-a-module-variable-is-judged-against-the-type-it-declares-refuses`
 - `an-access-written-as-what-its-absence-means-refuses`
 - `an-else-written-empty-refuses`
+- `an-import-of-a-claim-no-document-makes-refuses`
+- `an-import-of-a-claim-the-language-makes-refuses`
+- `an-import-of-a-claim-two-documents-make-answers`
+- `an-import-written-as-neither-a-name-nor-a-claim-refuses`
 - `an-overstated-imports-list-refuses`
 - `an-unknown-key-refuses`
 - `an-untruthful-imports-list-refuses`

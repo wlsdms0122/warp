@@ -1,0 +1,73 @@
+warpt 1
+{
+  documents [
+    {
+      imports []
+      types {
+        "App.Key" {
+          satisfies [
+            "Hashable"
+          ]
+          struct {
+            n "Int"
+          }
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    answers 1
+  }
+  name "a-constant-folds-through-a-procedure-the-host-answers-a-claim-it-stands-on-answers"
+  note "A procedure the host answers judges what a fold hands it against the claims within the folding document's reach. `Standard.Collection.setting` keys its map by what answers `Hashable`, which the document declaring App.Key claims for it, and the program names App.Key, so the constant settles to a map of one entry."
+  program {
+    const {
+      keyed {
+        call {
+          arguments [
+            {
+              dictionary []
+            }
+            {
+              as {
+                of {
+                  struct {
+                    n 1
+                  }
+                }
+                type "App.Key"
+              }
+            }
+            5
+          ]
+          procedure "Standard.Collection.setting"
+        }
+      }
+    }
+    imports [
+      "App.Key"
+      "Standard.Collection.count"
+      "Standard.Collection.setting"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                ref "keyed"
+              }
+            ]
+            procedure "Standard.Collection.count"
+          }
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

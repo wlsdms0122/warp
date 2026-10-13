@@ -1,0 +1,104 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "App.Describable" {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "Self"
+              }
+            ]
+            returns "String"
+          }
+        }
+      }
+      imports []
+      warp 1
+    }
+    {
+      imports []
+      types {
+        "T.Card" {
+          procedures {
+            describe {
+              parameters [
+                {
+                  name "of"
+                  type "T.Card"
+                }
+              ]
+              result "card"
+              returns "String"
+            }
+          }
+          struct {
+            rank "Int"
+          }
+        }
+      }
+      warp 1
+    }
+    {
+      extensions {
+        "T.Card" {
+          satisfies [
+            "App.Describable"
+          ]
+        }
+      }
+      imports [
+        "App.Describable"
+        "T.Card"
+      ]
+      warp 1
+    }
+  ]
+  expect {
+    refuses "build"
+  }
+  name "a-claim-in-a-document-the-program-names-nothing-of-refuses"
+  note "Whether a type answers a contract is judged against the claims made within what the asking document stands on. The program names the contract and the type, and nothing of the document making the claim, so the claim is not within its reach and the call refuses at the build."
+  program {
+    imports [
+      "App.Describable.describe"
+      "T.Card"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "card"
+            value {
+              as {
+                of {
+                  struct {
+                    rank 1
+                  }
+                }
+                type "T.Card"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "card"
+              }
+            ]
+            procedure "App.Describable.describe"
+          }
+        }
+        returns "String"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

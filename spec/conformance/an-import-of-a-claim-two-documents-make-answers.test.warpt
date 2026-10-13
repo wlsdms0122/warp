@@ -1,0 +1,138 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "App.Describable" {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "Self"
+              }
+            ]
+            returns "String"
+          }
+        }
+      }
+      imports []
+      warp 1
+    }
+    {
+      imports []
+      types {
+        "T.Card" {
+          procedures {
+            describe {
+              parameters [
+                {
+                  name "of"
+                  type "T.Card"
+                }
+              ]
+              result "card"
+              returns "String"
+            }
+          }
+          struct {
+            rank "Int"
+          }
+        }
+      }
+      warp 1
+    }
+    {
+      description "one maker"
+      extensions {
+        "T.Card" {
+          satisfies [
+            "App.Describable"
+          ]
+        }
+      }
+      imports [
+        "App.Describable"
+        "T.Card"
+      ]
+      warp 1
+    }
+    {
+      imports [
+        "App.Describable.describe"
+        "T.Card"
+        "T.Card: App.Describable"
+      ]
+      procedures {
+        "Imp.tell" {
+          access "public"
+          body [
+            {
+              let "card"
+              value {
+                as {
+                  of {
+                    struct {
+                      rank 1
+                    }
+                  }
+                  type "T.Card"
+                }
+              }
+            }
+          ]
+          result {
+            call {
+              arguments [
+                {
+                  ref "card"
+                }
+              ]
+              procedure "App.Describable.describe"
+            }
+          }
+          returns "String"
+        }
+      }
+      warp 1
+    }
+    {
+      description "another maker"
+      extensions {
+        "T.Card" {
+          satisfies [
+            "App.Describable"
+          ]
+        }
+      }
+      imports [
+        "App.Describable"
+        "T.Card"
+      ]
+      warp 1
+    }
+  ]
+  expect {
+    answers "card"
+  }
+  name "an-import-of-a-claim-two-documents-make-answers"
+  note "A claim imported is the claim, every copy of it the link holds, and not what the documents making it stand on. Two documents make the claim this one imports, the second placed after it, and the two copies are one claim, so the card answers App.Describable."
+  program {
+    imports [
+      "Imp.tell"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            procedure "Imp.tell"
+          }
+        }
+        returns "String"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

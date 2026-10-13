@@ -1,0 +1,101 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "App.Describable" {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "Self"
+              }
+            ]
+            returns "String"
+          }
+        }
+      }
+      imports []
+      types {
+        "App.Box" {
+          struct {
+            item "some T"
+          }
+          typeParameters [
+            "T"
+          ]
+        }
+      }
+      warp 1
+    }
+    {
+      extensions {
+        "App.Box<some T: Hashable>" {
+          procedures {
+            describe {
+              access "public"
+              parameters [
+                {
+                  name "of"
+                  type "App.Box<some T>"
+                }
+              ]
+              result "box"
+              returns "String"
+            }
+          }
+          satisfies [
+            "App.Describable"
+          ]
+        }
+      }
+      imports [
+        "App.Box"
+        "App.Describable"
+      ]
+      warp 1
+    }
+  ]
+  expect {
+    answers "box"
+  }
+  name "a-claim-under-a-head-another-document-makes-is-imported-and-answers"
+  note "The claim under `App.Box<some T: Hashable>` is made in a document the program names nothing of, and the program imports it, so a box of `Int`, which the head takes, answers App.Describable."
+  program {
+    imports [
+      "App.Box"
+      "App.Box: App.Describable"
+      "App.Describable.describe"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            type "App.Box<Int>"
+            value {
+              struct {
+                item 1
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "b"
+              }
+            ]
+            procedure "App.Describable.describe"
+          }
+        }
+        returns "String"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
