@@ -1,0 +1,88 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "App.Describable" {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "Self"
+              }
+            ]
+            returns "String"
+          }
+        }
+      }
+      extensions {
+        "Array<Int>" {
+          procedures {
+            describe {
+              access "public"
+              parameters [
+                {
+                  name "of"
+                  type "Array<Int>"
+                }
+              ]
+              result "ints"
+              returns "String"
+            }
+          }
+          satisfies [
+            "App.Describable"
+          ]
+        }
+      }
+      imports []
+      warp 1
+    }
+  ]
+  expect {
+    answers "ints"
+  }
+  name "two-documents-claiming-one-contract-under-one-head-are-one-claim"
+  note "Two documents writing the same head and contract say one thing, so the claim stands once and the call reaches the member."
+  program {
+    extensions {
+      "Array<Int>" {
+        satisfies [
+          "App.Describable"
+        ]
+      }
+    }
+    imports [
+      "App.Describable"
+      "App.Describable.describe"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            type "Array<Int>"
+            value [
+              1
+            ]
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "b"
+              }
+            ]
+            procedure "App.Describable.describe"
+          }
+        }
+        returns "String"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

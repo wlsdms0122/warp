@@ -1,0 +1,85 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-member-answering-a-claim-under-a-head-for-less-than-the-head-takes-refuses"
+  note "The claim is about every box of something that answers `Hashable`, and the member `describe` is given under `App.Box<Int>` and takes a box of `Int` alone, so it does not answer for every value the claim's head takes and the call leaning on the claim refuses at the build."
+  program {
+    contracts {
+      "App.Describable" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    extensions {
+      "App.Box<Int>" {
+        procedures {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "App.Box<Int>"
+              }
+            ]
+            result "box"
+            returns "String"
+          }
+        }
+      }
+      "App.Box<some T: Hashable>" {
+        satisfies [
+          "App.Describable"
+        ]
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            type "App.Box<Int>"
+            value {
+              struct {
+                item 1
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "b"
+              }
+            ]
+            procedure "App.Describable.describe"
+          }
+        }
+        returns "String"
+      }
+    }
+    types {
+      "App.Box" {
+        struct {
+          item "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

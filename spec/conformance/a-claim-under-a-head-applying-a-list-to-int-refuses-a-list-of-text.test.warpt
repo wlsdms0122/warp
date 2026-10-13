@@ -1,0 +1,71 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-claim-under-a-head-applying-a-list-to-int-refuses-a-list-of-text"
+  note "A list of text is no list of integers, so the claim written under `Array<Int>` does not take it and the call leaning on it refuses at the build."
+  program {
+    contracts {
+      "App.Describable" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    extensions {
+      "Array<Int>" {
+        procedures {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "Array<Int>"
+              }
+            ]
+            result "ints"
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.Describable"
+        ]
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            type "Array<String>"
+            value [
+              "a"
+            ]
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "b"
+              }
+            ]
+            procedure "App.Describable.describe"
+          }
+        }
+        returns "String"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

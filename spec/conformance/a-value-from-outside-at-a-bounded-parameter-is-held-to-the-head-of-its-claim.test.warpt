@@ -1,0 +1,86 @@
+warpt 1
+{
+  arguments {
+    x App.Box {
+      item 1
+    }
+  }
+  expect {
+    answers "box"
+  }
+  name "a-value-from-outside-at-a-bounded-parameter-is-held-to-the-head-of-its-claim"
+  note "The entry takes `some T` bounded by App.Describable, and the host hands a box holding `1`. A value carries no type's arguments, so the door holds it to the head `App.Box<Int?>` by whether it settles there, which it does."
+  program {
+    contracts {
+      "App.Describable" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    extensions {
+      "App.Box<Int?>" {
+        procedures {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "App.Box<Int?>"
+              }
+            ]
+            result "box"
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.Describable"
+        ]
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        bounds {
+          T "App.Describable"
+        }
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "x"
+              }
+            ]
+            procedure "App.Describable.describe"
+          }
+        }
+        returns "String"
+      }
+    }
+    types {
+      "App.Box" {
+        struct {
+          item "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

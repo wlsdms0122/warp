@@ -1,0 +1,395 @@
+warpt 1
+{
+  expect {
+    builds {
+      answers []
+      claims [
+        [
+          [
+            "App.Box"
+            [
+              [
+                15
+                "T"
+              ]
+            ]
+            [
+              [
+                "T"
+                [
+                  "Hashable"
+                ]
+              ]
+            ]
+          ]
+          [
+            "App.Describable"
+          ]
+        ]
+      ]
+      constants []
+      contracts [
+        [
+          "App.Describable"
+          [
+            [
+              "describe"
+              [
+                [
+                  [
+                    [
+                      "of"
+                      [
+                        [
+                          18
+                        ]
+                      ]
+                      []
+                    ]
+                  ]
+                  [
+                    [
+                      6
+                    ]
+                  ]
+                  []
+                ]
+                0
+                0
+                [
+                  1
+                  []
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+      dependencies []
+      document [
+        x"c7721bec7d1b849394aea9bf5d2b713002000b55c735ebada64cbe7cce84e6bd"
+      ]
+      leaned [
+        [
+          [
+            14
+            0
+            [
+              [
+                4
+              ]
+            ]
+          ]
+          "App.Describable"
+          [
+            [
+              x"c7721bec7d1b849394aea9bf5d2b713002000b55c735ebada64cbe7cce84e6bd"
+            ]
+            [
+              [
+                1
+                [
+                  0
+                ]
+              ]
+              [
+                0
+                "entry"
+              ]
+              [
+                1
+                [
+                  10
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+      lifted []
+      members [
+        [
+          [
+            "App.Box"
+            [
+              [
+                15
+                "T"
+              ]
+            ]
+            [
+              [
+                "T"
+                [
+                  "Hashable"
+                ]
+              ]
+            ]
+          ]
+          [
+            "describe"
+          ]
+        ]
+      ]
+      numbering [
+        []
+        []
+      ]
+      object 1
+      rows [
+        [
+          "App.Box.describe"
+          [
+            [
+              [
+                "of"
+                [
+                  [
+                    14
+                    "App.Box"
+                    [
+                      [
+                        15
+                        "T"
+                      ]
+                    ]
+                  ]
+                ]
+                []
+              ]
+            ]
+            [
+              [
+                6
+              ]
+            ]
+            [
+              [
+                "T"
+                [
+                  "Hashable"
+                ]
+              ]
+            ]
+          ]
+          1
+          1
+          1
+          [
+            1
+            []
+          ]
+          [
+            0
+            [
+              []
+              [
+                [
+                  0
+                  [
+                    4
+                    "box"
+                  ]
+                ]
+              ]
+            ]
+            [
+              1
+              [
+                0
+              ]
+              []
+              []
+              [
+                "of"
+              ]
+            ]
+          ]
+        ]
+        [
+          "entry"
+          [
+            []
+            [
+              [
+                6
+              ]
+            ]
+            []
+          ]
+          2
+          0
+          0
+          [
+            1
+            []
+          ]
+          [
+            0
+            [
+              [
+                [
+                  [
+                    [
+                      0
+                      0
+                    ]
+                  ]
+                  [
+                    3
+                    [
+                      [
+                        "App.Box"
+                        [
+                          "item"
+                        ]
+                      ]
+                      [
+                        [
+                          0
+                          [
+                            2
+                            1
+                          ]
+                        ]
+                      ]
+                    ]
+                  ]
+                  "b"
+                ]
+              ]
+              [
+                [
+                  12
+                  [
+                    "App.Describable"
+                    "describe"
+                    [
+                      1
+                      [
+                        0
+                        []
+                      ]
+                    ]
+                    []
+                  ]
+                ]
+              ]
+            ]
+            [
+              1
+              []
+              []
+              []
+              [
+                "b"
+              ]
+            ]
+          ]
+        ]
+      ]
+      typeNumbering [
+        "App.Box"
+      ]
+      types [
+        [
+          "App.Box"
+          [
+            9
+            [
+              [
+                "item"
+                [
+                  15
+                  "T"
+                ]
+              ]
+            ]
+            [
+              "T"
+            ]
+            []
+          ]
+        ]
+      ]
+      variables []
+    }
+  }
+  name "the-object-of-a-claim-under-a-head"
+  note "A claim under a head applying its type is written under the head: the type, what it is applied to, and its type parameters' bounds. What a body hands where a contract is asked stands under leaned as the reading, a box of `Int`, in the document's own type numbers."
+  program {
+    contracts {
+      "App.Describable" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    extensions {
+      "App.Box<some T: Hashable>" {
+        procedures {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "App.Box<some T>"
+              }
+            ]
+            result "box"
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.Describable"
+        ]
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            type "App.Box<Int>"
+            value {
+              struct {
+                item 1
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "b"
+              }
+            ]
+            procedure "App.Describable.describe"
+          }
+        }
+        returns "String"
+      }
+    }
+    types {
+      "App.Box" {
+        struct {
+          item "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

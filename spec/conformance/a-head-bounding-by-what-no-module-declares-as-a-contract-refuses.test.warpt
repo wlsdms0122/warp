@@ -1,0 +1,40 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-head-bounding-by-what-no-module-declares-as-a-contract-refuses"
+  note "A head bounds its own type parameters by contracts, and `App.Nothing` is declared by no module in the link, so the build refuses the extension."
+  program {
+    extensions {
+      "App.Box<some T: App.Nothing>" {
+        satisfies [
+          "Hashable"
+        ]
+      }
+    }
+    imports [
+      "App.Nothing"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    types {
+      "App.Box" {
+        struct {
+          item "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

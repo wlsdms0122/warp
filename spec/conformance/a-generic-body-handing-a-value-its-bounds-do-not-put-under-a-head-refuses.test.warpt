@@ -1,0 +1,93 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-generic-body-handing-a-value-its-bounds-do-not-put-under-a-head-refuses"
+  note "A procedure bounding `T` by nothing hands a box of `T` where App.Describable is asked, and `App.Box<some T: Hashable>` takes only a box of what answers `Hashable`, so the build refuses the call."
+  program {
+    contracts {
+      "App.Describable" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    extensions {
+      "App.Box<some T: Hashable>" {
+        procedures {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "App.Box<some T>"
+              }
+            ]
+            result "box"
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.Describable"
+        ]
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                struct {
+                  item 1
+                }
+              }
+            ]
+            procedure "relay"
+          }
+        }
+        returns "String"
+      }
+      relay {
+        parameters [
+          {
+            name "b"
+            type "App.Box<some T>"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "b"
+              }
+            ]
+            procedure "App.Describable.describe"
+          }
+        }
+        returns "String"
+      }
+    }
+    types {
+      "App.Box" {
+        struct {
+          item "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

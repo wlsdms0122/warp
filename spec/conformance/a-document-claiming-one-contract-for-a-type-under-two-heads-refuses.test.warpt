@@ -1,0 +1,58 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-document-claiming-one-contract-for-a-type-under-two-heads-refuses"
+  note "A type answers a contract one way, so a document saying lists of integers and lists of text each answer App.Describable under their own heads is refused at the load."
+  program {
+    contracts {
+      "App.Describable" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    extensions {
+      "Array<Int>" {
+        procedures {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "Array<Int>"
+              }
+            ]
+            result "ints"
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.Describable"
+        ]
+      }
+      "Array<String>" {
+        satisfies [
+          "App.Describable"
+        ]
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
