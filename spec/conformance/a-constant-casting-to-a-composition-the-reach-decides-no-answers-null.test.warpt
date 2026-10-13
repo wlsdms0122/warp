@@ -1,0 +1,116 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "App.Marked" {}
+        "App.Tagged" {}
+      }
+      imports []
+      warp 1
+    }
+    {
+      extensions {
+        "Array<Int>" {
+          satisfies [
+            "App.Tagged"
+          ]
+        }
+      }
+      imports [
+        "App.Tagged"
+      ]
+      procedures {
+        "In.mark" {
+          access "public"
+          result 1
+          returns "Int"
+        }
+      }
+      warp 1
+    }
+    {
+      extensions {
+        Array {
+          satisfies [
+            "App.Marked"
+          ]
+        }
+      }
+      imports [
+        "App.Marked"
+      ]
+      warp 1
+    }
+    {
+      imports [
+        "App.Marked"
+        "App.Tagged"
+      ]
+      procedures {
+        "L.probe" {
+          access "public"
+          body [
+            {
+              let "two"
+              type "Any"
+              value [
+                "s"
+              ]
+            }
+          ]
+          result {
+            "as?" {
+              of {
+                ref "two"
+              }
+              type "App.Marked & App.Tagged"
+            }
+          }
+          returns "Any"
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    answers null
+  }
+  name "a-constant-casting-to-a-composition-the-reach-decides-no-answers-null"
+  note "A fold's cast whose answer the claims within reach decide stands as the run's would. The value answers no contract of the composition by a claim within reach, and one contract it is cast to is decided against it there, so `as?` answers null whichever contract is asked first."
+  program {
+    const {
+      folded {
+        call {
+          procedure "L.probe"
+        }
+      }
+    }
+    imports [
+      "In.mark"
+      "L.probe"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "m"
+            value {
+              call {
+                procedure "In.mark"
+              }
+            }
+          }
+        ]
+        result {
+          ref "folded"
+        }
+        returns "Any"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
