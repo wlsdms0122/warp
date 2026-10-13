@@ -1,0 +1,44 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-type-member-writing-a-bound-refuses"
+  note "A type member says what a type gives under a name and introduces no type parameter, so a bound beside the `some T` it writes refuses at the load."
+  program {
+    contracts {
+      "App.Container" {
+        types [
+          "Item"
+        ]
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    types {
+      "App.Box" {
+        satisfies [
+          "App.Container"
+        ]
+        struct {
+          item "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+        types {
+          Item "some T: Hashable"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

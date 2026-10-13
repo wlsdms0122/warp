@@ -24,13 +24,10 @@ warpt 1
       procedures {
         "Lib.firstOf" {
           access "public"
-          bounds {
-            C "Lib.Container"
-          }
           parameters [
             {
               name "c"
-              type "some C"
+              type "some C: Lib.Container"
             }
           ]
           result {
@@ -90,10 +87,10 @@ warpt 1
         ]
       ]
       dependencies [
-        x"efc70da6c8a2cd45e005ed1b83789e58b31ab84e7cee6d106dfebd5fe6a4762e"
+        x"cccfe5e7da442663c2722ff09af07dbafbdb4948afd203cf5b8fb887fc7aa523"
       ]
       document [
-        x"afc0ec86b84418f37604190141ea0d02a0df7fe311a1527ca2d36fe49351391d"
+        x"ad106cdbc981110b41557ebb5adcb37a0873c5e4a247fa76cecbf38f06119056"
       ]
       importedClaims []
       lifted []
@@ -286,11 +283,8 @@ warpt 1
   program {
     contracts {
       "Use.Sized" {
-        bounds {
-          Item "Hashable"
-        }
         types [
-          "Item"
+          "Item: Hashable"
         ]
       }
     }
@@ -301,13 +295,10 @@ warpt 1
     procedures {
       "Use.first" {
         access "public"
-        bounds {
-          C "Lib.Container"
-        }
         parameters [
           {
             name "c"
-            type "some C"
+            type "some C: Lib.Container"
           }
         ]
         result {
@@ -323,13 +314,10 @@ warpt 1
       }
       "Use.plusOne" {
         access "public"
-        bounds {
-          C "Lib.Container"
-        }
         parameters [
           {
             name "c"
-            type "some C"
+            type "some C: Lib.Container"
           }
         ]
         result 1

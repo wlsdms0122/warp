@@ -25,13 +25,10 @@ warpt 1
       "App.Box<some U>" {
         procedures {
           describe {
-            bounds {
-              U "Hashable"
-            }
             parameters [
               {
                 name "of"
-                type "App.Box<some U>"
+                type "App.Box<some U: Hashable>"
               }
             ]
             result "box"
@@ -73,14 +70,11 @@ warpt 1
     }
     types {
       "App.Box" {
-        bounds {
-          T "Hashable"
-        }
         struct {
           item "some T"
         }
         typeParameters [
-          "T"
+          "T: Hashable"
         ]
       }
     }

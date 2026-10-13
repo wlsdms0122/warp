@@ -3,8 +3,8 @@ warpt 1
   expect {
     refuses "load"
   }
-  name "a-struct-bounding-a-name-it-does-not-list-refuses"
-  note "A struct's `bounds` hold the type parameters it lists. Bounding `U`, which `typeParameters` does not list, is refused at the load."
+  name "a-field-writing-a-bound-refuses"
+  note "A struct bounds its type parameters in `typeParameters`, each entry a name and what holds it, `T: Hashable`. A field writing `some T: Hashable` writes a bound where no name is introduced, and refuses at the load."
   program {
     imports []
     procedures {
@@ -16,11 +16,8 @@ warpt 1
     }
     types {
       "App.Box" {
-        bounds {
-          U "Hashable"
-        }
         struct {
-          item "some T"
+          item "some T: Hashable"
         }
         typeParameters [
           "T"

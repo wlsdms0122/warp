@@ -1,18 +1,15 @@
 warpt 1
 {
-  documents []
   expect {
     refuses "load"
   }
-  name "a-contract-bound-naming-a-type-it-does-not-ask-refuses"
-  note "A contract holds a type it asks to contracts. `Lib.Keyed` asks Item and bounds Key, which refuses at the load."
+  name "a-contract-listing-a-type-twice-refuses"
+  note "A contract lists each type it asks once, beside what holds it. Listing `Item` twice would be one name bounded two ways, and refuses at the load."
   program {
     contracts {
-      "Lib.Keyed" {
-        bounds {
-          Key "Hashable"
-        }
+      "App.Keyed" {
         types [
+          "Item: Hashable"
           "Item"
         ]
       }

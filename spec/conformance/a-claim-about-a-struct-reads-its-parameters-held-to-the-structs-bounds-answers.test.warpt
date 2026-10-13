@@ -53,18 +53,12 @@ warpt 1
     }
     types {
       "App.Cache" {
-        bounds {
-          K "Hashable"
-        }
         procedures {
           describe {
-            bounds {
-              K "Hashable"
-            }
             parameters [
               {
                 name "of"
-                type "App.Cache<some K, some V>"
+                type "App.Cache<some K: Hashable, some V>"
               }
             ]
             result "cache"
@@ -78,7 +72,7 @@ warpt 1
           table "Dictionary<some K, some V>"
         }
         typeParameters [
-          "K"
+          "K: Hashable"
           "V"
         ]
       }

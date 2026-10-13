@@ -23,14 +23,11 @@ warpt 1
     }
     types {
       "App.Cache" {
-        bounds {
-          K "Hashable"
-        }
         struct {
           table "Dictionary<some K, some V>"
         }
         typeParameters [
-          "K"
+          "K: Hashable"
           "V"
         ]
       }

@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-map-keyed-by-a-type-parameter-no-bound-holds-refuses"
-  note "A type parameter answers what its bounds name and nothing else, so a map keyed by one answers `Hashable` only where the signature writes `bounds: { K: Hashable }`. Without it the key answers nothing and the declaration refuses at the build."
+  note "A type parameter answers what its bounds name and nothing else, so a map keyed by one answers `Hashable` only where the signature writes `some K: Hashable`. Without it the key answers nothing and the declaration refuses at the build."
   program {
     imports []
     procedures {

@@ -24,13 +24,10 @@ warpt 1
       procedures {
         "Lib.firstOf" {
           access "public"
-          bounds {
-            C "Lib.Container"
-          }
           parameters [
             {
               name "c"
-              type "some C"
+              type "some C: Lib.Container"
             }
           ]
           result {
@@ -92,9 +89,6 @@ warpt 1
       ]
       types {
         "App.Wrapper" {
-          bounds {
-            B "Lib.Container"
-          }
           procedures {
             first {
               access "public"
@@ -119,13 +113,10 @@ warpt 1
                   }
                 }
               ]
-              bounds {
-                B "Lib.Container"
-              }
               parameters [
                 {
                   name "of"
-                  type "App.Wrapper<some B>"
+                  type "App.Wrapper<some B: Lib.Container>"
                 }
               ]
               result {
@@ -141,7 +132,7 @@ warpt 1
             base "some B"
           }
           typeParameters [
-            "B"
+            "B: Lib.Container"
           ]
           types {
             Item "some B.Item"

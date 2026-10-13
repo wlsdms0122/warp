@@ -10,7 +10,7 @@ What a declaration says about itself, and what saying it permits. Four things: t
 | `access` | `public`, `internal` or `private`: who may name the declaration, under *who may name a declaration* below. `internal` when absent | no |
 | `parameters` | list of parameters, in the order the declaration writes them, which is the order every call hands its arguments in | no |
 | `returns` | type. When absent, what a call answers is read off the body | no |
-| `bounds` | map: type parameter, or an associated type of one, `T.Item` → the names of contracts, one or several joined with `&`; one naming a parameter no slot mentions **refuses at the load**, under [types](type.md) | no |
+| `bounds` | map: an associated type of a type parameter, `T.Item` → the names of contracts, one or several joined with `&`. A type parameter is bounded beside the first `some T` the slots write, `some T: Standard.Comparable`, so a key naming one **refuses at the load**, and so does one standing on a parameter no slot mentions, under [types](type.md) | no |
 | `sameTypes` | map: an associated type of a type parameter, `T.Item` → the type it is, under *the associated types of a type parameter* in [types](type.md) | no |
 | `body` | statements | no |
 | `result` | expression. What the procedure answers | no |

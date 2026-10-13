@@ -4,14 +4,14 @@ warpt 1
     refuses "load"
   }
   name "a-bound-naming-a-parameter-no-slot-mentions-refuses"
-  note "`bounds` holds the type parameters the signature's slots mention. A name bounded there that no slot writes as `some T` is bound to nothing, and is refused where the document is read."
+  note "`bounds` holds the associated types of the type parameters the signature's slots mention. `T.Item` stands on `T`, which no slot writes as `some T`, so it is bound to nothing, and is refused where the document is read."
   program {
     imports []
     procedures {
       entry {
         access "public"
         bounds {
-          T "Standard.Comparable"
+          "T.Item" "Standard.Comparable"
         }
         parameters [
           {

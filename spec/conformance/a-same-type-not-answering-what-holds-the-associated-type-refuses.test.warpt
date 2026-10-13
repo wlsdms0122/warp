@@ -4,9 +4,6 @@ warpt 1
     {
       contracts {
         "Lib.Hashed" {
-          bounds {
-            Item "Hashable"
-          }
           procedures {
             first {
               parameters [
@@ -19,7 +16,7 @@ warpt 1
             }
           }
           types [
-            "Item"
+            "Item: Hashable"
           ]
         }
       }
@@ -51,13 +48,10 @@ warpt 1
     procedures {
       "Use.it" {
         access "public"
-        bounds {
-          C "Lib.Hashed"
-        }
         parameters [
           {
             name "c"
-            type "some C"
+            type "some C: Lib.Hashed"
           }
         ]
         result 1

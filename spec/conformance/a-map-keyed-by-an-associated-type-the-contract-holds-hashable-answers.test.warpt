@@ -4,9 +4,6 @@ warpt 1
     {
       contracts {
         "Lib.Keyed" {
-          bounds {
-            Item "Hashable"
-          }
           procedures {
             key {
               parameters [
@@ -19,7 +16,7 @@ warpt 1
             }
           }
           types [
-            "Item"
+            "Item: Hashable"
           ]
         }
       }
@@ -42,13 +39,10 @@ warpt 1
               }
             }
           ]
-          bounds {
-            C "Lib.Keyed"
-          }
           parameters [
             {
               name "c"
-              type "some C"
+              type "some C: Lib.Keyed"
             }
           ]
           result {

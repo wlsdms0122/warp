@@ -1,0 +1,45 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-same-type-writing-a-bound-refuses"
+  note "A same type says what an associated type is and introduces nothing, so a bound beside the `some U` it writes refuses at the load."
+  program {
+    contracts {
+      "App.Container" {
+        types [
+          "Item"
+        ]
+      }
+    }
+    imports []
+    procedures {
+      "App.f" {
+        parameters [
+          {
+            name "c"
+            type "some C: App.Container"
+          }
+          {
+            name "u"
+            type "some U"
+          }
+        ]
+        result 1
+        returns "Int"
+        sameTypes {
+          "C.Item" "some U: Hashable"
+        }
+      }
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
