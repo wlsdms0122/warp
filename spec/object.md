@@ -17,7 +17,7 @@ An object is one map. It carries **exactly** these keys, and a key none of them 
 | `contracts` | name → (procedure name → `[ signature, constness, isolation, failing ]`, the two marks as a row writes them and *failing* as `[1, names]`) | by name, then by name |
 | `claims` | *head* → the contracts it says the values the head takes answer, at least one | by head; the contracts ascending |
 | `members` | *head* → the members it gives the type under the head, at least one, each the name of a row under the type's name and its own | by head; the members ascending |
-| `leaned` | the readings its bodies lean on: (*lowered type*, contract, *place*), what a value handed where the contract is asked reads as, unresolved | below |
+| `importedClaims` | the claims its document imports, each `[type, contract]`, the pair the claim is about | by type, then by contract |
 | `rows` | the declarations, each a *row* under its spelling | by name |
 | `lifted` | the closures its bodies lifted, each a *row* with no spelling | as the numbering counts them |
 | `answers` | name → *lowered type*: what the build read off a body whose declaration wrote no `returns` | by name |
@@ -32,7 +32,7 @@ An object is one map. It carries **exactly** these keys, and a key none of them 
 
 **The rows.** A declaration's row stands under its spelling in `rows`, in name order; the rows its bodies lifted stand in `lifted`, without a spelling, in the order the numbering counts them. A body numbers its calls and its types from the document itself, under [procedures](procedure.md): the spellings it sends first, in name order, then its own declarations in name order, then the closures its declarations wrote, in the order the numbering lists the declarations and, within one, the order the body wrote them. Where a row lands in a link is the link's answer, so nothing here says it, and one object answers every entry asked of it.
 
-**`numbering`** writes what a reading uses and cannot work out: the spellings sent, in name order; then `(declaration, count)` for each declaration that wrote a closure, counts above zero. A *declaration* is `[0, name]` for a procedure and `[1, name]` for a constant or a variable, since a procedure and a constant may be spelled alike; the procedures stand first, then the constants and variables, each in name order, none twice. **`typeNumbering`** writes the declared types the lowered bodies, the `answers` and the readings under `leaned` stand on, ascending by name, none twice: each of them numbers its types in that order. A start in `variables` is a value, which carries a struct's name as its spelling and numbers no type. A contract a bound names is written by its name and numbered nowhere. What a number stands for is arithmetic over these lists and the declared spellings, so the numbers themselves are not written.
+**`numbering`** writes what a reading uses and cannot work out: the spellings sent, in name order; then `(declaration, count)` for each declaration that wrote a closure, counts above zero. A *declaration* is `[0, name]` for a procedure and `[1, name]` for a constant or a variable, since a procedure and a constant may be spelled alike; the procedures stand first, then the constants and variables, each in name order, none twice. **`typeNumbering`** writes the declared types the lowered bodies and the `answers` stand on, ascending by name, none twice: each of them numbers its types in that order. A start in `variables` is a value, which carries a struct's name as its spelling and numbers no type. A contract a bound names is written by its name and numbered nowhere. What a number stands for is arithmetic over these lists and the declared spellings, so the numbers themselves are not written.
 
 ## How a part is laid out
 
@@ -72,30 +72,11 @@ A *type* is `[tag, …]`:
 
 A *head* is what a document gives a type under, under [types](type.md): a name where it is bare, and otherwise `[name, arguments, bounds]`, the types it applies the named type to, a list of *type*, at least one, and name → the contracts bounding the type parameter of that name, ascending, at least one, for each one it bounds. A list a head keys stands in the order of the heads' spellings, as names, none twice.
 
-**`leaned`** stands in the key order of what each reading and its contract are written as, `[reading, contract]`, under [the value model](value.md), none twice. A reading is in the document's own type numbers, as a body's types are.
-
 A *segment* is `[0, name, optional]`, `[1, value, optional]` for a *value* written between the brackets, or `[2, path, optional]` for one read from a path.
 
 A *procedure type* is `[parameters, returns, failing]`: a list of *type*, in position order, a *type* or nothing, and a *failing*. A *signature* is `[parameters, returns, bounds]`: a list of *parameter*, in the declaration's order; a *type* or nothing; and name → the contracts bounding the type parameter of that name, ascending, at least one, for each type parameter the signature bounds. A *parameter* is `[name, type, description]`: the name, then each a list of none or one: a *type*, none where the parameter takes anything, so `Any` is never written there; a string.
 
 *Constness* is `0` unstated or `1` const. *Isolation* is `0` unstated or `1` isolated. *Failing* is `[0]` unstated or `[1, names]`, the names ascending. A contract's procedure says which failures it may raise, so its *failing* is `[1, names]` alone.
-
-### Places
-
-A *place* is where in a document something was written: `[document, steps]`, the document's identity or nothing, and a list of *step*:
-
-| tag | step | fields |
-|---|---|---|
-| 0 | a key the document writes | string, as typed |
-| 1 | a part of the program | *part* |
-| 2 | the construct a statement writes | *construct* |
-| 3 | a position in an array | position |
-| 4 | a statement | its name or nothing, its position |
-| 5 | a landmark in a program nobody wrote down | string |
-
-A *part* is `[tag]`: 0 `procedures`, 1 `constants`, 2 `variables`, 3 `types`, 4 `contracts`, 5 `satisfies`, 6 `imports`, 7 `parameters`, 8 `returns`, 9 `body`, 10 `result`, 11 a cast's subject, carrying `true` for `as?` or `false` for `as`, 12 `callee`, 13 `arguments`, 14 `closure`, 15 a condition, carrying `[0]` for a conditional's or `[1]` for a loop's, 16 `then`, 17 `otherwise`, 18 `rescue`, 19 a struct's fields, 20 `bounds`, 21 a map literal's entries, 22 a struct's `typeParameters`, 23 `extensions`.
-
-A *construct* is `[tag]`: 0 literal, 1 reference, 2 array, 3 struct, 4 closure, 5 cast, 6 block, 7 conditional, 8 loop, 9 attempt, 10 call, 11 leave, carrying its *reach*: `0` the procedure, `1` the construct, `2` the round, 12 map.
 
 ### Rows
 
@@ -163,7 +144,7 @@ A *value* is `[tag, …]`: 0 null; 1 bool; 2 int; 3 double; 4 string; 5 bytes, e
 
 A document is told from another by the **digest of its canonical binary writing**, SHA-256 of the bytes the binary writer produces, and by nothing it says about itself. It is derived and never declared. An object does write one down, under `document`, so a reading is handed the identity the object was kept under.
 
-What an object leaned on is written under `dependencies` by what the host keyed each object under. The language derives nothing there: what tells one compile of a document from another is the host's cache, and the host hands the same key back when it reads the object. An object leaning on one the host worked no key out for is not written.
+What an object was compiled against is written under `dependencies` by what the host keyed each object under. The language derives nothing there: what tells one compile of a document from another is the host's cache, and the host hands the same key back when it reads the object. An object standing on one the host worked no key out for is not written.
 
 ## What a reading refuses
 
@@ -217,7 +198,7 @@ warpt 1
   contracts []
   dependencies [ x"…" ]
   document [ x"…" ]
-  leaned []
+  importedClaims []
   lifted []
   members []
   numbering [ [ "Standard.Collection.appending" ] [] ]
@@ -256,8 +237,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-counting-no-closures-for-a-declaration-refuses`
 - `an-object-giving-a-type-a-member-no-row-stands-under-refuses`
 - `an-object-giving-a-type-no-member-refuses`
-- `an-object-leaning-on-one-object-twice-refuses`
-- `an-object-leaning-on-what-is-not-laid-refuses`
 - `an-object-links-and-runs`
 - `an-object-listing-a-type-parameter-twice-refuses`
 - `an-object-listing-no-type-parameters-for-a-struct-refuses`
@@ -268,6 +247,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-of-a-struct-taking-a-type-parameter-links-and-runs`
 - `an-object-runs-with-what-the-entry-is-given`
 - `an-object-standing-against-another-document-refuses`
+- `an-object-standing-on-one-object-twice-refuses`
+- `an-object-standing-on-what-is-not-laid-refuses`
 - `an-object-whose-body-stands-past-its-frame-refuses`
 - `an-object-whose-call-stands-more-arguments-than-its-callee-takes-refuses`
 - `an-object-whose-call-through-a-contract-stands-more-arguments-than-its-rows-take-refuses`
@@ -278,6 +259,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-whose-dependencies-stand-out-of-name-order-refuses`
 - `an-object-whose-entry-is-not-public-refuses`
 - `an-object-whose-frame-names-fewer-slots-than-it-holds-refuses`
+- `an-object-whose-imported-claims-stand-out-of-name-order-refuses`
 - `an-object-whose-layout-names-stand-out-of-order-refuses`
 - `an-object-whose-loop-keeps-a-run-past-its-frame-refuses`
 - `an-object-whose-map-keys-stand-out-of-the-key-order-refuses`
@@ -325,4 +307,5 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `the-object-of-a-write-at-a-constant-key`
 - `the-object-of-an-array-built-from-parts`
 - `the-object-of-an-attempt`
+- `the-object-of-an-imported-claim`
 - `the-object-of-every-type-spelling`
