@@ -1,0 +1,39 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-struct-bounded-by-a-type-the-language-names-refuses"
+  note "A struct's bound naming `Int` refuses at the load, as a signature's does: the load knows the language's names."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    types {
+      "App.Box" {
+        bounds {
+          T "Int"
+        }
+        struct {
+          item "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+      "App.P" {
+        struct {
+          x "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

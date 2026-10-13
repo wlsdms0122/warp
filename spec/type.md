@@ -96,7 +96,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-bound-may-name-several-and-holds-to-every-one`
 - `a-bound-names-a-contract-another-document-declares`
 - `a-bound-naming-a-parameter-no-slot-mentions-refuses`
+- `a-bound-naming-a-struct-a-document-declares-refuses`
 - `a-bound-naming-a-struct-the-language-declares-refuses`
+- `a-bound-naming-a-type-the-language-names-refuses`
 - `a-bounded-parameter-read-as-text-and-as-any-refuses`
 - `a-call-filling-a-parameter-from-a-variable-held-in-place-takes-a-value-of-that-parameter`
 - `a-call-filling-a-parameter-from-a-variable-held-in-place-takes-no-other-value-refuses`
@@ -329,6 +331,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-struct-applied-to-itself-reads-the-inner-field-answers`
 - `a-struct-applied-to-one-type-is-not-the-struct-applied-to-another-whatever-its-fields-refuses`
 - `a-struct-arrives-as-an-argument`
+- `a-struct-bounded-by-a-struct-a-document-declares-refuses`
+- `a-struct-bounded-by-a-type-the-language-names-refuses`
 - `a-struct-bounding-a-name-it-does-not-list-refuses`
 - `a-struct-bounding-its-key-parameter-holds-a-map-answers`
 - `a-struct-built-where-a-declared-struct-is-read-keeps-its-closure`
