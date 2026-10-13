@@ -51,7 +51,16 @@ warpt 1
   ]
   expect {
     builds {
-      answers []
+      answers [
+        [
+          "Use.first"
+          [
+            15
+            "C.Item"
+            []
+          ]
+        ]
+      ]
       claims [
         [
           "Use.Thing"
@@ -84,17 +93,87 @@ warpt 1
         x"efc70da6c8a2cd45e005ed1b83789e58b31ab84e7cee6d106dfebd5fe6a4762e"
       ]
       document [
-        x"0b1dffcf1202590ccef9c4bc6e78d0be8e0b3f24da76aedc0e9829a3180b9b21"
+        x"afc0ec86b84418f37604190141ea0d02a0df7fe311a1527ca2d36fe49351391d"
       ]
       importedClaims []
       lifted []
       members []
       numbering [
-        []
+        [
+          "Lib.Container.first"
+        ]
         []
       ]
       object 1
       rows [
+        [
+          "Use.first"
+          [
+            [
+              [
+                "c"
+                [
+                  [
+                    15
+                    "C"
+                  ]
+                ]
+                []
+              ]
+            ]
+            []
+            [
+              [
+                "C"
+                [
+                  "Lib.Container"
+                ]
+              ]
+            ]
+            []
+          ]
+          2
+          0
+          0
+          [
+            1
+            []
+          ]
+          [
+            0
+            [
+              []
+              [
+                [
+                  12
+                  [
+                    "Lib.Container"
+                    "first"
+                    [
+                      1
+                      [
+                        0
+                        []
+                      ]
+                    ]
+                    []
+                  ]
+                ]
+              ]
+            ]
+            [
+              1
+              [
+                0
+              ]
+              []
+              []
+              [
+                "c"
+              ]
+            ]
+          ]
+        ]
         [
           "Use.plusOne"
           [
@@ -203,7 +282,7 @@ warpt 1
     }
   }
   name "the-object-of-associated-types"
-  note "An object writes the associated types a contract asks and their bounds, the type members a type is given, and the associated types a signature says are a type."
+  note "An object writes the associated types a contract asks and their bounds, the type members a type is given, the associated types a signature says are a type, and what a procedure writing no returns answers at an associated type: a type parameter labelled by it."
   program {
     contracts {
       "Use.Sized" {
@@ -217,8 +296,31 @@ warpt 1
     }
     imports [
       "Lib.Container"
+      "Lib.Container.first"
     ]
     procedures {
+      "Use.first" {
+        access "public"
+        bounds {
+          C "Lib.Container"
+        }
+        parameters [
+          {
+            name "c"
+            type "some C"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "c"
+              }
+            ]
+            procedure "Lib.Container.first"
+          }
+        }
+      }
       "Use.plusOne" {
         access "public"
         bounds {

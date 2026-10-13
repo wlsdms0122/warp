@@ -1,0 +1,32 @@
+warpt 1
+{
+  documents []
+  expect {
+    refuses "load"
+  }
+  name "a-contract-bound-naming-a-type-the-language-names-refuses"
+  note "A contract holds a type it asks to contracts, and Int is a type the language names, so `Lib.Holder` bounding Item by Int refuses at the load."
+  program {
+    contracts {
+      "Lib.Holder" {
+        bounds {
+          Item "Int"
+        }
+        types [
+          "Item"
+        ]
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

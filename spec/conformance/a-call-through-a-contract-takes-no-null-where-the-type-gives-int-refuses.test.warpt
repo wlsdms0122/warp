@@ -1,0 +1,149 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "Lib.Bag" {
+          procedures {
+            first {
+              parameters [
+                {
+                  name "of"
+                  type "Self"
+                }
+              ]
+              returns "Self.Item"
+            }
+            take {
+              parameters [
+                {
+                  name "of"
+                  type "Self"
+                }
+                {
+                  name "x"
+                  type "Self.Item"
+                }
+              ]
+              returns "Int"
+            }
+          }
+          types [
+            "Item"
+          ]
+        }
+      }
+      imports []
+      warp 1
+    }
+    {
+      imports [
+        "Int.plus"
+        "Lib.Bag"
+      ]
+      types {
+        "App.IntBag" {
+          procedures {
+            first {
+              access "public"
+              parameters [
+                {
+                  name "of"
+                  type "App.IntBag"
+                }
+              ]
+              result {
+                ref "of.n"
+              }
+              returns "Int"
+            }
+            take {
+              access "public"
+              parameters [
+                {
+                  name "of"
+                  type "App.IntBag"
+                }
+                {
+                  name "x"
+                  type "Int"
+                }
+              ]
+              result {
+                call {
+                  arguments [
+                    {
+                      ref "x"
+                    }
+                    1
+                  ]
+                  procedure "Int.plus"
+                }
+              }
+              returns "Int"
+            }
+          }
+          satisfies [
+            "Lib.Bag"
+          ]
+          struct {
+            n "Int"
+          }
+          types {
+            Item "Int"
+          }
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    refuses "build"
+  }
+  name "a-call-through-a-contract-takes-no-null-where-the-type-gives-int-refuses"
+  note "App.IntBag gives Item as Int, and a call of `Lib.Bag.take` handing a value of `Int?` at `Self.Item` refuses at the build. What a type gives is the associated type exactly, not joined with what the call hands."
+  program {
+    imports [
+      "App.IntBag"
+      "Lib.Bag.take"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            type "App.IntBag"
+            value {
+              struct {
+                n 1
+              }
+            }
+          }
+          {
+            let "v"
+            type "Int?"
+            value null
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "b"
+              }
+              {
+                ref "v"
+              }
+            ]
+            procedure "Lib.Bag.take"
+          }
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,32 @@
+warpt 1
+{
+  documents []
+  expect {
+    refuses "load"
+  }
+  name "a-type-member-named-with-a-dot-refuses"
+  note "`some T.Item` writes a type member after a dot, so a type member is named by one identifier, and App.Box giving `Item.Key` refuses at the load."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    types {
+      "App.Box" {
+        struct {
+          item "Int"
+        }
+        types {
+          "Item.Key" "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

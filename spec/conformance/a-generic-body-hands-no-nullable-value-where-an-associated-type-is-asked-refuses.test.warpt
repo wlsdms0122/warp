@@ -1,0 +1,97 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "Lib.Bag" {
+          procedures {
+            first {
+              parameters [
+                {
+                  name "of"
+                  type "Self"
+                }
+              ]
+              returns "Self.Item"
+            }
+            take {
+              parameters [
+                {
+                  name "of"
+                  type "Self"
+                }
+                {
+                  name "x"
+                  type "Self.Item"
+                }
+              ]
+              returns "Int"
+            }
+          }
+          types [
+            "Item"
+          ]
+        }
+      }
+      imports []
+      warp 1
+    }
+    {
+      imports [
+        "Lib.Bag"
+        "Lib.Bag.take"
+      ]
+      procedures {
+        "Use.putOr" {
+          access "public"
+          bounds {
+            C "Lib.Bag"
+          }
+          parameters [
+            {
+              name "c"
+              type "some C"
+            }
+            {
+              name "d"
+              type "some C.Item?"
+            }
+          ]
+          result {
+            call {
+              arguments [
+                {
+                  ref "c"
+                }
+                {
+                  ref "d"
+                }
+              ]
+              procedure "Lib.Bag.take"
+            }
+          }
+          returns "Int"
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    refuses "build"
+  }
+  name "a-generic-body-hands-no-nullable-value-where-an-associated-type-is-asked-refuses"
+  note "Inside `Use.putOr`, `C.Item` is one type the body does not know, so handing a value of `C.Item?` where `Lib.Bag.take` asks `Self.Item` refuses at the build."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

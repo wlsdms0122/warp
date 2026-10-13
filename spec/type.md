@@ -112,9 +112,11 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-call-filling-a-parameter-from-a-variable-held-in-place-takes-no-other-value-refuses`
 - `a-call-filling-a-parameter-from-the-bodys-own-and-a-reading-of-any-refuses`
 - `a-call-fills-a-type-parameter-through-a-struct-applied-to-it-answers`
+- `a-call-holds-a-list-at-a-list-of-an-associated-type-to-what-the-type-gives-refuses`
 - `a-call-of-a-value-read-as-any-refuses`
 - `a-call-through-a-contract-of-a-value-of-it-reading-an-associated-type-refuses`
 - `a-call-through-a-contract-reads-the-associated-type-of-the-value-it-hands-answers`
+- `a-call-through-a-contract-takes-no-null-where-the-type-gives-int-refuses`
 - `a-call-through-a-contract-with-nothing-first-refuses`
 - `a-caller-not-bounding-an-associated-type-refuses`
 - `a-callers-bound-on-an-associated-type-carries-into-a-call-answers`
@@ -180,6 +182,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-closure-a-generic-body-wrote-read-past-its-bounds-is-not-that-type`
 - `a-closure-a-generic-body-wrote-taking-a-list-in-place-is-read-as-the-type-it-is-judged-against`
 - `a-closure-alone-fills-a-parameter-with-what-it-takes`
+- `a-closure-answering-an-associated-type-two-steps-from-its-parameter-answers`
 - `a-closure-handed-in-place-fails-with-exactly-what-the-slot-names`
 - `a-closure-inside-a-closure-reads-the-bounds-of-the-procedure-around-them`
 - `a-closure-naming-a-type-parameter-its-procedure-does-not-declare-refuses`
@@ -199,9 +202,12 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-constant-of-keys-of-two-types-settled-from-an-answer-of-any-reads-any-refuses`
 - `a-constant-settled-through-a-claim-under-a-head-holds-the-value-to-the-head`
 - `a-constant-settles-through-an-associated-type-answers`
+- `a-contract-asking-a-type-named-with-a-dot-refuses`
 - `a-contract-asking-no-procedures-is-answered-by-what-claims-it`
 - `a-contract-asking-no-procedures-refuses-what-no-claim-names`
 - `a-contract-bound-naming-a-type-it-does-not-ask-refuses`
+- `a-contract-bound-naming-a-type-the-language-names-refuses`
+- `a-contract-bound-naming-no-contract-refuses`
 - `a-contract-carries-a-procedure-into-a-generic-body`
 - `a-contract-declared-twice-refuses`
 - `a-contract-declared-under-a-spelling-that-is-no-name-refuses`
@@ -218,6 +224,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-contract-procedure-takes-self-first`
 - `a-contract-procedure-taking-self-in-place-first-refuses`
 - `a-contract-procedure-taking-the-contract-first-refuses`
+- `a-contract-procedure-writing-same-types-refuses`
 - `a-contract-slot-refuses-a-name-for-what-may-be-null-where-null-does-not-answer`
 - `a-contract-slot-refuses-a-parameter-or-null-where-null-does-not-answer`
 - `a-contract-slot-refuses-what-may-be-null-where-null-does-not-answer`
@@ -265,6 +272,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-declared-type-names-itself-in-its-fields`
 - `a-dictionary-of-an-alias-of-any-at-a-dictionary-of-a-contract-refuses`
 - `a-document-claiming-one-contract-for-a-type-under-two-heads-refuses`
+- `a-door-holds-a-derived-associated-type-to-hashable-refuses`
+- `a-door-holds-a-derived-associated-type-to-its-bound-refuses`
+- `a-door-holds-a-list-at-a-list-of-an-associated-type-to-what-the-type-gives-refuses`
 - `a-door-holds-a-value-at-an-associated-type-to-what-its-parameter-gives-answers`
 - `a-door-takes-no-value-at-an-associated-type-of-another-type-refuses`
 - `a-field-of-a-struct-applied-to-int-read-as-text-refuses`
@@ -274,6 +284,10 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-generic-body-appends-its-parameter-to-a-list-of-it-or-null`
 - `a-generic-body-handing-a-value-its-bounds-do-not-put-under-a-head-refuses`
 - `a-generic-body-handing-a-value-its-bounds-put-under-a-head-answers`
+- `a-generic-body-hands-no-nullable-value-where-an-associated-type-is-asked-refuses`
+- `a-generic-call-takes-no-fraction-where-the-type-gives-int-refuses`
+- `a-generic-call-takes-no-null-where-the-type-gives-int-refuses`
+- `a-generic-call-takes-no-nullable-variable-in-place-of-int-refuses`
 - `a-generic-procedure-answers-a-struct-applied-to-its-bounded-key-answers`
 - `a-head-applying-a-struct-to-a-parameter-its-bounds-do-not-hold-refuses`
 - `a-head-bounding-a-type-parameter-where-it-is-named-again-refuses`
@@ -370,8 +384,11 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-row-of-readings-of-any-appended-to-a-table-of-text-refuses`
 - `a-same-type-holds-an-associated-type-to-a-type-answers`
 - `a-same-type-naming-an-associated-type-it-says-is-a-type-refuses`
+- `a-same-type-not-answering-what-holds-the-associated-type-refuses`
 - `a-same-type-of-a-type-parameter-refuses`
+- `a-same-type-of-an-associated-type-standing-on-another-answers`
 - `a-same-type-takes-no-type-giving-another-refuses`
+- `a-same-type-writing-a-type-parameter-no-slot-writes-refuses`
 - `a-signature-applying-a-struct-to-a-parameter-bounded-as-the-struct-asks-answers`
 - `a-signature-applying-a-struct-to-a-parameter-its-bounds-do-not-hold-refuses`
 - `a-slot-of-a-type-takes-no-value-read-as-a-contract-refuses`
@@ -439,9 +456,12 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-type-declared-under-a-word-a-type-spelling-writes-refuses`
 - `a-type-form-array-of-an-element-with-a-spelling-refuses`
 - `a-type-form-beside-other-keys-refuses`
+- `a-type-member-given-outside-the-claims-reach-refuses`
+- `a-type-member-given-twice-in-one-document-refuses`
 - `a-type-member-given-twice-refuses`
 - `a-type-member-is-read-through-an-imported-claim-answers`
 - `a-type-member-may-be-an-associated-type-of-its-heads-parameter-answers`
+- `a-type-member-named-with-a-dot-refuses`
 - `a-type-member-outside-what-the-contract-holds-it-to-refuses`
 - `a-type-member-under-a-bare-head-writing-a-parameter-refuses`
 - `a-type-member-under-a-head-taking-fewer-values-than-the-claim-refuses`
@@ -480,6 +500,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-value-read-as-a-contract-where-another-is-asked-refuses`
 - `a-value-read-as-any-sent-to-a-closure-held-at-a-procedure-type-refuses`
 - `a-value-taking-a-parameter-in-place-does-not-fit-a-slot-handing-a-value`
+- `a-value-that-may-be-null-fills-no-associated-type-refuses`
 - `a-var-field-of-a-struct-taking-a-type-parameter-is-written-through-answers`
 - `a-variable-a-closure-took-written-from-any-refuses`
 - `a-variable-a-closure-writes-from-any-refuses`
@@ -510,10 +531,14 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-array-of-bytes-and-a-list-of-numbers-joins-to-a-list-of-lists`
 - `an-associated-type-a-call-fills-from-the-callers-parameter-is-the-callers-answers`
 - `an-associated-type-is-one-type-the-body-does-not-know-refuses`
+- `an-associated-type-may-stand-on-another-answers`
 - `an-associated-type-no-contract-bounding-its-parameter-asks-refuses`
 - `an-associated-type-of-a-type-parameter-is-what-the-type-filling-it-gives-answers`
 - `an-associated-type-read-at-a-type-is-that-type-refuses`
+- `an-associated-type-standing-on-one-no-contract-asks-it-of-refuses`
+- `an-associated-type-two-steps-from-its-parameter-is-read-out-of-a-generic-body-answers`
 - `an-associated-type-whose-parameter-no-parameter-writes-refuses`
+- `an-empty-list-fills-the-base-with-never-and-the-associated-type-takes-nothing-refuses`
 - `an-empty-list-handed-to-a-generic-answers-a-list-of-any-type`
 - `an-entry-answers-a-struct-applied-to-int`
 - `an-extension-giving-a-contract-members-refuses`
@@ -538,6 +563,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `self-stands-for-the-type-answering-a-contract`
 - `two-associated-types-said-one-type-answer`
 - `two-associated-types-said-one-type-take-no-two-types-refuses`
+- `two-associated-types-said-the-same-are-compared-as-each-type-gives-refuses`
 - `two-contracts-asking-one-name-are-answered-by-one-type-member-answers`
 - `two-documents-claiming-one-contract-for-a-type-under-two-heads-refuse`
 - `two-documents-claiming-one-contract-under-heads-taking-the-same-values-are-one-claim`

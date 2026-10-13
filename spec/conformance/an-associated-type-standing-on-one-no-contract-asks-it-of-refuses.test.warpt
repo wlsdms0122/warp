@@ -1,0 +1,90 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "Lib.Container" {
+          procedures {
+            first {
+              parameters [
+                {
+                  name "of"
+                  type "Self"
+                }
+              ]
+              returns "Self.Item"
+            }
+          }
+          types [
+            "Item"
+          ]
+        }
+      }
+      imports []
+      procedures {
+        "Lib.firstOf" {
+          access "public"
+          bounds {
+            C "Lib.Container"
+          }
+          parameters [
+            {
+              name "c"
+              type "some C"
+            }
+          ]
+          result {
+            call {
+              arguments [
+                {
+                  ref "c"
+                }
+              ]
+              procedure "Lib.Container.first"
+            }
+          }
+          returns "some C.Item"
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    refuses "build"
+  }
+  name "an-associated-type-standing-on-one-no-contract-asks-it-of-refuses"
+  note "`Lib.Container` asks Item and holds it to nothing, so no contract asks a Key of `C.Item`, and `some C.Item.Key` refuses at the build."
+  program {
+    imports [
+      "Lib.Container"
+    ]
+    procedures {
+      "Use.keyOf" {
+        access "public"
+        bounds {
+          C "Lib.Container"
+        }
+        parameters [
+          {
+            name "c"
+            type "some C"
+          }
+          {
+            name "k"
+            type "some C.Item.Key"
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

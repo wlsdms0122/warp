@@ -1,0 +1,262 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "Lib.Bag" {
+          procedures {
+            first {
+              parameters [
+                {
+                  name "of"
+                  type "Self"
+                }
+              ]
+              returns "Self.Item"
+            }
+            take {
+              parameters [
+                {
+                  name "of"
+                  type "Self"
+                }
+                {
+                  name "x"
+                  type "Self.Item"
+                }
+              ]
+              returns "Int"
+            }
+          }
+          types [
+            "Item"
+          ]
+        }
+      }
+      imports []
+      warp 1
+    }
+    {
+      imports [
+        "Int.plus"
+        "Lib.Bag"
+      ]
+      types {
+        "App.IntBag" {
+          procedures {
+            first {
+              access "public"
+              parameters [
+                {
+                  name "of"
+                  type "App.IntBag"
+                }
+              ]
+              result {
+                ref "of.n"
+              }
+              returns "Int"
+            }
+            take {
+              access "public"
+              parameters [
+                {
+                  name "of"
+                  type "App.IntBag"
+                }
+                {
+                  name "x"
+                  type "Int"
+                }
+              ]
+              result {
+                call {
+                  arguments [
+                    {
+                      ref "x"
+                    }
+                    1
+                  ]
+                  procedure "Int.plus"
+                }
+              }
+              returns "Int"
+            }
+          }
+          satisfies [
+            "Lib.Bag"
+          ]
+          struct {
+            n "Int"
+          }
+          types {
+            Item "Int"
+          }
+        }
+      }
+      warp 1
+    }
+    {
+      imports [
+        "Lib.Bag"
+      ]
+      types {
+        "App.MaybeBag" {
+          procedures {
+            first {
+              access "public"
+              parameters [
+                {
+                  name "of"
+                  type "App.MaybeBag"
+                }
+              ]
+              result {
+                ref "of.n"
+              }
+              returns "Int?"
+            }
+            take {
+              access "public"
+              parameters [
+                {
+                  name "of"
+                  type "App.MaybeBag"
+                }
+                {
+                  name "x"
+                  type "Int?"
+                }
+              ]
+              result 0
+              returns "Int"
+            }
+          }
+          satisfies [
+            "Lib.Bag"
+          ]
+          struct {
+            n "Int?"
+          }
+          types {
+            Item "Int?"
+          }
+        }
+      }
+      warp 1
+    }
+    {
+      imports [
+        "Lib.Bag"
+        "Lib.Bag.first"
+        "Lib.Bag.take"
+      ]
+      procedures {
+        "Use.pick" {
+          access "public"
+          body [
+            {
+              let "y"
+              value {
+                call {
+                  arguments [
+                    {
+                      ref "c"
+                    }
+                  ]
+                  procedure "Lib.Bag.first"
+                }
+              }
+            }
+          ]
+          bounds {
+            C "Lib.Bag"
+            D "Lib.Bag"
+          }
+          parameters [
+            {
+              name "c"
+              type "some C"
+            }
+            {
+              name "d"
+              type "some D"
+            }
+          ]
+          result {
+            call {
+              arguments [
+                {
+                  ref "d"
+                }
+                {
+                  ref "y"
+                }
+              ]
+              procedure "Lib.Bag.take"
+            }
+          }
+          returns "Int"
+          sameTypes {
+            "C.Item" "some D.Item"
+          }
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    refuses "build"
+  }
+  name "two-associated-types-said-the-same-are-compared-as-each-type-gives-refuses"
+  note "`Use.pick` says `C.Item` is `D.Item`. App.MaybeBag gives `Int?` and App.IntBag gives Int, and each associated type is what its type gives, so the call refuses at the build."
+  program {
+    imports [
+      "App.IntBag"
+      "App.MaybeBag"
+      "Use.pick"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            type "App.IntBag"
+            value {
+              struct {
+                n 1
+              }
+            }
+          }
+          {
+            let "m"
+            type "App.MaybeBag"
+            value {
+              struct {
+                n null
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "m"
+              }
+              {
+                ref "b"
+              }
+            ]
+            procedure "Use.pick"
+          }
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,215 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "Lib.Container" {
+          procedures {
+            first {
+              parameters [
+                {
+                  name "of"
+                  type "Self"
+                }
+              ]
+              returns "Self.Item"
+            }
+          }
+          types [
+            "Item"
+          ]
+        }
+      }
+      imports []
+      procedures {
+        "Lib.firstOf" {
+          access "public"
+          bounds {
+            C "Lib.Container"
+          }
+          parameters [
+            {
+              name "c"
+              type "some C"
+            }
+          ]
+          result {
+            call {
+              arguments [
+                {
+                  ref "c"
+                }
+              ]
+              procedure "Lib.Container.first"
+            }
+          }
+          returns "some C.Item"
+        }
+      }
+      warp 1
+    }
+    {
+      imports [
+        "Lib.Container"
+      ]
+      types {
+        "App.Box" {
+          procedures {
+            first {
+              access "public"
+              parameters [
+                {
+                  name "of"
+                  type "App.Box<some T>"
+                }
+              ]
+              result {
+                ref "of.item"
+              }
+              returns "some T"
+            }
+          }
+          satisfies [
+            "Lib.Container"
+          ]
+          struct {
+            item "some T"
+          }
+          typeParameters [
+            "T"
+          ]
+          types {
+            Item "some T"
+          }
+        }
+      }
+      warp 1
+    }
+    {
+      imports [
+        "Lib.Container"
+        "Lib.Container.first"
+        "Lib.firstOf"
+      ]
+      procedures {
+        "Use.deep" {
+          access "public"
+          body [
+            {
+              let "f"
+              value {
+                closure {
+                  body [
+                    {
+                      let "y"
+                      value {
+                        call {
+                          arguments [
+                            {
+                              ref "c"
+                            }
+                          ]
+                          procedure "Lib.Container.first"
+                        }
+                      }
+                    }
+                  ]
+                  result {
+                    call {
+                      arguments [
+                        {
+                          ref "y"
+                        }
+                      ]
+                      procedure "Lib.firstOf"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+          bounds {
+            C "Lib.Container"
+            "C.Item" "Lib.Container"
+          }
+          parameters [
+            {
+              name "c"
+              type "some C"
+            }
+          ]
+          result 1
+          returns "Int"
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    answers 2
+  }
+  name "a-closure-answering-an-associated-type-two-steps-from-its-parameter-answers"
+  note "`Use.deep` bounds `C.Item` by `Lib.Container`, and a closure in its body answers the first of the first of c, whose type stands two steps from C."
+  program {
+    imports [
+      "App.Box"
+      "Int.plus"
+      "Use.deep"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            type "App.Box<Int>"
+            value {
+              struct {
+                item 1
+              }
+            }
+          }
+          {
+            let "bb"
+            type "App.Box<App.Box<Int>>"
+            value {
+              struct {
+                item {
+                  ref "b"
+                }
+              }
+            }
+          }
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "bb"
+                  }
+                ]
+                procedure "Use.deep"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "r"
+              }
+              1
+            ]
+            procedure "Int.plus"
+          }
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

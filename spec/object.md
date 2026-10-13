@@ -235,11 +235,14 @@ What `conformance/` asks about this page, by the name each case's file carries.
 
 - `a-document-is-not-an-object`
 - `an-object-applying-a-struct-to-no-types-refuses`
+- `an-object-bounding-a-type-a-contract-asks-by-nothing-refuses`
+- `an-object-bounding-a-type-its-contract-does-not-ask-refuses`
 - `an-object-bounding-a-type-parameter-by-nothing-refuses`
 - `an-object-claiming-no-contract-for-a-type-refuses`
 - `an-object-counting-no-closures-for-a-declaration-refuses`
 - `an-object-giving-a-type-a-member-no-row-stands-under-refuses`
 - `an-object-giving-a-type-no-member-refuses`
+- `an-object-giving-a-type-no-type-member-refuses`
 - `an-object-links-and-runs`
 - `an-object-listing-a-type-parameter-twice-refuses`
 - `an-object-listing-no-type-parameters-for-a-struct-refuses`
