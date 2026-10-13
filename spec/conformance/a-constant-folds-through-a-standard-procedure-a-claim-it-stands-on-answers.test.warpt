@@ -1,0 +1,102 @@
+warpt 1
+{
+  documents [
+    {
+      imports [
+        "Standard.Comparable"
+        "Standard.Comparable.lessThan"
+      ]
+      types {
+        "App.Score" {
+          procedures {
+            lessThan {
+              parameters [
+                {
+                  name "lhs"
+                  type "App.Score"
+                }
+                {
+                  name "rhs"
+                  type "App.Score"
+                }
+              ]
+              result {
+                call {
+                  arguments [
+                    {
+                      ref "lhs.n"
+                    }
+                    {
+                      ref "rhs.n"
+                    }
+                  ]
+                  procedure "Standard.Comparable.lessThan"
+                }
+              }
+              returns "Bool"
+            }
+          }
+          satisfies [
+            "Standard.Comparable"
+          ]
+          struct {
+            n "Int"
+          }
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    answers 1
+  }
+  name "a-constant-folds-through-a-standard-procedure-a-claim-it-stands-on-answers"
+  note "A constant settles at the build, and what it runs is asked of the claims within its document's reach, whoever declared what it runs. `Standard.Math.min` is held to `Standard.Comparable`, which the document declaring App.Score claims for it, and the program names App.Score, so the constant settles to the smaller score."
+  program {
+    const {
+      smaller {
+        call {
+          arguments [
+            {
+              as {
+                of {
+                  struct {
+                    n 2
+                  }
+                }
+                type "App.Score"
+              }
+            }
+            {
+              as {
+                of {
+                  struct {
+                    n 1
+                  }
+                }
+                type "App.Score"
+              }
+            }
+          ]
+          procedure "Standard.Math.min"
+        }
+      }
+    }
+    imports [
+      "App.Score"
+      "Standard.Math.min"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          ref "smaller.n"
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

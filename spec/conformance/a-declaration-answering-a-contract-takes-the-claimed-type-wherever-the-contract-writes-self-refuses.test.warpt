@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-declaration-answering-a-contract-takes-the-claimed-type-wherever-the-contract-writes-self-refuses"
-  note "A claim reads `Self` as the type it is about at every position the contract writes it, not only the first. `Int.before` taking text second does not answer `before` for `Int`, and the call leaning on the claim is refused."
+  note "A claim reads `Self` as the type it is about at every position the contract writes it, not only the first. `Int.before` taking text second does not answer `before` for `Int`, and the claim refuses at the build, at the claim."
   program {
     contracts {
       "App.Ordered" {

@@ -1,0 +1,84 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "App.Describable" {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "Self"
+              }
+            ]
+            returns "String"
+          }
+        }
+      }
+      imports []
+      warp 1
+    }
+    {
+      imports []
+      types {
+        "T.Card" {
+          struct {
+            rank "Int"
+          }
+        }
+      }
+      warp 1
+    }
+    {
+      extensions {
+        "T.Card" {
+          satisfies [
+            "App.Describable"
+          ]
+        }
+      }
+      imports [
+        "App.Describable"
+        "T.Card"
+      ]
+      warp 1
+    }
+  ]
+  expect {
+    refuses "build"
+  }
+  name "a-claim-nobody-leans-on-that-does-not-hold-refuses"
+  note "A claim is held where it is written, to the members of its type within what its document stands on. T.Card gives itself no `describe`, so the claim that it answers App.Describable refuses at the build, though the program never asks the contract of the type."
+  program {
+    imports [
+      "T.Card"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "card"
+            value {
+              as {
+                of {
+                  struct {
+                    rank 3
+                  }
+                }
+                type "T.Card"
+              }
+            }
+          }
+        ]
+        result {
+          ref "card.rank"
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

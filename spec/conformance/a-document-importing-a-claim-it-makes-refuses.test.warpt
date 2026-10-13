@@ -1,0 +1,90 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "App.Describable" {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "Self"
+              }
+            ]
+            returns "String"
+          }
+        }
+      }
+      imports []
+      warp 1
+    }
+  ]
+  expect {
+    refuses "load"
+  }
+  name "a-document-importing-a-claim-it-makes-refuses"
+  note "A document stands on its own claims, so one writing a claim it makes among its imports refuses at the load."
+  program {
+    imports [
+      "App.Describable"
+      "App.Describable.describe"
+      "T.Card: App.Describable"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "card"
+            value {
+              as {
+                of {
+                  struct {
+                    rank 1
+                  }
+                }
+                type "T.Card"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "card"
+              }
+            ]
+            procedure "App.Describable.describe"
+          }
+        }
+        returns "String"
+      }
+    }
+    types {
+      "T.Card" {
+        procedures {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "T.Card"
+              }
+            ]
+            result "card"
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.Describable"
+        ]
+        struct {
+          rank "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

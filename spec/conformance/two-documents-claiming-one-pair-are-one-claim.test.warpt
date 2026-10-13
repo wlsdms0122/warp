@@ -76,11 +76,12 @@ warpt 1
     answers "card"
   }
   name "two-documents-claiming-one-pair-are-one-claim"
-  note "A claim holds nothing but the pair, so a second document claiming the same pair says what the first said, whatever else the two say, and the link holds one claim and not two declarations of one name."
+  note "A claim holds nothing but the pair, so a second document claiming the same pair says what the first said, whatever else the two say, and the link holds one claim and not two declarations of one name. The program imports the pair, which either document answers."
   program {
     imports [
       "App.Describable.describe"
       "T.Card"
+      "T.Card: App.Describable"
     ]
     procedures {
       entry {
