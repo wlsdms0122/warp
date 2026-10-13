@@ -15,9 +15,9 @@ An object is one map. It carries **exactly** these keys, and a key none of them 
 | `dependencies` | the objects behind every declaration this document named, each by what the host keyed it under | ascending by bytes, none twice |
 | `types` | name → *type*, as the document wrote them: a struct as tag 9, an alias as the type it stands for | by name |
 | `contracts` | name → (procedure name → `[ signature, constness, isolation, failing ]`, the two marks as a row writes them and *failing* as `[1, names]`) | by name, then by name |
-| `claims` | type name → the contracts it says it answers, at least one | by name; the contracts ascending |
-| `members` | type name → the members it gives the type, at least one, each the name of a row under the type's name and its own | by name; the members ascending |
-| `leaned` | the pairs its bodies lean on: (type, contract, *place*), unresolved | by type, then contract |
+| `claims` | *head* → the contracts it says the values the head takes answer, at least one | by head; the contracts ascending |
+| `members` | *head* → the members it gives the type under the head, at least one, each the name of a row under the type's name and its own | by head; the members ascending |
+| `leaned` | the readings its bodies lean on: (*lowered type*, contract, *place*), what a value handed where the contract is asked reads as, unresolved | below |
 | `rows` | the declarations, each a *row* under its spelling | by name |
 | `lifted` | the closures its bodies lifted, each a *row* with no spelling | as the numbering counts them |
 | `answers` | name → *lowered type*: what the build read off a body whose declaration wrote no `returns` | by name |
@@ -32,7 +32,7 @@ An object is one map. It carries **exactly** these keys, and a key none of them 
 
 **The rows.** A declaration's row stands under its spelling in `rows`, in name order; the rows its bodies lifted stand in `lifted`, without a spelling, in the order the numbering counts them. A body numbers its calls and its types from the document itself, under [procedures](procedure.md): the spellings it sends first, in name order, then its own declarations in name order, then the closures its declarations wrote, in the order the numbering lists the declarations and, within one, the order the body wrote them. Where a row lands in a link is the link's answer, so nothing here says it, and one object answers every entry asked of it.
 
-**`numbering`** writes what a reading uses and cannot work out: the spellings sent, in name order; then `(declaration, count)` for each declaration that wrote a closure, counts above zero. A *declaration* is `[0, name]` for a procedure and `[1, name]` for a constant or a variable, since a procedure and a constant may be spelled alike; the procedures stand first, then the constants and variables, each in name order, none twice. **`typeNumbering`** writes the declared types the lowered bodies and the `answers` stand on, ascending by name, none twice: each of them numbers its types in that order. A start in `variables` is a value, which carries a struct's name as its spelling and numbers no type. A contract a bound names is written by its name and numbered nowhere. What a number stands for is arithmetic over these lists and the declared spellings, so the numbers themselves are not written.
+**`numbering`** writes what a reading uses and cannot work out: the spellings sent, in name order; then `(declaration, count)` for each declaration that wrote a closure, counts above zero. A *declaration* is `[0, name]` for a procedure and `[1, name]` for a constant or a variable, since a procedure and a constant may be spelled alike; the procedures stand first, then the constants and variables, each in name order, none twice. **`typeNumbering`** writes the declared types the lowered bodies, the `answers` and the readings under `leaned` stand on, ascending by name, none twice: each of them numbers its types in that order. A start in `variables` is a value, which carries a struct's name as its spelling and numbers no type. A contract a bound names is written by its name and numbered nowhere. What a number stands for is arithmetic over these lists and the declared spellings, so the numbers themselves are not written.
 
 ## How a part is laid out
 
@@ -69,6 +69,10 @@ A *type* is `[tag, …]`:
 | 16 | a composition `A & B` | names ascending, two or more: one contract is written as its name, tag 14 |
 | 17 | a projection | the parameter projected, the path: *segment* list |
 | 18 | `Self` | |
+
+A *head* is what a document gives a type under, under [types](type.md): a name where it is bare, and otherwise `[name, arguments, bounds]`, the types it applies the named type to, a list of *type*, at least one, and name → the contracts bounding the type parameter of that name, ascending, at least one, for each one it bounds. A list a head keys stands in the order of the heads' spellings, as names, none twice.
+
+**`leaned`** stands in the order of what each reading and its contract are written as, none twice: kinds by tag, whole numbers by value, text by its scalars, and lists element by element, a shorter one first where it leads the other. A reading is in the document's own type numbers, as a body's types are.
 
 A *segment* is `[0, name, optional]`, `[1, value, optional]` for a *value* written between the brackets, or `[2, path, optional]` for one read from a path.
 
@@ -301,6 +305,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `the-object-of-a-block`
 - `the-object-of-a-call`
 - `the-object-of-a-cast`
+- `the-object-of-a-claim-under-a-head`
 - `the-object-of-a-closure`
 - `the-object-of-a-composition`
 - `the-object-of-a-conditional`
