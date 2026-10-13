@@ -1,0 +1,41 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-bound-naming-a-type-the-language-names-refuses"
+  note "`Int` is a type the language names, which the load knows is no contract, so the bound refuses there."
+  program {
+    imports []
+    procedures {
+      "App.f" {
+        bounds {
+          T "Int"
+        }
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    types {
+      "App.P" {
+        struct {
+          x "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,39 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-struct-bounded-by-a-struct-a-document-declares-refuses"
+  note "A struct bounds its type parameters the way a signature does: a bound naming a struct a document declares is no contract, and the build refuses it."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    types {
+      "App.Box" {
+        bounds {
+          T "App.P"
+        }
+        struct {
+          item "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+      "App.P" {
+        struct {
+          x "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

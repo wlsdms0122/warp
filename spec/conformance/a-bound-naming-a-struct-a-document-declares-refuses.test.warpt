@@ -1,0 +1,41 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-bound-naming-a-struct-a-document-declares-refuses"
+  note "A bound names a contract. `App.P` is a struct, and what a name declares is the link's to say, so the build refuses the bound."
+  program {
+    imports []
+    procedures {
+      "App.f" {
+        bounds {
+          T "App.P"
+        }
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    types {
+      "App.P" {
+        struct {
+          x "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
