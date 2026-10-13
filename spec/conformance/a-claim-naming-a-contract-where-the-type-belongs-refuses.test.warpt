@@ -19,6 +19,13 @@ warpt 1
         }
       }
     }
+    extensions {
+      "App.X" {
+        satisfies [
+          "Bank.A"
+        ]
+      }
+    }
     imports []
     procedures {
       "Bank.A.d" {
@@ -35,11 +42,6 @@ warpt 1
         access "public"
         result 1
       }
-    }
-    satisfies {
-      "App.X" [
-        "Bank.A"
-      ]
     }
     types {
       "Bank.A" {

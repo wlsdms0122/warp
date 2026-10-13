@@ -19,6 +19,13 @@ warpt 1
         }
       }
     }
+    extensions {
+      "App.Box<Int>" {
+        satisfies [
+          "App.Describable"
+        ]
+      }
+    }
     imports []
     procedures {
       "App.Box.describe" {
@@ -56,11 +63,6 @@ warpt 1
         }
         returns "String"
       }
-    }
-    satisfies {
-      "App.Box<Int>" [
-        "App.Describable"
-      ]
     }
     types {
       "App.Box" {

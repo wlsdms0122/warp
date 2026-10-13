@@ -19,6 +19,13 @@ warpt 1
         }
       }
     }
+    extensions {
+      "Array<Int>" {
+        satisfies [
+          "App.Described"
+        ]
+      }
+    }
     imports []
     procedures {
       entry {
@@ -33,11 +40,6 @@ warpt 1
         }
         returns "String"
       }
-    }
-    satisfies {
-      "Array<Int>" [
-        "App.Described"
-      ]
     }
     warp 1
   }

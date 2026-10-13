@@ -40,63 +40,54 @@ warpt 1
         }
       }
     }
-    imports []
-    procedures {
-      "App.Pair.describe" {
-        bounds {
-          T "App.Same"
-        }
-        parameters [
-          {
-            name "of"
-            type "App.Pair<some T>"
-          }
-        ]
-        result {
-          call {
-            arguments [
+    extensions {
+      Int {
+        procedures {
+          measure {
+            parameters [
               {
-                ref "of.a"
+                name "lhs"
+                type "Int"
               }
               {
-                ref "of.b"
+                name "rhs"
+                type "Int"
               }
             ]
-            procedure "App.Same.measure"
+            result {
+              ref "rhs"
+            }
+            returns "Int"
           }
         }
-        returns "Int"
-      }
-      "Int.measure" {
-        parameters [
-          {
-            name "lhs"
-            type "Int"
-          }
-          {
-            name "rhs"
-            type "Int"
-          }
+        satisfies [
+          "App.Same"
         ]
-        result {
-          ref "rhs"
+      }
+      String {
+        procedures {
+          measure {
+            parameters [
+              {
+                name "lhs"
+                type "String"
+              }
+              {
+                name "rhs"
+                type "String"
+              }
+            ]
+            result 7
+            returns "Int"
+          }
         }
-        returns "Int"
-      }
-      "String.measure" {
-        parameters [
-          {
-            name "lhs"
-            type "String"
-          }
-          {
-            name "rhs"
-            type "String"
-          }
+        satisfies [
+          "App.Same"
         ]
-        result 7
-        returns "Int"
       }
+    }
+    imports []
+    procedures {
       entry {
         access "public"
         parameters [
@@ -118,22 +109,41 @@ warpt 1
         returns "Int"
       }
     }
-    satisfies {
-      "App.Pair" [
-        "App.Described"
-      ]
-      Int [
-        "App.Same"
-      ]
-      String [
-        "App.Same"
-      ]
-    }
     types {
       "App.Pair" {
         bounds {
           T "App.Same"
         }
+        procedures {
+          describe {
+            bounds {
+              T "App.Same"
+            }
+            parameters [
+              {
+                name "of"
+                type "App.Pair<some T>"
+              }
+            ]
+            result {
+              call {
+                arguments [
+                  {
+                    ref "of.a"
+                  }
+                  {
+                    ref "of.b"
+                  }
+                ]
+                procedure "App.Same.measure"
+              }
+            }
+            returns "Int"
+          }
+        }
+        satisfies [
+          "App.Described"
+        ]
         struct {
           a "some T"
           b "some T"

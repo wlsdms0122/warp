@@ -19,17 +19,26 @@ warpt 1
         }
       }
     }
+    extensions {
+      Null {
+        procedures {
+          find {
+            parameters [
+              {
+                name "s"
+                type "Null"
+              }
+            ]
+            returns "Null"
+          }
+        }
+        satisfies [
+          "App.Pick"
+        ]
+      }
+    }
     imports []
     procedures {
-      "Null.find" {
-        parameters [
-          {
-            name "s"
-            type "Null"
-          }
-        ]
-        returns "Null"
-      }
       entry {
         access "public"
         result {
@@ -41,11 +50,6 @@ warpt 1
           }
         }
       }
-    }
-    satisfies {
-      Null [
-        "App.Pick"
-      ]
     }
     warp 1
   }

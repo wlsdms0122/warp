@@ -31,43 +31,52 @@ warpt 1
         }
       }
     }
+    extensions {
+      Int {
+        procedures {
+          run {
+            parameters [
+              {
+                name "of"
+                type "Int"
+              }
+              {
+                name "step"
+                type {
+                  "const procedure" {
+                    failing []
+                    parameters [
+                      "Int"
+                    ]
+                    returns "Int"
+                  }
+                }
+              }
+            ]
+            result {
+              call {
+                arguments [
+                  {
+                    ref "of"
+                  }
+                ]
+                procedure {
+                  ref "step"
+                }
+              }
+            }
+            returns "Int"
+          }
+        }
+        satisfies [
+          "App.Runner"
+        ]
+      }
+    }
     imports [
       "Standard.Control.abort"
     ]
     procedures {
-      "Int.run" {
-        parameters [
-          {
-            name "of"
-            type "Int"
-          }
-          {
-            name "step"
-            type {
-              "const procedure" {
-                failing []
-                parameters [
-                  "Int"
-                ]
-                returns "Int"
-              }
-            }
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "of"
-              }
-            ]
-            procedure {
-              ref "step"
-            }
-          }
-        }
-        returns "Int"
-      }
       entry {
         access "public"
         result {
@@ -99,11 +108,6 @@ warpt 1
         }
         returns "Int"
       }
-    }
-    satisfies {
-      Int [
-        "App.Runner"
-      ]
     }
     warp 1
   }

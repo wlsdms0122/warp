@@ -6,6 +6,13 @@ warpt 1
   name "a-claim-about-a-struct-the-language-declares-keys-a-map-by-it-answers"
   note "A claim's type is a mention, so it may name `Round`, a struct the language declares, and the claim of `Hashable` keys a map by it. The map literal's key is a struct literal read as the `Round` the declaration names, and the map holds one entry."
   program {
+    extensions {
+      Round {
+        satisfies [
+          "Hashable"
+        ]
+      }
+    }
     imports [
       "Standard.Collection.count"
     ]
@@ -41,11 +48,6 @@ warpt 1
           }
         }
       }
-    }
-    satisfies {
-      Round [
-        "Hashable"
-      ]
     }
     warp 1
   }

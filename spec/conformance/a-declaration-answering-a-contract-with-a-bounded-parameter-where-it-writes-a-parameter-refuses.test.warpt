@@ -35,25 +35,15 @@ warpt 1
       }
       "App.Whole" {}
     }
+    extensions {
+      Int {
+        satisfies [
+          "App.Whole"
+        ]
+      }
+    }
     imports []
     procedures {
-      "Bank.Card.show" {
-        bounds {
-          U "App.Whole"
-        }
-        parameters [
-          {
-            name "of"
-            type "Bank.Card"
-          }
-          {
-            name "n"
-            type "some U"
-          }
-        ]
-        result "shown"
-        returns "String"
-      }
       entry {
         access "public"
         body [
@@ -90,16 +80,30 @@ warpt 1
         }
       }
     }
-    satisfies {
-      "Bank.Card" [
-        "App.Shown"
-      ]
-      Int [
-        "App.Whole"
-      ]
-    }
     types {
       "Bank.Card" {
+        procedures {
+          show {
+            bounds {
+              U "App.Whole"
+            }
+            parameters [
+              {
+                name "of"
+                type "Bank.Card"
+              }
+              {
+                name "n"
+                type "some U"
+              }
+            ]
+            result "shown"
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.Shown"
+        ]
         struct {
           last "String"
         }

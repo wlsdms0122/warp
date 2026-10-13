@@ -23,6 +23,71 @@ warpt 1
         }
       }
     }
+    extensions {
+      Int {
+        procedures {
+          same {
+            parameters [
+              {
+                name "lhs"
+                type "Int"
+              }
+              {
+                name "rhs"
+                type "Int"
+              }
+            ]
+            result "ii"
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.Same"
+        ]
+      }
+      Null {
+        procedures {
+          same {
+            parameters [
+              {
+                name "lhs"
+                type "Null"
+              }
+              {
+                name "rhs"
+                type "Null"
+              }
+            ]
+            result "nn"
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.Same"
+        ]
+      }
+      String {
+        procedures {
+          same {
+            parameters [
+              {
+                name "lhs"
+                type "String"
+              }
+              {
+                name "rhs"
+                type "String"
+              }
+            ]
+            result "ss"
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.Same"
+        ]
+      }
+    }
     imports []
     procedures {
       "App.pair" {
@@ -51,48 +116,6 @@ warpt 1
         }
         returns "String"
       }
-      "Int.same" {
-        parameters [
-          {
-            name "lhs"
-            type "Int"
-          }
-          {
-            name "rhs"
-            type "Int"
-          }
-        ]
-        result "ii"
-        returns "String"
-      }
-      "Null.same" {
-        parameters [
-          {
-            name "lhs"
-            type "Null"
-          }
-          {
-            name "rhs"
-            type "Null"
-          }
-        ]
-        result "nn"
-        returns "String"
-      }
-      "String.same" {
-        parameters [
-          {
-            name "lhs"
-            type "String"
-          }
-          {
-            name "rhs"
-            type "String"
-          }
-        ]
-        result "ss"
-        returns "String"
-      }
       entry {
         access "public"
         result {
@@ -106,17 +129,6 @@ warpt 1
         }
         returns "String"
       }
-    }
-    satisfies {
-      Int [
-        "App.Same"
-      ]
-      Null [
-        "App.Same"
-      ]
-      String [
-        "App.Same"
-      ]
     }
     warp 1
   }

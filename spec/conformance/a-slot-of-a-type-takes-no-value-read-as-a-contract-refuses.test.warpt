@@ -9,6 +9,13 @@ warpt 1
     contracts {
       "App.Marked" {}
     }
+    extensions {
+      Int {
+        satisfies [
+          "App.Marked"
+        ]
+      }
+    }
     imports []
     procedures {
       "App.f" {
@@ -52,11 +59,6 @@ warpt 1
         }
         returns "Int"
       }
-    }
-    satisfies {
-      Int [
-        "App.Marked"
-      ]
     }
     warp 1
   }

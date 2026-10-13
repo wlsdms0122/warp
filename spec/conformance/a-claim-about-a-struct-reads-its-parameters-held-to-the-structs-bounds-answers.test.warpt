@@ -21,19 +21,6 @@ warpt 1
     }
     imports []
     procedures {
-      "App.Cache.describe" {
-        bounds {
-          K "Hashable"
-        }
-        parameters [
-          {
-            name "of"
-            type "App.Cache<some K, some V>"
-          }
-        ]
-        result "cache"
-        returns "String"
-      }
       entry {
         access "public"
         body [
@@ -62,16 +49,29 @@ warpt 1
         returns "String"
       }
     }
-    satisfies {
-      "App.Cache" [
-        "App.Describable"
-      ]
-    }
     types {
       "App.Cache" {
         bounds {
           K "Hashable"
         }
+        procedures {
+          describe {
+            bounds {
+              K "Hashable"
+            }
+            parameters [
+              {
+                name "of"
+                type "App.Cache<some K, some V>"
+              }
+            ]
+            result "cache"
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.Describable"
+        ]
         struct {
           table "Dictionary<some K, some V>"
         }

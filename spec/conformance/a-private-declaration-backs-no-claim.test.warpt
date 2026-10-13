@@ -21,17 +21,6 @@ warpt 1
     }
     imports []
     procedures {
-      "App.Handle.describe" {
-        access "private"
-        parameters [
-          {
-            name "of"
-            type "App.Handle"
-          }
-        ]
-        result "a handle"
-        returns "String"
-      }
       "App.tell" {
         bounds {
           T "App.Describable"
@@ -84,13 +73,24 @@ warpt 1
         returns "String"
       }
     }
-    satisfies {
-      "App.Handle" [
-        "App.Describable"
-      ]
-    }
     types {
       "App.Handle" {
+        procedures {
+          describe {
+            access "private"
+            parameters [
+              {
+                name "of"
+                type "App.Handle"
+              }
+            ]
+            result "a handle"
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.Describable"
+        ]
         struct {
           name "String"
         }

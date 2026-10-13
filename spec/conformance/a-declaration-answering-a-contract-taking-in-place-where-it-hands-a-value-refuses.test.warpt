@@ -25,26 +25,6 @@ warpt 1
     }
     imports []
     procedures {
-      "Bank.Card.size" {
-        body [
-          {
-            set "n"
-            value 9
-          }
-        ]
-        parameters [
-          {
-            name "of"
-            type "Bank.Card"
-          }
-          {
-            name "n"
-            type "inout Int"
-          }
-        ]
-        result 7
-        returns "Int"
-      }
       entry {
         access "public"
         body [
@@ -87,13 +67,33 @@ warpt 1
         }
       }
     }
-    satisfies {
-      "Bank.Card" [
-        "App.Sized"
-      ]
-    }
     types {
       "Bank.Card" {
+        procedures {
+          size {
+            body [
+              {
+                set "n"
+                value 9
+              }
+            ]
+            parameters [
+              {
+                name "of"
+                type "Bank.Card"
+              }
+              {
+                name "n"
+                type "inout Int"
+              }
+            ]
+            result 7
+            returns "Int"
+          }
+        }
+        satisfies [
+          "App.Sized"
+        ]
         struct {
           last "String"
         }

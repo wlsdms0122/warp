@@ -35,40 +35,27 @@ warpt 1
         }
       }
     }
-    imports []
-    procedures {
-      "App.Shelf.describe" {
-        bounds {
-          T "App.Shown"
-        }
-        parameters [
-          {
-            name "of"
-            type "App.Shelf<some T>"
-          }
-        ]
-        result {
-          call {
-            arguments [
+    extensions {
+      Int {
+        procedures {
+          show {
+            parameters [
               {
-                ref "of.item"
+                name "of"
+                type "Int"
               }
             ]
-            procedure "App.Shown.show"
+            result "int"
+            returns "String"
           }
         }
-        returns "String"
-      }
-      "Int.show" {
-        parameters [
-          {
-            name "of"
-            type "Int"
-          }
+        satisfies [
+          "App.Shown"
         ]
-        result "int"
-        returns "String"
       }
+    }
+    imports []
+    procedures {
       entry {
         access "public"
         parameters [
@@ -94,19 +81,38 @@ warpt 1
         returns "String"
       }
     }
-    satisfies {
-      "App.Shelf" [
-        "App.Described"
-      ]
-      Int [
-        "App.Shown"
-      ]
-    }
     types {
       "App.Shelf" {
         bounds {
           T "App.Shown"
         }
+        procedures {
+          describe {
+            bounds {
+              T "App.Shown"
+            }
+            parameters [
+              {
+                name "of"
+                type "App.Shelf<some T>"
+              }
+            ]
+            result {
+              call {
+                arguments [
+                  {
+                    ref "of.item"
+                  }
+                ]
+                procedure "App.Shown.show"
+              }
+            }
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.Described"
+        ]
         struct {
           item "some T"
         }

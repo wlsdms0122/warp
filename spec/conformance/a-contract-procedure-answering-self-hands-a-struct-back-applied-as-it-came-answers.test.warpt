@@ -21,18 +21,6 @@ warpt 1
     }
     imports []
     procedures {
-      "App.Box.same" {
-        parameters [
-          {
-            name "of"
-            type "App.Box<some T>"
-          }
-        ]
-        result {
-          ref "of"
-        }
-        returns "App.Box<some T>"
-      }
       entry {
         access "public"
         body [
@@ -65,13 +53,25 @@ warpt 1
         returns "Int"
       }
     }
-    satisfies {
-      "App.Box" [
-        "App.Same"
-      ]
-    }
     types {
       "App.Box" {
+        procedures {
+          same {
+            parameters [
+              {
+                name "of"
+                type "App.Box<some T>"
+              }
+            ]
+            result {
+              ref "of"
+            }
+            returns "App.Box<some T>"
+          }
+        }
+        satisfies [
+          "App.Same"
+        ]
         struct {
           item "some T"
         }

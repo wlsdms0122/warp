@@ -22,6 +22,25 @@ warpt 1
         }
       }
     }
+    extensions {
+      Null {
+        procedures {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "Null"
+              }
+            ]
+            result "nothing"
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.Described"
+        ]
+      }
+    }
     imports []
     procedures {
       "App.tell" {
@@ -44,16 +63,6 @@ warpt 1
             procedure "App.Described.describe"
           }
         }
-        returns "String"
-      }
-      "Null.describe" {
-        parameters [
-          {
-            name "of"
-            type "Null"
-          }
-        ]
-        result "nothing"
         returns "String"
       }
       entry {
@@ -80,11 +89,6 @@ warpt 1
         }
         returns "String"
       }
-    }
-    satisfies {
-      Null [
-        "App.Described"
-      ]
     }
     warp 1
   }

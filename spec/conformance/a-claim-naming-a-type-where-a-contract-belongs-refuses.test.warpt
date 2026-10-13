@@ -13,14 +13,12 @@ warpt 1
         result 1
       }
     }
-    satisfies {
-      "Bank.Account" [
-        "App.Scalar"
-      ]
-    }
     types {
       "App.Scalar" "Int"
       "Bank.Account" {
+        satisfies [
+          "App.Scalar"
+        ]
         struct {
           balance "Int"
         }

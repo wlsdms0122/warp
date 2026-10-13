@@ -20,20 +20,20 @@ warpt 1
     }
     {
       imports []
-      procedures {
-        "T.Card.describe" {
-          parameters [
-            {
-              name "of"
-              type "T.Card"
-            }
-          ]
-          result "card"
-          returns "String"
-        }
-      }
       types {
         "T.Card" {
+          procedures {
+            describe {
+              parameters [
+                {
+                  name "of"
+                  type "T.Card"
+                }
+              ]
+              result "card"
+              returns "String"
+            }
+          }
           struct {
             rank "Int"
           }
@@ -42,15 +42,17 @@ warpt 1
       warp 1
     }
     {
+      extensions {
+        "T.Card" {
+          satisfies [
+            "App.Describable"
+          ]
+        }
+      }
       imports [
         "App.Describable"
         "T.Card"
       ]
-      satisfies {
-        "T.Card" [
-          "App.Describable"
-        ]
-      }
       warp 1
     }
   ]

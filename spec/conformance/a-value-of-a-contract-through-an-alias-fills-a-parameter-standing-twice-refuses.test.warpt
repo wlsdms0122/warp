@@ -23,6 +23,29 @@ warpt 1
         }
       }
     }
+    extensions {
+      Int {
+        procedures {
+          before {
+            parameters [
+              {
+                name "of"
+                type "Int"
+              }
+              {
+                name "other"
+                type "Int"
+              }
+            ]
+            result true
+            returns "Bool"
+          }
+        }
+        satisfies [
+          "App.Ordered"
+        ]
+      }
+    }
     imports []
     procedures {
       "App.check" {
@@ -51,20 +74,6 @@ warpt 1
         }
         returns "Bool"
       }
-      "Int.before" {
-        parameters [
-          {
-            name "of"
-            type "Int"
-          }
-          {
-            name "other"
-            type "Int"
-          }
-        ]
-        result true
-        returns "Bool"
-      }
       entry {
         access "public"
         result {
@@ -78,11 +87,6 @@ warpt 1
         }
         returns "Bool"
       }
-    }
-    satisfies {
-      Int [
-        "App.Ordered"
-      ]
     }
     types {
       "App.Shape" "App.Ordered"

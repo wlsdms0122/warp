@@ -25,19 +25,6 @@ warpt 1
     }
     imports []
     procedures {
-      "Bank.Card.size" {
-        parameters [
-          {
-            name "of"
-            type "Bank.Card"
-          }
-          {
-            name "n"
-          }
-        ]
-        result 7
-        returns "Int"
-      }
       entry {
         access "public"
         body [
@@ -74,13 +61,26 @@ warpt 1
         }
       }
     }
-    satisfies {
-      "Bank.Card" [
-        "App.Sized"
-      ]
-    }
     types {
       "Bank.Card" {
+        procedures {
+          size {
+            parameters [
+              {
+                name "of"
+                type "Bank.Card"
+              }
+              {
+                name "n"
+              }
+            ]
+            result 7
+            returns "Int"
+          }
+        }
+        satisfies [
+          "App.Sized"
+        ]
         struct {
           last "String"
         }

@@ -23,16 +23,6 @@ warpt 1
       "Standard.Collection.appending"
     ]
     procedures {
-      "Bank.Card.describe" {
-        parameters [
-          {
-            name "of"
-            type "Bank.Card"
-          }
-        ]
-        result 5
-        returns "Any"
-      }
       entry {
         access "public"
         body [
@@ -84,13 +74,23 @@ warpt 1
         }
       }
     }
-    satisfies {
-      "Bank.Card" [
-        "App.Describable"
-      ]
-    }
     types {
       "Bank.Card" {
+        procedures {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "Bank.Card"
+              }
+            ]
+            result 5
+            returns "Any"
+          }
+        }
+        satisfies [
+          "App.Describable"
+        ]
         struct {
           last "String"
         }

@@ -26,10 +26,11 @@ warpt 1
       ]
       dependencies []
       document [
-        x"b6500b5b214b93b54d3f6079dc7c22c32e5a96587b51a8f3f15578c69b859fe3"
+        x"ca6017afa64ff5b2746121162ad48ef62c6b77b2d9174a68db8c79016cd64c17"
       ]
       leaned []
       lifted []
+      members []
       numbering [
         []
         []
@@ -181,6 +182,18 @@ warpt 1
     contracts {
       "App.Number" {}
     }
+    extensions {
+      Double {
+        satisfies [
+          "App.Number"
+        ]
+      }
+      Int {
+        satisfies [
+          "App.Number"
+        ]
+      }
+    }
     imports []
     procedures {
       entry {
@@ -222,14 +235,6 @@ warpt 1
         }
         returns "some T"
       }
-    }
-    satisfies {
-      Double [
-        "App.Number"
-      ]
-      Int [
-        "App.Number"
-      ]
     }
     types {
       "App.Point" {

@@ -10,6 +10,14 @@ warpt 1
       "App.A" {}
       "App.B" {}
     }
+    extensions {
+      Int {
+        satisfies [
+          "App.A"
+          "App.B"
+        ]
+      }
+    }
     imports []
     procedures {
       "App.f" {
@@ -25,12 +33,6 @@ warpt 1
         access "public"
         result 1
       }
-    }
-    satisfies {
-      Int [
-        "App.A"
-        "App.B"
-      ]
     }
     warp 1
   }

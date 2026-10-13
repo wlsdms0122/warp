@@ -1,0 +1,46 @@
+warpt 1
+{
+  expect {
+    answers 7
+  }
+  name "an-extension-of-a-name-nothing-declares-waits"
+  note "Nothing in this link declares `App.Later`, and an extension of it waits with the rest, as a claim about it does: its member is a procedure spelled under the name, and a call reaches it."
+  program {
+    extensions {
+      "App.Later" {
+        procedures {
+          m {
+            parameters [
+              {
+                name "of"
+                type "Int"
+              }
+            ]
+            result 7
+            returns "Int"
+          }
+        }
+      }
+    }
+    imports [
+      "App.Later"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              1
+            ]
+            procedure "App.Later.m"
+          }
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

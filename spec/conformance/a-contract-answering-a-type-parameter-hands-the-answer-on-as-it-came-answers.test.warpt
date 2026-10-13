@@ -31,26 +31,6 @@ warpt 1
       "Standard.Text.text"
     ]
     procedures {
-      "Bank.Card.two" {
-        parameters [
-          {
-            name "of"
-            type "Bank.Card"
-          }
-          {
-            name "a"
-            type "some V"
-          }
-          {
-            name "b"
-            type "some V"
-          }
-        ]
-        result {
-          ref "a"
-        }
-        returns "some V"
-      }
       entry {
         access "public"
         body [
@@ -95,13 +75,33 @@ warpt 1
         }
       }
     }
-    satisfies {
-      "Bank.Card" [
-        "App.Two"
-      ]
-    }
     types {
       "Bank.Card" {
+        procedures {
+          two {
+            parameters [
+              {
+                name "of"
+                type "Bank.Card"
+              }
+              {
+                name "a"
+                type "some V"
+              }
+              {
+                name "b"
+                type "some V"
+              }
+            ]
+            result {
+              ref "a"
+            }
+            returns "some V"
+          }
+        }
+        satisfies [
+          "App.Two"
+        ]
         struct {
           last "String"
         }

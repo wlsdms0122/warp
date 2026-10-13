@@ -9,6 +9,13 @@ warpt 1
     contracts {
       "App.Num" {}
     }
+    extensions {
+      Int {
+        satisfies [
+          "App.Num"
+        ]
+      }
+    }
     imports []
     procedures {
       "App.f" {
@@ -88,11 +95,6 @@ warpt 1
           ref "s"
         }
       }
-    }
-    satisfies {
-      Int [
-        "App.Num"
-      ]
     }
     warp 1
   }

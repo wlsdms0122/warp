@@ -5,16 +5,18 @@ warpt 1
       contracts {
         "App.C" {}
       }
+      extensions {
+        Int {
+          satisfies [
+            "App.C"
+          ]
+        }
+      }
       imports []
       procedures {
         "Lib.f" {
           result 1
         }
-      }
-      satisfies {
-        Int [
-          "App.C"
-        ]
       }
       warp 1
     }
@@ -28,17 +30,19 @@ warpt 1
     contracts {
       "App.C" {}
     }
+    extensions {
+      Int {
+        satisfies [
+          "App.C"
+        ]
+      }
+    }
     imports []
     procedures {
       entry {
         access "public"
         result 1
       }
-    }
-    satisfies {
-      Int [
-        "App.C"
-      ]
     }
     warp 1
   }

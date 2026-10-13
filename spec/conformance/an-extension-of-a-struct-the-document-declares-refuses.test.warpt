@@ -1,0 +1,35 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "an-extension-of-a-struct-the-document-declares-refuses"
+  note "A document gives a struct it declares what it gives it in the declaration, so an extension of it would be a second way to write one document, and the load refuses it."
+  program {
+    extensions {
+      "App.Card" {
+        satisfies [
+          "Hashable"
+        ]
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    types {
+      "App.Card" {
+        struct {
+          rank "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

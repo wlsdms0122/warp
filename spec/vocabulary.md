@@ -20,7 +20,7 @@ Not all of these. Most are written in Warp, from a small set that cannot be: **b
 
 | bundle | builtin |
 |---|---|
-| `Standard` | every procedure it declares: arithmetic, ordering and counting for each type it claims a contract for |
+| `Standard` | every member it gives: arithmetic, ordering and counting for each type it claims a contract for |
 | `Standard.Logic` | `equal` |
 | `Standard.Math` | `floored` `rounded` |
 | `Standard.Text` | `text` `joined` `characters` `uppercased` `lowercased` `encoded` `decoded` `trimmed` |

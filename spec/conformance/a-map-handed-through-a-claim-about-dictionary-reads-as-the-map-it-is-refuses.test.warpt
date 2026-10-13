@@ -19,68 +19,77 @@ warpt 1
         }
       }
     }
+    extensions {
+      Dictionary {
+        procedures {
+          f {
+            body [
+              {
+                let "ks"
+                value {
+                  call {
+                    arguments [
+                      {
+                        ref "s"
+                      }
+                    ]
+                    procedure "Standard.Collection.keys"
+                  }
+                }
+              }
+              {
+                let "vs"
+                value {
+                  call {
+                    arguments [
+                      {
+                        ref "s"
+                      }
+                    ]
+                    procedure "Standard.Collection.values"
+                  }
+                }
+              }
+            ]
+            bounds {
+              K "Hashable"
+            }
+            parameters [
+              {
+                name "s"
+                type "Dictionary<some K, some E>"
+              }
+            ]
+            result {
+              call {
+                arguments [
+                  {
+                    ref "s"
+                  }
+                  {
+                    ref "ks[0]"
+                  }
+                  {
+                    ref "vs[1]"
+                  }
+                ]
+                procedure "Standard.Collection.setting"
+              }
+            }
+            returns "Dictionary<some K, some E>"
+          }
+        }
+        satisfies [
+          "App.C"
+        ]
+      }
+    }
     imports [
       "Standard.Collection.keys"
       "Standard.Collection.setting"
       "Standard.Collection.values"
     ]
     procedures {
-      "Dictionary.f" {
-        body [
-          {
-            let "ks"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "s"
-                  }
-                ]
-                procedure "Standard.Collection.keys"
-              }
-            }
-          }
-          {
-            let "vs"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "s"
-                  }
-                ]
-                procedure "Standard.Collection.values"
-              }
-            }
-          }
-        ]
-        bounds {
-          K "Hashable"
-        }
-        parameters [
-          {
-            name "s"
-            type "Dictionary<some K, some E>"
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "s"
-              }
-              {
-                ref "ks[0]"
-              }
-              {
-                ref "vs[1]"
-              }
-            ]
-            procedure "Standard.Collection.setting"
-          }
-        }
-        returns "Dictionary<some K, some E>"
-      }
       entry {
         access "public"
         body [
@@ -119,11 +128,6 @@ warpt 1
         }
         returns "Int"
       }
-    }
-    satisfies {
-      Dictionary [
-        "App.C"
-      ]
     }
     warp 1
   }

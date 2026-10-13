@@ -32,28 +32,6 @@ warpt 1
     }
     imports []
     procedures {
-      "Bank.Card.describe" {
-        parameters [
-          {
-            name "of"
-            type "Bank.Card"
-          }
-        ]
-        result "a card"
-        returns "String"
-      }
-      "Bank.Card.pick" {
-        parameters [
-          {
-            name "of"
-            type "Bank.Card"
-          }
-        ]
-        result {
-          ref "of"
-        }
-        returns "Bank.Alias"
-      }
       entry {
         access "public"
         body [
@@ -102,15 +80,37 @@ warpt 1
         }
       }
     }
-    satisfies {
-      "Bank.Card" [
-        "App.Describable"
-        "App.Pick"
-      ]
-    }
     types {
       "Bank.Alias" "Bank.Card"
       "Bank.Card" {
+        procedures {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "Bank.Card"
+              }
+            ]
+            result "a card"
+            returns "String"
+          }
+          pick {
+            parameters [
+              {
+                name "of"
+                type "Bank.Card"
+              }
+            ]
+            result {
+              ref "of"
+            }
+            returns "Bank.Alias"
+          }
+        }
+        satisfies [
+          "App.Describable"
+          "App.Pick"
+        ]
         struct {
           last "String"
         }

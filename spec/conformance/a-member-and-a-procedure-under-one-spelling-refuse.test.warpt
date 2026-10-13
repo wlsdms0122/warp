@@ -1,0 +1,50 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-member-and-a-procedure-under-one-spelling-refuse"
+  note "A member stands among the procedures under its type's name and its own, so a procedure the document declares under that spelling is a second declaration of it."
+  program {
+    imports []
+    procedures {
+      "App.Card.rank" {
+        parameters [
+          {
+            name "of"
+            type "App.Card"
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    types {
+      "App.Card" {
+        procedures {
+          rank {
+            parameters [
+              {
+                name "of"
+                type "App.Card"
+              }
+            ]
+            result 2
+            returns "Int"
+          }
+        }
+        struct {
+          rank "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

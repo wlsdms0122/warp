@@ -26,34 +26,6 @@ warpt 1
       "Standard.Numeric.plus"
     ]
     procedures {
-      "App.Thing.bump" {
-        body [
-          {
-            set "count"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "count"
-                  }
-                  1
-                ]
-                procedure "Standard.Numeric.plus"
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "of"
-            type "App.Thing"
-          }
-          {
-            name "count"
-            type "inout Int"
-          }
-        ]
-      }
       entry {
         access "public"
         body [
@@ -81,13 +53,41 @@ warpt 1
         returns "Null"
       }
     }
-    satisfies {
-      "App.Thing" [
-        "App.Bumping"
-      ]
-    }
     types {
       "App.Thing" {
+        procedures {
+          bump {
+            body [
+              {
+                set "count"
+                value {
+                  call {
+                    arguments [
+                      {
+                        ref "count"
+                      }
+                      1
+                    ]
+                    procedure "Standard.Numeric.plus"
+                  }
+                }
+              }
+            ]
+            parameters [
+              {
+                name "of"
+                type "App.Thing"
+              }
+              {
+                name "count"
+                type "inout Int"
+              }
+            ]
+          }
+        }
+        satisfies [
+          "App.Bumping"
+        ]
         struct {
           id "Int"
         }

@@ -25,22 +25,6 @@ warpt 1
     }
     imports []
     procedures {
-      "Bank.Account.describe" {
-        parameters [
-          {
-            name "of"
-            type "Bank.Account"
-          }
-          {
-            name "label"
-            type "String"
-          }
-        ]
-        result {
-          ref "label"
-        }
-        returns "String"
-      }
       entry {
         access "public"
         result {
@@ -51,13 +35,29 @@ warpt 1
         returns "String"
       }
     }
-    satisfies {
-      "Bank.Account" [
-        "App.Describable"
-      ]
-    }
     types {
       "Bank.Account" {
+        procedures {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "Bank.Account"
+              }
+              {
+                name "label"
+                type "String"
+              }
+            ]
+            result {
+              ref "label"
+            }
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.Describable"
+        ]
         struct {
           balance "Int"
         }

@@ -30,32 +30,34 @@ warpt 1
       warp 1
     }
     {
+      extensions {
+        Int {
+          procedures {
+            join {
+              parameters [
+                {
+                  name "of"
+                  type "Int"
+                }
+                {
+                  name "other"
+                  type "Int"
+                }
+              ]
+              result {
+                ref "of"
+              }
+              returns "Int"
+            }
+          }
+          satisfies [
+            "App.Joinable"
+          ]
+        }
+      }
       imports [
         "App.Joinable"
       ]
-      procedures {
-        "Int.join" {
-          parameters [
-            {
-              name "of"
-              type "Int"
-            }
-            {
-              name "other"
-              type "Int"
-            }
-          ]
-          result {
-            ref "of"
-          }
-          returns "Int"
-        }
-      }
-      satisfies {
-        Int [
-          "App.Joinable"
-        ]
-      }
       warp 1
     }
   ]

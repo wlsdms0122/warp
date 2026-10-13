@@ -23,16 +23,6 @@ warpt 1
       "Standard.Text.uppercased"
     ]
     procedures {
-      "App.Thing.name" {
-        parameters [
-          {
-            name "of"
-            type "App.Thing"
-          }
-        ]
-        result "thing"
-        returns "String"
-      }
       "App.tell" {
         bounds {
           T "App.Named"
@@ -84,13 +74,23 @@ warpt 1
         returns "String"
       }
     }
-    satisfies {
-      "App.Thing" [
-        "App.Named"
-      ]
-    }
     types {
       "App.Thing" {
+        procedures {
+          name {
+            parameters [
+              {
+                name "of"
+                type "App.Thing"
+              }
+            ]
+            result "thing"
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.Named"
+        ]
         struct {
           id "Int"
         }

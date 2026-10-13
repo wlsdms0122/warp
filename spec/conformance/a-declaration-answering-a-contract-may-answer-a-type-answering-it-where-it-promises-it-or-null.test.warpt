@@ -39,47 +39,6 @@ warpt 1
     }
     imports []
     procedures {
-      "Bank.Box.show" {
-        body [
-          {
-            let "k"
-            value {
-              as {
-                of {
-                  struct {
-                    last "9"
-                  }
-                }
-                type "Bank.Card"
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "of"
-            type "Bank.Box"
-          }
-          {
-            name "n"
-            type "App.Sized"
-          }
-        ]
-        result {
-          ref "k"
-        }
-        returns "Bank.Card"
-      }
-      "Bank.Card.size" {
-        parameters [
-          {
-            name "of"
-            type "Bank.Card"
-          }
-        ]
-        result 4
-        returns "Int"
-      }
       entry {
         access "public"
         body [
@@ -129,21 +88,64 @@ warpt 1
         result "ok"
       }
     }
-    satisfies {
-      "Bank.Box" [
-        "App.Shown"
-      ]
-      "Bank.Card" [
-        "App.Sized"
-      ]
-    }
     types {
       "Bank.Box" {
+        procedures {
+          show {
+            body [
+              {
+                let "k"
+                value {
+                  as {
+                    of {
+                      struct {
+                        last "9"
+                      }
+                    }
+                    type "Bank.Card"
+                  }
+                }
+              }
+            ]
+            parameters [
+              {
+                name "of"
+                type "Bank.Box"
+              }
+              {
+                name "n"
+                type "App.Sized"
+              }
+            ]
+            result {
+              ref "k"
+            }
+            returns "Bank.Card"
+          }
+        }
+        satisfies [
+          "App.Shown"
+        ]
         struct {
           n "Int"
         }
       }
       "Bank.Card" {
+        procedures {
+          size {
+            parameters [
+              {
+                name "of"
+                type "Bank.Card"
+              }
+            ]
+            result 4
+            returns "Int"
+          }
+        }
+        satisfies [
+          "App.Sized"
+        ]
         struct {
           last "String"
         }

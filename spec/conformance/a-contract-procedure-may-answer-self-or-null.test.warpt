@@ -19,20 +19,29 @@ warpt 1
         }
       }
     }
+    extensions {
+      Int {
+        procedures {
+          find {
+            parameters [
+              {
+                name "of"
+                type "Int"
+              }
+            ]
+            result {
+              ref "of"
+            }
+            returns "Int?"
+          }
+        }
+        satisfies [
+          "App.Find"
+        ]
+      }
+    }
     imports []
     procedures {
-      "Int.find" {
-        parameters [
-          {
-            name "of"
-            type "Int"
-          }
-        ]
-        result {
-          ref "of"
-        }
-        returns "Int?"
-      }
       entry {
         access "public"
         body [
@@ -53,11 +62,6 @@ warpt 1
           ref "found"
         }
       }
-    }
-    satisfies {
-      Int [
-        "App.Find"
-      ]
     }
     warp 1
   }

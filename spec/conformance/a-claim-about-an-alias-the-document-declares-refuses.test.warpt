@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    refuses "build"
+    refuses "load"
   }
-  name "a-claim-about-a-name-that-is-not-a-struct-refuses"
-  note "App.Num names Int, and a document claims it answers App.Describable. A value of App.Num is an instance of `Int` and of no other name, so the claim is about no type a value is."
+  name "a-claim-about-an-alias-the-document-declares-refuses"
+  note "App.Num names Int, and the document that declares it gives it a contract. A value of App.Num is an instance of `Int` and of no other name, and a document gives a type it declares what it gives it in the declaration, which an alias has none of, so the load refuses it."
   program {
     contracts {
       "App.Describable" {
@@ -19,18 +19,27 @@ warpt 1
         }
       }
     }
+    extensions {
+      "App.Num" {
+        procedures {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "App.Num"
+              }
+            ]
+            result "a number"
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.Describable"
+        ]
+      }
+    }
     imports []
     procedures {
-      "App.Num.describe" {
-        parameters [
-          {
-            name "of"
-            type "App.Num"
-          }
-        ]
-        result "a number"
-        returns "String"
-      }
       entry {
         access "public"
         body [
@@ -64,11 +73,6 @@ warpt 1
         result 3
         returns "App.Num"
       }
-    }
-    satisfies {
-      "App.Num" [
-        "App.Describable"
-      ]
     }
     types {
       "App.Num" "Int"

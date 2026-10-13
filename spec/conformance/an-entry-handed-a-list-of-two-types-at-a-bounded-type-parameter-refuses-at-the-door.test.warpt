@@ -29,68 +29,84 @@ warpt 1
         }
       }
     }
+    extensions {
+      Int {
+        procedures {
+          f {
+            body [
+              {
+                let "m"
+                type "Int"
+                value {
+                  ref "o"
+                }
+              }
+            ]
+            parameters [
+              {
+                name "s"
+                type "Int"
+              }
+              {
+                name "o"
+                type "Int"
+              }
+            ]
+            result {
+              call {
+                arguments [
+                  [
+                    "Int.f got"
+                    {
+                      call {
+                        arguments [
+                          {
+                            ref "m"
+                          }
+                        ]
+                        procedure "Standard.Text.text"
+                      }
+                    }
+                  ]
+                  " "
+                ]
+                procedure "Standard.Text.joined"
+              }
+            }
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.C"
+        ]
+      }
+      String {
+        procedures {
+          f {
+            parameters [
+              {
+                name "s"
+                type "String"
+              }
+              {
+                name "o"
+                type "String"
+              }
+            ]
+            result "String.f"
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.C"
+        ]
+      }
+    }
     imports [
       "Standard.Text.joined"
       "Standard.Text.text"
     ]
     procedures {
-      "Int.f" {
-        body [
-          {
-            let "m"
-            type "Int"
-            value {
-              ref "o"
-            }
-          }
-        ]
-        parameters [
-          {
-            name "s"
-            type "Int"
-          }
-          {
-            name "o"
-            type "Int"
-          }
-        ]
-        result {
-          call {
-            arguments [
-              [
-                "Int.f got"
-                {
-                  call {
-                    arguments [
-                      {
-                        ref "m"
-                      }
-                    ]
-                    procedure "Standard.Text.text"
-                  }
-                }
-              ]
-              " "
-            ]
-            procedure "Standard.Text.joined"
-          }
-        }
-        returns "String"
-      }
-      "String.f" {
-        parameters [
-          {
-            name "s"
-            type "String"
-          }
-          {
-            name "o"
-            type "String"
-          }
-        ]
-        result "String.f"
-        returns "String"
-      }
       entry {
         access "public"
         body [
@@ -125,14 +141,6 @@ warpt 1
         }
         returns "String"
       }
-    }
-    satisfies {
-      Int [
-        "App.C"
-      ]
-      String [
-        "App.C"
-      ]
     }
     warp 1
   }

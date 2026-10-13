@@ -29,26 +29,6 @@ warpt 1
     }
     imports []
     procedures {
-      "App.Card.label" {
-        parameters [
-          {
-            name "of"
-            type "App.Card"
-          }
-          {
-            name "b"
-            type "String"
-          }
-          {
-            name "a"
-            type "Int"
-          }
-        ]
-        result {
-          ref "b"
-        }
-        returns "String"
-      }
       "App.tell" {
         bounds {
           T "App.Labelled"
@@ -103,13 +83,33 @@ warpt 1
         returns "String"
       }
     }
-    satisfies {
-      "App.Card" [
-        "App.Labelled"
-      ]
-    }
     types {
       "App.Card" {
+        procedures {
+          label {
+            parameters [
+              {
+                name "of"
+                type "App.Card"
+              }
+              {
+                name "b"
+                type "String"
+              }
+              {
+                name "a"
+                type "Int"
+              }
+            ]
+            result {
+              ref "b"
+            }
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.Labelled"
+        ]
         struct {
           last "String"
         }

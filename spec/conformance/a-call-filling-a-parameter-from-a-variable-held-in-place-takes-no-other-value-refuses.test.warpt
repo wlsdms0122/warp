@@ -9,6 +9,13 @@ warpt 1
     contracts {
       "App.Real" {}
     }
+    extensions {
+      Double {
+        satisfies [
+          "App.Real"
+        ]
+      }
+    }
     imports [
       "Standard.Collection.append"
     ]
@@ -67,11 +74,6 @@ warpt 1
           ref "ns"
         }
       }
-    }
-    satisfies {
-      Double [
-        "App.Real"
-      ]
     }
     warp 1
   }

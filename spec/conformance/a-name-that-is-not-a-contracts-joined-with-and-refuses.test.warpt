@@ -9,6 +9,13 @@ warpt 1
     contracts {
       Text {}
     }
+    extensions {
+      String {
+        satisfies [
+          "Text"
+        ]
+      }
+    }
     imports []
     procedures {
       entry {
@@ -22,11 +29,6 @@ warpt 1
         result 1
         returns "Int"
       }
-    }
-    satisfies {
-      String [
-        "Text"
-      ]
     }
     types {
       Card {

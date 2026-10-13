@@ -33,43 +33,52 @@ warpt 1
         }
       }
     }
-    imports []
-    procedures {
-      "Int.run" {
-        parameters [
-          {
-            name "of"
-            type "Int"
-          }
-          {
-            name "step"
-            type {
-              "const procedure" {
-                failing [
-                  "aborted"
-                ]
-                parameters [
-                  "Int"
-                ]
-                returns "Int"
-              }
-            }
-          }
-        ]
-        result {
-          call {
-            arguments [
+    extensions {
+      Int {
+        procedures {
+          run {
+            parameters [
               {
-                ref "of"
+                name "of"
+                type "Int"
+              }
+              {
+                name "step"
+                type {
+                  "const procedure" {
+                    failing [
+                      "aborted"
+                    ]
+                    parameters [
+                      "Int"
+                    ]
+                    returns "Int"
+                  }
+                }
               }
             ]
-            procedure {
-              ref "step"
+            result {
+              call {
+                arguments [
+                  {
+                    ref "of"
+                  }
+                ]
+                procedure {
+                  ref "step"
+                }
+              }
             }
+            returns "Int"
           }
         }
-        returns "Int"
+        satisfies [
+          "App.Runner"
+        ]
       }
+    }
+    imports []
+    procedures {
       entry {
         access "public"
         result {
@@ -96,11 +105,6 @@ warpt 1
         }
         returns "Int"
       }
-    }
-    satisfies {
-      Int [
-        "App.Runner"
-      ]
     }
     warp 1
   }

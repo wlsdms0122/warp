@@ -27,22 +27,6 @@ warpt 1
       "Standard.Text.uppercased"
     ]
     procedures {
-      "Bank.Card.describe" {
-        parameters [
-          {
-            name "of"
-            type "Bank.Card"
-          }
-          {
-            name "x"
-            type "some T"
-          }
-        ]
-        result {
-          ref "x"
-        }
-        returns "some T"
-      }
       entry {
         access "public"
         body [
@@ -92,13 +76,29 @@ warpt 1
         }
       }
     }
-    satisfies {
-      "Bank.Card" [
-        "App.Describable"
-      ]
-    }
     types {
       "Bank.Card" {
+        procedures {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "Bank.Card"
+              }
+              {
+                name "x"
+                type "some T"
+              }
+            ]
+            result {
+              ref "x"
+            }
+            returns "some T"
+          }
+        }
+        satisfies [
+          "App.Describable"
+        ]
         struct {
           last "String"
         }

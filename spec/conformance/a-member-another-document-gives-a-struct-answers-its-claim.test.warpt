@@ -1,0 +1,100 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "App.Describable" {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "Self"
+              }
+            ]
+            returns "String"
+          }
+        }
+      }
+      imports []
+      warp 1
+    }
+    {
+      imports [
+        "App.Describable"
+      ]
+      types {
+        "App.Card" {
+          satisfies [
+            "App.Describable"
+          ]
+          struct {
+            rank "Int"
+          }
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    answers "card"
+  }
+  name "a-member-another-document-gives-a-struct-answers-its-claim"
+  note "App.Card claims App.Describable where it is declared and gives itself no `describe`; another document gives it one, and the claim is held to the type's member of that name wherever it was given."
+  program {
+    extensions {
+      "App.Card" {
+        procedures {
+          describe {
+            access "public"
+            parameters [
+              {
+                name "of"
+                type "App.Card"
+              }
+            ]
+            result "card"
+            returns "String"
+          }
+        }
+      }
+    }
+    imports [
+      "App.Card"
+      "App.Describable.describe"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "card"
+            value {
+              as {
+                of {
+                  struct {
+                    rank 1
+                  }
+                }
+                type "App.Card"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "card"
+              }
+            ]
+            procedure "App.Describable.describe"
+          }
+        }
+        returns "String"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

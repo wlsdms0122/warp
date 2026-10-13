@@ -19,6 +19,25 @@ warpt 1
         }
       }
     }
+    extensions {
+      Null {
+        procedures {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "Null"
+              }
+            ]
+            result "nothing"
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.Described"
+        ]
+      }
+    }
     imports []
     procedures {
       "App.tell" {
@@ -38,26 +57,6 @@ warpt 1
             procedure "App.Described.describe"
           }
         }
-        returns "String"
-      }
-      "Bank.Card.describe" {
-        parameters [
-          {
-            name "of"
-            type "Bank.Card"
-          }
-        ]
-        result "a card"
-        returns "String"
-      }
-      "Null.describe" {
-        parameters [
-          {
-            name "of"
-            type "Null"
-          }
-        ]
-        result "nothing"
         returns "String"
       }
       entry {
@@ -82,16 +81,23 @@ warpt 1
         returns "String"
       }
     }
-    satisfies {
-      "Bank.Card" [
-        "App.Described"
-      ]
-      Null [
-        "App.Described"
-      ]
-    }
     types {
       "Bank.Card" {
+        procedures {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "Bank.Card"
+              }
+            ]
+            result "a card"
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.Described"
+        ]
         struct {
           last "String"
         }
