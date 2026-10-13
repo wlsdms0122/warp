@@ -1,0 +1,29 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-contract-listing-a-type-twice-refuses"
+  note "A contract lists each type it asks once, beside what holds it. Listing `Item` twice would be one name bounded two ways, and refuses at the load."
+  program {
+    contracts {
+      "App.Keyed" {
+        types [
+          "Item: Hashable"
+          "Item"
+        ]
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

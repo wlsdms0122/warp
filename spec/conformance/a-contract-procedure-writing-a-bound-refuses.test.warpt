@@ -1,0 +1,40 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-contract-procedure-writing-a-bound-refuses"
+  note "A type parameter is bounded by the signature of the procedure that declares it, and a contract procedure is answered by declarations that each declare their own. A bound beside the `some T` of a contract procedure slot refuses at the load."
+  program {
+    contracts {
+      "App.Kept" {
+        procedures {
+          keep {
+            parameters [
+              {
+                name "of"
+                type "Self"
+              }
+              {
+                name "with"
+                type "some T: Hashable"
+              }
+            ]
+            returns "Int"
+          }
+        }
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

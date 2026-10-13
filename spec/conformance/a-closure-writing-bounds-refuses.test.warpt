@@ -4,7 +4,7 @@ warpt 1
     refuses "load"
   }
   name "a-closure-writing-bounds-refuses"
-  note "Only the declaring procedure writes `bounds`. `App.f` bounds nothing, and the closure it writes bounds the same `T` by `Standard.Comparable`, so the document refuses at the load."
+  note "Only the declaring procedure writes a bound. `App.f` bounds nothing, and the closure it writes puts a bound beside its `some T`, `some T: Standard.Comparable`, so the document refuses at the load."
   program {
     imports [
       "Standard.Comparable"
