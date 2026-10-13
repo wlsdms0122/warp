@@ -17,7 +17,7 @@ An object is one map. It carries **exactly** these keys, and a key none of them 
 | `contracts` | name → `[ types, bounds, procedures ]`: the types the contract asks; name → the contracts bounding the type of that name, ascending, at least one, for each one it bounds; and procedure name → `[ signature, constness, isolation, failing ]`, the two marks as a row writes them and *failing* as `[1, names]` | by name; the types ascending, the bounds and the procedures by name |
 | `claims` | *head* → the contracts it says the values the head takes answer, at least one | by head; the contracts ascending |
 | `members` | *head* → the members it gives the type under the head, at least one, each the name of a row under the type's name and its own | by head; the members ascending |
-| `typeMembers` | *head* → (name → *type*): the type members it gives the type under the head, at least one, each written in the head's type parameters | by head, then by name |
+| `typeMembers` | *head* → (name → *type*): the type members it gives the type under the head, at least one, each written in the head's type parameters, or the struct's where the head is bare and the document declares the struct | by head, then by name |
 | `importedClaims` | the claims its document imports, each `[type, contract]`, the pair the claim is about | by type, then by contract |
 | `rows` | the declarations, each a *row* under its spelling | by name |
 | `lifted` | the closures its bodies lifted, each a *row* with no spelling | as the numbering counts them |
@@ -70,7 +70,7 @@ A *type* is `[tag, …]`:
 | 16 | a composition `A & B` | names ascending, two or more: one contract is written as its name, tag 14 |
 | 17 | a projection | the parameter projected, the path: *segment* list |
 | 18 | `Self` | |
-| 19 | an associated type, `some T.Item` or `Self.Item` | what it is the associated type of, its name |
+| 19 | an associated type, `some T.Item` or `Self.Item` | what it stands on, a type parameter's name or another associated type's label, `T.Item` for `some T.Item.Key`; its name |
 
 A *head* is what a document gives a type under, under [types](type.md): a name where it is bare, and otherwise `[name, arguments, bounds]`, the types it applies the named type to, a list of *type*, at least one, and name → the contracts bounding the type parameter of that name, ascending, at least one, for each one it bounds. A list a head keys stands in the order of the heads' spellings, as names, none twice.
 
@@ -134,7 +134,7 @@ A *lowered type* is a type as a body stands on it, `[tag, …]`:
 | 12 | inout | *lowered type* |
 | 13 | nullable | *lowered type* |
 | 14 | a declared type | its place in `typeNumbering`; where it applies a struct to types, then a list of *lowered type*, at least one |
-| 15 | a type parameter | its label, the contracts bounding it ascending |
+| 15 | a type parameter, or an associated type labelled as it is written, `T.Item` or `Self.Item` | its label, the contracts bounding it ascending, those of an associated type being what the contracts asking it and the signature hold it to |
 | 16 | a composition | the contracts ascending, at least one |
 | 17 | a projection | the parameter projected, *segment* list |
 
