@@ -8,25 +8,29 @@ warpt 1
   program {
     contracts {
       "App.Describable" {
-        describe {
-          parameters [
-            {
-              name "of"
-              type "Self"
-            }
-          ]
-          returns "String"
+        procedures {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "Self"
+              }
+            ]
+            returns "String"
+          }
         }
       }
       "App.Maker" {
-        make {
-          parameters [
-            {
-              name "of"
-              type "Self"
-            }
-          ]
-          returns "App.Describable"
+        procedures {
+          make {
+            parameters [
+              {
+                name "of"
+                type "Self"
+              }
+            ]
+            returns "App.Describable"
+          }
         }
       }
     }

@@ -1,0 +1,359 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "Lib.Container" {
+          procedures {
+            first {
+              parameters [
+                {
+                  name "of"
+                  type "Self"
+                }
+              ]
+              returns "Self.Item"
+            }
+          }
+          types [
+            "Item"
+          ]
+        }
+      }
+      imports []
+      procedures {
+        "Lib.firstOf" {
+          access "public"
+          bounds {
+            C "Lib.Container"
+          }
+          parameters [
+            {
+              name "c"
+              type "some C"
+            }
+          ]
+          result {
+            call {
+              arguments [
+                {
+                  ref "c"
+                }
+              ]
+              procedure "Lib.Container.first"
+            }
+          }
+          returns "some C.Item"
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    builds {
+      answers [
+        [
+          "Use.first"
+          [
+            15
+            "C.Item"
+            []
+          ]
+        ]
+      ]
+      claims [
+        [
+          "Use.Thing"
+          [
+            "Use.Sized"
+          ]
+        ]
+      ]
+      constants []
+      contracts [
+        [
+          "Use.Sized"
+          [
+            [
+              "Item"
+            ]
+            [
+              [
+                "Item"
+                [
+                  "Hashable"
+                ]
+              ]
+            ]
+            []
+          ]
+        ]
+      ]
+      dependencies [
+        x"efc70da6c8a2cd45e005ed1b83789e58b31ab84e7cee6d106dfebd5fe6a4762e"
+      ]
+      document [
+        x"afc0ec86b84418f37604190141ea0d02a0df7fe311a1527ca2d36fe49351391d"
+      ]
+      importedClaims []
+      lifted []
+      members []
+      numbering [
+        [
+          "Lib.Container.first"
+        ]
+        []
+      ]
+      object 1
+      rows [
+        [
+          "Use.first"
+          [
+            [
+              [
+                "c"
+                [
+                  [
+                    15
+                    "C"
+                  ]
+                ]
+                []
+              ]
+            ]
+            []
+            [
+              [
+                "C"
+                [
+                  "Lib.Container"
+                ]
+              ]
+            ]
+            []
+          ]
+          2
+          0
+          0
+          [
+            1
+            []
+          ]
+          [
+            0
+            [
+              []
+              [
+                [
+                  12
+                  [
+                    "Lib.Container"
+                    "first"
+                    [
+                      1
+                      [
+                        0
+                        []
+                      ]
+                    ]
+                    []
+                  ]
+                ]
+              ]
+            ]
+            [
+              1
+              [
+                0
+              ]
+              []
+              []
+              [
+                "c"
+              ]
+            ]
+          ]
+        ]
+        [
+          "Use.plusOne"
+          [
+            [
+              [
+                "c"
+                [
+                  [
+                    15
+                    "C"
+                  ]
+                ]
+                []
+              ]
+            ]
+            [
+              [
+                19
+                "C"
+                "Item"
+              ]
+            ]
+            [
+              [
+                "C"
+                [
+                  "Lib.Container"
+                ]
+              ]
+            ]
+            [
+              [
+                "C.Item"
+                [
+                  4
+                ]
+              ]
+            ]
+          ]
+          2
+          1
+          1
+          [
+            1
+            []
+          ]
+          [
+            0
+            [
+              []
+              [
+                [
+                  0
+                  [
+                    2
+                    1
+                  ]
+                ]
+              ]
+            ]
+            [
+              1
+              [
+                0
+              ]
+              []
+              []
+              [
+                "c"
+              ]
+            ]
+          ]
+        ]
+      ]
+      typeMembers [
+        [
+          "Use.Thing"
+          [
+            [
+              "Item"
+              [
+                4
+              ]
+            ]
+          ]
+        ]
+      ]
+      typeNumbering []
+      types [
+        [
+          "Use.Thing"
+          [
+            9
+            [
+              [
+                "x"
+                [
+                  4
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+      variables []
+    }
+  }
+  name "the-object-of-associated-types"
+  note "An object writes the associated types a contract asks and their bounds, the type members a type is given, the associated types a signature says are a type, and what a procedure writing no returns answers at an associated type: a type parameter labelled by it."
+  program {
+    contracts {
+      "Use.Sized" {
+        bounds {
+          Item "Hashable"
+        }
+        types [
+          "Item"
+        ]
+      }
+    }
+    imports [
+      "Lib.Container"
+      "Lib.Container.first"
+    ]
+    procedures {
+      "Use.first" {
+        access "public"
+        bounds {
+          C "Lib.Container"
+        }
+        parameters [
+          {
+            name "c"
+            type "some C"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "c"
+              }
+            ]
+            procedure "Lib.Container.first"
+          }
+        }
+      }
+      "Use.plusOne" {
+        access "public"
+        bounds {
+          C "Lib.Container"
+        }
+        parameters [
+          {
+            name "c"
+            type "some C"
+          }
+        ]
+        result 1
+        returns "some C.Item"
+        sameTypes {
+          "C.Item" "Int"
+        }
+      }
+    }
+    types {
+      "Use.Thing" {
+        satisfies [
+          "Use.Sized"
+        ]
+        struct {
+          x "Int"
+        }
+        types {
+          Item "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

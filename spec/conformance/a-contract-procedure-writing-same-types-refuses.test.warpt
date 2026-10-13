@@ -1,0 +1,43 @@
+warpt 1
+{
+  documents []
+  expect {
+    refuses "load"
+  }
+  name "a-contract-procedure-writing-same-types-refuses"
+  note "What a type gives under a name a contract asks is the type's to say, so a contract's procedure writing `sameTypes` refuses at the load."
+  program {
+    contracts {
+      "Lib.Holder" {
+        procedures {
+          first {
+            parameters [
+              {
+                name "of"
+                type "Self"
+              }
+            ]
+            returns "Self.Item"
+            sameTypes {
+              "Self.Item" "Int"
+            }
+          }
+        }
+        types [
+          "Item"
+        ]
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

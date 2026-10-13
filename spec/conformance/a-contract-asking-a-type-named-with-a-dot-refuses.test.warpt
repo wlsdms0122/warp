@@ -1,0 +1,29 @@
+warpt 1
+{
+  documents []
+  expect {
+    refuses "load"
+  }
+  name "a-contract-asking-a-type-named-with-a-dot-refuses"
+  note "A type a contract asks is named the way an associated type names it, by one identifier, so `Lib.Holder` asking `Item.Key` refuses at the load."
+  program {
+    contracts {
+      "Lib.Holder" {
+        types [
+          "Item.Key"
+        ]
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

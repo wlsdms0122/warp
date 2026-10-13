@@ -8,26 +8,28 @@ warpt 1
   program {
     contracts {
       "App.Runner" {
-        run {
-          parameters [
-            {
-              name "of"
-              type "Self"
-            }
-            {
-              name "step"
-              type {
-                "const procedure" {
-                  failing []
-                  parameters [
-                    "Int"
-                  ]
-                  returns "Int"
+        procedures {
+          run {
+            parameters [
+              {
+                name "of"
+                type "Self"
+              }
+              {
+                name "step"
+                type {
+                  "const procedure" {
+                    failing []
+                    parameters [
+                      "Int"
+                    ]
+                    returns "Int"
+                  }
                 }
               }
-            }
-          ]
-          returns "Int"
+            ]
+            returns "Int"
+          }
         }
       }
     }

@@ -8,40 +8,46 @@ warpt 1
   program {
     contracts {
       "App.Named" {
-        name {
-          parameters [
-            {
-              name "of"
-              type "Self"
-            }
-          ]
-          returns "String"
+        procedures {
+          name {
+            parameters [
+              {
+                name "of"
+                type "Self"
+              }
+            ]
+            returns "String"
+          }
         }
       }
       "App.Shown" {
-        show {
-          parameters [
-            {
-              name "of"
-              type "Self"
-            }
-            {
-              name "n"
-              type "App.Sized"
-            }
-          ]
-          returns "App.Named"
+        procedures {
+          show {
+            parameters [
+              {
+                name "of"
+                type "Self"
+              }
+              {
+                name "n"
+                type "App.Sized"
+              }
+            ]
+            returns "App.Named"
+          }
         }
       }
       "App.Sized" {
-        size {
-          parameters [
-            {
-              name "of"
-              type "Self"
-            }
-          ]
-          returns "Int"
+        procedures {
+          size {
+            parameters [
+              {
+                name "of"
+                type "Self"
+              }
+            ]
+            returns "Int"
+          }
         }
       }
     }

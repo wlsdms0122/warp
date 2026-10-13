@@ -1,0 +1,34 @@
+warpt 1
+{
+  documents []
+  expect {
+    refuses "build"
+  }
+  name "a-contract-bound-naming-no-contract-refuses"
+  note "A contract holds a type it asks to contracts, and no module in the link declares `Lib.Nothing`, so `Lib.Holder` refuses at the build."
+  program {
+    contracts {
+      "Lib.Holder" {
+        bounds {
+          Item "Lib.Nothing"
+        }
+        types [
+          "Item"
+        ]
+      }
+    }
+    imports [
+      "Lib.Nothing"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

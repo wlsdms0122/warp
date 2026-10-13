@@ -1,0 +1,79 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "Lib.Hashed" {
+          bounds {
+            Item "Hashable"
+          }
+          procedures {
+            first {
+              parameters [
+                {
+                  name "of"
+                  type "Self"
+                }
+              ]
+              returns "Self.Item"
+            }
+          }
+          types [
+            "Item"
+          ]
+        }
+      }
+      imports []
+      warp 1
+    }
+    {
+      imports []
+      types {
+        "App.Plain" {
+          struct {
+            x "Int"
+          }
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    refuses "build"
+  }
+  name "a-same-type-not-answering-what-holds-the-associated-type-refuses"
+  note "`Lib.Hashed` holds Item to Hashable, and `Use.it` says `C.Item` is App.Plain, which no claim makes Hashable, so the same type refuses at the build where it is written."
+  program {
+    imports [
+      "App.Plain"
+      "Lib.Hashed"
+    ]
+    procedures {
+      "Use.it" {
+        access "public"
+        bounds {
+          C "Lib.Hashed"
+        }
+        parameters [
+          {
+            name "c"
+            type "some C"
+          }
+        ]
+        result 1
+        returns "Int"
+        sameTypes {
+          "C.Item" "App.Plain"
+        }
+      }
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

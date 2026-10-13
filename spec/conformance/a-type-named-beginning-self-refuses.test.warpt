@@ -1,0 +1,25 @@
+warpt 1
+{
+  documents []
+  expect {
+    refuses "load"
+  }
+  name "a-type-named-beginning-self-refuses"
+  note "`Self.Item` is an associated type of Self, so no type's name begins `Self.`, and declaring one refuses at the load."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    types {
+      "Self.Item" "Int"
+    }
+    warp 1
+  }
+  test 1
+}
+

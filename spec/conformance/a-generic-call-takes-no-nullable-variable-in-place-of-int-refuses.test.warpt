@@ -1,0 +1,187 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "Lib.Bag" {
+          procedures {
+            first {
+              parameters [
+                {
+                  name "of"
+                  type "Self"
+                }
+              ]
+              returns "Self.Item"
+            }
+            take {
+              parameters [
+                {
+                  name "of"
+                  type "Self"
+                }
+                {
+                  name "x"
+                  type "Self.Item"
+                }
+              ]
+              returns "Int"
+            }
+          }
+          types [
+            "Item"
+          ]
+        }
+      }
+      imports []
+      warp 1
+    }
+    {
+      imports [
+        "Int.plus"
+        "Lib.Bag"
+      ]
+      types {
+        "App.IntBag" {
+          procedures {
+            first {
+              access "public"
+              parameters [
+                {
+                  name "of"
+                  type "App.IntBag"
+                }
+              ]
+              result {
+                ref "of.n"
+              }
+              returns "Int"
+            }
+            take {
+              access "public"
+              parameters [
+                {
+                  name "of"
+                  type "App.IntBag"
+                }
+                {
+                  name "x"
+                  type "Int"
+                }
+              ]
+              result {
+                call {
+                  arguments [
+                    {
+                      ref "x"
+                    }
+                    1
+                  ]
+                  procedure "Int.plus"
+                }
+              }
+              returns "Int"
+            }
+          }
+          satisfies [
+            "Lib.Bag"
+          ]
+          struct {
+            n "Int"
+          }
+          types {
+            Item "Int"
+          }
+        }
+      }
+      warp 1
+    }
+    {
+      imports [
+        "Lib.Bag"
+        "Lib.Bag.take"
+      ]
+      procedures {
+        "Use.set" {
+          access "public"
+          bounds {
+            C "Lib.Bag"
+          }
+          parameters [
+            {
+              name "c"
+              type "some C"
+            }
+            {
+              name "x"
+              type "inout some C.Item"
+            }
+          ]
+          result {
+            call {
+              arguments [
+                {
+                  ref "c"
+                }
+                {
+                  ref "x"
+                }
+              ]
+              procedure "Lib.Bag.take"
+            }
+          }
+          returns "Int"
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    refuses "build"
+  }
+  name "a-generic-call-takes-no-nullable-variable-in-place-of-int-refuses"
+  note "`Use.set` takes `inout some C.Item`, and App.IntBag gives Item as Int, so handing an `Int?` variable in place refuses at the build."
+  program {
+    imports [
+      "App.IntBag"
+      "Use.set"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            type "App.IntBag"
+            value {
+              struct {
+                n 1
+              }
+            }
+          }
+          {
+            type "Int?"
+            var "v"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "b"
+              }
+              {
+                ref "v"
+              }
+            ]
+            procedure "Use.set"
+          }
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

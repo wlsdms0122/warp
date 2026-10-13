@@ -1,0 +1,85 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "Lib.Container" {
+          procedures {
+            first {
+              parameters [
+                {
+                  name "of"
+                  type "Self"
+                }
+              ]
+              returns "Self.Item"
+            }
+          }
+          types [
+            "Item"
+          ]
+        }
+      }
+      imports []
+      procedures {
+        "Lib.firstOf" {
+          access "public"
+          bounds {
+            C "Lib.Container"
+          }
+          parameters [
+            {
+              name "c"
+              type "some C"
+            }
+          ]
+          result {
+            call {
+              arguments [
+                {
+                  ref "c"
+                }
+              ]
+              procedure "Lib.Container.first"
+            }
+          }
+          returns "some C.Item"
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    refuses "load"
+  }
+  name "an-associated-type-whose-parameter-no-parameter-writes-refuses"
+  note "An associated type is what the type filling its parameter gives. No parameter writes `some C`, so no call fills C, and `some C.Item` refuses at the load."
+  program {
+    imports [
+      "Lib.Container"
+    ]
+    procedures {
+      "Use.it" {
+        bounds {
+          C "Lib.Container"
+        }
+        parameters [
+          {
+            name "x"
+            type "some C.Item"
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

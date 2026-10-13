@@ -1,0 +1,51 @@
+warpt 1
+{
+  documents [
+    {
+      imports []
+      types {
+        "App.Box" {
+          struct {
+            item "some T"
+          }
+          typeParameters [
+            "T"
+          ]
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    refuses "load"
+  }
+  name "a-type-member-given-twice-in-one-document-refuses"
+  note "One document gives App.Box the type member Item under `App.Box<Int>` and under `App.Box<String>`. One type gives one type member under a name, so the two refuse at the load."
+  program {
+    extensions {
+      "App.Box<Int>" {
+        types {
+          Item "Int"
+        }
+      }
+      "App.Box<String>" {
+        types {
+          Item "String"
+        }
+      }
+    }
+    imports [
+      "App.Box"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
