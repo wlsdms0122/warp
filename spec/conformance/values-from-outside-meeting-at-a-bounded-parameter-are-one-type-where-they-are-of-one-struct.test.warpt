@@ -1,0 +1,91 @@
+warpt 1
+{
+  arguments {
+    xs [
+      App.Box {
+        item 1
+      }
+      App.Box {
+        item null
+      }
+    ]
+  }
+  expect {
+    answers "box"
+  }
+  name "values-from-outside-meeting-at-a-bounded-parameter-are-one-type-where-they-are-of-one-struct"
+  note "The host hands a list of a box holding `1` and one holding null where `Array<some T>` is bounded by App.Describable, claimed under `App.Box<Int?>`. A value carries no type's arguments, so the two boxes are of one type, and each settles into the head."
+  program {
+    contracts {
+      "App.Describable" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    extensions {
+      "App.Box<Int?>" {
+        procedures {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "App.Box<Int?>"
+              }
+            ]
+            result "box"
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.Describable"
+        ]
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        bounds {
+          T "App.Describable"
+        }
+        parameters [
+          {
+            name "xs"
+            type "Array<some T>"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "xs[0]"
+              }
+            ]
+            procedure "App.Describable.describe"
+          }
+        }
+        returns "String"
+      }
+    }
+    types {
+      "App.Box" {
+        struct {
+          item "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
