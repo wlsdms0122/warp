@@ -75,7 +75,7 @@ What a constant settles to is written into the compiled document, and a compiled
 - a **body** in another document of the link, since the document it is written in is what the compiled document is made from. A body the constant's own document declares is still being resolved beside it, under *a constant-headed path* in [expressions](expression.md);
 - a procedure this specification **names**, under *what an implementation must write* in [the standard vocabulary](vocabulary.md), since every conforming implementation answers it alike.
 
-A call through a contract is answered by the member a claim is held to, and a document asks a contract of the claims within what it stands on, under [types](type.md). So a constant settles through a contract only where the claim and the declaration answering it stand in documents the constant's document stands on, near or far: what it names, what those name, and the claims it imports. A constant whose call through a contract reaches a type no claim within that reach answers for **refuses at the build**, however the host handed the documents over.
+A call through a contract is answered by the member a claim is held to, and a document asks a contract of the claims within what it stands on, under [types](type.md). So a constant settles through a contract only where the claim and the declaration answering it stand in documents the constant's document stands on, near or far: what it names, what those name, and the claims it imports. A constant whose call through a contract reaches a type no claim within that reach answers for **refuses at the build**, however the host handed the documents over, and so does one whose cast turns on such a type, under [types](type.md).
 
 Settling one **refuses at the build** where it reaches a procedure the host brought, whether the constant called it or called a body that does. A **slot** asking a `const` procedure type and an **operand** are untouched: both are read while the program runs, and neither writes anything down.
 
@@ -150,6 +150,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-constant-asking-a-claim-outside-its-reach-refuses`
 - `a-constant-cannot-settle-from-a-procedure-the-host-brought`
 - `a-constant-cannot-settle-from-what-runs`
+- `a-constant-casting-a-list-the-reach-decides-no-answers-null`
+- `a-constant-casting-to-a-composition-the-reach-decides-no-answers-null`
 - `a-constant-folds-through-a-procedure-the-host-answers-a-claim-it-stands-on-answers`
 - `a-constant-folds-through-a-standard-procedure-a-claim-it-stands-on-answers`
 - `a-constant-settles-from-a-body-of-another-document`
