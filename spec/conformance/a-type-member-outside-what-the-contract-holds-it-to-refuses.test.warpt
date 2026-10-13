@@ -1,0 +1,87 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "Lib.Keyed" {
+          bounds {
+            Item "Hashable"
+          }
+          procedures {
+            key {
+              parameters [
+                {
+                  name "of"
+                  type "Self"
+                }
+              ]
+              returns "Self.Item"
+            }
+          }
+          types [
+            "Item"
+          ]
+        }
+      }
+      imports []
+      warp 1
+    }
+    {
+      imports [
+        "Lib.Keyed"
+      ]
+      types {
+        "App.Card" {
+          procedures {
+            key {
+              access "public"
+              parameters [
+                {
+                  name "of"
+                  type "App.Card"
+                }
+              ]
+              result {
+                ref "of.plain"
+              }
+              returns "App.Plain"
+            }
+          }
+          satisfies [
+            "Lib.Keyed"
+          ]
+          struct {
+            plain "App.Plain"
+          }
+          types {
+            Item "App.Plain"
+          }
+        }
+        "App.Plain" {
+          struct {
+            x "Int"
+          }
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    refuses "build"
+  }
+  name "a-type-member-outside-what-the-contract-holds-it-to-refuses"
+  note "`Lib.Keyed` holds Item to Hashable, and App.Card gives App.Plain, which no claim makes Hashable, so the claim refuses at the build."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

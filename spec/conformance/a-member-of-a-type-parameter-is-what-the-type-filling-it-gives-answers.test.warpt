@@ -1,0 +1,145 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "Lib.Container" {
+          procedures {
+            first {
+              parameters [
+                {
+                  name "of"
+                  type "Self"
+                }
+              ]
+              returns "Self.Item"
+            }
+          }
+          types [
+            "Item"
+          ]
+        }
+      }
+      imports []
+      procedures {
+        "Lib.firstOf" {
+          access "public"
+          bounds {
+            C "Lib.Container"
+          }
+          parameters [
+            {
+              name "c"
+              type "some C"
+            }
+          ]
+          result {
+            call {
+              arguments [
+                {
+                  ref "c"
+                }
+              ]
+              procedure "Lib.Container.first"
+            }
+          }
+          returns "some C.Item"
+        }
+      }
+      warp 1
+    }
+    {
+      imports [
+        "Lib.Container"
+      ]
+      types {
+        "App.Box" {
+          procedures {
+            first {
+              access "public"
+              parameters [
+                {
+                  name "of"
+                  type "App.Box<some T>"
+                }
+              ]
+              result {
+                ref "of.item"
+              }
+              returns "some T"
+            }
+          }
+          satisfies [
+            "Lib.Container"
+          ]
+          struct {
+            item "some T"
+          }
+          typeParameters [
+            "T"
+          ]
+          types {
+            Item "some T"
+          }
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    answers 2
+  }
+  name "a-member-of-a-type-parameter-is-what-the-type-filling-it-gives-answers"
+  note "A contract asks the type Item, and `Lib.firstOf` answers `some C.Item`. A box of Int gives Item as Int, so what a call of it answers is an Int, which `Int.plus` takes."
+  program {
+    imports [
+      "App.Box"
+      "Int.plus"
+      "Lib.firstOf"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            type "App.Box<Int>"
+            value {
+              struct {
+                item 1
+              }
+            }
+          }
+          {
+            let "x"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "b"
+                  }
+                ]
+                procedure "Lib.firstOf"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "x"
+              }
+              1
+            ]
+            procedure "Int.plus"
+          }
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

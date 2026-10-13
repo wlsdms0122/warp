@@ -1,0 +1,40 @@
+warpt 1
+{
+  documents []
+  expect {
+    refuses "load"
+  }
+  name "a-contract-procedure-naming-a-type-the-contract-does-not-ask-refuses"
+  note "A contract's procedure names a type of Self the contract asks. `Self.Key` is not one, and refuses at the load."
+  program {
+    contracts {
+      "Lib.Keyed" {
+        procedures {
+          key {
+            parameters [
+              {
+                name "of"
+                type "Self"
+              }
+            ]
+            returns "Self.Key"
+          }
+        }
+        types [
+          "Item"
+        ]
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

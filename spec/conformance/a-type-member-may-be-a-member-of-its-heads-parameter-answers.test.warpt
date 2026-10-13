@@ -1,0 +1,222 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "Lib.Container" {
+          procedures {
+            first {
+              parameters [
+                {
+                  name "of"
+                  type "Self"
+                }
+              ]
+              returns "Self.Item"
+            }
+          }
+          types [
+            "Item"
+          ]
+        }
+      }
+      imports []
+      procedures {
+        "Lib.firstOf" {
+          access "public"
+          bounds {
+            C "Lib.Container"
+          }
+          parameters [
+            {
+              name "c"
+              type "some C"
+            }
+          ]
+          result {
+            call {
+              arguments [
+                {
+                  ref "c"
+                }
+              ]
+              procedure "Lib.Container.first"
+            }
+          }
+          returns "some C.Item"
+        }
+      }
+      warp 1
+    }
+    {
+      imports [
+        "Lib.Container"
+      ]
+      types {
+        "App.Box" {
+          procedures {
+            first {
+              access "public"
+              parameters [
+                {
+                  name "of"
+                  type "App.Box<some T>"
+                }
+              ]
+              result {
+                ref "of.item"
+              }
+              returns "some T"
+            }
+          }
+          satisfies [
+            "Lib.Container"
+          ]
+          struct {
+            item "some T"
+          }
+          typeParameters [
+            "T"
+          ]
+          types {
+            Item "some T"
+          }
+        }
+      }
+      warp 1
+    }
+    {
+      imports [
+        "Lib.Container"
+        "Lib.Container.first"
+      ]
+      types {
+        "App.Wrapper" {
+          bounds {
+            B "Lib.Container"
+          }
+          procedures {
+            first {
+              access "public"
+              body [
+                {
+                  let "base"
+                  value {
+                    ref "of.base"
+                  }
+                }
+                {
+                  let "x"
+                  value {
+                    call {
+                      arguments [
+                        {
+                          ref "base"
+                        }
+                      ]
+                      procedure "Lib.Container.first"
+                    }
+                  }
+                }
+              ]
+              bounds {
+                B "Lib.Container"
+              }
+              parameters [
+                {
+                  name "of"
+                  type "App.Wrapper<some B>"
+                }
+              ]
+              result {
+                ref "x"
+              }
+              returns "some B.Item"
+            }
+          }
+          satisfies [
+            "Lib.Container"
+          ]
+          struct {
+            base "some B"
+          }
+          typeParameters [
+            "B"
+          ]
+          types {
+            Item "some B.Item"
+          }
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    answers 2
+  }
+  name "a-type-member-may-be-a-member-of-its-heads-parameter-answers"
+  note "App.Wrapper gives Item as `some B.Item`, the member of what it wraps. A wrapper of a box of Int gives Int."
+  program {
+    imports [
+      "App.Box"
+      "App.Wrapper"
+      "Int.plus"
+      "Lib.firstOf"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            type "App.Box<Int>"
+            value {
+              struct {
+                item 1
+              }
+            }
+          }
+          {
+            let "w"
+            type "App.Wrapper<App.Box<Int>>"
+            value {
+              struct {
+                base {
+                  ref "b"
+                }
+              }
+            }
+          }
+          {
+            let "x"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "w"
+                  }
+                ]
+                procedure "Lib.firstOf"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "x"
+              }
+              1
+            ]
+            procedure "Int.plus"
+          }
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

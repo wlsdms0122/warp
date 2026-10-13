@@ -1,0 +1,149 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "Lib.Keyed" {
+          bounds {
+            Item "Hashable"
+          }
+          procedures {
+            key {
+              parameters [
+                {
+                  name "of"
+                  type "Self"
+                }
+              ]
+              returns "Self.Item"
+            }
+          }
+          types [
+            "Item"
+          ]
+        }
+      }
+      imports []
+      procedures {
+        "Lib.index" {
+          access "public"
+          body [
+            {
+              let "k"
+              value {
+                call {
+                  arguments [
+                    {
+                      ref "c"
+                    }
+                  ]
+                  procedure "Lib.Keyed.key"
+                }
+              }
+            }
+          ]
+          bounds {
+            C "Lib.Keyed"
+          }
+          parameters [
+            {
+              name "c"
+              type "some C"
+            }
+          ]
+          result {
+            dictionary [
+              [
+                {
+                  ref "k"
+                }
+                1
+              ]
+            ]
+          }
+          returns "Dictionary<some C.Item, Int>"
+        }
+      }
+      warp 1
+    }
+    {
+      imports [
+        "Lib.Keyed"
+      ]
+      types {
+        "App.Card" {
+          procedures {
+            key {
+              access "public"
+              parameters [
+                {
+                  name "of"
+                  type "App.Card"
+                }
+              ]
+              result "card"
+              returns "String"
+            }
+          }
+          satisfies [
+            "Lib.Keyed"
+          ]
+          struct {
+            rank "Int"
+          }
+          types {
+            Item "String"
+          }
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    answers 1
+  }
+  name "a-map-keyed-by-a-member-the-contract-holds-hashable-answers"
+  note "`Lib.Keyed` holds Item to Hashable, so `Dictionary<some C.Item, Int>` is a map type."
+  program {
+    imports [
+      "App.Card"
+      "Lib.index"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "c"
+            type "App.Card"
+            value {
+              struct {
+                rank 1
+              }
+            }
+          }
+          {
+            let "m"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "c"
+                  }
+                ]
+                procedure "Lib.index"
+              }
+            }
+          }
+        ]
+        result {
+          ref "m[\"card\"]"
+        }
+        returns "Int?"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

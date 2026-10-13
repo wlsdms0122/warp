@@ -1,0 +1,85 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "Lib.Container" {
+          procedures {
+            first {
+              parameters [
+                {
+                  name "of"
+                  type "Self"
+                }
+              ]
+              returns "Self.Item"
+            }
+          }
+          types [
+            "Item"
+          ]
+        }
+      }
+      imports []
+      procedures {
+        "Lib.firstOf" {
+          access "public"
+          bounds {
+            C "Lib.Container"
+          }
+          parameters [
+            {
+              name "c"
+              type "some C"
+            }
+          ]
+          result {
+            call {
+              arguments [
+                {
+                  ref "c"
+                }
+              ]
+              procedure "Lib.Container.first"
+            }
+          }
+          returns "some C.Item"
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    refuses "load"
+  }
+  name "a-struct-field-writing-a-member-refuses"
+  note "A value carries no type's arguments, so what fills a struct's parameters is read off its fields, and a field writing `some C.Item` refuses at the load."
+  program {
+    imports [
+      "Lib.Container"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    types {
+      "Use.W" {
+        bounds {
+          C "Lib.Container"
+        }
+        struct {
+          item "some C.Item"
+        }
+        typeParameters [
+          "C"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

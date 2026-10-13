@@ -1,0 +1,87 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "Lib.Container" {
+          procedures {
+            first {
+              parameters [
+                {
+                  name "of"
+                  type "Self"
+                }
+              ]
+              returns "Self.Item"
+            }
+          }
+          types [
+            "Item"
+          ]
+        }
+      }
+      imports []
+      procedures {
+        "Lib.firstOf" {
+          access "public"
+          bounds {
+            C "Lib.Container"
+          }
+          parameters [
+            {
+              name "c"
+              type "some C"
+            }
+          ]
+          result {
+            call {
+              arguments [
+                {
+                  ref "c"
+                }
+              ]
+              procedure "Lib.Container.first"
+            }
+          }
+          returns "some C.Item"
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    refuses "build"
+  }
+  name "a-member-no-contract-bounding-its-parameter-asks-refuses"
+  note "C is bounded by Hashable, which asks no type Item, so `some C.Item` names nothing and refuses at the build."
+  program {
+    imports []
+    procedures {
+      "Use.it" {
+        bounds {
+          C "Hashable"
+        }
+        parameters [
+          {
+            name "c"
+            type "some C"
+          }
+          {
+            name "x"
+            type "some C.Item"
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

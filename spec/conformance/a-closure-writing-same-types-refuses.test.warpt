@@ -1,0 +1,106 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "Lib.Container" {
+          procedures {
+            first {
+              parameters [
+                {
+                  name "of"
+                  type "Self"
+                }
+              ]
+              returns "Self.Item"
+            }
+          }
+          types [
+            "Item"
+          ]
+        }
+      }
+      imports []
+      procedures {
+        "Lib.firstOf" {
+          access "public"
+          bounds {
+            C "Lib.Container"
+          }
+          parameters [
+            {
+              name "c"
+              type "some C"
+            }
+          ]
+          result {
+            call {
+              arguments [
+                {
+                  ref "c"
+                }
+              ]
+              procedure "Lib.Container.first"
+            }
+          }
+          returns "some C.Item"
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    refuses "load"
+  }
+  name "a-closure-writing-same-types-refuses"
+  note "A closure's `some C` is the procedure's around it, which says what its members are, so a closure writing `sameTypes` refuses at the load."
+  program {
+    imports [
+      "Lib.Container"
+    ]
+    procedures {
+      "Use.it" {
+        body [
+          {
+            let "f"
+            value {
+              closure {
+                parameters [
+                  {
+                    name "y"
+                    type "some C.Item"
+                  }
+                ]
+                result {
+                  ref "y"
+                }
+                sameTypes {
+                  "C.Item" "Int"
+                }
+              }
+            }
+          }
+        ]
+        bounds {
+          C "Lib.Container"
+        }
+        parameters [
+          {
+            name "c"
+            type "some C"
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

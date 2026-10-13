@@ -1,0 +1,214 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "Lib.Container" {
+          procedures {
+            first {
+              parameters [
+                {
+                  name "of"
+                  type "Self"
+                }
+              ]
+              returns "Self.Item"
+            }
+          }
+          types [
+            "Item"
+          ]
+        }
+      }
+      imports []
+      procedures {
+        "Lib.firstOf" {
+          access "public"
+          bounds {
+            C "Lib.Container"
+          }
+          parameters [
+            {
+              name "c"
+              type "some C"
+            }
+          ]
+          result {
+            call {
+              arguments [
+                {
+                  ref "c"
+                }
+              ]
+              procedure "Lib.Container.first"
+            }
+          }
+          returns "some C.Item"
+        }
+      }
+      warp 1
+    }
+    {
+      contracts {
+        "Lib.Held" {
+          procedures {
+            held {
+              parameters [
+                {
+                  name "of"
+                  type "Self"
+                }
+              ]
+              returns "Self.Item"
+            }
+          }
+          types [
+            "Item"
+          ]
+        }
+      }
+      imports []
+      warp 1
+    }
+    {
+      imports [
+        "Lib.Container"
+        "Lib.Held"
+      ]
+      types {
+        "App.Box" {
+          procedures {
+            first {
+              access "public"
+              parameters [
+                {
+                  name "of"
+                  type "App.Box<some T>"
+                }
+              ]
+              result {
+                ref "of.item"
+              }
+              returns "some T"
+            }
+            held {
+              access "public"
+              parameters [
+                {
+                  name "of"
+                  type "App.Box<some T>"
+                }
+              ]
+              result {
+                ref "of.item"
+              }
+              returns "some T"
+            }
+          }
+          satisfies [
+            "Lib.Container"
+            "Lib.Held"
+          ]
+          struct {
+            item "some T"
+          }
+          typeParameters [
+            "T"
+          ]
+          types {
+            Item "some T"
+          }
+        }
+      }
+      warp 1
+    }
+    {
+      imports [
+        "Lib.Container"
+        "Lib.Container.first"
+        "Lib.Held"
+      ]
+      procedures {
+        "Use.both" {
+          access "public"
+          body [
+            {
+              let "x"
+              value {
+                call {
+                  arguments [
+                    {
+                      ref "c"
+                    }
+                  ]
+                  procedure "Lib.Container.first"
+                }
+              }
+            }
+          ]
+          bounds {
+            C "Lib.Container & Lib.Held"
+          }
+          parameters [
+            {
+              name "c"
+              type "some C"
+            }
+          ]
+          result {
+            ref "x"
+          }
+          returns "some C.Item"
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    answers 1
+  }
+  name "two-contracts-asking-one-name-are-answered-by-one-type-member-answers"
+  note "`Lib.Container` and `Lib.Held` both ask Item, and App.Box answers both by its one type member."
+  program {
+    imports [
+      "App.Box"
+      "Use.both"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            type "App.Box<Int>"
+            value {
+              struct {
+                item 1
+              }
+            }
+          }
+          {
+            let "x"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "b"
+                  }
+                ]
+                procedure "Use.both"
+              }
+            }
+          }
+        ]
+        result {
+          ref "x"
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

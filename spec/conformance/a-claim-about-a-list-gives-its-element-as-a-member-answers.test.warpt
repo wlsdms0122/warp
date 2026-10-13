@@ -1,0 +1,130 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "Lib.Container" {
+          procedures {
+            first {
+              parameters [
+                {
+                  name "of"
+                  type "Self"
+                }
+              ]
+              returns "Self.Item"
+            }
+          }
+          types [
+            "Item"
+          ]
+        }
+      }
+      imports []
+      procedures {
+        "Lib.firstOf" {
+          access "public"
+          bounds {
+            C "Lib.Container"
+          }
+          parameters [
+            {
+              name "c"
+              type "some C"
+            }
+          ]
+          result {
+            call {
+              arguments [
+                {
+                  ref "c"
+                }
+              ]
+              procedure "Lib.Container.first"
+            }
+          }
+          returns "some C.Item"
+        }
+      }
+      warp 1
+    }
+    {
+      extensions {
+        "Array<some E>" {
+          procedures {
+            first {
+              access "public"
+              parameters [
+                {
+                  name "of"
+                  type "Array<some E>"
+                }
+              ]
+              result {
+                ref "of[0]"
+              }
+              returns "some E"
+            }
+          }
+          satisfies [
+            "Lib.Container"
+          ]
+          types {
+            Item "some E"
+          }
+        }
+      }
+      imports [
+        "Lib.Container"
+      ]
+      warp 1
+    }
+  ]
+  expect {
+    answers 3
+  }
+  name "a-claim-about-a-list-gives-its-element-as-a-member-answers"
+  note "Lists answer `Lib.Container` under `Array<some E>`, giving Item as E, so the first of a list of Int is an Int."
+  program {
+    imports [
+      "Array: Lib.Container"
+      "Int.plus"
+      "Lib.firstOf"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "x"
+            value {
+              call {
+                arguments [
+                  [
+                    2
+                  ]
+                ]
+                procedure "Lib.firstOf"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "x"
+              }
+              1
+            ]
+            procedure "Int.plus"
+          }
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
