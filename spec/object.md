@@ -15,7 +15,8 @@ An object is one map. It carries **exactly** these keys, and a key none of them 
 | `dependencies` | the objects behind every declaration this document named, each by what the host keyed it under | ascending by bytes, none twice |
 | `types` | name → *type*, as the document wrote them: a struct as tag 9, an alias as the type it stands for | by name |
 | `contracts` | name → (procedure name → `[ signature, constness, isolation, failing ]`, the two marks as a row writes them and *failing* as `[1, names]`) | by name, then by name |
-| `claims` | type name → the contracts it says it answers | by name; the contracts ascending |
+| `claims` | type name → the contracts it says it answers, at least one | by name; the contracts ascending |
+| `members` | type name → the members it gives the type, at least one, each the name of a row under the type's name and its own | by name; the members ascending |
 | `leaned` | the pairs its bodies lean on: (type, contract, *place*), unresolved | by type, then contract |
 | `rows` | the declarations, each a *row* under its spelling | by name |
 | `lifted` | the closures its bodies lifted, each a *row* with no spelling | as the numbering counts them |
@@ -88,7 +89,7 @@ A *place* is where in a document something was written: `[document, steps]`, the
 | 4 | a statement | its name or nothing, its position |
 | 5 | a landmark in a program nobody wrote down | string |
 
-A *part* is `[tag]`: 0 `procedures`, 1 `constants`, 2 `variables`, 3 `types`, 4 `contracts`, 5 `satisfies`, 6 `imports`, 7 `parameters`, 8 `returns`, 9 `body`, 10 `result`, 11 a cast's subject, carrying `true` for `as?` or `false` for `as`, 12 `callee`, 13 `arguments`, 14 `closure`, 15 a condition, carrying `[0]` for a conditional's or `[1]` for a loop's, 16 `then`, 17 `otherwise`, 18 `rescue`, 19 a struct's fields, 20 `bounds`, 21 a map literal's entries, 22 a struct's `typeParameters`.
+A *part* is `[tag]`: 0 `procedures`, 1 `constants`, 2 `variables`, 3 `types`, 4 `contracts`, 5 `satisfies`, 6 `imports`, 7 `parameters`, 8 `returns`, 9 `body`, 10 `result`, 11 a cast's subject, carrying `true` for `as?` or `false` for `as`, 12 `callee`, 13 `arguments`, 14 `closure`, 15 a condition, carrying `[0]` for a conditional's or `[1]` for a loop's, 16 `then`, 17 `otherwise`, 18 `rescue`, 19 a struct's fields, 20 `bounds`, 21 a map literal's entries, 22 a struct's `typeParameters`, 23 `extensions`.
 
 A *construct* is `[tag]`: 0 literal, 1 reference, 2 array, 3 struct, 4 closure, 5 cast, 6 block, 7 conditional, 8 loop, 9 attempt, 10 call, 11 leave, carrying its *reach*: `0` the procedure, `1` the construct, `2` the round, 12 map.
 
@@ -179,7 +180,7 @@ A reading refuses what it cannot read and traps on nothing: the reading runs ins
 
 Every one of these is refused where the object is read, before it is laid beside anything. What only the documents beside it can answer is refused at `build`, where a compile lays the object down or a link does, under [checking](checking.md): which row a number is and whether a call stands as many arguments as that row takes, which type answers a contract, and whether what it sends and every type its declared types, signatures and bodies name is declared by it or by a document standing before it, so two objects that need each other refuse as two documents do.
 
-The names an object writes are the ones its document wrote, and each held the grammar of where it is written when that document was loaded, under [checking](checking.md): a type's, a contract's, a claim's, a bound's and a part joined with `&` alike. An object is what a build wrote, so a reading asks those names nothing again, and what a name stands for beside the documents is the link's to say, for an object as for a document.
+The names an object writes are the ones its document wrote, and each held the grammar of where it is written when that document was loaded, under [checking](checking.md): a type's, a contract's, a claim's, a member's, a bound's and a part joined with `&` alike. An object is what a build wrote, so a reading asks those names nothing again, and what a name stands for beside the documents is the link's to say, for an object as for a document.
 
 ## One object
 
@@ -214,6 +215,7 @@ warpt 1
   document [ x"…" ]
   leaned []
   lifted []
+  members []
   numbering [ [ "Standard.Collection.appending" ] [] ]
   object 1
   rows [
@@ -246,7 +248,10 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-document-is-not-an-object`
 - `an-object-applying-a-struct-to-no-types-refuses`
 - `an-object-bounding-a-type-parameter-by-nothing-refuses`
+- `an-object-claiming-no-contract-for-a-type-refuses`
 - `an-object-counting-no-closures-for-a-declaration-refuses`
+- `an-object-giving-a-type-a-member-no-row-stands-under-refuses`
+- `an-object-giving-a-type-no-member-refuses`
 - `an-object-leaning-on-one-object-twice-refuses`
 - `an-object-leaning-on-what-is-not-laid-refuses`
 - `an-object-links-and-runs`
@@ -272,6 +277,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-whose-layout-names-stand-out-of-order-refuses`
 - `an-object-whose-loop-keeps-a-run-past-its-frame-refuses`
 - `an-object-whose-map-keys-stand-out-of-the-key-order-refuses`
+- `an-object-whose-members-stand-out-of-name-order-refuses`
 - `an-object-whose-numbering-closures-stand-out-of-name-order-refuses`
 - `an-object-whose-numbering-sends-stand-out-of-name-order-refuses`
 - `an-object-whose-procedure-the-host-answers-sends-a-spelling-its-numbering-does-not-number-refuses`
