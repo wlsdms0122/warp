@@ -87,18 +87,12 @@ warpt 1
     }
     types {
       "App.Shelf" {
-        bounds {
-          T "App.Shown"
-        }
         procedures {
           describe {
-            bounds {
-              T "App.Shown"
-            }
             parameters [
               {
                 name "of"
-                type "App.Shelf<some T>"
+                type "App.Shelf<some T: App.Shown>"
               }
             ]
             result {
@@ -121,7 +115,7 @@ warpt 1
           item "some T"
         }
         typeParameters [
-          "T"
+          "T: App.Shown"
         ]
       }
     }

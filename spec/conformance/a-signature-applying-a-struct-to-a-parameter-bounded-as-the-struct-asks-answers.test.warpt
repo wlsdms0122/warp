@@ -9,13 +9,10 @@ warpt 1
     imports []
     procedures {
       "App.size" {
-        bounds {
-          K "Hashable"
-        }
         parameters [
           {
             name "c"
-            type "App.Cache<some K, Int>"
+            type "App.Cache<some K: Hashable, Int>"
           }
         ]
         result 1
@@ -51,14 +48,11 @@ warpt 1
     }
     types {
       "App.Cache" {
-        bounds {
-          K "Hashable"
-        }
         struct {
           table "Dictionary<some K, some V>"
         }
         typeParameters [
-          "K"
+          "K: Hashable"
           "V"
         ]
       }

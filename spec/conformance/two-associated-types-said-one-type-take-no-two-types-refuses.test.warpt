@@ -24,13 +24,10 @@ warpt 1
       procedures {
         "Lib.firstOf" {
           access "public"
-          bounds {
-            C "Lib.Container"
-          }
           parameters [
             {
               name "c"
-              type "some C"
+              type "some C: Lib.Container"
             }
           ]
           result {
@@ -108,18 +105,14 @@ warpt 1
               }
             }
           ]
-          bounds {
-            C "Lib.Container"
-            D "Lib.Container"
-          }
           parameters [
             {
               name "c"
-              type "some C"
+              type "some C: Lib.Container"
             }
             {
               name "d"
-              type "some D"
+              type "some D: Lib.Container"
             }
           ]
           result {

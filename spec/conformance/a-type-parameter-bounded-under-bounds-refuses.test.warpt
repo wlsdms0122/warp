@@ -1,0 +1,36 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-type-parameter-bounded-under-bounds-refuses"
+  note "A type parameter is bounded where the signature's slots first name it, `some T: Standard.Comparable`. `bounds` holds what the signature does not introduce, an associated type, so `T` under it refuses at the load."
+  program {
+    imports [
+      "Standard.Comparable"
+    ]
+    procedures {
+      "App.f" {
+        bounds {
+          T "Standard.Comparable"
+        }
+        parameters [
+          {
+            name "x"
+            type "some T"
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

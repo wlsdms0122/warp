@@ -24,13 +24,10 @@ warpt 1
       procedures {
         "Lib.firstOf" {
           access "public"
-          bounds {
-            C "Lib.Container"
-          }
           parameters [
             {
               name "c"
-              type "some C"
+              type "some C: Lib.Container"
             }
           ]
           result {
@@ -58,13 +55,10 @@ warpt 1
     imports []
     procedures {
       "Use.it" {
-        bounds {
-          C "Hashable"
-        }
         parameters [
           {
             name "c"
-            type "some C"
+            type "some C: Hashable"
           }
           {
             name "x"

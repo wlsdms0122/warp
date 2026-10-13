@@ -115,18 +115,12 @@ warpt 1
     }
     types {
       "App.Pair" {
-        bounds {
-          T "App.Same"
-        }
         procedures {
           describe {
-            bounds {
-              T "App.Same"
-            }
             parameters [
               {
                 name "of"
-                type "App.Pair<some T>"
+                type "App.Pair<some T: App.Same>"
               }
             ]
             result {
@@ -153,7 +147,7 @@ warpt 1
           b "some T"
         }
         typeParameters [
-          "T"
+          "T: App.Same"
         ]
       }
     }

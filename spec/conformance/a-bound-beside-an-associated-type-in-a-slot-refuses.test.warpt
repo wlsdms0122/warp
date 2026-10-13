@@ -1,0 +1,35 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-bound-beside-an-associated-type-in-a-slot-refuses"
+  note "A bound stands beside a type parameter where it is introduced, and an associated type is introduced by the contract that asks it. A slot writing `some C.Item: Hashable` refuses at the load; the signature says it under `bounds`, keyed by `C.Item`."
+  program {
+    imports []
+    procedures {
+      "App.f" {
+        parameters [
+          {
+            name "c"
+            type "some C"
+          }
+          {
+            name "i"
+            type "some C.Item: Hashable"
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

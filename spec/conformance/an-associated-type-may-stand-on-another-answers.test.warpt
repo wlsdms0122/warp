@@ -20,9 +20,6 @@ warpt 1
           ]
         }
         "Lib.Outer" {
-          bounds {
-            Item "Lib.Keyed"
-          }
           procedures {
             first {
               parameters [
@@ -35,7 +32,7 @@ warpt 1
             }
           }
           types [
-            "Item"
+            "Item: Lib.Keyed"
           ]
         }
       }
@@ -127,13 +124,10 @@ warpt 1
               }
             }
           ]
-          bounds {
-            C "Lib.Outer"
-          }
           parameters [
             {
               name "c"
-              type "some C"
+              type "some C: Lib.Outer"
             }
           ]
           result {
