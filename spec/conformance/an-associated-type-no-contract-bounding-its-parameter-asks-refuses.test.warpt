@@ -50,20 +50,22 @@ warpt 1
     }
   ]
   expect {
-    refuses "load"
+    refuses "build"
   }
-  name "a-member-whose-parameter-no-parameter-writes-refuses"
-  note "A member is what the type filling its parameter gives. No parameter writes `some C`, so no call fills C, and `some C.Item` refuses at the load."
+  name "an-associated-type-no-contract-bounding-its-parameter-asks-refuses"
+  note "C is bounded by Hashable, which asks no type Item, so `some C.Item` names no associated type and refuses at the build."
   program {
-    imports [
-      "Lib.Container"
-    ]
+    imports []
     procedures {
       "Use.it" {
         bounds {
-          C "Lib.Container"
+          C "Hashable"
         }
         parameters [
+          {
+            name "c"
+            type "some C"
+          }
           {
             name "x"
             type "some C.Item"

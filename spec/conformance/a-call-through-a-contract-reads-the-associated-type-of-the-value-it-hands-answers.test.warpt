@@ -3,10 +3,9 @@ warpt 1
   documents [
     {
       contracts {
-        "Lib.Held" {
+        "Lib.Container" {
           procedures {
             first {
-              const true
               parameters [
                 {
                   name "of"
@@ -22,11 +21,36 @@ warpt 1
         }
       }
       imports []
+      procedures {
+        "Lib.firstOf" {
+          access "public"
+          bounds {
+            C "Lib.Container"
+          }
+          parameters [
+            {
+              name "c"
+              type "some C"
+            }
+          ]
+          result {
+            call {
+              arguments [
+                {
+                  ref "c"
+                }
+              ]
+              procedure "Lib.Container.first"
+            }
+          }
+          returns "some C.Item"
+        }
+      }
       warp 1
     }
     {
       imports [
-        "Lib.Held"
+        "Lib.Container"
       ]
       types {
         "App.Box" {
@@ -46,7 +70,7 @@ warpt 1
             }
           }
           satisfies [
-            "Lib.Held"
+            "Lib.Container"
           ]
           struct {
             item "some T"
@@ -65,41 +89,46 @@ warpt 1
   expect {
     answers 2
   }
-  name "a-constant-settles-through-a-member-answers"
-  note "A constant settles at the build from a call through a contract asking its procedure to answer without running, and its type is the member the box of Int gives."
+  name "a-call-through-a-contract-reads-the-associated-type-of-the-value-it-hands-answers"
+  note "`Lib.Container.first` answers `Self.Item`, and Self is a box of Int, so the call answers an Int."
   program {
-    const {
-      k {
-        call {
-          arguments [
-            {
-              as {
-                of {
-                  struct {
-                    item 1
-                  }
-                }
-                type "App.Box<Int>"
-              }
-            }
-          ]
-          procedure "Lib.Held.first"
-        }
-      }
-    }
     imports [
       "App.Box"
       "Int.plus"
-      "Lib.Held.first"
+      "Lib.Container.first"
     ]
     procedures {
       entry {
         access "public"
+        body [
+          {
+            let "b"
+            type "App.Box<Int>"
+            value {
+              struct {
+                item 1
+              }
+            }
+          }
+          {
+            let "x"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "b"
+                  }
+                ]
+                procedure "Lib.Container.first"
+              }
+            }
+          }
+        ]
         result {
           call {
             arguments [
               {
-                ref "k"
+                ref "x"
               }
               1
             ]

@@ -85,68 +85,17 @@ warpt 1
       }
       warp 1
     }
-    {
-      imports [
-        "Int.plus"
-        "Lib.Container"
-        "Lib.Container.first"
-      ]
-      procedures {
-        "Use.plusOne" {
-          access "public"
-          body [
-            {
-              let "x"
-              value {
-                call {
-                  arguments [
-                    {
-                      ref "c"
-                    }
-                  ]
-                  procedure "Lib.Container.first"
-                }
-              }
-            }
-          ]
-          bounds {
-            C "Lib.Container"
-          }
-          parameters [
-            {
-              name "c"
-              type "some C"
-            }
-          ]
-          result {
-            call {
-              arguments [
-                {
-                  ref "x"
-                }
-                1
-              ]
-              procedure "Int.plus"
-            }
-          }
-          returns "Int"
-          sameTypes {
-            "C.Item" "Int"
-          }
-        }
-      }
-      warp 1
-    }
   ]
   expect {
-    refuses "build"
+    answers 2
   }
-  name "a-same-type-refuses-what-gives-another-type-refuses"
-  note "`Use.plusOne` says `C.Item` is Int, and a box of text gives String there, so the call refuses at the build."
+  name "an-associated-type-of-a-type-parameter-is-what-the-type-filling-it-gives-answers"
+  note "A contract asks the type Item, and `Lib.firstOf` answers `some C.Item`, the associated type Item of C. A box of Int gives Item as Int, so what a call of it answers is an Int, which `Int.plus` takes."
   program {
     imports [
       "App.Box"
-      "Use.plusOne"
+      "Int.plus"
+      "Lib.firstOf"
     ]
     procedures {
       entry {
@@ -154,10 +103,23 @@ warpt 1
         body [
           {
             let "b"
-            type "App.Box<String>"
+            type "App.Box<Int>"
             value {
               struct {
-                item "x"
+                item 1
+              }
+            }
+          }
+          {
+            let "x"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "b"
+                  }
+                ]
+                procedure "Lib.firstOf"
               }
             }
           }
@@ -166,10 +128,11 @@ warpt 1
           call {
             arguments [
               {
-                ref "b"
+                ref "x"
               }
+              1
             ]
-            procedure "Use.plusOne"
+            procedure "Int.plus"
           }
         }
         returns "Int"

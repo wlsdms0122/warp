@@ -86,13 +86,53 @@ warpt 1
       warp 1
     }
     {
+      contracts {
+        "App.Describable" {
+          procedures {
+            describe {
+              parameters [
+                {
+                  name "of"
+                  type "Self"
+                }
+              ]
+              returns "String"
+            }
+          }
+        }
+      }
+      extensions {
+        Int {
+          procedures {
+            describe {
+              access "public"
+              parameters [
+                {
+                  name "of"
+                  type "Int"
+                }
+              ]
+              result "one"
+              returns "String"
+            }
+          }
+          satisfies [
+            "App.Describable"
+          ]
+        }
+      }
+      imports []
+      warp 1
+    }
+    {
       imports [
-        "Int.plus"
+        "App.Describable"
+        "App.Describable.describe"
         "Lib.Container"
         "Lib.Container.first"
       ]
       procedures {
-        "Use.plusOne" {
+        "Use.firstText" {
           access "public"
           body [
             {
@@ -111,6 +151,7 @@ warpt 1
           ]
           bounds {
             C "Lib.Container"
+            "C.Item" "App.Describable"
           }
           parameters [
             {
@@ -124,26 +165,25 @@ warpt 1
                 {
                   ref "x"
                 }
-                1
               ]
-              procedure "Int.plus"
+              procedure "App.Describable.describe"
             }
           }
-          returns "Int"
+          returns "String"
         }
       }
       warp 1
     }
   ]
   expect {
-    refuses "build"
+    answers "one"
   }
-  name "a-member-is-one-type-the-body-does-not-know-refuses"
-  note "Without a same type, `C.Item` inside `Use.plusOne` is a type the body does not know, and `Int.plus` takes no value of it."
+  name "a-bound-on-an-associated-type-carries-a-call-through-another-contract-answers"
+  note "`Use.firstText` bounds `C.Item` by App.Describable, so it calls describe on what `Lib.Container.first` answers."
   program {
     imports [
       "App.Box"
-      "Use.plusOne"
+      "Use.firstText"
     ]
     procedures {
       entry {
@@ -166,10 +206,10 @@ warpt 1
                 ref "b"
               }
             ]
-            procedure "Use.plusOne"
+            procedure "Use.firstText"
           }
         }
-        returns "Int"
+        returns "String"
       }
     }
     warp 1

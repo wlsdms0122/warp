@@ -1,5 +1,11 @@
 warpt 1
 {
+  arguments {
+    c App.Box {
+      item 1
+    }
+    x "no"
+  }
   documents [
     {
       contracts {
@@ -48,18 +54,58 @@ warpt 1
       }
       warp 1
     }
+    {
+      imports [
+        "Lib.Container"
+      ]
+      types {
+        "App.Box" {
+          procedures {
+            first {
+              access "public"
+              parameters [
+                {
+                  name "of"
+                  type "App.Box<some T>"
+                }
+              ]
+              result {
+                ref "of.item"
+              }
+              returns "some T"
+            }
+          }
+          satisfies [
+            "Lib.Container"
+          ]
+          struct {
+            item "some T"
+          }
+          typeParameters [
+            "T"
+          ]
+          types {
+            Item "some T"
+          }
+        }
+      }
+      warp 1
+    }
   ]
   expect {
-    refuses "build"
+    refuses "run"
   }
-  name "a-member-no-contract-bounding-its-parameter-asks-refuses"
-  note "C is bounded by Hashable, which asks no type Item, so `some C.Item` names nothing and refuses at the build."
+  name "a-door-takes-no-value-at-an-associated-type-of-another-type-refuses"
+  note "The run hands a box of Int at C and text at `some C.Item`, which a box of Int gives as Int, so the run refuses it at the door."
   program {
-    imports []
+    imports [
+      "Lib.Container"
+    ]
     procedures {
-      "Use.it" {
+      entry {
+        access "public"
         bounds {
-          C "Hashable"
+          C "Lib.Container"
         }
         parameters [
           {
@@ -71,13 +117,10 @@ warpt 1
             type "some C.Item"
           }
         ]
-        result 1
-        returns "Int"
-      }
-      entry {
-        access "public"
-        result 1
-        returns "Int"
+        result {
+          ref "x"
+        }
+        returns "some C.Item"
       }
     }
     warp 1

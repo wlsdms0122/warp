@@ -86,53 +86,13 @@ warpt 1
       warp 1
     }
     {
-      contracts {
-        "App.Describable" {
-          procedures {
-            describe {
-              parameters [
-                {
-                  name "of"
-                  type "Self"
-                }
-              ]
-              returns "String"
-            }
-          }
-        }
-      }
-      extensions {
-        Int {
-          procedures {
-            describe {
-              access "public"
-              parameters [
-                {
-                  name "of"
-                  type "Int"
-                }
-              ]
-              result "one"
-              returns "String"
-            }
-          }
-          satisfies [
-            "App.Describable"
-          ]
-        }
-      }
-      imports []
-      warp 1
-    }
-    {
       imports [
-        "App.Describable"
-        "App.Describable.describe"
+        "Int.plus"
         "Lib.Container"
         "Lib.Container.first"
       ]
       procedures {
-        "Use.firstText" {
+        "Use.plusOne" {
           access "public"
           body [
             {
@@ -151,7 +111,6 @@ warpt 1
           ]
           bounds {
             C "Lib.Container"
-            "C.Item" "App.Describable"
           }
           parameters [
             {
@@ -165,25 +124,29 @@ warpt 1
                 {
                   ref "x"
                 }
+                1
               ]
-              procedure "App.Describable.describe"
+              procedure "Int.plus"
             }
           }
-          returns "String"
+          returns "Int"
+          sameTypes {
+            "C.Item" "Int"
+          }
         }
       }
       warp 1
     }
   ]
   expect {
-    answers "one"
+    answers 2
   }
-  name "a-bound-on-a-member-carries-a-call-through-another-contract-answers"
-  note "`Use.firstText` bounds `C.Item` by App.Describable, so it calls describe on what `Lib.Container.first` answers."
+  name "a-same-type-holds-an-associated-type-to-a-type-answers"
+  note "`Use.plusOne` says `C.Item` is Int, so inside it what `Lib.Container.first` answers is an Int, and a box of Int fills C."
   program {
     imports [
       "App.Box"
-      "Use.firstText"
+      "Use.plusOne"
     ]
     procedures {
       entry {
@@ -206,10 +169,10 @@ warpt 1
                 ref "b"
               }
             ]
-            procedure "Use.firstText"
+            procedure "Use.plusOne"
           }
         }
-        returns "String"
+        returns "Int"
       }
     }
     warp 1

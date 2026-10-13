@@ -86,13 +86,53 @@ warpt 1
       warp 1
     }
     {
+      contracts {
+        "App.Describable" {
+          procedures {
+            describe {
+              parameters [
+                {
+                  name "of"
+                  type "Self"
+                }
+              ]
+              returns "String"
+            }
+          }
+        }
+      }
+      extensions {
+        Int {
+          procedures {
+            describe {
+              access "public"
+              parameters [
+                {
+                  name "of"
+                  type "Int"
+                }
+              ]
+              result "one"
+              returns "String"
+            }
+          }
+          satisfies [
+            "App.Describable"
+          ]
+        }
+      }
+      imports []
+      warp 1
+    }
+    {
       imports [
-        "Int.plus"
+        "App.Describable"
+        "App.Describable.describe"
         "Lib.Container"
         "Lib.Container.first"
       ]
       procedures {
-        "Use.plusOne" {
+        "Use.firstText" {
           access "public"
           body [
             {
@@ -111,6 +151,7 @@ warpt 1
           ]
           bounds {
             C "Lib.Container"
+            "C.Item" "App.Describable"
           }
           parameters [
             {
@@ -124,29 +165,65 @@ warpt 1
                 {
                   ref "x"
                 }
-                1
               ]
-              procedure "Int.plus"
+              procedure "App.Describable.describe"
             }
           }
-          returns "Int"
-          sameTypes {
-            "C.Item" "Int"
+          returns "String"
+        }
+      }
+      warp 1
+    }
+    {
+      imports [
+        "Lib.Container"
+        "Use.firstText"
+      ]
+      procedures {
+        "Use.outer" {
+          access "public"
+          body [
+            {
+              let "x"
+              value {
+                call {
+                  arguments [
+                    {
+                      ref "c"
+                    }
+                  ]
+                  procedure "Use.firstText"
+                }
+              }
+            }
+          ]
+          bounds {
+            C "Lib.Container"
           }
+          parameters [
+            {
+              name "c"
+              type "some C"
+            }
+          ]
+          result {
+            ref "x"
+          }
+          returns "String"
         }
       }
       warp 1
     }
   ]
   expect {
-    answers 2
+    refuses "build"
   }
-  name "a-same-type-holds-a-member-to-a-type-answers"
-  note "`Use.plusOne` says `C.Item` is Int, so inside it what `Lib.Container.first` answers is an Int, and a box of Int fills C."
+  name "a-caller-not-bounding-an-associated-type-refuses"
+  note "`Use.outer` does not bound `C.Item`, and `Use.firstText` asks App.Describable of it, so the call refuses at the build."
   program {
     imports [
       "App.Box"
-      "Use.plusOne"
+      "Use.outer"
     ]
     procedures {
       entry {
@@ -161,18 +238,24 @@ warpt 1
               }
             }
           }
+          {
+            let "x"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "b"
+                  }
+                ]
+                procedure "Use.outer"
+              }
+            }
+          }
         ]
         result {
-          call {
-            arguments [
-              {
-                ref "b"
-              }
-            ]
-            procedure "Use.plusOne"
-          }
+          ref "x"
         }
-        returns "Int"
+        returns "String"
       }
     }
     warp 1

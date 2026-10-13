@@ -3,9 +3,12 @@ warpt 1
   documents [
     {
       contracts {
-        "Lib.Container" {
+        "Lib.Keyed" {
+          bounds {
+            Item "Hashable"
+          }
           procedures {
-            first {
+            key {
               parameters [
                 {
                   name "of"
@@ -22,10 +25,25 @@ warpt 1
       }
       imports []
       procedures {
-        "Lib.firstOf" {
+        "Lib.index" {
           access "public"
+          body [
+            {
+              let "k"
+              value {
+                call {
+                  arguments [
+                    {
+                      ref "c"
+                    }
+                  ]
+                  procedure "Lib.Keyed.key"
+                }
+              }
+            }
+          ]
           bounds {
-            C "Lib.Container"
+            C "Lib.Keyed"
           }
           parameters [
             {
@@ -34,52 +52,47 @@ warpt 1
             }
           ]
           result {
-            call {
-              arguments [
+            dictionary [
+              [
                 {
-                  ref "c"
+                  ref "k"
                 }
+                1
               ]
-              procedure "Lib.Container.first"
-            }
+            ]
           }
-          returns "some C.Item"
+          returns "Dictionary<some C.Item, Int>"
         }
       }
       warp 1
     }
     {
       imports [
-        "Lib.Container"
+        "Lib.Keyed"
       ]
       types {
-        "App.Box" {
+        "App.Card" {
           procedures {
-            first {
+            key {
               access "public"
               parameters [
                 {
                   name "of"
-                  type "App.Box<some T>"
+                  type "App.Card"
                 }
               ]
-              result {
-                ref "of.item"
-              }
-              returns "some T"
+              result "card"
+              returns "String"
             }
           }
           satisfies [
-            "Lib.Container"
+            "Lib.Keyed"
           ]
           struct {
-            item "some T"
+            rank "Int"
           }
-          typeParameters [
-            "T"
-          ]
           types {
-            Item "some T"
+            Item "String"
           }
         }
       }
@@ -87,55 +100,46 @@ warpt 1
     }
   ]
   expect {
-    refuses "build"
+    answers 1
   }
-  name "a-member-read-at-a-type-is-that-type-refuses"
-  note "A box of text gives Item as String, so what `Lib.firstOf` answers for one is a String, and `Int.plus` refuses it at the build."
+  name "a-map-keyed-by-an-associated-type-the-contract-holds-hashable-answers"
+  note "`Lib.Keyed` holds Item to Hashable, so `Dictionary<some C.Item, Int>` is a map type."
   program {
     imports [
-      "App.Box"
-      "Int.plus"
-      "Lib.firstOf"
+      "App.Card"
+      "Lib.index"
     ]
     procedures {
       entry {
         access "public"
         body [
           {
-            let "b"
-            type "App.Box<String>"
+            let "c"
+            type "App.Card"
             value {
               struct {
-                item "x"
+                rank 1
               }
             }
           }
           {
-            let "x"
+            let "m"
             value {
               call {
                 arguments [
                   {
-                    ref "b"
+                    ref "c"
                   }
                 ]
-                procedure "Lib.firstOf"
+                procedure "Lib.index"
               }
             }
           }
         ]
         result {
-          call {
-            arguments [
-              {
-                ref "x"
-              }
-              1
-            ]
-            procedure "Int.plus"
-          }
+          ref "m[\"card\"]"
         }
-        returns "Int"
+        returns "Int?"
       }
     }
     warp 1

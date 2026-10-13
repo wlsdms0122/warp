@@ -86,53 +86,12 @@ warpt 1
       warp 1
     }
     {
-      contracts {
-        "App.Describable" {
-          procedures {
-            describe {
-              parameters [
-                {
-                  name "of"
-                  type "Self"
-                }
-              ]
-              returns "String"
-            }
-          }
-        }
-      }
-      extensions {
-        Int {
-          procedures {
-            describe {
-              access "public"
-              parameters [
-                {
-                  name "of"
-                  type "Int"
-                }
-              ]
-              result "one"
-              returns "String"
-            }
-          }
-          satisfies [
-            "App.Describable"
-          ]
-        }
-      }
-      imports []
-      warp 1
-    }
-    {
       imports [
-        "App.Describable"
-        "App.Describable.describe"
         "Lib.Container"
-        "Lib.Container.first"
+        "Lib.firstOf"
       ]
       procedures {
-        "Use.firstText" {
+        "Use.twice" {
           access "public"
           body [
             {
@@ -144,63 +103,13 @@ warpt 1
                       ref "c"
                     }
                   ]
-                  procedure "Lib.Container.first"
+                  procedure "Lib.firstOf"
                 }
               }
             }
           ]
           bounds {
             C "Lib.Container"
-            "C.Item" "App.Describable"
-          }
-          parameters [
-            {
-              name "c"
-              type "some C"
-            }
-          ]
-          result {
-            call {
-              arguments [
-                {
-                  ref "x"
-                }
-              ]
-              procedure "App.Describable.describe"
-            }
-          }
-          returns "String"
-        }
-      }
-      warp 1
-    }
-    {
-      imports [
-        "App.Describable"
-        "Lib.Container"
-        "Use.firstText"
-      ]
-      procedures {
-        "Use.outer" {
-          access "public"
-          body [
-            {
-              let "x"
-              value {
-                call {
-                  arguments [
-                    {
-                      ref "c"
-                    }
-                  ]
-                  procedure "Use.firstText"
-                }
-              }
-            }
-          ]
-          bounds {
-            C "Lib.Container"
-            "C.Item" "App.Describable"
           }
           parameters [
             {
@@ -211,21 +120,21 @@ warpt 1
           result {
             ref "x"
           }
-          returns "String"
+          returns "some C.Item"
         }
       }
       warp 1
     }
   ]
   expect {
-    answers "one"
+    answers 1
   }
-  name "a-callers-bound-on-a-member-carries-into-a-call-answers"
-  note "`Use.outer` bounds `C.Item` by App.Describable, so `Use.firstText`, which asks that of its C, takes its C."
+  name "an-associated-type-a-call-fills-from-the-callers-parameter-is-the-callers-answers"
+  note "`Use.twice` hands its own C to `Lib.firstOf`, and what that answers is its own `some C.Item`."
   program {
     imports [
       "App.Box"
-      "Use.outer"
+      "Use.twice"
     ]
     procedures {
       entry {
@@ -249,7 +158,7 @@ warpt 1
                     ref "b"
                   }
                 ]
-                procedure "Use.outer"
+                procedure "Use.twice"
               }
             }
           }
@@ -257,7 +166,7 @@ warpt 1
         result {
           ref "x"
         }
-        returns "String"
+        returns "Int"
       }
     }
     warp 1

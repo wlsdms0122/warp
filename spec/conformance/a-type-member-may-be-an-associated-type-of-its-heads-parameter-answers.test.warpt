@@ -85,17 +85,83 @@ warpt 1
       }
       warp 1
     }
+    {
+      imports [
+        "Lib.Container"
+        "Lib.Container.first"
+      ]
+      types {
+        "App.Wrapper" {
+          bounds {
+            B "Lib.Container"
+          }
+          procedures {
+            first {
+              access "public"
+              body [
+                {
+                  let "base"
+                  value {
+                    ref "of.base"
+                  }
+                }
+                {
+                  let "x"
+                  value {
+                    call {
+                      arguments [
+                        {
+                          ref "base"
+                        }
+                      ]
+                      procedure "Lib.Container.first"
+                    }
+                  }
+                }
+              ]
+              bounds {
+                B "Lib.Container"
+              }
+              parameters [
+                {
+                  name "of"
+                  type "App.Wrapper<some B>"
+                }
+              ]
+              result {
+                ref "x"
+              }
+              returns "some B.Item"
+            }
+          }
+          satisfies [
+            "Lib.Container"
+          ]
+          struct {
+            base "some B"
+          }
+          typeParameters [
+            "B"
+          ]
+          types {
+            Item "some B.Item"
+          }
+        }
+      }
+      warp 1
+    }
   ]
   expect {
     answers 2
   }
-  name "a-call-through-a-contract-reads-the-member-of-the-value-it-hands-answers"
-  note "`Lib.Container.first` answers `Self.Item`, and Self is a box of Int, so the call answers an Int."
+  name "a-type-member-may-be-an-associated-type-of-its-heads-parameter-answers"
+  note "App.Wrapper gives Item as `some B.Item`, the associated type of what it wraps. A wrapper of a box of Int gives Int."
   program {
     imports [
       "App.Box"
+      "App.Wrapper"
       "Int.plus"
-      "Lib.Container.first"
+      "Lib.firstOf"
     ]
     procedures {
       entry {
@@ -111,15 +177,26 @@ warpt 1
             }
           }
           {
+            let "w"
+            type "App.Wrapper<App.Box<Int>>"
+            value {
+              struct {
+                base {
+                  ref "b"
+                }
+              }
+            }
+          }
+          {
             let "x"
             value {
               call {
                 arguments [
                   {
-                    ref "b"
+                    ref "w"
                   }
                 ]
-                procedure "Lib.Container.first"
+                procedure "Lib.firstOf"
               }
             }
           }

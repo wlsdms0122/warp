@@ -4,7 +4,7 @@ warpt 1
     c App.Box {
       item 1
     }
-    x "no"
+    x 1
   }
   documents [
     {
@@ -93,10 +93,10 @@ warpt 1
     }
   ]
   expect {
-    refuses "run"
+    answers 1
   }
-  name "a-door-refuses-a-value-at-a-member-of-another-type-refuses"
-  note "The run hands a box of Int at C and text at `some C.Item`, which a box of Int gives as Int, so the run refuses it at the door."
+  name "a-door-holds-a-value-at-an-associated-type-to-what-its-parameter-gives-answers"
+  note "The run hands a box of Int at C and an Int at `some C.Item`, which is what a box of Int gives."
   program {
     imports [
       "Lib.Container"

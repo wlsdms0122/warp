@@ -1,11 +1,5 @@
 warpt 1
 {
-  arguments {
-    c App.Box {
-      item 1
-    }
-    x 1
-  }
   documents [
     {
       contracts {
@@ -93,34 +87,52 @@ warpt 1
     }
   ]
   expect {
-    answers 1
+    refuses "build"
   }
-  name "a-door-holds-a-value-at-a-member-to-what-its-parameter-gives-answers"
-  note "The run hands a box of Int at C and an Int at `some C.Item`, which is what a box of Int gives."
+  name "a-call-through-a-contract-of-a-value-of-it-reading-an-associated-type-refuses"
+  note "`Lib.Container.first` answers `Self.Item`, and a value read as the contract gives no one Item, so the call refuses at the build."
   program {
     imports [
+      "App.Box"
       "Lib.Container"
+      "Lib.Container.first"
     ]
     procedures {
       entry {
         access "public"
-        bounds {
-          C "Lib.Container"
-        }
-        parameters [
+        body [
           {
-            name "c"
-            type "some C"
+            let "b"
+            type "Lib.Container"
+            value {
+              as {
+                of {
+                  struct {
+                    item 1
+                  }
+                }
+                type "App.Box<Int>"
+              }
+            }
           }
           {
-            name "x"
-            type "some C.Item"
+            let "x"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "b"
+                  }
+                ]
+                procedure "Lib.Container.first"
+              }
+            }
           }
         ]
         result {
           ref "x"
         }
-        returns "some C.Item"
+        returns "Any"
       }
     }
     warp 1

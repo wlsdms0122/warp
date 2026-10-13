@@ -87,11 +87,12 @@ warpt 1
     }
     {
       imports [
+        "Int.plus"
         "Lib.Container"
         "Lib.Container.first"
       ]
       procedures {
-        "Use.apply" {
+        "Use.plusOne" {
           access "public"
           body [
             {
@@ -104,23 +105,6 @@ warpt 1
                     }
                   ]
                   procedure "Lib.Container.first"
-                }
-              }
-            }
-            {
-              let "f"
-              value {
-                closure {
-                  parameters [
-                    {
-                      name "y"
-                      type "some C.Item"
-                    }
-                  ]
-                  result {
-                    ref "y"
-                  }
-                  returns "some C.Item"
                 }
               }
             }
@@ -140,30 +124,26 @@ warpt 1
                 {
                   ref "x"
                 }
+                1
               ]
-              procedure {
-                ref "f"
-              }
+              procedure "Int.plus"
             }
           }
           returns "Int"
-          sameTypes {
-            "C.Item" "Int"
-          }
         }
       }
       warp 1
     }
   ]
   expect {
-    answers 1
+    refuses "build"
   }
-  name "a-closure-writes-the-member-of-the-procedure-around-it-answers"
-  note "A closure in `Use.apply` takes `some C.Item`, which the procedure says is Int."
+  name "an-associated-type-is-one-type-the-body-does-not-know-refuses"
+  note "Without a same type, `C.Item` inside `Use.plusOne` is a type the body does not know, and `Int.plus` takes no value of it."
   program {
     imports [
       "App.Box"
-      "Use.apply"
+      "Use.plusOne"
     ]
     procedures {
       entry {
@@ -178,22 +158,16 @@ warpt 1
               }
             }
           }
-          {
-            let "x"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "b"
-                  }
-                ]
-                procedure "Use.apply"
-              }
-            }
-          }
         ]
         result {
-          ref "x"
+          call {
+            arguments [
+              {
+                ref "b"
+              }
+            ]
+            procedure "Use.plusOne"
+          }
         }
         returns "Int"
       }

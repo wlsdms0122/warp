@@ -86,12 +86,53 @@ warpt 1
       warp 1
     }
     {
+      contracts {
+        "App.Describable" {
+          procedures {
+            describe {
+              parameters [
+                {
+                  name "of"
+                  type "Self"
+                }
+              ]
+              returns "String"
+            }
+          }
+        }
+      }
+      extensions {
+        Int {
+          procedures {
+            describe {
+              access "public"
+              parameters [
+                {
+                  name "of"
+                  type "Int"
+                }
+              ]
+              result "one"
+              returns "String"
+            }
+          }
+          satisfies [
+            "App.Describable"
+          ]
+        }
+      }
+      imports []
+      warp 1
+    }
+    {
       imports [
+        "App.Describable"
+        "App.Describable.describe"
         "Lib.Container"
         "Lib.Container.first"
       ]
       procedures {
-        "Use.pick" {
+        "Use.firstText" {
           access "public"
           body [
             {
@@ -100,7 +141,7 @@ warpt 1
                 call {
                   arguments [
                     {
-                      ref "d"
+                      ref "c"
                     }
                   ]
                   procedure "Lib.Container.first"
@@ -110,39 +151,81 @@ warpt 1
           ]
           bounds {
             C "Lib.Container"
-            D "Lib.Container"
+            "C.Item" "App.Describable"
           }
           parameters [
             {
               name "c"
               type "some C"
             }
+          ]
+          result {
+            call {
+              arguments [
+                {
+                  ref "x"
+                }
+              ]
+              procedure "App.Describable.describe"
+            }
+          }
+          returns "String"
+        }
+      }
+      warp 1
+    }
+    {
+      imports [
+        "App.Describable"
+        "Lib.Container"
+        "Use.firstText"
+      ]
+      procedures {
+        "Use.outer" {
+          access "public"
+          body [
             {
-              name "d"
-              type "some D"
+              let "x"
+              value {
+                call {
+                  arguments [
+                    {
+                      ref "c"
+                    }
+                  ]
+                  procedure "Use.firstText"
+                }
+              }
+            }
+          ]
+          bounds {
+            C "Lib.Container"
+            "C.Item" "App.Describable"
+          }
+          parameters [
+            {
+              name "c"
+              type "some C"
             }
           ]
           result {
             ref "x"
           }
-          returns "some C.Item"
-          sameTypes {
-            "C.Item" "some D.Item"
-          }
+          returns "String"
         }
       }
       warp 1
     }
   ]
   expect {
-    refuses "build"
+    answers "one"
   }
-  name "two-members-said-one-type-refuse-two-types-refuses"
-  note "`Use.pick` says `C.Item` is `D.Item`, and a box of Int and a box of text give two types, so the call refuses at the build."
+  name "a-callers-bound-on-an-associated-type-carries-into-a-call-answers"
+  note "`Use.outer` bounds `C.Item` by App.Describable, so `Use.firstText`, which asks that of its C, takes its C."
   program {
     imports [
       "App.Box"
-      "Use.pick"
+      "Use.outer"
     ]
     procedures {
       entry {
@@ -158,15 +241,6 @@ warpt 1
             }
           }
           {
-            let "e"
-            type "App.Box<String>"
-            value {
-              struct {
-                item "x"
-              }
-            }
-          }
-          {
             let "x"
             value {
               call {
@@ -174,11 +248,8 @@ warpt 1
                   {
                     ref "b"
                   }
-                  {
-                    ref "e"
-                  }
                 ]
-                procedure "Use.pick"
+                procedure "Use.outer"
               }
             }
           }
@@ -186,7 +257,7 @@ warpt 1
         result {
           ref "x"
         }
-        returns "Any"
+        returns "String"
       }
     }
     warp 1

@@ -135,10 +135,10 @@ warpt 1
     }
   ]
   expect {
-    answers 1
+    refuses "build"
   }
-  name "two-members-said-one-type-answer"
-  note "`Use.pick` says `C.Item` is `D.Item`, so what `Lib.Container.first` answers for D stands where `some C.Item` is answered."
+  name "two-associated-types-said-one-type-take-no-two-types-refuses"
+  note "`Use.pick` says `C.Item` is `D.Item`, and a box of Int and a box of text give two types, so the call refuses at the build."
   program {
     imports [
       "App.Box"
@@ -159,10 +159,10 @@ warpt 1
           }
           {
             let "e"
-            type "App.Box<Int>"
+            type "App.Box<String>"
             value {
               struct {
-                item 1
+                item "x"
               }
             }
           }
@@ -186,7 +186,7 @@ warpt 1
         result {
           ref "x"
         }
-        returns "Int"
+        returns "Any"
       }
     }
     warp 1

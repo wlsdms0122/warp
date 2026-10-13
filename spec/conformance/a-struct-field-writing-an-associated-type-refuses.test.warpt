@@ -52,8 +52,8 @@ warpt 1
   expect {
     refuses "load"
   }
-  name "a-struct-field-writing-a-member-refuses"
-  note "A value carries no type's arguments, so what fills a struct's parameters is read off its fields, and a field writing `some C.Item` refuses at the load."
+  name "a-struct-field-writing-an-associated-type-refuses"
+  note "A value carries no type's arguments, so what fills a struct's parameters is read off its fields, and a field writing the associated type `some C.Item` refuses at the load."
   program {
     imports [
       "Lib.Container"

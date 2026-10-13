@@ -10,8 +10,8 @@ What a declaration says about itself, and what saying it permits. Four things: t
 | `access` | `public`, `internal` or `private`: who may name the declaration, under *who may name a declaration* below. `internal` when absent | no |
 | `parameters` | list of parameters, in the order the declaration writes them, which is the order every call hands its arguments in | no |
 | `returns` | type. When absent, what a call answers is read off the body | no |
-| `bounds` | map: type parameter, or a member of one, `T.Item` → the names of contracts, one or several joined with `&`; one naming a parameter no slot mentions **refuses at the load**, under [types](type.md) | no |
-| `sameTypes` | map: a member of a type parameter, `T.Item` → the type it is, under *members of a type parameter* in [types](type.md) | no |
+| `bounds` | map: type parameter, or an associated type of one, `T.Item` → the names of contracts, one or several joined with `&`; one naming a parameter no slot mentions **refuses at the load**, under [types](type.md) | no |
+| `sameTypes` | map: an associated type of a type parameter, `T.Item` → the type it is, under *the associated types of a type parameter* in [types](type.md) | no |
 | `body` | statements | no |
 | `result` | expression. What the procedure answers | no |
 

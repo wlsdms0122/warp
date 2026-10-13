@@ -1,0 +1,116 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "Lib.Held" {
+          procedures {
+            first {
+              const true
+              parameters [
+                {
+                  name "of"
+                  type "Self"
+                }
+              ]
+              returns "Self.Item"
+            }
+          }
+          types [
+            "Item"
+          ]
+        }
+      }
+      imports []
+      warp 1
+    }
+    {
+      imports [
+        "Lib.Held"
+      ]
+      types {
+        "App.Box" {
+          procedures {
+            first {
+              access "public"
+              parameters [
+                {
+                  name "of"
+                  type "App.Box<some T>"
+                }
+              ]
+              result {
+                ref "of.item"
+              }
+              returns "some T"
+            }
+          }
+          satisfies [
+            "Lib.Held"
+          ]
+          struct {
+            item "some T"
+          }
+          typeParameters [
+            "T"
+          ]
+          types {
+            Item "some T"
+          }
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    answers 2
+  }
+  name "a-constant-settles-through-an-associated-type-answers"
+  note "A constant settles at the build from a call through a contract asking its procedure to answer without running, and its type is the associated type the box of Int gives."
+  program {
+    const {
+      k {
+        call {
+          arguments [
+            {
+              as {
+                of {
+                  struct {
+                    item 1
+                  }
+                }
+                type "App.Box<Int>"
+              }
+            }
+          ]
+          procedure "Lib.Held.first"
+        }
+      }
+    }
+    imports [
+      "App.Box"
+      "Int.plus"
+      "Lib.Held.first"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                ref "k"
+              }
+              1
+            ]
+            procedure "Int.plus"
+          }
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
