@@ -59,7 +59,7 @@ A type **satisfies** a contract when a document says it does. A document says it
 
 The build holds the claim to the type's members. For every procedure the contract asks, it takes the type's member of that name (`Bank.Account`'s `describe`) and holds its signature to the contract's with the type in place of `Self` wherever the contract writes it. Under a head applying the type, that is the type as the head applies it, each of the head's type parameters one no call fills held to its bounds, so a member answering the claim takes every value the head takes: one taking `App.Box<Int>` alone does not answer a claim under `App.Box<some T: Hashable>`. A name that stands for a declared struct names that struct's type there, as wherever types are compared, so a declaration may write another name for the struct the contract writes. A declaration that wrote no `returns` is held by what its body answers, read the way a call site reads it.
 
-**What a document stands on.** A document stands on the documents declaring what it names, on the documents those stand on, and on the documents making the claims it imports. A claim declares no name, so a document reaches one made in a document it names nothing of by writing the pair the claim is about among its `imports`, the type's name and the contract's with a colon and a space between, `"T.Card: App.Describable"`. Whether a type answers a contract is judged at the **build**, against the claims made within what the asking document stands on, the language's among them: a reading of a type no claim there is about, or one the claim's head does not take, answers nothing, and **refuses at the build** where it is handed. So what a document builds to is a fact of it and of what it stands on, whatever else the link holds. A door and a cast judge what arrives against every claim the link holds, since what arrives is no reading any one document asked. A claim is judged where it is written, against what its document stands on: a claim missing a procedure, or holding one whose signature does not fit or that does less than the contract asks, **refuses at the build, at the claim**, whether or not anything asks the contract of the type. An import naming a claim the document makes itself **refuses at the load**, and so does one written as neither a name nor a pair; one naming a claim no document in the link makes **refuses at the build**, as a name nothing declares does.
+**What a document stands on.** A document stands on the documents declaring what it names, on the documents those stand on, and on the document making a claim it imports. A claim declares no name, so a document reaches one made in a document it names nothing of by writing the pair the claim is about among its `imports`, the type's name and the contract's with a colon and a space between, `"T.Card: App.Describable"`. Whether a type answers a contract is judged at the **build**, against the claims made within what the asking document stands on, the language's among them: a reading of a type no claim there is about, or one the claim's head does not take, answers nothing, and **refuses at the build** where it is handed. So what a document builds to is a fact of it and of what it stands on, whatever else the link holds. A door and a cast judge what arrives against every claim the link holds, since what arrives is no reading any one document asked; a fold, which runs at the build, holds a value to the claims within its document's reach, and settling one that asks whether a value's type answers a contract where no claim within that reach is about the type **refuses at the build**, since the run would read every claim the link holds. A claim is judged where it is written, against what its document stands on: a claim missing a procedure, or holding one whose signature does not fit or that does less than the contract asks, **refuses at the build, at the claim**, whether or not anything asks the contract of the type. An import naming a claim the document makes itself or one the language makes **refuses at the load**, and so does one written as neither a name nor a pair, or as a pair whose halves are no type's name and no contract's; one naming a claim no document in the link makes **refuses at the build**, as a name nothing declares does, and so does one naming a claim two documents of the link make, as a name two declare does: what a document stands on is then the same however the host compiled it.
 
 A claim whose two names the list declares as something other than what the claim needs of them **refuses at the build, at the claim**: a contract where the type belongs, or a type where the contract belongs. One name has one declarer, so no document arriving later makes that right.
 
@@ -108,6 +108,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-call-fills-a-type-parameter-through-a-struct-applied-to-it-answers`
 - `a-call-of-a-value-read-as-any-refuses`
 - `a-call-through-a-contract-with-nothing-first-refuses`
+- `a-cast-at-the-run-reads-every-claim-of-the-link`
 - `a-cast-between-aliases-of-two-nullable-structs-reads-null-answers`
 - `a-cast-of-a-closure-appending-to-a-list-of-its-makers-parameter-fails`
 - `a-cast-of-a-closure-over-a-type-parameter-its-making-call-filled-fails`
@@ -152,7 +153,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-claim-in-one-document-about-a-struct-another-declares-with-a-type-parameter-answers`
 - `a-claim-naming-a-contract-where-the-type-belongs-refuses`
 - `a-claim-naming-a-type-where-a-contract-belongs-refuses`
-- `a-claim-nobody-leans-on-that-does-not-hold-refuses`
+- `a-claim-that-does-not-hold-refuses-though-nothing-asks-it`
+- `a-claim-two-documents-make-answers-a-document-standing-on-the-second`
 - `a-claim-under-a-head-another-document-makes-is-imported-and-answers`
 - `a-claim-under-a-head-another-document-makes-refuses-a-value-it-does-not-take`
 - `a-claim-under-a-head-applying-a-list-to-int-answers-for-a-list-of-ints`
@@ -205,6 +207,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-contract-stands-in-a-declared-types-field`
 - `a-contract-stands-where-a-type-is-written`
 - `a-contract-written-with-brackets-refuses`
+- `a-copy-of-a-claim-that-does-not-hold-refuses-beside-one-that-does`
 - `a-declaration-answering-a-contract-answering-any-may-answer-its-parameter`
 - `a-declaration-answering-a-contract-failing-with-what-the-contract-does-not-name-refuses`
 - `a-declaration-answering-a-contract-fills-its-own-parameter-with-the-contracts`

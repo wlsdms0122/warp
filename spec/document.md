@@ -32,7 +32,7 @@ An implementation implements the **current** version only.
 
 The list holds spellings and not kinds: a spelling in it asks for whatever the link declares under it, so a program using the procedure and the type of one spelling lists it once. The list is that set exactly, not a bound around it: **reading refuses** a document whose list disagrees with what its program uses, in either direction. It refuses at the load, since what a program uses is a fact of its text alone. The list is read before the program: the host lays the link from it, whatever kind each spelling turns out to declare, so a list saying less would be trusted and wrong, and a list saying more asks for what the program has no use for.
 
-**A claim among the imports.** A claim declares no name, so a document stands on a claim another document makes by writing the pair the claim is about, the type's name and the contract's with a colon and a space between: `"T.Card: App.Describable"`. What it stands on is what its build asks a contract of, under [types](type.md): a claim made in a document it names something of is within its reach already, and one made in a document it names nothing of is reached this way alone. Which claims a document asks of is its build's, not its text's, so a claim among the imports is not held to the program's use as a name is. An import naming a claim the document makes itself, and one written as neither a name nor a pair, **refuse at the load**, and one naming a claim no document in the link makes **refuses at the build**.
+**A claim among the imports.** A claim declares no name, so a document stands on a claim another document makes by writing the pair the claim is about, the type's name and the contract's with a colon and a space between: `"T.Card: App.Describable"`. What it stands on is what its build asks a contract of, under [types](type.md): a claim made in a document it stands on is within its reach already, and one made in a document it does not stand on is reached this way alone. Which claims a document asks of is its build's, not its text's, so a claim among the imports is not held to the program's use as a name is. An import naming a claim the document makes itself or one the language makes, and one written as neither a name nor a pair, **refuse at the load**, and one naming a claim no document in the link makes, or one two documents of the link make, **refuses at the build**.
 
 **A module asks and does not carry.** What the list names is supplied by whatever else stands in the link, and a module that shipped its own copy of a bundle it uses would put that bundle's declarations in the link twice, which the build refuses by the rule that one name has one declarer. Which modules are in a link is decided where the link is assembled. The same holds for the types and contracts a signature mentions: the list names them, and what declares them is still the link's to bring.
 
@@ -52,6 +52,7 @@ A reader of documents **refuses** a shorthand where it meets one, the way it ref
 
 What `conformance/` asks about this page, by the name each case's file carries.
 
+- `a-claim-import-whose-type-is-no-types-name-refuses`
 - `a-constant-closure-may-name-its-documents-own-type`
 - `a-constant-is-a-name-a-body-reads`
 - `a-constant-may-be-spelled-like-a-procedure`
@@ -92,6 +93,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-access-written-as-what-its-absence-means-refuses`
 - `an-else-written-empty-refuses`
 - `an-import-of-a-claim-no-document-makes-refuses`
+- `an-import-of-a-claim-the-language-makes-refuses`
+- `an-import-of-a-claim-two-documents-make-refuses`
 - `an-import-written-as-neither-a-name-nor-a-claim-refuses`
 - `an-overstated-imports-list-refuses`
 - `an-unknown-key-refuses`
