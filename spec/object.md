@@ -14,9 +14,10 @@ An object is one map. It carries **exactly** these keys, and a key none of them 
 | `document` | the document's identity, or nothing where the program was never written down | |
 | `dependencies` | the objects behind every declaration this document named, each by what the host keyed it under | ascending by bytes, none twice |
 | `types` | name → *type*, as the document wrote them: a struct as tag 9, an alias as the type it stands for | by name |
-| `contracts` | name → (procedure name → `[ signature, constness, isolation, failing ]`, the two marks as a row writes them and *failing* as `[1, names]`) | by name, then by name |
+| `contracts` | name → `[ types, bounds, procedures ]`: the types the contract asks; name → the contracts bounding the type of that name, ascending, at least one, for each one it bounds; and procedure name → `[ signature, constness, isolation, failing ]`, the two marks as a row writes them and *failing* as `[1, names]` | by name; the types ascending, the bounds and the procedures by name |
 | `claims` | *head* → the contracts it says the values the head takes answer, at least one | by head; the contracts ascending |
 | `members` | *head* → the members it gives the type under the head, at least one, each the name of a row under the type's name and its own | by head; the members ascending |
+| `typeMembers` | *head* → (name → *type*): the type members it gives the type under the head, at least one, each written in the head's type parameters | by head, then by name |
 | `importedClaims` | the claims its document imports, each `[type, contract]`, the pair the claim is about | by type, then by contract |
 | `rows` | the declarations, each a *row* under its spelling | by name |
 | `lifted` | the closures its bodies lifted, each a *row* with no spelling | as the numbering counts them |
@@ -69,12 +70,13 @@ A *type* is `[tag, …]`:
 | 16 | a composition `A & B` | names ascending, two or more: one contract is written as its name, tag 14 |
 | 17 | a projection | the parameter projected, the path: *segment* list |
 | 18 | `Self` | |
+| 19 | a member, `some T.Item` or `Self.Item` | the type parameter's name or `Self`, the member's name |
 
 A *head* is what a document gives a type under, under [types](type.md): a name where it is bare, and otherwise `[name, arguments, bounds]`, the types it applies the named type to, a list of *type*, at least one, and name → the contracts bounding the type parameter of that name, ascending, at least one, for each one it bounds. A list a head keys stands in the order of the heads' spellings, as names, none twice.
 
 A *segment* is `[0, name, optional]`, `[1, value, optional]` for a *value* written between the brackets, or `[2, path, optional]` for one read from a path.
 
-A *procedure type* is `[parameters, returns, failing]`: a list of *type*, in position order, a *type* or nothing, and a *failing*. A *signature* is `[parameters, returns, bounds]`: a list of *parameter*, in the declaration's order; a *type* or nothing; and name → the contracts bounding the type parameter of that name, ascending, at least one, for each type parameter the signature bounds. A *parameter* is `[name, type, description]`: the name, then each a list of none or one: a *type*, none where the parameter takes anything, so `Any` is never written there; a string.
+A *procedure type* is `[parameters, returns, failing]`: a list of *type*, in position order, a *type* or nothing, and a *failing*. A *signature* is `[parameters, returns, bounds, sameTypes]`: a list of *parameter*, in the declaration's order; a *type* or nothing; name → the contracts bounding the type parameter or the member of that name, ascending, at least one, for each one the signature bounds; and name → *type* for each member the signature says is a type. A *parameter* is `[name, type, description]`: the name, then each a list of none or one: a *type*, none where the parameter takes anything, so `Any` is never written there; a string.
 
 *Constness* is `0` unstated or `1` const. *Isolation* is `0` unstated or `1` isolated. *Failing* is `[0]` unstated or `[1, names]`, the names ascending. A contract's procedure says which failures it may raise, so its *failing* is `[1, names]` alone.
 
@@ -156,7 +158,7 @@ A reading refuses what it cannot read and traps on nothing: the reading runs ins
 - a call handing in place at other positions than the ones it writes nothing at, or out of ascending order
 - a closure literal taking what it captured into slots other than the captures of its own row's frame
 - a `keeps` that ends before it begins
-- a contract's procedure whose *failing* is `[0]`
+- a contract's procedure whose *failing* is `[0]`, and a contract's bound holding a type the contract does not ask
 - a declared type that is no struct and comes back to itself through what it stands for, which the load refuses in a document, under [types](type.md)
 - a struct built from parts holding other than one part per field its layout names
 - a lowered procedure type writing what it answers and not what it takes, or writing what it may fail with other than exactly where it writes what it takes
@@ -206,7 +208,7 @@ warpt 1
   rows [
     [
       "entry"
-      [ [ [ "n" [ [ 7 [ 4 ] ] ] [] ] ] [ [ 7 [ 4 ] ] ] [] ]
+      [ [ [ "n" [ [ 7 [ 4 ] ] ] [] ] ] [ [ 7 [ 4 ] ] ] [] [] ]
       2
       1
       1
@@ -218,13 +220,14 @@ warpt 1
       ]
     ]
   ]
+  typeMembers []
   typeNumbering []
   types []
   variables []
 }
 ```
 
-Read it back: `rows` holds `entry`, whose signature takes `n` as `Array<Int>` (type tag 7 around tag 4), answers `Array<Int>` and bounds nothing (`[]`); it is public (`2`), const (`1`) and isolated (`1`) and fails with nothing (`[1 []]`); its implementation is a body (`0`) with no instructions and a result, a call (`11`) to row `0` of the numbering, which is `Standard.Collection.appending`, with two arguments, the first read from slot `0` and the second the literal (`0`) int (`2`) `1`, neither handed in place; and its frame has one slot, filled by the parameter, called `n`. The dependency is what the host keyed the standard vocabulary's object under.
+Read it back: `rows` holds `entry`, whose signature takes `n` as `Array<Int>` (type tag 7 around tag 4), answers `Array<Int>`, bounds nothing and says no member is a type (`[] []`); it is public (`2`), const (`1`) and isolated (`1`) and fails with nothing (`[1 []]`); its implementation is a body (`0`) with no instructions and a result, a call (`11`) to row `0` of the numbering, which is `Standard.Collection.appending`, with two arguments, the first read from slot `0` and the second the literal (`0`) int (`2`) `1`, neither handed in place; and its frame has one slot, filled by the parameter, called `n`. The dependency is what the host keyed the standard vocabulary's object under.
 
 ## Cases
 
@@ -309,3 +312,4 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `the-object-of-an-attempt`
 - `the-object-of-an-imported-claim`
 - `the-object-of-every-type-spelling`
+- `the-object-of-types-a-contract-asks`
