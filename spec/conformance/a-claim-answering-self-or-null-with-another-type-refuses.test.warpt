@@ -19,18 +19,27 @@ warpt 1
         }
       }
     }
+    extensions {
+      Int {
+        procedures {
+          find {
+            parameters [
+              {
+                name "of"
+                type "Int"
+              }
+            ]
+            result "s"
+            returns "String?"
+          }
+        }
+        satisfies [
+          "App.Find"
+        ]
+      }
+    }
     imports []
     procedures {
-      "Int.find" {
-        parameters [
-          {
-            name "of"
-            type "Int"
-          }
-        ]
-        result "s"
-        returns "String?"
-      }
       entry {
         access "public"
         result {
@@ -42,11 +51,6 @@ warpt 1
           }
         }
       }
-    }
-    satisfies {
-      Int [
-        "App.Find"
-      ]
     }
     warp 1
   }

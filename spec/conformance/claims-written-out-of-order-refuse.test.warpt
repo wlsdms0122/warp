@@ -32,39 +32,39 @@ warpt 1
     }
     imports []
     procedures {
-      "Bank.A.d" {
-        parameters [
-          {
-            name "of"
-            type "Bank.A"
-          }
-        ]
-        result "a"
-        returns "String"
-      }
-      "Bank.A.e" {
-        parameters [
-          {
-            name "of"
-            type "Bank.A"
-          }
-        ]
-        result "a"
-        returns "String"
-      }
       entry {
         access "public"
         result 1
       }
     }
-    satisfies {
-      "Bank.A" [
-        "App.Y"
-        "App.X"
-      ]
-    }
     types {
       "Bank.A" {
+        procedures {
+          d {
+            parameters [
+              {
+                name "of"
+                type "Bank.A"
+              }
+            ]
+            result "a"
+            returns "String"
+          }
+          e {
+            parameters [
+              {
+                name "of"
+                type "Bank.A"
+              }
+            ]
+            result "a"
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.Y"
+          "App.X"
+        ]
         struct {
           n "Int"
         }

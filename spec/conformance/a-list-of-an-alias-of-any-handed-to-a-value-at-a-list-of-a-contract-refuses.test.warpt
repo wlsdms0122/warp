@@ -61,14 +61,12 @@ warpt 1
         returns "Any"
       }
     }
-    satisfies {
-      "App.Point" [
-        "App.Shape"
-      ]
-    }
     types {
       "App.Loose" "Any"
       "App.Point" {
+        satisfies [
+          "App.Shape"
+        ]
         struct {
           x "Int"
         }

@@ -19,18 +19,27 @@ warpt 1
         }
       }
     }
+    extensions {
+      Int {
+        procedures {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "Int"
+              }
+            ]
+            result "a whole number"
+            returns "String"
+          }
+        }
+        satisfies [
+          "Array<Int>"
+        ]
+      }
+    }
     imports []
     procedures {
-      "Int.describe" {
-        parameters [
-          {
-            name "of"
-            type "Int"
-          }
-        ]
-        result "a whole number"
-        returns "String"
-      }
       entry {
         access "public"
         result {
@@ -43,11 +52,6 @@ warpt 1
         }
         returns "String"
       }
-    }
-    satisfies {
-      Int [
-        "Array<Int>"
-      ]
     }
     warp 1
   }

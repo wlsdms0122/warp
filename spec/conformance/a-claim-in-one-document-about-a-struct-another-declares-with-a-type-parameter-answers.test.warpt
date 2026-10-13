@@ -35,20 +35,29 @@ warpt 1
         }
       }
     }
+    extensions {
+      "App.Box" {
+        procedures {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "App.Box<some T>"
+              }
+            ]
+            result "box"
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.Describable"
+        ]
+      }
+    }
     imports [
       "App.Box"
     ]
     procedures {
-      "App.Box.describe" {
-        parameters [
-          {
-            name "of"
-            type "App.Box<some T>"
-          }
-        ]
-        result "box"
-        returns "String"
-      }
       entry {
         access "public"
         body [
@@ -74,11 +83,6 @@ warpt 1
         }
         returns "String"
       }
-    }
-    satisfies {
-      "App.Box" [
-        "App.Describable"
-      ]
     }
     warp 1
   }

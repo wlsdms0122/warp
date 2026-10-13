@@ -24,51 +24,81 @@ warpt 1
         }
       }
     }
+    extensions {
+      Array {
+        procedures {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "Array<Any>"
+              }
+            ]
+            result "a list"
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.Described"
+        ]
+      }
+      Dictionary {
+        procedures {
+          describe {
+            bounds {
+              Key "Hashable"
+            }
+            parameters [
+              {
+                name "of"
+                type "Dictionary<some Key, Any>"
+              }
+            ]
+            result "a map"
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.Described"
+        ]
+      }
+      Int {
+        procedures {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "Int"
+              }
+            ]
+            result "a whole number"
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.Described"
+        ]
+      }
+      String {
+        procedures {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "String"
+              }
+            ]
+            result "text"
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.Described"
+        ]
+      }
+    }
     imports []
     procedures {
-      "Array.describe" {
-        parameters [
-          {
-            name "of"
-            type "Array<Any>"
-          }
-        ]
-        result "a list"
-        returns "String"
-      }
-      "Dictionary.describe" {
-        bounds {
-          Key "Hashable"
-        }
-        parameters [
-          {
-            name "of"
-            type "Dictionary<some Key, Any>"
-          }
-        ]
-        result "a map"
-        returns "String"
-      }
-      "Int.describe" {
-        parameters [
-          {
-            name "of"
-            type "Int"
-          }
-        ]
-        result "a whole number"
-        returns "String"
-      }
-      "String.describe" {
-        parameters [
-          {
-            name "of"
-            type "String"
-          }
-        ]
-        result "text"
-        returns "String"
-      }
       entry {
         access "public"
         body [
@@ -125,20 +155,6 @@ warpt 1
         ]
         returns "Array<String>"
       }
-    }
-    satisfies {
-      Array [
-        "App.Described"
-      ]
-      Dictionary [
-        "App.Described"
-      ]
-      Int [
-        "App.Described"
-      ]
-      String [
-        "App.Described"
-      ]
     }
     warp 1
   }

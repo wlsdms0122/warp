@@ -1,0 +1,61 @@
+warpt 1
+{
+  documents [
+    {
+      extensions {
+        Int {
+          procedures {
+            twice {
+              access "public"
+              parameters [
+                {
+                  name "n"
+                  type "Int"
+                }
+              ]
+              result 2
+              returns "Int"
+            }
+          }
+        }
+      }
+      imports []
+      warp 1
+    }
+  ]
+  expect {
+    refuses "build"
+  }
+  name "two-documents-giving-one-type-one-member-refuse"
+  note "A member is a declaration under its type's name and its own, and one name has one declarer, so two documents giving `Int` a member `twice` refuse at the build."
+  program {
+    extensions {
+      Int {
+        procedures {
+          twice {
+            access "public"
+            parameters [
+              {
+                name "n"
+                type "Int"
+              }
+            ]
+            result 3
+            returns "Int"
+          }
+        }
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

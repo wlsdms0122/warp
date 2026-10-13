@@ -10,6 +10,19 @@ warpt 1
       Scalar {}
       Text {}
     }
+    extensions {
+      Int {
+        satisfies [
+          "Scalar"
+        ]
+      }
+      String {
+        satisfies [
+          "Scalar"
+          "Text"
+        ]
+      }
+    }
     imports []
     procedures {
       entry {
@@ -37,15 +50,6 @@ warpt 1
         result 1
         returns "Int"
       }
-    }
-    satisfies {
-      Int [
-        "Scalar"
-      ]
-      String [
-        "Scalar"
-        "Text"
-      ]
     }
     warp 1
   }

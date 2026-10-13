@@ -30,16 +30,6 @@ warpt 1
         "App.Describable.describe"
       ]
       procedures {
-        "Bank.Account.describe" {
-          parameters [
-            {
-              name "of"
-              type "Bank.Account"
-            }
-          ]
-          result "an account"
-          returns "String"
-        }
         "Bank.tell" {
           parameters [
             {
@@ -60,13 +50,23 @@ warpt 1
           returns "String"
         }
       }
-      satisfies {
-        "Bank.Account" [
-          "App.Describable"
-        ]
-      }
       types {
         "Bank.Account" {
+          procedures {
+            describe {
+              parameters [
+                {
+                  name "of"
+                  type "Bank.Account"
+                }
+              ]
+              result "an account"
+              returns "String"
+            }
+          }
+          satisfies [
+            "App.Describable"
+          ]
           struct {
             balance "Int"
           }

@@ -19,27 +19,36 @@ warpt 1
         }
       }
     }
+    extensions {
+      Int {
+        procedures {
+          check {
+            parameters [
+              {
+                name "of"
+                type "Int"
+              }
+            ]
+            result {
+              call {
+                arguments [
+                  "no"
+                ]
+                procedure "Standard.Control.abort"
+              }
+            }
+            returns "Int"
+          }
+        }
+        satisfies [
+          "App.Checked"
+        ]
+      }
+    }
     imports [
       "Standard.Control.abort"
     ]
     procedures {
-      "Int.check" {
-        parameters [
-          {
-            name "of"
-            type "Int"
-          }
-        ]
-        result {
-          call {
-            arguments [
-              "no"
-            ]
-            procedure "Standard.Control.abort"
-          }
-        }
-        returns "Int"
-      }
       entry {
         access "public"
         result {
@@ -52,11 +61,6 @@ warpt 1
         }
         returns "Int"
       }
-    }
-    satisfies {
-      Int [
-        "App.Checked"
-      ]
     }
     warp 1
   }

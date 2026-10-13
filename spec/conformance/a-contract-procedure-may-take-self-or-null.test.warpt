@@ -23,22 +23,31 @@ warpt 1
         }
       }
     }
+    extensions {
+      Int {
+        procedures {
+          pick {
+            parameters [
+              {
+                name "lhs"
+                type "Int"
+              }
+              {
+                name "rhs"
+                type "Int?"
+              }
+            ]
+            result "ip"
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.Pick"
+        ]
+      }
+    }
     imports []
     procedures {
-      "Int.pick" {
-        parameters [
-          {
-            name "lhs"
-            type "Int"
-          }
-          {
-            name "rhs"
-            type "Int?"
-          }
-        ]
-        result "ip"
-        returns "String"
-      }
       entry {
         access "public"
         result {
@@ -52,11 +61,6 @@ warpt 1
         }
         returns "String"
       }
-    }
-    satisfies {
-      Int [
-        "App.Pick"
-      ]
     }
     warp 1
   }

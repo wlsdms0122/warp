@@ -31,16 +31,6 @@ warpt 1
         result "took"
         returns "String"
       }
-      "Bank.Card.size" {
-        parameters [
-          {
-            name "of"
-            type "Bank.Card"
-          }
-        ]
-        result 4
-        returns "Int"
-      }
       entry {
         access "public"
         body [
@@ -76,11 +66,6 @@ warpt 1
         }
       }
     }
-    satisfies {
-      "Bank.Card" [
-        "App.Sized"
-      ]
-    }
     types {
       "Bank.Box" {
         struct {
@@ -88,6 +73,21 @@ warpt 1
         }
       }
       "Bank.Card" {
+        procedures {
+          size {
+            parameters [
+              {
+                name "of"
+                type "Bank.Card"
+              }
+            ]
+            result 4
+            returns "Int"
+          }
+        }
+        satisfies [
+          "App.Sized"
+        ]
         struct {
           last "String"
         }

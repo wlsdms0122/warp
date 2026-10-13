@@ -18,39 +18,6 @@ warpt 1
       "Standard.Logic.not"
     ]
     procedures {
-      "App.Score.lessThan" {
-        parameters [
-          {
-            name "lhs"
-            type "App.Score"
-          }
-          {
-            name "rhs"
-            type "App.Score"
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                call {
-                  arguments [
-                    {
-                      ref "rhs.v"
-                    }
-                    {
-                      ref "lhs.v"
-                    }
-                  ]
-                  procedure "Standard.Comparable.lessThan"
-                }
-              }
-            ]
-            procedure "Standard.Logic.not"
-          }
-        }
-        returns "Bool"
-      }
       entry {
         access "public"
         body [
@@ -109,13 +76,46 @@ warpt 1
         }
       }
     }
-    satisfies {
-      "App.Score" [
-        "Standard.Comparable"
-      ]
-    }
     types {
       "App.Score" {
+        procedures {
+          lessThan {
+            parameters [
+              {
+                name "lhs"
+                type "App.Score"
+              }
+              {
+                name "rhs"
+                type "App.Score"
+              }
+            ]
+            result {
+              call {
+                arguments [
+                  {
+                    call {
+                      arguments [
+                        {
+                          ref "rhs.v"
+                        }
+                        {
+                          ref "lhs.v"
+                        }
+                      ]
+                      procedure "Standard.Comparable.lessThan"
+                    }
+                  }
+                ]
+                procedure "Standard.Logic.not"
+              }
+            }
+            returns "Bool"
+          }
+        }
+        satisfies [
+          "Standard.Comparable"
+        ]
         struct {
           v "Int"
         }

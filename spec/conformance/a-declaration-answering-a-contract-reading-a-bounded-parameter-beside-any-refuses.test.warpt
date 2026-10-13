@@ -29,29 +29,20 @@ warpt 1
       }
       "App.Nums" {}
     }
+    extensions {
+      Double {
+        satisfies [
+          "App.Nums"
+        ]
+      }
+      Int {
+        satisfies [
+          "App.Nums"
+        ]
+      }
+    }
     imports []
     procedures {
-      "Bank.X.m" {
-        bounds {
-          T "App.Nums"
-        }
-        parameters [
-          {
-            name "of"
-            type "Bank.X"
-          }
-          {
-            name "a"
-            type "some T"
-          }
-          {
-            name "b"
-            type "some T"
-          }
-        ]
-        result 0
-        returns "Int"
-      }
       entry {
         access "public"
         body [
@@ -93,19 +84,34 @@ warpt 1
         }
       }
     }
-    satisfies {
-      "Bank.X" [
-        "App.C"
-      ]
-      Double [
-        "App.Nums"
-      ]
-      Int [
-        "App.Nums"
-      ]
-    }
     types {
       "Bank.X" {
+        procedures {
+          m {
+            bounds {
+              T "App.Nums"
+            }
+            parameters [
+              {
+                name "of"
+                type "Bank.X"
+              }
+              {
+                name "a"
+                type "some T"
+              }
+              {
+                name "b"
+                type "some T"
+              }
+            ]
+            result 0
+            returns "Int"
+          }
+        }
+        satisfies [
+          "App.C"
+        ]
         struct {
           k "String"
         }

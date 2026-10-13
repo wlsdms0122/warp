@@ -21,22 +21,6 @@ warpt 1
     }
     imports []
     procedures {
-      "App.Card.label" {
-        parameters [
-          {
-            name "of"
-            type "App.Card"
-          }
-          {
-            name "suffix"
-            type "String?"
-          }
-        ]
-        result {
-          ref "of.last"
-        }
-        returns "String"
-      }
       entry {
         access "public"
         result {
@@ -59,13 +43,29 @@ warpt 1
         returns "String"
       }
     }
-    satisfies {
-      "App.Card" [
-        "App.Labelled"
-      ]
-    }
     types {
       "App.Card" {
+        procedures {
+          label {
+            parameters [
+              {
+                name "of"
+                type "App.Card"
+              }
+              {
+                name "suffix"
+                type "String?"
+              }
+            ]
+            result {
+              ref "of.last"
+            }
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.Labelled"
+        ]
         struct {
           last "String"
         }

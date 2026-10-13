@@ -36,32 +36,6 @@ warpt 1
     }
     imports []
     procedures {
-      "Bank.Box.show" {
-        parameters [
-          {
-            name "of"
-            type "Bank.Box"
-          }
-          {
-            name "n"
-            type "App.Sized"
-          }
-        ]
-        result {
-          ref "n"
-        }
-        returns "App.Sized"
-      }
-      "Bank.Card.size" {
-        parameters [
-          {
-            name "of"
-            type "Bank.Card"
-          }
-        ]
-        result 4
-        returns "Int"
-      }
       entry {
         access "public"
         body [
@@ -111,21 +85,49 @@ warpt 1
         result "ok"
       }
     }
-    satisfies {
-      "Bank.Box" [
-        "App.Shown"
-      ]
-      "Bank.Card" [
-        "App.Sized"
-      ]
-    }
     types {
       "Bank.Box" {
+        procedures {
+          show {
+            parameters [
+              {
+                name "of"
+                type "Bank.Box"
+              }
+              {
+                name "n"
+                type "App.Sized"
+              }
+            ]
+            result {
+              ref "n"
+            }
+            returns "App.Sized"
+          }
+        }
+        satisfies [
+          "App.Shown"
+        ]
         struct {
           n "Int"
         }
       }
       "Bank.Card" {
+        procedures {
+          size {
+            parameters [
+              {
+                name "of"
+                type "Bank.Card"
+              }
+            ]
+            result 4
+            returns "Int"
+          }
+        }
+        satisfies [
+          "App.Sized"
+        ]
         struct {
           last "String"
         }

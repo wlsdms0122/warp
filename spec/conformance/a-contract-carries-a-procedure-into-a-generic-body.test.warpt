@@ -43,26 +43,6 @@ warpt 1
         }
         returns "String"
       }
-      "Bank.Account.describe" {
-        parameters [
-          {
-            name "of"
-            type "Bank.Account"
-          }
-        ]
-        result "an account"
-        returns "String"
-      }
-      "Bank.Card.describe" {
-        parameters [
-          {
-            name "of"
-            type "Bank.Card"
-          }
-        ]
-        result "a card"
-        returns "String"
-      }
       entry {
         access "public"
         body [
@@ -93,21 +73,43 @@ warpt 1
         returns "String"
       }
     }
-    satisfies {
-      "Bank.Account" [
-        "App.Describable"
-      ]
-      "Bank.Card" [
-        "App.Describable"
-      ]
-    }
     types {
       "Bank.Account" {
+        procedures {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "Bank.Account"
+              }
+            ]
+            result "an account"
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.Describable"
+        ]
         struct {
           balance "Int"
         }
       }
       "Bank.Card" {
+        procedures {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "Bank.Card"
+              }
+            ]
+            result "a card"
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.Describable"
+        ]
         struct {
           last "String"
         }

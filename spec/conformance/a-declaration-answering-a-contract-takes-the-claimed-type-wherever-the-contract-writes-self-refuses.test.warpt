@@ -23,22 +23,31 @@ warpt 1
         }
       }
     }
+    extensions {
+      Int {
+        procedures {
+          before {
+            parameters [
+              {
+                name "lhs"
+                type "Int"
+              }
+              {
+                name "rhs"
+                type "String"
+              }
+            ]
+            result true
+            returns "Bool"
+          }
+        }
+        satisfies [
+          "App.Ordered"
+        ]
+      }
+    }
     imports []
     procedures {
-      "Int.before" {
-        parameters [
-          {
-            name "lhs"
-            type "Int"
-          }
-          {
-            name "rhs"
-            type "String"
-          }
-        ]
-        result true
-        returns "Bool"
-      }
       entry {
         access "public"
         result {
@@ -52,11 +61,6 @@ warpt 1
         }
         returns "Bool"
       }
-    }
-    satisfies {
-      Int [
-        "App.Ordered"
-      ]
     }
     warp 1
   }

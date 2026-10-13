@@ -23,36 +23,45 @@ warpt 1
         }
       }
     }
+    extensions {
+      Int {
+        procedures {
+          before {
+            parameters [
+              {
+                name "lhs"
+                type "Int"
+              }
+              {
+                name "rhs"
+                type "Int"
+              }
+            ]
+            result {
+              call {
+                arguments [
+                  {
+                    ref "lhs"
+                  }
+                  {
+                    ref "rhs"
+                  }
+                ]
+                procedure "Standard.Comparable.lessThan"
+              }
+            }
+            returns "Bool"
+          }
+        }
+        satisfies [
+          "App.Ordered"
+        ]
+      }
+    }
     imports [
       "Standard.Comparable.lessThan"
     ]
     procedures {
-      "Int.before" {
-        parameters [
-          {
-            name "lhs"
-            type "Int"
-          }
-          {
-            name "rhs"
-            type "Int"
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "lhs"
-              }
-              {
-                ref "rhs"
-              }
-            ]
-            procedure "Standard.Comparable.lessThan"
-          }
-        }
-        returns "Bool"
-      }
       entry {
         access "public"
         result {
@@ -66,11 +75,6 @@ warpt 1
         }
         returns "Bool"
       }
-    }
-    satisfies {
-      Int [
-        "App.Ordered"
-      ]
     }
     warp 1
   }

@@ -5,15 +5,19 @@ warpt 1
       contracts {
         "Num.Scalar" {}
       }
-      imports []
-      satisfies {
-        Int [
-          "Num.Scalar"
-        ]
-        String [
-          "Num.Scalar"
-        ]
+      extensions {
+        Int {
+          satisfies [
+            "Num.Scalar"
+          ]
+        }
+        String {
+          satisfies [
+            "Num.Scalar"
+          ]
+        }
       }
+      imports []
       warp 1
     }
   ]

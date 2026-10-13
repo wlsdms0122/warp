@@ -23,24 +23,33 @@ warpt 1
         }
       }
     }
+    extensions {
+      Double {
+        procedures {
+          scale {
+            parameters [
+              {
+                name "of"
+                type "Double"
+              }
+              {
+                name "by"
+                type "Double"
+              }
+            ]
+            result {
+              ref "of"
+            }
+            returns "Double"
+          }
+        }
+        satisfies [
+          "App.Scalable"
+        ]
+      }
+    }
     imports []
     procedures {
-      "Double.scale" {
-        parameters [
-          {
-            name "of"
-            type "Double"
-          }
-          {
-            name "by"
-            type "Double"
-          }
-        ]
-        result {
-          ref "of"
-        }
-        returns "Double"
-      }
       entry {
         access "public"
         result {
@@ -54,11 +63,6 @@ warpt 1
         }
         returns "Double"
       }
-    }
-    satisfies {
-      Double [
-        "App.Scalable"
-      ]
     }
     warp 1
   }

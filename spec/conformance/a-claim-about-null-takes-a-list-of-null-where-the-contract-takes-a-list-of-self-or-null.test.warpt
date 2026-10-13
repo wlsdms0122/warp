@@ -23,22 +23,31 @@ warpt 1
         }
       }
     }
+    extensions {
+      Null {
+        procedures {
+          q {
+            parameters [
+              {
+                name "s"
+                type "Null"
+              }
+              {
+                name "t"
+                type "Array<Null>"
+              }
+            ]
+            result 1
+            returns "Int"
+          }
+        }
+        satisfies [
+          "App.Q"
+        ]
+      }
+    }
     imports []
     procedures {
-      "Null.q" {
-        parameters [
-          {
-            name "s"
-            type "Null"
-          }
-          {
-            name "t"
-            type "Array<Null>"
-          }
-        ]
-        result 1
-        returns "Int"
-      }
       entry {
         access "public"
         result {
@@ -53,11 +62,6 @@ warpt 1
           }
         }
       }
-    }
-    satisfies {
-      Null [
-        "App.Q"
-      ]
     }
     warp 1
   }

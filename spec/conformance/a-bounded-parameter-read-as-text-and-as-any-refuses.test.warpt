@@ -9,6 +9,18 @@ warpt 1
     contracts {
       "App.Nums" {}
     }
+    extensions {
+      Double {
+        satisfies [
+          "App.Nums"
+        ]
+      }
+      Int {
+        satisfies [
+          "App.Nums"
+        ]
+      }
+    }
     imports []
     procedures {
       "App.f" {
@@ -64,14 +76,6 @@ warpt 1
           ref "r"
         }
       }
-    }
-    satisfies {
-      Double [
-        "App.Nums"
-      ]
-      Int [
-        "App.Nums"
-      ]
     }
     warp 1
   }

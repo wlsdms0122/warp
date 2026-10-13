@@ -22,18 +22,27 @@ warpt 1
         }
       }
     }
+    extensions {
+      Int {
+        procedures {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "Int"
+              }
+            ]
+            result "a whole number"
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.Described"
+        ]
+      }
+    }
     imports []
     procedures {
-      "Int.describe" {
-        parameters [
-          {
-            name "of"
-            type "Int"
-          }
-        ]
-        result "a whole number"
-        returns "String"
-      }
       entry {
         access "public"
         body [
@@ -79,11 +88,6 @@ warpt 1
           ref "tried"
         }
       }
-    }
-    satisfies {
-      Int [
-        "App.Described"
-      ]
     }
     warp 1
   }

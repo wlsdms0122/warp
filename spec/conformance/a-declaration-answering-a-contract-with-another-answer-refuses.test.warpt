@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-declaration-answering-a-contract-with-another-answer-refuses"
-  note "The build holds a claim to the declarations behind it: the one named for the type and the procedure takes the contract's signature with the type first. One answering an int where the contract writes a string backs no claim, and the call leaning on the pair is refused."
+  note "The build holds a claim to the type's members: the member of the procedure's name takes the contract's signature with the type first. One answering an int where the contract writes a string backs no claim, and the call leaning on the pair is refused."
   program {
     contracts {
       "App.Describable" {
@@ -43,16 +43,6 @@ warpt 1
         }
         returns "String"
       }
-      "Bank.Account.describe" {
-        parameters [
-          {
-            name "of"
-            type "Bank.Account"
-          }
-        ]
-        result 1
-        returns "Int"
-      }
       entry {
         access "public"
         body [
@@ -83,13 +73,23 @@ warpt 1
         returns "String"
       }
     }
-    satisfies {
-      "Bank.Account" [
-        "App.Describable"
-      ]
-    }
     types {
       "Bank.Account" {
+        procedures {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "Bank.Account"
+              }
+            ]
+            result 1
+            returns "Int"
+          }
+        }
+        satisfies [
+          "App.Describable"
+        ]
         struct {
           balance "Int"
         }

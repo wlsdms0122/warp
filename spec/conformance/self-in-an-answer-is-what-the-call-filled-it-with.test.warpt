@@ -19,20 +19,29 @@ warpt 1
         }
       }
     }
+    extensions {
+      Int {
+        procedures {
+          copy {
+            parameters [
+              {
+                name "of"
+                type "Int"
+              }
+            ]
+            result {
+              ref "of"
+            }
+            returns "Int"
+          }
+        }
+        satisfies [
+          "App.Copyable"
+        ]
+      }
+    }
     imports []
     procedures {
-      "Int.copy" {
-        parameters [
-          {
-            name "of"
-            type "Int"
-          }
-        ]
-        result {
-          ref "of"
-        }
-        returns "Int"
-      }
       entry {
         access "public"
         body [
@@ -54,11 +63,6 @@ warpt 1
         }
         returns "Int"
       }
-    }
-    satisfies {
-      Int [
-        "App.Copyable"
-      ]
     }
     warp 1
   }

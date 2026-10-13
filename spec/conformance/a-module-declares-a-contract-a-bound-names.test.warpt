@@ -9,6 +9,18 @@ warpt 1
     contracts {
       Scalar {}
     }
+    extensions {
+      Int {
+        satisfies [
+          "Scalar"
+        ]
+      }
+      String {
+        satisfies [
+          "Scalar"
+        ]
+      }
+    }
     imports []
     procedures {
       entry {
@@ -38,14 +50,6 @@ warpt 1
         }
         returns "some T"
       }
-    }
-    satisfies {
-      Int [
-        "Scalar"
-      ]
-      String [
-        "Scalar"
-      ]
     }
     warp 1
   }

@@ -23,16 +23,6 @@ warpt 1
     }
     imports []
     procedures {
-      "Bank.A.show" {
-        parameters [
-          {
-            name "of"
-            type "Bank.A"
-          }
-        ]
-        result "a"
-        returns "String"
-      }
       entry {
         access "public"
         body [
@@ -76,13 +66,23 @@ warpt 1
         }
       }
     }
-    satisfies {
-      "Bank.A" [
-        "App.P"
-      ]
-    }
     types {
       "Bank.A" {
+        procedures {
+          show {
+            parameters [
+              {
+                name "of"
+                type "Bank.A"
+              }
+            ]
+            result "a"
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.P"
+        ]
         struct {
           k "String"
         }

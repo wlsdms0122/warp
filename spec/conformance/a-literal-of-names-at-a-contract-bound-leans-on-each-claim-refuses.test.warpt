@@ -36,16 +36,6 @@ warpt 1
         result 0
         returns "Int"
       }
-      "Bank.P.describe" {
-        parameters [
-          {
-            name "of"
-            type "Bank.P"
-          }
-        ]
-        result "p"
-        returns "String"
-      }
       entry {
         access "public"
         body [
@@ -105,13 +95,23 @@ warpt 1
         }
       }
     }
-    satisfies {
-      "Bank.P" [
-        "App.Describable"
-      ]
-    }
     types {
       "Bank.P" {
+        procedures {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "Bank.P"
+              }
+            ]
+            result "p"
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.Describable"
+        ]
         struct {
           a "String"
         }

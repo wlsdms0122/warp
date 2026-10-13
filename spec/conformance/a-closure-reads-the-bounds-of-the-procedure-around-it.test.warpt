@@ -29,25 +29,6 @@ warpt 1
       "Standard.Text.text"
     ]
     procedures {
-      "App.Thing.name" {
-        parameters [
-          {
-            name "of"
-            type "App.Thing"
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "of.id"
-              }
-            ]
-            procedure "Standard.Text.text"
-          }
-        }
-        returns "String"
-      }
       "App.each" {
         body [
           {
@@ -217,13 +198,32 @@ warpt 1
         returns "Array<String>"
       }
     }
-    satisfies {
-      "App.Thing" [
-        "App.Named"
-      ]
-    }
     types {
       "App.Thing" {
+        procedures {
+          name {
+            parameters [
+              {
+                name "of"
+                type "App.Thing"
+              }
+            ]
+            result {
+              call {
+                arguments [
+                  {
+                    ref "of.id"
+                  }
+                ]
+                procedure "Standard.Text.text"
+              }
+            }
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.Named"
+        ]
         struct {
           id "Int"
         }

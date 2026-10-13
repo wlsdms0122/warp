@@ -25,22 +25,6 @@ warpt 1
     }
     imports []
     procedures {
-      "App.Box.place" {
-        parameters [
-          {
-            name "of"
-            type "App.Box"
-          }
-          {
-            name "at"
-            type "App.Spot"
-          }
-        ]
-        result {
-          ref "at.x"
-        }
-        returns "Int"
-      }
       entry {
         access "public"
         body [
@@ -87,13 +71,29 @@ warpt 1
         returns "Int"
       }
     }
-    satisfies {
-      "App.Box" [
-        "App.Placing"
-      ]
-    }
     types {
       "App.Box" {
+        procedures {
+          place {
+            parameters [
+              {
+                name "of"
+                type "App.Box"
+              }
+              {
+                name "at"
+                type "App.Spot"
+              }
+            ]
+            result {
+              ref "at.x"
+            }
+            returns "Int"
+          }
+        }
+        satisfies [
+          "App.Placing"
+        ]
         struct {
           v "Int"
         }

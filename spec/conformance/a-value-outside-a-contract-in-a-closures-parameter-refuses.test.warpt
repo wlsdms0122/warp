@@ -21,16 +21,6 @@ warpt 1
     }
     imports []
     procedures {
-      "Bank.Card.describe" {
-        parameters [
-          {
-            name "of"
-            type "Bank.Card"
-          }
-        ]
-        result "a card"
-        returns "String"
-      }
       entry {
         access "public"
         body [
@@ -90,13 +80,23 @@ warpt 1
         }
       }
     }
-    satisfies {
-      "Bank.Card" [
-        "App.Describable"
-      ]
-    }
     types {
       "Bank.Card" {
+        procedures {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "Bank.Card"
+              }
+            ]
+            result "a card"
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.Describable"
+        ]
         struct {
           last "String"
         }
