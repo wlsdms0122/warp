@@ -42,7 +42,7 @@ warpt 1
       warp 1
     }
     {
-      description "a claim"
+      description "one maker"
       extensions {
         "T.Card" {
           satisfies [
@@ -54,10 +54,17 @@ warpt 1
         "App.Describable"
         "T.Card"
       ]
+      procedures {
+        "One.mark" {
+          access "public"
+          result 1
+          returns "Int"
+        }
+      }
       warp 1
     }
     {
-      description "the same claim again"
+      description "another maker"
       extensions {
         "T.Card" {
           satisfies [
@@ -69,6 +76,13 @@ warpt 1
         "App.Describable"
         "T.Card"
       ]
+      procedures {
+        "Two.mark" {
+          access "public"
+          result 1
+          returns "Int"
+        }
+      }
       warp 1
     }
   ]
@@ -76,17 +90,34 @@ warpt 1
     answers "card"
   }
   name "two-documents-claiming-one-pair-are-one-claim"
-  note "A claim holds nothing but the pair, so a second document claiming the same pair says what the first said, whatever else the two say, and the link holds one claim and not two declarations of one name. The program imports the pair, which either document answers."
+  note "Two documents making one claim are one claim to a document reaching both by what they name: the program calls `One.mark` and `Two.mark`, and the card answers App.Describable."
   program {
     imports [
       "App.Describable.describe"
+      "One.mark"
       "T.Card"
-      "T.Card: App.Describable"
+      "Two.mark"
     ]
     procedures {
       entry {
         access "public"
         body [
+          {
+            let "one"
+            value {
+              call {
+                procedure "One.mark"
+              }
+            }
+          }
+          {
+            let "two"
+            value {
+              call {
+                procedure "Two.mark"
+              }
+            }
+          }
           {
             let "card"
             value {

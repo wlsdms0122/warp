@@ -1,0 +1,141 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "App.Describable" {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "Self"
+              }
+            ]
+            returns "String"
+          }
+        }
+      }
+      imports []
+      warp 1
+    }
+    {
+      imports []
+      types {
+        "T.Card" {
+          procedures {
+            describe {
+              parameters [
+                {
+                  name "of"
+                  type "T.Card"
+                }
+              ]
+              result "card"
+              returns "String"
+            }
+          }
+          struct {
+            rank "Int"
+          }
+        }
+      }
+      warp 1
+    }
+    {
+      extensions {
+        "T.Card" {
+          satisfies [
+            "App.Describable"
+          ]
+        }
+      }
+      imports [
+        "App.Describable"
+        "T.Card"
+      ]
+      procedures {
+        "One.mark" {
+          access "public"
+          result 1
+          returns "Int"
+        }
+      }
+      warp 1
+    }
+    {
+      extensions {
+        "T.Card" {
+          satisfies [
+            "App.Describable"
+          ]
+        }
+      }
+      imports [
+        "App.Describable"
+        "T.Card"
+      ]
+      procedures {
+        "Two.mark" {
+          access "public"
+          result 1
+          returns "Int"
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    answers "card"
+  }
+  name "a-claim-two-documents-make-answers-a-document-standing-on-the-second"
+  note "Two documents make the claim that T.Card answers App.Describable, and the program stands on the second through `Two.mark` and on nothing of the first. Each copy stands where it was written, so the claim is within the program's reach however the host listed the two."
+  program {
+    imports [
+      "App.Describable.describe"
+      "T.Card"
+      "Two.mark"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "card"
+            value {
+              as {
+                of {
+                  struct {
+                    rank 1
+                  }
+                }
+                type "T.Card"
+              }
+            }
+          }
+          {
+            let "m"
+            value {
+              call {
+                procedure "Two.mark"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "card"
+              }
+            ]
+            procedure "App.Describable.describe"
+          }
+        }
+        returns "String"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
