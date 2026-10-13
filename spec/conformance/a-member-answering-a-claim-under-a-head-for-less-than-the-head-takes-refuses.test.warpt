@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-member-answering-a-claim-under-a-head-for-less-than-the-head-takes-refuses"
-  note "The claim is about every box of something that answers `Hashable`, and the member given under the head takes a box of `Int` alone, so it does not answer for every value the head takes and the call leaning on the claim refuses at the build."
+  note "The claim is about every box of something that answers `Hashable`, and the member `describe` is given under `App.Box<Int>` and takes a box of `Int` alone, so it does not answer for every value the claim's head takes and the call leaning on the claim refuses at the build."
   program {
     contracts {
       "App.Describable" {
@@ -20,7 +20,7 @@ warpt 1
       }
     }
     extensions {
-      "App.Box<some T: Hashable>" {
+      "App.Box<Int>" {
         procedures {
           describe {
             parameters [
@@ -33,6 +33,8 @@ warpt 1
             returns "String"
           }
         }
+      }
+      "App.Box<some T: Hashable>" {
         satisfies [
           "App.Describable"
         ]

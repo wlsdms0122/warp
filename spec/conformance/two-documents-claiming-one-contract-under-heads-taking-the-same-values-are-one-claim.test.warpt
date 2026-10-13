@@ -1,0 +1,107 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "App.Describable" {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "Self"
+              }
+            ]
+            returns "String"
+          }
+        }
+      }
+      extensions {
+        "App.Box<some T: Hashable>" {
+          procedures {
+            describe {
+              access "public"
+              parameters [
+                {
+                  name "of"
+                  type "App.Box<some T>"
+                }
+              ]
+              result "box"
+              returns "String"
+            }
+          }
+          satisfies [
+            "App.Describable"
+          ]
+        }
+      }
+      imports []
+      types {
+        "App.Box" {
+          struct {
+            item "some T"
+          }
+          typeParameters [
+            "T"
+          ]
+        }
+      }
+      warp 1
+    }
+    {
+      extensions {
+        "App.Box<some U: Hashable>" {
+          satisfies [
+            "App.Describable"
+          ]
+        }
+      }
+      imports [
+        "App.Box"
+        "App.Describable"
+      ]
+      warp 1
+    }
+  ]
+  expect {
+    answers "box"
+  }
+  name "two-documents-claiming-one-contract-under-heads-taking-the-same-values-are-one-claim"
+  note "`App.Box<some T: Hashable>` and `App.Box<some U: Hashable>` take the same boxes, so the two documents writing them say one claim, which the build reads where the names resolve, and the call reaches the member."
+  program {
+    imports [
+      "App.Box"
+      "App.Describable.describe"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            type "App.Box<Int>"
+            value {
+              struct {
+                item 1
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "b"
+              }
+            ]
+            procedure "App.Describable.describe"
+          }
+        }
+        returns "String"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
