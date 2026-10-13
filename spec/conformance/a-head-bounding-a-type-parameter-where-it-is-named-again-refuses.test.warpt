@@ -1,0 +1,28 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-head-bounding-a-type-parameter-where-it-is-named-again-refuses"
+  note "A head bounds a type parameter where it first names it, so bounds written at the second `some K` refuse at the load."
+  program {
+    extensions {
+      "Dictionary<some K, Array<some K: Hashable>>" {
+        satisfies [
+          "Hashable"
+        ]
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

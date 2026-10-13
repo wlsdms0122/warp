@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    refuses "load"
+    answers "ints"
   }
-  name "a-claim-written-about-a-struct-applied-to-int-refuses"
-  note "A claim is keyed by a type's name. `App.Box<Int>` is no name, so the claim is refused at the load."
+  name "a-claim-under-a-head-applying-a-list-to-int-answers-for-a-list-of-ints"
+  note "The extension of `Array<Int>` is about every list of integers, so a list of them answers App.Describable through the member it gives."
   program {
     contracts {
       "App.Describable" {
@@ -20,7 +20,19 @@ warpt 1
       }
     }
     extensions {
-      "App.Box<Int>" {
+      "Array<Int>" {
+        procedures {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "Array<Int>"
+              }
+            ]
+            result "ints"
+            returns "String"
+          }
+        }
         satisfies [
           "App.Describable"
         ]
@@ -28,27 +40,16 @@ warpt 1
     }
     imports []
     procedures {
-      "App.Box.describe" {
-        parameters [
-          {
-            name "of"
-            type "App.Box<some T>"
-          }
-        ]
-        result "box"
-        returns "String"
-      }
       entry {
         access "public"
         body [
           {
             let "b"
-            type "App.Box<Int>"
-            value {
-              struct {
-                item 1
-              }
-            }
+            type "Array<Int>"
+            value [
+              1
+              2
+            ]
           }
         ]
         result {
@@ -62,16 +63,6 @@ warpt 1
           }
         }
         returns "String"
-      }
-    }
-    types {
-      "App.Box" {
-        struct {
-          item "some T"
-        }
-        typeParameters [
-          "T"
-        ]
       }
     }
     warp 1

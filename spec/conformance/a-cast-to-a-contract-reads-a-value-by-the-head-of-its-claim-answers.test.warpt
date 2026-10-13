@@ -1,0 +1,93 @@
+warpt 1
+{
+  expect {
+    answers "box"
+  }
+  name "a-cast-to-a-contract-reads-a-value-by-the-head-of-its-claim-answers"
+  note "A cast judges what arrived: a box of `Int` read as `Any` is taken by `App.Box<some T: Hashable>`, so it stands as App.Describable and the call through the contract reaches the member."
+  program {
+    contracts {
+      "App.Describable" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    extensions {
+      "App.Box<some T: Hashable>" {
+        procedures {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "App.Box<some T>"
+              }
+            ]
+            result "box"
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.Describable"
+        ]
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "one"
+            type "Any"
+            value {
+              as {
+                of {
+                  struct {
+                    item 1
+                  }
+                }
+                type "App.Box<Int>"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                as {
+                  of {
+                    ref "one"
+                  }
+                  type "App.Describable"
+                }
+              }
+            ]
+            procedure "App.Describable.describe"
+          }
+        }
+        returns "String"
+      }
+    }
+    types {
+      "App.Box" {
+        struct {
+          item "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

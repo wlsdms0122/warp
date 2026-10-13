@@ -1,0 +1,63 @@
+warpt 1
+{
+  expect {
+    answers "box"
+  }
+  name "a-member-under-a-head-answers-for-a-value-the-head-takes"
+  note "A member given under `App.Box<some T: Hashable>` is called by its type's name and its own, here with a box of `Int`, which the head takes."
+  program {
+    extensions {
+      "App.Box<some T: Hashable>" {
+        procedures {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "App.Box<some T>"
+              }
+            ]
+            result "box"
+            returns "String"
+          }
+        }
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                as {
+                  of {
+                    struct {
+                      item 1
+                    }
+                  }
+                  type "App.Box<Int>"
+                }
+              }
+            ]
+            procedure "App.Box.describe"
+          }
+        }
+        returns "String"
+      }
+    }
+    types {
+      "App.Box" {
+        struct {
+          item "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

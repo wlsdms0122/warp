@@ -1,0 +1,69 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "App.Describable" {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "Self"
+              }
+            ]
+            returns "String"
+          }
+        }
+      }
+      extensions {
+        "Array<Int>" {
+          procedures {
+            describe {
+              access "public"
+              parameters [
+                {
+                  name "of"
+                  type "Array<Int>"
+                }
+              ]
+              result "ints"
+              returns "String"
+            }
+          }
+          satisfies [
+            "App.Describable"
+          ]
+        }
+      }
+      imports []
+      warp 1
+    }
+  ]
+  expect {
+    refuses "build"
+  }
+  name "two-documents-claiming-one-contract-for-a-type-under-two-heads-refuse"
+  note "A type answers a contract one way, so a second document saying a type answers App.Describable under another head than the first is refused at the build."
+  program {
+    extensions {
+      "Array<String>" {
+        satisfies [
+          "App.Describable"
+        ]
+      }
+    }
+    imports [
+      "App.Describable"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,89 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-head-applying-a-struct-to-a-parameter-its-bounds-do-not-hold-refuses"
+  note "App.Box holds `T` to `Hashable`, and a head is a mention of the type it applies, so `App.Box<some U>` bounding `U` by nothing applies App.Box to what its bounds do not hold and refuses at the build, as a parameter written so does."
+  program {
+    contracts {
+      "App.Describable" {
+        describe {
+          parameters [
+            {
+              name "of"
+              type "Self"
+            }
+          ]
+          returns "String"
+        }
+      }
+    }
+    extensions {
+      "App.Box<some U>" {
+        procedures {
+          describe {
+            bounds {
+              T "Hashable"
+            }
+            parameters [
+              {
+                name "of"
+                type "App.Box<some T>"
+              }
+            ]
+            result "box"
+            returns "String"
+          }
+        }
+        satisfies [
+          "App.Describable"
+        ]
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            type "App.Box<Int>"
+            value {
+              struct {
+                item 1
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "b"
+              }
+            ]
+            procedure "App.Describable.describe"
+          }
+        }
+        returns "String"
+      }
+    }
+    types {
+      "App.Box" {
+        bounds {
+          T "Hashable"
+        }
+        struct {
+          item "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
