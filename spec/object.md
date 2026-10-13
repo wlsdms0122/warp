@@ -72,7 +72,7 @@ A *type* is `[tag, …]`:
 
 A *head* is what a document gives a type under, under [types](type.md): a name where it is bare, and otherwise `[name, arguments, bounds]`, the types it applies the named type to, a list of *type*, at least one, and name → the contracts bounding the type parameter of that name, ascending, at least one, for each one it bounds. A list a head keys stands in the order of the heads' spellings, as names, none twice.
 
-**`leaned`** stands in the order of what each reading and its contract are written as, none twice: kinds by tag, whole numbers by value, text by its scalars, and lists element by element, a shorter one first where it leads the other. A reading is in the document's own type numbers, as a body's types are.
+**`leaned`** stands in the key order of what each reading and its contract are written as, `[reading, contract]`, under [the value model](value.md), none twice. A reading is in the document's own type numbers, as a body's types are.
 
 A *segment* is `[0, name, optional]`, `[1, value, optional]` for a *value* written between the brackets, or `[2, path, optional]` for one read from a path.
 
