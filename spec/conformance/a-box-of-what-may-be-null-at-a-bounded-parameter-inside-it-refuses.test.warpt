@@ -1,0 +1,75 @@
+warpt 1
+{
+  documents [
+    {
+      imports []
+      procedures {
+        "App.get" {
+          access "public"
+          parameters [
+            {
+              name "b"
+              type "App.Box<some T: Hashable>"
+            }
+          ]
+          result {
+            ref "b.item"
+          }
+          returns "some T"
+        }
+      }
+      types {
+        "App.Box" {
+          struct {
+            item "some T"
+          }
+          typeParameters [
+            "T"
+          ]
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    refuses "build"
+  }
+  name "a-box-of-what-may-be-null-at-a-bounded-parameter-inside-it-refuses"
+  note "A box of `Int?` handed where `App.Box<some T: Hashable>` is declared: `T` stands inside the box, not alone, so `Int?` does not fill it."
+  program {
+    imports [
+      "App.Box"
+      "App.get"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            type "App.Box<Int?>"
+            value {
+              struct {
+                item null
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "b"
+              }
+            ]
+            procedure "App.get"
+          }
+        }
+        returns "Int?"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

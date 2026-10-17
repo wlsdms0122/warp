@@ -112,6 +112,11 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-bound-naming-a-type-the-language-names-refuses`
 - `a-bound-on-an-associated-type-carries-a-call-through-another-contract-answers`
 - `a-bounded-parameter-read-as-text-and-as-any-refuses`
+- `a-box-of-a-box-answers-a-bounded-head-through-its-own-claim-answers`
+- `a-box-of-a-box-of-what-is-not-hashable-is-not-taken-by-a-bounded-head-refuses`
+- `a-box-of-null-from-outside-is-taken-by-a-hashable-head-answers`
+- `a-box-of-what-may-be-null-at-a-bounded-parameter-inside-it-refuses`
+- `a-box-of-what-may-be-null-is-not-taken-by-a-bounded-head-refuses`
 - `a-call-filling-a-parameter-from-a-variable-held-in-place-takes-a-value-of-that-parameter`
 - `a-call-filling-a-parameter-from-a-variable-held-in-place-takes-no-other-value-refuses`
 - `a-call-filling-a-parameter-from-the-bodys-own-and-a-reading-of-any-refuses`
@@ -146,6 +151,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-cast-to-a-contract-holds-a-value-to-the-head-it-settles-into`
 - `a-cast-to-a-contract-of-a-value-the-head-of-its-claim-does-not-take-answers-null`
 - `a-cast-to-a-contract-reads-a-value-by-the-head-of-its-claim-answers`
+- `a-cast-to-a-contract-settles-a-box-of-a-box-through-its-own-claim-answers`
 - `a-cast-to-a-struct-applied-to-what-its-fields-do-not-hold-fails`
 - `a-cast-to-a-struct-applied-to-what-its-fields-hold-answers`
 - `a-cast-writing-a-bound-refuses`
@@ -177,6 +183,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-claim-naming-a-type-where-a-contract-belongs-refuses`
 - `a-claim-that-does-not-hold-refuses-though-nothing-asks-it`
 - `a-claim-two-documents-make-answers-a-document-standing-on-the-second`
+- `a-claim-under-a-bare-name-giving-an-item-nothing-holds-to-the-contracts-bound-refuses`
 - `a-claim-under-a-head-another-document-makes-is-imported-and-answers`
 - `a-claim-under-a-head-another-document-makes-refuses-a-value-it-does-not-take`
 - `a-claim-under-a-head-applying-a-list-to-int-answers-for-a-list-of-ints`
@@ -190,11 +197,14 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-closure-a-generic-body-wrote-taking-a-list-in-place-is-read-as-the-type-it-is-judged-against`
 - `a-closure-alone-fills-a-parameter-with-what-it-takes`
 - `a-closure-answering-an-associated-type-two-steps-from-its-parameter-answers`
+- `a-closure-handed-at-an-associated-type-takes-what-the-claim-gives-answers`
 - `a-closure-handed-in-place-fails-with-exactly-what-the-slot-names`
 - `a-closure-inside-a-closure-reads-the-bounds-of-the-procedure-around-them`
 - `a-closure-naming-a-type-parameter-its-procedure-does-not-declare-refuses`
 - `a-closure-parameter-saying-nothing-takes-the-element-the-list-beside-it-fills`
+- `a-closure-parameter-writing-no-type-at-an-associated-type-takes-any-refuses`
 - `a-closure-reads-the-bounds-of-the-procedure-around-it`
+- `a-closure-taking-another-type-at-an-associated-type-refuses`
 - `a-closure-taking-any-stands-where-its-slot-hands-a-contract`
 - `a-closure-taking-anything-beside-a-declared-struct-leaves-the-parameter-the-struct`
 - `a-closure-taking-int-beside-a-declared-struct-refuses`
@@ -283,7 +293,10 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-door-holds-a-derived-associated-type-to-hashable-refuses`
 - `a-door-holds-a-derived-associated-type-to-its-bound-refuses`
 - `a-door-holds-a-list-at-a-list-of-an-associated-type-to-what-the-type-gives-refuses`
+- `a-door-holds-a-same-type-of-a-generic-entry-refuses`
 - `a-door-holds-a-value-at-an-associated-type-to-what-its-parameter-gives-answers`
+- `a-door-holds-an-associated-type-of-an-associated-type-to-the-head-refuses`
+- `a-door-reads-a-same-type-naming-an-applied-struct-answers`
 - `a-door-takes-no-value-at-an-associated-type-of-another-type-refuses`
 - `a-field-of-a-struct-applied-to-int-read-as-text-refuses`
 - `a-field-writing-a-bound-refuses`
@@ -320,6 +333,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-map-key-from-outside-under-an-alias-is-a-value-of-its-struct-answers`
 - `a-map-keyed-by-a-declared-struct-claimed-hashable-answers`
 - `a-map-keyed-by-a-declared-struct-no-document-claims-hashable-refuses`
+- `a-map-keyed-by-a-struct-its-conditional-claim-does-not-take-refuses`
+- `a-map-keyed-by-a-struct-its-conditional-claim-takes-answers`
 - `a-map-keyed-by-a-struct-taking-a-type-parameter-claimed-hashable-answers`
 - `a-map-keyed-by-a-struct-taking-a-type-parameter-no-document-claims-hashable-refuses`
 - `a-map-keyed-by-a-type-parameter-bounded-by-hashable-answers`
@@ -422,6 +437,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-struct-bounded-by-a-struct-a-document-declares-refuses`
 - `a-struct-bounded-by-a-type-the-language-names-refuses`
 - `a-struct-bounding-its-key-parameter-holds-a-map-answers`
+- `a-struct-bounding-its-parameter-gives-an-item-the-contract-bounds-answers`
 - `a-struct-built-where-a-declared-struct-is-read-keeps-its-closure`
 - `a-struct-declared-without-its-struct-key-refuses`
 - `a-struct-field-holding-a-procedure-of-its-type-parameter-is-called-answers`
@@ -433,6 +449,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-struct-from-outside-holds-its-bounded-field-to-the-head-of-its-claim`
 - `a-struct-from-outside-short-of-a-field-at-a-contract-slot-refuses`
 - `a-struct-from-outside-under-an-alias-of-a-struct-applied-to-int-is-held-to-int-refuses`
+- `a-struct-from-outside-under-an-alias-of-an-applied-struct-fills-an-associated-type-answers`
 - `a-struct-from-outside-under-another-name-refuses-at-the-door`
 - `a-struct-from-outside-under-its-name-at-any-is-held-to-its-struct-refuses`
 - `a-struct-from-outside-whose-fields-join-to-what-its-bound-does-not-take-refuses`
@@ -455,6 +472,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-struct-literal-written-where-no-declared-struct-is-read-refuses`
 - `a-struct-naming-itself-applied-to-a-list-of-its-parameter-answers`
 - `a-struct-naming-itself-applied-to-its-parameter-answers`
+- `a-struct-of-two-parameters-gives-two-associated-types-answers`
+- `a-struct-of-two-parameters-not-taken-at-its-first-parameter-refuses`
 - `a-struct-taking-a-type-parameter-holds-what-its-mention-applies-it-to-answers`
 - `a-struct-taking-type-parameters-named-without-brackets-refuses`
 - `a-struct-the-language-declares-joined-with-and-refuses`
@@ -563,6 +582,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-inout-type-parameter-a-procedure-slot-fills-first-reads-the-value`
 - `an-inout-type-parameter-a-variable-fills-first-reads-the-value`
 - `an-optional-cast-of-a-closure-over-a-type-parameter-its-making-call-filled-reads-null`
+- `an-optional-cast-of-a-struct-holding-a-closure-over-a-type-parameter-reads-null`
+- `an-optional-cast-to-a-contract-of-a-box-of-a-box-of-what-is-not-hashable-reads-null`
 - `an-optional-read-of-a-field-naming-an-alias-of-a-nullable-reads-that-nullable`
 - `any-written-nullable-refuses`
 - `elements-of-different-types-join-to-any`

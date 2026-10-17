@@ -1,0 +1,54 @@
+warpt 1
+{
+  documents [
+    {
+      extensions {
+        "App.Box<some T: Hashable>" {
+          satisfies [
+            "Hashable"
+          ]
+        }
+      }
+      imports []
+      types {
+        "App.Box" {
+          struct {
+            item "some T"
+          }
+          typeParameters [
+            "T"
+          ]
+        }
+        "App.Plain" {
+          struct {
+            x "Int"
+          }
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    refuses "build"
+  }
+  name "a-map-keyed-by-a-struct-its-conditional-claim-does-not-take-refuses"
+  note "Box is Hashable where its item is. A map type keyed by a box of a struct no claim makes Hashable refuses at the build where it is written."
+  program {
+    imports [
+      "App.Box"
+      "App.Plain"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          dictionary []
+        }
+        returns "Dictionary<App.Box<App.Plain>, String>"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -1,0 +1,149 @@
+warpt 1
+{
+  arguments {
+    c App.IntBox {
+      item 1
+    }
+  }
+  documents [
+    {
+      contracts {
+        "Lib.Container" {
+          procedures {
+            first {
+              parameters [
+                {
+                  name "of"
+                  type "Self"
+                }
+              ]
+              returns "Self.Item"
+            }
+          }
+          types [
+            "Item"
+          ]
+        }
+      }
+      imports []
+      procedures {
+        "Lib.firstOf" {
+          access "public"
+          parameters [
+            {
+              name "c"
+              type "some C: Lib.Container"
+            }
+          ]
+          result {
+            call {
+              arguments [
+                {
+                  ref "c"
+                }
+              ]
+              procedure "Lib.Container.first"
+            }
+          }
+          returns "some C.Item"
+        }
+      }
+      warp 1
+    }
+    {
+      extensions {
+        "App.Box<some T: Hashable>" {
+          procedures {
+            first {
+              access "public"
+              parameters [
+                {
+                  name "of"
+                  type "App.Box<some T>"
+                }
+              ]
+              result {
+                ref "of.item"
+              }
+              returns "some T"
+            }
+          }
+          satisfies [
+            "Lib.Container"
+          ]
+          types {
+            Item "some T"
+          }
+        }
+      }
+      imports [
+        "Lib.Container"
+      ]
+      types {
+        "App.Box" {
+          struct {
+            item "some T"
+          }
+          typeParameters [
+            "T"
+          ]
+        }
+        "App.IntBox" "App.Box<Int>"
+      }
+      warp 1
+    }
+  ]
+  expect {
+    answers 2
+  }
+  name "a-struct-from-outside-under-an-alias-of-an-applied-struct-fills-an-associated-type-answers"
+  note "The value at the door is written under the alias's name; an alias's name becomes its struct's, so it is a box of Int."
+  program {
+    imports [
+      "App.IntBox"
+      "Int.plus"
+      "Lib.firstOf"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "v"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "c"
+                  }
+                ]
+                procedure "Lib.firstOf"
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "c"
+            type "App.IntBox"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "v"
+              }
+              1
+            ]
+            procedure "Int.plus"
+          }
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

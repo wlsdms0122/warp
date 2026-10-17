@@ -1,0 +1,82 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "Lib.Container" {
+          procedures {
+            first {
+              parameters [
+                {
+                  name "of"
+                  type "Self"
+                }
+              ]
+              returns "Self.Item"
+            }
+          }
+          types [
+            "Item: Hashable"
+          ]
+        }
+      }
+      imports []
+      warp 1
+    }
+    {
+      imports [
+        "Lib.Container"
+      ]
+      types {
+        "App.Box" {
+          procedures {
+            first {
+              access "public"
+              parameters [
+                {
+                  name "of"
+                  type "App.Box<some T>"
+                }
+              ]
+              result {
+                ref "of.item"
+              }
+              returns "some T"
+            }
+          }
+          satisfies [
+            "Lib.Container"
+          ]
+          struct {
+            item "some T"
+          }
+          typeParameters [
+            "T"
+          ]
+          types {
+            Item "some T"
+          }
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    refuses "build"
+  }
+  name "a-claim-under-a-bare-name-giving-an-item-nothing-holds-to-the-contracts-bound-refuses"
+  note "The contract holds `Item` to Hashable. Box claims it under its bare name with `Item` the box's `T`, which nothing holds to Hashable, so the claim refuses."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

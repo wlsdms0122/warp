@@ -1,0 +1,98 @@
+warpt 1
+{
+  documents [
+    {
+      imports []
+      procedures {
+        "App.wrap" {
+          access "public"
+          parameters [
+            {
+              name "x"
+              type "some T"
+            }
+          ]
+          result {
+            struct {
+              run {
+                closure {
+                  parameters [
+                    {
+                      name "y"
+                      type "some T"
+                    }
+                  ]
+                  result {
+                    ref "y"
+                  }
+                  returns "some T"
+                }
+              }
+            }
+          }
+          returns "App.Fn<some T>"
+        }
+      }
+      types {
+        "App.Fn" {
+          struct {
+            run {
+              procedure {
+                parameters [
+                  "some T"
+                ]
+                returns "some T"
+              }
+            }
+          }
+          typeParameters [
+            "T"
+          ]
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    answers null
+  }
+  name "an-optional-cast-of-a-struct-holding-a-closure-over-a-type-parameter-reads-null"
+  note "`App.wrap` builds a struct holding a closure its body wrote over `T`. Read as `Any` and cast with `as?` to `App.Fn<Int>`, the closure is no value of `(Int) -> Int` outside the call that made it, so the cast answers null."
+  program {
+    imports [
+      "App.Fn"
+      "App.wrap"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "a"
+            type "Any"
+            value {
+              call {
+                arguments [
+                  1
+                ]
+                procedure "App.wrap"
+              }
+            }
+          }
+        ]
+        result {
+          "as?" {
+            of {
+              ref "a"
+            }
+            type "App.Fn<Int>"
+          }
+        }
+        returns "App.Fn<Int>?"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

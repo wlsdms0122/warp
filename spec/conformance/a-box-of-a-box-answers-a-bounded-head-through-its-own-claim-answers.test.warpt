@@ -1,0 +1,143 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "Lib.Container" {
+          procedures {
+            first {
+              parameters [
+                {
+                  name "of"
+                  type "Self"
+                }
+              ]
+              returns "Self.Item"
+            }
+          }
+          types [
+            "Item"
+          ]
+        }
+      }
+      imports []
+      procedures {
+        "Lib.firstOf" {
+          access "public"
+          parameters [
+            {
+              name "c"
+              type "some C: Lib.Container"
+            }
+          ]
+          result {
+            call {
+              arguments [
+                {
+                  ref "c"
+                }
+              ]
+              procedure "Lib.Container.first"
+            }
+          }
+          returns "some C.Item"
+        }
+      }
+      warp 1
+    }
+    {
+      extensions {
+        "App.Box<some T: Hashable>" {
+          procedures {
+            first {
+              access "public"
+              parameters [
+                {
+                  name "of"
+                  type "App.Box<some T>"
+                }
+              ]
+              result {
+                ref "of.item"
+              }
+              returns "some T"
+            }
+          }
+          satisfies [
+            "Hashable"
+            "Lib.Container"
+          ]
+          types {
+            Item "some T"
+          }
+        }
+      }
+      imports [
+        "Lib.Container"
+      ]
+      types {
+        "App.Box" {
+          struct {
+            item "some T"
+          }
+          typeParameters [
+            "T"
+          ]
+        }
+        "App.Plain" {
+          struct {
+            x "Int"
+          }
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    answers App.Box {
+      item 1
+    }
+  }
+  name "a-box-of-a-box-answers-a-bounded-head-through-its-own-claim-answers"
+  note "Box is Hashable where its item is, and claims Container where its item is Hashable. A box of a box of Int answers both, so `firstOf` answers the inner box."
+  program {
+    imports [
+      "App.Box"
+      "Lib.firstOf"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            type "App.Box<App.Box<Int>>"
+            value {
+              struct {
+                item {
+                  struct {
+                    item 1
+                  }
+                }
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "b"
+              }
+            ]
+            procedure "Lib.firstOf"
+          }
+        }
+        returns "App.Box<Int>"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
