@@ -108,7 +108,7 @@ The envelope is this specification's; what rides in `details` is the procedure's
 
 A procedure the host answers says what it may fail with, the way it says whether it is isolated. **A procedure that says nothing fails nothing**, which is right for the many procedures that throw only at an author mistake, and a procedure that can fail says so. `Standard.Control.abort` says `aborted`; `Standard.Concurrent` says `concurrent_failed`, every piece's failure being gathered into that one. A piece that refuses at the run refuses the whole run instead, under [running](running.md), and the failures beside it are not gathered. A procedure that fails and does not say so has broken its contract, the same way one that holds state and calls itself isolated has.
 
-**`return`**. Answer the enclosing procedure from here. Takes an expression, or nothing (`return null`) to answer nothing. The answer must fit what the procedure declared.
+**`return`**. Answer the enclosing procedure from here. Takes an expression, or nothing (`return null`) to answer nothing. The answer must fit what the procedure declared. A `return` leaves early: one ending a procedure's or a closure's own body answers what its `result` would, and a body says what it answers one way, so that one **refuses at the load**.
 
 **`break`**. End a loop. **`continue`**. End the round and go on to the next. Each takes a loop's statement name, or nothing for the nearest enclosing loop. Both **refuse at the load** when nothing encloses them: a closure runs away from where it was written, so the loops around the writing are not around the running, and neither crosses into a procedure written inside another.
 
@@ -121,6 +121,7 @@ Failing on purpose is a procedure, `Standard.Control.abort` under [the standard 
 What `conformance/` asks about this page, by the name each case's file carries.
 
 - `a-body-ending-in-a-call-answering-an-alias-of-never-answers-as-declared`
+- `a-body-ending-in-a-return-refuses`
 - `a-call-of-a-value-fails-with-what-its-slots-procedure-type-names`
 - `a-closure-a-constant-holds-does-not-take-a-variables-name`
 - `a-closure-does-not-leave-what-wrote-it`

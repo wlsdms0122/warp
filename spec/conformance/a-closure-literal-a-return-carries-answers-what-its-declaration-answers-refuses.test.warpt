@@ -12,19 +12,37 @@ warpt 1
         body [
           {
             value {
-              return {
-                closure {
-                  result {
-                    struct {
-                      x 1
-                      y 2
+              conditional {
+                then [
+                  {
+                    value {
+                      return {
+                        closure {
+                          result {
+                            struct {
+                              x 1
+                              y 2
+                            }
+                          }
+                        }
+                      }
                     }
                   }
-                }
+                ]
+                when true
               }
             }
           }
         ]
+        result {
+          closure {
+            result {
+              struct {
+                x 1
+              }
+            }
+          }
+        }
         returns {
           procedure {
             returns "App.Point"
