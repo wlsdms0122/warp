@@ -1,0 +1,223 @@
+warpt 1
+{
+  arguments {
+    n App.Outer {
+      inner App.Box {
+        item App.Plain {
+          x 1
+        }
+      }
+    }
+  }
+  documents [
+    {
+      contracts {
+        "Lib.Container" {
+          procedures {
+            first {
+              parameters [
+                {
+                  name "of"
+                  type "Self"
+                }
+              ]
+              returns "Self.Item"
+            }
+          }
+          types [
+            "Item"
+          ]
+        }
+        "Lib.Nested" {
+          procedures {
+            inner {
+              parameters [
+                {
+                  name "of"
+                  type "Self"
+                }
+              ]
+              returns "Self.Inner"
+            }
+          }
+          types [
+            "Inner: Lib.Container"
+          ]
+        }
+      }
+      imports []
+      procedures {
+        "Lib.deep" {
+          access "public"
+          body [
+            {
+              let "i"
+              value {
+                call {
+                  arguments [
+                    {
+                      ref "n"
+                    }
+                  ]
+                  procedure "Lib.Nested.inner"
+                }
+              }
+            }
+          ]
+          parameters [
+            {
+              name "n"
+              type "some N: Lib.Nested"
+            }
+          ]
+          result {
+            call {
+              arguments [
+                {
+                  ref "i"
+                }
+              ]
+              procedure "Lib.firstOf"
+            }
+          }
+          returns "some N.Inner.Item"
+        }
+        "Lib.firstOf" {
+          access "public"
+          parameters [
+            {
+              name "c"
+              type "some C: Lib.Container"
+            }
+          ]
+          result {
+            call {
+              arguments [
+                {
+                  ref "c"
+                }
+              ]
+              procedure "Lib.Container.first"
+            }
+          }
+          returns "some C.Item"
+        }
+      }
+      warp 1
+    }
+    {
+      extensions {
+        "App.Box<some T: Hashable>" {
+          procedures {
+            first {
+              access "public"
+              parameters [
+                {
+                  name "of"
+                  type "App.Box<some T>"
+                }
+              ]
+              result {
+                ref "of.item"
+              }
+              returns "some T"
+            }
+          }
+          satisfies [
+            "Lib.Container"
+          ]
+          types {
+            Item "some T"
+          }
+        }
+        "App.Outer<some T: Hashable>" {
+          procedures {
+            inner {
+              access "public"
+              parameters [
+                {
+                  name "of"
+                  type "App.Outer<some T>"
+                }
+              ]
+              result {
+                ref "of.inner"
+              }
+              returns "App.Box<some T>"
+            }
+          }
+          satisfies [
+            "Lib.Nested"
+          ]
+          types {
+            Inner "App.Box<some T>"
+          }
+        }
+      }
+      imports [
+        "Lib.Container"
+        "Lib.Nested"
+      ]
+      types {
+        "App.Box" {
+          struct {
+            item "some T"
+          }
+          typeParameters [
+            "T"
+          ]
+        }
+        "App.Outer" {
+          struct {
+            inner "App.Box<some T>"
+          }
+          typeParameters [
+            "T"
+          ]
+        }
+        "App.Plain" {
+          struct {
+            x "Int"
+          }
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    refuses "run"
+  }
+  name "a-door-holds-an-associated-type-of-an-associated-type-to-the-head-refuses"
+  note "An outer of a struct no claim makes Hashable arrives where `some N: Lib.Nested` is declared; the head `App.Outer<some T: Hashable>` does not take it, so the door refuses."
+  program {
+    imports [
+      "Lib.Nested"
+      "Lib.deep"
+    ]
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "n"
+            type "some N: Lib.Nested"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "n"
+              }
+            ]
+            procedure "Lib.deep"
+          }
+        }
+        returns "some N.Inner.Item"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

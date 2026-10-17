@@ -1,0 +1,119 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "Lib.Describable" {
+          procedures {
+            describe {
+              parameters [
+                {
+                  name "of"
+                  type "Self"
+                }
+              ]
+              returns "String"
+            }
+          }
+        }
+      }
+      imports []
+      warp 1
+    }
+    {
+      extensions {
+        "App.Box<some T: Hashable>" {
+          procedures {
+            describe {
+              access "public"
+              parameters [
+                {
+                  name "of"
+                  type "App.Box<some T>"
+                }
+              ]
+              result "box"
+              returns "String"
+            }
+          }
+          satisfies [
+            "Hashable"
+            "Lib.Describable"
+          ]
+        }
+      }
+      imports [
+        "Lib.Describable"
+      ]
+      types {
+        "App.Box" {
+          struct {
+            item "some T"
+          }
+          typeParameters [
+            "T"
+          ]
+        }
+        "App.Plain" {
+          struct {
+            x "Int"
+          }
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    answers null
+  }
+  name "an-optional-cast-to-a-contract-of-a-box-of-a-box-of-what-is-not-hashable-reads-null"
+  note "The inner box holds a struct no claim makes Hashable, so the inner box is not Hashable and `as?` to `Lib.Describable` answers null."
+  program {
+    imports [
+      "App.Box"
+      "App.Plain"
+      "Lib.Describable"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "a"
+            type "Any"
+            value {
+              as {
+                of {
+                  struct {
+                    item {
+                      struct {
+                        item {
+                          struct {
+                            x 1
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+                type "App.Box<App.Box<App.Plain>>"
+              }
+            }
+          }
+        ]
+        result {
+          "as?" {
+            of {
+              ref "a"
+            }
+            type "Lib.Describable"
+          }
+        }
+        returns "Lib.Describable?"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

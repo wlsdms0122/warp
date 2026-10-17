@@ -1,0 +1,136 @@
+warpt 1
+{
+  arguments {
+    c App.Box {
+      item null
+    }
+  }
+  documents [
+    {
+      contracts {
+        "Lib.Container" {
+          procedures {
+            first {
+              parameters [
+                {
+                  name "of"
+                  type "Self"
+                }
+              ]
+              returns "Self.Item"
+            }
+          }
+          types [
+            "Item"
+          ]
+        }
+      }
+      imports []
+      procedures {
+        "Lib.firstOf" {
+          access "public"
+          parameters [
+            {
+              name "c"
+              type "some C: Lib.Container"
+            }
+          ]
+          result {
+            call {
+              arguments [
+                {
+                  ref "c"
+                }
+              ]
+              procedure "Lib.Container.first"
+            }
+          }
+          returns "some C.Item"
+        }
+      }
+      warp 1
+    }
+    {
+      extensions {
+        "App.Box<some T: Hashable>" {
+          procedures {
+            first {
+              access "public"
+              parameters [
+                {
+                  name "of"
+                  type "App.Box<some T>"
+                }
+              ]
+              result {
+                ref "of.item"
+              }
+              returns "some T"
+            }
+          }
+          satisfies [
+            "Lib.Container"
+          ]
+          types {
+            Item "some T"
+          }
+        }
+      }
+      imports [
+        "Lib.Container"
+      ]
+      types {
+        "App.Box" {
+          struct {
+            item "some T"
+          }
+          typeParameters [
+            "T"
+          ]
+        }
+        "App.Plain" {
+          struct {
+            x "Int"
+          }
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    answers null
+  }
+  name "a-box-of-null-from-outside-is-taken-by-a-hashable-head-answers"
+  note "A box holding null arrives where `some C: Lib.Container` is declared. What it reads as is a box of `Null`, which answers Hashable, so the head takes it."
+  program {
+    imports [
+      "Lib.Container"
+      "Lib.Container.first"
+    ]
+    procedures {
+      entry {
+        access "public"
+        parameters [
+          {
+            name "c"
+            type "some C: Lib.Container"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "c"
+              }
+            ]
+            procedure "Lib.Container.first"
+          }
+        }
+        returns "some C.Item"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

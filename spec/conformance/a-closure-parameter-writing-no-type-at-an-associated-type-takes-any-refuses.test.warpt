@@ -1,0 +1,206 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "Lib.Container" {
+          procedures {
+            first {
+              parameters [
+                {
+                  name "of"
+                  type "Self"
+                }
+              ]
+              returns "Self.Item"
+            }
+          }
+          types [
+            "Item"
+          ]
+        }
+      }
+      imports []
+      procedures {
+        "Lib.apply" {
+          access "public"
+          body [
+            {
+              let "i"
+              value {
+                call {
+                  arguments [
+                    {
+                      ref "c"
+                    }
+                  ]
+                  procedure "Lib.Container.first"
+                }
+              }
+            }
+          ]
+          parameters [
+            {
+              name "c"
+              type "some C: Lib.Container"
+            }
+            {
+              name "f"
+              type {
+                procedure {
+                  parameters [
+                    "some C.Item"
+                  ]
+                  returns "Int"
+                }
+              }
+            }
+          ]
+          result {
+            call {
+              arguments [
+                {
+                  ref "i"
+                }
+              ]
+              procedure {
+                ref "f"
+              }
+            }
+          }
+          returns "Int"
+        }
+        "Lib.firstOf" {
+          access "public"
+          parameters [
+            {
+              name "c"
+              type "some C: Lib.Container"
+            }
+          ]
+          result {
+            call {
+              arguments [
+                {
+                  ref "c"
+                }
+              ]
+              procedure "Lib.Container.first"
+            }
+          }
+          returns "some C.Item"
+        }
+      }
+      warp 1
+    }
+    {
+      extensions {
+        "App.Box<some T: Hashable>" {
+          procedures {
+            first {
+              access "public"
+              parameters [
+                {
+                  name "of"
+                  type "App.Box<some T>"
+                }
+              ]
+              result {
+                ref "of.item"
+              }
+              returns "some T"
+            }
+          }
+          satisfies [
+            "Lib.Container"
+          ]
+          types {
+            Item "some T"
+          }
+        }
+      }
+      imports [
+        "Lib.Container"
+      ]
+      types {
+        "App.Box" {
+          struct {
+            item "some T"
+          }
+          typeParameters [
+            "T"
+          ]
+        }
+        "App.Plain" {
+          struct {
+            x "Int"
+          }
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    refuses "build"
+  }
+  name "a-closure-parameter-writing-no-type-at-an-associated-type-takes-any-refuses"
+  note "The closure's parameter writes no type, so it takes `Any`, and adding to it refuses at the build though `C.Item` is Int."
+  program {
+    imports [
+      "App.Box"
+      "Int.plus"
+      "Lib.apply"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "b"
+            type "App.Box<Int>"
+            value {
+              struct {
+                item 1
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "b"
+              }
+              {
+                closure {
+                  parameters [
+                    {
+                      name "x"
+                    }
+                  ]
+                  result {
+                    call {
+                      arguments [
+                        {
+                          ref "x"
+                        }
+                        10
+                      ]
+                      procedure "Int.plus"
+                    }
+                  }
+                  returns "Int"
+                }
+              }
+            ]
+            procedure "Lib.apply"
+          }
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

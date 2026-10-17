@@ -1,0 +1,122 @@
+warpt 1
+{
+  documents [
+    {
+      contracts {
+        "Lib.Describable" {
+          procedures {
+            describe {
+              parameters [
+                {
+                  name "of"
+                  type "Self"
+                }
+              ]
+              returns "String"
+            }
+          }
+        }
+      }
+      imports []
+      warp 1
+    }
+    {
+      extensions {
+        "App.Box<some T: Hashable>" {
+          procedures {
+            describe {
+              access "public"
+              parameters [
+                {
+                  name "of"
+                  type "App.Box<some T>"
+                }
+              ]
+              result "box"
+              returns "String"
+            }
+          }
+          satisfies [
+            "Hashable"
+            "Lib.Describable"
+          ]
+        }
+      }
+      imports [
+        "Lib.Describable"
+      ]
+      types {
+        "App.Box" {
+          struct {
+            item "some T"
+          }
+          typeParameters [
+            "T"
+          ]
+        }
+        "App.Plain" {
+          struct {
+            x "Int"
+          }
+        }
+      }
+      warp 1
+    }
+  ]
+  expect {
+    answers "box"
+  }
+  name "a-cast-to-a-contract-settles-a-box-of-a-box-through-its-own-claim-answers"
+  note "A box of a box of Int, read as `Any`, is cast to `Lib.Describable`. The inner box answers Hashable through its own conditional claim, so the outer settles into `App.Box<some T: Hashable>`."
+  program {
+    imports [
+      "App.Box"
+      "Lib.Describable"
+      "Lib.Describable.describe"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "a"
+            type "Any"
+            value {
+              as {
+                of {
+                  struct {
+                    item {
+                      struct {
+                        item 1
+                      }
+                    }
+                  }
+                }
+                type "App.Box<App.Box<Int>>"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                as {
+                  of {
+                    ref "a"
+                  }
+                  type "Lib.Describable"
+                }
+              }
+            ]
+            procedure "Lib.Describable.describe"
+          }
+        }
+        returns "String"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
