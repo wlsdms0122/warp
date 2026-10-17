@@ -219,7 +219,7 @@ Where a value meets a declaration (an argument, an answer, and a write into a bo
 
 **A document gives a struct it declares what it gives every value of it in the declaration**, so an extension of a struct the document declares under its bare name **refuses at the load**, and so does an extension giving nothing, which is a second way to write a document.
 
-**A member under a head takes first the value the head takes.** A member given under a head applying its type is there for the values the head takes, and a call says which by the value it hands first, so the member takes that value first, written as the head is written, its parameters' names and aliases as the head spells them: `App.Box.describe` given under `App.Box<some T: Hashable>` takes `App.Box<some T>` first, and one taking anything else first **refuses at the load**. A member taking no value of its type first, `Array.make` taking a `String`, is there for every value, so it is given under the type's bare name.
+**A member takes a value of its type first.** A member is there for the values its head takes, and a call says which by the value it hands first, so the member takes that value first. Under a head applying its type it is written as the head is written, its parameters' names and aliases as the head spells them: `App.Box.describe` given under `App.Box<some T: Hashable>` takes `App.Box<some T>` first. Under the type's bare name it is the type, `Bank.Account` or `Array<Any>`. One taking anything else first, or nothing, **refuses at the load**: a procedure that takes no value of a type, `Array.make` taking a `String`, is declared under `procedures` with that spelling.
 
 **A member's type parameters the head names are held to the head's bounds** beside its own, so a call handing `App.Box.describe` a box of what does not answer `Hashable` **refuses at the build**.
 
@@ -706,6 +706,7 @@ Members:
 - `a-member-and-a-procedure-under-one-spelling-refuse`
 - `a-member-is-called-by-its-types-name-and-its-own`
 - `a-member-named-with-a-dot-refuses`
+- `a-member-taking-no-value-of-its-type-first-refuses`
 - `a-member-under-a-head-may-restate-the-heads-bounds`
 - `a-member-under-a-head-takes-the-heads-bounds`
 - `a-member-under-a-head-taking-another-type-first-refuses`
