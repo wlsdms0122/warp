@@ -68,13 +68,10 @@ A *type* is `[tag, …]`:
 | 14 | a declared name | name; where it applies a struct to types, then a list of *type*, at least one |
 | 15 | a type parameter | name |
 | 16 | a composition `A & B` | names ascending, two or more: one contract is written as its name, tag 14 |
-| 17 | a projection | the parameter projected, the path: *segment* list |
 | 18 | `Self` | |
 | 19 | an associated type, `some T.Item` or `Self.Item` | what it stands on, a type parameter's name or another associated type's label, `T.Item` for `some T.Item.Key`; its name |
 
 A *head* is what a document gives a type under, under [types](type.md): a name where it is bare, and otherwise `[name, arguments, bounds]`, the types it applies the named type to, a list of *type*, at least one, and name → the contracts bounding the type parameter of that name, ascending, at least one, for each one it bounds. A list a head keys stands in the order of the heads' spellings, as names, none twice.
-
-A *segment* is `[0, name, optional]`, `[1, value, optional]` for a *value* written between the brackets, or `[2, path, optional]` for one read from a path.
 
 A *procedure type* is `[parameters, returns, failing]`: a list of *type*, in position order, a *type* or nothing, and a *failing*. A *signature* is `[parameters, returns, bounds, sameTypes]`: a list of *parameter*, in the declaration's order; a *type* or nothing; name → the contracts bounding the type parameter or the associated type of that name, ascending, at least one, for each one the signature bounds; and name → *type* for each associated type the signature says is a type. A *parameter* is `[name, type, description]`: the name, then each a list of none or one: a *type*, none where the parameter takes anything, so `Any` is never written there; a string.
 
@@ -109,13 +106,13 @@ An *operation* is `[tag, …]`. These are the constructs and the expression form
 | 4 | a closure literal | the closure's number, captures: `[outer slot, inner slot]` list |
 | 5 | calling a value | the callee *operation*, arguments: list of *argument*, in position order |
 | 6 | a cast | *operation*, *lowered type*, optional |
-| 7 | a conditional | the condition *operation*, then: *instruction* list, else: *instruction* list or nothing |
-| 8 | a loop | the condition *operation*, the round: *instruction* list, the round's slot or nothing |
-| 9 | an attempt | *body*, the rescue *body*, the failure's slot or nothing |
-| 10 | a call | *call* |
-| 11 | a call through a contract | *dispatch* |
-| 12 | leaving | *reach*, the target name or nothing, what it takes or nothing |
-| 13 | a map built from parts | a list of `[key, value]`, each an *operation*, in the order written |
+| 8 | a conditional | the condition *operation*, then: *instruction* list, else: *instruction* list or nothing |
+| 9 | a loop | the condition *operation*, the round: *instruction* list, the round's slot or nothing |
+| 10 | an attempt | *body*, the rescue *body*, the failure's slot or nothing |
+| 11 | a call | *call* |
+| 12 | a call through a contract | *dispatch* |
+| 13 | leaving | *reach*, the target name or nothing, what it takes or nothing |
+| 14 | a map built from parts | a list of `[key, value]`, each an *operation*, in the order written |
 
 A *layout* is `[name, fields]`: the declared struct's name, and the field names ascending. A *call* is `[procedure, arguments, handed]`: the row the call reaches, numbered by the document; one *operation* or nothing per parameter of the callee, in parameter order, nothing exactly where the call hands that parameter an address in place; and `[position, address]` for each parameter handed in place, by position ascending. A *dispatch* is `[contract, procedure, first, arguments]`: the contract's name, the procedure's, the first argument's *operation*, and the arguments after it by position, each an *argument*. Which row answers is the link's, and stands nowhere in an object. An *argument* is `[0, operation]` by value or `[1, address]` by reference: the place a call of a value hands in place, or one a call through a contract hands to whichever row takes it in place.
 
@@ -135,7 +132,6 @@ A *lowered type* is a type as a body stands on it, `[tag, …]`:
 | 14 | a declared type | its place in `typeNumbering`; where it applies a struct to types, then a list of *lowered type*, at least one |
 | 15 | a type parameter, or an associated type labelled as it is written, `T.Item` or `Self.Item` | its label, the contracts bounding it ascending, those of an associated type being what the contracts asking it and the signature hold it to |
 | 16 | a composition | the contracts ascending, at least one |
-| 17 | a projection | the parameter projected, *segment* list |
 
 ### Values
 
@@ -214,7 +210,7 @@ warpt 1
       [ 1 [] ]
       [
         0
-        [ [] [ [ 10 [ 0 [ [ [ 1 [ 0 [] ] ] ] [ [ 0 [ 2 1 ] ] ] ] [] ] ] ] ]
+        [ [] [ [ 11 [ 0 [ [ [ 1 [ 0 [] ] ] ] [ [ 0 [ 2 1 ] ] ] ] [] ] ] ] ]
         [ 1 [ 0 ] [] [] [ "n" ] ]
       ]
     ]
@@ -226,7 +222,7 @@ warpt 1
 }
 ```
 
-Read it back: `rows` holds `entry`, whose signature takes `n` as `Array<Int>` (type tag 7 around tag 4), answers `Array<Int>`, bounds nothing and says no associated type is a type (`[] []`); it is public (`2`), const (`1`) and isolated (`1`) and fails with nothing (`[1 []]`); its implementation is a body (`0`) with no instructions and a result, a call (`10`) to row `0` of the numbering, which is `Standard.Collection.appending`, with two arguments, the first read from slot `0` and the second the literal (`0`) int (`2`) `1`, neither handed in place; and its frame has one slot, filled by the parameter, called `n`. The dependency is what the host keyed the standard vocabulary's object under.
+Read it back: `rows` holds `entry`, whose signature takes `n` as `Array<Int>` (type tag 7 around tag 4), answers `Array<Int>`, bounds nothing and says no associated type is a type (`[] []`); it is public (`2`), const (`1`) and isolated (`1`) and fails with nothing (`[1 []]`); its implementation is a body (`0`) with no instructions and a result, a call (`11`) to row `0` of the numbering, which is `Standard.Collection.appending`, with two arguments, the first read from slot `0` and the second the literal (`0`) int (`2`) `1`, neither handed in place; and its frame has one slot, filled by the parameter, called `n`. The dependency is what the host keyed the standard vocabulary's object under.
 
 ## Cases
 

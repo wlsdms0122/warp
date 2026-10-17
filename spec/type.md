@@ -47,7 +47,7 @@ Where a value meets a declaration (an argument, an answer, and a write into a bo
 
 **`Any` accepts everything.** It passes the value through untouched, null and procedures included. Nothing is judged, because nothing was declared, beyond what every door holds of a struct's name, under *a declared struct is nominal* below.
 
-**A value of a type the build does not know** is a value read as `Any`, as a contract, or along a path a call decides through a type parameter. It stands where `Any` is declared and where a call fills a type parameter no bound holds, and a value read as a contract stands where a contract it is read as is asked, a bound among them; anywhere else it **refuses at the build**, and a cast says what it is.
+**A value of a type the build does not know** is a value read as `Any` or as a contract. It stands where `Any` is declared and where a call fills a type parameter no bound holds, and a value read as a contract stands where a contract it is read as is asked, a bound among them; anywhere else it **refuses at the build**, and a cast says what it is.
 
 **An empty list or map reads as holding `Never`.** It holds no element, so it is a value of a list or a map of any type.
 
