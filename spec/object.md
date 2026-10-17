@@ -91,7 +91,7 @@ A *frame* is `[size, parameters, variables, captures, names]`: how many slots; w
 
 A *body* is `[instructions, result]`, the result an *operation* or nothing. An *instruction* is `[binding, operation, label]`: the binding or nothing, what to compute, and the string a trace calls the statement. A *binding* is `[0, slot]` to bind, `[1, slot]` to declare, or `[2, address]` to assign.
 
-An *address* is `[slot, steps]`, each *step* `[0, position, name, optional]` for a field of a struct whose layout the build proved, `[1, name, optional]` for a field read by its name, of a value whose type a call decides, `[2, value, optional]` for a *value* between the brackets, a position on a list and a key on a map, or `[3, address, optional]` for one read from a slot.
+An *address* is `[slot, steps]`, each *step* `[0, position, name, optional]` for a field of a struct whose layout the build proved, `[1, name, optional]` for a field read by its name, written past a null or a `Never` the build laid out no struct for, `[2, value, optional]` for a *value* between the brackets, a position on a list and a key on a map, or `[3, address, optional]` for one read from a slot.
 
 ### Operations
 
@@ -262,7 +262,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-whose-frame-names-fewer-slots-than-it-holds-refuses`
 - `an-object-whose-imported-claims-stand-out-of-name-order-refuses`
 - `an-object-whose-layout-names-stand-out-of-order-refuses`
-- `an-object-whose-loop-keeps-a-run-past-its-frame-refuses`
 - `an-object-whose-map-keys-stand-out-of-the-key-order-refuses`
 - `an-object-whose-members-stand-out-of-name-order-refuses`
 - `an-object-whose-numbering-closures-stand-out-of-name-order-refuses`

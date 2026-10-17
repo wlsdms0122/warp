@@ -70,7 +70,7 @@ A conditional is a statement: it **answers nothing**, and it **takes no name**. 
 | `while` | expression. Runs another round while true | yes |
 | `body` | statements | yes |
 
-A loop is a statement: it **answers nothing**, the way a `conditional` does, and what a round keeps it writes to an outer variable. The loop's own statement name binds the round it is on, a `Round`, a struct the language declares as `{ struct: { index: Int } }`, readable where the loop speaks, the `while` condition and the `body`, and nowhere after the loop. A loop written nameless binds no round: a `break` or `continue` naming no loop still ends it, and one naming a loop passes through it. The condition reads the state before the round it would start, so `round.index` there is how many rounds have finished.
+A loop is a statement: it **answers nothing**, the way a `conditional` does, and what a round keeps it writes to an outer variable. The loop's own statement name binds the round it is on, a `Round`, a struct the language declares as `{ struct: { index: Int } }`, readable where the loop speaks, the `while` condition and the `body`, and nowhere after the loop. Nothing writes the round, so the name is introduced with `let`, and one introduced with `var` **refuses at the load**. A loop written nameless binds no round: a `break` or `continue` naming no loop still ends it, and one naming a loop passes through it. The condition reads the state before the round it would start, so `round.index` there is how many rounds have finished.
 
 Bounding a loop is the author's to write, with a counter in its condition, and stopping one is the host's **cancellation**, under [running](running.md).
 
@@ -110,7 +110,7 @@ A procedure the host answers says what it may fail with, the way it says whether
 
 **`return`**. Answer the enclosing procedure from here. Takes an expression, or nothing (`return null`) to answer nothing. The answer must fit what the procedure declared. A `return` leaves early: one ending a procedure's or a closure's own body answers what its `result` would, and a body says what it answers one way, so that one **refuses at the load**.
 
-**`break`**. End a loop. **`continue`**. End the round and go on to the next. Each takes a loop's statement name, or nothing for the nearest enclosing loop. Both **refuse at the load** when nothing encloses them: a closure runs away from where it was written, so the loops around the writing are not around the running, and neither crosses into a procedure written inside another.
+**`break`**. End a loop. **`continue`**. End the round and go on to the next; one ending a round's own body goes where the round goes on its own, and **refuses at the load**. Each takes a loop's statement name, or nothing for the nearest enclosing loop. Both **refuse at the load** when nothing encloses them: a closure runs away from where it was written, so the loops around the writing are not around the running, and neither crosses into a procedure written inside another.
 
 Nothing may be written after a `return`, `break` or `continue` in the same body: it would never run, and the name it would bind would never bind. The same holds after a call whose answer reads `Never`, declared under `returns` or read off a body that never finishes, at the build. The rule reaches through structure, because the fact does: a `conditional` both of whose arms leave never finishes either, so nothing may follow it. Held at the **load**, since the arms are text. A construct that can finish (a conditional with no `else`, a loop, an `attempt`, whose rescue may finish normally) is not a leave, however its bodies end.
 
@@ -146,14 +146,16 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-list-pieces-failure-is-under-its-position`
 - `a-loop-binds-a-round-the-language-declares`
 - `a-loop-condition-that-is-not-a-bool-refuses`
+- `a-loop-named-with-var-refuses`
 - `a-loop-reads-how-many-rounds-passed`
 - `a-loop-takes-no-budget`
 - `a-loop-under-a-set-refuses`
 - `a-loop-writing-a-result-refuses`
 - `a-loop-written-nameless-binds-no-round`
+- `a-loops-name-leaves-the-outer-name-after-the-loop`
+- `a-loops-name-leaves-the-outer-variable-to-write-after-the-loop`
 - `a-loops-name-reads-its-round-inside-the-loop`
 - `a-loops-name-reads-nothing-after-the-loop-refuses`
-- `a-name-a-block-declares-is-not-read-after-it`
 - `a-name-a-round-declares-is-not-read-after-the-loop`
 - `a-name-an-arm-declares-is-not-read-after-it`
 - `a-name-declared-again-inside-an-arm-is-a-new-name`
@@ -184,6 +186,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-result-after-leaving-refuses`
 - `a-result-after-what-never-finishes-refuses`
 - `a-return-is-held-to-the-declaration`
+- `a-round-ending-in-continue-refuses`
 - `a-set-without-a-value-refuses`
 - `a-statement-saying-two-things-refuses`
 - `a-statement-with-no-name-still-runs`

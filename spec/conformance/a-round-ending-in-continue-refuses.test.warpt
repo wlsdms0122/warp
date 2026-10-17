@@ -1,0 +1,38 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-round-ending-in-continue-refuses"
+  note "A `continue` ending a round goes where the round goes on its own, so one program would have two texts, and it refuses at the load. A `continue` inside an arm skips the rest of the round and stands."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "walk"
+            value {
+              loop {
+                body [
+                  {
+                    value {
+                      continue null
+                    }
+                  }
+                ]
+                while false
+              }
+            }
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

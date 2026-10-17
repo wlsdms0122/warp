@@ -1,0 +1,32 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-loop-named-with-var-refuses"
+  note "A loop's name is its round, which nothing writes, so a loop takes its name with `let`, and one taking it with `var` refuses at the load: the two would be one program written two ways."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            value {
+              loop {
+                body []
+                while false
+              }
+            }
+            var "r"
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

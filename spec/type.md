@@ -219,7 +219,7 @@ Where a value meets a declaration (an argument, an answer, and a write into a bo
 
 **A document gives a struct it declares what it gives every value of it in the declaration**, so an extension of a struct the document declares under its bare name **refuses at the load**, and so does an extension giving nothing, which is a second way to write a document.
 
-**A member takes a value of its type first.** A member is there for the values its head takes, and a call says which by the value it hands first, so the member takes that value first. Under a head applying its type it is written as the head is written, its parameters' names and aliases as the head spells them: `App.Box.describe` given under `App.Box<some T: Hashable>` takes `App.Box<some T>` first. Under the type's bare name it is the type, `Bank.Account` or `Array<Any>`. One taking anything else first, or nothing, **refuses at the load**: a procedure that takes no value of a type, `Array.make` taking a `String`, is declared under `procedures` with that spelling.
+**A member takes a value of its type first.** A member is there for the values its head takes, and a call says which by the value it hands first, so the member takes that value first. Under a head applying its type it is written as the head is written, its parameters' names and aliases as the head spells them: `App.Box.describe` given under `App.Box<some T: Hashable>` takes `App.Box<some T>` first. Under the type's bare name it takes every value of the type: the type by its own name, applied to type parameters of its own or `Any`, `Bank.Account`, `Array<Any>` or `App.Box<some T>`; one for some of the type's values is given under a head applying it. One taking anything else first, or nothing, **refuses at the load**: a procedure that takes no value of a type, `Array.make` taking a `String`, is declared under `procedures` with that spelling.
 
 **A member's type parameters the head names are held to the head's bounds** beside its own, so a call handing `App.Box.describe` a box of what does not answer `Hashable` **refuses at the build**.
 
@@ -531,7 +531,6 @@ Type parameters:
 - `an-empty-list-handed-to-a-generic-answers-a-list-of-any-type`
 - `an-optional-cast-of-a-closure-over-a-type-parameter-its-making-call-filled-reads-null`
 - `an-optional-cast-of-a-struct-holding-a-closure-over-a-type-parameter-reads-null`
-- `what-was-read-out-of-a-parameter-is-not-the-parameter`
 
 Bounds:
 
@@ -707,6 +706,7 @@ Members:
 - `a-member-is-called-by-its-types-name-and-its-own`
 - `a-member-named-with-a-dot-refuses`
 - `a-member-taking-no-value-of-its-type-first-refuses`
+- `a-member-under-a-bare-name-taking-some-of-its-values-refuses`
 - `a-member-under-a-head-may-restate-the-heads-bounds`
 - `a-member-under-a-head-takes-the-heads-bounds`
 - `a-member-under-a-head-taking-another-type-first-refuses`
