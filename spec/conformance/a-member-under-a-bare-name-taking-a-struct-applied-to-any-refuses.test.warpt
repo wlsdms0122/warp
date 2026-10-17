@@ -6,66 +6,28 @@ warpt 1
   name "a-member-under-a-bare-name-taking-a-struct-applied-to-any-refuses"
   note "Under its type's bare name a member takes every value of the type first. A struct's parameters are held exactly, so `App.Box<Any>` takes boxes of `Any` and no box of `Int`, and the member refuses at the build; `App.Box<some T>` takes every box."
   program {
-    contracts {
-      "App.Describable" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
     imports []
     procedures {
       entry {
         access "public"
-        body [
-          {
-            let "b"
-            type "App.Box<Int>"
-            value {
-              struct {
-                item 1
-              }
-            }
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "b"
-              }
-            ]
-            procedure "App.Describable.describe"
-          }
-        }
-        returns "String"
+        result 1
+        returns "Int"
       }
     }
     types {
       "App.Box" {
         procedures {
-          describe {
+          m {
             parameters [
               {
                 name "of"
                 type "App.Box<Any>"
               }
             ]
-            result "box"
-            returns "String"
+            result 1
+            returns "Int"
           }
         }
-        satisfies [
-          "App.Describable"
-        ]
         struct {
           item "some T"
         }
