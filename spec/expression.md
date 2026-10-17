@@ -18,7 +18,7 @@ A mapping with another key, or with more than one, **refuses at the load**. A ke
 
 A path is a name, then `.name` for a field and `[…]` for what a list or a map holds. Between the brackets stands a whole number, a text between double quotes, or a path of its own; inside the quotes `\"` is a quote, `\\` a backslash and every other character itself, so each text has one spelling. A `[` left open, a `]` that closes none, a text left open, or a backslash before anything but a quote or a backslash **refuses at the load**.
 
-A **cast** names the type a value is read as. The type is written the way any type is: a name, or the mapping a signature is written as. From the cast on, the reading *is* that type, so every dot after it is judged against it; the run is left the one question the build cannot answer, which is what actually arrived, and it answers it by judging the value against the type, leaving nothing out. A cast is how a value read as `Any`, as a contract, or along a path a call decides reaches a slot of a type, since the build does not know which type it is. A plain `as` **fails at the run** with `cast_refused` when the value is not that type. It is a failure like any other, so an `attempt` catches it, and `as?` reads that mismatch as null, which is the author saying they expected it.
+A **cast** names the type a value is read as. The type is written the way any type is: a name, or the mapping a signature is written as. From the cast on, the reading *is* that type, so every dot after it is judged against it; the run is left the one question the build cannot answer, which is what actually arrived, and it answers it by judging the value against the type, leaving nothing out. A cast is how a value read as `Any` or as a contract reaches a slot of a type, since the build does not know which type it is. A plain `as` **fails at the run** with `cast_refused` when the value is not that type. It is a failure like any other, so an `attempt` catches it, and `as?` reads that mismatch as null, which is the author saying they expected it.
 
 A cast whose operand, read on its own, already **is** the type it names refuses at the build, the way a needless `?.` does: the claim says nothing. The test is sameness, not admission: a reading of `Int?` cast to `Int` names something the types leave open, and only the run can say whether it holds. The type a cast names is a place a literal in its operand is written into, as a slot is, under [types](type.md): a struct literal there is read as the declared struct the type names, and a whole literal as the fraction it names where the type declares a `Double`, at every depth, so `[1] as Array<Double>` answers `[1.0]`. On its own a literal is read as written, and a struct literal as no struct at all, so a cast that is a literal's place is needless only where the literal already is the type, as `1 as Int` is. A cast writes no name onto a value and never takes one away: a declared struct shares its values with itself alone, so a reading of one cast to another declared struct or to a map, and a reading of a map cast to a declared struct, each name a type no value they read is, null aside where both take it, and **refuse at the build**, and a map arriving where a cast reads a declared struct from a reading of `Any` or of a contract is no value of it, so the cast fails with `cast_refused` and `as?` reads it as null. A cast onto `Any` or `Never` refuses at the build for the other half of the same reason: those name no type to read. A type parameter written anywhere inside a cast's type (`Array<some T>`) **refuses at the load** as it does on a name saying what it holds: nothing in a body fills one, so there is no type there to judge what arrives against.
 
@@ -31,7 +31,7 @@ A construct's key, `conditional` or `loop`, is read under a statement's `value` 
 - On a **struct type**, a dot reads the field the type declares. A field it does not declare **refuses at the build**, `?.` or not. The type rules the field out, and no spelling reads past that. A procedure on a struct is written as a call. A struct type says which fields there are, and a value fits it only with exactly them, so there is nothing else to reach.
 - On a type that has no fields (`String`, `Int`, `Double`, `Bool`, a list, a map, a procedure), a dot **refuses at the build**: there is no name there to read. The procedure by that spelling is reached by writing the call, and what a list or a map holds through brackets.
 - On **`Any`**, a dot or an index **refuses at the build**. Nothing is declared here, so there is nothing for the reading to be judged against, and a dot nothing declares is the one thing a run would have to decide for itself. The type is read by naming it: `{ as: { of: <value>, type: <type> } }` says what the author expects, and every dot after it is judged against that.
-- On a **type parameter** (`some T`), whose type is the call's fact, a dot **reads data**: the type is declared, at the call rather than here, so the segments stand as written and what the call filled in answers them, a value with no such field refusing at the run. What the dot reaches is a type the call decides too. Dots go on standing after it, but it is **not the parameter**: `item` is the type the call filled in and `item.a` is a field of that type, which is a different unknown, and it carries none of the parameter's bound. So a name holding `item` on one way through and `item.a` on another holds neither, and one holding `item.a` twice holds one type. Which field of which parameter a walk reached is all that decides this. So `item.a` and `item?.a` are one field read twice. A mark says what is expected of the *value* and says nothing about where the walk landed. A name given to a step along the way arrives where the unbroken walk arrives (`held` holding `item.a`, then `held.b`, is `item.a.b`), and two parameters written `some T` hold one type, so the same field of either is the same field.
+- On a **type parameter** (`some T`), or an associated type, a dot or an index **refuses at the build** as on `Any`. The parameter is one type the body does not know, so nothing is declared here for a reading to be judged against. What a type gives is asked through a contract it answers, under [types](type.md).
 - **Null is not read through.** A segment reading a null, or one whose reading says it may be (`T?`), **refuses**: at the build where the text shows it, at the run otherwise. `?.` is the one spelling that expects absence on a name: it reads the null as null for the whole path, and the path's own reading is nullable for the same reason. `?[` is that same mark on brackets. On a list what it expects absent is the **list itself**, never an element; on a map it is the map or the entry.
 - An **index past the end refuses at the run**. The array is there and says how long it is, so a reading that misses it read the length wrong. `?[` does not change this: it is `?.`'s mark on an index. It expects the **array's** absence, not the element's, so `items?[0]` reads a null array as null for the whole path, and still refuses past the end of one that arrived. Digits between the brackets are a whole number however many there are, and never a name, so one past what an `Int` holds **refuses at the load**. On a list a whole number below zero is no position: one written or settled between the brackets **refuses at the build**, and one the run reads refuses at the run as a position past the end does.
 - A `?.` or `?[` that could not have read past anything (on a struct's declared field, on an array the type says is there) **refuses at the build**, the way a `?` that says nothing new refuses on a type spelling. The claim of absence has to be one the types leave open.
@@ -80,9 +80,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-dictionary-is-read-by-a-key-the-run-reads`
 - `a-dictionary-read-at-a-constant-key-reads-the-entry`
 - `a-dot-on-a-map-refuses`
+- `a-dot-on-a-type-parameter-refuses`
 - `a-dot-on-a-type-with-no-fields-is-refused`
 - `a-dot-on-any-is-refused`
-- `a-dot-past-a-type-parameter-a-map-filled-refuses-at-the-run`
 - `a-dot-through-a-null-the-text-shows-refuses`
 - `a-key-reference-of-another-type-than-the-key-refuses`
 - `a-key-reference-read-as-any-refuses`
@@ -94,9 +94,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-map-literal-written-where-a-map-is-declared-is-held-part-by-part-refuses`
 - `a-mapping-with-no-tag-refuses`
 - `a-mapping-with-two-form-keys-refuses`
-- `a-mark-does-not-split-the-field-it-reached`
 - `a-marked-head-is-refused`
-- `a-named-step-arrives-where-the-walk-arrives`
 - `a-path-reads-through-what-a-name-holds`
 - `a-quoted-key-holds-what-a-path-is-spelled-with`
 - `a-quoted-text-between-the-brackets-reads-an-entry`
@@ -107,7 +105,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-struct-literals-fields-are-made-in-the-order-of-their-names`
 - `a-struct-read-by-a-key-the-run-reads-refuses`
 - `a-text-left-open-between-the-brackets-refuses`
-- `a-type-parameter-filled-by-a-map-is-read-at-a-key-the-run-reads`
 - `a-whole-number-below-zero-is-a-key-of-a-map`
 - `a-write-at-a-constant-index-below-zero-refuses`
 - `a-write-at-an-index-below-zero-refuses`
@@ -115,6 +112,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-element-of-a-constant-list-reads-as-its-element-type-refuses`
 - `an-element-of-a-constant-struct-field-reads-as-its-element-type-refuses`
 - `an-empty-map-literal-is-a-map-of-any-types`
+- `an-index-into-a-type-parameter-refuses`
 - `an-index-into-any-is-refused`
 - `an-index-past-the-end-refuses`
 - `an-index-past-what-an-int-holds-refuses`
@@ -137,4 +135,3 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `the-optional-bracket-reads-through-a-nullable`
 - `the-optional-bracket-still-refuses-past-the-end`
 - `the-optional-dot-reads-through-a-nullable`
-- `two-parameters-of-one-type-parameter-hold-one-type`

@@ -1,0 +1,93 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-write-whose-value-writes-its-head-lands-where-the-head-then-holds-answers"
+  note "The value is computed before the write lands, and may itself write the head, so a path write lands where the head holds after the value. `w.p` holds the key `2`; the value hands `w` in place to a procedure that empties its map, so the key `1` is written into the empty map and the map holds one key."
+  program {
+    imports [
+      "Standard.Collection.count"
+    ]
+    procedures {
+      "App.emptied" {
+        body [
+          {
+            set "of.p"
+            value {
+              as {
+                of {
+                  dictionary []
+                }
+                type "Dictionary<Int, Int>"
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "of"
+            type "inout App.A"
+          }
+        ]
+        result 5
+        returns "Int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            type "App.A"
+            value {
+              struct {
+                p {
+                  dictionary [
+                    [
+                      2
+                      1
+                    ]
+                  ]
+                }
+              }
+            }
+            var "w"
+          }
+          {
+            set "w.p[1]"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "w"
+                  }
+                ]
+                procedure "App.emptied"
+              }
+            }
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                ref "w.p"
+              }
+            ]
+            procedure "Standard.Collection.count"
+          }
+        }
+        returns "Int"
+      }
+    }
+    types {
+      "App.A" {
+        struct {
+          p "var Dictionary<Int, Int>"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

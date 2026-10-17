@@ -3,8 +3,8 @@ warpt 1
   expect {
     refuses "load"
   }
-  name "a-loop-under-a-set-binds-no-round"
-  note "A `set` introduces no name, so a loop under it binds no round, and a `break` naming the variable the statement writes names no loop around it."
+  name "a-round-ending-in-continue-refuses"
+  note "A `continue` ending a round goes where the round goes on its own, so one program would have two texts, and it refuses at the load."
   program {
     imports []
     procedures {
@@ -12,30 +12,22 @@ warpt 1
         access "public"
         body [
           {
-            type "Int"
-            value 5
-            var "r"
-          }
-          {
-            set "r"
+            let "walk"
             value {
               loop {
                 body [
                   {
                     value {
-                      break "r"
+                      continue null
                     }
                   }
                 ]
-                result 6
-                while true
+                while false
               }
             }
           }
         ]
-        result {
-          ref "r"
-        }
+        result 1
         returns "Int"
       }
     }

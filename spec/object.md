@@ -68,13 +68,10 @@ A *type* is `[tag, …]`:
 | 14 | a declared name | name; where it applies a struct to types, then a list of *type*, at least one |
 | 15 | a type parameter | name |
 | 16 | a composition `A & B` | names ascending, two or more: one contract is written as its name, tag 14 |
-| 17 | a projection | the parameter projected, the path: *segment* list |
 | 18 | `Self` | |
 | 19 | an associated type, `some T.Item` or `Self.Item` | what it stands on, a type parameter's name or another associated type's label, `T.Item` for `some T.Item.Key`; its name |
 
 A *head* is what a document gives a type under, under [types](type.md): a name where it is bare, and otherwise `[name, arguments, bounds]`, the types it applies the named type to, a list of *type*, at least one, and name → the contracts bounding the type parameter of that name, ascending, at least one, for each one it bounds. A list a head keys stands in the order of the heads' spellings, as names, none twice.
-
-A *segment* is `[0, name, optional]`, `[1, value, optional]` for a *value* written between the brackets, or `[2, path, optional]` for one read from a path.
 
 A *procedure type* is `[parameters, returns, failing]`: a list of *type*, in position order, a *type* or nothing, and a *failing*. A *signature* is `[parameters, returns, bounds, sameTypes]`: a list of *parameter*, in the declaration's order; a *type* or nothing; name → the contracts bounding the type parameter or the associated type of that name, ascending, at least one, for each one the signature bounds; and name → *type* for each associated type the signature says is a type. A *parameter* is `[name, type, description]`: the name, then each a list of none or one: a *type*, none where the parameter takes anything, so `Any` is never written there; a string.
 
@@ -94,7 +91,7 @@ A *frame* is `[size, parameters, variables, captures, names]`: how many slots; w
 
 A *body* is `[instructions, result]`, the result an *operation* or nothing. An *instruction* is `[binding, operation, label]`: the binding or nothing, what to compute, and the string a trace calls the statement. A *binding* is `[0, slot]` to bind, `[1, slot]` to declare, or `[2, address]` to assign.
 
-An *address* is `[slot, steps]`, each *step* `[0, position, name, optional]` for a field of a struct whose layout the build proved, `[1, name, optional]` for a field read by its name, of a value whose type a call decides, `[2, value, optional]` for a *value* between the brackets, a position on a list and a key on a map, or `[3, address, optional]` for one read from a slot.
+An *address* is `[slot, steps]`, each *step* `[0, position, name, optional]` for a field of a struct whose layout the build proved, `[1, name, optional]` for a field read by its name, written past a null or a `Never` the build laid out no struct for, `[2, value, optional]` for a *value* between the brackets, a position on a list and a key on a map, or `[3, address, optional]` for one read from a slot.
 
 ### Operations
 
@@ -109,9 +106,8 @@ An *operation* is `[tag, …]`. These are the constructs and the expression form
 | 4 | a closure literal | the closure's number, captures: `[outer slot, inner slot]` list |
 | 5 | calling a value | the callee *operation*, arguments: list of *argument*, in position order |
 | 6 | a cast | *operation*, *lowered type*, optional |
-| 7 | a block | *body* |
 | 8 | a conditional | the condition *operation*, then: *instruction* list, else: *instruction* list or nothing |
-| 9 | a loop | the condition *operation*, *body*, the round's slot or nothing, keeps: `[from, to)` or nothing |
+| 9 | a loop | the condition *operation*, the round: *instruction* list, the round's slot or nothing |
 | 10 | an attempt | *body*, the rescue *body*, the failure's slot or nothing |
 | 11 | a call | *call* |
 | 12 | a call through a contract | *dispatch* |
@@ -136,7 +132,6 @@ A *lowered type* is a type as a body stands on it, `[tag, …]`:
 | 14 | a declared type | its place in `typeNumbering`; where it applies a struct to types, then a list of *lowered type*, at least one |
 | 15 | a type parameter, or an associated type labelled as it is written, `T.Item` or `Self.Item` | its label, the contracts bounding it ascending, those of an associated type being what the contracts asking it and the signature hold it to |
 | 16 | a composition | the contracts ascending, at least one |
-| 17 | a projection | the parameter projected, *segment* list |
 
 ### Values
 
@@ -267,7 +262,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-whose-frame-names-fewer-slots-than-it-holds-refuses`
 - `an-object-whose-imported-claims-stand-out-of-name-order-refuses`
 - `an-object-whose-layout-names-stand-out-of-order-refuses`
-- `an-object-whose-loop-keeps-a-run-past-its-frame-refuses`
 - `an-object-whose-map-keys-stand-out-of-the-key-order-refuses`
 - `an-object-whose-members-stand-out-of-name-order-refuses`
 - `an-object-whose-numbering-closures-stand-out-of-name-order-refuses`
@@ -290,7 +284,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-writing-an-empty-name-refuses`
 - `an-object-writing-any-as-a-parameter-type-refuses`
 - `an-object-writing-what-a-procedure-type-may-fail-with-and-not-what-it-takes-refuses`
-- `the-object-of-a-block`
 - `the-object-of-a-call`
 - `the-object-of-a-cast`
 - `the-object-of-a-claim-under-a-head`

@@ -1,14 +1,13 @@
 warpt 1
 {
   expect {
-    answers 2
+    answers 1
   }
   name "a-loop-binds-a-round-the-language-declares"
   note "What a loop binds each round is a `Round`, a struct the language declares, so a slot that declares `Round` takes it as it is and reads its `index`."
   program {
     imports [
       "Standard.Comparable.lessThan"
-      "Standard.Numeric.plus"
     ]
     procedures {
       "App.reached" {
@@ -28,7 +27,7 @@ warpt 1
         body [
           {
             value 0
-            var "count"
+            var "seen"
           }
           {
             let "walk"
@@ -36,30 +35,19 @@ warpt 1
               loop {
                 body [
                   {
-                    set "count"
+                    set "seen"
                     value {
                       call {
                         arguments [
                           {
-                            ref "count"
+                            ref "walk"
                           }
-                          1
                         ]
-                        procedure "Standard.Numeric.plus"
+                        procedure "App.reached"
                       }
                     }
                   }
                 ]
-                result {
-                  call {
-                    arguments [
-                      {
-                        ref "walk"
-                      }
-                    ]
-                    procedure "App.reached"
-                  }
-                }
                 while {
                   call {
                     arguments [
@@ -76,7 +64,7 @@ warpt 1
           }
         ]
         result {
-          ref "walk"
+          ref "seen"
         }
       }
     }

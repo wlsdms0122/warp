@@ -47,7 +47,7 @@ Where a value meets a declaration (an argument, an answer, and a write into a bo
 
 **`Any` accepts everything.** It passes the value through untouched, null and procedures included. Nothing is judged, because nothing was declared, beyond what every door holds of a struct's name, under *a declared struct is nominal* below.
 
-**A value of a type the build does not know** is a value read as `Any`, as a contract, or along a path a call decides through a type parameter. It stands where `Any` is declared and where a call fills a type parameter no bound holds, and a value read as a contract stands where a contract it is read as is asked, a bound among them; anywhere else it **refuses at the build**, and a cast says what it is.
+**A value of a type the build does not know** is a value read as `Any` or as a contract. It stands where `Any` is declared and where a call fills a type parameter no bound holds, and a value read as a contract stands where a contract it is read as is asked, a bound among them; anywhere else it **refuses at the build**, and a cast says what it is.
 
 **An empty list or map reads as holding `Never`.** It holds no element, so it is a value of a list or a map of any type.
 
@@ -219,7 +219,7 @@ Where a value meets a declaration (an argument, an answer, and a write into a bo
 
 **A document gives a struct it declares what it gives every value of it in the declaration**, so an extension of a struct the document declares under its bare name **refuses at the load**, and so does an extension giving nothing, which is a second way to write a document.
 
-**A member under a head takes first the value the head takes.** A member given under a head applying its type is there for the values the head takes, and a call says which by the value it hands first, so the member takes that value first, written as the head is written, its parameters' names and aliases as the head spells them: `App.Box.describe` given under `App.Box<some T: Hashable>` takes `App.Box<some T>` first, and one taking anything else first **refuses at the load**. A member taking no value of its type first, `Array.make` taking a `String`, is there for every value, so it is given under the type's bare name.
+**A member takes a value of its type first.** A member is there for the values its head takes, and a call says which by the value it hands first, so the member takes that value first. Under a head applying its type it is written as the head is written, its parameters' names and aliases as the head spells them: `App.Box.describe` given under `App.Box<some T: Hashable>` takes `App.Box<some T>` first. Under the type's bare name it takes every value of the type, written by the type's own name: what a claim under the bare name reads `Self` as, `Bank.Account`, `Array<Any>` or `App.Box<some T>`, and one taking only some of them, `Array<Int>` or `App.Box<Any>`, **refuses at the build**, since it is given under a head applying the type. One taking a value of another type first, or nothing, **refuses at the load**: a procedure that takes no value of a type, `Array.make` taking a `String`, is declared under `procedures` with that spelling.
 
 **A member's type parameters the head names are held to the head's bounds** beside its own, so a call handing `App.Box.describe` a box of what does not answer `Hashable` **refuses at the build**.
 
@@ -383,8 +383,6 @@ A declared struct is nominal:
 - `a-map-from-outside-whose-keys-the-door-makes-one-key-refuses`
 - `a-map-key-from-outside-under-a-name-no-document-declares-refuses-at-the-door`
 - `a-map-key-from-outside-under-an-alias-is-a-value-of-its-struct-answers`
-- `a-struct-a-block-answers-where-a-declared-struct-is-read-takes-the-name`
-- `a-struct-a-loop-answers-where-a-declared-struct-is-read-takes-the-name`
 - `a-struct-arrives-as-an-argument`
 - `a-struct-built-where-a-declared-struct-is-read-keeps-its-closure`
 - `a-struct-declared-without-its-struct-key-refuses`
@@ -512,7 +510,6 @@ Type parameters:
 - `a-parameter-handed-in-place-holding-dictionaries-of-lists-of-a-parameter-takes-maps-of-an-empty-list-and-of-it`
 - `a-parameter-handed-in-place-holding-dictionaries-of-lists-of-a-parameter-takes-maps-of-other-keys`
 - `a-parameter-handed-in-place-holding-lists-of-a-parameter-refuses-an-attempt-whose-rescue-answers-a-number`
-- `a-parameter-handed-in-place-holding-lists-of-a-parameter-takes-a-block-answering-an-empty-list-beside-a-list-of-it`
 - `a-parameter-handed-in-place-holding-lists-of-a-parameter-takes-a-list-of-an-empty-list`
 - `a-parameter-handed-in-place-holding-lists-of-a-parameter-takes-an-empty-list-beside-a-list-of-it`
 - `a-parameter-handed-in-place-holding-nullable-dictionaries-of-lists-of-a-parameter-takes-null-and-a-map-of-an-empty-list`
@@ -534,7 +531,6 @@ Type parameters:
 - `an-empty-list-handed-to-a-generic-answers-a-list-of-any-type`
 - `an-optional-cast-of-a-closure-over-a-type-parameter-its-making-call-filled-reads-null`
 - `an-optional-cast-of-a-struct-holding-a-closure-over-a-type-parameter-reads-null`
-- `what-was-read-out-of-a-parameter-is-not-the-parameter`
 
 Bounds:
 
@@ -709,6 +705,10 @@ Members:
 - `a-member-and-a-procedure-under-one-spelling-refuse`
 - `a-member-is-called-by-its-types-name-and-its-own`
 - `a-member-named-with-a-dot-refuses`
+- `a-member-taking-no-value-of-its-type-first-refuses`
+- `a-member-under-a-bare-name-bounding-its-parameter-refuses`
+- `a-member-under-a-bare-name-taking-a-struct-applied-to-any-refuses`
+- `a-member-under-a-bare-name-taking-some-of-its-values-refuses`
 - `a-member-under-a-head-may-restate-the-heads-bounds`
 - `a-member-under-a-head-takes-the-heads-bounds`
 - `a-member-under-a-head-taking-another-type-first-refuses`

@@ -2,28 +2,13 @@ warpt 1
 {
   expect {
     builds {
-      answers [
-        [
-          "App.read"
-          [
-            17
-            "T"
-            [
-              [
-                0
-                "x"
-                false
-              ]
-            ]
-          ]
-        ]
-      ]
+      answers []
       claims []
       constants []
       contracts []
       dependencies []
       document [
-        x"3d831547323fd3180082454165b9dc249c2708cf5d127a30e4deaaeca81e7754"
+        x"28d28dd686e886409386b45da361ee5abb415cff1df3ae23133df77cbd5bdce2"
       ]
       importedClaims []
       lifted []
@@ -49,7 +34,12 @@ warpt 1
                 []
               ]
             ]
-            []
+            [
+              [
+                15
+                "T"
+              ]
+            ]
             []
             []
           ]
@@ -69,13 +59,7 @@ warpt 1
                   1
                   [
                     0
-                    [
-                      [
-                        1
-                        "x"
-                        false
-                      ]
-                    ]
+                    []
                   ]
                 ]
               ]
@@ -279,7 +263,7 @@ warpt 1
     }
   }
   name "the-object-of-every-type-spelling"
-  note "Every type spelling a document writes lowers under the tag the page gives it: the scalars with `Null` and `Never`, a dictionary, the marks var and inout, the nullable, a procedure type with the types it takes and answers, what it may fail with and its claims, a type parameter, and the reading a walk through one derives, written under answers."
+  note "Every type spelling a document writes lowers under the tag the page gives it: the scalars with `Null` and `Never`, a dictionary, the marks var and inout, the nullable, a procedure type with the types it takes and answers, what it may fail with and its claims, and a type parameter."
   program {
     imports []
     procedures {
@@ -291,8 +275,9 @@ warpt 1
           }
         ]
         result {
-          ref "p.x"
+          ref "p"
         }
+        returns "some T"
       }
       entry {
         access "public"

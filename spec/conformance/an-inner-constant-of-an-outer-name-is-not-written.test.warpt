@@ -4,7 +4,7 @@ warpt 1
     refuses "load"
   }
   name "an-inner-constant-of-an-outer-name-is-not-written"
-  note "A `let` inside a block spelled like a variable outside is a new name, and a fixed one. A `set` of that spelling after it in the block writes the fixed name, which is refused, and does not reach the outer box."
+  note "A `let` inside an arm spelled like a variable outside is a new name, and a fixed one. A `set` of that spelling after it in the arm writes the fixed name, which is refused, and does not reach the outer box."
   program {
     imports []
     procedures {
@@ -16,10 +16,9 @@ warpt 1
             var "verdict"
           }
           {
-            let "gate"
             value {
-              block {
-                body [
+              conditional {
+                then [
                   {
                     let "verdict"
                     value 2
@@ -29,6 +28,7 @@ warpt 1
                     value 3
                   }
                 ]
+                when true
               }
             }
           }

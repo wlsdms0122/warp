@@ -7,7 +7,7 @@ warpt 1
     }
   }
   name "an-attempts-name-reads-the-failure-inside-its-rescue"
-  note "An attempt's statement name is the failure inside its rescue: `h.message` there reads what the failing call said. After the attempt the name reads what the attempt answered, and the text `h` around the block is another name that keeps its value."
+  note "An attempt's statement name is the failure inside its rescue and what the attempt answered after it. The `h` around the arm is another name and keeps its value."
   program {
     imports [
       "Standard.Control.abort"
@@ -21,10 +21,12 @@ warpt 1
             value "f"
           }
           {
-            let "inner"
+            var "inner"
+          }
+          {
             value {
-              block {
-                body [
+              conditional {
+                then [
                   {
                     let "h"
                     value {
@@ -49,10 +51,14 @@ warpt 1
                       }
                     }
                   }
+                  {
+                    set "inner"
+                    value {
+                      ref "h"
+                    }
+                  }
                 ]
-                result {
-                  ref "h"
-                }
+                when true
               }
             }
           }

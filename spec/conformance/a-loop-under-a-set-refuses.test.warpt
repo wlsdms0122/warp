@@ -1,0 +1,39 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-loop-under-a-set-refuses"
+  note "A loop answers nothing, so a `set` of one has nothing to write and refuses at the load."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            type "Int"
+            value 5
+            var "r"
+          }
+          {
+            set "r"
+            value {
+              loop {
+                body []
+                while false
+              }
+            }
+          }
+        ]
+        result {
+          ref "r"
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

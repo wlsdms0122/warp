@@ -1,10 +1,26 @@
 warpt 1
 {
+  documents [
+    {
+      imports []
+      types {
+        "App.Box" {
+          struct {
+            item "some T"
+          }
+          typeParameters [
+            "T"
+          ]
+        }
+      }
+      warp 1
+    }
+  ]
   expect {
     refuses "build"
   }
   name "a-claim-about-a-struct-answered-for-it-applied-to-int-alone-refuses"
-  note "A claim about `App.Box` is about every value of it, and a call through the contract hands the declaration any of them. `App.Box.describe` takes `App.Box<Int>` alone, so the claim does not hold and refuses at the build, at the claim."
+  note "A claim about `App.Box` is about every value of it, and a call through the contract hands the declaration any of them. `App.Box.describe` is given under `App.Box<Int>`, for boxes of whole numbers alone, so the claim does not hold and refuses at the build, at the claim."
   program {
     contracts {
       "App.Describable" {
@@ -21,7 +37,30 @@ warpt 1
         }
       }
     }
-    imports []
+    extensions {
+      "App.Box" {
+        satisfies [
+          "App.Describable"
+        ]
+      }
+      "App.Box<Int>" {
+        procedures {
+          describe {
+            parameters [
+              {
+                name "of"
+                type "App.Box<Int>"
+              }
+            ]
+            result "box"
+            returns "String"
+          }
+        }
+      }
+    }
+    imports [
+      "App.Box"
+    ]
     procedures {
       entry {
         access "public"
@@ -47,31 +86,6 @@ warpt 1
           }
         }
         returns "String"
-      }
-    }
-    types {
-      "App.Box" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "App.Box<Int>"
-              }
-            ]
-            result "box"
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.Describable"
-        ]
-        struct {
-          item "some T"
-        }
-        typeParameters [
-          "T"
-        ]
       }
     }
     warp 1

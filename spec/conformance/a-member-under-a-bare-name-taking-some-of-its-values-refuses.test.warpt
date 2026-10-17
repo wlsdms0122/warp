@@ -1,0 +1,37 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-member-under-a-bare-name-taking-some-of-its-values-refuses"
+  note "Under its type's bare name a member takes every value of the type first. `size` takes `Array<Int>`, some lists only, so it refuses at the build; it is given under the head `Array<Int>`."
+  program {
+    extensions {
+      Array {
+        procedures {
+          size {
+            parameters [
+              {
+                name "of"
+                type "Array<Int>"
+              }
+            ]
+            result 1
+            returns "Int"
+          }
+        }
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

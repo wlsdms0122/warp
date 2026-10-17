@@ -1,0 +1,57 @@
+warpt 1
+{
+  expect {
+    answers 5
+  }
+  name "a-loops-name-leaves-the-outer-name-after-the-loop"
+  note "A loop's name is its round, read in the condition and the body, and binds nothing after the loop. In an arm where `x` names a loop, `x` after the loop is the `x` around the arm, which holds 5."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "x"
+            value 5
+          }
+          {
+            value 0
+            var "y"
+          }
+          {
+            value {
+              conditional {
+                then [
+                  {
+                    let "x"
+                    value {
+                      loop {
+                        body []
+                        while false
+                      }
+                    }
+                  }
+                  {
+                    set "y"
+                    value {
+                      ref "x"
+                    }
+                  }
+                ]
+                when true
+              }
+            }
+          }
+        ]
+        result {
+          ref "y"
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

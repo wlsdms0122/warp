@@ -2,12 +2,12 @@ warpt 1
 {
   expect {
     answers {
-      inner 2
+      inner 1
       outer "f"
     }
   }
   name "a-loops-name-reads-its-round-inside-the-loop"
-  note "A loop's statement name is the round inside the loop: `h.index` in the condition and the result reads the round, and after rounds 0 and 1 have finished it is 2, where the condition stops the loop. After the loop the name reads what the loop answered, and the text `h` around the block is another name that keeps its value."
+  note "A loop's statement name is the round inside the loop: `h.index` in the condition and the body reads the round, and the last round to run is 1. The `h` around the arm is another name and keeps its value."
   program {
     imports [
       "Standard.Comparable.lessThan"
@@ -21,18 +21,25 @@ warpt 1
             value "f"
           }
           {
-            let "inner"
+            value 0
+            var "inner"
+          }
+          {
             value {
-              block {
-                body [
+              conditional {
+                then [
                   {
                     let "h"
                     value {
                       loop {
-                        body []
-                        result {
-                          ref "h.index"
-                        }
+                        body [
+                          {
+                            set "inner"
+                            value {
+                              ref "h.index"
+                            }
+                          }
+                        ]
                         while {
                           call {
                             arguments [
@@ -48,9 +55,7 @@ warpt 1
                     }
                   }
                 ]
-                result {
-                  ref "h"
-                }
+                when true
               }
             }
           }

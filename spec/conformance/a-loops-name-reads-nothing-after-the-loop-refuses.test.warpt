@@ -1,0 +1,33 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-loops-name-reads-nothing-after-the-loop-refuses"
+  note "A loop answers nothing, and its name is its round's, read in the condition and the body. After the loop the name reads nothing, so reading it there refuses at the load."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "walk"
+            value {
+              loop {
+                body []
+                while false
+              }
+            }
+          }
+        ]
+        result {
+          ref "walk"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

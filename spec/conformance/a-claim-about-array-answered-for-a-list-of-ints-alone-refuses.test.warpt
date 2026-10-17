@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-claim-about-array-answered-for-a-list-of-ints-alone-refuses"
-  note "A claim about `Array` is about every list, whatever it holds, since a value does not say which elements a slot declared it to hold. `Array.total` takes `Array<Int>` alone, so a list of text handed through the contract would reach a slot that refuses it, and the claim does not hold."
+  note "A claim about `Array` is about every list, whatever it holds, since a value does not say which elements a slot declared it to hold. `Array.total` is given under `Array<Int>`, for lists of whole numbers alone, so a list of text handed through the contract would reach a slot that refuses it, and the claim does not hold."
   program {
     contracts {
       "App.Totalable" {
@@ -23,6 +23,11 @@ warpt 1
     }
     extensions {
       Array {
+        satisfies [
+          "App.Totalable"
+        ]
+      }
+      "Array<Int>" {
         procedures {
           total {
             parameters [
@@ -35,9 +40,6 @@ warpt 1
             returns "Int"
           }
         }
-        satisfies [
-          "App.Totalable"
-        ]
       }
     }
     imports []

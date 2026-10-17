@@ -4,22 +4,16 @@ warpt 1
     refuses "build"
   }
   name "an-extension-of-a-name-nothing-declares-refuses"
-  note "Nothing in this link declares `App.Later`, and a name a document stands on is declared within what it stands on, so the extension giving it a member refuses at the build."
+  note "Nothing in this link declares `App.Later`, and a name a document stands on is declared within what it stands on, so the extension claiming it a contract refuses at the build."
   program {
+    contracts {
+      "App.Mark" {}
+    }
     extensions {
       "App.Later" {
-        procedures {
-          m {
-            parameters [
-              {
-                name "of"
-                type "Int"
-              }
-            ]
-            result 7
-            returns "Int"
-          }
-        }
+        satisfies [
+          "App.Mark"
+        ]
       }
     }
     imports [
@@ -28,14 +22,7 @@ warpt 1
     procedures {
       entry {
         access "public"
-        result {
-          call {
-            arguments [
-              1
-            ]
-            procedure "App.Later.m"
-          }
-        }
+        result 1
         returns "Int"
       }
     }

@@ -1,0 +1,43 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-member-under-a-bare-name-taking-a-struct-applied-to-any-refuses"
+  note "Under its type's bare name a member takes every value of the type first. A struct's parameters are held exactly, so `App.Box<Any>` takes boxes of `Any` and no box of `Int`, and the member refuses at the build; `App.Box<some T>` takes every box."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    types {
+      "App.Box" {
+        procedures {
+          m {
+            parameters [
+              {
+                name "of"
+                type "App.Box<Any>"
+              }
+            ]
+            result 1
+            returns "Int"
+          }
+        }
+        struct {
+          item "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

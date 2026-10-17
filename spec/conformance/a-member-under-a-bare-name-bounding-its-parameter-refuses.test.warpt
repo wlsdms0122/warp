@@ -1,0 +1,39 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-member-under-a-bare-name-bounding-its-parameter-refuses"
+  note "Under its type's bare name a member takes every value of the type first. `m` takes `Array<some T: Standard.Comparable>`, the lists whose elements order, so it refuses at the build; it is given under a head applying `Array` to what it takes."
+  program {
+    extensions {
+      Array {
+        procedures {
+          m {
+            parameters [
+              {
+                name "of"
+                type "Array<some T: Standard.Comparable>"
+              }
+            ]
+            result 1
+            returns "Int"
+          }
+        }
+      }
+    }
+    imports [
+      "Standard.Comparable"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

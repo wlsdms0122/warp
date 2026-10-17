@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    answers 6
+    answers 5
   }
   name "a-call-of-a-value-hands-in-place-inside-every-construct"
-  note "A call of a value hands a variable in place wherever it is written: a body, both arms of a conditional, a loop's round, a block, an attempt and its rescue. A closure is written into a map, an array and an argument the same way, and its own calls are judged and lowered with it."
+  note "A call of a value hands a variable in place wherever it is written: a body, both arms of a conditional, a loop's round, an attempt and its rescue. A closure is written into a map, an array and an argument the same way, and its own calls are judged and lowered with it."
   program {
     imports [
       "Standard.Control.abort"
@@ -133,28 +133,6 @@ warpt 1
                     procedure "Standard.Logic.not"
                   }
                 }
-              }
-            }
-          }
-          {
-            value {
-              block {
-                body [
-                  {
-                    value {
-                      call {
-                        arguments [
-                          {
-                            ref "n"
-                          }
-                        ]
-                        procedure {
-                          ref "bump"
-                        }
-                      }
-                    }
-                  }
-                ]
               }
             }
           }

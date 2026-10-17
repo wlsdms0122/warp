@@ -1,0 +1,44 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-member-taking-no-value-of-its-type-first-refuses"
+  note "A member takes a value of its type first, under the type's bare name as under a head applying it. `make` takes text and no `App.Box`, so it is no member of the box and refuses at the load: a procedure taking no value of a type is declared under `procedures`."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    types {
+      "App.Box" {
+        procedures {
+          make {
+            parameters [
+              {
+                name "from"
+                type "String"
+              }
+            ]
+            result {
+              struct {
+                v 1
+              }
+            }
+            returns "App.Box"
+          }
+        }
+        struct {
+          v "Int"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
