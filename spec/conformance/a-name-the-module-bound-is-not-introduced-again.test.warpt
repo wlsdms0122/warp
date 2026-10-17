@@ -4,7 +4,7 @@ warpt 1
     refuses "load"
   }
   name "a-name-the-module-bound-is-not-introduced-again"
-  note "A name the module bound, a constant or a variable, is not introduced again anywhere in a body. `limit` is a constant here, and a `let` taking its spelling inside a block refuses at the load the way one at the body's own level does."
+  note "A name the module bound, a constant or a variable, is not introduced again anywhere in a body. `limit` is a constant here, and a `let` taking its spelling inside an arm refuses at the load the way one at the body's own level does."
   program {
     const {
       limit 3
@@ -15,24 +15,21 @@ warpt 1
         access "public"
         body [
           {
-            let "got"
             value {
-              block {
-                body [
+              conditional {
+                then [
                   {
                     let "limit"
                     value 9
                   }
                 ]
-                result {
-                  ref "limit"
-                }
+                when true
               }
             }
           }
         ]
         result {
-          ref "got"
+          ref "limit"
         }
         returns "Int"
       }

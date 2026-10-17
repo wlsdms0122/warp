@@ -6,8 +6,8 @@ warpt 1
       b 2
     }
   }
-  name "sibling-blocks-may-each-introduce-one-name"
-  note "Two blocks side by side are two bodies, and each may introduce `x` once."
+  name "sibling-bodies-may-each-introduce-one-name"
+  note "A name a body introduces is read to the end of that body and nowhere after, so two bodies side by side may each introduce it."
   program {
     imports []
     procedures {
@@ -15,34 +15,48 @@ warpt 1
         access "public"
         body [
           {
-            let "a"
+            value 0
+            var "a"
+          }
+          {
+            value 0
+            var "b"
+          }
+          {
             value {
-              block {
-                body [
+              conditional {
+                then [
                   {
                     let "x"
                     value 1
                   }
+                  {
+                    set "a"
+                    value {
+                      ref "x"
+                    }
+                  }
                 ]
-                result {
-                  ref "x"
-                }
+                when true
               }
             }
           }
           {
-            let "b"
             value {
-              block {
-                body [
+              conditional {
+                then [
                   {
                     let "x"
                     value 2
                   }
+                  {
+                    set "b"
+                    value {
+                      ref "x"
+                    }
+                  }
                 ]
-                result {
-                  ref "x"
-                }
+                when true
               }
             }
           }

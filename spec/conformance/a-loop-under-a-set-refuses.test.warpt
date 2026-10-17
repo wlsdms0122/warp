@@ -3,8 +3,8 @@ warpt 1
   expect {
     refuses "load"
   }
-  name "a-loop-under-a-set-binds-no-round"
-  note "A `set` introduces no name, so a loop under it binds no round, and a `break` naming the variable the statement writes names no loop around it."
+  name "a-loop-under-a-set-refuses"
+  note "A loop answers nothing, so a `set` of one has nothing to write and refuses at the load."
   program {
     imports []
     procedures {
@@ -20,15 +20,8 @@ warpt 1
             set "r"
             value {
               loop {
-                body [
-                  {
-                    value {
-                      break "r"
-                    }
-                  }
-                ]
-                result 6
-                while true
+                body []
+                while false
               }
             }
           }

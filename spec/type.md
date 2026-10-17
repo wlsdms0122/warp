@@ -383,8 +383,6 @@ A declared struct is nominal:
 - `a-map-from-outside-whose-keys-the-door-makes-one-key-refuses`
 - `a-map-key-from-outside-under-a-name-no-document-declares-refuses-at-the-door`
 - `a-map-key-from-outside-under-an-alias-is-a-value-of-its-struct-answers`
-- `a-struct-a-block-answers-where-a-declared-struct-is-read-takes-the-name`
-- `a-struct-a-loop-answers-where-a-declared-struct-is-read-takes-the-name`
 - `a-struct-arrives-as-an-argument`
 - `a-struct-built-where-a-declared-struct-is-read-keeps-its-closure`
 - `a-struct-declared-without-its-struct-key-refuses`
@@ -512,7 +510,6 @@ Type parameters:
 - `a-parameter-handed-in-place-holding-dictionaries-of-lists-of-a-parameter-takes-maps-of-an-empty-list-and-of-it`
 - `a-parameter-handed-in-place-holding-dictionaries-of-lists-of-a-parameter-takes-maps-of-other-keys`
 - `a-parameter-handed-in-place-holding-lists-of-a-parameter-refuses-an-attempt-whose-rescue-answers-a-number`
-- `a-parameter-handed-in-place-holding-lists-of-a-parameter-takes-a-block-answering-an-empty-list-beside-a-list-of-it`
 - `a-parameter-handed-in-place-holding-lists-of-a-parameter-takes-a-list-of-an-empty-list`
 - `a-parameter-handed-in-place-holding-lists-of-a-parameter-takes-an-empty-list-beside-a-list-of-it`
 - `a-parameter-handed-in-place-holding-nullable-dictionaries-of-lists-of-a-parameter-takes-null-and-a-map-of-an-empty-list`

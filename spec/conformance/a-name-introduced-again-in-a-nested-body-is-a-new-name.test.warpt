@@ -6,8 +6,8 @@ warpt 1
       outer 1
     }
   }
-  name "a-name-introduced-again-in-a-nested-block-is-a-new-name"
-  note "A block may introduce a name the body around it already introduced. Inside the block `x` is the new name, so the block answers 2; after the block the outer `x` still holds 1."
+  name "a-name-introduced-again-in-a-nested-body-is-a-new-name"
+  note "A body inside another may introduce a name the one around it introduced. Inside, the name is the new one; outside, the old one keeps its value."
   program {
     imports []
     procedures {
@@ -19,18 +19,25 @@ warpt 1
             value 1
           }
           {
-            let "y"
+            value 0
+            var "y"
+          }
+          {
             value {
-              block {
-                body [
+              conditional {
+                then [
                   {
                     let "x"
                     value 2
                   }
+                  {
+                    set "y"
+                    value {
+                      ref "x"
+                    }
+                  }
                 ]
-                result {
-                  ref "x"
-                }
+                when true
               }
             }
           }

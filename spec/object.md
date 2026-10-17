@@ -109,14 +109,13 @@ An *operation* is `[tag, …]`. These are the constructs and the expression form
 | 4 | a closure literal | the closure's number, captures: `[outer slot, inner slot]` list |
 | 5 | calling a value | the callee *operation*, arguments: list of *argument*, in position order |
 | 6 | a cast | *operation*, *lowered type*, optional |
-| 7 | a block | *body* |
-| 8 | a conditional | the condition *operation*, then: *instruction* list, else: *instruction* list or nothing |
-| 9 | a loop | the condition *operation*, *body*, the round's slot or nothing, keeps: `[from, to)` or nothing |
-| 10 | an attempt | *body*, the rescue *body*, the failure's slot or nothing |
-| 11 | a call | *call* |
-| 12 | a call through a contract | *dispatch* |
-| 13 | leaving | *reach*, the target name or nothing, what it takes or nothing |
-| 14 | a map built from parts | a list of `[key, value]`, each an *operation*, in the order written |
+| 7 | a conditional | the condition *operation*, then: *instruction* list, else: *instruction* list or nothing |
+| 8 | a loop | the condition *operation*, the round: *instruction* list, the round's slot or nothing |
+| 9 | an attempt | *body*, the rescue *body*, the failure's slot or nothing |
+| 10 | a call | *call* |
+| 11 | a call through a contract | *dispatch* |
+| 12 | leaving | *reach*, the target name or nothing, what it takes or nothing |
+| 13 | a map built from parts | a list of `[key, value]`, each an *operation*, in the order written |
 
 A *layout* is `[name, fields]`: the declared struct's name, and the field names ascending. A *call* is `[procedure, arguments, handed]`: the row the call reaches, numbered by the document; one *operation* or nothing per parameter of the callee, in parameter order, nothing exactly where the call hands that parameter an address in place; and `[position, address]` for each parameter handed in place, by position ascending. A *dispatch* is `[contract, procedure, first, arguments]`: the contract's name, the procedure's, the first argument's *operation*, and the arguments after it by position, each an *argument*. Which row answers is the link's, and stands nowhere in an object. An *argument* is `[0, operation]` by value or `[1, address]` by reference: the place a call of a value hands in place, or one a call through a contract hands to whichever row takes it in place.
 
@@ -215,7 +214,7 @@ warpt 1
       [ 1 [] ]
       [
         0
-        [ [] [ [ 11 [ 0 [ [ [ 1 [ 0 [] ] ] ] [ [ 0 [ 2 1 ] ] ] ] [] ] ] ] ]
+        [ [] [ [ 10 [ 0 [ [ [ 1 [ 0 [] ] ] ] [ [ 0 [ 2 1 ] ] ] ] [] ] ] ] ]
         [ 1 [ 0 ] [] [] [ "n" ] ]
       ]
     ]
@@ -227,7 +226,7 @@ warpt 1
 }
 ```
 
-Read it back: `rows` holds `entry`, whose signature takes `n` as `Array<Int>` (type tag 7 around tag 4), answers `Array<Int>`, bounds nothing and says no associated type is a type (`[] []`); it is public (`2`), const (`1`) and isolated (`1`) and fails with nothing (`[1 []]`); its implementation is a body (`0`) with no instructions and a result, a call (`11`) to row `0` of the numbering, which is `Standard.Collection.appending`, with two arguments, the first read from slot `0` and the second the literal (`0`) int (`2`) `1`, neither handed in place; and its frame has one slot, filled by the parameter, called `n`. The dependency is what the host keyed the standard vocabulary's object under.
+Read it back: `rows` holds `entry`, whose signature takes `n` as `Array<Int>` (type tag 7 around tag 4), answers `Array<Int>`, bounds nothing and says no associated type is a type (`[] []`); it is public (`2`), const (`1`) and isolated (`1`) and fails with nothing (`[1 []]`); its implementation is a body (`0`) with no instructions and a result, a call (`10`) to row `0` of the numbering, which is `Standard.Collection.appending`, with two arguments, the first read from slot `0` and the second the literal (`0`) int (`2`) `1`, neither handed in place; and its frame has one slot, filled by the parameter, called `n`. The dependency is what the host keyed the standard vocabulary's object under.
 
 ## Cases
 
@@ -290,7 +289,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-writing-an-empty-name-refuses`
 - `an-object-writing-any-as-a-parameter-type-refuses`
 - `an-object-writing-what-a-procedure-type-may-fail-with-and-not-what-it-takes-refuses`
-- `the-object-of-a-block`
 - `the-object-of-a-call`
 - `the-object-of-a-cast`
 - `the-object-of-a-claim-under-a-head`

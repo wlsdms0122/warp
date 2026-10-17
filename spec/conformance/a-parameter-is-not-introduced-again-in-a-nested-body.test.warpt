@@ -4,25 +4,22 @@ warpt 1
     refuses "load"
   }
   name "a-parameter-is-not-introduced-again-in-a-nested-body"
-  note "A body does not introduce its procedure's parameters again, at any depth. `x` is a parameter of `App.f`, and a `let` taking that spelling inside a block refuses at the load."
+  note "A body does not introduce its procedure's parameters again, at any depth. `x` is a parameter of `App.f`, and a `let` taking that spelling inside an arm refuses at the load."
   program {
     imports []
     procedures {
       "App.f" {
         body [
           {
-            let "y"
             value {
-              block {
-                body [
+              conditional {
+                then [
                   {
                     let "x"
                     value 2
                   }
                 ]
-                result {
-                  ref "x"
-                }
+                when true
               }
             }
           }
@@ -34,8 +31,9 @@ warpt 1
           }
         ]
         result {
-          ref "y"
+          ref "x"
         }
+        returns "Int"
       }
       entry {
         access "public"
@@ -47,6 +45,7 @@ warpt 1
             procedure "App.f"
           }
         }
+        returns "Int"
       }
     }
     warp 1
