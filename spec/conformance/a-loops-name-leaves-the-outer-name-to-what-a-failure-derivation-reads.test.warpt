@@ -1,0 +1,122 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-loops-name-leaves-the-outer-name-to-what-a-failure-derivation-reads"
+  note "A loop's name binds nothing after the loop in what the build derives: a call of the outer `f` after a loop of that name fails with what `f` may fail with, which is nothing, so a rescue over it refuses at the build."
+  program {
+    imports []
+    procedures {
+      apply {
+        body [
+          {
+            let "g"
+            value {
+              ref "step"
+            }
+          }
+          {
+            value {
+              conditional {
+                then [
+                  {
+                    let "g"
+                    value {
+                      loop {
+                        body []
+                        while false
+                      }
+                    }
+                  }
+                  {
+                    let "r"
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "of"
+                          }
+                        ]
+                        procedure {
+                          ref "g"
+                        }
+                      }
+                    }
+                  }
+                ]
+                when true
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "of"
+            type "Int"
+          }
+          {
+            name "step"
+            type {
+              "const procedure" {
+                failing []
+                parameters [
+                  "Int"
+                ]
+                returns "Int"
+              }
+            }
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "r"
+            value {
+              attempt {
+                body [
+                  {
+                    value {
+                      call {
+                        arguments [
+                          1
+                          {
+                            closure {
+                              parameters [
+                                {
+                                  name "x"
+                                  type "Int"
+                                }
+                              ]
+                              result {
+                                ref "x"
+                              }
+                              returns "Int"
+                            }
+                          }
+                        ]
+                        procedure "apply"
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  result 0
+                }
+              }
+            }
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

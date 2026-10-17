@@ -1,0 +1,67 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-member-under-a-bare-name-bounding-its-parameter-refuses"
+  note "Under its type's bare name a member takes every value of the type first. `size` takes `Array<some T: Standard.Comparable>`, the lists whose elements order, so it refuses at the build; it is given under a head applying `Array` to what it takes."
+  program {
+    contracts {
+      "App.Sized" {
+        procedures {
+          size {
+            parameters [
+              {
+                name "of"
+                type "Self"
+              }
+            ]
+            returns "Int"
+          }
+        }
+      }
+    }
+    extensions {
+      Array {
+        procedures {
+          size {
+            parameters [
+              {
+                name "of"
+                type "Array<some T: Standard.Comparable>"
+              }
+            ]
+            result 3
+            returns "Int"
+          }
+        }
+        satisfies [
+          "App.Sized"
+        ]
+      }
+    }
+    imports [
+      "Standard.Comparable"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              [
+                1
+                2
+              ]
+            ]
+            procedure "App.Sized.size"
+          }
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

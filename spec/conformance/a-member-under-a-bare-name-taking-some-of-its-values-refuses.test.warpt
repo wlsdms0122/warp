@@ -1,10 +1,10 @@
 warpt 1
 {
   expect {
-    refuses "load"
+    refuses "build"
   }
   name "a-member-under-a-bare-name-taking-some-of-its-values-refuses"
-  note "Under its type's bare name a member takes every value of the type first: the type applied to type parameters of its own or `Any`. `size` takes `Array<Int>`, some lists only, so it refuses at the load; it is given under the head `Array<Int>`."
+  note "Under its type's bare name a member takes every value of the type first. `size` takes `Array<Int>`, some lists only, so it refuses at the build; it is given under the head `Array<Int>`."
   program {
     extensions {
       Array {
