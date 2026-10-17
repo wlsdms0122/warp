@@ -571,6 +571,7 @@ Bounds:
 
 Contracts:
 
+- `a-box-of-a-contract-at-a-bounded-parameter-inside-it-refuses`
 - `a-box-of-what-may-be-null-at-a-bounded-parameter-inside-it-refuses`
 - `a-box-of-what-may-be-null-is-not-taken-by-a-bounded-head-refuses`
 - `a-claim-about-null-answers-null-where-the-contract-answers-self-or-null`
