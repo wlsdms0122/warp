@@ -126,11 +126,11 @@ The contracts, each procedure answering without running and touching nothing, an
 | `map` | `array: Array<some Element>`, `transform`. `const` procedure, handed the item, answering `some Answer` | `Array<some Answer>` |
 | `filter` | `array: Array<some Element>`, `isIncluded`. `const` procedure, handed the item, answering `Bool` | `Array<some Element>` |
 | `reduce` | `array: Array<some Element>`, `initialResult: some Carried`, `nextPartialResult`. `const` procedure, handed the carried value, then the item, answering `some Carried` | `some Carried` |
-
-`map`, `filter` and `reduce` declare `failing: anything` and are not `isolated`, for the reason `and` is. `append` writes the caller's variable, so it is not `const`.
 | `keys` | `dictionary: Dictionary<some Key, Any>` | `Array<some Key>`, the keys the map holds, in its key order. Bounds `Key: Hashable` |
 | `values` | `dictionary: Dictionary<some Key, some Entry>` | `Array<some Entry>`, what the map holds, in its key order. Bounds `Key: Hashable` |
 | `setting` | `dictionary: Dictionary<some Key, some Value>`, `key: some Key`, `value: some Value` | `Dictionary<some Key, some Value>`, the map with the entry under the key written. The map's keys and the key read as one type, and its entries and the value as another, so two types there that neither takes **refuse at the build**. Bounds `Key: Hashable` |
+
+`map`, `filter` and `reduce` declare `failing: anything` and are not `isolated`, for the reason `and` is. `append` writes the caller's variable, so it is not `const`.
 
 `gathering` is how a procedure answers a collection's own elements. It says which by position, and the answer comes back in the spelling the collection arrived in: bytes rearranged are bytes. This is the whole of what `reversed`, `dropFirst`, `dropLast`, `filter` and `sorted` add to a walk, and it is the reason those are written in Warp rather than asked of an implementation. A body that read the elements out and put them back would answer an array of numbers, because an array it started empty has no spelling to keep. The standard name for reading one collection at another's positions is a **gather**.
 

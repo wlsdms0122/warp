@@ -57,7 +57,7 @@ Some of what a program writes is **read** and some of it is **run**. A literal, 
 A procedure **answers without running** when nothing it reaches stands outside the run it was handed:
 
 - it reads no module variable and writes no name it does not own: a module variable, a name a closure captured, or a parameter handed in place, whether written by `set` or handed in place to a call. What such a name holds is the run's rather than the text's, and a name the body introduces or a parameter it holds outright is its own;
-- it calls a value only where the type written for it is a `const` procedure type: the name a slot gave, a closure literal, which writes its signature, a cast naming one, a call whose callee declares it answers one, a fixed name bound to any of those, which follows the type written there, or what a path reaches inside one of those by the type written (an element of an array, an entry of a dictionary, a field of a struct type). The value is held to that type where it is handed over, made, cast or answered, so that is where something before the run says what the value answers. A variable that writes no type holds whatever its writes leave, which nothing wrote, so calling what it holds carries no claim. The claim is the written type's, and so it stands wherever the name is read, a closure that **captured** the name included;
+- it calls a value only where **the type written for it** is a `const` procedure type. The type written for a value is the type a slot gave it (a parameter, a name that writes its type, a module variable's declared type), a closure literal's signature, the type a cast names, the answer a called declaration declares, or the answer the type written for a called value says. A fixed name, a `let` or a module constant, that writes no type follows the type written where its value came from, and a path reaches inside one of those by the type written (an element of an array, an entry of a dictionary, a field of a struct type). The value is held to that type where it is handed over, made, cast or answered, so that is where something before the run says what the value answers. A variable that writes no type holds whatever its writes leave, which nothing wrote, so calling what it holds carries no claim. The claim is the written type's, and so it stands wherever the name is read, a closure that **captured** the name included;
 - and every procedure it sends answers without running.
 
 A construct reaches nothing on its own. Which part of a `conditional`, `loop` or `attempt` runs is decided inside the body, so one of them is read exactly as far as the parts it holds are, and the same goes for `return`, `break` and `continue`. A name the body introduces is the body's own: a `let` and a `var` both make one, neither leaves the body, and so declaring either says nothing about what the body reaches.
@@ -121,6 +121,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 
 - `a-body-answering-a-value-where-no-returns-is-written-refuses`
 - `a-body-declared-const-reading-a-module-variable-refuses`
+- `a-body-declared-const-writing-at-a-place-a-module-variable-finds-refuses`
 - `a-body-reading-a-module-variable-does-not-answer-without-running`
 - `a-body-that-branches-answers-without-running`
 - `a-body-that-loops-answers-without-running`
@@ -172,10 +173,12 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-fixed-name-bound-to-a-calls-answer-gives-a-capture-no-claim`
 - `a-fixed-name-bound-to-a-closure-literal-carries-what-it-declares-into-a-capture`
 - `a-fixed-name-bound-to-a-const-slot-carries-its-claim`
+- `a-fixed-name-bound-to-a-value-calls-answer-carries-what-its-type-says`
 - `a-fixed-name-is-not-handed-in-place`
 - `a-fixed-name-is-not-handed-in-place-to-a-called-value`
 - `a-literal-argument-its-parameter-does-not-take-refuses`
 - `a-loop-reads-a-closure-reading-a-module-variable-as-one-that-runs`
+- `a-module-constant-bound-to-a-closure-literal-carries-what-it-declares`
 - `a-name-declared-inside-a-nested-closure-does-not-cover-a-captured-one`
 - `a-parameter-declared-twice-refuses`
 - `a-parameter-handed-in-place-reads-what-the-box-holds-now`
