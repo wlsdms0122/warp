@@ -103,7 +103,7 @@ An *operation* is `[tag, …]`. These are the constructs and the expression form
 | 2 | an array built from parts | list of *operation* |
 | 3 | a struct built from parts | `[layout, operations]`: the *layout*, and a list of *operation* in the layout's field order |
 | 4 | a closure literal | the closure's number, captures: `[outer slot, inner slot]` list |
-| 5 | calling a value | the callee *operation*, arguments: list of *argument*, in position order, and the *lowered type* written for the value called, or nothing where nothing was written |
+| 5 | calling a value | the callee *operation*, arguments: list of *argument*, in position order |
 | 6 | a cast | *operation*, *lowered type*, optional |
 | 8 | a conditional | the condition *operation*, then: *instruction* list, else: *instruction* list or nothing |
 | 9 | a loop | the condition *operation*, the round: *instruction* list, the round's slot or nothing |
@@ -159,7 +159,7 @@ A reading refuses what it cannot read and traps on nothing: the reading runs ins
 - a row of a procedure the host answers whose sends do not stand one to a place from the first, or reach a spelling the document's `numbering` does not number
 - an object standing against a document other than the one it was kept under
 
-Every one of these is refused where the object is read, before it is laid beside anything. What only the documents beside it can answer is refused at `build`, where a compile lays the object down or a link does, under [checking](checking.md): which row a number is, whether a call stands as many arguments as that row takes and hands in place exactly where that row takes in place, which type answers a contract, whether each row keeps to what it declares (`const`, `isolated` and `failing`, by the rules of [procedures](procedure.md): a call is read by the row it reaches, a call through a contract by the contract's procedure, a call of a value by the type the object writes for the value, and a procedure the host answers by the rows its sends reach), and whether what it sends and every type its declared types, signatures and bodies name is declared by it or by a document standing before it, so two objects that need each other refuse as two documents do.
+Every one of these is refused where the object is read, before it is laid beside anything. What only the documents beside it can answer is refused at `build`, where a compile lays the object down or a link does, under [checking](checking.md): which row a number is and whether a call stands as many arguments as that row takes, which type answers a contract, and whether what it sends and every type its declared types, signatures and bodies name is declared by it or by a document standing before it, so two objects that need each other refuse as two documents do.
 
 The names an object writes are the ones its document wrote, and each held the grammar of where it is written when that document was loaded, under [checking](checking.md): a type's, a contract's, a claim's, a member's, a bound's and a part joined with `&` alike. An object is what a build wrote, so a reading asks those names nothing again, and what a name stands for beside the documents is the link's to say, for an object as for a document.
 
@@ -230,10 +230,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-bounding-a-type-a-contract-asks-by-nothing-refuses`
 - `an-object-bounding-a-type-its-contract-does-not-ask-refuses`
 - `an-object-bounding-a-type-parameter-by-nothing-refuses`
-- `an-object-call-handing-in-place-where-its-callee-takes-a-value-refuses`
 - `an-object-claiming-no-contract-for-a-type-refuses`
-- `an-object-closure-a-second-body-fills-with-a-module-variable-refuses`
-- `an-object-closure-whose-frame-reads-a-module-variable-refuses`
 - `an-object-counting-no-closures-for-a-declaration-refuses`
 - `an-object-giving-a-type-a-member-no-row-stands-under-refuses`
 - `an-object-giving-a-type-no-member-refuses`
@@ -246,9 +243,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-of-a-later-format-refuses`
 - `an-object-of-a-later-format-with-keys-of-its-own-refuses`
 - `an-object-of-a-struct-taking-a-type-parameter-links-and-runs`
-- `an-object-row-declared-const-reading-a-module-variable-refuses`
-- `an-object-row-declared-isolated-writing-a-module-variable-refuses`
-- `an-object-row-failing-beyond-its-declaration-refuses`
 - `an-object-runs-with-what-the-entry-is-given`
 - `an-object-standing-against-another-document-refuses`
 - `an-object-standing-on-one-object-twice-refuses`
