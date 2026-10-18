@@ -11,6 +11,10 @@ warpt 1
     ]
     procedures {
       apply {
+        const true
+        failing [
+          "aborted"
+        ]
         parameters [
           {
             name "of"
@@ -50,6 +54,11 @@ warpt 1
                           1
                           {
                             closure {
+                              const true
+                              failing [
+                                "aborted"
+                              ]
+                              isolated true
                               parameters [
                                 {
                                   name "x"
@@ -82,9 +91,11 @@ warpt 1
             }
           }
         ]
+        const true
         result {
           ref "failed"
         }
+        returns "String?"
       }
     }
     warp 1

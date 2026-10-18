@@ -7,11 +7,13 @@ warpt 1
     ]
   }
   name "a-constant-closure-stands-in-a-const-slot"
-  note "A constant keeps the one value it settled to, so the closure it holds reads as the type its literal was judged at, the constness the build derived for it included. `Standard.Collection.map` takes it in its slot of a `const` procedure type."
+  note "A constant keeps the one value it settled to, so the closure it holds reads as the procedure type its literal declares, `const` included. `Standard.Collection.map` takes it in its slot of a `const` procedure type."
   program {
     const {
       f {
         closure {
+          const true
+          isolated true
           parameters [
             {
               name "x"
@@ -31,6 +33,8 @@ warpt 1
     procedures {
       entry {
         access "public"
+        const true
+        failing "anything"
         result {
           call {
             arguments [
@@ -45,6 +49,7 @@ warpt 1
             procedure "Standard.Collection.map"
           }
         }
+        returns "Array<Int>"
       }
     }
     warp 1

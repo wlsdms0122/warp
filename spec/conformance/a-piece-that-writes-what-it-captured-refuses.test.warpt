@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-piece-that-writes-what-it-captured-refuses"
-  note "`all` takes isolated closures, so the slot asks. A closure that writes what it captured is not isolated, and the build refuses it where it is handed over."
+  note "A variable a closure captured is a name another body could touch at once. The piece declares `isolated` and writes the captured `tally`, so it refuses at the build where it is written, and `Standard.Concurrent.all` never takes it."
   program {
     imports [
       "Standard.Concurrent.all"
@@ -28,7 +28,9 @@ warpt 1
                       value 1
                     }
                   ]
+                  isolated true
                   result 1
+                  returns "Int"
                 }
               }
             ]
@@ -45,6 +47,9 @@ warpt 1
               }
             }
           }
+        ]
+        failing [
+          "concurrent_failed"
         ]
         result {
           ref "tally"

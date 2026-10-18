@@ -5,10 +5,14 @@ warpt 1
       imports []
       procedures {
         "App.helper" {
+          const true
+          isolated true
           result 1
           returns "Int"
         }
         "Lib.seven" {
+          const true
+          isolated true
           result {
             call {
               procedure "App.helper"
@@ -33,11 +37,15 @@ warpt 1
     procedures {
       "App.helper" {
         access "private"
+        const true
+        isolated true
         result 7
         returns "Int"
       }
       entry {
         access "public"
+        const true
+        isolated true
         result {
           call {
             arguments [

@@ -17,6 +17,7 @@ warpt 1
             value {
               closure {
                 result 1
+                returns "Int"
               }
             }
           }
@@ -32,9 +33,13 @@ warpt 1
             }
           }
         ]
+        failing [
+          "cast_refused"
+        ]
         result {
           ref "g"
         }
+        returns "() -> Int"
       }
     }
     types {

@@ -13,12 +13,16 @@ warpt 1
     procedures {
       entry {
         access "public"
+        const true
+        failing "anything"
         result {
           call {
             arguments [
               [
                 {
                   closure {
+                    const true
+                    isolated true
                     result {
                       call {
                         procedure "App.yes"
@@ -43,6 +47,8 @@ warpt 1
     procedures {
       "App.yes" {
         answers true
+        const true
+        isolated true
         returns "Bool"
       }
     }

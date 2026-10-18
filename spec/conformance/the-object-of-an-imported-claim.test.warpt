@@ -26,6 +26,8 @@ warpt 1
         "T.Card" {
           procedures {
             describe {
+              const true
+              isolated true
               parameters [
                 {
                   name "of"
@@ -60,17 +62,16 @@ warpt 1
   ]
   expect {
     builds {
-      answers []
       claims []
       constants []
       contracts []
       dependencies [
-        x"25831447b2e64b8f087d803ddd3854784e8941a9f37104485827098e0be1c223"
-        x"51d4156962d997a23e6842d9f08cf880a4b47f4d4870ca13a2b85439e372aca7"
-        x"94e362d9d10cfd4f548a101957b1359a4161c48f52c11898c08c722125e67959"
+        x"4154fcab2905d10940004f9939735ac933fb4e8cd1492c4d54813cfc16cb5ddd"
+        x"7a537d474ef18e0c80713c3b270a993c33ce87a475393b862eeaf83d67be2f02"
+        x"a754ba9f23a9d70eeccfe199e2407d8429e52cf1981f68698052c96ca6ab0c6f"
       ]
       document [
-        x"2d6276ae8853479194f73bf300b58d18b4e477565fbd8f1c53623cb9bbb3c803"
+        x"120397e4fca63246ab4fb8fe6b7853b102f8332756375ecc48c5b8648ecbfc2a"
       ]
       importedClaims [
         [
@@ -93,22 +94,20 @@ warpt 1
           [
             []
             [
+              6
+            ]
+            [
+              1
               [
-                6
+                "cast_refused"
               ]
             ]
+            0
+            0
             []
             []
           ]
           2
-          0
-          0
-          [
-            1
-            [
-              "cast_refused"
-            ]
-          ]
           [
             0
             [
@@ -214,6 +213,9 @@ warpt 1
               }
             }
           }
+        ]
+        failing [
+          "cast_refused"
         ]
         result {
           call {

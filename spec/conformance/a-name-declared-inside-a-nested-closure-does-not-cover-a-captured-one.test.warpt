@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-name-declared-inside-a-nested-closure-does-not-cover-a-captured-one"
-  note "Isolation reads names in scope. A closure nested inside this one declares `tally` for itself alone; this closure's own `set tally` still writes the variable it captured, so it is not isolated and does not fit `map`."
+  note "Isolation reads names in scope. The closure handed to `Standard.Concurrent.map` declares `isolated`, and a closure nested inside it declares `tally` for itself alone. The outer closure's own `set tally` still writes the variable it captured, so it refuses at the build."
   program {
     imports [
       "Standard.Concurrent.map"
@@ -17,6 +17,9 @@ warpt 1
             value 0
             var "tally"
           }
+        ]
+        failing [
+          "concurrent_failed"
         ]
         result {
           call {
@@ -45,6 +48,7 @@ warpt 1
                       value 1
                     }
                   ]
+                  isolated true
                   parameters [
                     {
                       name "item"
@@ -54,6 +58,7 @@ warpt 1
                   result {
                     ref "item"
                   }
+                  returns "Int"
                 }
               }
             ]

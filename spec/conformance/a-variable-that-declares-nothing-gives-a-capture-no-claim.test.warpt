@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-variable-that-declares-nothing-gives-a-capture-no-claim"
-  note "A variable that declared nothing is held to the type it read as where a closure captured it, which is a reading the build worked out, so it says nothing the closure can hold on to. A closure calling it through the capture does not answer without running."
+  note "A variable that declared nothing is held to the type it read as where a closure captured it, which is a reading the build worked out, so it says nothing the closure can hold on to, even where the closure literal it holds declares `const`. `relaying` declares `const` and calls `answering` through the capture, so it refuses at the build."
   program {
     imports []
     procedures {
@@ -38,6 +38,7 @@ warpt 1
           {
             value {
               closure {
+                const true
                 result "answered"
                 returns "String"
               }
@@ -48,6 +49,8 @@ warpt 1
             let "relaying"
             value {
               closure {
+                const true
+                failing "anything"
                 result {
                   call {
                     procedure {
@@ -70,6 +73,7 @@ warpt 1
             procedure "asking"
           }
         }
+        returns "String"
       }
     }
     warp 1

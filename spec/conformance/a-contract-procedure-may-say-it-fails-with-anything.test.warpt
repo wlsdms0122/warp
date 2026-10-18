@@ -1,0 +1,94 @@
+warpt 1
+{
+  expect {
+    answers "caught"
+  }
+  name "a-contract-procedure-may-say-it-fails-with-anything"
+  note "A contract's procedure writes `failing` the way any declaration does, `anything` included, and a declaration answering it may then fail with anything. A call through the contract may fail with anything, which the rescue around it catches."
+  program {
+    contracts {
+      "App.Runner" {
+        procedures {
+          run {
+            failing "anything"
+            parameters [
+              {
+                name "of"
+                type "Self"
+              }
+            ]
+            returns "Int"
+          }
+        }
+      }
+    }
+    extensions {
+      Int {
+        procedures {
+          run {
+            failing "anything"
+            parameters [
+              {
+                name "of"
+                type "Int"
+              }
+            ]
+            result {
+              call {
+                arguments [
+                  "no"
+                ]
+                procedure "Standard.Control.abort"
+              }
+            }
+            returns "Never"
+          }
+        }
+        satisfies [
+          "App.Runner"
+        ]
+      }
+    }
+    imports [
+      "Standard.Control.abort"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "tried"
+            value {
+              attempt {
+                body [
+                  {
+                    let "ran"
+                    value {
+                      call {
+                        arguments [
+                          1
+                        ]
+                        procedure "App.Runner.run"
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  result "caught"
+                }
+                result "ran"
+              }
+            }
+          }
+        ]
+        result {
+          ref "tried"
+        }
+        returns "String"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

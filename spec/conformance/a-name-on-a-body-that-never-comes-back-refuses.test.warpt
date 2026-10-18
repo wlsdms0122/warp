@@ -4,13 +4,16 @@ warpt 1
     refuses "build"
   }
   name "a-name-on-a-body-that-never-comes-back-refuses"
-  note "`App.giveUp` writes no `returns`, and its body answers by calling `Standard.Control.abort`, so what a call of it answers is read off a body that never finishes. A name on that call promises a binding that cannot happen, and the build refuses it."
+  note "`App.giveUp` declares it answers `Never`, and its body answers by calling `Standard.Control.abort`, which never finishes. A name on a call of it promises a binding that cannot happen, and the build refuses it."
   program {
     imports [
       "Standard.Control.abort"
     ]
     procedures {
       "App.giveUp" {
+        failing [
+          "aborted"
+        ]
         result {
           call {
             arguments [
@@ -19,6 +22,7 @@ warpt 1
             procedure "Standard.Control.abort"
           }
         }
+        returns "Never"
       }
       entry {
         access "public"
@@ -32,6 +36,10 @@ warpt 1
             }
           }
         ]
+        failing [
+          "aborted"
+        ]
+        returns "Never"
       }
     }
     warp 1

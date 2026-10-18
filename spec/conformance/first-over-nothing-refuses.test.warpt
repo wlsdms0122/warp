@@ -12,6 +12,9 @@ warpt 1
     procedures {
       entry {
         access "public"
+        failing [
+          "concurrent_failed"
+        ]
         result {
           call {
             arguments [
@@ -20,6 +23,7 @@ warpt 1
             procedure "Standard.Concurrent.first"
           }
         }
+        returns "Never"
       }
     }
     warp 1

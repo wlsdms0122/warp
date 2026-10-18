@@ -27,7 +27,10 @@ warpt 1
                         "left"
                         {
                           closure {
+                            const true
+                            isolated true
                             result 1
+                            returns "Int"
                           }
                         }
                       ]
@@ -35,7 +38,10 @@ warpt 1
                         "right"
                         {
                           closure {
+                            const true
+                            isolated true
                             result 2
+                            returns "Int"
                           }
                         }
                       ]
@@ -47,9 +53,14 @@ warpt 1
             }
           }
         ]
+        failing [
+          "concurrent_failed"
+        ]
+        isolated true
         result {
           ref "both"
         }
+        returns "Dictionary<String, Int>"
       }
     }
     warp 1

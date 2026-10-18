@@ -11,6 +11,7 @@ warpt 1
     ]
     procedures {
       "App.run" {
+        failing "anything"
         parameters [
           {
             name "held"
@@ -24,9 +25,11 @@ warpt 1
             }
           }
         }
+        returns "Any"
       }
       entry {
         access "public"
+        failing "anything"
         result {
           call {
             arguments [
@@ -35,6 +38,7 @@ warpt 1
             procedure "App.run"
           }
         }
+        returns "Any"
       }
     }
     warp 1

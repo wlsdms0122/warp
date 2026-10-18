@@ -1,10 +1,13 @@
 warpt 1
 {
   expect {
-    refuses "build"
+    answers [
+      1
+      1
+    ]
   }
-  name "a-piece-calling-a-fixed-name-bound-to-a-closure-literal-refuses"
-  note "A name bound to a closure literal without a type holds what the build worked out for the literal, and no slot declared it an `isolated` procedure type. A piece that captured the name and calls it is not isolated, so `Standard.Concurrent.map` refuses it."
+  name "a-piece-calling-a-fixed-name-bound-to-an-isolated-closure-literal-stands"
+  note "A fixed name that writes no type follows the type written where its value came from, and a closure literal writes its signature, so `bump`, bound to a literal declaring `isolated`, holds an `isolated` procedure type. A piece declaring `isolated` that captured `bump` and calls it on its own variable holds to `isolated`, and `Standard.Concurrent.map` runs it."
   program {
     imports [
       "Standard.Concurrent.map"
@@ -34,6 +37,7 @@ warpt 1
                     }
                   }
                 ]
+                isolated true
                 parameters [
                   {
                     name "c"
@@ -43,6 +47,9 @@ warpt 1
               }
             }
           }
+        ]
+        failing [
+          "concurrent_failed"
         ]
         result {
           call {
@@ -73,6 +80,8 @@ warpt 1
                       }
                     }
                   ]
+                  failing "anything"
+                  isolated true
                   parameters [
                     {
                       name "x"

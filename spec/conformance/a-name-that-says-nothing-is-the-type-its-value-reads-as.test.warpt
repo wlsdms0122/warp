@@ -3,8 +3,8 @@ warpt 1
   expect {
     refuses "build"
   }
-  name "a-name-that-says-nothing-is-what-the-build-worked-out"
-  note "The same program with the declaration left off. The build works out `const isolated Procedure` for the closure literal, because that is what its text does, and an `inout` slot asks for the same type the name is. The slot says `Procedure` and the name is not that, so the two are not one type."
+  name "a-name-that-says-nothing-is-the-type-its-value-reads-as"
+  note "The name `step` declares nothing, so it is the type its value reads as, and the closure literal declares `const` and `isolated`, so `step` is `const isolated (Int) -> Int`. An `inout` slot asks for the same type the name is, and `swap` says `(Int) -> Int`, so the two are not one type and the build refuses."
   program {
     imports []
     procedures {
@@ -14,6 +14,8 @@ warpt 1
           {
             value {
               closure {
+                const true
+                isolated true
                 parameters [
                   {
                     name "x"
@@ -41,9 +43,14 @@ warpt 1
             }
           }
         ]
+        const true
+        isolated true
         result 1
+        returns "Int"
       }
       swap {
+        const true
+        isolated true
         parameters [
           {
             name "step"

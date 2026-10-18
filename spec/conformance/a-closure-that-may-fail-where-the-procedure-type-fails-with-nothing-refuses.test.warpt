@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-closure-that-may-fail-where-the-procedure-type-fails-with-nothing-refuses"
-  note "What a closure may fail with is read off its body. This one aborts, and the slot's procedure type says it fails with nothing, so the argument is refused at the build."
+  note "The closure declares it may fail with `aborted`, and the slot's procedure type `const (Int) -> Int` says it fails with nothing, so the argument is refused at the build."
   program {
     contracts {
       "App.Runner" {
@@ -71,6 +71,10 @@ warpt 1
               1
               {
                 closure {
+                  const true
+                  failing [
+                    "aborted"
+                  ]
                   parameters [
                     {
                       name "x"

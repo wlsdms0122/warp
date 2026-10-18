@@ -8,7 +8,7 @@ warpt 1
     ]
   }
   name "a-closure-carries-what-a-captured-slot-said"
-  note "What a slot says about the procedure it holds stands wherever the name is read, a closure that captured it included. That is what lets a body build one closure per element and hand the lot to a fan-out: each piece calls the captured procedure and is isolated for the same reason the body around it would be."
+  note "What a slot says about the procedure it holds stands wherever the name is read, a closure that captured it included. That is what lets a body build one closure per element and hand the lot to a fan-out: each piece declares `isolated` and calls the captured `value`, whose slot said an `isolated` procedure type, so the build holds the piece to what it says."
   program {
     imports [
       "Standard.Collection.appending"
@@ -56,9 +56,11 @@ warpt 1
                             }
                           }
                         ]
+                        isolated true
                         result {
                           ref "answered"
                         }
+                        returns "Int"
                       }
                     }
                   }
@@ -103,6 +105,10 @@ warpt 1
             }
           }
         ]
+        failing [
+          "concurrent_failed"
+        ]
+        isolated true
         parameters [
           {
             name "of"
@@ -127,6 +133,10 @@ warpt 1
       }
       entry {
         access "public"
+        failing [
+          "concurrent_failed"
+        ]
+        isolated true
         result {
           call {
             arguments [
@@ -137,6 +147,8 @@ warpt 1
               ]
               {
                 closure {
+                  const true
+                  isolated true
                   parameters [
                     {
                       name "item"

@@ -13,6 +13,10 @@ warpt 1
     procedures {
       entry {
         access "public"
+        failing [
+          "concurrent_failed"
+        ]
+        isolated true
         result {
           call {
             arguments [
@@ -22,7 +26,10 @@ warpt 1
                     "fine"
                     {
                       closure {
+                        const true
+                        isolated true
                         result 1
+                        returns "Int"
                       }
                     }
                   ]
@@ -42,6 +49,12 @@ warpt 1
                             }
                           }
                         ]
+                        const true
+                        failing [
+                          "aborted"
+                        ]
+                        isolated true
+                        returns "Never"
                       }
                     }
                   ]
@@ -51,6 +64,7 @@ warpt 1
             procedure "Standard.Concurrent.firstKeyed"
           }
         }
+        returns "Any"
       }
     }
     warp 1

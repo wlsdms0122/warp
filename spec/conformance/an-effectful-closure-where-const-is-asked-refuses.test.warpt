@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "an-effectful-closure-where-const-is-asked-refuses"
-  note "A slot declared `const` takes only a procedure that answers without running. What a closure sends is a fact about its text, so the refusal is the build's."
+  note "A slot of a `const` procedure type takes only a procedure that says it answers without running. The closure handed to `Standard.Collection.filter` sends `Standard.Concurrent.all` and does not declare `const`, so the build refuses it at the slot."
   program {
     imports [
       "Standard.Collection.filter"
@@ -37,6 +37,9 @@ warpt 1
                           }
                         }
                       ]
+                      failing [
+                        "concurrent_failed"
+                      ]
                       parameters [
                         {
                           name "item"
@@ -53,9 +56,11 @@ warpt 1
             }
           }
         ]
+        failing "anything"
         result {
           ref "kept"
         }
+        returns "Array<Int>"
       }
     }
     warp 1

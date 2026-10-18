@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-closure-that-writes-what-it-captured-is-not-const"
-  note "A name a closure captured is a box outside the closure, so writing it reaches the run's state the way writing a module variable does. A slot asking a `const` procedure type refuses the closure at the build."
+  note "A name a closure captured is a box outside the closure, so writing it reaches the run's state the way writing a module variable does. The closure handed to `Standard.Collection.map` declares `const` and writes the captured `seen`, so it refuses at the build."
   program {
     imports [
       "Standard.Collection.map"
@@ -47,6 +47,7 @@ warpt 1
                           }
                         }
                       ]
+                      const true
                       parameters [
                         {
                           name "item"
@@ -65,6 +66,7 @@ warpt 1
             }
           }
         ]
+        failing "anything"
         result {
           ref "seen"
         }

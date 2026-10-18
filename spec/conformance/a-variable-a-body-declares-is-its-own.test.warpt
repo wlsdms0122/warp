@@ -4,7 +4,7 @@ warpt 1
     answers "second"
   }
   name "a-variable-a-body-declares-is-its-own"
-  note "A name the body introduces is the body's own. Declaring a variable and writing it says nothing about what the body reaches, so the body still answers without running."
+  note "A name the body introduces is the body's own. The closure handed to `asking` declares `const`, and declaring the variable `held` and writing it says nothing about what the body reaches, so the build holds the closure to `const` and it stands."
   program {
     imports []
     procedures {
@@ -21,6 +21,7 @@ warpt 1
             }
           }
         ]
+        const true
         parameters [
           {
             name "body"
@@ -49,6 +50,8 @@ warpt 1
                     value "second"
                   }
                 ]
+                const true
+                isolated true
                 result {
                   ref "held"
                 }
@@ -57,6 +60,7 @@ warpt 1
             }
           }
         ]
+        const true
         result {
           call {
             arguments [
@@ -67,6 +71,7 @@ warpt 1
             procedure "asking"
           }
         }
+        returns "String"
       }
     }
     warp 1

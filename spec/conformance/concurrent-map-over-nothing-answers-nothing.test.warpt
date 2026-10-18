@@ -12,12 +12,18 @@ warpt 1
     procedures {
       entry {
         access "public"
+        failing [
+          "concurrent_failed"
+        ]
+        isolated true
         result {
           call {
             arguments [
               []
               {
                 closure {
+                  const true
+                  isolated true
                   parameters [
                     {
                       name "item"
@@ -30,12 +36,14 @@ warpt 1
                   result {
                     ref "item"
                   }
+                  returns "Any"
                 }
               }
             ]
             procedure "Standard.Concurrent.map"
           }
         }
+        returns "Array<Any>"
       }
     }
     warp 1

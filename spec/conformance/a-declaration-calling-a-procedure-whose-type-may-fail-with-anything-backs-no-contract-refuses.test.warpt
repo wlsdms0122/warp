@@ -34,6 +34,7 @@ warpt 1
       Int {
         procedures {
           run {
+            failing "anything"
             parameters [
               {
                 name "of"
@@ -68,6 +69,11 @@ warpt 1
     procedures {
       entry {
         access "public"
+        failing [
+          "aborted"
+          "cast_refused"
+          "concurrent_failed"
+        ]
         result {
           call {
             arguments [

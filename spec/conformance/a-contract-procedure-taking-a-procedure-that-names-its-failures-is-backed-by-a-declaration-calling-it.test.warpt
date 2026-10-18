@@ -32,6 +32,10 @@ warpt 1
       Int {
         procedures {
           run {
+            const true
+            failing [
+              "aborted"
+            ]
             parameters [
               {
                 name "of"
@@ -66,12 +70,17 @@ warpt 1
     procedures {
       entry {
         access "public"
+        failing [
+          "aborted"
+        ]
         result {
           call {
             arguments [
               1
               {
                 closure {
+                  const true
+                  isolated true
                   parameters [
                     {
                       name "x"

@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-value-under-a-slot-saying-only-procedure-is-not-const"
-  note "A body calls a value without running only through a name a slot declared a `const` procedure type. A slot writing a procedure type without `const` says nothing about whether what it holds runs, so a body calling through it does not answer without running, and neither does one sending that body."
+  note "A body calls a value without running only through a name a slot declared a `const` procedure type. `relaying`'s slot writes `() -> String` without `const`, which says nothing about whether what it holds runs, so `relaying`, declared `const`, refuses at the build, however `const` the closure handed to it says it is."
   program {
     imports []
     procedures {
@@ -39,6 +39,7 @@ warpt 1
             let "answering"
             value {
               closure {
+                const true
                 result "answered"
                 returns "String"
               }
@@ -48,6 +49,7 @@ warpt 1
             let "given"
             value {
               closure {
+                const true
                 result {
                   call {
                     arguments [
@@ -73,8 +75,10 @@ warpt 1
             procedure "asking"
           }
         }
+        returns "String"
       }
       relaying {
+        const true
         parameters [
           {
             name "body"

@@ -64,6 +64,11 @@ warpt 1
             }
           }
         ]
+        const true
+        failing [
+          "cast_refused"
+        ]
+        isolated true
         result {
           call {
             arguments [
@@ -74,12 +79,15 @@ warpt 1
             procedure "App.P.show"
           }
         }
+        returns "String"
       }
     }
     types {
       "Bank.A" {
         procedures {
           show {
+            const true
+            isolated true
             parameters [
               {
                 name "of"

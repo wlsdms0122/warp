@@ -68,6 +68,7 @@ warpt 1
           }
         ]
         result 0
+        returns "Int"
       }
       entry {
         access "public"
@@ -95,9 +96,13 @@ warpt 1
             }
           }
         ]
+        failing [
+          "cast_refused"
+        ]
         result {
           ref "s"
         }
+        returns "Array<Array<Int>>"
       }
     }
     warp 1

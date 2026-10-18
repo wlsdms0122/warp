@@ -17,8 +17,12 @@ warpt 1
             let "outer"
             value {
               closure {
+                const true
+                isolated true
                 result {
                   closure {
+                    const true
+                    isolated true
                     parameters [
                       {
                         name "y"
@@ -41,10 +45,13 @@ warpt 1
                     returns "Bool"
                   }
                 }
+                returns "const isolated (some T) -> Bool"
               }
             }
           }
         ]
+        const true
+        isolated true
         parameters [
           {
             name "x"
@@ -58,6 +65,8 @@ warpt 1
       }
       entry {
         access "public"
+        const true
+        isolated true
         result {
           call {
             arguments [

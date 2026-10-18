@@ -13,17 +13,27 @@ warpt 1
     procedures {
       entry {
         access "public"
+        const true
+        failing "anything"
         result {
           call {
             arguments [
               [
                 {
                   closure {
+                    const true
+                    isolated true
                     result true
+                    returns "Bool"
                   }
                 }
                 {
                   closure {
+                    const true
+                    failing [
+                      "aborted"
+                    ]
+                    isolated true
                     result {
                       call {
                         arguments [
@@ -32,6 +42,7 @@ warpt 1
                         procedure "Standard.Control.abort"
                       }
                     }
+                    returns "Bool"
                   }
                 }
               ]
@@ -39,6 +50,7 @@ warpt 1
             procedure "Standard.Logic.or"
           }
         }
+        returns "Bool"
       }
     }
     warp 1

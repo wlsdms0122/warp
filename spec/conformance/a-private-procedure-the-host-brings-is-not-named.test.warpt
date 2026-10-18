@@ -12,6 +12,7 @@ warpt 1
     procedures {
       entry {
         access "public"
+        failing "anything"
         result {
           call {
             procedure "App.seat"
@@ -29,6 +30,8 @@ warpt 1
       "App.seat" {
         access "private"
         answers 7
+        const true
+        isolated true
         returns "Int"
       }
     }

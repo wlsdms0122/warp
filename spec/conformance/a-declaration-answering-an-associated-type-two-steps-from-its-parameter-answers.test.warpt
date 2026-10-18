@@ -131,6 +131,7 @@ warpt 1
           result {
             ref "z"
           }
+          returns "some C.Item.Item"
         }
       }
       warp 1
@@ -139,8 +140,8 @@ warpt 1
   expect {
     answers 1
   }
-  name "an-associated-type-two-steps-from-its-parameter-is-read-out-of-a-generic-body-answers"
-  note "`Use.deep2` writes no returns and answers the first of the first of c. A box of boxes of Int fills C, so the answer is an Int."
+  name "a-declaration-answering-an-associated-type-two-steps-from-its-parameter-answers"
+  note "`Use.deep2` declares it answers `some C.Item.Item`, the first of the first of `c`. A box of boxes of Int fills C, so the answer is an Int."
   program {
     imports [
       "App.Box"

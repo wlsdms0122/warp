@@ -39,7 +39,7 @@ A type is written as a string:
 
 **Two readings of one place join part by part.** Null beside a value reads as what may be null. Two lists join by their elements and two maps by their keys and their values; two maps whose keys join to `Any` read `Any` whole, since a map's key answers `Hashable`. Two procedures join to a procedure that keeps the parameters and answer both write alike, the constness and isolation both carry and what either may fail with. Two parts that still differ read `Any`.
 
-**Ways that each answer are places of their own.** Where they meet, each way out of a body that writes no `returns` and each of an attempt's two ways is a place of its own, so one answering a whole literal beside another answering a fraction reads `Any`, which a slot of a type takes only through a cast.
+**Ways that each answer are places of their own.** Where they meet, each of an attempt's two ways is a place of its own, so one answering a whole literal beside another answering a fraction reads `Any`, which a slot of a type takes only through a cast.
 
 ## What a slot takes, exactly
 
@@ -67,9 +67,9 @@ Where a value meets a declaration (an argument, an answer, and a write into a bo
 
 **`inout` and `var` say something about the slot and nothing about the value.** They stand in front of the whole type, `?` included: `inout Int?` is a nullable handed in place. What fits the slot is judged by the type after the mark. Writing either where it is not allowed **refuses at the load**.
 
-**A slot asking `isolated` takes what the build derived as isolated.** Answering without running is a separate claim and does not stand in for it.
+**A slot asking `isolated` takes what is declared isolated.** Answering without running is a separate claim and does not stand in for it.
 
-**A procedure-typed slot** takes a value that takes exactly the positions the slot's type hands, each accepting what the slot may hand at that position, answers what the slot's answer accepts, and fails with no more than the slot's type says it may fail with. What a closure may fail with is read off its body, as its constness is. The names the value's declaration wrote are its own and take no part: one closure fits two slots that name their parameter differently. That is held at the **build** where the value's type is known, and at the **run** where a cast reads a value read as `Any` or as a contract, under *one calling convention* in [procedures](procedure.md).
+**A procedure-typed slot** takes a value that takes exactly the positions the slot's type hands, each accepting what the slot may hand at that position, answers what the slot's answer accepts, and fails with no more than the slot's type says it may fail with. What a closure may fail with is what its signature declares, as its constness is. The names the value's declaration wrote are its own and take no part: one closure fits two slots that name their parameter differently. That is held at the **build** where the value's type is known, and at the **run** where a cast reads a value read as `Any` or as a contract, under *one calling convention* in [procedures](procedure.md).
 
 ## A declared struct is nominal
 
@@ -91,7 +91,7 @@ Where a value meets a declaration (an argument, an answer, and a write into a bo
 
 **A mention applies the struct to one type per parameter**, `Box<Int>`, `Box<some T>` in a signature, and is the struct with each parameter read as the type at its position, so every judgement above asks that of its fields. A type standing at a bounded position answers the contracts its bound names, a type parameter by its own bounds, the way a map's key answers `Hashable`, or **refuses at the build** where the mention is written. A value of one carries the struct's name and its fields, and nothing of what it was applied to, as a list carries no element type.
 
-**Two mentions of one struct are one type only where they are applied to the same types.** What a reading says of one value and no declaration writes is read as what is declared: a whole literal as the number it names, `Never` as any type, and a procedure as its positions and answer, the constness, isolation and failing derived for it meeting what is declared. So `Box<Int>` does not stand where `Box<Int?>` is declared, though a list of `Int` stands where a list of `Int?` is; two readings applied to different types join to `Any`; and a constant holding one is the struct its expression was judged as, or, judged at `Any`, what its value reads as, its fields' readings joined.
+**Two mentions of one struct are one type only where they are applied to the same types.** What a reading says of one value and no declaration writes is read as what is declared: a whole literal as the number it names, `Never` as any type, and a procedure as its positions and answer, the constness, isolation and failing its signature declares meeting what is declared. So `Box<Int>` does not stand where `Box<Int?>` is declared, though a list of `Int` stands where a list of `Int?` is; two readings applied to different types join to `Any`; and a constant holding one is the struct its expression was judged as, or, judged at `Any`, what its value reads as, its fields' readings joined.
 
 **A call filling a type parameter walks into what the struct is applied to**, as into a list's element.
 
@@ -187,7 +187,7 @@ Where a value meets a declaration (an argument, an answer, and a write into a bo
 
 ## A claim holds to members
 
-**The build holds the claim to the type's members.** For every procedure the contract asks, it takes the type's member of that name (`Bank.Account`'s `describe`) and holds its signature to the contract's with the type in place of `Self` wherever the contract writes it. A name that stands for a declared struct names that struct's type there, as wherever types are compared, so a declaration may write another name for the struct the contract writes. A declaration that wrote no `returns` is held by what its body answers, read the way a call site reads it.
+**The build holds the claim to the type's members.** For every procedure the contract asks, it takes the type's member of that name (`Bank.Account`'s `describe`) and holds its signature to the contract's with the type in place of `Self` wherever the contract writes it. A name that stands for a declared struct names that struct's type there, as wherever types are compared, so a declaration may write another name for the struct the contract writes. A declaration that wrote no `returns` answers `Null`, and is held to that.
 
 **Under a head applying the type, a member answers for every value the head takes.** The type there is the type as the head applies it, each of the head's type parameters one no call fills held to its bounds, so one taking `App.Box<Int>` alone does not answer a claim under `App.Box<some T: Hashable>`.
 
@@ -322,7 +322,6 @@ How a type is written:
 
 Numbers and readings:
 
-- `a-body-answering-a-whole-literal-one-way-and-a-fraction-another-is-no-fraction-refuses`
 - `a-list-holding-a-closure-that-may-fail-where-its-elements-fail-with-nothing-refuses`
 - `a-list-of-two-maps-whose-keys-join-to-any-holds-each-as-any-refuses`
 - `a-map-literal-reads-a-whole-key-beside-a-fraction-as-the-fraction`
@@ -411,9 +410,9 @@ A declared struct is nominal:
 - `a-value-from-outside-under-a-name-no-document-declares-refuses-at-the-door`
 - `a-value-from-outside-under-an-alias-at-any-is-a-value-of-its-struct-answers`
 - `an-alias-of-a-declared-struct-gives-a-value-from-outside-the-structs-name`
-- `an-answer-from-outside-under-a-name-no-document-declares-where-no-returns-is-written-refuses-at-the-door`
-- `an-answer-from-outside-under-an-alias-where-no-returns-is-written-is-a-value-of-its-struct-answers`
-- `an-answer-from-outside-under-its-name-where-no-returns-is-written-is-held-to-its-struct-refuses`
+- `an-answer-from-outside-at-any-under-a-name-no-document-declares-refuses-at-the-door`
+- `an-answer-from-outside-at-any-under-an-alias-is-a-value-of-its-struct-answers`
+- `an-answer-from-outside-at-any-under-its-name-is-held-to-its-struct-refuses`
 
 A struct may take type parameters:
 
@@ -482,7 +481,6 @@ Type parameters:
 - `a-cast-of-a-closure-writing-a-variable-handed-in-place-fails`
 - `a-cast-of-a-closure-writing-an-answer-a-caller-appends-in-place-fails`
 - `a-cast-of-a-closure-writing-an-answer-read-as-never-fails`
-- `a-cast-of-a-closure-writing-an-unsaid-generic-answer-carried-through-another-fails`
 - `a-cast-of-a-closure-writing-where-a-declared-struct-was-filled-fails`
 - `a-cast-of-a-setter-a-generic-procedure-made-fails-before-its-getter-reads`
 - `a-closure-a-generic-body-wrote-is-read-as-the-procedure-type-it-is-judged-against`
@@ -681,7 +679,6 @@ A claim holds to members:
 - `a-declaration-answering-a-contract-may-write-another-name-for-the-struct-the-contract-names`
 - `a-declaration-answering-a-contract-takes-the-claimed-type-wherever-the-contract-writes-self-refuses`
 - `a-declaration-answering-a-contract-with-another-answer-refuses`
-- `a-declaration-writing-no-returns-backs-a-claim-by-what-its-body-answers`
 - `a-member-answering-a-claim-under-a-head-for-less-than-the-head-takes-refuses`
 
 What a document stands on:
@@ -764,6 +761,7 @@ The associated types of a type parameter:
 - `a-closure-writing-same-types-refuses`
 - `a-constant-settles-through-an-associated-type-answers`
 - `a-contract-procedure-writing-same-types-refuses`
+- `a-declaration-answering-an-associated-type-two-steps-from-its-parameter-answers`
 - `a-door-holds-a-derived-associated-type-to-hashable-refuses`
 - `a-door-holds-a-derived-associated-type-to-its-bound-refuses`
 - `a-door-holds-a-list-at-a-list-of-an-associated-type-to-what-the-type-gives-refuses`
@@ -799,7 +797,6 @@ The associated types of a type parameter:
 - `an-associated-type-of-a-type-parameter-is-what-the-type-filling-it-gives-answers`
 - `an-associated-type-read-at-a-type-is-that-type-refuses`
 - `an-associated-type-standing-on-one-no-contract-asks-it-of-refuses`
-- `an-associated-type-two-steps-from-its-parameter-is-read-out-of-a-generic-body-answers`
 - `an-associated-type-whose-parameter-no-parameter-writes-refuses`
 - `an-empty-list-fills-the-base-with-never-and-the-associated-type-takes-nothing-refuses`
 - `two-associated-types-said-one-type-answer`

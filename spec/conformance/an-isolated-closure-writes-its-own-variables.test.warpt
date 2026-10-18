@@ -7,7 +7,7 @@ warpt 1
     ]
   }
   name "an-isolated-closure-writes-its-own-variables"
-  note "Writing a variable the closure itself declared touches nothing outside it, so the closure is isolated and runs beside the others."
+  note "Writing a variable the closure itself declared touches nothing outside it, so the closure declaring `isolated` holds to it and runs beside the others."
   program {
     imports [
       "Standard.Concurrent.map"
@@ -16,6 +16,10 @@ warpt 1
     procedures {
       entry {
         access "public"
+        failing [
+          "concurrent_failed"
+        ]
+        isolated true
         result {
           call {
             arguments [
@@ -47,6 +51,8 @@ warpt 1
                       }
                     }
                   ]
+                  const true
+                  isolated true
                   parameters [
                     {
                       name "item"

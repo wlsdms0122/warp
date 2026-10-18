@@ -1,0 +1,38 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-closure-declared-const-reading-a-module-variable-refuses"
+  note "A closure literal declared `const` is held to answering without running where it is written, and one reading a module variable does not, so it refuses at the build."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "f"
+            value {
+              closure {
+                const true
+                result {
+                  ref "count"
+                }
+                returns "Int"
+              }
+            }
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+    }
+    var {
+      count 0
+    }
+    warp 1
+  }
+  test 1
+}
+

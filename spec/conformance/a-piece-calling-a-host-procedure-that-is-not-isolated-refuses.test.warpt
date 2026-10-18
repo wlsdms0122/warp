@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-piece-calling-a-host-procedure-that-is-not-isolated-refuses"
-  note "A procedure the host answers says whether it is isolated, and one that says it is not strikes every body that reaches it. A closure calling one is not isolated, and `Standard.Concurrent.map` refuses it as a piece."
+  note "A procedure the host answers says whether it is isolated, and `App.count` says only `const`. A piece declaring `isolated` calls only declarations that say they are isolated, so the build refuses it and `Standard.Concurrent.map` never takes it."
   program {
     imports [
       "App.count"
@@ -13,6 +13,9 @@ warpt 1
     procedures {
       entry {
         access "public"
+        failing [
+          "concurrent_failed"
+        ]
         result {
           call {
             arguments [
@@ -22,6 +25,7 @@ warpt 1
               ]
               {
                 closure {
+                  isolated true
                   parameters [
                     {
                       name "item"
@@ -37,12 +41,14 @@ warpt 1
                       procedure "App.count"
                     }
                   }
+                  returns "Int"
                 }
               }
             ]
             procedure "Standard.Concurrent.map"
           }
         }
+        returns "Array<Int>"
       }
     }
     warp 1
@@ -54,7 +60,7 @@ warpt 1
       "App.count" {
         access "public"
         answers 1
-        isolated false
+        const true
         returns "Int"
       }
     }

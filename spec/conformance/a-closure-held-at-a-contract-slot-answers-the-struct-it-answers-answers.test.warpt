@@ -49,11 +49,14 @@ warpt 1
             type "() -> Bank.A"
             value {
               closure {
+                const true
+                isolated true
                 result {
                   struct {
                     k "x"
                   }
                 }
+                returns "Bank.A"
               }
             }
           }
@@ -88,12 +91,15 @@ warpt 1
             procedure "App.P.show"
           }
         }
+        returns "String"
       }
     }
     types {
       "Bank.A" {
         procedures {
           show {
+            const true
+            isolated true
             parameters [
               {
                 name "of"

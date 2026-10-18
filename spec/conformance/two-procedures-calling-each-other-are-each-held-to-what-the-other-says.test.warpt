@@ -1,0 +1,147 @@
+warpt 1
+{
+  expect {
+    answers true
+  }
+  name "two-procedures-calling-each-other-are-each-held-to-what-the-other-says"
+  note "`App.even` and `App.odd` call each other, and each says it answers without running. Each body is held to what the other declares, so neither waits on the other, and the call stands as an operand."
+  program {
+    imports [
+      "Standard.Logic.equal"
+      "Standard.Logic.not"
+      "Standard.Numeric.minus"
+    ]
+    procedures {
+      "App.even" {
+        body [
+          {
+            value {
+              conditional {
+                then [
+                  {
+                    value {
+                      return true
+                    }
+                  }
+                ]
+                when {
+                  call {
+                    arguments [
+                      {
+                        ref "n"
+                      }
+                      0
+                    ]
+                    procedure "Standard.Logic.equal"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        const true
+        parameters [
+          {
+            name "n"
+            type "Int"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                call {
+                  arguments [
+                    {
+                      ref "n"
+                    }
+                    1
+                  ]
+                  procedure "Standard.Numeric.minus"
+                }
+              }
+            ]
+            procedure "App.odd"
+          }
+        }
+        returns "Bool"
+      }
+      "App.odd" {
+        body [
+          {
+            value {
+              conditional {
+                then [
+                  {
+                    value {
+                      return false
+                    }
+                  }
+                ]
+                when {
+                  call {
+                    arguments [
+                      {
+                        ref "n"
+                      }
+                      0
+                    ]
+                    procedure "Standard.Logic.equal"
+                  }
+                }
+              }
+            }
+          }
+        ]
+        const true
+        parameters [
+          {
+            name "n"
+            type "Int"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              {
+                call {
+                  arguments [
+                    {
+                      ref "n"
+                    }
+                    1
+                  ]
+                  procedure "Standard.Numeric.minus"
+                }
+              }
+            ]
+            procedure "App.even"
+          }
+        }
+        returns "Bool"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                call {
+                  arguments [
+                    4
+                  ]
+                  procedure "App.odd"
+                }
+              }
+            ]
+            procedure "Standard.Logic.not"
+          }
+        }
+        returns "Bool"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

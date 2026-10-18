@@ -1,0 +1,41 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-body-failing-beyond-its-declaration-refuses"
+  note "`App.go` calls `abort`, which may fail with `aborted`, and its declaration names no failure. A body failing with more than its declaration names refuses at the build."
+  program {
+    imports [
+      "Standard.Control.abort"
+    ]
+    procedures {
+      "App.go" {
+        result {
+          call {
+            arguments [
+              "no"
+            ]
+            procedure "Standard.Control.abort"
+          }
+        }
+        returns "Never"
+      }
+      entry {
+        access "public"
+        failing [
+          "aborted"
+        ]
+        result {
+          call {
+            procedure "App.go"
+          }
+        }
+        returns "Never"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

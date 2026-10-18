@@ -29,7 +29,10 @@ warpt 1
                           [
                             {
                               closure {
+                                const true
+                                isolated true
                                 result "ok"
+                                returns "String"
                               }
                             }
                             {
@@ -46,6 +49,12 @@ warpt 1
                                     }
                                   }
                                 ]
+                                const true
+                                failing [
+                                  "aborted"
+                                ]
+                                isolated true
+                                returns "Never"
                               }
                             }
                           ]
@@ -85,9 +94,14 @@ warpt 1
             }
           }
         ]
+        failing [
+          "cast_refused"
+        ]
+        isolated true
         result {
           ref "tried"
         }
+        returns "Array<Int>"
       }
     }
     warp 1

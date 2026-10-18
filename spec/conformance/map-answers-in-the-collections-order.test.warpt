@@ -29,6 +29,8 @@ warpt 1
                   ]
                   {
                     closure {
+                      const true
+                      isolated true
                       parameters [
                         {
                           name "item"
@@ -42,6 +44,7 @@ warpt 1
                       result {
                         ref "item"
                       }
+                      returns "Int"
                     }
                   }
                 ]
@@ -50,9 +53,14 @@ warpt 1
             }
           }
         ]
+        failing [
+          "concurrent_failed"
+        ]
+        isolated true
         result {
           ref "walked"
         }
+        returns "Array<Int>"
       }
     }
     warp 1

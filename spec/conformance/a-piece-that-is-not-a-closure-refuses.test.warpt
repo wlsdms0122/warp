@@ -12,6 +12,9 @@ warpt 1
     procedures {
       entry {
         access "public"
+        failing [
+          "concurrent_failed"
+        ]
         result {
           call {
             arguments [
@@ -19,6 +22,7 @@ warpt 1
                 {
                   closure {
                     result 1
+                    returns "Int"
                   }
                 }
                 2
@@ -27,6 +31,7 @@ warpt 1
             procedure "Standard.Concurrent.all"
           }
         }
+        returns "Array<Any>"
       }
     }
     warp 1

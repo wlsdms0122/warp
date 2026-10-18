@@ -1,0 +1,58 @@
+warpt 1
+{
+  expect {
+    answers "caught"
+  }
+  name "a-declaration-failing-with-anything-may-fail-with-any-failure"
+  note "`failing: anything` lets a body fail with any failure, `aborted` included, and a call of it may fail with anything, which the rescue around it catches."
+  program {
+    imports [
+      "Standard.Control.abort"
+    ]
+    procedures {
+      "App.go" {
+        failing "anything"
+        result {
+          call {
+            arguments [
+              "no"
+            ]
+            procedure "Standard.Control.abort"
+          }
+        }
+        returns "Never"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "tried"
+            value {
+              attempt {
+                body [
+                  {
+                    value {
+                      call {
+                        procedure "App.go"
+                      }
+                    }
+                  }
+                ]
+                rescue {
+                  result "caught"
+                }
+              }
+            }
+          }
+        ]
+        result {
+          ref "tried"
+        }
+        returns "String"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

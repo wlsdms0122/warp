@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "map-takes-only-an-isolated-closure"
-  note "A closure that writes a captured variable is not isolated, and `Standard.Concurrent.map` asks for an isolated one. The build reads the closure's text and refuses."
+  note "`Standard.Concurrent.map` asks for an isolated closure. This one writes the captured variable `tally` and does not declare `isolated`, so the build refuses it where it is handed over."
   program {
     imports [
       "Standard.Concurrent.map"
@@ -44,6 +44,7 @@ warpt 1
                       result {
                         ref "item"
                       }
+                      returns "Int"
                     }
                   }
                 ]
@@ -51,6 +52,9 @@ warpt 1
               }
             }
           }
+        ]
+        failing [
+          "concurrent_failed"
         ]
         result {
           ref "tally"

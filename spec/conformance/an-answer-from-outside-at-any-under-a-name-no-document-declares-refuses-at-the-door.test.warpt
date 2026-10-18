@@ -3,8 +3,8 @@ warpt 1
   expect {
     refuses "run"
   }
-  name "an-answer-from-outside-under-a-name-no-document-declares-where-no-returns-is-written-refuses-at-the-door"
-  note "`App.v` writes no `returns` and answers a struct under `App.Z`, which no document declares. Its answer comes in through the door at `Any`, where a struct under a name that declares no struct refuses, so the run refuses there."
+  name "an-answer-from-outside-at-any-under-a-name-no-document-declares-refuses-at-the-door"
+  note "`App.v` is a procedure the host answers declaring it answers `Any`, and it answers a struct under `App.Z`, which no document declares. Its answer comes in through the door at `Any`, where a struct under a name that declares no struct refuses, so the run refuses there."
   program {
     imports [
       "App.v"
@@ -23,6 +23,7 @@ warpt 1
           }
         ]
         result "ok"
+        returns "String"
       }
     }
     warp 1
@@ -35,7 +36,8 @@ warpt 1
         answers App.Z {
           a 1
         }
-        runs true
+        isolated true
+        returns "Any"
       }
     }
     types {

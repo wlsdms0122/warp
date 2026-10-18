@@ -1,0 +1,36 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-body-declared-isolated-writing-a-module-variable-refuses"
+  note "A body declared `isolated` touches no name another body could touch at once, and a module variable is one, so a body writing one refuses at the build."
+  program {
+    imports []
+    procedures {
+      "App.bump" {
+        body [
+          {
+            set "count"
+            value 1
+          }
+        ]
+        isolated true
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            procedure "App.bump"
+          }
+        }
+      }
+    }
+    var {
+      count 0
+    }
+    warp 1
+  }
+  test 1
+}
+

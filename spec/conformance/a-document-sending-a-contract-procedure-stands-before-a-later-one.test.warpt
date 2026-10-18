@@ -21,7 +21,8 @@ warpt 1
       imports []
       procedures {
         "App.nothing" {
-          returns "Null"
+          const true
+          isolated true
         }
       }
       warp 1
@@ -33,6 +34,7 @@ warpt 1
       ]
       procedures {
         "Bank.tell" {
+          const true
           parameters [
             {
               name "of"
@@ -56,6 +58,8 @@ warpt 1
         "Bank.Account" {
           procedures {
             describe {
+              const true
+              isolated true
               parameters [
                 {
                   name "of"
@@ -104,6 +108,10 @@ warpt 1
               }
             }
           }
+        ]
+        const true
+        failing [
+          "cast_refused"
         ]
         result {
           call {
