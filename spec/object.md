@@ -103,7 +103,7 @@ An *operation* is `[tag, …]`. These are the constructs and the expression form
 | 2 | an array built from parts | list of *operation* |
 | 3 | a struct built from parts | `[layout, operations]`: the *layout*, and a list of *operation* in the layout's field order |
 | 4 | a closure literal | the closure's number, captures: `[outer slot, inner slot]` list |
-| 5 | calling a value | the callee *operation*, arguments: list of *argument*, in position order |
+| 5 | calling a value | the callee *operation*, arguments: list of *argument*, in position order, and the *lowered type* written for the value called, or nothing where nothing was written |
 | 6 | a cast | *operation*, *lowered type*, optional |
 | 8 | a conditional | the condition *operation*, then: *instruction* list, else: *instruction* list or nothing |
 | 9 | a loop | the condition *operation*, the round: *instruction* list, the round's slot or nothing |
