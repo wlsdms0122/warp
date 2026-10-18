@@ -1,0 +1,41 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "parentheses-around-a-procedure-type-no-question-mark-follows-refuse"
+  note "Parentheses group a type, and a document writes them where a `?` after them makes a whole procedure type nullable. `((Int) -> Int)` says what `(Int) -> Int` says, and one type is written one way, so the parentheses refuse at the load."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "f"
+            type "((Int) -> Int)"
+            value {
+              closure {
+                parameters [
+                  {
+                    name "x"
+                    type "Int"
+                  }
+                ]
+                result {
+                  ref "x"
+                }
+                returns "Int"
+              }
+            }
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

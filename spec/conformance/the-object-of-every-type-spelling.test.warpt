@@ -8,7 +8,7 @@ warpt 1
       contracts []
       dependencies []
       document [
-        x"28d28dd686e886409386b45da361ee5abb415cff1df3ae23133df77cbd5bdce2"
+        x"22bd0a8e458de6688054d07448a52242b183c3470df2ea40975bd86141b984b8"
       ]
       importedClaims []
       lifted []
@@ -302,25 +302,10 @@ warpt 1
         struct {
           f "Procedure"
           flag "var Bool"
-          g {
-            "const isolated procedure" {
-              failing [
-                "aborted"
-              ]
-              parameters [
-                "String"
-                "Int"
-              ]
-              returns "Int"
-            }
-          }
+          g "const isolated (String, Int) throws(aborted) -> Int"
           maybe "Int?"
           none "Null"
-          stop {
-            procedure {
-              returns "Never"
-            }
-          }
+          stop "() throws -> Never"
           table "Dictionary<String, String>"
         }
       }

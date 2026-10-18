@@ -1,0 +1,29 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-modifier-in-front-of-a-nullable-type-refuses"
+  note "A modifier stands in front of a procedure type, and `?` belongs to what it trails, so `const Procedure?` writes `const` in front of a type that may be null and refuses at the load. A procedure answering without running, or null, is written `(const Procedure)?`."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "f"
+            type "const Procedure?"
+            value null
+          }
+        ]
+        result {
+          ref "f"
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

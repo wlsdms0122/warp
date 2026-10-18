@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-value-read-as-any-handed-to-a-called-value-at-a-type-parameter-of-the-body-refuses"
-  note "Inside `App.run`, `g` is held at `{ procedure: { parameters: [some T], returns: Any } }`, and `T` is the body's own, which no call fills and no run can hold a value to. What `g` is handed at that position has to be a value of `T` already, the way a write into a box of it does, and `a`, read as `Any`, is not, so the build refuses."
+  note "Inside `App.run`, `g` is held at `(some T) -> Any`, and `T` is the body's own, which no call fills and no run can hold a value to. What `g` is handed at that position has to be a value of `T` already, the way a write into a box of it does, and `a`, read as `Any`, is not, so the build refuses."
   program {
     imports []
     procedures {
@@ -23,14 +23,7 @@ warpt 1
           }
           {
             name "g"
-            type {
-              procedure {
-                parameters [
-                  "some T"
-                ]
-                returns "Any"
-              }
-            }
+            type "(some T) -> Any"
           }
         ]
         result {

@@ -4,7 +4,7 @@ warpt 1
     answers null
   }
   name "a-cast-of-a-closure-to-a-procedure-answering-another-struct-reads-null-answers"
-  note "`c` is declared `{ procedure: { returns: Bank.A } }`, so its closure, which writes no `returns`, answers `Bank.A`, and it travels through `Any`. `Bank.B` never takes a `Bank.A`, so the asking cast to `{ procedure: { returns: Bank.B } }` reads it as null."
+  note "`c` is declared `() -> Bank.A`, so its closure, which writes no `returns`, answers `Bank.A`, and it travels through `Any`. `Bank.B` never takes a `Bank.A`, so the asking cast to `() -> Bank.B` reads it as null."
   program {
     imports []
     procedures {
@@ -13,11 +13,7 @@ warpt 1
         body [
           {
             let "c"
-            type {
-              procedure {
-                returns "Bank.A"
-              }
-            }
+            type "() -> Bank.A"
             value {
               closure {
                 result {
@@ -42,11 +38,7 @@ warpt 1
                 of {
                   ref "a"
                 }
-                type {
-                  procedure {
-                    returns "Bank.B"
-                  }
-                }
+                type "() -> Bank.B"
               }
             }
           }

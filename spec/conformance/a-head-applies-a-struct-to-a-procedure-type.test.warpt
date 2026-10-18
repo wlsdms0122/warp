@@ -1,0 +1,116 @@
+warpt 1
+{
+  expect {
+    answers 2
+  }
+  name "a-head-applies-a-struct-to-a-procedure-type"
+  note "A procedure type has a string spelling like any type, so a head may apply a struct to one. The member given under `App.Box<(Int) -> Int>` takes such a box first and calls what it holds, answering 2."
+  program {
+    extensions {
+      "App.Box<(Int) -> Int>" {
+        procedures {
+          applied {
+            body [
+              {
+                let "run"
+                value {
+                  ref "box.held"
+                }
+              }
+              {
+                let "made"
+                value {
+                  call {
+                    arguments [
+                      {
+                        ref "x"
+                      }
+                    ]
+                    procedure {
+                      ref "run"
+                    }
+                  }
+                }
+              }
+            ]
+            parameters [
+              {
+                name "box"
+                type "App.Box<(Int) -> Int>"
+              }
+              {
+                name "x"
+                type "Int"
+              }
+            ]
+            result {
+              ref "made"
+            }
+            returns "Int"
+          }
+        }
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "box"
+            type "App.Box<(Int) -> Int>"
+            value {
+              struct {
+                held {
+                  closure {
+                    parameters [
+                      {
+                        name "x"
+                        type "Int"
+                      }
+                    ]
+                    result {
+                      ref "x"
+                    }
+                    returns "Int"
+                  }
+                }
+              }
+            }
+          }
+          {
+            let "made"
+            value {
+              call {
+                arguments [
+                  {
+                    ref "box"
+                  }
+                  2
+                ]
+                procedure "App.Box.applied"
+              }
+            }
+          }
+        ]
+        result {
+          ref "made"
+        }
+        returns "Int"
+      }
+    }
+    types {
+      "App.Box" {
+        struct {
+          held "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

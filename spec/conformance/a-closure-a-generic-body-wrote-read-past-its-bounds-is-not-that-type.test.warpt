@@ -29,14 +29,7 @@ warpt 1
             returns "Int"
           }
         }
-        returns {
-          procedure {
-            parameters [
-              "inout Array<some T>"
-            ]
-            returns "Int"
-          }
-        }
+        returns "(inout Array<some T>) -> Int"
       }
       entry {
         access "public"
@@ -60,14 +53,7 @@ warpt 1
                 of {
                   ref "a"
                 }
-                type {
-                  procedure {
-                    parameters [
-                      "inout Array<String>"
-                    ]
-                    returns "Int"
-                  }
-                }
+                type "(inout Array<String>) -> Int"
               }
             }
           }

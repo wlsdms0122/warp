@@ -4,7 +4,7 @@ warpt 1
     answers "a"
   }
   name "a-closure-writing-its-own-answer-held-at-a-slot-answers-it-through-a-type-parameter-answers"
-  note "The closure writes `returns Bank.A` and is held at `{ procedure: { returns: Bank.A } }`, the answer it already gives. `App.run` takes `{ procedure: { returns: some T } }`, so `v` reads as `Bank.A`, the closure's own `returns` names the struct it answers, and `App.P.show` reaches `Bank.A.show`."
+  note "The closure writes `returns Bank.A` and is held at `() -> Bank.A`, the answer it already gives. `App.run` takes `() -> some T`, so `v` reads as `Bank.A`, the closure's own `returns` names the struct it answers, and `App.P.show` reaches `Bank.A.show`."
   program {
     contracts {
       "App.P" {
@@ -29,11 +29,7 @@ warpt 1
         parameters [
           {
             name "c"
-            type {
-              procedure {
-                returns "some T"
-              }
-            }
+            type "() -> some T"
           }
         ]
         result {
@@ -50,11 +46,7 @@ warpt 1
         body [
           {
             let "c"
-            type {
-              procedure {
-                returns "Bank.A"
-              }
-            }
+            type "() -> Bank.A"
             value {
               closure {
                 result {

@@ -82,13 +82,7 @@ warpt 1
       parameters [
         {
           name "conditions"
-          type {
-            array {
-              "const procedure" {
-                returns "Bool"
-              }
-            }
-          }
+          type "Array<const () throws -> Bool>"
         }
       ]
       result true
@@ -216,13 +210,7 @@ warpt 1
       parameters [
         {
           name "conditions"
-          type {
-            array {
-              "const procedure" {
-                returns "Bool"
-              }
-            }
-          }
+          type "Array<const () throws -> Bool>"
         }
       ]
       result false
@@ -277,19 +265,11 @@ warpt 1
         }
         {
           name "then"
-          type {
-            "const procedure" {
-              returns "some Answer"
-            }
-          }
+          type "const () throws -> some Answer"
         }
         {
           name "else"
-          type {
-            "const procedure" {
-              returns "some Answer"
-            }
-          }
+          type "const () throws -> some Answer"
         }
       ]
       result {

@@ -3,8 +3,8 @@ warpt 1
   expect {
     refuses "load"
   }
-  name "a-type-form-beside-other-keys-refuses"
-  note "A type written as a mapping is a form by its one key, and `struct` beside another key is no form. A struct type with a field called `struct` is written under `struct`."
+  name "a-declared-struct-beside-a-key-no-declaration-writes-refuses"
+  note "A declared type is a type's spelling, or a struct written under `struct` beside the keys a declaration writes, and `id` is none of them, so this refuses at the load. A field called `id` is written under `struct`."
   program {
     imports []
     procedures {
