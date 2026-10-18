@@ -1,0 +1,33 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-failure-name-that-is-no-identifier-refuses"
+  note "`App.f` lists a failure named `out of range`. A failure is named by one identifier, the way `cast_refused` is, so a list naming anything else is refused where it is read."
+  program {
+    imports []
+    procedures {
+      "App.f" {
+        failing [
+          "out of range"
+        ]
+        result 1
+        returns "Int"
+      }
+      entry {
+        access "public"
+        failing "anything"
+        result {
+          call {
+            procedure "App.f"
+          }
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

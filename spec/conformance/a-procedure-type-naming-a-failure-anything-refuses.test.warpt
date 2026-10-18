@@ -1,0 +1,43 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-procedure-type-naming-a-failure-anything-refuses"
+  note "The slot's type writes `throws(anything)`. Bare `throws` says any failure, and `anything` names none, so a procedure type listing it is refused where it is read."
+  program {
+    imports []
+    procedures {
+      "App.f" {
+        parameters [
+          {
+            name "p"
+            type "() throws(anything) -> Int"
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                closure {
+                  result 1
+                  returns "Int"
+                }
+              }
+            ]
+            procedure "App.f"
+          }
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

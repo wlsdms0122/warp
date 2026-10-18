@@ -10,7 +10,7 @@ What a declaration says about itself, and what saying it permits. Four things: t
 | `access` | `public`, `internal` or `private`: who may name the declaration, under *who may name a declaration* below. `internal` when absent | no |
 | `parameters` | list of parameters, in the order the declaration writes them, which is the order every call hands its arguments in | no |
 | `returns` | type. What a call answers. Absent, it answers null: `Null` is what a procedure answering nothing answers | no |
-| `failing` | what may come out of a call when the work goes wrong: a list of the failures' names, or `anything`. Absent, nothing may | no |
+| `failing` | what may come out of a call when the work goes wrong: a list of the failures' names, or `anything`. A failure's name is one identifier, and `anything` names none. Absent, nothing may | no |
 | `const` | `true`: a call answers without running, under *what answers without running* below | no |
 | `isolated` | `true`: a call touches no name another body could touch at once, under *concurrency* in [running](running.md) | no |
 | `bounds` | map: an associated type of a type parameter, `T.Item` → the names of contracts, one or several joined with `&`. A type parameter is bounded beside the first `some T` the slots write, `some T: Standard.Comparable`, so a key naming one **refuses at the load**, and so does one standing on a parameter no slot mentions, under [types](type.md) | no |
@@ -20,7 +20,7 @@ What a declaration says about itself, and what saying it permits. Four things: t
 
 A procedure answers what `result` names, and nothing if it names nothing. The value of the last statement is never the answer.
 
-**What a declaration leaves out says the least.** A call reads the declaration and nothing else, so nothing a declaration leaves out is read off its body: a body answering more than `returns` admits, failing with more than `failing` names, or doing what `const` or `isolated` says it does not, **refuses at the build**, under [checking](checking.md). Each key written as what leaving it out says, `returns: Null`, an empty `failing`, `const: false` or `isolated: false`, **refuses at the load**, and so does `failing` written as anything but a list of names or `anything`.
+**What a declaration leaves out says the least.** A call reads the declaration and nothing else, so nothing a declaration leaves out is read off its body: a body answering more than `returns` admits, failing with more than `failing` names, or doing what `const` or `isolated` says it does not, **refuses at the build**, under [checking](checking.md). Each key written as what leaving it out says, `returns: Null`, an empty `failing`, `const: false` or `isolated: false`, **refuses at the load**, and so does `failing` written as anything but a list of names or `anything`. A failure named by anything but one identifier, or named `anything`, **refuses at the load**, in `failing` and in a procedure type's `throws(…)` alike.
 
 ## Who may name a declaration
 
@@ -170,6 +170,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-declaration-that-runs-backs-no-const-contract`
 - `a-declaration-writing-no-returns-answers-null`
 - `a-dictionary-entry-handed-in-place-is-read-by-the-callee`
+- `a-failure-name-that-is-no-identifier-refuses`
+- `a-failure-named-anything-refuses`
 - `a-fixed-name-bound-to-a-calls-answer-gives-a-capture-no-claim`
 - `a-fixed-name-bound-to-a-closure-literal-carries-what-it-declares-into-a-capture`
 - `a-fixed-name-bound-to-a-const-slot-carries-its-claim`
@@ -195,6 +197,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-procedure-saying-nothing-is-no-operand`
 - `a-procedure-that-writes-in-place-does-not-answer-without-running`
 - `a-procedure-the-host-answers-is-handed-a-path-indexed-with-a-name`
+- `a-procedure-type-naming-a-failure-anything-refuses`
 - `a-procedure-value-cast-to-a-procedure-type-is-called`
 - `a-required-argument-left-out-refuses`
 - `a-slot-handing-a-const-procedure-in-place-is-a-const-slot`
