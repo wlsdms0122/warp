@@ -875,5 +875,6 @@ Names:
 - `a-parameter-naming-a-type-nothing-declares-refuses`
 - `a-type-declared-under-a-name-the-language-gives-refuses`
 - `a-type-declared-under-a-word-a-type-spelling-writes-refuses`
+- `a-type-declared-under-throws-refuses`
 - `a-type-mention-that-is-no-name-refuses`
 - `a-type-parameter-named-for-a-type-the-language-names-refuses`

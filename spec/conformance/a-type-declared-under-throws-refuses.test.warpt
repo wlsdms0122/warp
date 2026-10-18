@@ -1,0 +1,23 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-type-declared-under-throws-refuses"
+  note "`throws` is a word a procedure type's spelling writes before its `->`, and no type's name. A type declared under it refuses at the load."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+      }
+    }
+    types {
+      throws "Int"
+    }
+    warp 1
+  }
+  test 1
+}
+
