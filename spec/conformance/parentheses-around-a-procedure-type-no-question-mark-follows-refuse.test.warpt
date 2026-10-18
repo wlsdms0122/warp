@@ -4,7 +4,7 @@ warpt 1
     refuses "load"
   }
   name "parentheses-around-a-procedure-type-no-question-mark-follows-refuse"
-  note "Parentheses around a whole procedure type say what a `?` after them makes nullable. With no `?` they say nothing, and refuse at the load."
+  note "Parentheses group a type, and a document writes them where a `?` after them makes a whole procedure type nullable. `((Int) -> Int)` says what `(Int) -> Int` says, and one type is written one way, so the parentheses refuse at the load."
   program {
     imports []
     procedures {

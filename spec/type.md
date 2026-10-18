@@ -25,9 +25,9 @@ A type is written as a string:
 | `Describable` (a declared contract's name) | a value of whatever type satisfies the contract. Nothing ties one slot's to another's |
 | `Describable & Standard.Comparable` | a value of whatever type satisfies every contract named; two names or more, in name order, and each a contract's |
 | `Int?` (any string spelling and `?`) | the declared type or null |
-| `(Int, String) -> Bool` | a procedure type: the types it is called with in parentheses, in position order, and after `->` what it answers, to the end of the spelling, so `(Int) -> Int?` answers what may be null. No names, since a name is a declaration's and a value is called by position; a mark such as `inout` stands in front of a parameter's type, `(inout Int) -> Int`. Types not written in parentheses before `->` **refuse at the load** |
-| `(Int) throws -> Bool` / `(Int) throws(aborted, cast_refused) -> Bool` | what a procedure type may fail with, written between its parameters and `->`: `throws` alone says anything, and `throws(…)` the failures it lists. Written without `throws`, it fails with nothing. `throws()` and a failure listed twice **refuse at the load** |
-| `((Int) -> Int)?` / `(const Procedure)?` | a procedure type writing its signature or a modifier, or null: parentheses around it say the `?` is the whole type's. Parentheses around any other type, and around one no `?` follows, **refuse at the load** |
+| `(Int, String) -> Bool` | a procedure type: the types it is called with in parentheses, in position order, and after `->` what it answers, which is all of the type the arrow is followed by, so `(Int) -> Int?` answers what may be null. No names, since a name is a declaration's and a value is called by position; a mark such as `inout` stands in front of a parameter's type, `(inout Int) -> Int`. Types not written in parentheses before `->` **refuse at the load** |
+| `(Int) throws -> Bool` / `(Int) throws(aborted, cast_refused) -> Bool` | what a procedure type may fail with, written between its parameters and `->`: `throws` alone says anything, and `throws(…)` the failures it lists, in name order. Written without `throws`, it fails with nothing. `throws()` and a failure listed twice **refuse at the load** |
+| `((Int) -> Int)?` / `(const Procedure)?` | a procedure type writing its signature or a modifier, or null: parentheses group a type, so the `?` after them is the whole type's. A type is written one way, so parentheses anywhere else **refuse at the load** |
 
 ## Numbers and readings
 
@@ -302,6 +302,7 @@ How a type is written:
 - `a-map-type-written-with-one-type-refuses`
 - `a-nullable-procedure-type-is-written-in-parentheses`
 - `a-procedure-type-listing-a-failure-twice-refuses`
+- `a-procedure-type-listing-its-failures-out-of-name-order-refuses`
 - `a-procedure-type-writes-its-parameters-in-parentheses`
 - `a-procedure-type-writing-throws-takes-a-closure-that-may-fail`
 - `a-procedure-type-writing-throws-with-no-failure-refuses`
