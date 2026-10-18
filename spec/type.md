@@ -299,6 +299,7 @@ How a type is written:
 - `a-bare-dictionary-refuses`
 - `a-contract-written-with-brackets-refuses`
 - `a-declared-name-is-a-type`
+- `a-declared-struct-beside-a-key-no-declaration-writes-refuses`
 - `a-map-type-written-with-one-type-refuses`
 - `a-nullable-procedure-type-is-written-in-parentheses`
 - `a-procedure-type-listing-a-failure-twice-refuses`
@@ -312,7 +313,6 @@ How a type is written:
 - `a-struct-applied-to-another-count-of-types-refuses`
 - `a-struct-listing-no-type-parameters-applied-to-one-refuses`
 - `a-struct-taking-type-parameters-named-without-brackets-refuses`
-- `a-type-form-beside-other-keys-refuses`
 - `a-type-the-language-names-written-with-brackets-refuses`
 - `an-alias-applied-to-a-type-refuses`
 - `inout-written-on-a-name-refuses`

@@ -3,8 +3,8 @@ warpt 1
   expect {
     refuses "build"
   }
-  name "a-declaration-calling-a-procedure-whose-type-names-no-failure-backs-no-contract-refuses"
-  note "`step`'s type says nothing of what it may fail with, so a call of it may fail with anything, and no list a contract names holds that: `Int.run` backs no claim of `run`, whatever `run` lets fail."
+  name "a-declaration-calling-a-procedure-whose-type-may-fail-with-anything-backs-no-contract-refuses"
+  note "`step`'s type writes `throws` with no list, so a call of it may fail with anything, and no list a contract names holds that: `Int.run` backs no claim of `run`, whatever `run` lets fail."
   program {
     contracts {
       "App.Runner" {

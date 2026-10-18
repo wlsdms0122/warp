@@ -36,7 +36,7 @@ One of these is builtin for a reason that is not the set it removes. `trimmed` n
 
 **A bundle is not a module.** A module is compiled against the modules standing before it, so the modules of a link have to have an order, and two that send to each other have none. What a bundle declares for its host to answer has no body and so waits for nothing; what it writes in Warp sends to whatever it needs. So a bundle links as two modules, its builtin half standing before every written half, and the same set of procedures links whatever the written halves send.
 
-**The signatures, exactly.** A second implementation writes these; it must not have to guess them. The *parameters* column lists them in the order a row writes them, which is the position a call hands each argument at. A slot of a `const` procedure type takes only a procedure that answers without running.
+**The signatures, exactly.** A second implementation writes these; it must not have to guess them. The *parameters* column lists them in the order a row writes them, which is the position a call hands each argument at. A slot of a `const` procedure type takes only a procedure that answers without running. Each procedure a row takes may fail with anything: its type writes `throws`.
 
 *Standard.Logic*
 
