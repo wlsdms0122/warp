@@ -157,6 +157,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-loop-written-nameless-binds-no-round`
 - `a-loops-name-leaves-the-outer-name-after-the-loop`
 - `a-loops-name-leaves-the-outer-name-to-what-a-constant-call-reads`
+- `a-loops-name-leaves-the-outer-name-to-what-a-failure-check-reads`
 - `a-loops-name-leaves-the-outer-variable-to-write-after-the-loop`
 - `a-loops-name-reads-its-round-inside-the-loop`
 - `a-loops-name-reads-nothing-after-the-loop-refuses`

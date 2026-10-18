@@ -33,7 +33,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-calls-arguments-are-evaluated-in-position-order`
 - `a-cast-of-a-closure-answering-a-struct-held-at-a-slot-answering-anything-to-another-struct-reads-null-answers`
 - `a-cast-of-a-closure-held-at-a-contract-slot-back-to-the-number-it-answers-answers`
-- `a-cast-of-a-closure-its-place-gave-a-struct-answer-held-at-a-slot-answering-anything-to-another-struct-reads-null-answers`
 - `a-cast-of-a-closure-that-may-fail-to-a-procedure-type-failing-nothing-fails`
 - `a-cast-of-a-closure-to-a-procedure-answering-another-struct-reads-null-answers`
 - `a-closure-answering-a-whole-number-does-not-fit-a-slot-answering-a-fraction-refuses`
