@@ -1,0 +1,47 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-head-bounds-a-type-parameter-inside-a-procedure-type"
+  note "A head bounds a type parameter where it first names it, inside a procedure type it applies a struct to too, so `App.Box<(some T: Hashable) -> Int>` loads."
+  program {
+    extensions {
+      "App.Box<(some T: Hashable) -> Int>" {
+        procedures {
+          one {
+            parameters [
+              {
+                name "it"
+                type "App.Box<(some T) -> Int>"
+              }
+            ]
+            result 1
+            returns "Int"
+          }
+        }
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result 1
+        returns "Int"
+      }
+    }
+    types {
+      "App.Box" {
+        struct {
+          held "some T"
+        }
+        typeParameters [
+          "T"
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

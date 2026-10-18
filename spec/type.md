@@ -658,7 +658,9 @@ Heads:
 - `a-head-applying-a-struct-to-a-parameter-its-bounds-do-not-hold-refuses`
 - `a-head-bounding-a-type-parameter-where-it-is-named-again-refuses`
 - `a-head-bounding-by-what-no-module-declares-as-a-contract-refuses`
+- `a-head-bounds-a-type-parameter-inside-a-procedure-type`
 - `a-head-naming-what-may-be-null-refuses`
+- `a-head-writes-a-nullable-procedure-type-in-parentheses`
 - `a-map-keyed-by-a-struct-its-conditional-claim-does-not-take-refuses`
 - `a-map-keyed-by-a-struct-its-conditional-claim-takes-answers`
 - `a-member-under-a-head-answers-for-a-value-the-head-takes`
