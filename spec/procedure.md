@@ -137,6 +137,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-call-of-another-count-refuses`
 - `a-call-short-of-what-the-callee-takes-refuses`
 - `a-call-that-fails-after-writing-has-written`
+- `a-closure-calling-a-module-constant-closure-carries-what-it-declares`
 - `a-closure-carries-what-a-captured-slot-said`
 - `a-closure-declared-const-reading-a-module-variable-refuses`
 - `a-closure-is-not-completed-by-the-slot-it-is-written-into-refuses`
