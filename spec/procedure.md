@@ -181,6 +181,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-literal-argument-its-parameter-does-not-take-refuses`
 - `a-loop-reads-a-closure-reading-a-module-variable-as-one-that-runs`
 - `a-module-constant-bound-to-a-closure-literal-carries-what-it-declares`
+- `a-module-constant-closure-calling-another-carries-what-it-declares`
 - `a-name-declared-inside-a-nested-closure-does-not-cover-a-captured-one`
 - `a-parameter-declared-twice-refuses`
 - `a-parameter-handed-in-place-reads-what-the-box-holds-now`
