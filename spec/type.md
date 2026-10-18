@@ -4,7 +4,7 @@ What a name may stand for, and what a slot takes. A type is judged at the build 
 
 ## How a type is written
 
-A type is written as a string, or as a mapping for what a string cannot say:
+A type is written as a string:
 
 | written | means |
 |---|---|
@@ -25,9 +25,9 @@ A type is written as a string, or as a mapping for what a string cannot say:
 | `Describable` (a declared contract's name) | a value of whatever type satisfies the contract. Nothing ties one slot's to another's |
 | `Describable & Standard.Comparable` | a value of whatever type satisfies every contract named; two names or more, in name order, and each a contract's |
 | `Int?` (any string spelling and `?`) | the declared type or null |
-| `{ procedure: { parameters: [<type>, …], returns: …, failing: [<name>, …] } }` | a procedure type: the types it is called with, in position order, what it answers, and what it may fail with, an array of failure names as a contract's procedure writes it: left out, the procedure may fail with anything, and `[]` says it fails with nothing. No names, since a name is a declaration's and a value is called by position; a mark such as `inout` is written on the type it stands in front of |
-| `{ "const procedure": { … } }` | a procedure type with its marks and modifiers on the key, `inout` first, then `const` and `isolated`, the way they stand in front of the string form |
-| `{ array: <type> }` / `{ dictionary: { key: <type>, value: <type> } }` | a list / map of a procedure type that writes its signature, which has no string spelling. Where every type inside has a spelling the type is written `Array<T>` or `Dictionary<K, V>`, and the form around it **refuses at the load** |
+| `(Int, String) -> Bool` | a procedure type: the types it is called with in parentheses, in position order, and after `->` what it answers, to the end of the spelling, so `(Int) -> Int?` answers what may be null. No names, since a name is a declaration's and a value is called by position; a mark such as `inout` stands in front of a parameter's type, `(inout Int) -> Int`. Types not written in parentheses before `->` **refuse at the load** |
+| `(Int) throws -> Bool` / `(Int) throws(aborted, cast_refused) -> Bool` | what a procedure type may fail with, written between its parameters and `->`: `throws` alone says anything, and `throws(…)` the failures it lists. Written without `throws`, it fails with nothing. `throws()` and a failure listed twice **refuse at the load** |
+| `((Int) -> Int)?` / `(const Procedure)?` | a procedure type writing its signature or a modifier, or null: parentheses around it say the `?` is the whole type's. Parentheses around any other type, and around one no `?` follows, **refuse at the load** |
 
 ## Numbers and readings
 
@@ -59,17 +59,17 @@ Where a value meets a declaration (an argument, an answer, and a write into a bo
 
 **A nullable (`T?`) passes null through** and judges anything else against the declared half. `T?` takes `T`, null and `T?`; a `T?` reading does not fit a plain `T` slot.
 
-**The `?` is written once**, on the whole spelling, and only where it says something new: `Int??`, `Null?`, `Any?`, `Never?` and `some T?` each **refuse at the load**, and the same `?` behind a declared name standing for one of them **refuses at the build**, where the name resolves. A procedure type that writes its signature has no string spelling and no `?` to trail; a nullable one is reached through a declared name.
+**The `?` is written once**, on the whole spelling, and only where it says something new: `Int??`, `Null?`, `Any?`, `Never?` and `some T?` each **refuse at the load**, and the same `?` behind a declared name standing for one of them **refuses at the build**, where the name resolves. A modifier stands in front of a procedure type, so one in front of what a `?` makes nullable, `const Procedure?`, **refuses at the load**.
 
 **The numeric edge is value-independent.** `Int` refuses every fraction, `2.0` included, and `Double` every whole number. A literal read as a fraction names the binary64 fraction nearest it, so digits past 2^53 round as binary64 rounds.
 
 **`Never` fits every slot**, by never arriving. It is a real type: an expression typed `Never` may be written where any value is expected, such as an argument that calls `Standard.Control.abort`, and evaluating it ends the evaluation it is inside. The statement rules (no name, nothing follows) are statement rules.
 
-**`inout` and `var` say something about the slot and nothing about the value.** They stand in front of the whole type, `?` included: `inout Int?` is a nullable handed in place. They stand in front of a string spelling or on the key a procedure type is written under. What fits the slot is judged by the type after the mark. Writing either where it is not allowed **refuses at the load**.
+**`inout` and `var` say something about the slot and nothing about the value.** They stand in front of the whole type, `?` included: `inout Int?` is a nullable handed in place. What fits the slot is judged by the type after the mark. Writing either where it is not allowed **refuses at the load**.
 
 **A slot asking `isolated` takes what the build derived as isolated.** Answering without running is a separate claim and does not stand in for it.
 
-**A procedure-typed slot** takes a value that takes exactly the positions the slot's type hands, each accepting what the slot may hand at that position, answers what the slot's `returns` accepts, and fails with no more than the slot's `failing` names where it names anything. What a closure may fail with is read off its body, as its constness is. The names the value's declaration wrote are its own and take no part: one closure fits two slots that name their parameter differently. That is held at the **build** where the value's type is known, and at the **run** where a cast reads a value read as `Any` or as a contract, under *one calling convention* in [procedures](procedure.md).
+**A procedure-typed slot** takes a value that takes exactly the positions the slot's type hands, each accepting what the slot may hand at that position, answers what the slot's answer accepts, and fails with no more than the slot's type says it may fail with. What a closure may fail with is read off its body, as its constness is. The names the value's declaration wrote are its own and take no part: one closure fits two slots that name their parameter differently. That is held at the **build** where the value's type is known, and at the **run** where a cast reads a value read as `Any` or as a contract, under *one calling convention* in [procedures](procedure.md).
 
 ## A declared struct is nominal
 
@@ -99,8 +99,6 @@ Where a value meets a declaration (an argument, an answer, and a write into a bo
 
 **A door and a cast judge a value's fields against the struct applied to what the slot or the cast writes**, and an alias's name, `Pair: "Box<Int>"`, against the struct applied to what the alias writes. Where nothing does, at `Any`, a contract or a type parameter, a struct from outside reads as applied to its fields' readings joined, as a list value reads as its elements joined, and a bounded parameter is held to its bounds, which `Any`, what readings of several types join to, answers none: such a value **refuses at the run** at the door.
 
-**A procedure type that writes its signature is reached through a declared name where it stands at a mention's position**, `Box<Run>`, as a nullable one is, since it has no string spelling.
-
 **An alias takes no type parameters**, and a mention applying one **refuses at the build**: what it stands for may be a struct applied to types, `Pair: "Box<Int>"`.
 
 **A declared name that is no struct and comes back to itself** through what it stands for, through names alone, a `?` or a structure, spells no type and **refuses at the load**: a type that holds itself is a declared struct.
@@ -129,7 +127,7 @@ Where a value meets a declaration (an argument, an answer, and a write into a bo
 
 **A type parameter is bounded where it is introduced**: beside the first `some T` the signature's slots write, the parameters in order and then the answer, at any depth, a procedure-typed slot's own types included, `parameters: [{ name: of, type: "some T: Standard.Comparable" }, { name: value, type: "some T" }]`. A bound written inside a procedure-typed slot is the declaring signature's, because that procedure type's parameters are the declaring signature's own slots. A head writes its own beside the names it applies, under *heads* below, and a struct beside the names it lists.
 
-**The signature owns the bound and writes it once.** The other slots name the parameter and never the bound, so one bound is one claim however many slots mention the name, and a bound beside a later `some T` **refuses at the load**. Only `some T` names `T`, and `some T.Item` names none. Inside one type the order is by role and not by how a mapping writes its keys: a struct's or a map's arguments in order, a map's key before its value, a procedure type's parameters in order before its answer.
+**The signature owns the bound and writes it once.** The other slots name the parameter and never the bound, so one bound is one claim however many slots mention the name, and a bound beside a later `some T` **refuses at the load**. Only `some T` names `T`, and `some T.Item` names none. Inside one type the order is the spelling's: a struct's or a map's arguments in order, a procedure type's parameters in order before its answer.
 
 **A bound holds every occurrence of the name** to what answers the contract the bound names, under *contracts* below. A bound may name several, joined with `&`: `some T: Describable & Standard.Comparable` holds `T` to what answers every one of them. A bound names contracts and nothing else, and what answers one is whatever type a document claims does, so the set a bound holds a parameter to is open.
 
@@ -302,17 +300,24 @@ How a type is written:
 - `a-contract-written-with-brackets-refuses`
 - `a-declared-name-is-a-type`
 - `a-map-type-written-with-one-type-refuses`
+- `a-nullable-procedure-type-is-written-in-parentheses`
+- `a-procedure-type-listing-a-failure-twice-refuses`
+- `a-procedure-type-writes-its-parameters-in-parentheses`
+- `a-procedure-type-writing-throws-takes-a-closure-that-may-fail`
+- `a-procedure-type-writing-throws-with-no-failure-refuses`
+- `a-procedure-types-answer-runs-to-the-end-of-its-spelling`
 - `a-procedure-value-at-a-slot-writing-a-procedure-type-refuses`
 - `a-struct-another-document-declares-applied-to-another-count-refuses`
 - `a-struct-applied-to-another-count-of-types-refuses`
 - `a-struct-listing-no-type-parameters-applied-to-one-refuses`
 - `a-struct-taking-type-parameters-named-without-brackets-refuses`
-- `a-type-form-array-of-an-element-with-a-spelling-refuses`
 - `a-type-form-beside-other-keys-refuses`
 - `a-type-the-language-names-written-with-brackets-refuses`
 - `an-alias-applied-to-a-type-refuses`
 - `inout-written-on-a-name-refuses`
 - `inout-written-on-returns-refuses`
+- `parentheses-around-a-procedure-type-no-question-mark-follows-refuse`
+- `parentheses-around-a-type-that-needs-none-refuse`
 
 Numbers and readings:
 
@@ -343,6 +348,7 @@ What a slot takes, exactly:
 - `a-fraction-is-not-a-whole-number`
 - `a-list-of-a-reading-of-any-behind-a-name-handed-beside-a-variable-in-place-refuses`
 - `a-list-of-an-alias-of-any-handed-to-a-value-at-a-list-of-a-contract-refuses`
+- `a-modifier-in-front-of-a-nullable-type-refuses`
 - `a-nullable-const-procedure-reads-as-written`
 - `a-nullable-that-says-nothing-new-behind-a-name-refuses`
 - `a-nullable-that-says-nothing-new-refuses`
@@ -535,7 +541,6 @@ Type parameters:
 Bounds:
 
 - `a-bound-beside-a-later-naming-of-a-type-parameter-refuses`
-- `a-bound-beside-a-maps-value-after-its-key-refuses`
 - `a-bound-beside-a-procedure-types-answer-after-its-parameter-refuses`
 - `a-bound-beside-an-associated-type-in-a-slot-refuses`
 - `a-bound-may-name-several-and-holds-to-every-one`
@@ -649,6 +654,7 @@ Heads:
 - `a-constant-settled-through-a-claim-under-a-head-holds-the-value-to-the-head`
 - `a-generic-body-handing-a-value-its-bounds-do-not-put-under-a-head-refuses`
 - `a-generic-body-handing-a-value-its-bounds-put-under-a-head-answers`
+- `a-head-applies-a-struct-to-a-procedure-type`
 - `a-head-applying-a-struct-to-a-parameter-its-bounds-do-not-hold-refuses`
 - `a-head-bounding-a-type-parameter-where-it-is-named-again-refuses`
 - `a-head-bounding-by-what-no-module-declares-as-a-contract-refuses`

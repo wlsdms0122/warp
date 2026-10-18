@@ -6,11 +6,11 @@ warpt 1
   expect {
     answers {
       actual "String"
-      expected "const Procedure"
+      expected "const (Int) -> Int"
     }
   }
-  name "a-rescue-reads-a-cast-to-a-procedure-type-as-procedure"
-  note "A procedure type's signature has no string spelling, so `cast_refused`'s `expected` spells a cast to one by what stands in front of it and `Procedure`."
+  name "a-rescue-reads-a-cast-to-a-procedure-type-by-its-spelling"
+  note "`cast_refused`'s `expected` spells a cast to a procedure type the way a document writes it, signature and modifiers included."
   program {
     imports []
     procedures {
@@ -28,14 +28,7 @@ warpt 1
                         of {
                           ref "payload"
                         }
-                        type {
-                          "const procedure" {
-                            parameters [
-                              "Int"
-                            ]
-                            returns "Int"
-                          }
-                        }
+                        type "const (Int) -> Int"
                       }
                     }
                   }

@@ -4,7 +4,7 @@ warpt 1
     answers "1.0"
   }
   name "a-closure-literal-a-module-variable-starts-as-answers-what-the-variable-declares"
-  note "The module variable `cv` declares `{ procedure: { returns: Double } }` and starts as a closure literal that writes no `returns`, so the closure answers what the variable declares: its literal 1 is the fraction 1.0. `App.run` takes `{ procedure: { returns: some T } }`, so `T` is `Double`."
+  note "The module variable `cv` declares `() -> Double` and starts as a closure literal that writes no `returns`, so the closure answers what the variable declares: its literal 1 is the fraction 1.0. `App.run` takes `() -> some T`, so `T` is `Double`."
   program {
     imports [
       "Standard.Text.text"
@@ -14,11 +14,7 @@ warpt 1
         parameters [
           {
             name "c"
-            type {
-              procedure {
-                returns "some T"
-              }
-            }
+            type "() -> some T"
           }
         ]
         result {
@@ -61,11 +57,7 @@ warpt 1
     }
     var {
       cv {
-        type {
-          procedure {
-            returns "Double"
-          }
-        }
+        type "() -> Double"
         value {
           closure {
             result 1

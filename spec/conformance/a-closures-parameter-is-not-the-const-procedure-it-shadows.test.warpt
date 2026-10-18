@@ -46,21 +46,7 @@ warpt 1
         parameters [
           {
             name "body"
-            type {
-              "const procedure" {
-                parameters [
-                  {
-                    procedure {
-                      parameters [
-                        "Int"
-                      ]
-                      returns "Int"
-                    }
-                  }
-                ]
-                returns "Int"
-              }
-            }
+            type "const ((Int) -> Int) -> Int"
           }
         ]
         result {
@@ -73,14 +59,7 @@ warpt 1
         body [
           {
             let "f"
-            type {
-              "const procedure" {
-                parameters [
-                  "Int"
-                ]
-                returns "Int"
-              }
-            }
+            type "const (Int) -> Int"
             value {
               closure {
                 parameters [
@@ -118,14 +97,7 @@ warpt 1
                 parameters [
                   {
                     name "f"
-                    type {
-                      procedure {
-                        parameters [
-                          "Int"
-                        ]
-                        returns "Int"
-                      }
-                    }
+                    type "(Int) -> Int"
                   }
                 ]
                 result {

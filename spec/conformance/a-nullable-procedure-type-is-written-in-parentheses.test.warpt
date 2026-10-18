@@ -1,0 +1,30 @@
+warpt 1
+{
+  expect {
+    answers null
+  }
+  name "a-nullable-procedure-type-is-written-in-parentheses"
+  note "A `?` meaning the whole procedure may be null follows parentheses around it, `((Int) -> Int)?`, since one after its answer would be the answer's. Null stands there."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "f"
+            type "((Int) -> Int)?"
+            value null
+          }
+        ]
+        result {
+          ref "f"
+        }
+        returns "((Int) -> Int)?"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

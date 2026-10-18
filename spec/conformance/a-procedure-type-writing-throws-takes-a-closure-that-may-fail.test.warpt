@@ -1,0 +1,71 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-procedure-type-writing-throws-takes-a-closure-that-may-fail"
+  note "`throws` alone says the procedure may fail with anything, so a closure that aborts stands where `(Int) throws -> Int` is declared, as one does under `throws(aborted)`. Nothing calls them, and the run answers 1."
+  program {
+    imports [
+      "Standard.Control.abort"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "f"
+            type "(Int) throws -> Int"
+            value {
+              closure {
+                parameters [
+                  {
+                    name "x"
+                    type "Int"
+                  }
+                ]
+                result {
+                  call {
+                    arguments [
+                      "no"
+                    ]
+                    procedure "Standard.Control.abort"
+                  }
+                }
+                returns "Int"
+              }
+            }
+          }
+          {
+            let "g"
+            type "(Int) throws(aborted) -> Int"
+            value {
+              closure {
+                parameters [
+                  {
+                    name "x"
+                    type "Int"
+                  }
+                ]
+                result {
+                  call {
+                    arguments [
+                      "no"
+                    ]
+                    procedure "Standard.Control.abort"
+                  }
+                }
+                returns "Int"
+              }
+            }
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

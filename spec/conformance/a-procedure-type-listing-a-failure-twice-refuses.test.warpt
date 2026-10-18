@@ -1,0 +1,41 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "a-procedure-type-listing-a-failure-twice-refuses"
+  note "A procedure type lists each failure it may fail with once, so `throws(aborted, aborted)` refuses at the load."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "f"
+            type "(Int) throws(aborted, aborted) -> Int"
+            value {
+              closure {
+                parameters [
+                  {
+                    name "x"
+                    type "Int"
+                  }
+                ]
+                result {
+                  ref "x"
+                }
+                returns "Int"
+              }
+            }
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

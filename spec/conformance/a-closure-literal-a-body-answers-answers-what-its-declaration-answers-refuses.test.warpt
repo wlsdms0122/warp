@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-closure-literal-a-body-answers-answers-what-its-declaration-answers-refuses"
-  note "`App.make` answers `{ procedure: { returns: App.Point } }`, and the closure literal its body answers writes no `returns`, so it answers what that procedure type answers. Its body answers `{ x: 1, y: 2 }`, which is no `App.Point`, so it refuses at the build as the same closure written at a name declaring that type does."
+  note "`App.make` answers `() -> App.Point`, and the closure literal its body answers writes no `returns`, so it answers what that procedure type answers. Its body answers `{ x: 1, y: 2 }`, which is no `App.Point`, so it refuses at the build as the same closure written at a name declaring that type does."
   program {
     imports []
     procedures {
@@ -19,11 +19,7 @@ warpt 1
             }
           }
         }
-        returns {
-          procedure {
-            returns "App.Point"
-          }
-        }
+        returns "() -> App.Point"
       }
       entry {
         access "public"

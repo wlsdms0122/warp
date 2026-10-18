@@ -75,7 +75,7 @@ A *head* is what a document gives a type under, under [types](type.md): a name w
 
 A *procedure type* is `[parameters, returns, failing]`: a list of *type*, in position order, a *type* or nothing, and a *failing*. A *signature* is `[parameters, returns, bounds, sameTypes]`: a list of *parameter*, in the declaration's order; a *type* or nothing; name → the contracts bounding the type parameter or the associated type of that name, ascending, at least one, for each one the signature bounds; and name → *type* for each associated type the signature says is a type. A *parameter* is `[name, type, description]`: the name, then each a list of none or one: a *type*, none where the parameter takes anything, so `Any` is never written there; a string.
 
-*Constness* is `0` unstated or `1` const. *Isolation* is `0` unstated or `1` isolated. *Failing* is `[0]` unstated or `[1, names]`, the names ascending. A contract's procedure says which failures it may raise, so its *failing* is `[1, names]` alone.
+*Constness* is `0` unstated or `1` const. *Isolation* is `0` unstated or `1` isolated. *Failing* is `[0]`, anything, or `[1, names]`, the names ascending. A contract's procedure says which failures it may raise, so its *failing* is `[1, names]` alone.
 
 ### Rows
 

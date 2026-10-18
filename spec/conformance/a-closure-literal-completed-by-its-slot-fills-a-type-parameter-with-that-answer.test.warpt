@@ -4,7 +4,7 @@ warpt 1
     answers "1.0"
   }
   name "a-closure-literal-completed-by-its-slot-fills-a-type-parameter-with-that-answer"
-  note "`c` declares `{ procedure: { returns: Double } }` and the closure literal written there answers what its place says, the fraction 1.0. `App.run` takes `{ procedure: { returns: some T } }`, so `T` is `Double`, and the call inside `App.run` answers the fraction."
+  note "`c` declares `() -> Double` and the closure literal written there answers what its place says, the fraction 1.0. `App.run` takes `() -> some T`, so `T` is `Double`, and the call inside `App.run` answers the fraction."
   program {
     imports [
       "Standard.Text.text"
@@ -14,11 +14,7 @@ warpt 1
         parameters [
           {
             name "c"
-            type {
-              procedure {
-                returns "some T"
-              }
-            }
+            type "() -> some T"
           }
         ]
         result {
@@ -35,11 +31,7 @@ warpt 1
         body [
           {
             let "c"
-            type {
-              procedure {
-                returns "Double"
-              }
-            }
+            type "() -> Double"
             value {
               closure {
                 result 1

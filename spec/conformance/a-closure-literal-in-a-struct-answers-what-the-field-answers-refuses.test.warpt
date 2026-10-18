@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-closure-literal-in-a-struct-answers-what-the-field-answers-refuses"
-  note "`c` declares a struct whose `f` is `{ procedure: { returns: App.Point } }`, and the closure literal written as that field writes no `returns`, so it answers what the field answers. Its body answers `{ x: 1, y: 2 }`, which is no `App.Point`, so it refuses at the build as the same closure written at a name declaring that type does."
+  note "`c` declares a struct whose `f` is `() -> App.Point`, and the closure literal written as that field writes no `returns`, so it answers what the field answers. Its body answers `{ x: 1, y: 2 }`, which is no `App.Point`, so it refuses at the build as the same closure written at a name declaring that type does."
   program {
     imports []
     procedures {
@@ -42,11 +42,7 @@ warpt 1
     types {
       "App.Holder" {
         struct {
-          f {
-            procedure {
-              returns "App.Point"
-            }
-          }
+          f "() -> App.Point"
         }
       }
       "App.Point" {

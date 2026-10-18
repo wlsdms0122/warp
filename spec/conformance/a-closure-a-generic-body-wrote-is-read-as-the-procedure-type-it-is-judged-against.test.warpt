@@ -4,7 +4,7 @@ warpt 1
     answers 15
   }
   name "a-closure-a-generic-body-wrote-is-read-as-the-procedure-type-it-is-judged-against"
-  note "App.mk answers a closure naming its own some T, and the call filled T with Int, so it reads the closure as `{ procedure: { parameters: [Int], returns: Int } }`. The build held the closure to the T it names, so calling it answers 15."
+  note "App.mk answers a closure naming its own some T, and the call filled T with Int, so it reads the closure as `(Int) -> Int`. The build held the closure to the T it names, so calling it answers 15."
   program {
     imports [
       "Standard.Numeric.plus"
@@ -14,14 +14,7 @@ warpt 1
         parameters [
           {
             name "g"
-            type {
-              procedure {
-                parameters [
-                  "some T"
-                ]
-                returns "some T"
-              }
-            }
+            type "(some T) -> some T"
           }
         ]
         result {
@@ -47,14 +40,7 @@ warpt 1
             returns "some T"
           }
         }
-        returns {
-          procedure {
-            parameters [
-              "some T"
-            ]
-            returns "some T"
-          }
-        }
+        returns "(some T) -> some T"
       }
       entry {
         access "public"

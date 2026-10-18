@@ -96,7 +96,7 @@ The envelope is this specification's; what rides in `details` is the procedure's
 { ref "failed.details[\"failures\"]" }
 ```
 
-`cast_refused` has no procedure behind it, so this specification names its `details` too: **`expected`**, the type the cast reads as, so a cast to an alias names what the alias stands for, and **`actual`**, the type the value is an instance of, both as text: `expected` in the type's string spelling, a procedure type, whose signature has none, spelled as what stands in front of it and `Procedure` (`const Procedure`), and `actual` by the type's name. Both halves, because what was asked for is readable from the program and what turned up is not.
+`cast_refused` has no procedure behind it, so this specification names its `details` too: **`expected`**, the type the cast reads as, so a cast to an alias names what the alias stands for, and **`actual`**, the type the value is an instance of, both as text: `expected` in the type's string spelling and `actual` by the type's name. Both halves, because what was asked for is readable from the program and what turned up is not.
 
 ```
 { ref "failed.details[\"actual\"]" }
@@ -104,7 +104,7 @@ The envelope is this specification's; what rides in `details` is the procedure's
 
 `details` holds `Any`, so a value read out of it is read as anything until a type is named for it. A field the envelope does not name is not reached by a dot on the failure itself: `failed.failures` **refuses at the build**, and what `details` holds is read through brackets, `failed.details["failures"]`.
 
-**What a body may fail with is known before it runs.** The build derives it the way it derives constness and isolation, and the types a failure names itself by (`aborted`, `cast_refused`) are what it derives: a body fails with what its plain casts fail with (`cast_refused`, the one failure the runtime itself raises; `as?` reads the same mismatch as null and raises nothing), with what the declarations it calls fail with, and with whatever its rescues fail with, the body under a rescue being caught. Calling a value fails with what the procedure type of the slot it came out of names under `failing`, the slot's word, as it is for constness under *what answers without running* in [procedures](procedure.md), since nothing before the run says which value; where the slot names nothing, or writes no signature, the call may fail with anything.
+**What a body may fail with is known before it runs.** The build derives it the way it derives constness and isolation, and the types a failure names itself by (`aborted`, `cast_refused`) are what it derives: a body fails with what its plain casts fail with (`cast_refused`, the one failure the runtime itself raises; `as?` reads the same mismatch as null and raises nothing), with what the declarations it calls fail with, and with whatever its rescues fail with, the body under a rescue being caught. Calling a value fails with what the procedure type of the slot it came out of says it may fail with, the slot's word, as it is for constness under *what answers without running* in [procedures](procedure.md), since nothing before the run says which value; where the slot writes no signature, `Procedure`, the call may fail with anything.
 
 A procedure the host answers says what it may fail with, the way it says whether it is isolated. **A procedure that says nothing fails nothing**, which is right for the many procedures that throw only at an author mistake, and a procedure that can fail says so. `Standard.Control.abort` says `aborted`; `Standard.Concurrent` says `concurrent_failed`, every piece's failure being gathered into that one. A piece that refuses at the run refuses the whole run instead, under [running](running.md), and the failures beside it are not gathered. A procedure that fails and does not say so has broken its contract, the same way one that holds state and calls itself isolated has.
 
@@ -177,7 +177,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-procedure-that-can-fail-says-so`
 - `a-rescue-binds-a-failure-the-language-declares`
 - `a-rescue-over-a-body-that-cannot-fail-refuses`
-- `a-rescue-reads-a-cast-to-a-procedure-type-as-procedure`
+- `a-rescue-reads-a-cast-to-a-procedure-type-by-its-spelling`
 - `a-rescue-reads-a-pieces-own-failure`
 - `a-rescue-reads-the-failure-it-caught`
 - `a-rescue-reads-the-type-a-cast-to-an-alias-reads-as`

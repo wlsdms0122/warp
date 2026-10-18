@@ -4,7 +4,7 @@ warpt 1
     answers 5
   }
   name "a-parameter-handed-in-place-holding-a-procedure-of-a-parameter-takes-a-closure-of-it"
-  note "App.swap takes `{ procedure: { parameters: [some T], returns: some T } }` in place and writes a closure taking and answering some T. The closure is const and isolated, which a slot that does not ask for either takes."
+  note "App.swap takes `(some T) -> some T` in place and writes a closure taking and answering some T. The closure is const and isolated, which a slot that does not ask for either takes."
   program {
     imports [
       "Standard.Numeric.plus"
@@ -33,14 +33,7 @@ warpt 1
         parameters [
           {
             name "f"
-            type {
-              "inout procedure" {
-                parameters [
-                  "some T"
-                ]
-                returns "some T"
-              }
-            }
+            type "inout (some T) -> some T"
           }
         ]
         result 0
@@ -49,14 +42,7 @@ warpt 1
         access "public"
         body [
           {
-            type {
-              procedure {
-                parameters [
-                  "Int"
-                ]
-                returns "Int"
-              }
-            }
+            type "(Int) -> Int"
             value {
               closure {
                 parameters [
