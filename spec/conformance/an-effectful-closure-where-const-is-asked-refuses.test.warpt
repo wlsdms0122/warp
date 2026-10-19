@@ -4,10 +4,10 @@ warpt 1
     refuses "build"
   }
   name "an-effectful-closure-where-const-is-asked-refuses"
-  note "A slot of a `const` procedure type takes only a procedure that says it answers without running. The closure handed to `Standard.Collection.filter` sends `Standard.Concurrent.all` and does not declare `const`, so the build refuses it at the slot."
+  note "A slot of a `const` procedure type takes only a procedure that says it answers without running. The closure handed to `Standard.Collection.tryFilter` sends `Standard.Concurrent.all` and does not declare `const`, so the build refuses it at the slot."
   program {
     imports [
-      "Standard.Collection.filter"
+      "Standard.Collection.tryFilter"
       "Standard.Concurrent.all"
     ]
     procedures {
@@ -40,6 +40,7 @@ warpt 1
                       failing [
                         "concurrent_failed"
                       ]
+                      isolated true
                       parameters [
                         {
                           name "item"
@@ -51,7 +52,7 @@ warpt 1
                     }
                   }
                 ]
-                procedure "Standard.Collection.filter"
+                procedure "Standard.Collection.tryFilter"
               }
             }
           }
