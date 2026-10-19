@@ -173,7 +173,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-dictionary-entry-handed-in-place-is-read-by-the-callee`
 - `a-failure-name-that-is-no-identifier-refuses`
 - `a-failure-named-anything-refuses`
-- `a-fixed-name-bound-to-a-calls-answer-gives-a-capture-no-claim`
+- `a-fixed-name-bound-to-a-calls-answer-carries-what-its-declaration-says`
 - `a-fixed-name-bound-to-a-closure-literal-carries-what-it-declares-into-a-capture`
 - `a-fixed-name-bound-to-a-const-slot-carries-its-claim`
 - `a-fixed-name-bound-to-a-value-calls-answer-carries-what-its-type-says`

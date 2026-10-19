@@ -1,10 +1,13 @@
 warpt 1
 {
   expect {
-    refuses "build"
+    answers [
+      1
+      2
+    ]
   }
-  name "a-fixed-name-bound-to-a-calls-answer-gives-a-capture-no-claim"
-  note "`make` answers a `const` procedure type, and a name bound to that answer holds the build's reading of the call rather than a type a slot declared. A closure that captured the name and calls it does not answer without running, so `Standard.Collection.map` refuses it."
+  name "a-fixed-name-bound-to-a-calls-answer-carries-what-its-declaration-says"
+  note "`f` is bound to what calling `make` answers, and `make` declares that it answers a `const` procedure type. A call of a declaration answers what the declaration says, so `f` follows that type, and a closure that captured `f` and declares `const` may call it."
   program {
     imports [
       "Standard.Collection.map"
@@ -22,7 +25,6 @@ warpt 1
             }
           }
         ]
-        failing "anything"
         result {
           call {
             arguments [
@@ -49,7 +51,8 @@ warpt 1
                       }
                     }
                   ]
-                  failing "anything"
+                  const true
+                  isolated true
                   parameters [
                     {
                       name "x"
@@ -71,6 +74,8 @@ warpt 1
       make {
         result {
           closure {
+            const true
+            isolated true
             parameters [
               {
                 name "x"
@@ -83,7 +88,7 @@ warpt 1
             returns "Int"
           }
         }
-        returns "const (Int) -> Int"
+        returns "const isolated (Int) -> Int"
       }
     }
     warp 1
