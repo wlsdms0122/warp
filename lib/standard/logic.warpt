@@ -80,11 +80,11 @@ warpt 1
       ]
       const true
       description "Whether every one answers true, asked until one does not."
-      failing "anything"
+      isolated true
       parameters [
         {
           name "conditions"
-          type "Array<const () throws -> Bool>"
+          type "Array<const isolated () -> Bool>"
         }
       ]
       result true
@@ -214,11 +214,11 @@ warpt 1
       ]
       const true
       description "Whether one answers true, asked until one does."
-      failing "anything"
+      isolated true
       parameters [
         {
           name "conditions"
-          type "Array<const () throws -> Bool>"
+          type "Array<const isolated () -> Bool>"
         }
       ]
       result false
@@ -267,7 +267,7 @@ warpt 1
       ]
       const true
       description "The value one of two sides answers, chosen by a truth."
-      failing "anything"
+      isolated true
       parameters [
         {
           name "condition"
@@ -275,11 +275,236 @@ warpt 1
         }
         {
           name "then"
-          type "const () throws -> some Answer"
+          type "const isolated () -> some Answer"
         }
         {
           name "else"
-          type "const () throws -> some Answer"
+          type "const isolated () -> some Answer"
+        }
+      ]
+      result {
+        ref "left"
+      }
+      returns "some Answer"
+    }
+    "Standard.Logic.tryAnd" {
+      body [
+        {
+          let "walk"
+          value {
+            loop {
+              body [
+                {
+                  let "side"
+                  value {
+                    ref "conditions[walk.index]"
+                  }
+                }
+                {
+                  let "answered"
+                  value {
+                    call {
+                      procedure {
+                        ref "side"
+                      }
+                    }
+                  }
+                }
+                {
+                  value {
+                    conditional {
+                      then [
+                        {
+                          value {
+                            return false
+                          }
+                        }
+                      ]
+                      when {
+                        call {
+                          arguments [
+                            {
+                              ref "answered"
+                            }
+                          ]
+                          procedure "Standard.Logic.not"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+              while {
+                call {
+                  arguments [
+                    {
+                      ref "walk.index"
+                    }
+                    {
+                      call {
+                        arguments [
+                          {
+                            ref "conditions"
+                          }
+                        ]
+                        procedure "Standard.Collection.count"
+                      }
+                    }
+                  ]
+                  procedure "Standard.Comparable.lessThan"
+                }
+              }
+            }
+          }
+        }
+      ]
+      const true
+      description "Whether every side, each of which may fail, answers true, asked until one does not."
+      failing "anything"
+      isolated true
+      parameters [
+        {
+          name "conditions"
+          type "Array<const isolated () throws -> Bool>"
+        }
+      ]
+      result true
+      returns "Bool"
+    }
+    "Standard.Logic.tryOr" {
+      body [
+        {
+          let "walk"
+          value {
+            loop {
+              body [
+                {
+                  let "side"
+                  value {
+                    ref "conditions[walk.index]"
+                  }
+                }
+                {
+                  let "answered"
+                  value {
+                    call {
+                      procedure {
+                        ref "side"
+                      }
+                    }
+                  }
+                }
+                {
+                  value {
+                    conditional {
+                      then [
+                        {
+                          value {
+                            return true
+                          }
+                        }
+                      ]
+                      when {
+                        ref "answered"
+                      }
+                    }
+                  }
+                }
+              ]
+              while {
+                call {
+                  arguments [
+                    {
+                      ref "walk.index"
+                    }
+                    {
+                      call {
+                        arguments [
+                          {
+                            ref "conditions"
+                          }
+                        ]
+                        procedure "Standard.Collection.count"
+                      }
+                    }
+                  ]
+                  procedure "Standard.Comparable.lessThan"
+                }
+              }
+            }
+          }
+        }
+      ]
+      const true
+      description "Whether one side, each of which may fail, answers true, asked until one does."
+      failing "anything"
+      isolated true
+      parameters [
+        {
+          name "conditions"
+          type "Array<const isolated () throws -> Bool>"
+        }
+      ]
+      result false
+      returns "Bool"
+    }
+    "Standard.Logic.trySelect" {
+      body [
+        {
+          value {
+            conditional {
+              then [
+                {
+                  let "taken"
+                  value {
+                    call {
+                      procedure {
+                        ref "then"
+                      }
+                    }
+                  }
+                }
+                {
+                  value {
+                    return {
+                      ref "taken"
+                    }
+                  }
+                }
+              ]
+              when {
+                ref "condition"
+              }
+            }
+          }
+        }
+        {
+          let "left"
+          value {
+            call {
+              procedure {
+                ref "else"
+              }
+            }
+          }
+        }
+      ]
+      const true
+      description "The value one of two sides, each of which may fail, answers, chosen by a truth."
+      failing "anything"
+      isolated true
+      parameters [
+        {
+          name "condition"
+          type "Bool"
+        }
+        {
+          name "then"
+          type "const isolated () throws -> some Answer"
+        }
+        {
+          name "else"
+          type "const isolated () throws -> some Answer"
         }
       ]
       result {

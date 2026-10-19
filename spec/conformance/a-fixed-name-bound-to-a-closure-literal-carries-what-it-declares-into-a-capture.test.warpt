@@ -7,7 +7,7 @@ warpt 1
     ]
   }
   name "a-fixed-name-bound-to-a-closure-literal-carries-what-it-declares-into-a-capture"
-  note "A fixed name that writes no type follows the type written where its value came from, and a closure literal writes its signature, so `f`, bound to a literal declaring `const`, holds a `const` procedure type. The closure handed to `Standard.Collection.map` declares `const` and calls the captured `f`, so it holds to `const`, and map runs it."
+  note "A fixed name that writes no type follows the type written where its value came from, and a closure literal writes its signature, so `f`, bound to a literal declaring `const` and `isolated`, holds a `const isolated` procedure type. The closure handed to `Standard.Collection.map` declares both and calls the captured `f`, so it holds to them, and map runs it."
   program {
     imports [
       "Standard.Collection.map"
@@ -21,6 +21,7 @@ warpt 1
             value {
               closure {
                 const true
+                isolated true
                 parameters [
                   {
                     name "x"
@@ -35,7 +36,6 @@ warpt 1
             }
           }
         ]
-        failing "anything"
         result {
           call {
             arguments [
@@ -63,7 +63,7 @@ warpt 1
                     }
                   ]
                   const true
-                  failing "anything"
+                  isolated true
                   parameters [
                     {
                       name "x"

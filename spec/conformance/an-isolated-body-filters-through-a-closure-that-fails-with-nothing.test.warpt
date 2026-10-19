@@ -1,0 +1,65 @@
+warpt 1
+{
+  expect {
+    answers [
+      3
+      4
+    ]
+  }
+  name "an-isolated-body-filters-through-a-closure-that-fails-with-nothing"
+  note "`Standard.Collection.filter` takes a procedure that answers without running, touches nothing and fails with nothing, and says the same of itself, so a body declaring `const` and `isolated` and no failure calls it."
+  program {
+    imports [
+      "Standard.Collection.filter"
+      "Standard.Comparable.lessThan"
+    ]
+    procedures {
+      entry {
+        access "public"
+        const true
+        isolated true
+        result {
+          call {
+            arguments [
+              [
+                1
+                2
+                3
+                4
+              ]
+              {
+                closure {
+                  const true
+                  isolated true
+                  parameters [
+                    {
+                      name "x"
+                      type "Int"
+                    }
+                  ]
+                  result {
+                    call {
+                      arguments [
+                        2
+                        {
+                          ref "x"
+                        }
+                      ]
+                      procedure "Standard.Comparable.lessThan"
+                    }
+                  }
+                  returns "Bool"
+                }
+              }
+            ]
+            procedure "Standard.Collection.filter"
+          }
+        }
+        returns "Array<Int>"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

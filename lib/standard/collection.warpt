@@ -385,7 +385,7 @@ warpt 1
       ]
       const true
       description "The elements a procedure answers true for."
-      failing "anything"
+      isolated true
       parameters [
         {
           name "array"
@@ -393,7 +393,7 @@ warpt 1
         }
         {
           name "isIncluded"
-          type "const (some Element) throws -> Bool"
+          type "const isolated (some Element) -> Bool"
         }
       ]
       result {
@@ -533,7 +533,7 @@ warpt 1
       ]
       const true
       description "Each element answered by a procedure, in order."
-      failing "anything"
+      isolated true
       parameters [
         {
           name "array"
@@ -541,7 +541,7 @@ warpt 1
         }
         {
           name "transform"
-          type "const (some Element) throws -> some Answer"
+          type "const isolated (some Element) -> some Answer"
         }
       ]
       result {
@@ -670,7 +670,7 @@ warpt 1
       ]
       const true
       description "The elements folded into one, starting from a value."
-      failing "anything"
+      isolated true
       parameters [
         {
           name "array"
@@ -682,7 +682,7 @@ warpt 1
         }
         {
           name "nextPartialResult"
-          type "const (some Carried, some Element) throws -> some Carried"
+          type "const isolated (some Carried, some Element) -> some Carried"
         }
       ]
       result {
@@ -1149,6 +1149,284 @@ warpt 1
         }
       }
       returns "Array<some Element>"
+    }
+    "Standard.Collection.tryFilter" {
+      body [
+        {
+          value []
+          var "places"
+        }
+        {
+          let "walk"
+          value {
+            loop {
+              body [
+                {
+                  let "kept"
+                  value {
+                    call {
+                      arguments [
+                        {
+                          ref "array[walk.index]"
+                        }
+                      ]
+                      procedure {
+                        ref "isIncluded"
+                      }
+                    }
+                  }
+                }
+                {
+                  value {
+                    conditional {
+                      then [
+                        {
+                          set "places"
+                          value {
+                            call {
+                              arguments [
+                                {
+                                  ref "places"
+                                }
+                                {
+                                  ref "walk.index"
+                                }
+                              ]
+                              procedure "Standard.Collection.appending"
+                            }
+                          }
+                        }
+                      ]
+                      when {
+                        ref "kept"
+                      }
+                    }
+                  }
+                }
+              ]
+              while {
+                call {
+                  arguments [
+                    {
+                      ref "walk.index"
+                    }
+                    {
+                      call {
+                        arguments [
+                          {
+                            ref "array"
+                          }
+                        ]
+                        procedure "Standard.Collection.count"
+                      }
+                    }
+                  ]
+                  procedure "Standard.Comparable.lessThan"
+                }
+              }
+            }
+          }
+        }
+      ]
+      const true
+      description "The elements a procedure that may fail answers true for."
+      failing "anything"
+      isolated true
+      parameters [
+        {
+          name "array"
+          type "Array<some Element>"
+        }
+        {
+          name "isIncluded"
+          type "const isolated (some Element) throws -> Bool"
+        }
+      ]
+      result {
+        call {
+          arguments [
+            {
+              ref "array"
+            }
+            {
+              ref "places"
+            }
+          ]
+          procedure "Standard.Collection.gathering"
+        }
+      }
+      returns "Array<some Element>"
+    }
+    "Standard.Collection.tryMap" {
+      body [
+        {
+          value []
+          var "answers"
+        }
+        {
+          let "walk"
+          value {
+            loop {
+              body [
+                {
+                  let "answered"
+                  value {
+                    call {
+                      arguments [
+                        {
+                          ref "array[walk.index]"
+                        }
+                      ]
+                      procedure {
+                        ref "transform"
+                      }
+                    }
+                  }
+                }
+                {
+                  set "answers"
+                  value {
+                    call {
+                      arguments [
+                        {
+                          ref "answers"
+                        }
+                        {
+                          ref "answered"
+                        }
+                      ]
+                      procedure "Standard.Collection.appending"
+                    }
+                  }
+                }
+              ]
+              while {
+                call {
+                  arguments [
+                    {
+                      ref "walk.index"
+                    }
+                    {
+                      call {
+                        arguments [
+                          {
+                            ref "array"
+                          }
+                        ]
+                        procedure "Standard.Collection.count"
+                      }
+                    }
+                  ]
+                  procedure "Standard.Comparable.lessThan"
+                }
+              }
+            }
+          }
+        }
+      ]
+      const true
+      description "Each element answered by a procedure that may fail, in order."
+      failing "anything"
+      isolated true
+      parameters [
+        {
+          name "array"
+          type "Array<some Element>"
+        }
+        {
+          name "transform"
+          type "const isolated (some Element) throws -> some Answer"
+        }
+      ]
+      result {
+        ref "answers"
+      }
+      returns "Array<some Answer>"
+    }
+    "Standard.Collection.tryReduce" {
+      body [
+        {
+          value {
+            ref "initialResult"
+          }
+          var "carried"
+        }
+        {
+          let "walk"
+          value {
+            loop {
+              body [
+                {
+                  let "answered"
+                  value {
+                    call {
+                      arguments [
+                        {
+                          ref "carried"
+                        }
+                        {
+                          ref "array[walk.index]"
+                        }
+                      ]
+                      procedure {
+                        ref "nextPartialResult"
+                      }
+                    }
+                  }
+                }
+                {
+                  set "carried"
+                  value {
+                    ref "answered"
+                  }
+                }
+              ]
+              while {
+                call {
+                  arguments [
+                    {
+                      ref "walk.index"
+                    }
+                    {
+                      call {
+                        arguments [
+                          {
+                            ref "array"
+                          }
+                        ]
+                        procedure "Standard.Collection.count"
+                      }
+                    }
+                  ]
+                  procedure "Standard.Comparable.lessThan"
+                }
+              }
+            }
+          }
+        }
+      ]
+      const true
+      description "The elements folded into one by a procedure that may fail, starting from a value."
+      failing "anything"
+      isolated true
+      parameters [
+        {
+          name "array"
+          type "Array<some Element>"
+        }
+        {
+          name "initialResult"
+          type "some Carried"
+        }
+        {
+          name "nextPartialResult"
+          type "const isolated (some Carried, some Element) throws -> some Carried"
+        }
+      ]
+      result {
+        ref "carried"
+      }
+      returns "some Carried"
     }
     "Standard.Collection.values" {
       body [
