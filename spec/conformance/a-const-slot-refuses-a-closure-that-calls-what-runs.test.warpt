@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-const-slot-refuses-a-closure-that-calls-what-runs"
-  note "What a closure sends is a fact about its text, so a slot asking a `const` procedure type is answered at the build. A procedure that reaches outside the run is not one such a closure may send."
+  note "What a closure sends is a fact about its text, so a slot asking a `const` procedure type is answered at the build. A procedure that reaches outside the run is not one such a closure may send. The closure sends `App.ask` and says only `isolated`, so `Standard.Logic.and` refuses it at the slot."
   program {
     imports [
       "App.ask"
@@ -13,13 +13,13 @@ warpt 1
     procedures {
       entry {
         access "public"
-        failing "anything"
         result {
           call {
             arguments [
               [
                 {
                   closure {
+                    isolated true
                     result {
                       call {
                         procedure "App.ask"
