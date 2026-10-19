@@ -4,10 +4,9 @@ warpt 1
     refuses "build"
   }
   name "a-closure-that-writes-what-it-captured-is-not-const"
-  note "A name a closure captured is a box outside the closure, so writing it reaches the run's state the way writing a module variable does. The closure handed to `Standard.Collection.map` declares `const` and writes the captured `seen`, so it refuses at the build."
+  note "A name a closure captured is a box outside the closure, so writing it reaches the run's state the way writing a module variable does. The closure declares `const` and writes the captured `seen`, so it refuses at the build where it is written, called or not."
   program {
     imports [
-      "Standard.Collection.map"
       "Standard.Numeric.plus"
     ]
     procedures {
@@ -19,54 +18,42 @@ warpt 1
             var "seen"
           }
           {
-            let "mapped"
+            let "step"
             value {
-              call {
-                arguments [
-                  [
-                    1
-                    2
-                  ]
+              closure {
+                body [
                   {
-                    closure {
-                      body [
-                        {
-                          set "seen"
-                          value {
-                            call {
-                              arguments [
-                                {
-                                  ref "seen"
-                                }
-                                {
-                                  ref "item"
-                                }
-                              ]
-                              procedure "Standard.Numeric.plus"
-                            }
+                    set "seen"
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "seen"
                           }
-                        }
-                      ]
-                      const true
-                      parameters [
-                        {
-                          name "item"
-                          type "Int"
-                        }
-                      ]
-                      result {
-                        ref "item"
+                          {
+                            ref "item"
+                          }
+                        ]
+                        procedure "Standard.Numeric.plus"
                       }
-                      returns "Int"
                     }
                   }
                 ]
-                procedure "Standard.Collection.map"
+                const true
+                parameters [
+                  {
+                    name "item"
+                    type "Int"
+                  }
+                ]
+                result {
+                  ref "item"
+                }
+                returns "Int"
               }
             }
           }
         ]
-        failing "anything"
         result {
           ref "seen"
         }
