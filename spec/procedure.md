@@ -68,7 +68,7 @@ A declaration says it answers without running by writing `const: true`, and the 
 
 - a **constant** and a **module variable** settle at the **build**, from these procedures alone, and from a narrower set of them still, under *what a constant settles from* below;
 - a slot may **ask** for one, writing a `const` procedure type. That is how `Standard.Logic.and` takes sides it may decline to read and how `Standard.Collection.filter` takes a predicate that cannot reach the world;
-- an **operand** may call one (a call's arguments, a value call's callee and arguments, a `conditional`'s `when`, a `loop`'s `while`). Each of those is read rather than run, so an operand calling any other declaration **refuses at the build**. An operand, a constant or a variable's start calling a value **refuses at the load**: which procedure a value is, is the run's answer, and the text alone shows the call.
+- an **operand** may call one (a call's arguments, a value call's callee and arguments, a `conditional`'s `when`, a `loop`'s `while`). Each of those is read rather than run, so an operand calling a declaration that does not say it, or a value **the type written for it** does not say it of, **refuses at the build**. A module variable it reads is read as any name is: what reading one costs a body is the promise of answering the same thing twice, and an operand makes none.
 
 A call through a contract reaches whichever declaration the value turns out to be, so what it reads as is what the contract asked of every one of them. A contract's procedure is a declaration without a body and writes `const`, `isolated` and `failing` the way one does; a call through one writing `const` stands wherever a call to a declaration that does stands, an operand and a `const` body among them, and a claim backed by a declaration that says less than the contract asked, `const` or `isolated` left out or a failure the contract does not name, **does not hold**, and refuses at the build, at the claim. A contract's procedure writing neither may run, so a call through it is no operand and a body declared `const` may not send it.
 
@@ -152,6 +152,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-const-slot-takes-a-closure-that-calls-a-host-procedure`
 - `a-constant-asking-a-claim-it-imports-settles`
 - `a-constant-asking-a-claim-outside-its-reach-refuses`
+- `a-constant-calls-a-value-its-type-says-is-const`
 - `a-constant-cannot-settle-from-a-procedure-the-host-brought`
 - `a-constant-cannot-settle-from-what-runs`
 - `a-constant-casting-a-list-the-reach-decides-no-answers-null`
@@ -238,7 +239,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-internal-entry-refuses`
 - `an-internal-procedure-is-named-from-another-document`
 - `an-isolated-closure-writes-its-own-variables`
-- `an-operand-calling-a-value-refuses`
+- `an-operand-calling-a-value-nothing-says-is-const-refuses`
+- `an-operand-calls-a-value-its-type-says-is-const`
 - `arguments-are-judged-at-the-door`
 - `body-answers-only-what-it-declares`
 - `const-written-false-refuses`

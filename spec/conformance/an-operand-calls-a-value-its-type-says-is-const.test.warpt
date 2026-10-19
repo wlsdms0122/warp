@@ -1,0 +1,60 @@
+warpt 1
+{
+  expect {
+    answers 2
+  }
+  name "an-operand-calls-a-value-its-type-says-is-const"
+  note "An operand is read rather than run, so what it calls answers without running. Which procedure a value is, is the run's answer, and the type written for it is what says that procedure is `const`: `f` is a parameter declared `const () -> Int`, so a call of it written as an argument stands, as a call of a declaration saying `const` does."
+  program {
+    imports [
+      "Standard.Numeric.plus"
+    ]
+    procedures {
+      "App.g" {
+        parameters [
+          {
+            name "f"
+            type "const () -> Int"
+          }
+        ]
+        result {
+          call {
+            arguments [
+              1
+              {
+                call {
+                  procedure {
+                    ref "f"
+                  }
+                }
+              }
+            ]
+            procedure "Standard.Numeric.plus"
+          }
+        }
+        returns "Int"
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              {
+                closure {
+                  const true
+                  result 1
+                  returns "Int"
+                }
+              }
+            ]
+            procedure "App.g"
+          }
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
