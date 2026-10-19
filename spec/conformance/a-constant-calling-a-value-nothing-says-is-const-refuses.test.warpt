@@ -1,0 +1,38 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-constant-calling-a-value-nothing-says-is-const-refuses"
+  note "A constant settles at the build, so what it is written from is read rather than run, as an operand is. `one` holds a closure whose literal declares `() -> Int`, so nothing written says the procedure answers without running, and `c`, which calls it, refuses at the build, though its body reaches nothing outside the run."
+  program {
+    const {
+      c {
+        call {
+          procedure {
+            ref "one"
+          }
+        }
+      }
+      one {
+        closure {
+          result 1
+          returns "Int"
+        }
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result {
+          ref "c"
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

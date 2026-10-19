@@ -152,6 +152,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-const-slot-takes-a-closure-that-calls-a-host-procedure`
 - `a-constant-asking-a-claim-it-imports-settles`
 - `a-constant-asking-a-claim-outside-its-reach-refuses`
+- `a-constant-calling-a-value-nothing-says-is-const-refuses`
 - `a-constant-calls-a-value-its-type-says-is-const`
 - `a-constant-cannot-settle-from-a-procedure-the-host-brought`
 - `a-constant-cannot-settle-from-what-runs`

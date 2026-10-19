@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "an-operand-calling-a-value-nothing-says-is-const-refuses"
-  note "An operand is read rather than run, and which procedure a value is, is the run's answer. `f` is a parameter declared `() -> Int`, so nothing written says the procedure it holds answers without running, and a call of it written as an argument refuses at the build; written as a statement it stands."
+  note "An operand is read rather than run, and which procedure a value is, is the run's answer. `f` is a parameter declared `() -> Int`, so nothing written says the procedure it holds answers without running, though the closure handed to it says `const`, and a call of it written as an argument refuses at the build; written as a statement it stands."
   program {
     imports [
       "Standard.Numeric.plus"
@@ -41,6 +41,7 @@ warpt 1
             arguments [
               {
                 closure {
+                  const true
                   result 1
                   returns "Int"
                 }
