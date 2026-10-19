@@ -4,17 +4,22 @@ warpt 1
     answers true
   }
   name "or-does-not-ask-past-the-first-yes"
-  note "or reads its sides in order and stops at the first yes. The later sides are procedures precisely so they are not evaluated once the answer is known."
+  note "or reads its sides in order and stops at the first yes. The later sides are procedures precisely so they are not evaluated once the answer is known: the second reads past the end of a list holding nothing, which would refuse the run, and the answer shows it was never asked."
   program {
     imports [
-      "Standard.Control.abort"
       "Standard.Logic.or"
     ]
     procedures {
       entry {
         access "public"
+        body [
+          {
+            let "flags"
+            type "Array<Bool>"
+            value []
+          }
+        ]
         const true
-        failing "anything"
         result {
           call {
             arguments [
@@ -30,17 +35,9 @@ warpt 1
                 {
                   closure {
                     const true
-                    failing [
-                      "aborted"
-                    ]
                     isolated true
                     result {
-                      call {
-                        arguments [
-                          "never asked"
-                        ]
-                        procedure "Standard.Control.abort"
-                      }
+                      ref "flags[0]"
                     }
                     returns "Bool"
                   }

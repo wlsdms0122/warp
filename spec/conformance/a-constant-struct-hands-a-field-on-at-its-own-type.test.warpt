@@ -6,7 +6,7 @@ warpt 1
     ]
   }
   name "a-constant-struct-hands-a-field-on-at-its-own-type"
-  note "A constant of a declared struct reads each field at the type its declaration writes, so `k.a`, declared a `const` procedure beside a field that runs, stands where `map` asks a `const` procedure."
+  note "A constant of a declared struct reads each field at the type its declaration writes, so `k.a`, declared a `const isolated` procedure beside a field that runs, stands where `map` asks one."
   program {
     const {
       k {
@@ -93,7 +93,6 @@ warpt 1
       entry {
         access "public"
         const true
-        failing "anything"
         result {
           call {
             arguments [
@@ -113,7 +112,7 @@ warpt 1
     types {
       "App.K" {
         struct {
-          a "const (Int) throws -> Int"
+          a "const isolated (Int) -> Int"
           b "(Int) throws -> Int"
         }
       }

@@ -4,7 +4,7 @@ warpt 1
     answers true
   }
   name "a-loops-name-leaves-the-outer-name-to-what-a-constant-call-reads"
-  note "A loop's name binds nothing after the loop: in an arm where `f` names a loop, a call of `f` after it calls the outer `f`, bound to the `const` slot `body`, so `App.asking` holds to the `const` it declares and a closure sending it stands in the const slot `Standard.Logic.and` asks."
+  note "A loop's name binds nothing after the loop: in an arm where `f` names a loop, a call of `f` after it calls the outer `f`, bound to the `const isolated` slot `body`, so `App.asking` holds to the `const` and `isolated` it declares and a closure sending it stands in the `const isolated` slot `Standard.Logic.and` asks."
   program {
     imports [
       "Standard.Logic.and"
@@ -52,10 +52,11 @@ warpt 1
           }
         ]
         const true
+        isolated true
         parameters [
           {
             name "body"
-            type "const () -> Bool"
+            type "const isolated () -> Bool"
           }
         ]
         result {
@@ -66,7 +67,6 @@ warpt 1
       entry {
         access "public"
         const true
-        failing "anything"
         result {
           call {
             arguments [
@@ -74,6 +74,7 @@ warpt 1
                 {
                   closure {
                     const true
+                    isolated true
                     result {
                       call {
                         arguments [

@@ -36,7 +36,9 @@ One of these is builtin for a reason that is not the set it removes. `trimmed` n
 
 **A bundle is not a module.** A module is compiled against the modules standing before it, so the modules of a link have to have an order, and two that send to each other have none. What a bundle declares for its host to answer has no body and so waits for nothing; what it writes in Warp sends to whatever it needs. So a bundle links as two modules, its builtin half standing before every written half, and the same set of procedures links whatever the written halves send.
 
-**The signatures, exactly.** A second implementation writes these; it must not have to guess them. The *parameters* column lists them in the order a row writes them, which is the position a call hands each argument at. A slot of a `const` procedure type takes only a procedure that answers without running. Each procedure a row takes may fail with anything: its type writes `throws`. What each procedure declares of itself is part of its signature: every one answers without running (`const`), touches no name another body could touch at once (`isolated`) and fails with nothing, except where its section says otherwise.
+**The signatures, exactly.** A second implementation writes these; it must not have to guess them. The *parameters* column lists them in the order a row writes them, which is the position a call hands each argument at. A slot of a `const` procedure type takes only a procedure that answers without running. What each procedure declares of itself is part of its signature: every one answers without running (`const`), touches no name another body could touch at once (`isolated`) and fails with nothing, except where its section says otherwise.
+
+**A procedure that takes procedures does what they do, and its name says which.** A procedure a row takes answers without running and touches nothing, its type written `const isolated`, and it fails with nothing, so the row declares the same of itself. Where a caller would hand one that may fail, the row has a twin named with `try` before it, `map` and `tryMap`, whose procedure may fail with anything, its type writing `throws`, and which declares `failing: anything`. The two are two procedures under two names: a call reads the one it names and nothing chooses between them, so a front end writes the one whose slot takes what it hands, and one that cannot tell writes the `try` one. A front end may show the two to a person under one name, and what a document writes is the one it chose.
 
 *Standard.Logic*
 
@@ -44,10 +46,10 @@ One of these is builtin for a reason that is not the set it removes. `trimmed` n
 |---|---|---|
 | `equal`, `notEqual` | `lhs: Any`, `rhs: Any` | `Bool` |
 | `not` | `value: Bool` | `Bool` |
-| `and`, `or` | `conditions`. A list of `const` procedures taking nothing, each answering `Bool`, so one answering anything else **refuses at the build** where it is handed | `Bool`. Over nothing, `and` answers `true` and `or` answers `false`: no side decided the answer, so the chain's own answer stands |
-| `select` | `condition: Bool`, `then`, `else`. `const` procedures taking nothing, each answering `some Answer` | `some Answer` |
+| `and`, `or`, `tryAnd`, `tryOr` | `conditions`. A list of procedures taking nothing, each answering `Bool`, so one answering anything else **refuses at the build** where it is handed | `Bool`. Over nothing, `and` answers `true` and `or` answers `false`: no side decided the answer, so the chain's own answer stands |
+| `select`, `trySelect` | `condition: Bool`, `then`, `else`. Procedures taking nothing, each answering `some Answer` | `some Answer` |
 
-`and`, `or` and `select` call what they are handed, which may fail with anything and says nothing of touching, so each declares `failing: anything` and is not `isolated`.
+`tryAnd`, `tryOr` and `trySelect` declare `failing: anything`, the sides they are handed failing as they may.
 
 `and` and `or` take procedures precisely so they need not run them all: the sides are read in order and the procedure stops at the first side that decides the answer. The first false, the first true. What follows the stop is never evaluated. `select` takes them for the same reason and asks exactly one, so a side that would refuse is never a refusal of the side that was chosen. `equal` and `notEqual` answer by the value model's one sameness, and `not` turns a `Bool` around.
 
@@ -123,14 +125,14 @@ The contracts, each procedure answering without running and touching nothing, an
 | `sorted` | `array: Array<some Element>` | `Array<some Element>`, every element once, in order where `lessThan` is a strict order. Bounds `Element: Standard.Comparable` |
 | `appending`, `prepending` | `array: Array<some Element>`, `element: some Element` | `Array<some Element>` |
 | `gathering` | `array: Array<some Element>`, `positions: Array<Int>`. Where to read, in the order to read it | `Array<some Element>`, the collection's own, in the collection's spelling. A position the collection does not hold refuses at the run |
-| `map` | `array: Array<some Element>`, `transform`. `const` procedure, handed the item, answering `some Answer` | `Array<some Answer>` |
-| `filter` | `array: Array<some Element>`, `isIncluded`. `const` procedure, handed the item, answering `Bool` | `Array<some Element>` |
-| `reduce` | `array: Array<some Element>`, `initialResult: some Carried`, `nextPartialResult`. `const` procedure, handed the carried value, then the item, answering `some Carried` | `some Carried` |
+| `map`, `tryMap` | `array: Array<some Element>`, `transform`. A procedure handed the item, answering `some Answer` | `Array<some Answer>` |
+| `filter`, `tryFilter` | `array: Array<some Element>`, `isIncluded`. A procedure handed the item, answering `Bool` | `Array<some Element>` |
+| `reduce`, `tryReduce` | `array: Array<some Element>`, `initialResult: some Carried`, `nextPartialResult`. A procedure handed the carried value, then the item, answering `some Carried` | `some Carried` |
 | `keys` | `dictionary: Dictionary<some Key, Any>` | `Array<some Key>`, the keys the map holds, in its key order. Bounds `Key: Hashable` |
 | `values` | `dictionary: Dictionary<some Key, some Entry>` | `Array<some Entry>`, what the map holds, in its key order. Bounds `Key: Hashable` |
 | `setting` | `dictionary: Dictionary<some Key, some Value>`, `key: some Key`, `value: some Value` | `Dictionary<some Key, some Value>`, the map with the entry under the key written. The map's keys and the key read as one type, and its entries and the value as another, so two types there that neither takes **refuse at the build**. Bounds `Key: Hashable` |
 
-`map`, `filter` and `reduce` declare `failing: anything` and are not `isolated`, for the reason `and` is. `append` writes the caller's variable, so it is not `const`.
+`tryMap`, `tryFilter` and `tryReduce` declare `failing: anything`, for the reason `tryAnd` does. `append` writes the caller's variable, so it is not `const`.
 
 `gathering` is how a procedure answers a collection's own elements. It says which by position, and the answer comes back in the spelling the collection arrived in: bytes rearranged are bytes. This is the whole of what `reversed`, `dropFirst`, `dropLast`, `filter` and `sorted` add to a walk, and it is the reason those are written in Warp rather than asked of an implementation. A body that read the elements out and put them back would answer an array of numbers, because an array it started empty has no spelling to keep. The standard name for reading one collection at another's positions is a **gather**.
 
@@ -156,7 +158,7 @@ The names are plain ones with the module carrying the context. A call site spell
 
 What the checking sees: `map` declares its types the way the sequential one does. The collection's `Element` meets the closure's parameter, and the answer's type is the closure's answer, checked at the build. Its `transform` is an `isolated` procedure type taking `some Element` and `Int` and answering `some Answer`, so a closure that writes a captured variable refuses there before anything runs. `all` and `allKeyed` take a list and a map of an `isolated` procedure type answering `some Answer`, and `first` and `firstKeyed` the same, so a piece the build reads as something other than a closure, or as a closure that writes what it captured, refuses at the build; a list or a map literal is held to the slot part by part, so a piece that is not a closure refuses there too, and a list of pieces read as `Any` takes a cast first, the way any value read as `Any` does. Every piece answers the one `Answer` the call fills from them, so `all` answers `Array<some Answer>`, `allKeyed` `Dictionary<some Key, some Answer>` under the keys its pieces stood under, and the two `first`s `some Answer`; pieces answering two types that neither takes fill it with `Any`, joined part by part the way a literal's parts are, and so does a piece written to answer `Any`.
 
-What the procedures hand their closures is one convention, shared with the sequential walks. `Standard.Collection.map` and `filter` hand over the item, `reduce` hands over the carried value then the item, `Standard.Concurrent.map` hands over the item then its index, and a closure written for one of them **declares exactly as many parameters as it is handed, in that order**, under names of its own, whether or not its body goes on to read one. A closure of another count **refuses at the build**, the same as anywhere else a value is called: a walk is not a second calling convention. `Standard.Concurrent.first` run over nothing **refuses at the run**, and so does `firstKeyed` over a map holding nothing, the way `Standard.Collection.first` of nothing is: a procedure that answers exactly one thing has no empty answer. And a `first` or a `firstKeyed` in which nothing succeeds fails the way `all` and `allKeyed` fail: every piece's failure reported under the piece's key, a map's piece under the key it stood under and a list's under its position, an `Int`.
+What the procedures hand their closures is one convention, shared with the sequential walks. `Standard.Collection.map`, `filter` and their `try` twins hand over the item, `reduce` and `tryReduce` hand over the carried value then the item, `Standard.Concurrent.map` hands over the item then its index, and a closure written for one of them **declares exactly as many parameters as it is handed, in that order**, under names of its own, whether or not its body goes on to read one. A closure of another count **refuses at the build**, the same as anywhere else a value is called: a walk is not a second calling convention. `Standard.Concurrent.first` run over nothing **refuses at the run**, and so does `firstKeyed` over a map holding nothing, the way `Standard.Collection.first` of nothing is: a procedure that answers exactly one thing has no empty answer. And a `first` or a `firstKeyed` in which nothing succeeds fails the way `all` and `allKeyed` fail: every piece's failure reported under the piece's key, a map's piece under the key it stood under and a list's under its position, an `Int`.
 
 What the vocabulary answers about **bytes**: they are an array of whole numbers from 0 to 255, `Array<Int>`, and `x"6869"` is that array's compact spelling, under [values](value.md). A slot taking bytes is written `Array<Int>`, or any other array the bytes fit. **The spelling is the value's own fact rather than the slot's**: a bytes value stands where `Array<Int>` is declared and crosses it *whole*, because the slot asked for an array and bytes are one. `Array<Double>` takes no byte at all, a byte being a whole number. An element declared as a **bounded** type parameter stands for one type the call filled, so `sorted`, whose element carries `Standard.Comparable`, reads a compact spelling the way `reversed` does. An array of byte worths written out one by one stays as written: the compact spelling is the value's, and no slot puts it on.
 
@@ -180,6 +182,7 @@ What a host brings beyond these (its own procedures, and which of them answer wi
 
 What `conformance/` asks about this page, by the name each case's file carries.
 
+- `a-closure-that-may-fail-handed-to-filter-refuses`
 - `a-const-body-chooses-a-value-with-select`
 - `a-const-map-rewrites-in-order`
 - `a-document-gathers-a-collections-own-elements`
@@ -192,6 +195,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-piece-that-is-not-a-closure-refuses`
 - `a-procedure-answering-a-collections-own-elements-keeps-the-spelling`
 - `a-quotient-reads-a-whole-operand-as-the-nearest-fraction`
+- `a-side-not-saying-it-is-isolated-handed-to-and-refuses`
 - `a-space-carrying-a-mark-is-not-trimmed`
 - `a-string-holding-another-is-a-text-question`
 - `a-string-not-holding-another-answers-false`
@@ -204,6 +208,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `all-keyed-answers-under-keys-of-any-type`
 - `an-attempt-does-not-catch-overflow`
 - `an-encoding-a-procedure-does-not-have-refuses-at-the-run`
+- `an-isolated-body-filters-through-a-closure-that-fails-with-nothing`
 - `an-operand-of-and-that-answers-no-bool-refuses`
 - `append-writes-the-array-in-place`
 - `arithmetic-admits-only-numbers`
@@ -287,6 +292,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `the-side-select-does-not-choose-goes-unasked`
 - `times-off-the-ints-edge-refuses`
 - `trimming-takes-unicode-whitespace-from-both-ends`
+- `tryMap-fails-with-what-its-closure-fails-with`
 - `uppercased-uses-unicode-full-case-mapping`
 - `values-answer-in-canonical-order`
 - `values-of-a-map-keyed-by-whole-numbers-answer-in-the-key-order`

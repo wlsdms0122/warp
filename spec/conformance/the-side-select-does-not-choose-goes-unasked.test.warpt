@@ -1,13 +1,10 @@
 warpt 1
 {
-  arguments {
-    payload "not a number"
-  }
   expect {
     answers "taken"
   }
   name "the-side-select-does-not-choose-goes-unasked"
-  note "Both sides are procedures so the one not chosen is never asked. The side left alone here would fail its cast at the run, and the answer shows it was never read."
+  note "Both sides are procedures so the one not chosen is never asked. The side left alone here reads past the end of a list holding nothing, which would refuse the run, and the answer shows it was never read."
   program {
     imports [
       "Standard.Logic.select"
@@ -15,13 +12,14 @@ warpt 1
     procedures {
       entry {
         access "public"
-        const true
-        failing "anything"
-        parameters [
+        body [
           {
-            name "payload"
+            let "none"
+            type "Array<Any>"
+            value []
           }
         ]
+        const true
         result {
           call {
             arguments [
@@ -37,17 +35,9 @@ warpt 1
               {
                 closure {
                   const true
-                  failing [
-                    "cast_refused"
-                  ]
                   isolated true
                   result {
-                    as {
-                      of {
-                        ref "payload"
-                      }
-                      type "Int"
-                    }
+                    ref "none[0]"
                   }
                   returns "Any"
                 }

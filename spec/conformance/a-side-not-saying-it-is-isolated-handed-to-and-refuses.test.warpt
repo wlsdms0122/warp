@@ -1,0 +1,46 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-side-not-saying-it-is-isolated-handed-to-and-refuses"
+  note "`Standard.Logic.and` takes sides that touch nothing, written `const isolated`, and the side handed second says only that it answers without running, so it refuses where it is handed."
+  program {
+    imports [
+      "Standard.Logic.and"
+    ]
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            arguments [
+              [
+                {
+                  closure {
+                    const true
+                    isolated true
+                    result true
+                    returns "Bool"
+                  }
+                }
+                {
+                  closure {
+                    const true
+                    result true
+                    returns "Bool"
+                  }
+                }
+              ]
+            ]
+            procedure "Standard.Logic.and"
+          }
+        }
+        returns "Bool"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+
