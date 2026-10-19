@@ -4,7 +4,7 @@ warpt 1
     answers "taken"
   }
   name "a-body-that-branches-answers-without-running"
-  note "A construct reaches nothing on its own. A conditional is read as far as its arms are, so a body that branches and returns from an arm still answers without running."
+  note "A construct reaches nothing on its own. The closure handed to `asking` declares `const`, and a conditional is read as far as its arms are, so a body that branches and returns from an arm holds to `const` and stands in the `const` slot."
   program {
     imports []
     procedures {
@@ -21,6 +21,7 @@ warpt 1
             }
           }
         ]
+        const true
         parameters [
           {
             name "body"
@@ -55,12 +56,15 @@ warpt 1
                     }
                   }
                 ]
+                const true
+                isolated true
                 result "fell through"
                 returns "String"
               }
             }
           }
         ]
+        const true
         result {
           call {
             arguments [
@@ -71,6 +75,7 @@ warpt 1
             procedure "asking"
           }
         }
+        returns "String"
       }
     }
     warp 1

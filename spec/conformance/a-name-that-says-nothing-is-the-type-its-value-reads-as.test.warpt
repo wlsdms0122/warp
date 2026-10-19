@@ -1,0 +1,66 @@
+warpt 1
+{
+  expect {
+    refuses "build"
+  }
+  name "a-name-that-says-nothing-is-the-type-its-value-reads-as"
+  note "The name `step` declares nothing, so it is the type its value reads as, and the closure literal declares `const` and `isolated`, so `step` is `const isolated (Int) -> Int`. An `inout` slot asks for the same type the name is, and `swap` says `(Int) -> Int`, so the two are not one type and the build refuses."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            value {
+              closure {
+                const true
+                isolated true
+                parameters [
+                  {
+                    name "x"
+                    type "Int"
+                  }
+                ]
+                result {
+                  ref "x"
+                }
+                returns "Int"
+              }
+            }
+            var "step"
+          }
+          {
+            value {
+              call {
+                arguments [
+                  {
+                    ref "step"
+                  }
+                ]
+                procedure "swap"
+              }
+            }
+          }
+        ]
+        const true
+        isolated true
+        result 1
+        returns "Int"
+      }
+      swap {
+        const true
+        isolated true
+        parameters [
+          {
+            name "step"
+            type "inout (Int) -> Int"
+          }
+        ]
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

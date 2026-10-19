@@ -6,9 +6,14 @@ warpt 1
       procedures {
         "App.helper" {
           access "private"
+          const true
+          isolated true
           result "seven"
+          returns "String"
         }
         "Lib.spell" {
+          const true
+          isolated true
           result {
             call {
               procedure "App.helper"
@@ -24,17 +29,21 @@ warpt 1
     answers 7
   }
   name "a-private-name-is-typed-by-its-own-document"
-  note "Two documents may each declare a private name, and each is typed by its own: what the build read off the other document's body under that spelling says nothing about this one's, whose declaration writes what it answers."
+  note "Two documents may each declare a private name, and each is typed by its own declaration: what the other document's declaration under that spelling answers says nothing about this one's."
   program {
     imports []
     procedures {
       "App.helper" {
         access "private"
+        const true
+        isolated true
         result 7
         returns "Int"
       }
       entry {
         access "public"
+        const true
+        isolated true
         result {
           call {
             procedure "App.helper"

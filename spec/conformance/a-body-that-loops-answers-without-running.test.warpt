@@ -4,7 +4,7 @@ warpt 1
     answers "counted"
   }
   name "a-body-that-loops-answers-without-running"
-  note "A construct reaches nothing on its own. A loop is read as far as its round is, so a body that loops and returns from the round still answers without running."
+  note "A construct reaches nothing on its own. The closure handed to `asking` declares `const`, and a loop is read as far as its round is, so a body that loops and returns from the round holds to `const` and stands in the `const` slot."
   program {
     imports []
     procedures {
@@ -21,6 +21,7 @@ warpt 1
             }
           }
         ]
+        const true
         parameters [
           {
             name "body"
@@ -55,12 +56,15 @@ warpt 1
                     }
                   }
                 ]
+                const true
+                isolated true
                 result "never reached"
                 returns "String"
               }
             }
           }
         ]
+        const true
         result {
           call {
             arguments [
@@ -71,6 +75,7 @@ warpt 1
             procedure "asking"
           }
         }
+        returns "String"
       }
     }
     warp 1

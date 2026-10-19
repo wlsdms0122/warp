@@ -7,7 +7,7 @@ warpt 1
     ]
   }
   name "a-contract-asking-const-lets-its-call-stand-in-a-const-slot"
-  note "A contract's procedure writing `const` answers without running, so a call through it reads as one does: a closure sending it is const, and stands in the const slot map asks. Every declaration answering the contract is held to that where its claim is checked."
+  note "A contract's procedure writing `const` answers without running, so a call through it stands where a call to a declaration saying `const` does: the closure in `App.names` declares `const` and sends it, and stands in the const slot map asks. Every declaration answering the contract is held to that where its claim is checked."
   program {
     contracts {
       "App.Named" {
@@ -31,6 +31,8 @@ warpt 1
     ]
     procedures {
       "App.names" {
+        const true
+        failing "anything"
         parameters [
           {
             name "of"
@@ -45,6 +47,7 @@ warpt 1
               }
               {
                 closure {
+                  const true
                   parameters [
                     {
                       name "item"
@@ -72,6 +75,8 @@ warpt 1
       }
       entry {
         access "public"
+        const true
+        failing "anything"
         result {
           call {
             arguments [
@@ -108,6 +113,8 @@ warpt 1
       "App.Thing" {
         procedures {
           name {
+            const true
+            isolated true
             parameters [
               {
                 name "of"

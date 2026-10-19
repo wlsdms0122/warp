@@ -31,6 +31,7 @@ warpt 1
             }
           }
         ]
+        isolated true
         parameters [
           {
             name "c"
@@ -38,6 +39,7 @@ warpt 1
           }
         ]
         result 0
+        returns "Int"
       }
       entry {
         access "public"
@@ -70,9 +72,12 @@ warpt 1
                           }
                           {
                             closure {
+                              const true
+                              isolated true
                               result {
                                 ref "x"
                               }
+                              returns "Int"
                             }
                           }
                         ]
@@ -104,6 +109,7 @@ warpt 1
             }
           }
         ]
+        isolated true
         parameters [
           {
             name "c"
@@ -113,6 +119,7 @@ warpt 1
         result {
           ref "x"
         }
+        returns "Int"
       }
     }
     warp 1

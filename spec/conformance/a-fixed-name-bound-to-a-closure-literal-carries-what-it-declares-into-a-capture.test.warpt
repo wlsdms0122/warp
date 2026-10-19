@@ -1,0 +1,90 @@
+warpt 1
+{
+  expect {
+    answers [
+      1
+      2
+    ]
+  }
+  name "a-fixed-name-bound-to-a-closure-literal-carries-what-it-declares-into-a-capture"
+  note "A fixed name that writes no type follows the type written where its value came from, and a closure literal writes its signature, so `f`, bound to a literal declaring `const`, holds a `const` procedure type. The closure handed to `Standard.Collection.map` declares `const` and calls the captured `f`, so it holds to `const`, and map runs it."
+  program {
+    imports [
+      "Standard.Collection.map"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "f"
+            value {
+              closure {
+                const true
+                parameters [
+                  {
+                    name "x"
+                    type "Int"
+                  }
+                ]
+                result {
+                  ref "x"
+                }
+                returns "Int"
+              }
+            }
+          }
+        ]
+        failing "anything"
+        result {
+          call {
+            arguments [
+              [
+                1
+                2
+              ]
+              {
+                closure {
+                  body [
+                    {
+                      let "y"
+                      value {
+                        call {
+                          arguments [
+                            {
+                              ref "x"
+                            }
+                          ]
+                          procedure {
+                            ref "f"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                  const true
+                  failing "anything"
+                  parameters [
+                    {
+                      name "x"
+                      type "Int"
+                    }
+                  ]
+                  result {
+                    ref "y"
+                  }
+                  returns "Int"
+                }
+              }
+            ]
+            procedure "Standard.Collection.map"
+          }
+        }
+        returns "Array<Int>"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

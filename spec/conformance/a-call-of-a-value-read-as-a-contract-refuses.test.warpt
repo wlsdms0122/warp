@@ -19,6 +19,7 @@ warpt 1
     imports []
     procedures {
       "App.f" {
+        failing "anything"
         parameters [
           {
             name "g"
@@ -32,9 +33,11 @@ warpt 1
             }
           }
         }
+        returns "Any"
       }
       entry {
         access "public"
+        failing "anything"
         result {
           call {
             arguments [
@@ -43,6 +46,7 @@ warpt 1
             procedure "App.f"
           }
         }
+        returns "Any"
       }
     }
     warp 1

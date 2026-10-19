@@ -1,0 +1,112 @@
+warpt 1
+{
+  expect {
+    answers [
+      1
+      1
+    ]
+  }
+  name "a-piece-calling-a-fixed-name-bound-to-an-isolated-closure-literal-stands"
+  note "A fixed name that writes no type follows the type written where its value came from, and a closure literal writes its signature, so `bump`, bound to a literal declaring `isolated`, holds an `isolated` procedure type. A piece declaring `isolated` that captured `bump` and calls it on its own variable holds to `isolated`, and `Standard.Concurrent.map` runs it."
+  program {
+    imports [
+      "Standard.Concurrent.map"
+      "Standard.Numeric.plus"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "bump"
+            value {
+              closure {
+                body [
+                  {
+                    set "c"
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "c"
+                          }
+                          1
+                        ]
+                        procedure "Standard.Numeric.plus"
+                      }
+                    }
+                  }
+                ]
+                isolated true
+                parameters [
+                  {
+                    name "c"
+                    type "inout Int"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+        failing [
+          "concurrent_failed"
+        ]
+        result {
+          call {
+            arguments [
+              [
+                1
+                2
+              ]
+              {
+                closure {
+                  body [
+                    {
+                      value 0
+                      var "m"
+                    }
+                    {
+                      value {
+                        call {
+                          arguments [
+                            {
+                              ref "m"
+                            }
+                          ]
+                          procedure {
+                            ref "bump"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                  failing "anything"
+                  isolated true
+                  parameters [
+                    {
+                      name "x"
+                      type "Int"
+                    }
+                    {
+                      name "i"
+                      type "Int"
+                    }
+                  ]
+                  result {
+                    ref "m"
+                  }
+                  returns "Int"
+                }
+              }
+            ]
+            procedure "Standard.Concurrent.map"
+          }
+        }
+        returns "Array<Int>"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

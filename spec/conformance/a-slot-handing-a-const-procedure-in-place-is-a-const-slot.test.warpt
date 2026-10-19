@@ -4,7 +4,7 @@ warpt 1
     answers 2
   }
   name "a-slot-handing-a-const-procedure-in-place-is-a-const-slot"
-  note "A parameter typed `inout const Procedure` holds the caller's box, held to that type through every write, so it says what the value it holds answers. A body calling it answers without running, and an operand may call it."
+  note "A parameter typed `inout const (Int) -> Int` holds the caller's box, held to that type through every write, so it says what the value it holds answers. `asking` declares `const` and calls it, which the build holds it to, so an operand may call `asking`."
   program {
     imports [
       "Standard.Numeric.plus"
@@ -26,6 +26,7 @@ warpt 1
             }
           }
         ]
+        const true
         parameters [
           {
             name "p"
@@ -44,6 +45,8 @@ warpt 1
             type "const (Int) -> Int"
             value {
               closure {
+                const true
+                isolated true
                 parameters [
                   {
                     name "x"
@@ -59,6 +62,7 @@ warpt 1
             var "held"
           }
         ]
+        const true
         result {
           call {
             arguments [

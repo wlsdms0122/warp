@@ -1,0 +1,53 @@
+warpt 1
+{
+  expect {
+    refuses "run"
+  }
+  name "an-answer-from-outside-at-any-under-a-name-no-document-declares-refuses-at-the-door"
+  note "`App.v` is a procedure the host answers declaring it answers `Any`, and it answers a struct under `App.Z`, which no document declares. Its answer comes in through the door at `Any`, where a struct under a name that declares no struct refuses, so the run refuses there."
+  program {
+    imports [
+      "App.v"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "r"
+            value {
+              call {
+                procedure "App.v"
+              }
+            }
+          }
+        ]
+        result "ok"
+        returns "String"
+      }
+    }
+    warp 1
+  }
+  test 1
+  vocabulary {
+    imports []
+    procedures {
+      "App.v" {
+        answers App.Z {
+          a 1
+        }
+        isolated true
+        returns "Any"
+      }
+    }
+    types {
+      "App.P" {
+        struct {
+          a "Int"
+        }
+      }
+      "App.Q" "App.P"
+    }
+  }
+}
+

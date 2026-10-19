@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-piece-calling-a-procedure-that-writes-a-module-variable-refuses"
-  note "A body is isolated only where every declaration it calls is. A procedure writing a module variable is not, so a closure calling it is not either, and `Standard.Concurrent.all` refuses it as a piece."
+  note "A body declared `isolated` calls only declarations that say they are isolated. `bump` writes the module variable `count` and does not say so, so the piece declaring `isolated` that calls it refuses at the build, and `Standard.Concurrent.all` never takes it."
   program {
     imports [
       "Standard.Concurrent.all"
@@ -35,22 +35,29 @@ warpt 1
       }
       entry {
         access "public"
+        failing [
+          "concurrent_failed"
+        ]
         result {
           call {
             arguments [
               [
                 {
                   closure {
+                    isolated true
                     result 1
+                    returns "Int"
                   }
                 }
                 {
                   closure {
+                    isolated true
                     result {
                       call {
                         procedure "bump"
                       }
                     }
+                    returns "Int"
                   }
                 }
               ]
@@ -58,6 +65,7 @@ warpt 1
             procedure "Standard.Concurrent.all"
           }
         }
+        returns "Array<Int>"
       }
     }
     var {

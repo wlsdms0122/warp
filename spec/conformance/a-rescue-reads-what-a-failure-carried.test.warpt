@@ -35,7 +35,10 @@ warpt 1
                                 "fine"
                                 {
                                   closure {
+                                    const true
+                                    isolated true
                                     result "ok"
+                                    returns "String"
                                   }
                                 }
                               ]
@@ -55,6 +58,12 @@ warpt 1
                                         }
                                       }
                                     ]
+                                    const true
+                                    failing [
+                                      "aborted"
+                                    ]
+                                    isolated true
+                                    returns "Never"
                                   }
                                 }
                               ]
@@ -100,9 +109,14 @@ warpt 1
             }
           }
         ]
+        failing [
+          "cast_refused"
+        ]
+        isolated true
         result {
           ref "tried"
         }
+        returns "Dictionary<String, Any>?"
       }
     }
     warp 1

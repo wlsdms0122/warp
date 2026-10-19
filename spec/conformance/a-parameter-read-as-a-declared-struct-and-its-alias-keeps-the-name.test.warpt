@@ -46,6 +46,8 @@ warpt 1
             }
           }
         ]
+        const true
+        isolated true
         parameters [
           {
             name "c"
@@ -119,9 +121,15 @@ warpt 1
             }
           }
         ]
+        const true
+        failing [
+          "cast_refused"
+        ]
+        isolated true
         result {
           ref "s"
         }
+        returns "String"
       }
     }
     types {
@@ -129,6 +137,8 @@ warpt 1
       "Bank.Card" {
         procedures {
           describe {
+            const true
+            isolated true
             parameters [
               {
                 name "of"

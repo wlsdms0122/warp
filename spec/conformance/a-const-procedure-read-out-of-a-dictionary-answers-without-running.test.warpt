@@ -4,7 +4,7 @@ warpt 1
     answers 2
   }
   name "a-const-procedure-read-out-of-a-dictionary-answers-without-running"
-  note "A slot writing `Dictionary<String, const Procedure>` says it of every entry, the way an array of them does. A body calling an entry it reads out by a key answers without running, so an operand may call it."
+  note "A slot writing `Dictionary<String, const (Int) -> Int>` says it of every entry, the way an array of them does. `asking` declares `const` and calls an entry it reads out by a key, which the build holds it to, so an operand may call it."
   program {
     imports [
       "Standard.Numeric.plus"
@@ -26,6 +26,7 @@ warpt 1
             }
           }
         ]
+        const true
         parameters [
           {
             name "body"
@@ -43,6 +44,7 @@ warpt 1
       }
       entry {
         access "public"
+        const true
         result {
           call {
             arguments [
@@ -55,6 +57,8 @@ warpt 1
                           "k"
                           {
                             closure {
+                              const true
+                              isolated true
                               parameters [
                                 {
                                   name "x"

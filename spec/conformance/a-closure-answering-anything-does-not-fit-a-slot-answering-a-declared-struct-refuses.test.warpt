@@ -4,7 +4,7 @@ warpt 1
     refuses "build"
   }
   name "a-closure-answering-anything-does-not-fit-a-slot-answering-a-declared-struct-refuses"
-  note "`f` writes no `returns` and answers what it is handed, which it reads as `Any`. A slot whose procedure type answers `App.Point` takes only a closure answering one, and an answer read as `Any` is none the build can see, so the build refuses."
+  note "`f` declares it answers `Any`. A slot whose procedure type answers `App.Point` takes only a procedure answering one, and an answer of `Any` is none the build can see, so the build refuses."
   program {
     imports []
     procedures {
@@ -23,6 +23,7 @@ warpt 1
                 result {
                   ref "a"
                 }
+                returns "Any"
               }
             }
           }
@@ -50,6 +51,7 @@ warpt 1
         result {
           ref "r"
         }
+        returns "App.Point"
       }
     }
     types {

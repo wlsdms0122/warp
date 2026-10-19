@@ -17,6 +17,8 @@ warpt 1
     procedures {
       entry {
         access "public"
+        const true
+        failing "anything"
         result {
           call {
             arguments [
@@ -27,6 +29,8 @@ warpt 1
               ]
               {
                 closure {
+                  const true
+                  isolated true
                   parameters [
                     {
                       name "item"
@@ -44,12 +48,14 @@ warpt 1
                       procedure "Standard.Numeric.times"
                     }
                   }
+                  returns "Int"
                 }
               }
             ]
             procedure "Standard.Collection.map"
           }
         }
+        returns "Array<Int>"
       }
     }
     warp 1

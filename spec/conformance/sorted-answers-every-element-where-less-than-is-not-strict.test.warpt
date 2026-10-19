@@ -43,6 +43,8 @@ warpt 1
             ]
           }
         ]
+        const true
+        failing "anything"
         result {
           call {
             arguments [
@@ -58,6 +60,8 @@ warpt 1
               }
               {
                 closure {
+                  const true
+                  isolated true
                   parameters [
                     {
                       name "s"
@@ -74,12 +78,15 @@ warpt 1
             procedure "Standard.Collection.map"
           }
         }
+        returns "Array<Int>"
       }
     }
     types {
       "App.Score" {
         procedures {
           lessThan {
+            const true
+            isolated true
             parameters [
               {
                 name "lhs"

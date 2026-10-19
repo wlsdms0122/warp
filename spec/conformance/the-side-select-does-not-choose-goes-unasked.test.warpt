@@ -15,6 +15,8 @@ warpt 1
     procedures {
       entry {
         access "public"
+        const true
+        failing "anything"
         parameters [
           {
             name "payload"
@@ -26,12 +28,19 @@ warpt 1
               true
               {
                 closure {
+                  const true
+                  isolated true
                   result "taken"
                   returns "Any"
                 }
               }
               {
                 closure {
+                  const true
+                  failing [
+                    "cast_refused"
+                  ]
+                  isolated true
                   result {
                     as {
                       of {

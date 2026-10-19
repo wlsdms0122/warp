@@ -4,7 +4,7 @@ warpt 1
     answers "a"
   }
   name "a-closure-held-at-a-contract-slot-answers-the-struct-it-answers-answers"
-  note "`c` is declared `() -> Bank.A`, so its closure answers `Bank.A`, the struct literal `{ k: \"x\" }` it answers taking the name. `d` holds it again at `() -> App.P`, which `Bank.A` answers, and a slot hands a value on as it is, so the call inside `App.run` answers a `Bank.A` and `App.P.show` reaches `Bank.A.show`."
+  note "`c` is declared `() -> Bank.A`, and its closure writes `returns Bank.A`, the struct literal `{ k: \"x\" }` it answers taking the name. `d` holds it again at `() -> App.P`, which `Bank.A` answers, and a slot hands a value on as it is, so the call inside `App.run` answers a `Bank.A` and `App.P.show` reaches `Bank.A.show`."
   program {
     contracts {
       "App.P" {
@@ -49,11 +49,14 @@ warpt 1
             type "() -> Bank.A"
             value {
               closure {
+                const true
+                isolated true
                 result {
                   struct {
                     k "x"
                   }
                 }
+                returns "Bank.A"
               }
             }
           }
@@ -88,12 +91,15 @@ warpt 1
             procedure "App.P.show"
           }
         }
+        returns "String"
       }
     }
     types {
       "Bank.A" {
         procedures {
           show {
+            const true
+            isolated true
             parameters [
               {
                 name "of"

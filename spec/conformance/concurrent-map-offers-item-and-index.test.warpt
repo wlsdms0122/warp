@@ -44,6 +44,8 @@ warpt 1
                           }
                         }
                       ]
+                      const true
+                      isolated true
                       parameters [
                         {
                           name "item"
@@ -79,9 +81,14 @@ warpt 1
             }
           }
         ]
+        failing [
+          "concurrent_failed"
+        ]
+        isolated true
         result {
           ref "tagged"
         }
+        returns "Array<String>"
       }
     }
     warp 1

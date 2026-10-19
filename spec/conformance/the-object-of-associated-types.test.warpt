@@ -48,16 +48,6 @@ warpt 1
   ]
   expect {
     builds {
-      answers [
-        [
-          "Use.first"
-          [
-            15
-            "C.Item"
-            []
-          ]
-        ]
-      ]
       claims [
         [
           "Use.Thing"
@@ -87,10 +77,10 @@ warpt 1
         ]
       ]
       dependencies [
-        x"cccfe5e7da442663c2722ff09af07dbafbdb4948afd203cf5b8fb887fc7aa523"
+        x"1dad53e333af6a7c93e1e2e9c7c85c471e9742ac9905ff9b26af701e89956174"
       ]
       document [
-        x"ad106cdbc981110b41557ebb5adcb37a0873c5e4a247fa76cecbf38f06119056"
+        x"8cd700d5f3c08efa8ead0d7bb5ae6cd81981faceb536d8c108af8412001b1742"
       ]
       importedClaims []
       lifted []
@@ -118,7 +108,17 @@ warpt 1
                 []
               ]
             ]
-            []
+            [
+              19
+              "C"
+              "Item"
+            ]
+            [
+              1
+              []
+            ]
+            0
+            0
             [
               [
                 "C"
@@ -130,12 +130,6 @@ warpt 1
             []
           ]
           2
-          0
-          0
-          [
-            1
-            []
-          ]
           [
             0
             [
@@ -187,12 +181,16 @@ warpt 1
               ]
             ]
             [
-              [
-                19
-                "C"
-                "Item"
-              ]
+              19
+              "C"
+              "Item"
             ]
+            [
+              1
+              []
+            ]
+            1
+            1
             [
               [
                 "C"
@@ -211,12 +209,6 @@ warpt 1
             ]
           ]
           2
-          1
-          1
-          [
-            1
-            []
-          ]
           [
             0
             [
@@ -279,7 +271,7 @@ warpt 1
     }
   }
   name "the-object-of-associated-types"
-  note "An object writes the associated types a contract asks and their bounds, the type members a type is given, the associated types a signature says are a type, and what a procedure writing no returns answers at an associated type: a type parameter labelled by it."
+  note "An object writes the associated types a contract asks and their bounds, the type members a type is given, the associated types a signature says are a type, and an answer declared at an associated type: a type parameter labelled by it."
   program {
     contracts {
       "Use.Sized" {
@@ -311,9 +303,12 @@ warpt 1
             procedure "Lib.Container.first"
           }
         }
+        returns "some C.Item"
       }
       "Use.plusOne" {
         access "public"
+        const true
+        isolated true
         parameters [
           {
             name "c"

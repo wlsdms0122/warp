@@ -4,7 +4,7 @@ warpt 1
     answers 5
   }
   name "a-parameter-handed-in-place-holding-a-procedure-of-a-parameter-takes-a-closure-of-it"
-  note "App.swap takes `(some T) -> some T` in place and writes a closure taking and answering some T. The closure is const and isolated, which a slot that does not ask for either takes."
+  note "`App.swap` takes `(some T) -> some T` in place and writes into it a closure taking and answering `some T`, which the slot takes. `g` is the caller's box, so the call of `g` after it answers what it is handed."
   program {
     imports [
       "Standard.Numeric.plus"
@@ -37,6 +37,7 @@ warpt 1
           }
         ]
         result 0
+        returns "Int"
       }
       entry {
         access "public"
@@ -96,6 +97,7 @@ warpt 1
         result {
           ref "r"
         }
+        returns "Int"
       }
     }
     warp 1

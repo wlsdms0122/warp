@@ -55,9 +55,12 @@ warpt 1
                           }
                         }
                       ]
+                      failing "anything"
+                      isolated true
                       result {
                         ref "answered"
                       }
+                      returns "some Answer"
                     }
                   }
                 }
@@ -103,6 +106,10 @@ warpt 1
         }
       ]
       description "Each element answered by a procedure, run at once, in the collection's order."
+      failing [
+        "concurrent_failed"
+      ]
+      isolated true
       parameters [
         {
           name "array"

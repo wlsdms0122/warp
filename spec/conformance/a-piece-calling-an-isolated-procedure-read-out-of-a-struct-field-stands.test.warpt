@@ -7,7 +7,7 @@ warpt 1
     ]
   }
   name "a-piece-calling-an-isolated-procedure-read-out-of-a-struct-field-stands"
-  note "A slot declaring a struct type says what each of its fields holds. A body calling what a field declared an `isolated` procedure type holds is isolated, so a piece of `Standard.Concurrent.map` calling that body stands."
+  note "A slot declaring a struct type says what each of its fields holds. `asking` declares `isolated` and calls what the field `f` holds, which `App.Holder` declares an `isolated` procedure type, so the build holds it to that, and a piece of `Standard.Concurrent.map` calling `asking` stands."
   program {
     imports [
       "Standard.Concurrent.map"
@@ -31,6 +31,7 @@ warpt 1
             }
           }
         ]
+        isolated true
         parameters [
           {
             name "body"
@@ -48,6 +49,10 @@ warpt 1
       }
       entry {
         access "public"
+        failing [
+          "concurrent_failed"
+        ]
+        isolated true
         result {
           call {
             arguments [
@@ -57,6 +62,7 @@ warpt 1
               ]
               {
                 closure {
+                  isolated true
                   parameters [
                     {
                       name "item"
@@ -74,6 +80,8 @@ warpt 1
                           struct {
                             f {
                               closure {
+                                const true
+                                isolated true
                                 parameters [
                                   {
                                     name "x"

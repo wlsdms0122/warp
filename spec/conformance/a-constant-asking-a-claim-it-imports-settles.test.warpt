@@ -26,6 +26,8 @@ warpt 1
         "T.Card" {
           procedures {
             describe {
+              const true
+              isolated true
               parameters [
                 {
                   name "of"
@@ -81,6 +83,11 @@ warpt 1
               }
             }
           ]
+          const true
+          failing [
+            "cast_refused"
+          ]
+          isolated true
           result {
             "as?" {
               of {
@@ -117,6 +124,9 @@ warpt 1
     procedures {
       entry {
         access "public"
+        failing [
+          "cast_refused"
+        ]
         result {
           call {
             arguments [

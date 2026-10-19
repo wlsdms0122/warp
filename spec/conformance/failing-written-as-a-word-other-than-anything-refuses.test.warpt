@@ -1,0 +1,20 @@
+warpt 1
+{
+  expect {
+    refuses "load"
+  }
+  name "failing-written-as-a-word-other-than-anything-refuses"
+  note "`failing` names the failures as a list, or is `anything`. A single name written without the list is neither, and refuses at the load."
+  program {
+    imports []
+    procedures {
+      entry {
+        access "public"
+        failing "aborted"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

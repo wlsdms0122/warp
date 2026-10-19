@@ -7,7 +7,7 @@ warpt 1
     ]
   }
   name "a-contract-asking-isolated-lets-its-call-stand-in-an-isolated-slot"
-  note "A contract's procedure writing `isolated` touches no name another body could touch at once, so a closure sending it is isolated and stands in the isolated slot concurrent map asks."
+  note "A contract's procedure writing `isolated` touches no name another body could touch at once, so a call through it stands where a call to a declaration saying `isolated` does: the closure in `App.names` declares `isolated` and sends it, and stands in the isolated slot concurrent map asks."
   program {
     contracts {
       "App.Named" {
@@ -31,6 +31,10 @@ warpt 1
     ]
     procedures {
       "App.names" {
+        failing [
+          "concurrent_failed"
+        ]
+        isolated true
         parameters [
           {
             name "of"
@@ -45,6 +49,7 @@ warpt 1
               }
               {
                 closure {
+                  isolated true
                   parameters [
                     {
                       name "item"
@@ -76,6 +81,11 @@ warpt 1
       }
       entry {
         access "public"
+        failing [
+          "cast_refused"
+          "concurrent_failed"
+        ]
+        isolated true
         result {
           call {
             arguments [
@@ -112,6 +122,8 @@ warpt 1
       "App.Thing" {
         procedures {
           name {
+            const true
+            isolated true
             parameters [
               {
                 name "of"

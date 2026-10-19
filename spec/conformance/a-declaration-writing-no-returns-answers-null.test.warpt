@@ -1,0 +1,32 @@
+warpt 1
+{
+  expect {
+    answers null
+  }
+  name "a-declaration-writing-no-returns-answers-null"
+  note "A declaration that writes no `returns` answers null: `Null` is what a procedure answering nothing answers, and nothing is read off its body."
+  program {
+    imports []
+    procedures {
+      "App.nothing" {
+        body [
+          {
+            let "x"
+            value 1
+          }
+        ]
+      }
+      entry {
+        access "public"
+        result {
+          call {
+            procedure "App.nothing"
+          }
+        }
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

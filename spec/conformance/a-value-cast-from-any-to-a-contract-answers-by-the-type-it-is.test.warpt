@@ -25,6 +25,8 @@ warpt 1
       Int {
         procedures {
           describe {
+            const true
+            isolated true
             parameters [
               {
                 name "of"
@@ -43,11 +45,16 @@ warpt 1
     imports []
     procedures {
       "App.anything" {
+        const true
+        isolated true
         result 1
         returns "Any"
       }
       entry {
         access "public"
+        failing [
+          "cast_refused"
+        ]
         result {
           call {
             arguments [

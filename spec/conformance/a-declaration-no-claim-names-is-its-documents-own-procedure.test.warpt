@@ -21,6 +21,7 @@ warpt 1
       procedures {
         "App.ask" {
           result 1
+          returns "Int"
         }
       }
       warp 1
@@ -46,6 +47,9 @@ warpt 1
       }
       entry {
         access "public"
+        failing [
+          "cast_refused"
+        ]
         result {
           call {
             arguments [
@@ -63,6 +67,7 @@ warpt 1
             procedure "Bank.Account.describe"
           }
         }
+        returns "Int"
       }
     }
     types {

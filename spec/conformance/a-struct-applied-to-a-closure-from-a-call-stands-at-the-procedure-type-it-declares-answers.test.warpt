@@ -4,7 +4,7 @@ warpt 1
     answers 2
   }
   name "a-struct-applied-to-a-closure-from-a-call-stands-at-the-procedure-type-it-declares-answers"
-  note "A closure's constness, isolation and failing are what the build derived for it, and a struct holding one is read as applied to its positions and answer, so a call answering it stands where the struct is applied to the declared procedure type."
+  note "A struct a call answers is read as applied to what its value reads as, and a procedure there is read as its positions and answer, the constness and isolation its signature declares meeting what is declared. So `App.wrap`'s box of a closure declaring `const` and `isolated` stands where `App.Box<App.F>` is declared."
   program {
     imports []
     procedures {
@@ -35,6 +35,8 @@ warpt 1
                 arguments [
                   {
                     closure {
+                      const true
+                      isolated true
                       parameters [
                         {
                           name "x"

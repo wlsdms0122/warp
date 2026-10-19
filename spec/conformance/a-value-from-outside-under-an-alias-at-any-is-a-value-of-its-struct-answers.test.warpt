@@ -17,6 +17,9 @@ warpt 1
     procedures {
       entry {
         access "public"
+        failing [
+          "cast_refused"
+        ]
         parameters [
           {
             name "a"
@@ -42,6 +45,7 @@ warpt 1
             procedure "Standard.Logic.equal"
           }
         }
+        returns "Bool"
       }
     }
     types {

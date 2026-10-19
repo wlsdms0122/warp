@@ -1,0 +1,47 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-module-constant-closure-calling-another-carries-what-it-declares"
+  note "A module constant that writes no type follows the type written where its value came from, in a closure another constant holds as in a body: the closure 'b' holds calls 'a', whose closure declares it fails with nothing, so 'b' fails with nothing and answers."
+  program {
+    const {
+      a {
+        closure {
+          result 1
+          returns "Int"
+        }
+      }
+      b {
+        closure {
+          result {
+            call {
+              procedure {
+                ref "a"
+              }
+            }
+          }
+          returns "Int"
+        }
+      }
+    }
+    imports []
+    procedures {
+      entry {
+        access "public"
+        result {
+          call {
+            procedure {
+              ref "b"
+            }
+          }
+        }
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

@@ -19,11 +19,15 @@ warpt 1
               {
                 closure {
                   result 1
+                  returns "Int"
                 }
               }
               1
             ]
           }
+        ]
+        failing [
+          "concurrent_failed"
         ]
         result {
           call {
@@ -35,6 +39,7 @@ warpt 1
             procedure "Standard.Concurrent.all"
           }
         }
+        returns "Array<Any>"
       }
     }
     warp 1

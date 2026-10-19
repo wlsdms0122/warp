@@ -15,6 +15,10 @@ warpt 1
     procedures {
       entry {
         access "public"
+        failing [
+          "concurrent_failed"
+        ]
+        isolated true
         result {
           call {
             arguments [
@@ -24,7 +28,10 @@ warpt 1
                     2
                     {
                       closure {
+                        const true
+                        isolated true
                         result "b"
+                        returns "String"
                       }
                     }
                   ]
@@ -32,7 +39,10 @@ warpt 1
                     1
                     {
                       closure {
+                        const true
+                        isolated true
                         result "a"
+                        returns "String"
                       }
                     }
                   ]
@@ -42,6 +52,7 @@ warpt 1
             procedure "Standard.Concurrent.allKeyed"
           }
         }
+        returns "Dictionary<Int, String>"
       }
     }
     warp 1

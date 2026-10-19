@@ -16,6 +16,8 @@ warpt 1
     procedures {
       entry {
         access "public"
+        const true
+        failing "anything"
         parameters [
           {
             name "item"
@@ -38,12 +40,16 @@ warpt 1
               }
               {
                 closure {
+                  const true
+                  isolated true
                   result "small"
                   returns "String"
                 }
               }
               {
                 closure {
+                  const true
+                  isolated true
                   result "large"
                   returns "String"
                 }

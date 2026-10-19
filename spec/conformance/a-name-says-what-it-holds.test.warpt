@@ -4,7 +4,7 @@ warpt 1
     answers 1
   }
   name "a-name-says-what-it-holds"
-  note "A name may say what it holds under `type`, and the build works out a reading only where the name declares none. An `inout` slot asks for the same type the name is, and what the build derives about a closure (that this one answers without running and is isolated) is not what the name says. So the declaration is what lets this name be handed in place."
+  note "A name may say what it holds under `type`, and a name that says nothing is the type its value reads as. The closure literal `step` starts as declares `const` and `isolated`, and an `inout` slot asks for the same type the name is, so it is the name's declaration `(Int) -> Int` that lets `step` be handed to `swap`."
   program {
     imports []
     procedures {
@@ -15,6 +15,8 @@ warpt 1
             type "(Int) -> Int"
             value {
               closure {
+                const true
+                isolated true
                 parameters [
                   {
                     name "x"
@@ -43,6 +45,7 @@ warpt 1
           }
         ]
         result 1
+        returns "Int"
       }
       swap {
         body [

@@ -2,21 +2,12 @@ warpt 1
 {
   expect {
     builds {
-      answers [
-        [
-          "entry"
-          [
-            14
-            0
-          ]
-        ]
-      ]
       claims []
       constants []
       contracts []
       dependencies []
       document [
-        x"7a9867e09b36d3dfdb138db0cfb82ef6fd8501c8abcd1206d81f02a08d7a46d1"
+        x"5e4196ac540e632dce774767909e6d0febcefc656768802472dd961aff7df79d"
       ]
       importedClaims []
       lifted []
@@ -41,17 +32,20 @@ warpt 1
                 []
               ]
             ]
-            []
+            [
+              14
+              "App.P"
+            ]
+            [
+              1
+              []
+            ]
+            1
+            1
             []
             []
           ]
           2
-          1
-          1
-          [
-            1
-            []
-          ]
           [
             0
             [
@@ -120,9 +114,7 @@ warpt 1
         ]
       ]
       typeMembers []
-      typeNumbering [
-        "App.P"
-      ]
+      typeNumbering []
       types [
         [
           "App.P"
@@ -149,7 +141,7 @@ warpt 1
     }
   }
   name "the-object-of-a-struct-built-from-parts"
-  note "A struct built from parts carries its layout, the field names ascending, and one operation per field in that order. A declaration that wrote no returns has what the build read off its body written under answers."
+  note "A struct built from parts carries its layout, the field names ascending, and one operation per field in that order. The row writes under answers what the declaration's `returns` says."
   program {
     imports []
     procedures {
@@ -169,6 +161,8 @@ warpt 1
             }
           }
         ]
+        const true
+        isolated true
         parameters [
           {
             name "n"
@@ -178,6 +172,7 @@ warpt 1
         result {
           ref "p"
         }
+        returns "App.P"
       }
     }
     types {

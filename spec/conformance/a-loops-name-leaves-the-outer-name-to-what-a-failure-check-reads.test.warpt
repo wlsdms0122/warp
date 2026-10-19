@@ -1,0 +1,104 @@
+warpt 1
+{
+  expect {
+    answers 1
+  }
+  name "a-loops-name-leaves-the-outer-name-to-what-a-failure-check-reads"
+  note "A loop's name binds nothing after the loop in what a body is held to: `g` after a loop of that name is the outer `step`, which says it fails with nothing, so `apply`, which declares no failure, builds and answers."
+  program {
+    imports []
+    procedures {
+      apply {
+        body [
+          {
+            let "g"
+            value {
+              ref "step"
+            }
+          }
+          {
+            value {
+              conditional {
+                then [
+                  {
+                    let "g"
+                    value {
+                      loop {
+                        body []
+                        while false
+                      }
+                    }
+                  }
+                  {
+                    let "r"
+                    value {
+                      call {
+                        arguments [
+                          {
+                            ref "of"
+                          }
+                        ]
+                        procedure {
+                          ref "g"
+                        }
+                      }
+                    }
+                  }
+                ]
+                when true
+              }
+            }
+          }
+        ]
+        parameters [
+          {
+            name "of"
+            type "Int"
+          }
+          {
+            name "step"
+            type "const (Int) -> Int"
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+      entry {
+        access "public"
+        body [
+          {
+            let "r"
+            value {
+              call {
+                arguments [
+                  1
+                  {
+                    closure {
+                      const true
+                      parameters [
+                        {
+                          name "x"
+                          type "Int"
+                        }
+                      ]
+                      result {
+                        ref "x"
+                      }
+                      returns "Int"
+                    }
+                  }
+                ]
+                procedure "apply"
+              }
+            }
+          }
+        ]
+        result 1
+        returns "Int"
+      }
+    }
+    warp 1
+  }
+  test 1
+}
+

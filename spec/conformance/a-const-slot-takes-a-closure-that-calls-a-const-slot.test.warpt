@@ -4,7 +4,7 @@ warpt 1
     answers true
   }
   name "a-const-slot-takes-a-closure-that-calls-a-const-slot"
-  note "A procedure that calls a name its own slot said holds a procedure answering without running answers without running itself. So a closure sending it fits a slot asking a `const` procedure type."
+  note "`App.asking` declares `const` and calls only the name its slot said holds a `const` procedure, so the build holds it to that. A closure declaring `const` that sends it fits the slot of a `const` procedure type `Standard.Logic.and` asks."
   program {
     imports [
       "Standard.Logic.and"
@@ -23,6 +23,7 @@ warpt 1
             }
           }
         ]
+        const true
         parameters [
           {
             name "body"
@@ -36,17 +37,22 @@ warpt 1
       }
       entry {
         access "public"
+        const true
+        failing "anything"
         result {
           call {
             arguments [
               [
                 {
                   closure {
+                    const true
                     result {
                       call {
                         arguments [
                           {
                             closure {
+                              const true
+                              isolated true
                               result true
                               returns "Bool"
                             }

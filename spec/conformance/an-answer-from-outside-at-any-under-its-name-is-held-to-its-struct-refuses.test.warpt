@@ -1,0 +1,53 @@
+warpt 1
+{
+  expect {
+    refuses "run"
+  }
+  name "an-answer-from-outside-at-any-under-its-name-is-held-to-its-struct-refuses"
+  note "`App.v` is a procedure the host answers declaring it answers `Any`, and it answers `App.P { a: \"s\" }`, whose field `a` the struct declares `Int`. Its answer comes in through the door at `Any`, which holds a struct under a name to the struct the name declares, so the run refuses there, before anything reads `r`."
+  program {
+    imports [
+      "App.v"
+    ]
+    procedures {
+      entry {
+        access "public"
+        body [
+          {
+            let "r"
+            value {
+              call {
+                procedure "App.v"
+              }
+            }
+          }
+        ]
+        result "ok"
+        returns "String"
+      }
+    }
+    warp 1
+  }
+  test 1
+  vocabulary {
+    imports []
+    procedures {
+      "App.v" {
+        answers App.P {
+          a "s"
+        }
+        isolated true
+        returns "Any"
+      }
+    }
+    types {
+      "App.P" {
+        struct {
+          a "Int"
+        }
+      }
+      "App.Q" "App.P"
+    }
+  }
+}
+
