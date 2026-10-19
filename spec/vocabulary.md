@@ -30,7 +30,7 @@ Not all of these. Most are written in Warp, from a small set that cannot be: **b
 
 Thirty-six, beside the contracts `Standard` declares. What makes one builtin is that the language cannot express it: arithmetic, ordering and counting are the machine's, written once for each type answering the contract that asks them, case mapping and encoding carry Unicode's tables with them, running at once is the host's scheduler, `appending` is the only way an array grows, and `gathering` the only way an answer keeps the spelling its collection arrived in. Everything else is written from those.
 
-`greaterThan` is `lessThan` with its sides swapped, and both are called the same way. A module a host lays in the link may declare `greaterThan` **in place of** the written one, and the link takes it: one name has one declarer, and which body stands behind it is the host's.
+`greaterThan` is `lessThan` with its sides swapped, and both are called the same way.
 
 One of these is builtin for a reason that is not the set it removes. `trimmed` names that set, and a body written from `characters` still could not answer it: `characters` answers characters, and whether a character is whitespace is a question about the code points inside it.
 
