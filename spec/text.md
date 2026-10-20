@@ -44,7 +44,7 @@ Only text is quoted, always, so a name stands bare wherever it reads back bare, 
 - A document is a sequence of nodes, `(warp 1)` first. A document writing no `import` writes `imports: []`.
 - An import holds a spelling, under [the document format](document.md). A claim is two names, joined with `: ` in the tree.
 - A document's variable always has a start: `(var count)` writes no tree.
-- **A name holding `:` has no text** in an import, a `typeParameter` and a contract's `type`, since the tree writes the name and what bounds it in one string, cut at a `:`.
+- **Names the tree joins into one string have a text where the load reads the string back as those names.** An import is cut at each `:`, its halves read without white space at their ends; a `typeParameter` and a contract's `type` at their first `:`, and their bound, as a `bound`'s, at each `&` outside brackets. So a name the cut reads otherwise, one holding `:` or `&` or with white space at an end among them, has no text there, and **refuses**.
 
 ## Declarations
 
@@ -119,7 +119,6 @@ App.Point  App.Named                        a declared type or contract, by its 
 - **One type, one node.** A type node writes its string, and the string read back with the type grammar under [types](type.md) is the node again; a node that comes back as another **refuses**. So `(named Array Int)` refuses, since `(array Int)` writes `Array<Int>`; `(composition A)` and `(named App.Box)` refuse, since a name alone is the atom; `(nullable (inout T))` refuses, since `inout T?` reads as `(inout (nullable T))`; a name holding what the grammar cuts a type at, such as `>` or `&`, refuses; and a procedure type's parts stand in the order its modifiers, `parameters`, `failing`, `returns`.
 - **A procedure type** writes `(parameters …)` and `(returns …)` both, or neither, with `const` or `isolated`, which is `const Procedure`. `Procedure` bare is the atom, so `(procedure)` **refuses**, and so does a procedure type writing one of the two alone. `(failing (anything))` writes `throws`, and `(failing)` writes `throws()`, which the load refuses.
 - **A string is a node's where the grammar reads it as one and that node writes it back.** A string the grammar gives no structure, such as `Array<>`, and one written in another spacing, such as `Array< Int>`, has no node, and its tree is written as data. What a type says is the load's to judge, so `(named Dictionary Int)`, `(procedure (isolated) (const))` and `(some Self)` are written, and the load refuses each.
-- A name holding a character Unicode counts as white space, or any of `<>(),:&?`, has no text in `import`, `typeParameter`, a contract's `type` and `bound`, whose string joins names with `: ` and ` & `, and **refuses**.
 - **A type's and a path's nodes nest at most 128 levels**: a type written inside another is one level deeper than it, and a path between brackets one deeper than the path around it, so `(array Int)` nests one level and `Int` none. Both directions refuse past it before walking further. How deep a type or a path may stand in a document is the load's to judge, counted on from the containers around its string, under [types](type.md) and [expressions](expression.md).
 
 ## Statements
