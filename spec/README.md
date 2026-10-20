@@ -59,6 +59,8 @@ Refusals happen at one of three stages, and the stage is part of the behaviour:
 
 **Note.** A paragraph opening with **Note.** is not a requirement. It says what a rule is for, what an implementation is likely to get wrong, or what the rule would cost written another way. Removing every one of them removes nothing an implementation is held to, and the cases under `conformance/` never measure one.
 
+**How the pages write examples.** A mapping in braces, `{ ref: "x" }`, shows a part of a document's tree, and brackets, `[1, "s"]`, show a list value; neither is an encoding. An example in parentheses, `(array 1 "s")`, is the text, under [the text](text.md).
+
 Two implementations that run the same programs identically and disagree about which programs to refuse, or *where*, are not the same language. A refusal at the run where another implementation refuses at the build means something already happened, and what already happened cannot be taken back.
 
 The cases under `conformance/` name the stages **`load`**, **`build`** and **`run`**. `load` is reading plus the checks a document answers alone, listed in [checking](checking.md). A document is checked as it is loaded, and to the host the two are one refusal surface. `build` is everything judged against a signature or another document: what a call fits, what a slot takes, which module declares a procedure, which type answers a contract. `run` is running. The stage is the rule's and not the program's: a `ref` that resolves nowhere in its own document refuses at `load`, a call in that same document handing a value of the wrong type refuses at `build`, and a procedure no module declares refuses at `build`.
