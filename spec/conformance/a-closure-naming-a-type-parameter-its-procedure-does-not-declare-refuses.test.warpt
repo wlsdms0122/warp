@@ -6,10 +6,12 @@
   (warp 1)
   (procedure entry
     (access public)
+    (returns Int)
     (body
       (let g
         (closure
           (parameter y (type (some T)))
+          (returns Any)
           (result y))))
     (result 1)))
 (expect (refuses load))

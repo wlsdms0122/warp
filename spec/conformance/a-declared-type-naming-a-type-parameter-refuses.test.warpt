@@ -6,10 +6,12 @@
   (warp 1)
   (procedure App.f
     (parameter x (type (some T)))
+    (returns Int)
     (body
       (let y (type (some T)) x))
     (result 1))
   (procedure entry
     (access public)
+    (returns Int)
     (result (call App.f 1))))
 (expect (refuses load))

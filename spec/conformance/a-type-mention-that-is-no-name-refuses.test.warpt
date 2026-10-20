@@ -7,8 +7,10 @@
   (import `a b`)
   (procedure entry
     (access public)
+    (returns Any)
     (result (call keep 1)))
   (procedure keep
     (parameter value (type `a b`))
+    (returns Any)
     (result value)))
 (expect (refuses load))

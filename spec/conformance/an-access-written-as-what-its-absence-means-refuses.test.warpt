@@ -6,8 +6,10 @@
   (warp 1)
   (procedure App.one
     (access internal)
+    (returns Int)
     (result 1))
   (procedure entry
     (access public)
+    (returns Int)
     (result (call App.one))))
 (expect (refuses load))
