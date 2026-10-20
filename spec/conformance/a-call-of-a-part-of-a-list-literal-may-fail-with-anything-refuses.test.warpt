@@ -1,0 +1,18 @@
+(test 1)
+(name "a-call-of-a-part-of-a-list-literal-may-fail-with-anything-refuses")
+(note "`fs` writes no type and holds a list literal, which writes none for its parts, so nothing written says what `fs[0]` may fail with, though the closure in it fails with nothing. Calling it may fail with anything, and `entry` declares no failing, so it is refused at the build. Written `Array<() -> Int>`, the same call answers 1.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let fs
+        (array
+          (closure
+            (returns Int)
+            (result 1))))
+      (let r (apply (path fs (index 0)))))
+    (result r)))
+(expect (refuses build))
