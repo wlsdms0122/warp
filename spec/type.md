@@ -93,7 +93,7 @@ Where a value meets a declaration (an argument, an answer, and a write into a bo
 
 **A mention applies the struct to one type per parameter**, `Box<Int>`, `Box<some T>` in a signature, and is the struct with each parameter read as the type at its position, so every judgement above asks that of its fields. A type standing at a bounded position answers the contracts its bound names, a type parameter by its own bounds, the way a map's key answers `Hashable`, or **refuses at the build** where the mention is written. A value of one carries the struct's name and its fields, and nothing of what it was applied to, as a list carries no element type.
 
-**Two mentions of one struct are one type only where they are applied to the same types.** What a reading says of one value and no declaration writes is read as what is declared: a whole literal as the number it names, `Never` as any type, and a procedure as its positions and answer, the constness, isolation and failing its signature declares meeting what is declared. So `Box<Int>` does not stand where `Box<Int?>` is declared, though a list of `Int` stands where a list of `Int?` is; two readings applied to different types join to `Any`; and a constant holding one is the struct its expression was judged as, or, judged at `Any`, what its value reads as, its fields' readings joined.
+**Two mentions of one struct are one type only where they are applied to the same types.** What a reading says of one value and no declaration writes is read as what is declared: a whole literal as the number it names, and `Never` as any type. A procedure type is the same type only where it declares the same constness, isolation and failing. So `Box<Int>` does not stand where `Box<Int?>` is declared, though a list of `Int` stands where a list of `Int?` is, and `Box<isolated () -> Int>` does not stand where `Box<() -> Int>` is; two readings applied to different types join to `Any`; and a constant holding one is the struct its expression was judged as, or, judged at `Any`, what its value reads as, its fields' readings joined.
 
 **A call filling a type parameter walks into what the struct is applied to**, as into a list's element.
 
@@ -439,8 +439,10 @@ A struct may take type parameters:
 - `a-signature-applying-a-struct-to-a-parameter-its-bounds-do-not-hold-refuses`
 - `a-struct-another-document-declares-with-a-type-parameter-is-applied-here-answers`
 - `a-struct-applied-to-a-closure-from-a-call-stands-at-the-procedure-type-it-declares-answers`
+- `a-struct-applied-to-a-procedure-failing-nothing-where-it-is-applied-to-one-that-may-fail-refuses`
 - `a-struct-applied-to-a-type-its-bound-does-not-take-refuses`
 - `a-struct-applied-to-a-type-parameter-handed-in-place-takes-a-write-of-it-answers`
+- `a-struct-applied-to-an-isolated-procedure-where-it-is-applied-to-one-saying-nothing-refuses`
 - `a-struct-applied-to-int-handed-in-place-is-written-through-answers`
 - `a-struct-applied-to-int-where-it-is-applied-to-int-or-null-refuses`
 - `a-struct-applied-to-int-where-it-is-applied-to-text-refuses`

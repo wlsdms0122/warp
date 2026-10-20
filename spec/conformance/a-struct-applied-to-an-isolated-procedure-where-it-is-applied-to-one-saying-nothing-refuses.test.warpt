@@ -1,0 +1,24 @@
+(test 1)
+(name "a-struct-applied-to-an-isolated-procedure-where-it-is-applied-to-one-saying-nothing-refuses")
+(note "`App.Box<isolated () -> Int>` and `App.Box<() -> Int>` apply the struct to two procedure types, one isolated and one saying nothing, so they are two types and a name holding the first is not the second. Taken, a field of the box taking `some T`, which may run what it is handed at once beside itself, could be handed a closure writing what it captured. Binding it is refused at the build.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let b1
+        (type (named App.Box (procedure (isolated) (parameters) (returns Int))))
+        (struct
+          (field item
+            (closure
+              (isolated)
+              (returns Int)
+              (result 1)))))
+      (let b2 (type (named App.Box (procedure (parameters) (returns Int)))) b1))
+    (result 1)))
+(expect (refuses build))
