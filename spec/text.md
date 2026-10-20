@@ -21,6 +21,8 @@ Only text is quoted, always, so a name stands bare wherever it reads back bare, 
   - `var`: a field's mark inside a type.
   - `const`, `isolated` and `failing`: a procedure's, and a procedure type's inside a type.
   - `document`: an identity's bytes in a case, a document inside `documents`.
+  - `answers`: a vocabulary procedure's fixed answer, a case's expectation.
+  - `returns`: a declaration's answer, a procedure type's inside a type.
 - **What a text is, is the word it begins with**: `(warp …)` a document, `(test …)` a case. A text beginning with any other **refuses**, and so does an atom standing at the top, in no node. `(warp 1)` stands first at the top of a text; inside a case, under `program` and `document`, it stands among the other nodes like any key's.
 - **Layout is free on the way in**: white space between atoms, and the nodes for a mapping's keys in any order. What the tree holds as a list keeps the order written: imports, parameters, statements, `satisfies`, type parameters, a contract's types, `failing`, a composition, a bound. A key written twice **refuses**: two values under one key are two documents, not one document laid out twice.
 
@@ -198,7 +200,7 @@ Data is the nodes above that hold values, read as values: the scalars, `(array �
 ## The writer's layout
 
 - **A list breaks when it is a block holding a list, or holds a list that breaks.** A list that breaks keeps the atoms it begins with on its first line and writes each part after them on a line of its own, two spaces deeper; its `)` closes the last line. Every other list is written on one line.
-- The blocks, decided by place: a declaration's node (`procedure`, `struct`, `contract` and `extension` at the top, and `procedure` inside them), `closure`, the constructs (`conditional`, `loop`, `attempt`, `rescue`) and their statement lists (`body`, `then`, `else`), and a case's `program`, `documents`, `document` inside `documents`, and `vocabulary`. A type's `procedure`, a struct value and data are not blocks.
+- The blocks, decided by place: a declaration's node (`procedure`, `struct`, `contract` and `extension` at the top, and `procedure` inside them), `closure`, the constructs (`conditional`, `loop`, `attempt`, `rescue`), the statement lists of a procedure, a closure and the constructs (`body`, `then`, `else`), and a case's `program`, `documents`, `document` inside `documents`, and `vocabulary`. A type's `procedure`, a struct value and data are not blocks.
 - At the top of a text, one node a line, and a blank line before each node that breaks.
 - Parts stand in the writer's order: in a procedure `description`, `access`, `const`, `isolated`, the parameters, `returns`, `failing`, `bound`, `sameType`, `body`, `result`, `answers`; in a document `warp`, `description`, the imports, constants, variables, types, contracts, extensions and procedures, each kind by name; in a case `test`, `name`, `note`, `documents`, `vocabulary`, `program` or `tree`, `bytes`, `text`, `object`, `document`, `arguments`, `expect`; inside the other nodes in the order this page shows them, each kind by name. Data writes a map's entries in the key order and a struct's fields ascending by their names' bytes, under [values](value.md). The text ends with one newline.
 
