@@ -1,6 +1,6 @@
 (test 1)
 (name "text-spells-a-struct-on-one-line")
-(note "text spells a container on one line: a map's entries between braces as the key in its own spelling, text quoted, a colon and the value; a named struct the same with its name and a space in front; an empty one as its two braces.")
+(note "text spells a container on one line: a map's entries between braces as the key in its own spelling, text quoted, a colon and the value; a named struct the same with its name and a space in front, each field's name bare; an empty one as its two braces.")
 
 (program
   (warp 1)
@@ -16,4 +16,4 @@
       (let named (call Standard.Text.text (as (struct (field x 1)) Point)))
       (let empty (call Standard.Text.text (dictionary))))
     (result (array plain named empty))))
-(expect (answers (array "{\"a\":\"x\",\"b\":1}" "Point {\"x\":1}" "{}")))
+(expect (answers (array "{\"a\":\"x\",\"b\":1}" "Point {x:1}" "{}")))
