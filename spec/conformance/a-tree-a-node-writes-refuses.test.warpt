@@ -1,0 +1,5 @@
+(test 1)
+(name "a-tree-a-node-writes-refuses")
+(note "`(tree …)` writes a case's program as data where no node writes it back. A program a node writes is written `(program …)`, so a `(tree …)` holding one refuses.")
+(text "(test 1)\n(name \"a-program-written-as-data\")\n(note \"…\")\n(tree (dictionary (entry \"imports\" (array)) (entry \"warp\" 1)))\n(expect (refuses build))")
+(expect (refuses load))

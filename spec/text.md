@@ -232,11 +232,25 @@ A case as the writer lays it out:
 
 What `conformance/` asks about this page, by the name each case's file carries.
 
+- `a-break-naming-null-refuses`
+- `a-case-spells-in-its-layout`
+- `a-conditional-spells-as-text`
+- `a-document-variable-without-a-start-refuses`
+- `a-list-holding-a-list-that-breaks-spells-as-text`
 - `a-map-keyed-by-values-spells-as-text`
 - `a-path-name-not-in-normal-form-c-refuses`
+- `a-path-node-of-one-name-refuses`
+- `a-procedure-type-node-holding-nothing-refuses`
+- `a-procedure-type-node-with-its-parts-out-of-order-refuses`
+- `a-procedure-type-node-writing-parameters-alone-refuses`
 - `a-return-of-null-written-out-refuses`
 - `a-struct-spells-from-text`
 - `a-text-key-written-twice-refuses`
+- `a-text-led-by-a-word-other-than-warp-or-test-refuses`
 - `a-text-reads-in-any-layout`
+- `a-tree-a-node-writes-refuses`
+- `a-type-node-another-node-writes-refuses`
 - `an-atom-outside-every-node-refuses`
+- `an-import-holding-a-colon-refuses`
+- `text-as-the-callee-of-apply-refuses`
 - `the-golden-document-spells-as-text`

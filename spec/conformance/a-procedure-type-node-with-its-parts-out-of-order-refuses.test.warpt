@@ -1,0 +1,5 @@
+(test 1)
+(name "a-procedure-type-node-with-its-parts-out-of-order-refuses")
+(note "A procedure type's string reads back as its parts in the order its modifiers, `parameters`, `failing`, `returns`, so a node writing them in another order refuses.")
+(text "(warp 1)\n\n(procedure App.f\n  (parameter f (type (procedure (returns Int) (parameters Int))))\n  (returns Int)\n  (result 1))")
+(expect (refuses load))

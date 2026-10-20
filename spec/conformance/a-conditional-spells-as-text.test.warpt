@@ -1,0 +1,5 @@
+(test 1)
+(name "a-conditional-spells-as-text")
+(note "A conditional is a block, and so are its `then` and `else`; its `when` holds no list that breaks and stands on one line.")
+(text "(warp 1)\n\n(procedure entry\n  (access public)\n  (parameter c (type Bool))\n  (returns Int)\n  (body\n    (var n 0)\n    (conditional\n      (when c)\n      (then\n        (set n 1))\n      (else\n        (set n 2))))\n  (result n))\n")
+(expect (spells (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" 0) (entry "var" "n")) (dictionary (entry "value" (dictionary (entry "conditional" (dictionary (entry "else" (array (dictionary (entry "set" "n") (entry "value" 2)))) (entry "then" (array (dictionary (entry "set" "n") (entry "value" 1)))) (entry "when" (dictionary (entry "ref" "c")))))))))) (entry "parameters" (array (dictionary (entry "name" "c") (entry "type" "Bool")))) (entry "result" (dictionary (entry "ref" "n"))) (entry "returns" "Int"))))) (entry "warp" 1))))

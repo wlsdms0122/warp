@@ -1,0 +1,5 @@
+(test 1)
+(name "a-type-node-another-node-writes-refuses")
+(note "A type node is the one node its string reads as. `(named Array Int)` writes `Array<Int>`, which reads as `(array Int)`, so it refuses.")
+(text "(warp 1)\n\n(procedure App.f\n  (parameter xs (type (named Array Int)))\n  (returns Int)\n  (result 1))")
+(expect (refuses load))

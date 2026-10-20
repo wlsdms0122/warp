@@ -1,0 +1,5 @@
+(test 1)
+(name "an-import-holding-a-colon-refuses")
+(note "An import is one string in the tree, which the load cuts at each `:` into a name or a claim's two halves. A name holding `:` would be read back as two, so it has no text, and refuses.")
+(text "(warp 1)\n(import `App:f`)")
+(expect (refuses load))
