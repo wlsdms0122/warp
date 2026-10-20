@@ -316,6 +316,7 @@ How a type is written:
 - `a-struct-listing-no-type-parameters-applied-to-one-refuses`
 - `a-struct-taking-type-parameters-named-without-brackets-refuses`
 - `a-type-nested-past-the-bound-refuses`
+- `a-type-nested-to-the-bound-is-read`
 - `a-type-the-language-names-written-with-brackets-refuses`
 - `an-alias-applied-to-a-type-refuses`
 - `inout-written-on-a-name-refuses`
