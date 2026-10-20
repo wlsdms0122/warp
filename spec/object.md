@@ -122,6 +122,16 @@ An *operation* is the number of an entry in `operationTable`, and the entry is `
 
 A *layout* is `[name, fields]`: the declared struct's name, and the field names ascending. A *call* is `[procedure, arguments, handed]`: the row the call reaches, numbered by the document; one *operation* or nothing per parameter of the callee, in parameter order, nothing exactly where the call hands that parameter an address in place; and `[position, address]` for each parameter handed in place, by position ascending. A *dispatch* is `[contract, procedure, first, arguments]`: the contract's name, the procedure's, the first argument's *operation*, and the arguments after it by position, each an *argument*. Which row answers is the link's, and stands nowhere in an object. An *argument* is `[0, operation]` by value or `[1, address]` by reference: the place a call of a value hands in place, or one a call through a contract hands to whichever row takes it in place.
 
+### How a body lowers
+
+A body is lowered in the order it is written, and that order gives each slot its number: a slot is the next one free when the walk first meets its name. The parameters come first, in the declaration's order. Then each statement in turn: what its construct reads is lowered, and then the name the statement binds takes its slot. A loop's round takes a slot before its condition, and an attempt's failure one after the attempted body and before the rescue. Inside a construct the parts are walked in the order its operation writes them, a callee before its arguments, a struct's fields in name order, a key before its value, `then` before `else`, and a body's `result` after its statements. A name introduced in a nested body takes a slot of the same frame, and a name introduced twice takes two.
+
+A name a body reads and did not introduce takes a slot the first time it is read: a module variable, written under the frame's `variables`, and a constant the build could not settle into the reading, which is one read at an index the run reads. A closure is lowered on a frame of its own, the same way, where it stands; every name from the body around it, a module variable and a constant included, is taken from that body, so it takes a slot in that body as a read there would and one in the closure's frame, written under the frame's `captures`, and the closure literal writes the two as a pair.
+
+A body reading such a constant starts with one instruction for each, in slot order, binding its slot to the constant's settled value as a literal and labelled with the constant's name. Every other instruction is a statement, labelled with the statement's name, or with `[position]`, its position in the body counted from zero, where it has none.
+
+A body stands on a declared type only through a cast, the one operation that writes a *lowered type*, so the types a document's `typeNumbering` holds are the declared types its bodies' casts name.
+
 ### Lowered types
 
 A *lowered type* is a type as a body stands on it, the number of an entry in `loweredTypeTable`, and the entry is `[tag, …]`:
