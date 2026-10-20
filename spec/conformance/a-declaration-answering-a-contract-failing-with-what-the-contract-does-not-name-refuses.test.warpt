@@ -1,74 +1,24 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-declaration-answering-a-contract-failing-with-what-the-contract-does-not-name-refuses"
-  note "A contract that names no failure lets nothing fail out of the procedures it asks. `Int.check` aborts, which `check` does not let it, so the claim does not hold and refuses at the build, at the claim."
-  program {
-    contracts {
-      "App.Checked" {
-        procedures {
-          check {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "Int"
-          }
-        }
-      }
-    }
-    extensions {
-      Int {
-        procedures {
-          check {
-            failing [
-              "aborted"
-            ]
-            parameters [
-              {
-                name "of"
-                type "Int"
-              }
-            ]
-            result {
-              call {
-                arguments [
-                  "no"
-                ]
-                procedure "Standard.Control.abort"
-              }
-            }
-            returns "Int"
-          }
-        }
-        satisfies [
-          "App.Checked"
-        ]
-      }
-    }
-    imports [
-      "Standard.Control.abort"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              1
-            ]
-            procedure "App.Checked.check"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-declaration-answering-a-contract-failing-with-what-the-contract-does-not-name-refuses")
+(note "A contract that names no failure lets nothing fail out of the procedures it asks. `Int.check` aborts, which `check` does not let it, so the claim does not hold and refuses at the build, at the claim.")
 
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (contract App.Checked
+    (procedure check
+      (parameter of (type Self))
+      (returns Int)))
+  (extension
+    (head Int)
+    (satisfies App.Checked)
+    (procedure check
+      (parameter of (type Int))
+      (returns Int)
+      (failing aborted)
+      (result (call Standard.Control.abort "no"))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result (call App.Checked.check 1))))
+(expect (refuses build))

@@ -1,53 +1,24 @@
-warpt 1
-{
-  documents [
-    {
-      extensions {
-        "App.Box<some T: Hashable>" {
-          satisfies [
-            "Hashable"
-          ]
-        }
-      }
-      imports []
-      types {
-        "App.Box" {
-          struct {
-            item "some T"
-          }
-          typeParameters [
-            "T"
-          ]
-        }
-        "App.Plain" {
-          struct {
-            x "Int"
-          }
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    answers {}
-  }
-  name "a-map-keyed-by-a-struct-its-conditional-claim-takes-answers"
-  note "A map type keyed by a box of Int: the head takes it, so the key answers Hashable."
-  program {
-    imports [
-      "App.Box"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result {
-          dictionary []
-        }
-        returns "Dictionary<App.Box<Int>, String>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-map-keyed-by-a-struct-its-conditional-claim-takes-answers")
+(note "A map type keyed by a box of Int: the head takes it, so the key answers Hashable.")
 
+(documents
+  (document
+    (warp 1)
+    (struct App.Box
+      (typeParameter T)
+      (field item (some T)))
+    (struct App.Plain
+      (field x Int))
+    (extension
+      (head (named App.Box (some T Hashable)))
+      (satisfies Hashable))))
+
+(program
+  (warp 1)
+  (import App.Box)
+  (procedure entry
+    (access public)
+    (returns (dictionary (named App.Box Int) String))
+    (result (dictionary))))
+(expect (answers (dictionary)))

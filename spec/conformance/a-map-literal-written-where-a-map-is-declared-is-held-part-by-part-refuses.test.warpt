@@ -1,32 +1,11 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-map-literal-written-where-a-map-is-declared-is-held-part-by-part-refuses"
-  note "A map literal written where a map type is declared is held to it part by part, every key against the key's type and every value against the value's, so a text value among whole numbers refuses at the build."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        result {
-          dictionary [
-            [
-              "a"
-              1
-            ]
-            [
-              "b"
-              "two"
-            ]
-          ]
-        }
-        returns "Dictionary<String, Int>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-map-literal-written-where-a-map-is-declared-is-held-part-by-part-refuses")
+(note "A map literal written where a map type is declared is held to it part by part, every key against the key's type and every value against the value's, so a text value among whole numbers refuses at the build.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns (dictionary String Int))
+    (result (dictionary (entry "a" 1) (entry "b" "two")))))
+(expect (refuses build))

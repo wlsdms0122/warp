@@ -1,20 +1,5 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "const-written-false-refuses"
-  note "Leaving `const` out is the declaration making no claim, so `const: false` written out refuses at the load."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        const false
-      }
-    }
-    warp 1
-  }
-  test 1
-}
-
+(test 1)
+(name "const-written-false-refuses")
+(note "Leaving `const` out is the declaration making no claim, so `const: false` written out refuses at the load.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "const" false))))) (entry "warp" 1)))
+(expect (refuses load))

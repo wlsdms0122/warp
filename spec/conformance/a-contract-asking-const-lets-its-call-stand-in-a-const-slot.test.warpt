@@ -1,151 +1,43 @@
-warpt 1
-{
-  expect {
-    answers [
-      "1"
-      "2"
-    ]
-  }
-  name "a-contract-asking-const-lets-its-call-stand-in-a-const-slot"
-  note "A contract's procedure writing `const` and `isolated` answers without running and touches nothing, so a call through it stands where a call to a declaration saying both does: the closure in `App.names` declares both and sends it, and stands in the `const isolated` slot map asks. Every declaration answering the contract is held to that where its claim is checked."
-  program {
-    contracts {
-      "App.Named" {
-        procedures {
-          name {
-            const true
-            isolated true
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    imports [
-      "Standard.Collection.map"
-      "Standard.Text.text"
-    ]
-    procedures {
-      "App.names" {
-        const true
-        isolated true
-        parameters [
-          {
-            name "of"
-            type "Array<some T: App.Named>"
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "of"
-              }
-              {
-                closure {
-                  const true
-                  isolated true
-                  parameters [
-                    {
-                      name "item"
-                      type "some T"
-                    }
-                  ]
-                  result {
-                    call {
-                      arguments [
-                        {
-                          ref "item"
-                        }
-                      ]
-                      procedure "App.Named.name"
-                    }
-                  }
-                  returns "String"
-                }
-              }
-            ]
-            procedure "Standard.Collection.map"
-          }
-        }
-        returns "Array<String>"
-      }
-      entry {
-        access "public"
-        const true
-        failing "anything"
-        result {
-          call {
-            arguments [
-              [
-                {
-                  as {
-                    of {
-                      struct {
-                        id 1
-                      }
-                    }
-                    type "App.Thing"
-                  }
-                }
-                {
-                  as {
-                    of {
-                      struct {
-                        id 2
-                      }
-                    }
-                    type "App.Thing"
-                  }
-                }
-              ]
-            ]
-            procedure "App.names"
-          }
-        }
-        returns "Array<String>"
-      }
-    }
-    types {
-      "App.Thing" {
-        procedures {
-          name {
-            const true
-            isolated true
-            parameters [
-              {
-                name "of"
-                type "App.Thing"
-              }
-            ]
-            result {
-              call {
-                arguments [
-                  {
-                    ref "of.id"
-                  }
-                ]
-                procedure "Standard.Text.text"
-              }
-            }
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.Named"
-        ]
-        struct {
-          id "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-contract-asking-const-lets-its-call-stand-in-a-const-slot")
+(note "A contract's procedure writing `const` and `isolated` answers without running and touches nothing, so a call through it stands where a call to a declaration saying both does: the closure in `App.names` declares both and sends it, and stands in the `const isolated` slot map asks. Every declaration answering the contract is held to that where its claim is checked.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.map)
+  (import Standard.Text.text)
+  (struct App.Thing
+    (satisfies App.Named)
+    (field id Int)
+    (procedure name
+      (const)
+      (isolated)
+      (parameter of (type App.Thing))
+      (returns String)
+      (result (call Standard.Text.text (path of (field id))))))
+  (contract App.Named
+    (procedure name
+      (const)
+      (isolated)
+      (parameter of (type Self))
+      (returns String)))
+  (procedure App.names
+    (const)
+    (isolated)
+    (parameter of (type (array (some T App.Named))))
+    (returns (array String))
+    (result
+      (call Standard.Collection.map of
+        (closure
+          (const)
+          (isolated)
+          (parameter item (type (some T)))
+          (returns String)
+          (result (call App.Named.name item))))))
+  (procedure entry
+    (access public)
+    (const)
+    (returns (array String))
+    (failing (anything))
+    (result (call App.names (array (as (struct (field id 1)) App.Thing) (as (struct (field id 2)) App.Thing))))))
+(expect (answers (array "1" "2")))

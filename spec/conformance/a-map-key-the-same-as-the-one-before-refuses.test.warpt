@@ -1,11 +1,5 @@
-warpt 1
-{
-  bytes x"57415250010702030200043ff000000000000000"
-  expect {
-    refuses "load"
-  }
-  name "a-map-key-the-same-as-the-one-before-refuses"
-  note "`1` and `1.0` are one value, so they are one key and stand at one place in the key order. Bytes holding both hold one key twice, and strictly ascending refuses the second."
-  test 1
-}
-
+(test 1)
+(name "a-map-key-the-same-as-the-one-before-refuses")
+(note "`1` and `1.0` are one value, so they are one key and stand at one place in the key order. Bytes holding both hold one key twice, and strictly ascending refuses the second.")
+(bytes x"57415250010702030200043ff000000000000000")
+(expect (refuses load))

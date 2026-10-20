@@ -1,34 +1,12 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-cast-naming-a-type-nothing-declares-refuses"
-  note "A cast names the type a value is read as, and a name nothing declares is no type. It is refused at the build, wherever it is written."
-  program {
-    imports [
-      "Ghost"
-    ]
-    procedures {
-      entry {
-        access "public"
-        parameters [
-          {
-            name "item"
-          }
-        ]
-        result {
-          as {
-            of {
-              ref "item"
-            }
-            type "Ghost"
-          }
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-cast-naming-a-type-nothing-declares-refuses")
+(note "A cast names the type a value is read as, and a name nothing declares is no type. It is refused at the build, wherever it is written.")
 
+(program
+  (warp 1)
+  (import Ghost)
+  (procedure entry
+    (access public)
+    (parameter item)
+    (result (as item Ghost))))
+(expect (refuses build))

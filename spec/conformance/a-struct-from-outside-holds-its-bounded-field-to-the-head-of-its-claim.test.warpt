@@ -1,85 +1,30 @@
-warpt 1
-{
-  arguments {
-    x App.Keyed {
-      item App.Box {
-        item 1
-      }
-    }
-  }
-  expect {
-    answers 1
-  }
-  name "a-struct-from-outside-holds-its-bounded-field-to-the-head-of-its-claim"
-  note "App.Keyed bounds `T` by App.Describable, and the host hands an App.Keyed holding a box of `1`. Its field is held to the bound by what it is, and it settles into the head `App.Box<Int?>`."
-  program {
-    contracts {
-      "App.Describable" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    extensions {
-      "App.Box<Int?>" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "App.Box<Int?>"
-              }
-            ]
-            result "box"
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.Describable"
-        ]
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        parameters [
-          {
-            name "x"
-          }
-        ]
-        result 1
-        returns "Int"
-      }
-    }
-    types {
-      "App.Box" {
-        struct {
-          item "some T"
-        }
-        typeParameters [
-          "T"
-        ]
-      }
-      "App.Keyed" {
-        struct {
-          item "some T"
-        }
-        typeParameters [
-          "T: App.Describable"
-        ]
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-struct-from-outside-holds-its-bounded-field-to-the-head-of-its-claim")
+(note "App.Keyed bounds `T` by App.Describable, and the host hands an App.Keyed holding a box of `1`. Its field is held to the bound by what it is, and it settles into the head `App.Box<Int?>`.")
 
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (struct App.Keyed
+    (typeParameter T App.Describable)
+    (field item (some T)))
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head (named App.Box (nullable Int)))
+    (satisfies App.Describable)
+    (procedure describe
+      (parameter of (type (named App.Box (nullable Int))))
+      (returns String)
+      (result "box")))
+  (procedure entry
+    (access public)
+    (parameter x)
+    (returns Int)
+    (result 1)))
+(arguments (argument x (struct App.Keyed (field item (struct App.Box (field item 1))))))
+(expect (answers 1))

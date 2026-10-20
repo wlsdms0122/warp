@@ -1,66 +1,21 @@
-warpt 1
-{
-  expect {
-    answers null
-  }
-  name "a-parameter-handed-in-place-holding-a-list-of-a-parameter-or-null-takes-null"
-  note "App.gen takes Array<some T>? in place and writes null into it. Null is one of the values a list of T or null holds, whatever filled T."
-  program {
-    imports []
-    procedures {
-      "App.gen" {
-        body [
-          {
-            set "x"
-            value null
-          }
-        ]
-        parameters [
-          {
-            name "x"
-            type "inout Array<some T>?"
-          }
-          {
-            name "y"
-            type "some T"
-          }
-        ]
-        result 0
-        returns "Int"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            type "Array<String>?"
-            value [
-              "a"
-            ]
-            var "s"
-          }
-          {
-            let "r"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "s"
-                  }
-                  "b"
-                ]
-                procedure "App.gen"
-              }
-            }
-          }
-        ]
-        result {
-          ref "s"
-        }
-        returns "Array<String>?"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-parameter-handed-in-place-holding-a-list-of-a-parameter-or-null-takes-null")
+(note "App.gen takes Array<some T>? in place and writes null into it. Null is one of the values a list of T or null holds, whatever filled T.")
 
+(program
+  (warp 1)
+  (procedure App.gen
+    (parameter x (type (inout (nullable (array (some T))))))
+    (parameter y (type (some T)))
+    (returns Int)
+    (body
+      (set x null))
+    (result 0))
+  (procedure entry
+    (access public)
+    (returns (nullable (array String)))
+    (body
+      (var s (type (nullable (array String))) (array "a"))
+      (let r (call App.gen s "b")))
+    (result s)))
+(expect (answers null))

@@ -1,51 +1,21 @@
-warpt 1
-{
-  expect {
-    answers 2
-  }
-  name "a-loops-name-leaves-the-outer-variable-to-write-after-the-loop"
-  note "A loop's name binds nothing after the loop, so in an arm where `x` names a loop, a write of `x` after the loop writes the variable around the arm."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            value 1
-            var "x"
-          }
-          {
-            value {
-              conditional {
-                then [
-                  {
-                    let "x"
-                    value {
-                      loop {
-                        body []
-                        while false
-                      }
-                    }
-                  }
-                  {
-                    set "x"
-                    value 2
-                  }
-                ]
-                when true
-              }
-            }
-          }
-        ]
-        result {
-          ref "x"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-loops-name-leaves-the-outer-variable-to-write-after-the-loop")
+(note "A loop's name binds nothing after the loop, so in an arm where `x` names a loop, a write of `x` after the loop writes the variable around the arm.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var x 1)
+      (conditional
+        (when true)
+        (then
+          (let x
+            (loop
+              (while false)
+              (body)))
+          (set x 2))))
+    (result x)))
+(expect (answers 2))

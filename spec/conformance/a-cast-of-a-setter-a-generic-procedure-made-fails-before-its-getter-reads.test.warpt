@@ -1,168 +1,43 @@
-warpt 1
-{
-  expect {
-    answers "cast_refused"
-  }
-  name "a-cast-of-a-setter-a-generic-procedure-made-fails-before-its-getter-reads"
-  note "`App.mk` keeps `x` in a box and answers a struct of a setter and a getter over it, both closures over its `T`, which the struct holds as `Procedure`. Called with 1, the setter is read through `Any` and cast to take a `String`, which fails with cast_refused, since only the call of `App.mk` filled its `T`. The getter is never read, and the attempt in the entry catches the failure."
-  program {
-    imports []
-    procedures {
-      "App.mk" {
-        body [
-          {
-            value {
-              ref "x"
-            }
-            var "cell"
-          }
-          {
-            let "s"
-            value {
-              closure {
-                body [
-                  {
-                    set "cell"
-                    value {
-                      ref "y"
-                    }
-                  }
-                ]
-                parameters [
-                  {
-                    name "y"
-                    type "some T"
-                  }
-                ]
-                result 0
-                returns "Int"
-              }
-            }
-          }
-          {
-            let "g"
-            value {
-              closure {
-                result {
-                  ref "cell"
-                }
-                returns "some T"
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "x"
-            type "some T"
-          }
-        ]
-        result {
-          struct {
-            g {
-              ref "g"
-            }
-            s {
-              ref "s"
-            }
-          }
-        }
-        returns "App.Pair"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "tried"
-            value {
-              attempt {
-                body [
-                  {
-                    let "p"
-                    value {
-                      call {
-                        arguments [
-                          1
-                        ]
-                        procedure "App.mk"
-                      }
-                    }
-                  }
-                  {
-                    let "a"
-                    type "Any"
-                    value {
-                      ref "p.s"
-                    }
-                  }
-                  {
-                    let "h"
-                    value {
-                      as {
-                        of {
-                          ref "a"
-                        }
-                        type "(String) -> Int"
-                      }
-                    }
-                  }
-                  {
-                    let "z"
-                    value {
-                      call {
-                        arguments [
-                          "s"
-                        ]
-                        procedure {
-                          ref "h"
-                        }
-                      }
-                    }
-                  }
-                  {
-                    let "r"
-                    value {
-                      call {
-                        procedure {
-                          as {
-                            of {
-                              ref "p.g"
-                            }
-                            type "() -> Int"
-                          }
-                        }
-                      }
-                    }
-                  }
-                ]
-                rescue {
-                  result {
-                    ref "tried.type"
-                  }
-                }
-                result {
-                  ref "r"
-                }
-              }
-            }
-          }
-        ]
-        result {
-          ref "tried"
-        }
-        returns "Any"
-      }
-    }
-    types {
-      "App.Pair" {
-        struct {
-          g "Procedure"
-          s "Procedure"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-cast-of-a-setter-a-generic-procedure-made-fails-before-its-getter-reads")
+(note "`App.mk` keeps `x` in a box and answers a struct of a setter and a getter over it, both closures over its `T`, which the struct holds as `Procedure`. Called with 1, the setter is read through `Any` and cast to take a `String`, which fails with cast_refused, since only the call of `App.mk` filled its `T`. The getter is never read, and the attempt in the entry catches the failure.")
 
+(program
+  (warp 1)
+  (struct App.Pair
+    (field g Procedure)
+    (field s Procedure))
+  (procedure App.mk
+    (parameter x (type (some T)))
+    (returns App.Pair)
+    (body
+      (var cell x)
+      (let s
+        (closure
+          (parameter y (type (some T)))
+          (returns Int)
+          (body
+            (set cell y))
+          (result 0)))
+      (let g
+        (closure
+          (returns (some T))
+          (result cell))))
+    (result (struct (field g g) (field s s))))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let tried
+        (attempt
+          (body
+            (let p (call App.mk 1))
+            (let a (type Any) (path p (field s)))
+            (let h (as a (procedure (parameters String) (returns Int))))
+            (let z (apply h "s"))
+            (let r (apply (as (path p (field g)) (procedure (parameters) (returns Int))))))
+          (result r)
+          (rescue
+            (result (path tried (field type)))))))
+    (result tried)))
+(expect (answers "cast_refused"))

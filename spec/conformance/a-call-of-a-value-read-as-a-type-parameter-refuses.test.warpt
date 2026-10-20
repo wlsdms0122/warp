@@ -1,50 +1,20 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-call-of-a-value-read-as-a-type-parameter-refuses"
-  note "A value read as a type parameter writes no parameters the build can hold an argument against, so calling it refuses at the build."
-  program {
-    imports []
-    procedures {
-      "App.f" {
-        failing "anything"
-        parameters [
-          {
-            name "g"
-            type "some T"
-          }
-        ]
-        result {
-          call {
-            procedure {
-              ref "g"
-            }
-          }
-        }
-        returns "Any"
-      }
-      entry {
-        access "public"
-        failing "anything"
-        result {
-          call {
-            arguments [
-              {
-                closure {
-                  result 1
-                }
-              }
-            ]
-            procedure "App.f"
-          }
-        }
-        returns "Any"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-call-of-a-value-read-as-a-type-parameter-refuses")
+(note "A value read as a type parameter writes no parameters the build can hold an argument against, so calling it refuses at the build.")
 
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter g (type (some T)))
+    (returns Any)
+    (failing (anything))
+    (result (apply g)))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (failing (anything))
+    (result
+      (call App.f
+        (closure
+          (result 1))))))
+(expect (refuses build))

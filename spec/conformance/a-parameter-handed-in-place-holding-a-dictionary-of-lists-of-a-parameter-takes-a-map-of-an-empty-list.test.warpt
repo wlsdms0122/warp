@@ -1,76 +1,20 @@
-warpt 1
-{
-  expect {
-    answers {
-      k []
-    }
-  }
-  name "a-parameter-handed-in-place-holding-a-dictionary-of-lists-of-a-parameter-takes-a-map-of-an-empty-list"
-  note "App.g writes a map literal holding `[]` under `k` into d, a dictionary of lists of T handed in place. The empty list in the entry holds no element, so the map is a value of Dictionary<String, Array<some T>>, and the caller reads k as an empty list."
-  program {
-    imports []
-    procedures {
-      "App.g" {
-        body [
-          {
-            set "d"
-            value {
-              dictionary [
-                [
-                  "k"
-                  []
-                ]
-              ]
-            }
-          }
-        ]
-        parameters [
-          {
-            name "d"
-            type "inout Dictionary<String, Array<some T>>"
-          }
-        ]
-        result 0
-        returns "Int"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            type "Dictionary<String, Array<String>>"
-            value {
-              dictionary [
-                [
-                  "k"
-                  [
-                    "a"
-                  ]
-                ]
-              ]
-            }
-            var "s"
-          }
-          {
-            value {
-              call {
-                arguments [
-                  {
-                    ref "s"
-                  }
-                ]
-                procedure "App.g"
-              }
-            }
-          }
-        ]
-        result {
-          ref "s"
-        }
-        returns "Dictionary<String, Array<String>>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-parameter-handed-in-place-holding-a-dictionary-of-lists-of-a-parameter-takes-a-map-of-an-empty-list")
+(note "App.g writes a map literal holding `[]` under `k` into d, a dictionary of lists of T handed in place. The empty list in the entry holds no element, so the map is a value of Dictionary<String, Array<some T>>, and the caller reads k as an empty list.")
 
+(program
+  (warp 1)
+  (procedure App.g
+    (parameter d (type (inout (dictionary String (array (some T))))))
+    (returns Int)
+    (body
+      (set d (dictionary (entry "k" (array)))))
+    (result 0))
+  (procedure entry
+    (access public)
+    (returns (dictionary String (array String)))
+    (body
+      (var s (type (dictionary String (array String))) (dictionary (entry "k" (array "a"))))
+      (call App.g s))
+    (result s)))
+(expect (answers (dictionary (entry "k" (array)))))

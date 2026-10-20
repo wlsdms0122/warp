@@ -1,105 +1,31 @@
-warpt 1
-{
-  expect {
-    answers "a card"
-  }
-  name "a-contract-stands-in-a-declared-types-field"
-  note "A contract's name stands where a type is written, a declared type's field included. A value of the declared type holds a value of whatever type satisfies the contract there, and the body calls the contract's procedure on it."
-  program {
-    contracts {
-      "App.Describable" {
-        procedures {
-          describe {
-            const true
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "wallet"
-            value {
-              as {
-                of {
-                  struct {
-                    cards [
-                      {
-                        as {
-                          of {
-                            struct {
-                              limit 5
-                            }
-                          }
-                          type "Bank.Card"
-                        }
-                      }
-                    ]
-                  }
-                }
-                type "Bank.Wallet"
-              }
-            }
-          }
-        ]
-        const true
-        failing [
-          "cast_refused"
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "wallet.cards[0]"
-              }
-            ]
-            procedure "App.Describable.describe"
-          }
-        }
-        returns "String"
-      }
-    }
-    types {
-      "Bank.Card" {
-        procedures {
-          describe {
-            const true
-            isolated true
-            parameters [
-              {
-                name "of"
-                type "Bank.Card"
-              }
-            ]
-            result "a card"
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.Describable"
-        ]
-        struct {
-          limit "Int"
-        }
-      }
-      "Bank.Wallet" {
-        struct {
-          cards "Array<App.Describable>"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-contract-stands-in-a-declared-types-field")
+(note "A contract's name stands where a type is written, a declared type's field included. A value of the declared type holds a value of whatever type satisfies the contract there, and the body calls the contract's procedure on it.")
 
+(program
+  (warp 1)
+  (struct Bank.Card
+    (satisfies App.Describable)
+    (field limit Int)
+    (procedure describe
+      (const)
+      (isolated)
+      (parameter of (type Bank.Card))
+      (returns String)
+      (result "a card")))
+  (struct Bank.Wallet
+    (field cards (array App.Describable)))
+  (contract App.Describable
+    (procedure describe
+      (const)
+      (parameter of (type Self))
+      (returns String)))
+  (procedure entry
+    (access public)
+    (const)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let wallet (as (struct (field cards (array (as (struct (field limit 5)) Bank.Card)))) Bank.Wallet)))
+    (result (call App.Describable.describe (path wallet (field cards) (index 0))))))
+(expect (answers "a card"))

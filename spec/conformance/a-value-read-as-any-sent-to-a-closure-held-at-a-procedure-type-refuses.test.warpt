@@ -1,134 +1,35 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-value-read-as-any-sent-to-a-closure-held-at-a-procedure-type-refuses"
-  note "App.with hands a closure taking some T to a callback, which holds it as `(Int) -> Int` and sends it a string read as Any. A value read as `Any` is no Int the build can see, so the call refuses at the build."
-  program {
-    imports []
-    procedures {
-      "App.with" {
-        body [
-          {
-            value {
-              ref "x"
-            }
-            var "cell"
-          }
-          {
-            let "s"
-            value {
-              closure {
-                body [
-                  {
-                    set "cell"
-                    value {
-                      ref "y"
-                    }
-                  }
-                ]
-                parameters [
-                  {
-                    name "y"
-                    type "some T"
-                  }
-                ]
-                result 0
-                returns "Int"
-              }
-            }
-          }
-          {
-            let "z"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "s"
-                  }
-                ]
-                procedure {
-                  ref "run"
-                }
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "x"
-            type "some T"
-          }
-          {
-            name "run"
-            type "((some T) -> Int) -> Int"
-          }
-        ]
-        result {
-          ref "cell"
-        }
-        returns "some T"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "cb"
-            value {
-              closure {
-                body [
-                  {
-                    let "a"
-                    type "Any"
-                    value "s"
-                  }
-                ]
-                parameters [
-                  {
-                    name "f"
-                    type "(Int) -> Int"
-                  }
-                ]
-                result {
-                  call {
-                    arguments [
-                      {
-                        ref "a"
-                      }
-                    ]
-                    procedure {
-                      ref "f"
-                    }
-                  }
-                }
-                returns "Int"
-              }
-            }
-          }
-          {
-            let "r"
-            value {
-              call {
-                arguments [
-                  1
-                  {
-                    ref "cb"
-                  }
-                ]
-                procedure "App.with"
-              }
-            }
-          }
-        ]
-        result {
-          ref "r"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-value-read-as-any-sent-to-a-closure-held-at-a-procedure-type-refuses")
+(note "App.with hands a closure taking some T to a callback, which holds it as `(Int) -> Int` and sends it a string read as Any. A value read as `Any` is no Int the build can see, so the call refuses at the build.")
 
+(program
+  (warp 1)
+  (procedure App.with
+    (parameter x (type (some T)))
+    (parameter run (type (procedure (parameters (procedure (parameters (some T)) (returns Int))) (returns Int))))
+    (returns (some T))
+    (body
+      (var cell x)
+      (let s
+        (closure
+          (parameter y (type (some T)))
+          (returns Int)
+          (body
+            (set cell y))
+          (result 0)))
+      (let z (apply run s)))
+    (result cell))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let cb
+        (closure
+          (parameter f (type (procedure (parameters Int) (returns Int))))
+          (returns Int)
+          (body
+            (let a (type Any) "s"))
+          (result (apply f a))))
+      (let r (call App.with 1 cb)))
+    (result r)))
+(expect (refuses build))

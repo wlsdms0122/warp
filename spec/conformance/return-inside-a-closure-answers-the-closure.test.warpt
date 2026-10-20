@@ -1,80 +1,25 @@
-warpt 1
-{
-  expect {
-    answers "inner-and-on"
-  }
-  name "return-inside-a-closure-answers-the-closure"
-  note "Leaving does not cross a closure's edge: `return` inside one answers the closure, and the flow that invoked it goes on."
-  program {
-    imports [
-      "Standard.Text.joined"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "shout"
-            value {
-              closure {
-                body [
-                  {
-                    value {
-                      conditional {
-                        then [
-                          {
-                            value {
-                              return "inner"
-                            }
-                          }
-                        ]
-                        when true
-                      }
-                    }
-                  }
-                ]
-                result "outer"
-                returns "String"
-              }
-            }
-          }
-          {
-            let "got"
-            value {
-              call {
-                procedure {
-                  ref "shout"
-                }
-              }
-            }
-          }
-          {
-            let "after"
-            value {
-              call {
-                arguments [
-                  [
-                    {
-                      ref "got"
-                    }
-                    "-and-on"
-                  ]
-                  ""
-                ]
-                procedure "Standard.Text.joined"
-              }
-            }
-          }
-        ]
-        failing "anything"
-        result {
-          ref "after"
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "return-inside-a-closure-answers-the-closure")
+(note "Leaving does not cross a closure's edge: `return` inside one answers the closure, and the flow that invoked it goes on.")
 
+(program
+  (warp 1)
+  (import Standard.Text.joined)
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing (anything))
+    (body
+      (let shout
+        (closure
+          (returns String)
+          (body
+            (conditional
+              (when true)
+              (then
+                (return "inner"))))
+          (result "outer")))
+      (let got (apply shout))
+      (let after (call Standard.Text.joined (array got "-and-on") "")))
+    (result after)))
+(expect (answers "inner-and-on"))

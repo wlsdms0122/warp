@@ -1,69 +1,19 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-cast-to-a-dictionary-of-a-type-parameter-refuses"
-  note "App.g reads a value of Any as Dictionary<String, some T>. A type parameter inside a cast's type names no type to judge what arrives against, so the cast refuses at the load."
-  program {
-    imports []
-    procedures {
-      "App.g" {
-        body [
-          {
-            let "a"
-            type "Any"
-            value {
-              struct {
-                k "s"
-              }
-            }
-          }
-          {
-            let "y"
-            value {
-              as {
-                of {
-                  ref "a"
-                }
-                type "Dictionary<String, some T>"
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "n"
-            type "some T"
-          }
-        ]
-        result {
-          ref "y"
-        }
-        returns "Dictionary<String, some T>"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "r"
-            value {
-              call {
-                arguments [
-                  1
-                ]
-                procedure "App.g"
-              }
-            }
-          }
-        ]
-        result {
-          ref "r"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-cast-to-a-dictionary-of-a-type-parameter-refuses")
+(note "App.g reads a value of Any as Dictionary<String, some T>. A type parameter inside a cast's type names no type to judge what arrives against, so the cast refuses at the load.")
 
+(program
+  (warp 1)
+  (procedure App.g
+    (parameter n (type (some T)))
+    (returns (dictionary String (some T)))
+    (body
+      (let a (type Any) (struct (field k "s")))
+      (let y (as a (dictionary String (some T)))))
+    (result y))
+  (procedure entry
+    (access public)
+    (body
+      (let r (call App.g 1)))
+    (result r)))
+(expect (refuses load))

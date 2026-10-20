@@ -1,176 +1,55 @@
-warpt 1
-{
-  documents [
-    {
-      contracts {
-        "Lib.Container" {
-          procedures {
-            first {
-              parameters [
-                {
-                  name "of"
-                  type "Self"
-                }
-              ]
-              returns "Self.Item"
-            }
-          }
-          types [
-            "Item"
-          ]
-        }
-      }
-      imports []
-      procedures {
-        "Lib.firstOf" {
-          access "public"
-          parameters [
-            {
-              name "c"
-              type "some C: Lib.Container"
-            }
-          ]
-          result {
-            call {
-              arguments [
-                {
-                  ref "c"
-                }
-              ]
-              procedure "Lib.Container.first"
-            }
-          }
-          returns "some C.Item"
-        }
-      }
-      warp 1
-    }
-    {
-      imports [
-        "Lib.Container"
-      ]
-      types {
-        "App.Box" {
-          procedures {
-            first {
-              access "public"
-              parameters [
-                {
-                  name "of"
-                  type "App.Box<some T>"
-                }
-              ]
-              result {
-                ref "of.item"
-              }
-              returns "some T"
-            }
-          }
-          satisfies [
-            "Lib.Container"
-          ]
-          struct {
-            item "some T"
-          }
-          typeParameters [
-            "T"
-          ]
-          types {
-            Item "some T"
-          }
-        }
-      }
-      warp 1
-    }
-    {
-      imports [
-        "Int.plus"
-        "Lib.Container"
-        "Lib.Container.first"
-      ]
-      procedures {
-        "Use.plusOne" {
-          access "public"
-          body [
-            {
-              let "x"
-              value {
-                call {
-                  arguments [
-                    {
-                      ref "c"
-                    }
-                  ]
-                  procedure "Lib.Container.first"
-                }
-              }
-            }
-          ]
-          parameters [
-            {
-              name "c"
-              type "some C: Lib.Container"
-            }
-          ]
-          result {
-            call {
-              arguments [
-                {
-                  ref "x"
-                }
-                1
-              ]
-              procedure "Int.plus"
-            }
-          }
-          returns "Int"
-          sameTypes {
-            "C.Item" "Int"
-          }
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    refuses "build"
-  }
-  name "a-same-type-takes-no-type-giving-another-refuses"
-  note "`Use.plusOne` says `C.Item` is Int, and a box of text gives String there, so the call refuses at the build."
-  program {
-    imports [
-      "App.Box"
-      "Use.plusOne"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "b"
-            type "App.Box<String>"
-            value {
-              struct {
-                item "x"
-              }
-            }
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "b"
-              }
-            ]
-            procedure "Use.plusOne"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-same-type-takes-no-type-giving-another-refuses")
+(note "`Use.plusOne` says `C.Item` is Int, and a box of text gives String there, so the call refuses at the build.")
 
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Container
+      (type Item)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item)))
+    (procedure Lib.firstOf
+      (access public)
+      (parameter c (type (some C Lib.Container)))
+      (returns (some C.Item))
+      (result (call Lib.Container.first c))))
+  (document
+    (warp 1)
+    (import Lib.Container)
+    (struct App.Box
+      (typeParameter T)
+      (satisfies Lib.Container)
+      (field item (some T))
+      (type Item (some T))
+      (procedure first
+        (access public)
+        (parameter of (type (named App.Box (some T))))
+        (returns (some T))
+        (result (path of (field item))))))
+  (document
+    (warp 1)
+    (import Int.plus)
+    (import Lib.Container)
+    (import Lib.Container.first)
+    (procedure Use.plusOne
+      (access public)
+      (parameter c (type (some C Lib.Container)))
+      (returns Int)
+      (sameType C.Item Int)
+      (body
+        (let x (call Lib.Container.first c)))
+      (result (call Int.plus x 1)))))
+
+(program
+  (warp 1)
+  (import App.Box)
+  (import Use.plusOne)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let b (type (named App.Box String)) (struct (field item "x"))))
+    (result (call Use.plusOne b))))
+(expect (refuses build))

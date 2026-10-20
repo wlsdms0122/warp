@@ -1,103 +1,36 @@
-warpt 1
-{
-  expect {
-    answers 1
-  }
-  name "a-list-literal-of-closures-handed-at-a-bounded-parameter-answers"
-  note "`App.f` bounds `T` by `App.M`, which `Int` and `String` answer, and takes a list of procedures taking `some T`. A list literal handed there holds a closure taking `Int` and one taking `Any`, and `x` fills `T` with `Int`. Only the parts standing at the parameter are held to the bounds, so each closure is judged as any closure handed to its procedure type is, and the call answers 1."
-  program {
-    contracts {
-      "App.M" {}
-    }
-    extensions {
-      Int {
-        satisfies [
-          "App.M"
-        ]
-      }
-      String {
-        satisfies [
-          "App.M"
-        ]
-      }
-    }
-    imports []
-    procedures {
-      "App.f" {
-        parameters [
-          {
-            name "gs"
-            type "Array<(some T: App.M) -> Int>"
-          }
-          {
-            name "x"
-            type "some T"
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "x"
-              }
-            ]
-            procedure {
-              ref "gs[0]"
-            }
-          }
-        }
-        returns "Int"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "r"
-            value {
-              call {
-                arguments [
-                  [
-                    {
-                      closure {
-                        parameters [
-                          {
-                            name "n"
-                            type "Int"
-                          }
-                        ]
-                        result {
-                          ref "n"
-                        }
-                        returns "Int"
-                      }
-                    }
-                    {
-                      closure {
-                        parameters [
-                          {
-                            name "n"
-                          }
-                        ]
-                        result 7
-                        returns "Int"
-                      }
-                    }
-                  ]
-                  1
-                ]
-                procedure "App.f"
-              }
-            }
-          }
-        ]
-        result {
-          ref "r"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-list-literal-of-closures-handed-at-a-bounded-parameter-answers")
+(note "`App.f` bounds `T` by `App.M`, which `Int` and `String` answer, and takes a list of procedures taking `some T`. A list literal handed there holds a closure taking `Int` and one taking `Any`, and `x` fills `T` with `Int`. Only the parts standing at the parameter are held to the bounds, so each closure is judged as any closure handed to its procedure type is, and the call answers 1.")
 
+(program
+  (warp 1)
+  (contract App.M)
+  (extension
+    (head Int)
+    (satisfies App.M))
+  (extension
+    (head String)
+    (satisfies App.M))
+  (procedure App.f
+    (parameter gs (type (array (procedure (parameters (some T App.M)) (returns Int)))))
+    (parameter x (type (some T)))
+    (returns Int)
+    (result (apply (path gs (index 0)) x)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let r
+        (call App.f
+          (array
+            (closure
+              (parameter n (type Int))
+              (returns Int)
+              (result n))
+            (closure
+              (parameter n)
+              (returns Int)
+              (result 7)))
+          1)))
+    (result r)))
+(expect (answers 1))

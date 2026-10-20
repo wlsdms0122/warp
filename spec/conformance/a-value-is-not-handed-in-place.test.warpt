@@ -1,57 +1,16 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-value-is-not-handed-in-place"
-  note "A literal has no box to write, so handing one in place refuses at the build."
-  program {
-    imports [
-      "Standard.Numeric.plus"
-    ]
-    procedures {
-      bump {
-        body [
-          {
-            set "count"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "count"
-                  }
-                  1
-                ]
-                procedure "Standard.Numeric.plus"
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "count"
-            type "inout Int"
-          }
-        ]
-      }
-      entry {
-        access "public"
-        body [
-          {
-            value {
-              call {
-                arguments [
-                  10
-                ]
-                procedure "bump"
-              }
-            }
-          }
-        ]
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-value-is-not-handed-in-place")
+(note "A literal has no box to write, so handing one in place refuses at the build.")
 
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure bump
+    (parameter count (type (inout Int)))
+    (body
+      (set count (call Standard.Numeric.plus count 1))))
+  (procedure entry
+    (access public)
+    (body
+      (call bump 10))))
+(expect (refuses build))

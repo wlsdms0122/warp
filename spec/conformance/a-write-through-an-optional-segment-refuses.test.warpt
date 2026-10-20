@@ -1,37 +1,15 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-write-through-an-optional-segment-refuses"
-  note "A write reads no absence, so a path written through `?.` is not written through. The text shows the mark, so `set x?.a` refuses at the load."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            type "App.T?"
-            var "x"
-          }
-          {
-            set "x?.a"
-            value 2
-          }
-        ]
-        result 1
-      }
-    }
-    types {
-      "App.T" {
-        struct {
-          a "var Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-write-through-an-optional-segment-refuses")
+(note "A write reads no absence, so a path written through `?.` is not written through. The text shows the mark, so `set x?.a` refuses at the load.")
 
+(program
+  (warp 1)
+  (struct App.T
+    (field a (var Int)))
+  (procedure entry
+    (access public)
+    (body
+      (var x (type (nullable App.T)))
+      (set (path x (field? a)) 2))
+    (result 1)))
+(expect (refuses load))

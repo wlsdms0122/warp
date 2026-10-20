@@ -1,105 +1,30 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-private-declaration-backs-no-claim"
-  note "A contract is how a document that never names a declaration calls it, so a private declaration answers no contract. The claim it would back does not hold, and refuses at the build, at the claim, the way a claim nothing backs does."
-  program {
-    contracts {
-      "App.Describable" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    imports []
-    procedures {
-      "App.tell" {
-        parameters [
-          {
-            name "it"
-            type "some T: App.Describable"
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "it"
-              }
-            ]
-            procedure "App.Describable.describe"
-          }
-        }
-        returns "String"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "handle"
-            value {
-              as {
-                of {
-                  struct {
-                    name "x"
-                  }
-                }
-                type "App.Handle"
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "handle"
-              }
-            ]
-            procedure "App.tell"
-          }
-        }
-        returns "String"
-      }
-    }
-    types {
-      "App.Handle" {
-        procedures {
-          describe {
-            access "private"
-            parameters [
-              {
-                name "of"
-                type "App.Handle"
-              }
-            ]
-            result "a handle"
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.Describable"
-        ]
-        struct {
-          name "String"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-private-declaration-backs-no-claim")
+(note "A contract is how a document that never names a declaration calls it, so a private declaration answers no contract. The claim it would back does not hold, and refuses at the build, at the claim, the way a claim nothing backs does.")
 
+(program
+  (warp 1)
+  (struct App.Handle
+    (satisfies App.Describable)
+    (field name String)
+    (procedure describe
+      (access private)
+      (parameter of (type App.Handle))
+      (returns String)
+      (result "a handle")))
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (procedure App.tell
+    (parameter it (type (some T App.Describable)))
+    (returns String)
+    (result (call App.Describable.describe it)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let handle (as (struct (field name "x")) App.Handle)))
+    (result (call App.tell handle))))
+(expect (refuses build))

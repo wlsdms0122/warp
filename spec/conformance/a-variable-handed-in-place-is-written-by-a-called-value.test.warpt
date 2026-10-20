@@ -1,75 +1,21 @@
-warpt 1
-{
-  expect {
-    answers 11
-  }
-  name "a-variable-handed-in-place-is-written-by-a-called-value"
-  note "A call of a value whose type the build reads hands a variable in place at each position the type marks `inout`, the way a call to a declaration does. The closure writes the caller's box, and the caller reads what was written."
-  program {
-    imports [
-      "Standard.Numeric.plus"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            value 10
-            var "n"
-          }
-          {
-            let "bump"
-            value {
-              closure {
-                body [
-                  {
-                    set "count"
-                    value {
-                      call {
-                        arguments [
-                          {
-                            ref "count"
-                          }
-                          1
-                        ]
-                        procedure "Standard.Numeric.plus"
-                      }
-                    }
-                  }
-                ]
-                parameters [
-                  {
-                    name "count"
-                    type "inout Int"
-                  }
-                ]
-              }
-            }
-          }
-          {
-            value {
-              call {
-                arguments [
-                  {
-                    ref "n"
-                  }
-                ]
-                procedure {
-                  ref "bump"
-                }
-              }
-            }
-          }
-        ]
-        failing "anything"
-        result {
-          ref "n"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-variable-handed-in-place-is-written-by-a-called-value")
+(note "A call of a value whose type the build reads hands a variable in place at each position the type marks `inout`, the way a call to a declaration does. The closure writes the caller's box, and the caller reads what was written.")
 
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (body
+      (var n 10)
+      (let bump
+        (closure
+          (parameter count (type (inout Int)))
+          (body
+            (set count (call Standard.Numeric.plus count 1)))))
+      (apply bump n))
+    (result n)))
+(expect (answers 11))

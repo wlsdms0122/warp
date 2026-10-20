@@ -1,56 +1,18 @@
-warpt 1
-{
-  arguments {
-    payload App.Named {
-      name "warp"
-    }
-  }
-  expect {
-    answers "warp"
-  }
-  name "a-cast-opens-what-any-declares-nothing-about"
-  note "A cast names the type a value is read as, and from there the reading is that type, so the dot the build refused on `Any` is judged, and the run is left only the question of what arrived."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "read"
-            value {
-              as {
-                of {
-                  ref "payload"
-                }
-                type "App.Named"
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        parameters [
-          {
-            name "payload"
-          }
-        ]
-        result {
-          ref "read.name"
-        }
-        returns "String"
-      }
-    }
-    types {
-      "App.Named" {
-        struct {
-          name "String"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-cast-opens-what-any-declares-nothing-about")
+(note "A cast names the type a value is read as, and from there the reading is that type, so the dot the build refused on `Any` is judged, and the run is left only the question of what arrived.")
 
+(program
+  (warp 1)
+  (struct App.Named
+    (field name String))
+  (procedure entry
+    (access public)
+    (parameter payload)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let read (as payload App.Named)))
+    (result (path read (field name)))))
+(arguments (argument payload (struct App.Named (field name "warp"))))
+(expect (answers "warp"))

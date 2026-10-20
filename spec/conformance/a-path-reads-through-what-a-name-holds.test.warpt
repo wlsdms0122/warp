@@ -1,44 +1,15 @@
-warpt 1
-{
-  expect {
-    answers 20
-  }
-  name "a-path-reads-through-what-a-name-holds"
-  note "A path walks fields and elements of what its head resolves to."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "data"
-            type "App.Data"
-            value {
-              struct {
-                list [
-                  10
-                  20
-                ]
-              }
-            }
-          }
-        ]
-        result {
-          ref "data.list[1]"
-        }
-        returns "Int"
-      }
-    }
-    types {
-      "App.Data" {
-        struct {
-          list "Array<Int>"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-path-reads-through-what-a-name-holds")
+(note "A path walks fields and elements of what its head resolves to.")
 
+(program
+  (warp 1)
+  (struct App.Data
+    (field list (array Int)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let data (type App.Data) (struct (field list (array 10 20)))))
+    (result (path data (field list) (index 1)))))
+(expect (answers 20))

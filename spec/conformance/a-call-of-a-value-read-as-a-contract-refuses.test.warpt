@@ -1,56 +1,21 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-call-of-a-value-read-as-a-contract-refuses"
-  note "A value read as a contract is of whichever type answers it, `Procedure` included, and its type writes no parameters the build can hold an argument against, so calling it refuses at the build until a cast says what procedure it is."
-  program {
-    contracts {
-      "App.A" {}
-    }
-    extensions {
-      Int {
-        satisfies [
-          "App.A"
-        ]
-      }
-    }
-    imports []
-    procedures {
-      "App.f" {
-        failing "anything"
-        parameters [
-          {
-            name "g"
-            type "App.A"
-          }
-        ]
-        result {
-          call {
-            procedure {
-              ref "g"
-            }
-          }
-        }
-        returns "Any"
-      }
-      entry {
-        access "public"
-        failing "anything"
-        result {
-          call {
-            arguments [
-              1
-            ]
-            procedure "App.f"
-          }
-        }
-        returns "Any"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-call-of-a-value-read-as-a-contract-refuses")
+(note "A value read as a contract is of whichever type answers it, `Procedure` included, and its type writes no parameters the build can hold an argument against, so calling it refuses at the build until a cast says what procedure it is.")
 
+(program
+  (warp 1)
+  (contract App.A)
+  (extension
+    (head Int)
+    (satisfies App.A))
+  (procedure App.f
+    (parameter g (type App.A))
+    (returns Any)
+    (failing (anything))
+    (result (apply g)))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (failing (anything))
+    (result (call App.f 1))))
+(expect (refuses build))

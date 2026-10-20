@@ -1,61 +1,19 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-list-literal-handed-to-a-call-is-read-part-by-part-refuses"
-  note "`App.g` takes `Array<Int>` and is handed `[i, t]`, an int and a string read from names. The argument is held to the parameter element by element, so the string refuses at the build."
-  program {
-    imports []
-    procedures {
-      "App.g" {
-        parameters [
-          {
-            name "xs"
-            type "Array<Int>"
-          }
-        ]
-        result 0
-        returns "Int"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "i"
-            value 1
-          }
-          {
-            let "t"
-            value "s"
-          }
-          {
-            let "r"
-            value {
-              call {
-                arguments [
-                  [
-                    {
-                      ref "i"
-                    }
-                    {
-                      ref "t"
-                    }
-                  ]
-                ]
-                procedure "App.g"
-              }
-            }
-          }
-        ]
-        result {
-          ref "r"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-list-literal-handed-to-a-call-is-read-part-by-part-refuses")
+(note "`App.g` takes `Array<Int>` and is handed `[i, t]`, an int and a string read from names. The argument is held to the parameter element by element, so the string refuses at the build.")
 
+(program
+  (warp 1)
+  (procedure App.g
+    (parameter xs (type (array Int)))
+    (returns Int)
+    (result 0))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let i 1)
+      (let t "s")
+      (let r (call App.g (array i t))))
+    (result r)))
+(expect (refuses build))

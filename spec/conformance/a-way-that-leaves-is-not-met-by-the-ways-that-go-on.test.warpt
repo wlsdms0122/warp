@@ -1,100 +1,31 @@
-warpt 1
-{
-  arguments {
-    ready false
-  }
-  expect {
-    answers 5
-  }
-  name "a-way-that-leaves-is-not-met-by-the-ways-that-go-on"
-  note "The arm that sets `n` to a string and takes it there returns, so no write after the conditional runs on that way. Only the other arm, which takes `n` as an int, reaches what follows, and a later write of an int stands."
-  program {
-    imports [
-      "Standard.Numeric.plus"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            value 0
-            var "n"
-          }
-          {
-            value {
-              conditional {
-                else [
-                  {
-                    let "h"
-                    value {
-                      closure {
-                        body [
-                          {
-                            set "n"
-                            value {
-                              call {
-                                arguments [
-                                  {
-                                    ref "n"
-                                  }
-                                  1
-                                ]
-                                procedure "Standard.Numeric.plus"
-                              }
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  }
-                ]
-                then [
-                  {
-                    set "n"
-                    value "s"
-                  }
-                  {
-                    let "a"
-                    value {
-                      closure {
-                        result {
-                          ref "n"
-                        }
-                        returns "String"
-                      }
-                    }
-                  }
-                  {
-                    value {
-                      return 0
-                    }
-                  }
-                ]
-                when {
-                  ref "ready"
-                }
-              }
-            }
-          }
-          {
-            set "n"
-            value 5
-          }
-        ]
-        parameters [
-          {
-            name "ready"
-            type "Bool"
-          }
-        ]
-        result {
-          ref "n"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-way-that-leaves-is-not-met-by-the-ways-that-go-on")
+(note "The arm that sets `n` to a string and takes it there returns, so no write after the conditional runs on that way. Only the other arm, which takes `n` as an int, reaches what follows, and a later write of an int stands.")
 
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (parameter ready (type Bool))
+    (returns Int)
+    (body
+      (var n 0)
+      (conditional
+        (when ready)
+        (then
+          (set n "s")
+          (let a
+            (closure
+              (returns String)
+              (result n)))
+          (return 0))
+        (else
+          (let h
+            (closure
+              (body
+                (set n (call Standard.Numeric.plus n 1)))))))
+      (set n 5))
+    (result n)))
+(arguments (argument ready false))
+(expect (answers 5))

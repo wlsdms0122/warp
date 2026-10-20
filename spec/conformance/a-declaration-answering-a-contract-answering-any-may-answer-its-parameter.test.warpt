@@ -1,113 +1,29 @@
-warpt 1
-{
-  expect {
-    answers "x"
-  }
-  name "a-declaration-answering-a-contract-answering-any-may-answer-its-parameter"
-  note "The contract takes some T and answers Any. The declaration answering it takes and answers some U, which the contract's T fills, and an answer of anything takes a T."
-  program {
-    contracts {
-      "App.Sized" {
-        procedures {
-          size {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-              {
-                name "n"
-                type "some T"
-              }
-            ]
-            returns "Any"
-          }
-        }
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "c"
-            value {
-              as {
-                of {
-                  struct {
-                    last "42"
-                  }
-                }
-                type "Bank.Card"
-              }
-            }
-          }
-          {
-            let "s"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "c"
-                  }
-                  "x"
-                ]
-                procedure "App.Sized.size"
-              }
-            }
-          }
-          {
-            let "t"
-            value {
-              as {
-                of {
-                  ref "s"
-                }
-                type "String"
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result {
-          ref "t"
-        }
-        returns "String"
-      }
-    }
-    types {
-      "Bank.Card" {
-        procedures {
-          size {
-            parameters [
-              {
-                name "of"
-                type "Bank.Card"
-              }
-              {
-                name "n"
-                type "some U"
-              }
-            ]
-            result {
-              ref "n"
-            }
-            returns "some U"
-          }
-        }
-        satisfies [
-          "App.Sized"
-        ]
-        struct {
-          last "String"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-declaration-answering-a-contract-answering-any-may-answer-its-parameter")
+(note "The contract takes some T and answers Any. The declaration answering it takes and answers some U, which the contract's T fills, and an answer of anything takes a T.")
 
+(program
+  (warp 1)
+  (struct Bank.Card
+    (satisfies App.Sized)
+    (field last String)
+    (procedure size
+      (parameter of (type Bank.Card))
+      (parameter n (type (some U)))
+      (returns (some U))
+      (result n)))
+  (contract App.Sized
+    (procedure size
+      (parameter of (type Self))
+      (parameter n (type (some T)))
+      (returns Any)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let c (as (struct (field last "42")) Bank.Card))
+      (let s (call App.Sized.size c "x"))
+      (let t (as s String)))
+    (result t)))
+(expect (answers "x"))

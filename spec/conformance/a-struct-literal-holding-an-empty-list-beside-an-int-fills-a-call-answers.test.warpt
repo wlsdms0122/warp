@@ -1,59 +1,19 @@
-warpt 1
-{
-  expect {
-    answers 1
-  }
-  name "a-struct-literal-holding-an-empty-list-beside-an-int-fills-a-call-answers"
-  note "An empty list holds no element wherever in a literal it stands, a struct literal's field included, so `App.Box<Array<Never>>` is read as the `App.Box<Array<Int>>` the call fills beside it."
-  program {
-    imports []
-    procedures {
-      "App.take2" {
-        parameters [
-          {
-            name "b"
-            type "App.Box<Array<some T>>"
-          }
-          {
-            name "x"
-            type "some T"
-          }
-        ]
-        result {
-          ref "x"
-        }
-        returns "some T"
-      }
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              {
-                struct {
-                  item []
-                }
-              }
-              1
-            ]
-            procedure "App.take2"
-          }
-        }
-        returns "Int"
-      }
-    }
-    types {
-      "App.Box" {
-        struct {
-          item "some T"
-        }
-        typeParameters [
-          "T"
-        ]
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-struct-literal-holding-an-empty-list-beside-an-int-fills-a-call-answers")
+(note "An empty list holds no element wherever in a literal it stands, a struct literal's field included, so `App.Box<Array<Never>>` is read as the `App.Box<Array<Int>>` the call fills beside it.")
 
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (procedure App.take2
+    (parameter b (type (named App.Box (array (some T)))))
+    (parameter x (type (some T)))
+    (returns (some T))
+    (result x))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result (call App.take2 (struct (field item (array))) 1))))
+(expect (answers 1))

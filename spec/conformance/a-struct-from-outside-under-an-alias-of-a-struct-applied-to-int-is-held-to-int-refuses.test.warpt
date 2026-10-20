@@ -1,44 +1,17 @@
-warpt 1
-{
-  arguments {
-    x App.IntBox {
-      item "s"
-    }
-  }
-  expect {
-    refuses "run"
-  }
-  name "a-struct-from-outside-under-an-alias-of-a-struct-applied-to-int-is-held-to-int-refuses"
-  note "A struct from outside under an alias's name is held to the struct the alias stands for, applied to what the alias writes. `App.IntBox` stands for `App.Box<Int>`, so its field holding text is refused at the door."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        parameters [
-          {
-            name "x"
-          }
-        ]
-        result {
-          ref "x"
-        }
-        returns "Any"
-      }
-    }
-    types {
-      "App.Box" {
-        struct {
-          item "some T"
-        }
-        typeParameters [
-          "T"
-        ]
-      }
-      "App.IntBox" "App.Box<Int>"
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-struct-from-outside-under-an-alias-of-a-struct-applied-to-int-is-held-to-int-refuses")
+(note "A struct from outside under an alias's name is held to the struct the alias stands for, applied to what the alias writes. `App.IntBox` stands for `App.Box<Int>`, so its field holding text is refused at the door.")
 
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (type App.IntBox (named App.Box Int))
+  (procedure entry
+    (access public)
+    (parameter x)
+    (returns Any)
+    (result x)))
+(arguments (argument x (struct App.IntBox (field item "s"))))
+(expect (refuses run))

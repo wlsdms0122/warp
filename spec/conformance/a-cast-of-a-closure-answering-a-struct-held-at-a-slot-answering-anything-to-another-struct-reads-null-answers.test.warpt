@@ -1,76 +1,24 @@
-warpt 1
-{
-  expect {
-    answers null
-  }
-  name "a-cast-of-a-closure-answering-a-struct-held-at-a-slot-answering-anything-to-another-struct-reads-null-answers"
-  note "The closure writes `returns Bank.A`, and holding it at `() -> Any` and then in `Any` hands it on as it is. A cast reads a closure by what it answers, and `Bank.B` never takes a `Bank.A`, so the asking cast to `() -> Bank.B` reads it as null."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "c"
-            type "() -> Any"
-            value {
-              closure {
-                result {
-                  struct {
-                    k "x"
-                  }
-                }
-                returns "Bank.A"
-              }
-            }
-          }
-          {
-            let "x"
-            type "() -> Any"
-            value {
-              ref "c"
-            }
-          }
-          {
-            let "a"
-            type "Any"
-            value {
-              ref "x"
-            }
-          }
-          {
-            let "v"
-            value {
-              "as?" {
-                of {
-                  ref "a"
-                }
-                type "() -> Bank.B"
-              }
-            }
-          }
-        ]
-        result {
-          ref "v"
-        }
-        returns "(() -> Bank.B)?"
-      }
-    }
-    types {
-      "Bank.A" {
-        struct {
-          k "String"
-        }
-      }
-      "Bank.B" {
-        struct {
-          k "String"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-cast-of-a-closure-answering-a-struct-held-at-a-slot-answering-anything-to-another-struct-reads-null-answers")
+(note "The closure writes `returns Bank.A`, and holding it at `() -> Any` and then in `Any` hands it on as it is. A cast reads a closure by what it answers, and `Bank.B` never takes a `Bank.A`, so the asking cast to `() -> Bank.B` reads it as null.")
 
+(program
+  (warp 1)
+  (struct Bank.A
+    (field k String))
+  (struct Bank.B
+    (field k String))
+  (procedure entry
+    (access public)
+    (returns (nullable (procedure (parameters) (returns Bank.B))))
+    (body
+      (let c
+        (type (procedure (parameters) (returns Any)))
+        (closure
+          (returns Bank.A)
+          (result (struct (field k "x")))))
+      (let x (type (procedure (parameters) (returns Any))) c)
+      (let a (type Any) x)
+      (let v (as? a (procedure (parameters) (returns Bank.B)))))
+    (result v)))
+(expect (answers null))

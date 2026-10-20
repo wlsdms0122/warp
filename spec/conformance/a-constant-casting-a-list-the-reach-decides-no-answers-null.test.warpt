@@ -1,124 +1,53 @@
-warpt 1
-{
-  documents [
-    {
-      contracts {
-        "App.Marked" {}
-        "App.Tagged" {}
-      }
-      imports []
-      warp 1
-    }
-    {
-      extensions {
-        "Array<Int>" {
-          satisfies [
-            "App.Tagged"
-          ]
-        }
-      }
-      imports [
-        "App.Tagged"
-      ]
-      procedures {
-        "In.mark" {
-          access "public"
-          const true
-          isolated true
-          result 1
-          returns "Int"
-        }
-      }
-      warp 1
-    }
-    {
-      extensions {
-        String {
-          satisfies [
-            "App.Tagged"
-          ]
-        }
-      }
-      imports [
-        "App.Tagged"
-      ]
-      warp 1
-    }
-    {
-      imports [
-        "App.Tagged"
-      ]
-      procedures {
-        "L.probe" {
-          access "public"
-          body [
-            {
-              let "two"
-              type "Any"
-              value [
-                "x"
-                [
-                  "s"
-                ]
-              ]
-            }
-          ]
-          const true
-          isolated true
-          result {
-            "as?" {
-              of {
-                ref "two"
-              }
-              type "Array<App.Tagged>"
-            }
-          }
-          returns "Any"
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    answers null
-  }
-  name "a-constant-casting-a-list-the-reach-decides-no-answers-null"
-  note "In claims Array<Int>: App.Tagged; Out (not reached) claims String: App.Tagged. A fold casts [\"x\", [\"s\"]] read as Any to Array<App.Tagged>: the second element is a list of text, which the reach already says is no App.Tagged."
-  program {
-    const {
-      folded {
-        call {
-          procedure "L.probe"
-        }
-      }
-    }
-    imports [
-      "In.mark"
-      "L.probe"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "m"
-            value {
-              call {
-                procedure "In.mark"
-              }
-            }
-          }
-        ]
-        const true
-        isolated true
-        result {
-          ref "folded"
-        }
-        returns "Any"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-constant-casting-a-list-the-reach-decides-no-answers-null")
+(note "In claims Array<Int>: App.Tagged; Out (not reached) claims String: App.Tagged. A fold casts [\"x\", [\"s\"]] read as Any to Array<App.Tagged>: the second element is a list of text, which the reach already says is no App.Tagged.")
 
+(documents
+  (document
+    (warp 1)
+    (contract App.Marked)
+    (contract App.Tagged))
+  (document
+    (warp 1)
+    (import App.Tagged)
+    (extension
+      (head (array Int))
+      (satisfies App.Tagged))
+    (procedure In.mark
+      (access public)
+      (const)
+      (isolated)
+      (returns Int)
+      (result 1)))
+  (document
+    (warp 1)
+    (import App.Tagged)
+    (extension
+      (head String)
+      (satisfies App.Tagged)))
+  (document
+    (warp 1)
+    (import App.Tagged)
+    (procedure L.probe
+      (access public)
+      (const)
+      (isolated)
+      (returns Any)
+      (body
+        (let two (type Any) (array "x" (array "s"))))
+      (result (as? two (array App.Tagged))))))
+
+(program
+  (warp 1)
+  (import In.mark)
+  (import L.probe)
+  (const folded (call L.probe))
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (returns Any)
+    (body
+      (let m (call In.mark)))
+    (result folded)))
+(expect (answers null))

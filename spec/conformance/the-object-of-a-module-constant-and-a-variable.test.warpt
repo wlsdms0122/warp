@@ -1,136 +1,15 @@
-warpt 1
-{
-  expect {
-    builds {
-      claims []
-      constants [
-        "step"
-      ]
-      contracts []
-      dependencies []
-      document [
-        x"65f1b17f17dbafe55fe81ed67080f23c385373ac2a94f801d5e26fd1dc1f9356"
-      ]
-      importedClaims []
-      lifted []
-      members []
-      numbering [
-        []
-        []
-      ]
-      object 1
-      rows [
-        [
-          "entry"
-          [
-            []
-            [
-              4
-            ]
-            [
-              1
-              []
-            ]
-            0
-            0
-            []
-            []
-          ]
-          2
-          [
-            0
-            [
-              [
-                [
-                  [
-                    [
-                      2
-                      [
-                        0
-                        []
-                      ]
-                    ]
-                  ]
-                  [
-                    0
-                    [
-                      2
-                      1
-                    ]
-                  ]
-                  "total"
-                ]
-              ]
-              [
-                [
-                  1
-                  [
-                    0
-                    []
-                  ]
-                ]
-              ]
-            ]
-            [
-              1
-              []
-              [
-                [
-                  0
-                  0
-                ]
-              ]
-              []
-              [
-                "total"
-              ]
-            ]
-          ]
-        ]
-      ]
-      typeMembers []
-      typeNumbering []
-      types []
-      variables [
-        [
-          "total"
-          [
-            2
-            0
-          ]
-        ]
-      ]
-    }
-  }
-  name "the-object-of-a-module-constant-and-a-variable"
-  note "A constant stands by spelling under constants, folded into every body that read it; a variable stands under variables with what it starts a run holding, and a frame says which slot reads which variable."
-  program {
-    const {
-      step 1
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            set "total"
-            value {
-              ref "step"
-            }
-          }
-        ]
-        result {
-          ref "total"
-        }
-        returns "Int"
-      }
-    }
-    var {
-      total 0
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "the-object-of-a-module-constant-and-a-variable")
+(note "A constant stands by spelling under constants, folded into every body that read it; a variable stands under variables with what it starts a run holding, and a frame says which slot reads which variable.")
 
+(program
+  (warp 1)
+  (const step 1)
+  (var total 0)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (set total step))
+    (result total)))
+(expect (builds (dictionary (entry "claims" (array)) (entry "constants" (array "step")) (entry "contracts" (array)) (entry "dependencies" (array)) (entry "document" (array x"65f1b17f17dbafe55fe81ed67080f23c385373ac2a94f801d5e26fd1dc1f9356")) (entry "importedClaims" (array)) (entry "lifted" (array)) (entry "members" (array)) (entry "numbering" (array (array) (array))) (entry "object" 1) (entry "rows" (array (array "entry" (array (array) (array 4) (array 1 (array)) 0 0 (array) (array)) 2 (array 0 (array (array (array (array (array 2 (array 0 (array)))) (array 0 (array 2 1)) "total")) (array (array 1 (array 0 (array))))) (array 1 (array) (array (array 0 0)) (array) (array "total")))))) (entry "typeMembers" (array)) (entry "typeNumbering" (array)) (entry "types" (array)) (entry "variables" (array (array "total" (array 2 0)))))))

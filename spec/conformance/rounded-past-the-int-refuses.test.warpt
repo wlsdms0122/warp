@@ -1,30 +1,12 @@
-warpt 1
-{
-  expect {
-    refuses "run"
-  }
-  name "rounded-past-the-int-refuses"
-  note "`rounded` answers an int only when an int holds the answer. A fraction whose whole part is past the int has no whole answer, and the read refuses at the run rather than wrapping or widening."
-  program {
-    imports [
-      "Standard.Math.rounded"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              1e+19
-            ]
-            procedure "Standard.Math.rounded"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "rounded-past-the-int-refuses")
+(note "`rounded` answers an int only when an int holds the answer. A fraction whose whole part is past the int has no whole answer, and the read refuses at the run rather than wrapping or widening.")
 
+(program
+  (warp 1)
+  (import Standard.Math.rounded)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result (call Standard.Math.rounded 1e+19))))
+(expect (refuses run))

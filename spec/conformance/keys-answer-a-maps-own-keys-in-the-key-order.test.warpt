@@ -1,49 +1,12 @@
-warpt 1
-{
-  expect {
-    answers [
-      1
-      2
-      3
-    ]
-  }
-  name "keys-answer-a-maps-own-keys-in-the-key-order"
-  note "keys answers the keys a map holds as the values they are, in the key order: a map keyed by whole numbers answers whole numbers, ascending by worth."
-  program {
-    imports [
-      "Standard.Collection.keys"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              {
-                dictionary [
-                  [
-                    3
-                    "c"
-                  ]
-                  [
-                    1
-                    "a"
-                  ]
-                  [
-                    2
-                    "b"
-                  ]
-                ]
-              }
-            ]
-            procedure "Standard.Collection.keys"
-          }
-        }
-        returns "Array<Int>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "keys-answer-a-maps-own-keys-in-the-key-order")
+(note "keys answers the keys a map holds as the values they are, in the key order: a map keyed by whole numbers answers whole numbers, ascending by worth.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.keys)
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (result (call Standard.Collection.keys (dictionary (entry 3 "c") (entry 1 "a") (entry 2 "b"))))))
+(expect (answers (array 1 2 3)))

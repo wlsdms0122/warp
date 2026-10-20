@@ -1,98 +1,32 @@
-warpt 1
-{
-  expect {
-    answers "aborted"
-  }
-  name "a-contract-procedure-names-what-it-may-fail-with"
-  note "A contract says what a procedure it asks may fail with, the way it asks constness and isolation. `check` may fail with `aborted`, so `Int.check`, which aborts, answers it, and a call through the contract may fail with `aborted`: the attempt around it is one a run reaches."
-  program {
-    contracts {
-      "App.Checked" {
-        procedures {
-          check {
-            failing [
-              "aborted"
-            ]
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "Int"
-          }
-        }
-      }
-    }
-    extensions {
-      Int {
-        procedures {
-          check {
-            failing [
-              "aborted"
-            ]
-            parameters [
-              {
-                name "of"
-                type "Int"
-              }
-            ]
-            result {
-              call {
-                arguments [
-                  "no"
-                ]
-                procedure "Standard.Control.abort"
-              }
-            }
-            returns "Int"
-          }
-        }
-        satisfies [
-          "App.Checked"
-        ]
-      }
-    }
-    imports [
-      "Standard.Control.abort"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "failed"
-            value {
-              attempt {
-                body [
-                  {
-                    value {
-                      call {
-                        arguments [
-                          1
-                        ]
-                        procedure "App.Checked.check"
-                      }
-                    }
-                  }
-                ]
-                rescue {
-                  result {
-                    ref "failed.type"
-                  }
-                }
-              }
-            }
-          }
-        ]
-        result {
-          ref "failed"
-        }
-        returns "String?"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-contract-procedure-names-what-it-may-fail-with")
+(note "A contract says what a procedure it asks may fail with, the way it asks constness and isolation. `check` may fail with `aborted`, so `Int.check`, which aborts, answers it, and a call through the contract may fail with `aborted`: the attempt around it is one a run reaches.")
 
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (contract App.Checked
+    (procedure check
+      (parameter of (type Self))
+      (returns Int)
+      (failing aborted)))
+  (extension
+    (head Int)
+    (satisfies App.Checked)
+    (procedure check
+      (parameter of (type Int))
+      (returns Int)
+      (failing aborted)
+      (result (call Standard.Control.abort "no"))))
+  (procedure entry
+    (access public)
+    (returns (nullable String))
+    (body
+      (let failed
+        (attempt
+          (body
+            (call App.Checked.check 1))
+          (rescue
+            (result (path failed (field type)))))))
+    (result failed)))
+(expect (answers "aborted"))

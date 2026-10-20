@@ -1,24 +1,12 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-type-declared-under-a-name-the-language-gives-refuses"
-  note "`Int` is a name the language gives its own type, and no document declares a type under it, so `types` keyed `Int` refuses at the load."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        result 1
-        returns "Int"
-      }
-    }
-    types {
-      Int "String"
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-type-declared-under-a-name-the-language-gives-refuses")
+(note "`Int` is a name the language gives its own type, and no document declares a type under it, so `types` keyed `Int` refuses at the load.")
 
+(program
+  (warp 1)
+  (type Int String)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result 1)))
+(expect (refuses load))

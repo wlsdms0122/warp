@@ -1,99 +1,29 @@
-warpt 1
-{
-  arguments {
-    absent null
-  }
-  expect {
-    answers "nothing"
-  }
-  name "a-null-cast-to-a-contract-is-held-to-the-claims-about-null"
-  note "The cast reads `absent`, which holds null, as `App.Described`, and the run holds what arrived to the contract by the type it is an instance of. A document claims the contract for `Null`, so the cast holds, the value fills `some T` as a reading of the contract, and `App.tell` answers."
-  program {
-    contracts {
-      "App.Described" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    extensions {
-      Null {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Null"
-              }
-            ]
-            result "nothing"
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.Described"
-        ]
-      }
-    }
-    imports []
-    procedures {
-      "App.tell" {
-        parameters [
-          {
-            name "it"
-            type "some T: App.Described"
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "it"
-              }
-            ]
-            procedure "App.Described.describe"
-          }
-        }
-        returns "String"
-      }
-      entry {
-        access "public"
-        failing [
-          "cast_refused"
-        ]
-        parameters [
-          {
-            name "absent"
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                as {
-                  of {
-                    ref "absent"
-                  }
-                  type "App.Described"
-                }
-              }
-            ]
-            procedure "App.tell"
-          }
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-null-cast-to-a-contract-is-held-to-the-claims-about-null")
+(note "The cast reads `absent`, which holds null, as `App.Described`, and the run holds what arrived to the contract by the type it is an instance of. A document claims the contract for `Null`, so the cast holds, the value fills `some T` as a reading of the contract, and `App.tell` answers.")
 
+(program
+  (warp 1)
+  (contract App.Described
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head Null)
+    (satisfies App.Described)
+    (procedure describe
+      (parameter of (type Null))
+      (returns String)
+      (result "nothing")))
+  (procedure App.tell
+    (parameter it (type (some T App.Described)))
+    (returns String)
+    (result (call App.Described.describe it)))
+  (procedure entry
+    (access public)
+    (parameter absent)
+    (returns String)
+    (failing cast_refused)
+    (result (call App.tell (as absent App.Described)))))
+(arguments (argument absent null))
+(expect (answers "nothing"))

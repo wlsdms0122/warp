@@ -1,49 +1,17 @@
-warpt 1
-{
-  expect {
-    answers []
-  }
-  name "an-empty-list-handed-to-a-generic-answers-a-list-of-any-type"
-  note "An empty list holds no element, so a type parameter only it reads is filled with Never, and what the call answers is a list of any type: a name declaring Array<String> takes it."
-  program {
-    imports []
-    procedures {
-      "App.keep" {
-        parameters [
-          {
-            name "xs"
-            type "Array<some T>"
-          }
-        ]
-        result {
-          ref "xs"
-        }
-        returns "Array<some T>"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "ys"
-            type "Array<String>"
-            value {
-              call {
-                arguments [
-                  []
-                ]
-                procedure "App.keep"
-              }
-            }
-          }
-        ]
-        result {
-          ref "ys"
-        }
-        returns "Array<String>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-empty-list-handed-to-a-generic-answers-a-list-of-any-type")
+(note "An empty list holds no element, so a type parameter only it reads is filled with Never, and what the call answers is a list of any type: a name declaring Array<String> takes it.")
 
+(program
+  (warp 1)
+  (procedure App.keep
+    (parameter xs (type (array (some T))))
+    (returns (array (some T)))
+    (result xs))
+  (procedure entry
+    (access public)
+    (returns (array String))
+    (body
+      (let ys (type (array String)) (call App.keep (array))))
+    (result ys)))
+(expect (answers (array)))

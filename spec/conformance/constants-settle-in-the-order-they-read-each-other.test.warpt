@@ -1,55 +1,16 @@
-warpt 1
-{
-  expect {
-    answers 6
-  }
-  name "constants-settle-in-the-order-they-read-each-other"
-  note "A constant may name another declared beside it, and what it reads is settled before it is. The order is the one the reading gives and not the one the names happen to sort in: `xerus` reads `yak`, which reads `zebra`, and the three sort in the reverse of that."
-  program {
-    const {
-      xerus {
-        call {
-          arguments [
-            {
-              ref "yak"
-            }
-            {
-              ref "zebra"
-            }
-          ]
-          procedure "Standard.Numeric.plus"
-        }
-      }
-      yak {
-        call {
-          arguments [
-            {
-              ref "zebra"
-            }
-            {
-              ref "zebra"
-            }
-          ]
-          procedure "Standard.Numeric.times"
-        }
-      }
-      zebra 2
-    }
-    imports [
-      "Standard.Numeric.plus"
-      "Standard.Numeric.times"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result {
-          ref "xerus"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "constants-settle-in-the-order-they-read-each-other")
+(note "A constant may name another declared beside it, and what it reads is settled before it is. The order is the one the reading gives and not the one the names happen to sort in: `xerus` reads `yak`, which reads `zebra`, and the three sort in the reverse of that.")
 
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (import Standard.Numeric.times)
+  (const xerus (call Standard.Numeric.plus yak zebra))
+  (const yak (call Standard.Numeric.times zebra zebra))
+  (const zebra 2)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result xerus)))
+(expect (answers 6))

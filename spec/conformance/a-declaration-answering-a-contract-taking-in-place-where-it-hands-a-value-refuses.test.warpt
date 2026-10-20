@@ -1,112 +1,31 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-declaration-answering-a-contract-taking-in-place-where-it-hands-a-value-refuses"
-  note "The contract takes an int as a value and the declaration answering it takes inout Int there. A call through the contract hands a value, which has no box for the declaration to write, so the claim holds nothing and the call refuses."
-  program {
-    contracts {
-      "App.Sized" {
-        procedures {
-          size {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-              {
-                name "n"
-                type "Int"
-              }
-            ]
-            returns "Int"
-          }
-        }
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "c"
-            value {
-              as {
-                of {
-                  struct {
-                    last "42"
-                  }
-                }
-                type "Bank.Card"
-              }
-            }
-          }
-          {
-            let "k"
-            value 4
-          }
-          {
-            let "s"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "c"
-                  }
-                  {
-                    ref "k"
-                  }
-                ]
-                procedure "App.Sized.size"
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result {
-          ref "s"
-        }
-        returns "Int"
-      }
-    }
-    types {
-      "Bank.Card" {
-        procedures {
-          size {
-            body [
-              {
-                set "n"
-                value 9
-              }
-            ]
-            parameters [
-              {
-                name "of"
-                type "Bank.Card"
-              }
-              {
-                name "n"
-                type "inout Int"
-              }
-            ]
-            result 7
-            returns "Int"
-          }
-        }
-        satisfies [
-          "App.Sized"
-        ]
-        struct {
-          last "String"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-declaration-answering-a-contract-taking-in-place-where-it-hands-a-value-refuses")
+(note "The contract takes an int as a value and the declaration answering it takes inout Int there. A call through the contract hands a value, which has no box for the declaration to write, so the claim holds nothing and the call refuses.")
 
+(program
+  (warp 1)
+  (struct Bank.Card
+    (satisfies App.Sized)
+    (field last String)
+    (procedure size
+      (parameter of (type Bank.Card))
+      (parameter n (type (inout Int)))
+      (returns Int)
+      (body
+        (set n 9))
+      (result 7)))
+  (contract App.Sized
+    (procedure size
+      (parameter of (type Self))
+      (parameter n (type Int))
+      (returns Int)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing cast_refused)
+    (body
+      (let c (as (struct (field last "42")) Bank.Card))
+      (let k 4)
+      (let s (call App.Sized.size c k)))
+    (result s)))
+(expect (refuses build))

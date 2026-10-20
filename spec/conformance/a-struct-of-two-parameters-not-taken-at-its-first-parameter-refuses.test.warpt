@@ -1,146 +1,51 @@
-warpt 1
-{
-  documents [
-    {
-      contracts {
-        "Lib.Keyed" {
-          procedures {
-            value {
-              parameters [
-                {
-                  name "of"
-                  type "Self"
-                }
-              ]
-              returns "Self.Value"
-            }
-          }
-          types [
-            "Key: Hashable"
-            "Value"
-          ]
-        }
-      }
-      imports []
-      procedures {
-        "Lib.valueOf" {
-          access "public"
-          parameters [
-            {
-              name "p"
-              type "some P: Lib.Keyed"
-            }
-          ]
-          result {
-            call {
-              arguments [
-                {
-                  ref "p"
-                }
-              ]
-              procedure "Lib.Keyed.value"
-            }
-          }
-          returns "some P.Value"
-        }
-      }
-      warp 1
-    }
-    {
-      extensions {
-        "App.Pair<some A: Hashable, some B>" {
-          procedures {
-            value {
-              access "public"
-              parameters [
-                {
-                  name "of"
-                  type "App.Pair<some A, some B>"
-                }
-              ]
-              result {
-                ref "of.b"
-              }
-              returns "some B"
-            }
-          }
-          satisfies [
-            "Lib.Keyed"
-          ]
-          types {
-            Key "some A"
-            Value "some B"
-          }
-        }
-      }
-      imports [
-        "Lib.Keyed"
-      ]
-      types {
-        "App.Pair" {
-          struct {
-            a "some A"
-            b "some B"
-          }
-          typeParameters [
-            "A"
-            "B"
-          ]
-        }
-        "App.Plain" {
-          struct {
-            x "Int"
-          }
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    refuses "build"
-  }
-  name "a-struct-of-two-parameters-not-taken-at-its-first-parameter-refuses"
-  note "A pair whose first parameter is a struct no claim makes Hashable is not taken by the head, so `valueOf` refuses at the build."
-  program {
-    imports [
-      "App.Pair"
-      "App.Plain"
-      "Lib.valueOf"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "p"
-            type "App.Pair<App.Plain, String>"
-            value {
-              struct {
-                a {
-                  struct {
-                    x 1
-                  }
-                }
-                b "b"
-              }
-            }
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "p"
-              }
-            ]
-            procedure "Lib.valueOf"
-          }
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-struct-of-two-parameters-not-taken-at-its-first-parameter-refuses")
+(note "A pair whose first parameter is a struct no claim makes Hashable is not taken by the head, so `valueOf` refuses at the build.")
 
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Keyed
+      (type Key Hashable)
+      (type Value)
+      (procedure value
+        (parameter of (type Self))
+        (returns Self.Value)))
+    (procedure Lib.valueOf
+      (access public)
+      (parameter p (type (some P Lib.Keyed)))
+      (returns (some P.Value))
+      (result (call Lib.Keyed.value p))))
+  (document
+    (warp 1)
+    (import Lib.Keyed)
+    (struct App.Pair
+      (typeParameter A)
+      (typeParameter B)
+      (field a (some A))
+      (field b (some B)))
+    (struct App.Plain
+      (field x Int))
+    (extension
+      (head (named App.Pair (some A Hashable) (some B)))
+      (satisfies Lib.Keyed)
+      (type Key (some A))
+      (type Value (some B))
+      (procedure value
+        (access public)
+        (parameter of (type (named App.Pair (some A) (some B))))
+        (returns (some B))
+        (result (path of (field b)))))))
+
+(program
+  (warp 1)
+  (import App.Pair)
+  (import App.Plain)
+  (import Lib.valueOf)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let p (type (named App.Pair App.Plain String)) (struct (field a (struct (field x 1))) (field b "b"))))
+    (result (call Lib.valueOf p))))
+(expect (refuses build))

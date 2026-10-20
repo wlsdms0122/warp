@@ -1,52 +1,20 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-cast-to-a-procedure-type-answering-an-alias-of-what-it-answers-refuses"
-  note "`App.I` names `Int`. `f` is read as `() -> Int`, and the cast names `() -> App.I`: the same procedure type, its answer spelled another way. The cast names what the reading already is, so it refuses at the build."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "f"
-            type "() -> Int"
-            value {
-              closure {
-                result 1
-                returns "Int"
-              }
-            }
-          }
-          {
-            let "g"
-            value {
-              as {
-                of {
-                  ref "f"
-                }
-                type "() -> App.I"
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result {
-          ref "g"
-        }
-        returns "() -> Int"
-      }
-    }
-    types {
-      "App.I" "Int"
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-cast-to-a-procedure-type-answering-an-alias-of-what-it-answers-refuses")
+(note "`App.I` names `Int`. `f` is read as `() -> Int`, and the cast names `() -> App.I`: the same procedure type, its answer spelled another way. The cast names what the reading already is, so it refuses at the build.")
 
+(program
+  (warp 1)
+  (type App.I Int)
+  (procedure entry
+    (access public)
+    (returns (procedure (parameters) (returns Int)))
+    (failing cast_refused)
+    (body
+      (let f
+        (type (procedure (parameters) (returns Int)))
+        (closure
+          (returns Int)
+          (result 1)))
+      (let g (as f (procedure (parameters) (returns App.I)))))
+    (result g)))
+(expect (refuses build))

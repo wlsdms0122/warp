@@ -1,64 +1,24 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-piece-that-writes-what-it-captured-refuses"
-  note "A variable a closure captured is a name another body could touch at once. The piece declares `isolated` and writes the captured `tally`, so it refuses at the build where it is written, and `Standard.Concurrent.all` never takes it."
-  program {
-    imports [
-      "Standard.Concurrent.all"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            value 0
-            var "tally"
-          }
-          {
-            let "pieces"
-            value [
-              {
-                closure {
-                  body [
-                    {
-                      set "tally"
-                      value 1
-                    }
-                  ]
-                  isolated true
-                  result 1
-                  returns "Int"
-                }
-              }
-            ]
-          }
-          {
-            value {
-              call {
-                arguments [
-                  {
-                    ref "pieces"
-                  }
-                ]
-                procedure "Standard.Concurrent.all"
-              }
-            }
-          }
-        ]
-        failing [
-          "concurrent_failed"
-        ]
-        result {
-          ref "tally"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-piece-that-writes-what-it-captured-refuses")
+(note "A variable a closure captured is a name another body could touch at once. The piece declares `isolated` and writes the captured `tally`, so it refuses at the build where it is written, and `Standard.Concurrent.all` never takes it.")
 
+(program
+  (warp 1)
+  (import Standard.Concurrent.all)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing concurrent_failed)
+    (body
+      (var tally 0)
+      (let pieces
+        (array
+          (closure
+            (isolated)
+            (returns Int)
+            (body
+              (set tally 1))
+            (result 1))))
+      (call Standard.Concurrent.all pieces))
+    (result tally)))
+(expect (refuses build))

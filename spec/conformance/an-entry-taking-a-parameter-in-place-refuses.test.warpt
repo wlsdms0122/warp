@@ -1,50 +1,16 @@
-warpt 1
-{
-  arguments {
-    count 1
-  }
-  expect {
-    refuses "run"
-  }
-  name "an-entry-taking-a-parameter-in-place-refuses"
-  note "A run hands its entry values, and a parameter handed in place takes a variable, so an entry taking one refuses at the run before anything runs, whatever value the run gives under its name."
-  program {
-    imports [
-      "Standard.Numeric.plus"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            set "count"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "count"
-                  }
-                  1
-                ]
-                procedure "Standard.Numeric.plus"
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "count"
-            type "inout Int"
-          }
-        ]
-        result {
-          ref "count"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-entry-taking-a-parameter-in-place-refuses")
+(note "A run hands its entry values, and a parameter handed in place takes a variable, so an entry taking one refuses at the run before anything runs, whatever value the run gives under its name.")
 
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (parameter count (type (inout Int)))
+    (returns Int)
+    (body
+      (set count (call Standard.Numeric.plus count 1)))
+    (result count)))
+(arguments (argument count 1))
+(expect (refuses run))

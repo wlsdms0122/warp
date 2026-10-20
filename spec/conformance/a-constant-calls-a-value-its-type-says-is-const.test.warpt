@@ -1,39 +1,17 @@
-warpt 1
-{
-  expect {
-    answers 1
-  }
-  name "a-constant-calls-a-value-its-type-says-is-const"
-  note "A constant settles at the build, so what it is written from is read rather than run, as an operand is. `one` holds a closure whose literal declares `const () -> Int`, and that type is what says the procedure answers without running, so `c` settles by calling it."
-  program {
-    const {
-      c {
-        call {
-          procedure {
-            ref "one"
-          }
-        }
-      }
-      one {
-        closure {
-          const true
-          result 1
-          returns "Int"
-        }
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        result {
-          ref "c"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-constant-calls-a-value-its-type-says-is-const")
+(note "A constant settles at the build, so what it is written from is read rather than run, as an operand is. `one` holds a closure whose literal declares `const () -> Int`, and that type is what says the procedure answers without running, so `c` settles by calling it.")
 
+(program
+  (warp 1)
+  (const c (apply one))
+  (const one
+    (closure
+      (const)
+      (returns Int)
+      (result 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result c)))
+(expect (answers 1))

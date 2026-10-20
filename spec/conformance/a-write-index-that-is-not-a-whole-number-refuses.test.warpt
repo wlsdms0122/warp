@@ -1,38 +1,15 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-write-index-that-is-not-a-whole-number-refuses"
-  note "On a list an index written as a name in a write is read where the write stands and stands where an Int is read. `k` holds text, and `set xs[k]` refuses at the build."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            value [
-              1
-              2
-            ]
-            var "xs"
-          }
-          {
-            let "k"
-            value "a"
-          }
-          {
-            set "xs[k]"
-            value 3
-          }
-        ]
-        result 1
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-write-index-that-is-not-a-whole-number-refuses")
+(note "On a list an index written as a name in a write is read where the write stands and stands where an Int is read. `k` holds text, and `set xs[k]` refuses at the build.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var xs (array 1 2))
+      (let k "a")
+      (set (path xs (index k)) 3))
+    (result 1)))
+(expect (refuses build))

@@ -1,71 +1,20 @@
-warpt 1
-{
-  expect {
-    answers App.P {
-      x 2
-    }
-  }
-  name "a-struct-literal-beside-a-declared-struct-at-a-type-parameter-reads-as-that-struct-answers"
-  note "A type parameter a call fills beside is a place a literal is read at. `App.same` takes `some T` twice, the `App.P` handed first fills it, and the struct literal handed beside it is read as that struct once the readings join, so the call answers the literal as an `App.P`."
-  program {
-    imports []
-    procedures {
-      "App.same" {
-        parameters [
-          {
-            name "a"
-            type "some T"
-          }
-          {
-            name "b"
-            type "some T"
-          }
-        ]
-        result {
-          ref "b"
-        }
-        returns "some T"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "p"
-            type "App.P"
-            value {
-              struct {
-                x 1
-              }
-            }
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "p"
-              }
-              {
-                struct {
-                  x 2
-                }
-              }
-            ]
-            procedure "App.same"
-          }
-        }
-        returns "App.P"
-      }
-    }
-    types {
-      "App.P" {
-        struct {
-          x "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-struct-literal-beside-a-declared-struct-at-a-type-parameter-reads-as-that-struct-answers")
+(note "A type parameter a call fills beside is a place a literal is read at. `App.same` takes `some T` twice, the `App.P` handed first fills it, and the struct literal handed beside it is read as that struct once the readings join, so the call answers the literal as an `App.P`.")
 
+(program
+  (warp 1)
+  (struct App.P
+    (field x Int))
+  (procedure App.same
+    (parameter a (type (some T)))
+    (parameter b (type (some T)))
+    (returns (some T))
+    (result b))
+  (procedure entry
+    (access public)
+    (returns App.P)
+    (body
+      (let p (type App.P) (struct (field x 1))))
+    (result (call App.same p (struct (field x 2))))))
+(expect (answers (struct App.P (field x 2))))

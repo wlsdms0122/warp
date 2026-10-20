@@ -1,43 +1,16 @@
-warpt 1
-{
-  arguments {
-    task Task {
-      done true
-      id "a"
-    }
-  }
-  expect {
-    answers true
-  }
-  name "a-declared-name-is-a-type"
-  note "A module declares types under names, and a declared name is a type wherever a type is written."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        parameters [
-          {
-            name "task"
-            type "Task"
-          }
-        ]
-        result {
-          ref "task.done"
-        }
-        returns "Bool"
-      }
-    }
-    types {
-      Task {
-        struct {
-          done "Bool"
-          id "String"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-declared-name-is-a-type")
+(note "A module declares types under names, and a declared name is a type wherever a type is written.")
 
+(program
+  (warp 1)
+  (struct Task
+    (field done Bool)
+    (field id String))
+  (procedure entry
+    (access public)
+    (parameter task (type Task))
+    (returns Bool)
+    (result (path task (field done)))))
+(arguments (argument task (struct Task (field done true) (field id "a"))))
+(expect (answers true))

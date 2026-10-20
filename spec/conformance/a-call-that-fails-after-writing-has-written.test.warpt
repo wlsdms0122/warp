@@ -1,88 +1,28 @@
-warpt 1
-{
-  expect {
-    answers 1
-  }
-  name "a-call-that-fails-after-writing-has-written"
-  note "The box is the caller's, so a write made before the callee fails is a write the caller sees after the rescue."
-  program {
-    imports [
-      "Standard.Control.abort"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            value 0
-            var "n"
-          }
-          {
-            let "tried"
-            value {
-              attempt {
-                body [
-                  {
-                    value {
-                      call {
-                        arguments [
-                          {
-                            ref "n"
-                          }
-                        ]
-                        procedure "poke"
-                      }
-                    }
-                  }
-                ]
-                rescue {
-                  body [
-                    {
-                      let "seen"
-                      value 1
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        ]
-        result {
-          ref "n"
-        }
-        returns "Int"
-      }
-      poke {
-        body [
-          {
-            set "count"
-            value 1
-          }
-          {
-            value {
-              call {
-                arguments [
-                  "after writing"
-                ]
-                procedure "Standard.Control.abort"
-              }
-            }
-          }
-        ]
-        failing [
-          "aborted"
-        ]
-        parameters [
-          {
-            name "count"
-            type "inout Int"
-          }
-        ]
-        returns "Never"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-call-that-fails-after-writing-has-written")
+(note "The box is the caller's, so a write made before the callee fails is a write the caller sees after the rescue.")
 
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var n 0)
+      (let tried
+        (attempt
+          (body
+            (call poke n))
+          (rescue
+            (body
+              (let seen 1))))))
+    (result n))
+  (procedure poke
+    (parameter count (type (inout Int)))
+    (returns Never)
+    (failing aborted)
+    (body
+      (set count 1)
+      (call Standard.Control.abort "after writing"))))
+(expect (answers 1))

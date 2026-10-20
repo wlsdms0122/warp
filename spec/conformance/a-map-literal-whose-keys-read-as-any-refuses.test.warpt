@@ -1,38 +1,13 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-map-literal-whose-keys-read-as-any-refuses"
-  note "A map literal reads as a map keyed by what its keys join to, and a whole number beside a text joins to `Any`, which does not answer `Hashable`. The name declares no map, so the literal is that map type and refuses at the build where it is written, as `Dictionary<Any, String>` written there would."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "d"
-            value {
-              dictionary [
-                [
-                  1
-                  "a"
-                ]
-                [
-                  "b"
-                  "c"
-                ]
-              ]
-            }
-          }
-        ]
-        result 1
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-map-literal-whose-keys-read-as-any-refuses")
+(note "A map literal reads as a map keyed by what its keys join to, and a whole number beside a text joins to `Any`, which does not answer `Hashable`. The name declares no map, so the literal is that map type and refuses at the build where it is written, as `Dictionary<Any, String>` written there would.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let d (dictionary (entry 1 "a") (entry "b" "c"))))
+    (result 1)))
+(expect (refuses build))

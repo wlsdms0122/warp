@@ -1,0 +1,5 @@
+(test 1)
+(name "a-name-in-backticks-is-the-name-written-bare")
+(note "A name is written bare, or in backticks where it holds what ends a bare token. Backticks around a name that reads bare change the layout and not the name.")
+(text "(warp 1)\n(const `a` 1)\n(const `b c` 2)\n")
+(expect (reads (dictionary (entry "const" (dictionary (entry "a" 1) (entry "b c" 2))) (entry "imports" (array)) (entry "warp" 1))))

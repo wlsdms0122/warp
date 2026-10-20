@@ -1,64 +1,15 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-list-literal-a-declared-name-starts-with-is-read-position-by-position-refuses"
-  note "ys declares Array<Dictionary<String, Array<String>>> and starts as a list of two map literals, one holding `[]` under `a` and one holding `[1]`. The start value is held to the declaration as a later write is, its elements joined position by position, so the map whose `a` holds a number refuses at the build."
-  program {
-    imports [
-      "Standard.Collection.count"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            type "Array<Dictionary<String, Array<String>>>"
-            value [
-              {
-                dictionary [
-                  [
-                    "a"
-                    []
-                  ]
-                ]
-              }
-              {
-                dictionary [
-                  [
-                    "a"
-                    [
-                      1
-                    ]
-                  ]
-                ]
-              }
-            ]
-            var "ys"
-          }
-          {
-            let "n"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "ys"
-                  }
-                ]
-                procedure "Standard.Collection.count"
-              }
-            }
-          }
-        ]
-        result {
-          ref "n"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-list-literal-a-declared-name-starts-with-is-read-position-by-position-refuses")
+(note "ys declares Array<Dictionary<String, Array<String>>> and starts as a list of two map literals, one holding `[]` under `a` and one holding `[1]`. The start value is held to the declaration as a later write is, its elements joined position by position, so the map whose `a` holds a number refuses at the build.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.count)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var ys (type (array (dictionary String (array String)))) (array (dictionary (entry "a" (array))) (dictionary (entry "a" (array 1)))))
+      (let n (call Standard.Collection.count ys)))
+    (result n)))
+(expect (refuses build))

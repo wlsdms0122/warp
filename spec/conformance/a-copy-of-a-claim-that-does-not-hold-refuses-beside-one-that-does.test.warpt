@@ -1,112 +1,44 @@
-warpt 1
-{
-  documents [
-    {
-      contracts {
-        "App.Describable" {
-          procedures {
-            describe {
-              parameters [
-                {
-                  name "of"
-                  type "Self"
-                }
-              ]
-              returns "String"
-            }
-          }
-        }
-      }
-      imports []
-      warp 1
-    }
-    {
-      imports []
-      types {
-        "T.Card" {
-          struct {
-            rank "Int"
-          }
-        }
-      }
-      warp 1
-    }
-    {
-      extensions {
-        "T.Card" {
-          procedures {
-            describe {
-              parameters [
-                {
-                  name "of"
-                  type "T.Card"
-                }
-              ]
-              result "given"
-              returns "String"
-            }
-          }
-          satisfies [
-            "App.Describable"
-          ]
-        }
-      }
-      imports [
-        "App.Describable"
-        "T.Card"
-      ]
-      warp 1
-    }
-    {
-      extensions {
-        "T.Card" {
-          satisfies [
-            "App.Describable"
-          ]
-        }
-      }
-      imports [
-        "App.Describable"
-        "T.Card"
-      ]
-      warp 1
-    }
-  ]
-  expect {
-    refuses "build"
-  }
-  name "a-copy-of-a-claim-that-does-not-hold-refuses-beside-one-that-does"
-  note "One document claims T.Card answers App.Describable and gives it `describe`; another makes the same claim and stands on nothing giving it. Each copy is held where it is written, so the second refuses at the build, at the claim, however the host listed the two."
-  program {
-    imports [
-      "T.Card"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "card"
-            value {
-              as {
-                of {
-                  struct {
-                    rank 3
-                  }
-                }
-                type "T.Card"
-              }
-            }
-          }
-        ]
-        result {
-          ref "card.rank"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-copy-of-a-claim-that-does-not-hold-refuses-beside-one-that-does")
+(note "One document claims T.Card answers App.Describable and gives it `describe`; another makes the same claim and stands on nothing giving it. Each copy is held where it is written, so the second refuses at the build, at the claim, however the host listed the two.")
 
+(documents
+  (document
+    (warp 1)
+    (contract App.Describable
+      (procedure describe
+        (parameter of (type Self))
+        (returns String))))
+  (document
+    (warp 1)
+    (struct T.Card
+      (field rank Int)))
+  (document
+    (warp 1)
+    (import App.Describable)
+    (import T.Card)
+    (extension
+      (head T.Card)
+      (satisfies App.Describable)
+      (procedure describe
+        (parameter of (type T.Card))
+        (returns String)
+        (result "given"))))
+  (document
+    (warp 1)
+    (import App.Describable)
+    (import T.Card)
+    (extension
+      (head T.Card)
+      (satisfies App.Describable))))
+
+(program
+  (warp 1)
+  (import T.Card)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let card (as (struct (field rank 3)) T.Card)))
+    (result (path card (field rank)))))
+(expect (refuses build))

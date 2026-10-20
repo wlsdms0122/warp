@@ -1,137 +1,32 @@
-warpt 1
-{
-  description "Running one closure once per element, written from the fan-out that runs a list of them."
-  imports [
-    "Standard.Collection.appending"
-    "Standard.Collection.count"
-    "Standard.Comparable.lessThan"
-    "Standard.Concurrent.all"
-  ]
-  procedures {
-    "Standard.Concurrent.map" {
-      body [
-        {
-          value []
-          var "pieces"
-        }
-        {
-          let "walk"
-          value {
-            loop {
-              body [
-                {
-                  let "item"
-                  value {
-                    ref "array[walk.index]"
-                  }
-                }
-                {
-                  let "index"
-                  value {
-                    ref "walk.index"
-                  }
-                }
-                {
-                  let "piece"
-                  value {
-                    closure {
-                      body [
-                        {
-                          let "answered"
-                          value {
-                            call {
-                              arguments [
-                                {
-                                  ref "item"
-                                }
-                                {
-                                  ref "index"
-                                }
-                              ]
-                              procedure {
-                                ref "transform"
-                              }
-                            }
-                          }
-                        }
-                      ]
-                      failing "anything"
-                      isolated true
-                      result {
-                        ref "answered"
-                      }
-                      returns "some Answer"
-                    }
-                  }
-                }
-                {
-                  set "pieces"
-                  value {
-                    call {
-                      arguments [
-                        {
-                          ref "pieces"
-                        }
-                        {
-                          ref "piece"
-                        }
-                      ]
-                      procedure "Standard.Collection.appending"
-                    }
-                  }
-                }
-              ]
-              while {
-                call {
-                  arguments [
-                    {
-                      ref "walk.index"
-                    }
-                    {
-                      call {
-                        arguments [
-                          {
-                            ref "array"
-                          }
-                        ]
-                        procedure "Standard.Collection.count"
-                      }
-                    }
-                  ]
-                  procedure "Standard.Comparable.lessThan"
-                }
-              }
-            }
-          }
-        }
-      ]
-      description "Each element answered by a procedure, run at once, in the collection's order."
-      failing [
-        "concurrent_failed"
-      ]
-      isolated true
-      parameters [
-        {
-          name "array"
-          type "Array<some Element>"
-        }
-        {
-          name "transform"
-          type "isolated (some Element, Int) throws -> some Answer"
-        }
-      ]
-      result {
-        call {
-          arguments [
-            {
-              ref "pieces"
-            }
-          ]
-          procedure "Standard.Concurrent.all"
-        }
-      }
-      returns "Array<some Answer>"
-    }
-  }
-  warp 1
-}
+(warp 1)
+(description "Running one closure once per element, written from the fan-out that runs a list of them.")
+(import Standard.Collection.appending)
+(import Standard.Collection.count)
+(import Standard.Comparable.lessThan)
+(import Standard.Concurrent.all)
+
+(procedure Standard.Concurrent.map
+  (description "Each element answered by a procedure, run at once, in the collection's order.")
+  (isolated)
+  (parameter array (type (array (some Element))))
+  (parameter transform (type (procedure (isolated) (parameters (some Element) Int) (failing (anything)) (returns (some Answer)))))
+  (returns (array (some Answer)))
+  (failing concurrent_failed)
+  (body
+    (var pieces (array))
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Collection.count array)))
+        (body
+          (let item (path array (index (path walk (field index)))))
+          (let index (path walk (field index)))
+          (let piece
+            (closure
+              (isolated)
+              (returns (some Answer))
+              (failing (anything))
+              (body
+                (let answered (apply transform item index)))
+              (result answered)))
+          (set pieces (call Standard.Collection.appending pieces piece))))))
+  (result (call Standard.Concurrent.all pieces)))

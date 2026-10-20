@@ -1,60 +1,21 @@
-warpt 1
-{
-  expect {
-    answers 1
-  }
-  name "a-cast-of-a-closure-held-at-a-contract-slot-back-to-the-number-it-answers-answers"
-  note "`c` is declared `() -> Int`, and its closure writes `returns Int`, and holding it at `() -> Standard.Numeric`, which `Int` answers, hands it on as it is. The cast back to `() -> Int` takes the closure."
-  program {
-    imports [
-      "Standard.Numeric"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "c"
-            type "() -> Int"
-            value {
-              closure {
-                result 1
-                returns "Int"
-              }
-            }
-          }
-          {
-            let "j"
-            type "() -> Standard.Numeric"
-            value {
-              ref "c"
-            }
-          }
-          {
-            let "e"
-            value {
-              as {
-                of {
-                  ref "j"
-                }
-                type "() -> Int"
-              }
-            }
-          }
-        ]
-        failing "anything"
-        result {
-          call {
-            procedure {
-              ref "e"
-            }
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-cast-of-a-closure-held-at-a-contract-slot-back-to-the-number-it-answers-answers")
+(note "`c` is declared `() -> Int`, and its closure writes `returns Int`, and holding it at `() -> Standard.Numeric`, which `Int` answers, hands it on as it is. The cast back to `() -> Int` takes the closure.")
 
+(program
+  (warp 1)
+  (import Standard.Numeric)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (body
+      (let c
+        (type (procedure (parameters) (returns Int)))
+        (closure
+          (returns Int)
+          (result 1)))
+      (let j (type (procedure (parameters) (returns Standard.Numeric))) c)
+      (let e (as j (procedure (parameters) (returns Int)))))
+    (result (apply e))))
+(expect (answers 1))

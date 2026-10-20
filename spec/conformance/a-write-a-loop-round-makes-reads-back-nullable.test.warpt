@@ -1,76 +1,23 @@
-warpt 1
-{
-  arguments {
-    ready true
-  }
-  expect {
-    refuses "build"
-  }
-  name "a-write-a-loop-round-makes-reads-back-nullable"
-  note "A loop's round runs some number of times, none included, so a write inside it joins with what the name held. After it the name reads `Int?`, and a slot declared `Int` refuses it."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            var "kept"
-          }
-          {
-            value {
-              loop {
-                body [
-                  {
-                    set "kept"
-                    value 1
-                  }
-                  {
-                    value {
-                      break null
-                    }
-                  }
-                ]
-                while {
-                  ref "ready"
-                }
-              }
-            }
-          }
-          {
-            let "said"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "kept"
-                  }
-                ]
-                procedure "wants"
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "ready"
-            type "Bool"
-          }
-        ]
-      }
-      wants {
-        parameters [
-          {
-            name "it"
-            type "Int"
-          }
-        ]
-        result true
-        returns "Bool"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-write-a-loop-round-makes-reads-back-nullable")
+(note "A loop's round runs some number of times, none included, so a write inside it joins with what the name held. After it the name reads `Int?`, and a slot declared `Int` refuses it.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter ready (type Bool))
+    (body
+      (var kept)
+      (loop
+        (while ready)
+        (body
+          (set kept 1)
+          (break)))
+      (let said (call wants kept))))
+  (procedure wants
+    (parameter it (type Int))
+    (returns Bool)
+    (result true)))
+(arguments (argument ready true))
+(expect (refuses build))

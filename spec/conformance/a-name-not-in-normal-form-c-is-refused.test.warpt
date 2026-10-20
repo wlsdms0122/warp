@@ -1,28 +1,5 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-name-not-in-normal-form-c-is-refused"
-  note "One name, one spelling: names are normal form C, compared as bytes. A declaration and a reference can only meet by being the same bytes, so a decomposed spelling is refused where it is written."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "café"
-            value 1
-          }
-        ]
-        result {
-          ref "café"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
-
+(test 1)
+(name "a-name-not-in-normal-form-c-is-refused")
+(note "One name, one spelling: names are normal form C, compared as bytes. A declaration and a reference can only meet by being the same bytes, so a decomposed spelling is refused where it is written.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "let" "café") (entry "value" 1)))) (entry "result" (dictionary (entry "ref" "café"))))))) (entry "warp" 1)))
+(expect (refuses load))

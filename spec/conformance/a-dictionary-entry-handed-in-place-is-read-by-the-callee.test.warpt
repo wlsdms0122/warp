@@ -1,75 +1,19 @@
-warpt 1
-{
-  expect {
-    answers 2
-  }
-  name "a-dictionary-entry-handed-in-place-is-read-by-the-callee"
-  note "An entry of a dictionary is handed in place the way a field is. The callee reads what the entry holds through the path, and its write lands in the caller's box."
-  program {
-    imports [
-      "Standard.Numeric.plus"
-    ]
-    procedures {
-      bump {
-        body [
-          {
-            set "count"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "count"
-                  }
-                  1
-                ]
-                procedure "Standard.Numeric.plus"
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "count"
-            type "inout Int"
-          }
-        ]
-      }
-      entry {
-        access "public"
-        body [
-          {
-            type "Dictionary<String, Int>"
-            value {
-              dictionary [
-                [
-                  "a"
-                  1
-                ]
-              ]
-            }
-            var "d"
-          }
-          {
-            value {
-              call {
-                arguments [
-                  {
-                    ref "d[\"a\"]"
-                  }
-                ]
-                procedure "bump"
-              }
-            }
-          }
-        ]
-        result {
-          ref "d[\"a\"]"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-dictionary-entry-handed-in-place-is-read-by-the-callee")
+(note "An entry of a dictionary is handed in place the way a field is. The callee reads what the entry holds through the path, and its write lands in the caller's box.")
 
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure bump
+    (parameter count (type (inout Int)))
+    (body
+      (set count (call Standard.Numeric.plus count 1))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var d (type (dictionary String Int)) (dictionary (entry "a" 1)))
+      (call bump (path d (index "a"))))
+    (result (path d (index "a")))))
+(expect (answers 2))

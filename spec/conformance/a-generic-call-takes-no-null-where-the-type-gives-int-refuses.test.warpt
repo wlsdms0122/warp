@@ -1,185 +1,58 @@
-warpt 1
-{
-  documents [
-    {
-      contracts {
-        "Lib.Bag" {
-          procedures {
-            first {
-              parameters [
-                {
-                  name "of"
-                  type "Self"
-                }
-              ]
-              returns "Self.Item"
-            }
-            take {
-              parameters [
-                {
-                  name "of"
-                  type "Self"
-                }
-                {
-                  name "x"
-                  type "Self.Item"
-                }
-              ]
-              returns "Int"
-            }
-          }
-          types [
-            "Item"
-          ]
-        }
-      }
-      imports []
-      warp 1
-    }
-    {
-      imports [
-        "Int.plus"
-        "Lib.Bag"
-      ]
-      types {
-        "App.IntBag" {
-          procedures {
-            first {
-              access "public"
-              parameters [
-                {
-                  name "of"
-                  type "App.IntBag"
-                }
-              ]
-              result {
-                ref "of.n"
-              }
-              returns "Int"
-            }
-            take {
-              access "public"
-              parameters [
-                {
-                  name "of"
-                  type "App.IntBag"
-                }
-                {
-                  name "x"
-                  type "Int"
-                }
-              ]
-              result {
-                call {
-                  arguments [
-                    {
-                      ref "x"
-                    }
-                    1
-                  ]
-                  procedure "Int.plus"
-                }
-              }
-              returns "Int"
-            }
-          }
-          satisfies [
-            "Lib.Bag"
-          ]
-          struct {
-            n "Int"
-          }
-          types {
-            Item "Int"
-          }
-        }
-      }
-      warp 1
-    }
-    {
-      imports [
-        "Lib.Bag"
-        "Lib.Bag.take"
-      ]
-      procedures {
-        "Use.put" {
-          access "public"
-          parameters [
-            {
-              name "c"
-              type "some C: Lib.Bag"
-            }
-            {
-              name "x"
-              type "some C.Item"
-            }
-          ]
-          result {
-            call {
-              arguments [
-                {
-                  ref "c"
-                }
-                {
-                  ref "x"
-                }
-              ]
-              procedure "Lib.Bag.take"
-            }
-          }
-          returns "Int"
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    refuses "build"
-  }
-  name "a-generic-call-takes-no-null-where-the-type-gives-int-refuses"
-  note "`Use.put` takes `some C.Item`, and App.IntBag gives Item as Int, so handing a value that may be null there refuses at the build."
-  program {
-    imports [
-      "App.IntBag"
-      "Use.put"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "b"
-            type "App.IntBag"
-            value {
-              struct {
-                n 1
-              }
-            }
-          }
-          {
-            let "v"
-            type "Int?"
-            value null
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "b"
-              }
-              {
-                ref "v"
-              }
-            ]
-            procedure "Use.put"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-generic-call-takes-no-null-where-the-type-gives-int-refuses")
+(note "`Use.put` takes `some C.Item`, and App.IntBag gives Item as Int, so handing a value that may be null there refuses at the build.")
 
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Bag
+      (type Item)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item))
+      (procedure take
+        (parameter of (type Self))
+        (parameter x (type Self.Item))
+        (returns Int))))
+  (document
+    (warp 1)
+    (import Int.plus)
+    (import Lib.Bag)
+    (struct App.IntBag
+      (satisfies Lib.Bag)
+      (field n Int)
+      (type Item Int)
+      (procedure first
+        (access public)
+        (parameter of (type App.IntBag))
+        (returns Int)
+        (result (path of (field n))))
+      (procedure take
+        (access public)
+        (parameter of (type App.IntBag))
+        (parameter x (type Int))
+        (returns Int)
+        (result (call Int.plus x 1)))))
+  (document
+    (warp 1)
+    (import Lib.Bag)
+    (import Lib.Bag.take)
+    (procedure Use.put
+      (access public)
+      (parameter c (type (some C Lib.Bag)))
+      (parameter x (type (some C.Item)))
+      (returns Int)
+      (result (call Lib.Bag.take c x)))))
+
+(program
+  (warp 1)
+  (import App.IntBag)
+  (import Use.put)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let b (type App.IntBag) (struct (field n 1)))
+      (let v (type (nullable Int)) null))
+    (result (call Use.put b v))))
+(expect (refuses build))

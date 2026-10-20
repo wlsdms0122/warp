@@ -1,200 +1,43 @@
-warpt 1
-{
-  expect {
-    answers [
-      "zulu"
-      "map"
-      "first"
-    ]
-  }
-  name "a-calls-arguments-are-evaluated-in-position-order"
-  note "A call's arguments are evaluated in position order, whether the callee is a body, the host's or a value. An argument may call anything, so the order is observable. Each call here writes two arguments that would both fail, and the first one's failure surfaces: `zulu` for `App.pair`, which declares it before `alpha`, `map` for `Standard.Collection.setting`, and `first` for a closure called through the name holding it."
-  program {
-    imports [
-      "Standard.Collection.setting"
-      "Standard.Control.abort"
-    ]
-    procedures {
-      "App.pair" {
-        parameters [
-          {
-            name "zulu"
-            type "String"
-          }
-          {
-            name "alpha"
-            type "String"
-          }
-        ]
-        result {
-          ref "zulu"
-        }
-        returns "String"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "declared"
-            value {
-              attempt {
-                body [
-                  {
-                    let "paired"
-                    value {
-                      call {
-                        arguments [
-                          {
-                            call {
-                              arguments [
-                                "zulu"
-                              ]
-                              procedure "Standard.Control.abort"
-                            }
-                          }
-                          {
-                            call {
-                              arguments [
-                                "alpha"
-                              ]
-                              procedure "Standard.Control.abort"
-                            }
-                          }
-                        ]
-                        procedure "App.pair"
-                      }
-                    }
-                  }
-                ]
-                rescue {
-                  result {
-                    ref "declared.message"
-                  }
-                }
-              }
-            }
-          }
-          {
-            let "hosted"
-            value {
-              attempt {
-                body [
-                  {
-                    let "set"
-                    value {
-                      call {
-                        arguments [
-                          {
-                            call {
-                              arguments [
-                                "map"
-                              ]
-                              procedure "Standard.Control.abort"
-                            }
-                          }
-                          {
-                            call {
-                              arguments [
-                                "key"
-                              ]
-                              procedure "Standard.Control.abort"
-                            }
-                          }
-                          1
-                        ]
-                        procedure "Standard.Collection.setting"
-                      }
-                    }
-                  }
-                ]
-                rescue {
-                  result {
-                    ref "hosted.message"
-                  }
-                }
-              }
-            }
-          }
-          {
-            let "applied"
-            value {
-              attempt {
-                body [
-                  {
-                    let "f"
-                    value {
-                      closure {
-                        parameters [
-                          {
-                            name "first"
-                            type "String"
-                          }
-                          {
-                            name "second"
-                            type "String"
-                          }
-                        ]
-                        result {
-                          ref "first"
-                        }
-                        returns "String"
-                      }
-                    }
-                  }
-                  {
-                    let "made"
-                    value {
-                      call {
-                        arguments [
-                          {
-                            call {
-                              arguments [
-                                "first"
-                              ]
-                              procedure "Standard.Control.abort"
-                            }
-                          }
-                          {
-                            call {
-                              arguments [
-                                "second"
-                              ]
-                              procedure "Standard.Control.abort"
-                            }
-                          }
-                        ]
-                        procedure {
-                          ref "f"
-                        }
-                      }
-                    }
-                  }
-                ]
-                rescue {
-                  result {
-                    ref "applied.message"
-                  }
-                }
-              }
-            }
-          }
-        ]
-        result [
-          {
-            ref "declared"
-          }
-          {
-            ref "hosted"
-          }
-          {
-            ref "applied"
-          }
-        ]
-        returns "Array<String?>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-calls-arguments-are-evaluated-in-position-order")
+(note "A call's arguments are evaluated in position order, whether the callee is a body, the host's or a value. An argument may call anything, so the order is observable. Each call here writes two arguments that would both fail, and the first one's failure surfaces: `zulu` for `App.pair`, which declares it before `alpha`, `map` for `Standard.Collection.setting`, and `first` for a closure called through the name holding it.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.setting)
+  (import Standard.Control.abort)
+  (procedure App.pair
+    (parameter zulu (type String))
+    (parameter alpha (type String))
+    (returns String)
+    (result zulu))
+  (procedure entry
+    (access public)
+    (returns (array (nullable String)))
+    (body
+      (let declared
+        (attempt
+          (body
+            (let paired (call App.pair (call Standard.Control.abort "zulu") (call Standard.Control.abort "alpha"))))
+          (rescue
+            (result (path declared (field message))))))
+      (let hosted
+        (attempt
+          (body
+            (let set (call Standard.Collection.setting (call Standard.Control.abort "map") (call Standard.Control.abort "key") 1)))
+          (rescue
+            (result (path hosted (field message))))))
+      (let applied
+        (attempt
+          (body
+            (let f
+              (closure
+                (parameter first (type String))
+                (parameter second (type String))
+                (returns String)
+                (result first)))
+            (let made (apply f (call Standard.Control.abort "first") (call Standard.Control.abort "second"))))
+          (rescue
+            (result (path applied (field message)))))))
+    (result (array declared hosted applied))))
+(expect (answers (array "zulu" "map" "first")))

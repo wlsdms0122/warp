@@ -1,166 +1,46 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-declaration-answering-a-contract-with-another-contract-where-it-writes-a-contract-refuses"
-  note "The contract hands App.Sized and the declaration answering it takes App.Named there. A type answering App.Sized need not answer App.Named, so a call through the contract could reach a slot that refuses what it hands."
-  program {
-    contracts {
-      "App.Named" {
-        procedures {
-          name {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-      "App.Shown" {
-        procedures {
-          show {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-              {
-                name "n"
-                type "App.Sized"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-      "App.Sized" {
-        procedures {
-          size {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "Int"
-          }
-        }
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "b"
-            value {
-              as {
-                of {
-                  struct {
-                    n 1
-                  }
-                }
-                type "Bank.Box"
-              }
-            }
-          }
-          {
-            let "c"
-            value {
-              as {
-                of {
-                  struct {
-                    last "4"
-                  }
-                }
-                type "Bank.Card"
-              }
-            }
-          }
-          {
-            let "s"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "b"
-                  }
-                  {
-                    ref "c"
-                  }
-                ]
-                procedure "App.Shown.show"
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result {
-          ref "s"
-        }
-        returns "String"
-      }
-    }
-    types {
-      "Bank.Box" {
-        procedures {
-          show {
-            parameters [
-              {
-                name "of"
-                type "Bank.Box"
-              }
-              {
-                name "n"
-                type "App.Named"
-              }
-            ]
-            result "shown"
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.Shown"
-        ]
-        struct {
-          n "Int"
-        }
-      }
-      "Bank.Card" {
-        procedures {
-          size {
-            parameters [
-              {
-                name "of"
-                type "Bank.Card"
-              }
-            ]
-            result 4
-            returns "Int"
-          }
-        }
-        satisfies [
-          "App.Sized"
-        ]
-        struct {
-          last "String"
-        }
-      }
-      "Bank.Coin" {
-        struct {
-          cents "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-declaration-answering-a-contract-with-another-contract-where-it-writes-a-contract-refuses")
+(note "The contract hands App.Sized and the declaration answering it takes App.Named there. A type answering App.Sized need not answer App.Named, so a call through the contract could reach a slot that refuses what it hands.")
 
+(program
+  (warp 1)
+  (struct Bank.Box
+    (satisfies App.Shown)
+    (field n Int)
+    (procedure show
+      (parameter of (type Bank.Box))
+      (parameter n (type App.Named))
+      (returns String)
+      (result "shown")))
+  (struct Bank.Card
+    (satisfies App.Sized)
+    (field last String)
+    (procedure size
+      (parameter of (type Bank.Card))
+      (returns Int)
+      (result 4)))
+  (struct Bank.Coin
+    (field cents Int))
+  (contract App.Named
+    (procedure name
+      (parameter of (type Self))
+      (returns String)))
+  (contract App.Shown
+    (procedure show
+      (parameter of (type Self))
+      (parameter n (type App.Sized))
+      (returns String)))
+  (contract App.Sized
+    (procedure size
+      (parameter of (type Self))
+      (returns Int)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let b (as (struct (field n 1)) Bank.Box))
+      (let c (as (struct (field last "4")) Bank.Card))
+      (let s (call App.Shown.show b c)))
+    (result s)))
+(expect (refuses build))

@@ -1,85 +1,28 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-call-of-a-value-indexed-by-a-module-variable-does-not-answer-without-running"
-  note "Which value a call of a value calls is read like any name. A body reading a module variable to pick the entry it calls out of a `Dictionary<String, const Procedure>` answers by the run's state, so it does not answer without running, and an operand may not call it."
-  program {
-    imports [
-      "Standard.Numeric.plus"
-    ]
-    procedures {
-      asking {
-        body [
-          {
-            let "a"
-            value {
-              call {
-                arguments [
-                  1
-                ]
-                procedure {
-                  ref "body[mode]"
-                }
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "body"
-            type "Dictionary<String, const (Int) -> Int>"
-          }
-        ]
-        result {
-          ref "a"
-        }
-        returns "Int"
-      }
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              {
-                call {
-                  arguments [
-                    {
-                      struct {
-                        k {
-                          closure {
-                            parameters [
-                              {
-                                name "x"
-                                type "Int"
-                              }
-                            ]
-                            result {
-                              ref "x"
-                            }
-                            returns "Int"
-                          }
-                        }
-                      }
-                    }
-                  ]
-                  procedure "asking"
-                }
-              }
-              1
-            ]
-            procedure "Standard.Numeric.plus"
-          }
-        }
-        returns "Int"
-      }
-    }
-    var {
-      mode "k"
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-call-of-a-value-indexed-by-a-module-variable-does-not-answer-without-running")
+(note "Which value a call of a value calls is read like any name. A body reading a module variable to pick the entry it calls out of a `Dictionary<String, const Procedure>` answers by the run's state, so it does not answer without running, and an operand may not call it.")
 
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (var mode "k")
+  (procedure asking
+    (parameter body (type (dictionary String (procedure (const) (parameters Int) (returns Int)))))
+    (returns Int)
+    (body
+      (let a (apply (path body (index mode)) 1)))
+    (result a))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result
+      (call Standard.Numeric.plus
+        (call asking
+          (struct
+            (field k
+              (closure
+                (parameter x (type Int))
+                (returns Int)
+                (result x)))))
+        1))))
+(expect (refuses build))

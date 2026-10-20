@@ -1,49 +1,18 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-name-on-a-body-that-never-comes-back-refuses"
-  note "`App.giveUp` declares it answers `Never`, and its body answers by calling `Standard.Control.abort`, which never finishes. A name on a call of it promises a binding that cannot happen, and the build refuses it."
-  program {
-    imports [
-      "Standard.Control.abort"
-    ]
-    procedures {
-      "App.giveUp" {
-        failing [
-          "aborted"
-        ]
-        result {
-          call {
-            arguments [
-              "done"
-            ]
-            procedure "Standard.Control.abort"
-          }
-        }
-        returns "Never"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "gone"
-            value {
-              call {
-                procedure "App.giveUp"
-              }
-            }
-          }
-        ]
-        failing [
-          "aborted"
-        ]
-        returns "Never"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-name-on-a-body-that-never-comes-back-refuses")
+(note "`App.giveUp` declares it answers `Never`, and its body answers by calling `Standard.Control.abort`, which never finishes. A name on a call of it promises a binding that cannot happen, and the build refuses it.")
 
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure App.giveUp
+    (returns Never)
+    (failing aborted)
+    (result (call Standard.Control.abort "done")))
+  (procedure entry
+    (access public)
+    (returns Never)
+    (failing aborted)
+    (body
+      (let gone (call App.giveUp)))))
+(expect (refuses build))

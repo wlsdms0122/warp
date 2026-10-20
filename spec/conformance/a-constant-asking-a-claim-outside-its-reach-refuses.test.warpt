@@ -1,131 +1,48 @@
-warpt 1
-{
-  documents [
-    {
-      contracts {
-        "App.Describable" {
-          procedures {
-            describe {
-              parameters [
-                {
-                  name "of"
-                  type "Self"
-                }
-              ]
-              returns "String"
-            }
-          }
-        }
-      }
-      imports []
-      warp 1
-    }
-    {
-      imports []
-      types {
-        "T.Card" {
-          procedures {
-            describe {
-              parameters [
-                {
-                  name "of"
-                  type "T.Card"
-                }
-              ]
-              result "card"
-              returns "String"
-            }
-          }
-          struct {
-            rank "Int"
-          }
-        }
-      }
-      warp 1
-    }
-    {
-      extensions {
-        "T.Card" {
-          satisfies [
-            "App.Describable"
-          ]
-        }
-      }
-      imports [
-        "App.Describable"
-        "T.Card"
-      ]
-      warp 1
-    }
-    {
-      imports [
-        "App.Describable"
-        "T.Card"
-      ]
-      procedures {
-        "App.probe" {
-          access "public"
-          body [
-            {
-              let "two"
-              type "Any"
-              value {
-                as {
-                  of {
-                    struct {
-                      rank 1
-                    }
-                  }
-                  type "T.Card"
-                }
-              }
-            }
-          ]
-          failing [
-            "cast_refused"
-          ]
-          result {
-            "as?" {
-              of {
-                ref "two"
-              }
-              type "App.Describable"
-            }
-          }
-          returns "App.Describable?"
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    refuses "build"
-  }
-  name "a-constant-asking-a-claim-outside-its-reach-refuses"
-  note "A constant settles at the build against what its document stands on. Settling this one casts a T.Card read as `Any` to App.Describable, and the claim that it answers stands in a document the program does not stand on, so the build cannot say what the run, which reads every claim of the link, would answer, and the constant refuses."
-  program {
-    const {
-      folded {
-        call {
-          procedure "App.probe"
-        }
-      }
-    }
-    imports [
-      "App.Describable"
-      "App.probe"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result {
-          ref "folded"
-        }
-        returns "App.Describable?"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-constant-asking-a-claim-outside-its-reach-refuses")
+(note "A constant settles at the build against what its document stands on. Settling this one casts a T.Card read as `Any` to App.Describable, and the claim that it answers stands in a document the program does not stand on, so the build cannot say what the run, which reads every claim of the link, would answer, and the constant refuses.")
 
+(documents
+  (document
+    (warp 1)
+    (contract App.Describable
+      (procedure describe
+        (parameter of (type Self))
+        (returns String))))
+  (document
+    (warp 1)
+    (struct T.Card
+      (field rank Int)
+      (procedure describe
+        (parameter of (type T.Card))
+        (returns String)
+        (result "card"))))
+  (document
+    (warp 1)
+    (import App.Describable)
+    (import T.Card)
+    (extension
+      (head T.Card)
+      (satisfies App.Describable)))
+  (document
+    (warp 1)
+    (import App.Describable)
+    (import T.Card)
+    (procedure App.probe
+      (access public)
+      (returns (nullable App.Describable))
+      (failing cast_refused)
+      (body
+        (let two (type Any) (as (struct (field rank 1)) T.Card)))
+      (result (as? two App.Describable)))))
+
+(program
+  (warp 1)
+  (import App.Describable)
+  (import App.probe)
+  (const folded (call App.probe))
+  (procedure entry
+    (access public)
+    (returns (nullable App.Describable))
+    (result folded)))
+(expect (refuses build))

@@ -1,85 +1,30 @@
-warpt 1
-{
-  expect {
-    answers 2
-  }
-  name "a-slot-naming-a-const-procedure-type-is-a-const-slot"
-  note "A slot says a procedure it holds answers without running by writing a `const` procedure type, and a slot naming a declared type that stands for one says the same: a name is what it names. `asking` declares `const` and calls what its slot of `App.Pick` holds, which the build holds it to, so an operand may call it."
-  program {
-    imports [
-      "Standard.Numeric.plus"
-    ]
-    procedures {
-      asking {
-        body [
-          {
-            let "a"
-            value {
-              call {
-                arguments [
-                  1
-                ]
-                procedure {
-                  ref "body"
-                }
-              }
-            }
-          }
-        ]
-        const true
-        parameters [
-          {
-            name "body"
-            type "App.Pick"
-          }
-        ]
-        result {
-          ref "a"
-        }
-        returns "Int"
-      }
-      entry {
-        access "public"
-        const true
-        result {
-          call {
-            arguments [
-              {
-                call {
-                  arguments [
-                    {
-                      closure {
-                        const true
-                        isolated true
-                        parameters [
-                          {
-                            name "x"
-                            type "Int"
-                          }
-                        ]
-                        result {
-                          ref "x"
-                        }
-                        returns "Int"
-                      }
-                    }
-                  ]
-                  procedure "asking"
-                }
-              }
-              1
-            ]
-            procedure "Standard.Numeric.plus"
-          }
-        }
-        returns "Int"
-      }
-    }
-    types {
-      "App.Pick" "const (Int) -> Int"
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-slot-naming-a-const-procedure-type-is-a-const-slot")
+(note "A slot says a procedure it holds answers without running by writing a `const` procedure type, and a slot naming a declared type that stands for one says the same: a name is what it names. `asking` declares `const` and calls what its slot of `App.Pick` holds, which the build holds it to, so an operand may call it.")
 
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (type App.Pick (procedure (const) (parameters Int) (returns Int)))
+  (procedure asking
+    (const)
+    (parameter body (type App.Pick))
+    (returns Int)
+    (body
+      (let a (apply body 1)))
+    (result a))
+  (procedure entry
+    (access public)
+    (const)
+    (returns Int)
+    (result
+      (call Standard.Numeric.plus
+        (call asking
+          (closure
+            (const)
+            (isolated)
+            (parameter x (type Int))
+            (returns Int)
+            (result x)))
+        1))))
+(expect (answers 2))

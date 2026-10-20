@@ -1,69 +1,27 @@
-warpt 1
-{
-  expect {
-    answers 1
-  }
-  name "a-fixed-name-bound-to-a-value-calls-answer-carries-what-its-type-says"
-  note "`f` is bound to what calling `g` answers, and `g`'s type says it answers a `const` procedure. A call of a value answers what the value's written type says, so `f` follows that type and `App.run`, declared const, may call it."
-  program {
-    imports []
-    procedures {
-      "App.run" {
-        body [
-          {
-            let "f"
-            value {
-              call {
-                procedure {
-                  ref "g"
-                }
-              }
-            }
-          }
-        ]
-        const true
-        parameters [
-          {
-            name "g"
-            type "const () -> const () -> Int"
-          }
-        ]
-        result {
-          call {
-            procedure {
-              ref "f"
-            }
-          }
-        }
-        returns "Int"
-      }
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              {
-                closure {
-                  const true
-                  result {
-                    closure {
-                      const true
-                      result 1
-                      returns "Int"
-                    }
-                  }
-                  returns "const () -> Int"
-                }
-              }
-            ]
-            procedure "App.run"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-fixed-name-bound-to-a-value-calls-answer-carries-what-its-type-says")
+(note "`f` is bound to what calling `g` answers, and `g`'s type says it answers a `const` procedure. A call of a value answers what the value's written type says, so `f` follows that type and `App.run`, declared const, may call it.")
 
+(program
+  (warp 1)
+  (procedure App.run
+    (const)
+    (parameter g (type (procedure (const) (parameters) (returns (procedure (const) (parameters) (returns Int))))))
+    (returns Int)
+    (body
+      (let f (apply g)))
+    (result (apply f)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result
+      (call App.run
+        (closure
+          (const)
+          (returns (procedure (const) (parameters) (returns Int)))
+          (result
+            (closure
+              (const)
+              (returns Int)
+              (result 1))))))))
+(expect (answers 1))

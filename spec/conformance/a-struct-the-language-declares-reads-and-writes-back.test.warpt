@@ -1,13 +1,5 @@
-warpt 1
-{
-  bytes x"57415250010905526f756e640105696e6465780304"
-  expect {
-    spells Round {
-      index 2
-    }
-  }
-  name "a-struct-the-language-declares-reads-and-writes-back"
-  note "A struct carries the name of the declared struct it is, and the language declares two, `Failure` and `Round`, which a run builds and hands back. Their names are no type's a document may declare, and the wire carries them all the same: a value a run answers is one an encoding writes and reads back."
-  test 1
-}
-
+(test 1)
+(name "a-struct-the-language-declares-reads-and-writes-back")
+(note "A struct carries the name of the declared struct it is, and the language declares two, `Failure` and `Round`, which a run builds and hands back. Their names are no type's a document may declare, and the wire carries them all the same: a value a run answers is one an encoding writes and reads back.")
+(bytes x"57415250010905526f756e640105696e6465780304")
+(expect (spells (struct Round (field index 2))))

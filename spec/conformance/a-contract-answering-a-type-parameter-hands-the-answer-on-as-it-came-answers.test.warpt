@@ -1,120 +1,31 @@
-warpt 1
-{
-  expect {
-    answers "1.0"
-  }
-  name "a-contract-answering-a-type-parameter-hands-the-answer-on-as-it-came-answers"
-  note "`App.Two.two` takes two of `some T` and answers `some T`, and `Bank.Card.two` answers the first. Called with 1 and 2.5, `T` is read as a fraction, so the literal 1 is the fraction it names, and the answer is what the call filled the parameter with, handed on as it came: the fraction 1.0, whose text is `1.0`."
-  program {
-    contracts {
-      "App.Two" {
-        procedures {
-          two {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-              {
-                name "a"
-                type "some T"
-              }
-              {
-                name "b"
-                type "some T"
-              }
-            ]
-            returns "some T"
-          }
-        }
-      }
-    }
-    imports [
-      "Standard.Text.text"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "c"
-            value {
-              as {
-                of {
-                  struct {
-                    last "42"
-                  }
-                }
-                type "Bank.Card"
-              }
-            }
-          }
-          {
-            let "t"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "c"
-                  }
-                  1
-                  2.5
-                ]
-                procedure "App.Two.two"
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "t"
-              }
-            ]
-            procedure "Standard.Text.text"
-          }
-        }
-        returns "String"
-      }
-    }
-    types {
-      "Bank.Card" {
-        procedures {
-          two {
-            parameters [
-              {
-                name "of"
-                type "Bank.Card"
-              }
-              {
-                name "a"
-                type "some V"
-              }
-              {
-                name "b"
-                type "some V"
-              }
-            ]
-            result {
-              ref "a"
-            }
-            returns "some V"
-          }
-        }
-        satisfies [
-          "App.Two"
-        ]
-        struct {
-          last "String"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-contract-answering-a-type-parameter-hands-the-answer-on-as-it-came-answers")
+(note "`App.Two.two` takes two of `some T` and answers `some T`, and `Bank.Card.two` answers the first. Called with 1 and 2.5, `T` is read as a fraction, so the literal 1 is the fraction it names, and the answer is what the call filled the parameter with, handed on as it came: the fraction 1.0, whose text is `1.0`.")
 
+(program
+  (warp 1)
+  (import Standard.Text.text)
+  (struct Bank.Card
+    (satisfies App.Two)
+    (field last String)
+    (procedure two
+      (parameter of (type Bank.Card))
+      (parameter a (type (some V)))
+      (parameter b (type (some V)))
+      (returns (some V))
+      (result a)))
+  (contract App.Two
+    (procedure two
+      (parameter of (type Self))
+      (parameter a (type (some T)))
+      (parameter b (type (some T)))
+      (returns (some T))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let c (as (struct (field last "42")) Bank.Card))
+      (let t (call App.Two.two c 1 2.5)))
+    (result (call Standard.Text.text t))))
+(expect (answers "1.0"))

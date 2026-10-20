@@ -1,42 +1,18 @@
-warpt 1
-{
-  expect {
-    answers 1
-  }
-  name "an-associated-type-before-its-parameter-names-no-parameter-answers"
-  note "Only `some T` names `T`. `i` writes `some C.Item` before `c` writes `some C`, so the `some C` of `c` is the first naming of `C` and the bound beside it is where it is introduced."
-  program {
-    contracts {
-      "App.Container" {
-        types [
-          "Item"
-        ]
-      }
-    }
-    imports []
-    procedures {
-      "App.f" {
-        parameters [
-          {
-            name "i"
-            type "some C.Item"
-          }
-          {
-            name "c"
-            type "some C: App.Container"
-          }
-        ]
-        result 1
-        returns "Int"
-      }
-      entry {
-        access "public"
-        result 1
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-associated-type-before-its-parameter-names-no-parameter-answers")
+(note "Only `some T` names `T`. `i` writes `some C.Item` before `c` writes `some C`, so the `some C` of `c` is the first naming of `C` and the bound beside it is where it is introduced.")
 
+(program
+  (warp 1)
+  (contract App.Container
+    (type Item))
+  (procedure App.f
+    (parameter i (type (some C.Item)))
+    (parameter c (type (some C App.Container)))
+    (returns Int)
+    (result 1))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result 1)))
+(expect (answers 1))

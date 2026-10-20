@@ -1,59 +1,20 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-value-declares-every-parameter-the-slot-hands"
-  note "A value standing in a procedure-typed slot takes exactly the positions the slot hands. `Standard.Concurrent.map` hands its closure the item and then its index, so a closure declaring `item` alone does not fit, and the build refuses where the value is handed."
-  program {
-    imports [
-      "Standard.Concurrent.map"
-      "Standard.Numeric.plus"
-    ]
-    procedures {
-      entry {
-        access "public"
-        failing [
-          "concurrent_failed"
-        ]
-        result {
-          call {
-            arguments [
-              [
-                1
-                2
-              ]
-              {
-                closure {
-                  parameters [
-                    {
-                      name "item"
-                      type "Int"
-                    }
-                  ]
-                  result {
-                    call {
-                      arguments [
-                        {
-                          ref "item"
-                        }
-                        1
-                      ]
-                      procedure "Standard.Numeric.plus"
-                    }
-                  }
-                  returns "Int"
-                }
-              }
-            ]
-            procedure "Standard.Concurrent.map"
-          }
-        }
-        returns "Array<Int>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-value-declares-every-parameter-the-slot-hands")
+(note "A value standing in a procedure-typed slot takes exactly the positions the slot hands. `Standard.Concurrent.map` hands its closure the item and then its index, so a closure declaring `item` alone does not fit, and the build refuses where the value is handed.")
 
+(program
+  (warp 1)
+  (import Standard.Concurrent.map)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (failing concurrent_failed)
+    (result
+      (call Standard.Concurrent.map
+        (array 1 2)
+        (closure
+          (parameter item (type Int))
+          (returns Int)
+          (result (call Standard.Numeric.plus item 1)))))))
+(expect (refuses build))

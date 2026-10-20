@@ -1,135 +1,31 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-map-handed-through-a-claim-about-dictionary-reads-as-the-map-it-is-refuses"
-  note "A claim about `Dictionary` is about every map, so `Dictionary.f` takes one under any key and of any values, and may write any of its values under any of its keys. A call through `App.C` fills `Self` from the map handed there, a map literal of `1` and `\"s\"` read as `Dictionary<String, Any>`, and reads the answer as that map, so its entry under `\"a\"` reads `Any`, and holding it where an `Int` is declared refuses at the build."
-  program {
-    contracts {
-      "App.C" {
-        procedures {
-          f {
-            parameters [
-              {
-                name "s"
-                type "Self"
-              }
-            ]
-            returns "Self"
-          }
-        }
-      }
-    }
-    extensions {
-      Dictionary {
-        procedures {
-          f {
-            body [
-              {
-                let "ks"
-                value {
-                  call {
-                    arguments [
-                      {
-                        ref "s"
-                      }
-                    ]
-                    procedure "Standard.Collection.keys"
-                  }
-                }
-              }
-              {
-                let "vs"
-                value {
-                  call {
-                    arguments [
-                      {
-                        ref "s"
-                      }
-                    ]
-                    procedure "Standard.Collection.values"
-                  }
-                }
-              }
-            ]
-            parameters [
-              {
-                name "s"
-                type "Dictionary<some K: Hashable, some E>"
-              }
-            ]
-            result {
-              call {
-                arguments [
-                  {
-                    ref "s"
-                  }
-                  {
-                    ref "ks[0]"
-                  }
-                  {
-                    ref "vs[1]"
-                  }
-                ]
-                procedure "Standard.Collection.setting"
-              }
-            }
-            returns "Dictionary<some K, some E>"
-          }
-        }
-        satisfies [
-          "App.C"
-        ]
-      }
-    }
-    imports [
-      "Standard.Collection.keys"
-      "Standard.Collection.setting"
-      "Standard.Collection.values"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "r"
-            value {
-              call {
-                arguments [
-                  {
-                    dictionary [
-                      [
-                        "a"
-                        1
-                      ]
-                      [
-                        "b"
-                        "s"
-                      ]
-                    ]
-                  }
-                ]
-                procedure "App.C.f"
-              }
-            }
-          }
-          {
-            let "n"
-            type "Int"
-            value {
-              ref "r[\"a\"]"
-            }
-          }
-        ]
-        result {
-          ref "n"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-map-handed-through-a-claim-about-dictionary-reads-as-the-map-it-is-refuses")
+(note "A claim about `Dictionary` is about every map, so `Dictionary.f` takes one under any key and of any values, and may write any of its values under any of its keys. A call through `App.C` fills `Self` from the map handed there, a map literal of `1` and `\"s\"` read as `Dictionary<String, Any>`, and reads the answer as that map, so its entry under `\"a\"` reads `Any`, and holding it where an `Int` is declared refuses at the build.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.keys)
+  (import Standard.Collection.setting)
+  (import Standard.Collection.values)
+  (contract App.C
+    (procedure f
+      (parameter s (type Self))
+      (returns Self)))
+  (extension
+    (head Dictionary)
+    (satisfies App.C)
+    (procedure f
+      (parameter s (type (dictionary (some K Hashable) (some E))))
+      (returns (dictionary (some K) (some E)))
+      (body
+        (let ks (call Standard.Collection.keys s))
+        (let vs (call Standard.Collection.values s)))
+      (result (call Standard.Collection.setting s (path ks (index 0)) (path vs (index 1))))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let r (call App.C.f (dictionary (entry "a" 1) (entry "b" "s"))))
+      (let n (type Int) (path r (index "a"))))
+    (result n)))
+(expect (refuses build))

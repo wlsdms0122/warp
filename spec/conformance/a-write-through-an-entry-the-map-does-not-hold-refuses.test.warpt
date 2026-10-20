@@ -1,34 +1,14 @@
-warpt 1
-{
-  expect {
-    refuses "run"
-  }
-  name "a-write-through-an-entry-the-map-does-not-hold-refuses"
-  note "`m` holds no entry under `a`. A write landing on `m[\"a\"]` would make it, but `m[\"a\"][\"b\"]` passes through it to write `b` into what it holds, and there is nothing there yet, as a read of `m[\"a\"]` finds nothing."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            type "Dictionary<String, Dictionary<String, Int>>"
-            value {
-              dictionary []
-            }
-            var "m"
-          }
-          {
-            set "m[\"a\"][\"b\"]"
-            value 1
-          }
-        ]
-        result 1
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-write-through-an-entry-the-map-does-not-hold-refuses")
+(note "`m` holds no entry under `a`. A write landing on `m[\"a\"]` would make it, but `m[\"a\"][\"b\"]` passes through it to write `b` into what it holds, and there is nothing there yet, as a read of `m[\"a\"]` finds nothing.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var m (type (dictionary String (dictionary String Int))) (dictionary))
+      (set (path m (index "a") (index "b")) 1))
+    (result 1)))
+(expect (refuses run))

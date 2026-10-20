@@ -1,143 +1,44 @@
-warpt 1
-{
-  documents [
-    {
-      contracts {
-        "Lib.Keyed" {
-          procedures {
-            key {
-              parameters [
-                {
-                  name "of"
-                  type "Self"
-                }
-              ]
-              returns "Self.Item"
-            }
-          }
-          types [
-            "Item: Hashable"
-          ]
-        }
-      }
-      imports []
-      procedures {
-        "Lib.index" {
-          access "public"
-          body [
-            {
-              let "k"
-              value {
-                call {
-                  arguments [
-                    {
-                      ref "c"
-                    }
-                  ]
-                  procedure "Lib.Keyed.key"
-                }
-              }
-            }
-          ]
-          parameters [
-            {
-              name "c"
-              type "some C: Lib.Keyed"
-            }
-          ]
-          result {
-            dictionary [
-              [
-                {
-                  ref "k"
-                }
-                1
-              ]
-            ]
-          }
-          returns "Dictionary<some C.Item, Int>"
-        }
-      }
-      warp 1
-    }
-    {
-      imports [
-        "Lib.Keyed"
-      ]
-      types {
-        "App.Card" {
-          procedures {
-            key {
-              access "public"
-              parameters [
-                {
-                  name "of"
-                  type "App.Card"
-                }
-              ]
-              result "card"
-              returns "String"
-            }
-          }
-          satisfies [
-            "Lib.Keyed"
-          ]
-          struct {
-            rank "Int"
-          }
-          types {
-            Item "String"
-          }
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    answers 1
-  }
-  name "a-map-keyed-by-an-associated-type-the-contract-holds-hashable-answers"
-  note "`Lib.Keyed` holds Item to Hashable, so `Dictionary<some C.Item, Int>` is a map type."
-  program {
-    imports [
-      "App.Card"
-      "Lib.index"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "c"
-            type "App.Card"
-            value {
-              struct {
-                rank 1
-              }
-            }
-          }
-          {
-            let "m"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "c"
-                  }
-                ]
-                procedure "Lib.index"
-              }
-            }
-          }
-        ]
-        result {
-          ref "m[\"card\"]"
-        }
-        returns "Int?"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-map-keyed-by-an-associated-type-the-contract-holds-hashable-answers")
+(note "`Lib.Keyed` holds Item to Hashable, so `Dictionary<some C.Item, Int>` is a map type.")
 
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Keyed
+      (type Item Hashable)
+      (procedure key
+        (parameter of (type Self))
+        (returns Self.Item)))
+    (procedure Lib.index
+      (access public)
+      (parameter c (type (some C Lib.Keyed)))
+      (returns (dictionary (some C.Item) Int))
+      (body
+        (let k (call Lib.Keyed.key c)))
+      (result (dictionary (entry k 1)))))
+  (document
+    (warp 1)
+    (import Lib.Keyed)
+    (struct App.Card
+      (satisfies Lib.Keyed)
+      (field rank Int)
+      (type Item String)
+      (procedure key
+        (access public)
+        (parameter of (type App.Card))
+        (returns String)
+        (result "card")))))
+
+(program
+  (warp 1)
+  (import App.Card)
+  (import Lib.index)
+  (procedure entry
+    (access public)
+    (returns (nullable Int))
+    (body
+      (let c (type App.Card) (struct (field rank 1)))
+      (let m (call Lib.index c)))
+    (result (path m (index "card")))))
+(expect (answers 1))

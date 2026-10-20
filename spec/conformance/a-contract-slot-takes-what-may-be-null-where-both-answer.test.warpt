@@ -1,112 +1,35 @@
-warpt 1
-{
-  expect {
-    answers "nothing"
-  }
-  name "a-contract-slot-takes-what-may-be-null-where-both-answer"
-  note "A reading of `Bank.Card?` is a card or null, so it answers a contract where both `Bank.Card` and `Null` do. Both are claimed for `App.Described`, so the variable stands where the contract is asked, and its null answers by `Null.describe`."
-  program {
-    contracts {
-      "App.Described" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    extensions {
-      Null {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Null"
-              }
-            ]
-            result "nothing"
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.Described"
-        ]
-      }
-    }
-    imports []
-    procedures {
-      "App.tell" {
-        parameters [
-          {
-            name "it"
-            type "App.Described"
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "it"
-              }
-            ]
-            procedure "App.Described.describe"
-          }
-        }
-        returns "String"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "c"
-            type "Bank.Card?"
-            value null
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "c"
-              }
-            ]
-            procedure "App.tell"
-          }
-        }
-        returns "String"
-      }
-    }
-    types {
-      "Bank.Card" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Bank.Card"
-              }
-            ]
-            result "a card"
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.Described"
-        ]
-        struct {
-          last "String"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-contract-slot-takes-what-may-be-null-where-both-answer")
+(note "A reading of `Bank.Card?` is a card or null, so it answers a contract where both `Bank.Card` and `Null` do. Both are claimed for `App.Described`, so the variable stands where the contract is asked, and its null answers by `Null.describe`.")
 
+(program
+  (warp 1)
+  (struct Bank.Card
+    (satisfies App.Described)
+    (field last String)
+    (procedure describe
+      (parameter of (type Bank.Card))
+      (returns String)
+      (result "a card")))
+  (contract App.Described
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head Null)
+    (satisfies App.Described)
+    (procedure describe
+      (parameter of (type Null))
+      (returns String)
+      (result "nothing")))
+  (procedure App.tell
+    (parameter it (type App.Described))
+    (returns String)
+    (result (call App.Described.describe it)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let c (type (nullable Bank.Card)) null))
+    (result (call App.tell c))))
+(expect (answers "nothing"))

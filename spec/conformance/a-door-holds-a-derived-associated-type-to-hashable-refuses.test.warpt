@@ -1,152 +1,47 @@
-warpt 1
-{
-  arguments {
-    c App.Box {
-      item App.Plain {
-        x 1
-      }
-    }
-  }
-  documents [
-    {
-      contracts {
-        "Lib.Container" {
-          procedures {
-            first {
-              parameters [
-                {
-                  name "of"
-                  type "Self"
-                }
-              ]
-              returns "Self.Item"
-            }
-          }
-          types [
-            "Item"
-          ]
-        }
-      }
-      imports []
-      procedures {
-        "Lib.firstOf" {
-          access "public"
-          parameters [
-            {
-              name "c"
-              type "some C: Lib.Container"
-            }
-          ]
-          result {
-            call {
-              arguments [
-                {
-                  ref "c"
-                }
-              ]
-              procedure "Lib.Container.first"
-            }
-          }
-          returns "some C.Item"
-        }
-      }
-      warp 1
-    }
-    {
-      imports [
-        "Lib.Container"
-      ]
-      types {
-        "App.Box" {
-          procedures {
-            first {
-              access "public"
-              parameters [
-                {
-                  name "of"
-                  type "App.Box<some T>"
-                }
-              ]
-              result {
-                ref "of.item"
-              }
-              returns "some T"
-            }
-          }
-          satisfies [
-            "Lib.Container"
-          ]
-          struct {
-            item "some T"
-          }
-          typeParameters [
-            "T"
-          ]
-          types {
-            Item "some T"
-          }
-        }
-        "App.Plain" {
-          struct {
-            x "Int"
-          }
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    refuses "run"
-  }
-  name "a-door-holds-a-derived-associated-type-to-hashable-refuses"
-  note "The entry bounds `C.Item` by Hashable and keys a map by it, and the run hands a box of a struct no claim makes Hashable, so the door refuses it."
-  program {
-    imports [
-      "Lib.Container"
-      "Lib.Container.first"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "y"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "c"
-                  }
-                ]
-                procedure "Lib.Container.first"
-              }
-            }
-          }
-        ]
-        bounds {
-          "C.Item" "Hashable"
-        }
-        parameters [
-          {
-            name "c"
-            type "some C: Lib.Container"
-          }
-        ]
-        result {
-          dictionary [
-            [
-              {
-                ref "y"
-              }
-              1
-            ]
-          ]
-        }
-        returns "Dictionary<some C.Item, Int>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-door-holds-a-derived-associated-type-to-hashable-refuses")
+(note "The entry bounds `C.Item` by Hashable and keys a map by it, and the run hands a box of a struct no claim makes Hashable, so the door refuses it.")
 
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Container
+      (type Item)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item)))
+    (procedure Lib.firstOf
+      (access public)
+      (parameter c (type (some C Lib.Container)))
+      (returns (some C.Item))
+      (result (call Lib.Container.first c))))
+  (document
+    (warp 1)
+    (import Lib.Container)
+    (struct App.Box
+      (typeParameter T)
+      (satisfies Lib.Container)
+      (field item (some T))
+      (type Item (some T))
+      (procedure first
+        (access public)
+        (parameter of (type (named App.Box (some T))))
+        (returns (some T))
+        (result (path of (field item)))))
+    (struct App.Plain
+      (field x Int))))
+
+(program
+  (warp 1)
+  (import Lib.Container)
+  (import Lib.Container.first)
+  (procedure entry
+    (access public)
+    (parameter c (type (some C Lib.Container)))
+    (returns (dictionary (some C.Item) Int))
+    (bound C.Item Hashable)
+    (body
+      (let y (call Lib.Container.first c)))
+    (result (dictionary (entry y 1)))))
+(arguments (argument c (struct App.Box (field item (struct App.Plain (field x 1))))))
+(expect (refuses run))

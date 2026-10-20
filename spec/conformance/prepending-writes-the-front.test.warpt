@@ -1,38 +1,12 @@
-warpt 1
-{
-  expect {
-    answers [
-      0
-      1
-      2
-    ]
-  }
-  name "prepending-writes-the-front"
-  note "prepending answers a new array with the value at the front, the mirror of appending."
-  program {
-    imports [
-      "Standard.Collection.prepending"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              [
-                1
-                2
-              ]
-              0
-            ]
-            procedure "Standard.Collection.prepending"
-          }
-        }
-        returns "Array<Int>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "prepending-writes-the-front")
+(note "prepending answers a new array with the value at the front, the mirror of appending.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.prepending)
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (result (call Standard.Collection.prepending (array 1 2) 0))))
+(expect (answers (array 0 1 2)))

@@ -1,48 +1,19 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-body-declared-const-writing-at-a-place-a-module-variable-finds-refuses"
-  note "`App.read` is declared const and writes its own list at `a[count]`, where `count` is a module variable. Writing a place reads what finds it, so the body reads the module variable, and a body declared const reads nothing outside the run."
-  program {
-    imports []
-    procedures {
-      "App.read" {
-        body [
-          {
-            value [
-              0
-              0
-            ]
-            var "a"
-          }
-          {
-            set "a[count]"
-            value 5
-          }
-        ]
-        const true
-        result {
-          ref "a"
-        }
-        returns "Array<Int>"
-      }
-      entry {
-        access "public"
-        result {
-          call {
-            procedure "App.read"
-          }
-        }
-        returns "Array<Int>"
-      }
-    }
-    var {
-      count 1
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-body-declared-const-writing-at-a-place-a-module-variable-finds-refuses")
+(note "`App.read` is declared const and writes its own list at `a[count]`, where `count` is a module variable. Writing a place reads what finds it, so the body reads the module variable, and a body declared const reads nothing outside the run.")
 
+(program
+  (warp 1)
+  (var count 1)
+  (procedure App.read
+    (const)
+    (returns (array Int))
+    (body
+      (var a (array 0 0))
+      (set (path a (index count)) 5))
+    (result a))
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (result (call App.read))))
+(expect (refuses build))

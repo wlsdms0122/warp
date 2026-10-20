@@ -1,91 +1,29 @@
-warpt 1
-{
-  expect {
-    answers 2
-  }
-  name "a-slot-handing-a-const-procedure-in-place-is-a-const-slot"
-  note "A parameter typed `inout const (Int) -> Int` holds the caller's box, held to that type through every write, so it says what the value it holds answers. `asking` declares `const` and calls it, which the build holds it to, so an operand may call `asking`."
-  program {
-    imports [
-      "Standard.Numeric.plus"
-    ]
-    procedures {
-      asking {
-        body [
-          {
-            let "a"
-            value {
-              call {
-                arguments [
-                  1
-                ]
-                procedure {
-                  ref "p"
-                }
-              }
-            }
-          }
-        ]
-        const true
-        parameters [
-          {
-            name "p"
-            type "inout const (Int) -> Int"
-          }
-        ]
-        result {
-          ref "a"
-        }
-        returns "Int"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            type "const (Int) -> Int"
-            value {
-              closure {
-                const true
-                isolated true
-                parameters [
-                  {
-                    name "x"
-                    type "Int"
-                  }
-                ]
-                result {
-                  ref "x"
-                }
-                returns "Int"
-              }
-            }
-            var "held"
-          }
-        ]
-        const true
-        result {
-          call {
-            arguments [
-              {
-                call {
-                  arguments [
-                    {
-                      ref "held"
-                    }
-                  ]
-                  procedure "asking"
-                }
-              }
-              1
-            ]
-            procedure "Standard.Numeric.plus"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-slot-handing-a-const-procedure-in-place-is-a-const-slot")
+(note "A parameter typed `inout const (Int) -> Int` holds the caller's box, held to that type through every write, so it says what the value it holds answers. `asking` declares `const` and calls it, which the build holds it to, so an operand may call `asking`.")
 
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure asking
+    (const)
+    (parameter p (type (inout (procedure (const) (parameters Int) (returns Int)))))
+    (returns Int)
+    (body
+      (let a (apply p 1)))
+    (result a))
+  (procedure entry
+    (access public)
+    (const)
+    (returns Int)
+    (body
+      (var held
+        (type (procedure (const) (parameters Int) (returns Int)))
+        (closure
+          (const)
+          (isolated)
+          (parameter x (type Int))
+          (returns Int)
+          (result x))))
+    (result (call Standard.Numeric.plus (call asking held) 1))))
+(expect (answers 2))

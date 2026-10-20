@@ -1,35 +1,12 @@
-warpt 1
-{
-  arguments {
-    payload 1
-  }
-  expect {
-    refuses "build"
-  }
-  name "a-cast-onto-never-refuses"
-  note "A cast names the type a value is read as. `Never` is the type nothing arrives as, so a cast onto it is refused at the build."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        parameters [
-          {
-            name "payload"
-          }
-        ]
-        result {
-          as {
-            of {
-              ref "payload"
-            }
-            type "Never"
-          }
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-cast-onto-never-refuses")
+(note "A cast names the type a value is read as. `Never` is the type nothing arrives as, so a cast onto it is refused at the build.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter payload)
+    (result (as payload Never))))
+(arguments (argument payload 1))
+(expect (refuses build))

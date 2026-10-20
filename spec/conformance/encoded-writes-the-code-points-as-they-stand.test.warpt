@@ -1,31 +1,12 @@
-warpt 1
-{
-  expect {
-    answers x"65cc81"
-  }
-  name "encoded-writes-the-code-points-as-they-stand"
-  note "`encoded` writes the text's code points as they stand and normalises nothing: a letter followed by a combining mark is three bytes in UTF-8, not the two of the precomposed letter."
-  program {
-    imports [
-      "Standard.Text.encoded"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              "é"
-              "utf8"
-            ]
-            procedure "Standard.Text.encoded"
-          }
-        }
-        returns "Array<Int>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "encoded-writes-the-code-points-as-they-stand")
+(note "`encoded` writes the text's code points as they stand and normalises nothing: a letter followed by a combining mark is three bytes in UTF-8, not the two of the precomposed letter.")
 
+(program
+  (warp 1)
+  (import Standard.Text.encoded)
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (result (call Standard.Text.encoded "é" "utf8"))))
+(expect (answers x"65cc81"))

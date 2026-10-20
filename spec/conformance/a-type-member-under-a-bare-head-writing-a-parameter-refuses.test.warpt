@@ -1,90 +1,34 @@
-warpt 1
-{
-  documents [
-    {
-      contracts {
-        "Lib.Container" {
-          procedures {
-            first {
-              parameters [
-                {
-                  name "of"
-                  type "Self"
-                }
-              ]
-              returns "Self.Item"
-            }
-          }
-          types [
-            "Item"
-          ]
-        }
-      }
-      imports []
-      procedures {
-        "Lib.firstOf" {
-          access "public"
-          parameters [
-            {
-              name "c"
-              type "some C: Lib.Container"
-            }
-          ]
-          result {
-            call {
-              arguments [
-                {
-                  ref "c"
-                }
-              ]
-              procedure "Lib.Container.first"
-            }
-          }
-          returns "some C.Item"
-        }
-      }
-      warp 1
-    }
-    {
-      imports []
-      types {
-        "App.Box" {
-          struct {
-            item "some T"
-          }
-          typeParameters [
-            "T"
-          ]
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    refuses "load"
-  }
-  name "a-type-member-under-a-bare-head-writing-a-parameter-refuses"
-  note "Under the bare name a type member is about every value of the type and writes none of its parameters, so `some T` there refuses at the load."
-  program {
-    extensions {
-      "App.Box" {
-        types {
-          Item "some T"
-        }
-      }
-    }
-    imports [
-      "App.Box"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result 1
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-type-member-under-a-bare-head-writing-a-parameter-refuses")
+(note "Under the bare name a type member is about every value of the type and writes none of its parameters, so `some T` there refuses at the load.")
 
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Container
+      (type Item)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item)))
+    (procedure Lib.firstOf
+      (access public)
+      (parameter c (type (some C Lib.Container)))
+      (returns (some C.Item))
+      (result (call Lib.Container.first c))))
+  (document
+    (warp 1)
+    (struct App.Box
+      (typeParameter T)
+      (field item (some T)))))
+
+(program
+  (warp 1)
+  (import App.Box)
+  (extension
+    (head App.Box)
+    (type Item (some T)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result 1)))
+(expect (refuses load))

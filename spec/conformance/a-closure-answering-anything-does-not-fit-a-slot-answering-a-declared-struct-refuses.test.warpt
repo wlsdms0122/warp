@@ -1,68 +1,21 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-closure-answering-anything-does-not-fit-a-slot-answering-a-declared-struct-refuses"
-  note "`f` declares it answers `Any`. A slot whose procedure type answers `App.Point` takes only a procedure answering one, and an answer of `Any` is none the build can see, so the build refuses."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "f"
-            value {
-              closure {
-                parameters [
-                  {
-                    name "a"
-                  }
-                ]
-                result {
-                  ref "a"
-                }
-                returns "Any"
-              }
-            }
-          }
-          {
-            let "c"
-            type "(Any) -> App.Point"
-            value {
-              ref "f"
-            }
-          }
-          {
-            let "r"
-            value {
-              call {
-                arguments [
-                  1
-                ]
-                procedure {
-                  ref "c"
-                }
-              }
-            }
-          }
-        ]
-        result {
-          ref "r"
-        }
-        returns "App.Point"
-      }
-    }
-    types {
-      "App.Point" {
-        struct {
-          x "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-closure-answering-anything-does-not-fit-a-slot-answering-a-declared-struct-refuses")
+(note "`f` declares it answers `Any`. A slot whose procedure type answers `App.Point` takes only a procedure answering one, and an answer of `Any` is none the build can see, so the build refuses.")
 
+(program
+  (warp 1)
+  (struct App.Point
+    (field x Int))
+  (procedure entry
+    (access public)
+    (returns App.Point)
+    (body
+      (let f
+        (closure
+          (parameter a)
+          (returns Any)
+          (result a)))
+      (let c (type (procedure (parameters Any) (returns App.Point))) f)
+      (let r (apply c 1)))
+    (result r)))
+(expect (refuses build))

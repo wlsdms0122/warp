@@ -1,38 +1,15 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-name-declared-as-both-a-type-and-a-contract-refuses"
-  note "Types and contracts share one namespace, and a name in it is one of them. A name declared as a type and as a contract is refused."
-  program {
-    contracts {
-      "App.Thing" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        result 1
-      }
-    }
-    types {
-      "App.Thing" "Int"
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-name-declared-as-both-a-type-and-a-contract-refuses")
+(note "Types and contracts share one namespace, and a name in it is one of them. A name declared as a type and as a contract is refused.")
 
+(program
+  (warp 1)
+  (type App.Thing Int)
+  (contract App.Thing
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (procedure entry
+    (access public)
+    (result 1)))
+(expect (refuses build))

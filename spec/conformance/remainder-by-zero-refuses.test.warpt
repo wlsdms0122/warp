@@ -1,31 +1,12 @@
-warpt 1
-{
-  expect {
-    refuses "run"
-  }
-  name "remainder-by-zero-refuses"
-  note "A zero divisor leaves nothing a remainder could be, under remainder the same as under dividedBy."
-  program {
-    imports [
-      "Standard.Numeric.remainder"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              7
-              0
-            ]
-            procedure "Standard.Numeric.remainder"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "remainder-by-zero-refuses")
+(note "A zero divisor leaves nothing a remainder could be, under remainder the same as under dividedBy.")
 
+(program
+  (warp 1)
+  (import Standard.Numeric.remainder)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result (call Standard.Numeric.remainder 7 0))))
+(expect (refuses run))

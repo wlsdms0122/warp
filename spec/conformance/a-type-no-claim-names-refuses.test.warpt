@@ -1,62 +1,22 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-type-no-claim-names-refuses"
-  note "A value of a type the language names answers a contract only where a document claims it for that type. A claim about `Int` says nothing about `String`, so handing text where the contract is asked is refused at the build, which reads the type the text is."
-  program {
-    contracts {
-      "App.Described" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    extensions {
-      Int {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Int"
-              }
-            ]
-            result "a whole number"
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.Described"
-        ]
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              "s"
-            ]
-            procedure "App.Described.describe"
-          }
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-type-no-claim-names-refuses")
+(note "A value of a type the language names answers a contract only where a document claims it for that type. A claim about `Int` says nothing about `String`, so handing text where the contract is asked is refused at the build, which reads the type the text is.")
 
+(program
+  (warp 1)
+  (contract App.Described
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head Int)
+    (satisfies App.Described)
+    (procedure describe
+      (parameter of (type Int))
+      (returns String)
+      (result "a whole number")))
+  (procedure entry
+    (access public)
+    (returns String)
+    (result (call App.Described.describe "s"))))
+(expect (refuses build))

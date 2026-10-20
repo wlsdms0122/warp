@@ -1,58 +1,21 @@
-warpt 1
-{
-  arguments {
-    take true
-  }
-  expect {
-    answers "took-then"
-  }
-  name "a-conditional-writes-the-flow-it-is-in"
-  note "A conditional answers nothing. The condition chooses a way through the body, and what an arm keeps it writes to an outer variable."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            var "chosen"
-          }
-          {
-            value {
-              conditional {
-                else [
-                  {
-                    set "chosen"
-                    value "took-else"
-                  }
-                ]
-                then [
-                  {
-                    set "chosen"
-                    value "took-then"
-                  }
-                ]
-                when {
-                  ref "take"
-                }
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "take"
-            type "Bool"
-          }
-        ]
-        result {
-          ref "chosen"
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-conditional-writes-the-flow-it-is-in")
+(note "A conditional answers nothing. The condition chooses a way through the body, and what an arm keeps it writes to an outer variable.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter take (type Bool))
+    (returns String)
+    (body
+      (var chosen)
+      (conditional
+        (when take)
+        (then
+          (set chosen "took-then"))
+        (else
+          (set chosen "took-else"))))
+    (result chosen)))
+(arguments (argument take true))
+(expect (answers "took-then"))

@@ -1,65 +1,21 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-parameter-handed-in-place-takes-no-reading-of-any-refuses"
-  note "App.gen takes some T in place and writes a variable declared Any into it. The caller reads its own variable as whatever filled T, and nothing judges a write into it."
-  program {
-    imports []
-    procedures {
-      "App.gen" {
-        body [
-          {
-            type "Any"
-            value 5
-            var "y"
-          }
-          {
-            set "x"
-            value {
-              ref "y"
-            }
-          }
-        ]
-        parameters [
-          {
-            name "x"
-            type "inout some T"
-          }
-        ]
-        result 0
-        returns "Int"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            type "String"
-            value "a"
-            var "s"
-          }
-          {
-            value {
-              call {
-                arguments [
-                  {
-                    ref "s"
-                  }
-                ]
-                procedure "App.gen"
-              }
-            }
-          }
-        ]
-        result {
-          ref "s"
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-parameter-handed-in-place-takes-no-reading-of-any-refuses")
+(note "App.gen takes some T in place and writes a variable declared Any into it. The caller reads its own variable as whatever filled T, and nothing judges a write into it.")
 
+(program
+  (warp 1)
+  (procedure App.gen
+    (parameter x (type (inout (some T))))
+    (returns Int)
+    (body
+      (var y (type Any) 5)
+      (set x y))
+    (result 0))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (var s (type String) "a")
+      (call App.gen s))
+    (result s)))
+(expect (refuses build))

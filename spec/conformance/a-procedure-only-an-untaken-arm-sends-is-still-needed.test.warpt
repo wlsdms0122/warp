@@ -1,57 +1,20 @@
-warpt 1
-{
-  arguments {
-    ready true
-  }
-  expect {
-    refuses "build"
-  }
-  name "a-procedure-only-an-untaken-arm-sends-is-still-needed"
-  note "The same rule one layer out: a procedure reached only from an arm nobody takes still has to be there, because whether the arm is taken is not known until it runs and by then the refusal is too late."
-  program {
-    imports [
-      "nobodyDeclaresThis"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            value {
-              conditional {
-                else [
-                  {
-                    value {
-                      call {
-                        procedure "nobodyDeclaresThis"
-                      }
-                    }
-                  }
-                ]
-                then [
-                  {
-                    let "taken"
-                    value "taken"
-                  }
-                ]
-                when {
-                  ref "ready"
-                }
-              }
-            }
-          }
-        ]
-        failing "anything"
-        parameters [
-          {
-            name "ready"
-            type "Bool"
-          }
-        ]
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-procedure-only-an-untaken-arm-sends-is-still-needed")
+(note "The same rule one layer out: a procedure reached only from an arm nobody takes still has to be there, because whether the arm is taken is not known until it runs and by then the refusal is too late.")
 
+(program
+  (warp 1)
+  (import nobodyDeclaresThis)
+  (procedure entry
+    (access public)
+    (parameter ready (type Bool))
+    (failing (anything))
+    (body
+      (conditional
+        (when ready)
+        (then
+          (let taken "taken"))
+        (else
+          (call nobodyDeclaresThis))))))
+(arguments (argument ready true))
+(expect (refuses build))

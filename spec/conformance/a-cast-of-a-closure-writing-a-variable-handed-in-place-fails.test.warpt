@@ -1,125 +1,36 @@
-warpt 1
-{
-  expect {
-    answers "cast_refused"
-  }
-  name "a-cast-of-a-closure-writing-a-variable-handed-in-place-fails"
-  note "A closure in App.g writes x, handed in place, from its own parameter, and is held as Any. The cast reading it as taking a string fails with cast_refused, since only App.g's call filled its T, so the caller's variable keeps a value of its type and the attempt in the entry catches the failure."
-  program {
-    imports []
-    procedures {
-      "App.g" {
-        body [
-          {
-            let "c"
-            value {
-              closure {
-                body [
-                  {
-                    set "x"
-                    value {
-                      ref "y"
-                    }
-                  }
-                ]
-                parameters [
-                  {
-                    name "y"
-                    type "some T"
-                  }
-                ]
-                result 0
-                returns "Int"
-              }
-            }
-          }
-          {
-            let "a"
-            type "Any"
-            value {
-              ref "c"
-            }
-          }
-          {
-            let "h"
-            value {
-              as {
-                of {
-                  ref "a"
-                }
-                type "(String) -> Int"
-              }
-            }
-          }
-          {
-            let "z"
-            value {
-              call {
-                arguments [
-                  "s"
-                ]
-                procedure {
-                  ref "h"
-                }
-              }
-            }
-          }
-        ]
-        failing "anything"
-        parameters [
-          {
-            name "x"
-            type "inout some T"
-          }
-        ]
-        result 0
-        returns "Int"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "tried"
-            value {
-              attempt {
-                body [
-                  {
-                    value 1
-                    var "v"
-                  }
-                  {
-                    value {
-                      call {
-                        arguments [
-                          {
-                            ref "v"
-                          }
-                        ]
-                        procedure "App.g"
-                      }
-                    }
-                  }
-                ]
-                rescue {
-                  result {
-                    ref "tried.type"
-                  }
-                }
-                result {
-                  ref "v"
-                }
-              }
-            }
-          }
-        ]
-        result {
-          ref "tried"
-        }
-        returns "Any"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-cast-of-a-closure-writing-a-variable-handed-in-place-fails")
+(note "A closure in App.g writes x, handed in place, from its own parameter, and is held as Any. The cast reading it as taking a string fails with cast_refused, since only App.g's call filled its T, so the caller's variable keeps a value of its type and the attempt in the entry catches the failure.")
 
+(program
+  (warp 1)
+  (procedure App.g
+    (parameter x (type (inout (some T))))
+    (returns Int)
+    (failing (anything))
+    (body
+      (let c
+        (closure
+          (parameter y (type (some T)))
+          (returns Int)
+          (body
+            (set x y))
+          (result 0)))
+      (let a (type Any) c)
+      (let h (as a (procedure (parameters String) (returns Int))))
+      (let z (apply h "s")))
+    (result 0))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let tried
+        (attempt
+          (body
+            (var v 1)
+            (call App.g v))
+          (result v)
+          (rescue
+            (result (path tried (field type)))))))
+    (result tried)))
+(expect (answers "cast_refused"))

@@ -1,78 +1,20 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-closure-writing-bounds-refuses"
-  note "Only the declaring procedure writes a bound. `App.f` bounds nothing, and the closure it writes puts a bound beside its `some T`, `some T: Standard.Comparable`, so the document refuses at the load."
-  program {
-    imports [
-      "Standard.Comparable"
-      "Standard.Comparable.lessThan"
-    ]
-    procedures {
-      "App.f" {
-        body [
-          {
-            let "g"
-            value {
-              closure {
-                parameters [
-                  {
-                    name "y"
-                    type "some T: Standard.Comparable"
-                  }
-                ]
-                result {
-                  call {
-                    arguments [
-                      {
-                        ref "y"
-                      }
-                      {
-                        ref "y"
-                      }
-                    ]
-                    procedure "Standard.Comparable.lessThan"
-                  }
-                }
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "x"
-            type "some T"
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "x"
-              }
-            ]
-            procedure {
-              ref "g"
-            }
-          }
-        }
-      }
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              true
-            ]
-            procedure "App.f"
-          }
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-closure-writing-bounds-refuses")
+(note "Only the declaring procedure writes a bound. `App.f` bounds nothing, and the closure it writes puts a bound beside its `some T`, `some T: Standard.Comparable`, so the document refuses at the load.")
 
+(program
+  (warp 1)
+  (import Standard.Comparable)
+  (import Standard.Comparable.lessThan)
+  (procedure App.f
+    (parameter x (type (some T)))
+    (body
+      (let g
+        (closure
+          (parameter y (type (some T Standard.Comparable)))
+          (result (call Standard.Comparable.lessThan y y)))))
+    (result (apply g x)))
+  (procedure entry
+    (access public)
+    (result (call App.f true))))
+(expect (refuses load))

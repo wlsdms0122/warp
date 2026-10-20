@@ -1,104 +1,29 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-declaration-answering-a-contract-with-another-answer-refuses"
-  note "The build holds a claim to the type's members: the member of the procedure's name takes the contract's signature with the type first. One answering an int where the contract writes a string backs no claim, and the claim refuses at the build, at the claim."
-  program {
-    contracts {
-      "App.Describable" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    imports []
-    procedures {
-      "App.tell" {
-        parameters [
-          {
-            name "it"
-            type "some T: App.Describable"
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "it"
-              }
-            ]
-            procedure "App.Describable.describe"
-          }
-        }
-        returns "String"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "held"
-            value {
-              as {
-                of {
-                  struct {
-                    balance 1
-                  }
-                }
-                type "Bank.Account"
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "held"
-              }
-            ]
-            procedure "App.tell"
-          }
-        }
-        returns "String"
-      }
-    }
-    types {
-      "Bank.Account" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Bank.Account"
-              }
-            ]
-            result 1
-            returns "Int"
-          }
-        }
-        satisfies [
-          "App.Describable"
-        ]
-        struct {
-          balance "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-declaration-answering-a-contract-with-another-answer-refuses")
+(note "The build holds a claim to the type's members: the member of the procedure's name takes the contract's signature with the type first. One answering an int where the contract writes a string backs no claim, and the claim refuses at the build, at the claim.")
 
+(program
+  (warp 1)
+  (struct Bank.Account
+    (satisfies App.Describable)
+    (field balance Int)
+    (procedure describe
+      (parameter of (type Bank.Account))
+      (returns Int)
+      (result 1)))
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (procedure App.tell
+    (parameter it (type (some T App.Describable)))
+    (returns String)
+    (result (call App.Describable.describe it)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let held (as (struct (field balance 1)) Bank.Account)))
+    (result (call App.tell held))))
+(expect (refuses build))

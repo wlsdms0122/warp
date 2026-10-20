@@ -1,87 +1,28 @@
-warpt 1
-{
-  expect {
-    answers 2
-  }
-  name "a-module-variable-started-with-a-const-closure-takes-one-that-runs"
-  note "A module variable that declares no type holds the procedure type its start reads as, without the constness, isolation or failing it says, since a write may put another procedure there. `onTick` starts as a closure declaring `const`, and a closure reading the module variable `base`, which does not answer without running, is written into it and called."
-  program {
-    imports [
-      "Standard.Numeric.plus"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            set "onTick"
-            value {
-              closure {
-                parameters [
-                  {
-                    name "n"
-                    type "Int"
-                  }
-                ]
-                result {
-                  call {
-                    arguments [
-                      {
-                        ref "n"
-                      }
-                      {
-                        ref "base"
-                      }
-                    ]
-                    procedure "Standard.Numeric.plus"
-                  }
-                }
-                returns "Int"
-              }
-            }
-          }
-          {
-            let "a"
-            value {
-              call {
-                arguments [
-                  1
-                ]
-                procedure {
-                  ref "onTick"
-                }
-              }
-            }
-          }
-        ]
-        failing "anything"
-        result {
-          ref "a"
-        }
-        returns "Int"
-      }
-    }
-    var {
-      base 1
-      onTick {
-        closure {
-          const true
-          isolated true
-          parameters [
-            {
-              name "n"
-              type "Int"
-            }
-          ]
-          result {
-            ref "n"
-          }
-          returns "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-module-variable-started-with-a-const-closure-takes-one-that-runs")
+(note "A module variable that declares no type holds the procedure type its start reads as, without the constness, isolation or failing it says, since a write may put another procedure there. `onTick` starts as a closure declaring `const`, and a closure reading the module variable `base`, which does not answer without running, is written into it and called.")
 
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (var base 1)
+  (var onTick
+    (closure
+      (const)
+      (isolated)
+      (parameter n (type Int))
+      (returns Int)
+      (result n)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (body
+      (set onTick
+        (closure
+          (parameter n (type Int))
+          (returns Int)
+          (result (call Standard.Numeric.plus n base))))
+      (let a (apply onTick 1)))
+    (result a)))
+(expect (answers 2))

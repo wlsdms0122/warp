@@ -1,72 +1,18 @@
-warpt 1
-{
-  expect {
-    answers [
-      false
-      false
-    ]
-  }
-  name "a-procedure-is-the-same-as-no-value"
-  note "A procedure is the same as no value, itself included, and so is a collection holding one: `Standard.Logic.equal` answers false for a closure beside itself and for a list holding it beside itself."
-  program {
-    imports [
-      "Standard.Logic.equal"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "f"
-            value {
-              closure {
-                result 1
-                returns "Int"
-              }
-            }
-          }
-          {
-            let "held"
-            value [
-              {
-                ref "f"
-              }
-            ]
-          }
-        ]
-        result [
-          {
-            call {
-              arguments [
-                {
-                  ref "f"
-                }
-                {
-                  ref "f"
-                }
-              ]
-              procedure "Standard.Logic.equal"
-            }
-          }
-          {
-            call {
-              arguments [
-                {
-                  ref "held"
-                }
-                {
-                  ref "held"
-                }
-              ]
-              procedure "Standard.Logic.equal"
-            }
-          }
-        ]
-        returns "Array<Bool>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-procedure-is-the-same-as-no-value")
+(note "A procedure is the same as no value, itself included, and so is a collection holding one: `Standard.Logic.equal` answers false for a closure beside itself and for a list holding it beside itself.")
 
+(program
+  (warp 1)
+  (import Standard.Logic.equal)
+  (procedure entry
+    (access public)
+    (returns (array Bool))
+    (body
+      (let f
+        (closure
+          (returns Int)
+          (result 1)))
+      (let held (array f)))
+    (result (array (call Standard.Logic.equal f f) (call Standard.Logic.equal held held)))))
+(expect (answers (array false false)))

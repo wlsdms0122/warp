@@ -1,42 +1,19 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-constant-cannot-settle-from-what-runs"
-  note "A constant is settled at the build, so it settles from procedures that answer without running. One that reaches outside the run has nothing to say before the run."
-  program {
-    const {
-      now {
-        call {
-          procedure "App.clock"
-        }
-      }
-    }
-    imports [
-      "App.clock"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result {
-          ref "now"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-  vocabulary {
-    imports []
-    procedures {
-      "App.clock" {
-        answers 7
-        isolated true
-        returns "Int"
-      }
-    }
-  }
-}
+(test 1)
+(name "a-constant-cannot-settle-from-what-runs")
+(note "A constant is settled at the build, so it settles from procedures that answer without running. One that reaches outside the run has nothing to say before the run.")
 
+(vocabulary
+  (procedure App.clock
+    (isolated)
+    (returns Int)
+    (answers 7)))
+
+(program
+  (warp 1)
+  (import App.clock)
+  (const now (call App.clock))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result now)))
+(expect (refuses build))

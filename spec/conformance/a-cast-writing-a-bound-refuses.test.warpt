@@ -1,38 +1,15 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-cast-writing-a-bound-refuses"
-  note "A cast names a type and introduces none, so a bound beside its `some T` refuses at the load."
-  program {
-    imports []
-    procedures {
-      "App.f" {
-        parameters [
-          {
-            name "x"
-            type "some T"
-          }
-        ]
-        result {
-          as {
-            of {
-              ref "x"
-            }
-            type "some T: Hashable"
-          }
-        }
-        returns "some T"
-      }
-      entry {
-        access "public"
-        result 1
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-cast-writing-a-bound-refuses")
+(note "A cast names a type and introduces none, so a bound beside its `some T` refuses at the load.")
 
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter x (type (some T)))
+    (returns (some T))
+    (result (as x (some T Hashable))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result 1)))
+(expect (refuses load))

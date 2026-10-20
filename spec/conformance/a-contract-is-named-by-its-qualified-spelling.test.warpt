@@ -1,42 +1,16 @@
-warpt 1
-{
-  expect {
-    answers 3
-  }
-  name "a-contract-is-named-by-its-qualified-spelling"
-  note "A contract name is its declared spelling with the declaring module in front. `Standard` declares Comparable, so a bound that means it writes `Standard.Comparable`."
-  program {
-    imports [
-      "Standard.Comparable"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              3
-            ]
-            procedure "keep"
-          }
-        }
-        returns "Int"
-      }
-      keep {
-        parameters [
-          {
-            name "value"
-            type "some T: Standard.Comparable"
-          }
-        ]
-        result {
-          ref "value"
-        }
-        returns "some T"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-contract-is-named-by-its-qualified-spelling")
+(note "A contract name is its declared spelling with the declaring module in front. `Standard` declares Comparable, so a bound that means it writes `Standard.Comparable`.")
 
+(program
+  (warp 1)
+  (import Standard.Comparable)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result (call keep 3)))
+  (procedure keep
+    (parameter value (type (some T Standard.Comparable)))
+    (returns (some T))
+    (result value)))
+(expect (answers 3))

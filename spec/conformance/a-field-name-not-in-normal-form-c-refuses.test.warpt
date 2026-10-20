@@ -1,11 +1,5 @@
-warpt 1
-{
-  bytes x"57415250010903412e50010663616665cc810302"
-  expect {
-    refuses "load"
-  }
-  name "a-field-name-not-in-normal-form-c-refuses"
-  note "A struct's field name is a name, and a name has one byte spelling. `café` written as a letter plus a combining mark is the same field to a reader that normalises and a different one to a reader that does not, which is two fields under one name or one name sorted to two places."
-  test 1
-}
-
+(test 1)
+(name "a-field-name-not-in-normal-form-c-refuses")
+(note "A struct's field name is a name, and a name has one byte spelling. `café` written as a letter plus a combining mark is the same field to a reader that normalises and a different one to a reader that does not, which is two fields under one name or one name sorted to two places.")
+(bytes x"57415250010903412e50010663616665cc810302")
+(expect (refuses load))

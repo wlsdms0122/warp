@@ -1,67 +1,22 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-procedure-value-at-a-slot-writing-a-procedure-type-refuses"
-  note "A value of Procedure says nothing of what it takes or answers, so it stands where Procedure or Any is declared, and a slot writing a procedure type takes it only once a cast says what it is."
-  program {
-    imports []
-    procedures {
-      "App.f" {
-        parameters [
-          {
-            name "g"
-            type "Procedure"
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "g"
-              }
-            ]
-            procedure "App.h"
-          }
-        }
-        returns "Int"
-      }
-      "App.h" {
-        parameters [
-          {
-            name "g"
-            type "() -> Int"
-          }
-        ]
-        result {
-          call {
-            procedure {
-              ref "g"
-            }
-          }
-        }
-        returns "Int"
-      }
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              {
-                closure {
-                  result 1
-                }
-              }
-            ]
-            procedure "App.f"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-procedure-value-at-a-slot-writing-a-procedure-type-refuses")
+(note "A value of Procedure says nothing of what it takes or answers, so it stands where Procedure or Any is declared, and a slot writing a procedure type takes it only once a cast says what it is.")
 
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter g (type Procedure))
+    (returns Int)
+    (result (call App.h g)))
+  (procedure App.h
+    (parameter g (type (procedure (parameters) (returns Int))))
+    (returns Int)
+    (result (apply g)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result
+      (call App.f
+        (closure
+          (result 1))))))
+(expect (refuses build))

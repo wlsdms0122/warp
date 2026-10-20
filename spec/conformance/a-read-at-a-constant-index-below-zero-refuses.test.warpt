@@ -1,35 +1,14 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-read-at-a-constant-index-below-zero-refuses"
-  note "`K` settles to -1, a whole number below zero, which is no position in any list, so `d[K]` refuses at the build."
-  program {
-    const {
-      K -1
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            type "Array<Int>"
-            value [
-              1
-            ]
-            var "d"
-          }
-        ]
-        result {
-          ref "d[K]"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-read-at-a-constant-index-below-zero-refuses")
+(note "`K` settles to -1, a whole number below zero, which is no position in any list, so `d[K]` refuses at the build.")
 
+(program
+  (warp 1)
+  (const K -1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var d (type (array Int)) (array 1)))
+    (result (path d (index K)))))
+(expect (refuses build))

@@ -1,73 +1,20 @@
-warpt 1
-{
-  arguments {
-    payload "not a procedure"
-  }
-  expect {
-    answers {
-      actual "String"
-      expected "const (Int) -> Int"
-    }
-  }
-  name "a-rescue-reads-a-cast-to-a-procedure-type-by-its-spelling"
-  note "`cast_refused`'s `expected` spells a cast to a procedure type the way a document writes it, signature and modifiers included."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "tried"
-            value {
-              attempt {
-                body [
-                  {
-                    value {
-                      as {
-                        of {
-                          ref "payload"
-                        }
-                        type "const (Int) -> Int"
-                      }
-                    }
-                  }
-                ]
-                rescue {
-                  result {
-                    dictionary [
-                      [
-                        "actual"
-                        {
-                          ref "tried.details[\"actual\"]"
-                        }
-                      ]
-                      [
-                        "expected"
-                        {
-                          ref "tried.details[\"expected\"]"
-                        }
-                      ]
-                    ]
-                  }
-                }
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "payload"
-          }
-        ]
-        result {
-          ref "tried"
-        }
-        returns "Dictionary<String, Any>?"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-rescue-reads-a-cast-to-a-procedure-type-by-its-spelling")
+(note "`cast_refused`'s `expected` spells a cast to a procedure type the way a document writes it, signature and modifiers included.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter payload)
+    (returns (nullable (dictionary String Any)))
+    (body
+      (let tried
+        (attempt
+          (body
+            (as payload (procedure (const) (parameters Int) (returns Int))))
+          (rescue
+            (result (dictionary (entry "actual" (path tried (field details) (index "actual"))) (entry "expected" (path tried (field details) (index "expected")))))))))
+    (result tried)))
+(arguments (argument payload "not a procedure"))
+(expect (answers (dictionary (entry "actual" "String") (entry "expected" "const (Int) -> Int"))))

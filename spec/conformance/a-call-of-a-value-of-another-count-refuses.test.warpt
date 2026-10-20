@@ -1,60 +1,20 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-call-of-a-value-of-another-count-refuses"
-  note "Every position is given when a value is called, so a call of it with fewer arguments than the value's type takes is one no run could make, and the build refuses it where the value's type is known."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "pair"
-            value {
-              closure {
-                parameters [
-                  {
-                    name "first"
-                    type "Int"
-                  }
-                  {
-                    name "second"
-                    type "String"
-                  }
-                ]
-                result {
-                  ref "first"
-                }
-                returns "Int"
-              }
-            }
-          }
-          {
-            let "made"
-            value {
-              call {
-                arguments [
-                  1
-                ]
-                procedure {
-                  ref "pair"
-                }
-              }
-            }
-          }
-        ]
-        failing "anything"
-        result {
-          ref "made"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-call-of-a-value-of-another-count-refuses")
+(note "Every position is given when a value is called, so a call of it with fewer arguments than the value's type takes is one no run could make, and the build refuses it where the value's type is known.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (body
+      (let pair
+        (closure
+          (parameter first (type Int))
+          (parameter second (type String))
+          (returns Int)
+          (result first)))
+      (let made (apply pair 1)))
+    (result made)))
+(expect (refuses build))

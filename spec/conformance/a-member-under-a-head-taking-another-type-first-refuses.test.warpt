@@ -1,72 +1,22 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-member-under-a-head-taking-another-type-first-refuses"
-  note "A member under `App.Box<some T: Hashable>` is there for the boxes the head takes and takes one first, written as the head. One taking `App.Box<some U>` first would be there for every box, so the load refuses it."
-  program {
-    extensions {
-      "App.Box<some T: Hashable>" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "App.Box<some U>"
-              }
-            ]
-            result "box"
-            returns "String"
-          }
-        }
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              {
-                as {
-                  of {
-                    struct {
-                      item {
-                        struct {
-                          x 1
-                        }
-                      }
-                    }
-                  }
-                  type "App.Box<App.Plain>"
-                }
-              }
-            ]
-            procedure "App.Box.describe"
-          }
-        }
-        returns "String"
-      }
-    }
-    types {
-      "App.Box" {
-        struct {
-          item "some T"
-        }
-        typeParameters [
-          "T"
-        ]
-      }
-      "App.Plain" {
-        struct {
-          x "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-member-under-a-head-taking-another-type-first-refuses")
+(note "A member under `App.Box<some T: Hashable>` is there for the boxes the head takes and takes one first, written as the head. One taking `App.Box<some U>` first would be there for every box, so the load refuses it.")
 
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (struct App.Plain
+    (field x Int))
+  (extension
+    (head (named App.Box (some T Hashable)))
+    (procedure describe
+      (parameter of (type (named App.Box (some U))))
+      (returns String)
+      (result "box")))
+  (procedure entry
+    (access public)
+    (returns String)
+    (result (call App.Box.describe (as (struct (field item (struct (field x 1)))) (named App.Box App.Plain))))))
+(expect (refuses load))

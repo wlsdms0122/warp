@@ -1,48 +1,23 @@
-warpt 1
-{
-  documents [
-    {
-      imports []
-      types {
-        "Lib.Num" "Int"
-      }
-      warp 1
-    }
-  ]
-  expect {
-    refuses "build"
-  }
-  name "an-extension-giving-another-documents-alias-members-refuses"
-  note "`Lib.Num` names `Int`, and a value of it is an instance of `Int` and of no other name, so the build refuses an extension giving it members, as it refuses a claim about it."
-  program {
-    extensions {
-      "Lib.Num" {
-        procedures {
-          m {
-            parameters [
-              {
-                name "of"
-                type "Lib.Num"
-              }
-            ]
-            result 7
-            returns "Int"
-          }
-        }
-      }
-    }
-    imports [
-      "Lib.Num"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result 1
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-extension-giving-another-documents-alias-members-refuses")
+(note "`Lib.Num` names `Int`, and a value of it is an instance of `Int` and of no other name, so the build refuses an extension giving it members, as it refuses a claim about it.")
 
+(documents
+  (document
+    (warp 1)
+    (type Lib.Num Int)))
+
+(program
+  (warp 1)
+  (import Lib.Num)
+  (extension
+    (head Lib.Num)
+    (procedure m
+      (parameter of (type Lib.Num))
+      (returns Int)
+      (result 7)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result 1)))
+(expect (refuses build))

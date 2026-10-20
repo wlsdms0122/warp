@@ -1,344 +1,76 @@
-warpt 1
-{
-  expect {
-    answers 5
-  }
-  name "a-call-of-a-value-hands-in-place-inside-every-construct"
-  note "A call of a value hands a variable in place wherever it is written: a body, both arms of a conditional, a loop's round, an attempt and its rescue. A closure is written into a map, an array and an argument the same way, and its own calls are judged and lowered with it."
-  program {
-    imports [
-      "Standard.Control.abort"
-      "Standard.Logic.not"
-      "Standard.Numeric.plus"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            value 0
-            var "n"
-          }
-          {
-            let "bump"
-            value {
-              closure {
-                body [
-                  {
-                    set "c"
-                    value {
-                      call {
-                        arguments [
-                          {
-                            ref "c"
-                          }
-                          1
-                        ]
-                        procedure "Standard.Numeric.plus"
-                      }
-                    }
-                  }
-                ]
-                parameters [
-                  {
-                    name "c"
-                    type "inout Int"
-                  }
-                ]
-              }
-            }
-          }
-          {
-            value {
-              call {
-                arguments [
-                  {
-                    ref "n"
-                  }
-                ]
-                procedure {
-                  ref "bump"
-                }
-              }
-            }
-          }
-          {
-            value {
-              conditional {
-                else [
-                  {
-                    value {
-                      call {
-                        arguments [
-                          {
-                            ref "n"
-                          }
-                        ]
-                        procedure {
-                          ref "bump"
-                        }
-                      }
-                    }
-                  }
-                ]
-                then [
-                  {
-                    value {
-                      call {
-                        arguments [
-                          {
-                            ref "n"
-                          }
-                        ]
-                        procedure {
-                          ref "bump"
-                        }
-                      }
-                    }
-                  }
-                ]
-                when true
-              }
-            }
-          }
-          {
-            value {
-              loop {
-                body [
-                  {
-                    value {
-                      call {
-                        arguments [
-                          {
-                            ref "n"
-                          }
-                        ]
-                        procedure {
-                          ref "bump"
-                        }
-                      }
-                    }
-                  }
-                  {
-                    value {
-                      break null
-                    }
-                  }
-                ]
-                while {
-                  call {
-                    arguments [
-                      false
-                    ]
-                    procedure "Standard.Logic.not"
-                  }
-                }
-              }
-            }
-          }
-          {
-            let "inner"
-            value {
-              closure {
-                body [
-                  {
-                    value 0
-                    var "m"
-                  }
-                  {
-                    value {
-                      call {
-                        arguments [
-                          {
-                            ref "m"
-                          }
-                        ]
-                        procedure {
-                          ref "bump"
-                        }
-                      }
-                    }
-                  }
-                ]
-                failing "anything"
-                result {
-                  ref "m"
-                }
-                returns "Int"
-              }
-            }
-          }
-          {
-            let "r"
-            value {
-              dictionary [
-                [
-                  "f"
-                  {
-                    closure {
-                      body [
-                        {
-                          value 0
-                          var "m"
-                        }
-                        {
-                          value {
-                            call {
-                              arguments [
-                                {
-                                  ref "m"
-                                }
-                              ]
-                              procedure {
-                                ref "bump"
-                              }
-                            }
-                          }
-                        }
-                      ]
-                      failing "anything"
-                      result {
-                        ref "m"
-                      }
-                      returns "Int"
-                    }
-                  }
-                ]
-              ]
-            }
-          }
-          {
-            let "a"
-            value [
-              {
-                closure {
-                  body [
-                    {
-                      value 0
-                      var "m"
-                    }
-                    {
-                      value {
-                        call {
-                          arguments [
-                            {
-                              ref "m"
-                            }
-                          ]
-                          procedure {
-                            ref "bump"
-                          }
-                        }
-                      }
-                    }
-                  ]
-                  failing "anything"
-                  result {
-                    ref "m"
-                  }
-                  returns "Int"
-                }
-              }
-            ]
-          }
-          {
-            let "got"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "inner"
-                  }
-                ]
-                procedure "relay"
-              }
-            }
-          }
-          {
-            value {
-              attempt {
-                body [
-                  {
-                    value {
-                      call {
-                        arguments [
-                          {
-                            ref "n"
-                          }
-                        ]
-                        procedure {
-                          ref "bump"
-                        }
-                      }
-                    }
-                  }
-                  {
-                    value {
-                      call {
-                        arguments [
-                          "x"
-                        ]
-                        procedure "Standard.Control.abort"
-                      }
-                    }
-                  }
-                ]
-                rescue {
-                  body [
-                    {
-                      value {
-                        call {
-                          arguments [
-                            {
-                              ref "n"
-                            }
-                          ]
-                          procedure {
-                            ref "bump"
-                          }
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        ]
-        failing "anything"
-        result {
-          ref "n"
-        }
-        returns "Int"
-      }
-      relay {
-        body [
-          {
-            let "x"
-            value {
-              call {
-                procedure {
-                  ref "f"
-                }
-              }
-            }
-          }
-        ]
-        failing "anything"
-        parameters [
-          {
-            name "f"
-            type "() throws -> Any"
-          }
-        ]
-        result {
-          ref "x"
-        }
-        returns "Any"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-call-of-a-value-hands-in-place-inside-every-construct")
+(note "A call of a value hands a variable in place wherever it is written: a body, both arms of a conditional, a loop's round, an attempt and its rescue. A closure is written into a map, an array and an argument the same way, and its own calls are judged and lowered with it.")
 
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (import Standard.Logic.not)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (body
+      (var n 0)
+      (let bump
+        (closure
+          (parameter c (type (inout Int)))
+          (body
+            (set c (call Standard.Numeric.plus c 1)))))
+      (apply bump n)
+      (conditional
+        (when true)
+        (then
+          (apply bump n))
+        (else
+          (apply bump n)))
+      (loop
+        (while (call Standard.Logic.not false))
+        (body
+          (apply bump n)
+          (break)))
+      (let inner
+        (closure
+          (returns Int)
+          (failing (anything))
+          (body
+            (var m 0)
+            (apply bump m))
+          (result m)))
+      (let r
+        (dictionary
+          (entry "f"
+            (closure
+              (returns Int)
+              (failing (anything))
+              (body
+                (var m 0)
+                (apply bump m))
+              (result m)))))
+      (let a
+        (array
+          (closure
+            (returns Int)
+            (failing (anything))
+            (body
+              (var m 0)
+              (apply bump m))
+            (result m))))
+      (let got (call relay inner))
+      (attempt
+        (body
+          (apply bump n)
+          (call Standard.Control.abort "x"))
+        (rescue
+          (body
+            (apply bump n)))))
+    (result n))
+  (procedure relay
+    (parameter f (type (procedure (parameters) (failing (anything)) (returns Any))))
+    (returns Any)
+    (failing (anything))
+    (body
+      (let x (apply f)))
+    (result x)))
+(expect (answers 5))

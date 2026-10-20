@@ -1,155 +1,17 @@
-warpt 1
-{
-  expect {
-    builds {
-      claims []
-      constants [
-        "K"
-      ]
-      contracts []
-      dependencies []
-      document [
-        x"d1199863f591e64947f85ab71826d78e20c5dc9adc615f919869052ec0a360ba"
-      ]
-      importedClaims []
-      lifted []
-      members []
-      numbering [
-        []
-        []
-      ]
-      object 1
-      rows [
-        [
-          "entry"
-          [
-            []
-            [
-              8
-              [
-                6
-              ]
-              [
-                4
-              ]
-            ]
-            [
-              1
-              []
-            ]
-            1
-            1
-            []
-            []
-          ]
-          2
-          [
-            0
-            [
-              [
-                [
-                  [
-                    [
-                      1
-                      0
-                    ]
-                  ]
-                  [
-                    14
-                    []
-                  ]
-                  "d"
-                ]
-                [
-                  [
-                    [
-                      2
-                      [
-                        0
-                        [
-                          [
-                            2
-                            [
-                              4
-                              "a"
-                            ]
-                            false
-                          ]
-                        ]
-                      ]
-                    ]
-                  ]
-                  [
-                    0
-                    [
-                      2
-                      1
-                    ]
-                  ]
-                  "d"
-                ]
-              ]
-              [
-                [
-                  1
-                  [
-                    0
-                    []
-                  ]
-                ]
-              ]
-            ]
-            [
-              1
-              []
-              []
-              []
-              [
-                "d"
-              ]
-            ]
-          ]
-        ]
-      ]
-      typeMembers []
-      typeNumbering []
-      types []
-      variables []
-    }
-  }
-  name "the-object-of-a-write-at-a-constant-key"
-  note "A constant between the brackets of a write is folded into the address the write lands at, as every constant a body reads is: the step carries the key the constant settled to, and the body binds no slot for the constant."
-  program {
-    const {
-      K "a"
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            type "Dictionary<String, Int>"
-            value {
-              dictionary []
-            }
-            var "d"
-          }
-          {
-            set "d[K]"
-            value 1
-          }
-        ]
-        const true
-        isolated true
-        result {
-          ref "d"
-        }
-        returns "Dictionary<String, Int>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "the-object-of-a-write-at-a-constant-key")
+(note "A constant between the brackets of a write is folded into the address the write lands at, as every constant a body reads is: the step carries the key the constant settled to, and the body binds no slot for the constant.")
 
+(program
+  (warp 1)
+  (const K "a")
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (returns (dictionary String Int))
+    (body
+      (var d (type (dictionary String Int)) (dictionary))
+      (set (path d (index K)) 1))
+    (result d)))
+(expect (builds (dictionary (entry "claims" (array)) (entry "constants" (array "K")) (entry "contracts" (array)) (entry "dependencies" (array)) (entry "document" (array x"d1199863f591e64947f85ab71826d78e20c5dc9adc615f919869052ec0a360ba")) (entry "importedClaims" (array)) (entry "lifted" (array)) (entry "members" (array)) (entry "numbering" (array (array) (array))) (entry "object" 1) (entry "rows" (array (array "entry" (array (array) (array 8 (array 6) (array 4)) (array 1 (array)) 1 1 (array) (array)) 2 (array 0 (array (array (array (array (array 1 0)) (array 14 (array)) "d") (array (array (array 2 (array 0 (array (array 2 (array 4 "a") false))))) (array 0 (array 2 1)) "d")) (array (array 1 (array 0 (array))))) (array 1 (array) (array) (array) (array "d")))))) (entry "typeMembers" (array)) (entry "typeNumbering" (array)) (entry "types" (array)) (entry "variables" (array)))))

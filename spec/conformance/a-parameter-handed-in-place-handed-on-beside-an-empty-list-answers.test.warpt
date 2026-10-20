@@ -1,77 +1,21 @@
-warpt 1
-{
-  expect {
-    answers [
-      [
-        "a"
-      ]
-      []
-    ]
-  }
-  name "a-parameter-handed-in-place-handed-on-beside-an-empty-list-answers"
-  note "App.g appends [] to xs, a list of lists of T handed in place. An empty list holds no element, so it is a value of Array<some T> as a write would take it, and the caller reads its list with an empty list added."
-  program {
-    imports [
-      "Standard.Collection.append"
-    ]
-    procedures {
-      "App.g" {
-        body [
-          {
-            value {
-              call {
-                arguments [
-                  {
-                    ref "xs"
-                  }
-                  []
-                ]
-                procedure "Standard.Collection.append"
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "xs"
-            type "inout Array<Array<some T>>"
-          }
-        ]
-        result 0
-        returns "Int"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            value [
-              [
-                "a"
-              ]
-            ]
-            var "s"
-          }
-          {
-            value {
-              call {
-                arguments [
-                  {
-                    ref "s"
-                  }
-                ]
-                procedure "App.g"
-              }
-            }
-          }
-        ]
-        result {
-          ref "s"
-        }
-        returns "Array<Array<String>>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-parameter-handed-in-place-handed-on-beside-an-empty-list-answers")
+(note "App.g appends [] to xs, a list of lists of T handed in place. An empty list holds no element, so it is a value of Array<some T> as a write would take it, and the caller reads its list with an empty list added.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.append)
+  (procedure App.g
+    (parameter xs (type (inout (array (array (some T))))))
+    (returns Int)
+    (body
+      (call Standard.Collection.append xs (array)))
+    (result 0))
+  (procedure entry
+    (access public)
+    (returns (array (array String)))
+    (body
+      (var s (array (array "a")))
+      (call App.g s))
+    (result s)))
+(expect (answers (array (array "a") (array))))

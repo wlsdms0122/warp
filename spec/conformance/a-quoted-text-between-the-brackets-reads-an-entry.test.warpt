@@ -1,41 +1,13 @@
-warpt 1
-{
-  expect {
-    answers 2
-  }
-  name "a-quoted-text-between-the-brackets-reads-an-entry"
-  note "Text between double quotes in the brackets is a key written there, so `d[\"b\"]` reads the entry under the text b."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "d"
-            type "Dictionary<String, Int>"
-            value {
-              dictionary [
-                [
-                  "a"
-                  1
-                ]
-                [
-                  "b"
-                  2
-                ]
-              ]
-            }
-          }
-        ]
-        result {
-          ref "d[\"b\"]"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-quoted-text-between-the-brackets-reads-an-entry")
+(note "Text between double quotes in the brackets is a key written there, so `d[\"b\"]` reads the entry under the text b.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let d (type (dictionary String Int)) (dictionary (entry "a" 1) (entry "b" 2))))
+    (result (path d (index "b")))))
+(expect (answers 2))

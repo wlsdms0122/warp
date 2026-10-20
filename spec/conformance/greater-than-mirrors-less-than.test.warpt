@@ -1,59 +1,15 @@
-warpt 1
-{
-  expect {
-    answers [
-      true
-      false
-    ]
-  }
-  name "greater-than-mirrors-less-than"
-  note "greaterThan orders two of one type the same way lessThan does, read from the other side."
-  program {
-    imports [
-      "Standard.Math.greaterThan"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "yes"
-            value {
-              call {
-                arguments [
-                  3
-                  2
-                ]
-                procedure "Standard.Math.greaterThan"
-              }
-            }
-          }
-          {
-            let "no"
-            value {
-              call {
-                arguments [
-                  "a"
-                  "b"
-                ]
-                procedure "Standard.Math.greaterThan"
-              }
-            }
-          }
-        ]
-        result [
-          {
-            ref "yes"
-          }
-          {
-            ref "no"
-          }
-        ]
-        returns "Array<Bool>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "greater-than-mirrors-less-than")
+(note "greaterThan orders two of one type the same way lessThan does, read from the other side.")
 
+(program
+  (warp 1)
+  (import Standard.Math.greaterThan)
+  (procedure entry
+    (access public)
+    (returns (array Bool))
+    (body
+      (let yes (call Standard.Math.greaterThan 3 2))
+      (let no (call Standard.Math.greaterThan "a" "b")))
+    (result (array yes no))))
+(expect (answers (array true false)))

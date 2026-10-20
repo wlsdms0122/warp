@@ -1,25 +1,5 @@
-warpt 1
-{
-  bytes x"5741525001070a00030202030403050306043ff800000000000003080500030a050161030c05046e756c6c030e0602030203040310070003120903412e50000314"
-  expect {
-    spells {
-      null 1
-      true 2
-      -3 3
-      1.5 4
-      "" 5
-      a 6
-      "null" 7
-      [
-        1
-        2
-      ] 8
-      {} 9
-      A.P {} 10
-    }
-  }
-  name "a-map-keyed-by-values-reads-and-writes-back"
-  note "A map's key is a value, written whole before the value under it, and the keys ascend by kind first (null, bool, number, text, list, map, struct) and then within it. The empty text is a key like any other."
-  test 1
-}
-
+(test 1)
+(name "a-map-keyed-by-values-reads-and-writes-back")
+(note "A map's key is a value, written whole before the value under it, and the keys ascend by kind first (null, bool, number, text, list, map, struct) and then within it. The empty text is a key like any other.")
+(bytes x"5741525001070a00030202030403050306043ff800000000000003080500030a050161030c05046e756c6c030e0602030203040310070003120903412e50000314")
+(expect (spells (dictionary (entry null 1) (entry true 2) (entry -3 3) (entry 1.5 4) (entry "" 5) (entry "a" 6) (entry "null" 7) (entry (array 1 2) 8) (entry (dictionary) 9) (entry (struct A.P) 10))))

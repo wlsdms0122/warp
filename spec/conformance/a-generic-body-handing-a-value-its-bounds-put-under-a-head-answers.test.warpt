@@ -1,95 +1,29 @@
-warpt 1
-{
-  expect {
-    answers "box"
-  }
-  name "a-generic-body-handing-a-value-its-bounds-put-under-a-head-answers"
-  note "A procedure bounding `T` by `Hashable` hands a box of `T` where App.Describable is asked, and the head `App.Box<some T: Hashable>` takes every box its bounds allow, so the reading is one the claim's head takes and it answers."
-  program {
-    contracts {
-      "App.Describable" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    extensions {
-      "App.Box<some T: Hashable>" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "App.Box<some T>"
-              }
-            ]
-            result "box"
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.Describable"
-        ]
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              {
-                struct {
-                  item 1
-                }
-              }
-            ]
-            procedure "relay"
-          }
-        }
-        returns "String"
-      }
-      relay {
-        parameters [
-          {
-            name "b"
-            type "App.Box<some T: Hashable>"
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "b"
-              }
-            ]
-            procedure "App.Describable.describe"
-          }
-        }
-        returns "String"
-      }
-    }
-    types {
-      "App.Box" {
-        struct {
-          item "some T"
-        }
-        typeParameters [
-          "T"
-        ]
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-generic-body-handing-a-value-its-bounds-put-under-a-head-answers")
+(note "A procedure bounding `T` by `Hashable` hands a box of `T` where App.Describable is asked, and the head `App.Box<some T: Hashable>` takes every box its bounds allow, so the reading is one the claim's head takes and it answers.")
 
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head (named App.Box (some T Hashable)))
+    (satisfies App.Describable)
+    (procedure describe
+      (parameter of (type (named App.Box (some T))))
+      (returns String)
+      (result "box")))
+  (procedure entry
+    (access public)
+    (returns String)
+    (result (call relay (struct (field item 1)))))
+  (procedure relay
+    (parameter b (type (named App.Box (some T Hashable))))
+    (returns String)
+    (result (call App.Describable.describe b))))
+(expect (answers "box"))

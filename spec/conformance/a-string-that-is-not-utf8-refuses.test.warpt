@@ -1,11 +1,5 @@
-warpt 1
-{
-  bytes x"57415250010502fffe"
-  expect {
-    refuses "load"
-  }
-  name "a-string-that-is-not-utf8-refuses"
-  note "A string travels byte for byte and is never normalised, which is only safe because it is text to begin with."
-  test 1
-}
-
+(test 1)
+(name "a-string-that-is-not-utf8-refuses")
+(note "A string travels byte for byte and is never normalised, which is only safe because it is text to begin with.")
+(bytes x"57415250010502fffe")
+(expect (refuses load))

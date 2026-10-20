@@ -1,45 +1,15 @@
-warpt 1
-{
-  expect {
-    answers [
-      1
-      9
-      3
-    ]
-  }
-  name "a-write-indexes-with-a-name"
-  note "An index written as a name is read in the scope the write stands in, and the write lands on that one position."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            value [
-              1
-              2
-              3
-            ]
-            var "xs"
-          }
-          {
-            let "i"
-            value 1
-          }
-          {
-            set "xs[i]"
-            value 9
-          }
-        ]
-        result {
-          ref "xs"
-        }
-        returns "Array<Int>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-write-indexes-with-a-name")
+(note "An index written as a name is read in the scope the write stands in, and the write lands on that one position.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (body
+      (var xs (array 1 2 3))
+      (let i 1)
+      (set (path xs (index i)) 9))
+    (result xs)))
+(expect (answers (array 1 9 3)))

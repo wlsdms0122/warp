@@ -1,150 +1,41 @@
-warpt 1
-{
-  arguments {
-    x 5
-    y "s"
-  }
-  expect {
-    refuses "run"
-  }
-  name "an-entry-handed-two-types-at-a-bounded-type-parameter-refuses-at-the-door"
-  note "`x` and `y` are both `some T`, bounded by `App.C`, which `Int` and `String` both answer, and the host hands `5` and `\"s\"`. The door fills `T` from what the values read as, the way a call fills it, and a type parameter is one type, so the run refuses before anything runs."
-  program {
-    contracts {
-      "App.C" {
-        procedures {
-          f {
-            parameters [
-              {
-                name "s"
-                type "Self"
-              }
-              {
-                name "o"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    extensions {
-      Int {
-        procedures {
-          f {
-            body [
-              {
-                let "m"
-                type "Int"
-                value {
-                  ref "o"
-                }
-              }
-            ]
-            parameters [
-              {
-                name "s"
-                type "Int"
-              }
-              {
-                name "o"
-                type "Int"
-              }
-            ]
-            result {
-              call {
-                arguments [
-                  [
-                    "Int.f got"
-                    {
-                      call {
-                        arguments [
-                          {
-                            ref "m"
-                          }
-                        ]
-                        procedure "Standard.Text.text"
-                      }
-                    }
-                  ]
-                  " "
-                ]
-                procedure "Standard.Text.joined"
-              }
-            }
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.C"
-        ]
-      }
-      String {
-        procedures {
-          f {
-            parameters [
-              {
-                name "s"
-                type "String"
-              }
-              {
-                name "o"
-                type "String"
-              }
-            ]
-            result "String.f"
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.C"
-        ]
-      }
-    }
-    imports [
-      "Standard.Text.joined"
-      "Standard.Text.text"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "r"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "x"
-                  }
-                  {
-                    ref "y"
-                  }
-                ]
-                procedure "App.C.f"
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "x"
-            type "some T: App.C"
-          }
-          {
-            name "y"
-            type "some T"
-          }
-        ]
-        result {
-          ref "r"
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-entry-handed-two-types-at-a-bounded-type-parameter-refuses-at-the-door")
+(note "`x` and `y` are both `some T`, bounded by `App.C`, which `Int` and `String` both answer, and the host hands `5` and `\"s\"`. The door fills `T` from what the values read as, the way a call fills it, and a type parameter is one type, so the run refuses before anything runs.")
 
+(program
+  (warp 1)
+  (import Standard.Text.joined)
+  (import Standard.Text.text)
+  (contract App.C
+    (procedure f
+      (parameter s (type Self))
+      (parameter o (type Self))
+      (returns String)))
+  (extension
+    (head Int)
+    (satisfies App.C)
+    (procedure f
+      (parameter s (type Int))
+      (parameter o (type Int))
+      (returns String)
+      (body
+        (let m (type Int) o))
+      (result (call Standard.Text.joined (array "Int.f got" (call Standard.Text.text m)) " "))))
+  (extension
+    (head String)
+    (satisfies App.C)
+    (procedure f
+      (parameter s (type String))
+      (parameter o (type String))
+      (returns String)
+      (result "String.f")))
+  (procedure entry
+    (access public)
+    (parameter x (type (some T App.C)))
+    (parameter y (type (some T)))
+    (returns String)
+    (body
+      (let r (call App.C.f x y)))
+    (result r)))
+(arguments (argument x 5) (argument y "s"))
+(expect (refuses run))

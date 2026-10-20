@@ -1,55 +1,22 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-claim-about-procedure-refuses"
-  note "A claim is about a type a value is an instance of by name. `Procedure` names a structure, what a procedure takes and answers, and no declaration, so a claim about it is refused where the document is read, and a closure answers no contract."
-  program {
-    contracts {
-      "App.Described" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    extensions {
-      Procedure {
-        satisfies [
-          "App.Described"
-        ]
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              {
-                closure {
-                  result 1
-                  returns "Int"
-                }
-              }
-            ]
-            procedure "App.Described.describe"
-          }
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-claim-about-procedure-refuses")
+(note "A claim is about a type a value is an instance of by name. `Procedure` names a structure, what a procedure takes and answers, and no declaration, so a claim about it is refused where the document is read, and a closure answers no contract.")
 
+(program
+  (warp 1)
+  (contract App.Described
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head Procedure)
+    (satisfies App.Described))
+  (procedure entry
+    (access public)
+    (returns String)
+    (result
+      (call App.Described.describe
+        (closure
+          (returns Int)
+          (result 1))))))
+(expect (refuses load))

@@ -1,67 +1,24 @@
-warpt 1
-{
-  documents [
-    {
-      imports []
-      procedures {
-        "App.wrap" {
-          parameters [
-            {
-              name "x"
-              type "some T"
-            }
-          ]
-          result {
-            struct {
-              item {
-                ref "x"
-              }
-            }
-          }
-          returns "App.Box<some T>"
-        }
-      }
-      types {
-        "App.Box" {
-          struct {
-            item "some T"
-          }
-          typeParameters [
-            "T"
-          ]
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    refuses "build"
-  }
-  name "a-module-variable-starting-at-a-struct-applied-to-an-empty-list-refuses"
-  note "A variable declaring no type starts as what its start reads, and an empty list holds nothing at whatever depth, what a struct is applied to included. `App.Box<Array<Never>>` says nothing of what the variable will hold, so the build refuses it."
-  program {
-    imports [
-      "App.wrap"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result 1
-        returns "Int"
-      }
-    }
-    var {
-      v {
-        call {
-          arguments [
-            []
-          ]
-          procedure "App.wrap"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-module-variable-starting-at-a-struct-applied-to-an-empty-list-refuses")
+(note "A variable declaring no type starts as what its start reads, and an empty list holds nothing at whatever depth, what a struct is applied to included. `App.Box<Array<Never>>` says nothing of what the variable will hold, so the build refuses it.")
 
+(documents
+  (document
+    (warp 1)
+    (struct App.Box
+      (typeParameter T)
+      (field item (some T)))
+    (procedure App.wrap
+      (parameter x (type (some T)))
+      (returns (named App.Box (some T)))
+      (result (struct (field item x))))))
+
+(program
+  (warp 1)
+  (import App.wrap)
+  (var v (call App.wrap (array)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result 1)))
+(expect (refuses build))

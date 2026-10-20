@@ -1,69 +1,23 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "map-takes-only-an-isolated-closure"
-  note "`Standard.Concurrent.map` asks for an isolated closure. This one writes the captured variable `tally` and does not declare `isolated`, so the build refuses it where it is handed over."
-  program {
-    imports [
-      "Standard.Concurrent.map"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            value 0
-            var "tally"
-          }
-          {
-            value {
-              call {
-                arguments [
-                  [
-                    1
-                    2
-                  ]
-                  {
-                    closure {
-                      body [
-                        {
-                          set "tally"
-                          value {
-                            ref "item"
-                          }
-                        }
-                      ]
-                      parameters [
-                        {
-                          name "item"
-                          type "Int"
-                        }
-                      ]
-                      result {
-                        ref "item"
-                      }
-                      returns "Int"
-                    }
-                  }
-                ]
-                procedure "Standard.Concurrent.map"
-              }
-            }
-          }
-        ]
-        failing [
-          "concurrent_failed"
-        ]
-        result {
-          ref "tally"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "map-takes-only-an-isolated-closure")
+(note "`Standard.Concurrent.map` asks for an isolated closure. This one writes the captured variable `tally` and does not declare `isolated`, so the build refuses it where it is handed over.")
 
+(program
+  (warp 1)
+  (import Standard.Concurrent.map)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing concurrent_failed)
+    (body
+      (var tally 0)
+      (call Standard.Concurrent.map
+        (array 1 2)
+        (closure
+          (parameter item (type Int))
+          (returns Int)
+          (body
+            (set tally item))
+          (result item))))
+    (result tally)))
+(expect (refuses build))

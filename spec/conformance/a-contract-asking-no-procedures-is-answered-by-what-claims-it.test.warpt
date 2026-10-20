@@ -1,48 +1,19 @@
-warpt 1
-{
-  expect {
-    answers 1
-  }
-  name "a-contract-asking-no-procedures-is-answered-by-what-claims-it"
-  note "A contract may ask no procedures. It is a mark a claim gives a type, and a type answers it where a document claims it does: a whole number stands where the mark is asked because `Int` is claimed for it."
-  program {
-    contracts {
-      "App.Marked" {}
-    }
-    extensions {
-      Int {
-        satisfies [
-          "App.Marked"
-        ]
-      }
-    }
-    imports []
-    procedures {
-      "App.take" {
-        parameters [
-          {
-            name "it"
-            type "App.Marked"
-          }
-        ]
-        result 1
-        returns "Int"
-      }
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              7
-            ]
-            procedure "App.take"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-contract-asking-no-procedures-is-answered-by-what-claims-it")
+(note "A contract may ask no procedures. It is a mark a claim gives a type, and a type answers it where a document claims it does: a whole number stands where the mark is asked because `Int` is claimed for it.")
 
+(program
+  (warp 1)
+  (contract App.Marked)
+  (extension
+    (head Int)
+    (satisfies App.Marked))
+  (procedure App.take
+    (parameter it (type App.Marked))
+    (returns Int)
+    (result 1))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result (call App.take 7))))
+(expect (answers 1))

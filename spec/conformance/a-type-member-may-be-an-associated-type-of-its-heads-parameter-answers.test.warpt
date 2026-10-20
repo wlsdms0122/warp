@@ -1,213 +1,63 @@
-warpt 1
-{
-  documents [
-    {
-      contracts {
-        "Lib.Container" {
-          procedures {
-            first {
-              parameters [
-                {
-                  name "of"
-                  type "Self"
-                }
-              ]
-              returns "Self.Item"
-            }
-          }
-          types [
-            "Item"
-          ]
-        }
-      }
-      imports []
-      procedures {
-        "Lib.firstOf" {
-          access "public"
-          parameters [
-            {
-              name "c"
-              type "some C: Lib.Container"
-            }
-          ]
-          result {
-            call {
-              arguments [
-                {
-                  ref "c"
-                }
-              ]
-              procedure "Lib.Container.first"
-            }
-          }
-          returns "some C.Item"
-        }
-      }
-      warp 1
-    }
-    {
-      imports [
-        "Lib.Container"
-      ]
-      types {
-        "App.Box" {
-          procedures {
-            first {
-              access "public"
-              parameters [
-                {
-                  name "of"
-                  type "App.Box<some T>"
-                }
-              ]
-              result {
-                ref "of.item"
-              }
-              returns "some T"
-            }
-          }
-          satisfies [
-            "Lib.Container"
-          ]
-          struct {
-            item "some T"
-          }
-          typeParameters [
-            "T"
-          ]
-          types {
-            Item "some T"
-          }
-        }
-      }
-      warp 1
-    }
-    {
-      imports [
-        "Lib.Container"
-        "Lib.Container.first"
-      ]
-      types {
-        "App.Wrapper" {
-          procedures {
-            first {
-              access "public"
-              body [
-                {
-                  let "base"
-                  value {
-                    ref "of.base"
-                  }
-                }
-                {
-                  let "x"
-                  value {
-                    call {
-                      arguments [
-                        {
-                          ref "base"
-                        }
-                      ]
-                      procedure "Lib.Container.first"
-                    }
-                  }
-                }
-              ]
-              parameters [
-                {
-                  name "of"
-                  type "App.Wrapper<some B: Lib.Container>"
-                }
-              ]
-              result {
-                ref "x"
-              }
-              returns "some B.Item"
-            }
-          }
-          satisfies [
-            "Lib.Container"
-          ]
-          struct {
-            base "some B"
-          }
-          typeParameters [
-            "B: Lib.Container"
-          ]
-          types {
-            Item "some B.Item"
-          }
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    answers 2
-  }
-  name "a-type-member-may-be-an-associated-type-of-its-heads-parameter-answers"
-  note "App.Wrapper gives Item as `some B.Item`, the associated type of what it wraps. A wrapper of a box of Int gives Int."
-  program {
-    imports [
-      "App.Box"
-      "App.Wrapper"
-      "Int.plus"
-      "Lib.firstOf"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "b"
-            type "App.Box<Int>"
-            value {
-              struct {
-                item 1
-              }
-            }
-          }
-          {
-            let "w"
-            type "App.Wrapper<App.Box<Int>>"
-            value {
-              struct {
-                base {
-                  ref "b"
-                }
-              }
-            }
-          }
-          {
-            let "x"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "w"
-                  }
-                ]
-                procedure "Lib.firstOf"
-              }
-            }
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "x"
-              }
-              1
-            ]
-            procedure "Int.plus"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-type-member-may-be-an-associated-type-of-its-heads-parameter-answers")
+(note "App.Wrapper gives Item as `some B.Item`, the associated type of what it wraps. A wrapper of a box of Int gives Int.")
 
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Container
+      (type Item)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item)))
+    (procedure Lib.firstOf
+      (access public)
+      (parameter c (type (some C Lib.Container)))
+      (returns (some C.Item))
+      (result (call Lib.Container.first c))))
+  (document
+    (warp 1)
+    (import Lib.Container)
+    (struct App.Box
+      (typeParameter T)
+      (satisfies Lib.Container)
+      (field item (some T))
+      (type Item (some T))
+      (procedure first
+        (access public)
+        (parameter of (type (named App.Box (some T))))
+        (returns (some T))
+        (result (path of (field item))))))
+  (document
+    (warp 1)
+    (import Lib.Container)
+    (import Lib.Container.first)
+    (struct App.Wrapper
+      (typeParameter B Lib.Container)
+      (satisfies Lib.Container)
+      (field base (some B))
+      (type Item (some B.Item))
+      (procedure first
+        (access public)
+        (parameter of (type (named App.Wrapper (some B Lib.Container))))
+        (returns (some B.Item))
+        (body
+          (let base (path of (field base)))
+          (let x (call Lib.Container.first base)))
+        (result x)))))
+
+(program
+  (warp 1)
+  (import App.Box)
+  (import App.Wrapper)
+  (import Int.plus)
+  (import Lib.firstOf)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let b (type (named App.Box Int)) (struct (field item 1)))
+      (let w (type (named App.Wrapper (named App.Box Int))) (struct (field base b)))
+      (let x (call Lib.firstOf w)))
+    (result (call Int.plus x 1))))
+(expect (answers 2))

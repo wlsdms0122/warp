@@ -1,73 +1,35 @@
-warpt 1
-{
-  documents [
-    {
-      imports []
-      procedures {
-        "App.helper" {
-          const true
-          isolated true
-          result 1
-          returns "Int"
-        }
-        "Lib.seven" {
-          const true
-          isolated true
-          result {
-            call {
-              procedure "App.helper"
-            }
-          }
-          returns "Int"
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    answers 8
-  }
-  name "a-private-name-beside-an-internal-one-reaches-its-own"
-  note "A private declaration takes no spelling from the link, so an internal one beside it holds that spelling for every other document. The document that declares the private one reaches its own by that spelling, and the document that declares the internal one reaches its own."
-  program {
-    imports [
-      "Lib.seven"
-      "Standard.Numeric.plus"
-    ]
-    procedures {
-      "App.helper" {
-        access "private"
-        const true
-        isolated true
-        result 7
-        returns "Int"
-      }
-      entry {
-        access "public"
-        const true
-        isolated true
-        result {
-          call {
-            arguments [
-              {
-                call {
-                  procedure "App.helper"
-                }
-              }
-              {
-                call {
-                  procedure "Lib.seven"
-                }
-              }
-            ]
-            procedure "Standard.Numeric.plus"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-private-name-beside-an-internal-one-reaches-its-own")
+(note "A private declaration takes no spelling from the link, so an internal one beside it holds that spelling for every other document. The document that declares the private one reaches its own by that spelling, and the document that declares the internal one reaches its own.")
 
+(documents
+  (document
+    (warp 1)
+    (procedure App.helper
+      (const)
+      (isolated)
+      (returns Int)
+      (result 1))
+    (procedure Lib.seven
+      (const)
+      (isolated)
+      (returns Int)
+      (result (call App.helper)))))
+
+(program
+  (warp 1)
+  (import Lib.seven)
+  (import Standard.Numeric.plus)
+  (procedure App.helper
+    (access private)
+    (const)
+    (isolated)
+    (returns Int)
+    (result 7))
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (returns Int)
+    (result (call Standard.Numeric.plus (call App.helper) (call Lib.seven)))))
+(expect (answers 8))

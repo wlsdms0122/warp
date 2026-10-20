@@ -1,79 +1,18 @@
-warpt 1
-{
-  expect {
-    answers [
-      x"6968"
-      x"6869"
-      [
-        104
-        105
-        300
-      ]
-    ]
-  }
-  name "a-procedure-answering-a-collections-own-elements-keeps-the-spelling"
-  note "reversed and sorted answer a collection's own elements in another order, so bytes answer bytes. Sorted included, whose element declaration carries a bound: `Int` answers it, so every byte answers it at once. appending puts something among them that is not a byte, and the answer says so by the spelling it comes back in. The spelling is a fact about the value, and claiming otherwise would be a claim no value backs."
-  program {
-    imports [
-      "Standard.Collection.appending"
-      "Standard.Collection.reversed"
-      "Standard.Collection.sorted"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "back"
-            value {
-              call {
-                arguments [
-                  x"6869"
-                ]
-                procedure "Standard.Collection.reversed"
-              }
-            }
-          }
-          {
-            let "ordered"
-            value {
-              call {
-                arguments [
-                  x"6968"
-                ]
-                procedure "Standard.Collection.sorted"
-              }
-            }
-          }
-          {
-            let "grown"
-            value {
-              call {
-                arguments [
-                  x"6869"
-                  300
-                ]
-                procedure "Standard.Collection.appending"
-              }
-            }
-          }
-        ]
-        result [
-          {
-            ref "back"
-          }
-          {
-            ref "ordered"
-          }
-          {
-            ref "grown"
-          }
-        ]
-        returns "Array<Array<Int>>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-procedure-answering-a-collections-own-elements-keeps-the-spelling")
+(note "reversed and sorted answer a collection's own elements in another order, so bytes answer bytes. Sorted included, whose element declaration carries a bound: `Int` answers it, so every byte answers it at once. appending puts something among them that is not a byte, and the answer says so by the spelling it comes back in. The spelling is a fact about the value, and claiming otherwise would be a claim no value backs.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.appending)
+  (import Standard.Collection.reversed)
+  (import Standard.Collection.sorted)
+  (procedure entry
+    (access public)
+    (returns (array (array Int)))
+    (body
+      (let back (call Standard.Collection.reversed x"6869"))
+      (let ordered (call Standard.Collection.sorted x"6968"))
+      (let grown (call Standard.Collection.appending x"6869" 300)))
+    (result (array back ordered grown))))
+(expect (answers (array x"6968" x"6869" (array 104 105 300))))

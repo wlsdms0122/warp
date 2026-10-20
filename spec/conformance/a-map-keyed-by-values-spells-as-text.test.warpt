@@ -1,25 +1,5 @@
-warpt 1
-{
-  expect {
-    spells {
-      null 1
-      true 2
-      -3 3
-      1.5 4
-      "" 5
-      a 6
-      "null" 7
-      [
-        1
-        2
-      ] 8
-      {} 9
-      A.P {} 10
-    }
-  }
-  name "a-map-keyed-by-values-spells-as-text"
-  note "In key position a bare identifier is text, and `null`, `true` and `false` are the values they write, so the text `null` is quoted there. Any other key is written as the value it is, and the value under it follows on the line the key ends on."
-  test 1
-  text "warpt 1\n{\n  null 1\n  true 2\n  -3 3\n  1.5 4\n  \"\" 5\n  a 6\n  \"null\" 7\n  [\n    1\n    2\n  ] 8\n  {} 9\n  A.P {} 10\n}\n"
-}
-
+(test 1)
+(name "a-map-keyed-by-values-spells-as-text")
+(note "A map is keyed by values, and each entry writes its key as the value it is: `null`, a number, text, a list, a map, a struct. Text `\"null\"` and the value `null` are two keys.")
+(text "(test 1)\n(expect (answers (dictionary (entry null 1) (entry true 2) (entry -3 3) (entry 1.5 4) (entry \"\" 5) (entry \"a\" 6) (entry \"null\" 7) (entry (array 1 2) 8) (entry (dictionary) 9) (entry (struct A.P) 10))))\n")
+(expect (spells (dictionary (entry "expect" (dictionary (entry "answers" (dictionary (entry null 1) (entry true 2) (entry -3 3) (entry 1.5 4) (entry "" 5) (entry "a" 6) (entry "null" 7) (entry (array 1 2) 8) (entry (dictionary) 9) (entry (struct A.P) 10))))) (entry "test" 1))))

@@ -1,51 +1,19 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-failure-field-the-declaration-does-not-name-is-refused"
-  note "A rescue's name binds `{ type, message, details }`, and those three are read with a dot. What a failure carries rides in `details`, so a dot on the failure itself does not reach it."
-  program {
-    imports [
-      "Standard.Control.abort"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "tried"
-            value {
-              attempt {
-                body [
-                  {
-                    value {
-                      call {
-                        arguments [
-                          "on purpose"
-                        ]
-                        procedure "Standard.Control.abort"
-                      }
-                    }
-                  }
-                ]
-                rescue {
-                  result {
-                    ref "tried.failures"
-                  }
-                }
-              }
-            }
-          }
-        ]
-        result {
-          ref "tried"
-        }
-        returns "Any"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-failure-field-the-declaration-does-not-name-is-refused")
+(note "A rescue's name binds `{ type, message, details }`, and those three are read with a dot. What a failure carries rides in `details`, so a dot on the failure itself does not reach it.")
 
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let tried
+        (attempt
+          (body
+            (call Standard.Control.abort "on purpose"))
+          (rescue
+            (result (path tried (field failures)))))))
+    (result tried)))
+(expect (refuses build))

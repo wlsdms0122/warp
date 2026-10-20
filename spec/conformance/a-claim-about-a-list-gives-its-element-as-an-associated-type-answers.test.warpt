@@ -1,127 +1,42 @@
-warpt 1
-{
-  documents [
-    {
-      contracts {
-        "Lib.Container" {
-          procedures {
-            first {
-              parameters [
-                {
-                  name "of"
-                  type "Self"
-                }
-              ]
-              returns "Self.Item"
-            }
-          }
-          types [
-            "Item"
-          ]
-        }
-      }
-      imports []
-      procedures {
-        "Lib.firstOf" {
-          access "public"
-          parameters [
-            {
-              name "c"
-              type "some C: Lib.Container"
-            }
-          ]
-          result {
-            call {
-              arguments [
-                {
-                  ref "c"
-                }
-              ]
-              procedure "Lib.Container.first"
-            }
-          }
-          returns "some C.Item"
-        }
-      }
-      warp 1
-    }
-    {
-      extensions {
-        "Array<some E>" {
-          procedures {
-            first {
-              access "public"
-              parameters [
-                {
-                  name "of"
-                  type "Array<some E>"
-                }
-              ]
-              result {
-                ref "of[0]"
-              }
-              returns "some E"
-            }
-          }
-          satisfies [
-            "Lib.Container"
-          ]
-          types {
-            Item "some E"
-          }
-        }
-      }
-      imports [
-        "Lib.Container"
-      ]
-      warp 1
-    }
-  ]
-  expect {
-    answers 3
-  }
-  name "a-claim-about-a-list-gives-its-element-as-an-associated-type-answers"
-  note "Lists answer `Lib.Container` under `Array<some E>`, giving Item as E, so the first of a list of Int is an Int."
-  program {
-    imports [
-      "Array: Lib.Container"
-      "Int.plus"
-      "Lib.firstOf"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "x"
-            value {
-              call {
-                arguments [
-                  [
-                    2
-                  ]
-                ]
-                procedure "Lib.firstOf"
-              }
-            }
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "x"
-              }
-              1
-            ]
-            procedure "Int.plus"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-claim-about-a-list-gives-its-element-as-an-associated-type-answers")
+(note "Lists answer `Lib.Container` under `Array<some E>`, giving Item as E, so the first of a list of Int is an Int.")
 
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Container
+      (type Item)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item)))
+    (procedure Lib.firstOf
+      (access public)
+      (parameter c (type (some C Lib.Container)))
+      (returns (some C.Item))
+      (result (call Lib.Container.first c))))
+  (document
+    (warp 1)
+    (import Lib.Container)
+    (extension
+      (head (array (some E)))
+      (satisfies Lib.Container)
+      (type Item (some E))
+      (procedure first
+        (access public)
+        (parameter of (type (array (some E))))
+        (returns (some E))
+        (result (path of (index 0)))))))
+
+(program
+  (warp 1)
+  (import Array Lib.Container)
+  (import Int.plus)
+  (import Lib.firstOf)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let x (call Lib.firstOf (array 2))))
+    (result (call Int.plus x 1))))
+(expect (answers 3))

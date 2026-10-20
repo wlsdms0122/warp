@@ -1,100 +1,28 @@
-warpt 1
-{
-  expect {
-    answers 7
-  }
-  name "a-declaration-answering-a-contract-may-take-a-wider-type"
-  note "The contract takes an Int and the declaration answering it takes `Int?`. Every Int a call through the contract hands is an `Int?`, so the declaration answers the contract."
-  program {
-    contracts {
-      "App.Sized" {
-        procedures {
-          size {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-              {
-                name "n"
-                type "Int"
-              }
-            ]
-            returns "Int"
-          }
-        }
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "c"
-            value {
-              as {
-                of {
-                  struct {
-                    last "42"
-                  }
-                }
-                type "Bank.Card"
-              }
-            }
-          }
-          {
-            let "s"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "c"
-                  }
-                  2
-                ]
-                procedure "App.Sized.size"
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result {
-          ref "s"
-        }
-        returns "Int"
-      }
-    }
-    types {
-      "Bank.Card" {
-        procedures {
-          size {
-            parameters [
-              {
-                name "of"
-                type "Bank.Card"
-              }
-              {
-                name "n"
-                type "Int?"
-              }
-            ]
-            result 7
-            returns "Int"
-          }
-        }
-        satisfies [
-          "App.Sized"
-        ]
-        struct {
-          last "String"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-declaration-answering-a-contract-may-take-a-wider-type")
+(note "The contract takes an Int and the declaration answering it takes `Int?`. Every Int a call through the contract hands is an `Int?`, so the declaration answers the contract.")
 
+(program
+  (warp 1)
+  (struct Bank.Card
+    (satisfies App.Sized)
+    (field last String)
+    (procedure size
+      (parameter of (type Bank.Card))
+      (parameter n (type (nullable Int)))
+      (returns Int)
+      (result 7)))
+  (contract App.Sized
+    (procedure size
+      (parameter of (type Self))
+      (parameter n (type Int))
+      (returns Int)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing cast_refused)
+    (body
+      (let c (as (struct (field last "42")) Bank.Card))
+      (let s (call App.Sized.size c 2)))
+    (result s)))
+(expect (answers 7))

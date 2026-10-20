@@ -1,88 +1,28 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "two-ways-taking-a-variable-as-different-types-refuse-where-they-meet"
-  note "Each arm of the conditional makes a closure that takes `n`: one while it holds an int, one after the arm set it to a string. Either closure may be the one that ran, so a write after the arms meet would have to fit both types, and the build refuses where they meet."
-  program {
-    imports [
-      "Standard.Numeric.plus"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            value 0
-            var "n"
-          }
-          {
-            value {
-              conditional {
-                else [
-                  {
-                    set "n"
-                    value "s"
-                  }
-                  {
-                    let "b"
-                    value {
-                      closure {
-                        body [
-                          {
-                            set "n"
-                            value "t"
-                          }
-                        ]
-                      }
-                    }
-                  }
-                ]
-                then [
-                  {
-                    let "a"
-                    value {
-                      closure {
-                        body [
-                          {
-                            set "n"
-                            value {
-                              call {
-                                arguments [
-                                  {
-                                    ref "n"
-                                  }
-                                  1
-                                ]
-                                procedure "Standard.Numeric.plus"
-                              }
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  }
-                ]
-                when {
-                  ref "ready"
-                }
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "ready"
-            type "Bool"
-          }
-        ]
-        result 1
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "two-ways-taking-a-variable-as-different-types-refuse-where-they-meet")
+(note "Each arm of the conditional makes a closure that takes `n`: one while it holds an int, one after the arm set it to a string. Either closure may be the one that ran, so a write after the arms meet would have to fit both types, and the build refuses where they meet.")
 
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (parameter ready (type Bool))
+    (returns Int)
+    (body
+      (var n 0)
+      (conditional
+        (when ready)
+        (then
+          (let a
+            (closure
+              (body
+                (set n (call Standard.Numeric.plus n 1))))))
+        (else
+          (set n "s")
+          (let b
+            (closure
+              (body
+                (set n "t")))))))
+    (result 1)))
+(expect (refuses build))

@@ -1,64 +1,22 @@
-warpt 1
-{
-  expect {
-    answers [
-      2
-      4
-      6
-    ]
-  }
-  name "a-const-map-rewrites-in-order"
-  note "Standard.Collection.map reads each element through a closure that answers without running and answers the rewrites in the collection's order."
-  program {
-    imports [
-      "Standard.Collection.map"
-      "Standard.Numeric.times"
-    ]
-    procedures {
-      entry {
-        access "public"
-        const true
-        result {
-          call {
-            arguments [
-              [
-                1
-                2
-                3
-              ]
-              {
-                closure {
-                  const true
-                  isolated true
-                  parameters [
-                    {
-                      name "item"
-                      type "Int"
-                    }
-                  ]
-                  result {
-                    call {
-                      arguments [
-                        {
-                          ref "item"
-                        }
-                        2
-                      ]
-                      procedure "Standard.Numeric.times"
-                    }
-                  }
-                  returns "Int"
-                }
-              }
-            ]
-            procedure "Standard.Collection.map"
-          }
-        }
-        returns "Array<Int>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-const-map-rewrites-in-order")
+(note "Standard.Collection.map reads each element through a closure that answers without running and answers the rewrites in the collection's order.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.map)
+  (import Standard.Numeric.times)
+  (procedure entry
+    (access public)
+    (const)
+    (returns (array Int))
+    (result
+      (call Standard.Collection.map
+        (array 1 2 3)
+        (closure
+          (const)
+          (isolated)
+          (parameter item (type Int))
+          (returns Int)
+          (result (call Standard.Numeric.times item 2)))))))
+(expect (answers (array 2 4 6)))

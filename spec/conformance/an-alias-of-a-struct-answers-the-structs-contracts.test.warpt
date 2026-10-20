@@ -1,92 +1,27 @@
-warpt 1
-{
-  expect {
-    answers "a card"
-  }
-  name "an-alias-of-a-struct-answers-the-structs-contracts"
-  note "Bank.Alias names the struct Bank.Card, which a document says answers App.Describable, so a value of Bank.Alias is handed where App.Describable is asked."
-  program {
-    contracts {
-      "App.Describable" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "c"
-            value {
-              as {
-                of {
-                  struct {
-                    last "1"
-                  }
-                }
-                type "Bank.Alias"
-              }
-            }
-          }
-          {
-            let "s"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "c"
-                  }
-                ]
-                procedure "App.Describable.describe"
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result {
-          ref "s"
-        }
-        returns "String"
-      }
-    }
-    types {
-      "Bank.Alias" "Bank.Card"
-      "Bank.Card" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Bank.Card"
-              }
-            ]
-            result "a card"
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.Describable"
-        ]
-        struct {
-          last "String"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-alias-of-a-struct-answers-the-structs-contracts")
+(note "Bank.Alias names the struct Bank.Card, which a document says answers App.Describable, so a value of Bank.Alias is handed where App.Describable is asked.")
 
+(program
+  (warp 1)
+  (type Bank.Alias Bank.Card)
+  (struct Bank.Card
+    (satisfies App.Describable)
+    (field last String)
+    (procedure describe
+      (parameter of (type Bank.Card))
+      (returns String)
+      (result "a card")))
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let c (as (struct (field last "1")) Bank.Alias))
+      (let s (call App.Describable.describe c)))
+    (result s)))
+(expect (answers "a card"))

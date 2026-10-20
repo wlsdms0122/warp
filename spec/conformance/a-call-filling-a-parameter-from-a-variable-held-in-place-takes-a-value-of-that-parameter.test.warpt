@@ -1,91 +1,26 @@
-warpt 1
-{
-  expect {
-    answers [
-      1.5
-      2.5
-    ]
-  }
-  name "a-call-filling-a-parameter-from-a-variable-held-in-place-takes-a-value-of-that-parameter"
-  note "App.gen takes a list of its own some T in place and a some T, and appends the one to the other through Standard.Collection.append. Both are T, so the call takes them, and the list answers with the value added."
-  program {
-    contracts {
-      "App.Real" {}
-    }
-    extensions {
-      Double {
-        satisfies [
-          "App.Real"
-        ]
-      }
-    }
-    imports [
-      "Standard.Collection.append"
-    ]
-    procedures {
-      "App.gen" {
-        body [
-          {
-            value {
-              call {
-                arguments [
-                  {
-                    ref "xs"
-                  }
-                  {
-                    ref "y"
-                  }
-                ]
-                procedure "Standard.Collection.append"
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "xs"
-            type "inout Array<some T: App.Real>"
-          }
-          {
-            name "y"
-            type "some T"
-          }
-        ]
-        result 0
-        returns "Int"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            value [
-              1.5
-            ]
-            var "ns"
-          }
-          {
-            let "r"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "ns"
-                  }
-                  2.5
-                ]
-                procedure "App.gen"
-              }
-            }
-          }
-        ]
-        result {
-          ref "ns"
-        }
-        returns "Array<Double>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-call-filling-a-parameter-from-a-variable-held-in-place-takes-a-value-of-that-parameter")
+(note "App.gen takes a list of its own some T in place and a some T, and appends the one to the other through Standard.Collection.append. Both are T, so the call takes them, and the list answers with the value added.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.append)
+  (contract App.Real)
+  (extension
+    (head Double)
+    (satisfies App.Real))
+  (procedure App.gen
+    (parameter xs (type (inout (array (some T App.Real)))))
+    (parameter y (type (some T)))
+    (returns Int)
+    (body
+      (call Standard.Collection.append xs y))
+    (result 0))
+  (procedure entry
+    (access public)
+    (returns (array Double))
+    (body
+      (var ns (array 1.5))
+      (let r (call App.gen ns 2.5)))
+    (result ns)))
+(expect (answers (array 1.5 2.5)))

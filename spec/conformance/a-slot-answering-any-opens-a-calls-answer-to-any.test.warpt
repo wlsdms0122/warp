@@ -1,53 +1,19 @@
-warpt 1
-{
-  expect {
-    answers 1
-  }
-  name "a-slot-answering-any-opens-a-calls-answer-to-any"
-  note "Calling a value answers what the procedure type of the slot holding it answers. `one` is declared `() -> Any` and holds a closure declaring `Int`, so the call answers `Any`. The cast to `Int` says what it is and is judged at the run; an answer read as `Int` would make it a cast naming what the reading already is."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "one"
-            type "() -> Any"
-            value {
-              closure {
-                result 1
-                returns "Int"
-              }
-            }
-          }
-          {
-            let "got"
-            value {
-              call {
-                procedure {
-                  ref "one"
-                }
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result {
-          as {
-            of {
-              ref "got"
-            }
-            type "Int"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-slot-answering-any-opens-a-calls-answer-to-any")
+(note "Calling a value answers what the procedure type of the slot holding it answers. `one` is declared `() -> Any` and holds a closure declaring `Int`, so the call answers `Any`. The cast to `Int` says what it is and is judged at the run; an answer read as `Int` would make it a cast naming what the reading already is.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing cast_refused)
+    (body
+      (let one
+        (type (procedure (parameters) (returns Any)))
+        (closure
+          (returns Int)
+          (result 1)))
+      (let got (apply one)))
+    (result (as got Int))))
+(expect (answers 1))

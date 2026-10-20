@@ -1,78 +1,30 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-piece-calling-a-procedure-that-writes-a-module-variable-refuses"
-  note "A body declared `isolated` calls only declarations that say they are isolated. `bump` writes the module variable `count` and does not say so, so the piece declaring `isolated` that calls it refuses at the build, and `Standard.Concurrent.all` never takes it."
-  program {
-    imports [
-      "Standard.Concurrent.all"
-      "Standard.Numeric.plus"
-    ]
-    procedures {
-      bump {
-        body [
-          {
-            set "count"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "count"
-                  }
-                  1
-                ]
-                procedure "Standard.Numeric.plus"
-              }
-            }
-          }
-        ]
-        result {
-          ref "count"
-        }
-        returns "Int"
-      }
-      entry {
-        access "public"
-        failing [
-          "concurrent_failed"
-        ]
-        result {
-          call {
-            arguments [
-              [
-                {
-                  closure {
-                    isolated true
-                    result 1
-                    returns "Int"
-                  }
-                }
-                {
-                  closure {
-                    isolated true
-                    result {
-                      call {
-                        procedure "bump"
-                      }
-                    }
-                    returns "Int"
-                  }
-                }
-              ]
-            ]
-            procedure "Standard.Concurrent.all"
-          }
-        }
-        returns "Array<Int>"
-      }
-    }
-    var {
-      count 0
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-piece-calling-a-procedure-that-writes-a-module-variable-refuses")
+(note "A body declared `isolated` calls only declarations that say they are isolated. `bump` writes the module variable `count` and does not say so, so the piece declaring `isolated` that calls it refuses at the build, and `Standard.Concurrent.all` never takes it.")
 
+(program
+  (warp 1)
+  (import Standard.Concurrent.all)
+  (import Standard.Numeric.plus)
+  (var count 0)
+  (procedure bump
+    (returns Int)
+    (body
+      (set count (call Standard.Numeric.plus count 1)))
+    (result count))
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (failing concurrent_failed)
+    (result
+      (call Standard.Concurrent.all
+        (array
+          (closure
+            (isolated)
+            (returns Int)
+            (result 1))
+          (closure
+            (isolated)
+            (returns Int)
+            (result (call bump))))))))
+(expect (refuses build))

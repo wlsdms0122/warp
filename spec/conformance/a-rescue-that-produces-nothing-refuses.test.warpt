@@ -1,43 +1,18 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-rescue-that-produces-nothing-refuses"
-  note "A rescue that produces nothing would swallow a failure into null without a trace."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "tried"
-            value {
-              attempt {
-                body [
-                  {
-                    let "work"
-                    value 1
-                  }
-                ]
-                rescue {
-                  body []
-                }
-                result {
-                  ref "work"
-                }
-              }
-            }
-          }
-        ]
-        result {
-          ref "tried"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-rescue-that-produces-nothing-refuses")
+(note "A rescue that produces nothing would swallow a failure into null without a trace.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (body
+      (let tried
+        (attempt
+          (body
+            (let work 1))
+          (result work)
+          (rescue
+            (body)))))
+    (result tried)))
+(expect (refuses load))

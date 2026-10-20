@@ -1,517 +1,135 @@
-warpt 1
-{
-  description "Negation, difference, choosing and the connectives, written from equality."
-  imports [
-    "Standard.Collection.count"
-    "Standard.Comparable.lessThan"
-    "Standard.Logic.equal"
-  ]
-  procedures {
-    "Standard.Logic.and" {
-      body [
-        {
-          let "walk"
-          value {
-            loop {
-              body [
-                {
-                  let "side"
-                  value {
-                    ref "conditions[walk.index]"
-                  }
-                }
-                {
-                  let "answered"
-                  value {
-                    call {
-                      procedure {
-                        ref "side"
-                      }
-                    }
-                  }
-                }
-                {
-                  value {
-                    conditional {
-                      then [
-                        {
-                          value {
-                            return false
-                          }
-                        }
-                      ]
-                      when {
-                        call {
-                          arguments [
-                            {
-                              ref "answered"
-                            }
-                          ]
-                          procedure "Standard.Logic.not"
-                        }
-                      }
-                    }
-                  }
-                }
-              ]
-              while {
-                call {
-                  arguments [
-                    {
-                      ref "walk.index"
-                    }
-                    {
-                      call {
-                        arguments [
-                          {
-                            ref "conditions"
-                          }
-                        ]
-                        procedure "Standard.Collection.count"
-                      }
-                    }
-                  ]
-                  procedure "Standard.Comparable.lessThan"
-                }
-              }
-            }
-          }
-        }
-      ]
-      const true
-      description "Whether every one answers true, asked until one does not."
-      isolated true
-      parameters [
-        {
-          name "conditions"
-          type "Array<const isolated () -> Bool>"
-        }
-      ]
-      result true
-      returns "Bool"
-    }
-    "Standard.Logic.not" {
-      const true
-      description "The opposite of a truth."
-      isolated true
-      parameters [
-        {
-          name "value"
-          type "Bool"
-        }
-      ]
-      result {
-        call {
-          arguments [
-            {
-              ref "value"
-            }
-            false
-          ]
-          procedure "Standard.Logic.equal"
-        }
-      }
-      returns "Bool"
-    }
-    "Standard.Logic.notEqual" {
-      const true
-      description "Whether two values differ."
-      isolated true
-      parameters [
-        {
-          name "lhs"
-        }
-        {
-          name "rhs"
-        }
-      ]
-      result {
-        call {
-          arguments [
-            {
-              call {
-                arguments [
-                  {
-                    ref "lhs"
-                  }
-                  {
-                    ref "rhs"
-                  }
-                ]
-                procedure "Standard.Logic.equal"
-              }
-            }
-            false
-          ]
-          procedure "Standard.Logic.equal"
-        }
-      }
-      returns "Bool"
-    }
-    "Standard.Logic.or" {
-      body [
-        {
-          let "walk"
-          value {
-            loop {
-              body [
-                {
-                  let "side"
-                  value {
-                    ref "conditions[walk.index]"
-                  }
-                }
-                {
-                  let "answered"
-                  value {
-                    call {
-                      procedure {
-                        ref "side"
-                      }
-                    }
-                  }
-                }
-                {
-                  value {
-                    conditional {
-                      then [
-                        {
-                          value {
-                            return true
-                          }
-                        }
-                      ]
-                      when {
-                        ref "answered"
-                      }
-                    }
-                  }
-                }
-              ]
-              while {
-                call {
-                  arguments [
-                    {
-                      ref "walk.index"
-                    }
-                    {
-                      call {
-                        arguments [
-                          {
-                            ref "conditions"
-                          }
-                        ]
-                        procedure "Standard.Collection.count"
-                      }
-                    }
-                  ]
-                  procedure "Standard.Comparable.lessThan"
-                }
-              }
-            }
-          }
-        }
-      ]
-      const true
-      description "Whether one answers true, asked until one does."
-      isolated true
-      parameters [
-        {
-          name "conditions"
-          type "Array<const isolated () -> Bool>"
-        }
-      ]
-      result false
-      returns "Bool"
-    }
-    "Standard.Logic.select" {
-      body [
-        {
-          value {
-            conditional {
-              then [
-                {
-                  let "taken"
-                  value {
-                    call {
-                      procedure {
-                        ref "then"
-                      }
-                    }
-                  }
-                }
-                {
-                  value {
-                    return {
-                      ref "taken"
-                    }
-                  }
-                }
-              ]
-              when {
-                ref "condition"
-              }
-            }
-          }
-        }
-        {
-          let "left"
-          value {
-            call {
-              procedure {
-                ref "else"
-              }
-            }
-          }
-        }
-      ]
-      const true
-      description "The value one of two sides answers, chosen by a truth."
-      isolated true
-      parameters [
-        {
-          name "condition"
-          type "Bool"
-        }
-        {
-          name "then"
-          type "const isolated () -> some Answer"
-        }
-        {
-          name "else"
-          type "const isolated () -> some Answer"
-        }
-      ]
-      result {
-        ref "left"
-      }
-      returns "some Answer"
-    }
-    "Standard.Logic.tryAnd" {
-      body [
-        {
-          let "walk"
-          value {
-            loop {
-              body [
-                {
-                  let "side"
-                  value {
-                    ref "conditions[walk.index]"
-                  }
-                }
-                {
-                  let "answered"
-                  value {
-                    call {
-                      procedure {
-                        ref "side"
-                      }
-                    }
-                  }
-                }
-                {
-                  value {
-                    conditional {
-                      then [
-                        {
-                          value {
-                            return false
-                          }
-                        }
-                      ]
-                      when {
-                        call {
-                          arguments [
-                            {
-                              ref "answered"
-                            }
-                          ]
-                          procedure "Standard.Logic.not"
-                        }
-                      }
-                    }
-                  }
-                }
-              ]
-              while {
-                call {
-                  arguments [
-                    {
-                      ref "walk.index"
-                    }
-                    {
-                      call {
-                        arguments [
-                          {
-                            ref "conditions"
-                          }
-                        ]
-                        procedure "Standard.Collection.count"
-                      }
-                    }
-                  ]
-                  procedure "Standard.Comparable.lessThan"
-                }
-              }
-            }
-          }
-        }
-      ]
-      const true
-      description "Whether every side, each of which may fail, answers true, asked until one does not."
-      failing "anything"
-      isolated true
-      parameters [
-        {
-          name "conditions"
-          type "Array<const isolated () throws -> Bool>"
-        }
-      ]
-      result true
-      returns "Bool"
-    }
-    "Standard.Logic.tryOr" {
-      body [
-        {
-          let "walk"
-          value {
-            loop {
-              body [
-                {
-                  let "side"
-                  value {
-                    ref "conditions[walk.index]"
-                  }
-                }
-                {
-                  let "answered"
-                  value {
-                    call {
-                      procedure {
-                        ref "side"
-                      }
-                    }
-                  }
-                }
-                {
-                  value {
-                    conditional {
-                      then [
-                        {
-                          value {
-                            return true
-                          }
-                        }
-                      ]
-                      when {
-                        ref "answered"
-                      }
-                    }
-                  }
-                }
-              ]
-              while {
-                call {
-                  arguments [
-                    {
-                      ref "walk.index"
-                    }
-                    {
-                      call {
-                        arguments [
-                          {
-                            ref "conditions"
-                          }
-                        ]
-                        procedure "Standard.Collection.count"
-                      }
-                    }
-                  ]
-                  procedure "Standard.Comparable.lessThan"
-                }
-              }
-            }
-          }
-        }
-      ]
-      const true
-      description "Whether one side, each of which may fail, answers true, asked until one does."
-      failing "anything"
-      isolated true
-      parameters [
-        {
-          name "conditions"
-          type "Array<const isolated () throws -> Bool>"
-        }
-      ]
-      result false
-      returns "Bool"
-    }
-    "Standard.Logic.trySelect" {
-      body [
-        {
-          value {
-            conditional {
-              then [
-                {
-                  let "taken"
-                  value {
-                    call {
-                      procedure {
-                        ref "then"
-                      }
-                    }
-                  }
-                }
-                {
-                  value {
-                    return {
-                      ref "taken"
-                    }
-                  }
-                }
-              ]
-              when {
-                ref "condition"
-              }
-            }
-          }
-        }
-        {
-          let "left"
-          value {
-            call {
-              procedure {
-                ref "else"
-              }
-            }
-          }
-        }
-      ]
-      const true
-      description "The value one of two sides, each of which may fail, answers, chosen by a truth."
-      failing "anything"
-      isolated true
-      parameters [
-        {
-          name "condition"
-          type "Bool"
-        }
-        {
-          name "then"
-          type "const isolated () throws -> some Answer"
-        }
-        {
-          name "else"
-          type "const isolated () throws -> some Answer"
-        }
-      ]
-      result {
-        ref "left"
-      }
-      returns "some Answer"
-    }
-  }
-  warp 1
-}
+(warp 1)
+(description "Negation, difference, choosing and the connectives, written from equality.")
+(import Standard.Collection.count)
+(import Standard.Comparable.lessThan)
+(import Standard.Logic.equal)
+
+(procedure Standard.Logic.and
+  (description "Whether every one answers true, asked until one does not.")
+  (const)
+  (isolated)
+  (parameter conditions (type (array (procedure (const) (isolated) (parameters) (returns Bool)))))
+  (returns Bool)
+  (body
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Collection.count conditions)))
+        (body
+          (let side (path conditions (index (path walk (field index)))))
+          (let answered (apply side))
+          (conditional
+            (when (call Standard.Logic.not answered))
+            (then
+              (return false)))))))
+  (result true))
+
+(procedure Standard.Logic.not
+  (description "The opposite of a truth.")
+  (const)
+  (isolated)
+  (parameter value (type Bool))
+  (returns Bool)
+  (result (call Standard.Logic.equal value false)))
+
+(procedure Standard.Logic.notEqual
+  (description "Whether two values differ.")
+  (const)
+  (isolated)
+  (parameter lhs)
+  (parameter rhs)
+  (returns Bool)
+  (result (call Standard.Logic.equal (call Standard.Logic.equal lhs rhs) false)))
+
+(procedure Standard.Logic.or
+  (description "Whether one answers true, asked until one does.")
+  (const)
+  (isolated)
+  (parameter conditions (type (array (procedure (const) (isolated) (parameters) (returns Bool)))))
+  (returns Bool)
+  (body
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Collection.count conditions)))
+        (body
+          (let side (path conditions (index (path walk (field index)))))
+          (let answered (apply side))
+          (conditional
+            (when answered)
+            (then
+              (return true)))))))
+  (result false))
+
+(procedure Standard.Logic.select
+  (description "The value one of two sides answers, chosen by a truth.")
+  (const)
+  (isolated)
+  (parameter condition (type Bool))
+  (parameter then (type (procedure (const) (isolated) (parameters) (returns (some Answer)))))
+  (parameter else (type (procedure (const) (isolated) (parameters) (returns (some Answer)))))
+  (returns (some Answer))
+  (body
+    (conditional
+      (when condition)
+      (then
+        (let taken (apply then))
+        (return taken)))
+    (let left (apply else)))
+  (result left))
+
+(procedure Standard.Logic.tryAnd
+  (description "Whether every side, each of which may fail, answers true, asked until one does not.")
+  (const)
+  (isolated)
+  (parameter conditions (type (array (procedure (const) (isolated) (parameters) (failing (anything)) (returns Bool)))))
+  (returns Bool)
+  (failing (anything))
+  (body
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Collection.count conditions)))
+        (body
+          (let side (path conditions (index (path walk (field index)))))
+          (let answered (apply side))
+          (conditional
+            (when (call Standard.Logic.not answered))
+            (then
+              (return false)))))))
+  (result true))
+
+(procedure Standard.Logic.tryOr
+  (description "Whether one side, each of which may fail, answers true, asked until one does.")
+  (const)
+  (isolated)
+  (parameter conditions (type (array (procedure (const) (isolated) (parameters) (failing (anything)) (returns Bool)))))
+  (returns Bool)
+  (failing (anything))
+  (body
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Collection.count conditions)))
+        (body
+          (let side (path conditions (index (path walk (field index)))))
+          (let answered (apply side))
+          (conditional
+            (when answered)
+            (then
+              (return true)))))))
+  (result false))
+
+(procedure Standard.Logic.trySelect
+  (description "The value one of two sides, each of which may fail, answers, chosen by a truth.")
+  (const)
+  (isolated)
+  (parameter condition (type Bool))
+  (parameter then (type (procedure (const) (isolated) (parameters) (failing (anything)) (returns (some Answer)))))
+  (parameter else (type (procedure (const) (isolated) (parameters) (failing (anything)) (returns (some Answer)))))
+  (returns (some Answer))
+  (failing (anything))
+  (body
+    (conditional
+      (when condition)
+      (then
+        (let taken (apply then))
+        (return taken)))
+    (let left (apply else)))
+  (result left))

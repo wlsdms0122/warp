@@ -1,96 +1,29 @@
-warpt 1
-{
-  expect {
-    answers 1
-  }
-  name "a-variable-a-closure-writes-with-a-value-of-the-parameter-answers"
-  note "A closure in App.g writes its parameter into cell, and the body calls it with x. The call judges the answer, which holds 1."
-  program {
-    imports []
-    procedures {
-      "App.g" {
-        body [
-          {
-            value {
-              ref "x"
-            }
-            var "cell"
-          }
-          {
-            let "c"
-            value {
-              closure {
-                body [
-                  {
-                    set "cell"
-                    value {
-                      ref "y"
-                    }
-                  }
-                ]
-                parameters [
-                  {
-                    name "y"
-                    type "some T"
-                  }
-                ]
-                result 0
-                returns "Int"
-              }
-            }
-          }
-          {
-            let "z"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "x"
-                  }
-                ]
-                procedure {
-                  ref "c"
-                }
-              }
-            }
-          }
-        ]
-        failing "anything"
-        parameters [
-          {
-            name "x"
-            type "some T"
-          }
-        ]
-        result {
-          ref "cell"
-        }
-        returns "some T"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "r"
-            value {
-              call {
-                arguments [
-                  1
-                ]
-                procedure "App.g"
-              }
-            }
-          }
-        ]
-        failing "anything"
-        result {
-          ref "r"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-variable-a-closure-writes-with-a-value-of-the-parameter-answers")
+(note "A closure in App.g writes its parameter into cell, and the body calls it with x. The call judges the answer, which holds 1.")
 
+(program
+  (warp 1)
+  (procedure App.g
+    (parameter x (type (some T)))
+    (returns (some T))
+    (failing (anything))
+    (body
+      (var cell x)
+      (let c
+        (closure
+          (parameter y (type (some T)))
+          (returns Int)
+          (body
+            (set cell y))
+          (result 0)))
+      (let z (apply c x)))
+    (result cell))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (body
+      (let r (call App.g 1)))
+    (result r)))
+(expect (answers 1))

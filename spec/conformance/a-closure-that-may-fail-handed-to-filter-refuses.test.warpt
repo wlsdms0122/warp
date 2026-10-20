@@ -1,64 +1,23 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-closure-that-may-fail-handed-to-filter-refuses"
-  note "`Standard.Collection.filter` takes a procedure that fails with nothing, and the closure handed says it may fail with `aborted`, so the argument refuses where it is handed. A closure that may fail is handed to `Standard.Collection.tryFilter`."
-  program {
-    imports [
-      "Standard.Collection.filter"
-      "Standard.Comparable.lessThan"
-    ]
-    procedures {
-      entry {
-        access "public"
-        failing "anything"
-        result {
-          call {
-            arguments [
-              [
-                1
-                2
-                3
-                4
-              ]
-              {
-                closure {
-                  const true
-                  failing [
-                    "aborted"
-                  ]
-                  isolated true
-                  parameters [
-                    {
-                      name "x"
-                      type "Int"
-                    }
-                  ]
-                  result {
-                    call {
-                      arguments [
-                        2
-                        {
-                          ref "x"
-                        }
-                      ]
-                      procedure "Standard.Comparable.lessThan"
-                    }
-                  }
-                  returns "Bool"
-                }
-              }
-            ]
-            procedure "Standard.Collection.filter"
-          }
-        }
-        returns "Array<Int>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-closure-that-may-fail-handed-to-filter-refuses")
+(note "`Standard.Collection.filter` takes a procedure that fails with nothing, and the closure handed says it may fail with `aborted`, so the argument refuses where it is handed. A closure that may fail is handed to `Standard.Collection.tryFilter`.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.filter)
+  (import Standard.Comparable.lessThan)
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (failing (anything))
+    (result
+      (call Standard.Collection.filter
+        (array 1 2 3 4)
+        (closure
+          (const)
+          (isolated)
+          (parameter x (type Int))
+          (returns Bool)
+          (failing aborted)
+          (result (call Standard.Comparable.lessThan 2 x)))))))
+(expect (refuses build))

@@ -1,98 +1,33 @@
-warpt 1
-{
-  arguments {
-    ready true
-  }
-  expect {
-    refuses "build"
-  }
-  name "two-ways-taking-a-variable-as-a-type-and-its-nullable-refuse"
-  note "One arm makes a closure that takes `n` while it reads `Int?` and writes null into it, and the other sets `n` to an int first and takes it as `Int`. The first closure goes on writing null whatever the second reads `n` as, so the build refuses where the arms meet."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            value 0
-            var "n"
-          }
-          {
-            value {
-              conditional {
-                then [
-                  {
-                    set "n"
-                    value null
-                  }
-                ]
-                when {
-                  ref "ready"
-                }
-              }
-            }
-          }
-          {
-            value {
-              conditional {
-                else [
-                  {
-                    set "n"
-                    value 2
-                  }
-                  {
-                    let "b"
-                    value {
-                      closure {
-                        result {
-                          ref "n"
-                        }
-                        returns "Int"
-                      }
-                    }
-                  }
-                ]
-                then [
-                  {
-                    let "a"
-                    value {
-                      closure {
-                        body [
-                          {
-                            set "n"
-                            value null
-                          }
-                        ]
-                      }
-                    }
-                  }
-                ]
-                when {
-                  ref "ready"
-                }
-              }
-            }
-          }
-          {
-            set "n"
-            value 5
-          }
-        ]
-        parameters [
-          {
-            name "ready"
-            type "Bool"
-          }
-        ]
-        result {
-          ref "n"
-        }
-        returns "Int?"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "two-ways-taking-a-variable-as-a-type-and-its-nullable-refuse")
+(note "One arm makes a closure that takes `n` while it reads `Int?` and writes null into it, and the other sets `n` to an int first and takes it as `Int`. The first closure goes on writing null whatever the second reads `n` as, so the build refuses where the arms meet.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter ready (type Bool))
+    (returns (nullable Int))
+    (body
+      (var n 0)
+      (conditional
+        (when ready)
+        (then
+          (set n null)))
+      (conditional
+        (when ready)
+        (then
+          (let a
+            (closure
+              (body
+                (set n null)))))
+        (else
+          (set n 2)
+          (let b
+            (closure
+              (returns Int)
+              (result n)))))
+      (set n 5))
+    (result n)))
+(arguments (argument ready true))
+(expect (refuses build))

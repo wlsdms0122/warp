@@ -1,84 +1,34 @@
-warpt 1
-{
-  documents [
-    {
-      contracts {
-        "Lib.Keyed" {
-          procedures {
-            key {
-              parameters [
-                {
-                  name "of"
-                  type "Self"
-                }
-              ]
-              returns "Self.Item"
-            }
-          }
-          types [
-            "Item: Hashable"
-          ]
-        }
-      }
-      imports []
-      warp 1
-    }
-    {
-      imports [
-        "Lib.Keyed"
-      ]
-      types {
-        "App.Card" {
-          procedures {
-            key {
-              access "public"
-              parameters [
-                {
-                  name "of"
-                  type "App.Card"
-                }
-              ]
-              result {
-                ref "of.plain"
-              }
-              returns "App.Plain"
-            }
-          }
-          satisfies [
-            "Lib.Keyed"
-          ]
-          struct {
-            plain "App.Plain"
-          }
-          types {
-            Item "App.Plain"
-          }
-        }
-        "App.Plain" {
-          struct {
-            x "Int"
-          }
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    refuses "build"
-  }
-  name "a-type-member-outside-what-the-contract-holds-it-to-refuses"
-  note "`Lib.Keyed` holds Item to Hashable, and App.Card gives App.Plain, which no claim makes Hashable, so the claim refuses at the build."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        result 1
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-type-member-outside-what-the-contract-holds-it-to-refuses")
+(note "`Lib.Keyed` holds Item to Hashable, and App.Card gives App.Plain, which no claim makes Hashable, so the claim refuses at the build.")
 
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Keyed
+      (type Item Hashable)
+      (procedure key
+        (parameter of (type Self))
+        (returns Self.Item))))
+  (document
+    (warp 1)
+    (import Lib.Keyed)
+    (struct App.Card
+      (satisfies Lib.Keyed)
+      (field plain App.Plain)
+      (type Item App.Plain)
+      (procedure key
+        (access public)
+        (parameter of (type App.Card))
+        (returns App.Plain)
+        (result (path of (field plain)))))
+    (struct App.Plain
+      (field x Int))))
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result 1)))
+(expect (refuses build))

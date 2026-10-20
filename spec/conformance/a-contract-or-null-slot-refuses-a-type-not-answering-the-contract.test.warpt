@@ -1,111 +1,34 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-contract-or-null-slot-refuses-a-type-not-answering-the-contract"
-  note "App.f takes App.Sized? and is handed a Bank.Coin, which no document says answers App.Sized."
-  program {
-    contracts {
-      "App.Sized" {
-        procedures {
-          size {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "Int"
-          }
-        }
-      }
-    }
-    imports []
-    procedures {
-      "App.f" {
-        parameters [
-          {
-            name "n"
-            type "App.Sized?"
-          }
-        ]
-        result "took"
-        returns "String"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "c"
-            value {
-              as {
-                of {
-                  struct {
-                    cents 4
-                  }
-                }
-                type "Bank.Coin"
-              }
-            }
-          }
-          {
-            let "s"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "c"
-                  }
-                ]
-                procedure "App.f"
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result {
-          ref "s"
-        }
-        returns "String"
-      }
-    }
-    types {
-      "Bank.Box" {
-        struct {
-          n "Int"
-        }
-      }
-      "Bank.Card" {
-        procedures {
-          size {
-            parameters [
-              {
-                name "of"
-                type "Bank.Card"
-              }
-            ]
-            result 4
-            returns "Int"
-          }
-        }
-        satisfies [
-          "App.Sized"
-        ]
-        struct {
-          last "String"
-        }
-      }
-      "Bank.Coin" {
-        struct {
-          cents "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-contract-or-null-slot-refuses-a-type-not-answering-the-contract")
+(note "App.f takes App.Sized? and is handed a Bank.Coin, which no document says answers App.Sized.")
 
+(program
+  (warp 1)
+  (struct Bank.Box
+    (field n Int))
+  (struct Bank.Card
+    (satisfies App.Sized)
+    (field last String)
+    (procedure size
+      (parameter of (type Bank.Card))
+      (returns Int)
+      (result 4)))
+  (struct Bank.Coin
+    (field cents Int))
+  (contract App.Sized
+    (procedure size
+      (parameter of (type Self))
+      (returns Int)))
+  (procedure App.f
+    (parameter n (type (nullable App.Sized)))
+    (returns String)
+    (result "took"))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let c (as (struct (field cents 4)) Bank.Coin))
+      (let s (call App.f c)))
+    (result s)))
+(expect (refuses build))

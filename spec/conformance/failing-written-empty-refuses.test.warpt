@@ -1,20 +1,10 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "failing-written-empty-refuses"
-  note "Leaving `failing` out says nothing may fail out of the declaration, so an empty list written out refuses at the load."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        failing []
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "failing-written-empty-refuses")
+(note "Leaving `failing` out says nothing may fail out of the declaration, so an empty list written out refuses at the load.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (failing)))
+(expect (refuses load))

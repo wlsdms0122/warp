@@ -1,86 +1,35 @@
-warpt 1
-{
-  expect {
-    answers [
-      "one"
-      "other"
-    ]
-  }
-  name "a-mapped-procedure-chooses-what-it-answers"
-  note "A slot asking for a procedure that answers without running takes no construct, so the way such a procedure chooses among values is by calling one that chooses."
-  program {
-    imports [
-      "Standard.Collection.map"
-      "Standard.Logic.equal"
-      "Standard.Logic.select"
-    ]
-    procedures {
-      entry {
-        access "public"
-        const true
-        result {
-          call {
-            arguments [
-              [
-                1
-                2
-              ]
-              {
-                closure {
-                  const true
-                  isolated true
-                  parameters [
-                    {
-                      name "item"
-                      type "Int"
-                    }
-                  ]
-                  result {
-                    call {
-                      arguments [
-                        {
-                          call {
-                            arguments [
-                              {
-                                ref "item"
-                              }
-                              1
-                            ]
-                            procedure "Standard.Logic.equal"
-                          }
-                        }
-                        {
-                          closure {
-                            const true
-                            isolated true
-                            result "one"
-                            returns "String"
-                          }
-                        }
-                        {
-                          closure {
-                            const true
-                            isolated true
-                            result "other"
-                            returns "String"
-                          }
-                        }
-                      ]
-                      procedure "Standard.Logic.select"
-                    }
-                  }
-                  returns "String"
-                }
-              }
-            ]
-            procedure "Standard.Collection.map"
-          }
-        }
-        returns "Array<String>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-mapped-procedure-chooses-what-it-answers")
+(note "A slot asking for a procedure that answers without running takes no construct, so the way such a procedure chooses among values is by calling one that chooses.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.map)
+  (import Standard.Logic.equal)
+  (import Standard.Logic.select)
+  (procedure entry
+    (access public)
+    (const)
+    (returns (array String))
+    (result
+      (call Standard.Collection.map
+        (array 1 2)
+        (closure
+          (const)
+          (isolated)
+          (parameter item (type Int))
+          (returns String)
+          (result
+            (call Standard.Logic.select
+              (call Standard.Logic.equal item 1)
+              (closure
+                (const)
+                (isolated)
+                (returns String)
+                (result "one"))
+              (closure
+                (const)
+                (isolated)
+                (returns String)
+                (result "other")))))))))
+(expect (answers (array "one" "other")))

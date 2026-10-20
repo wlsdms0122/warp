@@ -1,73 +1,23 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-closure-answering-a-whole-number-does-not-fit-a-slot-answering-a-fraction-refuses"
-  note "A value's type is fixed at the build, and a whole number is no fraction. A closure that writes `returns Int` answers whole numbers, so it does not fit a slot whose procedure type answers `Double`: nothing turns the one answer into the other."
-  program {
-    imports [
-      "Standard.Text.text"
-    ]
-    procedures {
-      "App.run" {
-        parameters [
-          {
-            name "c"
-            type "() -> some T"
-          }
-        ]
-        result {
-          call {
-            procedure {
-              ref "c"
-            }
-          }
-        }
-        returns "some T"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "c"
-            type "() -> Double"
-            value {
-              closure {
-                result 1
-                returns "Int"
-              }
-            }
-          }
-          {
-            let "v"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "c"
-                  }
-                ]
-                procedure "App.run"
-              }
-            }
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "v"
-              }
-            ]
-            procedure "Standard.Text.text"
-          }
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-closure-answering-a-whole-number-does-not-fit-a-slot-answering-a-fraction-refuses")
+(note "A value's type is fixed at the build, and a whole number is no fraction. A closure that writes `returns Int` answers whole numbers, so it does not fit a slot whose procedure type answers `Double`: nothing turns the one answer into the other.")
 
+(program
+  (warp 1)
+  (import Standard.Text.text)
+  (procedure App.run
+    (parameter c (type (procedure (parameters) (returns (some T)))))
+    (returns (some T))
+    (result (apply c)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let c
+        (type (procedure (parameters) (returns Double)))
+        (closure
+          (returns Int)
+          (result 1)))
+      (let v (call App.run c)))
+    (result (call Standard.Text.text v))))
+(expect (refuses build))

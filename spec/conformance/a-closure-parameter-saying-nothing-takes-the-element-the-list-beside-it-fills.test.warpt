@@ -1,122 +1,39 @@
-warpt 1
-{
-  expect {
-    answers [
-      [
-        1
-        2
-        3
-      ]
-      1
-      1
-    ]
-  }
-  name "a-closure-parameter-saying-nothing-takes-the-element-the-list-beside-it-fills"
-  note "Each closure's parameters write no type, so each takes `Any`. What a procedure handed to a call takes is what it accepts, not a value the call hands, so the list beside it fills `Element` with `Int` and each closure is judged against that: `filter` answers `Array<Int>`, `first` of it an `Int`, and `reduce` carries the `Int` its closure answers, each held where `Int` is declared."
-  program {
-    imports [
-      "Standard.Collection.filter"
-      "Standard.Collection.first"
-      "Standard.Collection.reduce"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "kept"
-            type "Array<Int>"
-            value {
-              call {
-                arguments [
-                  [
-                    1
-                    2
-                    3
-                  ]
-                  {
-                    closure {
-                      const true
-                      isolated true
-                      parameters [
-                        {
-                          name "v"
-                        }
-                      ]
-                      result true
-                      returns "Bool"
-                    }
-                  }
-                ]
-                procedure "Standard.Collection.filter"
-              }
-            }
-          }
-          {
-            let "carried"
-            type "Int"
-            value {
-              call {
-                arguments [
-                  [
-                    1
-                    2
-                    3
-                  ]
-                  0
-                  {
-                    closure {
-                      const true
-                      isolated true
-                      parameters [
-                        {
-                          name "acc"
-                        }
-                        {
-                          name "x"
-                        }
-                      ]
-                      result 1
-                      returns "Int"
-                    }
-                  }
-                ]
-                procedure "Standard.Collection.reduce"
-              }
-            }
-          }
-          {
-            let "head"
-            type "Int"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "kept"
-                  }
-                ]
-                procedure "Standard.Collection.first"
-              }
-            }
-          }
-        ]
-        const true
-        result [
-          {
-            ref "kept"
-          }
-          {
-            ref "carried"
-          }
-          {
-            ref "head"
-          }
-        ]
-        returns "Array<Any>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-closure-parameter-saying-nothing-takes-the-element-the-list-beside-it-fills")
+(note "Each closure's parameters write no type, so each takes `Any`. What a procedure handed to a call takes is what it accepts, not a value the call hands, so the list beside it fills `Element` with `Int` and each closure is judged against that: `filter` answers `Array<Int>`, `first` of it an `Int`, and `reduce` carries the `Int` its closure answers, each held where `Int` is declared.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.filter)
+  (import Standard.Collection.first)
+  (import Standard.Collection.reduce)
+  (procedure entry
+    (access public)
+    (const)
+    (returns (array Any))
+    (body
+      (let kept
+        (type (array Int))
+        (call Standard.Collection.filter
+          (array 1 2 3)
+          (closure
+            (const)
+            (isolated)
+            (parameter v)
+            (returns Bool)
+            (result true))))
+      (let carried
+        (type Int)
+        (call Standard.Collection.reduce
+          (array 1 2 3)
+          0
+          (closure
+            (const)
+            (isolated)
+            (parameter acc)
+            (parameter x)
+            (returns Int)
+            (result 1))))
+      (let head (type Int) (call Standard.Collection.first kept)))
+    (result (array kept carried head))))
+(expect (answers (array (array 1 2 3) 1 1)))

@@ -1,73 +1,24 @@
-warpt 1
-{
-  expect {
-    answers 5
-  }
-  name "self-in-an-answer-is-what-the-call-filled-it-with"
-  note "A contract's answer written `Self` is read as what the call filled `Self` with, as any type parameter's is. Handed a whole number, the call answers a whole number, and a name declared `Int` takes it at the build."
-  program {
-    contracts {
-      "App.Copyable" {
-        procedures {
-          copy {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "Self"
-          }
-        }
-      }
-    }
-    extensions {
-      Int {
-        procedures {
-          copy {
-            parameters [
-              {
-                name "of"
-                type "Int"
-              }
-            ]
-            result {
-              ref "of"
-            }
-            returns "Int"
-          }
-        }
-        satisfies [
-          "App.Copyable"
-        ]
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "n"
-            type "Int"
-            value {
-              call {
-                arguments [
-                  5
-                ]
-                procedure "App.Copyable.copy"
-              }
-            }
-          }
-        ]
-        result {
-          ref "n"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "self-in-an-answer-is-what-the-call-filled-it-with")
+(note "A contract's answer written `Self` is read as what the call filled `Self` with, as any type parameter's is. Handed a whole number, the call answers a whole number, and a name declared `Int` takes it at the build.")
 
+(program
+  (warp 1)
+  (contract App.Copyable
+    (procedure copy
+      (parameter of (type Self))
+      (returns Self)))
+  (extension
+    (head Int)
+    (satisfies App.Copyable)
+    (procedure copy
+      (parameter of (type Int))
+      (returns Int)
+      (result of)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let n (type Int) (call App.Copyable.copy 5)))
+    (result n)))
+(expect (answers 5))

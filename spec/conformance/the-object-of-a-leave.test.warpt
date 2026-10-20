@@ -1,159 +1,19 @@
-warpt 1
-{
-  expect {
-    builds {
-      claims []
-      constants []
-      contracts []
-      dependencies []
-      document [
-        x"a0daa459259cb42a90afe0b028d1ef2c6efecf92fc09aae881d5659cba0db3fa"
-      ]
-      importedClaims []
-      lifted []
-      members []
-      numbering [
-        []
-        []
-      ]
-      object 1
-      rows [
-        [
-          "entry"
-          [
-            [
-              [
-                "early"
-                [
-                  [
-                    3
-                  ]
-                ]
-                []
-              ]
-            ]
-            [
-              6
-            ]
-            [
-              1
-              []
-            ]
-            1
-            1
-            []
-            []
-          ]
-          2
-          [
-            0
-            [
-              [
-                [
-                  []
-                  [
-                    8
-                    [
-                      1
-                      [
-                        0
-                        []
-                      ]
-                    ]
-                    [
-                      [
-                        []
-                        [
-                          13
-                          0
-                          []
-                          [
-                            [
-                              0
-                              [
-                                4
-                                "left"
-                              ]
-                            ]
-                          ]
-                        ]
-                        "[0]"
-                      ]
-                    ]
-                    []
-                  ]
-                  "[0]"
-                ]
-              ]
-              [
-                [
-                  0
-                  [
-                    4
-                    "went on"
-                  ]
-                ]
-              ]
-            ]
-            [
-              1
-              [
-                0
-              ]
-              []
-              []
-              [
-                "early"
-              ]
-            ]
-          ]
-        ]
-      ]
-      typeMembers []
-      typeNumbering []
-      types []
-      variables []
-    }
-  }
-  name "the-object-of-a-leave"
-  note "Leaving carries how far it reaches, the target's name where the leave names one, and what it takes."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            value {
-              conditional {
-                then [
-                  {
-                    value {
-                      return "left"
-                    }
-                  }
-                ]
-                when {
-                  ref "early"
-                }
-              }
-            }
-          }
-        ]
-        const true
-        isolated true
-        parameters [
-          {
-            name "early"
-            type "Bool"
-          }
-        ]
-        result "went on"
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "the-object-of-a-leave")
+(note "Leaving carries how far it reaches, the target's name where the leave names one, and what it takes.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (parameter early (type Bool))
+    (returns String)
+    (body
+      (conditional
+        (when early)
+        (then
+          (return "left"))))
+    (result "went on")))
+(expect (builds (dictionary (entry "claims" (array)) (entry "constants" (array)) (entry "contracts" (array)) (entry "dependencies" (array)) (entry "document" (array x"a0daa459259cb42a90afe0b028d1ef2c6efecf92fc09aae881d5659cba0db3fa")) (entry "importedClaims" (array)) (entry "lifted" (array)) (entry "members" (array)) (entry "numbering" (array (array) (array))) (entry "object" 1) (entry "rows" (array (array "entry" (array (array (array "early" (array (array 3)) (array))) (array 6) (array 1 (array)) 1 1 (array) (array)) 2 (array 0 (array (array (array (array) (array 8 (array 1 (array 0 (array))) (array (array (array) (array 13 0 (array) (array (array 0 (array 4 "left")))) "[0]")) (array)) "[0]")) (array (array 0 (array 4 "went on")))) (array 1 (array 0) (array) (array) (array "early")))))) (entry "typeMembers" (array)) (entry "typeNumbering" (array)) (entry "types" (array)) (entry "variables" (array)))))

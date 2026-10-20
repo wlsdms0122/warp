@@ -1,71 +1,24 @@
-warpt 1
-{
-  expect {
-    answers 1
-  }
-  name "a-claim-about-null-takes-null-where-the-contract-takes-self-or-null"
-  note "For a claim about `Null`, `Self?` is `Null` or null, which is `Null`, so `Null.pick` writes `Null` at the position where the contract writes `Self?`, and the claim holds."
-  program {
-    contracts {
-      "App.Pick" {
-        procedures {
-          pick {
-            parameters [
-              {
-                name "s"
-                type "Self"
-              }
-              {
-                name "t"
-                type "Self?"
-              }
-            ]
-            returns "Int"
-          }
-        }
-      }
-    }
-    extensions {
-      Null {
-        procedures {
-          pick {
-            parameters [
-              {
-                name "s"
-                type "Null"
-              }
-              {
-                name "t"
-                type "Null"
-              }
-            ]
-            result 1
-            returns "Int"
-          }
-        }
-        satisfies [
-          "App.Pick"
-        ]
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              null
-              null
-            ]
-            procedure "App.Pick.pick"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-claim-about-null-takes-null-where-the-contract-takes-self-or-null")
+(note "For a claim about `Null`, `Self?` is `Null` or null, which is `Null`, so `Null.pick` writes `Null` at the position where the contract writes `Self?`, and the claim holds.")
 
+(program
+  (warp 1)
+  (contract App.Pick
+    (procedure pick
+      (parameter s (type Self))
+      (parameter t (type (nullable Self)))
+      (returns Int)))
+  (extension
+    (head Null)
+    (satisfies App.Pick)
+    (procedure pick
+      (parameter s (type Null))
+      (parameter t (type Null))
+      (returns Int)
+      (result 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result (call App.Pick.pick null null))))
+(expect (answers 1))

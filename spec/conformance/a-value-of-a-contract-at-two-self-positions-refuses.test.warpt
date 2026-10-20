@@ -1,106 +1,29 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-value-of-a-contract-at-two-self-positions-refuses"
-  note "A value of a contract is of whichever type answers it, so two of them are not known to be one type, and `Self` is one type wherever it stands. Handing them where a procedure writes `Self` twice is refused at the build, whichever types the run would bring."
-  program {
-    contracts {
-      "App.Ordered" {
-        procedures {
-          before {
-            parameters [
-              {
-                name "lhs"
-                type "Self"
-              }
-              {
-                name "rhs"
-                type "Self"
-              }
-            ]
-            returns "Bool"
-          }
-        }
-      }
-    }
-    extensions {
-      Int {
-        procedures {
-          before {
-            parameters [
-              {
-                name "lhs"
-                type "Int"
-              }
-              {
-                name "rhs"
-                type "Int"
-              }
-            ]
-            result {
-              call {
-                arguments [
-                  {
-                    ref "lhs"
-                  }
-                  {
-                    ref "rhs"
-                  }
-                ]
-                procedure "Standard.Comparable.lessThan"
-              }
-            }
-            returns "Bool"
-          }
-        }
-        satisfies [
-          "App.Ordered"
-        ]
-      }
-    }
-    imports [
-      "Standard.Comparable.lessThan"
-    ]
-    procedures {
-      "App.check" {
-        parameters [
-          {
-            name "x"
-            type "App.Ordered"
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "x"
-              }
-              {
-                ref "x"
-              }
-            ]
-            procedure "App.Ordered.before"
-          }
-        }
-        returns "Bool"
-      }
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              1
-            ]
-            procedure "App.check"
-          }
-        }
-        returns "Bool"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-value-of-a-contract-at-two-self-positions-refuses")
+(note "A value of a contract is of whichever type answers it, so two of them are not known to be one type, and `Self` is one type wherever it stands. Handing them where a procedure writes `Self` twice is refused at the build, whichever types the run would bring.")
 
+(program
+  (warp 1)
+  (import Standard.Comparable.lessThan)
+  (contract App.Ordered
+    (procedure before
+      (parameter lhs (type Self))
+      (parameter rhs (type Self))
+      (returns Bool)))
+  (extension
+    (head Int)
+    (satisfies App.Ordered)
+    (procedure before
+      (parameter lhs (type Int))
+      (parameter rhs (type Int))
+      (returns Bool)
+      (result (call Standard.Comparable.lessThan lhs rhs))))
+  (procedure App.check
+    (parameter x (type App.Ordered))
+    (returns Bool)
+    (result (call App.Ordered.before x x)))
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (result (call App.check 1))))
+(expect (refuses build))

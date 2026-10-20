@@ -1,33 +1,15 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-dot-on-a-type-parameter-refuses"
-  note "A type parameter is one type the body does not know, so it declares nothing a dot could read: `p.x` refuses at the build, whatever a call fills `T` with. What a type gives is asked through a contract it answers."
-  program {
-    imports []
-    procedures {
-      "App.read" {
-        parameters [
-          {
-            name "p"
-            type "some T"
-          }
-        ]
-        result {
-          ref "p.x"
-        }
-        returns "Int"
-      }
-      entry {
-        access "public"
-        result 1
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-dot-on-a-type-parameter-refuses")
+(note "A type parameter is one type the body does not know, so it declares nothing a dot could read: `p.x` refuses at the build, whatever a call fills `T` with. What a type gives is asked through a contract it answers.")
 
+(program
+  (warp 1)
+  (procedure App.read
+    (parameter p (type (some T)))
+    (returns Int)
+    (result (path p (field x))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result 1)))
+(expect (refuses build))

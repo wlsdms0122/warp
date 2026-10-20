@@ -1,78 +1,22 @@
-warpt 1
-{
-  arguments {
-    c false
-  }
-  expect {
-    answers [
-      1
-      2
-    ]
-  }
-  name "a-variable-written-an-alias-and-what-it-stands-for-holds-that-type"
-  note "`v` starts as `a`, read as `App.L`, a spelling of `Array<Int>`, and one way writes `[3]` into it. Both readings are lists of `Int`, so `v` reads `Array<Int>` and stands where `y` declares it."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "a"
-            type "App.L"
-            value [
-              1
-              2
-            ]
-          }
-          {
-            value {
-              ref "a"
-            }
-            var "v"
-          }
-          {
-            value {
-              conditional {
-                then [
-                  {
-                    set "v"
-                    value [
-                      3
-                    ]
-                  }
-                ]
-                when {
-                  ref "c"
-                }
-              }
-            }
-          }
-          {
-            let "y"
-            type "Array<Int>"
-            value {
-              ref "v"
-            }
-          }
-        ]
-        parameters [
-          {
-            name "c"
-            type "Bool"
-          }
-        ]
-        result {
-          ref "y"
-        }
-        returns "Array<Int>"
-      }
-    }
-    types {
-      "App.L" "Array<Int>"
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-variable-written-an-alias-and-what-it-stands-for-holds-that-type")
+(note "`v` starts as `a`, read as `App.L`, a spelling of `Array<Int>`, and one way writes `[3]` into it. Both readings are lists of `Int`, so `v` reads `Array<Int>` and stands where `y` declares it.")
 
+(program
+  (warp 1)
+  (type App.L (array Int))
+  (procedure entry
+    (access public)
+    (parameter c (type Bool))
+    (returns (array Int))
+    (body
+      (let a (type App.L) (array 1 2))
+      (var v a)
+      (conditional
+        (when c)
+        (then
+          (set v (array 3))))
+      (let y (type (array Int)) v))
+    (result y)))
+(arguments (argument c false))
+(expect (answers (array 1 2)))

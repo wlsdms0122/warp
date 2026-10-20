@@ -1,0 +1,5 @@
+(test 1)
+(name "an-atom-outside-every-node-refuses")
+(note "A text is a sequence of nodes. An atom at its top stands in no node, so nothing reads it, and a reader that skipped it would read a second text for the document.")
+(text "(warp 1)\n1\n")
+(expect (refuses load))

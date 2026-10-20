@@ -1,56 +1,20 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-closure-is-not-completed-by-the-slot-it-is-written-into-refuses"
-  note "A closure literal's signature is what it writes. One writing no `returns` answers null even where its slot asks for an `Int`, so the closure answering `1` answers more than its signature says, and refuses at the build."
-  program {
-    imports []
-    procedures {
-      "App.run" {
-        body [
-          {
-            let "answered"
-            value {
-              call {
-                procedure {
-                  ref "f"
-                }
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "f"
-            type "() -> Int"
-          }
-        ]
-        result {
-          ref "answered"
-        }
-        returns "Int"
-      }
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              {
-                closure {
-                  result 1
-                }
-              }
-            ]
-            procedure "App.run"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-closure-is-not-completed-by-the-slot-it-is-written-into-refuses")
+(note "A closure literal's signature is what it writes. One writing no `returns` answers null even where its slot asks for an `Int`, so the closure answering `1` answers more than its signature says, and refuses at the build.")
 
+(program
+  (warp 1)
+  (procedure App.run
+    (parameter f (type (procedure (parameters) (returns Int))))
+    (returns Int)
+    (body
+      (let answered (apply f)))
+    (result answered))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result
+      (call App.run
+        (closure
+          (result 1))))))
+(expect (refuses build))

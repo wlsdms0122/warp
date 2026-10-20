@@ -1,121 +1,38 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "an-attempt-body-reads-the-variable-its-statement-name-shadows"
-  note "An attempt binds its statement's name to the failure in the rescue alone, so its body reads the variable around it under that spelling. A closure whose `let n = attempt` body reads the outer `n` takes `n`, and a later `set` of `n` to another type refuses at the build."
-  program {
-    imports [
-      "Standard.Comparable.lessThan"
-      "Standard.Control.abort"
-    ]
-    procedures {
-      check {
-        body [
-          {
-            value {
-              conditional {
-                then [
-                  {
-                    value {
-                      call {
-                        arguments [
-                          "negative"
-                        ]
-                        procedure "Standard.Control.abort"
-                      }
-                    }
-                  }
-                ]
-                when {
-                  call {
-                    arguments [
-                      {
-                        ref "x"
-                      }
-                      0
-                    ]
-                    procedure "Standard.Comparable.lessThan"
-                  }
-                }
-              }
-            }
-          }
-        ]
-        failing [
-          "aborted"
-        ]
-        parameters [
-          {
-            name "x"
-            type "Int"
-          }
-        ]
-        result {
-          ref "x"
-        }
-        returns "Int"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            value 0
-            var "n"
-          }
-          {
-            let "f"
-            value {
-              closure {
-                body [
-                  {
-                    let "n"
-                    value {
-                      attempt {
-                        body [
-                          {
-                            let "c"
-                            value {
-                              call {
-                                arguments [
-                                  {
-                                    ref "n"
-                                  }
-                                ]
-                                procedure "check"
-                              }
-                            }
-                          }
-                        ]
-                        rescue {
-                          result 0
-                        }
-                        result {
-                          ref "c"
-                        }
-                      }
-                    }
-                  }
-                ]
-                result {
-                  ref "n"
-                }
-                returns "Int"
-              }
-            }
-          }
-          {
-            set "n"
-            value "s"
-          }
-        ]
-        result 1
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-attempt-body-reads-the-variable-its-statement-name-shadows")
+(note "An attempt binds its statement's name to the failure in the rescue alone, so its body reads the variable around it under that spelling. A closure whose `let n = attempt` body reads the outer `n` takes `n`, and a later `set` of `n` to another type refuses at the build.")
 
+(program
+  (warp 1)
+  (import Standard.Comparable.lessThan)
+  (import Standard.Control.abort)
+  (procedure check
+    (parameter x (type Int))
+    (returns Int)
+    (failing aborted)
+    (body
+      (conditional
+        (when (call Standard.Comparable.lessThan x 0))
+        (then
+          (call Standard.Control.abort "negative"))))
+    (result x))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var n 0)
+      (let f
+        (closure
+          (returns Int)
+          (body
+            (let n
+              (attempt
+                (body
+                  (let c (call check n)))
+                (result c)
+                (rescue
+                  (result 0)))))
+          (result n)))
+      (set n "s"))
+    (result 1)))
+(expect (refuses build))

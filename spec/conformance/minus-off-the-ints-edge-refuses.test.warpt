@@ -1,31 +1,12 @@
-warpt 1
-{
-  expect {
-    refuses "run"
-  }
-  name "minus-off-the-ints-edge-refuses"
-  note "Whole-number arithmetic with no whole answer refuses at the run. `minus` off the int's low edge does not wrap."
-  program {
-    imports [
-      "Standard.Numeric.minus"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              -9223372036854775808
-              1
-            ]
-            procedure "Standard.Numeric.minus"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "minus-off-the-ints-edge-refuses")
+(note "Whole-number arithmetic with no whole answer refuses at the run. `minus` off the int's low edge does not wrap.")
 
+(program
+  (warp 1)
+  (import Standard.Numeric.minus)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result (call Standard.Numeric.minus -9223372036854775808 1))))
+(expect (refuses run))

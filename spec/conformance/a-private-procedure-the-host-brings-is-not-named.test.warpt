@@ -1,40 +1,21 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-private-procedure-the-host-brings-is-not-named"
-  note "A procedure the host answers is declared by the module that brings it, and private is that module's own scope. A program calling one stands in another document and is refused at the build, the way a call to any other document's private declaration is."
-  program {
-    imports [
-      "App.seat"
-    ]
-    procedures {
-      entry {
-        access "public"
-        failing "anything"
-        result {
-          call {
-            procedure "App.seat"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-  vocabulary {
-    imports []
-    procedures {
-      "App.seat" {
-        access "private"
-        answers 7
-        const true
-        isolated true
-        returns "Int"
-      }
-    }
-  }
-}
+(test 1)
+(name "a-private-procedure-the-host-brings-is-not-named")
+(note "A procedure the host answers is declared by the module that brings it, and private is that module's own scope. A program calling one stands in another document and is refused at the build, the way a call to any other document's private declaration is.")
 
+(vocabulary
+  (procedure App.seat
+    (access private)
+    (const)
+    (isolated)
+    (returns Int)
+    (answers 7)))
+
+(program
+  (warp 1)
+  (import App.seat)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (result (call App.seat))))
+(expect (refuses build))

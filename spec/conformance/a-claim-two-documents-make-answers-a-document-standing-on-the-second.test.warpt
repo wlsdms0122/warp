@@ -1,146 +1,56 @@
-warpt 1
-{
-  documents [
-    {
-      contracts {
-        "App.Describable" {
-          procedures {
-            describe {
-              parameters [
-                {
-                  name "of"
-                  type "Self"
-                }
-              ]
-              returns "String"
-            }
-          }
-        }
-      }
-      imports []
-      warp 1
-    }
-    {
-      imports []
-      types {
-        "T.Card" {
-          procedures {
-            describe {
-              parameters [
-                {
-                  name "of"
-                  type "T.Card"
-                }
-              ]
-              result "card"
-              returns "String"
-            }
-          }
-          struct {
-            rank "Int"
-          }
-        }
-      }
-      warp 1
-    }
-    {
-      extensions {
-        "T.Card" {
-          satisfies [
-            "App.Describable"
-          ]
-        }
-      }
-      imports [
-        "App.Describable"
-        "T.Card"
-      ]
-      procedures {
-        "One.mark" {
-          access "public"
-          result 1
-          returns "Int"
-        }
-      }
-      warp 1
-    }
-    {
-      extensions {
-        "T.Card" {
-          satisfies [
-            "App.Describable"
-          ]
-        }
-      }
-      imports [
-        "App.Describable"
-        "T.Card"
-      ]
-      procedures {
-        "Two.mark" {
-          access "public"
-          result 1
-          returns "Int"
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    answers "card"
-  }
-  name "a-claim-two-documents-make-answers-a-document-standing-on-the-second"
-  note "Two documents make the claim that T.Card answers App.Describable, and the program stands on the second through `Two.mark` and on nothing of the first. Each copy stands where it was written, so the claim is within the program's reach however the host listed the two."
-  program {
-    imports [
-      "App.Describable.describe"
-      "T.Card"
-      "Two.mark"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "card"
-            value {
-              as {
-                of {
-                  struct {
-                    rank 1
-                  }
-                }
-                type "T.Card"
-              }
-            }
-          }
-          {
-            let "m"
-            value {
-              call {
-                procedure "Two.mark"
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "card"
-              }
-            ]
-            procedure "App.Describable.describe"
-          }
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-claim-two-documents-make-answers-a-document-standing-on-the-second")
+(note "Two documents make the claim that T.Card answers App.Describable, and the program stands on the second through `Two.mark` and on nothing of the first. Each copy stands where it was written, so the claim is within the program's reach however the host listed the two.")
 
+(documents
+  (document
+    (warp 1)
+    (contract App.Describable
+      (procedure describe
+        (parameter of (type Self))
+        (returns String))))
+  (document
+    (warp 1)
+    (struct T.Card
+      (field rank Int)
+      (procedure describe
+        (parameter of (type T.Card))
+        (returns String)
+        (result "card"))))
+  (document
+    (warp 1)
+    (import App.Describable)
+    (import T.Card)
+    (extension
+      (head T.Card)
+      (satisfies App.Describable))
+    (procedure One.mark
+      (access public)
+      (returns Int)
+      (result 1)))
+  (document
+    (warp 1)
+    (import App.Describable)
+    (import T.Card)
+    (extension
+      (head T.Card)
+      (satisfies App.Describable))
+    (procedure Two.mark
+      (access public)
+      (returns Int)
+      (result 1))))
+
+(program
+  (warp 1)
+  (import App.Describable.describe)
+  (import T.Card)
+  (import Two.mark)
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let card (as (struct (field rank 1)) T.Card))
+      (let m (call Two.mark)))
+    (result (call App.Describable.describe card))))
+(expect (answers "card"))

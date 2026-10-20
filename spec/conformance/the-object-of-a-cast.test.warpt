@@ -1,157 +1,17 @@
-warpt 1
-{
-  expect {
-    builds {
-      claims []
-      constants []
-      contracts []
-      dependencies []
-      document [
-        x"a1db5f6d8a10c94452b0d6b903b0eb708c9a62d40ead121fdace3d5f53444df5"
-      ]
-      importedClaims []
-      lifted []
-      members []
-      numbering [
-        []
-        []
-      ]
-      object 1
-      rows [
-        [
-          "entry"
-          [
-            [
-              [
-                "p"
-                []
-                []
-              ]
-            ]
-            [
-              4
-            ]
-            [
-              1
-              [
-                "cast_refused"
-              ]
-            ]
-            1
-            1
-            []
-            []
-          ]
-          2
-          [
-            0
-            [
-              [
-                [
-                  [
-                    [
-                      0
-                      1
-                    ]
-                  ]
-                  [
-                    6
-                    [
-                      1
-                      [
-                        0
-                        []
-                      ]
-                    ]
-                    [
-                      4
-                    ]
-                    true
-                  ]
-                  "maybe"
-                ]
-              ]
-              [
-                [
-                  6
-                  [
-                    1
-                    [
-                      0
-                      []
-                    ]
-                  ]
-                  [
-                    4
-                  ]
-                  false
-                ]
-              ]
-            ]
-            [
-              2
-              [
-                0
-              ]
-              []
-              []
-              [
-                "p"
-                "maybe"
-              ]
-            ]
-          ]
-        ]
-      ]
-      typeMembers []
-      typeNumbering []
-      types []
-      variables []
-    }
-  }
-  name "the-object-of-a-cast"
-  note "A cast carries what it reads, the lowered type it reads it as, and whether it is the optional form."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "maybe"
-            value {
-              "as?" {
-                of {
-                  ref "p"
-                }
-                type "Int"
-              }
-            }
-          }
-        ]
-        const true
-        failing [
-          "cast_refused"
-        ]
-        isolated true
-        parameters [
-          {
-            name "p"
-          }
-        ]
-        result {
-          as {
-            of {
-              ref "p"
-            }
-            type "Int"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "the-object-of-a-cast")
+(note "A cast carries what it reads, the lowered type it reads it as, and whether it is the optional form.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (parameter p)
+    (returns Int)
+    (failing cast_refused)
+    (body
+      (let maybe (as? p Int)))
+    (result (as p Int))))
+(expect (builds (dictionary (entry "claims" (array)) (entry "constants" (array)) (entry "contracts" (array)) (entry "dependencies" (array)) (entry "document" (array x"a1db5f6d8a10c94452b0d6b903b0eb708c9a62d40ead121fdace3d5f53444df5")) (entry "importedClaims" (array)) (entry "lifted" (array)) (entry "members" (array)) (entry "numbering" (array (array) (array))) (entry "object" 1) (entry "rows" (array (array "entry" (array (array (array "p" (array) (array))) (array 4) (array 1 (array "cast_refused")) 1 1 (array) (array)) 2 (array 0 (array (array (array (array (array 0 1)) (array 6 (array 1 (array 0 (array))) (array 4) true) "maybe")) (array (array 6 (array 1 (array 0 (array))) (array 4) false))) (array 2 (array 0) (array) (array) (array "p" "maybe")))))) (entry "typeMembers" (array)) (entry "typeNumbering" (array)) (entry "types" (array)) (entry "variables" (array)))))

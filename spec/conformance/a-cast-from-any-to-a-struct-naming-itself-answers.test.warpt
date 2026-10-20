@@ -1,68 +1,17 @@
-warpt 1
-{
-  expect {
-    answers App.Node {
-      children [
-        App.Node {
-          children []
-        }
-      ]
-    }
-  }
-  name "a-cast-from-any-to-a-struct-naming-itself-answers"
-  note "`App.Node` is a declared struct holding a list of itself, which is how a type holds itself. `v` is read as `Any`, and the cast to `App.Node` judges the value at every depth the struct names itself at and answers it."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "t"
-            type "App.Node"
-            value {
-              struct {
-                children [
-                  {
-                    struct {
-                      children []
-                    }
-                  }
-                ]
-              }
-            }
-          }
-          {
-            let "v"
-            type "Any"
-            value {
-              ref "t"
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result {
-          as {
-            of {
-              ref "v"
-            }
-            type "App.Node"
-          }
-        }
-        returns "App.Node"
-      }
-    }
-    types {
-      "App.Node" {
-        struct {
-          children "Array<App.Node>"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-cast-from-any-to-a-struct-naming-itself-answers")
+(note "`App.Node` is a declared struct holding a list of itself, which is how a type holds itself. `v` is read as `Any`, and the cast to `App.Node` judges the value at every depth the struct names itself at and answers it.")
 
+(program
+  (warp 1)
+  (struct App.Node
+    (field children (array App.Node)))
+  (procedure entry
+    (access public)
+    (returns App.Node)
+    (failing cast_refused)
+    (body
+      (let t (type App.Node) (struct (field children (array (struct (field children (array)))))))
+      (let v (type Any) t))
+    (result (as v App.Node))))
+(expect (answers (struct App.Node (field children (array (struct App.Node (field children (array))))))))

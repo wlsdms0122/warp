@@ -1,49 +1,18 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-conditional-both-of-whose-arms-leave-ends-the-body"
-  note "The leave rules reach through structure: a conditional both of whose arms leave never finishes, so nothing may follow it and no name may bind it."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            value {
-              conditional {
-                else [
-                  {
-                    value {
-                      return 2
-                    }
-                  }
-                ]
-                then [
-                  {
-                    value {
-                      return 1
-                    }
-                  }
-                ]
-                when true
-              }
-            }
-          }
-          {
-            let "after"
-            value 3
-          }
-        ]
-        result {
-          ref "after"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-conditional-both-of-whose-arms-leave-ends-the-body")
+(note "The leave rules reach through structure: a conditional both of whose arms leave never finishes, so nothing may follow it and no name may bind it.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (body
+      (conditional
+        (when true)
+        (then
+          (return 1))
+        (else
+          (return 2)))
+      (let after 3))
+    (result after)))
+(expect (refuses load))

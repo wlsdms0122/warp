@@ -1,42 +1,16 @@
-warpt 1
-{
-  arguments {
-    task Task {
-      id "a"
-    }
-  }
-  expect {
-    refuses "run"
-  }
-  name "a-value-outside-a-declared-type-refuses-at-the-door"
-  note "Arguments are judged against the declaration before the body sees them, and a struct missing a declared field does not fit the type."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        parameters [
-          {
-            name "task"
-            type "Task"
-          }
-        ]
-        result {
-          ref "task.done"
-        }
-        returns "Bool"
-      }
-    }
-    types {
-      Task {
-        struct {
-          done "Bool"
-          id "String"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-value-outside-a-declared-type-refuses-at-the-door")
+(note "Arguments are judged against the declaration before the body sees them, and a struct missing a declared field does not fit the type.")
 
+(program
+  (warp 1)
+  (struct Task
+    (field done Bool)
+    (field id String))
+  (procedure entry
+    (access public)
+    (parameter task (type Task))
+    (returns Bool)
+    (result (path task (field done)))))
+(arguments (argument task (struct Task (field id "a"))))
+(expect (refuses run))

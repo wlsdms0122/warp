@@ -1,182 +1,49 @@
-warpt 1
-{
-  expect {
-    answers "ok"
-  }
-  name "a-declaration-answering-a-contract-may-answer-another-contract-and-the-contract-where-it-promises-it-or-null"
-  note "The contract answers App.Sized? and the declaration answering it answers App.Pockets & App.Sized, which answers App.Sized by what it writes, whatever type answering both it is."
-  program {
-    contracts {
-      "App.Pockets" {}
-      "App.Shown" {
-        procedures {
-          show {
-            failing [
-              "cast_refused"
-            ]
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-              {
-                name "n"
-                type "App.Sized"
-              }
-            ]
-            returns "App.Sized?"
-          }
-        }
-      }
-      "App.Sized" {
-        procedures {
-          size {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "Int"
-          }
-        }
-      }
-      "App.Wallets" {}
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "b"
-            value {
-              as {
-                of {
-                  struct {
-                    n 1
-                  }
-                }
-                type "Bank.Box"
-              }
-            }
-          }
-          {
-            let "c"
-            value {
-              as {
-                of {
-                  struct {
-                    last "4"
-                  }
-                }
-                type "Bank.Card"
-              }
-            }
-          }
-          {
-            let "s"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "b"
-                  }
-                  {
-                    ref "c"
-                  }
-                ]
-                procedure "App.Shown.show"
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result "ok"
-        returns "String"
-      }
-    }
-    types {
-      "Bank.Box" {
-        procedures {
-          show {
-            body [
-              {
-                let "k"
-                value {
-                  as {
-                    of {
-                      struct {
-                        last "9"
-                      }
-                    }
-                    type "Bank.Card"
-                  }
-                }
-              }
-            ]
-            failing [
-              "cast_refused"
-            ]
-            parameters [
-              {
-                name "of"
-                type "Bank.Box"
-              }
-              {
-                name "n"
-                type "App.Sized"
-              }
-            ]
-            result {
-              ref "k"
-            }
-            returns "App.Pockets & App.Sized"
-          }
-        }
-        satisfies [
-          "App.Shown"
-        ]
-        struct {
-          n "Int"
-        }
-      }
-      "Bank.Card" {
-        procedures {
-          size {
-            parameters [
-              {
-                name "of"
-                type "Bank.Card"
-              }
-            ]
-            result 4
-            returns "Int"
-          }
-        }
-        satisfies [
-          "App.Pockets"
-          "App.Sized"
-          "App.Wallets"
-        ]
-        struct {
-          last "String"
-        }
-      }
-      "Bank.Coin" {
-        satisfies [
-          "App.Pockets"
-          "App.Wallets"
-        ]
-        struct {
-          cents "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-declaration-answering-a-contract-may-answer-another-contract-and-the-contract-where-it-promises-it-or-null")
+(note "The contract answers App.Sized? and the declaration answering it answers App.Pockets & App.Sized, which answers App.Sized by what it writes, whatever type answering both it is.")
 
+(program
+  (warp 1)
+  (struct Bank.Box
+    (satisfies App.Shown)
+    (field n Int)
+    (procedure show
+      (parameter of (type Bank.Box))
+      (parameter n (type App.Sized))
+      (returns (composition App.Pockets App.Sized))
+      (failing cast_refused)
+      (body
+        (let k (as (struct (field last "9")) Bank.Card)))
+      (result k)))
+  (struct Bank.Card
+    (satisfies App.Pockets App.Sized App.Wallets)
+    (field last String)
+    (procedure size
+      (parameter of (type Bank.Card))
+      (returns Int)
+      (result 4)))
+  (struct Bank.Coin
+    (satisfies App.Pockets App.Wallets)
+    (field cents Int))
+  (contract App.Pockets)
+  (contract App.Shown
+    (procedure show
+      (parameter of (type Self))
+      (parameter n (type App.Sized))
+      (returns (nullable App.Sized))
+      (failing cast_refused)))
+  (contract App.Sized
+    (procedure size
+      (parameter of (type Self))
+      (returns Int)))
+  (contract App.Wallets)
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let b (as (struct (field n 1)) Bank.Box))
+      (let c (as (struct (field last "4")) Bank.Card))
+      (let s (call App.Shown.show b c)))
+    (result "ok")))
+(expect (answers "ok"))

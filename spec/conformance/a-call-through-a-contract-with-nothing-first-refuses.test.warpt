@@ -1,72 +1,24 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-call-through-a-contract-with-nothing-first-refuses"
-  note "A call through a contract is answered by the type of its first argument. A call writing nothing there has nothing to answer it, and the build says so."
-  program {
-    contracts {
-      "App.Describable" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-              {
-                name "label"
-                type "String"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            procedure "App.Describable.describe"
-          }
-        }
-        returns "String"
-      }
-    }
-    types {
-      "Bank.Account" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Bank.Account"
-              }
-              {
-                name "label"
-                type "String"
-              }
-            ]
-            result {
-              ref "label"
-            }
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.Describable"
-        ]
-        struct {
-          balance "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-call-through-a-contract-with-nothing-first-refuses")
+(note "A call through a contract is answered by the type of its first argument. A call writing nothing there has nothing to answer it, and the build says so.")
 
+(program
+  (warp 1)
+  (struct Bank.Account
+    (satisfies App.Describable)
+    (field balance Int)
+    (procedure describe
+      (parameter of (type Bank.Account))
+      (parameter label (type String))
+      (returns String)
+      (result label)))
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (parameter label (type String))
+      (returns String)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (result (call App.Describable.describe))))
+(expect (refuses build))

@@ -1,92 +1,32 @@
-warpt 1
-{
-  arguments {
-    ready false
-  }
-  expect {
-    refuses "build"
-  }
-  name "two-breaks-taking-a-variable-as-different-types-refuse"
-  note "Each `break` ends the loop on a way that took `n`: one while it held an int, one after the round set it to a string. Both land at the end of the loop and meet there, and a write after the loop would have to fit both types, so the build refuses where they meet."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            value 0
-            var "n"
-          }
-          {
-            value {
-              loop {
-                body [
-                  {
-                    value {
-                      conditional {
-                        then [
-                          {
-                            let "a"
-                            value {
-                              closure {
-                                result {
-                                  ref "n"
-                                }
-                                returns "Int"
-                              }
-                            }
-                          }
-                          {
-                            value {
-                              break null
-                            }
-                          }
-                        ]
-                        when {
-                          ref "ready"
-                        }
-                      }
-                    }
-                  }
-                  {
-                    set "n"
-                    value "s"
-                  }
-                  {
-                    let "b"
-                    value {
-                      closure {
-                        result {
-                          ref "n"
-                        }
-                        returns "String"
-                      }
-                    }
-                  }
-                  {
-                    value {
-                      break null
-                    }
-                  }
-                ]
-                while true
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "ready"
-            type "Bool"
-          }
-        ]
-        result 1
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "two-breaks-taking-a-variable-as-different-types-refuse")
+(note "Each `break` ends the loop on a way that took `n`: one while it held an int, one after the round set it to a string. Both land at the end of the loop and meet there, and a write after the loop would have to fit both types, so the build refuses where they meet.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter ready (type Bool))
+    (returns Int)
+    (body
+      (var n 0)
+      (loop
+        (while true)
+        (body
+          (conditional
+            (when ready)
+            (then
+              (let a
+                (closure
+                  (returns Int)
+                  (result n)))
+              (break)))
+          (set n "s")
+          (let b
+            (closure
+              (returns String)
+              (result n)))
+          (break))))
+    (result 1)))
+(arguments (argument ready false))
+(expect (refuses build))

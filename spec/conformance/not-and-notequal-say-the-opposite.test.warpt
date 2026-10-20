@@ -1,47 +1,15 @@
-warpt 1
-{
-  expect {
-    answers true
-  }
-  name "not-and-notequal-say-the-opposite"
-  note "notEqual answers what equal would deny, and not turns a truth around. The negations answer by the language's one sameness."
-  program {
-    imports [
-      "Standard.Logic.not"
-      "Standard.Logic.notEqual"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "unequal"
-            value {
-              call {
-                arguments [
-                  1
-                  1.0
-                ]
-                procedure "Standard.Logic.notEqual"
-              }
-            }
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "unequal"
-              }
-            ]
-            procedure "Standard.Logic.not"
-          }
-        }
-        returns "Bool"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "not-and-notequal-say-the-opposite")
+(note "notEqual answers what equal would deny, and not turns a truth around. The negations answer by the language's one sameness.")
 
+(program
+  (warp 1)
+  (import Standard.Logic.not)
+  (import Standard.Logic.notEqual)
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (body
+      (let unequal (call Standard.Logic.notEqual 1 1.0)))
+    (result (call Standard.Logic.not unequal))))
+(expect (answers true))

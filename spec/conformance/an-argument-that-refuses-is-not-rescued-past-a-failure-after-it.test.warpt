@@ -1,78 +1,25 @@
-warpt 1
-{
-  expect {
-    refuses "run"
-  }
-  name "an-argument-that-refuses-is-not-rescued-past-a-failure-after-it"
-  note "The first argument divides by zero, which refuses at the run, and the second would fail with `abort`. The arguments are evaluated in position order, so the refusal comes first, and a refusal is no failure an attempt rescues: the run refuses."
-  program {
-    imports [
-      "Standard.Control.abort"
-      "Standard.Numeric.dividedBy"
-    ]
-    procedures {
-      "App.f" {
-        parameters [
-          {
-            name "x"
-          }
-          {
-            name "y"
-          }
-        ]
-        result 0
-        returns "Int"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "tried"
-            value {
-              attempt {
-                body [
-                  {
-                    value {
-                      call {
-                        arguments [
-                          {
-                            call {
-                              arguments [
-                                1
-                                0
-                              ]
-                              procedure "Standard.Numeric.dividedBy"
-                            }
-                          }
-                          {
-                            call {
-                              arguments [
-                                "second"
-                              ]
-                              procedure "Standard.Control.abort"
-                            }
-                          }
-                        ]
-                        procedure "App.f"
-                      }
-                    }
-                  }
-                ]
-                rescue {
-                  result "rescued"
-                }
-              }
-            }
-          }
-        ]
-        result {
-          ref "tried"
-        }
-        returns "Any"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-argument-that-refuses-is-not-rescued-past-a-failure-after-it")
+(note "The first argument divides by zero, which refuses at the run, and the second would fail with `abort`. The arguments are evaluated in position order, so the refusal comes first, and a refusal is no failure an attempt rescues: the run refuses.")
 
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (import Standard.Numeric.dividedBy)
+  (procedure App.f
+    (parameter x)
+    (parameter y)
+    (returns Int)
+    (result 0))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let tried
+        (attempt
+          (body
+            (call App.f (call Standard.Numeric.dividedBy 1 0) (call Standard.Control.abort "second")))
+          (rescue
+            (result "rescued")))))
+    (result tried)))
+(expect (refuses run))

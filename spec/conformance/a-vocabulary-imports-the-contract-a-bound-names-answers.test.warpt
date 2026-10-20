@@ -1,49 +1,21 @@
-warpt 1
-{
-  expect {
-    answers 6
-  }
-  name "a-vocabulary-imports-the-contract-a-bound-names-answers"
-  note "A vocabulary is a module and lists what it uses under `imports`, as any module does, so a procedure the host brings may bound a type parameter by `Standard.Numeric`. The program sends `App.h` a whole number, which answers the bound, and the host answers 6."
-  program {
-    imports [
-      "App.h"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              5
-            ]
-            procedure "App.h"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-  vocabulary {
-    imports [
-      "Standard.Numeric"
-    ]
-    procedures {
-      "App.h" {
-        answers 6
-        const true
-        isolated true
-        parameters [
-          {
-            name "first"
-            type "some T: Standard.Numeric"
-          }
-        ]
-        returns "some T"
-      }
-    }
-  }
-}
+(test 1)
+(name "a-vocabulary-imports-the-contract-a-bound-names-answers")
+(note "A vocabulary is a module and lists what it uses under `imports`, as any module does, so a procedure the host brings may bound a type parameter by `Standard.Numeric`. The program sends `App.h` a whole number, which answers the bound, and the host answers 6.")
 
+(vocabulary
+  (import Standard.Numeric)
+  (procedure App.h
+    (const)
+    (isolated)
+    (parameter first (type (some T Standard.Numeric)))
+    (returns (some T))
+    (answers 6)))
+
+(program
+  (warp 1)
+  (import App.h)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result (call App.h 5))))
+(expect (answers 6))

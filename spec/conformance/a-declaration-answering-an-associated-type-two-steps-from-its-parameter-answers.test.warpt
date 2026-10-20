@@ -1,198 +1,58 @@
-warpt 1
-{
-  documents [
-    {
-      contracts {
-        "Lib.Container" {
-          procedures {
-            first {
-              parameters [
-                {
-                  name "of"
-                  type "Self"
-                }
-              ]
-              returns "Self.Item"
-            }
-          }
-          types [
-            "Item"
-          ]
-        }
-      }
-      imports []
-      procedures {
-        "Lib.firstOf" {
-          access "public"
-          parameters [
-            {
-              name "c"
-              type "some C: Lib.Container"
-            }
-          ]
-          result {
-            call {
-              arguments [
-                {
-                  ref "c"
-                }
-              ]
-              procedure "Lib.Container.first"
-            }
-          }
-          returns "some C.Item"
-        }
-      }
-      warp 1
-    }
-    {
-      imports [
-        "Lib.Container"
-      ]
-      types {
-        "App.Box" {
-          procedures {
-            first {
-              access "public"
-              parameters [
-                {
-                  name "of"
-                  type "App.Box<some T>"
-                }
-              ]
-              result {
-                ref "of.item"
-              }
-              returns "some T"
-            }
-          }
-          satisfies [
-            "Lib.Container"
-          ]
-          struct {
-            item "some T"
-          }
-          typeParameters [
-            "T"
-          ]
-          types {
-            Item "some T"
-          }
-        }
-      }
-      warp 1
-    }
-    {
-      imports [
-        "Lib.Container"
-        "Lib.Container.first"
-        "Lib.firstOf"
-      ]
-      procedures {
-        "Use.deep2" {
-          access "public"
-          body [
-            {
-              let "y"
-              value {
-                call {
-                  arguments [
-                    {
-                      ref "c"
-                    }
-                  ]
-                  procedure "Lib.Container.first"
-                }
-              }
-            }
-            {
-              let "z"
-              value {
-                call {
-                  arguments [
-                    {
-                      ref "y"
-                    }
-                  ]
-                  procedure "Lib.firstOf"
-                }
-              }
-            }
-          ]
-          bounds {
-            "C.Item" "Lib.Container"
-          }
-          parameters [
-            {
-              name "c"
-              type "some C: Lib.Container"
-            }
-          ]
-          result {
-            ref "z"
-          }
-          returns "some C.Item.Item"
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    answers 1
-  }
-  name "a-declaration-answering-an-associated-type-two-steps-from-its-parameter-answers"
-  note "`Use.deep2` declares it answers `some C.Item.Item`, the first of the first of `c`. A box of boxes of Int fills C, so the answer is an Int."
-  program {
-    imports [
-      "App.Box"
-      "Use.deep2"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "b"
-            type "App.Box<Int>"
-            value {
-              struct {
-                item 1
-              }
-            }
-          }
-          {
-            let "bb"
-            type "App.Box<App.Box<Int>>"
-            value {
-              struct {
-                item {
-                  ref "b"
-                }
-              }
-            }
-          }
-          {
-            let "r"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "bb"
-                  }
-                ]
-                procedure "Use.deep2"
-              }
-            }
-          }
-        ]
-        result {
-          ref "r"
-        }
-        returns "Any"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-declaration-answering-an-associated-type-two-steps-from-its-parameter-answers")
+(note "`Use.deep2` declares it answers `some C.Item.Item`, the first of the first of `c`. A box of boxes of Int fills C, so the answer is an Int.")
 
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Container
+      (type Item)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item)))
+    (procedure Lib.firstOf
+      (access public)
+      (parameter c (type (some C Lib.Container)))
+      (returns (some C.Item))
+      (result (call Lib.Container.first c))))
+  (document
+    (warp 1)
+    (import Lib.Container)
+    (struct App.Box
+      (typeParameter T)
+      (satisfies Lib.Container)
+      (field item (some T))
+      (type Item (some T))
+      (procedure first
+        (access public)
+        (parameter of (type (named App.Box (some T))))
+        (returns (some T))
+        (result (path of (field item))))))
+  (document
+    (warp 1)
+    (import Lib.Container)
+    (import Lib.Container.first)
+    (import Lib.firstOf)
+    (procedure Use.deep2
+      (access public)
+      (parameter c (type (some C Lib.Container)))
+      (returns (some C.Item.Item))
+      (bound C.Item Lib.Container)
+      (body
+        (let y (call Lib.Container.first c))
+        (let z (call Lib.firstOf y)))
+      (result z))))
+
+(program
+  (warp 1)
+  (import App.Box)
+  (import Use.deep2)
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let b (type (named App.Box Int)) (struct (field item 1)))
+      (let bb (type (named App.Box (named App.Box Int))) (struct (field item b)))
+      (let r (call Use.deep2 bb)))
+    (result r)))
+(expect (answers 1))

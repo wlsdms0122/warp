@@ -1,40 +1,15 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-struct-literal-a-name-that-declares-nothing-holds-refuses"
-  note "A name that says nothing of what it holds reads no declared struct, so a struct literal it is bound to has no struct to be and refuses at the build, though the name is answered where an `App.P` is declared."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "p"
-            value {
-              struct {
-                x 1
-              }
-            }
-          }
-        ]
-        result {
-          ref "p"
-        }
-        returns "App.P"
-      }
-    }
-    types {
-      "App.P" {
-        struct {
-          x "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-struct-literal-a-name-that-declares-nothing-holds-refuses")
+(note "A name that says nothing of what it holds reads no declared struct, so a struct literal it is bound to has no struct to be and refuses at the build, though the name is answered where an `App.P` is declared.")
 
+(program
+  (warp 1)
+  (struct App.P
+    (field x Int))
+  (procedure entry
+    (access public)
+    (returns App.P)
+    (body
+      (let p (struct (field x 1))))
+    (result p)))
+(expect (refuses build))

@@ -1,33 +1,13 @@
-warpt 1
-{
-  arguments {
-    x 1
-    y 2
-  }
-  expect {
-    refuses "run"
-  }
-  name "a-run-given-an-argument-its-entry-does-not-declare-refuses"
-  note "A run is given the parameters its entry declares and nothing more. A value under a name the entry does not declare stands in no slot, and the run is refused before anything runs."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        parameters [
-          {
-            name "x"
-            type "Int"
-          }
-        ]
-        result {
-          ref "x"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-run-given-an-argument-its-entry-does-not-declare-refuses")
+(note "A run is given the parameters its entry declares and nothing more. A value under a name the entry does not declare stands in no slot, and the run is refused before anything runs.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter x (type Int))
+    (returns Int)
+    (result x)))
+(arguments (argument x 1) (argument y 2))
+(expect (refuses run))

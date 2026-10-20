@@ -1,75 +1,26 @@
-warpt 1
-{
-  expect {
-    answers 6
-  }
-  name "reduce-folds-in-order"
-  note "A walking procedure offers names. Reduce offers `carried` and `item`, and the closure's own parameters say which of the offer it reads."
-  program {
-    imports [
-      "Standard.Collection.reduce"
-      "Standard.Numeric.plus"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "total"
-            value {
-              call {
-                arguments [
-                  [
-                    1
-                    2
-                    3
-                  ]
-                  0
-                  {
-                    closure {
-                      const true
-                      isolated true
-                      parameters [
-                        {
-                          name "carried"
-                          type "Int"
-                        }
-                        {
-                          name "item"
-                          type "Int"
-                        }
-                      ]
-                      result {
-                        call {
-                          arguments [
-                            {
-                              ref "carried"
-                            }
-                            {
-                              ref "item"
-                            }
-                          ]
-                          procedure "Standard.Numeric.plus"
-                        }
-                      }
-                      returns "Int"
-                    }
-                  }
-                ]
-                procedure "Standard.Collection.reduce"
-              }
-            }
-          }
-        ]
-        const true
-        result {
-          ref "total"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "reduce-folds-in-order")
+(note "A walking procedure offers names. Reduce offers `carried` and `item`, and the closure's own parameters say which of the offer it reads.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.reduce)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (const)
+    (returns Int)
+    (body
+      (let total
+        (call Standard.Collection.reduce
+          (array 1 2 3)
+          0
+          (closure
+            (const)
+            (isolated)
+            (parameter carried (type Int))
+            (parameter item (type Int))
+            (returns Int)
+            (result (call Standard.Numeric.plus carried item))))))
+    (result total)))
+(expect (answers 6))

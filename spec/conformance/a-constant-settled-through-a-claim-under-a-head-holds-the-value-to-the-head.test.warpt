@@ -1,101 +1,38 @@
-warpt 1
-{
-  documents [
-    {
-      contracts {
-        "App.Describable" {
-          procedures {
-            describe {
-              const true
-              parameters [
-                {
-                  name "of"
-                  type "Self"
-                }
-              ]
-              returns "String"
-            }
-          }
-        }
-      }
-      extensions {
-        "App.Box<Int?>" {
-          procedures {
-            describe {
-              access "public"
-              const true
-              isolated true
-              parameters [
-                {
-                  name "of"
-                  type "App.Box<Int?>"
-                }
-              ]
-              result "box"
-              returns "String"
-            }
-          }
-          satisfies [
-            "App.Describable"
-          ]
-        }
-      }
-      imports []
-      types {
-        "App.Box" {
-          struct {
-            item "some T"
-          }
-          typeParameters [
-            "T"
-          ]
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    answers "box"
-  }
-  name "a-constant-settled-through-a-claim-under-a-head-holds-the-value-to-the-head"
-  note "A constant settles through App.Describable, which answers without running, with a box holding `1` read as `App.Box<Int?>`. The fold holds the value it ran on to the head the claim was written under, which takes it, so the link answers what the run would."
-  program {
-    const {
-      d {
-        call {
-          arguments [
-            {
-              as {
-                of {
-                  struct {
-                    item 1
-                  }
-                }
-                type "App.Box<Int?>"
-              }
-            }
-          ]
-          procedure "App.Describable.describe"
-        }
-      }
-    }
-    imports [
-      "App.Box"
-      "App.Describable.describe"
-    ]
-    procedures {
-      entry {
-        access "public"
-        const true
-        isolated true
-        result {
-          ref "d"
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-constant-settled-through-a-claim-under-a-head-holds-the-value-to-the-head")
+(note "A constant settles through App.Describable, which answers without running, with a box holding `1` read as `App.Box<Int?>`. The fold holds the value it ran on to the head the claim was written under, which takes it, so the link answers what the run would.")
 
+(documents
+  (document
+    (warp 1)
+    (struct App.Box
+      (typeParameter T)
+      (field item (some T)))
+    (contract App.Describable
+      (procedure describe
+        (const)
+        (parameter of (type Self))
+        (returns String)))
+    (extension
+      (head (named App.Box (nullable Int)))
+      (satisfies App.Describable)
+      (procedure describe
+        (access public)
+        (const)
+        (isolated)
+        (parameter of (type (named App.Box (nullable Int))))
+        (returns String)
+        (result "box")))))
+
+(program
+  (warp 1)
+  (import App.Box)
+  (import App.Describable.describe)
+  (const d (call App.Describable.describe (as (struct (field item 1)) (named App.Box (nullable Int)))))
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (returns String)
+    (result d)))
+(expect (answers "box"))

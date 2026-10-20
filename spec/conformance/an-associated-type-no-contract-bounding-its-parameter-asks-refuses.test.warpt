@@ -1,81 +1,30 @@
-warpt 1
-{
-  documents [
-    {
-      contracts {
-        "Lib.Container" {
-          procedures {
-            first {
-              parameters [
-                {
-                  name "of"
-                  type "Self"
-                }
-              ]
-              returns "Self.Item"
-            }
-          }
-          types [
-            "Item"
-          ]
-        }
-      }
-      imports []
-      procedures {
-        "Lib.firstOf" {
-          access "public"
-          parameters [
-            {
-              name "c"
-              type "some C: Lib.Container"
-            }
-          ]
-          result {
-            call {
-              arguments [
-                {
-                  ref "c"
-                }
-              ]
-              procedure "Lib.Container.first"
-            }
-          }
-          returns "some C.Item"
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    refuses "build"
-  }
-  name "an-associated-type-no-contract-bounding-its-parameter-asks-refuses"
-  note "C is bounded by Hashable, which asks no type Item, so `some C.Item` names no associated type and refuses at the build."
-  program {
-    imports []
-    procedures {
-      "Use.it" {
-        parameters [
-          {
-            name "c"
-            type "some C: Hashable"
-          }
-          {
-            name "x"
-            type "some C.Item"
-          }
-        ]
-        result 1
-        returns "Int"
-      }
-      entry {
-        access "public"
-        result 1
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-associated-type-no-contract-bounding-its-parameter-asks-refuses")
+(note "C is bounded by Hashable, which asks no type Item, so `some C.Item` names no associated type and refuses at the build.")
 
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Container
+      (type Item)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item)))
+    (procedure Lib.firstOf
+      (access public)
+      (parameter c (type (some C Lib.Container)))
+      (returns (some C.Item))
+      (result (call Lib.Container.first c)))))
+
+(program
+  (warp 1)
+  (procedure Use.it
+    (parameter c (type (some C Hashable)))
+    (parameter x (type (some C.Item)))
+    (returns Int)
+    (result 1))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result 1)))
+(expect (refuses build))

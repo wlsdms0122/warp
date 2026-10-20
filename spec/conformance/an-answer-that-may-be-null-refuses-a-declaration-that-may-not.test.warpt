@@ -1,36 +1,13 @@
-warpt 1
-{
-  arguments {
-    payload 1
-  }
-  expect {
-    refuses "build"
-  }
-  name "an-answer-that-may-be-null-refuses-a-declaration-that-may-not"
-  note "A body and the `returns` beside it are one document's text, so what the body reads is held to what the declaration promises without waiting for a run. `as?` reads `Int?`, and what may be null does not stand where null was never declared."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        parameters [
-          {
-            name "payload"
-          }
-        ]
-        result {
-          "as?" {
-            of {
-              ref "payload"
-            }
-            type "Int"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-answer-that-may-be-null-refuses-a-declaration-that-may-not")
+(note "A body and the `returns` beside it are one document's text, so what the body reads is held to what the declaration promises without waiting for a run. `as?` reads `Int?`, and what may be null does not stand where null was never declared.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter payload)
+    (returns Int)
+    (result (as? payload Int))))
+(arguments (argument payload 1))
+(expect (refuses build))

@@ -1,26 +1,12 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-value-name-ending-in-a-line-break-refuses"
-  note "A path reads a segment without the white space at its ends, a line break included, so a name ending in one is never the name a path reaches, and the document refuses at the load."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "a\n"
-            value 1
-          }
-        ]
-        result 1
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-value-name-ending-in-a-line-break-refuses")
+(note "A path reads a segment without the white space at its ends, a line break included, so a name ending in one is never the name a path reaches, and the document refuses at the load.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (body
+      (let `a\n` 1))
+    (result 1)))
+(expect (refuses load))

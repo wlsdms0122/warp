@@ -1,58 +1,18 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-name-a-round-declares-is-not-read-after-the-loop"
-  note "What a loop's round declares stays its own and dies with the round. A reference after the loop to a name only the round declared reads a name that is not there."
-  program {
-    imports [
-      "Standard.Comparable.lessThan"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "walk"
-            value {
-              loop {
-                body [
-                  {
-                    let "transient"
-                    value {
-                      ref "walk.index"
-                    }
-                  }
-                ]
-                while {
-                  call {
-                    arguments [
-                      {
-                        ref "walk.index"
-                      }
-                      3
-                    ]
-                    procedure "Standard.Comparable.lessThan"
-                  }
-                }
-              }
-            }
-          }
-          {
-            let "read"
-            value {
-              ref "transient"
-            }
-          }
-        ]
-        result {
-          ref "read"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-name-a-round-declares-is-not-read-after-the-loop")
+(note "What a loop's round declares stays its own and dies with the round. A reference after the loop to a name only the round declared reads a name that is not there.")
 
+(program
+  (warp 1)
+  (import Standard.Comparable.lessThan)
+  (procedure entry
+    (access public)
+    (body
+      (let walk
+        (loop
+          (while (call Standard.Comparable.lessThan (path walk (field index)) 3))
+          (body
+            (let transient (path walk (field index))))))
+      (let read transient))
+    (result read)))
+(expect (refuses load))

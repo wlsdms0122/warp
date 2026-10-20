@@ -1,69 +1,29 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-piece-calling-a-host-procedure-that-is-not-isolated-refuses"
-  note "A procedure the host answers says whether it is isolated, and `App.count` says only `const`. A piece declaring `isolated` calls only declarations that say they are isolated, so the build refuses it and `Standard.Concurrent.map` never takes it."
-  program {
-    imports [
-      "App.count"
-      "Standard.Concurrent.map"
-    ]
-    procedures {
-      entry {
-        access "public"
-        failing [
-          "concurrent_failed"
-        ]
-        result {
-          call {
-            arguments [
-              [
-                1
-                2
-              ]
-              {
-                closure {
-                  isolated true
-                  parameters [
-                    {
-                      name "item"
-                      type "Int"
-                    }
-                    {
-                      name "index"
-                      type "Int"
-                    }
-                  ]
-                  result {
-                    call {
-                      procedure "App.count"
-                    }
-                  }
-                  returns "Int"
-                }
-              }
-            ]
-            procedure "Standard.Concurrent.map"
-          }
-        }
-        returns "Array<Int>"
-      }
-    }
-    warp 1
-  }
-  test 1
-  vocabulary {
-    imports []
-    procedures {
-      "App.count" {
-        access "public"
-        answers 1
-        const true
-        returns "Int"
-      }
-    }
-  }
-}
+(test 1)
+(name "a-piece-calling-a-host-procedure-that-is-not-isolated-refuses")
+(note "A procedure the host answers says whether it is isolated, and `App.count` says only `const`. A piece declaring `isolated` calls only declarations that say they are isolated, so the build refuses it and `Standard.Concurrent.map` never takes it.")
 
+(vocabulary
+  (procedure App.count
+    (access public)
+    (const)
+    (returns Int)
+    (answers 1)))
+
+(program
+  (warp 1)
+  (import App.count)
+  (import Standard.Concurrent.map)
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (failing concurrent_failed)
+    (result
+      (call Standard.Concurrent.map
+        (array 1 2)
+        (closure
+          (isolated)
+          (parameter item (type Int))
+          (parameter index (type Int))
+          (returns Int)
+          (result (call App.count)))))))
+(expect (refuses build))

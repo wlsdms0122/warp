@@ -1,11 +1,5 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-fraction-not-in-its-one-writing-refuses"
-  note "A double is spelled as the shortest decimal that reads back to the same value. `1.50` and `1.5` are two texts for one value, and only the short one is a document."
-  test 1
-  text "warpt 1\n1.50\n"
-}
-
+(test 1)
+(name "a-fraction-not-in-its-one-writing-refuses")
+(note "A double is spelled as the shortest decimal that reads back to the same value. `1.50` and `1.5` are two texts for one value, and only the short one is a document.")
+(text "(warp 1)\n(const a 1.50)\n")
+(expect (refuses load))

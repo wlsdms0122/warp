@@ -1,88 +1,25 @@
-warpt 1
-{
-  arguments {
-    payload 1
-  }
-  expect {
-    refuses "build"
-  }
-  name "a-write-an-attempt-body-makes-reads-back-nullable"
-  note "An attempt's body may fail before its write, so a write inside it joins with what the name held. After it the name reads `Int?`, and a slot declared `Int` refuses it."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            var "kept"
-          }
-          {
-            value {
-              attempt {
-                body [
-                  {
-                    let "read"
-                    value {
-                      as {
-                        of {
-                          ref "payload"
-                        }
-                        type "Int"
-                      }
-                    }
-                  }
-                  {
-                    set "kept"
-                    value {
-                      ref "read"
-                    }
-                  }
-                ]
-                rescue {
-                  body [
-                    {
-                      let "noted"
-                      value 0
-                    }
-                  ]
-                }
-              }
-            }
-          }
-          {
-            let "said"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "kept"
-                  }
-                ]
-                procedure "wants"
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "payload"
-          }
-        ]
-      }
-      wants {
-        parameters [
-          {
-            name "it"
-            type "Int"
-          }
-        ]
-        result true
-        returns "Bool"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-write-an-attempt-body-makes-reads-back-nullable")
+(note "An attempt's body may fail before its write, so a write inside it joins with what the name held. After it the name reads `Int?`, and a slot declared `Int` refuses it.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter payload)
+    (body
+      (var kept)
+      (attempt
+        (body
+          (let read (as payload Int))
+          (set kept read))
+        (rescue
+          (body
+            (let noted 0))))
+      (let said (call wants kept))))
+  (procedure wants
+    (parameter it (type Int))
+    (returns Bool)
+    (result true)))
+(arguments (argument payload 1))
+(expect (refuses build))

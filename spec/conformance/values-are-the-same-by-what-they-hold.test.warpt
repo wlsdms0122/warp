@@ -1,119 +1,36 @@
-warpt 1
-{
-  expect {
-    answers true
-  }
-  name "values-are-the-same-by-what-they-hold"
-  note "A whole number and a fraction of the same worth are one value, two structs of one name holding the same fields bound to the same values are one value, and two arrays holding the same elements in the same order are one value."
-  program {
-    imports [
-      "Standard.Logic.equal"
-      "Standard.Logic.tryAnd"
-    ]
-    procedures {
-      entry {
-        access "public"
-        const true
-        failing "anything"
-        result {
-          call {
-            arguments [
-              [
-                {
-                  closure {
-                    const true
-                    isolated true
-                    result {
-                      call {
-                        arguments [
-                          1
-                          1.0
-                        ]
-                        procedure "Standard.Logic.equal"
-                      }
-                    }
-                    returns "Bool"
-                  }
-                }
-                {
-                  closure {
-                    const true
-                    failing [
-                      "cast_refused"
-                    ]
-                    isolated true
-                    result {
-                      call {
-                        arguments [
-                          {
-                            as {
-                              of {
-                                struct {
-                                  a 1
-                                  b 2
-                                }
-                              }
-                              type "App.P"
-                            }
-                          }
-                          {
-                            as {
-                              of {
-                                struct {
-                                  a 1
-                                  b 2
-                                }
-                              }
-                              type "App.P"
-                            }
-                          }
-                        ]
-                        procedure "Standard.Logic.equal"
-                      }
-                    }
-                    returns "Bool"
-                  }
-                }
-                {
-                  closure {
-                    const true
-                    isolated true
-                    result {
-                      call {
-                        arguments [
-                          [
-                            1
-                            2
-                          ]
-                          [
-                            1
-                            2
-                          ]
-                        ]
-                        procedure "Standard.Logic.equal"
-                      }
-                    }
-                    returns "Bool"
-                  }
-                }
-              ]
-            ]
-            procedure "Standard.Logic.tryAnd"
-          }
-        }
-        returns "Bool"
-      }
-    }
-    types {
-      "App.P" {
-        struct {
-          a "Int"
-          b "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "values-are-the-same-by-what-they-hold")
+(note "A whole number and a fraction of the same worth are one value, two structs of one name holding the same fields bound to the same values are one value, and two arrays holding the same elements in the same order are one value.")
 
+(program
+  (warp 1)
+  (import Standard.Logic.equal)
+  (import Standard.Logic.tryAnd)
+  (struct App.P
+    (field a Int)
+    (field b Int))
+  (procedure entry
+    (access public)
+    (const)
+    (returns Bool)
+    (failing (anything))
+    (result
+      (call Standard.Logic.tryAnd
+        (array
+          (closure
+            (const)
+            (isolated)
+            (returns Bool)
+            (result (call Standard.Logic.equal 1 1.0)))
+          (closure
+            (const)
+            (isolated)
+            (returns Bool)
+            (failing cast_refused)
+            (result (call Standard.Logic.equal (as (struct (field a 1) (field b 2)) App.P) (as (struct (field a 1) (field b 2)) App.P))))
+          (closure
+            (const)
+            (isolated)
+            (returns Bool)
+            (result (call Standard.Logic.equal (array 1 2) (array 1 2)))))))))
+(expect (answers true))

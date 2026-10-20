@@ -1,95 +1,21 @@
-warpt 1
-{
-  expect {
-    answers 5
-  }
-  name "a-zero-width-space-is-not-whitespace"
-  note "Unicode does not give a zero-width space the White_Space property, so trimming leaves one where it stands however a platform's own whitespace set answers. Written as its bytes, since a character with no width is one a document cannot show."
-  program {
-    imports [
-      "Standard.Collection.count"
-      "Standard.Text.characters"
-      "Standard.Text.decoded"
-      "Standard.Text.joined"
-      "Standard.Text.trimmed"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "thin"
-            value {
-              call {
-                arguments [
-                  x"e2808b"
-                  "utf8"
-                ]
-                procedure "Standard.Text.decoded"
-              }
-            }
-          }
-          {
-            let "written"
-            value {
-              call {
-                arguments [
-                  [
-                    " "
-                    "warp"
-                    {
-                      ref "thin"
-                    }
-                    " "
-                  ]
-                  ""
-                ]
-                procedure "Standard.Text.joined"
-              }
-            }
-          }
-          {
-            let "bare"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "written"
-                  }
-                ]
-                procedure "Standard.Text.trimmed"
-              }
-            }
-          }
-          {
-            let "held"
-            value {
-              call {
-                arguments [
-                  {
-                    call {
-                      arguments [
-                        {
-                          ref "bare"
-                        }
-                      ]
-                      procedure "Standard.Text.characters"
-                    }
-                  }
-                ]
-                procedure "Standard.Collection.count"
-              }
-            }
-          }
-        ]
-        result {
-          ref "held"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-zero-width-space-is-not-whitespace")
+(note "Unicode does not give a zero-width space the White_Space property, so trimming leaves one where it stands however a platform's own whitespace set answers. Written as its bytes, since a character with no width is one a document cannot show.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.count)
+  (import Standard.Text.characters)
+  (import Standard.Text.decoded)
+  (import Standard.Text.joined)
+  (import Standard.Text.trimmed)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let thin (call Standard.Text.decoded x"e2808b" "utf8"))
+      (let written (call Standard.Text.joined (array " " "warp" thin " ") ""))
+      (let bare (call Standard.Text.trimmed written))
+      (let held (call Standard.Collection.count (call Standard.Text.characters bare))))
+    (result held)))
+(expect (answers 5))

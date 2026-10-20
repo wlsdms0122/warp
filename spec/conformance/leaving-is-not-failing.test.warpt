@@ -1,51 +1,19 @@
-warpt 1
-{
-  expect {
-    answers "left from inside"
-  }
-  name "leaving-is-not-failing"
-  note "A rescue is for what the world did; leaving is what the program said. The cast is what the attempt stands over, since a rescue over a body that cannot fail refuses; the return leaves past it either way."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "tried"
-            value {
-              attempt {
-                body [
-                  {
-                    let "checked"
-                    value {
-                      as {
-                        of null
-                        type "Int?"
-                      }
-                    }
-                  }
-                  {
-                    value {
-                      return "left from inside"
-                    }
-                  }
-                ]
-                rescue {
-                  result "the rescue ran"
-                }
-              }
-            }
-          }
-        ]
-        result {
-          ref "tried"
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "leaving-is-not-failing")
+(note "A rescue is for what the world did; leaving is what the program said. The cast is what the attempt stands over, since a rescue over a body that cannot fail refuses; the return leaves past it either way.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let tried
+        (attempt
+          (body
+            (let checked (as null (nullable Int)))
+            (return "left from inside"))
+          (rescue
+            (result "the rescue ran")))))
+    (result tried)))
+(expect (answers "left from inside"))

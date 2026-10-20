@@ -1,255 +1,28 @@
-warpt 1
-{
-  expect {
-    builds {
-      claims [
-        [
-          "Double"
-          [
-            "App.Number"
-          ]
-        ]
-        [
-          "Int"
-          [
-            "App.Number"
-          ]
-        ]
-      ]
-      constants []
-      contracts [
-        [
-          "App.Number"
-          [
-            []
-            []
-            []
-          ]
-        ]
-      ]
-      dependencies []
-      document [
-        x"4f4b0b0a86ab2d1491ae4c729f97c77b9ee953329a5f4b62f2fce9e4ab41a7d6"
-      ]
-      importedClaims []
-      lifted []
-      members []
-      numbering [
-        []
-        []
-      ]
-      object 1
-      rows [
-        [
-          "entry"
-          [
-            [
-              [
-                "p"
-                []
-                []
-              ]
-              [
-                "v"
-                [
-                  [
-                    15
-                    "T"
-                  ]
-                ]
-                []
-              ]
-            ]
-            [
-              15
-              "T"
-            ]
-            [
-              1
-              [
-                "cast_refused"
-              ]
-            ]
-            1
-            1
-            [
-              [
-                "T"
-                [
-                  "App.Number"
-                ]
-              ]
-            ]
-            []
-          ]
-          2
-          [
-            0
-            [
-              [
-                [
-                  [
-                    [
-                      0
-                      2
-                    ]
-                  ]
-                  [
-                    6
-                    [
-                      1
-                      [
-                        0
-                        []
-                      ]
-                    ]
-                    [
-                      14
-                      0
-                    ]
-                    false
-                  ]
-                  "kept"
-                ]
-                [
-                  [
-                    [
-                      0
-                      3
-                    ]
-                  ]
-                  [
-                    1
-                    [
-                      1
-                      []
-                    ]
-                  ]
-                  "number"
-                ]
-              ]
-              [
-                [
-                  1
-                  [
-                    1
-                    []
-                  ]
-                ]
-              ]
-            ]
-            [
-              4
-              [
-                0
-                1
-              ]
-              []
-              []
-              [
-                "p"
-                "v"
-                "kept"
-                "number"
-              ]
-            ]
-          ]
-        ]
-      ]
-      typeMembers []
-      typeNumbering [
-        "App.Point"
-      ]
-      types [
-        [
-          "App.Point"
-          [
-            9
-            [
-              [
-                "x"
-                [
-                  4
-                ]
-              ]
-            ]
-          ]
-        ]
-      ]
-      variables []
-    }
-  }
-  name "the-object-of-a-declared-type-and-a-contract"
-  note "Declared types and contracts stand as the document wrote them. A body standing on a declared type, here by a cast to it, numbers it under typeNumbering, a slot declaring a type parameter writes it with its bounds, and a name that holds a value of a contract lowers to a composition of the contract's name."
-  program {
-    contracts {
-      "App.Number" {}
-    }
-    extensions {
-      Double {
-        satisfies [
-          "App.Number"
-        ]
-      }
-      Int {
-        satisfies [
-          "App.Number"
-        ]
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "kept"
-            value {
-              as {
-                of {
-                  ref "p"
-                }
-                type "App.Point"
-              }
-            }
-          }
-          {
-            let "number"
-            type "App.Number"
-            value {
-              ref "v"
-            }
-          }
-        ]
-        const true
-        failing [
-          "cast_refused"
-        ]
-        isolated true
-        parameters [
-          {
-            name "p"
-          }
-          {
-            name "v"
-            type "some T: App.Number"
-          }
-        ]
-        result {
-          ref "v"
-        }
-        returns "some T"
-      }
-    }
-    types {
-      "App.Point" {
-        struct {
-          x "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "the-object-of-a-declared-type-and-a-contract")
+(note "Declared types and contracts stand as the document wrote them. A body standing on a declared type, here by a cast to it, numbers it under typeNumbering, a slot declaring a type parameter writes it with its bounds, and a name that holds a value of a contract lowers to a composition of the contract's name.")
 
+(program
+  (warp 1)
+  (struct App.Point
+    (field x Int))
+  (contract App.Number)
+  (extension
+    (head Double)
+    (satisfies App.Number))
+  (extension
+    (head Int)
+    (satisfies App.Number))
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (parameter p)
+    (parameter v (type (some T App.Number)))
+    (returns (some T))
+    (failing cast_refused)
+    (body
+      (let kept (as p App.Point))
+      (let number (type App.Number) v))
+    (result v)))
+(expect (builds (dictionary (entry "claims" (array (array "Double" (array "App.Number")) (array "Int" (array "App.Number")))) (entry "constants" (array)) (entry "contracts" (array (array "App.Number" (array (array) (array) (array))))) (entry "dependencies" (array)) (entry "document" (array x"4f4b0b0a86ab2d1491ae4c729f97c77b9ee953329a5f4b62f2fce9e4ab41a7d6")) (entry "importedClaims" (array)) (entry "lifted" (array)) (entry "members" (array)) (entry "numbering" (array (array) (array))) (entry "object" 1) (entry "rows" (array (array "entry" (array (array (array "p" (array) (array)) (array "v" (array (array 15 "T")) (array))) (array 15 "T") (array 1 (array "cast_refused")) 1 1 (array (array "T" (array "App.Number"))) (array)) 2 (array 0 (array (array (array (array (array 0 2)) (array 6 (array 1 (array 0 (array))) (array 14 0) false) "kept") (array (array (array 0 3)) (array 1 (array 1 (array))) "number")) (array (array 1 (array 1 (array))))) (array 4 (array 0 1) (array) (array) (array "p" "v" "kept" "number")))))) (entry "typeMembers" (array)) (entry "typeNumbering" (array "App.Point")) (entry "types" (array (array "App.Point" (array 9 (array (array "x" (array 4))))))) (entry "variables" (array)))))

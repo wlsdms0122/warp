@@ -1,70 +1,30 @@
-warpt 1
-{
-  expect {
-    answers {
-      left 1
-      right 2
-    }
-  }
-  name "all-answers-every-piece-under-its-key"
-  note "Running at once is a procedure, not grammar. `Standard.Concurrent.allKeyed` runs every piece it is handed under a key and answers each piece's answer under the key the piece stood under."
-  program {
-    imports [
-      "Standard.Concurrent.allKeyed"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "both"
-            value {
-              call {
-                arguments [
-                  {
-                    dictionary [
-                      [
-                        "left"
-                        {
-                          closure {
-                            const true
-                            isolated true
-                            result 1
-                            returns "Int"
-                          }
-                        }
-                      ]
-                      [
-                        "right"
-                        {
-                          closure {
-                            const true
-                            isolated true
-                            result 2
-                            returns "Int"
-                          }
-                        }
-                      ]
-                    ]
-                  }
-                ]
-                procedure "Standard.Concurrent.allKeyed"
-              }
-            }
-          }
-        ]
-        failing [
-          "concurrent_failed"
-        ]
-        isolated true
-        result {
-          ref "both"
-        }
-        returns "Dictionary<String, Int>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "all-answers-every-piece-under-its-key")
+(note "Running at once is a procedure, not grammar. `Standard.Concurrent.allKeyed` runs every piece it is handed under a key and answers each piece's answer under the key the piece stood under.")
 
+(program
+  (warp 1)
+  (import Standard.Concurrent.allKeyed)
+  (procedure entry
+    (access public)
+    (isolated)
+    (returns (dictionary String Int))
+    (failing concurrent_failed)
+    (body
+      (let both
+        (call Standard.Concurrent.allKeyed
+          (dictionary
+            (entry "left"
+              (closure
+                (const)
+                (isolated)
+                (returns Int)
+                (result 1)))
+            (entry "right"
+              (closure
+                (const)
+                (isolated)
+                (returns Int)
+                (result 2)))))))
+    (result both)))
+(expect (answers (dictionary (entry "left" 1) (entry "right" 2))))

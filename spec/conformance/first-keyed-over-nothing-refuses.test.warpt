@@ -1,35 +1,13 @@
-warpt 1
-{
-  expect {
-    refuses "run"
-  }
-  name "first-keyed-over-nothing-refuses"
-  note "A procedure that answers exactly one thing has no empty answer, over a map as over a list."
-  program {
-    imports [
-      "Standard.Concurrent.firstKeyed"
-    ]
-    procedures {
-      entry {
-        access "public"
-        failing [
-          "concurrent_failed"
-        ]
-        result {
-          call {
-            arguments [
-              {
-                dictionary []
-              }
-            ]
-            procedure "Standard.Concurrent.firstKeyed"
-          }
-        }
-        returns "Never"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "first-keyed-over-nothing-refuses")
+(note "A procedure that answers exactly one thing has no empty answer, over a map as over a list.")
 
+(program
+  (warp 1)
+  (import Standard.Concurrent.firstKeyed)
+  (procedure entry
+    (access public)
+    (returns Never)
+    (failing concurrent_failed)
+    (result (call Standard.Concurrent.firstKeyed (dictionary)))))
+(expect (refuses run))

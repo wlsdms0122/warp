@@ -1,54 +1,14 @@
-warpt 1
-{
-  expect {
-    answers "a"
-  }
-  name "a-map-keyed-by-lists-finds-a-list-by-its-elements"
-  note "`Array<Int>` answers `Hashable` through the language's claim about every list, so a list is a map's key, and a list written apart from the map, `k`, finds the entry under the same elements in the same order."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "d"
-            type "Dictionary<Array<Int>, String>"
-            value {
-              dictionary [
-                [
-                  [
-                    1
-                    2
-                  ]
-                  "a"
-                ]
-                [
-                  [
-                    1
-                  ]
-                  "b"
-                ]
-              ]
-            }
-          }
-          {
-            let "k"
-            type "Array<Int>"
-            value [
-              1
-              2
-            ]
-          }
-        ]
-        result {
-          ref "d[k]"
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-map-keyed-by-lists-finds-a-list-by-its-elements")
+(note "`Array<Int>` answers `Hashable` through the language's claim about every list, so a list is a map's key, and a list written apart from the map, `k`, finds the entry under the same elements in the same order.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let d (type (dictionary (array Int) String)) (dictionary (entry (array 1 2) "a") (entry (array 1) "b")))
+      (let k (type (array Int)) (array 1 2)))
+    (result (path d (index k)))))
+(expect (answers "a"))

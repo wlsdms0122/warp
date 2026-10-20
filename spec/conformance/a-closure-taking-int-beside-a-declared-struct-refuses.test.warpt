@@ -1,99 +1,27 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-closure-taking-int-beside-a-declared-struct-refuses"
-  note "The point fills `T` with `App.Point`, and the closure taking `Int` does not take the `App.Point` the slot hands it, so the call refuses at the build."
-  program {
-    imports []
-    procedures {
-      "App.make" {
-        parameters [
-          {
-            name "x"
-            type "some T"
-          }
-          {
-            name "f"
-            type "(some T) -> Any"
-          }
-        ]
-        result {
-          ref "f"
-        }
-        returns "(some T) -> Any"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "h"
-            value {
-              call {
-                arguments [
-                  {
-                    as {
-                      of {
-                        struct {
-                          x 1
-                        }
-                      }
-                      type "App.Point"
-                    }
-                  }
-                  {
-                    closure {
-                      parameters [
-                        {
-                          name "p"
-                          type "Int"
-                        }
-                      ]
-                      result {
-                        ref "p"
-                      }
-                      returns "Any"
-                    }
-                  }
-                ]
-                procedure "App.make"
-              }
-            }
-          }
-        ]
-        failing "anything"
-        result {
-          call {
-            arguments [
-              {
-                as {
-                  of {
-                    struct {
-                      x 3
-                    }
-                  }
-                  type "App.Point"
-                }
-              }
-            ]
-            procedure {
-              ref "h"
-            }
-          }
-        }
-        returns "Any"
-      }
-    }
-    types {
-      "App.Point" {
-        struct {
-          x "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-closure-taking-int-beside-a-declared-struct-refuses")
+(note "The point fills `T` with `App.Point`, and the closure taking `Int` does not take the `App.Point` the slot hands it, so the call refuses at the build.")
 
+(program
+  (warp 1)
+  (struct App.Point
+    (field x Int))
+  (procedure App.make
+    (parameter x (type (some T)))
+    (parameter f (type (procedure (parameters (some T)) (returns Any))))
+    (returns (procedure (parameters (some T)) (returns Any)))
+    (result f))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (failing (anything))
+    (body
+      (let h
+        (call App.make
+          (as (struct (field x 1)) App.Point)
+          (closure
+            (parameter p (type Int))
+            (returns Any)
+            (result p)))))
+    (result (apply h (as (struct (field x 3)) App.Point)))))
+(expect (refuses build))

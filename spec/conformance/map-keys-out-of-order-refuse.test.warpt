@@ -1,11 +1,5 @@
-warpt 1
-{
-  bytes x"5741525001070205016100030200"
-  expect {
-    refuses "load"
-  }
-  name "map-keys-out-of-order-refuse"
-  note "A map's keys ascend in the key order, kind before kind, so a number stands before text. Text written ahead of a number is bytes the writer would not write, and a reader that sorted them would give one document two byte spellings."
-  test 1
-}
-
+(test 1)
+(name "map-keys-out-of-order-refuse")
+(note "A map's keys ascend in the key order, kind before kind, so a number stands before text. Text written ahead of a number is bytes the writer would not write, and a reader that sorted them would give one document two byte spellings.")
+(bytes x"5741525001070205016100030200")
+(expect (refuses load))

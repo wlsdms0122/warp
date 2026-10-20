@@ -1,115 +1,31 @@
-warpt 1
-{
-  expect {
-    answers "a card"
-  }
-  name "a-contract-stands-in-a-closures-parameter"
-  note "A contract's name stands where a type is written, a closure literal's parameter included. The slot takes a value of whatever type satisfies it, and the body calls the contract's procedure through the contract."
-  program {
-    contracts {
-      "App.Describable" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "tell"
-            value {
-              closure {
-                parameters [
-                  {
-                    name "it"
-                    type "App.Describable"
-                  }
-                ]
-                result {
-                  call {
-                    arguments [
-                      {
-                        ref "it"
-                      }
-                    ]
-                    procedure "App.Describable.describe"
-                  }
-                }
-                returns "String"
-              }
-            }
-          }
-          {
-            let "card"
-            value {
-              as {
-                of {
-                  struct {
-                    last "42"
-                  }
-                }
-                type "Bank.Card"
-              }
-            }
-          }
-          {
-            let "applied"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "card"
-                  }
-                ]
-                procedure {
-                  ref "tell"
-                }
-              }
-            }
-          }
-        ]
-        failing "anything"
-        result {
-          ref "applied"
-        }
-        returns "String"
-      }
-    }
-    types {
-      "Bank.Card" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Bank.Card"
-              }
-            ]
-            result "a card"
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.Describable"
-        ]
-        struct {
-          last "String"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-contract-stands-in-a-closures-parameter")
+(note "A contract's name stands where a type is written, a closure literal's parameter included. The slot takes a value of whatever type satisfies it, and the body calls the contract's procedure through the contract.")
 
+(program
+  (warp 1)
+  (struct Bank.Card
+    (satisfies App.Describable)
+    (field last String)
+    (procedure describe
+      (parameter of (type Bank.Card))
+      (returns String)
+      (result "a card")))
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing (anything))
+    (body
+      (let tell
+        (closure
+          (parameter it (type App.Describable))
+          (returns String)
+          (result (call App.Describable.describe it))))
+      (let card (as (struct (field last "42")) Bank.Card))
+      (let applied (apply tell card)))
+    (result applied)))
+(expect (answers "a card"))

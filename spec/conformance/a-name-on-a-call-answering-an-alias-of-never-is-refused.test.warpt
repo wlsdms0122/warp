@@ -1,57 +1,21 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-name-on-a-call-answering-an-alias-of-never-is-refused"
-  note "`App.N` is a name for `Never`, and `App.f` declares it, so its call never finishes the way a call declaring `Never` does: a name on it promises a binding that cannot happen, and the build refuses the name."
-  program {
-    imports [
-      "Standard.Control.abort"
-    ]
-    procedures {
-      "App.f" {
-        body [
-          {
-            value {
-              call {
-                arguments [
-                  "no"
-                ]
-                procedure "Standard.Control.abort"
-              }
-            }
-          }
-        ]
-        failing [
-          "aborted"
-        ]
-        returns "App.N"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "x"
-            value {
-              call {
-                procedure "App.f"
-              }
-            }
-          }
-        ]
-        failing [
-          "aborted"
-        ]
-        result 1
-        returns "Never"
-      }
-    }
-    types {
-      "App.N" "Never"
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-name-on-a-call-answering-an-alias-of-never-is-refused")
+(note "`App.N` is a name for `Never`, and `App.f` declares it, so its call never finishes the way a call declaring `Never` does: a name on it promises a binding that cannot happen, and the build refuses the name.")
 
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (type App.N Never)
+  (procedure App.f
+    (returns App.N)
+    (failing aborted)
+    (body
+      (call Standard.Control.abort "no")))
+  (procedure entry
+    (access public)
+    (returns Never)
+    (failing aborted)
+    (body
+      (let x (call App.f)))
+    (result 1)))
+(expect (refuses build))

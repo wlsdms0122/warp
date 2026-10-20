@@ -1,44 +1,15 @@
-warpt 1
-{
-  expect {
-    answers 2
-  }
-  name "a-write-at-a-constant-key-writes-the-entry"
-  note "A constant written between the brackets of a write settles at the build the way a read's does, to the key of the entry the write lands on."
-  program {
-    const {
-      K "a"
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            type "Dictionary<String, Int>"
-            value {
-              dictionary [
-                [
-                  "a"
-                  1
-                ]
-              ]
-            }
-            var "d"
-          }
-          {
-            set "d[K]"
-            value 2
-          }
-        ]
-        result {
-          ref "d[K]"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-write-at-a-constant-key-writes-the-entry")
+(note "A constant written between the brackets of a write settles at the build the way a read's does, to the key of the entry the write lands on.")
 
+(program
+  (warp 1)
+  (const K "a")
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var d (type (dictionary String Int)) (dictionary (entry "a" 1)))
+      (set (path d (index K)) 2))
+    (result (path d (index K)))))
+(expect (answers 2))

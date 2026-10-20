@@ -1,52 +1,16 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-cast-of-a-map-to-a-declared-struct-refuses"
-  note "A declared struct is nominal and a map is no value of it, whatever its keys. `m` is read as `Dictionary<String, Int>`, so a cast of it to `App.P` names a type no value it reads is, and refuses at the build."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "m"
-            type "Dictionary<String, Int>"
-            value {
-              dictionary [
-                [
-                  "x"
-                  1
-                ]
-              ]
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result {
-          as {
-            of {
-              ref "m"
-            }
-            type "App.P"
-          }
-        }
-        returns "App.P"
-      }
-    }
-    types {
-      "App.P" {
-        struct {
-          x "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-cast-of-a-map-to-a-declared-struct-refuses")
+(note "A declared struct is nominal and a map is no value of it, whatever its keys. `m` is read as `Dictionary<String, Int>`, so a cast of it to `App.P` names a type no value it reads is, and refuses at the build.")
 
+(program
+  (warp 1)
+  (struct App.P
+    (field x Int))
+  (procedure entry
+    (access public)
+    (returns App.P)
+    (failing cast_refused)
+    (body
+      (let m (type (dictionary String Int)) (dictionary (entry "x" 1))))
+    (result (as m App.P))))
+(expect (refuses build))

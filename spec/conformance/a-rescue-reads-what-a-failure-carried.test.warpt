@@ -1,126 +1,38 @@
-warpt 1
-{
-  expect {
-    answers {
-      pieces [
-        "fragile"
-      ]
-      type "concurrent_failed"
-    }
-  }
-  name "a-rescue-reads-what-a-failure-carried"
-  note "The envelope is the same for every failure and `details` is the box the failing procedure fills. `concurrent_failed` puts every piece's reason there, keyed by the piece, and a rescue reads it through brackets on `details`."
-  program {
-    imports [
-      "Standard.Collection.keys"
-      "Standard.Concurrent.allKeyed"
-      "Standard.Control.abort"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "tried"
-            value {
-              attempt {
-                body [
-                  {
-                    value {
-                      call {
-                        arguments [
-                          {
-                            dictionary [
-                              [
-                                "fine"
-                                {
-                                  closure {
-                                    const true
-                                    isolated true
-                                    result "ok"
-                                    returns "String"
-                                  }
-                                }
-                              ]
-                              [
-                                "fragile"
-                                {
-                                  closure {
-                                    body [
-                                      {
-                                        value {
-                                          call {
-                                            arguments [
-                                              "on purpose"
-                                            ]
-                                            procedure "Standard.Control.abort"
-                                          }
-                                        }
-                                      }
-                                    ]
-                                    const true
-                                    failing [
-                                      "aborted"
-                                    ]
-                                    isolated true
-                                    returns "Never"
-                                  }
-                                }
-                              ]
-                            ]
-                          }
-                        ]
-                        procedure "Standard.Concurrent.allKeyed"
-                      }
-                    }
-                  }
-                ]
-                rescue {
-                  result {
-                    dictionary [
-                      [
-                        "pieces"
-                        {
-                          call {
-                            arguments [
-                              {
-                                as {
-                                  of {
-                                    ref "tried.details[\"failures\"]"
-                                  }
-                                  type "Dictionary<String, Any>"
-                                }
-                              }
-                            ]
-                            procedure "Standard.Collection.keys"
-                          }
-                        }
-                      ]
-                      [
-                        "type"
-                        {
-                          ref "tried.type"
-                        }
-                      ]
-                    ]
-                  }
-                }
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        isolated true
-        result {
-          ref "tried"
-        }
-        returns "Dictionary<String, Any>?"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-rescue-reads-what-a-failure-carried")
+(note "The envelope is the same for every failure and `details` is the box the failing procedure fills. `concurrent_failed` puts every piece's reason there, keyed by the piece, and a rescue reads it through brackets on `details`.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.keys)
+  (import Standard.Concurrent.allKeyed)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (isolated)
+    (returns (nullable (dictionary String Any)))
+    (failing cast_refused)
+    (body
+      (let tried
+        (attempt
+          (body
+            (call Standard.Concurrent.allKeyed
+              (dictionary
+                (entry "fine"
+                  (closure
+                    (const)
+                    (isolated)
+                    (returns String)
+                    (result "ok")))
+                (entry "fragile"
+                  (closure
+                    (const)
+                    (isolated)
+                    (returns Never)
+                    (failing aborted)
+                    (body
+                      (call Standard.Control.abort "on purpose")))))))
+          (rescue
+            (result (dictionary (entry "pieces" (call Standard.Collection.keys (as (path tried (field details) (index "failures")) (dictionary String Any)))) (entry "type" (path tried (field type)))))))))
+    (result tried)))
+(expect (answers (dictionary (entry "pieces" (array "fragile")) (entry "type" "concurrent_failed"))))

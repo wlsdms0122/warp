@@ -1,39 +1,15 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-procedure-saying-nothing-is-no-operand"
-  note "`App.two` answers without reaching anything, and says nothing of itself. An operand calls only a declaration that says it answers without running, so the call standing as an argument refuses at the build."
-  program {
-    imports [
-      "Standard.Numeric.plus"
-    ]
-    procedures {
-      "App.two" {
-        result 2
-        returns "Int"
-      }
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              {
-                call {
-                  procedure "App.two"
-                }
-              }
-              1
-            ]
-            procedure "Standard.Numeric.plus"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-procedure-saying-nothing-is-no-operand")
+(note "`App.two` answers without reaching anything, and says nothing of itself. An operand calls only a declaration that says it answers without running, so the call standing as an argument refuses at the build.")
 
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure App.two
+    (returns Int)
+    (result 2))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result (call Standard.Numeric.plus (call App.two) 1))))
+(expect (refuses build))

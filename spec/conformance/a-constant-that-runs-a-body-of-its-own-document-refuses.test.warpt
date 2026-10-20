@@ -1,34 +1,15 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-constant-that-runs-a-body-of-its-own-document-refuses"
-  note "A constant settles from the language's procedures and from bodies the link has already resolved. A body its own document declares is still being resolved beside the constants it may read, so a constant that runs one is a cycle with no start, and is refused at the build."
-  program {
-    const {
-      seven {
-        call {
-          procedure "helper"
-        }
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        result {
-          ref "seven"
-        }
-        returns "Int"
-      }
-      helper {
-        result 7
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-constant-that-runs-a-body-of-its-own-document-refuses")
+(note "A constant settles from the language's procedures and from bodies the link has already resolved. A body its own document declares is still being resolved beside the constants it may read, so a constant that runs one is a cycle with no start, and is refused at the build.")
 
+(program
+  (warp 1)
+  (const seven (call helper))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result seven))
+  (procedure helper
+    (returns Int)
+    (result 7)))
+(expect (refuses build))

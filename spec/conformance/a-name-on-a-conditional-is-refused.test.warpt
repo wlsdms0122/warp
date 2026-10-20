@@ -1,35 +1,15 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-name-on-a-conditional-is-refused"
-  note "A conditional answers nothing, so its name could never bind. What an arm keeps is written to an outer variable with set."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "chosen"
-            value {
-              conditional {
-                then [
-                  {
-                    let "kept"
-                    value 1
-                  }
-                ]
-                when true
-              }
-            }
-          }
-        ]
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-name-on-a-conditional-is-refused")
+(note "A conditional answers nothing, so its name could never bind. What an arm keeps is written to an outer variable with set.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (body
+      (let chosen
+        (conditional
+          (when true)
+          (then
+            (let kept 1)))))))
+(expect (refuses load))

@@ -1,46 +1,19 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-closure-does-not-leave-what-wrote-it"
-  note "A closure may be called anywhere, including long after the loop that wrote it has finished. A `break` inside one has no loop around it, whatever stood around the writing, and it refuses at the load."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "walked"
-            value {
-              loop {
-                body [
-                  {
-                    let "held"
-                    value {
-                      closure {
-                        body [
-                          {
-                            value {
-                              break null
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  }
-                ]
-                while false
-              }
-            }
-          }
-        ]
-        result 1
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-closure-does-not-leave-what-wrote-it")
+(note "A closure may be called anywhere, including long after the loop that wrote it has finished. A `break` inside one has no loop around it, whatever stood around the writing, and it refuses at the load.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (body
+      (let walked
+        (loop
+          (while false)
+          (body
+            (let held
+              (closure
+                (body
+                  (break))))))))
+    (result 1)))
+(expect (refuses load))

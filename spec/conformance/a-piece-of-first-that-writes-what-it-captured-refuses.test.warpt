@@ -1,57 +1,22 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-piece-of-first-that-writes-what-it-captured-refuses"
-  note "`Standard.Concurrent.first` takes isolated closures, the same as `all`. The piece writes the variable `tally` it captured and does not declare `isolated`, so the build refuses it where it is handed over."
-  program {
-    imports [
-      "Standard.Concurrent.first"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            value 0
-            var "tally"
-          }
-          {
-            value {
-              call {
-                arguments [
-                  [
-                    {
-                      closure {
-                        body [
-                          {
-                            set "tally"
-                            value 1
-                          }
-                        ]
-                        result 1
-                        returns "Int"
-                      }
-                    }
-                  ]
-                ]
-                procedure "Standard.Concurrent.first"
-              }
-            }
-          }
-        ]
-        failing [
-          "concurrent_failed"
-        ]
-        result {
-          ref "tally"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-piece-of-first-that-writes-what-it-captured-refuses")
+(note "`Standard.Concurrent.first` takes isolated closures, the same as `all`. The piece writes the variable `tally` it captured and does not declare `isolated`, so the build refuses it where it is handed over.")
 
+(program
+  (warp 1)
+  (import Standard.Concurrent.first)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing concurrent_failed)
+    (body
+      (var tally 0)
+      (call Standard.Concurrent.first
+        (array
+          (closure
+            (returns Int)
+            (body
+              (set tally 1))
+            (result 1)))))
+    (result tally)))
+(expect (refuses build))

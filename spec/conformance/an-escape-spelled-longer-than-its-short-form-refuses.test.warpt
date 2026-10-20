@@ -1,11 +1,5 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "an-escape-spelled-longer-than-its-short-form-refuses"
-  note "A newline is written `\\n`. `\\u000a` spells the same character the long way, which would be two texts for one value."
-  test 1
-  text "warpt 1\n\"\\u000a\"\n"
-}
-
+(test 1)
+(name "an-escape-spelled-longer-than-its-short-form-refuses")
+(note "A newline is written `\\n`. `\\u000a` spells the same character the long way, which would be two texts for one value.")
+(text "(warp 1)\n(const a \"\\u000a\")\n")
+(expect (refuses load))

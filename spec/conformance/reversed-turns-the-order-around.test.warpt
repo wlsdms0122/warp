@@ -1,64 +1,15 @@
-warpt 1
-{
-  expect {
-    answers [
-      [
-        3
-        2
-        1
-      ]
-      [
-        1
-        2
-        3
-      ]
-    ]
-  }
-  name "reversed-turns-the-order-around"
-  note "reversed answers the same elements back to front, and answers a new array rather than turning the one it was given."
-  program {
-    imports [
-      "Standard.Collection.reversed"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "items"
-            value [
-              1
-              2
-              3
-            ]
-          }
-          {
-            let "backwards"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "items"
-                  }
-                ]
-                procedure "Standard.Collection.reversed"
-              }
-            }
-          }
-        ]
-        result [
-          {
-            ref "backwards"
-          }
-          {
-            ref "items"
-          }
-        ]
-        returns "Array<Array<Int>>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "reversed-turns-the-order-around")
+(note "reversed answers the same elements back to front, and answers a new array rather than turning the one it was given.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.reversed)
+  (procedure entry
+    (access public)
+    (returns (array (array Int)))
+    (body
+      (let items (array 1 2 3))
+      (let backwards (call Standard.Collection.reversed items)))
+    (result (array backwards items))))
+(expect (answers (array (array 3 2 1) (array 1 2 3))))

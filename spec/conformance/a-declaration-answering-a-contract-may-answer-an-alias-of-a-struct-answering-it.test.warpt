@@ -1,131 +1,36 @@
-warpt 1
-{
-  expect {
-    answers "a card"
-  }
-  name "a-declaration-answering-a-contract-may-answer-an-alias-of-a-struct-answering-it"
-  note "The contract answers App.Describable and the declaration answering it answers Bank.Alias, which names Bank.Card, and a document says Bank.Card answers App.Describable."
-  program {
-    contracts {
-      "App.Describable" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-      "App.Pick" {
-        procedures {
-          pick {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "App.Describable"
-          }
-        }
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "c"
-            value {
-              as {
-                of {
-                  struct {
-                    last "42"
-                  }
-                }
-                type "Bank.Card"
-              }
-            }
-          }
-          {
-            let "p"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "c"
-                  }
-                ]
-                procedure "App.Pick.pick"
-              }
-            }
-          }
-          {
-            let "s"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "p"
-                  }
-                ]
-                procedure "App.Describable.describe"
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result {
-          ref "s"
-        }
-        returns "String"
-      }
-    }
-    types {
-      "Bank.Alias" "Bank.Card"
-      "Bank.Card" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Bank.Card"
-              }
-            ]
-            result "a card"
-            returns "String"
-          }
-          pick {
-            parameters [
-              {
-                name "of"
-                type "Bank.Card"
-              }
-            ]
-            result {
-              ref "of"
-            }
-            returns "Bank.Alias"
-          }
-        }
-        satisfies [
-          "App.Describable"
-          "App.Pick"
-        ]
-        struct {
-          last "String"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-declaration-answering-a-contract-may-answer-an-alias-of-a-struct-answering-it")
+(note "The contract answers App.Describable and the declaration answering it answers Bank.Alias, which names Bank.Card, and a document says Bank.Card answers App.Describable.")
 
+(program
+  (warp 1)
+  (type Bank.Alias Bank.Card)
+  (struct Bank.Card
+    (satisfies App.Describable App.Pick)
+    (field last String)
+    (procedure describe
+      (parameter of (type Bank.Card))
+      (returns String)
+      (result "a card"))
+    (procedure pick
+      (parameter of (type Bank.Card))
+      (returns Bank.Alias)
+      (result of)))
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (contract App.Pick
+    (procedure pick
+      (parameter of (type Self))
+      (returns App.Describable)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let c (as (struct (field last "42")) Bank.Card))
+      (let p (call App.Pick.pick c))
+      (let s (call App.Describable.describe p)))
+    (result s)))
+(expect (answers "a card"))

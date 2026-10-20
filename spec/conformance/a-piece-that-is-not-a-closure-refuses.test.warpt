@@ -1,41 +1,19 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-piece-that-is-not-a-closure-refuses"
-  note "`Standard.Concurrent.all` takes `Array<isolated Procedure>`, so a piece the text shows is not a closure is refused at the build."
-  program {
-    imports [
-      "Standard.Concurrent.all"
-    ]
-    procedures {
-      entry {
-        access "public"
-        failing [
-          "concurrent_failed"
-        ]
-        result {
-          call {
-            arguments [
-              [
-                {
-                  closure {
-                    result 1
-                    returns "Int"
-                  }
-                }
-                2
-              ]
-            ]
-            procedure "Standard.Concurrent.all"
-          }
-        }
-        returns "Array<Any>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-piece-that-is-not-a-closure-refuses")
+(note "`Standard.Concurrent.all` takes `Array<isolated Procedure>`, so a piece the text shows is not a closure is refused at the build.")
 
+(program
+  (warp 1)
+  (import Standard.Concurrent.all)
+  (procedure entry
+    (access public)
+    (returns (array Any))
+    (failing concurrent_failed)
+    (result
+      (call Standard.Concurrent.all
+        (array
+          (closure
+            (returns Int)
+            (result 1))
+          2)))))
+(expect (refuses build))

@@ -1,36 +1,15 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-map-keyed-by-a-declared-struct-no-document-claims-hashable-refuses"
-  note "A declared struct answers `Hashable` only where a document claims it does. No document here does, so the map keyed by it refuses at the build."
-  program {
-    imports []
-    procedures {
-      "App.f" {
-        parameters [
-          {
-            name "m"
-            type "Dictionary<App.Point, Int>"
-          }
-        ]
-        result 1
-      }
-      entry {
-        access "public"
-        result 1
-      }
-    }
-    types {
-      "App.Point" {
-        struct {
-          x "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-map-keyed-by-a-declared-struct-no-document-claims-hashable-refuses")
+(note "A declared struct answers `Hashable` only where a document claims it does. No document here does, so the map keyed by it refuses at the build.")
 
+(program
+  (warp 1)
+  (struct App.Point
+    (field x Int))
+  (procedure App.f
+    (parameter m (type (dictionary App.Point Int)))
+    (result 1))
+  (procedure entry
+    (access public)
+    (result 1)))
+(expect (refuses build))

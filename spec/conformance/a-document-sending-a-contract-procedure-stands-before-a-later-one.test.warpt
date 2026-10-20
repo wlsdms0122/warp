@@ -1,133 +1,47 @@
-warpt 1
-{
-  documents [
-    {
-      contracts {
-        "App.Describable" {
-          procedures {
-            describe {
-              const true
-              parameters [
-                {
-                  name "of"
-                  type "Self"
-                }
-              ]
-              returns "String"
-            }
-          }
-        }
-      }
-      imports []
-      procedures {
-        "App.nothing" {
-          const true
-          isolated true
-        }
-      }
-      warp 1
-    }
-    {
-      imports [
-        "App.Describable"
-        "App.Describable.describe"
-      ]
-      procedures {
-        "Bank.tell" {
-          const true
-          parameters [
-            {
-              name "of"
-              type "Bank.Account"
-            }
-          ]
-          result {
-            call {
-              arguments [
-                {
-                  ref "of"
-                }
-              ]
-              procedure "App.Describable.describe"
-            }
-          }
-          returns "String"
-        }
-      }
-      types {
-        "Bank.Account" {
-          procedures {
-            describe {
-              const true
-              isolated true
-              parameters [
-                {
-                  name "of"
-                  type "Bank.Account"
-                }
-              ]
-              result "an account"
-              returns "String"
-            }
-          }
-          satisfies [
-            "App.Describable"
-          ]
-          struct {
-            balance "Int"
-          }
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    answers "an account"
-  }
-  name "a-document-sending-a-contract-procedure-stands-before-a-later-one"
-  note "A call to a contract's procedure is answered by the link through the contract, not by a row a document declares, so a document sending one stands laid beside a document laid after it. The documents beside the program are laid one after another, and the program comes last."
-  program {
-    imports [
-      "Bank.Account"
-      "Bank.tell"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "account"
-            value {
-              as {
-                of {
-                  struct {
-                    balance 1
-                  }
-                }
-                type "Bank.Account"
-              }
-            }
-          }
-        ]
-        const true
-        failing [
-          "cast_refused"
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "account"
-              }
-            ]
-            procedure "Bank.tell"
-          }
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-document-sending-a-contract-procedure-stands-before-a-later-one")
+(note "A call to a contract's procedure is answered by the link through the contract, not by a row a document declares, so a document sending one stands laid beside a document laid after it. The documents beside the program are laid one after another, and the program comes last.")
 
+(documents
+  (document
+    (warp 1)
+    (contract App.Describable
+      (procedure describe
+        (const)
+        (parameter of (type Self))
+        (returns String)))
+    (procedure App.nothing
+      (const)
+      (isolated)))
+  (document
+    (warp 1)
+    (import App.Describable)
+    (import App.Describable.describe)
+    (struct Bank.Account
+      (satisfies App.Describable)
+      (field balance Int)
+      (procedure describe
+        (const)
+        (isolated)
+        (parameter of (type Bank.Account))
+        (returns String)
+        (result "an account")))
+    (procedure Bank.tell
+      (const)
+      (parameter of (type Bank.Account))
+      (returns String)
+      (result (call App.Describable.describe of)))))
+
+(program
+  (warp 1)
+  (import Bank.Account)
+  (import Bank.tell)
+  (procedure entry
+    (access public)
+    (const)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let account (as (struct (field balance 1)) Bank.Account)))
+    (result (call Bank.tell account))))
+(expect (answers "an account"))

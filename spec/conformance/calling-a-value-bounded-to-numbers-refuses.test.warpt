@@ -1,48 +1,18 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "calling-a-value-bounded-to-numbers-refuses"
-  note "A type parameter bounded by `Standard.Numeric` stands for whichever type a call fills it with, and its type writes no parameters the build can hold an argument against, bound or no bound. Calling a value of it refuses at the build until a cast says what procedure it is."
-  program {
-    imports [
-      "Standard.Numeric"
-    ]
-    procedures {
-      "App.run" {
-        failing "anything"
-        parameters [
-          {
-            name "held"
-            type "some N: Standard.Numeric"
-          }
-        ]
-        result {
-          call {
-            procedure {
-              ref "held"
-            }
-          }
-        }
-        returns "Any"
-      }
-      entry {
-        access "public"
-        failing "anything"
-        result {
-          call {
-            arguments [
-              1
-            ]
-            procedure "App.run"
-          }
-        }
-        returns "Any"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "calling-a-value-bounded-to-numbers-refuses")
+(note "A type parameter bounded by `Standard.Numeric` stands for whichever type a call fills it with, and its type writes no parameters the build can hold an argument against, bound or no bound. Calling a value of it refuses at the build until a cast says what procedure it is.")
 
+(program
+  (warp 1)
+  (import Standard.Numeric)
+  (procedure App.run
+    (parameter held (type (some N Standard.Numeric)))
+    (returns Any)
+    (failing (anything))
+    (result (apply held)))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (failing (anything))
+    (result (call App.run 1))))
+(expect (refuses build))

@@ -1,48 +1,17 @@
-warpt 1
-{
-  expect {
-    answers 2
-  }
-  name "a-var-field-of-a-struct-taking-a-type-parameter-is-written-through-answers"
-  note "A field written `var some T` is written through like any `var` field, and holds what the mention applies the struct to."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            type "App.Box<Int>"
-            value {
-              struct {
-                item 1
-              }
-            }
-            var "b"
-          }
-          {
-            set "b.item"
-            value 2
-          }
-        ]
-        result {
-          ref "b.item"
-        }
-        returns "Int"
-      }
-    }
-    types {
-      "App.Box" {
-        struct {
-          item "var some T"
-        }
-        typeParameters [
-          "T"
-        ]
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-var-field-of-a-struct-taking-a-type-parameter-is-written-through-answers")
+(note "A field written `var some T` is written through like any `var` field, and holds what the mention applies the struct to.")
 
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (var (some T))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var b (type (named App.Box Int)) (struct (field item 1)))
+      (set (path b (field item)) 2))
+    (result (path b (field item)))))
+(expect (answers 2))

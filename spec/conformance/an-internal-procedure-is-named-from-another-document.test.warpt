@@ -1,39 +1,19 @@
-warpt 1
-{
-  documents [
-    {
-      imports []
-      procedures {
-        "Lib.seven" {
-          result 7
-          returns "Int"
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    answers 7
-  }
-  name "an-internal-procedure-is-named-from-another-document"
-  note "Internal is the link's scope: a declaration that writes no access is named from every document laid beside it, so a program calls another document's procedure without either saying more."
-  program {
-    imports [
-      "Lib.seven"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            procedure "Lib.seven"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-internal-procedure-is-named-from-another-document")
+(note "Internal is the link's scope: a declaration that writes no access is named from every document laid beside it, so a program calls another document's procedure without either saying more.")
 
+(documents
+  (document
+    (warp 1)
+    (procedure Lib.seven
+      (returns Int)
+      (result 7))))
+
+(program
+  (warp 1)
+  (import Lib.seven)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result (call Lib.seven))))
+(expect (answers 7))

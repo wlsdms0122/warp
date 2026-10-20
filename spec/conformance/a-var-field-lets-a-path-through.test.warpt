@@ -1,54 +1,18 @@
-warpt 1
-{
-  expect {
-    answers 5
-  }
-  name "a-var-field-lets-a-path-through"
-  note "The same write through a field declared `var` passes, and the field holds the inner type."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            value {
-              as {
-                of {
-                  struct {
-                    balance 1
-                    owner "kim"
-                  }
-                }
-                type "Account"
-              }
-            }
-            var "a"
-          }
-          {
-            set "a.balance"
-            value 5
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result {
-          ref "a.balance"
-        }
-        returns "Int"
-      }
-    }
-    types {
-      Account {
-        struct {
-          balance "var Int"
-          owner "String"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-var-field-lets-a-path-through")
+(note "The same write through a field declared `var` passes, and the field holds the inner type.")
 
+(program
+  (warp 1)
+  (struct Account
+    (field balance (var Int))
+    (field owner String))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing cast_refused)
+    (body
+      (var a (as (struct (field balance 1) (field owner "kim")) Account))
+      (set (path a (field balance)) 5))
+    (result (path a (field balance)))))
+(expect (answers 5))

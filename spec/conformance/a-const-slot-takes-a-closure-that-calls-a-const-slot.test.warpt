@@ -1,80 +1,34 @@
-warpt 1
-{
-  expect {
-    answers true
-  }
-  name "a-const-slot-takes-a-closure-that-calls-a-const-slot"
-  note "`App.asking` declares `const` and `isolated` and calls only the name its slot said holds a `const isolated` procedure, so the build holds it to that. A closure declaring both that sends it fits the slot of a `const isolated` procedure type `Standard.Logic.and` asks."
-  program {
-    imports [
-      "Standard.Logic.and"
-    ]
-    procedures {
-      "App.asking" {
-        body [
-          {
-            let "answered"
-            value {
-              call {
-                procedure {
-                  ref "body"
-                }
-              }
-            }
-          }
-        ]
-        const true
-        isolated true
-        parameters [
-          {
-            name "body"
-            type "const isolated () -> Bool"
-          }
-        ]
-        result {
-          ref "answered"
-        }
-        returns "Bool"
-      }
-      entry {
-        access "public"
-        const true
-        result {
-          call {
-            arguments [
-              [
-                {
-                  closure {
-                    const true
-                    isolated true
-                    result {
-                      call {
-                        arguments [
-                          {
-                            closure {
-                              const true
-                              isolated true
-                              result true
-                              returns "Bool"
-                            }
-                          }
-                        ]
-                        procedure "App.asking"
-                      }
-                    }
-                    returns "Bool"
-                  }
-                }
-              ]
-            ]
-            procedure "Standard.Logic.and"
-          }
-        }
-        returns "Bool"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-const-slot-takes-a-closure-that-calls-a-const-slot")
+(note "`App.asking` declares `const` and `isolated` and calls only the name its slot said holds a `const isolated` procedure, so the build holds it to that. A closure declaring both that sends it fits the slot of a `const isolated` procedure type `Standard.Logic.and` asks.")
 
+(program
+  (warp 1)
+  (import Standard.Logic.and)
+  (procedure App.asking
+    (const)
+    (isolated)
+    (parameter body (type (procedure (const) (isolated) (parameters) (returns Bool))))
+    (returns Bool)
+    (body
+      (let answered (apply body)))
+    (result answered))
+  (procedure entry
+    (access public)
+    (const)
+    (returns Bool)
+    (result
+      (call Standard.Logic.and
+        (array
+          (closure
+            (const)
+            (isolated)
+            (returns Bool)
+            (result
+              (call App.asking
+                (closure
+                  (const)
+                  (isolated)
+                  (returns Bool)
+                  (result true))))))))))
+(expect (answers true))

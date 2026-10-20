@@ -131,24 +131,22 @@ What `conformance/` asks about this page, by the name each case's file carries. 
 
 Text:
 
-- `a-bare-key-that-is-not-an-identifier-refuses`
 - `a-bare-token-running-into-a-quote-refuses`
 - `a-form-feed-between-tokens-refuses`
 - `a-fraction-not-in-its-one-writing-refuses`
 - `a-fraction-reads-by-its-point-or-exponent`
 - `a-map-keyed-by-values-spells-as-text`
+- `a-name-in-backticks-holding-nothing-refuses`
+- `a-name-in-backticks-is-the-name-written-bare`
 - `a-quote-running-into-a-bare-token-refuses`
-- `a-quoted-key-and-a-bare-key-are-one-key`
-- `a-struct-reads-from-text`
+- `a-struct-spells-from-text`
 - `a-text-control-character-written-raw-refuses`
-- `a-text-format-header-not-in-its-one-writing-refuses`
 - `a-text-key-written-twice-refuses`
-- `a-text-laid-out-by-a-format-that-never-existed-refuses`
-- `a-text-laid-out-by-a-later-format-refuses`
 - `a-text-led-by-a-byte-order-mark-refuses`
 - `a-text-reads-in-any-layout`
 - `a-text-reads-its-escapes`
 - `a-whole-number-with-a-leading-zero-refuses`
+- `an-atom-outside-every-node-refuses`
 - `an-escape-for-a-character-written-as-itself-refuses`
 - `an-escape-spelled-longer-than-its-short-form-refuses`
 - `an-exponent-not-in-its-one-writing-refuses`
@@ -156,6 +154,5 @@ Text:
 - `bytes-spell-from-text`
 - `bytes-written-in-uppercase-hex-refuse`
 - `bytes-written-with-an-odd-digit-refuse`
-- `text-after-the-document-ends-refuses`
 - `text-that-is-not-utf8-refuses`
-- `the-golden-map-spells-as-text`
+- `the-golden-document-spells-as-text`

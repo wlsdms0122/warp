@@ -1,162 +1,45 @@
-warpt 1
-{
-  expect {
-    answers [
-      "a whole number"
-      "text"
-      "a list"
-      "a map"
-    ]
-  }
-  name "a-type-the-language-names-answers-a-contract"
-  note "A type the language names is a type the way a declared one is, and a document claims a contract for it the same way. The run picks by the type the value is an instance of: a list by `Array` whatever it holds, and a map by `Dictionary` whatever it holds."
-  program {
-    contracts {
-      "App.Described" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    extensions {
-      Array {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Array<Any>"
-              }
-            ]
-            result "a list"
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.Described"
-        ]
-      }
-      Dictionary {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Dictionary<some Key: Hashable, Any>"
-              }
-            ]
-            result "a map"
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.Described"
-        ]
-      }
-      Int {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Int"
-              }
-            ]
-            result "a whole number"
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.Described"
-        ]
-      }
-      String {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "String"
-              }
-            ]
-            result "text"
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.Described"
-        ]
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "map"
-            type "Dictionary<String, Int>"
-            value {
-              dictionary [
-                [
-                  "a"
-                  1
-                ]
-              ]
-            }
-          }
-        ]
-        result [
-          {
-            call {
-              arguments [
-                1
-              ]
-              procedure "App.Described.describe"
-            }
-          }
-          {
-            call {
-              arguments [
-                "s"
-              ]
-              procedure "App.Described.describe"
-            }
-          }
-          {
-            call {
-              arguments [
-                [
-                  1
-                ]
-              ]
-              procedure "App.Described.describe"
-            }
-          }
-          {
-            call {
-              arguments [
-                {
-                  ref "map"
-                }
-              ]
-              procedure "App.Described.describe"
-            }
-          }
-        ]
-        returns "Array<String>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-type-the-language-names-answers-a-contract")
+(note "A type the language names is a type the way a declared one is, and a document claims a contract for it the same way. The run picks by the type the value is an instance of: a list by `Array` whatever it holds, and a map by `Dictionary` whatever it holds.")
 
+(program
+  (warp 1)
+  (contract App.Described
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head Array)
+    (satisfies App.Described)
+    (procedure describe
+      (parameter of (type (array Any)))
+      (returns String)
+      (result "a list")))
+  (extension
+    (head Dictionary)
+    (satisfies App.Described)
+    (procedure describe
+      (parameter of (type (dictionary (some Key Hashable) Any)))
+      (returns String)
+      (result "a map")))
+  (extension
+    (head Int)
+    (satisfies App.Described)
+    (procedure describe
+      (parameter of (type Int))
+      (returns String)
+      (result "a whole number")))
+  (extension
+    (head String)
+    (satisfies App.Described)
+    (procedure describe
+      (parameter of (type String))
+      (returns String)
+      (result "text")))
+  (procedure entry
+    (access public)
+    (returns (array String))
+    (body
+      (let map (type (dictionary String Int)) (dictionary (entry "a" 1))))
+    (result (array (call App.Described.describe 1) (call App.Described.describe "s") (call App.Described.describe (array 1)) (call App.Described.describe map)))))
+(expect (answers (array "a whole number" "text" "a list" "a map")))

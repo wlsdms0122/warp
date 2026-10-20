@@ -1,30 +1,12 @@
-warpt 1
-{
-  expect {
-    answers "warp"
-  }
-  name "lowercased-folds-the-case"
-  note "lowercased answers new text with the case folded down, leaving what it was given unchanged."
-  program {
-    imports [
-      "Standard.Text.lowercased"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              "WaRp"
-            ]
-            procedure "Standard.Text.lowercased"
-          }
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "lowercased-folds-the-case")
+(note "lowercased answers new text with the case folded down, leaving what it was given unchanged.")
 
+(program
+  (warp 1)
+  (import Standard.Text.lowercased)
+  (procedure entry
+    (access public)
+    (returns String)
+    (result (call Standard.Text.lowercased "WaRp"))))
+(expect (answers "warp"))

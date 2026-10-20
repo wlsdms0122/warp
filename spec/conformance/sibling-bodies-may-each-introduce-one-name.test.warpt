@@ -1,87 +1,24 @@
-warpt 1
-{
-  expect {
-    answers {
-      a 1
-      b 2
-    }
-  }
-  name "sibling-bodies-may-each-introduce-one-name"
-  note "A name a body introduces is read to the end of that body and nowhere after, so two bodies side by side may each introduce it."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            value 0
-            var "a"
-          }
-          {
-            value 0
-            var "b"
-          }
-          {
-            value {
-              conditional {
-                then [
-                  {
-                    let "x"
-                    value 1
-                  }
-                  {
-                    set "a"
-                    value {
-                      ref "x"
-                    }
-                  }
-                ]
-                when true
-              }
-            }
-          }
-          {
-            value {
-              conditional {
-                then [
-                  {
-                    let "x"
-                    value 2
-                  }
-                  {
-                    set "b"
-                    value {
-                      ref "x"
-                    }
-                  }
-                ]
-                when true
-              }
-            }
-          }
-        ]
-        result {
-          dictionary [
-            [
-              "a"
-              {
-                ref "a"
-              }
-            ]
-            [
-              "b"
-              {
-                ref "b"
-              }
-            ]
-          ]
-        }
-        returns "Dictionary<String, Int>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "sibling-bodies-may-each-introduce-one-name")
+(note "A name a body introduces is read to the end of that body and nowhere after, so two bodies side by side may each introduce it.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns (dictionary String Int))
+    (body
+      (var a 0)
+      (var b 0)
+      (conditional
+        (when true)
+        (then
+          (let x 1)
+          (set a x)))
+      (conditional
+        (when true)
+        (then
+          (let x 2)
+          (set b x))))
+    (result (dictionary (entry "a" a) (entry "b" b)))))
+(expect (answers (dictionary (entry "a" 1) (entry "b" 2))))

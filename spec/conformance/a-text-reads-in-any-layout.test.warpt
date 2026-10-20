@@ -1,18 +1,5 @@
-warpt 1
-{
-  expect {
-    reads {
-      a [
-        1
-        true
-      ]
-      b 2
-      c {}
-    }
-  }
-  name "a-text-reads-in-any-layout"
-  note "Layout is free on the way in: keys in any order, any whitespace between tokens, any indentation. A text written by a person reads as the same value the writer would have laid out."
-  test 1
-  text "warpt 1\n{ b 2\n\n\ta [ 1\n true ]   c {} }\n"
-}
-
+(test 1)
+(name "a-text-reads-in-any-layout")
+(note "Layout is free on the way in: the nodes of a mapping's keys in any order, any white space between atoms, any indentation. A text written by a person reads as the same tree the writer would have laid out.")
+(text "(warp 1) (const b 2)\n\n\t(const a (array 1\n true))   (const c (dictionary))")
+(expect (reads (dictionary (entry "const" (dictionary (entry "a" (array 1 true)) (entry "b" 2) (entry "c" (dictionary (entry "dictionary" (array)))))) (entry "imports" (array)) (entry "warp" 1))))

@@ -1,102 +1,33 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-value-under-a-slot-saying-only-procedure-is-not-const"
-  note "A body calls a value without running only through a name a slot declared a `const` procedure type. `relaying`'s slot writes `() -> String` without `const`, which says nothing about whether what it holds runs, so `relaying`, declared `const`, refuses at the build, however `const` the closure handed to it says it is."
-  program {
-    imports []
-    procedures {
-      asking {
-        body [
-          {
-            let "answered"
-            value {
-              call {
-                procedure {
-                  ref "body"
-                }
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "body"
-            type "const () -> String"
-          }
-        ]
-        result {
-          ref "answered"
-        }
-        returns "String"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "answering"
-            value {
-              closure {
-                const true
-                result "answered"
-                returns "String"
-              }
-            }
-          }
-          {
-            let "given"
-            value {
-              closure {
-                const true
-                result {
-                  call {
-                    arguments [
-                      {
-                        ref "answering"
-                      }
-                    ]
-                    procedure "relaying"
-                  }
-                }
-                returns "String"
-              }
-            }
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "given"
-              }
-            ]
-            procedure "asking"
-          }
-        }
-        returns "String"
-      }
-      relaying {
-        const true
-        parameters [
-          {
-            name "body"
-            type "() -> String"
-          }
-        ]
-        result {
-          call {
-            procedure {
-              ref "body"
-            }
-          }
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-value-under-a-slot-saying-only-procedure-is-not-const")
+(note "A body calls a value without running only through a name a slot declared a `const` procedure type. `relaying`'s slot writes `() -> String` without `const`, which says nothing about whether what it holds runs, so `relaying`, declared `const`, refuses at the build, however `const` the closure handed to it says it is.")
 
+(program
+  (warp 1)
+  (procedure asking
+    (parameter body (type (procedure (const) (parameters) (returns String))))
+    (returns String)
+    (body
+      (let answered (apply body)))
+    (result answered))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let answering
+        (closure
+          (const)
+          (returns String)
+          (result "answered")))
+      (let given
+        (closure
+          (const)
+          (returns String)
+          (result (call relaying answering)))))
+    (result (call asking given)))
+  (procedure relaying
+    (const)
+    (parameter body (type (procedure (parameters) (returns String))))
+    (returns String)
+    (result (apply body))))
+(expect (refuses build))

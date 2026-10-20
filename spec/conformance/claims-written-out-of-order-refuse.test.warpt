@@ -1,81 +1,29 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "claims-written-out-of-order-refuse"
-  note "The contracts a type answers under `satisfies` are written in name order, so `App.Y` before `App.X` is a second spelling of the same claims. A document says each thing one way, and this one refuses at the load."
-  program {
-    contracts {
-      "App.X" {
-        procedures {
-          d {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-      "App.Y" {
-        procedures {
-          e {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        result 1
-      }
-    }
-    types {
-      "Bank.A" {
-        procedures {
-          d {
-            parameters [
-              {
-                name "of"
-                type "Bank.A"
-              }
-            ]
-            result "a"
-            returns "String"
-          }
-          e {
-            parameters [
-              {
-                name "of"
-                type "Bank.A"
-              }
-            ]
-            result "a"
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.Y"
-          "App.X"
-        ]
-        struct {
-          n "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "claims-written-out-of-order-refuse")
+(note "The contracts a type answers under `satisfies` are written in name order, so `App.Y` before `App.X` is a second spelling of the same claims. A document says each thing one way, and this one refuses at the load.")
 
+(program
+  (warp 1)
+  (struct Bank.A
+    (satisfies App.Y App.X)
+    (field n Int)
+    (procedure d
+      (parameter of (type Bank.A))
+      (returns String)
+      (result "a"))
+    (procedure e
+      (parameter of (type Bank.A))
+      (returns String)
+      (result "a")))
+  (contract App.X
+    (procedure d
+      (parameter of (type Self))
+      (returns String)))
+  (contract App.Y
+    (procedure e
+      (parameter of (type Self))
+      (returns String)))
+  (procedure entry
+    (access public)
+    (result 1)))
+(expect (refuses load))

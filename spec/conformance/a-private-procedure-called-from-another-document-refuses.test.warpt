@@ -1,41 +1,21 @@
-warpt 1
-{
-  documents [
-    {
-      imports []
-      procedures {
-        "Lib.hidden" {
-          access "private"
-          result 7
-          returns "Int"
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    refuses "build"
-  }
-  name "a-private-procedure-called-from-another-document-refuses"
-  note "A private declaration is named from the document that declares it and nowhere else. A call standing in another document reaches it by spelling and is refused at the build, at the call."
-  program {
-    imports [
-      "Lib.hidden"
-    ]
-    procedures {
-      entry {
-        access "public"
-        failing "anything"
-        result {
-          call {
-            procedure "Lib.hidden"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-private-procedure-called-from-another-document-refuses")
+(note "A private declaration is named from the document that declares it and nowhere else. A call standing in another document reaches it by spelling and is refused at the build, at the call.")
 
+(documents
+  (document
+    (warp 1)
+    (procedure Lib.hidden
+      (access private)
+      (returns Int)
+      (result 7))))
+
+(program
+  (warp 1)
+  (import Lib.hidden)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (result (call Lib.hidden))))
+(expect (refuses build))

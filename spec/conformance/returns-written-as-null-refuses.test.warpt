@@ -1,20 +1,10 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "returns-written-as-null-refuses"
-  note "Leaving `returns` out says the declaration answers null, and one thing is written one way, so `returns: Null` written out refuses at the load."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        returns "Null"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "returns-written-as-null-refuses")
+(note "Leaving `returns` out says the declaration answers null, and one thing is written one way, so `returns: Null` written out refuses at the load.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Null)))
+(expect (refuses load))

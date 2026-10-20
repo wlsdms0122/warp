@@ -1,101 +1,23 @@
-warpt 1
-{
-  expect {
-    answers App.Head {
-      first 1
-      kids 2
-    }
-  }
-  name "a-declared-type-names-itself-in-its-fields"
-  note "A type declared in `types` may name itself in a field, nullable or as a list's element, and a value of it is built and read like any other."
-  program {
-    imports [
-      "Standard.Collection.count"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "leaf"
-            value {
-              as {
-                of {
-                  struct {
-                    kids []
-                    left null
-                    n 1
-                  }
-                }
-                type "T.Node"
-              }
-            }
-          }
-          {
-            let "root"
-            value {
-              as {
-                of {
-                  struct {
-                    kids [
-                      {
-                        ref "leaf"
-                      }
-                      {
-                        ref "leaf"
-                      }
-                    ]
-                    left {
-                      ref "leaf"
-                    }
-                    n 2
-                  }
-                }
-                type "T.Node"
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result {
-          struct {
-            first {
-              ref "root.kids[0].n"
-            }
-            kids {
-              call {
-                arguments [
-                  {
-                    ref "root.kids"
-                  }
-                ]
-                procedure "Standard.Collection.count"
-              }
-            }
-          }
-        }
-        returns "App.Head"
-      }
-    }
-    types {
-      "App.Head" {
-        struct {
-          first "Int"
-          kids "Int"
-        }
-      }
-      "T.Node" {
-        struct {
-          kids "Array<T.Node>"
-          left "T.Node?"
-          n "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-declared-type-names-itself-in-its-fields")
+(note "A type declared in `types` may name itself in a field, nullable or as a list's element, and a value of it is built and read like any other.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.count)
+  (struct App.Head
+    (field first Int)
+    (field kids Int))
+  (struct T.Node
+    (field kids (array T.Node))
+    (field left (nullable T.Node))
+    (field n Int))
+  (procedure entry
+    (access public)
+    (returns App.Head)
+    (failing cast_refused)
+    (body
+      (let leaf (as (struct (field kids (array)) (field left null) (field n 1)) T.Node))
+      (let root (as (struct (field kids (array leaf leaf)) (field left leaf) (field n 2)) T.Node)))
+    (result (struct (field first (path root (field kids) (index 0) (field n))) (field kids (call Standard.Collection.count (path root (field kids))))))))
+(expect (answers (struct App.Head (field first 1) (field kids 2))))

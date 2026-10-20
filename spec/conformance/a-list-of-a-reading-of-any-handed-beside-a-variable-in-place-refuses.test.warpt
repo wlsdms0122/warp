@@ -1,91 +1,24 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-list-of-a-reading-of-any-handed-beside-a-variable-in-place-refuses"
-  note "App.put fills U from s, a list of text handed in place, and from [j], j read as Any. U reads Array<Any>, which s is not, so the build refuses the call the way it refuses j handed beside s at the top."
-  program {
-    imports [
-      "Standard.Collection.appending"
-    ]
-    procedures {
-      "App.put" {
-        body [
-          {
-            set "a"
-            value {
-              ref "b"
-            }
-          }
-        ]
-        parameters [
-          {
-            name "a"
-            type "inout some U"
-          }
-          {
-            name "b"
-            type "some U"
-          }
-        ]
-        result 0
-        returns "Int"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "j"
-            type "Any"
-            value 1
-          }
-          {
-            value [
-              "a"
-            ]
-            var "s"
-          }
-          {
-            value {
-              call {
-                arguments [
-                  {
-                    ref "s"
-                  }
-                  [
-                    {
-                      ref "j"
-                    }
-                  ]
-                ]
-                procedure "App.put"
-              }
-            }
-          }
-          {
-            let "xs"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "s"
-                  }
-                  "b"
-                ]
-                procedure "Standard.Collection.appending"
-              }
-            }
-          }
-        ]
-        result {
-          ref "xs"
-        }
-        returns "Array<String>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-list-of-a-reading-of-any-handed-beside-a-variable-in-place-refuses")
+(note "App.put fills U from s, a list of text handed in place, and from [j], j read as Any. U reads Array<Any>, which s is not, so the build refuses the call the way it refuses j handed beside s at the top.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.appending)
+  (procedure App.put
+    (parameter a (type (inout (some U))))
+    (parameter b (type (some U)))
+    (returns Int)
+    (body
+      (set a b))
+    (result 0))
+  (procedure entry
+    (access public)
+    (returns (array String))
+    (body
+      (let j (type Any) 1)
+      (var s (array "a"))
+      (call App.put s (array j))
+      (let xs (call Standard.Collection.appending s "b")))
+    (result xs)))
+(expect (refuses build))

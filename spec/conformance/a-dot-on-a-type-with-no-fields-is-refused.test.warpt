@@ -1,29 +1,12 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-dot-on-a-type-with-no-fields-is-refused"
-  note "A dot reads a name the type declares, and text declares none, so there is nothing there to read. The procedure by that spelling is sent with a written call, which names the declaration it means."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        parameters [
-          {
-            name "text"
-            type "String"
-          }
-        ]
-        result {
-          ref "text.count"
-        }
-        returns "Any"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-dot-on-a-type-with-no-fields-is-refused")
+(note "A dot reads a name the type declares, and text declares none, so there is nothing there to read. The procedure by that spelling is sent with a written call, which names the declaration it means.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter text (type String))
+    (returns Any)
+    (result (path text (field count)))))
+(expect (refuses build))

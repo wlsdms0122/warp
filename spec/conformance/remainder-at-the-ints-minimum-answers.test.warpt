@@ -1,31 +1,12 @@
-warpt 1
-{
-  expect {
-    answers 0
-  }
-  name "remainder-at-the-ints-minimum-answers"
-  note "A remainder is smaller than its divisor, so it always fits the int. The one divisor that trips a machine's division instruction still has an answer, and it is 0. Overflow never reaches remainder."
-  program {
-    imports [
-      "Standard.Numeric.remainder"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              -9223372036854775808
-              -1
-            ]
-            procedure "Standard.Numeric.remainder"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "remainder-at-the-ints-minimum-answers")
+(note "A remainder is smaller than its divisor, so it always fits the int. The one divisor that trips a machine's division instruction still has an answer, and it is 0. Overflow never reaches remainder.")
 
+(program
+  (warp 1)
+  (import Standard.Numeric.remainder)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result (call Standard.Numeric.remainder -9223372036854775808 -1))))
+(expect (answers 0))

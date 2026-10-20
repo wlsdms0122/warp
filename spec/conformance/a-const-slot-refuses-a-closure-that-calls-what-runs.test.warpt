@@ -1,53 +1,25 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-const-slot-refuses-a-closure-that-calls-what-runs"
-  note "What a closure sends is a fact about its text, so a slot asking a `const` procedure type is answered at the build. A procedure that reaches outside the run is not one such a closure may send. The closure sends `App.ask` and says only `isolated`, so `Standard.Logic.and` refuses it at the slot."
-  program {
-    imports [
-      "App.ask"
-      "Standard.Logic.and"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              [
-                {
-                  closure {
-                    isolated true
-                    result {
-                      call {
-                        procedure "App.ask"
-                      }
-                    }
-                    returns "Bool"
-                  }
-                }
-              ]
-            ]
-            procedure "Standard.Logic.and"
-          }
-        }
-        returns "Bool"
-      }
-    }
-    warp 1
-  }
-  test 1
-  vocabulary {
-    imports []
-    procedures {
-      "App.ask" {
-        answers true
-        isolated true
-        returns "Bool"
-      }
-    }
-  }
-}
+(test 1)
+(name "a-const-slot-refuses-a-closure-that-calls-what-runs")
+(note "What a closure sends is a fact about its text, so a slot asking a `const` procedure type is answered at the build. A procedure that reaches outside the run is not one such a closure may send. The closure sends `App.ask` and says only `isolated`, so `Standard.Logic.and` refuses it at the slot.")
 
+(vocabulary
+  (procedure App.ask
+    (isolated)
+    (returns Bool)
+    (answers true)))
+
+(program
+  (warp 1)
+  (import App.ask)
+  (import Standard.Logic.and)
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (result
+      (call Standard.Logic.and
+        (array
+          (closure
+            (isolated)
+            (returns Bool)
+            (result (call App.ask))))))))
+(expect (refuses build))

@@ -1,237 +1,42 @@
-warpt 1
-{
-  documents [
-    {
-      contracts {
-        "App.Describable" {
-          procedures {
-            describe {
-              parameters [
-                {
-                  name "of"
-                  type "Self"
-                }
-              ]
-              returns "String"
-            }
-          }
-        }
-      }
-      imports []
-      warp 1
-    }
-    {
-      imports []
-      types {
-        "T.Card" {
-          procedures {
-            describe {
-              const true
-              isolated true
-              parameters [
-                {
-                  name "of"
-                  type "T.Card"
-                }
-              ]
-              result "card"
-              returns "String"
-            }
-          }
-          struct {
-            rank "Int"
-          }
-        }
-      }
-      warp 1
-    }
-    {
-      extensions {
-        "T.Card" {
-          satisfies [
-            "App.Describable"
-          ]
-        }
-      }
-      imports [
-        "App.Describable"
-        "T.Card"
-      ]
-      warp 1
-    }
-  ]
-  expect {
-    builds {
-      claims []
-      constants []
-      contracts []
-      dependencies [
-        x"4154fcab2905d10940004f9939735ac933fb4e8cd1492c4d54813cfc16cb5ddd"
-        x"7a537d474ef18e0c80713c3b270a993c33ce87a475393b862eeaf83d67be2f02"
-        x"a754ba9f23a9d70eeccfe199e2407d8429e52cf1981f68698052c96ca6ab0c6f"
-      ]
-      document [
-        x"120397e4fca63246ab4fb8fe6b7853b102f8332756375ecc48c5b8648ecbfc2a"
-      ]
-      importedClaims [
-        [
-          "T.Card"
-          "App.Describable"
-        ]
-      ]
-      lifted []
-      members []
-      numbering [
-        [
-          "App.Describable.describe"
-        ]
-        []
-      ]
-      object 1
-      rows [
-        [
-          "entry"
-          [
-            []
-            [
-              6
-            ]
-            [
-              1
-              [
-                "cast_refused"
-              ]
-            ]
-            0
-            0
-            []
-            []
-          ]
-          2
-          [
-            0
-            [
-              [
-                [
-                  [
-                    [
-                      0
-                      0
-                    ]
-                  ]
-                  [
-                    6
-                    [
-                      3
-                      [
-                        [
-                          "T.Card"
-                          [
-                            "rank"
-                          ]
-                        ]
-                        [
-                          [
-                            0
-                            [
-                              2
-                              1
-                            ]
-                          ]
-                        ]
-                      ]
-                    ]
-                    [
-                      14
-                      0
-                    ]
-                    false
-                  ]
-                  "card"
-                ]
-              ]
-              [
-                [
-                  12
-                  [
-                    "App.Describable"
-                    "describe"
-                    [
-                      1
-                      [
-                        0
-                        []
-                      ]
-                    ]
-                    []
-                  ]
-                ]
-              ]
-            ]
-            [
-              1
-              []
-              []
-              []
-              [
-                "card"
-              ]
-            ]
-          ]
-        ]
-      ]
-      typeMembers []
-      typeNumbering [
-        "T.Card"
-      ]
-      types []
-      variables []
-    }
-  }
-  name "the-object-of-an-imported-claim"
-  note "An object lists the claims its document imports, by the type and the contract, so what it stands on is read off the object."
-  program {
-    imports [
-      "App.Describable.describe"
-      "T.Card"
-      "T.Card: App.Describable"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "card"
-            value {
-              as {
-                of {
-                  struct {
-                    rank 1
-                  }
-                }
-                type "T.Card"
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "card"
-              }
-            ]
-            procedure "App.Describable.describe"
-          }
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "the-object-of-an-imported-claim")
+(note "An object lists the claims its document imports, by the type and the contract, so what it stands on is read off the object.")
 
+(documents
+  (document
+    (warp 1)
+    (contract App.Describable
+      (procedure describe
+        (parameter of (type Self))
+        (returns String))))
+  (document
+    (warp 1)
+    (struct T.Card
+      (field rank Int)
+      (procedure describe
+        (const)
+        (isolated)
+        (parameter of (type T.Card))
+        (returns String)
+        (result "card"))))
+  (document
+    (warp 1)
+    (import App.Describable)
+    (import T.Card)
+    (extension
+      (head T.Card)
+      (satisfies App.Describable))))
+
+(program
+  (warp 1)
+  (import App.Describable.describe)
+  (import T.Card)
+  (import T.Card App.Describable)
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let card (as (struct (field rank 1)) T.Card)))
+    (result (call App.Describable.describe card))))
+(expect (builds (dictionary (entry "claims" (array)) (entry "constants" (array)) (entry "contracts" (array)) (entry "dependencies" (array x"4154fcab2905d10940004f9939735ac933fb4e8cd1492c4d54813cfc16cb5ddd" x"7a537d474ef18e0c80713c3b270a993c33ce87a475393b862eeaf83d67be2f02" x"a754ba9f23a9d70eeccfe199e2407d8429e52cf1981f68698052c96ca6ab0c6f")) (entry "document" (array x"120397e4fca63246ab4fb8fe6b7853b102f8332756375ecc48c5b8648ecbfc2a")) (entry "importedClaims" (array (array "T.Card" "App.Describable"))) (entry "lifted" (array)) (entry "members" (array)) (entry "numbering" (array (array "App.Describable.describe") (array))) (entry "object" 1) (entry "rows" (array (array "entry" (array (array) (array 6) (array 1 (array "cast_refused")) 0 0 (array) (array)) 2 (array 0 (array (array (array (array (array 0 0)) (array 6 (array 3 (array (array "T.Card" (array "rank")) (array (array 0 (array 2 1))))) (array 14 0) false) "card")) (array (array 12 (array "App.Describable" "describe" (array 1 (array 0 (array))) (array))))) (array 1 (array) (array) (array) (array "card")))))) (entry "typeMembers" (array)) (entry "typeNumbering" (array "T.Card")) (entry "types" (array)) (entry "variables" (array)))))

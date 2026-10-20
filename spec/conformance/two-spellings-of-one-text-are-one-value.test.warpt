@@ -1,31 +1,12 @@
-warpt 1
-{
-  expect {
-    answers true
-  }
-  name "two-spellings-of-one-text-are-one-value"
-  note "Unicode writes é two ways and the two are different bytes. A name is held to normal form C, but a string value arrives spelled however the world spelled it. Equality reads the text as a person does."
-  program {
-    imports [
-      "Standard.Logic.equal"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              "café"
-              "café"
-            ]
-            procedure "Standard.Logic.equal"
-          }
-        }
-        returns "Bool"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "two-spellings-of-one-text-are-one-value")
+(note "Unicode writes é two ways and the two are different bytes. A name is held to normal form C, but a string value arrives spelled however the world spelled it. Equality reads the text as a person does.")
 
+(program
+  (warp 1)
+  (import Standard.Logic.equal)
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (result (call Standard.Logic.equal "café" "café"))))
+(expect (answers true))

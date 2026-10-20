@@ -1,81 +1,23 @@
-warpt 1
-{
-  arguments {
-    payload "not a struct"
-  }
-  expect {
-    answers {
-      actual "String"
-      expected "App.P"
-    }
-  }
-  name "a-rescue-reads-the-type-a-cast-to-an-alias-reads-as"
-  note "An alias is a second spelling of what it stands for, and no judgement sees it, so a cast to `App.A` reads as `App.P` and `cast_refused`'s `expected` names `App.P`."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "tried"
-            value {
-              attempt {
-                body [
-                  {
-                    value {
-                      as {
-                        of {
-                          ref "payload"
-                        }
-                        type "App.A"
-                      }
-                    }
-                  }
-                ]
-                rescue {
-                  result {
-                    dictionary [
-                      [
-                        "actual"
-                        {
-                          ref "tried.details[\"actual\"]"
-                        }
-                      ]
-                      [
-                        "expected"
-                        {
-                          ref "tried.details[\"expected\"]"
-                        }
-                      ]
-                    ]
-                  }
-                }
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "payload"
-          }
-        ]
-        result {
-          ref "tried"
-        }
-        returns "Dictionary<String, Any>?"
-      }
-    }
-    types {
-      "App.A" "App.P"
-      "App.P" {
-        struct {
-          x "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-rescue-reads-the-type-a-cast-to-an-alias-reads-as")
+(note "An alias is a second spelling of what it stands for, and no judgement sees it, so a cast to `App.A` reads as `App.P` and `cast_refused`'s `expected` names `App.P`.")
 
+(program
+  (warp 1)
+  (type App.A App.P)
+  (struct App.P
+    (field x Int))
+  (procedure entry
+    (access public)
+    (parameter payload)
+    (returns (nullable (dictionary String Any)))
+    (body
+      (let tried
+        (attempt
+          (body
+            (as payload App.A))
+          (rescue
+            (result (dictionary (entry "actual" (path tried (field details) (index "actual"))) (entry "expected" (path tried (field details) (index "expected")))))))))
+    (result tried)))
+(arguments (argument payload "not a struct"))
+(expect (answers (dictionary (entry "actual" "String") (entry "expected" "App.P"))))

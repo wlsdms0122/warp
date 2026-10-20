@@ -1,73 +1,19 @@
-warpt 1
-{
-  expect {
-    answers [
-      1
-      3
-    ]
-  }
-  name "a-path-handed-in-place-is-written-through"
-  note "A path into a variable is handed in place too. The callee holds the caller's box through that path, and each write lands there as it is made."
-  program {
-    imports [
-      "Standard.Numeric.plus"
-    ]
-    procedures {
-      bump {
-        body [
-          {
-            set "count"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "count"
-                  }
-                  1
-                ]
-                procedure "Standard.Numeric.plus"
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "count"
-            type "inout Int"
-          }
-        ]
-      }
-      entry {
-        access "public"
-        body [
-          {
-            value [
-              1
-              2
-            ]
-            var "xs"
-          }
-          {
-            value {
-              call {
-                arguments [
-                  {
-                    ref "xs[1]"
-                  }
-                ]
-                procedure "bump"
-              }
-            }
-          }
-        ]
-        result {
-          ref "xs"
-        }
-        returns "Array<Int>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-path-handed-in-place-is-written-through")
+(note "A path into a variable is handed in place too. The callee holds the caller's box through that path, and each write lands there as it is made.")
 
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure bump
+    (parameter count (type (inout Int)))
+    (body
+      (set count (call Standard.Numeric.plus count 1))))
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (body
+      (var xs (array 1 2))
+      (call bump (path xs (index 1))))
+    (result xs)))
+(expect (answers (array 1 3)))

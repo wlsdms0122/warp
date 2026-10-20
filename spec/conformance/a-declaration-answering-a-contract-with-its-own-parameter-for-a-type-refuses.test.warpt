@@ -1,117 +1,30 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-declaration-answering-a-contract-with-its-own-parameter-for-a-type-refuses"
-  note "The contract takes an int and answers a string. The declaration answering it takes some T there and answers some T, which the contract's Int fills, so it answers an int where the contract writes String."
-  program {
-    contracts {
-      "App.Describable" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-              {
-                name "x"
-                type "Int"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    imports [
-      "Standard.Text.uppercased"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "c"
-            value {
-              as {
-                of {
-                  struct {
-                    last "42"
-                  }
-                }
-                type "Bank.Card"
-              }
-            }
-          }
-          {
-            let "d"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "c"
-                  }
-                  1
-                ]
-                procedure "App.Describable.describe"
-              }
-            }
-          }
-          {
-            let "u"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "d"
-                  }
-                ]
-                procedure "Standard.Text.uppercased"
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result {
-          ref "u"
-        }
-        returns "String"
-      }
-    }
-    types {
-      "Bank.Card" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Bank.Card"
-              }
-              {
-                name "x"
-                type "some T"
-              }
-            ]
-            result {
-              ref "x"
-            }
-            returns "some T"
-          }
-        }
-        satisfies [
-          "App.Describable"
-        ]
-        struct {
-          last "String"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-declaration-answering-a-contract-with-its-own-parameter-for-a-type-refuses")
+(note "The contract takes an int and answers a string. The declaration answering it takes some T there and answers some T, which the contract's Int fills, so it answers an int where the contract writes String.")
 
+(program
+  (warp 1)
+  (import Standard.Text.uppercased)
+  (struct Bank.Card
+    (satisfies App.Describable)
+    (field last String)
+    (procedure describe
+      (parameter of (type Bank.Card))
+      (parameter x (type (some T)))
+      (returns (some T))
+      (result x)))
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (parameter x (type Int))
+      (returns String)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let c (as (struct (field last "42")) Bank.Card))
+      (let d (call App.Describable.describe c 1))
+      (let u (call Standard.Text.uppercased d)))
+    (result u)))
+(expect (refuses build))

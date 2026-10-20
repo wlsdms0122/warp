@@ -1,38 +1,14 @@
-warpt 1
-{
-  expect {
-    answers {
-      1.0 "one"
-    }
-  }
-  name "a-whole-literal-between-the-brackets-of-a-map-keyed-by-fractions-is-the-fraction"
-  note "What stands between a path's brackets is a place a literal is written into, read on a map as its key type, so a whole number written there on `Dictionary<Double, String>` is the fraction it names, and the write makes the entry under that fraction."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            type "Dictionary<Double, String>"
-            value {
-              dictionary []
-            }
-            var "d"
-          }
-          {
-            set "d[1]"
-            value "one"
-          }
-        ]
-        result {
-          ref "d"
-        }
-        returns "Dictionary<Double, String>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-whole-literal-between-the-brackets-of-a-map-keyed-by-fractions-is-the-fraction")
+(note "What stands between a path's brackets is a place a literal is written into, read on a map as its key type, so a whole number written there on `Dictionary<Double, String>` is the fraction it names, and the write makes the entry under that fraction.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns (dictionary Double String))
+    (body
+      (var d (type (dictionary Double String)) (dictionary))
+      (set (path d (index 1)) "one"))
+    (result d)))
+(expect (answers (dictionary (entry 1.0 "one"))))

@@ -1,104 +1,32 @@
-warpt 1
-{
-  arguments {
-    ready true
-  }
-  expect {
-    answers 1
-  }
-  name "two-ways-taking-a-variable-under-two-names-of-one-struct-stand"
-  note "`App.Spot` names `App.Point`, so the two name one declared struct. One arm takes `n` while it reads `App.Spot`, and the other sets it to an `App.Point` and takes it there. They held the box to one type, and where they meet the build stands."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            value {
-              as {
-                of {
-                  struct {
-                    x 1
-                  }
-                }
-                type "App.Spot"
-              }
-            }
-            var "n"
-          }
-          {
-            value {
-              conditional {
-                else [
-                  {
-                    set "n"
-                    value {
-                      as {
-                        of {
-                          struct {
-                            x 2
-                          }
-                        }
-                        type "App.Point"
-                      }
-                    }
-                  }
-                  {
-                    let "b"
-                    value {
-                      closure {
-                        result {
-                          ref "n"
-                        }
-                        returns "App.Point"
-                      }
-                    }
-                  }
-                ]
-                then [
-                  {
-                    let "a"
-                    value {
-                      closure {
-                        result {
-                          ref "n"
-                        }
-                        returns "App.Point"
-                      }
-                    }
-                  }
-                ]
-                when {
-                  ref "ready"
-                }
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        parameters [
-          {
-            name "ready"
-            type "Bool"
-          }
-        ]
-        result 1
-        returns "Int"
-      }
-    }
-    types {
-      "App.Point" {
-        struct {
-          x "Int"
-        }
-      }
-      "App.Spot" "App.Point"
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "two-ways-taking-a-variable-under-two-names-of-one-struct-stand")
+(note "`App.Spot` names `App.Point`, so the two name one declared struct. One arm takes `n` while it reads `App.Spot`, and the other sets it to an `App.Point` and takes it there. They held the box to one type, and where they meet the build stands.")
 
+(program
+  (warp 1)
+  (struct App.Point
+    (field x Int))
+  (type App.Spot App.Point)
+  (procedure entry
+    (access public)
+    (parameter ready (type Bool))
+    (returns Int)
+    (failing cast_refused)
+    (body
+      (var n (as (struct (field x 1)) App.Spot))
+      (conditional
+        (when ready)
+        (then
+          (let a
+            (closure
+              (returns App.Point)
+              (result n))))
+        (else
+          (set n (as (struct (field x 2)) App.Point))
+          (let b
+            (closure
+              (returns App.Point)
+              (result n))))))
+    (result 1)))
+(arguments (argument ready true))
+(expect (answers 1))

@@ -1,122 +1,37 @@
-warpt 1
-{
-  expect {
-    answers "a"
-  }
-  name "a-struct-literal-a-closure-writes-into-a-captured-variable-takes-the-name-answers"
-  note "`r` declares nothing and starts as `a`, a `Bank.A`. A closure that captured it writes the struct literal `{ k: \"y\" }` into it. The closure holds `r` to what it read as there, so the literal is written where `Bank.A` is read and takes the name, and `App.P.show`, which `Bank.A` answers, is sent to `r` after the closure ran."
-  program {
-    contracts {
-      "App.P" {
-        procedures {
-          show {
-            const true
-            isolated true
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "a"
-            value {
-              as {
-                of {
-                  struct {
-                    k "x"
-                  }
-                }
-                type "Bank.A"
-              }
-            }
-          }
-          {
-            value {
-              ref "a"
-            }
-            var "r"
-          }
-          {
-            let "w"
-            value {
-              closure {
-                body [
-                  {
-                    set "r"
-                    value {
-                      struct {
-                        k "y"
-                      }
-                    }
-                  }
-                ]
-                result 0
-                returns "Int"
-              }
-            }
-          }
-          {
-            let "z"
-            value {
-              call {
-                procedure {
-                  ref "w"
-                }
-              }
-            }
-          }
-        ]
-        failing "anything"
-        result {
-          call {
-            arguments [
-              {
-                ref "r"
-              }
-            ]
-            procedure "App.P.show"
-          }
-        }
-        returns "String"
-      }
-    }
-    types {
-      "Bank.A" {
-        procedures {
-          show {
-            const true
-            isolated true
-            parameters [
-              {
-                name "of"
-                type "Bank.A"
-              }
-            ]
-            result "a"
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.P"
-        ]
-        struct {
-          k "String"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-struct-literal-a-closure-writes-into-a-captured-variable-takes-the-name-answers")
+(note "`r` declares nothing and starts as `a`, a `Bank.A`. A closure that captured it writes the struct literal `{ k: \"y\" }` into it. The closure holds `r` to what it read as there, so the literal is written where `Bank.A` is read and takes the name, and `App.P.show`, which `Bank.A` answers, is sent to `r` after the closure ran.")
 
+(program
+  (warp 1)
+  (struct Bank.A
+    (satisfies App.P)
+    (field k String)
+    (procedure show
+      (const)
+      (isolated)
+      (parameter of (type Bank.A))
+      (returns String)
+      (result "a")))
+  (contract App.P
+    (procedure show
+      (const)
+      (isolated)
+      (parameter of (type Self))
+      (returns String)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing (anything))
+    (body
+      (let a (as (struct (field k "x")) Bank.A))
+      (var r a)
+      (let w
+        (closure
+          (returns Int)
+          (body
+            (set r (struct (field k "y"))))
+          (result 0)))
+      (let z (apply w)))
+    (result (call App.P.show r))))
+(expect (answers "a"))

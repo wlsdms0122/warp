@@ -1,189 +1,57 @@
-warpt 1
-{
-  documents [
-    {
-      contracts {
-        "Lib.Container" {
-          procedures {
-            first {
-              parameters [
-                {
-                  name "of"
-                  type "Self"
-                }
-              ]
-              returns "Self.Item"
-            }
-          }
-          types [
-            "Item"
-          ]
-        }
-      }
-      imports []
-      procedures {
-        "Lib.firstOf" {
-          access "public"
-          parameters [
-            {
-              name "c"
-              type "some C: Lib.Container"
-            }
-          ]
-          result {
-            call {
-              arguments [
-                {
-                  ref "c"
-                }
-              ]
-              procedure "Lib.Container.first"
-            }
-          }
-          returns "some C.Item"
-        }
-      }
-      warp 1
-    }
-    {
-      imports [
-        "Lib.Container"
-      ]
-      types {
-        "App.Box" {
-          procedures {
-            first {
-              access "public"
-              parameters [
-                {
-                  name "of"
-                  type "App.Box<some T>"
-                }
-              ]
-              result {
-                ref "of.item"
-              }
-              returns "some T"
-            }
-          }
-          satisfies [
-            "Lib.Container"
-          ]
-          struct {
-            item "some T"
-          }
-          typeParameters [
-            "T"
-          ]
-          types {
-            Item "some T"
-          }
-        }
-      }
-      warp 1
-    }
-    {
-      imports [
-        "Lib.Container"
-        "Lib.Container.first"
-      ]
-      procedures {
-        "Use.pick" {
-          access "public"
-          body [
-            {
-              let "x"
-              value {
-                call {
-                  arguments [
-                    {
-                      ref "d"
-                    }
-                  ]
-                  procedure "Lib.Container.first"
-                }
-              }
-            }
-          ]
-          parameters [
-            {
-              name "c"
-              type "some C: Lib.Container"
-            }
-            {
-              name "d"
-              type "some D: Lib.Container"
-            }
-          ]
-          result {
-            ref "x"
-          }
-          returns "some C.Item"
-          sameTypes {
-            "C.Item" "some D.Item"
-          }
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    refuses "build"
-  }
-  name "two-associated-types-said-one-type-take-no-two-types-refuses"
-  note "`Use.pick` says `C.Item` is `D.Item`, and a box of Int and a box of text give two types, so the call refuses at the build."
-  program {
-    imports [
-      "App.Box"
-      "Use.pick"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "b"
-            type "App.Box<Int>"
-            value {
-              struct {
-                item 1
-              }
-            }
-          }
-          {
-            let "e"
-            type "App.Box<String>"
-            value {
-              struct {
-                item "x"
-              }
-            }
-          }
-          {
-            let "x"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "b"
-                  }
-                  {
-                    ref "e"
-                  }
-                ]
-                procedure "Use.pick"
-              }
-            }
-          }
-        ]
-        result {
-          ref "x"
-        }
-        returns "Any"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "two-associated-types-said-one-type-take-no-two-types-refuses")
+(note "`Use.pick` says `C.Item` is `D.Item`, and a box of Int and a box of text give two types, so the call refuses at the build.")
 
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Container
+      (type Item)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item)))
+    (procedure Lib.firstOf
+      (access public)
+      (parameter c (type (some C Lib.Container)))
+      (returns (some C.Item))
+      (result (call Lib.Container.first c))))
+  (document
+    (warp 1)
+    (import Lib.Container)
+    (struct App.Box
+      (typeParameter T)
+      (satisfies Lib.Container)
+      (field item (some T))
+      (type Item (some T))
+      (procedure first
+        (access public)
+        (parameter of (type (named App.Box (some T))))
+        (returns (some T))
+        (result (path of (field item))))))
+  (document
+    (warp 1)
+    (import Lib.Container)
+    (import Lib.Container.first)
+    (procedure Use.pick
+      (access public)
+      (parameter c (type (some C Lib.Container)))
+      (parameter d (type (some D Lib.Container)))
+      (returns (some C.Item))
+      (sameType C.Item (some D.Item))
+      (body
+        (let x (call Lib.Container.first d)))
+      (result x))))
+
+(program
+  (warp 1)
+  (import App.Box)
+  (import Use.pick)
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let b (type (named App.Box Int)) (struct (field item 1)))
+      (let e (type (named App.Box String)) (struct (field item "x")))
+      (let x (call Use.pick b e)))
+    (result x)))
+(expect (refuses build))

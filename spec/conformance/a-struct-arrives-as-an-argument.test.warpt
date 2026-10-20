@@ -1,41 +1,15 @@
-warpt 1
-{
-  arguments {
-    account Account {
-      balance 3
-    }
-  }
-  expect {
-    answers 3
-  }
-  name "a-struct-arrives-as-an-argument"
-  note "A struct written into the arguments under a name arrives carrying it, and fits the slot that declares that name."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        parameters [
-          {
-            name "account"
-            type "Account"
-          }
-        ]
-        result {
-          ref "account.balance"
-        }
-        returns "Int"
-      }
-    }
-    types {
-      Account {
-        struct {
-          balance "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-struct-arrives-as-an-argument")
+(note "A struct written into the arguments under a name arrives carrying it, and fits the slot that declares that name.")
 
+(program
+  (warp 1)
+  (struct Account
+    (field balance Int))
+  (procedure entry
+    (access public)
+    (parameter account (type Account))
+    (returns Int)
+    (result (path account (field balance)))))
+(arguments (argument account (struct Account (field balance 3))))
+(expect (answers 3))

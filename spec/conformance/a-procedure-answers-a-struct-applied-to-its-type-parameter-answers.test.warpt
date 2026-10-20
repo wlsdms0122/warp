@@ -1,63 +1,20 @@
-warpt 1
-{
-  expect {
-    answers 3
-  }
-  name "a-procedure-answers-a-struct-applied-to-its-type-parameter-answers"
-  note "`App.wrap` answers `App.Box<some T>` built from what it is handed. The call fills `T` with `Int`, so what it answers stands where `App.Box<Int>` is declared."
-  program {
-    imports []
-    procedures {
-      "App.wrap" {
-        parameters [
-          {
-            name "x"
-            type "some T"
-          }
-        ]
-        result {
-          struct {
-            item {
-              ref "x"
-            }
-          }
-        }
-        returns "App.Box<some T>"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "b"
-            type "App.Box<Int>"
-            value {
-              call {
-                arguments [
-                  3
-                ]
-                procedure "App.wrap"
-              }
-            }
-          }
-        ]
-        result {
-          ref "b.item"
-        }
-        returns "Int"
-      }
-    }
-    types {
-      "App.Box" {
-        struct {
-          item "some T"
-        }
-        typeParameters [
-          "T"
-        ]
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-procedure-answers-a-struct-applied-to-its-type-parameter-answers")
+(note "`App.wrap` answers `App.Box<some T>` built from what it is handed. The call fills `T` with `Int`, so what it answers stands where `App.Box<Int>` is declared.")
 
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (procedure App.wrap
+    (parameter x (type (some T)))
+    (returns (named App.Box (some T)))
+    (result (struct (field item x))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let b (type (named App.Box Int)) (call App.wrap 3)))
+    (result (path b (field item)))))
+(expect (answers 3))

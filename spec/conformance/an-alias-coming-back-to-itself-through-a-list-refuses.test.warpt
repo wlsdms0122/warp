@@ -1,23 +1,11 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "an-alias-coming-back-to-itself-through-a-list-refuses"
-  note "`App.L` names `Array<App.L>`, a list of itself. A declared name that is no struct and comes back to itself through a structure spells no type, so the document refuses at the load, whether or not anything reads the name."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        result 1
-      }
-    }
-    types {
-      "App.L" "Array<App.L>"
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-alias-coming-back-to-itself-through-a-list-refuses")
+(note "`App.L` names `Array<App.L>`, a list of itself. A declared name that is no struct and comes back to itself through a structure spells no type, so the document refuses at the load, whether or not anything reads the name.")
 
+(program
+  (warp 1)
+  (type App.L (array App.L))
+  (procedure entry
+    (access public)
+    (result 1)))
+(expect (refuses load))

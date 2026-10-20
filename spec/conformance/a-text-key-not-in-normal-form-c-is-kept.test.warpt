@@ -1,13 +1,5 @@
-warpt 1
-{
-  bytes x"57415250010701050663616665cc810302"
-  expect {
-    spells {
-      "café" 1
-    }
-  }
-  name "a-text-key-not-in-normal-form-c-is-kept"
-  note "A map's key is a value, and text is data wherever it stands: `café` written as a letter plus a combining mark is kept and written back byte for byte, never normalised. Only a name, a struct's field name or a key a document writes, is held to one byte spelling."
-  test 1
-}
-
+(test 1)
+(name "a-text-key-not-in-normal-form-c-is-kept")
+(note "A map's key is a value, and text is data wherever it stands: `café` written as a letter plus a combining mark is kept and written back byte for byte, never normalised. Only a name, a struct's field name or a key a document writes, is held to one byte spelling.")
+(bytes x"57415250010701050663616665cc810302")
+(expect (spells (dictionary (entry "café" 1))))

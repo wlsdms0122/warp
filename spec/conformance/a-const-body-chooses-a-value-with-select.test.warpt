@@ -1,68 +1,29 @@
-warpt 1
-{
-  arguments {
-    item 3
-  }
-  expect {
-    answers "small"
-  }
-  name "a-const-body-chooses-a-value-with-select"
-  note "A conditional answers nothing, so a body that answers without running chooses with a procedure. The side not chosen goes unasked, which is why both sides are procedures."
-  program {
-    imports [
-      "Standard.Comparable.lessThan"
-      "Standard.Logic.select"
-    ]
-    procedures {
-      entry {
-        access "public"
-        const true
-        failing "anything"
-        parameters [
-          {
-            name "item"
-            type "Int"
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                call {
-                  arguments [
-                    {
-                      ref "item"
-                    }
-                    10
-                  ]
-                  procedure "Standard.Comparable.lessThan"
-                }
-              }
-              {
-                closure {
-                  const true
-                  isolated true
-                  result "small"
-                  returns "String"
-                }
-              }
-              {
-                closure {
-                  const true
-                  isolated true
-                  result "large"
-                  returns "String"
-                }
-              }
-            ]
-            procedure "Standard.Logic.select"
-          }
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-const-body-chooses-a-value-with-select")
+(note "A conditional answers nothing, so a body that answers without running chooses with a procedure. The side not chosen goes unasked, which is why both sides are procedures.")
 
+(program
+  (warp 1)
+  (import Standard.Comparable.lessThan)
+  (import Standard.Logic.select)
+  (procedure entry
+    (access public)
+    (const)
+    (parameter item (type Int))
+    (returns String)
+    (failing (anything))
+    (result
+      (call Standard.Logic.select
+        (call Standard.Comparable.lessThan item 10)
+        (closure
+          (const)
+          (isolated)
+          (returns String)
+          (result "small"))
+        (closure
+          (const)
+          (isolated)
+          (returns String)
+          (result "large"))))))
+(arguments (argument item 3))
+(expect (answers "small"))

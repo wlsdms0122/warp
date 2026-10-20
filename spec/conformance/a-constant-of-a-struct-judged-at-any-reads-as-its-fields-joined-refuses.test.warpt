@@ -1,88 +1,32 @@
-warpt 1
-{
-  documents [
-    {
-      imports []
-      procedures {
-        "App.hide" {
-          parameters [
-            {
-              name "v"
-            }
-          ]
-          result {
-            ref "v"
-          }
-          returns "Any"
-        }
-        "App.mk" {
-          result {
-            struct {
-              a 1
-              b null
-            }
-          }
-          returns "App.Pair<Int?>"
-        }
-        "App.mkS" {
-          result {
-            struct {
-              a 1
-              b "x"
-            }
-          }
-          returns "App.Pair<Any>"
-        }
-      }
-      types {
-        "App.Pair" {
-          struct {
-            a "some T"
-            b "some T"
-          }
-          typeParameters [
-            "T"
-          ]
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    refuses "build"
-  }
-  name "a-constant-of-a-struct-judged-at-any-reads-as-its-fields-joined-refuses"
-  note "A constant whose expression was judged at `Any` reads as its value, and a struct value reads as applied to its fields' readings joined. A pair holding an `Int` and a null reads `App.Pair<Int?>`, so its field is no `Int`."
-  program {
-    const {
-      k {
-        call {
-          arguments [
-            {
-              call {
-                procedure "App.mk"
-              }
-            }
-          ]
-          procedure "App.hide"
-        }
-      }
-    }
-    imports [
-      "App.hide"
-      "App.mk"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result {
-          ref "k.b"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-constant-of-a-struct-judged-at-any-reads-as-its-fields-joined-refuses")
+(note "A constant whose expression was judged at `Any` reads as its value, and a struct value reads as applied to its fields' readings joined. A pair holding an `Int` and a null reads `App.Pair<Int?>`, so its field is no `Int`.")
 
+(documents
+  (document
+    (warp 1)
+    (struct App.Pair
+      (typeParameter T)
+      (field a (some T))
+      (field b (some T)))
+    (procedure App.hide
+      (parameter v)
+      (returns Any)
+      (result v))
+    (procedure App.mk
+      (returns (named App.Pair (nullable Int)))
+      (result (struct (field a 1) (field b null))))
+    (procedure App.mkS
+      (returns (named App.Pair Any))
+      (result (struct (field a 1) (field b "x"))))))
+
+(program
+  (warp 1)
+  (import App.hide)
+  (import App.mk)
+  (const k (call App.hide (call App.mk)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result (path k (field b)))))
+(expect (refuses build))

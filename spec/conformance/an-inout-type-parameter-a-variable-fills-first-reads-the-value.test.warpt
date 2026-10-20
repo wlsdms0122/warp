@@ -1,100 +1,27 @@
-warpt 1
-{
-  expect {
-    answers 1
-  }
-  name "an-inout-type-parameter-a-variable-fills-first-reads-the-value"
-  note "The same two slots in the other order: the variable fills `T` first, the closure's `inout Int` reads it the same way, and the call answers what it would in either order."
-  program {
-    imports [
-      "Standard.Numeric.plus"
-    ]
-    procedures {
-      "App.once" {
-        body [
-          {
-            value {
-              call {
-                arguments [
-                  {
-                    ref "x"
-                  }
-                ]
-                procedure {
-                  ref "f"
-                }
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "x"
-            type "inout some T"
-          }
-          {
-            name "f"
-            type "(inout some T) -> Any"
-          }
-        ]
-        result 0
-        returns "Int"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            value 0
-            var "n"
-          }
-          {
-            value {
-              call {
-                arguments [
-                  {
-                    ref "n"
-                  }
-                  {
-                    closure {
-                      body [
-                        {
-                          set "c"
-                          value {
-                            call {
-                              arguments [
-                                {
-                                  ref "c"
-                                }
-                                1
-                              ]
-                              procedure "Standard.Numeric.plus"
-                            }
-                          }
-                        }
-                      ]
-                      parameters [
-                        {
-                          name "c"
-                          type "inout Int"
-                        }
-                      ]
-                      returns "Any"
-                    }
-                  }
-                ]
-                procedure "App.once"
-              }
-            }
-          }
-        ]
-        result {
-          ref "n"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-inout-type-parameter-a-variable-fills-first-reads-the-value")
+(note "The same two slots in the other order: the variable fills `T` first, the closure's `inout Int` reads it the same way, and the call answers what it would in either order.")
 
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure App.once
+    (parameter x (type (inout (some T))))
+    (parameter f (type (procedure (parameters (inout (some T))) (returns Any))))
+    (returns Int)
+    (body
+      (apply f x))
+    (result 0))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var n 0)
+      (call App.once n
+        (closure
+          (parameter c (type (inout Int)))
+          (returns Any)
+          (body
+            (set c (call Standard.Numeric.plus c 1))))))
+    (result n)))
+(expect (answers 1))

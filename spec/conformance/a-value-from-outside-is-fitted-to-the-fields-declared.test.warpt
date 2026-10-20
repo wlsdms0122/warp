@@ -1,44 +1,15 @@
-warpt 1
-{
-  arguments {
-    row App.Row {
-      extra 1
-      id "a"
-    }
-  }
-  expect {
-    answers App.Row {
-      id "a"
-    }
-  }
-  name "a-value-from-outside-is-fitted-to-the-fields-declared"
-  note "The door a value from outside comes through is the one place a value is fitted to a type: a field the declared struct never named is left out there, so `row` holds exactly the fields `App.Row` declares."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        parameters [
-          {
-            name "row"
-            type "App.Row"
-          }
-        ]
-        result {
-          ref "row"
-        }
-        returns "App.Row"
-      }
-    }
-    types {
-      "App.Row" {
-        struct {
-          id "String"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-value-from-outside-is-fitted-to-the-fields-declared")
+(note "The door a value from outside comes through is the one place a value is fitted to a type: a field the declared struct never named is left out there, so `row` holds exactly the fields `App.Row` declares.")
 
+(program
+  (warp 1)
+  (struct App.Row
+    (field id String))
+  (procedure entry
+    (access public)
+    (parameter row (type App.Row))
+    (returns App.Row)
+    (result row)))
+(arguments (argument row (struct App.Row (field extra 1) (field id "a"))))
+(expect (answers (struct App.Row (field id "a"))))

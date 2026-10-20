@@ -1,98 +1,29 @@
-warpt 1
-{
-  expect {
-    answers [
-      "0a"
-      "1b"
-    ]
-  }
-  name "concurrent-map-offers-item-and-index"
-  note "A walking procedure offers names, and the closure's own parameters say which of the offer it reads. The concurrent map offers item and index and answers in the collection's order."
-  program {
-    imports [
-      "Standard.Concurrent.map"
-      "Standard.Text.joined"
-      "Standard.Text.text"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "tagged"
-            value {
-              call {
-                arguments [
-                  [
-                    "a"
-                    "b"
-                  ]
-                  {
-                    closure {
-                      body [
-                        {
-                          let "place"
-                          value {
-                            call {
-                              arguments [
-                                {
-                                  ref "index"
-                                }
-                              ]
-                              procedure "Standard.Text.text"
-                            }
-                          }
-                        }
-                      ]
-                      const true
-                      isolated true
-                      parameters [
-                        {
-                          name "item"
-                          type "String"
-                        }
-                        {
-                          name "index"
-                          type "Int"
-                        }
-                      ]
-                      result {
-                        call {
-                          arguments [
-                            [
-                              {
-                                ref "place"
-                              }
-                              {
-                                ref "item"
-                              }
-                            ]
-                            ""
-                          ]
-                          procedure "Standard.Text.joined"
-                        }
-                      }
-                      returns "String"
-                    }
-                  }
-                ]
-                procedure "Standard.Concurrent.map"
-              }
-            }
-          }
-        ]
-        failing [
-          "concurrent_failed"
-        ]
-        isolated true
-        result {
-          ref "tagged"
-        }
-        returns "Array<String>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "concurrent-map-offers-item-and-index")
+(note "A walking procedure offers names, and the closure's own parameters say which of the offer it reads. The concurrent map offers item and index and answers in the collection's order.")
 
+(program
+  (warp 1)
+  (import Standard.Concurrent.map)
+  (import Standard.Text.joined)
+  (import Standard.Text.text)
+  (procedure entry
+    (access public)
+    (isolated)
+    (returns (array String))
+    (failing concurrent_failed)
+    (body
+      (let tagged
+        (call Standard.Concurrent.map
+          (array "a" "b")
+          (closure
+            (const)
+            (isolated)
+            (parameter item (type String))
+            (parameter index (type Int))
+            (returns String)
+            (body
+              (let place (call Standard.Text.text index)))
+            (result (call Standard.Text.joined (array place item) ""))))))
+    (result tagged)))
+(expect (answers (array "0a" "1b")))

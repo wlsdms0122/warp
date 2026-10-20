@@ -1,110 +1,34 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-variable-holding-a-const-procedure-is-not-a-const-slot"
-  note "A variable that declared no type holds what its last write put in it, so a value it held from a slot of a `const` procedure type says nothing once a `set` may have written another. A body calling it does not answer without running, and an operand may not call it."
-  program {
-    imports [
-      "Standard.Numeric.plus"
-    ]
-    procedures {
-      asking {
-        body [
-          {
-            value {
-              ref "f"
-            }
-            var "x"
-          }
-          {
-            set "x"
-            value {
-              ref "g"
-            }
-          }
-          {
-            let "a"
-            value {
-              call {
-                arguments [
-                  1
-                ]
-                procedure {
-                  ref "x"
-                }
-              }
-            }
-          }
-        ]
-        failing "anything"
-        parameters [
-          {
-            name "f"
-            type "const (Int) -> Int"
-          }
-          {
-            name "g"
-            type "(Int) -> Int"
-          }
-        ]
-        result {
-          ref "a"
-        }
-        returns "Int"
-      }
-      entry {
-        access "public"
-        failing "anything"
-        result {
-          call {
-            arguments [
-              {
-                call {
-                  arguments [
-                    {
-                      closure {
-                        parameters [
-                          {
-                            name "x"
-                            type "Int"
-                          }
-                        ]
-                        result {
-                          ref "x"
-                        }
-                        returns "Int"
-                      }
-                    }
-                    {
-                      closure {
-                        parameters [
-                          {
-                            name "x"
-                            type "Int"
-                          }
-                        ]
-                        result {
-                          ref "x"
-                        }
-                        returns "Int"
-                      }
-                    }
-                  ]
-                  procedure "asking"
-                }
-              }
-              1
-            ]
-            procedure "Standard.Numeric.plus"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-variable-holding-a-const-procedure-is-not-a-const-slot")
+(note "A variable that declared no type holds what its last write put in it, so a value it held from a slot of a `const` procedure type says nothing once a `set` may have written another. A body calling it does not answer without running, and an operand may not call it.")
 
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure asking
+    (parameter f (type (procedure (const) (parameters Int) (returns Int))))
+    (parameter g (type (procedure (parameters Int) (returns Int))))
+    (returns Int)
+    (failing (anything))
+    (body
+      (var x f)
+      (set x g)
+      (let a (apply x 1)))
+    (result a))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (result
+      (call Standard.Numeric.plus
+        (call asking
+          (closure
+            (parameter x (type Int))
+            (returns Int)
+            (result x))
+          (closure
+            (parameter x (type Int))
+            (returns Int)
+            (result x)))
+        1))))
+(expect (refuses build))

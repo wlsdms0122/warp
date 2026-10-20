@@ -1,11 +1,5 @@
-warpt 1
-{
-  bytes x"57415250010702"
-  expect {
-    refuses "load"
-  }
-  name "bytes-that-end-inside-a-value-refuse"
-  note "A map that said it holds two entries and then stopped is not a shorter map. Reading what arrived and leaving the rest is running a program nobody checked."
-  test 1
-}
-
+(test 1)
+(name "bytes-that-end-inside-a-value-refuse")
+(note "A map that said it holds two entries and then stopped is not a shorter map. Reading what arrived and leaving the rest is running a program nobody checked.")
+(bytes x"57415250010702")
+(expect (refuses load))

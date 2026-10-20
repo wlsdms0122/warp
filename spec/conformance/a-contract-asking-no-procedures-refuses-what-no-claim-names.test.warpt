@@ -1,48 +1,19 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-contract-asking-no-procedures-refuses-what-no-claim-names"
-  note "A contract asking no procedures is not answered by every type. Only a type a document claims it for answers it, so text handed where the mark is asked is refused at the build: `Int` is claimed, and `String` is not."
-  program {
-    contracts {
-      "App.Marked" {}
-    }
-    extensions {
-      Int {
-        satisfies [
-          "App.Marked"
-        ]
-      }
-    }
-    imports []
-    procedures {
-      "App.take" {
-        parameters [
-          {
-            name "it"
-            type "App.Marked"
-          }
-        ]
-        result 1
-        returns "Int"
-      }
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              "seven"
-            ]
-            procedure "App.take"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-contract-asking-no-procedures-refuses-what-no-claim-names")
+(note "A contract asking no procedures is not answered by every type. Only a type a document claims it for answers it, so text handed where the mark is asked is refused at the build: `Int` is claimed, and `String` is not.")
 
+(program
+  (warp 1)
+  (contract App.Marked)
+  (extension
+    (head Int)
+    (satisfies App.Marked))
+  (procedure App.take
+    (parameter it (type App.Marked))
+    (returns Int)
+    (result 1))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result (call App.take "seven"))))
+(expect (refuses build))

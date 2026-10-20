@@ -1,57 +1,17 @@
-warpt 1
-{
-  expect {
-    answers "a-b-c"
-  }
-  name "split-cuts-and-joined-writes"
-  note "split answers the text cut on a separator; joined writes strings one after another with one between."
-  program {
-    imports [
-      "Standard.Text.joined"
-      "Standard.Text.split"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "pieces"
-            value {
-              call {
-                arguments [
-                  "a,b,c"
-                  ","
-                ]
-                procedure "Standard.Text.split"
-              }
-            }
-          }
-          {
-            let "line"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "pieces"
-                  }
-                  "-"
-                ]
-                procedure "Standard.Text.joined"
-              }
-            }
-          }
-        ]
-        failing [
-          "aborted"
-        ]
-        result {
-          ref "line"
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "split-cuts-and-joined-writes")
+(note "split answers the text cut on a separator; joined writes strings one after another with one between.")
 
+(program
+  (warp 1)
+  (import Standard.Text.joined)
+  (import Standard.Text.split)
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing aborted)
+    (body
+      (let pieces (call Standard.Text.split "a,b,c" ","))
+      (let line (call Standard.Text.joined pieces "-")))
+    (result line)))
+(expect (answers "a-b-c"))

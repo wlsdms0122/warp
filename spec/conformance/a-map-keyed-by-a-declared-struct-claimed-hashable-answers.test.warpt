@@ -1,41 +1,18 @@
-warpt 1
-{
-  expect {
-    answers 1
-  }
-  name "a-map-keyed-by-a-declared-struct-claimed-hashable-answers"
-  note "A declared struct answers `Hashable` where a document claims it does, and the claim asks no procedures, so a map keyed by the struct builds."
-  program {
-    imports []
-    procedures {
-      "App.f" {
-        parameters [
-          {
-            name "m"
-            type "Dictionary<App.Point, Int>"
-          }
-        ]
-        result 1
-        returns "Int"
-      }
-      entry {
-        access "public"
-        result 1
-        returns "Int"
-      }
-    }
-    types {
-      "App.Point" {
-        satisfies [
-          "Hashable"
-        ]
-        struct {
-          x "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-map-keyed-by-a-declared-struct-claimed-hashable-answers")
+(note "A declared struct answers `Hashable` where a document claims it does, and the claim asks no procedures, so a map keyed by the struct builds.")
 
+(program
+  (warp 1)
+  (struct App.Point
+    (satisfies Hashable)
+    (field x Int))
+  (procedure App.f
+    (parameter m (type (dictionary App.Point Int)))
+    (returns Int)
+    (result 1))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result 1)))
+(expect (answers 1))

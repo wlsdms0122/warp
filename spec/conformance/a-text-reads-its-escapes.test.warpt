@@ -1,11 +1,5 @@
-warpt 1
-{
-  expect {
-    spells "\"\\\n\r\t\u0001"
-  }
-  name "a-text-reads-its-escapes"
-  note "The quote, the backslash and the three control characters with short escapes (`\\n`, `\\r`, `\\t`) read through their escapes, and any other control character through `\\u` and four lowercase hex digits."
-  test 1
-  text "warpt 1\n\"\\\"\\\\\\n\\r\\t\\u0001\"\n"
-}
-
+(test 1)
+(name "a-text-reads-its-escapes")
+(note "The quote, the backslash and the three control characters with short escapes (`\\n`, `\\r`, `\\t`) read through their escapes, and any other control character through `\\u` and four lowercase hex digits.")
+(text "(warp 1)\n(const a \"\\\"\\\\\\n\\r\\t\\u0001\")\n")
+(expect (spells (dictionary (entry "const" (dictionary (entry "a" "\"\\\n\r\t\u0001"))) (entry "imports" (array)) (entry "warp" 1))))

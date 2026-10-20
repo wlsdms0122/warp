@@ -1,58 +1,23 @@
-warpt 1
-{
-  expect {
-    answers []
-  }
-  name "a-closure-alone-fills-a-parameter-with-what-it-takes"
-  note "`App.none` takes only a procedure taking `some T`. Nothing else handed fills `T`, so what the closure takes, `Int`, fills it, and the answer `Array<some T>` is held where `Array<Int>` is declared."
-  program {
-    imports []
-    procedures {
-      "App.none" {
-        parameters [
-          {
-            name "f"
-            type "(some T) -> Bool"
-          }
-        ]
-        result []
-        returns "Array<some T>"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "xs"
-            type "Array<Int>"
-            value {
-              call {
-                arguments [
-                  {
-                    closure {
-                      parameters [
-                        {
-                          name "n"
-                          type "Int"
-                        }
-                      ]
-                      result true
-                      returns "Bool"
-                    }
-                  }
-                ]
-                procedure "App.none"
-              }
-            }
-          }
-        ]
-        result {
-          ref "xs"
-        }
-        returns "Array<Int>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-closure-alone-fills-a-parameter-with-what-it-takes")
+(note "`App.none` takes only a procedure taking `some T`. Nothing else handed fills `T`, so what the closure takes, `Int`, fills it, and the answer `Array<some T>` is held where `Array<Int>` is declared.")
 
+(program
+  (warp 1)
+  (procedure App.none
+    (parameter f (type (procedure (parameters (some T)) (returns Bool))))
+    (returns (array (some T)))
+    (result (array)))
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (body
+      (let xs
+        (type (array Int))
+        (call App.none
+          (closure
+            (parameter n (type Int))
+            (returns Bool)
+            (result true)))))
+    (result xs)))
+(expect (answers (array)))

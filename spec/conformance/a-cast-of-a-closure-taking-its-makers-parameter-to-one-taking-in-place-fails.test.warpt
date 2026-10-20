@@ -1,108 +1,30 @@
-warpt 1
-{
-  expect {
-    answers "cast_refused"
-  }
-  name "a-cast-of-a-closure-taking-its-makers-parameter-to-one-taking-in-place-fails"
-  note "App.mk answers a closure taking its own some T by value, and the entry holds it as Any. Only the call of App.mk filled that T, so the closure is a value of no procedure type here, and the cast reading it as taking a list of text in place fails with cast_refused, which the attempt catches."
-  program {
-    imports []
-    procedures {
-      "App.mk" {
-        parameters [
-          {
-            name "x"
-            type "some T"
-          }
-        ]
-        result {
-          closure {
-            parameters [
-              {
-                name "y"
-                type "some T"
-              }
-            ]
-            result 0
-            returns "Int"
-          }
-        }
-        returns "(some T) -> Int"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "tried"
-            value {
-              attempt {
-                body [
-                  {
-                    let "a"
-                    type "Any"
-                    value {
-                      call {
-                        arguments [
-                          [
-                            "z"
-                          ]
-                        ]
-                        procedure "App.mk"
-                      }
-                    }
-                  }
-                  {
-                    let "f"
-                    value {
-                      as {
-                        of {
-                          ref "a"
-                        }
-                        type "(inout Array<String>) -> Int"
-                      }
-                    }
-                  }
-                  {
-                    value [
-                      "a"
-                    ]
-                    var "s"
-                  }
-                  {
-                    value {
-                      call {
-                        arguments [
-                          {
-                            ref "s"
-                          }
-                        ]
-                        procedure {
-                          ref "f"
-                        }
-                      }
-                    }
-                  }
-                ]
-                rescue {
-                  result {
-                    ref "tried.type"
-                  }
-                }
-                result {
-                  ref "s"
-                }
-              }
-            }
-          }
-        ]
-        result {
-          ref "tried"
-        }
-        returns "Any"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-cast-of-a-closure-taking-its-makers-parameter-to-one-taking-in-place-fails")
+(note "App.mk answers a closure taking its own some T by value, and the entry holds it as Any. Only the call of App.mk filled that T, so the closure is a value of no procedure type here, and the cast reading it as taking a list of text in place fails with cast_refused, which the attempt catches.")
 
+(program
+  (warp 1)
+  (procedure App.mk
+    (parameter x (type (some T)))
+    (returns (procedure (parameters (some T)) (returns Int)))
+    (result
+      (closure
+        (parameter y (type (some T)))
+        (returns Int)
+        (result 0))))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let tried
+        (attempt
+          (body
+            (let a (type Any) (call App.mk (array "z")))
+            (let f (as a (procedure (parameters (inout (array String))) (returns Int))))
+            (var s (array "a"))
+            (apply f s))
+          (result s)
+          (rescue
+            (result (path tried (field type)))))))
+    (result tried)))
+(expect (answers "cast_refused"))

@@ -1,44 +1,16 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-field-of-a-struct-applied-to-int-read-as-text-refuses"
-  note "A mention of a struct applied to `Int` reads its field as `Int`, so answering that field where the declaration promises `String` is refused at the build."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "b"
-            type "App.Box<Int>"
-            value {
-              struct {
-                item 1
-              }
-            }
-          }
-        ]
-        result {
-          ref "b.item"
-        }
-        returns "String"
-      }
-    }
-    types {
-      "App.Box" {
-        struct {
-          item "some T"
-        }
-        typeParameters [
-          "T"
-        ]
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-field-of-a-struct-applied-to-int-read-as-text-refuses")
+(note "A mention of a struct applied to `Int` reads its field as `Int`, so answering that field where the declaration promises `String` is refused at the build.")
 
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let b (type (named App.Box Int)) (struct (field item 1))))
+    (result (path b (field item)))))
+(expect (refuses build))

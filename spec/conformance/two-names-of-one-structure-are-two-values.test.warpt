@@ -1,78 +1,20 @@
-warpt 1
-{
-  expect {
-    answers false
-  }
-  name "two-names-of-one-structure-are-two-values"
-  note "The name is part of what a struct holds: an `Account` and a `Vault` with the same fields are not equal."
-  program {
-    imports [
-      "Standard.Logic.equal"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "one"
-            value {
-              as {
-                of {
-                  struct {
-                    balance 1
-                  }
-                }
-                type "Account"
-              }
-            }
-          }
-          {
-            let "other"
-            value {
-              as {
-                of {
-                  struct {
-                    balance 1
-                  }
-                }
-                type "Vault"
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "one"
-              }
-              {
-                ref "other"
-              }
-            ]
-            procedure "Standard.Logic.equal"
-          }
-        }
-        returns "Bool"
-      }
-    }
-    types {
-      Account {
-        struct {
-          balance "Int"
-        }
-      }
-      Vault {
-        struct {
-          balance "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "two-names-of-one-structure-are-two-values")
+(note "The name is part of what a struct holds: an `Account` and a `Vault` with the same fields are not equal.")
 
+(program
+  (warp 1)
+  (import Standard.Logic.equal)
+  (struct Account
+    (field balance Int))
+  (struct Vault
+    (field balance Int))
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (failing cast_refused)
+    (body
+      (let one (as (struct (field balance 1)) Account))
+      (let other (as (struct (field balance 1)) Vault)))
+    (result (call Standard.Logic.equal one other))))
+(expect (answers false))

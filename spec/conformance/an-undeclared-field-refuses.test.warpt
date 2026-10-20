@@ -1,36 +1,14 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "an-undeclared-field-refuses"
-  note "A dot on a declared struct reads a field, and a field the type does not declare is a defect the text shows. The type rules the field out, so no spelling reads past it, `?.` included."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        parameters [
-          {
-            name "task"
-            type "App.Task"
-          }
-        ]
-        result {
-          ref "task.done"
-        }
-        returns "Any"
-      }
-    }
-    types {
-      "App.Task" {
-        struct {
-          id "String"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-undeclared-field-refuses")
+(note "A dot on a declared struct reads a field, and a field the type does not declare is a defect the text shows. The type rules the field out, so no spelling reads past it, `?.` included.")
 
+(program
+  (warp 1)
+  (struct App.Task
+    (field id String))
+  (procedure entry
+    (access public)
+    (parameter task (type App.Task))
+    (returns Any)
+    (result (path task (field done)))))
+(expect (refuses build))

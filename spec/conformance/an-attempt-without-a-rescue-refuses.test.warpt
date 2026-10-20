@@ -1,42 +1,15 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "an-attempt-without-a-rescue-refuses"
-  note "An attempt's `rescue` is required. One written without it refuses at the load."
-  program {
-    imports [
-      "Standard.Control.abort"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            value {
-              attempt {
-                body [
-                  {
-                    value {
-                      call {
-                        arguments [
-                          "x"
-                        ]
-                        procedure "Standard.Control.abort"
-                      }
-                    }
-                  }
-                ]
-              }
-            }
-          }
-        ]
-        result 1
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-attempt-without-a-rescue-refuses")
+(note "An attempt's `rescue` is required. One written without it refuses at the load.")
 
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (body
+      (attempt
+        (body
+          (call Standard.Control.abort "x"))))
+    (result 1)))
+(expect (refuses load))

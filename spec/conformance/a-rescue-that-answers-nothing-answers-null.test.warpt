@@ -1,64 +1,22 @@
-warpt 1
-{
-  arguments {
-    payload "not a whole number"
-  }
-  expect {
-    answers null
-  }
-  name "a-rescue-that-answers-nothing-answers-null"
-  note "A rescue runs statements for effect and need not answer. When the body fails and that rescue is the path taken, the attempt answers null, which is the value behind the `T?` the join reads."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "tried"
-            value {
-              attempt {
-                body [
-                  {
-                    let "read"
-                    value {
-                      as {
-                        of {
-                          ref "payload"
-                        }
-                        type "Int"
-                      }
-                    }
-                  }
-                ]
-                rescue {
-                  body [
-                    {
-                      let "noted"
-                      value 0
-                    }
-                  ]
-                }
-                result {
-                  ref "read"
-                }
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "payload"
-          }
-        ]
-        result {
-          ref "tried"
-        }
-        returns "Int?"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-rescue-that-answers-nothing-answers-null")
+(note "A rescue runs statements for effect and need not answer. When the body fails and that rescue is the path taken, the attempt answers null, which is the value behind the `T?` the join reads.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter payload)
+    (returns (nullable Int))
+    (body
+      (let tried
+        (attempt
+          (body
+            (let read (as payload Int)))
+          (result read)
+          (rescue
+            (body
+              (let noted 0))))))
+    (result tried)))
+(arguments (argument payload "not a whole number"))
+(expect (answers null))

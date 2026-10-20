@@ -1,56 +1,26 @@
-warpt 1
-{
-  expect {
-    answers "taken"
-  }
-  name "the-side-select-does-not-choose-goes-unasked"
-  note "Both sides are procedures so the one not chosen is never asked. The side left alone here reads past the end of a list holding nothing, which would refuse the run, and the answer shows it was never read."
-  program {
-    imports [
-      "Standard.Logic.select"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "none"
-            type "Array<Any>"
-            value []
-          }
-        ]
-        const true
-        result {
-          call {
-            arguments [
-              true
-              {
-                closure {
-                  const true
-                  isolated true
-                  result "taken"
-                  returns "Any"
-                }
-              }
-              {
-                closure {
-                  const true
-                  isolated true
-                  result {
-                    ref "none[0]"
-                  }
-                  returns "Any"
-                }
-              }
-            ]
-            procedure "Standard.Logic.select"
-          }
-        }
-        returns "Any"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "the-side-select-does-not-choose-goes-unasked")
+(note "Both sides are procedures so the one not chosen is never asked. The side left alone here reads past the end of a list holding nothing, which would refuse the run, and the answer shows it was never read.")
 
+(program
+  (warp 1)
+  (import Standard.Logic.select)
+  (procedure entry
+    (access public)
+    (const)
+    (returns Any)
+    (body
+      (let none (type (array Any)) (array)))
+    (result
+      (call Standard.Logic.select true
+        (closure
+          (const)
+          (isolated)
+          (returns Any)
+          (result "taken"))
+        (closure
+          (const)
+          (isolated)
+          (returns Any)
+          (result (path none (index 0))))))))
+(expect (answers "taken"))

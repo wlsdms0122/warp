@@ -1,85 +1,27 @@
-warpt 1
-{
-  expect {
-    answers "box"
-  }
-  name "a-claim-under-a-head-bounding-its-parameter-answers-for-a-value-it-takes"
-  note "The extension of `App.Box<some T: Hashable>` says every box of something that answers `Hashable` answers App.Describable, and a box of `Int` is one, so the call through the contract reaches the member."
-  program {
-    contracts {
-      "App.Describable" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    extensions {
-      "App.Box<some T: Hashable>" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "App.Box<some T>"
-              }
-            ]
-            result "box"
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.Describable"
-        ]
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "b"
-            type "App.Box<Int>"
-            value {
-              struct {
-                item 1
-              }
-            }
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "b"
-              }
-            ]
-            procedure "App.Describable.describe"
-          }
-        }
-        returns "String"
-      }
-    }
-    types {
-      "App.Box" {
-        struct {
-          item "some T"
-        }
-        typeParameters [
-          "T"
-        ]
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-claim-under-a-head-bounding-its-parameter-answers-for-a-value-it-takes")
+(note "The extension of `App.Box<some T: Hashable>` says every box of something that answers `Hashable` answers App.Describable, and a box of `Int` is one, so the call through the contract reaches the member.")
 
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head (named App.Box (some T Hashable)))
+    (satisfies App.Describable)
+    (procedure describe
+      (parameter of (type (named App.Box (some T))))
+      (returns String)
+      (result "box")))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let b (type (named App.Box Int)) (struct (field item 1))))
+    (result (call App.Describable.describe b))))
+(expect (answers "box"))
