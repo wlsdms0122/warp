@@ -9,7 +9,7 @@ A program computes over eight kinds of data, plus one value that is not data:
 | null | `null` | |
 | bool | `true` / `false` | |
 | int | `1`, `-3` | signed, 64-bit; overflow **refuses**, it does not wrap |
-| double | `1.0`, `1e2` | IEEE-754 binary64; a document cannot carry infinity or NaN |
+| double | `1.0`, `1e+16` | IEEE-754 binary64; a document cannot carry infinity or NaN |
 | string | `"hi"` | Unicode text |
 | array | `(array …)`, or `x"6869"` | ordered; `x"…"` is **bytes**, the compact spelling of an `Array<Int>` whose every element is from 0 to 255, what a carrying form carries when the payload is not text |
 | map | `(dictionary (entry k v) …)` | entries, each a value under a key that is a value, every key once; held in the key order below |

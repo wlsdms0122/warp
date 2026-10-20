@@ -2,13 +2,13 @@
 
 How a document and a case are written as the IR's own nodes: the text encoding's second layer. The first, atoms and lists, is under [encodings](encoding.md), and knows nothing of Warp. This layer reads a list by the word it begins with and makes the tree's node, and it judges nothing: what a tree says is the load's to judge, under [checking](checking.md), whether the tree came from a text or from bytes. One tree, one text. The writer gives a tree the one text below, and refuses a tree no node writes back as itself.
 
-Only text is quoted, always, so every name stands bare. A type and a path are nodes too, and the node writes the string the tree holds for it.
+Only text is quoted, always, so a name stands bare wherever it reads back bare, under [encodings](encoding.md). A type and a path are nodes too, and the node writes the string the tree holds for it.
 
 ## The rule
 
 - **A list's first atom is a word**, and the word says which node it is. Every other position holds an operand: a name, a value, a type, a path or another node.
 - **A mapping of the tree is a node, and each of its keys a node inside it**, `(key …)`. A node a map holds under a name carries the name first: `(procedure App.g …)`, `(field x Int)`.
-- **A list of the tree** is a node holding its elements in order where they are values, types or statements: `(array …)`, `(body …)`, `(failing …)`, `(satisfies …)`, a procedure type's `(parameters …)`. Where its elements are mappings or pairs, each element is a node of the key's singular, repeated in order and free to stand among the other nodes: `(import …)`, `(parameter …)`, `(typeParameter …)`, a contract's `(type …)`, `(document …)`, `(argument …)`. Three element words name what the tree gives no key: a dictionary's `(entry k v)`, a struct's `(field x …)`, an extension's `(head …)`.
+- **A list of the tree** is a node holding its elements in order where they are values, types or statements: `(array …)`, `(body …)`, `(failing …)`, `(satisfies …)`, a procedure type's `(parameters …)`. Where its elements are mappings or pairs, each element is a node of the key's singular, repeated in order: `(import …)`, `(parameter …)`, `(typeParameter …)`, a contract's `(type …)` and `(document …)`, and the first four stand free among the other nodes of what holds them. A case's `arguments` is a mapping, and each of its entries is an `(argument name value)`. Three element words name what the tree gives no key: a dictionary's `(entry k v)`, a struct's `(field x …)`, an extension's `(head …)`.
 - **Some operands stand by position**: a call's and an apply's callee and then its arguments, a cast's subject and then its type, a statement's name and then its value, a document variable's name, type and start, a leave's operand. Two things stand bare: an expression written where a statement stands is the statement `{ value: e }`, and a name where a value stands is the path of that one name, `{ ref: x }`.
 - **An operand is never a word where a name could stand.** The two operands that are words, an access and a stage, stand where no name does. What a body may fail with is either the word `anything` or names, so the word is a node, `(failing (anything))`, and `(failing anything)` is a failure named `anything`. A break's operand is a name, so `(break null)` **refuses** (`null` is no name) and ``(break `null`)`` names a loop called `null`.
 - **One word may name two nodes in two places, and the place decides**, each the tree's own key there:
@@ -21,7 +21,7 @@ Only text is quoted, always, so every name stands bare. A type and a path are no
   - `var`: a field's mark inside a type.
   - `const`, `isolated` and `failing`: a procedure's, and a procedure type's inside a type.
   - `document`: an identity's bytes in a case, a document inside `documents`.
-- **What a text is, is the word it begins with**: `(warp …)` a document, `(test …)` a case. A text beginning with any other **refuses**, and so does an atom standing at the top, in no node.
+- **What a text is, is the word it begins with**: `(warp …)` a document, `(test …)` a case. A text beginning with any other **refuses**, and so does an atom standing at the top, in no node. `(warp 1)` stands first at the top of a text; inside a case, under `program` and `document`, it stands among the other nodes like any key's.
 - **Layout is free on the way in**: white space between atoms, and the nodes for a mapping's keys in any order. What the tree holds as a list keeps the order written: imports, parameters, statements, `satisfies`, type parameters, a contract's types, `failing`, a composition, a bound. A key written twice **refuses**: two values under one key are two documents, not one document laid out twice.
 
 ## A document
@@ -68,7 +68,7 @@ Only text is quoted, always, so every name stands bare. A type and a path are no
 
 - A struct always writes `struct` in the tree, a struct with no field included.
 - A member is a procedure under its short name, called as `(call App.Box.area …)`.
-- A contract's procedure writes its signature's nodes alone, `const` and `isolated` among them, and no `body`, `result`, `description` or `access`.
+- A contract's procedure is its signature, `const` and `isolated` among it. One writing a `body`, a `result`, a `description` or an `access` has a tree, which the load refuses.
 - A bound is the contracts' names after the name it bounds. A head is a type, and the tree's key is its string.
 
 ## Procedures and closures
@@ -94,7 +94,7 @@ Only text is quoted, always, so every name stands bare. A type and a path are no
 - `(parameter f)` writes no `type`, and takes anything. `(parameter f (type Any))` writes `type: "Any"`, which the load refuses as a second spelling.
 - `(failing (anything))` writes `failing: "anything"`. `(failing)` writes `failing: []`, which the load refuses.
 - A type parameter's bound stands at its first naming in a slot, `(parameter of (type (some C Lib.Container)))`, and an associated type's in `bound` and `sameType`.
-- A procedure writing no `body` writes none in the tree; `(body)` writes `body: []`, which the load refuses. The constructs that require a body write one always.
+- A procedure writing no `body` writes none in the tree; `(body)` writes `body: []`, which the load refuses.
 
 ## Types
 
@@ -118,9 +118,9 @@ App.Point  App.Named                        a declared type or contract, by its 
 
 - **One type, one node.** `named` takes a declared name other than `Array` and `Dictionary` and one type or more; a name alone is the atom. `composition` takes two names or more, none twice, and no node. `some` takes a type parameter's name or its associated type's, `T.Item`, and never `Self` or what it holds, which are written bare; it takes a bound only on a type parameter's name. `nullable` holds no `inout` and no `var`. Each of these **refuses** otherwise.
 - **A procedure type** writes `(parameters …)` and `(returns …)` both, or neither, with `const` or `isolated`, which is `const Procedure`. `Procedure` bare is the atom, so `(procedure)` **refuses**, and so does a procedure type writing one of the two alone. `(failing (anything))` writes `throws`, and `(failing)` writes `throws()`, which the load refuses.
-- A name a type holds that the type's spelling cannot hold (white space, or any of `<>(),:&?`) has no tree, and **refuses**. So does a name holding them in `import`, `typeParameter`, a contract's `type` and `bound`, whose string joins names with `: ` and ` & `.
+- A name a type holds that the type's spelling cannot hold (a character Unicode counts as white space, or any of `<>(),:&?`) has no tree, and **refuses**. So does a name holding them in `import`, `typeParameter`, a contract's `type` and `bound`, whose string joins names with `: ` and ` & `.
 - **A type node is the one node its string reads as**: the reader spells the node and reads the spelling back, and **refuses** a node that comes back as another. So a procedure type's parts stand in the order `const`, `isolated`, `parameters`, `failing`, `returns`.
-- **A type's and a path's nodes nest no deeper than a tree may**, 128 levels, the way their strings do under [types](type.md) and [expressions](expression.md). Both directions refuse past it before walking further.
+- **A type's and a path's nodes nest at most 128 levels**, counted from the node itself: a type written inside another is one deeper, and a path between brackets one deeper than the path around it. Both directions refuse past it before walking further. How deep a type or a path may stand in a document is the load's to judge, counted on from the containers around its string, under [types](type.md) and [expressions](expression.md).
 
 ## Statements
 
@@ -146,7 +146,7 @@ The constructs, each where a statement's value stands:
 
 - A loop's and an attempt's name is the statement's: `(let w (loop …))`, `(let failed (attempt …))`.
 - **A leave's operand is optional, and its `)` says so.** `(return null)` writes the same tree as `(return)`, and the writer writes `(return)`.
-- A binding takes any value, so `(let x (return 1))` and `(let r (conditional …))` are written, and the load refuses each for what it says, under [statements](statement.md). `(var x null)` writes `value: null`, and the writer writes `(var x)`. A `let` or a `set` with no value, a `type` with no name and a `type` beside `set` are statements no node writes, and **refuse**.
+- A binding takes any value, so `(let x (return 1))` and `(let r (conditional …))` are written, and the load refuses each for what it says, under [statements](statement.md). `(var x)` writes no `value` and `(var x null)` writes `value: null`, two trees. A `let` or a `set` with no value, a `type` with no name and a `type` beside `set` are statements no node writes, and **refuse**.
 - A conditional's arms and a loop's body are statements, and `(then)` or `(body)` holding none writes `[]`.
 
 ## Expressions and paths
@@ -194,14 +194,14 @@ Data is the nodes above that hold values, read as values: the scalars, `(array �
 - A case says what it is by `(test 1)` as a document does by `(warp 1)`, under [conformance](conformance.md). `(program …)` writes the nodes the program's tree holds.
 - Inside `vocabulary` a procedure, a member included, is its signature's nodes and `(answers <data>)`, and no body. A vocabulary writing no `import` writes `imports: []`.
 - A `text` case holds a document's text, and what it asks of a value's spelling it asks through a literal in that text.
-- **`(tree <data>)`** is the case's `program` written as data, `(dictionary (entry "warp" 1) (entry "imports" (array)) …)`, for a program no node writes back as itself: an unknown key, a key beside another it may not stand beside, a value of the wrong kind, a missing `imports`, `const: false`, a procedure's `body: []`, a construct or a mapping where a value is wanted, a statement no node writes, a path with a marked head, a type or a path in a spelling no node writes. The case's tree is the same one either way. The writer writes `(program …)` where the program's nodes read back as it, and the reader **refuses** a `(tree …)` whose program a node writes.
+- **`(tree <data>)`** is the case's `program` written as data, `(dictionary (entry "warp" 1) (entry "imports" (array)) …)`, for a program no node writes back as itself: an unknown key, a key beside another it may not stand beside, a value of the wrong kind, a missing `imports`, `const: false`, an empty list no node writes (`parameters: []`, `typeParameters: []`, a contract's `types: []`, `arguments: []`), a construct or a mapping where a value is wanted, a statement no node writes, a path with a marked head, a type or a path in a spelling no node writes. The case's tree is the same one either way. The writer writes `(program …)` where the program's nodes read back as it, and the reader **refuses** a `(tree …)` whose program a node writes.
 
 ## The writer's layout
 
 - **A list breaks when it is a block holding a list, or holds a list that breaks.** A list that breaks keeps the atoms it begins with on its first line and writes each part after them on a line of its own, two spaces deeper; its `)` closes the last line. Every other list is written on one line.
 - The blocks, decided by place: a declaration's node (`procedure`, `struct`, `contract` and `extension` at the top, and `procedure` inside them), `closure`, the constructs (`conditional`, `loop`, `attempt`, `rescue`) and their statement lists (`body`, `then`, `else`), and a case's `program`, `documents`, `document` inside `documents`, and `vocabulary`. A type's `procedure`, a struct value and data are not blocks.
 - At the top of a text, one node a line, and a blank line before each node that breaks.
-- Parts stand in the writer's order: in a procedure `description`, `access`, `const`, `isolated`, the parameters, `returns`, `failing`, `bound`, `sameType`, `body`, `result`, `answers`; in a document `warp`, `description`, the imports, constants, variables, types, contracts, extensions and procedures, each kind by name; in a case `test`, `name`, `note`, `documents`, `vocabulary`, `program` or `tree`, `bytes`, `text`, `object`, `document`, `arguments`, `expect`. The text ends with one newline.
+- Parts stand in the writer's order: in a procedure `description`, `access`, `const`, `isolated`, the parameters, `returns`, `failing`, `bound`, `sameType`, `body`, `result`, `answers`; in a document `warp`, `description`, the imports, constants, variables, types, contracts, extensions and procedures, each kind by name; in a case `test`, `name`, `note`, `documents`, `vocabulary`, `program` or `tree`, `bytes`, `text`, `object`, `document`, `arguments`, `expect`; inside the other nodes in the order this page shows them, each kind by name. Data writes a map's entries in the key order and a struct's fields ascending by their names' bytes, under [values](value.md). The text ends with one newline.
 
 A case as the writer lays it out:
 
