@@ -31,7 +31,7 @@ A type is written as a string:
 
 **A type is written one way**, the spelling the writer gives it: no white space at either end of the string or of a type inside it, and none before `?`, `<` or `>`; one space after `some`, `inout`, `var`, `const` and `isolated`, and before `throws`; `, ` between the types brackets or parentheses hold and between the failures `throws(…)` lists, `: ` between `some T` and its bound, ` & ` between the names a bound or a composition joins, and ` -> ` around the arrow. A procedure type's modifiers stand `const` first, and its failures and a composition's names in name order. Any other string for one type, `Dictionary<String,Int>` or `Array< Int>`, is a second spelling and **refuses at the load**, as a document saying a thing another way does under [the document format](document.md).
 
-**A type written inside another is one level deeper**: an element, a key or a value, a type a struct is applied to, a parameter or an answer, and what `?`, `inout` or `var` marks. A modifier and the parentheses that group add none. The levels count on from the containers around the type's string, against the bound a document's nesting has under [encoding](encoding.md), and a type past it **refuses at the load**, before it is read further.
+**A type written inside another is one level deeper**: an element, a key or a value, a type a struct is applied to, a parameter or an answer, and what `?`, `inout` or `var` marks. A modifier and the parentheses that group add none. The levels count on from the containers around the type's string, against the bound of 128 a document's nesting has under [encoding](encoding.md): `Array<Int>` where 127 containers stand around its string is 128 deep, and `Array<Array<Int>>` there **refuses at the load**, before it is read further.
 
 ## Numbers and readings
 
@@ -201,7 +201,7 @@ Where a value meets a declaration (an argument, an answer, and a write into a bo
 
 **A document stands on** the documents declaring what it names, on the documents those stand on, and on the claims it and they import: a claim imported is the claim, every copy of it the link holds, and not what the documents making it stand on, since the copies are one claim.
 
-**A claim is imported by its pair.** A claim declares no name, so a document reaches one made in a document it names nothing of by writing the pair the claim is about among its `imports`, the type's name and the contract's with a colon and a space between, `"T.Card: App.Describable"`. An import naming a claim the document makes itself or one the language makes **refuses at the load**, and so does one written as neither a name nor a pair, or as a pair whose halves are no type's name and no contract's. One naming a claim no document in the link makes **refuses at the build**, as a name nothing declares does.
+**A claim is imported by its pair**, under *a claim among the imports* in [documents](document.md).
 
 **Whether a type answers a contract is judged at the build**, against the claims made within what the asking document stands on, the language's among them: a reading of a type no claim there is about, or one the claim's head does not take, answers nothing, and **refuses at the build** where it is handed. So what a document builds to is a fact of it and of what it stands on, whatever else the link holds.
 
@@ -215,7 +215,7 @@ Where a value meets a declaration (an argument, an answer, and a write into a bo
 
 ## Members
 
-**What a document gives a type under `procedures` are the type's members**, in the struct's declaration or in an extension. A member is a procedure under its type's name and its own with a dot between them, `Bank.Account.describe`, the spelling a call writes, and it stands among the procedures as any declaration does: a procedure declared under that spelling, or a second member under it, is one name with two declarers, and **refuses at the load** in one document and **at the build** across documents. A member is named by one identifier, so one named otherwise **refuses at the load**.
+**What a document gives a type under `procedures` are the type's members**, in the struct's declaration or in an extension. A member is a procedure under its type's name and its own with a dot between them, `Bank.Account.describe`, the spelling a call writes, and it stands among the procedures as any declaration does: a procedure declared under that spelling, or a second member under it, is one name with two declarers, and **refuses at the load** in one document and **at the build** across documents. A member's name holds the grammar [checking](checking.md) gives it.
 
 **A type answers a contract's procedure by its member of that name**, given in the claim's document or in one that document stands on. So a claim written in an extension stands on the members a struct's declaration gives, and a claim written in a struct's declaration takes no member from an extension, which stands on the declaration and not the other way round.
 
@@ -235,7 +235,7 @@ Where a value meets a declaration (an argument, an answer, and a write into a bo
 
 **A type gives one by its type member of that name**, written under `types` beside `procedures` where the document gives the type what it gives it, `types: { Item: "some T" }`, in a struct's declaration or in an extension. Under a head a type member writes the head's own type parameters, in a struct's declaration the struct's, and under a bare head elsewhere none, so one taking the type's parameters is given under a head applying the type.
 
-**A type member is named by one identifier**, and the type's name and its own with a dot between them, `App.Box.Item`, is its spelling, one type member per spelling: one document giving one type a type member under one name twice, under two heads, **refuses at the load**, and two documents giving it **refuse at the build**, as two declarers of a name do.
+**A type member's name holds the grammar [checking](checking.md) gives it**, and the type's name and its own with a dot between them, `App.Box.Item`, is its spelling, one type member per spelling: one document giving one type a type member under one name twice, under two heads, **refuses at the load**, and two documents giving it **refuse at the build**, as two declarers of a name do.
 
 **A claim holds where the type gives every type the contract asks**: for each, the type's type member of that name is given in the claim's document or in one it stands on, under a head taking every value the claim's head takes, and its type, read under the claim's head, answers what the contract holds it to. A claim that does not **refuses at the build, at the claim**. Two contracts asking one name ask one type member of a type answering both.
 
