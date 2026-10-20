@@ -48,7 +48,7 @@ A procedure the host answers is not written in a document. A declaration in a do
 
 **Note.** A link holds the code, not the text it was written as, and no reading of a built procedure says whether it asked the clock.
 
-**What a runtime hands one is where the claim is kept.** A procedure that answers without running is handed what its call wrote, a way to send the procedures it declared, and a way to call a procedure it was handed. One that reaches outside is handed those and three more: what a parameter handed in place holds, a way to write it, and whatever the host keeps beside the program. Those three are what the first kind is refused.
+**What a runtime hands one is where the claim is kept.** A procedure that answers without running is handed what its call wrote, a parameter handed in place as what it holds when the call is made, a way to send the procedures it declared, and a way to call a procedure it was handed. One that reaches outside is handed those and two more: a parameter handed in place as the caller's variable, read and written as it runs, and whatever the host keeps beside the program. Those two are what the first kind is refused.
 
 ## What answers without running
 
