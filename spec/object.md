@@ -2,7 +2,7 @@
 
 What a build writes down: one document compiled, in its own coordinates, laid out so that any implementation reads what any other wrote. This page is the layout. What the parts *mean* is the pages that judge them: a row's claims are [checking](checking.md), a body's operations are [statements](statement.md) and [expressions](expression.md) with every fact the build proved written in, and the bytes an object travels as are [encodings](encoding.md).
 
-An object is a **value**, and nothing more than one: it is written by the binary encoding, laid out by the text encoding, and identified by its bytes the way a document is. What crosses a wire is a document; what a build keeps, hands to a cache, or receives from one is an object, and both cross under the same encodings. A file holding either is named by its encoding and not by what it holds, `.warp` or `.warpt`, and what it holds is what the value says it is: a document says `warp`, an object says `object`.
+An object is a **value**, and nothing more than one: it is written by the binary encoding and identified by its bytes the way a document is, and a text writes one as data, inside a case. What crosses a wire is a document; what a build keeps, hands to a cache, or receives from one is an object, and both cross under the binary. A file holding either is named by its encoding and not by what it holds, and what it holds is what the value says it is: a document says `warp`, an object says `object`.
 
 ## What an object holds
 
@@ -177,63 +177,49 @@ What a build judged, an object writes down as judged: what a signature says, `re
 The document
 
 ```
-warpt 1
-{
-  imports [ "Standard.Collection.appending" ]
-  procedures {
-    entry {
-      access "public"
-      const true
-      isolated true
-      parameters [ { name "n" type "Array<Int>" } ]
-      result { call { arguments [ { ref "n" } 1 ] procedure "Standard.Collection.appending" } }
-      returns "Array<Int>"
-    }
-  }
-  warp 1
-}
+(warp 1)
+(import Standard.Collection.appending)
+
+(procedure entry
+  (access public)
+  (const)
+  (isolated)
+  (parameter n (type (array Int)))
+  (returns (array Int))
+  (result (call Standard.Collection.appending n 1)))
 ```
 
-compiles to an object with one row, laid out as text and packed onto fewer lines than the writer uses:
+compiles to an object with one row, written as data, one entry a line and `rows` broken onto a few more, and its two digests elided:
 
 ```
-warpt 1
-{
-  addressTable [ [ 0 [] ] ]
-  claims []
-  constants []
-  contracts []
-  dependencies [ x"…" ]
-  document [ x"…" ]
-  importedClaims []
-  lifted []
-  loweredTypeTable []
-  members []
-  numbering [ [ "Standard.Collection.appending" ] [] ]
-  object 1
-  operationTable [ [ 1 0 ] [ 0 0 ] [ 11 [ 0 [ [ 0 ] [ 1 ] ] [] ] ] ]
-  rows [
-    [
-      "entry"
-      [ [ [ "n" [ 1 ] [] ] ] 3 [ 1 [] ] 1 1 [] [] ]
+(dictionary
+  (entry "addressTable" (array (array 0 (array))))
+  (entry "claims" (array))
+  (entry "constants" (array))
+  (entry "contracts" (array))
+  (entry "dependencies" (array x"…"))
+  (entry "document" (array x"…"))
+  (entry "importedClaims" (array))
+  (entry "lifted" (array))
+  (entry "loweredTypeTable" (array))
+  (entry "members" (array))
+  (entry "numbering" (array (array "Standard.Collection.appending") (array)))
+  (entry "object" 1)
+  (entry "operationTable" (array (array 1 0) (array 0 0) (array 11 (array 0 (array (array 0) (array 1)) (array)))))
+  (entry "rows" (array
+    (array "entry"
+      (array (array (array "n" (array 1) (array))) 3 (array 1 (array)) 1 1 (array) (array))
       2
-      [
-        0
-        [ [] [ 2 ] ]
-        [ 1 [ 0 ] [] [] [ "n" ] ]
-      ]
-    ]
-  ]
-  typeMembers []
-  typeNumbering []
-  typeTable [ [ 4 ] [ 7 0 ] [ 4 ] [ 7 2 ] ]
-  types []
-  valueTable [ [ 2 1 ] ]
-  variables []
-}
+      (array 0 (array (array) (array 2)) (array 1 (array 0) (array) (array) (array "n"))))))
+  (entry "typeMembers" (array))
+  (entry "typeNumbering" (array))
+  (entry "typeTable" (array (array 4) (array 7 0) (array 4) (array 7 2)))
+  (entry "types" (array))
+  (entry "valueTable" (array (array 2 1)))
+  (entry "variables" (array)))
 ```
 
-Read it back: `rows` holds `entry`, whose signature takes `n` as type `1` and answers type `3`. In `typeTable`, entry `1` is an array (tag 7) of entry `0`, `Int` (tag 4), and entry `3` is the same over entry `2`: both are `Array<Int>`, each written once where it is held. The signature fails with nothing (`[1 []]`), is const (`1`) and isolated (`1`), bounds nothing and says no associated type is a type (`[] []`); the row is public (`2`). Its implementation is a body (`0`) with no instructions and a result, operation `2`: a call (`11`) to row `0` of the numbering, which is `Standard.Collection.appending`, with two arguments, operations `0` and `1`, neither handed in place. Operation `0` reads (`1`) address `0`, slot `0` with no steps, and operation `1` is the literal (`0`) value `0`, the int (`2`) `1`. Every number stands before the entry holding it. The frame has one slot, filled by the parameter, called `n`. The dependency is what the host keyed the standard vocabulary's object under.
+Read it back: `rows` holds `entry`, whose signature takes `n` as type `1` and answers type `3`. In `typeTable`, entry `1` is an array (tag 7) of entry `0`, `Int` (tag 4), and entry `3` is the same over entry `2`: both are `Array<Int>`, each written once where it is held. The signature fails with nothing (`(array 1 (array))`), is const (`1`) and isolated (`1`), bounds nothing and says no associated type is a type (`(array) (array)`); the row is public (`2`). Its implementation is a body (`0`) with no instructions and a result, operation `2`: a call (`11`) to row `0` of the numbering, which is `Standard.Collection.appending`, with two arguments, operations `0` and `1`, neither handed in place. Operation `0` reads (`1`) address `0`, slot `0` with no steps, and operation `1` is the literal (`0`) value `0`, the int (`2`) `1`. Every number stands before the entry holding it. The frame has one slot, filled by the parameter, called `n`. The dependency is what the host keyed the standard vocabulary's object under.
 
 ## Cases
 

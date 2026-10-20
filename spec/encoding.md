@@ -1,6 +1,6 @@
 # Encodings
 
-An encoding is bytes for a value tree. Two are specified, and they are not peers: the binary is the document and the text is for people. An encoding carries a tree and never learns what a tree means, so a document, an [object](object.md) and a conformance case travel under the same two, and each says what it is under a key of its own, read before anything laid out by it. The file suffixes `.warp` and `.warpt` name the encoding and nothing about what the file holds; what identifies bytes is the header, since bytes that cross a wire carry no name. Whatever the encoding, three promises hold:
+An encoding is bytes for a value tree. Two are specified, and they are not peers: the binary is the document and the text is the IR's own spelling, for people and for the diffs they read. The binary carries any tree and never learns what a tree means, so a document, an [object](object.md) and a conformance case travel under it alike, and each says what it is under a key of its own, read before anything laid out by it. The text writes a document or a case, and a value inside either as data; there is no text of a bare value. The file suffixes `.warp` and `.warpt` name the encoding and nothing about what the file holds; what identifies bytes is what they begin with, since bytes that cross a wire carry no name. Whatever the encoding, three promises hold:
 
 1. **A whole number and a fraction are told apart.** However the encoding does it, `1` and `1.0` must arrive as the values they were. They are of two types, `Int` and `Double`, under [types](type.md), and one value only by the sameness under [values](value.md): the encoding is faithful to what was written, and sameness of worth is the value model's, not the bytes'.
 2. **The same document is the same bytes, in binary.** Writers are canonical: a map's keys are written in one order, **the key order** under [values](value.md), a struct's fields **ascending by their names' UTF-8 bytes**, and every value has one spelling. This is what makes a document cacheable, comparable and signable, and the binary reader holds the same line: non-canonical bytes **refuse**, they are not normalised. The text reader is the one that is forgiving, under Warp text below: text is for people, and the binary is the document.
@@ -20,7 +20,7 @@ Every reader also refuses: bytes after the document ends, bytes that end inside 
 
 **Keys and field names are written in full.** A key table would give one document an inline spelling and a referenced spelling, which promise 2 rules out, and a schema is a meaning the encodings do not learn. Repeated names compress well, and compression is the transport's.
 
-An encoding's header carries the *encoding's* format version, distinct from the document's `warp` key: the one says how the bytes are laid out, the other says what the program means. A reader refuses bytes laid out by a later format than it implements, and a format number that never existed.
+The binary's header carries the *encoding's* format version, distinct from the document's `warp` key: the one says how the bytes are laid out, the other says what the program means. A reader refuses bytes laid out by a later format than it implements, and a format number that never existed. The text carries no format of its own: it spells the tree's nodes, so it is laid out by the version the tree says it is in, and it begins with that, `(warp 1)` or `(test 1)`.
 
 ## Warp binary: `.warp`
 
@@ -55,7 +55,7 @@ Each value is a tag byte, then its payload:
 The golden case, held as `the-golden-map-reads-and-writes-back` under `conformance/`:
 
 ```
-{ "a": 1, "b": [true, null], "c": "hi", "d": 1.5, "e": x"6a73" }
+(dictionary (entry "a" 1) (entry "b" (array true null)) (entry "c" "hi") (entry "d" 1.5) (entry "e" x"6a73"))
 
 57 41 52 50 01                       WARP, format 1
 07 05                                a map of five
@@ -68,34 +68,31 @@ The golden case, held as `the-golden-map-reads-and-writes-back` under `conforman
 
 ## Warp text: `.warpt`
 
-The readable form: the same document laid out for eyes. **A dump, not a syntax**. A writer lays it out and people read it; composing a program is a front end's job, in a front end's notation. Nothing can be said here that the document does not hold. Current format: **1**. A text is UTF-8 bytes before it is anything else, and bytes that are not **refuse**.
+The readable form: a document or a case written as the IR's own nodes, in two layers. The first reads atoms and lists and knows nothing of Warp, the way the binary's reader knows nothing of what a tree means; it is this section. The second reads a list by the word it begins with and makes the tree's node, under [the text](text.md).
 
 ```
-warpt 1
-{
-  a 1
-  b [
-    true
-    null
-  ]
-  c "hi"
-  d 1.5
-  e x"6a73"
-}
+(warp 1)
+(import Standard.Numeric.plus)
+
+(procedure entry
+  (access public)
+  (returns Int)
+  (result (call Standard.Numeric.plus 1 2)))
 ```
 
-The layout:
+A text is UTF-8 bytes before it is anything else, and bytes that are not **refuse**.
 
-- The first line is `warpt`, a space, the format version as a whole number's one spelling, a newline.
-- Whitespace is space, tab, line feed and carriage return. Any other character, one Unicode counts as white space included, is part of the token it touches. Whitespace separates a bare token, a string and bytes from one another; a bracket needs none. A bare token running straight into a quote, or a quote into a bare token, is not a layout of two tokens.
-- A map is `{ key value … }`; an array is `[ value … ]`. No commas, no colons. Containers with anything in them take two-space indentation, one element or entry per line; empty containers are inline as `[]` / `{}`. An entry is its key, a space and its value, the value starting on the line the key ends on. The text ends with one newline.
-- A key is a value. Text there is written bare when it is an identifier (`[A-Za-z_][A-Za-z0-9_]*`) other than `null`, `true` and `false`, and quoted otherwise, and any other key is written as the value it is. In key position a bare identifier is text and `null`, `true` and `false` are the values they write: `{ null 1 }` is an entry under the key null, and `{ "null" 1 }` one under the text. A struct's field name is written as text is there, and a field is named by text alone. Since a bare identifier in key position is text, a struct whose name is one identifier has no writing as a key, and a writer handed one **refuses**.
-- `null`, `true` and `false` are bare keywords. **A number with a point or an exponent is a fraction; with neither it is whole**. The difference is grammar, not a reader's guess. A double is spelled as the shortest decimal that reads back to the same binary64 (a Ryū/Grisu-class rendering), with the point or exponent always present. Which form those digits take is the document's rule, not a host library's: writing the value `d.ddd…×10^k`, the point form when `-5 < k < 16`, otherwise the exponent form, its exponent written `e` with an explicit sign and at least two digits. `0.0001` but `1e-05`, `1000000000000000.0` but `1e+16`, so one value keeps one spelling down to its last character. An int is spelled with no leading zeros and a `-` only when negative.
-- A string is double-quoted. Exactly `"`, `\` and the three control characters with short escapes are escaped as `\"` `\\` `\n` `\r` `\t`; every other control character (below U+0020) as `\uXXXX` with lowercase hex; **nothing else is escaped**, and no character that has a shorter escape may take a longer one.
-- Bytes are `x"…"`. Lowercase hex, two digits a byte, no spaces.
-- A struct is its name, a space, and its fields as a map writes its entries: `Bank.Account { balance 1 }`. In value position a bare token followed by `{` is the name where it is one a struct may carry, as under `0x09` above; a bare token that spells a scalar (`null`, `true`, `false`, a number) or a type the language names (`Int`, `Array`) is never one.
+- **White space** is space, tab, line feed and carriage return, and nothing depends on a line break. Any other character, one Unicode counts as white space included, is part of the token it touches. There are no comments.
+- **A list** is `(`, then its elements, then `)`. An element is an atom or a list.
+- **An atom's first characters say its kind.** A digit, or `-` or `+` then a digit, begins a number; `x"` begins bytes; `"` begins text; `` ` `` begins a name; anything else is `null`, `true`, `false` or a name. A token so begun that is not that kind's one spelling **refuses**: `1.50`, `01`, `+1` and `1.` are no number and no name.
+- **A number with a point or an exponent is a fraction; with neither it is whole.** The difference is grammar, not a reader's guess. A double is spelled as the shortest decimal that reads back to the same binary64 (a Ryū/Grisu-class rendering), with the point or exponent always present. Which form those digits take is the document's rule, not a host library's: writing the value `d.ddd…×10^k`, the point form when `-5 < k < 16`, otherwise the exponent form, its exponent written `e` with an explicit sign and at least two digits. `0.0001` but `1e-05`, `1000000000000000.0` but `1e+16`, so one value keeps one spelling down to its last character. An int is spelled with no leading zeros and a `-` only when negative, and one past what an `Int` holds **refuses**.
+- **Text** is double-quoted. Exactly `"`, `\` and the three control characters with short escapes are escaped as `\"` `\\` `\n` `\r` `\t`; every other control character (below U+0020) as `\uXXXX` with lowercase hex; **nothing else is escaped**, and no character that has a shorter escape may take a longer one. A control character written raw **refuses**.
+- **Bytes** are `x"…"`. Lowercase hex, two digits a byte, no spaces.
+- **A name** is a run of characters other than white space, `(`, `)`, `"` and `` ` ``, holding no control character and reading as no other atom, or any text of one character or more in backticks. In backticks a name is escaped as text is, with `` \` `` for the backtick and `"` as itself. A name in backticks is the same atom as the name written bare, `` `x` `` and `x` alike, and `` `null` `` is a name where `null` is not. The writer writes a name bare where it reads back bare.
+- **A token is followed by white space, a parenthesis or the end.** A bare token running straight into a quote, a quote into a bare token and bytes into bytes are not a layout of two tokens, and **refuse**.
+- **Lists nest at most 257 deep**, which is as deep as a tree within the bound writes them. A document's first level is written in no list and each level after it in two at most, a dictionary and its entry or a procedure type and its parameters, save the level a type or a path starts at, which holds the list of the key it stands under beside them: 255. A case writes the documents beside its program two lists further down, each counted from itself. A text nesting deeper **refuses**, and so does a writer handed a tree whose text would.
 
-Layout is free on the way in. A reader takes keys in any order, any whitespace between tokens and any indentation, because a text is written by a person as often as by a writer. The writer still lays a text out one way, keys in the key order, fields ascending and two spaces an indent, so a text that has been through a writer is the same bytes everywhere, and that is the form the conformance cases are kept in. Text written as a key bare or quoted is one key either way. What is not free is the spelling of a value: a fraction written `1.50` and an escape spelled long **refuse**, since those are two texts for one value rather than two layouts of one text. Nor is a key written twice, two keys that are one value included, or a field named twice, which **refuses**: two values under one key are two documents, not one document laid out twice. Sameness of documents is the binary's promise, above, and a text makes it by being written out. A text that is refused is refused with the line and column the reader stood at, both counted from one, the column in scalars: a text is the encoding a person edits, and a refusal that names no place leaves them to find it.
+Layout is free on the way in. A reader takes any white space between tokens and any indentation, because a text is written by a person as often as by a writer, and the second layer takes a mapping's nodes in any order. The writer still lays a text out one way, under [the text](text.md), so a text that has been through a writer is the same bytes everywhere, and that is the form the conformance cases are kept in. What is not free is the spelling of a value: a fraction written `1.50` and an escape spelled long **refuse**, since those are two texts for one value rather than two layouts of one text. Sameness of documents is the binary's promise, above, and a text makes it by being written out. A text that is refused is refused with the line and column the reader stood at, both counted from one, the column in scalars: a text is the encoding a person edits, and a refusal that names no place leaves them to find it.
 
 ## Cases
 
@@ -137,19 +134,14 @@ Text:
 - `a-form-feed-between-tokens-refuses`
 - `a-fraction-not-in-its-one-writing-refuses`
 - `a-fraction-reads-by-its-point-or-exponent`
-- `a-map-keyed-by-values-spells-as-text`
 - `a-name-in-backticks-holding-nothing-refuses`
 - `a-name-in-backticks-is-the-name-written-bare`
 - `a-quote-running-into-a-bare-token-refuses`
-- `a-struct-spells-from-text`
 - `a-text-as-deep-as-a-tree-writes-is-read`
 - `a-text-control-character-written-raw-refuses`
-- `a-text-key-written-twice-refuses`
 - `a-text-led-by-a-byte-order-mark-refuses`
-- `a-text-reads-in-any-layout`
 - `a-text-reads-its-escapes`
 - `a-whole-number-with-a-leading-zero-refuses`
-- `an-atom-outside-every-node-refuses`
 - `an-escape-for-a-character-written-as-itself-refuses`
 - `an-escape-spelled-longer-than-its-short-form-refuses`
 - `an-exponent-not-in-its-one-writing-refuses`
@@ -158,4 +150,3 @@ Text:
 - `bytes-written-in-uppercase-hex-refuse`
 - `bytes-written-with-an-odd-digit-refuse`
 - `text-that-is-not-utf8-refuses`
-- `the-golden-document-spells-as-text`
