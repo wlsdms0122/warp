@@ -36,15 +36,15 @@ A statement with no naming key, `{ value: … }`, runs its expression and binds 
 
 **One name, several askers.** A statement's name names the statement, and every reader of it reads that one fact: an expression reads the value the statement bound; a body inside a binding construct reads the construct's own binding under it (`round.index`, `tried.message`); a `break` or `continue` names the loop statement it ends. These are not three names sharing a spelling. They are one name, asked three questions, and which question applies is fixed by where the asker stands. What keeps the readings from colliding is scope, stated per construct: a loop's round is readable in its condition and body, and its name reads nothing after it; an attempt's name binds the failure only while the rescue runs, so the binding reading and the value reading are never live at the same place.
 
-The construct keys, each detailed below and each written inside `value`: `call`, `conditional`, `loop`, `attempt`, `return`, `break`, `continue`. `value` holding anything else holds an expression, under [expressions](expression.md).
+The construct keys, each detailed below and each written inside `value`: `conditional`, `loop`, `attempt`, `return`, `break`, `continue`. `value` holding anything else holds an expression, under [expressions](expression.md), a call among them.
 
 ## Blocks
 
 A block is `{ body: <statements>, result: <expression> }`, both optional. A block answers what its `result` names, and nothing if it names nothing.
 
-## The constructs
+## Calls
 
-**`call`**. A procedure called, by its spelling or as a value:
+A call is an expression, `{ call: … }`, written wherever a value is wanted and as a statement's `value`. A procedure called, by its spelling or as a value:
 
 | key | takes | required |
 |---|---|---|
@@ -52,6 +52,8 @@ A block is `{ body: <statements>, result: <expression> }`, both optional. A bloc
 | `arguments` | list of expressions, by position: the first fills the first parameter, and so on, one for each parameter, under *one calling convention* in [procedures](procedure.md) | no |
 
 A body a procedure is to run travels as a **closure argument**, like any other value.
+
+## The constructs
 
 **`conditional`**
 
