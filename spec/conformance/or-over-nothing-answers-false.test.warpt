@@ -1,0 +1,12 @@
+(test 1)
+(name "or-over-nothing-answers-false")
+(note "`Standard.Logic.or` over no condition answers `false`: no side decided the answer, so the chain's own answer stands.")
+
+(program
+  (warp 1)
+  (import Standard.Logic.or)
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (result (call Standard.Logic.or (array)))))
+(expect (answers false))

@@ -210,6 +210,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-encoding-a-procedure-does-not-have-refuses`
 - `an-isolated-body-filters-through-a-closure-that-fails-with-nothing`
 - `an-operand-of-and-that-answers-no-bool-refuses`
+- `and-over-nothing-answers-true`
 - `append-writes-the-array-in-place`
 - `arithmetic-admits-only-numbers`
 - `arithmetic-answers-the-type-it-was-given`
@@ -262,6 +263,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `minus-off-the-ints-edge-refuses`
 - `not-and-notequal-say-the-opposite`
 - `or-does-not-ask-past-the-first-yes`
+- `or-over-nothing-answers-false`
 - `ordering-compares-two-of-one-type`
 - `prepending-writes-the-front`
 - `reduce-folds-in-order`
