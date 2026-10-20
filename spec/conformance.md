@@ -14,7 +14,7 @@ One file, one question: a subject, what to ask it with, and what should happen.
     program     a document; the runner starts a run from the procedure
                 spelled `entry`
     bytes       a document's bytes, in the binary encoding
-    text        a document's text, in the text encoding; a string, or bytes
+    text        a document's or a case's text, in the text encoding; a string, or bytes
                 where the question is whether they are text at all
     object      an object, written as data
     document    bytes. The identity the runner reads the object under, where
@@ -42,7 +42,7 @@ A case carrying **bytes** or **text** asks about an encoding rather than about a
 
 A case carrying **bytes** expects `spells` or `refuses`. The bytes are the **binary** encoding, which is the one a document travels in and the one that is canonical: a non-canonical byte spelling is refused, which leaves no bytes that read one way, so a bytes case writing `reads` **refuses** as a case.
 
-A case carrying **text** expects `reads`, `spells` or `refuses`. A text has many layouts of one value, since layout is free on the way in, so most text cases are `reads`, and the ones in the writer's layout are `spells`. A text case is read by one reader on both sides, so a reader taking a spelling for the wrong value would agree with itself; every scalar and every name a text case reads therefore appears in some bytes case, which is where a spelling is pinned. A container's structure is not a spelling and is not pinned. What the text encoding must read at all is asked of every case in passing, since a case is a text and a runner reads it before it can ask anything at all.
+A case carrying **text** expects `reads`, `spells` or `refuses`. A text has many layouts of one value, since layout is free on the way in: a text in the writer's layout expects `spells`, and a case saying `reads` of one **refuses** as a case. A text case is read by one reader on both sides, so a reader taking a spelling for the wrong value would agree with itself; every scalar and every name a text case reads therefore appears in some bytes case, which is where a spelling is pinned. A container's structure is not a spelling and is not pinned. What the text encoding must read at all is asked of every case in passing, since a case is a text and a runner reads it before it can ask anything at all.
 
 A case is **not a document**. It is written in the same text, under [the text](text.md), and the document it asks about is nested whole under `program`, and what surrounds it belongs to the asking. A program no node writes back as itself is written there as data, `(tree …)`, and is the same `program` in the tree.
 

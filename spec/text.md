@@ -192,7 +192,7 @@ Data is the nodes above that hold values, read as values: the scalars, `(array �
 
 - A case says what it is by `(test 1)` as a document does by `(warp 1)`, under [conformance](conformance.md). `(program …)` writes the nodes the program's tree holds.
 - Inside `vocabulary` a procedure, a member included, is its signature's nodes and `(answers <data>)`, and no body. A vocabulary writing no `import` writes `imports: []`.
-- A `text` case holds a document's text, and what it asks of a value's spelling it asks through a literal in that text.
+- A `text` case holds a document's or a case's text, and what it asks of a value's spelling it asks through a literal in that text.
 - **`(tree <data>)`** is the case's `program` written as data, `(dictionary (entry "warp" 1) (entry "imports" (array)) …)`, for a program no node writes back as itself: an unknown key, a key beside another it may not stand beside, a value of the wrong kind, a missing `imports`, `const: false`, an empty list no node writes (`parameters: []`, `typeParameters: []`, a contract's `types: []`, `arguments: []`), a construct or a mapping where a value is wanted, a statement no node writes, a path with a marked head, a type or a path in a spelling no node writes. The case's tree is the same one either way. The writer writes `(program …)` where the program's nodes read back as it, and the reader **refuses** a `(tree …)` whose program a node writes.
 
 ## The writer's layout
