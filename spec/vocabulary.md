@@ -189,7 +189,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-document-writes-a-short-circuiting-connective`
 - `a-document-writes-map-over-a-const-slot`
 - `a-document-writes-startsWith-over-characters`
-- `a-list-holding-no-byte-handed-to-decoded-refuses-at-the-run`
+- `a-list-holding-no-byte-handed-to-decoded-refuses`
 - `a-list-of-pieces-joining-to-any-refuses-at-a-fan-out`
 - `a-mapped-procedure-chooses-what-it-answers`
 - `a-piece-that-is-not-a-closure-refuses`
@@ -207,7 +207,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `absolute-of-the-minimum-refuses`
 - `all-keyed-answers-under-keys-of-any-type`
 - `an-attempt-does-not-catch-overflow`
-- `an-encoding-a-procedure-does-not-have-refuses-at-the-run`
+- `an-encoding-a-procedure-does-not-have-refuses`
 - `an-isolated-body-filters-through-a-closure-that-fails-with-nothing`
 - `an-operand-of-and-that-answers-no-bool-refuses`
 - `append-writes-the-array-in-place`
@@ -297,4 +297,4 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `uppercased-uses-unicode-full-case-mapping`
 - `values-answer-in-canonical-order`
 - `values-of-a-map-keyed-by-whole-numbers-answer-in-the-key-order`
-- `what-is-not-utf8-text-refuses-to-decode-at-the-run`
+- `what-is-not-utf8-text-refuses-to-decode`

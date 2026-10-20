@@ -167,7 +167,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-constant-folds-through-a-standard-procedure-a-claim-it-stands-on-answers`
 - `a-constant-settles-from-a-body-of-another-document`
 - `a-constant-settling-through-a-claim-of-a-document-it-does-not-stand-on-refuses`
-- `a-constant-whose-settling-is-refused-refuses-at-the-build`
+- `a-constant-whose-settling-is-refused-refuses`
 - `a-contract-asking-const-lets-its-call-stand-in-a-const-slot`
 - `a-contract-asking-isolated-lets-its-call-stand-in-an-isolated-slot`
 - `a-contract-call-that-may-run-is-no-operand`

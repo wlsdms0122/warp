@@ -195,8 +195,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-result-after-what-never-finishes-refuses`
 - `a-return-is-held-to-the-declaration`
 - `a-round-ending-in-continue-goes-on-to-the-next`
-- `a-set-of-a-failures-name-refuses-at-the-load`
-- `a-set-of-a-rounds-name-refuses-at-the-load`
+- `a-set-of-a-failures-name-refuses`
+- `a-set-of-a-rounds-name-refuses`
 - `a-set-without-a-value-refuses`
 - `a-statement-saying-two-things-refuses`
 - `a-statement-with-no-name-still-runs`
