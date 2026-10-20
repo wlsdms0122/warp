@@ -1,5 +1,13 @@
 (test 1)
 (name "a-set-without-a-value-refuses")
 (note "Only `var` may stand without a `value`. A `set` writes something into a name, and one written without anything to write refuses at the load.")
-(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "var" "x")) (dictionary (entry "set" "x")))) (entry "result" 1))))) (entry "warp" 1)))
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (body
+      (var x)
+      (set x))
+    (result 1)))
 (expect (refuses load))

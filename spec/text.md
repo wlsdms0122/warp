@@ -116,7 +116,7 @@ App.Point  App.Named                        a declared type or contract, by its 
 (procedure (const))                         "const Procedure"
 ```
 
-- **One type, one node.** `named` takes a declared name other than `Array` and `Dictionary` and one type or more; a name alone is the atom. `composition` takes two names or more, none twice, and no node. `some` takes a type parameter's name or its associated type's, `T.Item`, and never `Self` or what it holds, which are written bare; it takes a bound only on a type parameter's name. `nullable` holds no `inout` and no `var`. Each of these **refuses** otherwise.
+- **One type, one node.** `named` takes a declared name other than `Array` and `Dictionary` and one type or more; a name alone is the atom. `composition` takes two names or more, and no node. `some` takes a name and then the names of its bound. `nullable` holds no `inout` and no `var`. Each of these **refuses** otherwise.
 - **A procedure type** writes `(parameters …)` and `(returns …)` both, or neither, with `const` or `isolated`, which is `const Procedure`. `Procedure` bare is the atom, so `(procedure)` **refuses**, and so does a procedure type writing one of the two alone. `(failing (anything))` writes `throws`, and `(failing)` writes `throws()`, which the load refuses.
 - A name a type holds that the type's spelling cannot hold (a character Unicode counts as white space, or any of `<>(),:&?`) has no tree, and **refuses**. So does a name holding them in `import`, `typeParameter`, a contract's `type` and `bound`, whose string joins names with `: ` and ` & `.
 - **A type node is the one node its string reads as**: the reader spells the node and reads the spelling back, and **refuses** a node that comes back as another. So a procedure type's parts stand in the order `const`, `isolated`, `parameters`, `failing`, `returns`.
@@ -146,7 +146,7 @@ The constructs, each where a statement's value stands:
 
 - A loop's and an attempt's name is the statement's: `(let w (loop …))`, `(let failed (attempt …))`.
 - **A leave's operand is optional, and its `)` says so.** `(return null)` writes the same tree as `(return)`, and the writer writes `(return)`.
-- A binding takes any value, so `(let x (return 1))` and `(let r (conditional …))` are written, and the load refuses each for what it says, under [statements](statement.md). `(var x)` writes no `value` and `(var x null)` writes `value: null`, two trees. A `let` or a `set` with no value, a `type` with no name and a `type` beside `set` are statements no node writes, and **refuse**.
+- A binding takes any value, so `(let x (return 1))` and `(let r (conditional …))` are written, and the load refuses each for what it says, under [statements](statement.md). So are `(let x)` and `(set x)` with no value and `(set x (type Int) 1)`. `(var x)` writes no `value` and `(var x null)` writes `value: null`, two trees. A `type` with no name is a statement no node writes, and **refuses**.
 - A conditional's arms and a loop's body are statements, and `(then)` or `(body)` holding none writes `[]`.
 
 ## Expressions and paths
