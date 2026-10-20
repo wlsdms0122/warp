@@ -1,5 +1,13 @@
 (test 1)
 (name "a-map-type-written-with-one-type-refuses")
 (note "A map type says two types between its brackets, its key's and its value's, as `Dictionary<String, Int>`. One type there is no spelling of a map, so a type written that way refuses at the load.")
-(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "App.f" (dictionary (entry "parameters" (array (dictionary (entry "name" "m") (entry "type" "Dictionary<Int>")))) (entry "result" 1))) (entry "entry" (dictionary (entry "access" "public") (entry "result" 1))))) (entry "warp" 1)))
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter m (type (named Dictionary Int)))
+    (result 1))
+  (procedure entry
+    (access public)
+    (result 1)))
 (expect (refuses load))
