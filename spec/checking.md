@@ -41,7 +41,7 @@ A program is read, checked and built before any of it runs, the arms nobody take
 - an **unconditional** write retypes any other variable: after `set x` at the top of the flow, `x` reads as what was written, whatever it held before;
 - a write only **some** ways make (one arm of a conditional, a loop's round, an attempt's body) joins with what the name held. Null beside a value reads `T?`: after `var x` and a conditional whose one arm sets an int, `x` reads `Int?`, because the run either took the arm or did not. Two readings join part by part, a whole literal beside a fraction among them, under [types](type.md). This join is not the variable's own rule: it reads wherever two readings of one slot meet (an attempt's body beside its rescue, an array literal's elements), so an attempt whose rescue answers nothing reads `T?` too, and `[1, null]` reads `Array<Int?>`;
 - a write **both** arms make is unconditional again, whichever arm ran, the write happened, and an arm that **leaves** contributes nothing: no run comes back from it, so the ways that finish are the only ways a reading after the conditional can stand on. `var x` with one arm setting an int and the other returning reads `Int` afterwards, plain;
-- what an arm **declares** (`let`, `var`) stays its own. Declarations die with the block, and only the box a `set` writes outlives it.
+- what an arm **declares** (`let`, `var`) stays its own. Declarations die with the arm, and only the box a `set` writes outlives it.
 
 Reading does not decide everything: whether a number will be zero when something divides by it is found out by running, under [running](running.md).
 
