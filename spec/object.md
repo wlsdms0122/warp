@@ -20,8 +20,8 @@ An object is one map. It carries **exactly** these keys, and a key none of them 
 | `typeMembers` | *head* → (name → *type*): the type members it gives the type under the head, at least one, each written in the head's type parameters, or the struct's where the head is bare and the document declares the struct | by head, then by name |
 | `importedClaims` | the claims its document imports, each `[type, contract]`, the pair the claim is about | by type, then by contract |
 | `rows` | the declarations, each a *row* under its spelling | by name |
-| `lifted` | the closures its bodies lifted, each a *row* with no spelling | as the numbering counts them |
 | `numbering` | two lists: what it sends, and how many closures each declaration wrote | below |
+| `lifted` | the closures its bodies lifted, each a *row* with no spelling | as the numbering counts them |
 | `typeNumbering` | the declared types its bodies stand on, ascending by name | below |
 | `variables` | (name, *value*): what each variable starts a run holding | by name |
 | `constants` | the constants it declared, by spelling | by name |
@@ -35,7 +35,7 @@ An object is one map. It carries **exactly** these keys, and a key none of them 
 
 **Order is spelling.** Every list a name keys stands ascending by the names' bytes, none twice, and so does every set written as a list. That is the whole of what makes one object one value: a list keeps the order it is written in, so the layout says which, and a reading takes no other. A list out of order, or naming one thing twice, **refuses**.
 
-**What nests stands in a table.** A *type*, a *lowered type*, a *value*, an *operation* and an *address* are each written once, as an entry of their own table, and whatever holds one writes the entry's number. An entry is laid out the way this page lays its kind out, with a number wherever it holds another of these. So an object nests no deeper for a program nesting deeper. An entry stands right after everything it holds: the parts are read in the order of the keys above, the fields of a part and of an entry in their order, and each table numbers its entries from zero in the order they are finished. Every entry is held exactly once, and an entry held twice, held nowhere, or standing at another number than that order gives it **refuses**.
+**What nests stands in a table.** A *type*, a *lowered type*, a *value*, an *operation* and an *address* are each written once, as an entry of their own table, and whatever holds one writes the entry's number. An entry is laid out the way this page lays its kind out, with a number wherever it holds another of these. So an object nests no deeper for a program nesting deeper. An entry stands right after everything it holds: the parts are read in the order of the keys above, the fields of a part and of an entry in their order, and each table numbers its entries from zero in the order they are finished. Every entry is held exactly once, and an entry held twice, held nowhere, or standing at another number than that order gives it **refuses**. Entries nest no deeper than a written tree may, [128](encoding.md) levels: an entry is a level, and an entry of its own table it holds is a level below it. A table nesting deeper **refuses**, and no object is written for a compiled document whose entries would.
 
 **The rows.** A declaration's row stands under its spelling in `rows`, in name order; the rows its bodies lifted stand in `lifted`, without a spelling, in the order the numbering counts them. A body numbers its calls and its types from the document itself, under [procedures](procedure.md): the spellings it sends first, in name order, then its own declarations in name order, then the closures its declarations wrote, in the order the numbering lists the declarations and, within one, the order the body wrote them. Where a row lands in a link is the link's answer, so nothing here says it, and one object answers every entry asked of it.
 
@@ -141,7 +141,7 @@ A *lowered type* is a type as a body stands on it, the number of an entry in `lo
 
 ### Values
 
-A *value* is the number of an entry in `valueTable`, and the entry is `[tag, …]`: 0 null; 1 bool; 2 int; 3 double; 4 string; 5 bytes, each carrying the value; 6 array, carrying its elements as *value*; 7 struct, carrying its name, the field names in name order, the field values; 8 a closure, carrying the identity of the document that wrote it, the *declaration* that wrote it, which of that declaration's closures it is, and `[slot, value]` for what it captured; 9 map, carrying its keys as *value* in the key order and its values beside them, a key out of that order or written twice **refusing**. A closure written by a document nobody wrote down, or holding a box of the run that made it, is not a value an object holds, and such an object is not written.
+A *value* is the number of an entry in `valueTable`, and the entry is `[tag, …]`: 0 null; 1 bool; 2 int; 3 double; 4 string; 5 bytes, each carrying the value; 6 array, carrying its elements as *value*; 7 struct, carrying its name, the field names in name order, the field values; 8 a closure, carrying the identity of the document that wrote it, the *declaration* that wrote it, which of that declaration's closures it is, and `[slot, value]` for what it captured; 9 map, carrying two lists, its keys as *value* in the key order and then its values in the same order, a key out of that order or written twice **refusing**. A closure written by a document nobody wrote down, or holding a box of the run that made it, is not a value an object holds, and such an object is not written.
 
 ## Identity and dependencies
 
@@ -199,6 +199,7 @@ compiles to an object with one row, laid out as text and packed onto fewer lines
 ```
 warpt 1
 {
+  addressTable [ [ 0 [] ] ]
   claims []
   constants []
   contracts []
@@ -206,29 +207,33 @@ warpt 1
   document [ x"…" ]
   importedClaims []
   lifted []
+  loweredTypeTable []
   members []
   numbering [ [ "Standard.Collection.appending" ] [] ]
   object 1
+  operationTable [ [ 1 0 ] [ 0 0 ] [ 11 [ 0 [ [ 0 ] [ 1 ] ] [] ] ] ]
   rows [
     [
       "entry"
-      [ [ [ "n" [ [ 7 [ 4 ] ] ] [] ] ] [ 7 [ 4 ] ] [ 1 [] ] 1 1 [] [] ]
+      [ [ [ "n" [ 1 ] [] ] ] 3 [ 1 [] ] 1 1 [] [] ]
       2
       [
         0
-        [ [] [ [ 11 [ 0 [ [ [ 1 [ 0 [] ] ] ] [ [ 0 [ 2 1 ] ] ] ] [] ] ] ] ]
+        [ [] [ 2 ] ]
         [ 1 [ 0 ] [] [] [ "n" ] ]
       ]
     ]
   ]
   typeMembers []
   typeNumbering []
+  typeTable [ [ 4 ] [ 7 0 ] [ 4 ] [ 7 2 ] ]
   types []
+  valueTable [ [ 2 1 ] ]
   variables []
 }
 ```
 
-Read it back: `rows` holds `entry`, whose signature takes `n` as `Array<Int>` (type tag 7 around tag 4), answers `Array<Int>`, fails with nothing (`[1 []]`), is const (`1`) and isolated (`1`), bounds nothing and says no associated type is a type (`[] []`); it is public (`2`); its implementation is a body (`0`) with no instructions and a result, a call (`11`) to row `0` of the numbering, which is `Standard.Collection.appending`, with two arguments, the first read from slot `0` and the second the literal (`0`) int (`2`) `1`, neither handed in place; and its frame has one slot, filled by the parameter, called `n`. The dependency is what the host keyed the standard vocabulary's object under.
+Read it back: `rows` holds `entry`, whose signature takes `n` as type `1` and answers type `3`. In `typeTable`, entry `1` is an array (tag 7) of entry `0`, `Int` (tag 4), and entry `3` is the same over entry `2`: both are `Array<Int>`, each written once where it is held. The signature fails with nothing (`[1 []]`), is const (`1`) and isolated (`1`), bounds nothing and says no associated type is a type (`[] []`); the row is public (`2`). Its implementation is a body (`0`) with no instructions and a result, operation `2`: a call (`11`) to row `0` of the numbering, which is `Standard.Collection.appending`, with two arguments, operations `0` and `1`, neither handed in place. Operation `0` reads (`1`) address `0`, slot `0` with no steps, and operation `1` is the literal (`0`) value `0`, the int (`2`) `1`. Every number stands before the entry holding it. The frame has one slot, filled by the parameter, called `n`. The dependency is what the host keyed the standard vocabulary's object under.
 
 ## Cases
 
@@ -244,11 +249,17 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-giving-a-type-a-member-no-row-stands-under-refuses`
 - `an-object-giving-a-type-no-member-refuses`
 - `an-object-giving-a-type-no-type-member-refuses`
+- `an-object-holding-a-number-past-its-table-refuses`
+- `an-object-holding-an-entry-nowhere-refuses`
+- `an-object-holding-an-entry-twice-refuses`
 - `an-object-links-and-runs`
 - `an-object-listing-a-type-parameter-twice-refuses`
 - `an-object-listing-no-type-parameters-for-a-struct-refuses`
 - `an-object-missing-a-part-refuses`
 - `an-object-naming-one-type-twice-refuses`
+- `an-object-nesting-a-table-past-the-bound-refuses`
+- `an-object-nesting-its-tables-to-the-bound-runs`
+- `an-object-numbering-entries-out-of-order-refuses`
 - `an-object-of-a-later-format-refuses`
 - `an-object-of-a-later-format-with-keys-of-its-own-refuses`
 - `an-object-of-a-struct-taking-a-type-parameter-links-and-runs`
