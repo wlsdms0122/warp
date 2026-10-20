@@ -233,6 +233,7 @@ A case as the writer lays it out:
 What `conformance/` asks about this page, by the name each case's file carries.
 
 - `a-map-keyed-by-values-spells-as-text`
+- `a-path-name-not-in-normal-form-c-refuses`
 - `a-return-of-null-written-out-refuses`
 - `a-struct-spells-from-text`
 - `a-text-key-written-twice-refuses`
