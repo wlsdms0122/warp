@@ -31,7 +31,7 @@ what a person writes      YAML, a syntax of your own, …    front ends. Many
 the document              one format, defined in spec/     ← what travels
         ↓  as bytes       binary · text                    encodings
         ↓
-a runtime                 Swift today, others by spec       runtimes. Many
+a runtime                 Swift                             runtimes. One per implementation
         ↳ an object       one format, defined in spec/     ← what its build keeps
 ```
 
