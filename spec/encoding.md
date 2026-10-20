@@ -44,7 +44,7 @@ Each value is a tag byte, then its payload:
 | `0x06` | array | count varint, then that many values |
 | `0x07` | map | count varint, then that many of: key, which is any value, then the value under it |
 | `0x08` | bytes | length varint, then that many raw bytes |
-| `0x09` | struct | name (length varint + UTF-8), count varint, then that many of: field name (length varint + UTF-8), value. The name holds a type's name grammar, under [checking](checking.md), or is a name the language declares itself, as `Failure` and `Round` are; any other **refuses** |
+| `0x09` | struct | name (length varint + UTF-8), count varint, then that many of: field name (length varint + UTF-8), value. The name is a struct's, under [values](value.md): a type's name, or one the language declares, as `Failure` and `Round` are |
 
 - **Varint** is unsigned LEB128: seven bits a byte, low bits first, high bit says another byte follows. At most 64 bits of payload. The largest zigzagged value takes exactly ten bytes, the tenth carrying bit 63 alone, so an eleventh byte, or a tenth-byte bit that would carry past bit 63, **refuses**; overflow is not wrapped, masked or truncated. A trailing zero group (`0x80 0x00` for zero) is a longer spelling of the same number and **refuses**. One value, one spelling.
 - **ZigZag** maps signed to unsigned: `(n << 1) ^ (n >> 63)`.

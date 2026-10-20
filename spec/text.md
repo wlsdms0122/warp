@@ -175,7 +175,7 @@ x                                           { ref: x }
 
 ## Data
 
-Data is the nodes above that hold values, read as values: the scalars, `(array …)`, `(dictionary (entry k v) …)` and `(struct Name (field x v) …)`. A map is keyed by values, and each entry writes its key as the value it is, so the text `"null"` and the value `null` are two keys, and a map keyed by a struct writes `(dictionary (entry (struct App.Point (field x 1)) 5))`. Data is what a case's answer, its arguments and an object are written in, and a sentence quoting a value writes it as data on one line.
+Data is the nodes above that hold values, read as values: the scalars, `(array …)`, `(dictionary (entry k v) …)` and `(struct Name (field x v) …)`, its name a struct's under [values](value.md). A map is keyed by values, and each entry writes its key as the value it is, so the text `"null"` and the value `null` are two keys, and a map keyed by a struct writes `(dictionary (entry (struct App.Point (field x 1)) 5))`. Data is what a case's answer, its arguments and an object are written in, and a sentence quoting a value writes it as data on one line.
 
 ## A case
 
