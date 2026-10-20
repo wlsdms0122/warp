@@ -13,11 +13,13 @@
     (warp 1)
     (procedure Lib.helper
       (access private)
+      (returns Int)
       (result 1))))
 
 (program
   (warp 1)
   (procedure entry
     (access public)
+    (returns Int)
     (result 1)))
 (expect (refuses build))
