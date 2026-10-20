@@ -7,10 +7,10 @@ Seven bundles, each taken with what it depends on, so a host grants what its pro
 | module | procedures |
 |---|---|
 | `Standard` | The contracts below, answered for the types the language names: `Int.plus` `Int.minus` `Int.times` `Int.dividedBy` `Int.remainder` `Int.lessThan`, the same six for `Double`, `String.lessThan`, and `Array.count` `Dictionary.count` `String.count` |
-| `Standard.Logic` | `equal` `notEqual` `not` `and` `or` `select` |
+| `Standard.Logic` | `equal` `notEqual` `not` `and` `or` `select` `tryAnd` `tryOr` `trySelect` |
 | `Standard.Math` | `min` `max` `absolute` `floored` `rounded` `greaterThan` |
 | `Standard.Text` | `text` `characters` `contains` `startsWith` `uppercased` `lowercased` `trimmed` `split` `joined` `replacing` `decoded` `encoded` |
-| `Standard.Collection` | `append` `contains` `first` `last` `reversed` `appending` `prepending` `gathering` `dropFirst` `dropLast` `sorted` `map` `filter` `reduce` `keys` `values` `setting` |
+| `Standard.Collection` | `append` `contains` `first` `last` `reversed` `appending` `prepending` `gathering` `dropFirst` `dropLast` `sorted` `map` `filter` `reduce` `tryMap` `tryFilter` `tryReduce` `keys` `values` `setting` |
 | `Standard.Control` | `abort`. Declared `returns: Never` |
 | `Standard.Concurrent` | `all` `allKeyed` `first` `firstKeyed` `map`. Run closures at once |
 
