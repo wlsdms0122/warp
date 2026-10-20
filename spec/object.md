@@ -155,10 +155,9 @@ A reading refuses what it cannot read and traps on nothing: the reading runs ins
 
 - a lifted row where the numbering counts no closure, a numbering counting more closures than `lifted` holds, a count of none for a declaration it counts, and counts that add up past what an int holds
 - a frame naming other than one name per slot, standing other than one slot per parameter its declaration takes, or standing a parameter, a variable or a capture past its end
-- a body standing on a slot past its frame or on a variable past its document's `variables`, and a loop keeping a run its frame does not hold
+- a body standing on a slot past its frame or on a variable past its document's `variables`
 - a call handing in place at other positions than the ones it writes nothing at, or out of ascending order
 - a closure literal taking what it captured into slots other than the captures of its own row's frame
-- a `keeps` that ends before it begins
 - a declared type that is no struct and comes back to itself through what it stands for, which the load refuses in a document, under [types](type.md)
 - a struct built from parts holding other than one part per field its layout names
 - a lowered procedure type writing what it answers or what it may fail with other than exactly where it writes what it takes
