@@ -1,0 +1,5 @@
+(test 1)
+(name "a-text-key-and-its-decomposed-spelling-are-one-key-refuses")
+(note "Text keys compare under canonical equivalence, so `é` written as one scalar and as `e` with a combining accent are one key. Bytes holding both hold one key twice, and strictly ascending refuses the second.")
+(bytes x"574152500107020502c3a90302050365cc810304")
+(expect (refuses load))
