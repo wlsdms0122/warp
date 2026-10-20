@@ -1,5 +1,15 @@
 (test 1)
 (name "a-type-nested-past-the-bound-refuses")
-(note "A type nests at most 128 types deep: the type is the first, and each type written inside another is one deeper. This one is 129 deep, and the load refuses it rather than walking it.")
-(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "App.take" (dictionary (entry "parameters" (array (dictionary (entry "name" "taken") (entry "type" "Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Array<Int>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")))) (entry "result" 0) (entry "returns" "Int"))) (entry "entry" (dictionary (entry "access" "public") (entry "result" 0) (entry "returns" "Int"))))) (entry "warp" 1)))
+(note "A type's levels count on from the containers around its string, and a document nests at most 128: a type written inside another is one level deeper. This parameter's type stands inside five containers and holds 124 types inside it, one past the bound, and the load refuses it rather than walking it.")
+
+(program
+  (warp 1)
+  (procedure App.take
+    (parameter taken (type (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array Int))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+    (returns Int)
+    (result 0))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result 0)))
 (expect (refuses load))

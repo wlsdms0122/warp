@@ -29,7 +29,7 @@ A type is written as a string:
 | `(Int) throws -> Bool` / `(Int) throws(aborted, cast_refused) -> Bool` | what a procedure type may fail with, written between its parameters and `->`: `throws` alone says anything, and `throws(…)` the failures it lists, in name order. Written without `throws`, it fails with nothing. `throws()` and a failure listed twice **refuse at the load** |
 | `((Int) -> Int)?` / `(const Procedure)?` | a procedure type writing its signature or a modifier, or null: parentheses group a type, so the `?` after them is the whole type's. A type is written one way, so parentheses anywhere else **refuse at the load** |
 
-**A type nests at most 128 types deep**, the bound a document's nesting has under [encoding](encoding.md). The type written is the first, and a type written inside another is one deeper: an element, a key or a value, a type a struct is applied to, a parameter or an answer, and what `?`, `inout` or `var` marks. A modifier and the parentheses that group add none. A deeper type **refuses at the load**, before it is read further.
+**A type written inside another is one level deeper**: an element, a key or a value, a type a struct is applied to, a parameter or an answer, and what `?`, `inout` or `var` marks. A modifier and the parentheses that group add none. The levels count on from the containers around the type's string, against the bound a document's nesting has under [encoding](encoding.md), and a type past it **refuses at the load**, before it is read further.
 
 ## Numbers and readings
 
