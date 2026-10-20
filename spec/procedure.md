@@ -145,6 +145,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-closure-writes-its-own-parameter-in-place-and-no-name-it-shadows`
 - `a-closure-writing-no-returns-answers-null`
 - `a-closures-parameter-is-not-the-const-procedure-it-shadows`
+- `a-const-body-reading-a-module-variable-in-an-attempt-under-its-failures-name-refuses`
 - `a-const-body-reading-a-name-under-a-variables-spelling-answers`
 - `a-const-body-reading-a-parameter-under-a-variables-spelling-answers`
 - `a-const-closure-reading-a-name-around-it-under-a-variables-spelling-answers`

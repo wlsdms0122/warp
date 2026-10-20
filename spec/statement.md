@@ -176,7 +176,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-name-on-what-never-finishes-is-refused`
 - `a-name-says-what-it-holds`
 - `a-name-that-says-nothing-is-the-type-its-value-reads-as`
-- `a-parameter-does-not-take-a-name-the-module-bound`
 - `a-parameter-introduced-again-in-a-nested-body-is-a-new-name`
 - `a-parameter-may-take-a-constants-spelling`
 - `a-procedure-that-can-fail-says-so`
@@ -194,6 +193,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-result-after-what-never-finishes-refuses`
 - `a-return-is-held-to-the-declaration`
 - `a-round-ending-in-continue-refuses`
+- `a-set-of-a-failures-name-refuses-at-the-load`
+- `a-set-of-a-rounds-name-refuses-at-the-load`
 - `a-set-without-a-value-refuses`
 - `a-statement-saying-two-things-refuses`
 - `a-statement-with-no-name-still-runs`

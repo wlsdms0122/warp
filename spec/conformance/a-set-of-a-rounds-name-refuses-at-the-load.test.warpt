@@ -1,0 +1,17 @@
+(test 1)
+(name "a-set-of-a-rounds-name-refuses-at-the-load")
+(note "A loop's round is a fixed name inside the loop, whatever its spelling names outside. `h` is a variable of the document, and inside the loop it is the round, so a `set` of it refuses at the load.")
+
+(program
+  (warp 1)
+  (import Standard.Comparable.lessThan)
+  (var h 0)
+  (procedure entry
+    (access public)
+    (body
+      (let h
+        (loop
+          (while (call Standard.Comparable.lessThan (path h (field index)) 1))
+          (body
+            (set h 5)))))))
+(expect (refuses load))
