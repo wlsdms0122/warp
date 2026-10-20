@@ -142,6 +142,7 @@ Text:
 - `a-name-in-backticks-is-the-name-written-bare`
 - `a-quote-running-into-a-bare-token-refuses`
 - `a-struct-spells-from-text`
+- `a-text-as-deep-as-a-tree-writes-is-read`
 - `a-text-control-character-written-raw-refuses`
 - `a-text-key-written-twice-refuses`
 - `a-text-led-by-a-byte-order-mark-refuses`
