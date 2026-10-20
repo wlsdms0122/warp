@@ -29,6 +29,8 @@ A type is written as a string:
 | `(Int) throws -> Bool` / `(Int) throws(aborted, cast_refused) -> Bool` | what a procedure type may fail with, written between its parameters and `->`: `throws` alone says anything, and `throws(…)` the failures it lists, in name order. Written without `throws`, it fails with nothing. `throws()` and a failure listed twice **refuse at the load** |
 | `((Int) -> Int)?` / `(const Procedure)?` | a procedure type writing its signature or a modifier, or null: parentheses group a type, so the `?` after them is the whole type's. A type is written one way, so parentheses anywhere else **refuse at the load** |
 
+**A type is written one way**, the spelling the writer gives it: no white space at either end of the string or of a type inside it, and none before `?`, `<` or `>`; one space after `some`, `inout`, `var`, `const` and `isolated`, and before `throws`; `, ` between the types brackets or parentheses hold and between the failures `throws(…)` lists, `: ` between `some T` and its bound, ` & ` between the names a bound or a composition joins, and ` -> ` around the arrow. A procedure type's modifiers stand `const` first, and its failures and a composition's names in name order. Any other string for one type, `Dictionary<String,Int>` or `Array< Int>`, is a second spelling and **refuses at the load**, as a document saying a thing another way does under [the document format](document.md).
+
 **A type written inside another is one level deeper**: an element, a key or a value, a type a struct is applied to, a parameter or an answer, and what `?`, `inout` or `var` marks. A modifier and the parentheses that group add none. The levels count on from the containers around the type's string, against the bound a document's nesting has under [encoding](encoding.md), and a type past it **refuses at the load**, before it is read further.
 
 ## Numbers and readings
@@ -318,6 +320,7 @@ How a type is written:
 - `a-type-nested-past-the-bound-refuses`
 - `a-type-nested-to-the-bound-is-read`
 - `a-type-the-language-names-written-with-brackets-refuses`
+- `a-type-written-in-another-spacing-refuses`
 - `an-alias-applied-to-a-type-refuses`
 - `inout-written-on-a-name-refuses`
 - `inout-written-on-returns-refuses`
