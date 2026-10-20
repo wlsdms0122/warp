@@ -145,6 +145,10 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-closure-writes-its-own-parameter-in-place-and-no-name-it-shadows`
 - `a-closure-writing-no-returns-answers-null`
 - `a-closures-parameter-is-not-the-const-procedure-it-shadows`
+- `a-const-body-reading-a-module-variable-in-an-attempt-under-its-failures-name-refuses`
+- `a-const-body-reading-a-name-under-a-variables-spelling-answers`
+- `a-const-body-reading-a-parameter-under-a-variables-spelling-answers`
+- `a-const-closure-reading-a-name-around-it-under-a-variables-spelling-answers`
 - `a-const-procedure-read-out-of-a-dictionary-answers-without-running`
 - `a-const-procedure-read-out-of-a-struct-field-answers-without-running`
 - `a-const-slot-refuses-a-closure-that-calls-what-runs`
@@ -245,6 +249,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `arguments-are-judged-at-the-door`
 - `body-answers-only-what-it-declares`
 - `const-written-false-refuses`
+- `constants-naming-a-name-one-introduced-name-no-cycle`
 - `failing-written-as-a-word-other-than-anything-refuses`
 - `failing-written-empty-refuses`
 - `isolated-written-false-refuses`

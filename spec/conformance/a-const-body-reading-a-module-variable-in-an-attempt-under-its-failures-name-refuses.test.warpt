@@ -1,0 +1,24 @@
+(test 1)
+(name "a-const-body-reading-a-module-variable-in-an-attempt-under-its-failures-name-refuses")
+(note "An attempt's name binds the failure only while the rescue runs, so in the attempt's body the spelling is still the module variable. `App.r` is declared `const` and its attempt's body reads the variable `tried`, so it refuses at the build.")
+
+(program
+  (warp 1)
+  (var tried (type Any) 0)
+  (procedure App.r
+    (const)
+    (returns Any)
+    (body
+      (let tried
+        (attempt
+          (body
+            (let read (as tried String)))
+          (result read)
+          (rescue
+            (result "caught")))))
+    (result tried))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (result (call App.r))))
+(expect (refuses build))

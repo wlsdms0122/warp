@@ -1,0 +1,19 @@
+(test 1)
+(name "a-path-headed-by-a-name-under-a-constants-spelling-reads-the-name")
+(note "A path folds where its head is the module's constant, and a name a body introduced under that spelling is not the constant. Inside the arm `d` is the `let`, so `d[\"k\"]` reads 2 at the run.")
+
+(program
+  (warp 1)
+  (const d (dictionary (entry "k" 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var y 0)
+      (conditional
+        (when true)
+        (then
+          (let d (dictionary (entry "k" 2)))
+          (set y (path d (index "k"))))))
+    (result y)))
+(expect (answers 2))

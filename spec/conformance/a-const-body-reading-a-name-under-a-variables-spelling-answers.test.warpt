@@ -1,0 +1,18 @@
+(test 1)
+(name "a-const-body-reading-a-name-under-a-variables-spelling-answers")
+(note "A body declared `const` refuses reading a module variable, and a name it introduced under that spelling is no module variable. `App.read` reads its own `count`, so it answers without running.")
+
+(program
+  (warp 1)
+  (var count 0)
+  (procedure App.read
+    (const)
+    (returns Int)
+    (body
+      (let count 5))
+    (result count))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result (call App.read))))
+(expect (answers 5))
