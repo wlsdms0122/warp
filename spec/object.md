@@ -16,7 +16,7 @@ An object is one map. It carries **exactly** these keys, and a key none of them 
 | `types` | name → what the document declared: a struct as `[9, …]` under *type* below, and an alias as the *type* it stands for | by name |
 | `contracts` | name → `[ types, bounds, procedures ]`: the types the contract asks; name → the contracts bounding the type of that name, ascending, at least one, for each one it bounds; and procedure name → *signature* | by name; the types ascending, the bounds and the procedures by name |
 | `claims` | *head* → the contracts it says the values the head takes answer, at least one | by head; the contracts ascending |
-| `members` | *head* → the members it gives the type under the head, at least one, each the name of a row under the type's name and its own | by head; the members ascending |
+| `members` | *head* → the members it gives the type under the head, at least one, each a member's name | by head; the members ascending |
 | `typeMembers` | *head* → (name → *type*): the type members it gives the type under the head, at least one, each written in the head's type parameters, or the struct's where the head is bare and the document declares the struct | by head, then by name |
 | `importedClaims` | the claims its document imports, each `[type, contract]`, the pair the claim is about | by type, then by contract |
 | `rows` | the declarations, each a *row* under its spelling | by name |
@@ -159,7 +159,6 @@ A reading refuses what it cannot read and traps on nothing: the reading runs ins
 - a call handing in place at other positions than the ones it writes nothing at, or out of ascending order
 - a closure literal taking what it captured into slots other than the captures of its own row's frame
 - a `keeps` that ends before it begins
-- a contract's bound holding a type the contract does not ask
 - a declared type that is no struct and comes back to itself through what it stands for, which the load refuses in a document, under [types](type.md)
 - a struct built from parts holding other than one part per field its layout names
 - a lowered procedure type writing what it answers or what it may fail with other than exactly where it writes what it takes
@@ -168,7 +167,7 @@ A reading refuses what it cannot read and traps on nothing: the reading runs ins
 
 Every one of these is refused where the object is read, before it is laid beside anything. What only the documents beside it can answer is refused at `build`, where a compile lays the object down or a link does, under [checking](checking.md): whether every object under its `dependencies` is beside it, which row a number is and whether a call stands as many arguments as that row takes, which type answers a contract, and whether it stands after every document it names, so two objects that need each other refuse as two documents do. A type its declarations, signatures and bodies name is the declaration its compile read, which its `dependencies` say is beside it, and a build does not ask that again.
 
-The names an object writes are the ones its document wrote, and each held the grammar of where it is written when that document was loaded, under [checking](checking.md): a type's, a contract's, a claim's, a member's, a bound's and a part joined with `&` alike. An object is what a build wrote, so a reading asks those names nothing again, and what a name stands for beside the documents is the link's to say, for an object as for a document.
+The names an object writes are the ones its document wrote, and each held the grammar of where it is written when that document was loaded, under [checking](checking.md): a type's, a contract's, a claim's, a member's, a failure's, a bound's and a part joined with `&` alike. An object is what a build wrote, so a reading asks those names nothing again, and what a name stands for beside the documents is the link's to say, for an object as for a document.
 
 What a build judged, an object writes down as judged: what a signature says, `returns`, `failing`, `const` and `isolated`, and the type every reading in a body was judged to be. A reading, a link and a run take each of those as written and judge none of them again. A body is held to its declaration once, by the compile of its document, under [checking](checking.md). An object a reading admits and no build would write, a body answering what its declaration does not take or calling what is no procedure, is one this specification gives no answer for, save one: a run of it **traps on nothing**, for the reason a reading does not, and where it stops, it stops by refusing the run. Whether an object handed over is the one a build wrote is the transport's to say, by whatever seals what it carries. Nothing an object writes proves it, so a reading does not ask.
 
@@ -228,11 +227,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-document-is-not-an-object`
 - `an-object-applying-a-struct-to-no-types-refuses`
 - `an-object-bounding-a-type-a-contract-asks-by-nothing-refuses`
-- `an-object-bounding-a-type-its-contract-does-not-ask-refuses`
 - `an-object-bounding-a-type-parameter-by-nothing-refuses`
 - `an-object-claiming-no-contract-for-a-type-refuses`
 - `an-object-counting-no-closures-for-a-declaration-refuses`
-- `an-object-giving-a-type-a-member-no-row-stands-under-refuses`
 - `an-object-giving-a-type-no-member-refuses`
 - `an-object-giving-a-type-no-type-member-refuses`
 - `an-object-holding-a-number-past-its-table-refuses`
