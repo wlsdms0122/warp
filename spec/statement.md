@@ -61,7 +61,7 @@ A body a procedure is to run travels as a **closure argument**, like any other v
 | `then` | statements | yes |
 | `else` | statements | no |
 
-A conditional is a statement: it **answers nothing**, and it **takes no name**. The condition chooses a way through the body. An arm is statements alone, with no `result` slot, because there is nowhere for a result to go. What an arm keeps it writes to an outer variable with `set`, and a value leaves the procedure through `return`. Both arms are checked whether or not they are taken.
+A conditional is a statement: it **answers nothing**, and it **takes no name**. The condition chooses a way through the body. An arm is statements. What an arm keeps it writes to an outer variable with `set`, and a value leaves the procedure through `return`. Both arms are checked whether or not they are taken.
 
 **`loop`**
 

@@ -18,7 +18,7 @@ What a declaration says about itself, and what saying it permits. Four things: t
 | `body` | statements | no |
 | `result` | expression. What the procedure answers | no |
 
-A procedure answers what `result` names, and nothing if it names nothing. The value of the last statement is never the answer.
+A procedure answers what `result` names, and nothing if it names nothing.
 
 **What a declaration leaves out says the least.** A call reads the declaration and nothing else, so nothing a declaration leaves out is read off its body: a body answering more than `returns` admits, failing with more than `failing` names, or doing what `const` or `isolated` says it does not, **refuses at the build**, under [checking](checking.md). Each key written as what leaving it out says, `returns: Null`, an empty `failing`, `const: false` or `isolated: false`, **refuses at the load**, and so does `failing` written as anything but a list of names or `anything`. A failure named by anything but one identifier, or named `anything`, **refuses at the load**, in `failing` and in a procedure type's `throws(…)` alike.
 
