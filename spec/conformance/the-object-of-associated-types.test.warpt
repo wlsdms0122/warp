@@ -1,342 +1,42 @@
-warpt 1
-{
-  documents [
-    {
-      contracts {
-        "Lib.Container" {
-          procedures {
-            first {
-              parameters [
-                {
-                  name "of"
-                  type "Self"
-                }
-              ]
-              returns "Self.Item"
-            }
-          }
-          types [
-            "Item"
-          ]
-        }
-      }
-      imports []
-      procedures {
-        "Lib.firstOf" {
-          access "public"
-          parameters [
-            {
-              name "c"
-              type "some C: Lib.Container"
-            }
-          ]
-          result {
-            call {
-              arguments [
-                {
-                  ref "c"
-                }
-              ]
-              procedure "Lib.Container.first"
-            }
-          }
-          returns "some C.Item"
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    builds {
-      claims [
-        [
-          "Use.Thing"
-          [
-            "Use.Sized"
-          ]
-        ]
-      ]
-      constants []
-      contracts [
-        [
-          "Use.Sized"
-          [
-            [
-              "Item"
-            ]
-            [
-              [
-                "Item"
-                [
-                  "Hashable"
-                ]
-              ]
-            ]
-            []
-          ]
-        ]
-      ]
-      dependencies [
-        x"1dad53e333af6a7c93e1e2e9c7c85c471e9742ac9905ff9b26af701e89956174"
-      ]
-      document [
-        x"8cd700d5f3c08efa8ead0d7bb5ae6cd81981faceb536d8c108af8412001b1742"
-      ]
-      importedClaims []
-      lifted []
-      members []
-      numbering [
-        [
-          "Lib.Container.first"
-        ]
-        []
-      ]
-      object 1
-      rows [
-        [
-          "Use.first"
-          [
-            [
-              [
-                "c"
-                [
-                  [
-                    15
-                    "C"
-                  ]
-                ]
-                []
-              ]
-            ]
-            [
-              19
-              "C"
-              "Item"
-            ]
-            [
-              1
-              []
-            ]
-            0
-            0
-            [
-              [
-                "C"
-                [
-                  "Lib.Container"
-                ]
-              ]
-            ]
-            []
-          ]
-          2
-          [
-            0
-            [
-              []
-              [
-                [
-                  12
-                  [
-                    "Lib.Container"
-                    "first"
-                    [
-                      1
-                      [
-                        0
-                        []
-                      ]
-                    ]
-                    []
-                  ]
-                ]
-              ]
-            ]
-            [
-              1
-              [
-                0
-              ]
-              []
-              []
-              [
-                "c"
-              ]
-            ]
-          ]
-        ]
-        [
-          "Use.plusOne"
-          [
-            [
-              [
-                "c"
-                [
-                  [
-                    15
-                    "C"
-                  ]
-                ]
-                []
-              ]
-            ]
-            [
-              19
-              "C"
-              "Item"
-            ]
-            [
-              1
-              []
-            ]
-            1
-            1
-            [
-              [
-                "C"
-                [
-                  "Lib.Container"
-                ]
-              ]
-            ]
-            [
-              [
-                "C.Item"
-                [
-                  4
-                ]
-              ]
-            ]
-          ]
-          2
-          [
-            0
-            [
-              []
-              [
-                [
-                  0
-                  [
-                    2
-                    1
-                  ]
-                ]
-              ]
-            ]
-            [
-              1
-              [
-                0
-              ]
-              []
-              []
-              [
-                "c"
-              ]
-            ]
-          ]
-        ]
-      ]
-      typeMembers [
-        [
-          "Use.Thing"
-          [
-            [
-              "Item"
-              [
-                4
-              ]
-            ]
-          ]
-        ]
-      ]
-      typeNumbering []
-      types [
-        [
-          "Use.Thing"
-          [
-            9
-            [
-              [
-                "x"
-                [
-                  4
-                ]
-              ]
-            ]
-          ]
-        ]
-      ]
-      variables []
-    }
-  }
-  name "the-object-of-associated-types"
-  note "An object writes the associated types a contract asks and their bounds, the type members a type is given, the associated types a signature says are a type, and an answer declared at an associated type: a type parameter labelled by it."
-  program {
-    contracts {
-      "Use.Sized" {
-        types [
-          "Item: Hashable"
-        ]
-      }
-    }
-    imports [
-      "Lib.Container"
-      "Lib.Container.first"
-    ]
-    procedures {
-      "Use.first" {
-        access "public"
-        parameters [
-          {
-            name "c"
-            type "some C: Lib.Container"
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "c"
-              }
-            ]
-            procedure "Lib.Container.first"
-          }
-        }
-        returns "some C.Item"
-      }
-      "Use.plusOne" {
-        access "public"
-        const true
-        isolated true
-        parameters [
-          {
-            name "c"
-            type "some C: Lib.Container"
-          }
-        ]
-        result 1
-        returns "some C.Item"
-        sameTypes {
-          "C.Item" "Int"
-        }
-      }
-    }
-    types {
-      "Use.Thing" {
-        satisfies [
-          "Use.Sized"
-        ]
-        struct {
-          x "Int"
-        }
-        types {
-          Item "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "the-object-of-associated-types")
+(note "An object writes the associated types a contract asks and their bounds, the type members a type is given, the associated types a signature says are a type, and an answer declared at an associated type: a type parameter labelled by it.")
 
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Container
+      (type Item)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item)))
+    (procedure Lib.firstOf
+      (access public)
+      (parameter c (type (some C Lib.Container)))
+      (returns (some C.Item))
+      (result (call Lib.Container.first c)))))
+
+(program
+  (warp 1)
+  (import Lib.Container)
+  (import Lib.Container.first)
+  (struct Use.Thing
+    (satisfies Use.Sized)
+    (field x Int)
+    (type Item Int))
+  (contract Use.Sized
+    (type Item Hashable))
+  (procedure Use.first
+    (access public)
+    (parameter c (type (some C Lib.Container)))
+    (returns (some C.Item))
+    (result (call Lib.Container.first c)))
+  (procedure Use.plusOne
+    (access public)
+    (const)
+    (isolated)
+    (parameter c (type (some C Lib.Container)))
+    (returns (some C.Item))
+    (sameType C.Item Int)
+    (result 1)))
+(expect (builds (dictionary (entry "addressTable" (array (array 0 (array)))) (entry "claims" (array (array "Use.Thing" (array "Use.Sized")))) (entry "constants" (array)) (entry "contracts" (array (array "Use.Sized" (array (array "Item") (array (array "Item" (array "Hashable"))) (array))))) (entry "dependencies" (array x"b28eeaaaad81f3bb0c42562eb1fde8cf073af64afc2a67266c14acda23dc0e03")) (entry "document" (array x"8cd700d5f3c08efa8ead0d7bb5ae6cd81981faceb536d8c108af8412001b1742")) (entry "importedClaims" (array)) (entry "lifted" (array)) (entry "loweredTypeTable" (array)) (entry "members" (array)) (entry "numbering" (array (array "Lib.Container.first") (array))) (entry "object" 1) (entry "operationTable" (array (array 1 0) (array 12 (array "Lib.Container" "first" 0 (array))) (array 0 0))) (entry "rows" (array (array "Use.first" (array (array (array "c" (array 2) (array))) 3 (array 1 (array)) 0 0 (array (array "C" (array "Lib.Container"))) (array)) 2 (array 0 (array (array) (array 1)) (array 1 (array 0) (array) (array) (array "c")))) (array "Use.plusOne" (array (array (array "c" (array 4) (array))) 5 (array 1 (array)) 1 1 (array (array "C" (array "Lib.Container"))) (array (array "C.Item" 6))) 2 (array 0 (array (array) (array 2)) (array 1 (array 0) (array) (array) (array "c")))))) (entry "typeMembers" (array (array "Use.Thing" (array (array "Item" 1))))) (entry "typeNumbering" (array)) (entry "typeTable" (array (array 4) (array 4) (array 15 "C") (array 19 "C" "Item") (array 15 "C") (array 19 "C" "Item") (array 4))) (entry "types" (array (array "Use.Thing" (array 9 (array (array "x" 0)))))) (entry "valueTable" (array (array 2 1))) (entry "variables" (array)))))

@@ -1,129 +1,37 @@
-warpt 1
-{
-  arguments {
-    x App.Shelf {
-      item true
-    }
-  }
-  expect {
-    refuses "run"
-  }
-  name "a-struct-from-outside-at-any-holding-what-its-bound-does-not-take-refuses"
-  note "A struct from outside at a slot that applies it to nothing is applied to what its fields fill its parameters with, as a door fills a slot's. `App.Shelf` bounds `T` by `App.Shown`, and a `Bool` in its field answers no procedure of it, so the door refuses the value."
-  program {
-    contracts {
-      "App.Described" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-      "App.Shown" {
-        procedures {
-          show {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    extensions {
-      Int {
-        procedures {
-          show {
-            parameters [
-              {
-                name "of"
-                type "Int"
-              }
-            ]
-            result "int"
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.Shown"
-        ]
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        failing [
-          "cast_refused"
-        ]
-        parameters [
-          {
-            name "x"
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                as {
-                  of {
-                    ref "x"
-                  }
-                  type "App.Described"
-                }
-              }
-            ]
-            procedure "App.Described.describe"
-          }
-        }
-        returns "String"
-      }
-    }
-    types {
-      "App.Shelf" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "App.Shelf<some T: App.Shown>"
-              }
-            ]
-            result {
-              call {
-                arguments [
-                  {
-                    ref "of.item"
-                  }
-                ]
-                procedure "App.Shown.show"
-              }
-            }
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.Described"
-        ]
-        struct {
-          item "some T"
-        }
-        typeParameters [
-          "T: App.Shown"
-        ]
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-struct-from-outside-at-any-holding-what-its-bound-does-not-take-refuses")
+(note "A struct from outside at a slot that applies it to nothing is applied to what its fields fill its parameters with, as a door fills a slot's. `App.Shelf` bounds `T` by `App.Shown`, and a `Bool` in its field answers no procedure of it, so the door refuses the value.")
 
+(program
+  (warp 1)
+  (struct App.Shelf
+    (typeParameter T App.Shown)
+    (satisfies App.Described)
+    (field item (some T))
+    (procedure describe
+      (parameter of (type (named App.Shelf (some T App.Shown))))
+      (returns String)
+      (result (call App.Shown.show (path of (field item))))))
+  (contract App.Described
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (contract App.Shown
+    (procedure show
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head Int)
+    (satisfies App.Shown)
+    (procedure show
+      (parameter of (type Int))
+      (returns String)
+      (result "int")))
+  (procedure entry
+    (access public)
+    (parameter x)
+    (returns String)
+    (failing cast_refused)
+    (result (call App.Described.describe (as x App.Described)))))
+(arguments (argument x (struct App.Shelf (field item true))))
+(expect (refuses run))

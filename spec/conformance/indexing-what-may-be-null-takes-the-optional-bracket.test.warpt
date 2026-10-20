@@ -1,29 +1,12 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "indexing-what-may-be-null-takes-the-optional-bracket"
-  note "A nullable holds the declared array or null, and a plain index reads an array that is there. Indexing through what may be null takes `?[`. The build refuses the spelling that pretends otherwise."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        parameters [
-          {
-            name "items"
-            type "Array<String>?"
-          }
-        ]
-        result {
-          ref "items[0]"
-        }
-        returns "Any"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "indexing-what-may-be-null-takes-the-optional-bracket")
+(note "A nullable holds the declared array or null, and a plain index reads an array that is there. Indexing through what may be null takes `?[`. The build refuses the spelling that pretends otherwise.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter items (type (nullable (array String))))
+    (returns Any)
+    (result (path items (index 0)))))
+(expect (refuses build))

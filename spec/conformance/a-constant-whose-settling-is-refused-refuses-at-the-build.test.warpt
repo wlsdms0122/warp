@@ -1,33 +1,12 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-constant-whose-settling-is-refused-refuses-at-the-build"
-  note "A constant settles at the build. Dividing by zero refuses at the run where a body does it, and where a constant does it the constant has nothing to settle to, so the document refuses at the build, though nothing reads the constant."
-  program {
-    const {
-      c {
-        call {
-          arguments [
-            1
-            0
-          ]
-          procedure "Standard.Numeric.dividedBy"
-        }
-      }
-    }
-    imports [
-      "Standard.Numeric.dividedBy"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result 1
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-constant-whose-settling-is-refused-refuses-at-the-build")
+(note "A constant settles at the build. Dividing by zero refuses at the run where a body does it, and where a constant does it the constant has nothing to settle to, so the document refuses at the build, though nothing reads the constant.")
 
+(program
+  (warp 1)
+  (import Standard.Numeric.dividedBy)
+  (const c (call Standard.Numeric.dividedBy 1 0))
+  (procedure entry
+    (access public)
+    (result 1)))
+(expect (refuses build))

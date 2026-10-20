@@ -1,39 +1,14 @@
-warpt 1
-{
-  expect {
-    answers true
-  }
-  name "a-string-holding-another-is-a-text-question"
-  note "A string is not an array here, so whether it holds another string is asked of the text bundle. The answer reads characters, not positions."
-  program {
-    imports [
-      "Standard.Text.contains"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "held"
-            value {
-              call {
-                arguments [
-                  "hello, spec"
-                  "lo, sp"
-                ]
-                procedure "Standard.Text.contains"
-              }
-            }
-          }
-        ]
-        result {
-          ref "held"
-        }
-        returns "Bool"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-string-holding-another-is-a-text-question")
+(note "A string is not an array here, so whether it holds another string is asked of the text bundle. The answer reads characters, not positions.")
 
+(program
+  (warp 1)
+  (import Standard.Text.contains)
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (body
+      (let held (call Standard.Text.contains "hello, spec" "lo, sp")))
+    (result held)))
+(expect (answers true))

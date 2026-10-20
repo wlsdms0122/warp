@@ -1,125 +1,14 @@
-warpt 1
-{
-  expect {
-    builds {
-      claims []
-      constants []
-      contracts []
-      dependencies []
-      document [
-        x"2081c4a5471c47be417186a75f03679e2338c6266971b16e407671f9d0a15d18"
-      ]
-      importedClaims []
-      lifted []
-      members []
-      numbering [
-        []
-        []
-      ]
-      object 1
-      rows [
-        [
-          "entry"
-          [
-            [
-              [
-                "n"
-                [
-                  [
-                    4
-                  ]
-                ]
-                []
-              ]
-            ]
-            [
-              7
-              [
-                4
-              ]
-            ]
-            [
-              1
-              []
-            ]
-            1
-            1
-            []
-            []
-          ]
-          2
-          [
-            0
-            [
-              []
-              [
-                [
-                  2
-                  [
-                    [
-                      1
-                      [
-                        0
-                        []
-                      ]
-                    ]
-                    [
-                      0
-                      [
-                        2
-                        2
-                      ]
-                    ]
-                  ]
-                ]
-              ]
-            ]
-            [
-              1
-              [
-                0
-              ]
-              []
-              []
-              [
-                "n"
-              ]
-            ]
-          ]
-        ]
-      ]
-      typeMembers []
-      typeNumbering []
-      types []
-      variables []
-    }
-  }
-  name "the-object-of-an-array-built-from-parts"
-  note "An array whose elements are not all constants is built at the run from its parts, under operation tag 2; one that is all constants would be a literal."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        const true
-        isolated true
-        parameters [
-          {
-            name "n"
-            type "Int"
-          }
-        ]
-        result [
-          {
-            ref "n"
-          }
-          2
-        ]
-        returns "Array<Int>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "the-object-of-an-array-built-from-parts")
+(note "An array whose elements are not all constants is built at the run from its parts, under operation tag 2; one that is all constants would be a literal.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (parameter n (type Int))
+    (returns (array Int))
+    (result (array n 2))))
+(expect (builds (dictionary (entry "addressTable" (array (array 0 (array)))) (entry "claims" (array)) (entry "constants" (array)) (entry "contracts" (array)) (entry "dependencies" (array)) (entry "document" (array x"2081c4a5471c47be417186a75f03679e2338c6266971b16e407671f9d0a15d18")) (entry "importedClaims" (array)) (entry "lifted" (array)) (entry "loweredTypeTable" (array)) (entry "members" (array)) (entry "numbering" (array (array) (array))) (entry "object" 1) (entry "operationTable" (array (array 1 0) (array 0 0) (array 2 (array 0 1)))) (entry "rows" (array (array "entry" (array (array (array "n" (array 0) (array))) 2 (array 1 (array)) 1 1 (array) (array)) 2 (array 0 (array (array) (array 2)) (array 1 (array 0) (array) (array) (array "n")))))) (entry "typeMembers" (array)) (entry "typeNumbering" (array)) (entry "typeTable" (array (array 4) (array 4) (array 7 1))) (entry "types" (array)) (entry "valueTable" (array (array 2 2))) (entry "variables" (array)))))

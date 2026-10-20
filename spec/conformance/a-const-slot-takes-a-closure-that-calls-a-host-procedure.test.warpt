@@ -1,57 +1,29 @@
-warpt 1
-{
-  expect {
-    answers true
-  }
-  name "a-const-slot-takes-a-closure-that-calls-a-host-procedure"
-  note "A slot asking a `const` procedure type takes a closure whose body sends only procedures that answer without running, and a procedure the host answers says which it is."
-  program {
-    imports [
-      "App.yes"
-      "Standard.Logic.and"
-    ]
-    procedures {
-      entry {
-        access "public"
-        const true
-        failing "anything"
-        result {
-          call {
-            arguments [
-              [
-                {
-                  closure {
-                    const true
-                    isolated true
-                    result {
-                      call {
-                        procedure "App.yes"
-                      }
-                    }
-                    returns "Bool"
-                  }
-                }
-              ]
-            ]
-            procedure "Standard.Logic.and"
-          }
-        }
-        returns "Bool"
-      }
-    }
-    warp 1
-  }
-  test 1
-  vocabulary {
-    imports []
-    procedures {
-      "App.yes" {
-        answers true
-        const true
-        isolated true
-        returns "Bool"
-      }
-    }
-  }
-}
+(test 1)
+(name "a-const-slot-takes-a-closure-that-calls-a-host-procedure")
+(note "A slot asking a `const` procedure type takes a closure whose body sends only procedures that answer without running, and a procedure the host answers says which it is.")
 
+(vocabulary
+  (procedure App.yes
+    (const)
+    (isolated)
+    (returns Bool)
+    (answers true)))
+
+(program
+  (warp 1)
+  (import App.yes)
+  (import Standard.Logic.and)
+  (procedure entry
+    (access public)
+    (const)
+    (returns Bool)
+    (failing (anything))
+    (result
+      (call Standard.Logic.and
+        (array
+          (closure
+            (const)
+            (isolated)
+            (returns Bool)
+            (result (call App.yes))))))))
+(expect (answers true))

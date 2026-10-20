@@ -1,55 +1,16 @@
-warpt 1
-{
-  expect {
-    answers "0.0"
-  }
-  name "absolute-drops-the-sign-of-negative-zero"
-  note "`absolute` drops the sign, and a negative zero carries one that text spells. Arithmetic reaches a negative zero without any literal writing it."
-  program {
-    imports [
-      "Standard.Math.absolute"
-      "Standard.Numeric.times"
-      "Standard.Text.text"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "zero"
-            value {
-              call {
-                arguments [
-                  -1.0
-                  0.0
-                ]
-                procedure "Standard.Numeric.times"
-              }
-            }
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                call {
-                  arguments [
-                    {
-                      ref "zero"
-                    }
-                  ]
-                  procedure "Standard.Math.absolute"
-                }
-              }
-            ]
-            procedure "Standard.Text.text"
-          }
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "absolute-drops-the-sign-of-negative-zero")
+(note "`absolute` drops the sign, and a negative zero carries one that text spells. Arithmetic reaches a negative zero without any literal writing it.")
 
+(program
+  (warp 1)
+  (import Standard.Math.absolute)
+  (import Standard.Numeric.times)
+  (import Standard.Text.text)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let zero (call Standard.Numeric.times -1.0 0.0)))
+    (result (call Standard.Text.text (call Standard.Math.absolute zero)))))
+(expect (answers "0.0"))

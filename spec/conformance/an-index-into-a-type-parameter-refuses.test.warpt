@@ -1,37 +1,16 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "an-index-into-a-type-parameter-refuses"
-  note "A type parameter is one type the body does not know, so brackets on it read nothing the build can judge: `d[k]` refuses at the build, whatever a call fills `T` with."
-  program {
-    imports []
-    procedures {
-      "App.at" {
-        parameters [
-          {
-            name "d"
-            type "some T"
-          }
-          {
-            name "k"
-            type "String"
-          }
-        ]
-        result {
-          ref "d[k]"
-        }
-        returns "Int"
-      }
-      entry {
-        access "public"
-        result 1
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-index-into-a-type-parameter-refuses")
+(note "A type parameter is one type the body does not know, so brackets on it read nothing the build can judge: `d[k]` refuses at the build, whatever a call fills `T` with.")
 
+(program
+  (warp 1)
+  (procedure App.at
+    (parameter d (type (some T)))
+    (parameter k (type String))
+    (returns Int)
+    (result (path d (index k))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result 1)))
+(expect (refuses build))

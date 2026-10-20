@@ -1,91 +1,21 @@
-warpt 1
-{
-  expect {
-    answers [
-      null
-      {
-        k []
-      }
-    ]
-  }
-  name "a-parameter-handed-in-place-holding-nullable-dictionaries-of-lists-of-a-parameter-takes-null-and-a-map-of-an-empty-list"
-  note "App.g writes a list of null and a map literal holding `[]` under `k` into xs, a list of dictionaries of lists of T or null, handed in place. Null beside the map is what may be null, and the empty list in the map holds no element, so the literal is a value of Array<Dictionary<String, Array<some T>>?>."
-  program {
-    imports []
-    procedures {
-      "App.g" {
-        body [
-          {
-            set "xs"
-            value [
-              null
-              {
-                dictionary [
-                  [
-                    "k"
-                    []
-                  ]
-                ]
-              }
-            ]
-          }
-        ]
-        parameters [
-          {
-            name "xs"
-            type "inout Array<Dictionary<String, Array<some T>>?>"
-          }
-        ]
-        result 0
-        returns "Int"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            value {
-              as {
-                of [
-                  {
-                    dictionary [
-                      [
-                        "k"
-                        [
-                          "a"
-                        ]
-                      ]
-                    ]
-                  }
-                ]
-                type "Array<Dictionary<String, Array<String>>?>"
-              }
-            }
-            var "s"
-          }
-          {
-            value {
-              call {
-                arguments [
-                  {
-                    ref "s"
-                  }
-                ]
-                procedure "App.g"
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result {
-          ref "s"
-        }
-        returns "Array<Dictionary<String, Array<String>>?>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-parameter-handed-in-place-holding-nullable-dictionaries-of-lists-of-a-parameter-takes-null-and-a-map-of-an-empty-list")
+(note "App.g writes a list of null and a map literal holding `[]` under `k` into xs, a list of dictionaries of lists of T or null, handed in place. Null beside the map is what may be null, and the empty list in the map holds no element, so the literal is a value of Array<Dictionary<String, Array<some T>>?>.")
 
+(program
+  (warp 1)
+  (procedure App.g
+    (parameter xs (type (inout (array (nullable (dictionary String (array (some T))))))))
+    (returns Int)
+    (body
+      (set xs (array null (dictionary (entry "k" (array))))))
+    (result 0))
+  (procedure entry
+    (access public)
+    (returns (array (nullable (dictionary String (array String)))))
+    (failing cast_refused)
+    (body
+      (var s (as (array (dictionary (entry "k" (array "a")))) (array (nullable (dictionary String (array String))))))
+      (call App.g s))
+    (result s)))
+(expect (answers (array null (dictionary (entry "k" (array))))))

@@ -1,94 +1,34 @@
-warpt 1
-{
-  expect {
-    answers "answered"
-  }
-  name "a-variable-declared-const-procedure-carries-that-into-a-capture"
-  note "A variable that declared what it holds is held to that through every write, so a closure that captured it calls what the declaration said, the way what a captured slot says stands. A variable that declared nothing is held to the type it read as at the capture, which is a reading the build worked out, so it says nothing a closure can hold on to."
-  program {
-    imports []
-    procedures {
-      "App.asking" {
-        body [
-          {
-            let "answered"
-            value {
-              call {
-                procedure {
-                  ref "body"
-                }
-              }
-            }
-          }
-        ]
-        const true
-        parameters [
-          {
-            name "body"
-            type "const () -> String"
-          }
-        ]
-        result {
-          ref "answered"
-        }
-        returns "String"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            type "const () -> String"
-            value {
-              closure {
-                const true
-                isolated true
-                result "answered"
-                returns "String"
-              }
-            }
-            var "answering"
-          }
-          {
-            let "relaying"
-            value {
-              closure {
-                body [
-                  {
-                    let "answered"
-                    value {
-                      call {
-                        procedure {
-                          ref "answering"
-                        }
-                      }
-                    }
-                  }
-                ]
-                const true
-                result {
-                  ref "answered"
-                }
-                returns "String"
-              }
-            }
-          }
-        ]
-        const true
-        result {
-          call {
-            arguments [
-              {
-                ref "relaying"
-              }
-            ]
-            procedure "App.asking"
-          }
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-variable-declared-const-procedure-carries-that-into-a-capture")
+(note "A variable that declared what it holds is held to that through every write, so a closure that captured it calls what the declaration said, the way what a captured slot says stands. A variable that declared nothing is held to the type it read as at the capture, which is a reading the build worked out, so it says nothing a closure can hold on to.")
 
+(program
+  (warp 1)
+  (procedure App.asking
+    (const)
+    (parameter body (type (procedure (const) (parameters) (returns String))))
+    (returns String)
+    (body
+      (let answered (apply body)))
+    (result answered))
+  (procedure entry
+    (access public)
+    (const)
+    (returns String)
+    (body
+      (var answering
+        (type (procedure (const) (parameters) (returns String)))
+        (closure
+          (const)
+          (isolated)
+          (returns String)
+          (result "answered")))
+      (let relaying
+        (closure
+          (const)
+          (returns String)
+          (body
+            (let answered (apply answering)))
+          (result answered))))
+    (result (call App.asking relaying))))
+(expect (answers "answered"))

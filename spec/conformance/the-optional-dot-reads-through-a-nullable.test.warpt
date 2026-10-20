@@ -1,41 +1,15 @@
-warpt 1
-{
-  arguments {
-    task Task {
-      name "loaded"
-    }
-  }
-  expect {
-    answers "loaded"
-  }
-  name "the-optional-dot-reads-through-a-nullable"
-  note "`?.` unwraps a nullable: a value that arrived reads its field, and a null the host handed would answer null for the whole path. The path's own answer is nullable for the same reason."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        parameters [
-          {
-            name "task"
-            type "Task?"
-          }
-        ]
-        result {
-          ref "task?.name"
-        }
-        returns "String?"
-      }
-    }
-    types {
-      Task {
-        struct {
-          name "String"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "the-optional-dot-reads-through-a-nullable")
+(note "`?.` unwraps a nullable: a value that arrived reads its field, and a null the host handed would answer null for the whole path. The path's own answer is nullable for the same reason.")
 
+(program
+  (warp 1)
+  (struct Task
+    (field name String))
+  (procedure entry
+    (access public)
+    (parameter task (type (nullable Task)))
+    (returns (nullable String))
+    (result (path task (field? name)))))
+(arguments (argument task (struct Task (field name "loaded"))))
+(expect (answers "loaded"))

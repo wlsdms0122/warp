@@ -1,128 +1,36 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-closures-parameter-is-not-the-const-procedure-it-shadows"
-  note "A closure's parameter is its own name, whatever a name of the same spelling outside it holds. A closure calling a parameter whose slot writes a procedure type without `const` does not answer without running, even where an outer name of that spelling is a `const` procedure type, so a slot asking a `const` procedure type refuses it at the build."
-  program {
-    imports []
-    procedures {
-      asking {
-        body [
-          {
-            let "given"
-            value {
-              closure {
-                parameters [
-                  {
-                    name "x"
-                    type "Int"
-                  }
-                ]
-                result {
-                  ref "x"
-                }
-                returns "Int"
-              }
-            }
-          }
-          {
-            let "answered"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "given"
-                  }
-                ]
-                procedure {
-                  ref "body"
-                }
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "body"
-            type "const ((Int) -> Int) -> Int"
-          }
-        ]
-        result {
-          ref "answered"
-        }
-        returns "Int"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "f"
-            type "const (Int) -> Int"
-            value {
-              closure {
-                parameters [
-                  {
-                    name "x"
-                    type "Int"
-                  }
-                ]
-                result {
-                  ref "x"
-                }
-                returns "Int"
-              }
-            }
-          }
-          {
-            let "g"
-            value {
-              closure {
-                body [
-                  {
-                    let "y"
-                    value {
-                      call {
-                        arguments [
-                          1
-                        ]
-                        procedure {
-                          ref "f"
-                        }
-                      }
-                    }
-                  }
-                ]
-                parameters [
-                  {
-                    name "f"
-                    type "(Int) -> Int"
-                  }
-                ]
-                result {
-                  ref "y"
-                }
-                returns "Int"
-              }
-            }
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "g"
-              }
-            ]
-            procedure "asking"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-closures-parameter-is-not-the-const-procedure-it-shadows")
+(note "A closure's parameter is its own name, whatever a name of the same spelling outside it holds. A closure calling a parameter whose slot writes a procedure type without `const` does not answer without running, even where an outer name of that spelling is a `const` procedure type, so a slot asking a `const` procedure type refuses it at the build.")
 
+(program
+  (warp 1)
+  (procedure asking
+    (parameter body (type (procedure (const) (parameters (procedure (parameters Int) (returns Int))) (returns Int))))
+    (returns Int)
+    (body
+      (let given
+        (closure
+          (parameter x (type Int))
+          (returns Int)
+          (result x)))
+      (let answered (apply body given)))
+    (result answered))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let f
+        (type (procedure (const) (parameters Int) (returns Int)))
+        (closure
+          (parameter x (type Int))
+          (returns Int)
+          (result x)))
+      (let g
+        (closure
+          (parameter f (type (procedure (parameters Int) (returns Int))))
+          (returns Int)
+          (body
+            (let y (apply f 1)))
+          (result y))))
+    (result (call asking g))))
+(expect (refuses build))

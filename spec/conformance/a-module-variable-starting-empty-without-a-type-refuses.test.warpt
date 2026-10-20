@@ -1,25 +1,11 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-module-variable-starting-empty-without-a-type-refuses"
-  note "A module variable that declares no type holds the type its start reads as, and an empty list holds no element, so nothing says what the box will hold. The build refuses the variable until it declares its type."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        result {
-          ref "seen"
-        }
-      }
-    }
-    var {
-      seen []
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-module-variable-starting-empty-without-a-type-refuses")
+(note "A module variable that declares no type holds the type its start reads as, and an empty list holds no element, so nothing says what the box will hold. The build refuses the variable until it declares its type.")
 
+(program
+  (warp 1)
+  (var seen (array))
+  (procedure entry
+    (access public)
+    (result seen)))
+(expect (refuses build))

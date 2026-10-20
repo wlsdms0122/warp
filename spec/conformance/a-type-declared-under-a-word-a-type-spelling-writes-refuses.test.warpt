@@ -1,23 +1,11 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-type-declared-under-a-word-a-type-spelling-writes-refuses"
-  note "`const` is a word a type's spelling writes in front of a procedure, and no type's name. A type declared under it refuses at the load."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        result 1
-      }
-    }
-    types {
-      const "Int"
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-type-declared-under-a-word-a-type-spelling-writes-refuses")
+(note "`const` is a word a type's spelling writes in front of a procedure, and no type's name. A type declared under it refuses at the load.")
 
+(program
+  (warp 1)
+  (type const Int)
+  (procedure entry
+    (access public)
+    (result 1)))
+(expect (refuses load))

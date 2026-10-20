@@ -1,60 +1,20 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-call-of-a-value-short-of-what-it-takes-refuses"
-  note "Calling a value hands exactly what its type takes, the way a call does. A position whose type declares null is handed like any other, so a call of `pair` with one argument is refused where it is written."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "pair"
-            value {
-              closure {
-                parameters [
-                  {
-                    name "a"
-                    type "Int"
-                  }
-                  {
-                    name "b"
-                    type "String?"
-                  }
-                ]
-                result {
-                  ref "b"
-                }
-                returns "String?"
-              }
-            }
-          }
-          {
-            let "made"
-            value {
-              call {
-                arguments [
-                  1
-                ]
-                procedure {
-                  ref "pair"
-                }
-              }
-            }
-          }
-        ]
-        failing "anything"
-        result {
-          ref "made"
-        }
-        returns "String?"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-call-of-a-value-short-of-what-it-takes-refuses")
+(note "Calling a value hands exactly what its type takes, the way a call does. A position whose type declares null is handed like any other, so a call of `pair` with one argument is refused where it is written.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns (nullable String))
+    (failing (anything))
+    (body
+      (let pair
+        (closure
+          (parameter a (type Int))
+          (parameter b (type (nullable String)))
+          (returns (nullable String))
+          (result b)))
+      (let made (apply pair 1)))
+    (result made)))
+(expect (refuses build))

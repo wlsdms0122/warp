@@ -1,124 +1,33 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-declaration-answering-a-contract-takes-its-parameters-in-the-contracts-order"
-  note "A declaration answering a contract's procedure takes its own type first and then what the contract asks at the same positions, since the run hands the arguments to the same positions whichever declaration answers. One taking them the other way round backs no claim, which refuses at the build, at the claim."
-  program {
-    contracts {
-      "App.Labelled" {
-        procedures {
-          label {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-              {
-                name "a"
-                type "Int"
-              }
-              {
-                name "b"
-                type "String"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    imports []
-    procedures {
-      "App.tell" {
-        parameters [
-          {
-            name "it"
-            type "some T: App.Labelled"
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "it"
-              }
-              1
-              "x"
-            ]
-            procedure "App.Labelled.label"
-          }
-        }
-        returns "String"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "card"
-            value {
-              as {
-                of {
-                  struct {
-                    last "42"
-                  }
-                }
-                type "App.Card"
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "card"
-              }
-            ]
-            procedure "App.tell"
-          }
-        }
-        returns "String"
-      }
-    }
-    types {
-      "App.Card" {
-        procedures {
-          label {
-            parameters [
-              {
-                name "of"
-                type "App.Card"
-              }
-              {
-                name "b"
-                type "String"
-              }
-              {
-                name "a"
-                type "Int"
-              }
-            ]
-            result {
-              ref "b"
-            }
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.Labelled"
-        ]
-        struct {
-          last "String"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-declaration-answering-a-contract-takes-its-parameters-in-the-contracts-order")
+(note "A declaration answering a contract's procedure takes its own type first and then what the contract asks at the same positions, since the run hands the arguments to the same positions whichever declaration answers. One taking them the other way round backs no claim, which refuses at the build, at the claim.")
 
+(program
+  (warp 1)
+  (struct App.Card
+    (satisfies App.Labelled)
+    (field last String)
+    (procedure label
+      (parameter of (type App.Card))
+      (parameter b (type String))
+      (parameter a (type Int))
+      (returns String)
+      (result b)))
+  (contract App.Labelled
+    (procedure label
+      (parameter of (type Self))
+      (parameter a (type Int))
+      (parameter b (type String))
+      (returns String)))
+  (procedure App.tell
+    (parameter it (type (some T App.Labelled)))
+    (returns String)
+    (result (call App.Labelled.label it 1 "x")))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let card (as (struct (field last "42")) App.Card)))
+    (result (call App.tell card))))
+(expect (refuses build))

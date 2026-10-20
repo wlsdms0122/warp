@@ -1,91 +1,29 @@
-warpt 1
-{
-  expect {
-    answers "a"
-  }
-  name "a-struct-literal-written-into-a-module-variable-declaring-a-struct-takes-the-name-answers"
-  note "`r` is a module variable declaring `Bank.A`, and a body writes the struct literal `{ k: \"y\" }` into it. A literal written where `Bank.A` is read takes the name, so `r` holds a `Bank.A`, and `App.P.show`, which `Bank.A` answers, is sent to it."
-  program {
-    contracts {
-      "App.P" {
-        procedures {
-          show {
-            const true
-            isolated true
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            set "r"
-            value {
-              struct {
-                k "y"
-              }
-            }
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "r"
-              }
-            ]
-            procedure "App.P.show"
-          }
-        }
-        returns "String"
-      }
-    }
-    types {
-      "Bank.A" {
-        procedures {
-          show {
-            const true
-            isolated true
-            parameters [
-              {
-                name "of"
-                type "Bank.A"
-              }
-            ]
-            result "a"
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.P"
-        ]
-        struct {
-          k "String"
-        }
-      }
-    }
-    var {
-      r {
-        type "Bank.A"
-        value {
-          struct {
-            k "x"
-          }
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-struct-literal-written-into-a-module-variable-declaring-a-struct-takes-the-name-answers")
+(note "`r` is a module variable declaring `Bank.A`, and a body writes the struct literal `{ k: \"y\" }` into it. A literal written where `Bank.A` is read takes the name, so `r` holds a `Bank.A`, and `App.P.show`, which `Bank.A` answers, is sent to it.")
 
+(program
+  (warp 1)
+  (var r (type Bank.A) (struct (field k "x")))
+  (struct Bank.A
+    (satisfies App.P)
+    (field k String)
+    (procedure show
+      (const)
+      (isolated)
+      (parameter of (type Bank.A))
+      (returns String)
+      (result "a")))
+  (contract App.P
+    (procedure show
+      (const)
+      (isolated)
+      (parameter of (type Self))
+      (returns String)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (set r (struct (field k "y"))))
+    (result (call App.P.show r))))
+(expect (answers "a"))

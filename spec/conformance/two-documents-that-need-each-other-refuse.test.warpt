@@ -1,62 +1,27 @@
-warpt 1
-{
-  documents [
-    {
-      imports [
-        "Ring.b"
-      ]
-      procedures {
-        "Ring.a" {
-          failing "anything"
-          result {
-            call {
-              procedure "Ring.b"
-            }
-          }
-          returns "Int"
-        }
-      }
-      warp 1
-    }
-    {
-      imports [
-        "Ring.a"
-      ]
-      procedures {
-        "Ring.b" {
-          result {
-            call {
-              procedure "Ring.a"
-            }
-          }
-          returns "Int"
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    refuses "build"
-  }
-  name "two-documents-that-need-each-other-refuse"
-  note "A document is read against what it sends and the types its signatures name, so what it needs is compiled before it. Two documents that each need the other have no such order: neither can be the one that goes first, and the pair is refused rather than either document."
-  program {
-    imports [
-      "Ring.a"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            procedure "Ring.a"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "two-documents-that-need-each-other-refuse")
+(note "A document is read against what it sends and the types its signatures name, so what it needs is compiled before it. Two documents that each need the other have no such order: neither can be the one that goes first, and the pair is refused rather than either document.")
 
+(documents
+  (document
+    (warp 1)
+    (import Ring.b)
+    (procedure Ring.a
+      (returns Int)
+      (failing (anything))
+      (result (call Ring.b))))
+  (document
+    (warp 1)
+    (import Ring.a)
+    (procedure Ring.b
+      (returns Int)
+      (result (call Ring.a)))))
+
+(program
+  (warp 1)
+  (import Ring.a)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result (call Ring.a))))
+(expect (refuses build))

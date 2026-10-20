@@ -1,85 +1,28 @@
-warpt 1
-{
-  expect {
-    answers "cast_refused"
-  }
-  name "a-cast-of-a-closure-over-a-type-parameter-its-making-call-filled-fails"
-  note "`App.mk` answers a closure taking its own `some T`, which only the call that made it fills, and `a` holds it as `Any`. No value says what filled `T`, so the closure is a value of no procedure type here, and the cast to one fails with cast_refused, which the attempt catches."
-  program {
-    imports [
-      "Standard.Numeric"
-    ]
-    procedures {
-      "App.mk" {
-        parameters [
-          {
-            name "x"
-            type "some T: Standard.Numeric"
-          }
-        ]
-        result {
-          closure {
-            parameters [
-              {
-                name "y"
-                type "some T"
-              }
-            ]
-            result 0
-            returns "Int"
-          }
-        }
-        returns "(some T) -> Int"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "a"
-            type "Any"
-            value {
-              call {
-                arguments [
-                  5
-                ]
-                procedure "App.mk"
-              }
-            }
-          }
-          {
-            let "r"
-            value {
-              attempt {
-                body [
-                  {
-                    let "f"
-                    value {
-                      as {
-                        of {
-                          ref "a"
-                        }
-                        type "(Double) -> Int"
-                      }
-                    }
-                  }
-                ]
-                rescue {
-                  result {
-                    ref "r.type"
-                  }
-                }
-              }
-            }
-          }
-        ]
-        result {
-          ref "r"
-        }
-        returns "String?"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-cast-of-a-closure-over-a-type-parameter-its-making-call-filled-fails")
+(note "`App.mk` answers a closure taking its own `some T`, which only the call that made it fills, and `a` holds it as `Any`. No value says what filled `T`, so the closure is a value of no procedure type here, and the cast to one fails with cast_refused, which the attempt catches.")
 
+(program
+  (warp 1)
+  (import Standard.Numeric)
+  (procedure App.mk
+    (parameter x (type (some T Standard.Numeric)))
+    (returns (procedure (parameters (some T)) (returns Int)))
+    (result
+      (closure
+        (parameter y (type (some T)))
+        (returns Int)
+        (result 0))))
+  (procedure entry
+    (access public)
+    (returns (nullable String))
+    (body
+      (let a (type Any) (call App.mk 5))
+      (let r
+        (attempt
+          (body
+            (let f (as a (procedure (parameters Double) (returns Int)))))
+          (rescue
+            (result (path r (field type)))))))
+    (result r)))
+(expect (answers "cast_refused"))

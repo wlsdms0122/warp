@@ -1,11 +1,5 @@
-warpt 1
-{
-  bytes x"574152500105636869"
-  expect {
-    refuses "load"
-  }
-  name "a-length-past-the-end-of-the-document-refuses"
-  note "A claimed length is charged against the bytes of the document itself, before anything is set aside for it. A reader that allocated first would hold what a short document told it to."
-  test 1
-}
-
+(test 1)
+(name "a-length-past-the-end-of-the-document-refuses")
+(note "A claimed length is charged against the bytes of the document itself, before anything is set aside for it. A reader that allocated first would hold what a short document told it to.")
+(bytes x"574152500105636869")
+(expect (refuses load))

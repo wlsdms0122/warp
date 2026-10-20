@@ -1,35 +1,13 @@
-warpt 1
-{
-  expect {
-    answers [
-      1
-      null
-    ]
-  }
-  name "an-array-literal-joins-its-elements"
-  note "The join reads wherever two readings of one slot meet, and an array literal's elements are such a slot. Null beside a value reads `T?`, so `[1, null]` reads `Array<Int?>` and fits a declaration that says so."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "items"
-            value [
-              1
-              null
-            ]
-          }
-        ]
-        result {
-          ref "items"
-        }
-        returns "Array<Int?>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-array-literal-joins-its-elements")
+(note "The join reads wherever two readings of one slot meet, and an array literal's elements are such a slot. Null beside a value reads `T?`, so `[1, null]` reads `Array<Int?>` and fits a declaration that says so.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns (array (nullable Int)))
+    (body
+      (let items (array 1 null)))
+    (result items)))
+(expect (answers (array 1 null)))

@@ -1,42 +1,17 @@
-warpt 1
-{
-  expect {
-    answers 1
-  }
-  name "a-statement-with-no-name-still-runs"
-  note "A statement with no naming key runs its construct and drops the answer, which is how an effect is asked for on its own."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            value 0
-            var "seen"
-          }
-          {
-            value {
-              conditional {
-                then [
-                  {
-                    set "seen"
-                    value 1
-                  }
-                ]
-                when true
-              }
-            }
-          }
-        ]
-        result {
-          ref "seen"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-statement-with-no-name-still-runs")
+(note "A statement with no naming key runs its construct and drops the answer, which is how an effect is asked for on its own.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var seen 0)
+      (conditional
+        (when true)
+        (then
+          (set seen 1))))
+    (result seen)))
+(expect (answers 1))

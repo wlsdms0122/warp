@@ -1,62 +1,22 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-claim-answering-self-or-null-with-another-type-refuses"
-  note "`App.Find.find` answers `Self?`, which the claim about `Int` reads as `Int?`. `Int.find` answers `String?`, which that does not take, so the claim does not hold and refuses at the build, at the claim."
-  program {
-    contracts {
-      "App.Find" {
-        procedures {
-          find {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "Self?"
-          }
-        }
-      }
-    }
-    extensions {
-      Int {
-        procedures {
-          find {
-            parameters [
-              {
-                name "of"
-                type "Int"
-              }
-            ]
-            result "s"
-            returns "String?"
-          }
-        }
-        satisfies [
-          "App.Find"
-        ]
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              5
-            ]
-            procedure "App.Find.find"
-          }
-        }
-        returns "Int?"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-claim-answering-self-or-null-with-another-type-refuses")
+(note "`App.Find.find` answers `Self?`, which the claim about `Int` reads as `Int?`. `Int.find` answers `String?`, which that does not take, so the claim does not hold and refuses at the build, at the claim.")
 
+(program
+  (warp 1)
+  (contract App.Find
+    (procedure find
+      (parameter of (type Self))
+      (returns (nullable Self))))
+  (extension
+    (head Int)
+    (satisfies App.Find)
+    (procedure find
+      (parameter of (type Int))
+      (returns (nullable String))
+      (result "s")))
+  (procedure entry
+    (access public)
+    (returns (nullable Int))
+    (result (call App.Find.find 5))))
+(expect (refuses build))

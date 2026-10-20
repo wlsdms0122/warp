@@ -1,150 +1,41 @@
-warpt 1
-{
-  expect {
-    answers "cast_refused"
-  }
-  name "a-cast-of-a-closure-writing-an-answer-read-as-never-fails"
-  note "App.f answers its own T and writes a closure that sets a variable of T, held as Any. App.h fills T with an empty list, so its call reads Never. The cast reading the closure as taking a String fails with cast_refused, since only App.f's call filled its T, so nothing reaches the answer read as Never and the attempt in the entry catches the failure."
-  program {
-    imports [
-      "Standard.Collection.appending"
-    ]
-    procedures {
-      "App.f" {
-        body [
-          {
-            value {
-              ref "xs"
-            }
-            var "ys"
-          }
-          {
-            let "c"
-            value {
-              closure {
-                body [
-                  {
-                    set "ys"
-                    value {
-                      call {
-                        arguments [
-                          {
-                            ref "ys"
-                          }
-                          {
-                            ref "z"
-                          }
-                        ]
-                        procedure "Standard.Collection.appending"
-                      }
-                    }
-                  }
-                ]
-                parameters [
-                  {
-                    name "z"
-                    type "some T"
-                  }
-                ]
-                result 0
-                returns "Int"
-              }
-            }
-          }
-          {
-            let "a"
-            type "Any"
-            value {
-              ref "c"
-            }
-          }
-          {
-            let "d"
-            value {
-              as {
-                of {
-                  ref "a"
-                }
-                type "(String) -> Int"
-              }
-            }
-          }
-          {
-            value {
-              call {
-                arguments [
-                  "s"
-                ]
-                procedure {
-                  ref "d"
-                }
-              }
-            }
-          }
-        ]
-        failing "anything"
-        parameters [
-          {
-            name "xs"
-            type "Array<some T>"
-          }
-        ]
-        result {
-          ref "ys[0]"
-        }
-        returns "some T"
-      }
-      "App.h" {
-        failing "anything"
-        result {
-          call {
-            arguments [
-              []
-            ]
-            procedure "App.f"
-          }
-        }
-        returns "Int"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "tried"
-            value {
-              attempt {
-                body [
-                  {
-                    let "k"
-                    value {
-                      call {
-                        procedure "App.h"
-                      }
-                    }
-                  }
-                ]
-                rescue {
-                  result {
-                    ref "tried.type"
-                  }
-                }
-                result [
-                  {
-                    ref "k"
-                  }
-                ]
-              }
-            }
-          }
-        ]
-        result {
-          ref "tried"
-        }
-        returns "Any"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-cast-of-a-closure-writing-an-answer-read-as-never-fails")
+(note "App.f answers its own T and writes a closure that sets a variable of T, held as Any. App.h fills T with an empty list, so its call reads Never. The cast reading the closure as taking a String fails with cast_refused, since only App.f's call filled its T, so nothing reaches the answer read as Never and the attempt in the entry catches the failure.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.appending)
+  (procedure App.f
+    (parameter xs (type (array (some T))))
+    (returns (some T))
+    (failing (anything))
+    (body
+      (var ys xs)
+      (let c
+        (closure
+          (parameter z (type (some T)))
+          (returns Int)
+          (body
+            (set ys (call Standard.Collection.appending ys z)))
+          (result 0)))
+      (let a (type Any) c)
+      (let d (as a (procedure (parameters String) (returns Int))))
+      (apply d "s"))
+    (result (path ys (index 0))))
+  (procedure App.h
+    (returns Int)
+    (failing (anything))
+    (result (call App.f (array))))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let tried
+        (attempt
+          (body
+            (let k (call App.h)))
+          (result (array k))
+          (rescue
+            (result (path tried (field type)))))))
+    (result tried)))
+(expect (answers "cast_refused"))

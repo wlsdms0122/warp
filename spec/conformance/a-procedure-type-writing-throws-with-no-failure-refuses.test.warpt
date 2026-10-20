@@ -1,41 +1,18 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-procedure-type-writing-throws-with-no-failure-refuses"
-  note "`throws()` lists no failure, which says what writing no `throws` says, and one type is written one way, so this refuses at the load."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "f"
-            type "(Int) throws() -> Int"
-            value {
-              closure {
-                parameters [
-                  {
-                    name "x"
-                    type "Int"
-                  }
-                ]
-                result {
-                  ref "x"
-                }
-                returns "Int"
-              }
-            }
-          }
-        ]
-        result 1
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-procedure-type-writing-throws-with-no-failure-refuses")
+(note "`throws()` lists no failure, which says what writing no `throws` says, and one type is written one way, so this refuses at the load.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let f
+        (type (procedure (parameters Int) (failing) (returns Int)))
+        (closure
+          (parameter x (type Int))
+          (returns Int)
+          (result x))))
+    (result 1)))
+(expect (refuses load))

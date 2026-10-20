@@ -1,30 +1,12 @@
-warpt 1
-{
-  expect {
-    refuses "run"
-  }
-  name "absolute-of-the-minimum-refuses"
-  note "absolute answers an int only when an int holds the answer. The procedure's own minimum is the one magnitude the procedure does not hold, and the refusal is the overflow rule, not a special case."
-  program {
-    imports [
-      "Standard.Math.absolute"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              -9223372036854775808
-            ]
-            procedure "Standard.Math.absolute"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "absolute-of-the-minimum-refuses")
+(note "absolute answers an int only when an int holds the answer. The procedure's own minimum is the one magnitude the procedure does not hold, and the refusal is the overflow rule, not a special case.")
 
+(program
+  (warp 1)
+  (import Standard.Math.absolute)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result (call Standard.Math.absolute -9223372036854775808))))
+(expect (refuses run))

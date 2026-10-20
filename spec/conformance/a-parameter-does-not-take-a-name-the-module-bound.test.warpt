@@ -1,42 +1,15 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-parameter-does-not-take-a-name-the-module-bound"
-  note "A parameter takes no spelling the module bound. `x` is a constant of the document, so a parameter named `x` refuses at the load."
-  program {
-    const {
-      x 1
-    }
-    imports []
-    procedures {
-      "App.f" {
-        body []
-        parameters [
-          {
-            name "x"
-            type "Int"
-          }
-        ]
-        result {
-          ref "x"
-        }
-      }
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              1
-            ]
-            procedure "App.f"
-          }
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-parameter-does-not-take-a-name-the-module-bound")
+(note "A parameter takes no spelling the module bound. `x` is a constant of the document, so a parameter named `x` refuses at the load.")
 
+(program
+  (warp 1)
+  (const x 1)
+  (procedure App.f
+    (parameter x (type Int))
+    (body)
+    (result x))
+  (procedure entry
+    (access public)
+    (result (call App.f 1))))
+(expect (refuses load))

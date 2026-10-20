@@ -1,42 +1,14 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-key-reference-read-as-any-refuses"
-  note "On a map keyed by text a key stands where a String is read, and k reads Any, which stands only where Any is declared until a cast says what it is, so the build refuses the reference."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "k"
-            type "Any"
-            value "a"
-          }
-          {
-            let "held"
-            type "Dictionary<String, Int>"
-            value {
-              dictionary [
-                [
-                  "a"
-                  1
-                ]
-              ]
-            }
-          }
-        ]
-        result {
-          ref "held[k]"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-key-reference-read-as-any-refuses")
+(note "On a map keyed by text a key stands where a String is read, and k reads Any, which stands only where Any is declared until a cast says what it is, so the build refuses the reference.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let k (type Any) "a")
+      (let held (type (dictionary String Int)) (dictionary (entry "a" 1))))
+    (result (path held (index k)))))
+(expect (refuses build))

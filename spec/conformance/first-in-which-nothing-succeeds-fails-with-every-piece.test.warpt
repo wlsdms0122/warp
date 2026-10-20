@@ -1,134 +1,43 @@
-warpt 1
-{
-  expect {
-    answers [
-      "left"
-      "right"
-    ]
-  }
-  name "first-in-which-nothing-succeeds-fails-with-every-piece"
-  note "A `firstKeyed` in which nothing succeeds fails the way `allKeyed` fails: every piece's failure reported, keyed by the piece it came from, so a rescue reads one failure per piece."
-  program {
-    imports [
-      "Standard.Collection.keys"
-      "Standard.Concurrent.firstKeyed"
-      "Standard.Control.abort"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "tried"
-            value {
-              attempt {
-                body [
-                  {
-                    value {
-                      call {
-                        arguments [
-                          {
-                            dictionary [
-                              [
-                                "left"
-                                {
-                                  closure {
-                                    body [
-                                      {
-                                        value {
-                                          call {
-                                            arguments [
-                                              "left"
-                                            ]
-                                            procedure "Standard.Control.abort"
-                                          }
-                                        }
-                                      }
-                                    ]
-                                    const true
-                                    failing [
-                                      "aborted"
-                                    ]
-                                    isolated true
-                                    returns "Int"
-                                  }
-                                }
-                              ]
-                              [
-                                "right"
-                                {
-                                  closure {
-                                    body [
-                                      {
-                                        value {
-                                          call {
-                                            arguments [
-                                              "right"
-                                            ]
-                                            procedure "Standard.Control.abort"
-                                          }
-                                        }
-                                      }
-                                    ]
-                                    const true
-                                    failing [
-                                      "aborted"
-                                    ]
-                                    isolated true
-                                    returns "Int"
-                                  }
-                                }
-                              ]
-                            ]
-                          }
-                        ]
-                        procedure "Standard.Concurrent.firstKeyed"
-                      }
-                    }
-                  }
-                ]
-                rescue {
-                  body [
-                    {
-                      let "failures"
-                      value {
-                        as {
-                          of {
-                            ref "tried.details[\"failures\"]"
-                          }
-                          type "Dictionary<String, Any>"
-                        }
-                      }
-                    }
-                  ]
-                  result {
-                    call {
-                      arguments [
-                        {
-                          ref "failures"
-                        }
-                      ]
-                      procedure "Standard.Collection.keys"
-                    }
-                  }
-                }
-                result []
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        isolated true
-        result {
-          ref "tried"
-        }
-        returns "Array<String>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "first-in-which-nothing-succeeds-fails-with-every-piece")
+(note "A `firstKeyed` in which nothing succeeds fails the way `allKeyed` fails: every piece's failure reported, keyed by the piece it came from, so a rescue reads one failure per piece.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.keys)
+  (import Standard.Concurrent.firstKeyed)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (isolated)
+    (returns (array String))
+    (failing cast_refused)
+    (body
+      (let tried
+        (attempt
+          (body
+            (call Standard.Concurrent.firstKeyed
+              (dictionary
+                (entry "left"
+                  (closure
+                    (const)
+                    (isolated)
+                    (returns Int)
+                    (failing aborted)
+                    (body
+                      (call Standard.Control.abort "left"))))
+                (entry "right"
+                  (closure
+                    (const)
+                    (isolated)
+                    (returns Int)
+                    (failing aborted)
+                    (body
+                      (call Standard.Control.abort "right")))))))
+          (result (array))
+          (rescue
+            (body
+              (let failures (as (path tried (field details) (index "failures")) (dictionary String Any))))
+            (result (call Standard.Collection.keys failures))))))
+    (result tried)))
+(expect (answers (array "left" "right")))

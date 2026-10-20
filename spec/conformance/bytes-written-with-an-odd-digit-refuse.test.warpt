@@ -1,11 +1,5 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "bytes-written-with-an-odd-digit-refuse"
-  note "Bytes are written two hex digits each. An odd digit spells no byte."
-  test 1
-  text "warpt 1\nx\"6a7\"\n"
-}
-
+(test 1)
+(name "bytes-written-with-an-odd-digit-refuse")
+(note "Bytes are written two hex digits each. An odd digit spells no byte.")
+(text "(warp 1)\n(const a x\"6a7\")\n")
+(expect (refuses load))

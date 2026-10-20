@@ -1,94 +1,33 @@
-warpt 1
-{
-  expect {
-    answers 2
-  }
-  name "a-const-procedure-read-out-of-a-dictionary-answers-without-running"
-  note "A slot writing `Dictionary<String, const (Int) -> Int>` says it of every entry, the way an array of them does. `asking` declares `const` and calls an entry it reads out by a key, which the build holds it to, so an operand may call it."
-  program {
-    imports [
-      "Standard.Numeric.plus"
-    ]
-    procedures {
-      asking {
-        body [
-          {
-            let "a"
-            value {
-              call {
-                arguments [
-                  1
-                ]
-                procedure {
-                  ref "body[key]"
-                }
-              }
-            }
-          }
-        ]
-        const true
-        parameters [
-          {
-            name "body"
-            type "Dictionary<String, const (Int) -> Int>"
-          }
-          {
-            name "key"
-            type "String"
-          }
-        ]
-        result {
-          ref "a"
-        }
-        returns "Int"
-      }
-      entry {
-        access "public"
-        const true
-        result {
-          call {
-            arguments [
-              {
-                call {
-                  arguments [
-                    {
-                      dictionary [
-                        [
-                          "k"
-                          {
-                            closure {
-                              const true
-                              isolated true
-                              parameters [
-                                {
-                                  name "x"
-                                  type "Int"
-                                }
-                              ]
-                              result {
-                                ref "x"
-                              }
-                              returns "Int"
-                            }
-                          }
-                        ]
-                      ]
-                    }
-                    "k"
-                  ]
-                  procedure "asking"
-                }
-              }
-              1
-            ]
-            procedure "Standard.Numeric.plus"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-const-procedure-read-out-of-a-dictionary-answers-without-running")
+(note "A slot writing `Dictionary<String, const (Int) -> Int>` says it of every entry, the way an array of them does. `asking` declares `const` and calls an entry it reads out by a key, which the build holds it to, so an operand may call it.")
 
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure asking
+    (const)
+    (parameter body (type (dictionary String (procedure (const) (parameters Int) (returns Int)))))
+    (parameter key (type String))
+    (returns Int)
+    (body
+      (let a (apply (path body (index key)) 1)))
+    (result a))
+  (procedure entry
+    (access public)
+    (const)
+    (returns Int)
+    (result
+      (call Standard.Numeric.plus
+        (call asking
+          (dictionary
+            (entry "k"
+              (closure
+                (const)
+                (isolated)
+                (parameter x (type Int))
+                (returns Int)
+                (result x))))
+          "k")
+        1))))
+(expect (answers 2))

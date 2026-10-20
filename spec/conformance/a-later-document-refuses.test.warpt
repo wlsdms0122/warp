@@ -1,20 +1,10 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-later-document-refuses"
-  note "A reader reads the version it implements and refuses a document that says another, before it judges the document's keys."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        result "hello"
-      }
-    }
-    warp 9999
-  }
-  test 1
-}
+(test 1)
+(name "a-later-document-refuses")
+(note "A reader reads the version it implements and refuses a document that says another, before it judges the document's keys.")
 
+(program
+  (warp 9999)
+  (procedure entry
+    (access public)
+    (result "hello")))
+(expect (refuses load))

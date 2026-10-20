@@ -1,111 +1,29 @@
-warpt 1
-{
-  expect {
-    answers 2
-  }
-  name "a-write-to-a-variable-handed-in-place-lands-in-every-round"
-  note "Each round writes an int into a variable that started null and hands it in place to an Int slot. The write lands in every round, so the variable reads Int where it is handed, in the first round and in every one after."
-  program {
-    imports [
-      "Standard.Comparable.lessThan"
-      "Standard.Numeric.plus"
-    ]
-    procedures {
-      "App.bump" {
-        body [
-          {
-            set "c"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "c"
-                  }
-                  1
-                ]
-                procedure "Standard.Numeric.plus"
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "c"
-            type "inout Int"
-          }
-        ]
-        result 0
-        returns "Int"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            var "x"
-          }
-          {
-            value 0
-            var "i"
-          }
-          {
-            let "w"
-            value {
-              loop {
-                body [
-                  {
-                    set "x"
-                    value 1
-                  }
-                  {
-                    value {
-                      call {
-                        arguments [
-                          {
-                            ref "x"
-                          }
-                        ]
-                        procedure "App.bump"
-                      }
-                    }
-                  }
-                  {
-                    set "i"
-                    value {
-                      call {
-                        arguments [
-                          {
-                            ref "i"
-                          }
-                          1
-                        ]
-                        procedure "Standard.Numeric.plus"
-                      }
-                    }
-                  }
-                ]
-                while {
-                  call {
-                    arguments [
-                      {
-                        ref "i"
-                      }
-                      2
-                    ]
-                    procedure "Standard.Comparable.lessThan"
-                  }
-                }
-              }
-            }
-          }
-        ]
-        result {
-          ref "x"
-        }
-        returns "Int?"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-write-to-a-variable-handed-in-place-lands-in-every-round")
+(note "Each round writes an int into a variable that started null and hands it in place to an Int slot. The write lands in every round, so the variable reads Int where it is handed, in the first round and in every one after.")
 
+(program
+  (warp 1)
+  (import Standard.Comparable.lessThan)
+  (import Standard.Numeric.plus)
+  (procedure App.bump
+    (parameter c (type (inout Int)))
+    (returns Int)
+    (body
+      (set c (call Standard.Numeric.plus c 1)))
+    (result 0))
+  (procedure entry
+    (access public)
+    (returns (nullable Int))
+    (body
+      (var x)
+      (var i 0)
+      (let w
+        (loop
+          (while (call Standard.Comparable.lessThan i 2))
+          (body
+            (set x 1)
+            (call App.bump x)
+            (set i (call Standard.Numeric.plus i 1))))))
+    (result x)))
+(expect (answers 2))

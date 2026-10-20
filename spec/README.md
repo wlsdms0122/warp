@@ -81,6 +81,7 @@ Each page is one part of the language, and each page of rules ends with the case
 | [Running](running.md) | what a run does, and what it may not do |
 | [The standard vocabulary](vocabulary.md) | the procedures every implementation brings |
 | [Encodings](encoding.md) | bytes for a value tree: `.warp` and `.warpt` |
+| [The text](text.md) | a document and a case written as the IR's own nodes |
 | [Objects](object.md) | what a build writes down, laid out so any implementation reads any other's |
 | [Conformance](conformance.md) | what a case is, and what a runner does |
 | [Known costs](cost.md) | where a decision lands a cost on an implementation |
@@ -90,7 +91,7 @@ Each page is one part of the language, and each page of rules ends with the case
 The pages can be read in any order and cannot be *built* in any order. What follows is the order in which each one's questions become answerable, which is also the order in which an implementation can keep its tests green as it grows.
 
 1. [The value model](value.md) and [Encodings](encoding.md). A value and its bytes owe nothing to anything else here, and until they read and write a reader has no document to hand the rest of the work.
-2. [The document format](document.md), [Procedures](procedure.md), [Statements](statement.md) and [Expressions](expression.md). The grammar. Reading one of these turns bytes into declarations, and what refuses here at the load refuses without any other document present.
+2. [The document format](document.md), [Procedures](procedure.md), [Statements](statement.md) and [Expressions](expression.md). The grammar. Reading one of these turns bytes into declarations, and what refuses here at the load refuses without any other document present. [The text](text.md) writes the same grammar as nodes.
 3. [Types](type.md). What a slot takes, judged against the declarations the grammar read.
 4. [What an implementation checks, and when](checking.md). The list is the contract: two implementations can agree on every answer and still not be the same language if one of them refuses later than the other.
 5. [Running](running.md) and [The standard vocabulary](vocabulary.md). What a sound program does, and the procedures it does it with.

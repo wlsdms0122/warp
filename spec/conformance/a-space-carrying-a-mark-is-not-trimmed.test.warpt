@@ -1,30 +1,12 @@
-warpt 1
-{
-  expect {
-    answers "a ́"
-  }
-  name "a-space-carrying-a-mark-is-not-trimmed"
-  note "A character goes only if every one of its code points is White_Space. A space carrying a combining mark is one character and two code points, and the mark is not White_Space, so it stays where it was written."
-  program {
-    imports [
-      "Standard.Text.trimmed"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              " a ́"
-            ]
-            procedure "Standard.Text.trimmed"
-          }
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-space-carrying-a-mark-is-not-trimmed")
+(note "A character goes only if every one of its code points is White_Space. A space carrying a combining mark is one character and two code points, and the mark is not White_Space, so it stays where it was written.")
 
+(program
+  (warp 1)
+  (import Standard.Text.trimmed)
+  (procedure entry
+    (access public)
+    (returns String)
+    (result (call Standard.Text.trimmed " a ́"))))
+(expect (answers "a ́"))

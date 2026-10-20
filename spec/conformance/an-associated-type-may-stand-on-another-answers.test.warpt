@@ -1,209 +1,65 @@
-warpt 1
-{
-  documents [
-    {
-      contracts {
-        "Lib.Keyed" {
-          procedures {
-            key {
-              parameters [
-                {
-                  name "of"
-                  type "Self"
-                }
-              ]
-              returns "Self.Key"
-            }
-          }
-          types [
-            "Key"
-          ]
-        }
-        "Lib.Outer" {
-          procedures {
-            first {
-              parameters [
-                {
-                  name "of"
-                  type "Self"
-                }
-              ]
-              returns "Self.Item"
-            }
-          }
-          types [
-            "Item: Lib.Keyed"
-          ]
-        }
-      }
-      imports []
-      warp 1
-    }
-    {
-      imports [
-        "Lib.Keyed"
-        "Lib.Outer"
-      ]
-      types {
-        "App.Card" {
-          procedures {
-            key {
-              access "public"
-              parameters [
-                {
-                  name "of"
-                  type "App.Card"
-                }
-              ]
-              result {
-                ref "of.k"
-              }
-              returns "Int"
-            }
-          }
-          satisfies [
-            "Lib.Keyed"
-          ]
-          struct {
-            k "Int"
-          }
-          types {
-            Key "Int"
-          }
-        }
-        "App.Shelf" {
-          procedures {
-            first {
-              access "public"
-              parameters [
-                {
-                  name "of"
-                  type "App.Shelf"
-                }
-              ]
-              result {
-                ref "of.card"
-              }
-              returns "App.Card"
-            }
-          }
-          satisfies [
-            "Lib.Outer"
-          ]
-          struct {
-            card "App.Card"
-          }
-          types {
-            Item "App.Card"
-          }
-        }
-      }
-      warp 1
-    }
-    {
-      imports [
-        "Lib.Keyed.key"
-        "Lib.Outer"
-        "Lib.Outer.first"
-      ]
-      procedures {
-        "Use.keyOf" {
-          access "public"
-          body [
-            {
-              let "x"
-              value {
-                call {
-                  arguments [
-                    {
-                      ref "c"
-                    }
-                  ]
-                  procedure "Lib.Outer.first"
-                }
-              }
-            }
-          ]
-          parameters [
-            {
-              name "c"
-              type "some C: Lib.Outer"
-            }
-          ]
-          result {
-            call {
-              arguments [
-                {
-                  ref "x"
-                }
-              ]
-              procedure "Lib.Keyed.key"
-            }
-          }
-          returns "some C.Item.Key"
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    answers 2
-  }
-  name "an-associated-type-may-stand-on-another-answers"
-  note "`Lib.Outer` asks Item and holds it to `Lib.Keyed`, which asks Key, so `some C.Item.Key` is the Key of the Item of C. App.Shelf gives Item as App.Card, which gives Key as Int, so what `Use.keyOf` answers for a shelf is an Int."
-  program {
-    imports [
-      "App.Shelf"
-      "Int.plus"
-      "Use.keyOf"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "s"
-            type "App.Shelf"
-            value {
-              struct {
-                card {
-                  struct {
-                    k 1
-                  }
-                }
-              }
-            }
-          }
-          {
-            let "r"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "s"
-                  }
-                ]
-                procedure "Use.keyOf"
-              }
-            }
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "r"
-              }
-              1
-            ]
-            procedure "Int.plus"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-associated-type-may-stand-on-another-answers")
+(note "`Lib.Outer` asks Item and holds it to `Lib.Keyed`, which asks Key, so `some C.Item.Key` is the Key of the Item of C. App.Shelf gives Item as App.Card, which gives Key as Int, so what `Use.keyOf` answers for a shelf is an Int.")
 
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Keyed
+      (type Key)
+      (procedure key
+        (parameter of (type Self))
+        (returns Self.Key)))
+    (contract Lib.Outer
+      (type Item Lib.Keyed)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item))))
+  (document
+    (warp 1)
+    (import Lib.Keyed)
+    (import Lib.Outer)
+    (struct App.Card
+      (satisfies Lib.Keyed)
+      (field k Int)
+      (type Key Int)
+      (procedure key
+        (access public)
+        (parameter of (type App.Card))
+        (returns Int)
+        (result (path of (field k)))))
+    (struct App.Shelf
+      (satisfies Lib.Outer)
+      (field card App.Card)
+      (type Item App.Card)
+      (procedure first
+        (access public)
+        (parameter of (type App.Shelf))
+        (returns App.Card)
+        (result (path of (field card))))))
+  (document
+    (warp 1)
+    (import Lib.Keyed.key)
+    (import Lib.Outer)
+    (import Lib.Outer.first)
+    (procedure Use.keyOf
+      (access public)
+      (parameter c (type (some C Lib.Outer)))
+      (returns (some C.Item.Key))
+      (body
+        (let x (call Lib.Outer.first c)))
+      (result (call Lib.Keyed.key x)))))
+
+(program
+  (warp 1)
+  (import App.Shelf)
+  (import Int.plus)
+  (import Use.keyOf)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let s (type App.Shelf) (struct (field card (struct (field k 1)))))
+      (let r (call Use.keyOf s)))
+    (result (call Int.plus r 1))))
+(expect (answers 2))

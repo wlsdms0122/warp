@@ -1,36 +1,13 @@
-warpt 1
-{
-  arguments {
-    payload "not a whole number"
-  }
-  expect {
-    answers null
-  }
-  name "the-asking-cast-reads-a-mismatch-as-null"
-  note "`as?` is `as` with the mark `?.` carries: the author expects the value may not be the named type, so the mismatch reads as null instead of refusing, and the answer is `T?`."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        parameters [
-          {
-            name "payload"
-          }
-        ]
-        result {
-          "as?" {
-            of {
-              ref "payload"
-            }
-            type "Int"
-          }
-        }
-        returns "Int?"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "the-asking-cast-reads-a-mismatch-as-null")
+(note "`as?` is `as` with the mark `?.` carries: the author expects the value may not be the named type, so the mismatch reads as null instead of refusing, and the answer is `T?`.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter payload)
+    (returns (nullable Int))
+    (result (as? payload Int))))
+(arguments (argument payload "not a whole number"))
+(expect (answers null))

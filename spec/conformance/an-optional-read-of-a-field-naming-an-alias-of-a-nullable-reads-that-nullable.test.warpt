@@ -1,51 +1,18 @@
-warpt 1
-{
-  arguments {
-    r App.R {
-      f 3
-    }
-  }
-  expect {
-    answers 3
-  }
-  name "an-optional-read-of-a-field-naming-an-alias-of-a-nullable-reads-that-nullable"
-  note "`App.OI` is a spelling of `Int?`, and `r?.f` reads a field of that type past a possible absence. What may be null already, read past an absence, is what it was, so the read is `Int?` and stands where `y` declares `Int?`."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "y"
-            type "Int?"
-            value {
-              ref "r?.f"
-            }
-          }
-        ]
-        parameters [
-          {
-            name "r"
-            type "App.R?"
-          }
-        ]
-        result {
-          ref "y"
-        }
-        returns "Int?"
-      }
-    }
-    types {
-      "App.OI" "Int?"
-      "App.R" {
-        struct {
-          f "App.OI"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-optional-read-of-a-field-naming-an-alias-of-a-nullable-reads-that-nullable")
+(note "`App.OI` is a spelling of `Int?`, and `r?.f` reads a field of that type past a possible absence. What may be null already, read past an absence, is what it was, so the read is `Int?` and stands where `y` declares `Int?`.")
 
+(program
+  (warp 1)
+  (type App.OI (nullable Int))
+  (struct App.R
+    (field f App.OI))
+  (procedure entry
+    (access public)
+    (parameter r (type (nullable App.R)))
+    (returns (nullable Int))
+    (body
+      (let y (type (nullable Int)) (path r (field? f))))
+    (result y)))
+(arguments (argument r (struct App.R (field f 3))))
+(expect (answers 3))

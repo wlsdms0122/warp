@@ -1,37 +1,5 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-backslash-before-what-it-does-not-escape-refuses"
-  note "Inside the quotes a backslash escapes a quote or a backslash and nothing else, so each key has one spelling."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "d"
-            type "Dictionary<String, Int>"
-            value {
-              dictionary [
-                [
-                  "an"
-                  1
-                ]
-              ]
-            }
-          }
-        ]
-        result {
-          ref "d[\"a\\n\"]"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
-
+(test 1)
+(name "a-backslash-before-what-it-does-not-escape-refuses")
+(note "Inside the quotes a backslash escapes a quote or a backslash and nothing else, so each key has one spelling.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "let" "d") (entry "type" "Dictionary<String, Int>") (entry "value" (dictionary (entry "dictionary" (array (array "an" 1)))))))) (entry "result" (dictionary (entry "ref" "d[\"a\\n\"]"))) (entry "returns" "Int"))))) (entry "warp" 1)))
+(expect (refuses load))

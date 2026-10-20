@@ -1,11 +1,5 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-bare-token-running-into-a-quote-refuses"
-  note "Whitespace separates a bare token from a string. `a\"hi\"` is not a key and a value laid out close together: a bare token ends at whitespace or a bracket, and the one token that begins with a letter and a quote is bytes, `x\"6a\"`."
-  test 1
-  text "warpt 1\n{ a\"hi\" }\n"
-}
-
+(test 1)
+(name "a-bare-token-running-into-a-quote-refuses")
+(note "White space or a parenthesis separates a bare token from what follows it. `a\"hi\"` is neither a name and text laid out close together nor bytes, which `x` alone begins.")
+(text "(warp 1)\n(const a\"hi\")\n")
+(expect (refuses load))

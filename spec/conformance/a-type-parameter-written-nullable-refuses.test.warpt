@@ -1,29 +1,13 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-type-parameter-written-nullable-refuses"
-  note "The `?` is written only where it says something new. A type parameter stands for the whole type the call fills in, so `some T?` writes `?` where it says nothing a parameter does not, and refuses at the load."
-  program {
-    imports []
-    procedures {
-      "App.f" {
-        parameters [
-          {
-            name "x"
-            type "some T?"
-          }
-        ]
-        result 1
-      }
-      entry {
-        access "public"
-        result 1
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-type-parameter-written-nullable-refuses")
+(note "The `?` is written only where it says something new. A type parameter stands for the whole type the call fills in, so `some T?` writes `?` where it says nothing a parameter does not, and refuses at the load.")
 
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter x (type (nullable (some T))))
+    (result 1))
+  (procedure entry
+    (access public)
+    (result 1)))
+(expect (refuses load))

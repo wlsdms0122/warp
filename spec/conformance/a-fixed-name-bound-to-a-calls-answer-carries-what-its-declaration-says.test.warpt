@@ -1,98 +1,33 @@
-warpt 1
-{
-  expect {
-    answers [
-      1
-      2
-    ]
-  }
-  name "a-fixed-name-bound-to-a-calls-answer-carries-what-its-declaration-says"
-  note "`f` is bound to what calling `make` answers, and `make` declares that it answers a `const` procedure type. A call of a declaration answers what the declaration says, so `f` follows that type, and a closure that captured `f` and declares `const` may call it."
-  program {
-    imports [
-      "Standard.Collection.map"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "f"
-            value {
-              call {
-                procedure "make"
-              }
-            }
-          }
-        ]
-        result {
-          call {
-            arguments [
-              [
-                1
-                2
-              ]
-              {
-                closure {
-                  body [
-                    {
-                      let "y"
-                      value {
-                        call {
-                          arguments [
-                            {
-                              ref "x"
-                            }
-                          ]
-                          procedure {
-                            ref "f"
-                          }
-                        }
-                      }
-                    }
-                  ]
-                  const true
-                  isolated true
-                  parameters [
-                    {
-                      name "x"
-                      type "Int"
-                    }
-                  ]
-                  result {
-                    ref "y"
-                  }
-                  returns "Int"
-                }
-              }
-            ]
-            procedure "Standard.Collection.map"
-          }
-        }
-        returns "Array<Int>"
-      }
-      make {
-        result {
-          closure {
-            const true
-            isolated true
-            parameters [
-              {
-                name "x"
-                type "Int"
-              }
-            ]
-            result {
-              ref "x"
-            }
-            returns "Int"
-          }
-        }
-        returns "const isolated (Int) -> Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-fixed-name-bound-to-a-calls-answer-carries-what-its-declaration-says")
+(note "`f` is bound to what calling `make` answers, and `make` declares that it answers a `const` procedure type. A call of a declaration answers what the declaration says, so `f` follows that type, and a closure that captured `f` and declares `const` may call it.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.map)
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (body
+      (let f (call make)))
+    (result
+      (call Standard.Collection.map
+        (array 1 2)
+        (closure
+          (const)
+          (isolated)
+          (parameter x (type Int))
+          (returns Int)
+          (body
+            (let y (apply f x)))
+          (result y)))))
+  (procedure make
+    (returns (procedure (const) (isolated) (parameters Int) (returns Int)))
+    (result
+      (closure
+        (const)
+        (isolated)
+        (parameter x (type Int))
+        (returns Int)
+        (result x)))))
+(expect (answers (array 1 2)))

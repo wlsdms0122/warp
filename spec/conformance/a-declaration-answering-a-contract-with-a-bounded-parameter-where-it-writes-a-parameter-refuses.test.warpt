@@ -1,126 +1,38 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-declaration-answering-a-contract-with-a-bounded-parameter-where-it-writes-a-parameter-refuses"
-  note "The contract takes its own some T at n, bounded by nothing, and the declaration answering it takes some U there, bounded by App.Whole. Nothing about T proves it is an int."
-  program {
-    contracts {
-      "App.Shown" {
-        procedures {
-          show {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-              {
-                name "n"
-                type "some T"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-      "App.Sized" {
-        procedures {
-          size {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "Int"
-          }
-        }
-      }
-      "App.Whole" {}
-    }
-    extensions {
-      Int {
-        satisfies [
-          "App.Whole"
-        ]
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "c"
-            value {
-              as {
-                of {
-                  struct {
-                    last "4"
-                  }
-                }
-                type "Bank.Card"
-              }
-            }
-          }
-          {
-            let "s"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "c"
-                  }
-                  3
-                ]
-                procedure "App.Shown.show"
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result {
-          ref "s"
-        }
-        returns "String"
-      }
-    }
-    types {
-      "Bank.Card" {
-        procedures {
-          show {
-            parameters [
-              {
-                name "of"
-                type "Bank.Card"
-              }
-              {
-                name "n"
-                type "some U: App.Whole"
-              }
-            ]
-            result "shown"
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.Shown"
-        ]
-        struct {
-          last "String"
-        }
-      }
-      "Bank.Coin" {
-        struct {
-          cents "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-declaration-answering-a-contract-with-a-bounded-parameter-where-it-writes-a-parameter-refuses")
+(note "The contract takes its own some T at n, bounded by nothing, and the declaration answering it takes some U there, bounded by App.Whole. Nothing about T proves it is an int.")
 
+(program
+  (warp 1)
+  (struct Bank.Card
+    (satisfies App.Shown)
+    (field last String)
+    (procedure show
+      (parameter of (type Bank.Card))
+      (parameter n (type (some U App.Whole)))
+      (returns String)
+      (result "shown")))
+  (struct Bank.Coin
+    (field cents Int))
+  (contract App.Shown
+    (procedure show
+      (parameter of (type Self))
+      (parameter n (type (some T)))
+      (returns String)))
+  (contract App.Sized
+    (procedure size
+      (parameter of (type Self))
+      (returns Int)))
+  (contract App.Whole)
+  (extension
+    (head Int)
+    (satisfies App.Whole))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let c (as (struct (field last "4")) Bank.Card))
+      (let s (call App.Shown.show c 3)))
+    (result s)))
+(expect (refuses build))

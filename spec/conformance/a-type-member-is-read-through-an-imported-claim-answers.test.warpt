@@ -1,152 +1,50 @@
-warpt 1
-{
-  documents [
-    {
-      contracts {
-        "Lib.Container" {
-          procedures {
-            first {
-              parameters [
-                {
-                  name "of"
-                  type "Self"
-                }
-              ]
-              returns "Self.Item"
-            }
-          }
-          types [
-            "Item"
-          ]
-        }
-      }
-      imports []
-      procedures {
-        "Lib.firstOf" {
-          access "public"
-          parameters [
-            {
-              name "c"
-              type "some C: Lib.Container"
-            }
-          ]
-          result {
-            call {
-              arguments [
-                {
-                  ref "c"
-                }
-              ]
-              procedure "Lib.Container.first"
-            }
-          }
-          returns "some C.Item"
-        }
-      }
-      warp 1
-    }
-    {
-      imports []
-      types {
-        "App.Box" {
-          struct {
-            item "some T"
-          }
-          typeParameters [
-            "T"
-          ]
-        }
-      }
-      warp 1
-    }
-    {
-      extensions {
-        "App.Box<some T>" {
-          procedures {
-            first {
-              access "public"
-              parameters [
-                {
-                  name "of"
-                  type "App.Box<some T>"
-                }
-              ]
-              result {
-                ref "of.item"
-              }
-              returns "some T"
-            }
-          }
-          satisfies [
-            "Lib.Container"
-          ]
-          types {
-            Item "some T"
-          }
-        }
-      }
-      imports [
-        "App.Box"
-        "Lib.Container"
-      ]
-      warp 1
-    }
-  ]
-  expect {
-    answers 2
-  }
-  name "a-type-member-is-read-through-an-imported-claim-answers"
-  note "The claim and the type member giving Item stand in a document the program names nothing of. It imports the claim, and a box of Int gives Item as Int."
-  program {
-    imports [
-      "App.Box"
-      "App.Box: Lib.Container"
-      "Int.plus"
-      "Lib.firstOf"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "b"
-            type "App.Box<Int>"
-            value {
-              struct {
-                item 1
-              }
-            }
-          }
-          {
-            let "x"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "b"
-                  }
-                ]
-                procedure "Lib.firstOf"
-              }
-            }
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "x"
-              }
-              1
-            ]
-            procedure "Int.plus"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-type-member-is-read-through-an-imported-claim-answers")
+(note "The claim and the type member giving Item stand in a document the program names nothing of. It imports the claim, and a box of Int gives Item as Int.")
 
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Container
+      (type Item)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item)))
+    (procedure Lib.firstOf
+      (access public)
+      (parameter c (type (some C Lib.Container)))
+      (returns (some C.Item))
+      (result (call Lib.Container.first c))))
+  (document
+    (warp 1)
+    (struct App.Box
+      (typeParameter T)
+      (field item (some T))))
+  (document
+    (warp 1)
+    (import App.Box)
+    (import Lib.Container)
+    (extension
+      (head (named App.Box (some T)))
+      (satisfies Lib.Container)
+      (type Item (some T))
+      (procedure first
+        (access public)
+        (parameter of (type (named App.Box (some T))))
+        (returns (some T))
+        (result (path of (field item)))))))
+
+(program
+  (warp 1)
+  (import App.Box)
+  (import App.Box Lib.Container)
+  (import Int.plus)
+  (import Lib.firstOf)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let b (type (named App.Box Int)) (struct (field item 1)))
+      (let x (call Lib.firstOf b)))
+    (result (call Int.plus x 1))))
+(expect (answers 2))

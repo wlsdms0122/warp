@@ -1,160 +1,56 @@
-warpt 1
-{
-  documents [
-    {
-      contracts {
-        "Lib.Bag" {
-          procedures {
-            first {
-              parameters [
-                {
-                  name "of"
-                  type "Self"
-                }
-              ]
-              returns "Self.Item"
-            }
-            take {
-              parameters [
-                {
-                  name "of"
-                  type "Self"
-                }
-                {
-                  name "x"
-                  type "Self.Item"
-                }
-              ]
-              returns "Int"
-            }
-          }
-          types [
-            "Item"
-          ]
-        }
-      }
-      imports []
-      warp 1
-    }
-    {
-      imports [
-        "Lib.Bag"
-      ]
-      types {
-        "App.MaybeBag" {
-          procedures {
-            first {
-              access "public"
-              parameters [
-                {
-                  name "of"
-                  type "App.MaybeBag"
-                }
-              ]
-              result {
-                ref "of.n"
-              }
-              returns "Int?"
-            }
-            take {
-              access "public"
-              parameters [
-                {
-                  name "of"
-                  type "App.MaybeBag"
-                }
-                {
-                  name "x"
-                  type "Int?"
-                }
-              ]
-              result 0
-              returns "Int"
-            }
-          }
-          satisfies [
-            "Lib.Bag"
-          ]
-          struct {
-            n "Int?"
-          }
-          types {
-            Item "Int?"
-          }
-        }
-      }
-      warp 1
-    }
-    {
-      imports [
-        "Lib.Bag"
-      ]
-      procedures {
-        "Use.putH" {
-          access "public"
-          bounds {
-            "C.Item" "Hashable"
-          }
-          parameters [
-            {
-              name "c"
-              type "some C: Lib.Bag"
-            }
-            {
-              name "xs"
-              type "Array<some C.Item>"
-            }
-          ]
-          result 0
-          returns "Int"
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    answers 0
-  }
-  name "a-nullable-associated-type-bounded-hashable-fills-a-list-answers"
-  note "App.MaybeBag gives Item as `Int?`, one type, which answers Hashable, so `Use.putH`, bounding `C.Item` by Hashable and taking a list of it, takes a list of `Int?`."
-  program {
-    imports [
-      "App.MaybeBag"
-      "Use.putH"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "b"
-            type "App.MaybeBag"
-            value {
-              struct {
-                n null
-              }
-            }
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "b"
-              }
-              [
-                1
-                null
-              ]
-            ]
-            procedure "Use.putH"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-nullable-associated-type-bounded-hashable-fills-a-list-answers")
+(note "App.MaybeBag gives Item as `Int?`, one type, which answers Hashable, so `Use.putH`, bounding `C.Item` by Hashable and taking a list of it, takes a list of `Int?`.")
 
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Bag
+      (type Item)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item))
+      (procedure take
+        (parameter of (type Self))
+        (parameter x (type Self.Item))
+        (returns Int))))
+  (document
+    (warp 1)
+    (import Lib.Bag)
+    (struct App.MaybeBag
+      (satisfies Lib.Bag)
+      (field n (nullable Int))
+      (type Item (nullable Int))
+      (procedure first
+        (access public)
+        (parameter of (type App.MaybeBag))
+        (returns (nullable Int))
+        (result (path of (field n))))
+      (procedure take
+        (access public)
+        (parameter of (type App.MaybeBag))
+        (parameter x (type (nullable Int)))
+        (returns Int)
+        (result 0))))
+  (document
+    (warp 1)
+    (import Lib.Bag)
+    (procedure Use.putH
+      (access public)
+      (parameter c (type (some C Lib.Bag)))
+      (parameter xs (type (array (some C.Item))))
+      (returns Int)
+      (bound C.Item Hashable)
+      (result 0))))
+
+(program
+  (warp 1)
+  (import App.MaybeBag)
+  (import Use.putH)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let b (type App.MaybeBag) (struct (field n null))))
+    (result (call Use.putH b (array 1 null)))))
+(expect (answers 0))

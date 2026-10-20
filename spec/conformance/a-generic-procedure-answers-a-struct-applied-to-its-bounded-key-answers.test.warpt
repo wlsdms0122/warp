@@ -1,70 +1,21 @@
-warpt 1
-{
-  expect {
-    answers 1
-  }
-  name "a-generic-procedure-answers-a-struct-applied-to-its-bounded-key-answers"
-  note "`App.single` bounds `K` by `Hashable` and answers `App.Cache<some K, Int>`, so a call handing a `String` answers an `App.Cache<String, Int>`."
-  program {
-    imports []
-    procedures {
-      "App.single" {
-        parameters [
-          {
-            name "k"
-            type "some K: Hashable"
-          }
-        ]
-        result {
-          struct {
-            table {
-              dictionary [
-                [
-                  {
-                    ref "k"
-                  }
-                  1
-                ]
-              ]
-            }
-          }
-        }
-        returns "App.Cache<some K, Int>"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "c"
-            value {
-              call {
-                arguments [
-                  "a"
-                ]
-                procedure "App.single"
-              }
-            }
-          }
-        ]
-        result {
-          ref "c.table[\"a\"]"
-        }
-        returns "Int?"
-      }
-    }
-    types {
-      "App.Cache" {
-        struct {
-          table "Dictionary<some K, some V>"
-        }
-        typeParameters [
-          "K: Hashable"
-          "V"
-        ]
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-generic-procedure-answers-a-struct-applied-to-its-bounded-key-answers")
+(note "`App.single` bounds `K` by `Hashable` and answers `App.Cache<some K, Int>`, so a call handing a `String` answers an `App.Cache<String, Int>`.")
 
+(program
+  (warp 1)
+  (struct App.Cache
+    (typeParameter K Hashable)
+    (typeParameter V)
+    (field table (dictionary (some K) (some V))))
+  (procedure App.single
+    (parameter k (type (some K Hashable)))
+    (returns (named App.Cache (some K) Int))
+    (result (struct (field table (dictionary (entry k 1))))))
+  (procedure entry
+    (access public)
+    (returns (nullable Int))
+    (body
+      (let c (call App.single "a")))
+    (result (path c (field table) (index "a")))))
+(expect (answers 1))

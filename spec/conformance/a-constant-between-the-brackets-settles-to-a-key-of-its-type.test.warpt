@@ -1,44 +1,14 @@
-warpt 1
-{
-  expect {
-    answers 1
-  }
-  name "a-constant-between-the-brackets-settles-to-a-key-of-its-type"
-  note "A constant between the brackets settles at the build to the value it reads, whatever its type, and that value stands as a key written there would."
-  program {
-    const {
-      K true
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "d"
-            type "Dictionary<Bool, Int>"
-            value {
-              dictionary [
-                [
-                  false
-                  0
-                ]
-                [
-                  true
-                  1
-                ]
-              ]
-            }
-          }
-        ]
-        result {
-          ref "d[K]"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-constant-between-the-brackets-settles-to-a-key-of-its-type")
+(note "A constant between the brackets settles at the build to the value it reads, whatever its type, and that value stands as a key written there would.")
 
+(program
+  (warp 1)
+  (const K true)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let d (type (dictionary Bool Int)) (dictionary (entry false 0) (entry true 1))))
+    (result (path d (index K)))))
+(expect (answers 1))

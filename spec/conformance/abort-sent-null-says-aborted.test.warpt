@@ -1,72 +1,20 @@
-warpt 1
-{
-  expect {
-    answers {
-      message "aborted"
-      type "aborted"
-    }
-  }
-  name "abort-sent-null-says-aborted"
-  note "`abort` takes `message: Any`, and null is a value `Any` admits. Null spells nothing, and a failure says something, so the message is `aborted`. A bare `var` holds null, and `abort` reads it."
-  program {
-    imports [
-      "Standard.Control.abort"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            var "nothing"
-          }
-          {
-            let "tried"
-            value {
-              attempt {
-                body [
-                  {
-                    value {
-                      call {
-                        arguments [
-                          {
-                            ref "nothing"
-                          }
-                        ]
-                        procedure "Standard.Control.abort"
-                      }
-                    }
-                  }
-                ]
-                rescue {
-                  result {
-                    dictionary [
-                      [
-                        "message"
-                        {
-                          ref "tried.message"
-                        }
-                      ]
-                      [
-                        "type"
-                        {
-                          ref "tried.type"
-                        }
-                      ]
-                    ]
-                  }
-                }
-              }
-            }
-          }
-        ]
-        result {
-          ref "tried"
-        }
-        returns "Dictionary<String, String>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "abort-sent-null-says-aborted")
+(note "`abort` takes `message: Any`, and null is a value `Any` admits. Null spells nothing, and a failure says something, so the message is `aborted`. A bare `var` holds null, and `abort` reads it.")
 
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (returns (dictionary String String))
+    (body
+      (var nothing)
+      (let tried
+        (attempt
+          (body
+            (call Standard.Control.abort nothing))
+          (rescue
+            (result (dictionary (entry "message" (path tried (field message))) (entry "type" (path tried (field type)))))))))
+    (result tried)))
+(expect (answers (dictionary (entry "message" "aborted") (entry "type" "aborted"))))

@@ -1,131 +1,56 @@
-warpt 1
-{
-  documents [
-    {
-      contracts {
-        "App.Describable" {
-          procedures {
-            describe {
-              parameters [
-                {
-                  name "of"
-                  type "Self"
-                }
-              ]
-              returns "String"
-            }
-          }
-        }
-      }
-      imports []
-      warp 1
-    }
-    {
-      imports []
-      types {
-        "T.Card" {
-          procedures {
-            describe {
-              parameters [
-                {
-                  name "of"
-                  type "T.Card"
-                }
-              ]
-              result "card"
-              returns "String"
-            }
-          }
-          struct {
-            rank "Int"
-          }
-        }
-      }
-      warp 1
-    }
-    {
-      imports []
-      types {
-        "App.Key" {
-          struct {
-            n "Int"
-          }
-        }
-      }
-      warp 1
-    }
-    {
-      extensions {
-        "App.Key" {
-          satisfies [
-            "Hashable"
-          ]
-        }
-      }
-      imports [
-        "App.Key"
-      ]
-      procedures {
-        "X.mark" {
-          access "public"
-          result 1
-          returns "Int"
-        }
-      }
-      warp 1
-    }
-    {
-      extensions {
-        "T.Card" {
-          satisfies [
-            "App.Describable"
-          ]
-        }
-      }
-      imports [
-        "App.Describable"
-        "T.Card"
-        "X.mark"
-      ]
-      procedures {
-        "D.mark" {
-          access "public"
-          result {
-            call {
-              procedure "X.mark"
-            }
-          }
-          returns "Int"
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    refuses "build"
-  }
-  name "a-claim-imported-brings-nothing-its-maker-stands-on"
-  note "A claim imported is the claim and not what the document making it stands on. The program imports the claim that T.Card answers App.Describable, made in a document standing on the one claiming App.Key answers `Hashable`, and names App.Key and nothing of that document, so a map keyed by App.Key refuses at the build."
-  program {
-    imports [
-      "App.Key"
-      "T.Card: App.Describable"
-    ]
-    procedures {
-      entry {
-        access "public"
-        parameters [
-          {
-            name "m"
-            type "Dictionary<App.Key, Int>?"
-          }
-        ]
-        result 1
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-claim-imported-brings-nothing-its-maker-stands-on")
+(note "A claim imported is the claim and not what the document making it stands on. The program imports the claim that T.Card answers App.Describable, made in a document standing on the one claiming App.Key answers `Hashable`, and names App.Key and nothing of that document, so a map keyed by App.Key refuses at the build.")
 
+(documents
+  (document
+    (warp 1)
+    (contract App.Describable
+      (procedure describe
+        (parameter of (type Self))
+        (returns String))))
+  (document
+    (warp 1)
+    (struct T.Card
+      (field rank Int)
+      (procedure describe
+        (parameter of (type T.Card))
+        (returns String)
+        (result "card"))))
+  (document
+    (warp 1)
+    (struct App.Key
+      (field n Int)))
+  (document
+    (warp 1)
+    (import App.Key)
+    (extension
+      (head App.Key)
+      (satisfies Hashable))
+    (procedure X.mark
+      (access public)
+      (returns Int)
+      (result 1)))
+  (document
+    (warp 1)
+    (import App.Describable)
+    (import T.Card)
+    (import X.mark)
+    (extension
+      (head T.Card)
+      (satisfies App.Describable))
+    (procedure D.mark
+      (access public)
+      (returns Int)
+      (result (call X.mark)))))
+
+(program
+  (warp 1)
+  (import App.Key)
+  (import T.Card App.Describable)
+  (procedure entry
+    (access public)
+    (parameter m (type (nullable (dictionary App.Key Int))))
+    (returns Int)
+    (result 1)))
+(expect (refuses build))

@@ -1,59 +1,19 @@
-warpt 1
-{
-  expect {
-    answers null
-  }
-  name "a-claim-about-null-answers-null-where-the-contract-answers-self-or-null"
-  note "For a claim about `Null`, `Self?` in the answer is `Null`, so `Null.find` answering `Null` holds the claim, as a parameter written `Null` does where the contract takes `Self?`."
-  program {
-    contracts {
-      "App.Pick" {
-        procedures {
-          find {
-            parameters [
-              {
-                name "s"
-                type "Self"
-              }
-            ]
-            returns "Self?"
-          }
-        }
-      }
-    }
-    extensions {
-      Null {
-        procedures {
-          find {
-            parameters [
-              {
-                name "s"
-                type "Null"
-              }
-            ]
-          }
-        }
-        satisfies [
-          "App.Pick"
-        ]
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              null
-            ]
-            procedure "App.Pick.find"
-          }
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-claim-about-null-answers-null-where-the-contract-answers-self-or-null")
+(note "For a claim about `Null`, `Self?` in the answer is `Null`, so `Null.find` answering `Null` holds the claim, as a parameter written `Null` does where the contract takes `Self?`.")
 
+(program
+  (warp 1)
+  (contract App.Pick
+    (procedure find
+      (parameter s (type Self))
+      (returns (nullable Self))))
+  (extension
+    (head Null)
+    (satisfies App.Pick)
+    (procedure find
+      (parameter s (type Null))))
+  (procedure entry
+    (access public)
+    (result (call App.Pick.find null))))
+(expect (answers null))

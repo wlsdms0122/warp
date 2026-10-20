@@ -1,86 +1,29 @@
-warpt 1
-{
-  expect {
-    answers 2
-  }
-  name "a-struct-applied-to-a-closure-from-a-call-stands-at-the-procedure-type-it-declares-answers"
-  note "A struct a call answers is read as applied to what its value reads as, and a procedure there is read as its positions and answer, the constness and isolation its signature declares meeting what is declared. So `App.wrap`'s box of a closure declaring `const` and `isolated` stands where `App.Box<App.F>` is declared."
-  program {
-    imports []
-    procedures {
-      "App.wrap" {
-        parameters [
-          {
-            name "x"
-            type "some T"
-          }
-        ]
-        result {
-          struct {
-            item {
-              ref "x"
-            }
-          }
-        }
-        returns "App.Box<some T>"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "b"
-            type "App.Box<App.F>"
-            value {
-              call {
-                arguments [
-                  {
-                    closure {
-                      const true
-                      isolated true
-                      parameters [
-                        {
-                          name "x"
-                          type "Int"
-                        }
-                      ]
-                      result {
-                        ref "x"
-                      }
-                      returns "Int"
-                    }
-                  }
-                ]
-                procedure "App.wrap"
-              }
-            }
-          }
-        ]
-        result {
-          call {
-            arguments [
-              2
-            ]
-            procedure {
-              ref "b.item"
-            }
-          }
-        }
-        returns "Int"
-      }
-    }
-    types {
-      "App.Box" {
-        struct {
-          item "some T"
-        }
-        typeParameters [
-          "T"
-        ]
-      }
-      "App.F" "(Int) -> Int"
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-struct-applied-to-a-closure-from-a-call-stands-at-the-procedure-type-it-declares-answers")
+(note "A struct a call answers is read as applied to what its value reads as, and a procedure there is read as its positions and answer, the constness and isolation its signature declares meeting what is declared. So `App.wrap`'s box of a closure declaring `const` and `isolated` stands where `App.Box<App.F>` is declared.")
 
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (type App.F (procedure (parameters Int) (returns Int)))
+  (procedure App.wrap
+    (parameter x (type (some T)))
+    (returns (named App.Box (some T)))
+    (result (struct (field item x))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let b
+        (type (named App.Box App.F))
+        (call App.wrap
+          (closure
+            (const)
+            (isolated)
+            (parameter x (type Int))
+            (returns Int)
+            (result x)))))
+    (result (apply (path b (field item)) 2))))
+(expect (answers 2))

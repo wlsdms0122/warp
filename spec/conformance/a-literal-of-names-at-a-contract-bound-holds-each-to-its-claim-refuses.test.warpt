@@ -1,132 +1,35 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-literal-of-names-at-a-contract-bound-holds-each-to-its-claim-refuses"
-  note "`App.f` bounds `T` by the contract `App.Describable` and takes `Array<Array<some T>>`. The literal `[ps, qs]` handed there holds a list of `Bank.P`, which a document says answers it, and a list of `Bank.Q`, which none does. Each name read at the parameter is held to its own claim, so the call refuses at the build where `Bank.Q` has none."
-  program {
-    contracts {
-      "App.Describable" {
-        procedures {
-          describe {
-            const true
-            isolated true
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    imports []
-    procedures {
-      "App.f" {
-        parameters [
-          {
-            name "gs"
-            type "Array<Array<some T: App.Describable>>"
-          }
-        ]
-        result 0
-        returns "Int"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "ps"
-            type "Array<Bank.P>"
-            value [
-              {
-                as {
-                  of {
-                    struct {
-                      a "1"
-                    }
-                  }
-                  type "Bank.P"
-                }
-              }
-            ]
-          }
-          {
-            let "qs"
-            type "Array<Bank.Q>"
-            value [
-              {
-                as {
-                  of {
-                    struct {
-                      b "1"
-                    }
-                  }
-                  type "Bank.Q"
-                }
-              }
-            ]
-          }
-          {
-            let "r"
-            value {
-              call {
-                arguments [
-                  [
-                    {
-                      ref "ps"
-                    }
-                    {
-                      ref "qs"
-                    }
-                  ]
-                ]
-                procedure "App.f"
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result {
-          ref "r"
-        }
-        returns "Int"
-      }
-    }
-    types {
-      "Bank.P" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Bank.P"
-              }
-            ]
-            result "p"
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.Describable"
-        ]
-        struct {
-          a "String"
-        }
-      }
-      "Bank.Q" {
-        struct {
-          b "String"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-literal-of-names-at-a-contract-bound-holds-each-to-its-claim-refuses")
+(note "`App.f` bounds `T` by the contract `App.Describable` and takes `Array<Array<some T>>`. The literal `[ps, qs]` handed there holds a list of `Bank.P`, which a document says answers it, and a list of `Bank.Q`, which none does. Each name read at the parameter is held to its own claim, so the call refuses at the build where `Bank.Q` has none.")
 
+(program
+  (warp 1)
+  (struct Bank.P
+    (satisfies App.Describable)
+    (field a String)
+    (procedure describe
+      (parameter of (type Bank.P))
+      (returns String)
+      (result "p")))
+  (struct Bank.Q
+    (field b String))
+  (contract App.Describable
+    (procedure describe
+      (const)
+      (isolated)
+      (parameter of (type Self))
+      (returns String)))
+  (procedure App.f
+    (parameter gs (type (array (array (some T App.Describable)))))
+    (returns Int)
+    (result 0))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing cast_refused)
+    (body
+      (let ps (type (array Bank.P)) (array (as (struct (field a "1")) Bank.P)))
+      (let qs (type (array Bank.Q)) (array (as (struct (field b "1")) Bank.Q)))
+      (let r (call App.f (array ps qs))))
+    (result r)))
+(expect (refuses build))

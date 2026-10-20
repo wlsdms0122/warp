@@ -1,34 +1,12 @@
-warpt 1
-{
-  expect {
-    answers true
-  }
-  name "bytes-and-an-array-share-their-worth"
-  note "Bytes are a list of whole numbers: x\"6869\" is the compact spelling of the whole numbers 104 and 105 in order, and `equal` compares worth, so the two spellings are one value the way 1 and 1.0 are."
-  program {
-    imports [
-      "Standard.Logic.equal"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              x"6869"
-              [
-                104
-                105
-              ]
-            ]
-            procedure "Standard.Logic.equal"
-          }
-        }
-        returns "Bool"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "bytes-and-an-array-share-their-worth")
+(note "Bytes are a list of whole numbers: x\"6869\" is the compact spelling of the whole numbers 104 and 105 in order, and `equal` compares worth, so the two spellings are one value the way 1 and 1.0 are.")
 
+(program
+  (warp 1)
+  (import Standard.Logic.equal)
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (result (call Standard.Logic.equal x"6869" (array 104 105)))))
+(expect (answers true))

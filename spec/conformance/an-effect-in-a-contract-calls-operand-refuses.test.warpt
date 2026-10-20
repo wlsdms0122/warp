@@ -1,102 +1,28 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "an-effect-in-a-contract-calls-operand-refuses"
-  note "What a slot takes has nothing to do with whether the operand written into it is read or run. A call through a contract reaches whatever type arrives, and its operands are data all the same."
-  program {
-    contracts {
-      "App.Describable" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-              {
-                name "note"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    imports [
-      "Standard.Concurrent.all"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "held"
-            value {
-              as {
-                of {
-                  struct {
-                    balance 1
-                  }
-                }
-                type "Bank.Account"
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-          "concurrent_failed"
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "held"
-              }
-              {
-                call {
-                  arguments [
-                    []
-                  ]
-                  procedure "Standard.Concurrent.all"
-                }
-              }
-            ]
-            procedure "App.Describable.describe"
-          }
-        }
-        returns "String"
-      }
-    }
-    types {
-      "Bank.Account" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Bank.Account"
-              }
-              {
-                name "note"
-              }
-            ]
-            result "an account"
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.Describable"
-        ]
-        struct {
-          balance "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-effect-in-a-contract-calls-operand-refuses")
+(note "What a slot takes has nothing to do with whether the operand written into it is read or run. A call through a contract reaches whatever type arrives, and its operands are data all the same.")
 
+(program
+  (warp 1)
+  (import Standard.Concurrent.all)
+  (struct Bank.Account
+    (satisfies App.Describable)
+    (field balance Int)
+    (procedure describe
+      (parameter of (type Bank.Account))
+      (parameter note)
+      (returns String)
+      (result "an account")))
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (parameter note)
+      (returns String)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused concurrent_failed)
+    (body
+      (let held (as (struct (field balance 1)) Bank.Account)))
+    (result (call App.Describable.describe held (call Standard.Concurrent.all (array))))))
+(expect (refuses build))

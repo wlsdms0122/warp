@@ -1,59 +1,24 @@
-warpt 1
-{
-  expect {
-    answers 1
-  }
-  name "a-struct-built-where-a-declared-struct-is-read-keeps-its-closure"
-  note "A struct built from parts where a declared struct is read takes the name where it is built, so the closure written in one of its fields stays where it was judged and the struct answers through it."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "m"
-            type "Int"
-            value 2
-          }
-          {
-            let "h"
-            type "App.G"
-            value {
-              struct {
-                f {
-                  closure {
-                    result 1
-                    returns "Int"
-                  }
-                }
-                n {
-                  ref "m"
-                }
-              }
-            }
-          }
-        ]
-        result {
-          call {
-            procedure {
-              ref "h.f"
-            }
-          }
-        }
-        returns "Int"
-      }
-    }
-    types {
-      "App.G" {
-        struct {
-          f "() -> Int"
-          n "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-struct-built-where-a-declared-struct-is-read-keeps-its-closure")
+(note "A struct built from parts where a declared struct is read takes the name where it is built, so the closure written in one of its fields stays where it was judged and the struct answers through it.")
 
+(program
+  (warp 1)
+  (struct App.G
+    (field f (procedure (parameters) (returns Int)))
+    (field n Int))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let m (type Int) 2)
+      (let h
+        (type App.G)
+        (struct
+          (field f
+            (closure
+              (returns Int)
+              (result 1)))
+          (field n m))))
+    (result (apply (path h (field f))))))
+(expect (answers 1))

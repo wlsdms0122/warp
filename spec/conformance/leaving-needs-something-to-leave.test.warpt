@@ -1,26 +1,11 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "leaving-needs-something-to-leave"
-  note "Ending a loop where there is none names nothing, and a body may only write a leave something around it will catch."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            value {
-              break null
-            }
-          }
-        ]
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "leaving-needs-something-to-leave")
+(note "Ending a loop where there is none names nothing, and a body may only write a leave something around it will catch.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (body
+      (break))))
+(expect (refuses load))

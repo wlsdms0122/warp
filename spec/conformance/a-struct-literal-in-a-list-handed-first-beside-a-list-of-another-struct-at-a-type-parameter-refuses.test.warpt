@@ -1,96 +1,24 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-struct-literal-in-a-list-handed-first-beside-a-list-of-another-struct-at-a-type-parameter-refuses"
-  note "`App.same` takes `some T` twice. The list holding a struct literal beside `s`, an `App.S`, is handed first and reads as a list of `App.S`, since the literal fills nothing, and the list handed second reads as a list of `App.P`: the readings fill `T` two ways wherever the literal stands, so the call refuses at the build."
-  program {
-    imports []
-    procedures {
-      "App.same" {
-        parameters [
-          {
-            name "x"
-            type "some T"
-          }
-          {
-            name "y"
-            type "some T"
-          }
-        ]
-        result {
-          ref "y"
-        }
-        returns "some T"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "p"
-            type "App.P"
-            value {
-              struct {
-                a 1
-              }
-            }
-          }
-          {
-            let "s"
-            type "App.S"
-            value {
-              struct {
-                b "hi"
-              }
-            }
-          }
-          {
-            let "r"
-            value {
-              call {
-                arguments [
-                  [
-                    {
-                      struct {
-                        a 2
-                      }
-                    }
-                    {
-                      ref "s"
-                    }
-                  ]
-                  [
-                    {
-                      ref "p"
-                    }
-                  ]
-                ]
-                procedure "App.same"
-              }
-            }
-          }
-        ]
-        result {
-          ref "r[0].a"
-        }
-        returns "Int"
-      }
-    }
-    types {
-      "App.P" {
-        struct {
-          a "Int"
-        }
-      }
-      "App.S" {
-        struct {
-          b "String"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-struct-literal-in-a-list-handed-first-beside-a-list-of-another-struct-at-a-type-parameter-refuses")
+(note "`App.same` takes `some T` twice. The list holding a struct literal beside `s`, an `App.S`, is handed first and reads as a list of `App.S`, since the literal fills nothing, and the list handed second reads as a list of `App.P`: the readings fill `T` two ways wherever the literal stands, so the call refuses at the build.")
 
+(program
+  (warp 1)
+  (struct App.P
+    (field a Int))
+  (struct App.S
+    (field b String))
+  (procedure App.same
+    (parameter x (type (some T)))
+    (parameter y (type (some T)))
+    (returns (some T))
+    (result y))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let p (type App.P) (struct (field a 1)))
+      (let s (type App.S) (struct (field b "hi")))
+      (let r (call App.same (array (struct (field a 2)) s) (array p))))
+    (result (path r (index 0) (field a)))))
+(expect (refuses build))

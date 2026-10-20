@@ -16,17 +16,15 @@ One file, one question: a subject, what to ask it with, and what should happen.
     bytes       a document's bytes, in the binary encoding
     text        a document's text, in the text encoding; a string, or bytes
                 where the question is whether they are text at all
-    object      an object, written the way the text encoding lays one out
+    object      an object, written as data
     document    bytes. The identity the runner reads the object under, where
                 it is not the one the object writes; only an object case
                 writes it
-    arguments   what the entry procedure is given, if anything; a struct
-                under a name is written as the text encoding writes one
+    arguments   what the entry procedure is given, if anything, as data
     vocabulary  the procedures the runner brings, if any
     documents   documents laid beside the program, if any, each written as
                 a document is; only a program case writes them
-    expect      answers <value>   it runs and answers this, named structs
-                                  written the same way
+    expect      answers <value>   it runs and answers this
                 reads <value>     it reads as that value
                 spells <value>    it reads as that value, and writing that
                                   value gives exactly it
@@ -44,9 +42,9 @@ A case carrying **bytes** or **text** asks about an encoding rather than about a
 
 A case carrying **bytes** expects `spells` or `refuses`. The bytes are the **binary** encoding, which is the one a document travels in and the one that is canonical: a non-canonical byte spelling is refused, which leaves no bytes that read one way, so a bytes case writing `reads` **refuses** as a case.
 
-A case carrying **text** expects `reads`, `spells` or `refuses`. A text has many layouts of one value, since layout is free on the way in, so most text cases are `reads`, and the ones in the writer's layout are `spells`. A text case is read by one reader on both sides, so a reader taking a spelling for the wrong value would agree with itself; every scalar and every name a text case reads therefore appears in some bytes case, which is where a spelling is pinned. A container's structure is not a spelling and is not pinned. What the text encoding must read at all is asked of every case in passing, since a case is warpt text and a runner reads it before it can ask anything at all.
+A case carrying **text** expects `reads`, `spells` or `refuses`. A text has many layouts of one value, since layout is free on the way in, so most text cases are `reads`, and the ones in the writer's layout are `spells`. A text case is read by one reader on both sides, so a reader taking a spelling for the wrong value would agree with itself; every scalar and every name a text case reads therefore appears in some bytes case, which is where a spelling is pinned. A container's structure is not a spelling and is not pinned. What the text encoding must read at all is asked of every case in passing, since a case is a text and a runner reads it before it can ask anything at all.
 
-A case is **not a document**. It is written in the same text. An encoding carries a tree of data and never learns what a tree means, so there is one of those and not two, but the document it asks about is nested whole under `program`, and what surrounds it belongs to the asking.
+A case is **not a document**. It is written in the same text, under [the text](text.md), and the document it asks about is nested whole under `program`, and what surrounds it belongs to the asking. A program no node writes back as itself is written there as data, `(tree …)`, and is the same `program` in the tree.
 
 Each format declares itself, and that is how the two are told apart: a case says `test`, a document says `warp`, and each is refused by the other's reader for **what it is** rather than for the keys it happens to carry. The `test` number moves for the same reason `warp` does and on its own schedule.
 
@@ -86,7 +84,7 @@ A runner reaches inside nothing and imports what any host imports. One that coul
 
 A case may be written by hand, since the text reader takes any layout, or authored as any document is (a front end, a literal in a host language). Either way it is run through the writer before it lands in `conformance/`, so every case sits in the writer's layout and a diff shows what changed rather than who indented it.
 
-The extension is `.test.warpt`: the file is warpt text, which the text reader reads, and what it holds is a test, which nothing that runs programs takes.
+The extension is `.test.warpt`: the file is a text, which the text reader reads, and what it holds is a test, which nothing that runs programs takes.
 
 ## Cases
 

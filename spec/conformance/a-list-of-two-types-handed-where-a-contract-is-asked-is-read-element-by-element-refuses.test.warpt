@@ -1,124 +1,33 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-list-of-two-types-handed-where-a-contract-is-asked-is-read-element-by-element-refuses"
-  note "`App.g` takes `Array<App.Describable>` and is handed a list of a `Bank.Account`, which answers the contract, and a `Bank.Other`, which does not. Each element is held to the contract on its own, so `Bank.Other` refuses at the build."
-  program {
-    contracts {
-      "App.Describable" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    imports []
-    procedures {
-      "App.g" {
-        parameters [
-          {
-            name "xs"
-            type "Array<App.Describable>"
-          }
-        ]
-        result 0
-        returns "Int"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "a"
-            value {
-              as {
-                of {
-                  struct {
-                    balance 1
-                  }
-                }
-                type "Bank.Account"
-              }
-            }
-          }
-          {
-            let "o"
-            value {
-              as {
-                of {
-                  struct {
-                    n 1
-                  }
-                }
-                type "Bank.Other"
-              }
-            }
-          }
-          {
-            let "r"
-            value {
-              call {
-                arguments [
-                  [
-                    {
-                      ref "a"
-                    }
-                    {
-                      ref "o"
-                    }
-                  ]
-                ]
-                procedure "App.g"
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result {
-          ref "r"
-        }
-        returns "Int"
-      }
-    }
-    types {
-      "Bank.Account" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Bank.Account"
-              }
-            ]
-            result "acct"
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.Describable"
-        ]
-        struct {
-          balance "Int"
-        }
-      }
-      "Bank.Other" {
-        struct {
-          n "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-list-of-two-types-handed-where-a-contract-is-asked-is-read-element-by-element-refuses")
+(note "`App.g` takes `Array<App.Describable>` and is handed a list of a `Bank.Account`, which answers the contract, and a `Bank.Other`, which does not. Each element is held to the contract on its own, so `Bank.Other` refuses at the build.")
 
+(program
+  (warp 1)
+  (struct Bank.Account
+    (satisfies App.Describable)
+    (field balance Int)
+    (procedure describe
+      (parameter of (type Bank.Account))
+      (returns String)
+      (result "acct")))
+  (struct Bank.Other
+    (field n Int))
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (procedure App.g
+    (parameter xs (type (array App.Describable)))
+    (returns Int)
+    (result 0))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing cast_refused)
+    (body
+      (let a (as (struct (field balance 1)) Bank.Account))
+      (let o (as (struct (field n 1)) Bank.Other))
+      (let r (call App.g (array a o))))
+    (result r)))
+(expect (refuses build))

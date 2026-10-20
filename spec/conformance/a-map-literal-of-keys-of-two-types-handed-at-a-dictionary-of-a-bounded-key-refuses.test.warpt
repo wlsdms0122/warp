@@ -1,49 +1,15 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-map-literal-of-keys-of-two-types-handed-at-a-dictionary-of-a-bounded-key-refuses"
-  note "`App.g` takes `Dictionary<some K, Int>`, its key bounded by `Hashable`, which `Int` and `String` each answer. The map literal keyed by `1` and `\"a\"` handed there fills `K` with its keys joined, `Any`, which answers no contract, so the build refuses though each key answers. A bounded parameter is one type."
-  program {
-    imports []
-    procedures {
-      "App.g" {
-        parameters [
-          {
-            name "x"
-            type "Dictionary<some K: Hashable, Int>"
-          }
-        ]
-        result 0
-        returns "Int"
-      }
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              {
-                dictionary [
-                  [
-                    1
-                    1
-                  ]
-                  [
-                    "a"
-                    2
-                  ]
-                ]
-              }
-            ]
-            procedure "App.g"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-map-literal-of-keys-of-two-types-handed-at-a-dictionary-of-a-bounded-key-refuses")
+(note "`App.g` takes `Dictionary<some K, Int>`, its key bounded by `Hashable`, which `Int` and `String` each answer. The map literal keyed by `1` and `\"a\"` handed there fills `K` with its keys joined, `Any`, which answers no contract, so the build refuses though each key answers. A bounded parameter is one type.")
 
+(program
+  (warp 1)
+  (procedure App.g
+    (parameter x (type (dictionary (some K Hashable) Int)))
+    (returns Int)
+    (result 0))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result (call App.g (dictionary (entry 1 1) (entry "a" 2))))))
+(expect (refuses build))

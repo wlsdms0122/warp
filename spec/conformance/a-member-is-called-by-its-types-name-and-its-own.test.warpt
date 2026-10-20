@@ -1,53 +1,17 @@
-warpt 1
-{
-  expect {
-    answers 7
-  }
-  name "a-member-is-called-by-its-types-name-and-its-own"
-  note "A struct gives itself `rank` in its declaration, and a call reaches it as `App.Card.rank`, the type's name and the member's."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              {
-                struct {
-                  rank 7
-                }
-              }
-            ]
-            procedure "App.Card.rank"
-          }
-        }
-        returns "Int"
-      }
-    }
-    types {
-      "App.Card" {
-        procedures {
-          rank {
-            parameters [
-              {
-                name "of"
-                type "App.Card"
-              }
-            ]
-            result {
-              ref "of.rank"
-            }
-            returns "Int"
-          }
-        }
-        struct {
-          rank "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-member-is-called-by-its-types-name-and-its-own")
+(note "A struct gives itself `rank` in its declaration, and a call reaches it as `App.Card.rank`, the type's name and the member's.")
 
+(program
+  (warp 1)
+  (struct App.Card
+    (field rank Int)
+    (procedure rank
+      (parameter of (type App.Card))
+      (returns Int)
+      (result (path of (field rank)))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result (call App.Card.rank (struct (field rank 7))))))
+(expect (answers 7))

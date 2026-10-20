@@ -1,104 +1,28 @@
-warpt 1
-{
-  expect {
-    answers "x"
-  }
-  name "a-contract-answer-is-read-as-it-wrote-and-hands-on-what-the-call-filled-answers"
-  note "`App.Paired.pair` takes `some T` and answers `Array<some T>`, and `Bank.Card.pair` answers `Array<some U>`. The call reads the answer by what the contract wrote, filled with what the call filled `T` with, so `p[0]` reads the text handed in."
-  program {
-    contracts {
-      "App.Paired" {
-        procedures {
-          pair {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-              {
-                name "a"
-                type "some T"
-              }
-            ]
-            returns "Array<some T>"
-          }
-        }
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "c"
-            value {
-              as {
-                of {
-                  struct {
-                    last "42"
-                  }
-                }
-                type "Bank.Card"
-              }
-            }
-          }
-          {
-            let "p"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "c"
-                  }
-                  "x"
-                ]
-                procedure "App.Paired.pair"
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result {
-          ref "p[0]"
-        }
-        returns "String"
-      }
-    }
-    types {
-      "Bank.Card" {
-        procedures {
-          pair {
-            parameters [
-              {
-                name "of"
-                type "Bank.Card"
-              }
-              {
-                name "a"
-                type "some U"
-              }
-            ]
-            result [
-              {
-                ref "a"
-              }
-            ]
-            returns "Array<some U>"
-          }
-        }
-        satisfies [
-          "App.Paired"
-        ]
-        struct {
-          last "String"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-contract-answer-is-read-as-it-wrote-and-hands-on-what-the-call-filled-answers")
+(note "`App.Paired.pair` takes `some T` and answers `Array<some T>`, and `Bank.Card.pair` answers `Array<some U>`. The call reads the answer by what the contract wrote, filled with what the call filled `T` with, so `p[0]` reads the text handed in.")
 
+(program
+  (warp 1)
+  (struct Bank.Card
+    (satisfies App.Paired)
+    (field last String)
+    (procedure pair
+      (parameter of (type Bank.Card))
+      (parameter a (type (some U)))
+      (returns (array (some U)))
+      (result (array a))))
+  (contract App.Paired
+    (procedure pair
+      (parameter of (type Self))
+      (parameter a (type (some T)))
+      (returns (array (some T)))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let c (as (struct (field last "42")) Bank.Card))
+      (let p (call App.Paired.pair c "x")))
+    (result (path p (index 0)))))
+(expect (answers "x"))

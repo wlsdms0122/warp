@@ -1,41 +1,17 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-name-the-module-bound-is-not-introduced-again"
-  note "A name the module bound, a constant or a variable, is not introduced again anywhere in a body. `limit` is a constant here, and a `let` taking its spelling inside an arm refuses at the load the way one at the body's own level does."
-  program {
-    const {
-      limit 3
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            value {
-              conditional {
-                then [
-                  {
-                    let "limit"
-                    value 9
-                  }
-                ]
-                when true
-              }
-            }
-          }
-        ]
-        result {
-          ref "limit"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-name-the-module-bound-is-not-introduced-again")
+(note "A name the module bound, a constant or a variable, is not introduced again anywhere in a body. `limit` is a constant here, and a `let` taking its spelling inside an arm refuses at the load the way one at the body's own level does.")
 
+(program
+  (warp 1)
+  (const limit 3)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (conditional
+        (when true)
+        (then
+          (let limit 9))))
+    (result limit)))
+(expect (refuses load))

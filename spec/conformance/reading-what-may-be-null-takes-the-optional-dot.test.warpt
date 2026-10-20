@@ -1,36 +1,14 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "reading-what-may-be-null-takes-the-optional-dot"
-  note "A nullable holds the declared value or null, and a plain dot reads a value that is there. Reading through what may be null takes `?.`. The build refuses the spelling that pretends otherwise."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        parameters [
-          {
-            name "task"
-            type "Task?"
-          }
-        ]
-        result {
-          ref "task.name"
-        }
-        returns "Any"
-      }
-    }
-    types {
-      Task {
-        struct {
-          name "String"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "reading-what-may-be-null-takes-the-optional-dot")
+(note "A nullable holds the declared value or null, and a plain dot reads a value that is there. Reading through what may be null takes `?.`. The build refuses the spelling that pretends otherwise.")
 
+(program
+  (warp 1)
+  (struct Task
+    (field name String))
+  (procedure entry
+    (access public)
+    (parameter task (type (nullable Task)))
+    (returns Any)
+    (result (path task (field name)))))
+(expect (refuses build))

@@ -1,29 +1,14 @@
-warpt 1
-{
-  expect {
-    answers 7
-  }
-  name "a-declaration-is-named-by-its-whole-spelling"
-  note "The key a document declares a procedure under is its whole name, dot included. The send writes `Wallet.fee` inside the declaring document too, and a procedure the document declares is not one it imports."
-  program {
-    imports []
-    procedures {
-      "Wallet.fee" {
-        result 7
-        returns "Int"
-      }
-      entry {
-        access "public"
-        result {
-          call {
-            procedure "Wallet.fee"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-declaration-is-named-by-its-whole-spelling")
+(note "The key a document declares a procedure under is its whole name, dot included. The send writes `Wallet.fee` inside the declaring document too, and a procedure the document declares is not one it imports.")
 
+(program
+  (warp 1)
+  (procedure Wallet.fee
+    (returns Int)
+    (result 7))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result (call Wallet.fee))))
+(expect (answers 7))

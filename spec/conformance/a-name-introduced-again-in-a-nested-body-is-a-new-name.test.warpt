@@ -1,68 +1,19 @@
-warpt 1
-{
-  expect {
-    answers {
-      inner 2
-      outer 1
-    }
-  }
-  name "a-name-introduced-again-in-a-nested-body-is-a-new-name"
-  note "A body inside another may introduce a name the one around it introduced. Inside, the name is the new one; outside, the old one keeps its value."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "x"
-            value 1
-          }
-          {
-            value 0
-            var "y"
-          }
-          {
-            value {
-              conditional {
-                then [
-                  {
-                    let "x"
-                    value 2
-                  }
-                  {
-                    set "y"
-                    value {
-                      ref "x"
-                    }
-                  }
-                ]
-                when true
-              }
-            }
-          }
-        ]
-        result {
-          dictionary [
-            [
-              "inner"
-              {
-                ref "y"
-              }
-            ]
-            [
-              "outer"
-              {
-                ref "x"
-              }
-            ]
-          ]
-        }
-        returns "Dictionary<String, Int>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-name-introduced-again-in-a-nested-body-is-a-new-name")
+(note "A body inside another may introduce a name the one around it introduced. Inside, the name is the new one; outside, the old one keeps its value.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns (dictionary String Int))
+    (body
+      (let x 1)
+      (var y 0)
+      (conditional
+        (when true)
+        (then
+          (let x 2)
+          (set y x))))
+    (result (dictionary (entry "inner" y) (entry "outer" x)))))
+(expect (answers (dictionary (entry "inner" 2) (entry "outer" 1))))

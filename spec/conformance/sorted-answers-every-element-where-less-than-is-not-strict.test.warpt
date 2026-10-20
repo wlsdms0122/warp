@@ -1,134 +1,37 @@
-warpt 1
-{
-  expect {
-    answers [
-      1
-      2
-      2
-    ]
-  }
-  name "sorted-answers-every-element-where-less-than-is-not-strict"
-  note "`App.Score.lessThan` answers whether `lhs.v` is at most `rhs.v`, which is no strict order: a score is less than itself. `sorted` still answers every element once, so the three scores come back, here in order."
-  program {
-    imports [
-      "Standard.Collection.map"
-      "Standard.Collection.sorted"
-      "Standard.Comparable"
-      "Standard.Comparable.lessThan"
-      "Standard.Logic.not"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "scores"
-            type "Array<App.Score>"
-            value [
-              {
-                struct {
-                  v 2
-                }
-              }
-              {
-                struct {
-                  v 1
-                }
-              }
-              {
-                struct {
-                  v 2
-                }
-              }
-            ]
-          }
-        ]
-        const true
-        result {
-          call {
-            arguments [
-              {
-                call {
-                  arguments [
-                    {
-                      ref "scores"
-                    }
-                  ]
-                  procedure "Standard.Collection.sorted"
-                }
-              }
-              {
-                closure {
-                  const true
-                  isolated true
-                  parameters [
-                    {
-                      name "s"
-                      type "App.Score"
-                    }
-                  ]
-                  result {
-                    ref "s.v"
-                  }
-                  returns "Int"
-                }
-              }
-            ]
-            procedure "Standard.Collection.map"
-          }
-        }
-        returns "Array<Int>"
-      }
-    }
-    types {
-      "App.Score" {
-        procedures {
-          lessThan {
-            const true
-            isolated true
-            parameters [
-              {
-                name "lhs"
-                type "App.Score"
-              }
-              {
-                name "rhs"
-                type "App.Score"
-              }
-            ]
-            result {
-              call {
-                arguments [
-                  {
-                    call {
-                      arguments [
-                        {
-                          ref "rhs.v"
-                        }
-                        {
-                          ref "lhs.v"
-                        }
-                      ]
-                      procedure "Standard.Comparable.lessThan"
-                    }
-                  }
-                ]
-                procedure "Standard.Logic.not"
-              }
-            }
-            returns "Bool"
-          }
-        }
-        satisfies [
-          "Standard.Comparable"
-        ]
-        struct {
-          v "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "sorted-answers-every-element-where-less-than-is-not-strict")
+(note "`App.Score.lessThan` answers whether `lhs.v` is at most `rhs.v`, which is no strict order: a score is less than itself. `sorted` still answers every element once, so the three scores come back, here in order.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.map)
+  (import Standard.Collection.sorted)
+  (import Standard.Comparable)
+  (import Standard.Comparable.lessThan)
+  (import Standard.Logic.not)
+  (struct App.Score
+    (satisfies Standard.Comparable)
+    (field v Int)
+    (procedure lessThan
+      (const)
+      (isolated)
+      (parameter lhs (type App.Score))
+      (parameter rhs (type App.Score))
+      (returns Bool)
+      (result (call Standard.Logic.not (call Standard.Comparable.lessThan (path rhs (field v)) (path lhs (field v)))))))
+  (procedure entry
+    (access public)
+    (const)
+    (returns (array Int))
+    (body
+      (let scores (type (array App.Score)) (array (struct (field v 2)) (struct (field v 1)) (struct (field v 2)))))
+    (result
+      (call Standard.Collection.map
+        (call Standard.Collection.sorted scores)
+        (closure
+          (const)
+          (isolated)
+          (parameter s (type App.Score))
+          (returns Int)
+          (result (path s (field v))))))))
+(expect (answers (array 1 2 2)))

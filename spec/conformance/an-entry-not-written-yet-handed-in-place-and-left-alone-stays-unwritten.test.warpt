@@ -1,168 +1,44 @@
-warpt 1
-{
-  expect {
-    answers {
-      a 1
-    }
-  }
-  name "an-entry-not-written-yet-handed-in-place-and-left-alone-stays-unwritten"
-  note "App.touch takes an entry of a dictionary in place at its own some T. The entry is not written yet and App.touch writes nothing, so the entry stays unwritten, and the dictionary answers as it was."
-  program {
-    imports [
-      "Standard.Control.abort"
-    ]
-    procedures {
-      "App.h" {
-        body [
-          {
-            value {
-              ref "n"
-            }
-            var "cell"
-          }
-          {
-            let "c"
-            value {
-              closure {
-                body [
-                  {
-                    set "cell"
-                    value {
-                      ref "y"
-                    }
-                  }
-                ]
-                parameters [
-                  {
-                    name "y"
-                    type "some T"
-                  }
-                ]
-                result 0
-                returns "Int"
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "n"
-            type "some T"
-          }
-          {
-            name "j"
-          }
-        ]
-        result {
-          ref "cell"
-        }
-        returns "some T"
-      }
-      "App.touch" {
-        body [
-          {
-            let "y"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "n"
-                  }
-                  {
-                    ref "j"
-                  }
-                ]
-                procedure "App.h"
-              }
-            }
-          }
-          {
-            value {
-              conditional {
-                then [
-                  {
-                    value {
-                      call {
-                        arguments [
-                          "boom"
-                        ]
-                        procedure "Standard.Control.abort"
-                      }
-                    }
-                  }
-                ]
-                when {
-                  ref "stop"
-                }
-              }
-            }
-          }
-        ]
-        failing [
-          "aborted"
-        ]
-        parameters [
-          {
-            name "x"
-            type "inout some T"
-          }
-          {
-            name "n"
-            type "some T"
-          }
-          {
-            name "j"
-          }
-          {
-            name "stop"
-            type "Bool"
-          }
-        ]
-        result 0
-        returns "Int"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            type "Dictionary<String, Int>"
-            value {
-              dictionary [
-                [
-                  "a"
-                  1
-                ]
-              ]
-            }
-            var "d"
-          }
-          {
-            value {
-              call {
-                arguments [
-                  {
-                    ref "d[\"new\"]"
-                  }
-                  2
-                  3
-                  false
-                ]
-                procedure "App.touch"
-              }
-            }
-          }
-        ]
-        failing [
-          "aborted"
-        ]
-        result {
-          ref "d"
-        }
-        returns "Dictionary<String, Int>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-entry-not-written-yet-handed-in-place-and-left-alone-stays-unwritten")
+(note "App.touch takes an entry of a dictionary in place at its own some T. The entry is not written yet and App.touch writes nothing, so the entry stays unwritten, and the dictionary answers as it was.")
 
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure App.h
+    (parameter n (type (some T)))
+    (parameter j)
+    (returns (some T))
+    (body
+      (var cell n)
+      (let c
+        (closure
+          (parameter y (type (some T)))
+          (returns Int)
+          (body
+            (set cell y))
+          (result 0))))
+    (result cell))
+  (procedure App.touch
+    (parameter x (type (inout (some T))))
+    (parameter n (type (some T)))
+    (parameter j)
+    (parameter stop (type Bool))
+    (returns Int)
+    (failing aborted)
+    (body
+      (let y (call App.h n j))
+      (conditional
+        (when stop)
+        (then
+          (call Standard.Control.abort "boom"))))
+    (result 0))
+  (procedure entry
+    (access public)
+    (returns (dictionary String Int))
+    (failing aborted)
+    (body
+      (var d (type (dictionary String Int)) (dictionary (entry "a" 1)))
+      (call App.touch (path d (index "new")) 2 3 false))
+    (result d)))
+(expect (answers (dictionary (entry "a" 1))))

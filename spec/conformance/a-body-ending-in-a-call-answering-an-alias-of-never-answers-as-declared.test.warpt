@@ -1,100 +1,32 @@
-warpt 1
-{
-  arguments {
-    c false
-  }
-  expect {
-    answers 1
-  }
-  name "a-body-ending-in-a-call-answering-an-alias-of-never-answers-as-declared"
-  note "`App.k` declares `Int` and its body ends in a call of `App.f`, which declares `App.N`, a name for `Never`. No way through the body comes back, so nothing it answers disagrees with `Int`, and the program runs."
-  program {
-    imports [
-      "Standard.Control.abort"
-    ]
-    procedures {
-      "App.f" {
-        body [
-          {
-            value {
-              call {
-                arguments [
-                  "no"
-                ]
-                procedure "Standard.Control.abort"
-              }
-            }
-          }
-        ]
-        failing [
-          "aborted"
-        ]
-        parameters [
-          {
-            name "go"
-            type "Bool"
-          }
-        ]
-        returns "App.N"
-      }
-      "App.k" {
-        body [
-          {
-            value {
-              call {
-                arguments [
-                  true
-                ]
-                procedure "App.f"
-              }
-            }
-          }
-        ]
-        failing [
-          "aborted"
-        ]
-        returns "Int"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            value {
-              conditional {
-                then [
-                  {
-                    value {
-                      call {
-                        procedure "App.k"
-                      }
-                    }
-                  }
-                ]
-                when {
-                  ref "c"
-                }
-              }
-            }
-          }
-        ]
-        failing [
-          "aborted"
-        ]
-        parameters [
-          {
-            name "c"
-            type "Bool"
-          }
-        ]
-        result 1
-        returns "Int"
-      }
-    }
-    types {
-      "App.N" "Never"
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-body-ending-in-a-call-answering-an-alias-of-never-answers-as-declared")
+(note "`App.k` declares `Int` and its body ends in a call of `App.f`, which declares `App.N`, a name for `Never`. No way through the body comes back, so nothing it answers disagrees with `Int`, and the program runs.")
 
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (type App.N Never)
+  (procedure App.f
+    (parameter go (type Bool))
+    (returns App.N)
+    (failing aborted)
+    (body
+      (call Standard.Control.abort "no")))
+  (procedure App.k
+    (returns Int)
+    (failing aborted)
+    (body
+      (call App.f true)))
+  (procedure entry
+    (access public)
+    (parameter c (type Bool))
+    (returns Int)
+    (failing aborted)
+    (body
+      (conditional
+        (when c)
+        (then
+          (call App.k))))
+    (result 1)))
+(arguments (argument c false))
+(expect (answers 1))

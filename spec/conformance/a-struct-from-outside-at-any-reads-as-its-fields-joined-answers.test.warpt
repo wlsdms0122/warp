@@ -1,61 +1,20 @@
-warpt 1
-{
-  arguments {
-    p App.Pair {
-      a 1
-      b null
-    }
-  }
-  expect {
-    answers null
-  }
-  name "a-struct-from-outside-at-any-reads-as-its-fields-joined-answers"
-  note "At `Any` a struct from outside reads as applied to its fields' readings joined, so a pair holding an `Int` and a null is an `App.Pair<Int?>`, and a cast to it answers."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "q"
-            value {
-              as {
-                of {
-                  ref "p"
-                }
-                type "App.Pair<Int?>"
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        parameters [
-          {
-            name "p"
-          }
-        ]
-        result {
-          ref "q.b"
-        }
-        returns "Int?"
-      }
-    }
-    types {
-      "App.Pair" {
-        struct {
-          a "some T"
-          b "some T"
-        }
-        typeParameters [
-          "T"
-        ]
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-struct-from-outside-at-any-reads-as-its-fields-joined-answers")
+(note "At `Any` a struct from outside reads as applied to its fields' readings joined, so a pair holding an `Int` and a null is an `App.Pair<Int?>`, and a cast to it answers.")
 
+(program
+  (warp 1)
+  (struct App.Pair
+    (typeParameter T)
+    (field a (some T))
+    (field b (some T)))
+  (procedure entry
+    (access public)
+    (parameter p)
+    (returns (nullable Int))
+    (failing cast_refused)
+    (body
+      (let q (as p (named App.Pair (nullable Int)))))
+    (result (path q (field b)))))
+(arguments (argument p (struct App.Pair (field a 1) (field b null))))
+(expect (answers null))

@@ -1,0 +1,13 @@
+(test 1)
+(name "a-path-nested-past-the-bound-refuses")
+(note "A path's levels count on from the containers around its string, and a document nests at most 128: a path between brackets is one level deeper than the path around it. This reference's path stands inside four containers and holds 125 paths inside it, one past the bound, and the load refuses it rather than walking it.")
+
+(program
+  (warp 1)
+  (const a (array 0))
+  (const zero 0)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index (path a (index zero)))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+(expect (refuses load))

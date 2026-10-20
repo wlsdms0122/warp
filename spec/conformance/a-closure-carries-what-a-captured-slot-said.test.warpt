@@ -1,183 +1,48 @@
-warpt 1
-{
-  expect {
-    answers [
-      2
-      4
-      6
-    ]
-  }
-  name "a-closure-carries-what-a-captured-slot-said"
-  note "What a slot says about the procedure it holds stands wherever the name is read, a closure that captured it included. That is what lets a body build one closure per element and hand the lot to a fan-out: each piece declares `isolated` and calls the captured `value`, whose slot said an `isolated` procedure type, so the build holds the piece to what it says."
-  program {
-    imports [
-      "Standard.Collection.appending"
-      "Standard.Collection.count"
-      "Standard.Comparable.lessThan"
-      "Standard.Concurrent.all"
-      "Standard.Numeric.times"
-    ]
-    procedures {
-      "App.eachAtOnce" {
-        body [
-          {
-            value []
-            var "pieces"
-          }
-          {
-            let "walk"
-            value {
-              loop {
-                body [
-                  {
-                    let "item"
-                    value {
-                      ref "of[walk.index]"
-                    }
-                  }
-                  {
-                    let "piece"
-                    value {
-                      closure {
-                        body [
-                          {
-                            let "answered"
-                            value {
-                              call {
-                                arguments [
-                                  {
-                                    ref "item"
-                                  }
-                                ]
-                                procedure {
-                                  ref "value"
-                                }
-                              }
-                            }
-                          }
-                        ]
-                        isolated true
-                        result {
-                          ref "answered"
-                        }
-                        returns "Int"
-                      }
-                    }
-                  }
-                  {
-                    set "pieces"
-                    value {
-                      call {
-                        arguments [
-                          {
-                            ref "pieces"
-                          }
-                          {
-                            ref "piece"
-                          }
-                        ]
-                        procedure "Standard.Collection.appending"
-                      }
-                    }
-                  }
-                ]
-                while {
-                  call {
-                    arguments [
-                      {
-                        ref "walk.index"
-                      }
-                      {
-                        call {
-                          arguments [
-                            {
-                              ref "of"
-                            }
-                          ]
-                          procedure "Standard.Collection.count"
-                        }
-                      }
-                    ]
-                    procedure "Standard.Comparable.lessThan"
-                  }
-                }
-              }
-            }
-          }
-        ]
-        failing [
-          "concurrent_failed"
-        ]
-        isolated true
-        parameters [
-          {
-            name "of"
-            type "Array<Int>"
-          }
-          {
-            name "value"
-            type "isolated (Int) -> Int"
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "pieces"
-              }
-            ]
-            procedure "Standard.Concurrent.all"
-          }
-        }
-        returns "Array<Int>"
-      }
-      entry {
-        access "public"
-        failing [
-          "concurrent_failed"
-        ]
-        isolated true
-        result {
-          call {
-            arguments [
-              [
-                1
-                2
-                3
-              ]
-              {
-                closure {
-                  const true
-                  isolated true
-                  parameters [
-                    {
-                      name "item"
-                      type "Int"
-                    }
-                  ]
-                  result {
-                    call {
-                      arguments [
-                        {
-                          ref "item"
-                        }
-                        2
-                      ]
-                      procedure "Standard.Numeric.times"
-                    }
-                  }
-                  returns "Int"
-                }
-              }
-            ]
-            procedure "App.eachAtOnce"
-          }
-        }
-        returns "Array<Int>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-closure-carries-what-a-captured-slot-said")
+(note "What a slot says about the procedure it holds stands wherever the name is read, a closure that captured it included. That is what lets a body build one closure per element and hand the lot to a fan-out: each piece declares `isolated` and calls the captured `value`, whose slot said an `isolated` procedure type, so the build holds the piece to what it says.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.appending)
+  (import Standard.Collection.count)
+  (import Standard.Comparable.lessThan)
+  (import Standard.Concurrent.all)
+  (import Standard.Numeric.times)
+  (procedure App.eachAtOnce
+    (isolated)
+    (parameter of (type (array Int)))
+    (parameter value (type (procedure (isolated) (parameters Int) (returns Int))))
+    (returns (array Int))
+    (failing concurrent_failed)
+    (body
+      (var pieces (array))
+      (let walk
+        (loop
+          (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Collection.count of)))
+          (body
+            (let item (path of (index (path walk (field index)))))
+            (let piece
+              (closure
+                (isolated)
+                (returns Int)
+                (body
+                  (let answered (apply value item)))
+                (result answered)))
+            (set pieces (call Standard.Collection.appending pieces piece))))))
+    (result (call Standard.Concurrent.all pieces)))
+  (procedure entry
+    (access public)
+    (isolated)
+    (returns (array Int))
+    (failing concurrent_failed)
+    (result
+      (call App.eachAtOnce
+        (array 1 2 3)
+        (closure
+          (const)
+          (isolated)
+          (parameter item (type Int))
+          (returns Int)
+          (result (call Standard.Numeric.times item 2)))))))
+(expect (answers (array 2 4 6)))

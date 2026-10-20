@@ -1,33 +1,13 @@
-warpt 1
-{
-  expect {
-    refuses "run"
-  }
-  name "first-over-nothing-refuses"
-  note "A procedure that answers exactly one thing has no empty answer."
-  program {
-    imports [
-      "Standard.Concurrent.first"
-    ]
-    procedures {
-      entry {
-        access "public"
-        failing [
-          "concurrent_failed"
-        ]
-        result {
-          call {
-            arguments [
-              []
-            ]
-            procedure "Standard.Concurrent.first"
-          }
-        }
-        returns "Never"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "first-over-nothing-refuses")
+(note "A procedure that answers exactly one thing has no empty answer.")
 
+(program
+  (warp 1)
+  (import Standard.Concurrent.first)
+  (procedure entry
+    (access public)
+    (returns Never)
+    (failing concurrent_failed)
+    (result (call Standard.Concurrent.first (array)))))
+(expect (refuses run))

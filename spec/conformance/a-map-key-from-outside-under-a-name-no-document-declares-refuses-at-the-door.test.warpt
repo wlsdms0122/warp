@@ -1,43 +1,16 @@
-warpt 1
-{
-  arguments {
-    d {
-      App.Z {
-        x 1
-      } 1
-    }
-  }
-  expect {
-    refuses "run"
-  }
-  name "a-map-key-from-outside-under-a-name-no-document-declares-refuses-at-the-door"
-  note "The host hands a map keyed by a struct under `App.Z`, which no document declares, where the entry declares nothing. The door holds a key to the struct its name declares as it holds a value, so a key under a name that declares no struct refuses there."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        parameters [
-          {
-            name "d"
-          }
-        ]
-        result 1
-        returns "Int"
-      }
-    }
-    types {
-      "App.P" {
-        satisfies [
-          "Hashable"
-        ]
-        struct {
-          x "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-map-key-from-outside-under-a-name-no-document-declares-refuses-at-the-door")
+(note "The host hands a map keyed by a struct under `App.Z`, which no document declares, where the entry declares nothing. The door holds a key to the struct its name declares as it holds a value, so a key under a name that declares no struct refuses there.")
 
+(program
+  (warp 1)
+  (struct App.P
+    (satisfies Hashable)
+    (field x Int))
+  (procedure entry
+    (access public)
+    (parameter d)
+    (returns Int)
+    (result 1)))
+(arguments (argument d (dictionary (entry (struct App.Z (field x 1)) 1))))
+(expect (refuses run))

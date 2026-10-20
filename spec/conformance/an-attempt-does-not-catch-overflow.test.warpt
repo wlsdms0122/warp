@@ -1,85 +1,27 @@
-warpt 1
-{
-  arguments {
-    loud false
-  }
-  expect {
-    refuses "run"
-  }
-  name "an-attempt-does-not-catch-overflow"
-  note "Overflow is the program's own defect and not a failure of the work, so an `attempt` around it does not catch it: the run refuses, the way it does for an index past the end. The body carries a failure it never reaches, so that the attempt is one the build admits."
-  program {
-    imports [
-      "Standard.Control.abort"
-      "Standard.Numeric.plus"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "tried"
-            value {
-              attempt {
-                body [
-                  {
-                    let "sum"
-                    value {
-                      call {
-                        arguments [
-                          9223372036854775807
-                          1
-                        ]
-                        procedure "Standard.Numeric.plus"
-                      }
-                    }
-                  }
-                  {
-                    value {
-                      conditional {
-                        then [
-                          {
-                            value {
-                              call {
-                                arguments [
-                                  "loud"
-                                ]
-                                procedure "Standard.Control.abort"
-                              }
-                            }
-                          }
-                        ]
-                        when {
-                          ref "loud"
-                        }
-                      }
-                    }
-                  }
-                ]
-                rescue {
-                  result "caught"
-                }
-                result {
-                  ref "sum"
-                }
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "loud"
-            type "Bool"
-          }
-        ]
-        result {
-          ref "tried"
-        }
-        returns "Any"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-attempt-does-not-catch-overflow")
+(note "Overflow is the program's own defect and not a failure of the work, so an `attempt` around it does not catch it: the run refuses, the way it does for an index past the end. The body carries a failure it never reaches, so that the attempt is one the build admits.")
 
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (parameter loud (type Bool))
+    (returns Any)
+    (body
+      (let tried
+        (attempt
+          (body
+            (let sum (call Standard.Numeric.plus 9223372036854775807 1))
+            (conditional
+              (when loud)
+              (then
+                (call Standard.Control.abort "loud"))))
+          (result sum)
+          (rescue
+            (result "caught")))))
+    (result tried)))
+(arguments (argument loud false))
+(expect (refuses run))

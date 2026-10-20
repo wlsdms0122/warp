@@ -1,60 +1,16 @@
-warpt 1
-{
-  expect {
-    answers [
-      "a"
-    ]
-  }
-  name "a-module-variable-declares-what-it-holds"
-  note "A module variable may say what it holds under `type` beside its start, the way a `var` statement does, so a start that is an empty collection still says what the box will hold. Every write is judged against the declared type."
-  program {
-    imports [
-      "Standard.Collection.keys"
-      "Standard.Collection.setting"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            set "seen"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "seen"
-                  }
-                  "a"
-                  1
-                ]
-                procedure "Standard.Collection.setting"
-              }
-            }
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "seen"
-              }
-            ]
-            procedure "Standard.Collection.keys"
-          }
-        }
-        returns "Array<String>"
-      }
-    }
-    var {
-      seen {
-        type "Dictionary<String, Int>"
-        value {
-          dictionary []
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-module-variable-declares-what-it-holds")
+(note "A module variable may say what it holds under `type` beside its start, the way a `var` statement does, so a start that is an empty collection still says what the box will hold. Every write is judged against the declared type.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.keys)
+  (import Standard.Collection.setting)
+  (var seen (type (dictionary String Int)) (dictionary))
+  (procedure entry
+    (access public)
+    (returns (array String))
+    (body
+      (set seen (call Standard.Collection.setting seen "a" 1)))
+    (result (call Standard.Collection.keys seen))))
+(expect (answers (array "a")))

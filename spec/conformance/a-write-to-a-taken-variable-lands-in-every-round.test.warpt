@@ -1,116 +1,32 @@
-warpt 1
-{
-  expect {
-    answers 1
-  }
-  name "a-write-to-a-taken-variable-lands-in-every-round"
-  note "Each round writes an int into a variable that started null and lets a closure capture it. The write lands in every round, so the variable reads Int where the round adds to it, and after the loop."
-  program {
-    imports [
-      "Standard.Collection.append"
-      "Standard.Comparable.lessThan"
-      "Standard.Numeric.plus"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            var "x"
-          }
-          {
-            value 0
-            var "i"
-          }
-          {
-            type "Array<const isolated () -> Int>"
-            value []
-            var "fs"
-          }
-          {
-            let "w"
-            value {
-              loop {
-                body [
-                  {
-                    set "x"
-                    value 1
-                  }
-                  {
-                    value {
-                      call {
-                        arguments [
-                          {
-                            ref "fs"
-                          }
-                          {
-                            closure {
-                              const true
-                              isolated true
-                              result {
-                                ref "x"
-                              }
-                              returns "Int"
-                            }
-                          }
-                        ]
-                        procedure "Standard.Collection.append"
-                      }
-                    }
-                  }
-                  {
-                    let "y"
-                    value {
-                      call {
-                        arguments [
-                          {
-                            ref "x"
-                          }
-                          1
-                        ]
-                        procedure "Standard.Numeric.plus"
-                      }
-                    }
-                  }
-                  {
-                    set "i"
-                    value {
-                      call {
-                        arguments [
-                          {
-                            ref "i"
-                          }
-                          1
-                        ]
-                        procedure "Standard.Numeric.plus"
-                      }
-                    }
-                  }
-                ]
-                while {
-                  call {
-                    arguments [
-                      {
-                        ref "i"
-                      }
-                      2
-                    ]
-                    procedure "Standard.Comparable.lessThan"
-                  }
-                }
-              }
-            }
-          }
-        ]
-        isolated true
-        result {
-          ref "x"
-        }
-        returns "Int?"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-write-to-a-taken-variable-lands-in-every-round")
+(note "Each round writes an int into a variable that started null and lets a closure capture it. The write lands in every round, so the variable reads Int where the round adds to it, and after the loop.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.append)
+  (import Standard.Comparable.lessThan)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (isolated)
+    (returns (nullable Int))
+    (body
+      (var x)
+      (var i 0)
+      (var fs (type (array (procedure (const) (isolated) (parameters) (returns Int)))) (array))
+      (let w
+        (loop
+          (while (call Standard.Comparable.lessThan i 2))
+          (body
+            (set x 1)
+            (call Standard.Collection.append fs
+              (closure
+                (const)
+                (isolated)
+                (returns Int)
+                (result x)))
+            (let y (call Standard.Numeric.plus x 1))
+            (set i (call Standard.Numeric.plus i 1))))))
+    (result x)))
+(expect (answers 1))

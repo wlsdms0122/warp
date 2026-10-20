@@ -1,11 +1,5 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-whole-number-with-a-leading-zero-refuses"
-  note "An int is spelled with no leading zeros. `007` is a second text for the number seven."
-  test 1
-  text "warpt 1\n007\n"
-}
-
+(test 1)
+(name "a-whole-number-with-a-leading-zero-refuses")
+(note "An int is spelled with no leading zeros. `007` is a second text for the number seven.")
+(text "(warp 1)\n(const a 007)\n")
+(expect (refuses load))

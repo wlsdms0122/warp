@@ -1,59 +1,21 @@
-warpt 1
-{
-  arguments {
-    payload 1
-  }
-  expect {
-    answers "caught"
-  }
-  name "an-attempt-catches-a-cast-that-did-not-match"
-  note "A cast is the author expecting a kind of data that came from outside, and being wrong about that is what the world does, so the mismatch is a failure like any other and an `attempt` catches it."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "tried"
-            value {
-              attempt {
-                body [
-                  {
-                    let "read"
-                    value {
-                      as {
-                        of {
-                          ref "payload"
-                        }
-                        type "String"
-                      }
-                    }
-                  }
-                ]
-                rescue {
-                  result "caught"
-                }
-                result {
-                  ref "read"
-                }
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "payload"
-          }
-        ]
-        result {
-          ref "tried"
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-attempt-catches-a-cast-that-did-not-match")
+(note "A cast is the author expecting a kind of data that came from outside, and being wrong about that is what the world does, so the mismatch is a failure like any other and an `attempt` catches it.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter payload)
+    (returns String)
+    (body
+      (let tried
+        (attempt
+          (body
+            (let read (as payload String)))
+          (result read)
+          (rescue
+            (result "caught")))))
+    (result tried)))
+(arguments (argument payload 1))
+(expect (answers "caught"))

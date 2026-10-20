@@ -1,40 +1,14 @@
-warpt 1
-{
-  expect {
-    answers 1
-  }
-  name "a-dictionary-read-at-a-constant-key-reads-the-entry"
-  note "A constant read between the brackets settles at the build to the key it reads, which finds its entry the way a written key does."
-  program {
-    const {
-      K "a"
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "d"
-            type "Dictionary<String, Int>"
-            value {
-              dictionary [
-                [
-                  "a"
-                  1
-                ]
-              ]
-            }
-          }
-        ]
-        result {
-          ref "d[K]"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-dictionary-read-at-a-constant-key-reads-the-entry")
+(note "A constant read between the brackets settles at the build to the key it reads, which finds its entry the way a written key does.")
 
+(program
+  (warp 1)
+  (const K "a")
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let d (type (dictionary String Int)) (dictionary (entry "a" 1))))
+    (result (path d (index K)))))
+(expect (answers 1))

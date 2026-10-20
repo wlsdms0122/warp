@@ -1,56 +1,18 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-cast-of-a-struct-applied-to-int-to-it-applied-to-text-refuses"
-  note "No value is both an `App.Box<Int>` and an `App.Box<String>`: their fields would hold an `Int` and a `String` at once. A cast between them is refused at the build."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "b"
-            type "App.Box<Int>"
-            value {
-              struct {
-                item 1
-              }
-            }
-          }
-          {
-            let "c"
-            value {
-              as {
-                of {
-                  ref "b"
-                }
-                type "App.Box<String>"
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result 1
-        returns "Int"
-      }
-    }
-    types {
-      "App.Box" {
-        struct {
-          item "some T"
-        }
-        typeParameters [
-          "T"
-        ]
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-cast-of-a-struct-applied-to-int-to-it-applied-to-text-refuses")
+(note "No value is both an `App.Box<Int>` and an `App.Box<String>`: their fields would hold an `Int` and a `String` at once. A cast between them is refused at the build.")
 
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing cast_refused)
+    (body
+      (let b (type (named App.Box Int)) (struct (field item 1)))
+      (let c (as b (named App.Box String))))
+    (result 1)))
+(expect (refuses build))

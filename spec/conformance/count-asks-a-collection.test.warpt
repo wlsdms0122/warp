@@ -1,30 +1,12 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "count-asks-a-collection"
-  note "count takes what answers Standard.Collection: text, a list, a map. A number answers no such claim, so a call handing one refuses at the build, where the call is judged against the declaration."
-  program {
-    imports [
-      "Standard.Collection.count"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              1
-            ]
-            procedure "Standard.Collection.count"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "count-asks-a-collection")
+(note "count takes what answers Standard.Collection: text, a list, a map. A number answers no such claim, so a call handing one refuses at the build, where the call is judged against the declaration.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.count)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result (call Standard.Collection.count 1))))
+(expect (refuses build))

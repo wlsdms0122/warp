@@ -1,35 +1,16 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-body-declared-const-reading-a-module-variable-refuses"
-  note "A body declared `const` answers without running, and one reading a module variable answers by the run's state, so the declaration refuses at the build."
-  program {
-    imports []
-    procedures {
-      "App.read" {
-        const true
-        result {
-          ref "count"
-        }
-        returns "Int"
-      }
-      entry {
-        access "public"
-        result {
-          call {
-            procedure "App.read"
-          }
-        }
-        returns "Int"
-      }
-    }
-    var {
-      count 0
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-body-declared-const-reading-a-module-variable-refuses")
+(note "A body declared `const` answers without running, and one reading a module variable answers by the run's state, so the declaration refuses at the build.")
 
+(program
+  (warp 1)
+  (var count 0)
+  (procedure App.read
+    (const)
+    (returns Int)
+    (result count))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result (call App.read))))
+(expect (refuses build))

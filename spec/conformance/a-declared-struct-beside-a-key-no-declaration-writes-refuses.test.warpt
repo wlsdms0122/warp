@@ -1,28 +1,5 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-declared-struct-beside-a-key-no-declaration-writes-refuses"
-  note "A declared type is a type's spelling, or a struct written under `struct` beside the keys a declaration writes, and `id` is none of them, so this refuses at the load. A field called `id` is written under `struct`."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        result 1
-      }
-    }
-    types {
-      "App.Pair" {
-        id "Int"
-        struct {
-          name "String"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
-
+(test 1)
+(name "a-declared-struct-beside-a-key-no-declaration-writes-refuses")
+(note "A declared type is a type's spelling, or a struct written under `struct` beside the keys a declaration writes, and `id` is none of them, so this refuses at the load. A field called `id` is written under `struct`.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "result" 1))))) (entry "types" (dictionary (entry "App.Pair" (dictionary (entry "id" "Int") (entry "struct" (dictionary (entry "name" "String"))))))) (entry "warp" 1)))
+(expect (refuses load))

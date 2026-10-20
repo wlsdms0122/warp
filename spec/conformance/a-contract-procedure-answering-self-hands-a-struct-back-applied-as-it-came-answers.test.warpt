@@ -1,89 +1,26 @@
-warpt 1
-{
-  expect {
-    answers 1
-  }
-  name "a-contract-procedure-answering-self-hands-a-struct-back-applied-as-it-came-answers"
-  note "A call through a contract reads `Self` as the type handed, so a procedure answering `Self` for an `App.Box<Int>` answers an `App.Box<Int>`, whose field reads as `Int`."
-  program {
-    contracts {
-      "App.Same" {
-        procedures {
-          same {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "Self"
-          }
-        }
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "b"
-            type "App.Box<Int>"
-            value {
-              struct {
-                item 1
-              }
-            }
-          }
-          {
-            let "c"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "b"
-                  }
-                ]
-                procedure "App.Same.same"
-              }
-            }
-          }
-        ]
-        result {
-          ref "c.item"
-        }
-        returns "Int"
-      }
-    }
-    types {
-      "App.Box" {
-        procedures {
-          same {
-            parameters [
-              {
-                name "of"
-                type "App.Box<some T>"
-              }
-            ]
-            result {
-              ref "of"
-            }
-            returns "App.Box<some T>"
-          }
-        }
-        satisfies [
-          "App.Same"
-        ]
-        struct {
-          item "some T"
-        }
-        typeParameters [
-          "T"
-        ]
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-contract-procedure-answering-self-hands-a-struct-back-applied-as-it-came-answers")
+(note "A call through a contract reads `Self` as the type handed, so a procedure answering `Self` for an `App.Box<Int>` answers an `App.Box<Int>`, whose field reads as `Int`.")
 
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (satisfies App.Same)
+    (field item (some T))
+    (procedure same
+      (parameter of (type (named App.Box (some T))))
+      (returns (named App.Box (some T)))
+      (result of)))
+  (contract App.Same
+    (procedure same
+      (parameter of (type Self))
+      (returns Self)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let b (type (named App.Box Int)) (struct (field item 1)))
+      (let c (call App.Same.same b)))
+    (result (path c (field item)))))
+(expect (answers 1))

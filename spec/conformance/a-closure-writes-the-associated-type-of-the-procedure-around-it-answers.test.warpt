@@ -1,201 +1,62 @@
-warpt 1
-{
-  documents [
-    {
-      contracts {
-        "Lib.Container" {
-          procedures {
-            first {
-              parameters [
-                {
-                  name "of"
-                  type "Self"
-                }
-              ]
-              returns "Self.Item"
-            }
-          }
-          types [
-            "Item"
-          ]
-        }
-      }
-      imports []
-      procedures {
-        "Lib.firstOf" {
-          access "public"
-          parameters [
-            {
-              name "c"
-              type "some C: Lib.Container"
-            }
-          ]
-          result {
-            call {
-              arguments [
-                {
-                  ref "c"
-                }
-              ]
-              procedure "Lib.Container.first"
-            }
-          }
-          returns "some C.Item"
-        }
-      }
-      warp 1
-    }
-    {
-      imports [
-        "Lib.Container"
-      ]
-      types {
-        "App.Box" {
-          procedures {
-            first {
-              access "public"
-              parameters [
-                {
-                  name "of"
-                  type "App.Box<some T>"
-                }
-              ]
-              result {
-                ref "of.item"
-              }
-              returns "some T"
-            }
-          }
-          satisfies [
-            "Lib.Container"
-          ]
-          struct {
-            item "some T"
-          }
-          typeParameters [
-            "T"
-          ]
-          types {
-            Item "some T"
-          }
-        }
-      }
-      warp 1
-    }
-    {
-      imports [
-        "Lib.Container"
-        "Lib.Container.first"
-      ]
-      procedures {
-        "Use.apply" {
-          access "public"
-          body [
-            {
-              let "x"
-              value {
-                call {
-                  arguments [
-                    {
-                      ref "c"
-                    }
-                  ]
-                  procedure "Lib.Container.first"
-                }
-              }
-            }
-            {
-              let "f"
-              value {
-                closure {
-                  parameters [
-                    {
-                      name "y"
-                      type "some C.Item"
-                    }
-                  ]
-                  result {
-                    ref "y"
-                  }
-                  returns "some C.Item"
-                }
-              }
-            }
-          ]
-          failing "anything"
-          parameters [
-            {
-              name "c"
-              type "some C: Lib.Container"
-            }
-          ]
-          result {
-            call {
-              arguments [
-                {
-                  ref "x"
-                }
-              ]
-              procedure {
-                ref "f"
-              }
-            }
-          }
-          returns "Int"
-          sameTypes {
-            "C.Item" "Int"
-          }
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    answers 1
-  }
-  name "a-closure-writes-the-associated-type-of-the-procedure-around-it-answers"
-  note "A closure in `Use.apply` takes `some C.Item`, which the procedure says is Int."
-  program {
-    imports [
-      "App.Box"
-      "Use.apply"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "b"
-            type "App.Box<Int>"
-            value {
-              struct {
-                item 1
-              }
-            }
-          }
-          {
-            let "x"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "b"
-                  }
-                ]
-                procedure "Use.apply"
-              }
-            }
-          }
-        ]
-        failing "anything"
-        result {
-          ref "x"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-closure-writes-the-associated-type-of-the-procedure-around-it-answers")
+(note "A closure in `Use.apply` takes `some C.Item`, which the procedure says is Int.")
 
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Container
+      (type Item)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item)))
+    (procedure Lib.firstOf
+      (access public)
+      (parameter c (type (some C Lib.Container)))
+      (returns (some C.Item))
+      (result (call Lib.Container.first c))))
+  (document
+    (warp 1)
+    (import Lib.Container)
+    (struct App.Box
+      (typeParameter T)
+      (satisfies Lib.Container)
+      (field item (some T))
+      (type Item (some T))
+      (procedure first
+        (access public)
+        (parameter of (type (named App.Box (some T))))
+        (returns (some T))
+        (result (path of (field item))))))
+  (document
+    (warp 1)
+    (import Lib.Container)
+    (import Lib.Container.first)
+    (procedure Use.apply
+      (access public)
+      (parameter c (type (some C Lib.Container)))
+      (returns Int)
+      (failing (anything))
+      (sameType C.Item Int)
+      (body
+        (let x (call Lib.Container.first c))
+        (let f
+          (closure
+            (parameter y (type (some C.Item)))
+            (returns (some C.Item))
+            (result y))))
+      (result (apply f x)))))
+
+(program
+  (warp 1)
+  (import App.Box)
+  (import Use.apply)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (body
+      (let b (type (named App.Box Int)) (struct (field item 1)))
+      (let x (call Use.apply b)))
+    (result x)))
+(expect (answers 1))

@@ -1,173 +1,45 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-declaration-answering-a-contract-with-what-may-be-null-where-it-answers-a-contract-refuses"
-  note "The contract answers App.Sized and the declaration answering it answers Bank.Card?. Bank.Card answers App.Sized, and no document claims App.Sized for `Null`, so Bank.Card? does not, and the contract's answer never declared it."
-  program {
-    contracts {
-      "App.Shown" {
-        procedures {
-          show {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-              {
-                name "n"
-                type "App.Sized"
-              }
-            ]
-            returns "App.Sized"
-          }
-        }
-      }
-      "App.Sized" {
-        procedures {
-          size {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "Int"
-          }
-        }
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "b"
-            value {
-              as {
-                of {
-                  struct {
-                    n 1
-                  }
-                }
-                type "Bank.Box"
-              }
-            }
-          }
-          {
-            let "c"
-            value {
-              as {
-                of {
-                  struct {
-                    last "4"
-                  }
-                }
-                type "Bank.Card"
-              }
-            }
-          }
-          {
-            let "s"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "b"
-                  }
-                  {
-                    ref "c"
-                  }
-                ]
-                procedure "App.Shown.show"
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result {
-          ref "s"
-        }
-        returns "App.Sized"
-      }
-    }
-    types {
-      "Bank.Box" {
-        procedures {
-          show {
-            body [
-              {
-                let "k"
-                value {
-                  as {
-                    of {
-                      struct {
-                        last "9"
-                      }
-                    }
-                    type "Bank.Card"
-                  }
-                }
-              }
-            ]
-            failing [
-              "cast_refused"
-            ]
-            parameters [
-              {
-                name "of"
-                type "Bank.Box"
-              }
-              {
-                name "n"
-                type "App.Sized"
-              }
-            ]
-            result {
-              ref "k"
-            }
-            returns "Bank.Card?"
-          }
-        }
-        satisfies [
-          "App.Shown"
-        ]
-        struct {
-          n "Int"
-        }
-      }
-      "Bank.Card" {
-        procedures {
-          size {
-            parameters [
-              {
-                name "of"
-                type "Bank.Card"
-              }
-            ]
-            result 4
-            returns "Int"
-          }
-        }
-        satisfies [
-          "App.Sized"
-        ]
-        struct {
-          last "String"
-        }
-      }
-      "Bank.Coin" {
-        struct {
-          cents "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-declaration-answering-a-contract-with-what-may-be-null-where-it-answers-a-contract-refuses")
+(note "The contract answers App.Sized and the declaration answering it answers Bank.Card?. Bank.Card answers App.Sized, and no document claims App.Sized for `Null`, so Bank.Card? does not, and the contract's answer never declared it.")
 
+(program
+  (warp 1)
+  (struct Bank.Box
+    (satisfies App.Shown)
+    (field n Int)
+    (procedure show
+      (parameter of (type Bank.Box))
+      (parameter n (type App.Sized))
+      (returns (nullable Bank.Card))
+      (failing cast_refused)
+      (body
+        (let k (as (struct (field last "9")) Bank.Card)))
+      (result k)))
+  (struct Bank.Card
+    (satisfies App.Sized)
+    (field last String)
+    (procedure size
+      (parameter of (type Bank.Card))
+      (returns Int)
+      (result 4)))
+  (struct Bank.Coin
+    (field cents Int))
+  (contract App.Shown
+    (procedure show
+      (parameter of (type Self))
+      (parameter n (type App.Sized))
+      (returns App.Sized)))
+  (contract App.Sized
+    (procedure size
+      (parameter of (type Self))
+      (returns Int)))
+  (procedure entry
+    (access public)
+    (returns App.Sized)
+    (failing cast_refused)
+    (body
+      (let b (as (struct (field n 1)) Bank.Box))
+      (let c (as (struct (field last "4")) Bank.Card))
+      (let s (call App.Shown.show b c)))
+    (result s)))
+(expect (refuses build))

@@ -1,109 +1,28 @@
-warpt 1
-{
-  expect {
-    answers 3
-  }
-  name "a-write-a-called-value-answers-in-a-loop-reads-what-its-slot-wrote"
-  note "A loop's round is read until the writes it makes stop changing, and a call of a value answers what the slot holding it wrote after `->` there too. So a variable a round sets to that answer reads as it, and the condition's dot on it stands."
-  program {
-    imports [
-      "Standard.Comparable.lessThan"
-      "Standard.Numeric.plus"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            type "App.Counter"
-            value {
-              struct {
-                at 0
-              }
-            }
-            var "c"
-          }
-          {
-            let "next"
-            value {
-              closure {
-                parameters [
-                  {
-                    name "c"
-                    type "App.Counter"
-                  }
-                ]
-                result {
-                  struct {
-                    at {
-                      call {
-                        arguments [
-                          {
-                            ref "c.at"
-                          }
-                          1
-                        ]
-                        procedure "Standard.Numeric.plus"
-                      }
-                    }
-                  }
-                }
-                returns "App.Counter"
-              }
-            }
-          }
-          {
-            let "w"
-            value {
-              loop {
-                body [
-                  {
-                    set "c"
-                    value {
-                      call {
-                        arguments [
-                          {
-                            ref "c"
-                          }
-                        ]
-                        procedure {
-                          ref "next"
-                        }
-                      }
-                    }
-                  }
-                ]
-                while {
-                  call {
-                    arguments [
-                      {
-                        ref "c.at"
-                      }
-                      3
-                    ]
-                    procedure "Standard.Comparable.lessThan"
-                  }
-                }
-              }
-            }
-          }
-        ]
-        failing "anything"
-        result {
-          ref "c.at"
-        }
-        returns "Int"
-      }
-    }
-    types {
-      "App.Counter" {
-        struct {
-          at "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-write-a-called-value-answers-in-a-loop-reads-what-its-slot-wrote")
+(note "A loop's round is read until the writes it makes stop changing, and a call of a value answers what the slot holding it wrote after `->` there too. So a variable a round sets to that answer reads as it, and the condition's dot on it stands.")
 
+(program
+  (warp 1)
+  (import Standard.Comparable.lessThan)
+  (import Standard.Numeric.plus)
+  (struct App.Counter
+    (field at Int))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (body
+      (var c (type App.Counter) (struct (field at 0)))
+      (let next
+        (closure
+          (parameter c (type App.Counter))
+          (returns App.Counter)
+          (result (struct (field at (call Standard.Numeric.plus (path c (field at)) 1))))))
+      (let w
+        (loop
+          (while (call Standard.Comparable.lessThan (path c (field at)) 3))
+          (body
+            (set c (apply next c))))))
+    (result (path c (field at)))))
+(expect (answers 3))

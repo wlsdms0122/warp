@@ -1,29 +1,12 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "the-optional-bracket-on-an-array-that-is-there-is-refused"
-  note "`?[` expects the array's absence, and a type that admits no null leaves no absence to expect. A mark that claims what the types rule out says nothing, so the build refuses it. The same rule `?.` meets on a declared field."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        parameters [
-          {
-            name "items"
-            type "Array<String>"
-          }
-        ]
-        result {
-          ref "items?[0]"
-        }
-        returns "Any"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "the-optional-bracket-on-an-array-that-is-there-is-refused")
+(note "`?[` expects the array's absence, and a type that admits no null leaves no absence to expect. A mark that claims what the types rule out says nothing, so the build refuses it. The same rule `?.` meets on a declared field.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter items (type (array String)))
+    (returns Any)
+    (result (path items (index? 0)))))
+(expect (refuses build))

@@ -1,86 +1,29 @@
-warpt 1
-{
-  expect {
-    answers 3
-  }
-  name "a-constant-may-be-spelled-like-a-procedure"
-  note "A constant and a procedure spelled alike are two declarations: a reference reads the constant and a call names the procedure. A closure each of them writes is its own."
-  program {
-    const {
-      f {
-        closure {
-          result 1
-          returns "Int"
-        }
-      }
-    }
-    imports [
-      "Standard.Numeric.plus"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "held"
-            value {
-              call {
-                procedure {
-                  ref "f"
-                }
-              }
-            }
-          }
-          {
-            let "called"
-            value {
-              call {
-                procedure "f"
-              }
-            }
-          }
-        ]
-        failing "anything"
-        result {
-          call {
-            arguments [
-              {
-                ref "held"
-              }
-              {
-                ref "called"
-              }
-            ]
-            procedure "Standard.Numeric.plus"
-          }
-        }
-        returns "Int"
-      }
-      f {
-        body [
-          {
-            let "g"
-            value {
-              closure {
-                result 2
-                returns "Int"
-              }
-            }
-          }
-        ]
-        failing "anything"
-        result {
-          call {
-            procedure {
-              ref "g"
-            }
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-constant-may-be-spelled-like-a-procedure")
+(note "A constant and a procedure spelled alike are two declarations: a reference reads the constant and a call names the procedure. A closure each of them writes is its own.")
 
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (const f
+    (closure
+      (returns Int)
+      (result 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (body
+      (let held (apply f))
+      (let called (call f)))
+    (result (call Standard.Numeric.plus held called)))
+  (procedure f
+    (returns Int)
+    (failing (anything))
+    (body
+      (let g
+        (closure
+          (returns Int)
+          (result 2))))
+    (result (apply g))))
+(expect (answers 3))

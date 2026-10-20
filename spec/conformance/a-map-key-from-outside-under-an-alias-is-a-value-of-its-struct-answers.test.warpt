@@ -1,75 +1,19 @@
-warpt 1
-{
-  arguments {
-    d {
-      App.A {
-        x 1
-      } 1
-    }
-  }
-  expect {
-    answers true
-  }
-  name "a-map-key-from-outside-under-an-alias-is-a-value-of-its-struct-answers"
-  note "`App.A` is an alias of the struct `App.P`, and the host hands a map keyed by a struct under the alias's name where the entry declares nothing. A key is a value, and the door holds the names in a key as it holds those in a value, so the key arrives as an `App.P` and the map equals the one the cast names."
-  program {
-    imports [
-      "Standard.Logic.equal"
-    ]
-    procedures {
-      entry {
-        access "public"
-        failing [
-          "cast_refused"
-        ]
-        parameters [
-          {
-            name "d"
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "d"
-              }
-              {
-                as {
-                  of {
-                    dictionary [
-                      [
-                        {
-                          struct {
-                            x 1
-                          }
-                        }
-                        1
-                      ]
-                    ]
-                  }
-                  type "Dictionary<App.P, Int>"
-                }
-              }
-            ]
-            procedure "Standard.Logic.equal"
-          }
-        }
-        returns "Bool"
-      }
-    }
-    types {
-      "App.A" "App.P"
-      "App.P" {
-        satisfies [
-          "Hashable"
-        ]
-        struct {
-          x "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-map-key-from-outside-under-an-alias-is-a-value-of-its-struct-answers")
+(note "`App.A` is an alias of the struct `App.P`, and the host hands a map keyed by a struct under the alias's name where the entry declares nothing. A key is a value, and the door holds the names in a key as it holds those in a value, so the key arrives as an `App.P` and the map equals the one the cast names.")
 
+(program
+  (warp 1)
+  (import Standard.Logic.equal)
+  (type App.A App.P)
+  (struct App.P
+    (satisfies Hashable)
+    (field x Int))
+  (procedure entry
+    (access public)
+    (parameter d)
+    (returns Bool)
+    (failing cast_refused)
+    (result (call Standard.Logic.equal d (as (dictionary (entry (struct (field x 1)) 1)) (dictionary App.P Int))))))
+(arguments (argument d (dictionary (entry (struct App.A (field x 1)) 1))))
+(expect (answers true))

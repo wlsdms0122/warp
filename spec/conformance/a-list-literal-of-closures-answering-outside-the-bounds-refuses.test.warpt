@@ -1,80 +1,32 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-list-literal-of-closures-answering-outside-the-bounds-refuses"
-  note "`App.f` bounds `T` by `App.M`, which `Int` and `String` answer, and takes a list of procedures answering `some T`. The literal handed there holds a closure answering `Int` and one answering `Bool`. A closure's answer stands at the parameter and is held to the bounds, as it is for a closure handed alone, and a boolean answers no bound, so the call refuses at the build."
-  program {
-    contracts {
-      "App.M" {}
-    }
-    extensions {
-      Int {
-        satisfies [
-          "App.M"
-        ]
-      }
-      String {
-        satisfies [
-          "App.M"
-        ]
-      }
-    }
-    imports []
-    procedures {
-      "App.f" {
-        parameters [
-          {
-            name "gs"
-            type "Array<() -> some T: App.M>"
-          }
-        ]
-        result {
-          call {
-            procedure {
-              ref "gs[1]"
-            }
-          }
-        }
-        returns "some T"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "r"
-            value {
-              call {
-                arguments [
-                  [
-                    {
-                      closure {
-                        result 1
-                        returns "Int"
-                      }
-                    }
-                    {
-                      closure {
-                        result true
-                        returns "Bool"
-                      }
-                    }
-                  ]
-                ]
-                procedure "App.f"
-              }
-            }
-          }
-        ]
-        result {
-          ref "r"
-        }
-        returns "Any"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-list-literal-of-closures-answering-outside-the-bounds-refuses")
+(note "`App.f` bounds `T` by `App.M`, which `Int` and `String` answer, and takes a list of procedures answering `some T`. The literal handed there holds a closure answering `Int` and one answering `Bool`. A closure's answer stands at the parameter and is held to the bounds, as it is for a closure handed alone, and a boolean answers no bound, so the call refuses at the build.")
 
+(program
+  (warp 1)
+  (contract App.M)
+  (extension
+    (head Int)
+    (satisfies App.M))
+  (extension
+    (head String)
+    (satisfies App.M))
+  (procedure App.f
+    (parameter gs (type (array (procedure (parameters) (returns (some T App.M))))))
+    (returns (some T))
+    (result (apply (path gs (index 1)))))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let r
+        (call App.f
+          (array
+            (closure
+              (returns Int)
+              (result 1))
+            (closure
+              (returns Bool)
+              (result true))))))
+    (result r)))
+(expect (refuses build))

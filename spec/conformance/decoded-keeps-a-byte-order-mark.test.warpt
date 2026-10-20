@@ -1,31 +1,12 @@
-warpt 1
-{
-  expect {
-    answers "﻿h"
-  }
-  name "decoded-keeps-a-byte-order-mark"
-  note "A byte order mark is a character like any other: `decoded` keeps it, since dropping it would be an opinion about the bytes rather than a reading of them."
-  program {
-    imports [
-      "Standard.Text.decoded"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              x"efbbbf68"
-              "utf8"
-            ]
-            procedure "Standard.Text.decoded"
-          }
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "decoded-keeps-a-byte-order-mark")
+(note "A byte order mark is a character like any other: `decoded` keeps it, since dropping it would be an opinion about the bytes rather than a reading of them.")
 
+(program
+  (warp 1)
+  (import Standard.Text.decoded)
+  (procedure entry
+    (access public)
+    (returns String)
+    (result (call Standard.Text.decoded x"efbbbf68" "utf8"))))
+(expect (answers "﻿h"))

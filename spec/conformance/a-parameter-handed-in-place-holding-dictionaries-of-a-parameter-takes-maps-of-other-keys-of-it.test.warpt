@@ -1,114 +1,21 @@
-warpt 1
-{
-  expect {
-    answers [
-      {
-        a [
-          "b"
-        ]
-      }
-      {
-        b [
-          "b"
-          "b"
-        ]
-      }
-    ]
-  }
-  name "a-parameter-handed-in-place-holding-dictionaries-of-a-parameter-takes-maps-of-other-keys-of-it"
-  note "App.g writes a list of two map literals into xs, a list of dictionaries of lists of T handed in place: one holding `[x]` under `a`, one holding `[x, x]` under `b`. Each map is a dictionary of lists of its own some T, under other keys, so the literal is a value of Array<Dictionary<String, Array<some T>>>."
-  program {
-    imports []
-    procedures {
-      "App.g" {
-        body [
-          {
-            set "xs"
-            value [
-              {
-                dictionary [
-                  [
-                    "a"
-                    [
-                      {
-                        ref "x"
-                      }
-                    ]
-                  ]
-                ]
-              }
-              {
-                dictionary [
-                  [
-                    "b"
-                    [
-                      {
-                        ref "x"
-                      }
-                      {
-                        ref "x"
-                      }
-                    ]
-                  ]
-                ]
-              }
-            ]
-          }
-        ]
-        parameters [
-          {
-            name "xs"
-            type "inout Array<Dictionary<String, Array<some T>>>"
-          }
-          {
-            name "x"
-            type "some T"
-          }
-        ]
-        result 0
-        returns "Int"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            type "Array<Dictionary<String, Array<String>>>"
-            value [
-              {
-                dictionary [
-                  [
-                    "k"
-                    [
-                      "a"
-                    ]
-                  ]
-                ]
-              }
-            ]
-            var "s"
-          }
-          {
-            value {
-              call {
-                arguments [
-                  {
-                    ref "s"
-                  }
-                  "b"
-                ]
-                procedure "App.g"
-              }
-            }
-          }
-        ]
-        result {
-          ref "s"
-        }
-        returns "Array<Dictionary<String, Array<String>>>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-parameter-handed-in-place-holding-dictionaries-of-a-parameter-takes-maps-of-other-keys-of-it")
+(note "App.g writes a list of two map literals into xs, a list of dictionaries of lists of T handed in place: one holding `[x]` under `a`, one holding `[x, x]` under `b`. Each map is a dictionary of lists of its own some T, under other keys, so the literal is a value of Array<Dictionary<String, Array<some T>>>.")
 
+(program
+  (warp 1)
+  (procedure App.g
+    (parameter xs (type (inout (array (dictionary String (array (some T)))))))
+    (parameter x (type (some T)))
+    (returns Int)
+    (body
+      (set xs (array (dictionary (entry "a" (array x))) (dictionary (entry "b" (array x x))))))
+    (result 0))
+  (procedure entry
+    (access public)
+    (returns (array (dictionary String (array String))))
+    (body
+      (var s (type (array (dictionary String (array String)))) (array (dictionary (entry "k" (array "a")))))
+      (call App.g s "b"))
+    (result s)))
+(expect (answers (array (dictionary (entry "a" (array "b"))) (dictionary (entry "b" (array "b" "b"))))))

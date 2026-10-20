@@ -1,104 +1,19 @@
-warpt 1
-{
-  expect {
-    answers [
-      "{\"a\":\"x\",\"b\":1}"
-      "Point {\"x\":1}"
-      "{}"
-    ]
-  }
-  name "text-spells-a-struct-on-one-line"
-  note "text spells a container on one line: a map's entries between braces as the key in its own spelling, text quoted, a colon and the value; a named struct the same with its name and a space in front; an empty one as its two braces."
-  program {
-    imports [
-      "Standard.Text.text"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "plain"
-            value {
-              call {
-                arguments [
-                  {
-                    dictionary [
-                      [
-                        "a"
-                        "x"
-                      ]
-                      [
-                        "b"
-                        1
-                      ]
-                    ]
-                  }
-                ]
-                procedure "Standard.Text.text"
-              }
-            }
-          }
-          {
-            let "named"
-            value {
-              call {
-                arguments [
-                  {
-                    as {
-                      of {
-                        struct {
-                          x 1
-                        }
-                      }
-                      type "Point"
-                    }
-                  }
-                ]
-                procedure "Standard.Text.text"
-              }
-            }
-          }
-          {
-            let "empty"
-            value {
-              call {
-                arguments [
-                  {
-                    dictionary []
-                  }
-                ]
-                procedure "Standard.Text.text"
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result [
-          {
-            ref "plain"
-          }
-          {
-            ref "named"
-          }
-          {
-            ref "empty"
-          }
-        ]
-        returns "Array<String>"
-      }
-    }
-    types {
-      Point {
-        struct {
-          x "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "text-spells-a-struct-on-one-line")
+(note "text spells a container on one line: a map's entries between braces as the key in its own spelling, text quoted, a colon and the value; a named struct the same with its name and a space in front, each field's name bare; an empty one as its two braces.")
 
+(program
+  (warp 1)
+  (import Standard.Text.text)
+  (struct Point
+    (field x Int))
+  (procedure entry
+    (access public)
+    (returns (array String))
+    (failing cast_refused)
+    (body
+      (let plain (call Standard.Text.text (dictionary (entry "a" "x") (entry "b" 1))))
+      (let named (call Standard.Text.text (as (struct (field x 1)) Point)))
+      (let empty (call Standard.Text.text (dictionary))))
+    (result (array plain named empty))))
+(expect (answers (array "{\"a\":\"x\",\"b\":1}" "Point {x:1}" "{}")))

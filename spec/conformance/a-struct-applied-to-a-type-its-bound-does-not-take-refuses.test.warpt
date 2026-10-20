@@ -1,44 +1,19 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-struct-applied-to-a-type-its-bound-does-not-take-refuses"
-  note "`App.Cache` bounds `K` by `Hashable`, and the type a mention applies it to at `K` answers that bound or the mention is refused. No document says `App.Plain` answers `Hashable`."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "c"
-            type "App.Cache<App.Plain, Int>?"
-            value null
-          }
-        ]
-        result 1
-        returns "Int"
-      }
-    }
-    types {
-      "App.Cache" {
-        struct {
-          table "Dictionary<some K, some V>"
-        }
-        typeParameters [
-          "K: Hashable"
-          "V"
-        ]
-      }
-      "App.Plain" {
-        struct {
-          x "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-struct-applied-to-a-type-its-bound-does-not-take-refuses")
+(note "`App.Cache` bounds `K` by `Hashable`, and the type a mention applies it to at `K` answers that bound or the mention is refused. No document says `App.Plain` answers `Hashable`.")
 
+(program
+  (warp 1)
+  (struct App.Cache
+    (typeParameter K Hashable)
+    (typeParameter V)
+    (field table (dictionary (some K) (some V))))
+  (struct App.Plain
+    (field x Int))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let c (type (nullable (named App.Cache App.Plain Int))) null))
+    (result 1)))
+(expect (refuses build))

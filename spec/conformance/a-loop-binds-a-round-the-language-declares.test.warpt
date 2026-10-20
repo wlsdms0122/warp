@@ -1,76 +1,23 @@
-warpt 1
-{
-  expect {
-    answers 1
-  }
-  name "a-loop-binds-a-round-the-language-declares"
-  note "What a loop binds each round is a `Round`, a struct the language declares, so a slot that declares `Round` takes it as it is and reads its `index`."
-  program {
-    imports [
-      "Standard.Comparable.lessThan"
-    ]
-    procedures {
-      "App.reached" {
-        parameters [
-          {
-            name "at"
-            type "Round"
-          }
-        ]
-        result {
-          ref "at.index"
-        }
-        returns "Int"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            value 0
-            var "seen"
-          }
-          {
-            let "walk"
-            value {
-              loop {
-                body [
-                  {
-                    set "seen"
-                    value {
-                      call {
-                        arguments [
-                          {
-                            ref "walk"
-                          }
-                        ]
-                        procedure "App.reached"
-                      }
-                    }
-                  }
-                ]
-                while {
-                  call {
-                    arguments [
-                      {
-                        ref "walk.index"
-                      }
-                      2
-                    ]
-                    procedure "Standard.Comparable.lessThan"
-                  }
-                }
-              }
-            }
-          }
-        ]
-        result {
-          ref "seen"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-loop-binds-a-round-the-language-declares")
+(note "What a loop binds each round is a `Round`, a struct the language declares, so a slot that declares `Round` takes it as it is and reads its `index`.")
 
+(program
+  (warp 1)
+  (import Standard.Comparable.lessThan)
+  (procedure App.reached
+    (parameter at (type Round))
+    (returns Int)
+    (result (path at (field index))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var seen 0)
+      (let walk
+        (loop
+          (while (call Standard.Comparable.lessThan (path walk (field index)) 2))
+          (body
+            (set seen (call App.reached walk))))))
+    (result seen)))
+(expect (answers 1))

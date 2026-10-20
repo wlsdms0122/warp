@@ -1,32 +1,13 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-bare-name-for-another-modules-procedure-refuses"
-  note "`plus` is not the spelling of any procedure in the link: `Standard.Numeric.plus` is the spelling of the contract's procedure, and this document declares no `plus` of its own. A name is looked up as written, so the send refuses at the build."
-  program {
-    imports [
-      "plus"
-    ]
-    procedures {
-      entry {
-        access "public"
-        failing "anything"
-        result {
-          call {
-            arguments [
-              1
-              2
-            ]
-            procedure "plus"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-bare-name-for-another-modules-procedure-refuses")
+(note "`plus` is not the spelling of any procedure in the link: `Standard.Numeric.plus` is the spelling of the contract's procedure, and this document declares no `plus` of its own. A name is looked up as written, so the send refuses at the build.")
 
+(program
+  (warp 1)
+  (import plus)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (result (call plus 1 2))))
+(expect (refuses build))

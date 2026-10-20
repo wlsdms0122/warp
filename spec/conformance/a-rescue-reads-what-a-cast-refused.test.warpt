@@ -1,73 +1,20 @@
-warpt 1
-{
-  arguments {
-    payload "not a whole number"
-  }
-  expect {
-    answers {
-      actual "String"
-      expected "Int"
-    }
-  }
-  name "a-rescue-reads-what-a-cast-refused"
-  note "`cast_refused` is the one failure the runtime raises itself, so no procedure owns its `details` and this specification names them. `expected` is the type the cast reads as and `actual` is the type the value that arrived is an instance of: what was asked for is readable from the program, what turned up is not, and a rescue that reports or branches wants the second."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "tried"
-            value {
-              attempt {
-                body [
-                  {
-                    value {
-                      as {
-                        of {
-                          ref "payload"
-                        }
-                        type "Int"
-                      }
-                    }
-                  }
-                ]
-                rescue {
-                  result {
-                    dictionary [
-                      [
-                        "actual"
-                        {
-                          ref "tried.details[\"actual\"]"
-                        }
-                      ]
-                      [
-                        "expected"
-                        {
-                          ref "tried.details[\"expected\"]"
-                        }
-                      ]
-                    ]
-                  }
-                }
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "payload"
-          }
-        ]
-        result {
-          ref "tried"
-        }
-        returns "Dictionary<String, Any>?"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-rescue-reads-what-a-cast-refused")
+(note "`cast_refused` is the one failure the runtime raises itself, so no procedure owns its `details` and this specification names them. `expected` is the type the cast reads as and `actual` is the type the value that arrived is an instance of: what was asked for is readable from the program, what turned up is not, and a rescue that reports or branches wants the second.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter payload)
+    (returns (nullable (dictionary String Any)))
+    (body
+      (let tried
+        (attempt
+          (body
+            (as payload Int))
+          (rescue
+            (result (dictionary (entry "actual" (path tried (field details) (index "actual"))) (entry "expected" (path tried (field details) (index "expected")))))))))
+    (result tried)))
+(arguments (argument payload "not a whole number"))
+(expect (answers (dictionary (entry "actual" "String") (entry "expected" "Int"))))

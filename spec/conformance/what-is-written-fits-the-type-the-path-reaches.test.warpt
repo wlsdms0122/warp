@@ -1,45 +1,16 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "what-is-written-fits-the-type-the-path-reaches"
-  note "A path write is judged against the type it reaches: writing a string into a field declared `var Int` refuses at the build."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            type "App.P"
-            value {
-              struct {
-                x 1
-              }
-            }
-            var "p"
-          }
-          {
-            set "p.x"
-            value "five"
-          }
-        ]
-        result {
-          ref "p.x"
-        }
-        returns "Int"
-      }
-    }
-    types {
-      "App.P" {
-        struct {
-          x "var Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "what-is-written-fits-the-type-the-path-reaches")
+(note "A path write is judged against the type it reaches: writing a string into a field declared `var Int` refuses at the build.")
 
+(program
+  (warp 1)
+  (struct App.P
+    (field x (var Int)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var p (type App.P) (struct (field x 1)))
+      (set (path p (field x)) "five"))
+    (result (path p (field x)))))
+(expect (refuses build))

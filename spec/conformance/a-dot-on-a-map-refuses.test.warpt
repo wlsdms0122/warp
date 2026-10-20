@@ -1,37 +1,13 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-dot-on-a-map-refuses"
-  note "A dot reads a field a declared struct declares, and a map declares none: its keys are data, read through brackets, so `d.a` refuses at the build where `d[\"a\"]` reads the entry."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "d"
-            type "Dictionary<String, Int>"
-            value {
-              dictionary [
-                [
-                  "a"
-                  1
-                ]
-              ]
-            }
-          }
-        ]
-        result {
-          ref "d.a"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-dot-on-a-map-refuses")
+(note "A dot reads a field a declared struct declares, and a map declares none: its keys are data, read through brackets, so `d.a` refuses at the build where `d[\"a\"]` reads the entry.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let d (type (dictionary String Int)) (dictionary (entry "a" 1))))
+    (result (path d (field a)))))
+(expect (refuses build))

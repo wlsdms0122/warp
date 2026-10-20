@@ -1,93 +1,32 @@
-warpt 1
-{
-  documents [
-    {
-      imports []
-      types {
-        "App.Box" {
-          struct {
-            item "some T"
-          }
-          typeParameters [
-            "T"
-          ]
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    answers "box"
-  }
-  name "a-claim-in-one-document-about-a-struct-another-declares-with-a-type-parameter-answers"
-  note "A claim about a struct taking type parameters may be made by any document. This one claims `App.Box` from the document beside it, answered for every value of it."
-  program {
-    contracts {
-      "App.Describable" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    extensions {
-      "App.Box" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "App.Box<some T>"
-              }
-            ]
-            result "box"
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.Describable"
-        ]
-      }
-    }
-    imports [
-      "App.Box"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "b"
-            type "App.Box<Int>"
-            value {
-              struct {
-                item 1
-              }
-            }
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "b"
-              }
-            ]
-            procedure "App.Describable.describe"
-          }
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-claim-in-one-document-about-a-struct-another-declares-with-a-type-parameter-answers")
+(note "A claim about a struct taking type parameters may be made by any document. This one claims `App.Box` from the document beside it, answered for every value of it.")
 
+(documents
+  (document
+    (warp 1)
+    (struct App.Box
+      (typeParameter T)
+      (field item (some T)))))
+
+(program
+  (warp 1)
+  (import App.Box)
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head App.Box)
+    (satisfies App.Describable)
+    (procedure describe
+      (parameter of (type (named App.Box (some T))))
+      (returns String)
+      (result "box")))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let b (type (named App.Box Int)) (struct (field item 1))))
+    (result (call App.Describable.describe b))))
+(expect (answers "box"))

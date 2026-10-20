@@ -1,99 +1,29 @@
-warpt 1
-{
-  expect {
-    answers "cast_refused"
-  }
-  name "a-cast-of-a-struct-under-another-name-fails"
-  note "A struct type is exact by its name, and a cast reading a value read as Any judges it at the run the way the build would have. A Vault is no Account, though their fields are one, so the plain cast fails with cast_refused, which the attempt catches."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "held"
-            value {
-              as {
-                of {
-                  struct {
-                    balance 1
-                  }
-                }
-                type "Vault"
-              }
-            }
-          }
-          {
-            let "tried"
-            value {
-              attempt {
-                body [
-                  {
-                    let "got"
-                    value {
-                      call {
-                        arguments [
-                          {
-                            ref "held"
-                          }
-                        ]
-                        procedure "read"
-                      }
-                    }
-                  }
-                ]
-                rescue {
-                  result {
-                    ref "tried.type"
-                  }
-                }
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result {
-          ref "tried"
-        }
-        returns "String?"
-      }
-      read {
-        failing [
-          "cast_refused"
-        ]
-        parameters [
-          {
-            name "account"
-          }
-        ]
-        result {
-          as {
-            of {
-              ref "account"
-            }
-            type "Account"
-          }
-        }
-        returns "Account"
-      }
-    }
-    types {
-      Account {
-        struct {
-          balance "Int"
-        }
-      }
-      Vault {
-        struct {
-          balance "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-cast-of-a-struct-under-another-name-fails")
+(note "A struct type is exact by its name, and a cast reading a value read as Any judges it at the run the way the build would have. A Vault is no Account, though their fields are one, so the plain cast fails with cast_refused, which the attempt catches.")
 
+(program
+  (warp 1)
+  (struct Account
+    (field balance Int))
+  (struct Vault
+    (field balance Int))
+  (procedure entry
+    (access public)
+    (returns (nullable String))
+    (failing cast_refused)
+    (body
+      (let held (as (struct (field balance 1)) Vault))
+      (let tried
+        (attempt
+          (body
+            (let got (call read held)))
+          (rescue
+            (result (path tried (field type)))))))
+    (result tried))
+  (procedure read
+    (parameter account)
+    (returns Account)
+    (failing cast_refused)
+    (result (as account Account))))
+(expect (answers "cast_refused"))

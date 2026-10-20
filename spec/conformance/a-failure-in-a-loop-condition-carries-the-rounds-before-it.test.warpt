@@ -1,75 +1,23 @@
-warpt 1
-{
-  expect {
-    answers 1
-  }
-  name "a-failure-in-a-loop-condition-carries-the-rounds-before-it"
-  note "The first round's condition reads `n` as a bool and its body sets `n` to a string; the next condition's cast fails. The condition runs after every round before it, so the rescue reads `n` as what any of those rounds may have left, and asking whether it is a bool stands rather than being a cast the reading already decides."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            value true
-            var "n"
-          }
-          {
-            value {
-              attempt {
-                body [
-                  {
-                    value {
-                      loop {
-                        body [
-                          {
-                            set "n"
-                            value "s"
-                          }
-                        ]
-                        while {
-                          as {
-                            of {
-                              ref "n"
-                            }
-                            type "Bool"
-                          }
-                        }
-                      }
-                    }
-                  }
-                  {
-                    value {
-                      return 0
-                    }
-                  }
-                ]
-                rescue {
-                  body [
-                    {
-                      let "s"
-                      value {
-                        "as?" {
-                          of {
-                            ref "n"
-                          }
-                          type "Bool"
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        ]
-        result 1
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-failure-in-a-loop-condition-carries-the-rounds-before-it")
+(note "The first round's condition reads `n` as a bool and its body sets `n` to a string; the next condition's cast fails. The condition runs after every round before it, so the rescue reads `n` as what any of those rounds may have left, and asking whether it is a bool stands rather than being a cast the reading already decides.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var n true)
+      (attempt
+        (body
+          (loop
+            (while (as n Bool))
+            (body
+              (set n "s")))
+          (return 0))
+        (rescue
+          (body
+            (let s (as? n Bool))))))
+    (result 1)))
+(expect (answers 1))

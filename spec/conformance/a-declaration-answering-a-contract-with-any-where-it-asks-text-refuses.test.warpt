@@ -1,109 +1,28 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-declaration-answering-a-contract-with-any-where-it-asks-text-refuses"
-  note "The contract answers String and the declaration answering it answers Any. A value read as `Any` is no String the build can see, so the declaration does not answer the contract and the build refuses."
-  program {
-    contracts {
-      "App.Describable" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    imports [
-      "Standard.Collection.appending"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "c"
-            value {
-              as {
-                of {
-                  struct {
-                    last "42"
-                  }
-                }
-                type "Bank.Card"
-              }
-            }
-          }
-          {
-            let "d"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "c"
-                  }
-                ]
-                procedure "App.Describable.describe"
-              }
-            }
-          }
-          {
-            let "xs"
-            value {
-              call {
-                arguments [
-                  [
-                    "a"
-                  ]
-                  {
-                    ref "d"
-                  }
-                ]
-                procedure "Standard.Collection.appending"
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result {
-          ref "xs"
-        }
-        returns "Array<String>"
-      }
-    }
-    types {
-      "Bank.Card" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Bank.Card"
-              }
-            ]
-            result 5
-            returns "Any"
-          }
-        }
-        satisfies [
-          "App.Describable"
-        ]
-        struct {
-          last "String"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-declaration-answering-a-contract-with-any-where-it-asks-text-refuses")
+(note "The contract answers String and the declaration answering it answers Any. A value read as `Any` is no String the build can see, so the declaration does not answer the contract and the build refuses.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.appending)
+  (struct Bank.Card
+    (satisfies App.Describable)
+    (field last String)
+    (procedure describe
+      (parameter of (type Bank.Card))
+      (returns Any)
+      (result 5)))
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (procedure entry
+    (access public)
+    (returns (array String))
+    (failing cast_refused)
+    (body
+      (let c (as (struct (field last "42")) Bank.Card))
+      (let d (call App.Describable.describe c))
+      (let xs (call Standard.Collection.appending (array "a") d)))
+    (result xs)))
+(expect (refuses build))

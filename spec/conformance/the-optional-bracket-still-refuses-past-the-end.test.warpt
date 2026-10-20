@@ -1,34 +1,13 @@
-warpt 1
-{
-  arguments {
-    items [
-      "only"
-    ]
-  }
-  expect {
-    refuses "run"
-  }
-  name "the-optional-bracket-still-refuses-past-the-end"
-  note "`?[` expects the array's absence, not the element's. An array that arrived says how long it is, so a reading that misses it read the length wrong. Past the end refuses at the run, mark or no mark."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        parameters [
-          {
-            name "items"
-            type "Array<String>?"
-          }
-        ]
-        result {
-          ref "items?[5]"
-        }
-        returns "String?"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "the-optional-bracket-still-refuses-past-the-end")
+(note "`?[` expects the array's absence, not the element's. An array that arrived says how long it is, so a reading that misses it read the length wrong. Past the end refuses at the run, mark or no mark.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter items (type (nullable (array String))))
+    (returns (nullable String))
+    (result (path items (index? 5)))))
+(arguments (argument items (array "only")))
+(expect (refuses run))

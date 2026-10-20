@@ -1,200 +1,49 @@
-warpt 1
-{
-  expect {
-    answers "cast_refused"
-  }
-  name "a-cast-of-a-closure-writing-an-answer-a-caller-appends-in-place-fails"
-  note "App.put appends what App.h answers to the list handed to it in place. App.h's closure sets cell from its own some T and is cast from Any to take a number, which fails with cast_refused, since only App.h's call filled its T. Nothing is appended, and the attempt in the entry catches the failure."
-  program {
-    imports [
-      "Standard.Collection.append"
-    ]
-    procedures {
-      "App.h" {
-        body [
-          {
-            value {
-              ref "n"
-            }
-            var "cell"
-          }
-          {
-            let "c"
-            value {
-              closure {
-                body [
-                  {
-                    set "cell"
-                    value {
-                      ref "y"
-                    }
-                  }
-                ]
-                parameters [
-                  {
-                    name "y"
-                    type "some T"
-                  }
-                ]
-                result 0
-                returns "Int"
-              }
-            }
-          }
-          {
-            let "a"
-            type "Any"
-            value {
-              ref "c"
-            }
-          }
-          {
-            let "w"
-            value {
-              as {
-                of {
-                  ref "a"
-                }
-                type "(Int) -> Int"
-              }
-            }
-          }
-          {
-            let "z"
-            value {
-              call {
-                arguments [
-                  {
-                    as {
-                      of {
-                        ref "junk"
-                      }
-                      type "Int"
-                    }
-                  }
-                ]
-                procedure {
-                  ref "w"
-                }
-              }
-            }
-          }
-        ]
-        failing "anything"
-        parameters [
-          {
-            name "n"
-            type "some T"
-          }
-          {
-            name "junk"
-          }
-        ]
-        result {
-          ref "cell"
-        }
-        returns "some T"
-      }
-      "App.put" {
-        body [
-          {
-            let "got"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "n"
-                  }
-                  {
-                    ref "junk"
-                  }
-                ]
-                procedure "App.h"
-              }
-            }
-          }
-          {
-            value {
-              call {
-                arguments [
-                  {
-                    ref "xs"
-                  }
-                  {
-                    ref "got"
-                  }
-                ]
-                procedure "Standard.Collection.append"
-              }
-            }
-          }
-        ]
-        failing "anything"
-        parameters [
-          {
-            name "n"
-            type "some T"
-          }
-          {
-            name "junk"
-          }
-          {
-            name "xs"
-            type "inout Array<some T>"
-          }
-        ]
-        result 0
-        returns "Int"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "tried"
-            value {
-              attempt {
-                body [
-                  {
-                    value [
-                      "a"
-                    ]
-                    var "s"
-                  }
-                  {
-                    value {
-                      call {
-                        arguments [
-                          "b"
-                          5
-                          {
-                            ref "s"
-                          }
-                        ]
-                        procedure "App.put"
-                      }
-                    }
-                  }
-                ]
-                rescue {
-                  result {
-                    ref "tried.type"
-                  }
-                }
-                result {
-                  ref "s"
-                }
-              }
-            }
-          }
-        ]
-        result {
-          ref "tried"
-        }
-        returns "Any"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-cast-of-a-closure-writing-an-answer-a-caller-appends-in-place-fails")
+(note "App.put appends what App.h answers to the list handed to it in place. App.h's closure sets cell from its own some T and is cast from Any to take a number, which fails with cast_refused, since only App.h's call filled its T. Nothing is appended, and the attempt in the entry catches the failure.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.append)
+  (procedure App.h
+    (parameter n (type (some T)))
+    (parameter junk)
+    (returns (some T))
+    (failing (anything))
+    (body
+      (var cell n)
+      (let c
+        (closure
+          (parameter y (type (some T)))
+          (returns Int)
+          (body
+            (set cell y))
+          (result 0)))
+      (let a (type Any) c)
+      (let w (as a (procedure (parameters Int) (returns Int))))
+      (let z (apply w (as junk Int))))
+    (result cell))
+  (procedure App.put
+    (parameter n (type (some T)))
+    (parameter junk)
+    (parameter xs (type (inout (array (some T)))))
+    (returns Int)
+    (failing (anything))
+    (body
+      (let got (call App.h n junk))
+      (call Standard.Collection.append xs got))
+    (result 0))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let tried
+        (attempt
+          (body
+            (var s (array "a"))
+            (call App.put "b" 5 s))
+          (result s)
+          (rescue
+            (result (path tried (field type)))))))
+    (result tried)))
+(expect (answers "cast_refused"))

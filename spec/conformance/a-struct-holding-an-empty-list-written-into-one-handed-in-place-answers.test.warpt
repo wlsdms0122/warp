@@ -1,92 +1,26 @@
-warpt 1
-{
-  expect {
-    answers 1
-  }
-  name "a-struct-holding-an-empty-list-written-into-one-handed-in-place-answers"
-  note "A box handed in place takes what reads as its own type, and a struct applied to a list of nothing reads as applied to a list of the parameter."
-  program {
-    imports []
-    procedures {
-      "App.clear" {
-        body [
-          {
-            set "b"
-            value {
-              call {
-                arguments [
-                  []
-                ]
-                procedure "App.wrap"
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "b"
-            type "inout App.Box<Array<some T>>"
-          }
-        ]
-        result 1
-        returns "Int"
-      }
-      "App.wrap" {
-        parameters [
-          {
-            name "x"
-            type "some T"
-          }
-        ]
-        result {
-          struct {
-            item {
-              ref "x"
-            }
-          }
-        }
-        returns "App.Box<some T>"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            type "App.Box<Array<Int>>"
-            value {
-              struct {
-                item [
-                  1
-                ]
-              }
-            }
-            var "b"
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "b"
-              }
-            ]
-            procedure "App.clear"
-          }
-        }
-        returns "Int"
-      }
-    }
-    types {
-      "App.Box" {
-        struct {
-          item "some T"
-        }
-        typeParameters [
-          "T"
-        ]
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-struct-holding-an-empty-list-written-into-one-handed-in-place-answers")
+(note "A box handed in place takes what reads as its own type, and a struct applied to a list of nothing reads as applied to a list of the parameter.")
 
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (procedure App.clear
+    (parameter b (type (inout (named App.Box (array (some T))))))
+    (returns Int)
+    (body
+      (set b (call App.wrap (array))))
+    (result 1))
+  (procedure App.wrap
+    (parameter x (type (some T)))
+    (returns (named App.Box (some T)))
+    (result (struct (field item x))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var b (type (named App.Box (array Int))) (struct (field item (array 1)))))
+    (result (call App.clear b))))
+(expect (answers 1))

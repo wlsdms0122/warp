@@ -1,65 +1,20 @@
-warpt 1
-{
-  expect {
-    answers [
-      []
-    ]
-  }
-  name "a-parameter-handed-in-place-holding-lists-of-a-parameter-takes-a-list-of-an-empty-list"
-  note "App.g writes [[]] into xs, a list of lists of T handed in place. An empty list holds no element at whatever depth it stands, so [[]] is a value of Array<Array<some T>>, and the caller reads a list holding one empty list."
-  program {
-    imports []
-    procedures {
-      "App.g" {
-        body [
-          {
-            set "xs"
-            value [
-              []
-            ]
-          }
-        ]
-        parameters [
-          {
-            name "xs"
-            type "inout Array<Array<some T>>"
-          }
-        ]
-        result 0
-        returns "Int"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            value [
-              [
-                "a"
-              ]
-            ]
-            var "s"
-          }
-          {
-            value {
-              call {
-                arguments [
-                  {
-                    ref "s"
-                  }
-                ]
-                procedure "App.g"
-              }
-            }
-          }
-        ]
-        result {
-          ref "s"
-        }
-        returns "Array<Array<String>>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-parameter-handed-in-place-holding-lists-of-a-parameter-takes-a-list-of-an-empty-list")
+(note "App.g writes [[]] into xs, a list of lists of T handed in place. An empty list holds no element at whatever depth it stands, so [[]] is a value of Array<Array<some T>>, and the caller reads a list holding one empty list.")
 
+(program
+  (warp 1)
+  (procedure App.g
+    (parameter xs (type (inout (array (array (some T))))))
+    (returns Int)
+    (body
+      (set xs (array (array))))
+    (result 0))
+  (procedure entry
+    (access public)
+    (returns (array (array String)))
+    (body
+      (var s (array (array "a")))
+      (call App.g s))
+    (result s)))
+(expect (answers (array (array))))

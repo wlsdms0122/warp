@@ -1,57 +1,19 @@
-warpt 1
-{
-  arguments {
-    a App.P {
-      x 1
-    }
-  }
-  expect {
-    refuses "run"
-  }
-  name "a-struct-from-outside-short-of-a-field-at-a-contract-slot-refuses"
-  note "The entry asks `App.Shape` and is handed a value under the name `App.P`, which a document claims answers it. A value under a declared struct's name answers a contract as that struct, so the door holds it to `App.P`, and one without `w` refuses there."
-  program {
-    contracts {
-      "App.Shape" {}
-    }
-    imports [
-      "Standard.Text.text"
-    ]
-    procedures {
-      entry {
-        access "public"
-        parameters [
-          {
-            name "a"
-            type "App.Shape"
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "a"
-              }
-            ]
-            procedure "Standard.Text.text"
-          }
-        }
-        returns "String"
-      }
-    }
-    types {
-      "App.P" {
-        satisfies [
-          "App.Shape"
-        ]
-        struct {
-          w "Int"
-          x "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-struct-from-outside-short-of-a-field-at-a-contract-slot-refuses")
+(note "The entry asks `App.Shape` and is handed a value under the name `App.P`, which a document claims answers it. A value under a declared struct's name answers a contract as that struct, so the door holds it to `App.P`, and one without `w` refuses there.")
 
+(program
+  (warp 1)
+  (import Standard.Text.text)
+  (struct App.P
+    (satisfies App.Shape)
+    (field w Int)
+    (field x Int))
+  (contract App.Shape)
+  (procedure entry
+    (access public)
+    (parameter a (type App.Shape))
+    (returns String)
+    (result (call Standard.Text.text a))))
+(arguments (argument a (struct App.P (field x 1))))
+(expect (refuses run))

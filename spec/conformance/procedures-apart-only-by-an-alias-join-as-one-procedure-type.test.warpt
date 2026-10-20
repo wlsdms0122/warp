@@ -1,90 +1,29 @@
-warpt 1
-{
-  arguments {
-    c false
-  }
-  expect {
-    answers 2.5
-  }
-  name "procedures-apart-only-by-an-alias-join-as-one-procedure-type"
-  note "One way writes into `f` a closure taking `App.D`, a spelling of `Double`, and the other one taking `Double`. The two are one procedure type, so `f` reads `(Double) -> Double` and a call of it is held to that."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            value {
-              closure {
-                parameters [
-                  {
-                    name "x"
-                    type "App.D"
-                  }
-                ]
-                result {
-                  ref "x"
-                }
-                returns "Double"
-              }
-            }
-            var "f"
-          }
-          {
-            value {
-              conditional {
-                then [
-                  {
-                    set "f"
-                    value {
-                      closure {
-                        parameters [
-                          {
-                            name "x"
-                            type "Double"
-                          }
-                        ]
-                        result {
-                          ref "x"
-                        }
-                        returns "Double"
-                      }
-                    }
-                  }
-                ]
-                when {
-                  ref "c"
-                }
-              }
-            }
-          }
-        ]
-        failing "anything"
-        parameters [
-          {
-            name "c"
-            type "Bool"
-          }
-        ]
-        result {
-          call {
-            arguments [
-              2.5
-            ]
-            procedure {
-              ref "f"
-            }
-          }
-        }
-        returns "Double"
-      }
-    }
-    types {
-      "App.D" "Double"
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "procedures-apart-only-by-an-alias-join-as-one-procedure-type")
+(note "One way writes into `f` a closure taking `App.D`, a spelling of `Double`, and the other one taking `Double`. The two are one procedure type, so `f` reads `(Double) -> Double` and a call of it is held to that.")
 
+(program
+  (warp 1)
+  (type App.D Double)
+  (procedure entry
+    (access public)
+    (parameter c (type Bool))
+    (returns Double)
+    (failing (anything))
+    (body
+      (var f
+        (closure
+          (parameter x (type App.D))
+          (returns Double)
+          (result x)))
+      (conditional
+        (when c)
+        (then
+          (set f
+            (closure
+              (parameter x (type Double))
+              (returns Double)
+              (result x))))))
+    (result (apply f 2.5))))
+(arguments (argument c false))
+(expect (answers 2.5))

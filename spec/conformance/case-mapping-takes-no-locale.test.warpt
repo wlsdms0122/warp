@@ -1,44 +1,13 @@
-warpt 1
-{
-  expect {
-    answers [
-      "I"
-      "i"
-    ]
-  }
-  name "case-mapping-takes-no-locale"
-  note "Case mapping is Unicode's default and no locale's tailoring: `i` uppercases to `I` and `I` lowercases to `i` everywhere, whatever the machine's locale says about a dotted i."
-  program {
-    imports [
-      "Standard.Text.lowercased"
-      "Standard.Text.uppercased"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result [
-          {
-            call {
-              arguments [
-                "i"
-              ]
-              procedure "Standard.Text.uppercased"
-            }
-          }
-          {
-            call {
-              arguments [
-                "I"
-              ]
-              procedure "Standard.Text.lowercased"
-            }
-          }
-        ]
-        returns "Array<String>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "case-mapping-takes-no-locale")
+(note "Case mapping is Unicode's default and no locale's tailoring: `i` uppercases to `I` and `I` lowercases to `i` everywhere, whatever the machine's locale says about a dotted i.")
 
+(program
+  (warp 1)
+  (import Standard.Text.lowercased)
+  (import Standard.Text.uppercased)
+  (procedure entry
+    (access public)
+    (returns (array String))
+    (result (array (call Standard.Text.uppercased "i") (call Standard.Text.lowercased "I")))))
+(expect (answers (array "I" "i")))

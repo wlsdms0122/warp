@@ -1,41 +1,13 @@
-warpt 1
-{
-  expect {
-    answers "c"
-  }
-  name "a-map-keyed-by-whole-numbers-reads-a-key-between-the-brackets"
-  note "Brackets on a map read the entry under the value between them, judged against the map's key type, so `d[3]` on `Dictionary<Int, String>` reads the entry under the key 3 and no position."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "d"
-            type "Dictionary<Int, String>"
-            value {
-              dictionary [
-                [
-                  0
-                  "a"
-                ]
-                [
-                  3
-                  "c"
-                ]
-              ]
-            }
-          }
-        ]
-        result {
-          ref "d[3]"
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-map-keyed-by-whole-numbers-reads-a-key-between-the-brackets")
+(note "Brackets on a map read the entry under the value between them, judged against the map's key type, so `d[3]` on `Dictionary<Int, String>` reads the entry under the key 3 and no position.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let d (type (dictionary Int String)) (dictionary (entry 0 "a") (entry 3 "c"))))
+    (result (path d (index 3)))))
+(expect (answers "c"))

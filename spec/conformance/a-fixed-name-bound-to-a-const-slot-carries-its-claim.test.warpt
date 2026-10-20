@@ -1,71 +1,28 @@
-warpt 1
-{
-  expect {
-    answers 2
-  }
-  name "a-fixed-name-bound-to-a-const-slot-carries-its-claim"
-  note "`relay` binds `g` to its parameter of a `const` procedure type answering Int, without a type, so `g` holds the type the parameter was declared. Calling `g` calls a value a slot declared `const`, so `relay`, which declares `const`, holds to it, and an operand calls it."
-  program {
-    imports [
-      "Standard.Numeric.plus"
-    ]
-    procedures {
-      entry {
-        access "public"
-        const true
-        result {
-          call {
-            arguments [
-              {
-                call {
-                  arguments [
-                    {
-                      closure {
-                        const true
-                        isolated true
-                        result 1
-                        returns "Int"
-                      }
-                    }
-                  ]
-                  procedure "relay"
-                }
-              }
-              1
-            ]
-            procedure "Standard.Numeric.plus"
-          }
-        }
-        returns "Int"
-      }
-      relay {
-        body [
-          {
-            let "g"
-            value {
-              ref "body"
-            }
-          }
-        ]
-        const true
-        parameters [
-          {
-            name "body"
-            type "const () -> Int"
-          }
-        ]
-        result {
-          call {
-            procedure {
-              ref "g"
-            }
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-fixed-name-bound-to-a-const-slot-carries-its-claim")
+(note "`relay` binds `g` to its parameter of a `const` procedure type answering Int, without a type, so `g` holds the type the parameter was declared. Calling `g` calls a value a slot declared `const`, so `relay`, which declares `const`, holds to it, and an operand calls it.")
 
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (const)
+    (returns Int)
+    (result
+      (call Standard.Numeric.plus
+        (call relay
+          (closure
+            (const)
+            (isolated)
+            (returns Int)
+            (result 1)))
+        1)))
+  (procedure relay
+    (const)
+    (parameter body (type (procedure (const) (parameters) (returns Int))))
+    (returns Int)
+    (body
+      (let g body))
+    (result (apply g))))
+(expect (answers 2))

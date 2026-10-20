@@ -1,84 +1,26 @@
-warpt 1
-{
-  expect {
-    answers "cache"
-  }
-  name "a-claim-about-a-struct-reads-its-parameters-held-to-the-structs-bounds-answers"
-  note "A claim about `App.Cache` reads each of its type parameters as one no call fills, held to the bounds the struct declares, so a declaration taking `App.Cache<some K, some V>` with `K` bounded by `Hashable` answers it."
-  program {
-    contracts {
-      "App.Describable" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "c"
-            type "App.Cache<String, Int>"
-            value {
-              struct {
-                table {
-                  dictionary []
-                }
-              }
-            }
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "c"
-              }
-            ]
-            procedure "App.Describable.describe"
-          }
-        }
-        returns "String"
-      }
-    }
-    types {
-      "App.Cache" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "App.Cache<some K: Hashable, some V>"
-              }
-            ]
-            result "cache"
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.Describable"
-        ]
-        struct {
-          table "Dictionary<some K, some V>"
-        }
-        typeParameters [
-          "K: Hashable"
-          "V"
-        ]
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-claim-about-a-struct-reads-its-parameters-held-to-the-structs-bounds-answers")
+(note "A claim about `App.Cache` reads each of its type parameters as one no call fills, held to the bounds the struct declares, so a declaration taking `App.Cache<some K, some V>` with `K` bounded by `Hashable` answers it.")
 
+(program
+  (warp 1)
+  (struct App.Cache
+    (typeParameter K Hashable)
+    (typeParameter V)
+    (satisfies App.Describable)
+    (field table (dictionary (some K) (some V)))
+    (procedure describe
+      (parameter of (type (named App.Cache (some K Hashable) (some V))))
+      (returns String)
+      (result "cache")))
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let c (type (named App.Cache String Int)) (struct (field table (dictionary)))))
+    (result (call App.Describable.describe c))))
+(expect (answers "cache"))

@@ -1,90 +1,31 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "two-ways-taking-a-variable-as-a-type-parameter-and-a-type-refuse"
-  note "In a procedure generic over `T`, one arm takes `n` while it reads `T`, and the other sets it to an int and takes it there. `T` is whatever a call fills it with, not an int, so the two ways held the box to different types and the build refuses where they meet."
-  program {
-    imports []
-    procedures {
-      "App.pick" {
-        body [
-          {
-            value {
-              ref "x"
-            }
-            var "n"
-          }
-          {
-            value {
-              conditional {
-                else [
-                  {
-                    set "n"
-                    value 1
-                  }
-                  {
-                    let "b"
-                    value {
-                      closure {
-                        result {
-                          ref "n"
-                        }
-                        returns "Int"
-                      }
-                    }
-                  }
-                ]
-                then [
-                  {
-                    let "a"
-                    value {
-                      closure {
-                        result {
-                          ref "n"
-                        }
-                        returns "some T"
-                      }
-                    }
-                  }
-                ]
-                when {
-                  ref "ready"
-                }
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "x"
-            type "some T"
-          }
-          {
-            name "ready"
-            type "Bool"
-          }
-        ]
-        result 1
-        returns "Int"
-      }
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              2
-              true
-            ]
-            procedure "App.pick"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "two-ways-taking-a-variable-as-a-type-parameter-and-a-type-refuse")
+(note "In a procedure generic over `T`, one arm takes `n` while it reads `T`, and the other sets it to an int and takes it there. `T` is whatever a call fills it with, not an int, so the two ways held the box to different types and the build refuses where they meet.")
 
+(program
+  (warp 1)
+  (procedure App.pick
+    (parameter x (type (some T)))
+    (parameter ready (type Bool))
+    (returns Int)
+    (body
+      (var n x)
+      (conditional
+        (when ready)
+        (then
+          (let a
+            (closure
+              (returns (some T))
+              (result n))))
+        (else
+          (set n 1)
+          (let b
+            (closure
+              (returns Int)
+              (result n))))))
+    (result 1))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result (call App.pick 2 true))))
+(expect (refuses build))

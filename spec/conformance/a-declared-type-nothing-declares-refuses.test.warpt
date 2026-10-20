@@ -1,29 +1,13 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-declared-type-nothing-declares-refuses"
-  note "A name may say what it holds, and a type nothing in the link declares says nothing. `let y` declaring `App.Nope` refuses at the build."
-  program {
-    imports [
-      "App.Nope"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "y"
-            type "App.Nope"
-            value 1
-          }
-        ]
-        result 1
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-declared-type-nothing-declares-refuses")
+(note "A name may say what it holds, and a type nothing in the link declares says nothing. `let y` declaring `App.Nope` refuses at the build.")
 
+(program
+  (warp 1)
+  (import App.Nope)
+  (procedure entry
+    (access public)
+    (body
+      (let y (type App.Nope) 1))
+    (result 1)))
+(expect (refuses build))

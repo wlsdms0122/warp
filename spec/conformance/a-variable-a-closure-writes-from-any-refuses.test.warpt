@@ -1,89 +1,29 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-variable-a-closure-writes-from-any-refuses"
-  note "App.g keeps x in cell, and a closure it calls writes junk, read as Any, into cell. cell holds T, which takes only a value of it, so the write in the closure refuses at the build."
-  program {
-    imports []
-    procedures {
-      "App.g" {
-        body [
-          {
-            value {
-              ref "x"
-            }
-            var "cell"
-          }
-          {
-            let "c"
-            value {
-              closure {
-                body [
-                  {
-                    set "cell"
-                    value {
-                      ref "junk"
-                    }
-                  }
-                ]
-                result 0
-                returns "Int"
-              }
-            }
-          }
-          {
-            let "z"
-            value {
-              call {
-                procedure {
-                  ref "c"
-                }
-              }
-            }
-          }
-        ]
-        failing "anything"
-        parameters [
-          {
-            name "x"
-            type "some T"
-          }
-          {
-            name "junk"
-          }
-        ]
-        result {
-          ref "cell"
-        }
-        returns "some T"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "r"
-            value {
-              call {
-                arguments [
-                  1
-                  "s"
-                ]
-                procedure "App.g"
-              }
-            }
-          }
-        ]
-        failing "anything"
-        result {
-          ref "r"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-variable-a-closure-writes-from-any-refuses")
+(note "App.g keeps x in cell, and a closure it calls writes junk, read as Any, into cell. cell holds T, which takes only a value of it, so the write in the closure refuses at the build.")
 
+(program
+  (warp 1)
+  (procedure App.g
+    (parameter x (type (some T)))
+    (parameter junk)
+    (returns (some T))
+    (failing (anything))
+    (body
+      (var cell x)
+      (let c
+        (closure
+          (returns Int)
+          (body
+            (set cell junk))
+          (result 0)))
+      (let z (apply c)))
+    (result cell))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (body
+      (let r (call App.g 1 "s")))
+    (result r)))
+(expect (refuses build))

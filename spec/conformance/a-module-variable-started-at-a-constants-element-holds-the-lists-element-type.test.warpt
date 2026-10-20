@@ -1,40 +1,15 @@
-warpt 1
-{
-  expect {
-    answers "w"
-  }
-  name "a-module-variable-started-at-a-constants-element-holds-the-lists-element-type"
-  note "A module variable that declares no type holds the type its start reads as. `k[0]` of `[1, \"s\"]` reads as the list's one element type, `Any`, though it settles to 1, so the variable takes text."
-  program {
-    const {
-      k [
-        1
-        "s"
-      ]
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            set "v"
-            value "w"
-          }
-        ]
-        result {
-          ref "v"
-        }
-        returns "Any"
-      }
-    }
-    var {
-      v {
-        ref "k[0]"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-module-variable-started-at-a-constants-element-holds-the-lists-element-type")
+(note "A module variable that declares no type holds the type its start reads as. `k[0]` of `[1, \"s\"]` reads as the list's one element type, `Any`, though it settles to 1, so the variable takes text.")
 
+(program
+  (warp 1)
+  (const k (array 1 "s"))
+  (var v (path k (index 0)))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (set v "w"))
+    (result v)))
+(expect (answers "w"))

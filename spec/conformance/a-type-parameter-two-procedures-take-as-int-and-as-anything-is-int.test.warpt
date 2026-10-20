@@ -1,64 +1,25 @@
-warpt 1
-{
-  expect {
-    answers 1
-  }
-  name "a-type-parameter-two-procedures-take-as-int-and-as-anything-is-int"
-  note "`App.two` takes two procedures of `some T`. The first takes `Int`, and the second writes no type and takes anything. Both take `Int`, so `T` is `Int`, and each closure stands at `(Int) -> Int`."
-  program {
-    imports []
-    procedures {
-      "App.two" {
-        parameters [
-          {
-            name "f"
-            type "(some T) -> Int"
-          }
-          {
-            name "g"
-            type "(some T) -> Int"
-          }
-        ]
-        result 1
-        returns "Int"
-      }
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              {
-                closure {
-                  parameters [
-                    {
-                      name "y"
-                      type "Int"
-                    }
-                  ]
-                  result 1
-                  returns "Int"
-                }
-              }
-              {
-                closure {
-                  parameters [
-                    {
-                      name "y"
-                    }
-                  ]
-                  result 1
-                  returns "Int"
-                }
-              }
-            ]
-            procedure "App.two"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-type-parameter-two-procedures-take-as-int-and-as-anything-is-int")
+(note "`App.two` takes two procedures of `some T`. The first takes `Int`, and the second writes no type and takes anything. Both take `Int`, so `T` is `Int`, and each closure stands at `(Int) -> Int`.")
 
+(program
+  (warp 1)
+  (procedure App.two
+    (parameter f (type (procedure (parameters (some T)) (returns Int))))
+    (parameter g (type (procedure (parameters (some T)) (returns Int))))
+    (returns Int)
+    (result 1))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result
+      (call App.two
+        (closure
+          (parameter y (type Int))
+          (returns Int)
+          (result 1))
+        (closure
+          (parameter y)
+          (returns Int)
+          (result 1))))))
+(expect (answers 1))

@@ -1,54 +1,18 @@
-warpt 1
-{
-  expect {
-    answers 5
-  }
-  name "a-struct-literal-handed-at-a-struct-of-a-type-parameter-fills-it-from-its-fields-answers"
-  note "A struct literal handed where `App.Box<some T>` is declared is read as applied to what its fields read the parameter as, so the call fills `T` with `Int` from the literal's `item`."
-  program {
-    imports []
-    procedures {
-      "App.unwrap" {
-        parameters [
-          {
-            name "b"
-            type "App.Box<some T>"
-          }
-        ]
-        result {
-          ref "b.item"
-        }
-        returns "some T"
-      }
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              {
-                struct {
-                  item 5
-                }
-              }
-            ]
-            procedure "App.unwrap"
-          }
-        }
-        returns "Int"
-      }
-    }
-    types {
-      "App.Box" {
-        struct {
-          item "some T"
-        }
-        typeParameters [
-          "T"
-        ]
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-struct-literal-handed-at-a-struct-of-a-type-parameter-fills-it-from-its-fields-answers")
+(note "A struct literal handed where `App.Box<some T>` is declared is read as applied to what its fields read the parameter as, so the call fills `T` with `Int` from the literal's `item`.")
 
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (procedure App.unwrap
+    (parameter b (type (named App.Box (some T))))
+    (returns (some T))
+    (result (path b (field item))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result (call App.unwrap (struct (field item 5))))))
+(expect (answers 5))

@@ -1,31 +1,12 @@
-warpt 1
-{
-  expect {
-    answers "hi"
-  }
-  name "decoded-reads-bytes-as-text-in-a-named-encoding"
-  note "Bytes are not text and no encoding is assumed. Reading them as text is a procedure that names its encoding. decoded and encoded are the two directions of one mapping, utf8 first."
-  program {
-    imports [
-      "Standard.Text.decoded"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              x"6869"
-              "utf8"
-            ]
-            procedure "Standard.Text.decoded"
-          }
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "decoded-reads-bytes-as-text-in-a-named-encoding")
+(note "Bytes are not text and no encoding is assumed. Reading them as text is a procedure that names its encoding. decoded and encoded are the two directions of one mapping, utf8 first.")
 
+(program
+  (warp 1)
+  (import Standard.Text.decoded)
+  (procedure entry
+    (access public)
+    (returns String)
+    (result (call Standard.Text.decoded x"6869" "utf8"))))
+(expect (answers "hi"))

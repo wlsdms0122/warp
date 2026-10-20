@@ -1,71 +1,26 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "an-effectful-closure-where-const-is-asked-refuses"
-  note "A slot of a `const` procedure type takes only a procedure that says it answers without running. The closure handed to `Standard.Collection.tryFilter` sends `Standard.Concurrent.all` and does not declare `const`, so the build refuses it at the slot."
-  program {
-    imports [
-      "Standard.Collection.tryFilter"
-      "Standard.Concurrent.all"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "kept"
-            value {
-              call {
-                arguments [
-                  [
-                    1
-                  ]
-                  {
-                    closure {
-                      body [
-                        {
-                          let "raced"
-                          value {
-                            call {
-                              arguments [
-                                []
-                              ]
-                              procedure "Standard.Concurrent.all"
-                            }
-                          }
-                        }
-                      ]
-                      failing [
-                        "concurrent_failed"
-                      ]
-                      isolated true
-                      parameters [
-                        {
-                          name "item"
-                          type "Int"
-                        }
-                      ]
-                      result true
-                      returns "Bool"
-                    }
-                  }
-                ]
-                procedure "Standard.Collection.tryFilter"
-              }
-            }
-          }
-        ]
-        failing "anything"
-        result {
-          ref "kept"
-        }
-        returns "Array<Int>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-effectful-closure-where-const-is-asked-refuses")
+(note "A slot of a `const` procedure type takes only a procedure that says it answers without running. The closure handed to `Standard.Collection.tryFilter` sends `Standard.Concurrent.all` and does not declare `const`, so the build refuses it at the slot.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.tryFilter)
+  (import Standard.Concurrent.all)
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (failing (anything))
+    (body
+      (let kept
+        (call Standard.Collection.tryFilter
+          (array 1)
+          (closure
+            (isolated)
+            (parameter item (type Int))
+            (returns Bool)
+            (failing concurrent_failed)
+            (body
+              (let raced (call Standard.Concurrent.all (array))))
+            (result true)))))
+    (result kept)))
+(expect (refuses build))

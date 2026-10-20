@@ -1,33 +1,16 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-bound-beside-a-procedure-types-answer-after-its-parameter-refuses"
-  note "A procedure type names its parameters before its answer. `T` is named at the parameter, so a bound beside the `some T` of the answer refuses at the load."
-  program {
-    imports [
-      "Standard.Comparable"
-    ]
-    procedures {
-      "App.f" {
-        parameters [
-          {
-            name "by"
-            type "(some T) -> some T: Standard.Comparable"
-          }
-        ]
-        result 1
-        returns "Int"
-      }
-      entry {
-        access "public"
-        result 1
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-bound-beside-a-procedure-types-answer-after-its-parameter-refuses")
+(note "A procedure type names its parameters before its answer. `T` is named at the parameter, so a bound beside the `some T` of the answer refuses at the load.")
 
+(program
+  (warp 1)
+  (import Standard.Comparable)
+  (procedure App.f
+    (parameter by (type (procedure (parameters (some T)) (returns (some T Standard.Comparable)))))
+    (returns Int)
+    (result 1))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result 1)))
+(expect (refuses load))

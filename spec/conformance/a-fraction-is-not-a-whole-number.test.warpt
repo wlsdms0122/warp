@@ -1,40 +1,15 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-fraction-is-not-a-whole-number"
-  note "A slot asking for a whole number does not take a fraction. Taking one that happened to be whole would make whether a value fits depend on the value rather than the type, so 2.0 would be accepted where 2.5 is refused by a declaration that names neither."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              2.0
-            ]
-            procedure "wants"
-          }
-        }
-        returns "Int"
-      }
-      wants {
-        parameters [
-          {
-            name "it"
-            type "Int"
-          }
-        ]
-        result {
-          ref "it"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-fraction-is-not-a-whole-number")
+(note "A slot asking for a whole number does not take a fraction. Taking one that happened to be whole would make whether a value fits depend on the value rather than the type, so 2.0 would be accepted where 2.5 is refused by a declaration that names neither.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result (call wants 2.0)))
+  (procedure wants
+    (parameter it (type Int))
+    (returns Int)
+    (result it)))
+(expect (refuses build))

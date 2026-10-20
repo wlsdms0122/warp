@@ -1,41 +1,17 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-closure-failing-beyond-its-signature-refuses"
-  note "A closure literal is held to its signature where it is written. One calling `abort` and naming no failure fails with more than it says, and refuses at the build, wherever it is handed."
-  program {
-    imports [
-      "Standard.Control.abort"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "f"
-            value {
-              closure {
-                result {
-                  call {
-                    arguments [
-                      "no"
-                    ]
-                    procedure "Standard.Control.abort"
-                  }
-                }
-                returns "Never"
-              }
-            }
-          }
-        ]
-        result 1
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-closure-failing-beyond-its-signature-refuses")
+(note "A closure literal is held to its signature where it is written. One calling `abort` and naming no failure fails with more than it says, and refuses at the build, wherever it is handed.")
 
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let f
+        (closure
+          (returns Never)
+          (result (call Standard.Control.abort "no")))))
+    (result 1)))
+(expect (refuses build))

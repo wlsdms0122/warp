@@ -1,59 +1,15 @@
-warpt 1
-{
-  expect {
-    answers [
-      "x\"6869\""
-      "[\"x\\\"6869\\\"\"]"
-    ]
-  }
-  name "text-spells-bytes-the-way-a-document-writes-them"
-  note "text spells a value the way a document writes it, and a document writes bytes as x and their hex digits. A value's spelling does not change with how deep it sits. The document writer is one recursive function, so what a container shows is that same spelling, quoted the way a string in that position is quoted."
-  program {
-    imports [
-      "Standard.Text.text"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "alone"
-            value {
-              call {
-                arguments [
-                  x"6869"
-                ]
-                procedure "Standard.Text.text"
-              }
-            }
-          }
-          {
-            let "held"
-            value {
-              call {
-                arguments [
-                  [
-                    x"6869"
-                  ]
-                ]
-                procedure "Standard.Text.text"
-              }
-            }
-          }
-        ]
-        result [
-          {
-            ref "alone"
-          }
-          {
-            ref "held"
-          }
-        ]
-        returns "Array<String>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "text-spells-bytes-the-way-a-document-writes-them")
+(note "text spells bytes the way a document writes them, as x and their hex digits. A value's spelling does not change with how deep it sits, so a container shows that same spelling, quoted the way a string in that position is quoted.")
 
+(program
+  (warp 1)
+  (import Standard.Text.text)
+  (procedure entry
+    (access public)
+    (returns (array String))
+    (body
+      (let alone (call Standard.Text.text x"6869"))
+      (let held (call Standard.Text.text (array x"6869"))))
+    (result (array alone held))))
+(expect (answers (array "x\"6869\"" "[\"x\\\"6869\\\"\"]")))

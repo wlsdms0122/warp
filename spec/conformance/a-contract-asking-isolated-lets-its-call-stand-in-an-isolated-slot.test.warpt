@@ -1,158 +1,42 @@
-warpt 1
-{
-  expect {
-    answers [
-      "1"
-      "2"
-    ]
-  }
-  name "a-contract-asking-isolated-lets-its-call-stand-in-an-isolated-slot"
-  note "A contract's procedure writing `isolated` touches no name another body could touch at once, so a call through it stands where a call to a declaration saying `isolated` does: the closure in `App.names` declares `isolated` and sends it, and stands in the isolated slot concurrent map asks."
-  program {
-    contracts {
-      "App.Named" {
-        procedures {
-          name {
-            isolated true
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    imports [
-      "Standard.Concurrent.map"
-      "Standard.Text.text"
-    ]
-    procedures {
-      "App.names" {
-        failing [
-          "concurrent_failed"
-        ]
-        isolated true
-        parameters [
-          {
-            name "of"
-            type "Array<some T: App.Named>"
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "of"
-              }
-              {
-                closure {
-                  isolated true
-                  parameters [
-                    {
-                      name "item"
-                      type "some T"
-                    }
-                    {
-                      name "index"
-                      type "Int"
-                    }
-                  ]
-                  result {
-                    call {
-                      arguments [
-                        {
-                          ref "item"
-                        }
-                      ]
-                      procedure "App.Named.name"
-                    }
-                  }
-                  returns "String"
-                }
-              }
-            ]
-            procedure "Standard.Concurrent.map"
-          }
-        }
-        returns "Array<String>"
-      }
-      entry {
-        access "public"
-        failing [
-          "cast_refused"
-          "concurrent_failed"
-        ]
-        isolated true
-        result {
-          call {
-            arguments [
-              [
-                {
-                  as {
-                    of {
-                      struct {
-                        id 1
-                      }
-                    }
-                    type "App.Thing"
-                  }
-                }
-                {
-                  as {
-                    of {
-                      struct {
-                        id 2
-                      }
-                    }
-                    type "App.Thing"
-                  }
-                }
-              ]
-            ]
-            procedure "App.names"
-          }
-        }
-        returns "Array<String>"
-      }
-    }
-    types {
-      "App.Thing" {
-        procedures {
-          name {
-            const true
-            isolated true
-            parameters [
-              {
-                name "of"
-                type "App.Thing"
-              }
-            ]
-            result {
-              call {
-                arguments [
-                  {
-                    ref "of.id"
-                  }
-                ]
-                procedure "Standard.Text.text"
-              }
-            }
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.Named"
-        ]
-        struct {
-          id "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-contract-asking-isolated-lets-its-call-stand-in-an-isolated-slot")
+(note "A contract's procedure writing `isolated` touches no name another body could touch at once, so a call through it stands where a call to a declaration saying `isolated` does: the closure in `App.names` declares `isolated` and sends it, and stands in the isolated slot concurrent map asks.")
 
+(program
+  (warp 1)
+  (import Standard.Concurrent.map)
+  (import Standard.Text.text)
+  (struct App.Thing
+    (satisfies App.Named)
+    (field id Int)
+    (procedure name
+      (const)
+      (isolated)
+      (parameter of (type App.Thing))
+      (returns String)
+      (result (call Standard.Text.text (path of (field id))))))
+  (contract App.Named
+    (procedure name
+      (isolated)
+      (parameter of (type Self))
+      (returns String)))
+  (procedure App.names
+    (isolated)
+    (parameter of (type (array (some T App.Named))))
+    (returns (array String))
+    (failing concurrent_failed)
+    (result
+      (call Standard.Concurrent.map of
+        (closure
+          (isolated)
+          (parameter item (type (some T)))
+          (parameter index (type Int))
+          (returns String)
+          (result (call App.Named.name item))))))
+  (procedure entry
+    (access public)
+    (isolated)
+    (returns (array String))
+    (failing cast_refused concurrent_failed)
+    (result (call App.names (array (as (struct (field id 1)) App.Thing) (as (struct (field id 2)) App.Thing))))))
+(expect (answers (array "1" "2")))

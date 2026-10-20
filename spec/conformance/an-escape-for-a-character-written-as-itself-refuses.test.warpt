@@ -1,11 +1,5 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "an-escape-for-a-character-written-as-itself-refuses"
-  note "A string escapes exactly the quote, the backslash and the control characters. `\\u0041` is a second text for the character `A`, which is written as itself, and one value has one text."
-  test 1
-  text "warpt 1\n\"\\u0041\"\n"
-}
-
+(test 1)
+(name "an-escape-for-a-character-written-as-itself-refuses")
+(note "Text escapes exactly the quote, the backslash and the characters below U+0020. `\\u0041` is a second text for the character `A`, which is written as itself, and one value has one text.")
+(text "(warp 1)\n(const a \"\\u0041\")\n")
+(expect (refuses load))

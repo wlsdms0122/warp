@@ -1,11 +1,5 @@
-warpt 1
-{
-  bytes x"5741525001070205016103020501610304"
-  expect {
-    refuses "load"
-  }
-  name "a-map-key-written-twice-refuses"
-  note "Strictly ascending refuses a shuffle and a repeat by one rule. A map with one key twice has no answer for that key, and choosing one of the two would be choosing by the order the bytes happened to arrive in."
-  test 1
-}
-
+(test 1)
+(name "a-map-key-written-twice-refuses")
+(note "Strictly ascending refuses a shuffle and a repeat by one rule. A map with one key twice has no answer for that key, and choosing one of the two would be choosing by the order the bytes happened to arrive in.")
+(bytes x"5741525001070205016103020501610304")
+(expect (refuses load))

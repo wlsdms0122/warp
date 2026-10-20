@@ -1,34 +1,13 @@
-warpt 1
-{
-  expect {
-    answers Bank.Account {
-      balance 1
-    }
-  }
-  name "a-struct-literal-answered-where-a-declared-struct-is-answered-takes-the-name"
-  note "A declared struct is nominal. A struct literal written where the type is read, here the answer of a declaration writing `returns Bank.Account`, is judged field by field and takes the name; the answer is written with it."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        result {
-          struct {
-            balance 1
-          }
-        }
-        returns "Bank.Account"
-      }
-    }
-    types {
-      "Bank.Account" {
-        struct {
-          balance "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-struct-literal-answered-where-a-declared-struct-is-answered-takes-the-name")
+(note "A declared struct is nominal. A struct literal written where the type is read, here the answer of a declaration writing `returns Bank.Account`, is judged field by field and takes the name; the answer is written with it.")
 
+(program
+  (warp 1)
+  (struct Bank.Account
+    (field balance Int))
+  (procedure entry
+    (access public)
+    (returns Bank.Account)
+    (result (struct (field balance 1)))))
+(expect (answers (struct Bank.Account (field balance 1))))

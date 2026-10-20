@@ -4,7 +4,7 @@ What a body is made of. A statement binds a name to an expression, and a **const
 
 ## A statement
 
-A map carrying **at most one** naming key and its expression under **`value`**: `{ let "x" value { call {…} } }`, `{ value { loop {…} } }`. A construct sits inside `value` under its own key, and that is the one place a construct key is read. A construct key anywhere else is not a construct: a bare mapping in an operand, such as an argument or an element of an array, is read as an expression form and **refuses at the load**, and under `struct` the key is a field name like any other.
+A map carrying **at most one** naming key and its expression under **`value`**: `{ let: x, value: { call: … } }`, `{ value: { loop: … } }`. A construct sits inside `value` under its own key, and that is the one place a construct key is read. A construct key anywhere else is not a construct: a bare mapping in an operand, such as an argument or an element of an array, is read as an expression form and **refuses at the load**, and under `struct` the key is a field name like any other.
 
 The naming key says what the statement does to its name:
 
@@ -14,7 +14,7 @@ The naming key says what the statement does to its name:
 | `var` | introduces a name that may be written again |
 | `set` | writes a path headed by a variable: one a `var` declared earlier, a module variable, or an `inout` parameter. `set "p.x"` and `set "people[0].name"` write into what the head holds |
 
-**A name may say what it holds**, under **`type`**, written the way a parameter's type is: `{ let "x" type "Double" value 1 }`. The declaration is what the name holds, and the build works out a reading only where the name declares none. What the statement was given has to fit the declaration, and a declaration naming a type nothing declares **refuses at the build**, and one naming a type parameter **at the load**: what fills a parameter is a call filling the slot that names it, and a name inside a body is no such slot.
+**A name may say what it holds**, under **`type`**, written the way a parameter's type is: `{ let: x, type: Double, value: 1 }`. The declaration is what the name holds, and the build works out a reading only where the name declares none. What the statement was given has to fit the declaration, and a declaration naming a type nothing declares **refuses at the build**, and one naming a type parameter **at the load**: what fills a parameter is a call filling the slot that names it, and a name inside a body is no such slot.
 
 A declaration is a slot like a parameter's, so **what the name takes is judged against it** the way an argument is: a whole literal written where it declares a `Double` is the fraction it names, a struct literal written where it declares a struct is judged field by field and takes the name, a value whose type the build does not know stands where *what a slot takes, exactly* in [types](type.md) says, and any other value is held as it came.
 
@@ -22,7 +22,7 @@ A `set` reaches a name something else declared and a statement with no naming ke
 
 A declared name is fixed at what it says: a write into a declared `var` is held to the declaration and does not retype it, the way a write into a module variable or an `inout` parameter is. This is what lets a name be handed to an `inout` slot, which asks for the same type the name is. A name whose reading the build worked out is that reading, and a name that says what it holds is what it says.
 
-A statement with no naming key, `{ value … }`, runs its expression and binds nothing. The answer is dropped, which is how an effect is asked for on its own. Three families step out of this freedom, in different directions:
+A statement with no naming key, `{ value: … }`, runs its expression and binds nothing. The answer is dropped, which is how an effect is asked for on its own. Three families step out of this freedom, in different directions:
 
 - The constructs that bind **through** the statement's name, `loop` (its round) and `attempt` (its failure). The name they bind through is one the statement introduces, with `let` or `var`. Written nameless they bind nothing: a loop with no name has no round to read and an attempt with no name has no failure to read, and each runs the same otherwise. An attempt under a `set` binds no failure and writes what it answers; a loop answers nothing, so a `set` of one **refuses at the load**.
 - The leaving constructs (`return`, `break`, `continue`) take **no** naming key at all: such a statement never finishes, so its name could never bind, and a key that promises a binding that cannot happen **refuses**. The same rule reaches a **call**: a statement whose call answers `Never`, as its callee's `returns` declares, binds nothing and takes no name. Held at the **build**, because only the build knows what a call answers, where the leaves the text shows are held at the load.
@@ -30,7 +30,7 @@ A statement with no naming key, `{ value … }`, runs its expression and binds n
 
 **What a write reaches.** A `set` names a path, and the head of the path is the variable written. A segment after the head written optional (`?.`, `?[`) **refuses at the load**, because a write reads no absence. Every segment after the head is judged at the **build** against the type the walk has reached: a field of a type declared in `types` is passed through only when the declaration wrote it `var`; an entry of a map and an element of a list are passed through as they are, and an entry the map does not hold yet is made by the write that lands on it, while a write passing through one **refuses at the run**, as a read of one does; `Any` and a nullable type are not written into. What is written has to fit the type the path reaches, and is judged against it, so a box that said what it holds holds a value of its declaration after a write as it did after its declaration, and a box that said nothing holds what the build reads the path as. A write to a whole local variable retypes it unless the variable declared what it holds, under *what a variable reads as* in [checking](checking.md). A variable a closure captured, or a call handed in place, holds from there on the type it read as there, and a later write has to fit it, since the closure or the callee reads and writes the box as that type. Two ways that took one variable as different types **refuse at the build** where they meet, since what each took goes on writing its own type; two names for one declared struct are one type. A way meets the others where its leave lands. A write to a module variable or to an `inout` parameter has to fit the type the box holds and retypes nothing. At the run the value is computed first, and then the box is rewritten once, so nothing observes the box halfway, and the path reaches what the names hold once the value has run, the head and the names it indexes with included. What stands between the brackets is judged as a read's is, under [expressions](expression.md), and a path there is read where the write stands: the write lands on that one position of a list, or on that entry of a map, made where the map does not hold it yet.
 
-**A `var` may stand alone.** A statement that is only `{ var "name" }`, with no `value`, introduces the name with nothing in it yet, and a name holding nothing holds null. It is the declaration a conditional's arms write into; what the name reads as afterwards is under *what a variable reads as* in [checking](checking.md). The other two spellings say something about a value, so they still require one, and one written without it **refuses at the load**.
+**A `var` may stand alone.** A statement that is only `{ var: name }`, with no `value`, introduces the name with nothing in it yet, and a name holding nothing holds null. It is the declaration a conditional's arms write into; what the name reads as afterwards is under *what a variable reads as* in [checking](checking.md). The other two spellings say something about a value, so they still require one, and one written without it **refuses at the load**.
 
 **Where a name may be introduced.** No name introduced in a body, at any depth, takes the spelling of a constant or a variable its document declares, or of a parameter of the procedure it is written in, a closure's included: each **refuses at the load**, and so does a parameter taking a constant's or a variable's spelling. Within one body a name is introduced once, and a second `let` or `var` of it **refuses at the load**. A name declared inside a `conditional` arm, a `loop`'s round, an `attempt`'s body or rescue, or a closure's body is read from the statement after it to the end of that body, its `result` included, and nowhere after, so two bodies side by side may each introduce it. Such a body may introduce a name a body around it already introduced, and inside it the name is the new one, with a box of its own: the outer box keeps what it held, and a `set` of that spelling writes the inner name, which **refuses at the load** where a `let` fixed it. A closure's parameter is such a name too.
 
@@ -93,13 +93,13 @@ A rescue catches failure (what the world did), not leaving (what the program sai
 The envelope is this specification's; what rides in `details` is the procedure's own, the standard vocabulary's under [the standard vocabulary](vocabulary.md).
 
 ```
-{ ref "failed.details[\"failures\"]" }
+{ ref: "failed.details[\"failures\"]" }
 ```
 
 `cast_refused` has no procedure behind it, so this specification names its `details` too: **`expected`**, the type the cast reads as, so a cast to an alias names what the alias stands for, and **`actual`**, the type the value is an instance of, both as text: `expected` in the type's string spelling and `actual` by the type's name. Both halves, because what was asked for is readable from the program and what turned up is not.
 
 ```
-{ ref "failed.details[\"actual\"]" }
+{ ref: "failed.details[\"actual\"]" }
 ```
 
 `details` holds `Any`, so a value read out of it is read as anything until a type is named for it. A field the envelope does not name is not reached by a dot on the failure itself: `failed.failures` **refuses at the build**, and what `details` holds is read through brackets, `failed.details["failures"]`.

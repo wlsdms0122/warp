@@ -1,32 +1,6 @@
-warpt 1
-{
-  arguments {
-    x 1
-  }
-  expect {
-    refuses "load"
-  }
-  name "a-mapping-with-two-form-keys-refuses"
-  note "A mapping where a value is wanted is an expression by its one key. One carrying both `ref` and `struct` is no form, and refuses at the load."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        parameters [
-          {
-            name "x"
-            type "Int"
-          }
-        ]
-        result {
-          ref "x"
-          struct {}
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
-
+(test 1)
+(name "a-mapping-with-two-form-keys-refuses")
+(note "A mapping where a value is wanted is an expression by its one key. One carrying both `ref` and `struct` is no form, and refuses at the load.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "parameters" (array (dictionary (entry "name" "x") (entry "type" "Int")))) (entry "result" (dictionary (entry "ref" "x") (entry "struct" (dictionary)))))))) (entry "warp" 1)))
+(arguments (argument x 1))
+(expect (refuses load))

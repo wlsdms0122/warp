@@ -1,91 +1,34 @@
-warpt 1
-{
-  documents [
-    {
-      contracts {
-        "Lib.Bag" {
-          procedures {
-            first {
-              parameters [
-                {
-                  name "of"
-                  type "Self"
-                }
-              ]
-              returns "Self.Item"
-            }
-            take {
-              parameters [
-                {
-                  name "of"
-                  type "Self"
-                }
-                {
-                  name "x"
-                  type "Self.Item"
-                }
-              ]
-              returns "Int"
-            }
-          }
-          types [
-            "Item"
-          ]
-        }
-      }
-      imports []
-      warp 1
-    }
-    {
-      imports [
-        "Lib.Bag"
-      ]
-      procedures {
-        "Use.count" {
-          access "public"
-          parameters [
-            {
-              name "cs"
-              type "Array<some C: Lib.Bag>"
-            }
-            {
-              name "x"
-              type "some C.Item"
-            }
-          ]
-          result 0
-          returns "Int"
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    refuses "build"
-  }
-  name "an-empty-list-fills-the-base-with-never-and-the-associated-type-takes-nothing-refuses"
-  note "An empty list fills C with Never, which holds no value, so `C.Item` is Never too, and handing text there refuses at the build."
-  program {
-    imports [
-      "Use.count"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              []
-              "s"
-            ]
-            procedure "Use.count"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-empty-list-fills-the-base-with-never-and-the-associated-type-takes-nothing-refuses")
+(note "An empty list fills C with Never, which holds no value, so `C.Item` is Never too, and handing text there refuses at the build.")
 
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Bag
+      (type Item)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item))
+      (procedure take
+        (parameter of (type Self))
+        (parameter x (type Self.Item))
+        (returns Int))))
+  (document
+    (warp 1)
+    (import Lib.Bag)
+    (procedure Use.count
+      (access public)
+      (parameter cs (type (array (some C Lib.Bag))))
+      (parameter x (type (some C.Item)))
+      (returns Int)
+      (result 0))))
+
+(program
+  (warp 1)
+  (import Use.count)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result (call Use.count (array) "s"))))
+(expect (refuses build))

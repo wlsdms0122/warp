@@ -1,125 +1,33 @@
-warpt 1
-{
-  expect {
-    answers "cast_refused"
-  }
-  name "a-cast-of-a-closure-taking-a-list-of-its-makers-parameter-in-place-fails"
-  note "App.mk answers a closure appending its x to a list it takes in place as `Array<some T>`, its own T, and the entry holds it as Any. Only the call of App.mk filled that T, and no value says with what, so the cast reading it as taking a list of text fails with cast_refused before anything is written, which the attempt catches."
-  program {
-    imports [
-      "Standard.Collection.append"
-    ]
-    procedures {
-      "App.mk" {
-        parameters [
-          {
-            name "x"
-            type "some T"
-          }
-        ]
-        result {
-          closure {
-            body [
-              {
-                value {
-                  call {
-                    arguments [
-                      {
-                        ref "xs"
-                      }
-                      {
-                        ref "x"
-                      }
-                    ]
-                    procedure "Standard.Collection.append"
-                  }
-                }
-              }
-            ]
-            parameters [
-              {
-                name "xs"
-                type "inout Array<some T>"
-              }
-            ]
-            result 0
-            returns "Int"
-          }
-        }
-        returns "(inout Array<some T>) -> Int"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "tried"
-            value {
-              attempt {
-                body [
-                  {
-                    let "a"
-                    type "Any"
-                    value {
-                      call {
-                        arguments [
-                          5
-                        ]
-                        procedure "App.mk"
-                      }
-                    }
-                  }
-                  {
-                    let "f"
-                    value {
-                      as {
-                        of {
-                          ref "a"
-                        }
-                        type "(inout Array<String>) -> Int"
-                      }
-                    }
-                  }
-                  {
-                    value [
-                      "a"
-                    ]
-                    var "s"
-                  }
-                  {
-                    value {
-                      call {
-                        arguments [
-                          {
-                            ref "s"
-                          }
-                        ]
-                        procedure {
-                          ref "f"
-                        }
-                      }
-                    }
-                  }
-                ]
-                rescue {
-                  result {
-                    ref "tried.type"
-                  }
-                }
-                result {
-                  ref "s"
-                }
-              }
-            }
-          }
-        ]
-        result {
-          ref "tried"
-        }
-        returns "Any"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-cast-of-a-closure-taking-a-list-of-its-makers-parameter-in-place-fails")
+(note "App.mk answers a closure appending its x to a list it takes in place as `Array<some T>`, its own T, and the entry holds it as Any. Only the call of App.mk filled that T, and no value says with what, so the cast reading it as taking a list of text fails with cast_refused before anything is written, which the attempt catches.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.append)
+  (procedure App.mk
+    (parameter x (type (some T)))
+    (returns (procedure (parameters (inout (array (some T)))) (returns Int)))
+    (result
+      (closure
+        (parameter xs (type (inout (array (some T)))))
+        (returns Int)
+        (body
+          (call Standard.Collection.append xs x))
+        (result 0))))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let tried
+        (attempt
+          (body
+            (let a (type Any) (call App.mk 5))
+            (let f (as a (procedure (parameters (inout (array String))) (returns Int))))
+            (var s (array "a"))
+            (apply f s))
+          (result s)
+          (rescue
+            (result (path tried (field type)))))))
+    (result tried)))
+(expect (answers "cast_refused"))

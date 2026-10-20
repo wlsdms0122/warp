@@ -1,124 +1,39 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-declaration-answering-a-contract-reading-a-bounded-parameter-beside-any-refuses"
-  note "`App.C` asks `m` taking text and `Any` after the type. `Bank.X.m` answers it with two of `some T`, bounded by `App.Nums`, which `Int` and `Double` answer. Held to the contract, `T` is read as `String` and as `Any`, which join to `Any`; each reading is held to the bounds as it was read, text answers no bound, and the claim refuses at the build, at the claim."
-  program {
-    contracts {
-      "App.C" {
-        procedures {
-          m {
-            const true
-            isolated true
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-              {
-                name "a"
-                type "String"
-              }
-              {
-                name "b"
-              }
-            ]
-            returns "Int"
-          }
-        }
-      }
-      "App.Nums" {}
-    }
-    extensions {
-      Double {
-        satisfies [
-          "App.Nums"
-        ]
-      }
-      Int {
-        satisfies [
-          "App.Nums"
-        ]
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "x"
-            type "Bank.X"
-            value {
-              struct {
-                k "a"
-              }
-            }
-          }
-          {
-            let "s"
-            type "String"
-            value "s"
-          }
-          {
-            let "u"
-            type "Any"
-            value 1
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "x"
-              }
-              {
-                ref "s"
-              }
-              {
-                ref "u"
-              }
-            ]
-            procedure "App.C.m"
-          }
-        }
-        returns "Int"
-      }
-    }
-    types {
-      "Bank.X" {
-        procedures {
-          m {
-            parameters [
-              {
-                name "of"
-                type "Bank.X"
-              }
-              {
-                name "a"
-                type "some T: App.Nums"
-              }
-              {
-                name "b"
-                type "some T"
-              }
-            ]
-            result 0
-            returns "Int"
-          }
-        }
-        satisfies [
-          "App.C"
-        ]
-        struct {
-          k "String"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-declaration-answering-a-contract-reading-a-bounded-parameter-beside-any-refuses")
+(note "`App.C` asks `m` taking text and `Any` after the type. `Bank.X.m` answers it with two of `some T`, bounded by `App.Nums`, which `Int` and `Double` answer. Held to the contract, `T` is read as `String` and as `Any`, which join to `Any`; each reading is held to the bounds as it was read, text answers no bound, and the claim refuses at the build, at the claim.")
 
+(program
+  (warp 1)
+  (struct Bank.X
+    (satisfies App.C)
+    (field k String)
+    (procedure m
+      (parameter of (type Bank.X))
+      (parameter a (type (some T App.Nums)))
+      (parameter b (type (some T)))
+      (returns Int)
+      (result 0)))
+  (contract App.C
+    (procedure m
+      (const)
+      (isolated)
+      (parameter of (type Self))
+      (parameter a (type String))
+      (parameter b)
+      (returns Int)))
+  (contract App.Nums)
+  (extension
+    (head Double)
+    (satisfies App.Nums))
+  (extension
+    (head Int)
+    (satisfies App.Nums))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let x (type Bank.X) (struct (field k "a")))
+      (let s (type String) "s")
+      (let u (type Any) 1))
+    (result (call App.C.m x s u))))
+(expect (refuses build))

@@ -1,61 +1,22 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "an-alias-of-any-at-a-contract-slot-refuses"
-  note "App.Loose stands for Any, and an alias is judged by what it stands for. A value read as Any stands nowhere a contract is asked, so the call refuses at the build however the reading is spelled."
-  program {
-    contracts {
-      "App.Shape" {}
-    }
-    imports []
-    procedures {
-      "App.g" {
-        parameters [
-          {
-            name "p"
-            type "App.Shape"
-          }
-        ]
-        result 1
-        returns "Int"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "d"
-            type "App.Loose"
-            value 5
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "d"
-              }
-            ]
-            procedure "App.g"
-          }
-        }
-        returns "Int"
-      }
-    }
-    types {
-      "App.Loose" "Any"
-      "App.Point" {
-        satisfies [
-          "App.Shape"
-        ]
-        struct {
-          x "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-alias-of-any-at-a-contract-slot-refuses")
+(note "App.Loose stands for Any, and an alias is judged by what it stands for. A value read as Any stands nowhere a contract is asked, so the call refuses at the build however the reading is spelled.")
 
+(program
+  (warp 1)
+  (type App.Loose Any)
+  (struct App.Point
+    (satisfies App.Shape)
+    (field x Int))
+  (contract App.Shape)
+  (procedure App.g
+    (parameter p (type App.Shape))
+    (returns Int)
+    (result 1))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let d (type App.Loose) 5))
+    (result (call App.g d))))
+(expect (refuses build))

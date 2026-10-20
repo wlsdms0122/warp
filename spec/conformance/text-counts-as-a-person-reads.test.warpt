@@ -1,41 +1,14 @@
-warpt 1
-{
-  arguments {
-    text "café"
-  }
-  expect {
-    answers 4
-  }
-  name "text-counts-as-a-person-reads"
-  note "Text is counted by extended grapheme cluster under canonical equivalence: a letter written as letter-plus-combining-mark is one character."
-  program {
-    imports [
-      "Standard.Collection.count"
-    ]
-    procedures {
-      entry {
-        access "public"
-        parameters [
-          {
-            name "text"
-            type "String"
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "text"
-              }
-            ]
-            procedure "Standard.Collection.count"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "text-counts-as-a-person-reads")
+(note "Text is counted by extended grapheme cluster under canonical equivalence: a letter written as letter-plus-combining-mark is one character.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.count)
+  (procedure entry
+    (access public)
+    (parameter text (type String))
+    (returns Int)
+    (result (call Standard.Collection.count text))))
+(arguments (argument text "café"))
+(expect (answers 4))

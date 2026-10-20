@@ -1,46 +1,19 @@
-warpt 1
-{
-  expect {
-    answers "rescued"
-  }
-  name "a-procedure-that-can-fail-says-so"
-  note "`Standard.Control.abort` says it raises `aborted`, so the attempt around it stands and the rescue reads the procedure the failure names itself by."
-  program {
-    imports [
-      "Standard.Control.abort"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "tried"
-            value {
-              attempt {
-                body []
-                rescue {
-                  result "rescued"
-                }
-                result {
-                  call {
-                    arguments [
-                      "no"
-                    ]
-                    procedure "Standard.Control.abort"
-                  }
-                }
-              }
-            }
-          }
-        ]
-        result {
-          ref "tried"
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-procedure-that-can-fail-says-so")
+(note "`Standard.Control.abort` says it raises `aborted`, so the attempt around it stands and the rescue reads the procedure the failure names itself by.")
 
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let tried
+        (attempt
+          (body)
+          (result (call Standard.Control.abort "no"))
+          (rescue
+            (result "rescued")))))
+    (result tried)))
+(expect (answers "rescued"))

@@ -1,101 +1,32 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-contract-slot-refuses-a-parameter-or-null-where-null-does-not-answer"
-  note "App.g reads v as some T or null, T bounded by App.Num, and hands it to App.f, which takes App.Num. No document claims App.Num for `Null`."
-  program {
-    contracts {
-      "App.Num" {}
-    }
-    extensions {
-      Int {
-        satisfies [
-          "App.Num"
-        ]
-      }
-    }
-    imports []
-    procedures {
-      "App.f" {
-        parameters [
-          {
-            name "n"
-            type "App.Num"
-          }
-        ]
-        result "took"
-        returns "String"
-      }
-      "App.g" {
-        body [
-          {
-            var "v"
-          }
-          {
-            value {
-              conditional {
-                then [
-                  {
-                    set "v"
-                    value {
-                      ref "m"
-                    }
-                  }
-                ]
-                when true
-              }
-            }
-          }
-          {
-            let "s"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "v"
-                  }
-                ]
-                procedure "App.f"
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "m"
-            type "some T: App.Num"
-          }
-        ]
-        result {
-          ref "s"
-        }
-        returns "String"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "s"
-            value {
-              call {
-                arguments [
-                  3
-                ]
-                procedure "App.g"
-              }
-            }
-          }
-        ]
-        result {
-          ref "s"
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-contract-slot-refuses-a-parameter-or-null-where-null-does-not-answer")
+(note "App.g reads v as some T or null, T bounded by App.Num, and hands it to App.f, which takes App.Num. No document claims App.Num for `Null`.")
 
+(program
+  (warp 1)
+  (contract App.Num)
+  (extension
+    (head Int)
+    (satisfies App.Num))
+  (procedure App.f
+    (parameter n (type App.Num))
+    (returns String)
+    (result "took"))
+  (procedure App.g
+    (parameter m (type (some T App.Num)))
+    (returns String)
+    (body
+      (var v)
+      (conditional
+        (when true)
+        (then
+          (set v m)))
+      (let s (call App.f v)))
+    (result s))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let s (call App.g 3)))
+    (result s)))
+(expect (refuses build))

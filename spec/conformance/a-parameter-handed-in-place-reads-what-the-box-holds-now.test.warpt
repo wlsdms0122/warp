@@ -1,56 +1,18 @@
-warpt 1
-{
-  expect {
-    refuses "run"
-  }
-  name "a-parameter-handed-in-place-reads-what-the-box-holds-now"
-  note "A parameter handed in place holds the caller's box through the path it was handed, and a read finds what the path holds now. The body shortened the array the path runs through, so the element it names is gone and the read refuses at the run."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              {
-                ref "items[1]"
-              }
-            ]
-            procedure "poke"
-          }
-        }
-        returns "Int"
-      }
-      poke {
-        body [
-          {
-            set "items"
-            value [
-              7
-            ]
-          }
-        ]
-        parameters [
-          {
-            name "second"
-            type "inout Int"
-          }
-        ]
-        result {
-          ref "second"
-        }
-        returns "Int"
-      }
-    }
-    var {
-      items [
-        1
-        2
-      ]
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-parameter-handed-in-place-reads-what-the-box-holds-now")
+(note "A parameter handed in place holds the caller's box through the path it was handed, and a read finds what the path holds now. The body shortened the array the path runs through, so the element it names is gone and the read refuses at the run.")
 
+(program
+  (warp 1)
+  (var items (array 1 2))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result (call poke (path items (index 1)))))
+  (procedure poke
+    (parameter second (type (inout Int)))
+    (returns Int)
+    (body
+      (set items (array 7)))
+    (result second)))
+(expect (refuses run))

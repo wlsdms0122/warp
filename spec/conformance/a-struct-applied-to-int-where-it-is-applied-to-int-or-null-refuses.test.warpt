@@ -1,51 +1,17 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-struct-applied-to-int-where-it-is-applied-to-int-or-null-refuses"
-  note "A struct is one type only where it is applied to the same types. `App.Box<Int>` does not stand where `App.Box<Int?>` is declared, though an `Int` stands where `Int?` is."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "a"
-            type "App.Box<Int>"
-            value {
-              struct {
-                item 1
-              }
-            }
-          }
-          {
-            let "b"
-            type "App.Box<Int?>"
-            value {
-              ref "a"
-            }
-          }
-        ]
-        result {
-          ref "b.item"
-        }
-        returns "Int?"
-      }
-    }
-    types {
-      "App.Box" {
-        struct {
-          item "some T"
-        }
-        typeParameters [
-          "T"
-        ]
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-struct-applied-to-int-where-it-is-applied-to-int-or-null-refuses")
+(note "A struct is one type only where it is applied to the same types. `App.Box<Int>` does not stand where `App.Box<Int?>` is declared, though an `Int` stands where `Int?` is.")
 
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (procedure entry
+    (access public)
+    (returns (nullable Int))
+    (body
+      (let a (type (named App.Box Int)) (struct (field item 1)))
+      (let b (type (named App.Box (nullable Int))) a))
+    (result (path b (field item)))))
+(expect (refuses build))

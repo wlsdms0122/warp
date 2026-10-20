@@ -1,68 +1,19 @@
-warpt 1
-{
-  expect {
-    answers {
-      message "split asks an empty separator"
-      type "aborted"
-    }
-  }
-  name "split-on-nothing-fails"
-  note "A separator with no characters matches everywhere and consumes nothing, so there is no text `split` could cut. It fails with `aborted`, and an attempt around it catches it because it is a failure and not a refusal."
-  program {
-    imports [
-      "Standard.Text.split"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "tried"
-            value {
-              attempt {
-                body [
-                  {
-                    value {
-                      call {
-                        arguments [
-                          "a,b"
-                          ""
-                        ]
-                        procedure "Standard.Text.split"
-                      }
-                    }
-                  }
-                ]
-                rescue {
-                  result {
-                    dictionary [
-                      [
-                        "message"
-                        {
-                          ref "tried.message"
-                        }
-                      ]
-                      [
-                        "type"
-                        {
-                          ref "tried.type"
-                        }
-                      ]
-                    ]
-                  }
-                }
-              }
-            }
-          }
-        ]
-        result {
-          ref "tried"
-        }
-        returns "Dictionary<String, String>?"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "split-on-nothing-fails")
+(note "A separator with no characters matches everywhere and consumes nothing, so there is no text `split` could cut. It fails with `aborted`, and an attempt around it catches it because it is a failure and not a refusal.")
 
+(program
+  (warp 1)
+  (import Standard.Text.split)
+  (procedure entry
+    (access public)
+    (returns (nullable (dictionary String String)))
+    (body
+      (let tried
+        (attempt
+          (body
+            (call Standard.Text.split "a,b" ""))
+          (rescue
+            (result (dictionary (entry "message" (path tried (field message))) (entry "type" (path tried (field type)))))))))
+    (result tried)))
+(expect (answers (dictionary (entry "message" "split asks an empty separator") (entry "type" "aborted"))))

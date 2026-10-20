@@ -1,185 +1,36 @@
-warpt 1
-{
-  expect {
-    answers true
-  }
-  name "a-document-writes-startsWith-over-characters"
-  note "Text read as an array of its characters is what lets a document write the procedures that scan text. Each character is a string of its own, so the comparison is the value model's one sameness and reads as a person reads."
-  program {
-    imports [
-      "Standard.Collection.count"
-      "Standard.Comparable.lessThan"
-      "Standard.Logic.equal"
-      "Standard.Text.characters"
-    ]
-    procedures {
-      "App.startsWith" {
-        body [
-          {
-            let "held"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "of"
-                  }
-                ]
-                procedure "Standard.Text.characters"
-              }
-            }
-          }
-          {
-            let "wanted"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "value"
-                  }
-                ]
-                procedure "Standard.Text.characters"
-              }
-            }
-          }
-          {
-            value {
-              conditional {
-                then [
-                  {
-                    value {
-                      return false
-                    }
-                  }
-                ]
-                when {
-                  call {
-                    arguments [
-                      {
-                        call {
-                          arguments [
-                            {
-                              ref "held"
-                            }
-                          ]
-                          procedure "Standard.Collection.count"
-                        }
-                      }
-                      {
-                        call {
-                          arguments [
-                            {
-                              ref "wanted"
-                            }
-                          ]
-                          procedure "Standard.Collection.count"
-                        }
-                      }
-                    ]
-                    procedure "Standard.Comparable.lessThan"
-                  }
-                }
-              }
-            }
-          }
-          {
-            let "walk"
-            value {
-              loop {
-                body [
-                  {
-                    let "same"
-                    value {
-                      call {
-                        arguments [
-                          {
-                            ref "held[walk.index]"
-                          }
-                          {
-                            ref "wanted[walk.index]"
-                          }
-                        ]
-                        procedure "Standard.Logic.equal"
-                      }
-                    }
-                  }
-                  {
-                    value {
-                      conditional {
-                        then [
-                          {
-                            value {
-                              return false
-                            }
-                          }
-                        ]
-                        when {
-                          call {
-                            arguments [
-                              {
-                                ref "same"
-                              }
-                              false
-                            ]
-                            procedure "Standard.Logic.equal"
-                          }
-                        }
-                      }
-                    }
-                  }
-                ]
-                while {
-                  call {
-                    arguments [
-                      {
-                        ref "walk.index"
-                      }
-                      {
-                        call {
-                          arguments [
-                            {
-                              ref "wanted"
-                            }
-                          ]
-                          procedure "Standard.Collection.count"
-                        }
-                      }
-                    ]
-                    procedure "Standard.Comparable.lessThan"
-                  }
-                }
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "of"
-            type "String"
-          }
-          {
-            name "value"
-            type "String"
-          }
-        ]
-        result true
-        returns "Bool"
-      }
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              "warp runtime"
-              "warp"
-            ]
-            procedure "App.startsWith"
-          }
-        }
-        returns "Bool"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-document-writes-startsWith-over-characters")
+(note "Text read as an array of its characters is what lets a document write the procedures that scan text. Each character is a string of its own, so the comparison is the value model's one sameness and reads as a person reads.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.count)
+  (import Standard.Comparable.lessThan)
+  (import Standard.Logic.equal)
+  (import Standard.Text.characters)
+  (procedure App.startsWith
+    (parameter of (type String))
+    (parameter value (type String))
+    (returns Bool)
+    (body
+      (let held (call Standard.Text.characters of))
+      (let wanted (call Standard.Text.characters value))
+      (conditional
+        (when (call Standard.Comparable.lessThan (call Standard.Collection.count held) (call Standard.Collection.count wanted)))
+        (then
+          (return false)))
+      (let walk
+        (loop
+          (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Collection.count wanted)))
+          (body
+            (let same (call Standard.Logic.equal (path held (index (path walk (field index)))) (path wanted (index (path walk (field index))))))
+            (conditional
+              (when (call Standard.Logic.equal same false))
+              (then
+                (return false)))))))
+    (result true))
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (result (call App.startsWith "warp runtime" "warp"))))
+(expect (answers true))

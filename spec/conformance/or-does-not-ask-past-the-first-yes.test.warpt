@@ -1,57 +1,27 @@
-warpt 1
-{
-  expect {
-    answers true
-  }
-  name "or-does-not-ask-past-the-first-yes"
-  note "or reads its sides in order and stops at the first yes. The later sides are procedures precisely so they are not evaluated once the answer is known: the second reads past the end of a list holding nothing, which would refuse the run, and the answer shows it was never asked."
-  program {
-    imports [
-      "Standard.Logic.or"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "flags"
-            type "Array<Bool>"
-            value []
-          }
-        ]
-        const true
-        result {
-          call {
-            arguments [
-              [
-                {
-                  closure {
-                    const true
-                    isolated true
-                    result true
-                    returns "Bool"
-                  }
-                }
-                {
-                  closure {
-                    const true
-                    isolated true
-                    result {
-                      ref "flags[0]"
-                    }
-                    returns "Bool"
-                  }
-                }
-              ]
-            ]
-            procedure "Standard.Logic.or"
-          }
-        }
-        returns "Bool"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "or-does-not-ask-past-the-first-yes")
+(note "or reads its sides in order and stops at the first yes. The later sides are procedures precisely so they are not evaluated once the answer is known: the second reads past the end of a list holding nothing, which would refuse the run, and the answer shows it was never asked.")
 
+(program
+  (warp 1)
+  (import Standard.Logic.or)
+  (procedure entry
+    (access public)
+    (const)
+    (returns Bool)
+    (body
+      (let flags (type (array Bool)) (array)))
+    (result
+      (call Standard.Logic.or
+        (array
+          (closure
+            (const)
+            (isolated)
+            (returns Bool)
+            (result true))
+          (closure
+            (const)
+            (isolated)
+            (returns Bool)
+            (result (path flags (index 0)))))))))
+(expect (answers true))

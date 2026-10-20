@@ -1,55 +1,12 @@
-warpt 1
-{
-  expect {
-    answers [
-      -1
-      1
-      -1.5
-    ]
-  }
-  name "remainder-takes-the-sign-of-the-dividend"
-  note "`remainder` truncates toward zero, for wholes and fractions alike, so what is left takes the dividend's sign and never the divisor's."
-  program {
-    imports [
-      "Standard.Numeric.remainder"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result [
-          {
-            call {
-              arguments [
-                -7
-                3
-              ]
-              procedure "Standard.Numeric.remainder"
-            }
-          }
-          {
-            call {
-              arguments [
-                7
-                -3
-              ]
-              procedure "Standard.Numeric.remainder"
-            }
-          }
-          {
-            call {
-              arguments [
-                -5.5
-                2.0
-              ]
-              procedure "Standard.Numeric.remainder"
-            }
-          }
-        ]
-        returns "Array<Any>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "remainder-takes-the-sign-of-the-dividend")
+(note "`remainder` truncates toward zero, for wholes and fractions alike, so what is left takes the dividend's sign and never the divisor's.")
 
+(program
+  (warp 1)
+  (import Standard.Numeric.remainder)
+  (procedure entry
+    (access public)
+    (returns (array Any))
+    (result (array (call Standard.Numeric.remainder -7 3) (call Standard.Numeric.remainder 7 -3) (call Standard.Numeric.remainder -5.5 2.0)))))
+(expect (answers (array -1 1 -1.5)))

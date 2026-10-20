@@ -1,272 +1,86 @@
-warpt 1
-{
-  documents [
-    {
-      contracts {
-        "Lib.Keyed" {
-          procedures {
-            key {
-              parameters [
-                {
-                  name "of"
-                  type "Self"
-                }
-              ]
-              returns "Self.Key"
-            }
-          }
-          types [
-            "Key"
-          ]
-        }
-        "Lib.Outer" {
-          procedures {
-            first {
-              parameters [
-                {
-                  name "of"
-                  type "Self"
-                }
-              ]
-              returns "Self.Item"
-            }
-          }
-          types [
-            "Item: Lib.Keyed"
-          ]
-        }
-      }
-      imports []
-      warp 1
-    }
-    {
-      imports [
-        "Lib.Keyed"
-        "Lib.Outer"
-      ]
-      types {
-        "App.Card" {
-          procedures {
-            key {
-              access "public"
-              parameters [
-                {
-                  name "of"
-                  type "App.Card"
-                }
-              ]
-              result {
-                ref "of.k"
-              }
-              returns "Int"
-            }
-          }
-          satisfies [
-            "Lib.Keyed"
-          ]
-          struct {
-            k "Int"
-          }
-          types {
-            Key "Int"
-          }
-        }
-        "App.Shelf" {
-          procedures {
-            first {
-              access "public"
-              parameters [
-                {
-                  name "of"
-                  type "App.Shelf"
-                }
-              ]
-              result {
-                ref "of.card"
-              }
-              returns "App.Card"
-            }
-          }
-          satisfies [
-            "Lib.Outer"
-          ]
-          struct {
-            card "App.Card"
-          }
-          types {
-            Item "App.Card"
-          }
-        }
-      }
-      warp 1
-    }
-    {
-      contracts {
-        "Lib.Deep" {
-          procedures {
-            firstKey {
-              parameters [
-                {
-                  name "of"
-                  type "Self"
-                }
-              ]
-              returns "Self.Item.Key"
-            }
-            keyPlus {
-              parameters [
-                {
-                  name "of"
-                  type "Self"
-                }
-                {
-                  name "k"
-                  type "Self.Item.Key"
-                }
-              ]
-              returns "Int"
-            }
-          }
-          types [
-            "Item: Lib.Keyed"
-          ]
-        }
-      }
-      imports [
-        "Lib.Keyed"
-      ]
-      warp 1
-    }
-    {
-      imports [
-        "App.Card"
-        "Int.plus"
-        "Lib.Deep"
-        "Lib.Keyed.key"
-      ]
-      types {
-        "App.DShelf" {
-          procedures {
-            firstKey {
-              access "public"
-              parameters [
-                {
-                  name "of"
-                  type "App.DShelf"
-                }
-              ]
-              result {
-                call {
-                  arguments [
-                    {
-                      ref "of.card"
-                    }
-                  ]
-                  procedure "Lib.Keyed.key"
-                }
-              }
-              returns "Int"
-            }
-            keyPlus {
-              access "public"
-              parameters [
-                {
-                  name "of"
-                  type "App.DShelf"
-                }
-                {
-                  name "k"
-                  type "Int"
-                }
-              ]
-              result {
-                call {
-                  arguments [
-                    {
-                      ref "k"
-                    }
-                    1
-                  ]
-                  procedure "Int.plus"
-                }
-              }
-              returns "Int"
-            }
-          }
-          satisfies [
-            "Lib.Deep"
-          ]
-          struct {
-            card "App.Card"
-          }
-          types {
-            Item "App.Card"
-          }
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    answers 2
-  }
-  name "a-claim-answers-a-contract-procedure-writing-an-associated-type-of-an-associated-type-answers"
-  note "`Lib.Deep` asks Item, holds it to `Lib.Keyed`, which asks Key, and its procedures write `Self.Item.Key`. App.DShelf gives Item as App.Card, whose Key is Int, so its members answering with an Int and taking one answer the contract."
-  program {
-    imports [
-      "App.DShelf"
-      "Lib.Deep.firstKey"
-      "Lib.Deep.keyPlus"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "s"
-            type "App.DShelf"
-            value {
-              struct {
-                card {
-                  struct {
-                    k 1
-                  }
-                }
-              }
-            }
-          }
-          {
-            let "k"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "s"
-                  }
-                ]
-                procedure "Lib.Deep.firstKey"
-              }
-            }
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "s"
-              }
-              {
-                ref "k"
-              }
-            ]
-            procedure "Lib.Deep.keyPlus"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-claim-answers-a-contract-procedure-writing-an-associated-type-of-an-associated-type-answers")
+(note "`Lib.Deep` asks Item, holds it to `Lib.Keyed`, which asks Key, and its procedures write `Self.Item.Key`. App.DShelf gives Item as App.Card, whose Key is Int, so its members answering with an Int and taking one answer the contract.")
 
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Keyed
+      (type Key)
+      (procedure key
+        (parameter of (type Self))
+        (returns Self.Key)))
+    (contract Lib.Outer
+      (type Item Lib.Keyed)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item))))
+  (document
+    (warp 1)
+    (import Lib.Keyed)
+    (import Lib.Outer)
+    (struct App.Card
+      (satisfies Lib.Keyed)
+      (field k Int)
+      (type Key Int)
+      (procedure key
+        (access public)
+        (parameter of (type App.Card))
+        (returns Int)
+        (result (path of (field k)))))
+    (struct App.Shelf
+      (satisfies Lib.Outer)
+      (field card App.Card)
+      (type Item App.Card)
+      (procedure first
+        (access public)
+        (parameter of (type App.Shelf))
+        (returns App.Card)
+        (result (path of (field card))))))
+  (document
+    (warp 1)
+    (import Lib.Keyed)
+    (contract Lib.Deep
+      (type Item Lib.Keyed)
+      (procedure firstKey
+        (parameter of (type Self))
+        (returns Self.Item.Key))
+      (procedure keyPlus
+        (parameter of (type Self))
+        (parameter k (type Self.Item.Key))
+        (returns Int))))
+  (document
+    (warp 1)
+    (import App.Card)
+    (import Int.plus)
+    (import Lib.Deep)
+    (import Lib.Keyed.key)
+    (struct App.DShelf
+      (satisfies Lib.Deep)
+      (field card App.Card)
+      (type Item App.Card)
+      (procedure firstKey
+        (access public)
+        (parameter of (type App.DShelf))
+        (returns Int)
+        (result (call Lib.Keyed.key (path of (field card)))))
+      (procedure keyPlus
+        (access public)
+        (parameter of (type App.DShelf))
+        (parameter k (type Int))
+        (returns Int)
+        (result (call Int.plus k 1))))))
+
+(program
+  (warp 1)
+  (import App.DShelf)
+  (import Lib.Deep.firstKey)
+  (import Lib.Deep.keyPlus)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let s (type App.DShelf) (struct (field card (struct (field k 1)))))
+      (let k (call Lib.Deep.firstKey s)))
+    (result (call Lib.Deep.keyPlus s k))))
+(expect (answers 2))

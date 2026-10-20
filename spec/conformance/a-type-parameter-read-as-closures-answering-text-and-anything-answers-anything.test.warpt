@@ -1,107 +1,30 @@
-warpt 1
-{
-  expect {
-    answers [
-      1
-      "z"
-    ]
-  }
-  name "a-type-parameter-read-as-closures-answering-text-and-anything-answers-anything"
-  note "`fa` writes `returns Any` and answers 1, and `fs` answers text. `App.pick` hands back its second argument, and the call reads `E` from both: a procedure answering `Any` takes one answering text, so `E` is the one answering `Any`, and so is `r`. Its answer stands beside the text in a list of anything."
-  program {
-    imports [
-      "Standard.Collection.appending"
-    ]
-    procedures {
-      "App.pick" {
-        parameters [
-          {
-            name "a"
-            type "some E"
-          }
-          {
-            name "b"
-            type "some E"
-          }
-        ]
-        result {
-          ref "b"
-        }
-        returns "some E"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "fs"
-            value {
-              closure {
-                result "x"
-                returns "String"
-              }
-            }
-          }
-          {
-            let "fa"
-            value {
-              closure {
-                result 1
-                returns "Any"
-              }
-            }
-          }
-          {
-            let "r"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "fs"
-                  }
-                  {
-                    ref "fa"
-                  }
-                ]
-                procedure "App.pick"
-              }
-            }
-          }
-          {
-            let "v"
-            value {
-              call {
-                procedure {
-                  ref "r"
-                }
-              }
-            }
-          }
-          {
-            let "t"
-            value {
-              call {
-                arguments [
-                  [
-                    {
-                      ref "v"
-                    }
-                  ]
-                  "z"
-                ]
-                procedure "Standard.Collection.appending"
-              }
-            }
-          }
-        ]
-        failing "anything"
-        result {
-          ref "t"
-        }
-        returns "Array<Any>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-type-parameter-read-as-closures-answering-text-and-anything-answers-anything")
+(note "`fa` writes `returns Any` and answers 1, and `fs` answers text. `App.pick` hands back its second argument, and the call reads `E` from both: a procedure answering `Any` takes one answering text, so `E` is the one answering `Any`, and so is `r`. Its answer stands beside the text in a list of anything.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.appending)
+  (procedure App.pick
+    (parameter a (type (some E)))
+    (parameter b (type (some E)))
+    (returns (some E))
+    (result b))
+  (procedure entry
+    (access public)
+    (returns (array Any))
+    (failing (anything))
+    (body
+      (let fs
+        (closure
+          (returns String)
+          (result "x")))
+      (let fa
+        (closure
+          (returns Any)
+          (result 1)))
+      (let r (call App.pick fs fa))
+      (let v (apply r))
+      (let t (call Standard.Collection.appending (array v) "z")))
+    (result t)))
+(expect (answers (array 1 "z")))

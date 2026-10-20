@@ -1,87 +1,29 @@
-warpt 1
-{
-  arguments {
-    ready false
-  }
-  expect {
-    answers 5
-  }
-  name "a-way-that-returns-from-a-loop-is-not-met-after-it"
-  note "Inside the loop, the arm that sets `n` to a string and takes it there returns from the procedure, so it lands past the loop and never reaches the write after it. The loop ends only by its `break`, which took nothing, and a later write of an int stands."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            value 0
-            var "n"
-          }
-          {
-            value {
-              loop {
-                body [
-                  {
-                    value {
-                      conditional {
-                        then [
-                          {
-                            set "n"
-                            value "s"
-                          }
-                          {
-                            let "a"
-                            value {
-                              closure {
-                                result {
-                                  ref "n"
-                                }
-                                returns "String"
-                              }
-                            }
-                          }
-                          {
-                            value {
-                              return 0
-                            }
-                          }
-                        ]
-                        when {
-                          ref "ready"
-                        }
-                      }
-                    }
-                  }
-                  {
-                    value {
-                      break null
-                    }
-                  }
-                ]
-                while true
-              }
-            }
-          }
-          {
-            set "n"
-            value 5
-          }
-        ]
-        parameters [
-          {
-            name "ready"
-            type "Bool"
-          }
-        ]
-        result {
-          ref "n"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-way-that-returns-from-a-loop-is-not-met-after-it")
+(note "Inside the loop, the arm that sets `n` to a string and takes it there returns from the procedure, so it lands past the loop and never reaches the write after it. The loop ends only by its `break`, which took nothing, and a later write of an int stands.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter ready (type Bool))
+    (returns Int)
+    (body
+      (var n 0)
+      (loop
+        (while true)
+        (body
+          (conditional
+            (when ready)
+            (then
+              (set n "s")
+              (let a
+                (closure
+                  (returns String)
+                  (result n)))
+              (return 0)))
+          (break)))
+      (set n 5))
+    (result n)))
+(arguments (argument ready false))
+(expect (answers 5))

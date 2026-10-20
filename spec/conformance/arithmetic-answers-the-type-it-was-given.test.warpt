@@ -1,50 +1,16 @@
-warpt 1
-{
-  expect {
-    answers 3
-  }
-  name "arithmetic-answers-the-type-it-was-given"
-  note "A whole number added to a whole number answers a whole number, so the answer fits a slot asking for one. The two sides and the answer are one type parameter bounded by `Standard.Numeric`."
-  program {
-    imports [
-      "Standard.Numeric.plus"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              {
-                call {
-                  arguments [
-                    1
-                    2
-                  ]
-                  procedure "Standard.Numeric.plus"
-                }
-              }
-            ]
-            procedure "wants"
-          }
-        }
-        returns "Int"
-      }
-      wants {
-        parameters [
-          {
-            name "it"
-            type "Int"
-          }
-        ]
-        result {
-          ref "it"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "arithmetic-answers-the-type-it-was-given")
+(note "A whole number added to a whole number answers a whole number, so the answer fits a slot asking for one. The two sides and the answer are one type parameter bounded by `Standard.Numeric`.")
 
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result (call wants (call Standard.Numeric.plus 1 2))))
+  (procedure wants
+    (parameter it (type Int))
+    (returns Int)
+    (result it)))
+(expect (answers 3))

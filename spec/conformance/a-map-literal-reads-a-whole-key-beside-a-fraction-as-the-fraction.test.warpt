@@ -1,44 +1,12 @@
-warpt 1
-{
-  expect {
-    answers [
-      1.0
-      2.5
-    ]
-  }
-  name "a-map-literal-reads-a-whole-key-beside-a-fraction-as-the-fraction"
-  note "A map literal's keys join, and a whole literal beside a fraction is the fraction it names, so the key written `1` is `1.0` and `keys` answers both keys as fractions."
-  program {
-    imports [
-      "Standard.Collection.keys"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              {
-                dictionary [
-                  [
-                    1
-                    "a"
-                  ]
-                  [
-                    2.5
-                    "b"
-                  ]
-                ]
-              }
-            ]
-            procedure "Standard.Collection.keys"
-          }
-        }
-        returns "Array<Double>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-map-literal-reads-a-whole-key-beside-a-fraction-as-the-fraction")
+(note "A map literal's keys join, and a whole literal beside a fraction is the fraction it names, so the key written `1` is `1.0` and `keys` answers both keys as fractions.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.keys)
+  (procedure entry
+    (access public)
+    (returns (array Double))
+    (result (call Standard.Collection.keys (dictionary (entry 1 "a") (entry 2.5 "b"))))))
+(expect (answers (array 1.0 2.5)))

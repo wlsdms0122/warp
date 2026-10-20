@@ -1,27 +1,12 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-result-after-leaving-refuses"
-  note "A body's result is read after its statements, so a result after a `return` would never be read. The leave is text, so the document alone says so."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            value {
-              return 1
-            }
-          }
-        ]
-        result 2
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-result-after-leaving-refuses")
+(note "A body's result is read after its statements, so a result after a `return` would never be read. The leave is text, so the document alone says so.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (body
+      (return 1))
+    (result 2)))
+(expect (refuses load))

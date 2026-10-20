@@ -1,41 +1,16 @@
-warpt 1
-{
-  arguments {
-    a App.Z {
-      x 1
-    }
-  }
-  expect {
-    refuses "run"
-  }
-  name "a-value-from-outside-under-a-name-no-document-declares-refuses-at-the-door"
-  note "The host hands `a` under `App.Z`, which no document declares, where the entry declares nothing. A name a value carries is held to the struct it declares at every door, `Any` included, and `App.Z` names no type here, so the run refuses before the entry runs."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        parameters [
-          {
-            name "a"
-          }
-        ]
-        result {
-          ref "a"
-        }
-        returns "Any"
-      }
-    }
-    types {
-      "App.A" "App.P"
-      "App.P" {
-        struct {
-          x "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-value-from-outside-under-a-name-no-document-declares-refuses-at-the-door")
+(note "The host hands `a` under `App.Z`, which no document declares, where the entry declares nothing. A name a value carries is held to the struct it declares at every door, `Any` included, and `App.Z` names no type here, so the run refuses before the entry runs.")
 
+(program
+  (warp 1)
+  (type App.A App.P)
+  (struct App.P
+    (field x Int))
+  (procedure entry
+    (access public)
+    (parameter a)
+    (returns Any)
+    (result a)))
+(arguments (argument a (struct App.Z (field x 1))))
+(expect (refuses run))

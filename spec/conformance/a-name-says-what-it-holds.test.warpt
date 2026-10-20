@@ -1,80 +1,29 @@
-warpt 1
-{
-  expect {
-    answers 1
-  }
-  name "a-name-says-what-it-holds"
-  note "A name may say what it holds under `type`, and a name that says nothing is the type its value reads as. The closure literal `step` starts as declares `const` and `isolated`, and an `inout` slot asks for the same type the name is, so it is the name's declaration `(Int) -> Int` that lets `step` be handed to `swap`."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            type "(Int) -> Int"
-            value {
-              closure {
-                const true
-                isolated true
-                parameters [
-                  {
-                    name "x"
-                    type "Int"
-                  }
-                ]
-                result {
-                  ref "x"
-                }
-                returns "Int"
-              }
-            }
-            var "step"
-          }
-          {
-            value {
-              call {
-                arguments [
-                  {
-                    ref "step"
-                  }
-                ]
-                procedure "swap"
-              }
-            }
-          }
-        ]
-        result 1
-        returns "Int"
-      }
-      swap {
-        body [
-          {
-            set "step"
-            value {
-              closure {
-                parameters [
-                  {
-                    name "x"
-                    type "Int"
-                  }
-                ]
-                result 9
-                returns "Int"
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "step"
-            type "inout (Int) -> Int"
-          }
-        ]
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-name-says-what-it-holds")
+(note "A name may say what it holds under `type`, and a name that says nothing is the type its value reads as. The closure literal `step` starts as declares `const` and `isolated`, and an `inout` slot asks for the same type the name is, so it is the name's declaration `(Int) -> Int` that lets `step` be handed to `swap`.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var step
+        (type (procedure (parameters Int) (returns Int)))
+        (closure
+          (const)
+          (isolated)
+          (parameter x (type Int))
+          (returns Int)
+          (result x)))
+      (call swap step))
+    (result 1))
+  (procedure swap
+    (parameter step (type (inout (procedure (parameters Int) (returns Int)))))
+    (body
+      (set step
+        (closure
+          (parameter x (type Int))
+          (returns Int)
+          (result 9))))))
+(expect (answers 1))

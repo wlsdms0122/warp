@@ -1,31 +1,12 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "arithmetic-on-a-value-it-does-not-take-refuses"
-  note "Arithmetic says which values it takes, so a sum of a number and a piece of text is refused where declarations are checked rather than found by running it."
-  program {
-    imports [
-      "Standard.Numeric.plus"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              1
-              "a"
-            ]
-            procedure "Standard.Numeric.plus"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "arithmetic-on-a-value-it-does-not-take-refuses")
+(note "Arithmetic says which values it takes, so a sum of a number and a piece of text is refused where declarations are checked rather than found by running it.")
 
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result (call Standard.Numeric.plus 1 "a"))))
+(expect (refuses build))

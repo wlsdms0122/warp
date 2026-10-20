@@ -1,129 +1,39 @@
-warpt 1
-{
-  arguments {
-    c false
-  }
-  expect {
-    answers 6
-  }
-  name "a-write-to-a-taken-variable-reads-as-the-type-it-is-held-to"
-  note "One arm lets a closure capture an Int variable and the other writes null into it, so after the conditional it is held to Int and reads Int?. Writing an int into it leaves it reading Int, and it is handed in place to an Int slot."
-  program {
-    imports [
-      "Standard.Collection.append"
-      "Standard.Numeric.plus"
-    ]
-    procedures {
-      "App.bump" {
-        body [
-          {
-            set "c"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "c"
-                  }
-                  1
-                ]
-                procedure "Standard.Numeric.plus"
-              }
-            }
-          }
-        ]
-        isolated true
-        parameters [
-          {
-            name "c"
-            type "inout Int"
-          }
-        ]
-        result 0
-        returns "Int"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            value 0
-            var "x"
-          }
-          {
-            type "Array<const isolated () -> Int>"
-            value []
-            var "fs"
-          }
-          {
-            value {
-              conditional {
-                else [
-                  {
-                    set "x"
-                    value null
-                  }
-                ]
-                then [
-                  {
-                    value {
-                      call {
-                        arguments [
-                          {
-                            ref "fs"
-                          }
-                          {
-                            closure {
-                              const true
-                              isolated true
-                              result {
-                                ref "x"
-                              }
-                              returns "Int"
-                            }
-                          }
-                        ]
-                        procedure "Standard.Collection.append"
-                      }
-                    }
-                  }
-                ]
-                when {
-                  ref "c"
-                }
-              }
-            }
-          }
-          {
-            set "x"
-            value 5
-          }
-          {
-            value {
-              call {
-                arguments [
-                  {
-                    ref "x"
-                  }
-                ]
-                procedure "App.bump"
-              }
-            }
-          }
-        ]
-        isolated true
-        parameters [
-          {
-            name "c"
-            type "Bool"
-          }
-        ]
-        result {
-          ref "x"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-write-to-a-taken-variable-reads-as-the-type-it-is-held-to")
+(note "One arm lets a closure capture an Int variable and the other writes null into it, so after the conditional it is held to Int and reads Int?. Writing an int into it leaves it reading Int, and it is handed in place to an Int slot.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.append)
+  (import Standard.Numeric.plus)
+  (procedure App.bump
+    (isolated)
+    (parameter c (type (inout Int)))
+    (returns Int)
+    (body
+      (set c (call Standard.Numeric.plus c 1)))
+    (result 0))
+  (procedure entry
+    (access public)
+    (isolated)
+    (parameter c (type Bool))
+    (returns Int)
+    (body
+      (var x 0)
+      (var fs (type (array (procedure (const) (isolated) (parameters) (returns Int)))) (array))
+      (conditional
+        (when c)
+        (then
+          (call Standard.Collection.append fs
+            (closure
+              (const)
+              (isolated)
+              (returns Int)
+              (result x))))
+        (else
+          (set x null)))
+      (set x 5)
+      (call App.bump x))
+    (result x)))
+(arguments (argument c false))
+(expect (answers 6))

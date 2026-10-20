@@ -1,11 +1,5 @@
-warpt 1
-{
-  bytes x"574152500000"
-  expect {
-    refuses "load"
-  }
-  name "a-format-that-never-existed-refuses"
-  note "The byte after the magic says how the bytes are laid out. A number no format ever wore is not a document, and is a different answer from a format written later than this reader knows."
-  test 1
-}
-
+(test 1)
+(name "a-format-that-never-existed-refuses")
+(note "The byte after the magic says how the bytes are laid out. A number no format ever wore is not a document, and is a different answer from a format written later than this reader knows.")
+(bytes x"574152500000")
+(expect (refuses load))

@@ -1,19 +1,5 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-document-without-imports-refuses"
-  note "Every document says what it imports, empty where it uses nothing. One that writes no `imports` refuses at the load."
-  program {
-    procedures {
-      entry {
-        access "public"
-        result 1
-      }
-    }
-    warp 1
-  }
-  test 1
-}
-
+(test 1)
+(name "a-document-without-imports-refuses")
+(note "Every document says what it imports, empty where it uses nothing. One that writes no `imports` refuses at the load.")
+(tree (dictionary (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "result" 1))))) (entry "warp" 1)))
+(expect (refuses load))

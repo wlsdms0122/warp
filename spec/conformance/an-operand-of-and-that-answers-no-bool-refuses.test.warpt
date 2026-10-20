@@ -1,39 +1,19 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "an-operand-of-and-that-answers-no-bool-refuses"
-  note "`and` and `or` take an array of procedures each declared as answering `Bool`. One answering anything else is refused at the build where it is handed."
-  program {
-    imports [
-      "Standard.Logic.and"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              [
-                {
-                  closure {
-                    const true
-                    isolated true
-                    result 1
-                    returns "Int"
-                  }
-                }
-              ]
-            ]
-            procedure "Standard.Logic.and"
-          }
-        }
-        returns "Bool"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-operand-of-and-that-answers-no-bool-refuses")
+(note "`and` and `or` take an array of procedures each declared as answering `Bool`. One answering anything else is refused at the build where it is handed.")
 
+(program
+  (warp 1)
+  (import Standard.Logic.and)
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (result
+      (call Standard.Logic.and
+        (array
+          (closure
+            (const)
+            (isolated)
+            (returns Int)
+            (result 1)))))))
+(expect (refuses build))

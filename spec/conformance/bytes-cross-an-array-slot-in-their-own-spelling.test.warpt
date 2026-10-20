@@ -1,40 +1,15 @@
-warpt 1
-{
-  expect {
-    answers x"6869"
-  }
-  name "bytes-cross-an-array-slot-in-their-own-spelling"
-  note "bytes = Array<Int>, so a bytes value stands where an array of whole numbers is declared, and the slot asked for an array, which bytes already are. There is nothing to judge, so the compact spelling crosses whole: the spelling is the value's own fact, not the slot's."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              x"6869"
-            ]
-            procedure "keep"
-          }
-        }
-        returns "Array<Int>"
-      }
-      keep {
-        parameters [
-          {
-            name "value"
-            type "Array<Int>"
-          }
-        ]
-        result {
-          ref "value"
-        }
-        returns "Array<Int>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "bytes-cross-an-array-slot-in-their-own-spelling")
+(note "bytes = Array<Int>, so a bytes value stands where an array of whole numbers is declared, and the slot asked for an array, which bytes already are. There is nothing to judge, so the compact spelling crosses whole: the spelling is the value's own fact, not the slot's.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (result (call keep x"6869")))
+  (procedure keep
+    (parameter value (type (array Int)))
+    (returns (array Int))
+    (result value)))
+(expect (answers x"6869"))

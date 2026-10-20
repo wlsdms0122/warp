@@ -1,75 +1,21 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-fixed-name-is-not-handed-in-place-to-a-called-value"
-  note "What a call of a value hands in place is a variable. A name fixed with `let` refuses at the build, the way it does handed to a declaration."
-  program {
-    imports [
-      "Standard.Numeric.plus"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "n"
-            value 10
-          }
-          {
-            let "bump"
-            value {
-              closure {
-                body [
-                  {
-                    set "count"
-                    value {
-                      call {
-                        arguments [
-                          {
-                            ref "count"
-                          }
-                          1
-                        ]
-                        procedure "Standard.Numeric.plus"
-                      }
-                    }
-                  }
-                ]
-                parameters [
-                  {
-                    name "count"
-                    type "inout Int"
-                  }
-                ]
-              }
-            }
-          }
-          {
-            value {
-              call {
-                arguments [
-                  {
-                    ref "n"
-                  }
-                ]
-                procedure {
-                  ref "bump"
-                }
-              }
-            }
-          }
-        ]
-        failing "anything"
-        result {
-          ref "n"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-fixed-name-is-not-handed-in-place-to-a-called-value")
+(note "What a call of a value hands in place is a variable. A name fixed with `let` refuses at the build, the way it does handed to a declaration.")
 
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (body
+      (let n 10)
+      (let bump
+        (closure
+          (parameter count (type (inout Int)))
+          (body
+            (set count (call Standard.Numeric.plus count 1)))))
+      (apply bump n))
+    (result n)))
+(expect (refuses build))

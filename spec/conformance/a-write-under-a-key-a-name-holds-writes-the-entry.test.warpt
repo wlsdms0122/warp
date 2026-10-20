@@ -1,48 +1,15 @@
-warpt 1
-{
-  expect {
-    answers {
-      a 5
-    }
-  }
-  name "a-write-under-a-key-a-name-holds-writes-the-entry"
-  note "The brackets on a map read what stands between them as a key, in a write as in a read, so a set through d[k] with k holding text writes that entry."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            type "Dictionary<String, Int>"
-            value {
-              dictionary [
-                [
-                  "a"
-                  0
-                ]
-              ]
-            }
-            var "d"
-          }
-          {
-            let "k"
-            type "String"
-            value "a"
-          }
-          {
-            set "d[k]"
-            value 5
-          }
-        ]
-        result {
-          ref "d"
-        }
-        returns "Dictionary<String, Int>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-write-under-a-key-a-name-holds-writes-the-entry")
+(note "The brackets on a map read what stands between them as a key, in a write as in a read, so a set through d[k] with k holding text writes that entry.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns (dictionary String Int))
+    (body
+      (var d (type (dictionary String Int)) (dictionary (entry "a" 0)))
+      (let k (type String) "a")
+      (set (path d (index k)) 5))
+    (result d)))
+(expect (answers (dictionary (entry "a" 5))))

@@ -1,48 +1,15 @@
-warpt 1
-{
-  arguments {
-    counts [
-      2.5
-    ]
-  }
-  expect {
-    answers [
-      2.5
-      1
-    ]
-  }
-  name "a-type-parameter-read-loosely-and-tightly-holds-the-loose-reading"
-  note "`Element` is read as `Standard.Numeric` from the list and as `Int` from the whole number. They are two readings where one accepts the other, and the parameter holds the looser one."
-  program {
-    imports [
-      "Standard.Collection.appending"
-      "Standard.Numeric"
-    ]
-    procedures {
-      entry {
-        access "public"
-        parameters [
-          {
-            name "counts"
-            type "Array<Standard.Numeric>"
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "counts"
-              }
-              1
-            ]
-            procedure "Standard.Collection.appending"
-          }
-        }
-        returns "Array<Standard.Numeric>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-type-parameter-read-loosely-and-tightly-holds-the-loose-reading")
+(note "`Element` is read as `Standard.Numeric` from the list and as `Int` from the whole number. They are two readings where one accepts the other, and the parameter holds the looser one.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.appending)
+  (import Standard.Numeric)
+  (procedure entry
+    (access public)
+    (parameter counts (type (array Standard.Numeric)))
+    (returns (array Standard.Numeric))
+    (result (call Standard.Collection.appending counts 1))))
+(arguments (argument counts (array 2.5)))
+(expect (answers (array 2.5 1)))

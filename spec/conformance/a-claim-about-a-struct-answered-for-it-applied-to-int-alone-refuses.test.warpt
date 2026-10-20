@@ -1,95 +1,34 @@
-warpt 1
-{
-  documents [
-    {
-      imports []
-      types {
-        "App.Box" {
-          struct {
-            item "some T"
-          }
-          typeParameters [
-            "T"
-          ]
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    refuses "build"
-  }
-  name "a-claim-about-a-struct-answered-for-it-applied-to-int-alone-refuses"
-  note "A claim about `App.Box` is about every value of it, and a call through the contract hands the declaration any of them. `App.Box.describe` is given under `App.Box<Int>`, for boxes of whole numbers alone, so the claim does not hold and refuses at the build, at the claim."
-  program {
-    contracts {
-      "App.Describable" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    extensions {
-      "App.Box" {
-        satisfies [
-          "App.Describable"
-        ]
-      }
-      "App.Box<Int>" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "App.Box<Int>"
-              }
-            ]
-            result "box"
-            returns "String"
-          }
-        }
-      }
-    }
-    imports [
-      "App.Box"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "b"
-            type "App.Box<Int>"
-            value {
-              struct {
-                item 1
-              }
-            }
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "b"
-              }
-            ]
-            procedure "App.Describable.describe"
-          }
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-claim-about-a-struct-answered-for-it-applied-to-int-alone-refuses")
+(note "A claim about `App.Box` is about every value of it, and a call through the contract hands the declaration any of them. `App.Box.describe` is given under `App.Box<Int>`, for boxes of whole numbers alone, so the claim does not hold and refuses at the build, at the claim.")
 
+(documents
+  (document
+    (warp 1)
+    (struct App.Box
+      (typeParameter T)
+      (field item (some T)))))
+
+(program
+  (warp 1)
+  (import App.Box)
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head App.Box)
+    (satisfies App.Describable))
+  (extension
+    (head (named App.Box Int))
+    (procedure describe
+      (parameter of (type (named App.Box Int)))
+      (returns String)
+      (result "box")))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let b (type (named App.Box Int)) (struct (field item 1))))
+    (result (call App.Describable.describe b))))
+(expect (refuses build))

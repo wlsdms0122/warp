@@ -1,31 +1,12 @@
-warpt 1
-{
-  expect {
-    refuses "run"
-  }
-  name "arithmetic-overflow-refuses"
-  note "Whole-number arithmetic with no whole answer refuses. Wrapping would answer, and answering wrongly is worse than not answering."
-  program {
-    imports [
-      "Standard.Numeric.plus"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              9223372036854775807
-              1
-            ]
-            procedure "Standard.Numeric.plus"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "arithmetic-overflow-refuses")
+(note "Whole-number arithmetic with no whole answer refuses. Wrapping would answer, and answering wrongly is worse than not answering.")
 
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result (call Standard.Numeric.plus 9223372036854775807 1))))
+(expect (refuses run))

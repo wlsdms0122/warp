@@ -1,100 +1,30 @@
-warpt 1
-{
-  expect {
-    answers null
-  }
-  name "a-cast-to-a-contract-of-a-value-the-head-of-its-claim-does-not-take-answers-null"
-  note "A box of App.Plain read as `Any` is not taken by `App.Box<some T: Hashable>`, so the box answers no App.Describable and the cast answers null."
-  program {
-    contracts {
-      "App.Describable" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    extensions {
-      "App.Box<some T: Hashable>" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "App.Box<some T>"
-              }
-            ]
-            result "box"
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.Describable"
-        ]
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "two"
-            type "Any"
-            value {
-              as {
-                of {
-                  struct {
-                    item {
-                      struct {
-                        x 1
-                      }
-                    }
-                  }
-                }
-                type "App.Box<App.Plain>"
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result {
-          "as?" {
-            of {
-              ref "two"
-            }
-            type "App.Describable"
-          }
-        }
-        returns "App.Describable?"
-      }
-    }
-    types {
-      "App.Box" {
-        struct {
-          item "some T"
-        }
-        typeParameters [
-          "T"
-        ]
-      }
-      "App.Plain" {
-        struct {
-          x "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-cast-to-a-contract-of-a-value-the-head-of-its-claim-does-not-take-answers-null")
+(note "A box of App.Plain read as `Any` is not taken by `App.Box<some T: Hashable>`, so the box answers no App.Describable and the cast answers null.")
 
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (struct App.Plain
+    (field x Int))
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head (named App.Box (some T Hashable)))
+    (satisfies App.Describable)
+    (procedure describe
+      (parameter of (type (named App.Box (some T))))
+      (returns String)
+      (result "box")))
+  (procedure entry
+    (access public)
+    (returns (nullable App.Describable))
+    (failing cast_refused)
+    (body
+      (let two (type Any) (as (struct (field item (struct (field x 1)))) (named App.Box App.Plain))))
+    (result (as? two App.Describable))))
+(expect (answers null))

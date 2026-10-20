@@ -1,75 +1,27 @@
-warpt 1
-{
-  documents [
-    {
-      imports []
-      procedures {
-        "App.get" {
-          access "public"
-          parameters [
-            {
-              name "b"
-              type "App.Box<some T: Hashable>"
-            }
-          ]
-          result {
-            ref "b.item"
-          }
-          returns "some T"
-        }
-      }
-      types {
-        "App.Box" {
-          struct {
-            item "some T"
-          }
-          typeParameters [
-            "T"
-          ]
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    refuses "build"
-  }
-  name "a-box-of-a-contract-at-a-bounded-parameter-inside-it-refuses"
-  note "A box of `Hashable` handed where `App.Box<some T: Hashable>` is declared: `T` stands inside the box, not alone, and a value of a contract is of whichever type answers it, so it does not fill `T`."
-  program {
-    imports [
-      "App.Box"
-      "App.get"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "b"
-            type "App.Box<Hashable>"
-            value {
-              struct {
-                item 1
-              }
-            }
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "b"
-              }
-            ]
-            procedure "App.get"
-          }
-        }
-        returns "Any"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-box-of-a-contract-at-a-bounded-parameter-inside-it-refuses")
+(note "A box of `Hashable` handed where `App.Box<some T: Hashable>` is declared: `T` stands inside the box, not alone, and a value of a contract is of whichever type answers it, so it does not fill `T`.")
 
+(documents
+  (document
+    (warp 1)
+    (struct App.Box
+      (typeParameter T)
+      (field item (some T)))
+    (procedure App.get
+      (access public)
+      (parameter b (type (named App.Box (some T Hashable))))
+      (returns (some T))
+      (result (path b (field item))))))
+
+(program
+  (warp 1)
+  (import App.Box)
+  (import App.get)
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let b (type (named App.Box Hashable)) (struct (field item 1))))
+    (result (call App.get b))))
+(expect (refuses build))

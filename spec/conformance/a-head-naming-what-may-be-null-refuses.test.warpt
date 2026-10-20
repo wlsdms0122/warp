@@ -1,28 +1,14 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-head-naming-what-may-be-null-refuses"
-  note "A document gives things to a type a value is an instance of, and `Int?` is `Int` or `Null`, so an extension of it refuses at the load."
-  program {
-    extensions {
-      "Int?" {
-        satisfies [
-          "Hashable"
-        ]
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        result 1
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-head-naming-what-may-be-null-refuses")
+(note "A document gives things to a type a value is an instance of, and `Int?` is `Int` or `Null`, so an extension of it refuses at the load.")
 
+(program
+  (warp 1)
+  (extension
+    (head (nullable Int))
+    (satisfies Hashable))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result 1)))
+(expect (refuses load))

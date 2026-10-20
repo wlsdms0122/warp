@@ -1,35 +1,15 @@
-warpt 1
-{
-  arguments {
-    value 2
-  }
-  expect {
-    answers 2
-  }
-  name "what-a-document-says-for-a-reader-is-carried"
-  note "The grammar is closed, so a key nobody names is refused. The prose keys are named: a module and a procedure say what they are for, and a parameter says what it wants. An implementation that acts on none of them still has to take all of them, or it refuses a document the language admits."
-  program {
-    description "what a reader is told about this document"
-    imports []
-    procedures {
-      entry {
-        access "public"
-        description "what a reader is told about this procedure"
-        parameters [
-          {
-            description "what a reader is told about this parameter"
-            name "value"
-            type "Int"
-          }
-        ]
-        result {
-          ref "value"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "what-a-document-says-for-a-reader-is-carried")
+(note "The grammar is closed, so a key nobody names is refused. The prose keys are named: a module and a procedure say what they are for, and a parameter says what it wants. An implementation that acts on none of them still has to take all of them, or it refuses a document the language admits.")
 
+(program
+  (warp 1)
+  (description "what a reader is told about this document")
+  (procedure entry
+    (description "what a reader is told about this procedure")
+    (access public)
+    (parameter value (type Int) (description "what a reader is told about this parameter"))
+    (returns Int)
+    (result value)))
+(arguments (argument value 2))
+(expect (answers 2))

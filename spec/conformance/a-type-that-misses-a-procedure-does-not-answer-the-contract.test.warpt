@@ -1,112 +1,32 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-type-that-misses-a-procedure-does-not-answer-the-contract"
-  note "A claim missing a procedure the contract asks puts its type under no contract. `Bank.Plain` is claimed for `App.Describable` and nothing declares `Bank.Plain.describe`, so the claim refuses at the build, at the claim."
-  program {
-    contracts {
-      "App.Describable" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    imports []
-    procedures {
-      "App.tell" {
-        parameters [
-          {
-            name "it"
-            type "some T: App.Describable"
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "it"
-              }
-            ]
-            procedure "App.Describable.describe"
-          }
-        }
-        returns "String"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "plain"
-            value {
-              as {
-                of {
-                  struct {
-                    note "x"
-                  }
-                }
-                type "Bank.Plain"
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "plain"
-              }
-            ]
-            procedure "App.tell"
-          }
-        }
-        returns "String"
-      }
-    }
-    types {
-      "Bank.Account" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Bank.Account"
-              }
-            ]
-            result "an account"
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.Describable"
-        ]
-        struct {
-          balance "Int"
-        }
-      }
-      "Bank.Plain" {
-        satisfies [
-          "App.Describable"
-        ]
-        struct {
-          note "String"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-type-that-misses-a-procedure-does-not-answer-the-contract")
+(note "A claim missing a procedure the contract asks puts its type under no contract. `Bank.Plain` is claimed for `App.Describable` and nothing declares `Bank.Plain.describe`, so the claim refuses at the build, at the claim.")
 
+(program
+  (warp 1)
+  (struct Bank.Account
+    (satisfies App.Describable)
+    (field balance Int)
+    (procedure describe
+      (parameter of (type Bank.Account))
+      (returns String)
+      (result "an account")))
+  (struct Bank.Plain
+    (satisfies App.Describable)
+    (field note String))
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (procedure App.tell
+    (parameter it (type (some T App.Describable)))
+    (returns String)
+    (result (call App.Describable.describe it)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let plain (as (struct (field note "x")) Bank.Plain)))
+    (result (call App.tell plain))))
+(expect (refuses build))

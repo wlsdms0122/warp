@@ -1,70 +1,25 @@
-warpt 1
-{
-  expect {
-    answers [
-      1
-      2
-      3
-    ]
-  }
-  name "map-answers-in-the-collections-order"
-  note "The concurrent reading of what each walks. Arrival order decides nothing: the answer sits where its element sat."
-  program {
-    imports [
-      "Standard.Concurrent.map"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "walked"
-            value {
-              call {
-                arguments [
-                  [
-                    1
-                    2
-                    3
-                  ]
-                  {
-                    closure {
-                      const true
-                      isolated true
-                      parameters [
-                        {
-                          name "item"
-                          type "Int"
-                        }
-                        {
-                          name "index"
-                          type "Int"
-                        }
-                      ]
-                      result {
-                        ref "item"
-                      }
-                      returns "Int"
-                    }
-                  }
-                ]
-                procedure "Standard.Concurrent.map"
-              }
-            }
-          }
-        ]
-        failing [
-          "concurrent_failed"
-        ]
-        isolated true
-        result {
-          ref "walked"
-        }
-        returns "Array<Int>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "map-answers-in-the-collections-order")
+(note "The concurrent reading of what each walks. Arrival order decides nothing: the answer sits where its element sat.")
 
+(program
+  (warp 1)
+  (import Standard.Concurrent.map)
+  (procedure entry
+    (access public)
+    (isolated)
+    (returns (array Int))
+    (failing concurrent_failed)
+    (body
+      (let walked
+        (call Standard.Concurrent.map
+          (array 1 2 3)
+          (closure
+            (const)
+            (isolated)
+            (parameter item (type Int))
+            (parameter index (type Int))
+            (returns Int)
+            (result item)))))
+    (result walked)))
+(expect (answers (array 1 2 3)))

@@ -1,35 +1,13 @@
-warpt 1
-{
-  expect {
-    answers "c-b-c"
-  }
-  name "replacing-swaps-every-occurrence"
-  note "replacing answers new text with every occurrence of the value rewritten, not only the first."
-  program {
-    imports [
-      "Standard.Text.replacing"
-    ]
-    procedures {
-      entry {
-        access "public"
-        failing [
-          "aborted"
-        ]
-        result {
-          call {
-            arguments [
-              "a-b-a"
-              "a"
-              "c"
-            ]
-            procedure "Standard.Text.replacing"
-          }
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "replacing-swaps-every-occurrence")
+(note "replacing answers new text with every occurrence of the value rewritten, not only the first.")
 
+(program
+  (warp 1)
+  (import Standard.Text.replacing)
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing aborted)
+    (result (call Standard.Text.replacing "a-b-a" "a" "c"))))
+(expect (answers "c-b-c"))

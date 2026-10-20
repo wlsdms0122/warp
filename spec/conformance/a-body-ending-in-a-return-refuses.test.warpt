@@ -1,27 +1,12 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-body-ending-in-a-return-refuses"
-  note "A `return` ending a procedure's own body answers what a `result` would, so one program would have two texts. A body says what it answers one way, under `result`, and one ending in a `return` refuses at the load. A `return` inside an arm leaves early and stands."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            value {
-              return 1
-            }
-          }
-        ]
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-body-ending-in-a-return-refuses")
+(note "A `return` ending a procedure's own body answers what a `result` would, so one program would have two texts. A body says what it answers one way, under `result`, and one ending in a `return` refuses at the load. A `return` inside an arm leaves early and stands.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

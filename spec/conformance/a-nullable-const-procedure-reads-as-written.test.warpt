@@ -1,30 +1,13 @@
-warpt 1
-{
-  expect {
-    answers null
-  }
-  name "a-nullable-const-procedure-reads-as-written"
-  note "Parentheses around a procedure type with a modifier make the `?` after them the whole procedure's, so `(const Procedure)?` is a procedure answering without running, or null."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "f"
-            type "(const Procedure)?"
-            value null
-          }
-        ]
-        result {
-          ref "f"
-        }
-        returns "(const Procedure)?"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-nullable-const-procedure-reads-as-written")
+(note "Parentheses around a procedure type with a modifier make the `?` after them the whole procedure's, so `(const Procedure)?` is a procedure answering without running, or null.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns (nullable (procedure (const))))
+    (body
+      (let f (type (nullable (procedure (const)))) null))
+    (result f)))
+(expect (answers null))

@@ -1,107 +1,31 @@
-warpt 1
-{
-  expect {
-    answers 5
-  }
-  name "a-parameter-handed-in-place-holding-a-procedure-of-a-parameter-takes-a-closure-of-it"
-  note "`App.swap` takes `(some T) -> some T` in place and writes into it a closure taking and answering `some T`, which the slot takes. `g` is the caller's box, so the call of `g` after it answers what it is handed."
-  program {
-    imports [
-      "Standard.Numeric.plus"
-    ]
-    procedures {
-      "App.swap" {
-        body [
-          {
-            set "f"
-            value {
-              closure {
-                parameters [
-                  {
-                    name "y"
-                    type "some T"
-                  }
-                ]
-                result {
-                  ref "y"
-                }
-                returns "some T"
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "f"
-            type "inout (some T) -> some T"
-          }
-        ]
-        result 0
-        returns "Int"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            type "(Int) -> Int"
-            value {
-              closure {
-                parameters [
-                  {
-                    name "n"
-                    type "Int"
-                  }
-                ]
-                result {
-                  call {
-                    arguments [
-                      {
-                        ref "n"
-                      }
-                      1
-                    ]
-                    procedure "Standard.Numeric.plus"
-                  }
-                }
-                returns "Int"
-              }
-            }
-            var "g"
-          }
-          {
-            value {
-              call {
-                arguments [
-                  {
-                    ref "g"
-                  }
-                ]
-                procedure "App.swap"
-              }
-            }
-          }
-          {
-            let "r"
-            value {
-              call {
-                arguments [
-                  5
-                ]
-                procedure {
-                  ref "g"
-                }
-              }
-            }
-          }
-        ]
-        result {
-          ref "r"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-parameter-handed-in-place-holding-a-procedure-of-a-parameter-takes-a-closure-of-it")
+(note "`App.swap` takes `(some T) -> some T` in place and writes into it a closure taking and answering `some T`, which the slot takes. `g` is the caller's box, so the call of `g` after it answers what it is handed.")
 
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure App.swap
+    (parameter f (type (inout (procedure (parameters (some T)) (returns (some T))))))
+    (returns Int)
+    (body
+      (set f
+        (closure
+          (parameter y (type (some T)))
+          (returns (some T))
+          (result y))))
+    (result 0))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var g
+        (type (procedure (parameters Int) (returns Int)))
+        (closure
+          (parameter n (type Int))
+          (returns Int)
+          (result (call Standard.Numeric.plus n 1))))
+      (call App.swap g)
+      (let r (apply g 5)))
+    (result r)))
+(expect (answers 5))

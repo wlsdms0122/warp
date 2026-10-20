@@ -1,84 +1,32 @@
-warpt 1
-{
-  documents [
-    {
-      contracts {
-        "Lib.Container" {
-          procedures {
-            first {
-              parameters [
-                {
-                  name "of"
-                  type "Self"
-                }
-              ]
-              returns "Self.Item"
-            }
-          }
-          types [
-            "Item"
-          ]
-        }
-      }
-      imports []
-      procedures {
-        "Lib.firstOf" {
-          access "public"
-          parameters [
-            {
-              name "c"
-              type "some C: Lib.Container"
-            }
-          ]
-          result {
-            call {
-              arguments [
-                {
-                  ref "c"
-                }
-              ]
-              procedure "Lib.Container.first"
-            }
-          }
-          returns "some C.Item"
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    refuses "build"
-  }
-  name "an-associated-type-standing-on-one-no-contract-asks-it-of-refuses"
-  note "`Lib.Container` asks Item and holds it to nothing, so no contract asks a Key of `C.Item`, and `some C.Item.Key` refuses at the build."
-  program {
-    imports [
-      "Lib.Container"
-    ]
-    procedures {
-      "Use.keyOf" {
-        access "public"
-        parameters [
-          {
-            name "c"
-            type "some C: Lib.Container"
-          }
-          {
-            name "k"
-            type "some C.Item.Key"
-          }
-        ]
-        result 1
-        returns "Int"
-      }
-      entry {
-        access "public"
-        result 1
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-associated-type-standing-on-one-no-contract-asks-it-of-refuses")
+(note "`Lib.Container` asks Item and holds it to nothing, so no contract asks a Key of `C.Item`, and `some C.Item.Key` refuses at the build.")
 
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Container
+      (type Item)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item)))
+    (procedure Lib.firstOf
+      (access public)
+      (parameter c (type (some C Lib.Container)))
+      (returns (some C.Item))
+      (result (call Lib.Container.first c)))))
+
+(program
+  (warp 1)
+  (import Lib.Container)
+  (procedure Use.keyOf
+    (access public)
+    (parameter c (type (some C Lib.Container)))
+    (parameter k (type (some C.Item.Key)))
+    (returns Int)
+    (result 1))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result 1)))
+(expect (refuses build))

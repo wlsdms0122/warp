@@ -1,82 +1,20 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-cast-to-a-list-of-a-type-parameter-refuses"
-  note "App.decode answers raw as Array<some T>. A type parameter inside a cast's type names no type, since nothing in a body fills one, so the cast refuses at the load as a name saying it holds Array<some T> does."
-  program {
-    imports [
-      "Standard.Collection.appending"
-    ]
-    procedures {
-      "App.decode" {
-        parameters [
-          {
-            name "sample"
-            type "some T"
-          }
-          {
-            name "raw"
-          }
-        ]
-        result {
-          as {
-            of {
-              ref "raw"
-            }
-            type "Array<some T>"
-          }
-        }
-        returns "Array<some T>"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "raw"
-            type "Any"
-            value [
-              "7"
-              "8"
-            ]
-          }
-          {
-            let "xs"
-            value {
-              call {
-                arguments [
-                  0
-                  {
-                    ref "raw"
-                  }
-                ]
-                procedure "App.decode"
-              }
-            }
-          }
-          {
-            let "ys"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "xs"
-                  }
-                  9
-                ]
-                procedure "Standard.Collection.appending"
-              }
-            }
-          }
-        ]
-        result {
-          ref "ys"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-cast-to-a-list-of-a-type-parameter-refuses")
+(note "App.decode answers raw as Array<some T>. A type parameter inside a cast's type names no type, since nothing in a body fills one, so the cast refuses at the load as a name saying it holds Array<some T> does.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.appending)
+  (procedure App.decode
+    (parameter sample (type (some T)))
+    (parameter raw)
+    (returns (array (some T)))
+    (result (as raw (array (some T)))))
+  (procedure entry
+    (access public)
+    (body
+      (let raw (type Any) (array "7" "8"))
+      (let xs (call App.decode 0 raw))
+      (let ys (call Standard.Collection.appending xs 9)))
+    (result ys)))
+(expect (refuses load))

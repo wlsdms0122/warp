@@ -1,82 +1,24 @@
-warpt 1
-{
-  expect {
-    answers App.Point {
-      x 1
-    }
-  }
-  name "a-closure-taking-any-stands-where-its-slot-hands-a-contract"
-  note "`g` declares a procedure handed a value of `App.Shape`, and the closure written there takes `Any`, which takes every such value. What a procedure takes is what it accepts, not a value standing where the contract is asked, so the closure stands there and the call answers the point it was handed."
-  program {
-    contracts {
-      "App.Shape" {}
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "c"
-            value {
-              as {
-                of {
-                  struct {
-                    x 1
-                  }
-                }
-                type "App.Point"
-              }
-            }
-          }
-          {
-            let "g"
-            type "(App.Shape) -> Any"
-            value {
-              closure {
-                parameters [
-                  {
-                    name "p"
-                  }
-                ]
-                result {
-                  ref "p"
-                }
-                returns "Any"
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "c"
-              }
-            ]
-            procedure {
-              ref "g"
-            }
-          }
-        }
-        returns "Any"
-      }
-    }
-    types {
-      "App.Point" {
-        satisfies [
-          "App.Shape"
-        ]
-        struct {
-          x "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-closure-taking-any-stands-where-its-slot-hands-a-contract")
+(note "`g` declares a procedure handed a value of `App.Shape`, and the closure written there takes `Any`, which takes every such value. What a procedure takes is what it accepts, not a value standing where the contract is asked, so the closure stands there and the call answers the point it was handed.")
 
+(program
+  (warp 1)
+  (struct App.Point
+    (satisfies App.Shape)
+    (field x Int))
+  (contract App.Shape)
+  (procedure entry
+    (access public)
+    (returns Any)
+    (failing cast_refused)
+    (body
+      (let c (as (struct (field x 1)) App.Point))
+      (let g
+        (type (procedure (parameters App.Shape) (returns Any)))
+        (closure
+          (parameter p)
+          (returns Any)
+          (result p))))
+    (result (apply g c))))
+(expect (answers (struct App.Point (field x 1))))

@@ -1,41 +1,15 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-call-of-another-count-refuses"
-  note "A call hands its arguments by position, and `plain` takes one. A second argument would stand at a position `plain` does not have, and the build says so rather than dropping it."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              7
-              8
-            ]
-            procedure "plain"
-          }
-        }
-        returns "Int"
-      }
-      plain {
-        parameters [
-          {
-            name "value"
-            type "Int"
-          }
-        ]
-        result {
-          ref "value"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-call-of-another-count-refuses")
+(note "A call hands its arguments by position, and `plain` takes one. A second argument would stand at a position `plain` does not have, and the build says so rather than dropping it.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result (call plain 7 8)))
+  (procedure plain
+    (parameter value (type Int))
+    (returns Int)
+    (result value)))
+(expect (refuses build))

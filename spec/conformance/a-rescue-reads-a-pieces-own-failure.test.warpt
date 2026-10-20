@@ -1,119 +1,40 @@
-warpt 1
-{
-  expect {
-    answers "aborted"
-  }
-  name "a-rescue-reads-a-pieces-own-failure"
-  note "What concurrent_failed gathers under each piece is the failure that piece raised, a `Failure` like every failure a rescue binds, so a rescue reads a piece's own type through details once a cast says it is one."
-  program {
-    imports [
-      "Standard.Concurrent.allKeyed"
-      "Standard.Control.abort"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "tried"
-            value {
-              attempt {
-                body [
-                  {
-                    value {
-                      call {
-                        arguments [
-                          {
-                            dictionary [
-                              [
-                                "fine"
-                                {
-                                  closure {
-                                    const true
-                                    isolated true
-                                    result "ok"
-                                    returns "String"
-                                  }
-                                }
-                              ]
-                              [
-                                "fragile"
-                                {
-                                  closure {
-                                    body [
-                                      {
-                                        value {
-                                          call {
-                                            arguments [
-                                              "on purpose"
-                                            ]
-                                            procedure "Standard.Control.abort"
-                                          }
-                                        }
-                                      }
-                                    ]
-                                    const true
-                                    failing [
-                                      "aborted"
-                                    ]
-                                    isolated true
-                                    returns "Never"
-                                  }
-                                }
-                              ]
-                            ]
-                          }
-                        ]
-                        procedure "Standard.Concurrent.allKeyed"
-                      }
-                    }
-                  }
-                ]
-                rescue {
-                  body [
-                    {
-                      let "failures"
-                      value {
-                        as {
-                          of {
-                            ref "tried.details[\"failures\"]"
-                          }
-                          type "Dictionary<String, Any>"
-                        }
-                      }
-                    }
-                    {
-                      let "piece"
-                      value {
-                        as {
-                          of {
-                            ref "failures[\"fragile\"]"
-                          }
-                          type "Failure"
-                        }
-                      }
-                    }
-                  ]
-                  result {
-                    ref "piece.type"
-                  }
-                }
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        isolated true
-        result {
-          ref "tried"
-        }
-        returns "String?"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-rescue-reads-a-pieces-own-failure")
+(note "What concurrent_failed gathers under each piece is the failure that piece raised, a `Failure` like every failure a rescue binds, so a rescue reads a piece's own type through details once a cast says it is one.")
 
+(program
+  (warp 1)
+  (import Standard.Concurrent.allKeyed)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (isolated)
+    (returns (nullable String))
+    (failing cast_refused)
+    (body
+      (let tried
+        (attempt
+          (body
+            (call Standard.Concurrent.allKeyed
+              (dictionary
+                (entry "fine"
+                  (closure
+                    (const)
+                    (isolated)
+                    (returns String)
+                    (result "ok")))
+                (entry "fragile"
+                  (closure
+                    (const)
+                    (isolated)
+                    (returns Never)
+                    (failing aborted)
+                    (body
+                      (call Standard.Control.abort "on purpose")))))))
+          (rescue
+            (body
+              (let failures (as (path tried (field details) (index "failures")) (dictionary String Any)))
+              (let piece (as (path failures (index "fragile")) Failure)))
+            (result (path piece (field type)))))))
+    (result tried)))
+(expect (answers "aborted"))

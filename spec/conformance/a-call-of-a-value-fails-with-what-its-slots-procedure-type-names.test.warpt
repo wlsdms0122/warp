@@ -1,105 +1,34 @@
-warpt 1
-{
-  expect {
-    answers "aborted"
-  }
-  name "a-call-of-a-value-fails-with-what-its-slots-procedure-type-names"
-  note "`apply` calls `step`, whose type may fail with `aborted`, so `apply` may fail with `aborted` and the attempt around the call is one a run reaches; the closure handed aborts, and the rescue reads the failure."
-  program {
-    imports [
-      "Standard.Control.abort"
-    ]
-    procedures {
-      apply {
-        const true
-        failing [
-          "aborted"
-        ]
-        parameters [
-          {
-            name "of"
-            type "Int"
-          }
-          {
-            name "step"
-            type "const (Int) throws(aborted) -> Int"
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "of"
-              }
-            ]
-            procedure {
-              ref "step"
-            }
-          }
-        }
-        returns "Int"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "failed"
-            value {
-              attempt {
-                body [
-                  {
-                    value {
-                      call {
-                        arguments [
-                          1
-                          {
-                            closure {
-                              const true
-                              failing [
-                                "aborted"
-                              ]
-                              isolated true
-                              parameters [
-                                {
-                                  name "x"
-                                  type "Int"
-                                }
-                              ]
-                              result {
-                                call {
-                                  arguments [
-                                    "no"
-                                  ]
-                                  procedure "Standard.Control.abort"
-                                }
-                              }
-                              returns "Int"
-                            }
-                          }
-                        ]
-                        procedure "apply"
-                      }
-                    }
-                  }
-                ]
-                rescue {
-                  result {
-                    ref "failed.type"
-                  }
-                }
-              }
-            }
-          }
-        ]
-        const true
-        result {
-          ref "failed"
-        }
-        returns "String?"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-call-of-a-value-fails-with-what-its-slots-procedure-type-names")
+(note "`apply` calls `step`, whose type may fail with `aborted`, so `apply` may fail with `aborted` and the attempt around the call is one a run reaches; the closure handed aborts, and the rescue reads the failure.")
 
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure apply
+    (const)
+    (parameter of (type Int))
+    (parameter step (type (procedure (const) (parameters Int) (failing aborted) (returns Int))))
+    (returns Int)
+    (failing aborted)
+    (result (apply step of)))
+  (procedure entry
+    (access public)
+    (const)
+    (returns (nullable String))
+    (body
+      (let failed
+        (attempt
+          (body
+            (call apply 1
+              (closure
+                (const)
+                (isolated)
+                (parameter x (type Int))
+                (returns Int)
+                (failing aborted)
+                (result (call Standard.Control.abort "no")))))
+          (rescue
+            (result (path failed (field type)))))))
+    (result failed)))
+(expect (answers "aborted"))

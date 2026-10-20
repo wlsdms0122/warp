@@ -1,77 +1,24 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-closure-answering-anything-does-not-fit-a-slot-answering-int-refuses"
-  note "App.callIt takes a procedure that answers Int. The closure handed to it answers Any, and a value read as `Any` is no Int the build can see, so the closure does not fit the slot and the build refuses."
-  program {
-    imports [
-      "Standard.Collection.appending"
-    ]
-    procedures {
-      "App.callIt" {
-        body [
-          {
-            let "v"
-            value {
-              call {
-                procedure {
-                  ref "f"
-                }
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "f"
-            type "() -> Int"
-          }
-        ]
-        result {
-          call {
-            arguments [
-              [
-                1
-              ]
-              {
-                ref "v"
-              }
-            ]
-            procedure "Standard.Collection.appending"
-          }
-        }
-        returns "Any"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "xs"
-            value {
-              call {
-                arguments [
-                  {
-                    closure {
-                      result "s"
-                      returns "Any"
-                    }
-                  }
-                ]
-                procedure "App.callIt"
-              }
-            }
-          }
-        ]
-        result {
-          ref "xs"
-        }
-        returns "Any"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-closure-answering-anything-does-not-fit-a-slot-answering-int-refuses")
+(note "App.callIt takes a procedure that answers Int. The closure handed to it answers Any, and a value read as `Any` is no Int the build can see, so the closure does not fit the slot and the build refuses.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.appending)
+  (procedure App.callIt
+    (parameter f (type (procedure (parameters) (returns Int))))
+    (returns Any)
+    (body
+      (let v (apply f)))
+    (result (call Standard.Collection.appending (array 1) v)))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let xs
+        (call App.callIt
+          (closure
+            (returns Any)
+            (result "s")))))
+    (result xs)))
+(expect (refuses build))

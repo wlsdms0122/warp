@@ -1,27 +1,12 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-nullable-that-says-nothing-new-refuses"
-  note "The `?` is written once, on the whole spelling, and only where it says something new. `Int??` says nothing the first `?` did not, so it is a second spelling of `Int?` and is refused where the document is read."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        parameters [
-          {
-            name "item"
-            type "Int??"
-          }
-        ]
-        result 1
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-nullable-that-says-nothing-new-refuses")
+(note "The `?` is written once, on the whole spelling, and only where it says something new. `Int??` says nothing the first `?` did not, so it is a second spelling of `Int?` and is refused where the document is read.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter item (type (nullable (nullable Int))))
+    (returns Int)
+    (result 1)))
+(expect (refuses load))

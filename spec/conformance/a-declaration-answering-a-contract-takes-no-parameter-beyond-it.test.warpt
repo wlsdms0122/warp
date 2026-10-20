@@ -1,83 +1,24 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-declaration-answering-a-contract-takes-no-parameter-beyond-it"
-  note "A declaration answering a contract's procedure takes exactly the contract's positions. `App.Card.label` takes a second parameter the contract does not ask, and no call through the contract writes it, so the claim refuses at the build, at the claim, `T?` or not."
-  program {
-    contracts {
-      "App.Labelled" {
-        procedures {
-          label {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        failing [
-          "cast_refused"
-        ]
-        result {
-          call {
-            arguments [
-              {
-                as {
-                  of {
-                    struct {
-                      last "42"
-                    }
-                  }
-                  type "App.Card"
-                }
-              }
-            ]
-            procedure "App.Labelled.label"
-          }
-        }
-        returns "String"
-      }
-    }
-    types {
-      "App.Card" {
-        procedures {
-          label {
-            parameters [
-              {
-                name "of"
-                type "App.Card"
-              }
-              {
-                name "suffix"
-                type "String?"
-              }
-            ]
-            result {
-              ref "of.last"
-            }
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.Labelled"
-        ]
-        struct {
-          last "String"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-declaration-answering-a-contract-takes-no-parameter-beyond-it")
+(note "A declaration answering a contract's procedure takes exactly the contract's positions. `App.Card.label` takes a second parameter the contract does not ask, and no call through the contract writes it, so the claim refuses at the build, at the claim, `T?` or not.")
 
+(program
+  (warp 1)
+  (struct App.Card
+    (satisfies App.Labelled)
+    (field last String)
+    (procedure label
+      (parameter of (type App.Card))
+      (parameter suffix (type (nullable String)))
+      (returns String)
+      (result (path of (field last)))))
+  (contract App.Labelled
+    (procedure label
+      (parameter of (type Self))
+      (returns String)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (result (call App.Labelled.label (as (struct (field last "42")) App.Card)))))
+(expect (refuses build))

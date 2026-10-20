@@ -1,57 +1,17 @@
-warpt 1
-{
-  expect {
-    answers 1
-  }
-  name "a-claim-about-a-struct-the-language-declares-keys-a-map-by-it-answers"
-  note "A claim's type is a mention, so it may name `Round`, a struct the language declares, and the claim of `Hashable` keys a map by it. The map literal's key is a struct literal read as the `Round` the declaration names, and the map holds one entry."
-  program {
-    extensions {
-      Round {
-        satisfies [
-          "Hashable"
-        ]
-      }
-    }
-    imports [
-      "Standard.Collection.count"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "d"
-            type "Dictionary<Round, Int>"
-            value {
-              dictionary [
-                [
-                  {
-                    struct {
-                      index 0
-                    }
-                  }
-                  1
-                ]
-              ]
-            }
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "d"
-              }
-            ]
-            procedure "Standard.Collection.count"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-claim-about-a-struct-the-language-declares-keys-a-map-by-it-answers")
+(note "A claim's type is a mention, so it may name `Round`, a struct the language declares, and the claim of `Hashable` keys a map by it. The map literal's key is a struct literal read as the `Round` the declaration names, and the map holds one entry.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.count)
+  (extension
+    (head Round)
+    (satisfies Hashable))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let d (type (dictionary Round Int)) (dictionary (entry (struct (field index 0)) 1))))
+    (result (call Standard.Collection.count d))))
+(expect (answers 1))

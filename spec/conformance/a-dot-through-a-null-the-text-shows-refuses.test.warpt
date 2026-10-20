@@ -1,29 +1,13 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-dot-through-a-null-the-text-shows-refuses"
-  note "Null is not read through. Where the text shows the null, a dot after it is refused at the build."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "gone"
-            value null
-          }
-        ]
-        result {
-          ref "gone.name"
-        }
-        returns "Any"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-dot-through-a-null-the-text-shows-refuses")
+(note "Null is not read through. Where the text shows the null, a dot after it is refused at the build.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let gone null))
+    (result (path gone (field name)))))
+(expect (refuses build))

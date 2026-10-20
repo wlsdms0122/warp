@@ -1,135 +1,28 @@
-warpt 1
-{
-  expect {
-    answers [
-      {
-        k [
-          "b"
-        ]
-      }
-      {
-        k []
-      }
-    ]
-  }
-  name "a-parameter-handed-in-place-handed-on-beside-maps-of-it-and-of-an-empty-list-answers"
-  note "App.g hands xs, a list of dictionaries of lists of T handed in place, on to App.put beside a list of two map literals, one holding `[x]` under `k` and one holding `[]` there. The maps are taken entry by entry whichever stands first, so the literal is a value of Array<Dictionary<String, Array<some T>>>, and the caller reads both maps."
-  program {
-    imports []
-    procedures {
-      "App.g" {
-        body [
-          {
-            value {
-              call {
-                arguments [
-                  {
-                    ref "xs"
-                  }
-                  [
-                    {
-                      dictionary [
-                        [
-                          "k"
-                          [
-                            {
-                              ref "x"
-                            }
-                          ]
-                        ]
-                      ]
-                    }
-                    {
-                      dictionary [
-                        [
-                          "k"
-                          []
-                        ]
-                      ]
-                    }
-                  ]
-                ]
-                procedure "App.put"
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "xs"
-            type "inout Array<Dictionary<String, Array<some T>>>"
-          }
-          {
-            name "x"
-            type "some T"
-          }
-        ]
-        result 0
-        returns "Int"
-      }
-      "App.put" {
-        body [
-          {
-            set "a"
-            value {
-              ref "b"
-            }
-          }
-        ]
-        parameters [
-          {
-            name "a"
-            type "inout some U"
-          }
-          {
-            name "b"
-            type "some U"
-          }
-        ]
-        result 0
-        returns "Int"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            type "Array<Dictionary<String, Array<String>>>"
-            value [
-              {
-                dictionary [
-                  [
-                    "k"
-                    [
-                      "a"
-                    ]
-                  ]
-                ]
-              }
-            ]
-            var "s"
-          }
-          {
-            value {
-              call {
-                arguments [
-                  {
-                    ref "s"
-                  }
-                  "b"
-                ]
-                procedure "App.g"
-              }
-            }
-          }
-        ]
-        result {
-          ref "s"
-        }
-        returns "Array<Dictionary<String, Array<String>>>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-parameter-handed-in-place-handed-on-beside-maps-of-it-and-of-an-empty-list-answers")
+(note "App.g hands xs, a list of dictionaries of lists of T handed in place, on to App.put beside a list of two map literals, one holding `[x]` under `k` and one holding `[]` there. The maps are taken entry by entry whichever stands first, so the literal is a value of Array<Dictionary<String, Array<some T>>>, and the caller reads both maps.")
 
+(program
+  (warp 1)
+  (procedure App.g
+    (parameter xs (type (inout (array (dictionary String (array (some T)))))))
+    (parameter x (type (some T)))
+    (returns Int)
+    (body
+      (call App.put xs (array (dictionary (entry "k" (array x))) (dictionary (entry "k" (array))))))
+    (result 0))
+  (procedure App.put
+    (parameter a (type (inout (some U))))
+    (parameter b (type (some U)))
+    (returns Int)
+    (body
+      (set a b))
+    (result 0))
+  (procedure entry
+    (access public)
+    (returns (array (dictionary String (array String))))
+    (body
+      (var s (type (array (dictionary String (array String)))) (array (dictionary (entry "k" (array "a")))))
+      (call App.g s "b"))
+    (result s)))
+(expect (answers (array (dictionary (entry "k" (array "b"))) (dictionary (entry "k" (array))))))

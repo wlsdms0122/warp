@@ -1,42 +1,14 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "an-effect-in-an-operand-refuses"
-  note "An operand is data the run reads. A procedure that answers only by running is called by a statement, and what the operand reads is the name that statement bound."
-  program {
-    imports [
-      "Standard.Concurrent.all"
-      "Standard.Logic.equal"
-    ]
-    procedures {
-      entry {
-        access "public"
-        failing [
-          "concurrent_failed"
-        ]
-        result {
-          call {
-            arguments [
-              1
-              {
-                call {
-                  arguments [
-                    []
-                  ]
-                  procedure "Standard.Concurrent.all"
-                }
-              }
-            ]
-            procedure "Standard.Logic.equal"
-          }
-        }
-        returns "Bool"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-effect-in-an-operand-refuses")
+(note "An operand is data the run reads. A procedure that answers only by running is called by a statement, and what the operand reads is the name that statement bound.")
 
+(program
+  (warp 1)
+  (import Standard.Concurrent.all)
+  (import Standard.Logic.equal)
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (failing concurrent_failed)
+    (result (call Standard.Logic.equal 1 (call Standard.Concurrent.all (array))))))
+(expect (refuses build))

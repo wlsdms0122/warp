@@ -1,31 +1,12 @@
-warpt 1
-{
-  expect {
-    answers true
-  }
-  name "null-is-the-same-as-null"
-  note "Null is the same as null, so `Standard.Logic.equal` answers true for two of them."
-  program {
-    imports [
-      "Standard.Logic.equal"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              null
-              null
-            ]
-            procedure "Standard.Logic.equal"
-          }
-        }
-        returns "Bool"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "null-is-the-same-as-null")
+(note "Null is the same as null, so `Standard.Logic.equal` answers true for two of them.")
 
+(program
+  (warp 1)
+  (import Standard.Logic.equal)
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (result (call Standard.Logic.equal null null))))
+(expect (answers true))

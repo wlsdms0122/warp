@@ -1,118 +1,39 @@
-warpt 1
-{
-  expect {
-    answers "a"
-  }
-  name "a-closure-writing-its-own-answer-held-at-a-slot-answers-it-through-a-type-parameter-answers"
-  note "The closure writes `returns Bank.A` and is held at `() -> Bank.A`, the answer it already gives. `App.run` takes `() -> some T`, so `v` reads as `Bank.A`, the closure's own `returns` names the struct it answers, and `App.P.show` reaches `Bank.A.show`."
-  program {
-    contracts {
-      "App.P" {
-        procedures {
-          show {
-            const true
-            isolated true
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    imports []
-    procedures {
-      "App.run" {
-        parameters [
-          {
-            name "c"
-            type "() -> some T"
-          }
-        ]
-        result {
-          call {
-            procedure {
-              ref "c"
-            }
-          }
-        }
-        returns "some T"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "c"
-            type "() -> Bank.A"
-            value {
-              closure {
-                const true
-                isolated true
-                result {
-                  struct {
-                    k "x"
-                  }
-                }
-                returns "Bank.A"
-              }
-            }
-          }
-          {
-            let "v"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "c"
-                  }
-                ]
-                procedure "App.run"
-              }
-            }
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "v"
-              }
-            ]
-            procedure "App.P.show"
-          }
-        }
-        returns "String"
-      }
-    }
-    types {
-      "Bank.A" {
-        procedures {
-          show {
-            const true
-            isolated true
-            parameters [
-              {
-                name "of"
-                type "Bank.A"
-              }
-            ]
-            result "a"
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.P"
-        ]
-        struct {
-          k "String"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-closure-writing-its-own-answer-held-at-a-slot-answers-it-through-a-type-parameter-answers")
+(note "The closure writes `returns Bank.A` and is held at `() -> Bank.A`, the answer it already gives. `App.run` takes `() -> some T`, so `v` reads as `Bank.A`, the closure's own `returns` names the struct it answers, and `App.P.show` reaches `Bank.A.show`.")
 
+(program
+  (warp 1)
+  (struct Bank.A
+    (satisfies App.P)
+    (field k String)
+    (procedure show
+      (const)
+      (isolated)
+      (parameter of (type Bank.A))
+      (returns String)
+      (result "a")))
+  (contract App.P
+    (procedure show
+      (const)
+      (isolated)
+      (parameter of (type Self))
+      (returns String)))
+  (procedure App.run
+    (parameter c (type (procedure (parameters) (returns (some T)))))
+    (returns (some T))
+    (result (apply c)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let c
+        (type (procedure (parameters) (returns Bank.A)))
+        (closure
+          (const)
+          (isolated)
+          (returns Bank.A)
+          (result (struct (field k "x")))))
+      (let v (call App.run c)))
+    (result (call App.P.show v))))
+(expect (answers "a"))

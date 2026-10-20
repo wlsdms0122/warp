@@ -1,20 +1,10 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-version-that-never-existed-refuses"
-  note "A reader reads the version it implements and refuses any other. No version 0 of the language exists, and a document saying it refuses at the load."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        result 1
-      }
-    }
-    warp 0
-  }
-  test 1
-}
+(test 1)
+(name "a-version-that-never-existed-refuses")
+(note "A reader reads the version it implements and refuses any other. No version 0 of the language exists, and a document saying it refuses at the load.")
 
+(program
+  (warp 0)
+  (procedure entry
+    (access public)
+    (result 1)))
+(expect (refuses load))

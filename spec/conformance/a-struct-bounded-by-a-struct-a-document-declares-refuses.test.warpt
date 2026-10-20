@@ -1,36 +1,16 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-struct-bounded-by-a-struct-a-document-declares-refuses"
-  note "A struct bounds its type parameters the way a signature does: a bound naming a struct a document declares is no contract, and the build refuses it."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        result 1
-        returns "Int"
-      }
-    }
-    types {
-      "App.Box" {
-        struct {
-          item "some T"
-        }
-        typeParameters [
-          "T: App.P"
-        ]
-      }
-      "App.P" {
-        struct {
-          x "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-struct-bounded-by-a-struct-a-document-declares-refuses")
+(note "A struct bounds its type parameters the way a signature does: a bound naming a struct a document declares is no contract, and the build refuses it.")
 
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T App.P)
+    (field item (some T)))
+  (struct App.P
+    (field x Int))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result 1)))
+(expect (refuses build))

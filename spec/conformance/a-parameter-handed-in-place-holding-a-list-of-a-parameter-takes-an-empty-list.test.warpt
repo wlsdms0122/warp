@@ -1,60 +1,20 @@
-warpt 1
-{
-  expect {
-    answers []
-  }
-  name "a-parameter-handed-in-place-holding-a-list-of-a-parameter-takes-an-empty-list"
-  note "App.clear takes Array<some T> in place and writes []. An empty list holds no element, so it is a list of whatever filled T."
-  program {
-    imports []
-    procedures {
-      "App.clear" {
-        body [
-          {
-            set "xs"
-            value []
-          }
-        ]
-        parameters [
-          {
-            name "xs"
-            type "inout Array<some T>"
-          }
-        ]
-        result 0
-        returns "Int"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            value [
-              "a"
-              "b"
-            ]
-            var "s"
-          }
-          {
-            value {
-              call {
-                arguments [
-                  {
-                    ref "s"
-                  }
-                ]
-                procedure "App.clear"
-              }
-            }
-          }
-        ]
-        result {
-          ref "s"
-        }
-        returns "Array<String>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-parameter-handed-in-place-holding-a-list-of-a-parameter-takes-an-empty-list")
+(note "App.clear takes Array<some T> in place and writes []. An empty list holds no element, so it is a list of whatever filled T.")
 
+(program
+  (warp 1)
+  (procedure App.clear
+    (parameter xs (type (inout (array (some T)))))
+    (returns Int)
+    (body
+      (set xs (array)))
+    (result 0))
+  (procedure entry
+    (access public)
+    (returns (array String))
+    (body
+      (var s (array "a" "b"))
+      (call App.clear s))
+    (result s)))
+(expect (answers (array)))

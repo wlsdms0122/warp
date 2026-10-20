@@ -1,71 +1,24 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-declaration-answering-a-contract-takes-the-claimed-type-wherever-the-contract-writes-self-refuses"
-  note "A claim reads `Self` as the type it is about at every position the contract writes it, not only the first. `Int.before` taking text second does not answer `before` for `Int`, and the claim refuses at the build, at the claim."
-  program {
-    contracts {
-      "App.Ordered" {
-        procedures {
-          before {
-            parameters [
-              {
-                name "lhs"
-                type "Self"
-              }
-              {
-                name "rhs"
-                type "Self"
-              }
-            ]
-            returns "Bool"
-          }
-        }
-      }
-    }
-    extensions {
-      Int {
-        procedures {
-          before {
-            parameters [
-              {
-                name "lhs"
-                type "Int"
-              }
-              {
-                name "rhs"
-                type "String"
-              }
-            ]
-            result true
-            returns "Bool"
-          }
-        }
-        satisfies [
-          "App.Ordered"
-        ]
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              1
-              2
-            ]
-            procedure "App.Ordered.before"
-          }
-        }
-        returns "Bool"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-declaration-answering-a-contract-takes-the-claimed-type-wherever-the-contract-writes-self-refuses")
+(note "A claim reads `Self` as the type it is about at every position the contract writes it, not only the first. `Int.before` taking text second does not answer `before` for `Int`, and the claim refuses at the build, at the claim.")
 
+(program
+  (warp 1)
+  (contract App.Ordered
+    (procedure before
+      (parameter lhs (type Self))
+      (parameter rhs (type Self))
+      (returns Bool)))
+  (extension
+    (head Int)
+    (satisfies App.Ordered)
+    (procedure before
+      (parameter lhs (type Int))
+      (parameter rhs (type String))
+      (returns Bool)
+      (result true)))
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (result (call App.Ordered.before 1 2))))
+(expect (refuses build))

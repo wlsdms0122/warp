@@ -1,46 +1,16 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "an-effect-in-a-condition-refuses"
-  note "A condition is read rather than run, so a procedure that answers only by running cannot stand in one. The build knows which declarations those are, so the refusal is the build's."
-  program {
-    imports [
-      "Standard.Concurrent.all"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            value {
-              conditional {
-                then [
-                  {
-                    let "kept"
-                    value 1
-                  }
-                ]
-                when {
-                  call {
-                    arguments [
-                      []
-                    ]
-                    procedure "Standard.Concurrent.all"
-                  }
-                }
-              }
-            }
-          }
-        ]
-        failing [
-          "concurrent_failed"
-        ]
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-effect-in-a-condition-refuses")
+(note "A condition is read rather than run, so a procedure that answers only by running cannot stand in one. The build knows which declarations those are, so the refusal is the build's.")
 
+(program
+  (warp 1)
+  (import Standard.Concurrent.all)
+  (procedure entry
+    (access public)
+    (failing concurrent_failed)
+    (body
+      (conditional
+        (when (call Standard.Concurrent.all (array)))
+        (then
+          (let kept 1))))))
+(expect (refuses build))

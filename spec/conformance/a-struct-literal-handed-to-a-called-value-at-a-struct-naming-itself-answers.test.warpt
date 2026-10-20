@@ -1,72 +1,20 @@
-warpt 1
-{
-  expect {
-    answers App.Node {
-      children [
-        App.Node {
-          children []
-        }
-      ]
-    }
-  }
-  name "a-struct-literal-handed-to-a-called-value-at-a-struct-naming-itself-answers"
-  note "`App.Node` is a declared struct holding a list of itself, and `g` is held at `(App.Node) -> Any`. A call of `g` holds the literal to that slot field by field, however deep the struct goes, and names each level `App.Node`."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "g"
-            type "(App.Node) -> Any"
-            value {
-              closure {
-                parameters [
-                  {
-                    name "p"
-                  }
-                ]
-                result {
-                  ref "p"
-                }
-                returns "Any"
-              }
-            }
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                struct {
-                  children [
-                    {
-                      struct {
-                        children []
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-            procedure {
-              ref "g"
-            }
-          }
-        }
-        returns "Any"
-      }
-    }
-    types {
-      "App.Node" {
-        struct {
-          children "Array<App.Node>"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-struct-literal-handed-to-a-called-value-at-a-struct-naming-itself-answers")
+(note "`App.Node` is a declared struct holding a list of itself, and `g` is held at `(App.Node) -> Any`. A call of `g` holds the literal to that slot field by field, however deep the struct goes, and names each level `App.Node`.")
 
+(program
+  (warp 1)
+  (struct App.Node
+    (field children (array App.Node)))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let g
+        (type (procedure (parameters App.Node) (returns Any)))
+        (closure
+          (parameter p)
+          (returns Any)
+          (result p))))
+    (result (apply g (struct (field children (array (struct (field children (array))))))))))
+(expect (answers (struct App.Node (field children (array (struct App.Node (field children (array))))))))

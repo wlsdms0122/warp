@@ -1,56 +1,18 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-struct-literal-at-a-type-parameter-nothing-fills-with-a-struct-refuses"
-  note "A struct literal at a type parameter reads as the declared struct the call's other arguments fill it with. `App.same` is handed an `Int` beside it, so the literal is written where no declared struct is read, and it refuses at the build."
-  program {
-    imports []
-    procedures {
-      "App.same" {
-        parameters [
-          {
-            name "a"
-            type "some T"
-          }
-          {
-            name "b"
-            type "some T"
-          }
-        ]
-        result {
-          ref "b"
-        }
-        returns "some T"
-      }
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              1
-              {
-                struct {
-                  x 2
-                }
-              }
-            ]
-            procedure "App.same"
-          }
-        }
-        returns "Int"
-      }
-    }
-    types {
-      "App.P" {
-        struct {
-          x "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-struct-literal-at-a-type-parameter-nothing-fills-with-a-struct-refuses")
+(note "A struct literal at a type parameter reads as the declared struct the call's other arguments fill it with. `App.same` is handed an `Int` beside it, so the literal is written where no declared struct is read, and it refuses at the build.")
 
+(program
+  (warp 1)
+  (struct App.P
+    (field x Int))
+  (procedure App.same
+    (parameter a (type (some T)))
+    (parameter b (type (some T)))
+    (returns (some T))
+    (result b))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result (call App.same 1 (struct (field x 2))))))
+(expect (refuses build))

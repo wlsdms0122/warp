@@ -1,41 +1,15 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "an-optional-dot-on-a-field-that-is-there-refuses"
-  note "`?.` reads a segment that may be absent as null. On a field the reading already says is there it says nothing, and a claim that says nothing is refused at the build."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "point"
-            type "App.Point"
-            value {
-              struct {
-                x 1
-              }
-            }
-          }
-        ]
-        result {
-          ref "point?.x"
-        }
-        returns "Any"
-      }
-    }
-    types {
-      "App.Point" {
-        struct {
-          x "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-optional-dot-on-a-field-that-is-there-refuses")
+(note "`?.` reads a segment that may be absent as null. On a field the reading already says is there it says nothing, and a claim that says nothing is refused at the build.")
 
+(program
+  (warp 1)
+  (struct App.Point
+    (field x Int))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let point (type App.Point) (struct (field x 1))))
+    (result (path point (field? x)))))
+(expect (refuses build))

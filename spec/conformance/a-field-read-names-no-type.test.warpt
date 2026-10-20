@@ -1,91 +1,34 @@
-warpt 1
-{
-  documents [
-    {
-      imports []
-      procedures {
-        "Core.origin" {
-          failing [
-            "cast_refused"
-          ]
-          result {
-            as {
-              of {
-                struct {
-                  x 3
-                  y 4
-                }
-              }
-              type "Core.Point"
-            }
-          }
-          returns "Core.Point"
-        }
-      }
-      types {
-        "Core.Point" {
-          struct {
-            x "Int"
-            y "Int"
-          }
-        }
-      }
-      warp 1
-    }
-    {
-      imports [
-        "Core.Point"
-        "Core.origin"
-      ]
-      procedures {
-        "Mid.tip" {
-          failing [
-            "cast_refused"
-          ]
-          result {
-            call {
-              procedure "Core.origin"
-            }
-          }
-          returns "Core.Point"
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    answers 3
-  }
-  name "a-field-read-names-no-type"
-  note "The imports list holds the names a program uses: what it sends and the types it names. Reading a field off another document's answer names no type, so a program built on the middle layer lists the middle layer's procedure and nothing of the layer beneath."
-  program {
-    imports [
-      "Mid.tip"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "tip"
-            value {
-              call {
-                procedure "Mid.tip"
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result {
-          ref "tip.x"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-field-read-names-no-type")
+(note "The imports list holds the names a program uses: what it sends and the types it names. Reading a field off another document's answer names no type, so a program built on the middle layer lists the middle layer's procedure and nothing of the layer beneath.")
 
+(documents
+  (document
+    (warp 1)
+    (struct Core.Point
+      (field x Int)
+      (field y Int))
+    (procedure Core.origin
+      (returns Core.Point)
+      (failing cast_refused)
+      (result (as (struct (field x 3) (field y 4)) Core.Point))))
+  (document
+    (warp 1)
+    (import Core.Point)
+    (import Core.origin)
+    (procedure Mid.tip
+      (returns Core.Point)
+      (failing cast_refused)
+      (result (call Core.origin)))))
+
+(program
+  (warp 1)
+  (import Mid.tip)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing cast_refused)
+    (body
+      (let tip (call Mid.tip)))
+    (result (path tip (field x)))))
+(expect (answers 3))

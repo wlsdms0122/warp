@@ -1,43 +1,16 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-name-an-arm-declares-is-not-read-after-it"
-  note "What an arm declares stays its own and dies with the arm. A reference after the conditional to a name only the arm declared reads a name that is not there."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            value {
-              conditional {
-                then [
-                  {
-                    value 1
-                    var "inner"
-                  }
-                ]
-                when true
-              }
-            }
-          }
-          {
-            let "read"
-            value {
-              ref "inner"
-            }
-          }
-        ]
-        result {
-          ref "read"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-name-an-arm-declares-is-not-read-after-it")
+(note "What an arm declares stays its own and dies with the arm. A reference after the conditional to a name only the arm declared reads a name that is not there.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (body
+      (conditional
+        (when true)
+        (then
+          (var inner 1)))
+      (let read inner))
+    (result read)))
+(expect (refuses load))

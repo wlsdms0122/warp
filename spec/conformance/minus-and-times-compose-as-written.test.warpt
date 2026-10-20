@@ -1,48 +1,15 @@
-warpt 1
-{
-  expect {
-    answers 18
-  }
-  name "minus-and-times-compose-as-written"
-  note "minus and times answer the type they were given, and compose the way the program wrote them."
-  program {
-    imports [
-      "Standard.Numeric.minus"
-      "Standard.Numeric.times"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "difference"
-            value {
-              call {
-                arguments [
-                  10
-                  4
-                ]
-                procedure "Standard.Numeric.minus"
-              }
-            }
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "difference"
-              }
-              3
-            ]
-            procedure "Standard.Numeric.times"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "minus-and-times-compose-as-written")
+(note "minus and times answer the type they were given, and compose the way the program wrote them.")
 
+(program
+  (warp 1)
+  (import Standard.Numeric.minus)
+  (import Standard.Numeric.times)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let difference (call Standard.Numeric.minus 10 4)))
+    (result (call Standard.Numeric.times difference 3))))
+(expect (answers 18))

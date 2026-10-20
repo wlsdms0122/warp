@@ -1,183 +1,49 @@
-warpt 1
-{
-  expect {
-    answers "rescued"
-  }
-  name "a-call-failing-before-it-writes-an-entry-taken-in-place-is-rescued"
-  note "`App.touch` takes an entry of a dictionary not written yet in place at its own `some T`, and fails before writing it. The failure reaches the caller as it was raised, so the caller's attempt rescues it."
-  program {
-    imports [
-      "Standard.Control.abort"
-    ]
-    procedures {
-      "App.h" {
-        body [
-          {
-            value {
-              ref "n"
-            }
-            var "cell"
-          }
-          {
-            let "c"
-            value {
-              closure {
-                body [
-                  {
-                    set "cell"
-                    value {
-                      ref "y"
-                    }
-                  }
-                ]
-                parameters [
-                  {
-                    name "y"
-                    type "some T"
-                  }
-                ]
-                result 0
-                returns "Int"
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "n"
-            type "some T"
-          }
-          {
-            name "j"
-          }
-        ]
-        result {
-          ref "cell"
-        }
-        returns "some T"
-      }
-      "App.touch" {
-        body [
-          {
-            let "y"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "n"
-                  }
-                  {
-                    ref "j"
-                  }
-                ]
-                procedure "App.h"
-              }
-            }
-          }
-          {
-            value {
-              conditional {
-                then [
-                  {
-                    value {
-                      call {
-                        arguments [
-                          "boom"
-                        ]
-                        procedure "Standard.Control.abort"
-                      }
-                    }
-                  }
-                ]
-                when {
-                  ref "stop"
-                }
-              }
-            }
-          }
-        ]
-        failing [
-          "aborted"
-        ]
-        parameters [
-          {
-            name "x"
-            type "inout some T"
-          }
-          {
-            name "n"
-            type "some T"
-          }
-          {
-            name "j"
-          }
-          {
-            name "stop"
-            type "Bool"
-          }
-        ]
-        result 0
-        returns "Int"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            type "Dictionary<String, Int>"
-            value {
-              dictionary [
-                [
-                  "a"
-                  1
-                ]
-              ]
-            }
-            var "d"
-          }
-          {
-            value "no"
-            var "seen"
-          }
-          {
-            value {
-              attempt {
-                body [
-                  {
-                    value {
-                      call {
-                        arguments [
-                          {
-                            ref "d[\"new\"]"
-                          }
-                          2
-                          3
-                          true
-                        ]
-                        procedure "App.touch"
-                      }
-                    }
-                  }
-                ]
-                rescue {
-                  body [
-                    {
-                      set "seen"
-                      value "rescued"
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        ]
-        result {
-          ref "seen"
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-call-failing-before-it-writes-an-entry-taken-in-place-is-rescued")
+(note "`App.touch` takes an entry of a dictionary not written yet in place at its own `some T`, and fails before writing it. The failure reaches the caller as it was raised, so the caller's attempt rescues it.")
 
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure App.h
+    (parameter n (type (some T)))
+    (parameter j)
+    (returns (some T))
+    (body
+      (var cell n)
+      (let c
+        (closure
+          (parameter y (type (some T)))
+          (returns Int)
+          (body
+            (set cell y))
+          (result 0))))
+    (result cell))
+  (procedure App.touch
+    (parameter x (type (inout (some T))))
+    (parameter n (type (some T)))
+    (parameter j)
+    (parameter stop (type Bool))
+    (returns Int)
+    (failing aborted)
+    (body
+      (let y (call App.h n j))
+      (conditional
+        (when stop)
+        (then
+          (call Standard.Control.abort "boom"))))
+    (result 0))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (var d (type (dictionary String Int)) (dictionary (entry "a" 1)))
+      (var seen "no")
+      (attempt
+        (body
+          (call App.touch (path d (index "new")) 2 3 true))
+        (rescue
+          (body
+            (set seen "rescued")))))
+    (result seen)))
+(expect (answers "rescued"))

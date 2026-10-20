@@ -1,120 +1,28 @@
-warpt 1
-{
-  expect {
-    answers "ac"
-  }
-  name "continue-skips-a-round"
-  note "`continue` ends the round and the loop goes on to the next."
-  program {
-    imports [
-      "Standard.Collection.count"
-      "Standard.Comparable.lessThan"
-      "Standard.Logic.equal"
-      "Standard.Text.joined"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "items"
-            value [
-              "a"
-              "b"
-              "c"
-            ]
-          }
-          {
-            value ""
-            var "seen"
-          }
-          {
-            let "walk"
-            value {
-              loop {
-                body [
-                  {
-                    let "item"
-                    value {
-                      ref "items[walk.index]"
-                    }
-                  }
-                  {
-                    value {
-                      conditional {
-                        then [
-                          {
-                            value {
-                              continue null
-                            }
-                          }
-                        ]
-                        when {
-                          call {
-                            arguments [
-                              {
-                                ref "walk.index"
-                              }
-                              1
-                            ]
-                            procedure "Standard.Logic.equal"
-                          }
-                        }
-                      }
-                    }
-                  }
-                  {
-                    set "seen"
-                    value {
-                      call {
-                        arguments [
-                          [
-                            {
-                              ref "seen"
-                            }
-                            {
-                              ref "item"
-                            }
-                          ]
-                          ""
-                        ]
-                        procedure "Standard.Text.joined"
-                      }
-                    }
-                  }
-                ]
-                while {
-                  call {
-                    arguments [
-                      {
-                        ref "walk.index"
-                      }
-                      {
-                        call {
-                          arguments [
-                            {
-                              ref "items"
-                            }
-                          ]
-                          procedure "Standard.Collection.count"
-                        }
-                      }
-                    ]
-                    procedure "Standard.Comparable.lessThan"
-                  }
-                }
-              }
-            }
-          }
-        ]
-        result {
-          ref "seen"
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "continue-skips-a-round")
+(note "`continue` ends the round and the loop goes on to the next.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.count)
+  (import Standard.Comparable.lessThan)
+  (import Standard.Logic.equal)
+  (import Standard.Text.joined)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let items (array "a" "b" "c"))
+      (var seen "")
+      (let walk
+        (loop
+          (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Collection.count items)))
+          (body
+            (let item (path items (index (path walk (field index)))))
+            (conditional
+              (when (call Standard.Logic.equal (path walk (field index)) 1))
+              (then
+                (continue)))
+            (set seen (call Standard.Text.joined (array seen item) ""))))))
+    (result seen)))
+(expect (answers "ac"))

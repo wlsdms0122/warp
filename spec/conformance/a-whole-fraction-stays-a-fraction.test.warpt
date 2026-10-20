@@ -1,21 +1,11 @@
-warpt 1
-{
-  expect {
-    answers 2.0
-  }
-  name "a-whole-fraction-stays-a-fraction"
-  note "A document tells a whole number from a fraction. An encoding that wrote 1 for both would hand a declaration asking for a fraction a whole number."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        result 2.0
-        returns "Double"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-whole-fraction-stays-a-fraction")
+(note "A document tells a whole number from a fraction. An encoding that wrote 1 for both would hand a declaration asking for a fraction a whole number.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Double)
+    (result 2.0)))
+(expect (answers 2.0))

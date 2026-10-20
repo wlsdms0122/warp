@@ -1,20 +1,5 @@
-warpt 1
-{
-  bytes x"5741525001070505016103020501620602020005016305026869050164043ff800000000000005016508026a73"
-  expect {
-    spells {
-      a 1
-      b [
-        true
-        null
-      ]
-      c "hi"
-      d 1.5
-      e x"6a73"
-    }
-  }
-  name "the-golden-map-reads-and-writes-back"
-  note "Every tag the binary has, in one document. The bytes are the whole of it: the magic, the format, then one value. A reader that answers this value and a writer that answers these bytes agree about the wire, and one that does only half of that has one document with two spellings."
-  test 1
-}
-
+(test 1)
+(name "the-golden-map-reads-and-writes-back")
+(note "Every tag the binary has, in one document. The bytes are the whole of it: the magic, the format, then one value. A reader that answers this value and a writer that answers these bytes agree about the wire, and one that does only half of that has one document with two spellings.")
+(bytes x"5741525001070505016103020501620602020005016305026869050164043ff800000000000005016508026a73")
+(expect (spells (dictionary (entry "a" 1) (entry "b" (array true null)) (entry "c" "hi") (entry "d" 1.5) (entry "e" x"6a73"))))

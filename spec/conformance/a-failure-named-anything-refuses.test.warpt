@@ -1,33 +1,16 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-failure-named-anything-refuses"
-  note "`App.f` lists a failure named `anything`. `anything` is the word that says any failure, so it names none, and a list naming it is refused where it is read."
-  program {
-    imports []
-    procedures {
-      "App.f" {
-        failing [
-          "anything"
-        ]
-        result 1
-        returns "Int"
-      }
-      entry {
-        access "public"
-        failing "anything"
-        result {
-          call {
-            procedure "App.f"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-failure-named-anything-refuses")
+(note "`App.f` lists a failure named `anything`. `anything` is the word that says any failure, so it names none, and a list naming it is refused where it is read.")
 
+(program
+  (warp 1)
+  (procedure App.f
+    (returns Int)
+    (failing anything)
+    (result 1))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (result (call App.f))))
+(expect (refuses load))

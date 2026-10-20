@@ -1,32 +1,13 @@
-warpt 1
-{
-  arguments {
-    items null
-  }
-  expect {
-    answers null
-  }
-  name "the-optional-bracket-answers-null-for-the-null"
-  note "`?[` expects the array's absence: the null the host handed short-circuits the whole path to null. Which element would have been read is never asked. An index past the end of an array that did arrive still refuses at the run, `?[` or not."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        parameters [
-          {
-            name "items"
-            type "Array<String>?"
-          }
-        ]
-        result {
-          ref "items?[0]"
-        }
-        returns "String?"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "the-optional-bracket-answers-null-for-the-null")
+(note "`?[` expects the array's absence: the null the host handed short-circuits the whole path to null. Which element would have been read is never asked. An index past the end of an array that did arrive still refuses at the run, `?[` or not.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter items (type (nullable (array String))))
+    (returns (nullable String))
+    (result (path items (index? 0)))))
+(arguments (argument items null))
+(expect (answers null))

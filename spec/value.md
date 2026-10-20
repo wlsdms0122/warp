@@ -4,19 +4,19 @@ What a value is, and when two of them are one. Nothing on this page needs a prog
 
 A program computes over eight kinds of data, plus one value that is not data:
 
-| kind | writes as | notes |
+| kind | writes as, in a text | notes |
 |---|---|---|
 | null | `null` | |
 | bool | `true` / `false` | |
 | int | `1`, `-3` | signed, 64-bit; overflow **refuses**, it does not wrap |
-| double | `1.0`, `1e2` | IEEE-754 binary64; a document cannot carry infinity or NaN |
+| double | `1.0`, `1e+16` | IEEE-754 binary64; a document cannot carry infinity or NaN |
 | string | `"hi"` | Unicode text |
-| array | `[ … ]`, or `x"6869"` | ordered; `x"…"` is **bytes**, the compact spelling of an `Array<Int>` whose every element is from 0 to 255, what a carrying form carries when the payload is not text |
-| map | `{ … }` | entries, each a value under a key that is a value, every key once; held in the key order below |
-| struct | `Name { … }` | unordered fields, names unique; carries the **name** of the declared struct it is, a type's name under [checking](checking.md) or one the language declares, which a slot of a declared struct takes only where it is that struct's |
+| array | `(array …)`, or `x"6869"` | ordered; `x"…"` is **bytes**, the compact spelling of an `Array<Int>` whose every element is from 0 to 255, what a carrying form carries when the payload is not text |
+| map | `(dictionary (entry k v) …)` | entries, each a value under a key that is a value, every key once; held in the key order below |
+| struct | `(struct Name (field x v) …)` | unordered fields, names unique; carries the **name** of the declared struct it is, a type's name under [checking](checking.md) or one the language declares, which a slot of a declared struct takes only where it is that struct's |
 | procedure | | code with what it captured; exists only at run time, never in a document |
 
-**A struct's name.** Every struct is a value of a declared struct and carries its name. A struct literal is read as the declared struct of the place it is written into and takes that name there, and a literal a program writes with one (`Ghost.T { x 1 }` in a text) **refuses at the load**. A struct carries its name through every slot declaring the type and through `Any`, and fits no other: `Dictionary<String, T>` takes no struct, and a declared struct takes no map, under [Types](type.md). A value from outside under a name, through `Any` included, is held at the door to the struct the name declares, under *a declared struct is nominal* in [Types](type.md).
+**A struct's name.** Every struct is a value of a declared struct and carries its name. A struct literal is read as the declared struct of the place it is written into and takes that name there, and a literal a program writes with one (`(struct Ghost.T (field x 1))` in a text) **refuses at the load**. A struct carries its name through every slot declaring the type and through `Any`, and fits no other: `Dictionary<String, T>` takes no struct, and a declared struct takes no map, under [Types](type.md). A value from outside under a name, through `Any` included, is held at the door to the struct the name declares, under *a declared struct is nominal* in [Types](type.md).
 
 **A map's keys.** A key is a value, and a map holds each key once, by the sameness below: `1` and `1.0` are one key, and so are bytes and the array of the same numbers. A text key is data, the empty text included. A map holds its keys in one order, whatever order its entries were written in: by kind first, null, then booleans, numbers, text, lists, maps and structs; then false before true, numbers by worth, text by the UTF-8 bytes of its composed spelling, lists element by element with a shorter one first on a common start, maps entry by entry, and structs by name and then field by field.
 

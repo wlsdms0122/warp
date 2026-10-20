@@ -1,197 +1,22 @@
-warpt 1
-{
-  expect {
-    builds {
-      claims []
-      constants []
-      contracts []
-      dependencies []
-      document [
-        x"f6481c77fbb31495a69d515761c9b6653c5206094d3ada27491df7bf8c19ebb7"
-      ]
-      importedClaims []
-      lifted []
-      members []
-      numbering [
-        []
-        []
-      ]
-      object 1
-      rows [
-        [
-          "entry"
-          [
-            [
-              [
-                "payload"
-                []
-                []
-              ]
-            ]
-            [
-              6
-            ]
-            [
-              1
-              []
-            ]
-            1
-            1
-            []
-            []
-          ]
-          2
-          [
-            0
-            [
-              [
-                [
-                  [
-                    [
-                      0
-                      3
-                    ]
-                  ]
-                  [
-                    10
-                    [
-                      [
-                        [
-                          [
-                            [
-                              0
-                              1
-                            ]
-                          ]
-                          [
-                            6
-                            [
-                              1
-                              [
-                                0
-                                []
-                              ]
-                            ]
-                            [
-                              6
-                            ]
-                            false
-                          ]
-                          "read"
-                        ]
-                      ]
-                      [
-                        [
-                          1
-                          [
-                            1
-                            []
-                          ]
-                        ]
-                      ]
-                    ]
-                    [
-                      []
-                      [
-                        [
-                          0
-                          [
-                            4
-                            "caught"
-                          ]
-                        ]
-                      ]
-                    ]
-                    [
-                      2
-                    ]
-                  ]
-                  "tried"
-                ]
-              ]
-              [
-                [
-                  1
-                  [
-                    3
-                    []
-                  ]
-                ]
-              ]
-            ]
-            [
-              4
-              [
-                0
-              ]
-              []
-              []
-              [
-                "payload"
-                "read"
-                "tried"
-                "tried"
-              ]
-            ]
-          ]
-        ]
-      ]
-      typeMembers []
-      typeNumbering []
-      types []
-      variables []
-    }
-  }
-  name "the-object-of-an-attempt"
-  note "An attempt carries its body, its rescue and the slot the failure is bound in for the rescue to read."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "tried"
-            value {
-              attempt {
-                body [
-                  {
-                    let "read"
-                    value {
-                      as {
-                        of {
-                          ref "payload"
-                        }
-                        type "String"
-                      }
-                    }
-                  }
-                ]
-                rescue {
-                  result "caught"
-                }
-                result {
-                  ref "read"
-                }
-              }
-            }
-          }
-        ]
-        const true
-        isolated true
-        parameters [
-          {
-            name "payload"
-          }
-        ]
-        result {
-          ref "tried"
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "the-object-of-an-attempt")
+(note "An attempt carries its body, its rescue and the slot the failure is bound in for the rescue to read.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (parameter payload)
+    (returns String)
+    (body
+      (let tried
+        (attempt
+          (body
+            (let read (as payload String)))
+          (result read)
+          (rescue
+            (result "caught")))))
+    (result tried)))
+(expect (builds (dictionary (entry "addressTable" (array (array 0 (array)) (array 1 (array)) (array 3 (array)))) (entry "claims" (array)) (entry "constants" (array)) (entry "contracts" (array)) (entry "dependencies" (array)) (entry "document" (array x"f6481c77fbb31495a69d515761c9b6653c5206094d3ada27491df7bf8c19ebb7")) (entry "importedClaims" (array)) (entry "lifted" (array)) (entry "loweredTypeTable" (array (array 6))) (entry "members" (array)) (entry "numbering" (array (array) (array))) (entry "object" 1) (entry "operationTable" (array (array 1 0) (array 6 0 0 false) (array 1 1) (array 0 0) (array 10 (array (array (array (array (array 0 1)) 1 "read")) (array 2)) (array (array) (array 3)) (array 2)) (array 1 2))) (entry "rows" (array (array "entry" (array (array (array "payload" (array) (array))) 0 (array 1 (array)) 1 1 (array) (array)) 2 (array 0 (array (array (array (array (array 0 3)) 4 "tried")) (array 5)) (array 4 (array 0) (array) (array) (array "payload" "read" "tried" "tried")))))) (entry "typeMembers" (array)) (entry "typeNumbering" (array)) (entry "typeTable" (array (array 6))) (entry "types" (array)) (entry "valueTable" (array (array 4 "caught"))) (entry "variables" (array)))))

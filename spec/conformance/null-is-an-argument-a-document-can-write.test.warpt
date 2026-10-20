@@ -1,49 +1,16 @@
-warpt 1
-{
-  expect {
-    answers true
-  }
-  name "null-is-an-argument-a-document-can-write"
-  note "Writing an argument is giving it. An argument holding null was given, and a slot of type `Any` takes it."
-  program {
-    imports [
-      "Standard.Logic.equal"
-    ]
-    procedures {
-      "App.takes" {
-        parameters [
-          {
-            name "it"
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "it"
-              }
-              null
-            ]
-            procedure "Standard.Logic.equal"
-          }
-        }
-        returns "Bool"
-      }
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              null
-            ]
-            procedure "App.takes"
-          }
-        }
-        returns "Bool"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "null-is-an-argument-a-document-can-write")
+(note "Writing an argument is giving it. An argument holding null was given, and a slot of type `Any` takes it.")
 
+(program
+  (warp 1)
+  (import Standard.Logic.equal)
+  (procedure App.takes
+    (parameter it)
+    (returns Bool)
+    (result (call Standard.Logic.equal it null)))
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (result (call App.takes null))))
+(expect (answers true))

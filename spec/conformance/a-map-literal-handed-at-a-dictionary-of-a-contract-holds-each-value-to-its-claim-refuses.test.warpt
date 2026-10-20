@@ -1,125 +1,37 @@
-warpt 1
-{
-  documents [
-    {
-      imports []
-      procedures {
-        "Bank.Card.show" {
-          access "public"
-          parameters [
-            {
-              name "of"
-              type "Bank.Card"
-            }
-          ]
-          result "card"
-          returns "String"
-        }
-      }
-      types {
-        "Bank.Card" {
-          struct {
-            last "String"
-          }
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    refuses "build"
-  }
-  name "a-map-literal-handed-at-a-dictionary-of-a-contract-holds-each-value-to-its-claim-refuses"
-  note "`App.h` takes `Dictionary<String, App.P>`. The map literal holding `c` under `a` handed there holds a `Bank.Card`, which a beside document gives `show` but no document says answers `App.P`. Each value is held to its own claim, so the call refuses at the build."
-  program {
-    contracts {
-      "App.P" {
-        procedures {
-          show {
-            const true
-            isolated true
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    imports [
-      "Bank.Card"
-    ]
-    procedures {
-      "App.h" {
-        parameters [
-          {
-            name "x"
-            type "Dictionary<String, App.P>"
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "x[\"a\"]"
-              }
-            ]
-            procedure "App.P.show"
-          }
-        }
-        returns "String"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "c"
-            value {
-              as {
-                of {
-                  struct {
-                    last "1"
-                  }
-                }
-                type "Bank.Card"
-              }
-            }
-          }
-          {
-            let "s"
-            value {
-              call {
-                arguments [
-                  {
-                    dictionary [
-                      [
-                        "a"
-                        {
-                          ref "c"
-                        }
-                      ]
-                    ]
-                  }
-                ]
-                procedure "App.h"
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result {
-          ref "s"
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-map-literal-handed-at-a-dictionary-of-a-contract-holds-each-value-to-its-claim-refuses")
+(note "`App.h` takes `Dictionary<String, App.P>`. The map literal holding `c` under `a` handed there holds a `Bank.Card`, which a beside document gives `show` but no document says answers `App.P`. Each value is held to its own claim, so the call refuses at the build.")
 
+(documents
+  (document
+    (warp 1)
+    (struct Bank.Card
+      (field last String))
+    (procedure Bank.Card.show
+      (access public)
+      (parameter of (type Bank.Card))
+      (returns String)
+      (result "card"))))
+
+(program
+  (warp 1)
+  (import Bank.Card)
+  (contract App.P
+    (procedure show
+      (const)
+      (isolated)
+      (parameter of (type Self))
+      (returns String)))
+  (procedure App.h
+    (parameter x (type (dictionary String App.P)))
+    (returns String)
+    (result (call App.P.show (path x (index "a")))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let c (as (struct (field last "1")) Bank.Card))
+      (let s (call App.h (dictionary (entry "a" c)))))
+    (result s)))
+(expect (refuses build))

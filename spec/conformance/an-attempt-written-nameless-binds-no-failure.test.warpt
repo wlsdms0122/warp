@@ -1,58 +1,20 @@
-warpt 1
-{
-  expect {
-    answers "rescued"
-  }
-  name "an-attempt-written-nameless-binds-no-failure"
-  note "An attempt written with no naming key binds no failure and rescues the same."
-  program {
-    imports [
-      "Standard.Control.abort"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            type "String"
-            value "ran"
-            var "said"
-          }
-          {
-            value {
-              attempt {
-                body [
-                  {
-                    value {
-                      call {
-                        arguments [
-                          "stop"
-                        ]
-                        procedure "Standard.Control.abort"
-                      }
-                    }
-                  }
-                ]
-                rescue {
-                  body [
-                    {
-                      set "said"
-                      value "rescued"
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        ]
-        result {
-          ref "said"
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-attempt-written-nameless-binds-no-failure")
+(note "An attempt written with no naming key binds no failure and rescues the same.")
 
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (var said (type String) "ran")
+      (attempt
+        (body
+          (call Standard.Control.abort "stop"))
+        (rescue
+          (body
+            (set said "rescued")))))
+    (result said)))
+(expect (answers "rescued"))

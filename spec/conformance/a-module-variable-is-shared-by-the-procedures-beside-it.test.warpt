@@ -1,62 +1,19 @@
-warpt 1
-{
-  expect {
-    answers 2
-  }
-  name "a-module-variable-is-shared-by-the-procedures-beside-it"
-  note "A module `var` is one box every procedure of the document reads and writes. What one procedure wrote, another reads."
-  program {
-    imports [
-      "Standard.Numeric.plus"
-    ]
-    procedures {
-      add {
-        body [
-          {
-            set "total"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "total"
-                  }
-                  1
-                ]
-                procedure "Standard.Numeric.plus"
-              }
-            }
-          }
-        ]
-      }
-      entry {
-        access "public"
-        body [
-          {
-            value {
-              call {
-                procedure "add"
-              }
-            }
-          }
-          {
-            value {
-              call {
-                procedure "add"
-              }
-            }
-          }
-        ]
-        result {
-          ref "total"
-        }
-        returns "Int"
-      }
-    }
-    var {
-      total 0
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-module-variable-is-shared-by-the-procedures-beside-it")
+(note "A module `var` is one box every procedure of the document reads and writes. What one procedure wrote, another reads.")
 
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (var total 0)
+  (procedure add
+    (body
+      (set total (call Standard.Numeric.plus total 1))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (call add)
+      (call add))
+    (result total)))
+(expect (answers 2))

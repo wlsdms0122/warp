@@ -1,32 +1,13 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-duplicate-statement-name-refuses"
-  note "A name is introduced once in a scope. Two statements fixing the same name would leave two readings of one spelling."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "x"
-            value 1
-          }
-          {
-            let "x"
-            value 2
-          }
-        ]
-        result {
-          ref "x"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-duplicate-statement-name-refuses")
+(note "A name is introduced once in a scope. Two statements fixing the same name would leave two readings of one spelling.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (body
+      (let x 1)
+      (let x 2))
+    (result x)))
+(expect (refuses load))

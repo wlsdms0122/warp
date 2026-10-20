@@ -1,119 +1,36 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-taken-variable-is-handed-in-place-to-a-value-only-as-the-type-it-is-held-to"
-  note "The same as handing it to a declaration: a variable held to Int that reads Int? after a join is handed in place to a value taking Int?, which refuses, since the value would write null into a box a closure reads as Int."
-  program {
-    imports [
-      "Standard.Numeric.plus"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            value 0
-            var "x"
-          }
-          {
-            type "() -> Int"
-            value {
-              closure {
-                result 0
-                returns "Int"
-              }
-            }
-            var "keep"
-          }
-          {
-            value {
-              conditional {
-                else [
-                  {
-                    set "x"
-                    value null
-                  }
-                ]
-                then [
-                  {
-                    set "keep"
-                    value {
-                      closure {
-                        result {
-                          call {
-                            arguments [
-                              {
-                                ref "x"
-                              }
-                              1
-                            ]
-                            procedure "Standard.Numeric.plus"
-                          }
-                        }
-                        returns "Int"
-                      }
-                    }
-                  }
-                ]
-                when true
-              }
-            }
-          }
-          {
-            let "clear"
-            value {
-              closure {
-                body [
-                  {
-                    set "v"
-                    value null
-                  }
-                ]
-                parameters [
-                  {
-                    name "v"
-                    type "inout Int?"
-                  }
-                ]
-              }
-            }
-          }
-          {
-            value {
-              call {
-                arguments [
-                  {
-                    ref "x"
-                  }
-                ]
-                procedure {
-                  ref "clear"
-                }
-              }
-            }
-          }
-          {
-            let "r"
-            value {
-              call {
-                procedure {
-                  ref "keep"
-                }
-              }
-            }
-          }
-        ]
-        failing "anything"
-        result {
-          ref "r"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-taken-variable-is-handed-in-place-to-a-value-only-as-the-type-it-is-held-to")
+(note "The same as handing it to a declaration: a variable held to Int that reads Int? after a join is handed in place to a value taking Int?, which refuses, since the value would write null into a box a closure reads as Int.")
 
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (body
+      (var x 0)
+      (var keep
+        (type (procedure (parameters) (returns Int)))
+        (closure
+          (returns Int)
+          (result 0)))
+      (conditional
+        (when true)
+        (then
+          (set keep
+            (closure
+              (returns Int)
+              (result (call Standard.Numeric.plus x 1)))))
+        (else
+          (set x null)))
+      (let clear
+        (closure
+          (parameter v (type (inout (nullable Int))))
+          (body
+            (set v null))))
+      (apply clear x)
+      (let r (apply keep)))
+    (result r)))
+(expect (refuses build))

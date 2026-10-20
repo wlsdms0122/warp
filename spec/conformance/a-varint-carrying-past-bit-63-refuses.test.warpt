@@ -1,11 +1,5 @@
-warpt 1
-{
-  bytes x"57415250010380808080808080808002"
-  expect {
-    refuses "load"
-  }
-  name "a-varint-carrying-past-bit-63-refuses"
-  note "The tenth byte of a varint holds the last bit a 64-bit number has and nothing more. A tenth byte that would carry past bit 63 is refused; overflow is not wrapped, masked or truncated."
-  test 1
-}
-
+(test 1)
+(name "a-varint-carrying-past-bit-63-refuses")
+(note "The tenth byte of a varint holds the last bit a 64-bit number has and nothing more. A tenth byte that would carry past bit 63 is refused; overflow is not wrapped, masked or truncated.")
+(bytes x"57415250010380808080808080808002")
+(expect (refuses load))

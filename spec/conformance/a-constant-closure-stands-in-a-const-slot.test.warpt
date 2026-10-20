@@ -1,58 +1,20 @@
-warpt 1
-{
-  expect {
-    answers [
-      1
-      2
-    ]
-  }
-  name "a-constant-closure-stands-in-a-const-slot"
-  note "A constant keeps the one value it settled to, so the closure it holds reads as the procedure type its literal declares, `const` included. `Standard.Collection.map` takes it in its slot of a `const` procedure type."
-  program {
-    const {
-      f {
-        closure {
-          const true
-          isolated true
-          parameters [
-            {
-              name "x"
-              type "Int"
-            }
-          ]
-          result {
-            ref "x"
-          }
-          returns "Int"
-        }
-      }
-    }
-    imports [
-      "Standard.Collection.map"
-    ]
-    procedures {
-      entry {
-        access "public"
-        const true
-        result {
-          call {
-            arguments [
-              [
-                1
-                2
-              ]
-              {
-                ref "f"
-              }
-            ]
-            procedure "Standard.Collection.map"
-          }
-        }
-        returns "Array<Int>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-constant-closure-stands-in-a-const-slot")
+(note "A constant keeps the one value it settled to, so the closure it holds reads as the procedure type its literal declares, `const` included. `Standard.Collection.map` takes it in its slot of a `const` procedure type.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.map)
+  (const f
+    (closure
+      (const)
+      (isolated)
+      (parameter x (type Int))
+      (returns Int)
+      (result x)))
+  (procedure entry
+    (access public)
+    (const)
+    (returns (array Int))
+    (result (call Standard.Collection.map (array 1 2) f))))
+(expect (answers (array 1 2)))

@@ -1,45 +1,5 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-type-parameter-named-self-refuses"
-  note "`Self` is the type answering a contract, read as such in that contract's procedures, so no type parameter takes its name. `some Self` is refused where the document is read."
-  program {
-    contracts {
-      "App.Ordered" {
-        procedures {
-          before {
-            parameters [
-              {
-                name "lhs"
-                type "Self"
-              }
-              {
-                name "rhs"
-                type "Self"
-              }
-            ]
-            returns "Bool"
-          }
-        }
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        parameters [
-          {
-            name "x"
-            type "some Self"
-          }
-        ]
-        result 1
-      }
-    }
-    warp 1
-  }
-  test 1
-}
-
+(test 1)
+(name "a-type-parameter-named-self-refuses")
+(note "`Self` is the type answering a contract, read as such in that contract's procedures, so no type parameter takes its name. `some Self` is refused where the document is read.")
+(tree (dictionary (entry "contracts" (dictionary (entry "App.Ordered" (dictionary (entry "procedures" (dictionary (entry "before" (dictionary (entry "parameters" (array (dictionary (entry "name" "lhs") (entry "type" "Self")) (dictionary (entry "name" "rhs") (entry "type" "Self")))) (entry "returns" "Bool"))))))))) (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "parameters" (array (dictionary (entry "name" "x") (entry "type" "some Self")))) (entry "result" 1))))) (entry "warp" 1)))
+(expect (refuses load))

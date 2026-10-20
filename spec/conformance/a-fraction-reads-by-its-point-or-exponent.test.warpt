@@ -1,18 +1,5 @@
-warpt 1
-{
-  expect {
-    spells [
-      1.0
-      -0.5
-      1e+16
-      1e-05
-      0.0001
-      1000000000000000.0
-    ]
-  }
-  name "a-fraction-reads-by-its-point-or-exponent"
-  note "A number with a point or an exponent is a fraction and one with neither is whole. The point form stands for exponents between -5 and 16 and the exponent form outside, so the reader takes both and each value has one of them."
-  test 1
-  text "warpt 1\n[\n  1.0\n  -0.5\n  1e+16\n  1e-05\n  0.0001\n  1000000000000000.0\n]\n"
-}
-
+(test 1)
+(name "a-fraction-reads-by-its-point-or-exponent")
+(note "A number with a point or an exponent is a fraction. The point form stands for exponents between -5 and 16 and the exponent form outside, so the reader takes both and each value has one of them.")
+(text "(warp 1)\n(const a (array 1.0 -0.5 1e+16 1e-05 0.0001 1000000000000000.0))\n")
+(expect (spells (dictionary (entry "const" (dictionary (entry "a" (array 1.0 -0.5 1e+16 1e-05 0.0001 1000000000000000.0)))) (entry "imports" (array)) (entry "warp" 1))))

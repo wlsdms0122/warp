@@ -1,73 +1,20 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "an-optional-cast-to-a-list-of-a-type-parameter-refuses"
-  note "App.decode reads raw as? Array<some T>. The optional cast names the same type, with a type parameter inside it, and it refuses at the load the same way."
-  program {
-    imports []
-    procedures {
-      "App.decode" {
-        body [
-          {
-            let "y"
-            value {
-              "as?" {
-                of {
-                  ref "raw"
-                }
-                type "Array<some T>"
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "sample"
-            type "some T"
-          }
-          {
-            name "raw"
-          }
-        ]
-        result {
-          ref "y"
-        }
-        returns "Array<some T>?"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "raw"
-            type "Any"
-            value [
-              "7"
-            ]
-          }
-          {
-            let "xs"
-            value {
-              call {
-                arguments [
-                  0
-                  {
-                    ref "raw"
-                  }
-                ]
-                procedure "App.decode"
-              }
-            }
-          }
-        ]
-        result {
-          ref "xs"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-optional-cast-to-a-list-of-a-type-parameter-refuses")
+(note "App.decode reads raw as? Array<some T>. The optional cast names the same type, with a type parameter inside it, and it refuses at the load the same way.")
 
+(program
+  (warp 1)
+  (procedure App.decode
+    (parameter sample (type (some T)))
+    (parameter raw)
+    (returns (nullable (array (some T))))
+    (body
+      (let y (as? raw (array (some T)))))
+    (result y))
+  (procedure entry
+    (access public)
+    (body
+      (let raw (type Any) (array "7"))
+      (let xs (call App.decode 0 raw)))
+    (result xs)))
+(expect (refuses load))

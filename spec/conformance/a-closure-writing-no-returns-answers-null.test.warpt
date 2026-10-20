@@ -1,48 +1,17 @@
-warpt 1
-{
-  expect {
-    answers null
-  }
-  name "a-closure-writing-no-returns-answers-null"
-  note "A closure literal writes its signature the way a declaration does, and one writing no `returns` answers null wherever it is written."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "f"
-            type "() -> Null"
-            value {
-              closure {
-                body [
-                  {
-                    let "x"
-                    value 1
-                  }
-                ]
-              }
-            }
-          }
-          {
-            let "answered"
-            value {
-              call {
-                procedure {
-                  ref "f"
-                }
-              }
-            }
-          }
-        ]
-        result {
-          ref "answered"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-closure-writing-no-returns-answers-null")
+(note "A closure literal writes its signature the way a declaration does, and one writing no `returns` answers null wherever it is written.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (body
+      (let f
+        (type (procedure (parameters) (returns Null)))
+        (closure
+          (body
+            (let x 1))))
+      (let answered (apply f)))
+    (result answered)))
+(expect (answers null))

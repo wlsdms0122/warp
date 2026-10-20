@@ -1,69 +1,26 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-closure-in-a-loop-condition-holds-what-it-takes-for-the-body"
-  note "The loop's condition hands `App.ready` a closure that takes `n`, so every round after the first starts with `n` held to the Int it was taken as. The body's write of a string into `n` does not fit, and the build refuses it."
-  program {
-    imports []
-    procedures {
-      "App.ready" {
-        parameters [
-          {
-            name "peek"
-            type "() -> Int"
-          }
-        ]
-        result true
-        returns "Bool"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            value 0
-            var "n"
-          }
-          {
-            value {
-              loop {
-                body [
-                  {
-                    set "n"
-                    value "s"
-                  }
-                  {
-                    value {
-                      break null
-                    }
-                  }
-                ]
-                while {
-                  call {
-                    arguments [
-                      {
-                        closure {
-                          result {
-                            ref "n"
-                          }
-                          returns "Int"
-                        }
-                      }
-                    ]
-                    procedure "App.ready"
-                  }
-                }
-              }
-            }
-          }
-        ]
-        result 1
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-closure-in-a-loop-condition-holds-what-it-takes-for-the-body")
+(note "The loop's condition hands `App.ready` a closure that takes `n`, so every round after the first starts with `n` held to the Int it was taken as. The body's write of a string into `n` does not fit, and the build refuses it.")
 
+(program
+  (warp 1)
+  (procedure App.ready
+    (parameter peek (type (procedure (parameters) (returns Int))))
+    (returns Bool)
+    (result true))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var n 0)
+      (loop
+        (while
+          (call App.ready
+            (closure
+              (returns Int)
+              (result n))))
+        (body
+          (set n "s")
+          (break))))
+    (result 1)))
+(expect (refuses build))

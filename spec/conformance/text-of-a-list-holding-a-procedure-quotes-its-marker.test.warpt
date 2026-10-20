@@ -1,37 +1,17 @@
-warpt 1
-{
-  expect {
-    answers "[\"<procedure>\"]"
-  }
-  name "text-of-a-list-holding-a-procedure-quotes-its-marker"
-  note "Inside a container a procedure is quoted as a string is, its marker being its spelling at any depth, so `text` of a list holding a closure is `[\"<procedure>\"]`."
-  program {
-    imports [
-      "Standard.Text.text"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              [
-                {
-                  closure {
-                    result 1
-                    returns "Int"
-                  }
-                }
-              ]
-            ]
-            procedure "Standard.Text.text"
-          }
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "text-of-a-list-holding-a-procedure-quotes-its-marker")
+(note "Inside a container a procedure is quoted as a string is, its marker being its spelling at any depth, so `text` of a list holding a closure is `[\"<procedure>\"]`.")
 
+(program
+  (warp 1)
+  (import Standard.Text.text)
+  (procedure entry
+    (access public)
+    (returns String)
+    (result
+      (call Standard.Text.text
+        (array
+          (closure
+            (returns Int)
+            (result 1)))))))
+(expect (answers "[\"<procedure>\"]"))

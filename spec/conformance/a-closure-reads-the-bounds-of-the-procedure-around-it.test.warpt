@@ -1,228 +1,49 @@
-warpt 1
-{
-  expect {
-    answers [
-      "1"
-      "2"
-    ]
-  }
-  name "a-closure-reads-the-bounds-of-the-procedure-around-it"
-  note "A closure written in a body reads the type parameters of the procedure around it: its `some T` is the `T` the caller filled, held to the bounds the declaration wrote. So a closure over `some T` may send the contract's procedure to what it is handed, the way the body around it may."
-  program {
-    contracts {
-      "App.Named" {
-        procedures {
-          name {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    imports [
-      "Standard.Collection.append"
-      "Standard.Collection.count"
-      "Standard.Comparable.lessThan"
-      "Standard.Text.text"
-    ]
-    procedures {
-      "App.each" {
-        body [
-          {
-            type "Array<String>"
-            value []
-            var "out"
-          }
-          {
-            let "walk"
-            value {
-              loop {
-                body [
-                  {
-                    let "got"
-                    value {
-                      call {
-                        arguments [
-                          {
-                            ref "of[walk.index]"
-                          }
-                        ]
-                        procedure {
-                          ref "by"
-                        }
-                      }
-                    }
-                  }
-                  {
-                    value {
-                      call {
-                        arguments [
-                          {
-                            ref "out"
-                          }
-                          {
-                            ref "got"
-                          }
-                        ]
-                        procedure "Standard.Collection.append"
-                      }
-                    }
-                  }
-                ]
-                while {
-                  call {
-                    arguments [
-                      {
-                        ref "walk.index"
-                      }
-                      {
-                        call {
-                          arguments [
-                            {
-                              ref "of"
-                            }
-                          ]
-                          procedure "Standard.Collection.count"
-                        }
-                      }
-                    ]
-                    procedure "Standard.Comparable.lessThan"
-                  }
-                }
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "of"
-            type "Array<some T: App.Named>"
-          }
-          {
-            name "by"
-            type "(some T) -> String"
-          }
-        ]
-        result {
-          ref "out"
-        }
-        returns "Array<String>"
-      }
-      "App.names" {
-        parameters [
-          {
-            name "of"
-            type "Array<some T: App.Named>"
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "of"
-              }
-              {
-                closure {
-                  parameters [
-                    {
-                      name "item"
-                      type "some T"
-                    }
-                  ]
-                  result {
-                    call {
-                      arguments [
-                        {
-                          ref "item"
-                        }
-                      ]
-                      procedure "App.Named.name"
-                    }
-                  }
-                  returns "String"
-                }
-              }
-            ]
-            procedure "App.each"
-          }
-        }
-        returns "Array<String>"
-      }
-      entry {
-        access "public"
-        failing [
-          "cast_refused"
-        ]
-        result {
-          call {
-            arguments [
-              [
-                {
-                  as {
-                    of {
-                      struct {
-                        id 1
-                      }
-                    }
-                    type "App.Thing"
-                  }
-                }
-                {
-                  as {
-                    of {
-                      struct {
-                        id 2
-                      }
-                    }
-                    type "App.Thing"
-                  }
-                }
-              ]
-            ]
-            procedure "App.names"
-          }
-        }
-        returns "Array<String>"
-      }
-    }
-    types {
-      "App.Thing" {
-        procedures {
-          name {
-            parameters [
-              {
-                name "of"
-                type "App.Thing"
-              }
-            ]
-            result {
-              call {
-                arguments [
-                  {
-                    ref "of.id"
-                  }
-                ]
-                procedure "Standard.Text.text"
-              }
-            }
-            returns "String"
-          }
-        }
-        satisfies [
-          "App.Named"
-        ]
-        struct {
-          id "Int"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-closure-reads-the-bounds-of-the-procedure-around-it")
+(note "A closure written in a body reads the type parameters of the procedure around it: its `some T` is the `T` the caller filled, held to the bounds the declaration wrote. So a closure over `some T` may send the contract's procedure to what it is handed, the way the body around it may.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.append)
+  (import Standard.Collection.count)
+  (import Standard.Comparable.lessThan)
+  (import Standard.Text.text)
+  (struct App.Thing
+    (satisfies App.Named)
+    (field id Int)
+    (procedure name
+      (parameter of (type App.Thing))
+      (returns String)
+      (result (call Standard.Text.text (path of (field id))))))
+  (contract App.Named
+    (procedure name
+      (parameter of (type Self))
+      (returns String)))
+  (procedure App.each
+    (parameter of (type (array (some T App.Named))))
+    (parameter by (type (procedure (parameters (some T)) (returns String))))
+    (returns (array String))
+    (body
+      (var out (type (array String)) (array))
+      (let walk
+        (loop
+          (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Collection.count of)))
+          (body
+            (let got (apply by (path of (index (path walk (field index))))))
+            (call Standard.Collection.append out got)))))
+    (result out))
+  (procedure App.names
+    (parameter of (type (array (some T App.Named))))
+    (returns (array String))
+    (result
+      (call App.each of
+        (closure
+          (parameter item (type (some T)))
+          (returns String)
+          (result (call App.Named.name item))))))
+  (procedure entry
+    (access public)
+    (returns (array String))
+    (failing cast_refused)
+    (result (call App.names (array (as (struct (field id 1)) App.Thing) (as (struct (field id 2)) App.Thing))))))
+(expect (answers (array "1" "2")))

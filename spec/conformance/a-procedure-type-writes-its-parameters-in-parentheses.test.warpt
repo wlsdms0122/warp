@@ -1,41 +1,5 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-procedure-type-writes-its-parameters-in-parentheses"
-  note "A procedure type writes the types it is called with in parentheses before `->`, `(Int) -> Int`, so `Int -> Int` refuses at the load."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "f"
-            type "Int -> Int"
-            value {
-              closure {
-                parameters [
-                  {
-                    name "x"
-                    type "Int"
-                  }
-                ]
-                result {
-                  ref "x"
-                }
-                returns "Int"
-              }
-            }
-          }
-        ]
-        result 1
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
-
+(test 1)
+(name "a-procedure-type-writes-its-parameters-in-parentheses")
+(note "A procedure type writes the types it is called with in parentheses before `->`, `(Int) -> Int`, so `Int -> Int` refuses at the load.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "let" "f") (entry "type" "Int -> Int") (entry "value" (dictionary (entry "closure" (dictionary (entry "parameters" (array (dictionary (entry "name" "x") (entry "type" "Int")))) (entry "result" (dictionary (entry "ref" "x"))) (entry "returns" "Int")))))))) (entry "result" 1) (entry "returns" "Int"))))) (entry "warp" 1)))
+(expect (refuses load))

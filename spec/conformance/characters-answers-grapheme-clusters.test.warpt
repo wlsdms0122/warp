@@ -1,33 +1,12 @@
-warpt 1
-{
-  expect {
-    answers [
-      "é"
-      "a"
-    ]
-  }
-  name "characters-answers-grapheme-clusters"
-  note "A character is an extended grapheme cluster, so a letter and the combining mark on it are one character, the way `count` counts them."
-  program {
-    imports [
-      "Standard.Text.characters"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              "éa"
-            ]
-            procedure "Standard.Text.characters"
-          }
-        }
-        returns "Array<String>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "characters-answers-grapheme-clusters")
+(note "A character is an extended grapheme cluster, so a letter and the combining mark on it are one character, the way `count` counts them.")
 
+(program
+  (warp 1)
+  (import Standard.Text.characters)
+  (procedure entry
+    (access public)
+    (returns (array String))
+    (result (call Standard.Text.characters "éa"))))
+(expect (answers (array "é" "a")))

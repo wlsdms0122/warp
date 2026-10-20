@@ -1,68 +1,28 @@
-warpt 1
-{
-  documents [
-    {
-      imports []
-      procedures {
-        "K.make" {
-          body [
-            {
-              let "p"
-              type "K.P"
-              value {
-                struct {
-                  x 1
-                }
-              }
-            }
-          ]
-          const true
-          isolated true
-          result {
-            ref "p"
-          }
-          returns "Any"
-        }
-      }
-      types {
-        "K.P" {
-          struct {
-            x "Int"
-          }
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    answers 1
-  }
-  name "a-constant-settled-from-an-answer-of-any-reads-its-fields"
-  note "`K.make` declares it answers `Any`, and the constant settled from it is a `K.P` with `x`. The constant's settled value is its type, so a dot reads `x` without `as` and the program builds."
-  program {
-    const {
-      made {
-        call {
-          procedure "K.make"
-        }
-      }
-    }
-    imports [
-      "K.make"
-    ]
-    procedures {
-      entry {
-        access "public"
-        const true
-        isolated true
-        result {
-          ref "made.x"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-constant-settled-from-an-answer-of-any-reads-its-fields")
+(note "`K.make` declares it answers `Any`, and the constant settled from it is a `K.P` with `x`. The constant's settled value is its type, so a dot reads `x` without `as` and the program builds.")
 
+(documents
+  (document
+    (warp 1)
+    (struct K.P
+      (field x Int))
+    (procedure K.make
+      (const)
+      (isolated)
+      (returns Any)
+      (body
+        (let p (type K.P) (struct (field x 1))))
+      (result p))))
+
+(program
+  (warp 1)
+  (import K.make)
+  (const made (call K.make))
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (returns Int)
+    (result (path made (field x)))))
+(expect (answers 1))

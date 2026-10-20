@@ -1,31 +1,12 @@
-warpt 1
-{
-  expect {
-    refuses "run"
-  }
-  name "arithmetic-divide-by-zero-refuses"
-  note "A fraction has an answer for this and it is not a number, so answering with it would put something in a program no later check could talk about."
-  program {
-    imports [
-      "Standard.Numeric.dividedBy"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              1
-              0
-            ]
-            procedure "Standard.Numeric.dividedBy"
-          }
-        }
-        returns "Double"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "arithmetic-divide-by-zero-refuses")
+(note "A fraction has an answer for this and it is not a number, so answering with it would put something in a program no later check could talk about.")
 
+(program
+  (warp 1)
+  (import Standard.Numeric.dividedBy)
+  (procedure entry
+    (access public)
+    (returns Double)
+    (result (call Standard.Numeric.dividedBy 1 0))))
+(expect (refuses run))

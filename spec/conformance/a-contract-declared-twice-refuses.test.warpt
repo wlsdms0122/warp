@@ -1,52 +1,25 @@
-warpt 1
-{
-  documents [
-    {
-      contracts {
-        "App.C" {}
-      }
-      extensions {
-        Int {
-          satisfies [
-            "App.C"
-          ]
-        }
-      }
-      imports []
-      procedures {
-        "Lib.f" {
-          result 1
-          returns "Int"
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    refuses "build"
-  }
-  name "a-contract-declared-twice-refuses"
-  note "One name has one declarer. `App.C` is declared as a contract by the program and by the document beside it, and the build refuses."
-  program {
-    contracts {
-      "App.C" {}
-    }
-    extensions {
-      Int {
-        satisfies [
-          "App.C"
-        ]
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        result 1
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-contract-declared-twice-refuses")
+(note "One name has one declarer. `App.C` is declared as a contract by the program and by the document beside it, and the build refuses.")
 
+(documents
+  (document
+    (warp 1)
+    (contract App.C)
+    (extension
+      (head Int)
+      (satisfies App.C))
+    (procedure Lib.f
+      (returns Int)
+      (result 1))))
+
+(program
+  (warp 1)
+  (contract App.C)
+  (extension
+    (head Int)
+    (satisfies App.C))
+  (procedure entry
+    (access public)
+    (result 1)))
+(expect (refuses build))

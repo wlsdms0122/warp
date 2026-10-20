@@ -1,98 +1,30 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-declaration-calling-a-procedure-that-may-abort-backs-no-contract-naming-nothing-refuses"
-  note "`step` may fail with `aborted`, so `Int.run`, which calls it, may too, and `run` names no failure: the claim does not hold, and refuses at the build, at the claim."
-  program {
-    contracts {
-      "App.Runner" {
-        procedures {
-          run {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-              {
-                name "step"
-                type "const (Int) throws(aborted) -> Int"
-              }
-            ]
-            returns "Int"
-          }
-        }
-      }
-    }
-    extensions {
-      Int {
-        procedures {
-          run {
-            failing [
-              "aborted"
-            ]
-            parameters [
-              {
-                name "of"
-                type "Int"
-              }
-              {
-                name "step"
-                type "const (Int) throws(aborted) -> Int"
-              }
-            ]
-            result {
-              call {
-                arguments [
-                  {
-                    ref "of"
-                  }
-                ]
-                procedure {
-                  ref "step"
-                }
-              }
-            }
-            returns "Int"
-          }
-        }
-        satisfies [
-          "App.Runner"
-        ]
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              1
-              {
-                closure {
-                  parameters [
-                    {
-                      name "x"
-                      type "Int"
-                    }
-                  ]
-                  result {
-                    ref "x"
-                  }
-                  returns "Int"
-                }
-              }
-            ]
-            procedure "App.Runner.run"
-          }
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-declaration-calling-a-procedure-that-may-abort-backs-no-contract-naming-nothing-refuses")
+(note "`step` may fail with `aborted`, so `Int.run`, which calls it, may too, and `run` names no failure: the claim does not hold, and refuses at the build, at the claim.")
 
+(program
+  (warp 1)
+  (contract App.Runner
+    (procedure run
+      (parameter of (type Self))
+      (parameter step (type (procedure (const) (parameters Int) (failing aborted) (returns Int))))
+      (returns Int)))
+  (extension
+    (head Int)
+    (satisfies App.Runner)
+    (procedure run
+      (parameter of (type Int))
+      (parameter step (type (procedure (const) (parameters Int) (failing aborted) (returns Int))))
+      (returns Int)
+      (failing aborted)
+      (result (apply step of))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result
+      (call App.Runner.run 1
+        (closure
+          (parameter x (type Int))
+          (returns Int)
+          (result x))))))
+(expect (refuses build))

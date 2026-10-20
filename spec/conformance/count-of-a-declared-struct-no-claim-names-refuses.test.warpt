@@ -1,51 +1,16 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "count-of-a-declared-struct-no-claim-names-refuses"
-  note "A declared struct is an instance of its own name, not of `Dictionary`, and `Standard.Collection` is claimed for no declared struct here, so count handed one is refused at the build."
-  program {
-    imports [
-      "Standard.Collection.count"
-    ]
-    procedures {
-      entry {
-        access "public"
-        failing [
-          "cast_refused"
-        ]
-        result {
-          call {
-            arguments [
-              {
-                as {
-                  of {
-                    struct {
-                      balance 1
-                      owner "a"
-                    }
-                  }
-                  type "Account"
-                }
-              }
-            ]
-            procedure "Standard.Collection.count"
-          }
-        }
-        returns "Int"
-      }
-    }
-    types {
-      Account {
-        struct {
-          balance "Int"
-          owner "String"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "count-of-a-declared-struct-no-claim-names-refuses")
+(note "A declared struct is an instance of its own name, not of `Dictionary`, and `Standard.Collection` is claimed for no declared struct here, so count handed one is refused at the build.")
 
+(program
+  (warp 1)
+  (import Standard.Collection.count)
+  (struct Account
+    (field balance Int)
+    (field owner String))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing cast_refused)
+    (result (call Standard.Collection.count (as (struct (field balance 1) (field owner "a")) Account)))))
+(expect (refuses build))

@@ -2,7 +2,7 @@
 
 What a build writes down: one document compiled, in its own coordinates, laid out so that any implementation reads what any other wrote. This page is the layout. What the parts *mean* is the pages that judge them: a row's claims are [checking](checking.md), a body's operations are [statements](statement.md) and [expressions](expression.md) with every fact the build proved written in, and the bytes an object travels as are [encodings](encoding.md).
 
-An object is a **value**, and nothing more than one: it is written by the binary encoding, laid out by the text encoding, and identified by its bytes the way a document is. What crosses a wire is a document; what a build keeps, hands to a cache, or receives from one is an object, and both cross under the same encodings. A file holding either is named by its encoding and not by what it holds, `.warp` or `.warpt`, and what it holds is what the value says it is: a document says `warp`, an object says `object`.
+An object is a **value**, and nothing more than one: it is written by the binary encoding and identified by its bytes the way a document is, and a text writes one as data, inside a case. What crosses a wire is a document; what a build keeps, hands to a cache, or receives from one is an object, and both cross under the binary. A file holding either is named by its encoding and not by what it holds, and what it holds is what the value says it is: a document says `warp`, an object says `object`.
 
 ## What an object holds
 
@@ -13,22 +13,29 @@ An object is one map. It carries **exactly** these keys, and a key none of them 
 | `object` | int. This layout's format. Read before anything laid out by it, the keys included | |
 | `document` | the document's identity, or nothing where the program was never written down | |
 | `dependencies` | the objects behind every declaration this document named, each by what the host keyed it under | ascending by bytes, none twice |
-| `types` | name → *type*, as the document wrote them: a struct as tag 9, an alias as the type it stands for | by name |
+| `types` | name → what the document declared: a struct as `[9, …]` under *type* below, and an alias as the *type* it stands for | by name |
 | `contracts` | name → `[ types, bounds, procedures ]`: the types the contract asks; name → the contracts bounding the type of that name, ascending, at least one, for each one it bounds; and procedure name → *signature* | by name; the types ascending, the bounds and the procedures by name |
 | `claims` | *head* → the contracts it says the values the head takes answer, at least one | by head; the contracts ascending |
 | `members` | *head* → the members it gives the type under the head, at least one, each the name of a row under the type's name and its own | by head; the members ascending |
 | `typeMembers` | *head* → (name → *type*): the type members it gives the type under the head, at least one, each written in the head's type parameters, or the struct's where the head is bare and the document declares the struct | by head, then by name |
 | `importedClaims` | the claims its document imports, each `[type, contract]`, the pair the claim is about | by type, then by contract |
 | `rows` | the declarations, each a *row* under its spelling | by name |
-| `lifted` | the closures its bodies lifted, each a *row* with no spelling | as the numbering counts them |
 | `numbering` | two lists: what it sends, and how many closures each declaration wrote | below |
+| `lifted` | the closures its bodies lifted, each a *row* with no spelling | as the numbering counts them |
 | `typeNumbering` | the declared types its bodies stand on, ascending by name | below |
 | `variables` | (name, *value*): what each variable starts a run holding | by name |
 | `constants` | the constants it declared, by spelling | by name |
+| `typeTable` | the *type* entries | as the parts number them, below |
+| `loweredTypeTable` | the *lowered type* entries | as the parts number them |
+| `valueTable` | the *value* entries | as the parts number them |
+| `operationTable` | the *operation* entries | as the parts number them |
+| `addressTable` | the *address* entries | as the parts number them |
 
 **The map is keyed and its parts are not.** The map names each part by its key; inside a part the fields stand in order and a variant says itself by its tag. A reading holds an object to the format it reads before it reads a part.
 
 **Order is spelling.** Every list a name keys stands ascending by the names' bytes, none twice, and so does every set written as a list. That is the whole of what makes one object one value: a list keeps the order it is written in, so the layout says which, and a reading takes no other. A list out of order, or naming one thing twice, **refuses**.
+
+**What nests stands in a table.** A *type*, a *lowered type*, a *value*, an *operation* and an *address* are each written once, as an entry of their own table, and whatever holds one writes the entry's number. An entry is laid out the way this page lays its kind out, with a number wherever it holds another of these. So an object nests no deeper for a program nesting deeper. An entry stands right after everything it holds: the parts are read in the order of the keys above, the fields of a part and of an entry in their order, and each table numbers its entries from zero in the order they are finished. Every entry is held exactly once, and an entry held twice, held nowhere, or standing at another number than that order gives it **refuses**. Entries nest no deeper than a written tree may, [128](encoding.md) levels: an entry is a level, and an entry of its own table it holds is a level below it. A table nesting deeper **refuses**, and no object is written for a compiled document whose entries would.
 
 **The rows.** A declaration's row stands under its spelling in `rows`, in name order; the rows its bodies lifted stand in `lifted`, without a spelling, in the order the numbering counts them. A body numbers its calls and its types from the document itself, under [procedures](procedure.md): the spellings it sends first, in name order, then its own declarations in name order, then the closures its declarations wrote, in the order the numbering lists the declarations and, within one, the order the body wrote them. Where a row lands in a link is the link's answer, so nothing here says it, and one object answers every entry asked of it.
 
@@ -46,7 +53,7 @@ Inside the map, a part is written as its fields **in order**, and a variant as i
 
 ### Types, as a document writes them
 
-A *type* is `[tag, …]`:
+A *type* is the number of an entry in `typeTable`, and the entry is `[tag, …]`:
 
 | tag | type | fields |
 |---|---|---|
@@ -59,7 +66,7 @@ A *type* is `[tag, …]`:
 | 6 | `String` | |
 | 7 | `Array<T>` | *type* |
 | 8 | `Dictionary<K, V>` | the key's *type*, the value's *type* |
-| 9 | struct, written only as a declared type in `types` | name → *type*; where it takes type parameters, then their names in order, at least one and none twice, and name → the contracts bounding the type parameter of that name, ascending, at least one, for each one it bounds |
+| 9 | struct, written in `types` as the declaration itself and never as an entry | name → *type*; where it takes type parameters, then their names in order, at least one and none twice, and name → the contracts bounding the type parameter of that name, ascending, at least one, for each one it bounds |
 | 10 | `Procedure` | *procedure type* or nothing, *constness*, *isolation* |
 | 11 | `var T` | *type* |
 | 12 | `inout T` | *type* |
@@ -90,11 +97,11 @@ A *frame* is `[size, parameters, variables, captures, names]`: how many slots; w
 
 A *body* is `[instructions, result]`, the result an *operation* or nothing. An *instruction* is `[binding, operation, label]`: the binding or nothing, what to compute, and the string a trace calls the statement. A *binding* is `[0, slot]` to bind, `[1, slot]` to declare, or `[2, address]` to assign.
 
-An *address* is `[slot, steps]`, each *step* `[0, position, name, optional]` for a field of a struct whose layout the build proved, `[1, name, optional]` for a field read by its name, written past a null or a `Never` the build laid out no struct for, `[2, value, optional]` for a *value* between the brackets, a position on a list and a key on a map, or `[3, address, optional]` for one read from a slot.
+An *address* is the number of an entry in `addressTable`, and the entry is `[slot, steps]`, each *step* `[0, position, name, optional]` for a field of a struct whose layout the build proved, `[1, name, optional]` for a field read by its name, written past a null or a `Never` the build laid out no struct for, `[2, value, optional]` for a *value* between the brackets, a position on a list and a key on a map, or `[3, address, optional]` for one read from a slot.
 
 ### Operations
 
-An *operation* is `[tag, …]`. These are the constructs and the expression forms of a document with every name the build resolved written as the slot or the row it stands for; nothing computes: what a body does it does by calling, under [the standard vocabulary](vocabulary.md).
+An *operation* is the number of an entry in `operationTable`, and the entry is `[tag, …]`. These are the constructs and the expression forms of a document with every name the build resolved written as the slot or the row it stands for; nothing computes: what a body does it does by calling, under [the standard vocabulary](vocabulary.md).
 
 | tag | operation | fields |
 |---|---|---|
@@ -117,7 +124,7 @@ A *layout* is `[name, fields]`: the declared struct's name, and the field names 
 
 ### Lowered types
 
-A *lowered type* is a type as a body stands on it, `[tag, …]`:
+A *lowered type* is a type as a body stands on it, the number of an entry in `loweredTypeTable`, and the entry is `[tag, …]`:
 
 | tag | lowered type | fields |
 |---|---|---|
@@ -134,7 +141,7 @@ A *lowered type* is a type as a body stands on it, `[tag, …]`:
 
 ### Values
 
-A *value* is `[tag, …]`: 0 null; 1 bool; 2 int; 3 double; 4 string; 5 bytes, each carrying the value; 6 array, carrying its elements as *value*; 7 struct, carrying its name, the field names in name order, the field values; 8 a closure, carrying the identity of the document that wrote it, the *declaration* that wrote it, which of that declaration's closures it is, and `[slot, value]` for what it captured; 9 map, carrying its keys as *value* in the key order and its values beside them, a key out of that order or written twice **refusing**. A closure written by a document nobody wrote down, or holding a box of the run that made it, is not a value an object holds, and such an object is not written.
+A *value* is the number of an entry in `valueTable`, and the entry is `[tag, …]`: 0 null; 1 bool; 2 int; 3 double; 4 string; 5 bytes, each carrying the value; 6 array, carrying its elements as *value*; 7 struct, carrying its name, the field names in name order, the field values; 8 a closure, carrying the identity of the document that wrote it, the *declaration* that wrote it, which of that declaration's closures it is, and `[slot, value]` for what it captured; 9 map, carrying two lists, its keys as *value* in the key order and then its values in the same order, a key out of that order or written twice **refusing**. A closure written by a document nobody wrote down, or holding a box of the run that made it, is not a value an object holds, and such an object is not written.
 
 ## Identity and dependencies
 
@@ -170,58 +177,49 @@ What a build judged, an object writes down as judged: what a signature says, `re
 The document
 
 ```
-warpt 1
-{
-  imports [ "Standard.Collection.appending" ]
-  procedures {
-    entry {
-      access "public"
-      const true
-      isolated true
-      parameters [ { name "n" type "Array<Int>" } ]
-      result { call { arguments [ { ref "n" } 1 ] procedure "Standard.Collection.appending" } }
-      returns "Array<Int>"
-    }
-  }
-  warp 1
-}
+(warp 1)
+(import Standard.Collection.appending)
+
+(procedure entry
+  (access public)
+  (const)
+  (isolated)
+  (parameter n (type (array Int)))
+  (returns (array Int))
+  (result (call Standard.Collection.appending n 1)))
 ```
 
-compiles to an object with one row, laid out as text and packed onto fewer lines than the writer uses:
+compiles to an object with one row, written as data, one entry a line and `rows` broken onto a few more, and its two digests elided:
 
 ```
-warpt 1
-{
-  claims []
-  constants []
-  contracts []
-  dependencies [ x"…" ]
-  document [ x"…" ]
-  importedClaims []
-  lifted []
-  members []
-  numbering [ [ "Standard.Collection.appending" ] [] ]
-  object 1
-  rows [
-    [
-      "entry"
-      [ [ [ "n" [ [ 7 [ 4 ] ] ] [] ] ] [ 7 [ 4 ] ] [ 1 [] ] 1 1 [] [] ]
+(dictionary
+  (entry "addressTable" (array (array 0 (array))))
+  (entry "claims" (array))
+  (entry "constants" (array))
+  (entry "contracts" (array))
+  (entry "dependencies" (array x"…"))
+  (entry "document" (array x"…"))
+  (entry "importedClaims" (array))
+  (entry "lifted" (array))
+  (entry "loweredTypeTable" (array))
+  (entry "members" (array))
+  (entry "numbering" (array (array "Standard.Collection.appending") (array)))
+  (entry "object" 1)
+  (entry "operationTable" (array (array 1 0) (array 0 0) (array 11 (array 0 (array (array 0) (array 1)) (array)))))
+  (entry "rows" (array
+    (array "entry"
+      (array (array (array "n" (array 1) (array))) 3 (array 1 (array)) 1 1 (array) (array))
       2
-      [
-        0
-        [ [] [ [ 11 [ 0 [ [ [ 1 [ 0 [] ] ] ] [ [ 0 [ 2 1 ] ] ] ] [] ] ] ] ]
-        [ 1 [ 0 ] [] [] [ "n" ] ]
-      ]
-    ]
-  ]
-  typeMembers []
-  typeNumbering []
-  types []
-  variables []
-}
+      (array 0 (array (array) (array 2)) (array 1 (array 0) (array) (array) (array "n"))))))
+  (entry "typeMembers" (array))
+  (entry "typeNumbering" (array))
+  (entry "typeTable" (array (array 4) (array 7 0) (array 4) (array 7 2)))
+  (entry "types" (array))
+  (entry "valueTable" (array (array 2 1)))
+  (entry "variables" (array)))
 ```
 
-Read it back: `rows` holds `entry`, whose signature takes `n` as `Array<Int>` (type tag 7 around tag 4), answers `Array<Int>`, fails with nothing (`[1 []]`), is const (`1`) and isolated (`1`), bounds nothing and says no associated type is a type (`[] []`); it is public (`2`); its implementation is a body (`0`) with no instructions and a result, a call (`11`) to row `0` of the numbering, which is `Standard.Collection.appending`, with two arguments, the first read from slot `0` and the second the literal (`0`) int (`2`) `1`, neither handed in place; and its frame has one slot, filled by the parameter, called `n`. The dependency is what the host keyed the standard vocabulary's object under.
+Read it back: `rows` holds `entry`, whose signature takes `n` as type `1` and answers type `3`. In `typeTable`, entry `1` is an array (tag 7) of entry `0`, `Int` (tag 4), and entry `3` is the same over entry `2`: both are `Array<Int>`, each written once where it is held. The signature fails with nothing (`(array 1 (array))`), is const (`1`) and isolated (`1`), bounds nothing and says no associated type is a type (`(array) (array)`); the row is public (`2`). Its implementation is a body (`0`) with no instructions and a result, operation `2`: a call (`11`) to row `0` of the numbering, which is `Standard.Collection.appending`, with two arguments, operations `0` and `1`, neither handed in place. Operation `0` reads (`1`) address `0`, slot `0` with no steps, and operation `1` is the literal (`0`) value `0`, the int (`2`) `1`. Every number stands before the entry holding it. The frame has one slot, filled by the parameter, called `n`. The dependency is what the host keyed the standard vocabulary's object under.
 
 ## Cases
 
@@ -237,11 +235,17 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-giving-a-type-a-member-no-row-stands-under-refuses`
 - `an-object-giving-a-type-no-member-refuses`
 - `an-object-giving-a-type-no-type-member-refuses`
+- `an-object-holding-a-number-past-its-table-refuses`
+- `an-object-holding-an-entry-nowhere-refuses`
+- `an-object-holding-an-entry-twice-refuses`
 - `an-object-links-and-runs`
 - `an-object-listing-a-type-parameter-twice-refuses`
 - `an-object-listing-no-type-parameters-for-a-struct-refuses`
 - `an-object-missing-a-part-refuses`
 - `an-object-naming-one-type-twice-refuses`
+- `an-object-nesting-a-table-past-the-bound-refuses`
+- `an-object-nesting-its-tables-to-the-bound-runs`
+- `an-object-numbering-entries-out-of-order-refuses`
 - `an-object-of-a-later-format-refuses`
 - `an-object-of-a-later-format-with-keys-of-its-own-refuses`
 - `an-object-of-a-struct-taking-a-type-parameter-links-and-runs`

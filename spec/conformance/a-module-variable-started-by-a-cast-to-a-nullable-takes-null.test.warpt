@@ -1,37 +1,14 @@
-warpt 1
-{
-  expect {
-    answers null
-  }
-  name "a-module-variable-started-by-a-cast-to-a-nullable-takes-null"
-  note "A module variable that declares no type holds the type its start reads as, and a cast to a nullable list says it, so the variable takes null afterwards."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            set "seen"
-            value null
-          }
-        ]
-        result {
-          ref "seen"
-        }
-        returns "Array<String>?"
-      }
-    }
-    var {
-      seen {
-        as {
-          of []
-          type "Array<String>?"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-module-variable-started-by-a-cast-to-a-nullable-takes-null")
+(note "A module variable that declares no type holds the type its start reads as, and a cast to a nullable list says it, so the variable takes null afterwards.")
 
+(program
+  (warp 1)
+  (var seen (as (array) (nullable (array String))))
+  (procedure entry
+    (access public)
+    (returns (nullable (array String)))
+    (body
+      (set seen null))
+    (result seen)))
+(expect (answers null))

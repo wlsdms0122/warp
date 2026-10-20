@@ -1,48 +1,17 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-whole-number-a-name-holds-is-no-fraction-refuses"
-  note "A whole number written as a literal is an Int wherever its place declares no fraction, and a name bound to it holds an Int. Handing that name where a fraction is declared is refused at the build: nothing turns a whole number into a fraction but a literal's own place."
-  program {
-    imports []
-    procedures {
-      "App.half" {
-        parameters [
-          {
-            name "x"
-            type "Double"
-          }
-        ]
-        result {
-          ref "x"
-        }
-        returns "Double"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "n"
-            value 1
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "n"
-              }
-            ]
-            procedure "App.half"
-          }
-        }
-        returns "Double"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-whole-number-a-name-holds-is-no-fraction-refuses")
+(note "A whole number written as a literal is an Int wherever its place declares no fraction, and a name bound to it holds an Int. Handing that name where a fraction is declared is refused at the build: nothing turns a whole number into a fraction but a literal's own place.")
 
+(program
+  (warp 1)
+  (procedure App.half
+    (parameter x (type Double))
+    (returns Double)
+    (result x))
+  (procedure entry
+    (access public)
+    (returns Double)
+    (body
+      (let n 1))
+    (result (call App.half n))))
+(expect (refuses build))

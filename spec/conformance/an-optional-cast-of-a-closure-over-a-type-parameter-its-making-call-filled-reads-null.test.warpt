@@ -1,71 +1,23 @@
-warpt 1
-{
-  expect {
-    answers null
-  }
-  name "an-optional-cast-of-a-closure-over-a-type-parameter-its-making-call-filled-reads-null"
-  note "`App.mk` answers a closure taking its own `some T`, which only the call that made it fills, and `a` holds it as `Any`. The closure is a value of no procedure type here, so `as?` reads it as null."
-  program {
-    imports [
-      "Standard.Numeric"
-    ]
-    procedures {
-      "App.mk" {
-        parameters [
-          {
-            name "x"
-            type "some T: Standard.Numeric"
-          }
-        ]
-        result {
-          closure {
-            parameters [
-              {
-                name "y"
-                type "some T"
-              }
-            ]
-            result 0
-            returns "Int"
-          }
-        }
-        returns "(some T) -> Int"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "a"
-            type "Any"
-            value {
-              call {
-                arguments [
-                  5
-                ]
-                procedure "App.mk"
-              }
-            }
-          }
-          {
-            let "r"
-            value {
-              "as?" {
-                of {
-                  ref "a"
-                }
-                type "(Double) -> Int"
-              }
-            }
-          }
-        ]
-        result {
-          ref "r"
-        }
-        returns "((Double) -> Int)?"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-optional-cast-of-a-closure-over-a-type-parameter-its-making-call-filled-reads-null")
+(note "`App.mk` answers a closure taking its own `some T`, which only the call that made it fills, and `a` holds it as `Any`. The closure is a value of no procedure type here, so `as?` reads it as null.")
 
+(program
+  (warp 1)
+  (import Standard.Numeric)
+  (procedure App.mk
+    (parameter x (type (some T Standard.Numeric)))
+    (returns (procedure (parameters (some T)) (returns Int)))
+    (result
+      (closure
+        (parameter y (type (some T)))
+        (returns Int)
+        (result 0))))
+  (procedure entry
+    (access public)
+    (returns (nullable (procedure (parameters Double) (returns Int))))
+    (body
+      (let a (type Any) (call App.mk 5))
+      (let r (as? a (procedure (parameters Double) (returns Int)))))
+    (result r)))
+(expect (answers null))

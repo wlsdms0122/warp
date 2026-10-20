@@ -1,28 +1,12 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-dot-on-any-is-refused"
-  note "`Any` declares nothing, so a dot on one has nothing to be judged against, and a dot nothing declares is the one thing a run would have to decide for itself. The type is read by naming it."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        parameters [
-          {
-            name "payload"
-          }
-        ]
-        result {
-          ref "payload.name"
-        }
-        returns "Any"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-dot-on-any-is-refused")
+(note "`Any` declares nothing, so a dot on one has nothing to be judged against, and a dot nothing declares is the one thing a run would have to decide for itself. The type is read by naming it.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter payload)
+    (returns Any)
+    (result (path payload (field name)))))
+(expect (refuses build))

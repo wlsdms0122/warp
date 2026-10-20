@@ -1,39 +1,14 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-write-through-any-refuses"
-  note "A write's path is judged against the type it reaches, and `Any` declares nothing to write into. `set x.a` on a variable declared `Any` refuses at the build."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            type "Any"
-            value {
-              dictionary [
-                [
-                  "a"
-                  1
-                ]
-              ]
-            }
-            var "x"
-          }
-          {
-            set "x.a"
-            value 2
-          }
-        ]
-        result 1
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-write-through-any-refuses")
+(note "A write's path is judged against the type it reaches, and `Any` declares nothing to write into. `set x.a` on a variable declared `Any` refuses at the build.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var x (type Any) (dictionary (entry "a" 1)))
+      (set (path x (field a)) 2))
+    (result 1)))
+(expect (refuses build))

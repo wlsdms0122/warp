@@ -1,11 +1,5 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-text-control-character-written-raw-refuses"
-  note "A character below U+0020 inside a string is written as an escape and never as itself, so a raw one is not the text of any value."
-  test 1
-  text "warpt 1\n\"a\tb\"\n"
-}
-
+(test 1)
+(name "a-text-control-character-written-raw-refuses")
+(note "A character below U+0020 inside text is written as an escape and never as itself, so a raw one is not the text of any value.")
+(text "(warp 1)\n(const a \"a\tb\")\n")
+(expect (refuses load))

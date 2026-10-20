@@ -1,55 +1,23 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-bound-may-name-several-and-holds-to-every-one"
-  note "A bound may name several contracts joined with `&`, and a parameter so bounded takes only what answers every one of them. A whole number answers the first contract and not the second, so the call is refused at the build."
-  program {
-    contracts {
-      Scalar {}
-      Text {}
-    }
-    extensions {
-      Int {
-        satisfies [
-          "Scalar"
-        ]
-      }
-      String {
-        satisfies [
-          "Scalar"
-          "Text"
-        ]
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              1
-            ]
-            procedure "keep"
-          }
-        }
-        returns "Int"
-      }
-      keep {
-        parameters [
-          {
-            name "value"
-            type "some T: Scalar & Text"
-          }
-        ]
-        result 1
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-bound-may-name-several-and-holds-to-every-one")
+(note "A bound may name several contracts joined with `&`, and a parameter so bounded takes only what answers every one of them. A whole number answers the first contract and not the second, so the call is refused at the build.")
 
+(program
+  (warp 1)
+  (contract Scalar)
+  (contract Text)
+  (extension
+    (head Int)
+    (satisfies Scalar))
+  (extension
+    (head String)
+    (satisfies Scalar Text))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result (call keep 1)))
+  (procedure keep
+    (parameter value (type (some T Scalar Text)))
+    (returns Int)
+    (result 1)))
+(expect (refuses build))

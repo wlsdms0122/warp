@@ -1,53 +1,18 @@
-warpt 1
-{
-  arguments {
-    ready true
-  }
-  expect {
-    refuses "load"
-  }
-  name "an-untaken-arm-is-checked-too"
-  note "A program is checked whole before any of it runs, so a defect in an arm no run takes is refused all the same."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            value {
-              conditional {
-                else [
-                  {
-                    let "missed"
-                    value {
-                      ref "nobodyEverBoundThis"
-                    }
-                  }
-                ]
-                then [
-                  {
-                    let "taken"
-                    value "taken"
-                  }
-                ]
-                when {
-                  ref "ready"
-                }
-              }
-            }
-          }
-        ]
-        parameters [
-          {
-            name "ready"
-            type "Bool"
-          }
-        ]
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-untaken-arm-is-checked-too")
+(note "A program is checked whole before any of it runs, so a defect in an arm no run takes is refused all the same.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter ready (type Bool))
+    (body
+      (conditional
+        (when ready)
+        (then
+          (let taken "taken"))
+        (else
+          (let missed nobodyEverBoundThis))))))
+(arguments (argument ready true))
+(expect (refuses load))

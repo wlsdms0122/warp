@@ -1,46 +1,16 @@
-warpt 1
-{
-  expect {
-    answers App.Box {
-      item 1
-    }
-  }
-  name "an-entry-answers-a-struct-applied-to-int"
-  note "An entry declaring `App.Box<Int>` answers the struct with its fields; the value carries the name and not what it was applied to."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "b"
-            type "App.Box<Int>"
-            value {
-              struct {
-                item 1
-              }
-            }
-          }
-        ]
-        result {
-          ref "b"
-        }
-        returns "App.Box<Int>"
-      }
-    }
-    types {
-      "App.Box" {
-        struct {
-          item "some T"
-        }
-        typeParameters [
-          "T"
-        ]
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-entry-answers-a-struct-applied-to-int")
+(note "An entry declaring `App.Box<Int>` answers the struct with its fields; the value carries the name and not what it was applied to.")
 
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (procedure entry
+    (access public)
+    (returns (named App.Box Int))
+    (body
+      (let b (type (named App.Box Int)) (struct (field item 1))))
+    (result b)))
+(expect (answers (struct App.Box (field item 1))))

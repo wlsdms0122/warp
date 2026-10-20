@@ -1,73 +1,25 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-name-on-a-call-of-a-declared-procedure-type-answering-an-alias-of-never-is-refused"
-  note "`App.F` declares a procedure type answering `App.N`, a spelling of `Never`. A call of `f`, read as `App.F`, answers `Never`, so it never finishes and `y` could never bind."
-  program {
-    imports [
-      "Standard.Control.abort"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "f"
-            type "App.F"
-            value {
-              closure {
-                body [
-                  {
-                    value {
-                      call {
-                        arguments [
-                          "no"
-                        ]
-                        procedure "Standard.Control.abort"
-                      }
-                    }
-                  }
-                ]
-                failing [
-                  "aborted"
-                ]
-                parameters [
-                  {
-                    name "x"
-                    type "Int"
-                  }
-                ]
-                returns "Never"
-              }
-            }
-          }
-          {
-            let "y"
-            value {
-              call {
-                arguments [
-                  1
-                ]
-                procedure {
-                  ref "f"
-                }
-              }
-            }
-          }
-        ]
-        failing "anything"
-        result 1
-        returns "Never"
-      }
-    }
-    types {
-      "App.F" "(Int) throws -> App.N"
-      "App.N" "Never"
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-name-on-a-call-of-a-declared-procedure-type-answering-an-alias-of-never-is-refused")
+(note "`App.F` declares a procedure type answering `App.N`, a spelling of `Never`. A call of `f`, read as `App.F`, answers `Never`, so it never finishes and `y` could never bind.")
 
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (type App.F (procedure (parameters Int) (failing (anything)) (returns App.N)))
+  (type App.N Never)
+  (procedure entry
+    (access public)
+    (returns Never)
+    (failing (anything))
+    (body
+      (let f
+        (type App.F)
+        (closure
+          (parameter x (type Int))
+          (returns Never)
+          (failing aborted)
+          (body
+            (call Standard.Control.abort "no"))))
+      (let y (apply f 1)))
+    (result 1)))
+(expect (refuses build))

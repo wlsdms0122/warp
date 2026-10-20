@@ -1,31 +1,5 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-loop-writing-a-result-refuses"
-  note "A loop answers nothing, so it has no `result` to write, and one written refuses at the load. What a round keeps it writes to an outer variable."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            value {
-              loop {
-                body []
-                result 1
-                while false
-              }
-            }
-          }
-        ]
-        result null
-      }
-    }
-    warp 1
-  }
-  test 1
-}
-
+(test 1)
+(name "a-loop-writing-a-result-refuses")
+(note "A loop answers nothing, so it has no `result` to write, and one written refuses at the load. What a round keeps it writes to an outer variable.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "loop" (dictionary (entry "body" (array)) (entry "result" 1) (entry "while" false)))))))) (entry "result" null))))) (entry "warp" 1)))
+(expect (refuses load))

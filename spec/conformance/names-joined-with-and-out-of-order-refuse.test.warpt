@@ -1,41 +1,18 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "names-joined-with-and-out-of-order-refuse"
-  note "Names joined with `&` are written in name order, so `App.B & App.A` is a second spelling of `App.A & App.B`. A document says each thing one way, and this one refuses at the load."
-  program {
-    contracts {
-      "App.A" {}
-      "App.B" {}
-    }
-    extensions {
-      Int {
-        satisfies [
-          "App.A"
-          "App.B"
-        ]
-      }
-    }
-    imports []
-    procedures {
-      "App.f" {
-        parameters [
-          {
-            name "x"
-            type "App.B & App.A"
-          }
-        ]
-        result 1
-      }
-      entry {
-        access "public"
-        result 1
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "names-joined-with-and-out-of-order-refuse")
+(note "Names joined with `&` are written in name order, so `App.B & App.A` is a second spelling of `App.A & App.B`. A document says each thing one way, and this one refuses at the load.")
 
+(program
+  (warp 1)
+  (contract App.A)
+  (contract App.B)
+  (extension
+    (head Int)
+    (satisfies App.A App.B))
+  (procedure App.f
+    (parameter x (type (composition App.B App.A)))
+    (result 1))
+  (procedure entry
+    (access public)
+    (result 1)))
+(expect (refuses load))

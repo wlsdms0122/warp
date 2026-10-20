@@ -1,102 +1,36 @@
-warpt 1
-{
-  documents [
-    {
-      contracts {
-        "App.Describable" {
-          procedures {
-            describe {
-              parameters [
-                {
-                  name "of"
-                  type "Self"
-                }
-              ]
-              returns "String"
-            }
-          }
-        }
-      }
-      imports []
-      warp 1
-    }
-    {
-      imports [
-        "App.Describable"
-      ]
-      types {
-        "App.Card" {
-          satisfies [
-            "App.Describable"
-          ]
-          struct {
-            rank "Int"
-          }
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    refuses "build"
-  }
-  name "a-claim-whose-member-a-document-it-does-not-stand-on-gives-refuses"
-  note "App.Card claims App.Describable where it is declared, and the member `describe` is given in the program, which stands on that document and not the other way round. A claim is held to the members within what its own document stands on, so it refuses at the build."
-  program {
-    extensions {
-      "App.Card" {
-        procedures {
-          describe {
-            access "public"
-            parameters [
-              {
-                name "of"
-                type "App.Card"
-              }
-            ]
-            result "card"
-            returns "String"
-          }
-        }
-      }
-    }
-    imports [
-      "App.Card"
-      "App.Describable.describe"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "card"
-            value {
-              as {
-                of {
-                  struct {
-                    rank 1
-                  }
-                }
-                type "App.Card"
-              }
-            }
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "card"
-              }
-            ]
-            procedure "App.Describable.describe"
-          }
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-claim-whose-member-a-document-it-does-not-stand-on-gives-refuses")
+(note "App.Card claims App.Describable where it is declared, and the member `describe` is given in the program, which stands on that document and not the other way round. A claim is held to the members within what its own document stands on, so it refuses at the build.")
 
+(documents
+  (document
+    (warp 1)
+    (contract App.Describable
+      (procedure describe
+        (parameter of (type Self))
+        (returns String))))
+  (document
+    (warp 1)
+    (import App.Describable)
+    (struct App.Card
+      (satisfies App.Describable)
+      (field rank Int))))
+
+(program
+  (warp 1)
+  (import App.Card)
+  (import App.Describable.describe)
+  (extension
+    (head App.Card)
+    (procedure describe
+      (access public)
+      (parameter of (type App.Card))
+      (returns String)
+      (result "card")))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let card (as (struct (field rank 1)) App.Card)))
+    (result (call App.Describable.describe card))))
+(expect (refuses build))

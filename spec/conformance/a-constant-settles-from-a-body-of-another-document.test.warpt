@@ -1,69 +1,26 @@
-warpt 1
-{
-  documents [
-    {
-      imports [
-        "Standard.Numeric.times"
-      ]
-      procedures {
-        "K.twice" {
-          const true
-          isolated true
-          parameters [
-            {
-              name "of"
-              type "Int"
-            }
-          ]
-          result {
-            call {
-              arguments [
-                {
-                  ref "of"
-                }
-                2
-              ]
-              procedure "Standard.Numeric.times"
-            }
-          }
-          returns "Int"
-        }
-      }
-      warp 1
-    }
-  ]
-  expect {
-    answers 12
-  }
-  name "a-constant-settles-from-a-body-of-another-document"
-  note "A constant settles from a body in another document of the link, since the document it is written in is what the compiled document is made from. The body runs at the build and the constant is the answer."
-  program {
-    const {
-      twelve {
-        call {
-          arguments [
-            6
-          ]
-          procedure "K.twice"
-        }
-      }
-    }
-    imports [
-      "K.twice"
-    ]
-    procedures {
-      entry {
-        access "public"
-        const true
-        isolated true
-        result {
-          ref "twelve"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-constant-settles-from-a-body-of-another-document")
+(note "A constant settles from a body in another document of the link, since the document it is written in is what the compiled document is made from. The body runs at the build and the constant is the answer.")
 
+(documents
+  (document
+    (warp 1)
+    (import Standard.Numeric.times)
+    (procedure K.twice
+      (const)
+      (isolated)
+      (parameter of (type Int))
+      (returns Int)
+      (result (call Standard.Numeric.times of 2)))))
+
+(program
+  (warp 1)
+  (import K.twice)
+  (const twelve (call K.twice 6))
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (returns Int)
+    (result twelve)))
+(expect (answers 12))

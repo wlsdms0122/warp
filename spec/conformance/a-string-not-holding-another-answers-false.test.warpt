@@ -1,39 +1,14 @@
-warpt 1
-{
-  expect {
-    answers false
-  }
-  name "a-string-not-holding-another-answers-false"
-  note "A part longer than the whole, and a part the whole never spells, both answer false rather than refusing."
-  program {
-    imports [
-      "Standard.Text.contains"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            let "held"
-            value {
-              call {
-                arguments [
-                  "spec"
-                  "specification"
-                ]
-                procedure "Standard.Text.contains"
-              }
-            }
-          }
-        ]
-        result {
-          ref "held"
-        }
-        returns "Bool"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-string-not-holding-another-answers-false")
+(note "A part longer than the whole, and a part the whole never spells, both answer false rather than refusing.")
 
+(program
+  (warp 1)
+  (import Standard.Text.contains)
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (body
+      (let held (call Standard.Text.contains "spec" "specification")))
+    (result held)))
+(expect (answers false))

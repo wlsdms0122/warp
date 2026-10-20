@@ -1,36 +1,14 @@
-warpt 1
-{
-  expect {
-    answers 1
-  }
-  name "the-empty-text-is-a-key"
-  note "A map's key is data, and the empty text is text, so a write under `\"\"` makes the entry and a read finds it."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            type "Dictionary<String, Int>"
-            value {
-              dictionary []
-            }
-            var "d"
-          }
-          {
-            set "d[\"\"]"
-            value 1
-          }
-        ]
-        result {
-          ref "d[\"\"]"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "the-empty-text-is-a-key")
+(note "A map's key is data, and the empty text is text, so a write under `\"\"` makes the entry and a read finds it.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var d (type (dictionary String Int)) (dictionary))
+      (set (path d (index "")) 1))
+    (result (path d (index "")))))
+(expect (answers 1))

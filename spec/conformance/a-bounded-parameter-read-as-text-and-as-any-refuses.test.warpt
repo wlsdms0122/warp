@@ -1,82 +1,27 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-bounded-parameter-read-as-text-and-as-any-refuses"
-  note "`App.f` bounds `T` by `App.Nums`, which `Int` and `Double` answer, and takes two of `some T`. The call hands a name read as `String` and a name read as `Any`, which makes the parameter `Any`, and a reading of `Any` stands at a bounded parameter only through a cast, so the call refuses at the build."
-  program {
-    contracts {
-      "App.Nums" {}
-    }
-    extensions {
-      Double {
-        satisfies [
-          "App.Nums"
-        ]
-      }
-      Int {
-        satisfies [
-          "App.Nums"
-        ]
-      }
-    }
-    imports []
-    procedures {
-      "App.f" {
-        parameters [
-          {
-            name "a"
-            type "some T: App.Nums"
-          }
-          {
-            name "b"
-            type "some T"
-          }
-        ]
-        result {
-          ref "a"
-        }
-        returns "some T"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "s"
-            type "String"
-            value "x"
-          }
-          {
-            let "u"
-            type "Any"
-            value 1
-          }
-          {
-            let "r"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "s"
-                  }
-                  {
-                    ref "u"
-                  }
-                ]
-                procedure "App.f"
-              }
-            }
-          }
-        ]
-        result {
-          ref "r"
-        }
-        returns "Any"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-bounded-parameter-read-as-text-and-as-any-refuses")
+(note "`App.f` bounds `T` by `App.Nums`, which `Int` and `Double` answer, and takes two of `some T`. The call hands a name read as `String` and a name read as `Any`, which makes the parameter `Any`, and a reading of `Any` stands at a bounded parameter only through a cast, so the call refuses at the build.")
 
+(program
+  (warp 1)
+  (contract App.Nums)
+  (extension
+    (head Double)
+    (satisfies App.Nums))
+  (extension
+    (head Int)
+    (satisfies App.Nums))
+  (procedure App.f
+    (parameter a (type (some T App.Nums)))
+    (parameter b (type (some T)))
+    (returns (some T))
+    (result a))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let s (type String) "x")
+      (let u (type Any) 1)
+      (let r (call App.f s u)))
+    (result r)))
+(expect (refuses build))

@@ -1,64 +1,24 @@
-warpt 1
-{
-  expect {
-    answers 1
-  }
-  name "an-attempt-whose-ways-both-fit-a-slot-answers"
-  note "An Int variable is set to an attempt whose body and rescue both answer an int. Each way fits, and the body finishes, so the variable holds its answer."
-  program {
-    imports [
-      "Standard.Control.abort"
-    ]
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            type "Int"
-            value 0
-            var "x"
-          }
-          {
-            set "x"
-            value {
-              attempt {
-                body [
-                  {
-                    value {
-                      conditional {
-                        then [
-                          {
-                            value {
-                              call {
-                                arguments [
-                                  "x"
-                                ]
-                                procedure "Standard.Control.abort"
-                              }
-                            }
-                          }
-                        ]
-                        when false
-                      }
-                    }
-                  }
-                ]
-                rescue {
-                  result 2
-                }
-                result 1
-              }
-            }
-          }
-        ]
-        result {
-          ref "x"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-attempt-whose-ways-both-fit-a-slot-answers")
+(note "An Int variable is set to an attempt whose body and rescue both answer an int. Each way fits, and the body finishes, so the variable holds its answer.")
 
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var x (type Int) 0)
+      (set x
+        (attempt
+          (body
+            (conditional
+              (when false)
+              (then
+                (call Standard.Control.abort "x"))))
+          (result 1)
+          (rescue
+            (result 2)))))
+    (result x)))
+(expect (answers 1))

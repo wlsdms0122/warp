@@ -1,52 +1,21 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "an-extension-giving-a-contract-members-refuses"
-  note "An extension gives a type what it gives it, and `App.Describable` is a contract, no type a value is an instance of: the build refuses the extension whatever it gives."
-  program {
-    contracts {
-      "App.Describable" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    extensions {
-      "App.Describable" {
-        procedures {
-          m {
-            parameters [
-              {
-                name "of"
-                type "App.Describable"
-              }
-            ]
-            result 7
-            returns "Int"
-          }
-        }
-      }
-    }
-    imports []
-    procedures {
-      entry {
-        access "public"
-        result 1
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-extension-giving-a-contract-members-refuses")
+(note "An extension gives a type what it gives it, and `App.Describable` is a contract, no type a value is an instance of: the build refuses the extension whatever it gives.")
 
+(program
+  (warp 1)
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head App.Describable)
+    (procedure m
+      (parameter of (type App.Describable))
+      (returns Int)
+      (result 7)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result 1)))
+(expect (refuses build))

@@ -1,28 +1,12 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "an-index-into-any-is-refused"
-  note "An index says as much as a dot does. That a type is there to read into, and `Any` declares neither. The type is named to read it, the way a dot's is."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        parameters [
-          {
-            name "payload"
-          }
-        ]
-        result {
-          ref "payload[0]"
-        }
-        returns "Any"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "an-index-into-any-is-refused")
+(note "An index says as much as a dot does. That a type is there to read into, and `Any` declares neither. The type is named to read it, the way a dot's is.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter payload)
+    (returns Any)
+    (result (path payload (index 0)))))
+(expect (refuses build))

@@ -1,52 +1,16 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-key-reference-of-another-type-than-the-key-refuses"
-  note "What stands between the brackets of a map stands where its key type is read, and `k` reads `Int` on `Dictionary<String, Int>`, so `d[k]` refuses at the build."
-  program {
-    imports []
-    procedures {
-      "App.f" {
-        parameters [
-          {
-            name "d"
-            type "Dictionary<String, Int>"
-          }
-          {
-            name "k"
-            type "Int"
-          }
-        ]
-        result {
-          ref "d[k]"
-        }
-        returns "Any"
-      }
-      entry {
-        access "public"
-        result {
-          call {
-            arguments [
-              {
-                dictionary [
-                  [
-                    "a"
-                    1
-                  ]
-                ]
-              }
-              0
-            ]
-            procedure "App.f"
-          }
-        }
-        returns "Any"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-key-reference-of-another-type-than-the-key-refuses")
+(note "What stands between the brackets of a map stands where its key type is read, and `k` reads `Int` on `Dictionary<String, Int>`, so `d[k]` refuses at the build.")
 
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter d (type (dictionary String Int)))
+    (parameter k (type Int))
+    (returns Any)
+    (result (path d (index k))))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (result (call App.f (dictionary (entry "a" 1)) 0))))
+(expect (refuses build))

@@ -1,81 +1,29 @@
-warpt 1
-{
-  expect {
-    answers "second"
-  }
-  name "a-variable-a-body-declares-is-its-own"
-  note "A name the body introduces is the body's own. The closure handed to `asking` declares `const`, and declaring the variable `held` and writing it says nothing about what the body reaches, so the build holds the closure to `const` and it stands."
-  program {
-    imports []
-    procedures {
-      asking {
-        body [
-          {
-            let "answered"
-            value {
-              call {
-                procedure {
-                  ref "body"
-                }
-              }
-            }
-          }
-        ]
-        const true
-        parameters [
-          {
-            name "body"
-            type "const () -> String"
-          }
-        ]
-        result {
-          ref "answered"
-        }
-        returns "String"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "given"
-            value {
-              closure {
-                body [
-                  {
-                    value "first"
-                    var "held"
-                  }
-                  {
-                    set "held"
-                    value "second"
-                  }
-                ]
-                const true
-                isolated true
-                result {
-                  ref "held"
-                }
-                returns "String"
-              }
-            }
-          }
-        ]
-        const true
-        result {
-          call {
-            arguments [
-              {
-                ref "given"
-              }
-            ]
-            procedure "asking"
-          }
-        }
-        returns "String"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-variable-a-body-declares-is-its-own")
+(note "A name the body introduces is the body's own. The closure handed to `asking` declares `const`, and declaring the variable `held` and writing it says nothing about what the body reaches, so the build holds the closure to `const` and it stands.")
 
+(program
+  (warp 1)
+  (procedure asking
+    (const)
+    (parameter body (type (procedure (const) (parameters) (returns String))))
+    (returns String)
+    (body
+      (let answered (apply body)))
+    (result answered))
+  (procedure entry
+    (access public)
+    (const)
+    (returns String)
+    (body
+      (let given
+        (closure
+          (const)
+          (isolated)
+          (returns String)
+          (body
+            (var held "first")
+            (set held "second"))
+          (result held))))
+    (result (call asking given))))
+(expect (answers "second"))

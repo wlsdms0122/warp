@@ -1,28 +1,12 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "writing-a-name-never-declared-refuses"
-  note "`set` writes a name a `var` declared earlier. With no declaration there is nothing to write."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        body [
-          {
-            set "x"
-            value 2
-          }
-        ]
-        result {
-          ref "x"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "writing-a-name-never-declared-refuses")
+(note "`set` writes a name a `var` declared earlier. With no declaration there is nothing to write.")
 
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (body
+      (set x 2))
+    (result x)))
+(expect (refuses load))

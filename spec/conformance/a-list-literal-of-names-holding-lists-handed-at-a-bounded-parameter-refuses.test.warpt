@@ -1,82 +1,26 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-list-literal-of-names-holding-lists-handed-at-a-bounded-parameter-refuses"
-  note "`App.f` bounds `T` by `App.M`, which `Int` and `String` answer, and takes `Array<Array<some T>>`. The literal `[xs, ys]` handed there holds two names, `xs` a list of booleans and `ys` a list of whole numbers. What each name reads as stands at the parameter by its elements, and a boolean does not answer `App.M`, so the call refuses at the build."
-  program {
-    contracts {
-      "App.M" {}
-    }
-    extensions {
-      Int {
-        satisfies [
-          "App.M"
-        ]
-      }
-      String {
-        satisfies [
-          "App.M"
-        ]
-      }
-    }
-    imports []
-    procedures {
-      "App.f" {
-        parameters [
-          {
-            name "gs"
-            type "Array<Array<some T: App.M>>"
-          }
-        ]
-        result 0
-        returns "Int"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "xs"
-            type "Array<Bool>"
-            value [
-              true
-            ]
-          }
-          {
-            let "ys"
-            type "Array<Int>"
-            value [
-              1
-            ]
-          }
-          {
-            let "r"
-            value {
-              call {
-                arguments [
-                  [
-                    {
-                      ref "xs"
-                    }
-                    {
-                      ref "ys"
-                    }
-                  ]
-                ]
-                procedure "App.f"
-              }
-            }
-          }
-        ]
-        result {
-          ref "r"
-        }
-        returns "Int"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-list-literal-of-names-holding-lists-handed-at-a-bounded-parameter-refuses")
+(note "`App.f` bounds `T` by `App.M`, which `Int` and `String` answer, and takes `Array<Array<some T>>`. The literal `[xs, ys]` handed there holds two names, `xs` a list of booleans and `ys` a list of whole numbers. What each name reads as stands at the parameter by its elements, and a boolean does not answer `App.M`, so the call refuses at the build.")
 
+(program
+  (warp 1)
+  (contract App.M)
+  (extension
+    (head Int)
+    (satisfies App.M))
+  (extension
+    (head String)
+    (satisfies App.M))
+  (procedure App.f
+    (parameter gs (type (array (array (some T App.M)))))
+    (returns Int)
+    (result 0))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let xs (type (array Bool)) (array true))
+      (let ys (type (array Int)) (array 1))
+      (let r (call App.f (array xs ys))))
+    (result r)))
+(expect (refuses build))

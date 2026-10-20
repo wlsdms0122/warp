@@ -1,64 +1,12 @@
-warpt 1
-{
-  expect {
-    answers [
-      "{2:\"a\",10:\"b\"}"
-      "{[1,2]:true}"
-    ]
-  }
-  name "text-spells-a-maps-key-as-the-value-it-is"
-  note "text spells a map's key the way it spells any value inside a container: a whole number bare and a list between brackets, where a text key is quoted, the entries in the key order."
-  program {
-    imports [
-      "Standard.Text.text"
-    ]
-    procedures {
-      entry {
-        access "public"
-        result [
-          {
-            call {
-              arguments [
-                {
-                  dictionary [
-                    [
-                      10
-                      "b"
-                    ]
-                    [
-                      2
-                      "a"
-                    ]
-                  ]
-                }
-              ]
-              procedure "Standard.Text.text"
-            }
-          }
-          {
-            call {
-              arguments [
-                {
-                  dictionary [
-                    [
-                      [
-                        1
-                        2
-                      ]
-                      true
-                    ]
-                  ]
-                }
-              ]
-              procedure "Standard.Text.text"
-            }
-          }
-        ]
-        returns "Array<String>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "text-spells-a-maps-key-as-the-value-it-is")
+(note "text spells a map's key the way it spells any value inside a container: a whole number bare and a list between brackets, where a text key is quoted, the entries in the key order.")
 
+(program
+  (warp 1)
+  (import Standard.Text.text)
+  (procedure entry
+    (access public)
+    (returns (array String))
+    (result (array (call Standard.Text.text (dictionary (entry 10 "b") (entry 2 "a"))) (call Standard.Text.text (dictionary (entry (array 1 2) true)))))))
+(expect (answers (array "{2:\"a\",10:\"b\"}" "{[1,2]:true}")))

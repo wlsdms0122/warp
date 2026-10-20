@@ -1,82 +1,23 @@
-warpt 1
-{
-  expect {
-    answers 1
-  }
-  name "a-cast-to-a-struct-applied-to-what-its-fields-hold-answers"
-  note "A value carries a struct's name and its fields and nothing of what it was applied to. A cast to `App.Box<Int>` judges the fields against `Int`, which they hold."
-  program {
-    imports []
-    procedures {
-      "App.hide" {
-        parameters [
-          {
-            name "v"
-          }
-        ]
-        result {
-          ref "v"
-        }
-        returns "Any"
-      }
-      entry {
-        access "public"
-        body [
-          {
-            let "b"
-            type "App.Box<Int>"
-            value {
-              struct {
-                item 1
-              }
-            }
-          }
-          {
-            let "any"
-            value {
-              call {
-                arguments [
-                  {
-                    ref "b"
-                  }
-                ]
-                procedure "App.hide"
-              }
-            }
-          }
-          {
-            let "c"
-            value {
-              as {
-                of {
-                  ref "any"
-                }
-                type "App.Box<Int>"
-              }
-            }
-          }
-        ]
-        failing [
-          "cast_refused"
-        ]
-        result {
-          ref "c.item"
-        }
-        returns "Int"
-      }
-    }
-    types {
-      "App.Box" {
-        struct {
-          item "some T"
-        }
-        typeParameters [
-          "T"
-        ]
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-cast-to-a-struct-applied-to-what-its-fields-hold-answers")
+(note "A value carries a struct's name and its fields and nothing of what it was applied to. A cast to `App.Box<Int>` judges the fields against `Int`, which they hold.")
 
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (procedure App.hide
+    (parameter v)
+    (returns Any)
+    (result v))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing cast_refused)
+    (body
+      (let b (type (named App.Box Int)) (struct (field item 1)))
+      (let any (call App.hide b))
+      (let c (as any (named App.Box Int))))
+    (result (path c (field item)))))
+(expect (answers 1))

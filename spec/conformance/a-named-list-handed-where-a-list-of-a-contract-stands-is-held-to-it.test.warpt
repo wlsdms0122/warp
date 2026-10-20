@@ -1,69 +1,23 @@
-warpt 1
-{
-  expect {
-    refuses "build"
-  }
-  name "a-named-list-handed-where-a-list-of-a-contract-stands-is-held-to-it"
-  note "A contract inside a slot holds what arrives wherever it stands, through the name a declared type gave the list: a list of a type no document says satisfies the contract is refused where the call is written."
-  program {
-    contracts {
-      "App.Describable" {
-        procedures {
-          describe {
-            parameters [
-              {
-                name "of"
-                type "Self"
-              }
-            ]
-            returns "String"
-          }
-        }
-      }
-    }
-    imports []
-    procedures {
-      "App.tellAll" {
-        parameters [
-          {
-            name "them"
-            type "Array<App.Describable>"
-          }
-        ]
-        result 1
-        returns "Int"
-      }
-      entry {
-        access "public"
-        parameters [
-          {
-            name "cards"
-            type "App.Cards"
-          }
-        ]
-        result {
-          call {
-            arguments [
-              {
-                ref "cards"
-              }
-            ]
-            procedure "App.tellAll"
-          }
-        }
-        returns "Int"
-      }
-    }
-    types {
-      "App.Cards" "Array<Bank.Card>"
-      "Bank.Card" {
-        struct {
-          last "String"
-        }
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-named-list-handed-where-a-list-of-a-contract-stands-is-held-to-it")
+(note "A contract inside a slot holds what arrives wherever it stands, through the name a declared type gave the list: a list of a type no document says satisfies the contract is refused where the call is written.")
 
+(program
+  (warp 1)
+  (type App.Cards (array Bank.Card))
+  (struct Bank.Card
+    (field last String))
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (procedure App.tellAll
+    (parameter them (type (array App.Describable)))
+    (returns Int)
+    (result 1))
+  (procedure entry
+    (access public)
+    (parameter cards (type App.Cards))
+    (returns Int)
+    (result (call App.tellAll cards))))
+(expect (refuses build))

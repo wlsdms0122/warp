@@ -1,77 +1,22 @@
-warpt 1
-{
-  expect {
-    answers "y"
-  }
-  name "a-struct-applied-to-a-type-parameter-handed-in-place-takes-a-write-of-it-answers"
-  note "`App.reset` takes `inout App.Box<some T>` and a `some T`, and writes the one into the other's field. The caller's `App.Box<String>` reads the write back."
-  program {
-    imports []
-    procedures {
-      "App.reset" {
-        body [
-          {
-            set "b.item"
-            value {
-              ref "to"
-            }
-          }
-        ]
-        parameters [
-          {
-            name "b"
-            type "inout App.Box<some T>"
-          }
-          {
-            name "to"
-            type "some T"
-          }
-        ]
-      }
-      entry {
-        access "public"
-        body [
-          {
-            type "App.Box<String>"
-            value {
-              struct {
-                item "x"
-              }
-            }
-            var "b"
-          }
-          {
-            value {
-              call {
-                arguments [
-                  {
-                    ref "b"
-                  }
-                  "y"
-                ]
-                procedure "App.reset"
-              }
-            }
-          }
-        ]
-        result {
-          ref "b.item"
-        }
-        returns "String"
-      }
-    }
-    types {
-      "App.Box" {
-        struct {
-          item "var some T"
-        }
-        typeParameters [
-          "T"
-        ]
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-struct-applied-to-a-type-parameter-handed-in-place-takes-a-write-of-it-answers")
+(note "`App.reset` takes `inout App.Box<some T>` and a `some T`, and writes the one into the other's field. The caller's `App.Box<String>` reads the write back.")
 
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (var (some T))))
+  (procedure App.reset
+    (parameter b (type (inout (named App.Box (some T)))))
+    (parameter to (type (some T)))
+    (body
+      (set (path b (field item)) to)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (var b (type (named App.Box String)) (struct (field item "x")))
+      (call App.reset b "y"))
+    (result (path b (field item)))))
+(expect (answers "y"))

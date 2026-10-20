@@ -1,24 +1,12 @@
-warpt 1
-{
-  expect {
-    refuses "load"
-  }
-  name "a-type-reaching-itself-through-names-alone-refuses"
-  note "`App.A` names `App.B?`, and `App.B` names `App.A`: neither is a struct, so the chain spells no type, and the document says so alone. A type that holds itself is a declared struct."
-  program {
-    imports []
-    procedures {
-      entry {
-        access "public"
-        result 1
-      }
-    }
-    types {
-      "App.A" "App.B?"
-      "App.B" "App.A"
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "a-type-reaching-itself-through-names-alone-refuses")
+(note "`App.A` names `App.B?`, and `App.B` names `App.A`: neither is a struct, so the chain spells no type, and the document says so alone. A type that holds itself is a declared struct.")
 
+(program
+  (warp 1)
+  (type App.A (nullable App.B))
+  (type App.B App.A)
+  (procedure entry
+    (access public)
+    (result 1)))
+(expect (refuses load))

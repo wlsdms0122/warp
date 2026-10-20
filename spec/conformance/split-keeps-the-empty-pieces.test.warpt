@@ -1,39 +1,13 @@
-warpt 1
-{
-  expect {
-    answers [
-      ""
-      "a"
-      "b"
-      ""
-    ]
-  }
-  name "split-keeps-the-empty-pieces"
-  note "A separator is matched whole, and a cut at either end leaves an empty piece. Keeping them is a reading of the text; dropping them would be an opinion about it."
-  program {
-    imports [
-      "Standard.Text.split"
-    ]
-    procedures {
-      entry {
-        access "public"
-        failing [
-          "aborted"
-        ]
-        result {
-          call {
-            arguments [
-              "--a--b--"
-              "--"
-            ]
-            procedure "Standard.Text.split"
-          }
-        }
-        returns "Array<String>"
-      }
-    }
-    warp 1
-  }
-  test 1
-}
+(test 1)
+(name "split-keeps-the-empty-pieces")
+(note "A separator is matched whole, and a cut at either end leaves an empty piece. Keeping them is a reading of the text; dropping them would be an opinion about it.")
 
+(program
+  (warp 1)
+  (import Standard.Text.split)
+  (procedure entry
+    (access public)
+    (returns (array String))
+    (failing aborted)
+    (result (call Standard.Text.split "--a--b--" "--"))))
+(expect (answers (array "" "a" "b" "")))
