@@ -144,7 +144,7 @@ The constructs, each where a statement's value stands:
 ```
 
 - A loop's and an attempt's name is the statement's: `(let w (loop …))`, `(let failed (attempt …))`.
-- **A leave's operand is optional, and its `)` says so.** `(return null)` writes the same tree as `(return)`, and the writer writes `(return)`.
+- **A leave's operand is optional, and its `)` says so.** A `return` of null is `(return)`, so `(return null)` **refuses**.
 - A binding takes any value, so `(let x (return 1))` and `(let r (conditional …))` are written, and the load refuses each for what it says, under [statements](statement.md). So are `(let x)` and `(set x)` with no value and `(set x (type Int) 1)`. `(var x)` writes no `value` and `(var x null)` writes `value: null`, two trees. A `type` with no name is a statement no node writes, and **refuses**.
 - A conditional's arms and a loop's body are statements, and `(then)` or `(body)` holding none writes `[]`.
 
@@ -233,6 +233,7 @@ A case as the writer lays it out:
 What `conformance/` asks about this page, by the name each case's file carries.
 
 - `a-map-keyed-by-values-spells-as-text`
+- `a-return-of-null-written-out-refuses`
 - `a-struct-spells-from-text`
 - `a-text-key-written-twice-refuses`
 - `a-text-reads-in-any-layout`
