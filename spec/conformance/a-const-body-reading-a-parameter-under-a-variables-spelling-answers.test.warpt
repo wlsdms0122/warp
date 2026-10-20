@@ -1,0 +1,17 @@
+(test 1)
+(name "a-const-body-reading-a-parameter-under-a-variables-spelling-answers")
+(note "A parameter may take the spelling of a module variable, and in the body the name is the parameter. `App.read` is declared `const` and reads only what it was handed.")
+
+(program
+  (warp 1)
+  (var count 0)
+  (procedure App.read
+    (const)
+    (parameter count (type Int))
+    (returns Int)
+    (result count))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result (call App.read 4))))
+(expect (answers 4))

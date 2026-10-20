@@ -32,7 +32,7 @@ A statement with no naming key, `{ value: … }`, runs its expression and binds 
 
 **A `var` may stand alone.** A statement that is only `{ var: name }`, with no `value`, introduces the name with nothing in it yet, and a name holding nothing holds null. It is the declaration a conditional's arms write into; what the name reads as afterwards is under *what a variable reads as* in [checking](checking.md). The other two spellings say something about a value, so they still require one, and one written without it **refuses at the load**.
 
-**Where a name may be introduced.** No name introduced in a body, at any depth, takes the spelling of a constant or a variable its document declares, or of a parameter of the procedure it is written in, a closure's included: each **refuses at the load**, and so does a parameter taking a constant's or a variable's spelling. Within one body a name is introduced once, and a second `let` or `var` of it **refuses at the load**. A name declared inside a `conditional` arm, a `loop`'s round, an `attempt`'s body or rescue, or a closure's body is read from the statement after it to the end of that body, its `result` included, and nowhere after, so two bodies side by side may each introduce it. Such a body may introduce a name a body around it already introduced, and inside it the name is the new one, with a box of its own: the outer box keeps what it held, and a `set` of that spelling writes the inner name, which **refuses at the load** where a `let` fixed it. A closure's parameter is such a name too.
+**Where a name may be introduced.** A body introduces a name once, and a second `let` or `var` of it **refuses at the load**. A procedure's parameters are names its own body introduced before its first statement, so a `let` or `var` of a parameter's spelling there **refuses at the load** too, and so does one of a closure's parameter in the closure's body. A name declared inside a `conditional` arm, a `loop`'s round, an `attempt`'s body or rescue, or a closure's body is read from the statement after it to the end of that body, its `result` included, and nowhere after, so two bodies side by side may each introduce it. A body may introduce any name it sees: a constant or a variable its document declares, a parameter of the procedure it is written in, or a name a body around it introduced. Inside it the name is the new one, with a box of its own: the outer name keeps what it held, and a `set` of that spelling writes the inner name, which **refuses at the load** where a `let` fixed it. A procedure's body stands inside its document, so a parameter may take a constant's or a variable's spelling, and a closure's parameter may take any name around the closure.
 
 **One name, several askers.** A statement's name names the statement, and every reader of it reads that one fact: an expression reads the value the statement bound; a body inside a binding construct reads the construct's own binding under it (`round.index`, `tried.message`); a `break` or `continue` names the loop statement it ends. These are not three names sharing a spelling. They are one name, asked three questions, and which question applies is fixed by where the asker stands. What keeps the readings from colliding is scope, stated per construct: a loop's round is readable in its condition and body, and its name reads nothing after it; an attempt's name binds the failure only while the rescue runs, so the binding reading and the value reading are never live at the same place.
 
@@ -123,11 +123,13 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-body-ending-in-a-call-answering-an-alias-of-never-answers-as-declared`
 - `a-body-ending-in-a-return-refuses`
 - `a-body-failing-beyond-its-declaration-refuses`
+- `a-body-introduces-its-parameter-once`
 - `a-call-of-a-value-fails-with-what-its-slots-procedure-type-names`
-- `a-closure-a-constant-holds-does-not-take-a-variables-name`
+- `a-closure-a-constant-holds-may-introduce-a-variables-spelling`
 - `a-closure-does-not-leave-what-wrote-it`
 - `a-closure-failing-beyond-its-signature-refuses`
 - `a-closure-in-a-loop-condition-holds-what-it-takes-for-the-body`
+- `a-closure-may-introduce-a-parameter-of-the-procedure-around-it`
 - `a-closure-parameter-may-take-the-spelling-of-a-name-around-it`
 - `a-closure-whose-body-shadows-a-variable-takes-nothing-of-it`
 - `a-condition-read-as-any-refuses`
@@ -161,6 +163,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-loops-name-leaves-the-outer-variable-to-write-after-the-loop`
 - `a-loops-name-reads-its-round-inside-the-loop`
 - `a-loops-name-reads-nothing-after-the-loop-refuses`
+- `a-name-a-nested-body-introduces-under-a-constants-spelling-is-its-own`
 - `a-name-a-round-declares-is-not-read-after-the-loop`
 - `a-name-an-arm-declares-is-not-read-after-it`
 - `a-name-declared-again-inside-an-arm-is-a-new-name`
@@ -173,10 +176,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-name-on-what-never-finishes-is-refused`
 - `a-name-says-what-it-holds`
 - `a-name-that-says-nothing-is-the-type-its-value-reads-as`
-- `a-name-the-module-bound-is-not-introduced-again`
 - `a-parameter-does-not-take-a-name-the-module-bound`
-- `a-parameter-is-not-introduced-again-in-a-nested-body`
-- `a-parameter-is-not-introduced-again-inside-a-closure`
+- `a-parameter-introduced-again-in-a-nested-body-is-a-new-name`
+- `a-parameter-may-take-a-constants-spelling`
 - `a-procedure-that-can-fail-says-so`
 - `a-rescue-binds-a-failure-the-language-declares`
 - `a-rescue-over-a-body-that-cannot-fail-refuses`

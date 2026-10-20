@@ -1,0 +1,19 @@
+(test 1)
+(name "a-name-a-nested-body-introduces-under-a-constants-spelling-is-its-own")
+(note "A body may introduce any name it sees, a constant's spelling included, and inside it the name is the new one. `limit` is a constant here, and inside the arm it is the `let`, so the arm writes 9; after the arm `limit` is the constant again.")
+
+(program
+  (warp 1)
+  (const limit 3)
+  (procedure entry
+    (access public)
+    (returns (dictionary String Int))
+    (body
+      (var y 0)
+      (conditional
+        (when true)
+        (then
+          (let limit 9)
+          (set y limit))))
+    (result (dictionary (entry "inner" y) (entry "outer" limit)))))
+(expect (answers (dictionary (entry "inner" 9) (entry "outer" 3))))

@@ -1,0 +1,19 @@
+(test 1)
+(name "a-closure-a-constant-holds-may-introduce-a-variables-spelling")
+(note "A constant's closure is a body like any other, so it may introduce the spelling of a variable its document declares, and inside it the name is its own.")
+
+(program
+  (warp 1)
+  (const make
+    (closure
+      (returns Int)
+      (body
+        (let count 1))
+      (result count)))
+  (var count 0)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (result (apply make))))
+(expect (answers 1))

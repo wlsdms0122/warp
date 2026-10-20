@@ -1,0 +1,22 @@
+(test 1)
+(name "a-parameter-introduced-again-in-a-nested-body-is-a-new-name")
+(note "A body inside a procedure's own body may introduce a parameter's spelling. Inside the arm `x` is the `let`; after it, `x` is the parameter, holding what it was handed.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter x (type Int))
+    (returns (dictionary String Int))
+    (body
+      (var y 0)
+      (conditional
+        (when true)
+        (then
+          (let x 2)
+          (set y x))))
+    (result (dictionary (entry "inner" y) (entry "outer" x))))
+  (procedure entry
+    (access public)
+    (returns (dictionary String Int))
+    (result (call App.f 1))))
+(expect (answers (dictionary (entry "inner" 2) (entry "outer" 1))))
