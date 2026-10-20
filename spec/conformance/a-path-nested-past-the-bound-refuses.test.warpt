@@ -1,0 +1,5 @@
+(test 1)
+(name "a-path-nested-past-the-bound-refuses")
+(note "A path nests at most 128 paths deep: the path is the first, and a path between brackets is one deeper than the path around it. This one is 129 deep, and the load refuses it rather than walking it.")
+(tree (dictionary (entry "const" (dictionary (entry "a" (array 0)) (entry "zero" 0))) (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "result" (dictionary (entry "ref" "a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[a[zero]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]"))) (entry "returns" "Int"))))) (entry "warp" 1)))
+(expect (refuses load))

@@ -29,6 +29,8 @@ A type is written as a string:
 | `(Int) throws -> Bool` / `(Int) throws(aborted, cast_refused) -> Bool` | what a procedure type may fail with, written between its parameters and `->`: `throws` alone says anything, and `throws(…)` the failures it lists, in name order. Written without `throws`, it fails with nothing. `throws()` and a failure listed twice **refuse at the load** |
 | `((Int) -> Int)?` / `(const Procedure)?` | a procedure type writing its signature or a modifier, or null: parentheses group a type, so the `?` after them is the whole type's. A type is written one way, so parentheses anywhere else **refuse at the load** |
 
+**A type nests at most 128 types deep**, the bound a document's nesting has under [encoding](encoding.md). The type written is the first, and a type written inside another is one deeper: an element, a key or a value, a type a struct is applied to, a parameter or an answer, and what `?`, `inout` or `var` marks. A modifier and the parentheses that group add none. A deeper type **refuses at the load**, before it is read further.
+
 ## Numbers and readings
 
 **`Int` and `Double` are two types.** Neither takes the other: a value's type is fixed at the build, so a whole number never stands where a fraction is declared, and the reverse **refuses at the build** too. A slot that takes either kind of number is bounded by the contract `Standard.Numeric`, under [the standard vocabulary](vocabulary.md).
@@ -313,6 +315,7 @@ How a type is written:
 - `a-struct-applied-to-another-count-of-types-refuses`
 - `a-struct-listing-no-type-parameters-applied-to-one-refuses`
 - `a-struct-taking-type-parameters-named-without-brackets-refuses`
+- `a-type-nested-past-the-bound-refuses`
 - `a-type-the-language-names-written-with-brackets-refuses`
 - `an-alias-applied-to-a-type-refuses`
 - `inout-written-on-a-name-refuses`
