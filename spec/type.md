@@ -139,7 +139,7 @@ Where a value meets a declaration (an argument, an answer, and a write into a bo
 
 **An associated type is bounded under `bounds`.** What a signature does not introduce, an associated type of one of its type parameters, it bounds under `bounds`, keyed by its label, `bounds: { "T.Item": Hashable }`, beside what `sameTypes` says of it, under *the associated types of a type parameter* below. A key of `bounds` naming a type parameter, one standing on a parameter no slot mentions, and a bound a slot writes beside an associated type, `some T.Item: Hashable`, each **refuse at the load**.
 
-**Only the declaring procedure, a head and a struct write a bound.** A bound written anywhere else a type is written, a field, an alias, a variable's or a name's declared type, a cast, a type member, a same type or a contract procedure's slot, **refuses at the load**, and a closure writes none, under [expressions](expression.md).
+**Only the declaring procedure, beside its first `some T` and under `bounds`, a head, a struct and a contract's `types` write a bound.** A bound written anywhere else a type is written, a field, an alias, a variable's or a name's declared type, a cast, a type member, a same type or a contract procedure's slot, **refuses at the load**, and a closure writes none, under [expressions](expression.md).
 
 **A closure written in the body reads the same names**: its `some T` is the `T` the caller filled, held to the bounds the declaration wrote, so a closure may send what the body around it may. One writing a `some T` the procedure around it does not declare, or written where no procedure is, **refuses at the load**.
 
