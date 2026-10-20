@@ -4,16 +4,16 @@
 
 (program
   (warp 1)
-  (import Standard.Numeric.dividedBy)
   (var caught 0)
   (procedure entry
     (access public)
+    (parameter payload)
     (returns Int)
     (body
       (let caught
         (attempt
           (body
-            (let n (call Standard.Numeric.dividedBy 1 0)))
+            (let n (as payload Int)))
           (result 1)
           (rescue
             (body
