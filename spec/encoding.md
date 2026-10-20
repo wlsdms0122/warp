@@ -46,6 +46,8 @@ Each value is a tag byte, then its payload:
 | `0x08` | bytes | length varint, then that many raw bytes |
 | `0x09` | struct | name (length varint + UTF-8), count varint, then that many of: field name (length varint + UTF-8), value. The name is a struct's, under [values](value.md): a type's name, or one the language declares, as `Failure` and `Round` are |
 
+A tag this table does not name **refuses**.
+
 - **Varint** is unsigned LEB128: seven bits a byte, low bits first, high bit says another byte follows. At most 64 bits of payload. The largest zigzagged value takes exactly ten bytes, the tenth carrying bit 63 alone, so an eleventh byte, or a tenth-byte bit that would carry past bit 63, **refuses**; overflow is not wrapped, masked or truncated. A trailing zero group (`0x80 0x00` for zero) is a longer spelling of the same number and **refuses**. One value, one spelling.
 - **ZigZag** maps signed to unsigned: `(n << 1) ^ (n >> 63)`.
 - A map's keys are **strictly ascending** in the key order, and a struct's field names by their UTF-8 bytes, which refuses a shuffle and a duplicate with the same rule: these are bytes the writer would not write. Two keys that are one value, `1` and `1.0`, or bytes and the array of their numbers, stand at one place in the key order, so the second of them is a duplicate.
@@ -119,6 +121,7 @@ What `conformance/` asks about this page, by the name each case's file carries. 
 - `a-varint-of-eleven-bytes-refuses`
 - `an-empty-field-name-refuses`
 - `an-infinity-refuses`
+- `an-unknown-tag-refuses`
 - `bytes-after-the-document-ends-refuse`
 - `bytes-that-do-not-begin-as-a-document-refuse`
 - `bytes-that-end-inside-a-value-refuse`
