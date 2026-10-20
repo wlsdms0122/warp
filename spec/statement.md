@@ -121,7 +121,7 @@ Failing on purpose is a procedure, `Standard.Control.abort` under [the standard 
 What `conformance/` asks about this page, by the name each case's file carries.
 
 - `a-body-ending-in-a-call-answering-an-alias-of-never-answers-as-declared`
-- `a-body-ending-in-a-return-refuses`
+- `a-body-ending-in-a-return-answers-what-it-returns`
 - `a-body-failing-beyond-its-declaration-refuses`
 - `a-body-introduces-its-parameter-once`
 - `a-call-of-a-value-fails-with-what-its-slots-procedure-type-names`
@@ -192,7 +192,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-result-after-leaving-refuses`
 - `a-result-after-what-never-finishes-refuses`
 - `a-return-is-held-to-the-declaration`
-- `a-round-ending-in-continue-refuses`
+- `a-round-ending-in-continue-goes-on-to-the-next`
 - `a-set-of-a-failures-name-refuses-at-the-load`
 - `a-set-of-a-rounds-name-refuses-at-the-load`
 - `a-set-without-a-value-refuses`
