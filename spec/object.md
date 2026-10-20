@@ -95,9 +95,9 @@ The *implementation* is `[0, body, frame]` for a written body, or `[1, sends]` f
 
 A *frame* is `[size, parameters, variables, captures, names]`: how many slots; which slots the parameters fill, in parameter order; `[variable, slot]` for each module variable the body reads, by its position in `variables`; which slots a closure fills from what it took with it; and what each slot was called, one name per slot, for a refusal that names one.
 
-A *body* is `[instructions, result]`, the result an *operation* or nothing. An *instruction* is `[binding, operation, label]`: the binding or nothing, what to compute, and the string a trace calls the statement. A *binding* is `[0, slot]` to bind, `[1, slot]` to declare, or `[2, address]` to assign.
+A *body* is `[instructions, result]`, the result an *operation* or nothing. An *instruction* is `[binding, operation, label]`: the binding or nothing, what to compute, and the string a trace calls the statement. A *binding* is `[0, slot]` to bind, `[1, slot]` to declare, or `[2, address]` to assign. A *reach* is `0` the procedure, for `return`, `1` the loop, for `break`, or `2` the round, for `continue`.
 
-An *address* is the number of an entry in `addressTable`, and the entry is `[slot, steps]`, each *step* `[0, position, name, optional]` for a field of a struct whose layout the build proved, `[1, name, optional]` for a field read by its name, written past a null or a `Never` the build laid out no struct for, `[2, value, optional]` for a *value* between the brackets, a position on a list and a key on a map, or `[3, address, optional]` for one read from a slot.
+An *address* is the number of an entry in `addressTable`, and the entry is `[slot, steps]`, each *step* `[0, position, name, optional]` for a field of a struct whose layout the build proved, `[1, name, optional]` for a field read by its name, written past a null or a `Never` the build laid out no struct for, `[2, value, optional]` for a *value* between the brackets, a position on a list and a key on a map, or `[3, address, optional]` for one read from a slot. An *optional* is a bool, true for a step written `?.` or `?[` and for a cast written `as?`.
 
 ### Operations
 
@@ -111,7 +111,7 @@ An *operation* is the number of an entry in `operationTable`, and the entry is `
 | 3 | a struct built from parts | `[layout, operations]`: the *layout*, and a list of *operation* in the layout's field order |
 | 4 | a closure literal | the closure's number, captures: `[outer slot, inner slot]` list |
 | 5 | calling a value | the callee *operation*, arguments: list of *argument*, in position order |
-| 6 | a cast | *operation*, *lowered type*, optional |
+| 6 | a cast | *operation*, *lowered type*, *optional* |
 | 8 | a conditional | the condition *operation*, then: *instruction* list, else: *instruction* list or nothing |
 | 9 | a loop | the condition *operation*, the round: *instruction* list, the round's slot or nothing |
 | 10 | an attempt | *body*, the rescue *body*, the failure's slot or nothing |
