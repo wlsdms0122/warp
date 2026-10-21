@@ -109,7 +109,7 @@ A procedure the host answers says what it may fail with the same way. **A proced
 
 **`return`**. Answer the enclosing procedure from here. Takes an expression, or nothing (`return null`) to answer nothing. The answer must fit what the procedure declared, and it is the only way a body answers, under *a procedure* in [procedures](procedure.md).
 
-**`break`**. End a loop. **`continue`**. End the round and go on to the next. Each takes a loop's statement name, or nothing for the nearest enclosing loop. Both **refuse at the load** when nothing encloses them: a closure runs away from where it was written, so the loops around the writing are not around the running, and neither crosses into a procedure written inside another.
+**`break`**. End a loop. **`continue`**. End the round and go on to the next. Each takes nothing for the nearest enclosing loop, or the statement name of a loop further out. A name is for reaching past the nearest: one naming the nearest says what naming none says, and a document says each thing one way, so it **refuses at the load**. Both **refuse at the load** when nothing encloses them: a closure runs away from where it was written, so the loops around the writing are not around the running, and neither crosses into a procedure written inside another.
 
 Nothing may be written after a `return`, `break` or `continue` in the same body: it would never run, and the name it would bind would never bind. The same holds after a call whose callee declares `returns: Never`, at the build. The rule reaches through structure, because the fact does: a `conditional` both of whose arms leave never finishes either, and neither does a `loop` written with no `while`, so nothing may follow either. Held at the **load**, since the arms and the loop are text. A construct that can finish (a conditional with no `else`, a loop written with `while`, an `attempt`, whose rescue may finish normally) is not a leave, however its bodies end.
 
@@ -126,6 +126,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-break-in-a-closure-written-in-a-loop-refuses`
 - `a-break-naming-a-loop-with-no-while-refuses`
 - `a-break-naming-an-outer-loop-from-a-loop-with-no-while-ends-the-outer-loop`
+- `a-break-naming-an-outer-loop-past-a-named-one-ends-the-outer-loop`
+- `a-break-naming-the-nearest-loop-refuses`
 - `a-break-outside-a-loop-refuses`
 - `a-budget-on-a-loop-refuses`
 - `a-call-of-a-value-fails-with-what-its-slots-procedure-type-names`
@@ -140,6 +142,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-construct-key-in-an-argument-refuses`
 - `a-construct-key-outside-a-statement-is-a-field-name`
 - `a-continue-in-a-loop-with-no-while-starts-the-next-round`
+- `a-continue-naming-an-outer-loop-past-a-named-one-starts-its-next-round`
+- `a-continue-naming-the-nearest-loop-refuses`
 - `a-declaration-failing-with-anything-may-fail-with-any-failure`
 - `a-declared-type-naming-a-type-parameter-refuses`
 - `a-declared-type-nothing-declares-refuses`

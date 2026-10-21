@@ -1,0 +1,17 @@
+(test 1)
+(name "a-break-naming-the-nearest-loop-refuses")
+(note "The `break` names `w`, the loop it stands in, which a `break` naming no loop ends. A document says each thing one way, and a name is for reaching past the nearest loop.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let w
+        (loop
+          (while true)
+          (body
+            (break w))))
+      (return 1))))
+(expect (refuses load))

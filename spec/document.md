@@ -40,7 +40,7 @@ A document says its list, and one that does not **refuses at the load**, the way
 
 ## A document says each thing one way
 
-A program has one document. Reading **refuses at the load** a document that says what it says another way: a key written with what its absence means (`access "internal"`), marks in another order, a list the document keeps in name order written out of it. The one way is what writing the program back out gives, so a document that has been read and written is the document that was read, and one program never stands under two identities.
+A program has one document. Reading **refuses at the load** a document that says what it says another way: a key written with what its absence means (`access "internal"`), marks in another order, a list the document keeps in name order written out of it. The one way is what writing the program back out gives, so a document that has been read and written is the document that was read, and one program never stands under two identities. One second spelling needs what a leave ends to be seen: a `break` or `continue` naming the loop a leave naming none ends, under [statements](statement.md).
 
 ## Shorthands are the front end's
 
