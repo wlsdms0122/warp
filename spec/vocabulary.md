@@ -289,6 +289,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `split-on-nothing-fails`
 - `starts-with-reads-the-head`
 - `text-counts-as-a-person-reads`
+- `text-escapes-control-characters-inside-a-container`
 - `text-of-a-list-holding-a-procedure-quotes-its-marker`
 - `text-of-a-procedure-spells-a-marker`
 - `text-of-null-spells-null`

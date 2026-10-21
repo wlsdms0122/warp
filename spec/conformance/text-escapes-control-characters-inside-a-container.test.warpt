@@ -1,0 +1,13 @@
+(test 1)
+(name "text-escapes-control-characters-inside-a-container")
+(note "Inside a container `text` quotes a string, escaping a newline, a carriage return, a tab and a backslash as `\\n`, `\\r`, `\\t` and `\\\\`, any other character below `0x20` as `\\u` and four hex digits, and writing a space as itself.")
+
+(program
+  (warp 1)
+  (import Standard.Text.text)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (return (call Standard.Text.text (array "a\nb\rc\td\\e" "\u0001\u0010\u0019 "))))))
+(expect (answers "[\"a\\nb\\rc\\td\\\\e\",\"\\u0001\\u0010\\u0019 \"]"))
