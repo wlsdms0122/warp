@@ -203,6 +203,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-string-not-holding-another-answers-false`
 - `a-text-procedure-answers-new-text`
 - `a-zero-width-space-is-not-whitespace`
+- `abort-says-its-message-spelled-as-text`
 - `abort-sent-null-says-aborted`
 - `absolute-drops-the-sign-of-negative-zero`
 - `absolute-floored-and-rounded-answer-a-whole`
