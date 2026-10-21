@@ -239,6 +239,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-bounding-a-type-a-contract-asks-by-nothing-refuses`
 - `an-object-bounding-a-type-parameter-by-nothing-refuses`
 - `an-object-claiming-no-contract-for-a-type-refuses`
+- `an-object-claiming-under-a-head-applying-its-type-to-nothing-refuses`
+- `an-object-claiming-under-a-head-bounding-a-type-parameter-by-nothing-refuses`
 - `an-object-counting-no-closures-for-a-declaration-refuses`
 - `an-object-giving-a-type-no-member-refuses`
 - `an-object-giving-a-type-no-type-member-refuses`
@@ -267,6 +269,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-whose-call-stands-more-arguments-than-its-callee-takes-refuses`
 - `an-object-whose-call-through-a-contract-stands-more-arguments-than-its-rows-take-refuses`
 - `an-object-whose-call-writes-an-argument-where-it-hands-in-place-refuses`
+- `an-object-whose-cast-applies-a-struct-to-no-types-refuses`
+- `an-object-whose-cast-writes-a-composition-of-no-contracts-refuses`
 - `an-object-whose-claims-stand-out-of-name-order-refuses`
 - `an-object-whose-closure-counts-add-up-past-an-int-refuses`
 - `an-object-whose-closure-takes-what-it-captured-into-slots-its-frame-is-not-filled-at-refuses`
@@ -286,6 +290,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-whose-procedure-the-host-answers-sends-a-spelling-its-numbering-does-not-number-refuses`
 - `an-object-whose-procedure-the-host-answers-sends-from-a-place-past-the-first-refuses`
 - `an-object-whose-rows-stand-out-of-name-order-refuses`
+- `an-object-whose-struct-bounds-a-type-parameter-by-nothing-refuses`
 - `an-object-whose-struct-built-from-parts-holds-fewer-parts-than-its-layout-names-refuses`
 - `an-object-whose-struct-fields-stand-out-of-name-order-refuses`
 - `an-object-whose-type-numbering-stands-out-of-name-order-refuses`
