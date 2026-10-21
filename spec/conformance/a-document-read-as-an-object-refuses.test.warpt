@@ -1,5 +1,5 @@
 (test 1)
-(name "a-document-is-not-an-object")
+(name "a-document-read-as-an-object-refuses")
 (note "A mapping saying warp is a document, and a reader of objects refuses it for what it is rather than for the keys it happens to carry.")
 (object (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "body" (array (dictionary (entry "let" "n") (entry "value" 1)) (dictionary (entry "value" (dictionary (entry "return" (dictionary (entry "ref" "n")))))))) (entry "returns" "Int"))))) (entry "warp" 1)))
 (expect (refuses load))

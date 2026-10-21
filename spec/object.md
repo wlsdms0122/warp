@@ -234,7 +234,7 @@ Read it back: `rows` holds `entry`, whose signature takes `n` as type `1` and an
 
 What `conformance/` asks about this page, by the name each case's file carries.
 
-- `a-document-is-not-an-object`
+- `a-document-read-as-an-object-refuses`
 - `an-object-applying-a-struct-to-no-types-refuses`
 - `an-object-bounding-a-type-a-contract-asks-by-nothing-refuses`
 - `an-object-bounding-a-type-parameter-by-nothing-refuses`
