@@ -1,0 +1,5 @@
+(test 1)
+(name "bytes-written-with-a-space-refuse")
+(note "Bytes are two lowercase hex digits a byte with nothing between them, so a space inside `x\"…\"` is refused.")
+(text "(warp 1)\n(const a x\"6a 73\")\n")
+(expect (refuses load))
