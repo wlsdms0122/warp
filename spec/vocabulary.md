@@ -218,8 +218,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `arithmetic-on-two-pieces-of-text-refuses`
 - `arithmetic-overflow-refuses`
 - `arithmetic-reads-a-whole-literal-beside-a-fraction-as-the-fraction`
+- `bytes-at-a-list-of-fractions-refuse`
 - `bytes-cross-an-array-slot-in-their-own-spelling`
-- `bytes-do-not-fit-a-list-of-fractions-refuses`
 - `case-mapping-takes-no-locale`
 - `characters-answers-grapheme-clusters`
 - `comparing-bytes-for-order-refuses`

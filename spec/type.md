@@ -469,8 +469,8 @@ A struct may take type parameters:
 - `an-alias-coming-back-to-itself-through-a-list-refuses`
 - `an-alias-of-a-struct-applied-to-int-reads-as-it-answers`
 - `an-entry-answers-a-struct-applied-to-int`
+- `reading-one-type-out-of-a-list-of-a-struct-applied-to-two-refuses`
 - `two-structs-applied-to-one-type-in-a-list-join-to-it-answers`
-- `two-structs-applied-to-two-types-in-a-list-join-to-anything-refuses`
 
 Type parameters:
 
@@ -808,8 +808,8 @@ The associated types of a type parameter:
 - `an-associated-type-whose-parameter-no-parameter-writes-refuses`
 - `an-empty-list-fills-the-base-with-never-and-the-associated-type-takes-nothing-refuses`
 - `two-associated-types-said-one-type-answer`
-- `two-associated-types-said-one-type-take-no-two-types-refuses`
-- `two-associated-types-said-the-same-are-compared-as-each-type-gives-refuses`
+- `two-associated-types-said-the-same-giving-a-type-and-its-nullable-refuse`
+- `two-associated-types-said-the-same-giving-two-types-refuse`
 
 What the language declares:
 
