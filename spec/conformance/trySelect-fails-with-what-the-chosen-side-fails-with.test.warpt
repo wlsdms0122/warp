@@ -1,0 +1,36 @@
+(test 1)
+(name "trySelect-fails-with-what-the-chosen-side-fails-with")
+(note "`Standard.Logic.trySelect` takes sides that may fail and declares `failing: anything`, so the chosen side's failure is the call's: the condition chooses the side that aborts with `side`, and the rescue reads its message.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (import Standard.Logic.trySelect)
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (returns (nullable String))
+    (body
+      (var failed)
+      (let caught
+        (attempt
+          (body
+            (call Standard.Logic.trySelect true
+              (closure
+                (const)
+                (isolated)
+                (returns Int)
+                (failing aborted)
+                (body
+                  (call Standard.Control.abort "side")))
+              (closure
+                (const)
+                (isolated)
+                (returns Int)
+                (body
+                  (return 1)))))
+          (rescue
+            (set failed (path caught (field message))))))
+      (return failed))))
+(expect (answers "side"))

@@ -1,0 +1,14 @@
+(test 1)
+(name "tryAnd-over-nothing-answers-true")
+(note "`Standard.Logic.tryAnd` over no condition answers `true`, as `and` does: no side decided the answer, so the chain's own answer stands. It declares `failing: anything`, and so does the entry.")
+
+(program
+  (warp 1)
+  (import Standard.Logic.tryAnd)
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (failing (anything))
+    (body
+      (return (call Standard.Logic.tryAnd (array))))))
+(expect (answers true))

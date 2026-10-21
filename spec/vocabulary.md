@@ -296,7 +296,14 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `the-side-select-does-not-choose-goes-unasked`
 - `times-off-the-ints-edge-refuses`
 - `trimming-takes-unicode-whitespace-from-both-ends`
+- `tryAnd-fails-with-what-its-side-fails-with`
+- `tryAnd-over-nothing-answers-true`
+- `tryFilter-fails-with-what-its-closure-fails-with`
 - `tryMap-fails-with-what-its-closure-fails-with`
+- `tryOr-fails-with-what-its-side-fails-with`
+- `tryOr-over-nothing-answers-false`
+- `tryReduce-fails-with-what-its-closure-fails-with`
+- `trySelect-fails-with-what-the-chosen-side-fails-with`
 - `uppercased-uses-unicode-full-case-mapping`
 - `values-answer-in-canonical-order`
 - `values-of-a-map-keyed-by-whole-numbers-answer-in-the-key-order`
