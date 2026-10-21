@@ -148,8 +148,11 @@ Text:
 - `a-fraction-not-in-its-one-writing-refuses`
 - `a-fraction-reads-by-its-point-or-exponent`
 - `a-list-left-open-refuses`
+- `a-name-in-backticks-escapes-a-backtick-and-not-a-quote`
 - `a-name-in-backticks-holding-nothing-refuses`
 - `a-name-in-backticks-is-the-name-written-bare`
+- `a-name-spelled-null-is-written-in-backticks`
+- `a-no-break-space-is-part-of-the-name-it-touches`
 - `a-parenthesis-closing-nothing-refuses`
 - `a-quote-escaped-in-backticks-refuses`
 - `a-quote-running-into-a-bare-token-refuses`
