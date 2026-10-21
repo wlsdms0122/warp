@@ -140,7 +140,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-call-to-a-private-procedure-the-host-brings-refuses`
 - `a-closure-a-loop-round-writes-reading-a-module-variable-at-a-const-slot-refuses`
 - `a-closure-calling-a-module-constant-closure-carries-what-it-declares`
-- `a-closure-calling-its-parameter-shadowing-a-const-name-at-a-const-slot-refuses`
 - `a-closure-calling-what-runs-at-a-const-slot-refuses`
 - `a-closure-carries-what-a-captured-slot-said`
 - `a-closure-declared-const-reading-a-module-variable-refuses`
@@ -153,6 +152,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-const-body-reading-a-name-under-a-variables-spelling-answers`
 - `a-const-body-reading-a-parameter-under-a-variables-spelling-answers`
 - `a-const-closure-calling-a-captured-variable-that-declares-nothing-refuses`
+- `a-const-closure-calling-its-parameter-shadowing-a-const-name-refuses`
 - `a-const-closure-reading-a-name-around-it-under-a-variables-spelling-answers`
 - `a-const-closure-sending-a-procedure-that-writes-in-place-refuses`
 - `a-const-closure-writing-what-it-captured-refuses`
