@@ -20,12 +20,15 @@
           (return "card")))))
   (document
     (warp 1)
-    (description "one maker")
     (import App.Describable)
     (import T.Card)
     (extension
       (head T.Card)
-      (satisfies App.Describable)))
+      (satisfies App.Describable))
+    (procedure One.mark
+      (returns Int)
+      (body
+        (return 1))))
   (document
     (warp 1)
     (import App.Describable.describe)
@@ -40,12 +43,15 @@
         (return (call App.Describable.describe card)))))
   (document
     (warp 1)
-    (description "another maker")
     (import App.Describable)
     (import T.Card)
     (extension
       (head T.Card)
-      (satisfies App.Describable))))
+      (satisfies App.Describable))
+    (procedure Two.mark
+      (returns Int)
+      (body
+        (return 1)))))
 
 (program
   (warp 1)

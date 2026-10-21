@@ -105,4 +105,3 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `imports-written-out-of-order-refuse`
 - `modifiers-written-in-another-order-refuse`
 - `names-joined-with-and-out-of-order-refuse`
-- `what-a-document-says-for-a-reader-is-carried`
