@@ -90,6 +90,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-key-written-between-the-brackets-of-another-type-than-the-key-refuses`
 - `a-map-keyed-by-whole-numbers-reads-a-key-between-the-brackets`
 - `a-map-keyed-by-whole-numbers-reads-a-key-the-run-reads`
+- `a-map-literal-entry-of-one-expression-refuses`
+- `a-map-literal-entry-of-three-expressions-refuses`
+- `a-map-literal-entry-that-is-not-a-list-refuses`
 - `a-map-literal-makes-its-entries-in-order`
 - `a-map-literal-writing-a-key-the-run-reads-twice-holds-the-later-value`
 - `a-map-literal-written-where-a-map-is-declared-is-held-part-by-part-refuses`
