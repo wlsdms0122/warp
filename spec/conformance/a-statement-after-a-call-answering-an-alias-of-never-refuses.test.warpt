@@ -1,6 +1,6 @@
 (test 1)
-(name "a-name-on-a-call-answering-an-alias-of-never-is-refused")
-(note "`App.N` is a name for `Never`, and `App.f` declares it, so its call never finishes the way a call declaring `Never` does: a name on it promises a binding that cannot happen, and the build refuses the name.")
+(name "a-statement-after-a-call-answering-an-alias-of-never-refuses")
+(note "`App.f` declares `App.N`, a name for `Never`, so a statement after its call would never run, and the build refuses it as it refuses one after a call declaring `Never`.")
 
 (program
   (warp 1)
@@ -16,6 +16,7 @@
     (returns Never)
     (failing aborted)
     (body
-      (let x (call App.f))
+      (call App.f)
+      (let y 2)
       (return 1))))
 (expect (refuses build))
