@@ -6,7 +6,6 @@ What a declaration says about itself, and what saying it permits. Four things: t
 
 | key | takes | required |
 |---|---|---|
-| `description` | string | no |
 | `access` | `public`, `internal` or `private`: who may name the declaration, under *who may name a declaration* below. `internal` when absent | no |
 | `parameters` | list of parameters, in the order the declaration writes them, which is the order every call hands its arguments in | no |
 | `returns` | type. What a call answers. Absent, it answers null: `Null` is what a procedure answering nothing answers | no |
@@ -96,7 +95,6 @@ Written as a mapping, one per entry of `parameters`:
 |---|---|---|
 | `name` | string. The name the body reads the argument by | yes |
 | `type` | type | no; absent means `Any`, and `Any` written out **refuses at the load**, since leaving it out says it |
-| `description` | string | no |
 
 A closure literal writes its signature the way a declaration does, `returns`, `failing`, `const` and `isolated` among it, and what it leaves out says the least, wherever it is written: the place it stands in completes nothing, and a closure that writes no `returns` answers null. Its body is held to its signature where it is written, and the place takes the closure by the procedure type the signature is, under *what a slot takes, exactly* in [types](type.md).
 
