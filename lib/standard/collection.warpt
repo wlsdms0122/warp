@@ -1,5 +1,4 @@
 (warp 1)
-(description "Reading a collection by walking it, written from its count and its index.")
 (import Standard.Collection.appending)
 (import Standard.Collection.count)
 (import Standard.Collection.gathering)
@@ -11,7 +10,6 @@
 (import Standard.Numeric.plus)
 
 (procedure Standard.Collection.append
-  (description "Writes one element onto the end of the array a variable holds, in place.")
   (isolated)
   (parameter array (type (inout (array (some Element)))))
   (parameter element (type (some Element)))
@@ -19,7 +17,6 @@
     (set array (call Standard.Collection.appending array element))))
 
 (procedure Standard.Collection.contains
-  (description "Whether an array holds a value.")
   (const)
   (isolated)
   (parameter array (type (array (some Element))))
@@ -39,7 +36,6 @@
     (return found)))
 
 (procedure Standard.Collection.dropFirst
-  (description "The elements after the first.")
   (const)
   (isolated)
   (parameter array (type (array (some Element))))
@@ -54,7 +50,6 @@
     (return (call Standard.Collection.gathering array places))))
 
 (procedure Standard.Collection.dropLast
-  (description "The elements before the last.")
   (const)
   (isolated)
   (parameter array (type (array (some Element))))
@@ -69,7 +64,6 @@
     (return (call Standard.Collection.gathering array places))))
 
 (procedure Standard.Collection.filter
-  (description "The elements a procedure answers true for.")
   (const)
   (isolated)
   (parameter array (type (array (some Element))))
@@ -89,7 +83,6 @@
     (return (call Standard.Collection.gathering array places))))
 
 (procedure Standard.Collection.first
-  (description "The first element.")
   (const)
   (isolated)
   (parameter array (type (array (some Element))))
@@ -98,7 +91,6 @@
     (return (path array (index 0)))))
 
 (procedure Standard.Collection.last
-  (description "The last element.")
   (const)
   (isolated)
   (parameter array (type (array (some Element))))
@@ -108,7 +100,6 @@
     (return (path array (index at)))))
 
 (procedure Standard.Collection.map
-  (description "Each element answered by a procedure, in order.")
   (const)
   (isolated)
   (parameter array (type (array (some Element))))
@@ -125,7 +116,6 @@
     (return answers)))
 
 (procedure Standard.Collection.prepending
-  (description "The elements with one more at the front.")
   (const)
   (isolated)
   (parameter array (type (array (some Element))))
@@ -137,7 +127,6 @@
     (return (call Standard.Collection.reversed grown))))
 
 (procedure Standard.Collection.reduce
-  (description "The elements folded into one, starting from a value.")
   (const)
   (isolated)
   (parameter array (type (array (some Element))))
@@ -155,7 +144,6 @@
     (return carried)))
 
 (procedure Standard.Collection.reversed
-  (description "The elements back to front.")
   (const)
   (isolated)
   (parameter array (type (array (some Element))))
@@ -170,7 +158,6 @@
     (return (call Standard.Collection.gathering array places))))
 
 (procedure Standard.Collection.sorted
-  (description "The elements in the order lessThan puts them in, for any type that orders.")
   (const)
   (isolated)
   (parameter array (type (array (some Element Standard.Comparable))))
@@ -230,7 +217,6 @@
     (return (call Standard.Collection.gathering array places))))
 
 (procedure Standard.Collection.tryFilter
-  (description "The elements a procedure that may fail answers true for.")
   (const)
   (isolated)
   (parameter array (type (array (some Element))))
@@ -251,7 +237,6 @@
     (return (call Standard.Collection.gathering array places))))
 
 (procedure Standard.Collection.tryMap
-  (description "Each element answered by a procedure that may fail, in order.")
   (const)
   (isolated)
   (parameter array (type (array (some Element))))
@@ -269,7 +254,6 @@
     (return answers)))
 
 (procedure Standard.Collection.tryReduce
-  (description "The elements folded into one by a procedure that may fail, starting from a value.")
   (const)
   (isolated)
   (parameter array (type (array (some Element))))
@@ -288,7 +272,6 @@
     (return carried)))
 
 (procedure Standard.Collection.values
-  (description "What a map holds, by its keys in the key order.")
   (const)
   (isolated)
   (parameter dictionary (type (dictionary (some Key Hashable) (some Entry))))
