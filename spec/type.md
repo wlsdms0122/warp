@@ -369,7 +369,6 @@ What a slot takes, exactly:
 - `a-type-parameter-written-nullable-refuses`
 - `a-value-declaring-fewer-parameters-than-its-slot-hands-refuses`
 - `a-value-from-outside-is-fitted-to-the-fields-declared`
-- `a-value-outside-a-declared-type-at-the-door-refuses`
 - `a-value-read-as-any-sent-to-a-closure-held-at-a-procedure-type-refuses`
 - `a-value-taking-a-parameter-in-place-at-a-slot-handing-a-value-refuses`
 - `a-variable-written-an-alias-and-what-it-stands-for-holds-that-type`
@@ -380,6 +379,7 @@ What a slot takes, exactly:
 - `an-alias-of-any-at-a-contract-slot-refuses`
 - `an-alias-of-any-at-a-nullable-contract-slot-refuses`
 - `an-answer-read-as-any-where-a-type-is-declared-refuses`
+- `an-entry-handed-a-value-outside-its-declared-type-refuses`
 - `an-inout-type-parameter-a-procedure-slot-fills-first-reads-the-value`
 - `an-inout-type-parameter-a-variable-fills-first-reads-the-value`
 - `an-optional-read-of-a-field-naming-an-alias-of-a-nullable-reads-that-nullable`
