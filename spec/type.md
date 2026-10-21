@@ -308,7 +308,7 @@ How a type is written:
 - `a-nullable-procedure-type-is-written-in-parentheses`
 - `a-procedure-type-listing-a-failure-twice-refuses`
 - `a-procedure-type-listing-its-failures-out-of-name-order-refuses`
-- `a-procedure-type-writes-its-parameters-in-parentheses`
+- `a-procedure-type-without-parentheses-around-its-parameters-refuses`
 - `a-procedure-type-writing-throws-takes-a-closure-that-may-fail`
 - `a-procedure-type-writing-throws-with-no-failure-refuses`
 - `a-procedure-types-answer-runs-to-the-end-of-its-spelling`
@@ -339,20 +339,20 @@ Numbers and readings:
 - `a-whole-literal-between-the-brackets-of-a-map-keyed-by-fractions-is-the-fraction`
 - `a-whole-literal-in-a-struct-beside-a-fraction-in-one-struct-reads-as-the-fraction-answers`
 - `a-whole-number-a-name-holds-is-no-fraction-refuses`
-- `an-array-of-bytes-and-a-list-of-numbers-joins-to-a-list-of-lists`
+- `an-array-of-bytes-and-a-list-of-numbers-at-a-list-of-text-refuses`
 - `elements-of-different-types-join-to-any`
 
 What a slot takes, exactly:
 
 - `a-call-of-a-value-read-as-any-refuses`
 - `a-cast-between-aliases-of-two-nullable-structs-reads-null-answers`
-- `a-closure-handed-in-place-fails-with-exactly-what-the-slot-names`
+- `a-closure-handed-in-place-failing-otherwise-than-the-slot-refuses`
 - `a-closure-parameter-writing-no-type-at-an-associated-type-takes-any-refuses`
 - `a-closure-taking-any-stands-where-its-slot-hands-a-contract`
 - `a-closure-that-may-fail-where-the-procedure-type-fails-with-nothing-refuses`
 - `a-closures-parameter-names-are-not-part-of-its-type`
 - `a-dictionary-of-an-alias-of-any-at-a-dictionary-of-a-contract-refuses`
-- `a-fraction-is-not-a-whole-number`
+- `a-fraction-where-a-whole-number-is-declared-refuses`
 - `a-list-of-a-reading-of-any-behind-a-name-handed-beside-a-variable-in-place-refuses`
 - `a-list-of-an-alias-of-any-handed-to-a-value-at-a-list-of-a-contract-refuses`
 - `a-modifier-in-front-of-a-nullable-type-refuses`
@@ -367,11 +367,11 @@ What a slot takes, exactly:
 - `a-reading-of-any-stands-at-an-alias-of-any`
 - `a-struct-a-host-procedure-answers-short-of-its-fields-refuses`
 - `a-type-parameter-written-nullable-refuses`
-- `a-value-declares-every-parameter-the-slot-hands`
+- `a-value-declaring-fewer-parameters-than-its-slot-hands-refuses`
 - `a-value-from-outside-is-fitted-to-the-fields-declared`
-- `a-value-outside-a-declared-type-refuses-at-the-door`
+- `a-value-outside-a-declared-type-at-the-door-refuses`
 - `a-value-read-as-any-sent-to-a-closure-held-at-a-procedure-type-refuses`
-- `a-value-taking-a-parameter-in-place-does-not-fit-a-slot-handing-a-value`
+- `a-value-taking-a-parameter-in-place-at-a-slot-handing-a-value-refuses`
 - `a-variable-written-an-alias-and-what-it-stands-for-holds-that-type`
 - `an-alias-beside-what-it-stands-for-in-a-list-literal-joins-as-that-type`
 - `an-alias-of-a-contract-answers-the-contract`
@@ -394,14 +394,14 @@ A declared struct is nominal:
 - `a-cast-of-an-alias-of-a-nullable-struct-to-another-struct-refuses`
 - `a-declared-type-names-itself-in-its-fields`
 - `a-map-from-outside-whose-keys-the-door-makes-one-key-refuses`
-- `a-map-key-from-outside-under-a-name-no-document-declares-refuses-at-the-door`
+- `a-map-key-from-outside-under-a-name-no-document-declares-refuses`
 - `a-map-key-from-outside-under-an-alias-is-a-value-of-its-struct-answers`
 - `a-struct-arrives-as-an-argument`
 - `a-struct-built-where-a-declared-struct-is-read-keeps-its-closure`
 - `a-struct-declared-without-its-struct-key-refuses`
 - `a-struct-from-outside-at-a-contract-slot-is-fitted-to-its-struct`
 - `a-struct-from-outside-short-of-a-field-at-a-contract-slot-refuses`
-- `a-struct-from-outside-under-another-name-refuses-at-the-door`
+- `a-struct-from-outside-under-another-name-refuses`
 - `a-struct-from-outside-under-its-name-at-any-is-held-to-its-struct-refuses`
 - `a-struct-literal-a-name-that-declares-nothing-holds-refuses`
 - `a-struct-literal-answered-where-a-declared-struct-is-answered-takes-the-name`
@@ -414,10 +414,10 @@ A declared struct is nominal:
 - `a-struct-type-may-name-a-field-for-a-form`
 - `a-struct-under-another-name-refuses`
 - `a-struct-written-where-a-type-is-written-refuses`
-- `a-value-from-outside-under-a-name-no-document-declares-refuses-at-the-door`
+- `a-value-from-outside-under-a-name-no-document-declares-refuses`
 - `a-value-from-outside-under-an-alias-at-any-is-a-value-of-its-struct-answers`
 - `an-alias-of-a-declared-struct-gives-a-value-from-outside-the-structs-name`
-- `an-answer-from-outside-at-any-under-a-name-no-document-declares-refuses-at-the-door`
+- `an-answer-from-outside-at-any-under-a-name-no-document-declares-refuses`
 - `an-answer-from-outside-at-any-under-an-alias-is-a-value-of-its-struct-answers`
 - `an-answer-from-outside-at-any-under-its-name-is-held-to-its-struct-refuses`
 
@@ -534,7 +534,7 @@ Type parameters:
 - `a-struct-literal-in-a-list-handed-first-beside-a-list-of-another-struct-at-a-type-parameter-refuses`
 - `a-type-parameter-read-as-any-and-as-a-type-holds-any`
 - `a-type-parameter-read-loosely-and-tightly-holds-the-loose-reading`
-- `a-type-parameter-read-two-ways-is-refused`
+- `a-type-parameter-read-two-ways-refuses`
 - `a-type-parameter-two-procedures-take-as-int-and-as-anything-is-int`
 - `a-variable-a-closure-took-written-from-any-refuses`
 - `a-variable-a-closure-writes-from-any-refuses`
@@ -550,7 +550,6 @@ Bounds:
 - `a-bound-beside-a-later-naming-of-a-type-parameter-refuses`
 - `a-bound-beside-a-procedure-types-answer-after-its-parameter-refuses`
 - `a-bound-beside-an-associated-type-in-a-slot-refuses`
-- `a-bound-may-name-several-and-holds-to-every-one`
 - `a-bound-naming-a-parameter-no-slot-mentions-refuses`
 - `a-bound-naming-a-struct-a-document-declares-refuses`
 - `a-bound-naming-a-struct-the-language-declares-refuses`
@@ -575,6 +574,7 @@ Bounds:
 - `a-type-member-writing-a-bound-refuses`
 - `a-type-parameter-bounded-under-bounds-refuses`
 - `a-type-parameter-only-the-answer-names-refuses`
+- `a-value-answering-one-contract-of-a-bound-naming-two-refuses`
 - `an-associated-type-before-its-parameter-names-no-parameter-answers`
 
 Contracts:
@@ -586,30 +586,29 @@ Contracts:
 - `a-claim-about-null-takes-a-list-of-null-where-the-contract-takes-a-list-of-self-or-null`
 - `a-claim-about-null-takes-null-where-the-contract-takes-self-or-null`
 - `a-contract-asking-no-procedures-is-answered-by-what-claims-it`
-- `a-contract-asking-no-procedures-refuses-what-no-claim-names`
 - `a-contract-carries-a-procedure-into-a-generic-body`
-- `a-contract-or-null-slot-refuses-a-type-not-answering-the-contract`
 - `a-contract-or-null-slot-takes-a-type-answering-the-contract`
 - `a-contract-procedure-answering-self-hands-a-struct-back-applied-as-it-came-answers`
 - `a-contract-procedure-may-answer-self-or-null`
 - `a-contract-procedure-may-take-self-or-null`
-- `a-contract-procedure-takes-self-first`
+- `a-contract-procedure-not-taking-self-first-refuses`
 - `a-contract-procedure-taking-self-in-place-first-refuses`
 - `a-contract-procedure-taking-the-contract-first-refuses`
-- `a-contract-slot-refuses-a-name-for-what-may-be-null-where-null-does-not-answer`
-- `a-contract-slot-refuses-a-parameter-or-null-where-null-does-not-answer`
-- `a-contract-slot-refuses-what-may-be-null-where-null-does-not-answer`
 - `a-contract-slot-takes-what-may-be-null-where-both-answer`
 - `a-contract-stands-in-a-closures-parameter`
 - `a-contract-stands-in-a-declared-types-field`
 - `a-contract-stands-where-a-type-is-written`
 - `a-list-of-two-types-handed-where-a-contract-is-asked-is-read-element-by-element-refuses`
 - `a-map-literal-handed-at-a-dictionary-of-a-contract-holds-each-value-to-its-claim-refuses`
+- `a-name-for-what-may-be-null-at-a-contract-null-does-not-answer-refuses`
 - `a-name-that-is-not-a-contracts-joined-with-and-refuses`
-- `a-named-list-handed-where-a-list-of-a-contract-stands-is-held-to-it`
+- `a-named-list-at-a-list-of-a-contract-its-elements-do-not-answer-refuses`
+- `a-parameter-or-null-at-a-contract-null-does-not-answer-refuses`
 - `a-slot-of-a-type-takes-no-value-read-as-a-contract-refuses`
 - `a-struct-the-language-declares-joined-with-and-refuses`
+- `a-type-no-claim-names-at-a-contract-asking-no-procedures-refuses`
 - `a-type-no-claim-names-in-a-closures-contract-parameter-refuses`
+- `a-type-not-answering-the-contract-at-a-contract-or-null-slot-refuses`
 - `a-type-parameter-named-self-refuses`
 - `a-value-of-a-contract-at-two-self-positions-refuses`
 - `a-value-of-a-contract-inside-a-list-at-a-bounded-parameter-refuses`
@@ -623,6 +622,7 @@ Contracts:
 - `self-in-an-answer-is-what-the-call-filled-it-with`
 - `self-outside-a-contract-refuses`
 - `self-stands-for-the-type-answering-a-contract`
+- `what-may-be-null-at-a-contract-null-does-not-answer-refuses`
 
 Claims:
 
@@ -653,11 +653,8 @@ Heads:
 - `a-cast-to-a-contract-reads-a-value-by-the-head-of-its-claim-answers`
 - `a-cast-to-a-contract-settles-a-box-of-a-box-through-its-own-claim-answers`
 - `a-claim-under-a-head-another-document-makes-is-imported-and-answers`
-- `a-claim-under-a-head-another-document-makes-refuses-a-value-it-does-not-take`
 - `a-claim-under-a-head-applying-a-list-to-int-answers-for-a-list-of-ints`
-- `a-claim-under-a-head-applying-a-list-to-int-refuses-a-list-of-text`
 - `a-claim-under-a-head-bounding-its-parameter-answers-for-a-value-it-takes`
-- `a-claim-under-a-head-bounding-its-parameter-refuses-a-value-it-does-not-take`
 - `a-constant-settled-through-a-claim-under-a-head-holds-the-value-to-the-head`
 - `a-generic-body-handing-a-value-its-bounds-do-not-put-under-a-head-refuses`
 - `a-generic-body-handing-a-value-its-bounds-put-under-a-head-answers`
@@ -668,12 +665,15 @@ Heads:
 - `a-head-bounds-a-type-parameter-inside-a-procedure-type`
 - `a-head-naming-what-may-be-null-refuses`
 - `a-head-writes-a-nullable-procedure-type-in-parentheses`
+- `a-list-of-text-outside-a-head-applying-a-list-to-int-refuses`
 - `a-map-keyed-by-a-struct-its-conditional-claim-does-not-take-refuses`
 - `a-map-keyed-by-a-struct-its-conditional-claim-takes-answers`
 - `a-member-under-a-head-answers-for-a-value-the-head-takes`
 - `a-struct-from-outside-holds-its-bounded-field-to-the-head-of-its-claim`
 - `a-struct-of-two-parameters-not-taken-at-its-first-parameter-refuses`
 - `a-value-from-outside-at-a-bounded-parameter-is-held-to-the-head-of-its-claim`
+- `a-value-outside-a-head-another-document-claims-refuses`
+- `a-value-outside-a-head-bounding-its-parameter-refuses`
 - `an-extension-of-a-struct-the-document-declares-under-a-head-applying-it-answers`
 - `an-optional-cast-to-a-contract-of-a-box-of-a-box-of-what-is-not-hashable-reads-null`
 - `values-from-outside-meeting-at-a-bounded-parameter-are-one-type-where-they-are-of-one-struct`
@@ -694,19 +694,19 @@ What a document stands on:
 - `a-cast-at-the-run-reads-every-claim-of-the-link`
 - `a-claim-a-document-two-steps-down-makes-answers`
 - `a-claim-another-document-makes-is-imported-and-answers`
-- `a-claim-imported-brings-nothing-its-maker-stands-on`
+- `a-claim-for-a-type-that-misses-a-procedure-refuses`
 - `a-claim-in-a-document-the-program-names-nothing-of-refuses`
 - `a-claim-naming-a-contract-where-the-type-belongs-refuses`
 - `a-claim-naming-a-type-where-a-contract-belongs-refuses`
-- `a-claim-that-does-not-hold-refuses-though-nothing-asks-it`
 - `a-claim-two-documents-make-answers-a-document-standing-on-the-second`
-- `a-copy-of-a-claim-that-does-not-hold-refuses-beside-one-that-does`
+- `a-copy-of-a-claim-that-does-not-hold-beside-one-that-does-refuses`
 - `a-document-claiming-one-contract-for-a-type-under-two-heads-refuses`
+- `a-map-key-claimed-only-beneath-an-imported-claim-refuses`
 - `a-null-cast-to-a-contract-is-held-to-the-claims-about-null`
 - `a-type-member-is-read-through-an-imported-claim-answers`
-- `a-type-that-misses-a-procedure-does-not-answer-the-contract`
 - `a-value-cast-from-any-to-a-contract-answers-by-the-type-it-is`
 - `a-value-cast-from-any-to-a-contract-it-does-not-answer-fails`
+- `an-unasked-claim-that-does-not-hold-refuses`
 - `two-documents-claiming-one-contract-for-a-type-under-two-heads-refuse`
 - `two-documents-claiming-one-contract-under-heads-taking-the-same-values-are-one-claim`
 - `two-documents-claiming-one-contract-under-one-head-are-one-claim`
@@ -723,10 +723,10 @@ Members:
 - `a-member-under-a-bare-name-bounding-its-parameter-refuses`
 - `a-member-under-a-bare-name-taking-a-struct-applied-to-any-refuses`
 - `a-member-under-a-bare-name-taking-some-of-its-values-refuses`
+- `a-member-under-a-head-called-outside-its-bounds-refuses`
 - `a-member-under-a-head-may-restate-the-heads-bounds`
-- `a-member-under-a-head-takes-the-heads-bounds`
 - `a-member-under-a-head-taking-another-type-first-refuses`
-- `a-procedure-spelled-like-a-member-answers-no-contract`
+- `a-procedure-spelled-like-a-member-backing-a-claim-refuses`
 - `an-extension-giving-a-contract-members-refuses`
 - `an-extension-giving-another-documents-alias-members-refuses`
 - `an-extension-of-a-name-nothing-declares-refuses`
@@ -853,8 +853,6 @@ Calling a contract's procedure:
 - `a-declaration-answering-a-contract-may-take-any-where-it-writes-a-contract`
 - `a-declaration-answering-a-contract-may-take-anything-where-it-writes-a-parameter`
 - `a-declaration-answering-a-contract-names-its-parameters-its-own-way`
-- `a-declaration-answering-a-contract-takes-its-parameters-in-the-contracts-order`
-- `a-declaration-answering-a-contract-takes-no-parameter-beyond-it`
 - `a-declaration-answering-a-contract-taking-in-place-where-it-hands-a-value-refuses`
 - `a-declaration-answering-a-contract-with-a-bounded-parameter-where-it-writes-a-parameter-refuses`
 - `a-declaration-answering-a-contract-with-a-bounded-parameter-where-it-writes-what-the-bound-refuses-refuses`
@@ -866,6 +864,8 @@ Calling a contract's procedure:
 - `a-declaration-answering-a-contract-with-any-where-it-asks-text-refuses`
 - `a-declaration-answering-a-contract-with-its-own-parameter-for-a-type-refuses`
 - `a-declaration-answering-a-contract-with-what-may-be-null-where-it-answers-a-contract-refuses`
+- `a-declaration-taking-a-contracts-parameters-in-another-order-refuses`
+- `a-declaration-taking-a-parameter-beyond-its-contracts-refuses`
 
 Names:
 

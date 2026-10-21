@@ -1,6 +1,6 @@
 (test 1)
-(name "a-contract-slot-refuses-a-name-for-what-may-be-null-where-null-does-not-answer")
-(note "App.f takes App.Sized and is handed a variable declared Bank.MaybeCard, which names Bank.Card?. The name stands for what may be null, and no document claims App.Sized for `Null`.")
+(name "a-type-not-answering-the-contract-at-a-contract-or-null-slot-refuses")
+(note "App.f takes App.Sized? and is handed a Bank.Coin, which no document says answers App.Sized.")
 
 (program
   (warp 1)
@@ -16,13 +16,12 @@
         (return 4))))
   (struct Bank.Coin
     (field cents Int))
-  (type Bank.MaybeCard (nullable Bank.Card))
   (contract App.Sized
     (procedure size
       (parameter of (type Self))
       (returns Int)))
   (procedure App.f
-    (parameter n (type App.Sized))
+    (parameter n (type (nullable App.Sized)))
     (returns String)
     (body
       (return "took")))
@@ -31,7 +30,7 @@
     (returns String)
     (failing cast_refused)
     (body
-      (let c (type Bank.MaybeCard) (as (struct (field last "4")) Bank.Card))
+      (let c (as (struct (field cents 4)) Bank.Coin))
       (let s (call App.f c))
       (return s))))
 (expect (refuses build))
