@@ -242,6 +242,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-claiming-under-a-head-applying-its-type-to-nothing-refuses`
 - `an-object-claiming-under-a-head-bounding-a-type-parameter-by-nothing-refuses`
 - `an-object-counting-no-closures-for-a-declaration-refuses`
+- `an-object-declaring-a-type-under-a-tag-other-than-a-structs-refuses`
 - `an-object-giving-a-type-no-member-refuses`
 - `an-object-giving-a-type-no-type-member-refuses`
 - `an-object-holding-a-number-past-its-table-refuses`
@@ -276,6 +277,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-whose-closure-takes-what-it-captured-into-slots-its-frame-is-not-filled-at-refuses`
 - `an-object-whose-dependencies-stand-out-of-name-order-refuses`
 - `an-object-whose-entry-is-not-public-refuses`
+- `an-object-whose-entry-stands-at-another-number-than-the-reading-order-gives-refuses`
 - `an-object-whose-frame-names-fewer-slots-than-it-holds-refuses`
 - `an-object-whose-frame-stands-a-capture-past-its-end-refuses`
 - `an-object-whose-frame-stands-a-parameter-past-its-end-refuses`
@@ -293,6 +295,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-whose-struct-bounds-a-type-parameter-by-nothing-refuses`
 - `an-object-whose-struct-built-from-parts-holds-fewer-parts-than-its-layout-names-refuses`
 - `an-object-whose-struct-fields-stand-out-of-name-order-refuses`
+- `an-object-whose-struct-value-holds-fewer-values-than-its-field-names-refuses`
 - `an-object-whose-type-numbering-stands-out-of-name-order-refuses`
 - `an-object-whose-types-name-each-other-refuses`
 - `an-object-whose-types-name-each-other-under-a-question-mark-refuses`
@@ -305,9 +308,12 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-writing-a-name-not-in-normal-form-refuses`
 - `an-object-writing-a-procedure-type-that-answers-without-parameters-refuses`
 - `an-object-writing-a-procedure-type-that-takes-parameters-and-answers-nothing-refuses`
+- `an-object-writing-a-row-with-a-field-more-than-its-layout-refuses`
+- `an-object-writing-a-struct-as-a-type-entry-refuses`
 - `an-object-writing-a-tag-the-layout-does-not-name-refuses`
 - `an-object-writing-an-empty-name-refuses`
 - `an-object-writing-any-as-a-parameter-type-refuses`
+- `an-object-writing-two-values-where-at-most-one-stands-refuses`
 - `an-object-writing-what-a-procedure-type-may-fail-with-and-not-what-it-takes-refuses`
 - `the-object-of-a-call`
 - `the-object-of-a-cast`
