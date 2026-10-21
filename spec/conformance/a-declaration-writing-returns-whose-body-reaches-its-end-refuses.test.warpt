@@ -1,0 +1,12 @@
+(test 1)
+(name "a-declaration-writing-returns-whose-body-reaches-its-end-refuses")
+(note "`entry` writes `returns Int`, and its body ends in a `let`, so the way through it reaches the end without a `return`. A declaration writing `returns` leaves on every way through its body, so the build refuses it.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let x 1))))
+(expect (refuses build))

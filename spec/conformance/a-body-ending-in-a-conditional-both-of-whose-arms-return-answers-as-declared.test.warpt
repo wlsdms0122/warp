@@ -1,0 +1,19 @@
+(test 1)
+(name "a-body-ending-in-a-conditional-both-of-whose-arms-return-answers-as-declared")
+(note "`entry` writes `returns Int`, and its body ends in a conditional both of whose arms return. No way through reaches the end, so the body leaves on every way, and the program answers what the arm it took returns.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter ready (type Bool))
+    (returns Int)
+    (body
+      (conditional
+        (when ready)
+        (then
+          (return 1))
+        (else
+          (return 2))))))
+(arguments (argument ready false))
+(expect (answers 2))

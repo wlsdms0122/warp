@@ -121,6 +121,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-body-answering-a-value-where-no-returns-is-written-refuses`
 - `a-body-declared-const-reading-a-module-variable-refuses`
 - `a-body-declared-const-writing-at-a-place-a-module-variable-finds-refuses`
+- `a-body-ending-in-a-conditional-both-of-whose-arms-return-answers-as-declared`
+- `a-body-ending-in-a-conditional-only-one-arm-of-which-returns-refuses`
 - `a-body-reading-a-module-variable-does-not-answer-without-running`
 - `a-body-that-branches-answers-without-running`
 - `a-body-that-loops-answers-without-running`
@@ -144,6 +146,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-closure-that-writes-what-it-captured-is-not-const`
 - `a-closure-writes-its-own-parameter-in-place-and-no-name-it-shadows`
 - `a-closure-writing-no-returns-answers-null`
+- `a-closure-writing-returns-whose-body-reaches-its-end-refuses`
 - `a-closures-parameter-is-not-the-const-procedure-it-shadows`
 - `a-const-body-reading-a-module-variable-in-an-attempt-under-its-failures-name-refuses`
 - `a-const-body-reading-a-name-under-a-variables-spelling-answers`
@@ -176,6 +179,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-declaration-calling-a-procedure-whose-type-may-fail-with-anything-backs-no-contract-refuses`
 - `a-declaration-that-runs-backs-no-const-contract`
 - `a-declaration-writing-no-returns-answers-null`
+- `a-declaration-writing-returns-whose-body-reaches-its-end-refuses`
 - `a-dictionary-entry-handed-in-place-is-read-by-the-callee`
 - `a-failure-name-that-is-no-identifier-refuses`
 - `a-failure-named-anything-refuses`
