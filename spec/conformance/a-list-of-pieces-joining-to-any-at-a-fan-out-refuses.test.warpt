@@ -1,0 +1,21 @@
+(test 1)
+(name "a-list-of-pieces-joining-to-any-at-a-fan-out-refuses")
+(note "The elements of `pieces` join to `Any`, and `Standard.Concurrent.all` declares a list of closures. A value read as `Any` stands where a type is declared only where a cast says what it is, so the build refuses.")
+
+(program
+  (warp 1)
+  (import Standard.Concurrent.all)
+  (procedure entry
+    (access public)
+    (returns (array Any))
+    (failing concurrent_failed)
+    (body
+      (let pieces
+        (array
+          (closure
+            (returns Int)
+            (body
+              (return 1)))
+          1))
+      (return (call Standard.Concurrent.all pieces)))))
+(expect (refuses build))

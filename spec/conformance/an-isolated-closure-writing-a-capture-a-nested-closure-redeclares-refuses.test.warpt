@@ -1,0 +1,28 @@
+(test 1)
+(name "an-isolated-closure-writing-a-capture-a-nested-closure-redeclares-refuses")
+(note "Isolation reads names in scope. The closure handed to `Standard.Concurrent.map` declares `isolated`, and a closure nested inside it declares `tally` for itself alone. The outer closure's own `set tally` still writes the variable it captured, so it refuses at the build.")
+
+(program
+  (warp 1)
+  (import Standard.Concurrent.map)
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (failing concurrent_failed)
+    (body
+      (var tally 0)
+      (return
+        (call Standard.Concurrent.map
+          (array 1)
+          (closure
+            (isolated)
+            (parameter item (type Int))
+            (returns Int)
+            (body
+              (let inner
+                (closure
+                  (body
+                    (var tally 1))))
+              (set tally 1)
+              (return item))))))))
+(expect (refuses build))

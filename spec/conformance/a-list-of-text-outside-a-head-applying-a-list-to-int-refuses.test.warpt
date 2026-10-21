@@ -1,0 +1,25 @@
+(test 1)
+(name "a-list-of-text-outside-a-head-applying-a-list-to-int-refuses")
+(note "A list of text is no list of integers, so the claim written under `Array<Int>` does not take it and the call handing it where the contract is asked refuses at the build.")
+
+(program
+  (warp 1)
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head (array Int))
+    (satisfies App.Describable)
+    (procedure describe
+      (parameter of (type (array Int)))
+      (returns String)
+      (body
+        (return "ints"))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let b (type (array String)) (array "a"))
+      (return (call App.Describable.describe b)))))
+(expect (refuses build))

@@ -1,0 +1,15 @@
+(test 1)
+(name "an-argument-read-as-any-at-a-typed-parameter-refuses")
+(note "`uppercased` declares `text: String`, and the argument handed there is read as `Any`. A value read as `Any` stands where a type is declared only where a cast says what it is, so the build refuses.")
+
+(program
+  (warp 1)
+  (import Standard.Text.uppercased)
+  (procedure entry
+    (access public)
+    (parameter it)
+    (returns String)
+    (body
+      (return (call Standard.Text.uppercased it)))))
+(arguments (argument it null))
+(expect (refuses build))

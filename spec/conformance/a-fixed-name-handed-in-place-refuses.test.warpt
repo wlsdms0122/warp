@@ -1,0 +1,19 @@
+(test 1)
+(name "a-fixed-name-handed-in-place-refuses")
+(note "What is handed in place is a variable. A name fixed with `let` refuses at the build.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure bump
+    (parameter count (type (inout Int)))
+    (body
+      (set count (call Standard.Numeric.plus count 1))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let n 10)
+      (call bump n)
+      (return n))))
+(expect (refuses build))

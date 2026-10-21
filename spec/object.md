@@ -113,7 +113,7 @@ An *operation* is the number of an entry in `operationTable`, and the entry is `
 | 5 | calling a value | the callee *operation*, arguments: list of *argument*, in position order |
 | 6 | a cast | *operation*, *lowered type*, *optional* |
 | 8 | a conditional | the condition *operation*, then: *instruction* list, else: *instruction* list or nothing |
-| 9 | a loop | the condition *operation*, the round: *instruction* list, the round's slot or nothing |
+| 9 | a loop | the condition *operation*, a literal `true` for a loop written with no `while`, the round: *instruction* list, the round's slot or nothing |
 | 10 | an attempt | the body: *instruction* list, the rescue: *instruction* list, the failure's slot or nothing |
 | 11 | a call | *call* |
 | 12 | a call through a contract | *dispatch* |
@@ -151,7 +151,7 @@ A *lowered type* is a type as a body stands on it, the number of an entry in `lo
 
 ### Values
 
-A *value* is the number of an entry in `valueTable`, and the entry is `[tag, …]`: 0 null; 1 bool; 2 int; 3 double; 4 string; 5 bytes, each carrying the value; 6 array, carrying its elements as *value*; 7 struct, carrying its name, the field names in name order, the field values; 8 a closure, carrying the identity of the document that wrote it, the *declaration* that wrote it, which of that declaration's closures it is, and `[slot, value]` for what it captured; 9 map, carrying two lists, its keys as *value* in the key order and then its values in the same order, a key out of that order or written twice **refusing**. A closure written by a document nobody wrote down, or holding a box of the run that made it, is not a value an object holds, and such an object is not written.
+A *value* is the number of an entry in `valueTable`, and the entry is `[tag, …]`: 0 null; 1 bool; 2 int; 3 double; 4 string; 5 bytes, each carrying the value; 6 array, carrying its elements as *value*; 7 struct, carrying its name, the field names in name order, the field values, one for each name; 8 a closure, carrying the identity of the document that wrote it, the *declaration* that wrote it, which of that declaration's closures it is, and `[slot, value]` for what it captured; 9 map, carrying two lists, its keys as *value* in the key order and then its values in the same order, a key out of that order or written twice **refusing**. A closure written by a document nobody wrote down, or holding a box of the run that made it, is not a value an object holds, and such an object is not written.
 
 ## Identity and dependencies
 
@@ -234,12 +234,15 @@ Read it back: `rows` holds `entry`, whose signature takes `n` as type `1` and an
 
 What `conformance/` asks about this page, by the name each case's file carries.
 
-- `a-document-is-not-an-object`
+- `a-document-read-as-an-object-refuses`
 - `an-object-applying-a-struct-to-no-types-refuses`
 - `an-object-bounding-a-type-a-contract-asks-by-nothing-refuses`
 - `an-object-bounding-a-type-parameter-by-nothing-refuses`
 - `an-object-claiming-no-contract-for-a-type-refuses`
+- `an-object-claiming-under-a-head-applying-its-type-to-nothing-refuses`
+- `an-object-claiming-under-a-head-bounding-a-type-parameter-by-nothing-refuses`
 - `an-object-counting-no-closures-for-a-declaration-refuses`
+- `an-object-declaring-a-type-under-a-tag-other-than-a-structs-refuses`
 - `an-object-giving-a-type-no-member-refuses`
 - `an-object-giving-a-type-no-type-member-refuses`
 - `an-object-holding-a-number-past-its-table-refuses`
@@ -253,6 +256,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-nesting-a-table-past-the-bound-refuses`
 - `an-object-nesting-its-tables-to-the-bound-runs`
 - `an-object-numbering-entries-out-of-order-refuses`
+- `an-object-numbering-more-closures-than-it-lifted-refuses`
 - `an-object-of-a-later-format-refuses`
 - `an-object-of-a-later-format-with-keys-of-its-own-refuses`
 - `an-object-of-a-struct-taking-a-type-parameter-links-and-runs`
@@ -260,15 +264,25 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-standing-against-another-document-refuses`
 - `an-object-standing-on-one-object-twice-refuses`
 - `an-object-standing-on-what-is-not-laid-refuses`
+- `an-object-whose-body-stands-on-a-variable-past-its-documents-variables-refuses`
 - `an-object-whose-body-stands-past-its-frame-refuses`
+- `an-object-whose-call-hands-in-place-out-of-ascending-order-refuses`
 - `an-object-whose-call-stands-more-arguments-than-its-callee-takes-refuses`
 - `an-object-whose-call-through-a-contract-stands-more-arguments-than-its-rows-take-refuses`
 - `an-object-whose-call-writes-an-argument-where-it-hands-in-place-refuses`
+- `an-object-whose-cast-applies-a-struct-to-no-types-refuses`
+- `an-object-whose-cast-writes-a-composition-of-no-contracts-refuses`
 - `an-object-whose-claims-stand-out-of-name-order-refuses`
 - `an-object-whose-closure-counts-add-up-past-an-int-refuses`
+- `an-object-whose-closure-takes-what-it-captured-into-slots-its-frame-is-not-filled-at-refuses`
 - `an-object-whose-dependencies-stand-out-of-name-order-refuses`
 - `an-object-whose-entry-is-not-public-refuses`
+- `an-object-whose-entry-stands-at-another-number-than-the-reading-order-gives-refuses`
 - `an-object-whose-frame-names-fewer-slots-than-it-holds-refuses`
+- `an-object-whose-frame-stands-a-capture-past-its-end-refuses`
+- `an-object-whose-frame-stands-a-parameter-past-its-end-refuses`
+- `an-object-whose-frame-stands-a-variable-past-its-end-refuses`
+- `an-object-whose-frame-stands-fewer-parameters-than-its-declaration-takes-refuses`
 - `an-object-whose-imported-claims-stand-out-of-name-order-refuses`
 - `an-object-whose-layout-names-stand-out-of-order-refuses`
 - `an-object-whose-map-keys-stand-out-of-the-key-order-refuses`
@@ -276,8 +290,12 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-whose-numbering-closures-stand-out-of-name-order-refuses`
 - `an-object-whose-numbering-sends-stand-out-of-name-order-refuses`
 - `an-object-whose-procedure-the-host-answers-sends-a-spelling-its-numbering-does-not-number-refuses`
+- `an-object-whose-procedure-the-host-answers-sends-from-a-place-past-the-first-refuses`
 - `an-object-whose-rows-stand-out-of-name-order-refuses`
+- `an-object-whose-struct-bounds-a-type-parameter-by-nothing-refuses`
+- `an-object-whose-struct-built-from-parts-holds-fewer-parts-than-its-layout-names-refuses`
 - `an-object-whose-struct-fields-stand-out-of-name-order-refuses`
+- `an-object-whose-struct-value-holds-fewer-values-than-its-field-names-refuses`
 - `an-object-whose-type-numbering-stands-out-of-name-order-refuses`
 - `an-object-whose-types-name-each-other-refuses`
 - `an-object-whose-types-name-each-other-under-a-question-mark-refuses`
@@ -290,9 +308,12 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-object-writing-a-name-not-in-normal-form-refuses`
 - `an-object-writing-a-procedure-type-that-answers-without-parameters-refuses`
 - `an-object-writing-a-procedure-type-that-takes-parameters-and-answers-nothing-refuses`
+- `an-object-writing-a-row-with-a-field-more-than-its-layout-refuses`
+- `an-object-writing-a-struct-as-a-type-entry-refuses`
 - `an-object-writing-a-tag-the-layout-does-not-name-refuses`
 - `an-object-writing-an-empty-name-refuses`
 - `an-object-writing-any-as-a-parameter-type-refuses`
+- `an-object-writing-two-values-where-at-most-one-stands-refuses`
 - `an-object-writing-what-a-procedure-type-may-fail-with-and-not-what-it-takes-refuses`
 - `the-object-of-a-call`
 - `the-object-of-a-cast`

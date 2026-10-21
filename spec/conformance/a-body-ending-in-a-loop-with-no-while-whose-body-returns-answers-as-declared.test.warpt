@@ -1,0 +1,21 @@
+(test 1)
+(name "a-body-ending-in-a-loop-with-no-while-whose-body-returns-answers-as-declared")
+(note "A loop written with no `while` declares that it does not finish, so a body ending in one leaves on every way through it, and the body writes `returns` with nothing after the loop. The `return` in the loop's third round answers.")
+
+(program
+  (warp 1)
+  (import Standard.Comparable.lessThan)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var i (type Int) 0)
+      (loop
+        (body
+          (set i (call Standard.Numeric.plus i 1))
+          (conditional
+            (when (call Standard.Comparable.lessThan 2 i))
+            (then
+              (return i))))))))
+(expect (answers 3))

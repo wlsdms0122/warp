@@ -1,0 +1,13 @@
+(test 1)
+(name "arithmetic-on-two-pieces-of-text-refuses")
+(note "plus declares one parameter for both sides, so two pieces of text agree, and agreement is not answering. Int and Double answer Numeric, and text is a reading the build can refuse.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (return (call Standard.Numeric.plus "a" "b")))))
+(expect (refuses build))

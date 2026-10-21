@@ -1,0 +1,38 @@
+(test 1)
+(name "a-taken-variable-handed-in-place-to-a-value-as-another-type-than-it-is-held-to-refuses")
+(note "The same as handing it to a declaration: a variable held to Int that reads Int? after a join is handed in place to a value taking Int?, which refuses, since the value would write null into a box a closure reads as Int.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (body
+      (var x 0)
+      (var keep
+        (type (procedure (parameters) (returns Int)))
+        (closure
+          (returns Int)
+          (body
+            (return 0))))
+      (conditional
+        (when true)
+        (then
+          (set keep
+            (closure
+              (returns Int)
+              (body
+                (return (call Standard.Numeric.plus x 1))))))
+        (else
+          (set x null)))
+      (let clear
+        (closure
+          (parameter v (type (inout (nullable Int))))
+          (body
+            (set v null))))
+      (apply clear x)
+      (let r (apply keep))
+      (return r))))
+(expect (refuses build))

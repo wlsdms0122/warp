@@ -1,0 +1,19 @@
+(test 1)
+(name "a-parameter-handed-in-place-read-past-what-the-box-holds-now-refuses")
+(note "A parameter handed in place holds the caller's box through the path it was handed, and a read finds what the path holds now. The body shortened the array the path runs through, so the element it names is gone and the read refuses at the run.")
+
+(program
+  (warp 1)
+  (var items (array 1 2))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call poke (path items (index 1))))))
+  (procedure poke
+    (parameter second (type (inout Int)))
+    (returns Int)
+    (body
+      (set items (array 7))
+      (return second))))
+(expect (refuses run))

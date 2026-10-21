@@ -1,0 +1,23 @@
+(test 1)
+(name "reading-one-type-out-of-a-list-of-a-struct-applied-to-two-refuses")
+(note "Two readings of one struct applied to two types are two types, and two types that differ join to `Any`. A list of an `App.Box<Int>` and an `App.Box<String>` reads as a list of `Any`, and nothing read out of it is the `String` the entry declares.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (procedure App.first
+    (parameter bs (type (array (named App.Box (some T)))))
+    (returns (some T))
+    (body
+      (return (path bs (index 0) (field item)))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let a (type (named App.Box Int)) (struct (field item 1)))
+      (let b (type (named App.Box String)) (struct (field item "x")))
+      (let xs (array a b))
+      (return (call App.first xs)))))
+(expect (refuses build))

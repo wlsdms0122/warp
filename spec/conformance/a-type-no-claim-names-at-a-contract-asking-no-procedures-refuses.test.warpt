@@ -1,0 +1,21 @@
+(test 1)
+(name "a-type-no-claim-names-at-a-contract-asking-no-procedures-refuses")
+(note "A contract asking no procedures is not answered by every type. Only a type a document claims it for answers it, so text handed where the mark is asked is refused at the build: `Int` is claimed, and `String` is not.")
+
+(program
+  (warp 1)
+  (contract App.Marked)
+  (extension
+    (head Int)
+    (satisfies App.Marked))
+  (procedure App.take
+    (parameter it (type App.Marked))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.take "seven")))))
+(expect (refuses build))

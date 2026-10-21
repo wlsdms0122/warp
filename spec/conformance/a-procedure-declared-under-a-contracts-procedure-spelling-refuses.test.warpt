@@ -1,0 +1,21 @@
+(test 1)
+(name "a-procedure-declared-under-a-contracts-procedure-spelling-refuses")
+(note "`App.Named.name` is the contract `App.Named`'s procedure, so a procedure the document declares under that spelling leaves a call no answer to which of the two it reaches.")
+
+(program
+  (warp 1)
+  (contract App.Named
+    (procedure name
+      (parameter self (type Self))
+      (returns String)))
+  (procedure App.Named.name
+    (parameter of (type Int))
+    (returns String)
+    (body
+      (return "x")))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

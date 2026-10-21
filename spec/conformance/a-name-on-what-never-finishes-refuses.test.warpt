@@ -1,0 +1,15 @@
+(test 1)
+(name "a-name-on-what-never-finishes-refuses")
+(note "Standard.Control.abort declares Never, so a name on its call promises a binding that cannot happen. The build refuses the name where the signature is known.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (returns Never)
+    (failing aborted)
+    (body
+      (let gone (call Standard.Control.abort "done"))
+      (return 1))))
+(expect (refuses build))

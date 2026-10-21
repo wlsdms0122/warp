@@ -26,7 +26,7 @@ A statement with no naming key, `{ value: … }`, runs its expression and binds 
 
 - The constructs that bind **through** the statement's name, `loop` (its round) and `attempt` (its failure). The name they bind through is one the statement introduces, with `let`: nothing writes it, so one introduced with `var` **refuses at the load**, and each answers nothing, so a `set` of one **refuses at the load** as well. Written nameless they bind nothing: a loop with no name has no round to read and an attempt with no name has no failure to read, and each runs the same otherwise.
 - The leaving constructs (`return`, `break`, `continue`) take **no** naming key at all: such a statement never finishes, so its name could never bind, and a key that promises a binding that cannot happen **refuses**. The same rule reaches a **call**: a statement whose call answers `Never`, as its callee's `returns` declares, binds nothing and takes no name. Held at the **build**, because only the build knows what a call answers, where the leaves the text shows are held at the load.
-- A **`conditional`** takes no naming key either, for the other reason: it finishes, but it answers nothing, under **`conditional`** below. A `loop` and an `attempt` answer nothing too, and the name of each is its round's or its failure's alone.
+- A **`conditional`** takes no naming key either, for the other reason: it finishes, but it answers nothing, under **`conditional`** below. A `loop` and an `attempt` answer nothing too, and the name of each is its round's or its failure's alone, a loop that does not finish included.
 
 **What a write reaches.** A `set` names a path, and the head of the path is the variable written. A segment after the head written optional (`?.`, `?[`) **refuses at the load**, because a write reads no absence. Every segment after the head is judged at the **build** against the type the walk has reached: a field of a type declared in `types` is passed through only when the declaration wrote it `var`; an entry of a map and an element of a list are passed through as they are, and an entry the map does not hold yet is made by the write that lands on it, while a write passing through one **refuses at the run**, as a read of one does; `Any` and a nullable type are not written into. What is written has to fit the type the path reaches, and is judged against it, so a box that said what it holds holds a value of its declaration after a write as it did after its declaration, and a box that said nothing holds what the build reads the path as. A write to a whole local variable retypes it unless the variable declared what it holds, under *what a variable reads as* in [checking](checking.md). A variable a closure captured, or a call handed in place, holds from there on the type it read as there, and a later write has to fit it, since the closure or the callee reads and writes the box as that type. Two ways that took one variable as different types **refuse at the build** where they meet, since what each took goes on writing its own type; two names for one declared struct are one type. A way meets the others where its leave lands. A write to a module variable or to an `inout` parameter has to fit the type the box holds and retypes nothing. At the run the value is computed first, and then the box is rewritten once, so nothing observes the box halfway, and the path reaches what the names hold once the value has run, the head and the names it indexes with included. What stands between the brackets is judged as a read's is, under [expressions](expression.md), and a path there is read where the write stands: the write lands on that one position of a list, or on that entry of a map, made where the map does not hold it yet.
 
@@ -65,10 +65,12 @@ A conditional is a statement: it **answers nothing**, and it **takes no name**. 
 
 | key | takes | required |
 |---|---|---|
-| `while` | expression. Runs another round while true | yes |
+| `while` | expression. Runs another round while true | no |
 | `body` | statements | yes |
 
 A loop is a statement: it **answers nothing**, the way a `conditional` does, and what a round keeps it writes to an outer variable. The loop's own statement name binds the round it is on, a `Round`, a struct the language declares as `{ struct: { index: Int } }`, readable where the loop speaks, the `while` condition and the `body`, and nowhere after the loop. A loop written nameless binds no round: a `break` or `continue` naming no loop still ends it, and one naming a loop passes through it. The condition reads the state before the round it would start, so `round.index` there is how many rounds have finished.
+
+**A loop written with no `while` does not finish.** The text declares it: a round runs after every round, and only a leave reaching past the loop ends it, a `return` or a `break` or `continue` naming a loop further out. A `continue` of it starts the next round, and a `break` that would end it, one naming no loop included, **refuses at the load**. It never finishes, so nothing may follow it, and a body ending in one leaves on every way through it. A loop written with `while` may finish whatever its condition reads: `(while true)` is one, and a `break` ends it.
 
 Bounding a loop is the author's to write, with a counter in its condition, and stopping one is the host's **cancellation**, under [running](running.md).
 
@@ -109,7 +111,7 @@ A procedure the host answers says what it may fail with the same way. **A proced
 
 **`break`**. End a loop. **`continue`**. End the round and go on to the next. Each takes a loop's statement name, or nothing for the nearest enclosing loop. Both **refuse at the load** when nothing encloses them: a closure runs away from where it was written, so the loops around the writing are not around the running, and neither crosses into a procedure written inside another.
 
-Nothing may be written after a `return`, `break` or `continue` in the same body: it would never run, and the name it would bind would never bind. The same holds after a call whose callee declares `returns: Never`, at the build. The rule reaches through structure, because the fact does: a `conditional` both of whose arms leave never finishes either, so nothing may follow it. Held at the **load**, since the arms are text. A construct that can finish (a conditional with no `else`, a loop, an `attempt`, whose rescue may finish normally) is not a leave, however its bodies end.
+Nothing may be written after a `return`, `break` or `continue` in the same body: it would never run, and the name it would bind would never bind. The same holds after a call whose callee declares `returns: Never`, at the build. The rule reaches through structure, because the fact does: a `conditional` both of whose arms leave never finishes either, and neither does a `loop` written with no `while`, so nothing may follow either. Held at the **load**, since the arms and the loop are text. A construct that can finish (a conditional with no `else`, a loop written with `while`, an `attempt`, whose rescue may finish normally) is not a leave, however its bodies end.
 
 Failing on purpose is a procedure, `Standard.Control.abort` under [the standard vocabulary](vocabulary.md), declared `returns: Never`: the signature says everything checking it needs.
 
@@ -120,38 +122,38 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-body-ending-in-a-call-answering-an-alias-of-never-answers-as-declared`
 - `a-body-ending-in-a-return-answers-what-it-returns`
 - `a-body-failing-beyond-its-declaration-refuses`
-- `a-body-introduces-its-parameter-once`
+- `a-body-introducing-its-parameter-again-refuses`
+- `a-break-in-a-closure-written-in-a-loop-refuses`
+- `a-break-naming-a-loop-with-no-while-refuses`
+- `a-break-naming-an-outer-loop-from-a-loop-with-no-while-ends-the-outer-loop`
+- `a-break-outside-a-loop-refuses`
+- `a-budget-on-a-loop-refuses`
 - `a-call-of-a-value-fails-with-what-its-slots-procedure-type-names`
 - `a-closure-a-constant-holds-may-introduce-a-variables-spelling`
-- `a-closure-does-not-leave-what-wrote-it`
 - `a-closure-failing-beyond-its-signature-refuses`
-- `a-closure-in-a-loop-condition-holds-what-it-takes-for-the-body`
 - `a-closure-may-introduce-a-parameter-of-the-procedure-around-it`
 - `a-closure-parameter-may-take-the-spelling-of-a-name-around-it`
 - `a-closure-whose-body-shadows-a-variable-takes-nothing-of-it`
 - `a-condition-read-as-any-refuses`
 - `a-condition-that-is-not-a-bool-refuses`
-- `a-conditional-both-of-whose-arms-leave-ends-the-body`
 - `a-conditional-writes-the-flow-it-is-in`
 - `a-construct-key-in-an-argument-refuses`
 - `a-construct-key-outside-a-statement-is-a-field-name`
+- `a-continue-in-a-loop-with-no-while-starts-the-next-round`
 - `a-declaration-failing-with-anything-may-fail-with-any-failure`
-- `a-declared-name-is-not-retyped-by-a-write`
 - `a-declared-type-naming-a-type-parameter-refuses`
 - `a-declared-type-nothing-declares-refuses`
 - `a-declining-conditional-writes-nothing`
 - `a-duplicate-statement-name-refuses`
-- `a-failure-field-the-declaration-does-not-name-is-refused`
-- `a-field-a-path-writes-through-is-declared-var`
-- `a-fixed-name-cannot-be-written`
+- `a-failure-field-the-declaration-does-not-name-refuses`
 - `a-let-without-a-value-refuses`
 - `a-list-pieces-failure-is-under-its-position`
 - `a-loop-binds-a-round-the-language-declares`
 - `a-loop-condition-that-is-not-a-bool-refuses`
 - `a-loop-named-with-var-refuses`
 - `a-loop-reads-how-many-rounds-passed`
-- `a-loop-takes-no-budget`
 - `a-loop-under-a-set-refuses`
+- `a-loop-with-no-while-binds-its-round-under-its-name`
 - `a-loop-written-nameless-binds-no-round`
 - `a-loops-name-leaves-the-outer-name-after-the-loop`
 - `a-loops-name-leaves-the-outer-name-to-what-a-constant-call-reads`
@@ -160,20 +162,22 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-loops-name-reads-its-round-inside-the-loop`
 - `a-loops-name-reads-nothing-after-the-loop-refuses`
 - `a-name-a-nested-body-introduces-under-a-constants-spelling-is-its-own`
-- `a-name-a-round-declares-is-not-read-after-the-loop`
-- `a-name-an-arm-declares-is-not-read-after-it`
+- `a-name-a-round-declares-read-after-the-loop-refuses`
+- `a-name-an-arm-declares-read-after-it-refuses`
 - `a-name-declared-again-inside-an-arm-is-a-new-name`
 - `a-name-introduced-again-in-a-nested-body-is-a-new-name`
 - `a-name-on-a-body-that-never-comes-back-refuses`
-- `a-name-on-a-call-answering-an-alias-of-never-is-refused`
-- `a-name-on-a-call-of-a-declared-procedure-type-answering-an-alias-of-never-is-refused`
-- `a-name-on-a-conditional-is-refused`
+- `a-name-on-a-call-answering-an-alias-of-never-refuses`
+- `a-name-on-a-call-of-a-declared-procedure-type-answering-an-alias-of-never-refuses`
+- `a-name-on-a-conditional-refuses`
 - `a-name-on-a-return-refuses`
-- `a-name-on-what-never-finishes-is-refused`
+- `a-name-on-what-never-finishes-refuses`
+- `a-name-saying-nothing-handed-in-place-at-another-type-refuses`
 - `a-name-says-what-it-holds`
-- `a-name-that-says-nothing-is-the-type-its-value-reads-as`
+- `a-nameless-break-in-a-loop-with-no-while-refuses`
 - `a-parameter-introduced-again-in-a-nested-body-is-a-new-name`
 - `a-parameter-may-take-a-constants-spelling`
+- `a-path-writing-through-a-field-not-declared-var-refuses`
 - `a-procedure-that-can-fail-says-so`
 - `a-rescue-binds-a-failure-the-language-declares`
 - `a-rescue-over-a-body-that-cannot-fail-refuses`
@@ -184,18 +188,22 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-rescue-reads-what-a-cast-refused`
 - `a-rescue-reads-what-a-failure-carried`
 - `a-rescue-that-produces-nothing-refuses`
-- `a-return-is-held-to-the-declaration`
+- `a-return-on-one-way-the-declaration-does-not-take-refuses`
 - `a-round-ending-in-continue-goes-on-to-the-next`
 - `a-set-of-a-failures-name-refuses`
 - `a-set-of-a-rounds-name-refuses`
 - `a-set-without-a-value-refuses`
+- `a-statement-after-a-call-answering-an-alias-of-never-refuses`
+- `a-statement-after-a-conditional-both-of-whose-arms-leave-refuses`
+- `a-statement-after-a-loop-with-no-while-refuses`
+- `a-statement-after-leaving-refuses`
+- `a-statement-after-what-never-finishes-refuses`
 - `a-statement-saying-two-things-refuses`
 - `a-statement-with-no-name-still-runs`
 - `a-struct-literal-written-into-an-entry-of-a-declared-dictionary-takes-the-name-answers`
 - `a-struct-literal-written-through-a-field-without-var-refuses`
-- `a-taken-variable-a-loop-writes-is-read-after-it-as-written`
+- `a-taken-variable-a-loop-writes-answered-where-null-is-not-declared-refuses`
 - `a-var-field-lets-a-path-through`
-- `a-variable-a-closure-captured-is-not-retyped-after`
 - `a-variable-only-an-attempts-body-writes-is-null-after-its-rescue`
 - `a-walk-is-a-loop-over-the-count`
 - `a-way-ending-in-a-call-answering-an-alias-of-never-contributes-nothing`
@@ -210,6 +218,11 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-write-into-an-entry-of-a-declared-dictionary-is-judged-against-its-entry-type-refuses`
 - `a-write-into-an-inout-parameter-is-judged-against-its-type-refuses`
 - `a-write-makes-an-entry-of-a-dictionary`
+- `a-write-of-another-type-into-a-declared-name-refuses`
+- `a-write-of-another-type-into-a-variable-a-closure-captured-refuses`
+- `a-write-of-another-type-into-what-a-loop-conditions-closure-takes-refuses`
+- `a-write-of-another-type-into-what-an-attempt-body-reads-under-its-name-refuses`
+- `a-write-of-another-type-through-a-path-refuses`
 - `a-write-reaches-into-what-a-variable-holds`
 - `a-write-through-an-element-keeps-the-others`
 - `a-write-through-an-entry-the-map-does-not-hold-refuses`
@@ -222,7 +235,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-write-under-a-whole-number-key-makes-the-entry`
 - `a-write-whose-value-writes-its-head-lands-where-the-head-then-holds-answers`
 - `an-attempt-around-a-call-of-a-value-whose-type-fails-with-nothing-refuses`
-- `an-attempt-body-reads-the-variable-its-statement-name-shadows`
 - `an-attempt-catches-a-cast-that-did-not-match`
 - `an-attempt-named-with-var-refuses`
 - `an-attempt-under-a-set-refuses`
@@ -230,7 +242,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-attempt-written-nameless-binds-no-failure`
 - `an-attempts-name-reads-nothing-after-the-attempt-refuses`
 - `an-attempts-name-reads-the-failure-inside-its-rescue`
-- `an-inner-constant-of-an-outer-name-is-not-written`
 - `break-ends-the-loop`
 - `calling-a-value-bounded-to-numbers-refuses`
 - `calling-a-value-no-procedure-could-be-refuses`
@@ -239,20 +250,17 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `continue-skips-a-round`
 - `leaving-answers-from-the-middle`
 - `leaving-is-not-failing`
-- `leaving-needs-something-to-leave`
-- `nothing-runs-after-a-call-answering-an-alias-of-never`
-- `nothing-runs-after-leaving`
-- `nothing-runs-after-what-never-finishes`
+- `reading-what-nobody-wrote-refuses`
 - `return-inside-a-closure-answers-the-closure`
 - `sibling-bodies-may-each-introduce-one-name`
 - `two-breaks-taking-a-variable-as-different-types-refuse`
 - `two-ways-taking-a-variable-as-a-type-and-its-nullable-refuse`
 - `two-ways-taking-a-variable-as-a-type-parameter-and-a-type-refuse`
-- `two-ways-taking-a-variable-as-different-types-refuse-where-they-meet`
+- `two-ways-taking-a-variable-as-different-types-refuse`
 - `two-ways-taking-a-variable-under-two-names-of-one-struct-stand`
 - `type-beside-set-refuses`
 - `type-on-a-statement-binding-a-loop-refuses`
 - `type-on-a-statement-with-no-name-refuses`
-- `what-is-written-fits-the-type-the-path-reaches`
-- `what-nobody-wrote-is-not-readable`
+- `writing-a-fixed-name-refuses`
 - `writing-a-name-never-declared-refuses`
+- `writing-an-inner-constant-spelled-like-an-outer-variable-refuses`

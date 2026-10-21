@@ -1,0 +1,5 @@
+(test 1)
+(name "a-front-end-shorthand-in-a-document-refuses")
+(note "`format`/`with` are a front end's shorthand, spent before the document leaves. A document writes a struct under `struct`, so a mapping of those two keys is no form and is refused where it is read.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "let" "line") (entry "value" (dictionary (entry "format" "${x}") (entry "with" (dictionary (entry "x" (dictionary (entry "value" 1)))))))) (dictionary (entry "value" (dictionary (entry "return" (dictionary (entry "ref" "line")))))))) (entry "returns" "String"))))) (entry "warp" 1)))
+(expect (refuses load))

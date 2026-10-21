@@ -1,0 +1,13 @@
+(test 1)
+(name "indexing-what-may-be-null-without-the-optional-bracket-refuses")
+(note "A nullable holds the declared array or null, and a plain index reads an array that is there. Indexing through what may be null takes `?[`. The build refuses the spelling that pretends otherwise.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter items (type (nullable (array String))))
+    (returns Any)
+    (body
+      (return (path items (index 0))))))
+(expect (refuses build))

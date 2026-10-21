@@ -1,0 +1,5 @@
+(test 1)
+(name "a-name-spelled-null-is-written-in-backticks")
+(note "`null` written bare is null, so a name spelled `null` is written in backticks and reads as that name.")
+(text "(warp 1)\n(const `null` 1)\n")
+(expect (spells (dictionary (entry "const" (dictionary (entry "null" 1))) (entry "imports" (array)) (entry "warp" 1))))

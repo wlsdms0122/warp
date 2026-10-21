@@ -112,7 +112,7 @@ The contracts, each procedure answering without running and touching nothing, an
 
 `replacing` rewrites every occurrence, not only the first. `joined` over an array with nothing in it answers the empty text, whatever the separator: there is nothing to put between. `split` keeps the empty pieces a separator at either end leaves, since dropping them would be an opinion about the text rather than a reading of it. `split` fails on a separator holding no characters and `replacing` on a target holding none, since either would match everywhere and consume nothing. The failure is `aborted`, which each declares, so an attempt around either catches it. The procedures that read text, `contains` and `startsWith` included, read as a person reads, under the value model's canonical equivalence.
 
-`text` spells a value in its own spelling, which is the type's and not a document's. A string is its own characters, unquoted; a number, a bool and `null` are the spelling a document writes; bytes are `x` and their hex digits. A container it spells on **one line**: an array's elements between `[` and `]`, a map's entries between `{` and `}` as the key, spelled the way any value inside a container is, a colon and the value, a struct its fields the same, each field's name bare as its struct's name is, with its name and a space before the brace, a map's entries in the **key order** `keys` answers them in and a struct's fields by name ascending, elements or entries joined by commas with no space, and an empty one `[]` or `{}`. Inside a container `null` is `null`, and a string, bytes or a procedure is quoted: between double quotes, with `"`, `\`, a newline, a carriage return and a tab escaped as `\"`, `\\`, `\n`, `\r` and `\t`, any other character below `0x20` as `\u` and four hex digits, and everything else as itself, so `text` of `[x"6869"]` is `["x\"6869\""]` and of `[1, 2]` is `[1,2]`: a value's spelling does not change with how deep it sits. What no document carries answers in the language's own markers, never a host formatter's: a procedure is `<procedure>`, so `text` of a list holding one is `["<procedure>"]`. This is what `text` is for: a person reading a value. A carrier that has to give the value *back* is a different question, and one with no compact spelling writes bytes as what they are: an array of `Int`.
+`text` spells a value in its own spelling, which is the type's and not a document's. A string is its own characters, unquoted; a number, a bool and `null` are the spelling a document writes; bytes are `x` and their hex digits. A container it spells on **one line**: an array's elements between `[` and `]`, a map's entries between `{` and `}` as the key, spelled the way any value inside a container is, a colon and the value, a struct its fields the same, each field's name bare as its struct's name is, with its name and a space before the brace, a map's entries in the **key order** `keys` answers them in and a struct's fields by name ascending, elements or entries joined by commas with no space, and an empty one `[]` or `{}`. Inside a container `null` is `null`, and a string, bytes or a procedure is quoted: between double quotes and escaped as the Warp text escapes text, under [encodings](encoding.md), so `text` of `[x"6869"]` is `["x\"6869\""]` and of `[1, 2]` is `[1,2]`: a value's spelling does not change with how deep it sits. What no document carries answers in the language's own markers, never a host formatter's: a procedure is `<procedure>`, so `text` of a list holding one is `["<procedure>"]`. This is what `text` is for: a person reading a value. A carrier that has to give the value *back* is a different question, and one with no compact spelling writes bytes as what they are: an array of `Int`.
 
 *Standard.Collection*
 
@@ -189,8 +189,10 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-document-writes-a-short-circuiting-connective`
 - `a-document-writes-map-over-a-const-slot`
 - `a-document-writes-startsWith-over-characters`
+- `a-fraction-divided-by-negative-zero-refuses`
+- `a-fraction-divided-by-zero-refuses`
 - `a-list-holding-no-byte-handed-to-decoded-refuses`
-- `a-list-of-pieces-joining-to-any-refuses-at-a-fan-out`
+- `a-list-of-pieces-joining-to-any-at-a-fan-out-refuses`
 - `a-mapped-procedure-chooses-what-it-answers`
 - `a-piece-that-is-not-a-closure-refuses`
 - `a-procedure-answering-a-collections-own-elements-keeps-the-spelling`
@@ -201,47 +203,49 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-string-not-holding-another-answers-false`
 - `a-text-procedure-answers-new-text`
 - `a-zero-width-space-is-not-whitespace`
+- `abort-says-its-message-spelled-as-text`
 - `abort-sent-null-says-aborted`
 - `absolute-drops-the-sign-of-negative-zero`
 - `absolute-floored-and-rounded-answer-a-whole`
 - `absolute-of-the-minimum-refuses`
 - `all-keyed-answers-under-keys-of-any-type`
-- `an-attempt-does-not-catch-overflow`
 - `an-encoding-a-procedure-does-not-have-refuses`
 - `an-isolated-body-filters-through-a-closure-that-fails-with-nothing`
 - `an-operand-of-and-that-answers-no-bool-refuses`
 - `and-over-nothing-answers-true`
 - `append-writes-the-array-in-place`
-- `arithmetic-admits-only-numbers`
 - `arithmetic-answers-the-type-it-was-given`
 - `arithmetic-divide-by-zero-refuses`
 - `arithmetic-divides-to-a-fraction`
 - `arithmetic-on-a-value-it-does-not-take-refuses`
+- `arithmetic-on-two-pieces-of-text-refuses`
 - `arithmetic-overflow-refuses`
 - `arithmetic-reads-a-whole-literal-beside-a-fraction-as-the-fraction`
+- `bytes-at-a-list-of-fractions-refuse`
 - `bytes-cross-an-array-slot-in-their-own-spelling`
-- `bytes-do-not-fit-a-list-of-fractions-refuses`
-- `bytes-do-not-order`
 - `case-mapping-takes-no-locale`
 - `characters-answers-grapheme-clusters`
+- `comparing-bytes-for-order-refuses`
 - `concurrent-map-offers-item-and-index`
 - `concurrent-map-over-nothing-answers-nothing`
 - `contains-asks-a-collection`
-- `count-asks-a-collection`
 - `count-of-a-declared-struct-no-claim-names-refuses`
+- `count-of-a-number-refuses`
 - `count-of-bytes-is-their-length`
 - `decoded-keeps-a-byte-order-mark`
 - `decoded-reads-bytes-as-text-in-a-named-encoding`
 - `decoded-reads-bytes-written-one-by-one`
+- `decoding-what-is-not-utf8-text-refuses`
 - `dropping-an-end-answers-the-rest`
 - `encoded-writes-text-as-bytes-in-a-named-encoding`
 - `encoded-writes-the-code-points-as-they-stand`
 - `first-and-last-read-the-ends`
 - `first-answers-the-first-success`
 - `first-in-which-nothing-succeeds-fails-with-every-piece`
+- `first-keyed-over-a-piece-that-refuses-before-one-succeeds-refuses`
 - `first-keyed-over-nothing-refuses`
+- `first-over-a-piece-that-refuses-before-one-succeeds-refuses`
 - `first-over-nothing-refuses`
-- `first-refuses-the-run-for-a-piece-that-refuses-before-one-succeeds`
 - `floored-past-the-int-refuses`
 - `fraction-arithmetic-with-no-finite-answer-refuses`
 - `gathering-past-the-end-refuses`
@@ -255,7 +259,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `lowercased-ends-a-word-with-final-sigma`
 - `lowercased-folds-the-case`
 - `map-answers-in-the-collections-order`
-- `map-takes-only-an-isolated-closure`
+- `map-over-a-closure-not-declaring-isolated-refuses`
 - `max-answers-rhs-on-a-tie`
 - `min-and-max-pick-an-end`
 - `min-answers-lhs-on-a-tie`
@@ -265,6 +269,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `or-does-not-ask-past-the-first-yes`
 - `or-over-nothing-answers-false`
 - `ordering-compares-two-of-one-type`
+- `overflow-inside-an-attempt-refuses`
 - `prepending-writes-the-front`
 - `reduce-folds-in-order`
 - `remainder-at-the-ints-minimum-answers`
@@ -286,6 +291,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `split-on-nothing-fails`
 - `starts-with-reads-the-head`
 - `text-counts-as-a-person-reads`
+- `text-escapes-control-characters-inside-a-container`
 - `text-of-a-list-holding-a-procedure-quotes-its-marker`
 - `text-of-a-procedure-spells-a-marker`
 - `text-of-null-spells-null`
@@ -295,8 +301,14 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `the-side-select-does-not-choose-goes-unasked`
 - `times-off-the-ints-edge-refuses`
 - `trimming-takes-unicode-whitespace-from-both-ends`
+- `tryAnd-fails-with-what-its-side-fails-with`
+- `tryAnd-over-nothing-answers-true`
+- `tryFilter-fails-with-what-its-closure-fails-with`
 - `tryMap-fails-with-what-its-closure-fails-with`
+- `tryOr-fails-with-what-its-side-fails-with`
+- `tryOr-over-nothing-answers-false`
+- `tryReduce-fails-with-what-its-closure-fails-with`
+- `trySelect-fails-with-what-the-chosen-side-fails-with`
 - `uppercased-uses-unicode-full-case-mapping`
 - `values-answer-in-canonical-order`
 - `values-of-a-map-keyed-by-whole-numbers-answer-in-the-key-order`
-- `what-is-not-utf8-text-refuses-to-decode`

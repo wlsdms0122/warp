@@ -1,0 +1,17 @@
+(test 1)
+(name "an-operand-calling-a-procedure-saying-nothing-refuses")
+(note "`App.two` answers without reaching anything, and says nothing of itself. An operand calls only a declaration that says it answers without running, so the call standing as an argument refuses at the build.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure App.two
+    (returns Int)
+    (body
+      (return 2)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call Standard.Numeric.plus (call App.two) 1)))))
+(expect (refuses build))

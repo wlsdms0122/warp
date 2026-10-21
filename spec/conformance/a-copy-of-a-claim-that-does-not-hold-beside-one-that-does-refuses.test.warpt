@@ -1,0 +1,45 @@
+(test 1)
+(name "a-copy-of-a-claim-that-does-not-hold-beside-one-that-does-refuses")
+(note "One document claims T.Card answers App.Describable and gives it `describe`; another makes the same claim and stands on nothing giving it. Each copy is held where it is written, so the second refuses at the build, at the claim, however the host listed the two.")
+
+(documents
+  (document
+    (warp 1)
+    (contract App.Describable
+      (procedure describe
+        (parameter of (type Self))
+        (returns String))))
+  (document
+    (warp 1)
+    (struct T.Card
+      (field rank Int)))
+  (document
+    (warp 1)
+    (import App.Describable)
+    (import T.Card)
+    (extension
+      (head T.Card)
+      (satisfies App.Describable)
+      (procedure describe
+        (parameter of (type T.Card))
+        (returns String)
+        (body
+          (return "given")))))
+  (document
+    (warp 1)
+    (import App.Describable)
+    (import T.Card)
+    (extension
+      (head T.Card)
+      (satisfies App.Describable))))
+
+(program
+  (warp 1)
+  (import T.Card)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let card (as (struct (field rank 3)) T.Card))
+      (return (path card (field rank))))))
+(expect (refuses build))

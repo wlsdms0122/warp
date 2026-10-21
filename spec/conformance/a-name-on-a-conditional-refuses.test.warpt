@@ -1,0 +1,15 @@
+(test 1)
+(name "a-name-on-a-conditional-refuses")
+(note "A conditional answers nothing, so its name could never bind. What an arm keeps is written to an outer variable with set.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (body
+      (let chosen
+        (conditional
+          (when true)
+          (then
+            (let kept 1)))))))
+(expect (refuses load))

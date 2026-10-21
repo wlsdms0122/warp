@@ -1,0 +1,29 @@
+(test 1)
+(name "a-write-of-another-type-into-what-a-loop-conditions-closure-takes-refuses")
+(note "The loop's condition hands `App.ready` a closure that takes `n`, so every round after the first starts with `n` held to the Int it was taken as. The body's write of a string into `n` does not fit, and the build refuses it.")
+
+(program
+  (warp 1)
+  (procedure App.ready
+    (const)
+    (parameter peek (type (procedure (parameters) (returns Int))))
+    (returns Bool)
+    (body
+      (return true)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var n 0)
+      (loop
+        (while
+          (call App.ready
+            (closure
+              (returns Int)
+              (body
+                (return n)))))
+        (body
+          (set n "s")
+          (break)))
+      (return 1))))
+(expect (refuses build))

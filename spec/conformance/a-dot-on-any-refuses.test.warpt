@@ -1,0 +1,13 @@
+(test 1)
+(name "a-dot-on-any-refuses")
+(note "`Any` declares nothing, so a dot on one has nothing to be judged against, and a dot nothing declares is the one thing a run would have to decide for itself. The type is read by naming it.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter payload)
+    (returns Any)
+    (body
+      (return (path payload (field name))))))
+(expect (refuses build))

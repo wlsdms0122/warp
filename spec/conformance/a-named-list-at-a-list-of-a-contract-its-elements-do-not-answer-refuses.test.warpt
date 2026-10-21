@@ -1,0 +1,25 @@
+(test 1)
+(name "a-named-list-at-a-list-of-a-contract-its-elements-do-not-answer-refuses")
+(note "A contract inside a slot holds what arrives wherever it stands, through the name a declared type gave the list: a list of a type no document says satisfies the contract is refused where the call is written.")
+
+(program
+  (warp 1)
+  (type App.Cards (array Bank.Card))
+  (struct Bank.Card
+    (field last String))
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (procedure App.tellAll
+    (parameter them (type (array App.Describable)))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (parameter cards (type App.Cards))
+    (returns Int)
+    (body
+      (return (call App.tellAll cards)))))
+(expect (refuses build))

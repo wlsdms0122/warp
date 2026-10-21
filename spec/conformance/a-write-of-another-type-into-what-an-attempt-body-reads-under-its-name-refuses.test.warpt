@@ -1,0 +1,39 @@
+(test 1)
+(name "a-write-of-another-type-into-what-an-attempt-body-reads-under-its-name-refuses")
+(note "An attempt binds its statement's name to the failure in the rescue alone, so its body reads the variable around it under that spelling. A closure holding an attempt named `n` whose body reads the outer `n` takes `n`, and a later `set` of `n` to another type refuses at the build.")
+
+(program
+  (warp 1)
+  (import Standard.Comparable.lessThan)
+  (import Standard.Control.abort)
+  (procedure check
+    (parameter x (type Int))
+    (returns Int)
+    (failing aborted)
+    (body
+      (conditional
+        (when (call Standard.Comparable.lessThan x 0))
+        (then
+          (call Standard.Control.abort "negative")))
+      (return x)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var n 0)
+      (let f
+        (closure
+          (returns Int)
+          (body
+            (var kept)
+            (let n
+              (attempt
+                (body
+                  (let c (call check n))
+                  (set kept c))
+                (rescue
+                  (set kept 0))))
+            (return kept))))
+      (set n "s")
+      (return 1))))
+(expect (refuses build))

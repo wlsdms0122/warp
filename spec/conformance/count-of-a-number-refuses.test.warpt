@@ -1,0 +1,13 @@
+(test 1)
+(name "count-of-a-number-refuses")
+(note "count takes what answers Standard.Collection: text, a list, a map. A number answers no such claim, so a call handing one refuses at the build, where the call is judged against the declaration.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.count)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call Standard.Collection.count 1)))))
+(expect (refuses build))

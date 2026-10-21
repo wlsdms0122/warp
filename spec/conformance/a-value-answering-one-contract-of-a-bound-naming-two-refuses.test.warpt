@@ -1,0 +1,25 @@
+(test 1)
+(name "a-value-answering-one-contract-of-a-bound-naming-two-refuses")
+(note "A bound may name several contracts joined with `&`, and a parameter so bounded takes only what answers every one of them. A whole number answers the first contract and not the second, so the call is refused at the build.")
+
+(program
+  (warp 1)
+  (contract Scalar)
+  (contract Text)
+  (extension
+    (head Int)
+    (satisfies Scalar))
+  (extension
+    (head String)
+    (satisfies Scalar Text))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call keep 1))))
+  (procedure keep
+    (parameter value (type (some T Scalar Text)))
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

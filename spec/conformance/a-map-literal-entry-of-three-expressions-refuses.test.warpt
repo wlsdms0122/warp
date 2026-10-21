@@ -1,0 +1,5 @@
+(test 1)
+(name "a-map-literal-entry-of-three-expressions-refuses")
+(note "A map literal's entry is a list of two, its key and its value, and `[\"a\", 1, 2]` holds a third expression that is neither.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" (dictionary (entry "dictionary" (array (array "a" 1 2)))))))))) (entry "returns" "Dictionary<String, Int>"))))) (entry "warp" 1)))
+(expect (refuses load))

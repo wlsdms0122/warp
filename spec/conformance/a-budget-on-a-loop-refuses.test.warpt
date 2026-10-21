@@ -1,0 +1,5 @@
+(test 1)
+(name "a-budget-on-a-loop-refuses")
+(note "A loop takes `while` and `body` and nothing else. A `guard` beside them is a key the grammar does not name, and the loop refuses at the load; bounding a loop is a counter in its condition.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "let" "gate") (entry "value" (dictionary (entry "loop" (dictionary (entry "body" (array (dictionary (entry "let" "noop") (entry "value" 1)))) (entry "guard" 2) (entry "while" false)))))))))))) (entry "warp" 1)))
+(expect (refuses load))

@@ -1,0 +1,20 @@
+(test 1)
+(name "a-failure-field-the-declaration-does-not-name-refuses")
+(note "A rescue's name binds `{ type, message, details }`, and those three are read with a dot. What a failure carries rides in `details`, so a dot on the failure itself does not reach it.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (var tried)
+      (let caught
+        (attempt
+          (body
+            (call Standard.Control.abort "on purpose"))
+          (rescue
+            (set tried (path caught (field failures))))))
+      (return tried))))
+(expect (refuses build))

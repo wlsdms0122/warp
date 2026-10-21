@@ -1,0 +1,22 @@
+(test 1)
+(name "a-call-to-a-private-procedure-the-host-brings-refuses")
+(note "A procedure the host answers is declared by the module that brings it, and private is that module's own scope. A program calling one stands in another document and is refused at the build, the way a call to any other document's private declaration is.")
+
+(vocabulary
+  (procedure App.seat
+    (access private)
+    (const)
+    (isolated)
+    (returns Int)
+    (answers 7)))
+
+(program
+  (warp 1)
+  (import App.seat)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (body
+      (return (call App.seat)))))
+(expect (refuses build))

@@ -1,0 +1,5 @@
+(test 1)
+(name "a-quote-escaped-in-backticks-refuses")
+(note "In backticks a name escapes its backtick and writes a quote as itself, so `\\\"` is no escape there and is refused.")
+(text "(warp 1)\n(const `a\\\"b` 1)\n")
+(expect (refuses load))

@@ -1,0 +1,12 @@
+(test 1)
+(name "an-answer-the-declaration-does-not-take-refuses")
+(note "An answer is held to the type the declaration writes: the text it answers is no `Int`.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return "three hundred"))))
+(expect (refuses build))

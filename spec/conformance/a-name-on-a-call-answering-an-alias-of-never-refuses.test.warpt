@@ -1,0 +1,21 @@
+(test 1)
+(name "a-name-on-a-call-answering-an-alias-of-never-refuses")
+(note "`App.N` is a name for `Never`, and `App.f` declares it, so its call never finishes the way a call declaring `Never` does: a name on it promises a binding that cannot happen, and the build refuses the name.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (type App.N Never)
+  (procedure App.f
+    (returns App.N)
+    (failing aborted)
+    (body
+      (call Standard.Control.abort "no")))
+  (procedure entry
+    (access public)
+    (returns Never)
+    (failing aborted)
+    (body
+      (let x (call App.f))
+      (return 1))))
+(expect (refuses build))

@@ -1,0 +1,22 @@
+(test 1)
+(name "a-break-naming-an-outer-loop-from-a-loop-with-no-while-ends-the-outer-loop")
+(note "The inner loop is written with no `while`, and the `break` in it names the outer loop, which may finish. The outer loop ends there, and the statement after it runs.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var i (type Int) 0)
+      (let outer
+        (loop
+          (while true)
+          (body
+            (loop
+              (body
+                (set i (call Standard.Numeric.plus i 1))
+                (break outer))))))
+      (return i))))
+(expect (answers 1))

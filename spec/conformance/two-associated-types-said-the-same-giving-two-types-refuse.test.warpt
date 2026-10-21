@@ -1,0 +1,59 @@
+(test 1)
+(name "two-associated-types-said-the-same-giving-two-types-refuse")
+(note "`Use.pick` says `C.Item` is `D.Item`, and a box of Int and a box of text give two types, so the call refuses at the build.")
+
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Container
+      (type Item)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item)))
+    (procedure Lib.firstOf
+      (access public)
+      (parameter c (type (some C Lib.Container)))
+      (returns (some C.Item))
+      (body
+        (return (call Lib.Container.first c)))))
+  (document
+    (warp 1)
+    (import Lib.Container)
+    (struct App.Box
+      (typeParameter T)
+      (satisfies Lib.Container)
+      (field item (some T))
+      (type Item (some T))
+      (procedure first
+        (access public)
+        (parameter of (type (named App.Box (some T))))
+        (returns (some T))
+        (body
+          (return (path of (field item)))))))
+  (document
+    (warp 1)
+    (import Lib.Container)
+    (import Lib.Container.first)
+    (procedure Use.pick
+      (access public)
+      (parameter c (type (some C Lib.Container)))
+      (parameter d (type (some D Lib.Container)))
+      (returns (some C.Item))
+      (sameType C.Item (some D.Item))
+      (body
+        (let x (call Lib.Container.first d))
+        (return x)))))
+
+(program
+  (warp 1)
+  (import App.Box)
+  (import Use.pick)
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let b (type (named App.Box Int)) (struct (field item 1)))
+      (let e (type (named App.Box String)) (struct (field item "x")))
+      (let x (call Use.pick b e))
+      (return x))))
+(expect (refuses build))

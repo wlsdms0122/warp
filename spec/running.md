@@ -29,7 +29,7 @@ What a run does once the build has answered everything it can. Order, doors, fai
 What `conformance/` asks about this page, by the name each case's file carries.
 
 - `a-body-declared-isolated-writing-a-module-variable-refuses`
-- `a-called-value-answers-what-its-slot-wrote`
+- `a-called-values-answer-the-declaration-does-not-take-refuses`
 - `a-calls-arguments-are-evaluated-in-position-order`
 - `a-cast-of-a-closure-answering-a-struct-held-at-a-slot-answering-anything-to-another-struct-reads-null-answers`
 - `a-cast-of-a-closure-held-at-a-contract-slot-back-to-the-number-it-answers-answers`
@@ -49,8 +49,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-piece-calling-a-procedure-that-writes-a-module-variable-refuses`
 - `a-piece-calling-an-isolated-module-variable-stands`
 - `a-piece-calling-an-isolated-procedure-read-out-of-a-struct-field-stands`
-- `a-piece-of-first-that-writes-what-it-captured-refuses`
-- `a-piece-reaching-a-writer-through-a-variable-handed-in-place-refuses`
+- `a-piece-of-first-not-declaring-isolated-refuses`
 - `a-rescue-does-not-hold-a-piece-that-refuses`
 - `a-run-given-an-argument-its-entry-does-not-declare-refuses`
 - `a-run-given-nothing-for-a-nullable-parameter-refuses`
@@ -60,9 +59,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-value-a-host-procedure-answers-outside-its-returns-refuses`
 - `a-whole-literal-a-closure-answers-is-the-fraction-its-returns-names`
 - `all-answers-every-piece-under-its-key`
-- `an-argument-that-refuses-is-not-rescued-past-a-failure-after-it`
+- `an-attempt-over-an-argument-that-refuses-before-one-that-fails-refuses`
 - `an-element-handed-in-place-beside-its-list-is-past-the-end-once-the-list-is-emptied`
-- `an-entry-handed-a-list-of-two-types-at-a-bounded-type-parameter-refuses-at-the-door`
-- `an-entry-handed-two-types-at-a-bounded-type-parameter-refuses-at-the-door`
-- `an-entry-handed-two-types-at-a-type-parameter-no-bound-holds-refuses-at-the-door`
+- `an-entry-handed-a-list-of-two-types-at-a-bounded-type-parameter-refuses`
+- `an-entry-handed-two-types-at-a-bounded-type-parameter-refuses`
+- `an-entry-handed-two-types-at-a-type-parameter-no-bound-holds-refuses`
 - `an-entry-not-written-yet-handed-in-place-and-left-alone-stays-unwritten`

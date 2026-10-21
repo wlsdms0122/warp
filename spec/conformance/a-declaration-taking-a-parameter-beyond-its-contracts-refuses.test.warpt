@@ -1,0 +1,26 @@
+(test 1)
+(name "a-declaration-taking-a-parameter-beyond-its-contracts-refuses")
+(note "A declaration answering a contract's procedure takes exactly the contract's positions. `App.Card.label` takes a second parameter the contract does not ask, and no call through the contract writes it, so the claim refuses at the build, at the claim, `T?` or not.")
+
+(program
+  (warp 1)
+  (struct App.Card
+    (satisfies App.Labelled)
+    (field last String)
+    (procedure label
+      (parameter of (type App.Card))
+      (parameter suffix (type (nullable String)))
+      (returns String)
+      (body
+        (return (path of (field last))))))
+  (contract App.Labelled
+    (procedure label
+      (parameter of (type Self))
+      (returns String)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (return (call App.Labelled.label (as (struct (field last "42")) App.Card))))))
+(expect (refuses build))

@@ -1,0 +1,5 @@
+(test 1)
+(name "a-text-ending-inside-an-escape-refuses")
+(note "A backslash in text begins an escape, and a text that ends right after one is refused.")
+(text "(warp 1)\n(const a \"ab\\")
+(expect (refuses load))
