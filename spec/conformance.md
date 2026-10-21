@@ -50,7 +50,7 @@ Each format declares itself, and that is how the two are told apart: a case says
 
 `expect` holds one of `answers`, `reads`, `spells`, `builds` or `refuses`. One slot, so "one of them and exactly one" is the shape of the map rather than a rule about keys that could all be written or none.
 
-**What a case expects is matched strictly.** An answer, and what `reads` and `spells` read, match the value written where both are of one kind and one spelling, part by part: a whole number does not match a fraction, nor bytes the array of the same numbers, though `equal` answers that each pair is one value under [values](value.md). Text matches as values compare it, a map matches one of matching keys bound to matching values, and a struct one of the same name and the same fields.
+**What a case expects is matched strictly.** An answer, and what `reads` and `spells` read, match the value written where both are of one kind and one spelling, part by part: a whole number does not match a fraction, nor bytes the array of the same numbers, though `equal` answers that each pair is one value under [values](value.md). Text in an answer matches as values compare it, and text that `reads` and `spells` read, a key included, matches only text of the same Unicode scalars, since the spelling a reading answers is what those two ask about. A map matches one of matching keys bound to matching values, and a struct one of the same name and the same fields.
 
 **`vocabulary` is what the runner brings.** Most of what a document may say about a procedure the host answers is not something a case can write down: the code is the host's. So a case writes the part that is in the document, and the runner builds the rest.
 
