@@ -39,13 +39,19 @@ A **front end** turns what a person wrote into a document. A **runtime** reads d
 
 ## This repository
 
-| directory | what | is |
-|---|---|---|
-| [`spec/`](spec/README.md) | the language: constructs, document format, encodings, object format, refusal rules, conformance cases | the specification |
-| [`runtime/warp-runtime-swift/`](runtime/warp-runtime-swift/README.md) | `Warp` `WarpSyntax` `WarpStandard` | one runtime |
-| [`frontend/warp-frontend-yaml/`](frontend/warp-frontend-yaml/README.md) | `WarpYAML` | one front end |
+| directory | what |
+|---|---|
+| [`spec/`](spec/README.md) | the language: constructs, document format, encodings, object format, refusal rules, conformance cases |
+| [`lib/standard/`](lib/standard) | the part of the standard vocabulary written in Warp |
 
-The specification is the language. An implementation, this runtime included, is complete when it does what the specification says. A front end or runtime in another language starts from `spec/` and `spec/conformance/`.
+Implementations live in repositories of their own:
+
+| repository | what | is |
+|---|---|---|
+| `warp-runtime-swift` | `Warp` `WarpSyntax` `WarpStandard` | one runtime |
+| `warp-frontend-yaml` | `WarpYAML` | one front end |
+
+The specification is the language. An implementation is complete when it does what the specification says. A front end or runtime in another language starts from `spec/` and `spec/conformance/`.
 
 ## The shortest tour
 
