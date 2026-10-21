@@ -1,6 +1,6 @@
 (test 1)
 (name "two-documents-that-need-each-other-refuse")
-(note "A document is read against what it sends and the types its signatures name, so what it needs is compiled before it. Two documents that each need the other have no such order: neither can be the one that goes first, and the pair is refused rather than either document.")
+(note "A document beside the program is built against what stands before it. `Ring.a` sends `Ring.b`, which only the document laid after it declares, so the send reaches nothing and the build refuses.")
 
 (documents
   (document
@@ -8,16 +8,14 @@
     (import Ring.b)
     (procedure Ring.a
       (returns Int)
-      (failing (anything))
       (body
         (return (call Ring.b)))))
   (document
     (warp 1)
-    (import Ring.a)
     (procedure Ring.b
       (returns Int)
       (body
-        (return (call Ring.a))))))
+        (return 1)))))
 
 (program
   (warp 1)
