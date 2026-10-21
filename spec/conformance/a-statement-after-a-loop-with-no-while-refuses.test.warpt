@@ -1,0 +1,15 @@
+(test 1)
+(name "a-statement-after-a-loop-with-no-while-refuses")
+(note "A loop written with no `while` declares that it does not finish, so the `return` after it would never run.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (loop
+        (body
+          (return 1)))
+      (return 2))))
+(expect (refuses load))

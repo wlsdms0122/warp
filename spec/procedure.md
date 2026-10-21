@@ -123,6 +123,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-body-declared-const-writing-at-a-place-a-module-variable-finds-refuses`
 - `a-body-ending-in-a-conditional-both-of-whose-arms-return-answers-as-declared`
 - `a-body-ending-in-a-conditional-only-one-arm-of-which-returns-refuses`
+- `a-body-ending-in-a-loop-with-no-while-whose-body-returns-answers-as-declared`
+- `a-body-ending-in-a-while-true-loop-whose-body-returns-refuses`
 - `a-body-that-branches-answers-without-running`
 - `a-body-that-loops-answers-without-running`
 - `a-call-failing-before-it-writes-an-entry-taken-in-place-is-rescued`
@@ -204,6 +206,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-private-name-is-typed-by-its-own-document`
 - `a-private-procedure-called-beside-its-declaration-runs`
 - `a-private-procedure-called-from-another-document-refuses`
+- `a-procedure-returning-never-whose-body-is-a-loop-with-no-while-builds`
 - `a-procedure-the-host-answers-is-handed-a-path-indexed-with-a-name`
 - `a-procedure-type-naming-a-failure-anything-refuses`
 - `a-procedure-value-cast-to-a-procedure-type-is-called`

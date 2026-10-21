@@ -124,6 +124,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-body-failing-beyond-its-declaration-refuses`
 - `a-body-introducing-its-parameter-again-refuses`
 - `a-break-in-a-closure-written-in-a-loop-refuses`
+- `a-break-naming-a-loop-with-no-while-refuses`
+- `a-break-naming-an-outer-loop-from-a-loop-with-no-while-ends-the-outer-loop`
 - `a-break-outside-a-loop-refuses`
 - `a-budget-on-a-loop-refuses`
 - `a-call-of-a-value-fails-with-what-its-slots-procedure-type-names`
@@ -137,6 +139,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-conditional-writes-the-flow-it-is-in`
 - `a-construct-key-in-an-argument-refuses`
 - `a-construct-key-outside-a-statement-is-a-field-name`
+- `a-continue-in-a-loop-with-no-while-starts-the-next-round`
 - `a-declaration-failing-with-anything-may-fail-with-any-failure`
 - `a-declared-type-naming-a-type-parameter-refuses`
 - `a-declared-type-nothing-declares-refuses`
@@ -150,6 +153,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-loop-named-with-var-refuses`
 - `a-loop-reads-how-many-rounds-passed`
 - `a-loop-under-a-set-refuses`
+- `a-loop-with-no-while-binds-its-round-under-its-name`
 - `a-loop-written-nameless-binds-no-round`
 - `a-loops-name-leaves-the-outer-name-after-the-loop`
 - `a-loops-name-leaves-the-outer-name-to-what-a-constant-call-reads`
@@ -170,6 +174,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-name-on-what-never-finishes-refuses`
 - `a-name-saying-nothing-handed-in-place-at-another-type-refuses`
 - `a-name-says-what-it-holds`
+- `a-nameless-break-in-a-loop-with-no-while-refuses`
 - `a-parameter-introduced-again-in-a-nested-body-is-a-new-name`
 - `a-parameter-may-take-a-constants-spelling`
 - `a-path-writing-through-a-field-not-declared-var-refuses`
@@ -190,6 +195,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-set-without-a-value-refuses`
 - `a-statement-after-a-call-answering-an-alias-of-never-refuses`
 - `a-statement-after-a-conditional-both-of-whose-arms-leave-refuses`
+- `a-statement-after-a-loop-with-no-while-refuses`
 - `a-statement-after-leaving-refuses`
 - `a-statement-after-what-never-finishes-refuses`
 - `a-statement-saying-two-things-refuses`

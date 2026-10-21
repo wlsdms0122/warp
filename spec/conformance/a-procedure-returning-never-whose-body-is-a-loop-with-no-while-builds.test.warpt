@@ -1,0 +1,16 @@
+(test 1)
+(name "a-procedure-returning-never-whose-body-is-a-loop-with-no-while-builds")
+(note "A loop written with no `while` declares that it does not finish, so a body that is one leaves on every way through it, and the procedure declares `returns Never`. It would not finish at the run, so the case asks what it builds.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure serve
+    (access public)
+    (returns Never)
+    (body
+      (var served (type Int) 0)
+      (loop
+        (body
+          (set served (call Standard.Numeric.plus served 1)))))))
+(expect (builds (dictionary (entry "addressTable" (array (array 0 (array)) (array 0 (array)))) (entry "claims" (array)) (entry "constants" (array)) (entry "contracts" (array)) (entry "dependencies" (array x"a5732dc98a9098112838793ee3bc74983ef772acd039ef92ff67a167c57fe995")) (entry "document" (array x"3b455b3b00c85d0c7b653f28953ec48ce2970aa9b4161887424e4cf63e26c143")) (entry "importedClaims" (array)) (entry "lifted" (array)) (entry "loweredTypeTable" (array)) (entry "members" (array)) (entry "numbering" (array (array "Standard.Numeric.plus") (array))) (entry "object" 1) (entry "operationTable" (array (array 0 0) (array 0 1) (array 1 1) (array 0 2) (array 12 (array "Standard.Numeric" "plus" 2 (array (array 0 3)))) (array 9 1 (array (array (array (array 2 0)) 4 "served")) (array)))) (entry "rows" (array (array "serve" (array (array) 0 (array 1 (array)) 0 0 (array) (array)) 2 (array 0 (array (array (array (array 1 0)) 0 "served") (array (array) 5 "[1]")) (array 1 (array) (array) (array) (array "served")))))) (entry "typeMembers" (array)) (entry "typeNumbering" (array)) (entry "typeTable" (array (array 1))) (entry "types" (array)) (entry "valueTable" (array (array 2 0) (array 1 true) (array 2 1))) (entry "variables" (array)))))
