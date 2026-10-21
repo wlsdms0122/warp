@@ -1,0 +1,5 @@
+(test 1)
+(name "a-zero-between-the-brackets-written-with-a-minus-refuses")
+(note "A whole number between the brackets carries a `-` only below zero, so `a[-0]` is a second spelling of `a[0]`.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "let" "a") (entry "value" (array 5 6))) (dictionary (entry "value" (dictionary (entry "return" (dictionary (entry "ref" "a[-0]")))))))) (entry "returns" "Int"))))) (entry "warp" 1)))
+(expect (refuses load))

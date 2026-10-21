@@ -113,8 +113,11 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-struct-read-by-a-key-the-run-reads-refuses`
 - `a-text-left-open-between-the-brackets-refuses`
 - `a-whole-number-below-zero-is-a-key-of-a-map`
+- `a-whole-number-between-the-brackets-with-a-leading-zero-refuses`
+- `a-whole-number-between-the-brackets-written-with-a-plus-refuses`
 - `a-write-at-a-constant-index-below-zero-refuses`
 - `a-write-at-an-index-below-zero-refuses`
+- `a-zero-between-the-brackets-written-with-a-minus-refuses`
 - `an-absent-dictionary-entry-refuses`
 - `an-element-of-a-constant-list-reads-as-its-element-type-refuses`
 - `an-element-of-a-constant-struct-field-reads-as-its-element-type-refuses`
@@ -144,3 +147,4 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `the-optional-bracket-past-the-end-refuses`
 - `the-optional-bracket-reads-through-a-nullable`
 - `the-optional-dot-reads-through-a-nullable`
+- `white-space-around-what-the-brackets-hold-refuses`
