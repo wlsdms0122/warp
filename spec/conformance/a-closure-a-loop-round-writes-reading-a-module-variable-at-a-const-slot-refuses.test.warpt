@@ -1,11 +1,10 @@
 (test 1)
 (name "a-closure-a-loop-round-writes-reading-a-module-variable-at-a-const-slot-refuses")
-(note "A loop's round hands a variable to a slot of a `const` procedure type and then writes into it a closure reading a module variable. The round after reads that closure as one that runs, so the hand refuses.")
+(note "A loop's round hands a variable holding a `const` closure to a slot of a `const` procedure type and then writes into it a closure that does not declare `const`. The round after reads the variable as what both rounds wrote, which says nothing about running, so the hand refuses.")
 
 (program
   (warp 1)
   (import Standard.Comparable.lessThan)
-  (var standing "held")
   (procedure asking
     (parameter body (type (procedure (const) (parameters) (returns String))))
     (returns String)
@@ -18,6 +17,7 @@
     (body
       (var g
         (closure
+          (const)
           (returns String)
           (body
             (return "x"))))
@@ -30,6 +30,6 @@
               (closure
                 (returns String)
                 (body
-                  (return standing)))))))
+                  (return "y")))))))
       (return "done"))))
 (expect (refuses build))

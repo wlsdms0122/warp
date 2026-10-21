@@ -1,6 +1,6 @@
 (test 1)
 (name "a-declaration-that-runs-backing-a-const-contract-refuses")
-(note "A contract's procedure writing `const` asks every declaration answering it to answer without running. One that reads a module variable answers by the run's state, so the claim it would back does not hold, and refuses at the build, at the claim.")
+(note "A contract's procedure writing `const` asks every declaration answering it to answer without running. `App.Thing.name` does not declare `const`, so it says it may run, and the claim it would back does not hold, and refuses at the build, at the claim.")
 
 (program
   (warp 1)
