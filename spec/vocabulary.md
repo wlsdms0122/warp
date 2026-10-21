@@ -189,6 +189,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-document-writes-a-short-circuiting-connective`
 - `a-document-writes-map-over-a-const-slot`
 - `a-document-writes-startsWith-over-characters`
+- `a-fraction-divided-by-negative-zero-refuses`
+- `a-fraction-divided-by-zero-refuses`
 - `a-list-holding-no-byte-handed-to-decoded-refuses`
 - `a-list-of-pieces-joining-to-any-at-a-fan-out-refuses`
 - `a-mapped-procedure-chooses-what-it-answers`
