@@ -113,7 +113,7 @@ An *operation* is the number of an entry in `operationTable`, and the entry is `
 | 5 | calling a value | the callee *operation*, arguments: list of *argument*, in position order |
 | 6 | a cast | *operation*, *lowered type*, *optional* |
 | 8 | a conditional | the condition *operation*, then: *instruction* list, else: *instruction* list or nothing |
-| 9 | a loop | the condition *operation*, the round: *instruction* list, the round's slot or nothing |
+| 9 | a loop | the condition *operation*, a literal `true` for a loop written with no `while`, the round: *instruction* list, the round's slot or nothing |
 | 10 | an attempt | the body: *instruction* list, the rescue: *instruction* list, the failure's slot or nothing |
 | 11 | a call | *call* |
 | 12 | a call through a contract | *dispatch* |
