@@ -59,7 +59,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-failure-in-a-loop-round-carries-the-rounds-before-it`
 - `a-list-holding-a-struct-of-more-fields-than-a-struct-type-refuses`
 - `a-list-literal-a-declared-name-starts-with-is-read-position-by-position-refuses`
-- `a-list-literal-a-result-answers-is-read-position-by-position-refuses`
 - `a-list-literal-a-return-answers-is-read-position-by-position-refuses`
 - `a-list-literal-handed-to-a-call-is-read-part-by-part-refuses`
 - `a-list-literal-handed-to-a-called-value-is-read-position-by-position-refuses`

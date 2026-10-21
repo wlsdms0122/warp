@@ -152,7 +152,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-loop-reads-how-many-rounds-passed`
 - `a-loop-takes-no-budget`
 - `a-loop-under-a-set-refuses`
-- `a-loop-writing-a-result-refuses`
 - `a-loop-written-nameless-binds-no-round`
 - `a-loops-name-leaves-the-outer-name-after-the-loop`
 - `a-loops-name-leaves-the-outer-name-to-what-a-constant-call-reads`
@@ -185,8 +184,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-rescue-reads-what-a-cast-refused`
 - `a-rescue-reads-what-a-failure-carried`
 - `a-rescue-that-produces-nothing-refuses`
-- `a-result-after-leaving-refuses`
-- `a-result-after-what-never-finishes-refuses`
 - `a-return-is-held-to-the-declaration`
 - `a-round-ending-in-continue-goes-on-to-the-next`
 - `a-set-of-a-failures-name-refuses`
