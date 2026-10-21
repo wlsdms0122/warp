@@ -242,6 +242,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `first-and-last-read-the-ends`
 - `first-answers-the-first-success`
 - `first-in-which-nothing-succeeds-fails-with-every-piece`
+- `first-keyed-over-a-piece-that-refuses-before-one-succeeds-refuses`
 - `first-keyed-over-nothing-refuses`
 - `first-over-a-piece-that-refuses-before-one-succeeds-refuses`
 - `first-over-nothing-refuses`
