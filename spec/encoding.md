@@ -109,9 +109,11 @@ What `conformance/` asks about this page, by the name each case's file carries. 
 - `a-later-format-refuses`
 - `a-length-past-the-end-of-the-document-refuses`
 - `a-map-claiming-more-than-the-document-holds-refuses`
+- `a-map-key-that-is-the-array-of-the-bytes-before-refuses`
 - `a-map-key-the-same-as-the-one-before-refuses`
 - `a-map-key-written-twice-refuses`
 - `a-map-keyed-by-values-reads-and-writes-back`
+- `a-nan-refuses`
 - `a-number-written-longer-than-it-is-refuses`
 - `a-string-that-is-not-utf8-refuses`
 - `a-struct-claiming-more-than-the-document-holds-refuses`
@@ -132,6 +134,7 @@ What `conformance/` asks about this page, by the name each case's file carries. 
 - `bytes-that-end-inside-a-value-refuse`
 - `map-keys-out-of-order-refuse`
 - `nesting-past-the-bound-refuses`
+- `nesting-through-a-maps-key-past-the-bound-refuses`
 - `struct-fields-out-of-order-refuse`
 - `the-golden-map-reads-and-writes-back`
 - `the-spellings-a-text-reads-are-pinned-by-bytes`
