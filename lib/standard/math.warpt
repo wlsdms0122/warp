@@ -1,12 +1,10 @@
 (warp 1)
-(description "Ordering the other way round, choosing between two and dropping a sign, written from lessThan and minus.")
 (import Standard.Comparable)
 (import Standard.Comparable.lessThan)
 (import Standard.Numeric)
 (import Standard.Numeric.minus)
 
 (procedure Standard.Math.absolute
-  (description "The number without its sign.")
   (const)
   (isolated)
   (parameter number (type (some N Standard.Comparable Standard.Numeric)))
@@ -20,7 +18,6 @@
     (return (call Standard.Numeric.minus zero number))))
 
 (procedure Standard.Math.greaterThan
-  (description "Whether the first is larger, by the one order.")
   (const)
   (isolated)
   (parameter lhs (type (some T Standard.Comparable)))
@@ -30,7 +27,6 @@
     (return (call Standard.Comparable.lessThan rhs lhs))))
 
 (procedure Standard.Math.max
-  (description "The larger of two of one type, by the one order.")
   (const)
   (isolated)
   (parameter lhs (type (some T Standard.Comparable)))
@@ -44,7 +40,6 @@
     (return rhs)))
 
 (procedure Standard.Math.min
-  (description "The smaller of two of one type, by the one order.")
   (const)
   (isolated)
   (parameter lhs (type (some T Standard.Comparable)))

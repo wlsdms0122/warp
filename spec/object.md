@@ -79,7 +79,7 @@ A *type* is the number of an entry in `typeTable`, and the entry is `[tag, …]`
 
 A *head* is what a document gives a type under, under [types](type.md): a name where it is bare, and otherwise `[name, arguments, bounds]`, the types it applies the named type to, a list of *type*, at least one, and name → the contracts bounding the type parameter of that name, ascending, at least one, for each one it bounds. A list a head keys stands in the order of the heads' spellings, as names, none twice.
 
-A *procedure type* is `[parameters, returns, failing]`: a list of *type*, in position order, a *type*, and a *failing*. A *signature* is `[parameters, returns, failing, constness, isolation, bounds, sameTypes]`: a list of *parameter*, in the declaration's order; a *type*; a *failing*; a *constness*; an *isolation*; name → the contracts bounding the type parameter or the associated type of that name, ascending, at least one, for each one the signature bounds; and name → *type* for each associated type the signature says is a type. A *parameter* is `[name, type, description]`: the name, then each a list of none or one: a *type*, none where the parameter takes anything, so `Any` is never written there; a string.
+A *procedure type* is `[parameters, returns, failing]`: a list of *type*, in position order, a *type*, and a *failing*. A *signature* is `[parameters, returns, failing, constness, isolation, bounds, sameTypes]`: a list of *parameter*, in the declaration's order; a *type*; a *failing*; a *constness*; an *isolation*; name → the contracts bounding the type parameter or the associated type of that name, ascending, at least one, for each one the signature bounds; and name → *type* for each associated type the signature says is a type. A *parameter* is `[name, type]`: the name, then a list of none or one *type*, none where the parameter takes anything, so `Any` is never written there.
 
 *Constness* is `0` unstated or `1` const. *Isolation* is `0` unstated or `1` isolated. *Failing* is `[0]`, anything, or `[1, names]`, the names ascending.
 
@@ -217,7 +217,7 @@ compiles to an object with one row, written as data, one entry a line and `rows`
   (entry "operationTable" (array (array 1 0) (array 0 0) (array 11 (array 0 (array (array 0) (array 1)) (array))) (array 13 0 (array) (array 2))))
   (entry "rows" (array
     (array "entry"
-      (array (array (array "n" (array 1) (array))) 3 (array 1 (array)) 1 1 (array) (array))
+      (array (array (array "n" (array 1))) 3 (array 1 (array)) 1 1 (array) (array))
       2
       (array 0 (array (array (array) 3 "[0]")) (array 1 (array 0) (array) (array) (array "n"))))))
   (entry "typeMembers" (array))

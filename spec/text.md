@@ -30,7 +30,6 @@ Only text is quoted, always, so a name stands bare wherever it reads back bare, 
 
 ```
 (warp 1)                                    warp: 1, first
-(description "…")                           description
 (import Standard.Numeric.plus)              imports += "Standard.Numeric.plus"
 (import App.Point Hashable)                 imports += "App.Point: Hashable", a claim
 (const seven <expression>)                  const.seven
@@ -70,18 +69,17 @@ Only text is quoted, always, so a name stands bare wherever it reads back bare, 
 
 - A struct always writes `struct` in the tree, a struct with no field included.
 - A member is a procedure under its short name, called as `(call App.Box.area …)`.
-- A contract's procedure is its signature, `const` and `isolated` among it. One writing a `body`, a `description` or an `access` has a tree, which the load refuses.
+- A contract's procedure is its signature, `const` and `isolated` among it. One writing a `body` or an `access` has a tree, which the load refuses.
 - A bound is the contracts' names after the name it bounds. A head is a type, and the tree's key is its string.
 
 ## Procedures and closures
 
 ```
 (procedure App.g
-  (description "…")                         description
   (access public)                           access: public; also internal, private
   (const)                                   const: true
   (isolated)                                isolated: true
-  (parameter f (type <type>) (description "…"))   parameters += { name: f, type, description }
+  (parameter f (type <type>))               parameters += { name: f, type }
   (returns <type>)                          returns
   (failing aborted cast_refused)            failing: [aborted, cast_refused]
   (bound C.Item Hashable)                   bounds."C.Item": "Hashable"
@@ -201,7 +199,7 @@ Data is the nodes above that hold values, read as values: the scalars, `(array �
 - **A list breaks when it is a node that breaks by place and holds a list, or holds a list that breaks.** A list that breaks keeps the atoms it begins with on its first line and writes each part after them on a line of its own, two spaces deeper; its `)` closes the last line. Every other list is written on one line.
 - The nodes that break by place: a declaration's node (`procedure`, `struct`, `contract` and `extension` at the top, and `procedure` inside them), `closure`, the constructs (`conditional`, `loop`, `attempt`), the statement lists of a procedure, a closure and the constructs (`body`, `then`, `else`, `rescue`), and a case's `program`, `documents`, `document` inside `documents`, and `vocabulary`. A type's `procedure`, a struct value and data do not.
 - At the top of a text, one node a line, and a blank line before each node that breaks.
-- Parts stand in the writer's order: in a procedure `description`, `access`, `const`, `isolated`, the parameters, `returns`, `failing`, `bound`, `sameType`, `body`, `answers`; in a document `warp`, `description`, the imports, constants, variables, types, contracts, extensions and procedures, each kind by name; in a case `test`, `name`, `note`, `documents`, `vocabulary`, `program` or `tree`, `bytes`, `text`, `object`, `document`, `arguments`, `expect`; inside the other nodes in the order this page shows them, each kind by name. Data writes a map's entries in the key order and a struct's fields ascending by their names' bytes, under [values](value.md). The text ends with one newline.
+- Parts stand in the writer's order: in a procedure `access`, `const`, `isolated`, the parameters, `returns`, `failing`, `bound`, `sameType`, `body`, `answers`; in a document `warp`, the imports, constants, variables, types, contracts, extensions and procedures, each kind by name; in a case `test`, `name`, `note`, `documents`, `vocabulary`, `program` or `tree`, `bytes`, `text`, `object`, `document`, `arguments`, `expect`; inside the other nodes in the order this page shows them, each kind by name. Data writes a map's entries in the key order and a struct's fields ascending by their names' bytes, under [values](value.md). The text ends with one newline.
 
 A case as the writer lays it out:
 

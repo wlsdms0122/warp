@@ -1,5 +1,4 @@
 (warp 1)
-(description "Scanning text, written from its characters.")
 (import Standard.Collection.appending)
 (import Standard.Collection.count)
 (import Standard.Comparable.lessThan)
@@ -12,7 +11,6 @@
 (import Standard.Text.joined)
 
 (procedure Standard.Text.contains
-  (description "Whether a string holds another inside it.")
   (const)
   (isolated)
   (parameter text (type String))
@@ -43,7 +41,6 @@
     (return false)))
 
 (procedure Standard.Text.replacing
-  (description "Every occurrence of a piece swapped for another.")
   (const)
   (isolated)
   (parameter text (type String))
@@ -59,7 +56,6 @@
     (return (call Standard.Text.joined (call Standard.Text.split text target) replacement))))
 
 (procedure Standard.Text.split
-  (description "The text cut on a separator.")
   (const)
   (isolated)
   (parameter text (type String))
@@ -108,7 +104,6 @@
     (return (call Standard.Collection.appending pieces (call Standard.Text.joined current "")))))
 
 (procedure Standard.Text.startsWith
-  (description "Whether a string begins with another.")
   (const)
   (isolated)
   (parameter text (type String))
