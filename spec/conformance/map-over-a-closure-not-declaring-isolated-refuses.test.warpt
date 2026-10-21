@@ -1,6 +1,6 @@
 (test 1)
 (name "map-over-a-closure-not-declaring-isolated-refuses")
-(note "`Standard.Concurrent.map` asks for an isolated closure. This one writes the captured variable `tally` and does not declare `isolated`, so the build refuses it where it is handed over.")
+(note "`Standard.Concurrent.map` asks for an isolated closure. This one writes the captured variable `tally`, as a closure not declaring `isolated` may, and it is handed where `isolated` is declared, so the build refuses it there.")
 
 (program
   (warp 1)
