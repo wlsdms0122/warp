@@ -195,6 +195,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-module-constant-closure-calling-another-carries-what-it-declares`
 - `a-parameter-declared-twice-refuses`
 - `a-parameter-handed-in-place-read-past-what-the-box-holds-now-refuses`
+- `a-parameter-writing-its-type-as-any-refuses`
 - `a-path-handed-in-place-is-written-through`
 - `a-piece-that-writes-what-it-captured-refuses`
 - `a-private-declaration-backing-a-claim-refuses`
