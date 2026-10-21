@@ -108,11 +108,13 @@ What `conformance/` asks about this page, by the name each case's file carries. 
 - `a-key-that-is-a-byte-order-mark-is-kept`
 - `a-later-format-refuses`
 - `a-length-past-the-end-of-the-document-refuses`
+- `a-map-claiming-more-than-the-document-holds-refuses`
 - `a-map-key-the-same-as-the-one-before-refuses`
 - `a-map-key-written-twice-refuses`
 - `a-map-keyed-by-values-reads-and-writes-back`
 - `a-number-written-longer-than-it-is-refuses`
 - `a-string-that-is-not-utf8-refuses`
+- `a-struct-claiming-more-than-the-document-holds-refuses`
 - `a-struct-name-that-is-not-declarable-refuses`
 - `a-struct-named-for-a-type-the-language-names-refuses`
 - `a-struct-reads-and-writes-back`
@@ -120,10 +122,12 @@ What `conformance/` asks about this page, by the name each case's file carries. 
 - `a-text-key-not-in-normal-form-c-is-kept`
 - `a-varint-carrying-past-bit-63-refuses`
 - `a-varint-of-eleven-bytes-refuses`
+- `an-array-claiming-more-than-the-document-holds-refuses`
 - `an-empty-field-name-refuses`
 - `an-infinity-refuses`
 - `an-unknown-tag-refuses`
 - `bytes-after-the-document-ends-refuse`
+- `bytes-claiming-more-than-the-document-holds-refuse`
 - `bytes-that-do-not-begin-as-a-document-refuse`
 - `bytes-that-end-inside-a-value-refuse`
 - `map-keys-out-of-order-refuse`

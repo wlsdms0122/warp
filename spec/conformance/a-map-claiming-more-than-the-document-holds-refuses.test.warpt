@@ -1,0 +1,5 @@
+(test 1)
+(name "a-map-claiming-more-than-the-document-holds-refuses")
+(note "Every entry of a map costs at least two bytes, its key and its value, so a map claiming more entries than the document can hold is refused before anything is set aside for them.")
+(bytes x"574152500107808080808080808001")
+(expect (refuses load))
