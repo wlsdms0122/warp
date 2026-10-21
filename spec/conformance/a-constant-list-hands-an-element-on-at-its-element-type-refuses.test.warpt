@@ -1,6 +1,6 @@
 (test 1)
 (name "a-constant-list-hands-an-element-on-at-its-element-type-refuses")
-(note "A list's elements share one element type, the join of every element's, so `k[0]` reads as that type whatever its own closure was. One element calls a value and runs, so the element type is not `const`, and handing `k[0]` where `map` asks a `const` procedure refuses at the build. A struct's fields keep their own types.")
+(note "A list's elements share one element type, the join of every element's, so `k[0]` reads as that type whatever its own closure was. One element does not declare `const`, so the element type is not `const`, and handing `k[0]` where `map` asks a `const` procedure refuses at the build. A struct's fields keep their own types.")
 
 (program
   (warp 1)
@@ -8,23 +8,18 @@
   (const k
     (array
       (closure
+        (const)
+        (isolated)
         (parameter x (type Int))
         (returns Int)
         (body
           (return x)))
       (closure
+        (isolated)
         (parameter x (type Int))
         (returns Int)
-        (failing (anything))
         (body
-          (let h
-            (closure
-              (parameter q (type Int))
-              (returns Int)
-              (body
-                (return q))))
-          (let z (apply h x))
-          (return z)))))
+          (return x)))))
   (procedure entry
     (access public)
     (returns (array Int))
