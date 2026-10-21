@@ -46,7 +46,7 @@ A construct's key, `conditional` or `loop`, is read under a statement's `value` 
 What `conformance/` asks about this page, by the name each case's file carries.
 
 - `a-backslash-before-what-it-does-not-escape-refuses`
-- `a-bracket-that-closes-nothing-in-a-path-is-refused`
+- `a-bracket-that-closes-nothing-in-a-path-refuses`
 - `a-cast-from-any-to-a-struct-naming-itself-answers`
 - `a-cast-naming-a-type-nothing-declares-refuses`
 - `a-cast-naming-what-the-reading-already-is-refuses`
@@ -62,11 +62,11 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-cast-to-a-list-of-an-alias-of-the-struct-a-list-holds-refuses`
 - `a-cast-to-a-procedure-type-answering-an-alias-of-what-it-answers-refuses`
 - `a-cast-writes-a-whole-literal-it-reads-as-the-fraction-its-type-names-answers`
-- `a-closure-answers-what-it-declared`
 - `a-closure-reads-a-variable-through-its-box`
-- `a-closure-write-keeps-the-captured-type`
 - `a-closure-writes-what-it-captured`
 - `a-closure-writing-access-refuses`
+- `a-closures-answer-its-returns-does-not-take-refuses`
+- `a-closures-write-of-another-type-into-what-it-captured-refuses`
 - `a-constant-between-the-brackets-settles-to-a-key-of-its-type`
 - `a-constant-closure-called-with-another-count-refuses`
 - `a-constant-closure-called-with-another-type-refuses`
@@ -81,8 +81,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-dictionary-read-at-a-constant-key-reads-the-entry`
 - `a-dot-on-a-map-refuses`
 - `a-dot-on-a-type-parameter-refuses`
-- `a-dot-on-a-type-with-no-fields-is-refused`
-- `a-dot-on-any-is-refused`
+- `a-dot-on-a-type-with-no-fields-refuses`
+- `a-dot-on-any-refuses`
 - `a-dot-through-a-null-the-text-shows-refuses`
 - `a-key-read-as-the-type-parameter-a-map-is-keyed-by-reads-its-entry`
 - `a-key-reference-of-another-type-than-the-key-refuses`
@@ -95,7 +95,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-map-literal-written-where-a-map-is-declared-is-held-part-by-part-refuses`
 - `a-mapping-with-no-tag-refuses`
 - `a-mapping-with-two-form-keys-refuses`
-- `a-marked-head-is-refused`
+- `a-marked-head-refuses`
 - `a-path-headed-by-a-name-under-a-constants-spelling-reads-the-name`
 - `a-path-nested-past-the-bound-refuses`
 - `a-path-nested-to-the-bound-is-read`
@@ -117,7 +117,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-element-of-a-constant-struct-field-reads-as-its-element-type-refuses`
 - `an-empty-map-literal-is-a-map-of-any-types`
 - `an-index-into-a-type-parameter-refuses`
-- `an-index-into-any-is-refused`
+- `an-index-into-any-refuses`
 - `an-index-past-the-end-refuses`
 - `an-index-past-what-an-int-holds-refuses`
 - `an-index-read-by-a-name-under-a-constants-spelling-reads-the-name`
@@ -129,15 +129,15 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-optional-cast-to-a-list-of-a-type-parameter-refuses`
 - `an-optional-dot-on-a-field-that-is-there-refuses`
 - `an-optional-segment-reads-absence-as-null`
-- `an-unclosed-bracket-in-a-path-is-refused`
+- `an-unclosed-bracket-in-a-path-refuses`
 - `an-undeclared-field-refuses`
-- `indexing-what-may-be-null-takes-the-optional-bracket`
-- `reading-what-may-be-null-takes-the-optional-dot`
+- `indexing-what-may-be-null-without-the-optional-bracket-refuses`
+- `reading-what-may-be-null-without-the-optional-dot-refuses`
 - `the-asking-cast-reads-a-mismatch-as-null`
 - `the-asking-cast-reads-another-name-as-null`
 - `the-empty-text-is-a-key`
 - `the-optional-bracket-answers-null-for-the-null`
-- `the-optional-bracket-on-an-array-that-is-there-is-refused`
+- `the-optional-bracket-on-an-array-that-is-there-refuses`
+- `the-optional-bracket-past-the-end-refuses`
 - `the-optional-bracket-reads-through-a-nullable`
-- `the-optional-bracket-still-refuses-past-the-end`
 - `the-optional-dot-reads-through-a-nullable`

@@ -1,5 +1,5 @@
 (test 1)
-(name "a-bracket-that-closes-nothing-in-a-path-is-refused")
+(name "a-bracket-that-closes-nothing-in-a-path-refuses")
 (note "A `]` in a path closes a `[` written before it. One that closes nothing is no part of a name, so `a]` is refused though `a` is declared.")
 (tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "let" "a") (entry "value" 1)) (dictionary (entry "value" (dictionary (entry "return" (dictionary (entry "ref" "a]")))))))) (entry "returns" "Int"))))) (entry "warp" 1)))
 (expect (refuses load))
