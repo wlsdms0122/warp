@@ -133,6 +133,7 @@ What `conformance/` asks about this page, by the name each case's file carries. 
 - `bytes-that-do-not-begin-as-a-document-refuse`
 - `bytes-that-end-inside-a-value-refuse`
 - `map-keys-out-of-order-refuse`
+- `negative-zero-spells-with-its-sign`
 - `nesting-past-the-bound-refuses`
 - `nesting-through-a-maps-key-past-the-bound-refuses`
 - `struct-fields-out-of-order-refuse`
