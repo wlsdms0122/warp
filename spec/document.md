@@ -2,7 +2,7 @@
 
 What a document is: the map a program travels as, and the module it declares. This page is the outline. What each of its slots holds is [procedures](procedure.md), [statements](statement.md), [expressions](expression.md) and [types](type.md), and the bytes it arrives as are [encodings](encoding.md).
 
-A document is one map. Every map this grammar names, on this page and on the pages it points to, is keyed by names, text in normal form C with something in it, and is **closed**: a key that is no name, and a key none of them names, **refuse at the load**. Every slot marked *expression*, *block*, *statements* or *type* takes the grammar of that name.
+A document is one map. Every map this grammar names, on this page and on the pages it points to, is keyed by names, text in normal form C with something in it, and is **closed**: a key that is no name, and a key none of them names, **refuse at the load**. Every slot marked *expression*, *statements* or *type* takes the grammar of that name.
 
 ## The module
 

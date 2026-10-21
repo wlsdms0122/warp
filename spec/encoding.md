@@ -79,7 +79,8 @@ The readable form: a document or a case written as the IR's own nodes, in two la
 (procedure entry
   (access public)
   (returns Int)
-  (result (call Standard.Numeric.plus 1 2)))
+  (body
+    (return (call Standard.Numeric.plus 1 2))))
 ```
 
 A text is UTF-8 bytes before it is anything else, and bytes that are not **refuse**.
