@@ -22,7 +22,8 @@
           (parameter c (type (inout Int)))
           (returns Any)
           (body
-            (set c (call Standard.Numeric.plus c 1))))
+            (set c (call Standard.Numeric.plus c 1))
+            (return)))
         n)
       (return n))))
 (expect (answers 1))
