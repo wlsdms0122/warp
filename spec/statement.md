@@ -126,6 +126,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-break-in-a-closure-written-in-a-loop-refuses`
 - `a-break-naming-a-loop-with-no-while-refuses`
 - `a-break-naming-an-outer-loop-from-a-loop-with-no-while-ends-the-outer-loop`
+- `a-break-naming-an-outer-loop-past-a-named-one-ends-the-outer-loop`
+- `a-break-naming-the-nearest-loop-refuses`
 - `a-break-outside-a-loop-refuses`
 - `a-budget-on-a-loop-refuses`
 - `a-call-of-a-value-fails-with-what-its-slots-procedure-type-names`
@@ -140,6 +142,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-construct-key-in-an-argument-refuses`
 - `a-construct-key-outside-a-statement-is-a-field-name`
 - `a-continue-in-a-loop-with-no-while-starts-the-next-round`
+- `a-continue-naming-an-outer-loop-past-a-named-one-starts-its-next-round`
+- `a-continue-naming-the-nearest-loop-refuses`
 - `a-declaration-failing-with-anything-may-fail-with-any-failure`
 - `a-declared-type-naming-a-type-parameter-refuses`
 - `a-declared-type-nothing-declares-refuses`
