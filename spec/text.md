@@ -140,7 +140,7 @@ The constructs, each where a statement's value stands:
 ```
 (conditional (when c) (then <statement> …) (else <statement> …))
 (loop (while c) (body <statement> …))
-(attempt (body <statement> …) (result e) (rescue (body …) (result e)))
+(attempt (body <statement> …) (rescue <statement> …))
 (return)  (return e)                        return: null, return: e
 (break)  (break w)  (continue)  (continue w)    break: null, break: w
 ```
@@ -200,7 +200,7 @@ Data is the nodes above that hold values, read as values: the scalars, `(array �
 ## The writer's layout
 
 - **A list breaks when it is a node that breaks by place and holds a list, or holds a list that breaks.** A list that breaks keeps the atoms it begins with on its first line and writes each part after them on a line of its own, two spaces deeper; its `)` closes the last line. Every other list is written on one line.
-- The nodes that break by place: a declaration's node (`procedure`, `struct`, `contract` and `extension` at the top, and `procedure` inside them), `closure`, the constructs (`conditional`, `loop`, `attempt`, `rescue`), the statement lists of a procedure, a closure and the constructs (`body`, `then`, `else`), and a case's `program`, `documents`, `document` inside `documents`, and `vocabulary`. A type's `procedure`, a struct value and data do not.
+- The nodes that break by place: a declaration's node (`procedure`, `struct`, `contract` and `extension` at the top, and `procedure` inside them), `closure`, the constructs (`conditional`, `loop`, `attempt`), the statement lists of a procedure, a closure and the constructs (`body`, `then`, `else`, `rescue`), and a case's `program`, `documents`, `document` inside `documents`, and `vocabulary`. A type's `procedure`, a struct value and data do not.
 - At the top of a text, one node a line, and a blank line before each node that breaks.
 - Parts stand in the writer's order: in a procedure `description`, `access`, `const`, `isolated`, the parameters, `returns`, `failing`, `bound`, `sameType`, `body`, `result`, `answers`; in a document `warp`, `description`, the imports, constants, variables, types, contracts, extensions and procedures, each kind by name; in a case `test`, `name`, `note`, `documents`, `vocabulary`, `program` or `tree`, `bytes`, `text`, `object`, `document`, `arguments`, `expect`; inside the other nodes in the order this page shows them, each kind by name. Data writes a map's entries in the key order and a struct's fields ascending by their names' bytes, under [values](value.md). The text ends with one newline.
 

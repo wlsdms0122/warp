@@ -43,7 +43,7 @@ A type is written as a string:
 
 **Two readings of one place join part by part.** Null beside a value reads as what may be null. Two lists join by their elements and two maps by their keys and their values; two maps whose keys join to `Any` read `Any` whole, since a map's key answers `Hashable`. Two procedures join to a procedure that keeps the parameters and answer both write alike, the constness and isolation both carry and what either may fail with. Two parts that still differ read `Any`.
 
-**Ways that each answer are places of their own.** Where they meet, each of an attempt's two ways is a place of its own, so one answering a whole literal beside another answering a fraction reads `Any`, which a slot of a type takes only through a cast.
+**Ways that each write a name are places of their own.** A write lands as what the name holds it as, so where two ways meet, one writing a whole literal beside another writing a fraction reads `Any`, which a slot of a type takes only through a cast.
 
 ## What a slot takes, exactly
 

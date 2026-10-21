@@ -114,7 +114,7 @@ An *operation* is the number of an entry in `operationTable`, and the entry is `
 | 6 | a cast | *operation*, *lowered type*, *optional* |
 | 8 | a conditional | the condition *operation*, then: *instruction* list, else: *instruction* list or nothing |
 | 9 | a loop | the condition *operation*, the round: *instruction* list, the round's slot or nothing |
-| 10 | an attempt | *body*, the rescue *body*, the failure's slot or nothing |
+| 10 | an attempt | the body: *instruction* list, the rescue: *instruction* list, the failure's slot or nothing |
 | 11 | a call | *call* |
 | 12 | a call through a contract | *dispatch* |
 | 13 | leaving | *reach*, the target name or nothing, what it takes or nothing |
