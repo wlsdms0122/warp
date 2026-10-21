@@ -9,6 +9,6 @@
     (returns String)
     (body
       (var d (type (dictionary Int String)) (dictionary))
-      (set (path d (index 5)) "five"))
-    (result (path d (index 5)))))
+      (set (path d (index 5)) "five")
+      (return (path d (index 5))))))
 (expect (answers "five"))

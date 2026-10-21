@@ -15,6 +15,7 @@
         (closure
           (parameter p)
           (returns Any)
-          (result p))))
-    (result (apply g (struct (field children (array (struct (field children (array))))))))))
+          (body
+            (return p))))
+      (return (apply g (struct (field children (array (struct (field children (array)))))))))))
 (expect (answers (struct App.Node (field children (array (struct App.Node (field children (array))))))))

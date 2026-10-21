@@ -9,5 +9,6 @@
     (parameter held (type (nullable Procedure)))
     (returns Any)
     (failing (anything))
-    (result (apply held))))
+    (body
+      (return (apply held)))))
 (expect (refuses build))

@@ -14,7 +14,8 @@
   (procedure App.f
     (parameter gs (type (array (procedure (parameters) (returns (some T App.M))))))
     (returns (some T))
-    (result (apply (path gs (index 1)))))
+    (body
+      (return (apply (path gs (index 1))))))
   (procedure entry
     (access public)
     (returns Any)
@@ -24,9 +25,11 @@
           (array
             (closure
               (returns Int)
-              (result 1))
+              (body
+                (return 1)))
             (closure
               (returns Bool)
-              (result true))))))
-    (result r)))
+              (body
+                (return true))))))
+      (return r))))
 (expect (refuses build))

@@ -7,13 +7,14 @@
   (procedure App.g
     (parameter xs (type (array Int)))
     (returns Int)
-    (result 0))
+    (body
+      (return 0)))
   (procedure entry
     (access public)
     (returns Int)
     (body
       (let i 1)
       (let t "s")
-      (let r (call App.g (array i t))))
-    (result r)))
+      (let r (call App.g (array i t)))
+      (return r))))
 (expect (refuses build))

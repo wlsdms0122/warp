@@ -14,7 +14,8 @@
       (access public)
       (parameter c (type (some C Lib.Container)))
       (returns (some C.Item))
-      (result (call Lib.Container.first c)))))
+      (body
+        (return (call Lib.Container.first c))))))
 
 (program
   (warp 1)
@@ -30,7 +31,8 @@
     (access public)
     (parameter c (type (some C Lib.Container)))
     (returns (some C.Item))
-    (result (call Lib.Container.first c)))
+    (body
+      (return (call Lib.Container.first c))))
   (procedure Use.plusOne
     (access public)
     (const)
@@ -38,5 +40,6 @@
     (parameter c (type (some C Lib.Container)))
     (returns (some C.Item))
     (sameType C.Item Int)
-    (result 1)))
-(expect (builds (dictionary (entry "addressTable" (array (array 0 (array)))) (entry "claims" (array (array "Use.Thing" (array "Use.Sized")))) (entry "constants" (array)) (entry "contracts" (array (array "Use.Sized" (array (array "Item") (array (array "Item" (array "Hashable"))) (array))))) (entry "dependencies" (array x"b28eeaaaad81f3bb0c42562eb1fde8cf073af64afc2a67266c14acda23dc0e03")) (entry "document" (array x"8cd700d5f3c08efa8ead0d7bb5ae6cd81981faceb536d8c108af8412001b1742")) (entry "importedClaims" (array)) (entry "lifted" (array)) (entry "loweredTypeTable" (array)) (entry "members" (array)) (entry "numbering" (array (array "Lib.Container.first") (array))) (entry "object" 1) (entry "operationTable" (array (array 1 0) (array 12 (array "Lib.Container" "first" 0 (array))) (array 0 0))) (entry "rows" (array (array "Use.first" (array (array (array "c" (array 2) (array))) 3 (array 1 (array)) 0 0 (array (array "C" (array "Lib.Container"))) (array)) 2 (array 0 (array (array) (array 1)) (array 1 (array 0) (array) (array) (array "c")))) (array "Use.plusOne" (array (array (array "c" (array 4) (array))) 5 (array 1 (array)) 1 1 (array (array "C" (array "Lib.Container"))) (array (array "C.Item" 6))) 2 (array 0 (array (array) (array 2)) (array 1 (array 0) (array) (array) (array "c")))))) (entry "typeMembers" (array (array "Use.Thing" (array (array "Item" 1))))) (entry "typeNumbering" (array)) (entry "typeTable" (array (array 4) (array 4) (array 15 "C") (array 19 "C" "Item") (array 15 "C") (array 19 "C" "Item") (array 4))) (entry "types" (array (array "Use.Thing" (array 9 (array (array "x" 0)))))) (entry "valueTable" (array (array 2 1))) (entry "variables" (array)))))
+    (body
+      (return 1))))
+(expect (builds (dictionary (entry "addressTable" (array (array 0 (array)))) (entry "claims" (array (array "Use.Thing" (array "Use.Sized")))) (entry "constants" (array)) (entry "contracts" (array (array "Use.Sized" (array (array "Item") (array (array "Item" (array "Hashable"))) (array))))) (entry "dependencies" (array x"1ee087aba2bf731e6279ab2fa4f7b858aca28a175b77a2d89eaeb61f163ffae7")) (entry "document" (array x"78f58a852f82fa6485da9881afddad49623ea910b912763130e480c51feb65cd")) (entry "importedClaims" (array)) (entry "lifted" (array)) (entry "loweredTypeTable" (array)) (entry "members" (array)) (entry "numbering" (array (array "Lib.Container.first") (array))) (entry "object" 1) (entry "operationTable" (array (array 1 0) (array 12 (array "Lib.Container" "first" 0 (array))) (array 13 0 (array) (array 1)) (array 0 0) (array 13 0 (array) (array 3)))) (entry "rows" (array (array "Use.first" (array (array (array "c" (array 2) (array))) 3 (array 1 (array)) 0 0 (array (array "C" (array "Lib.Container"))) (array)) 2 (array 0 (array (array (array) 2 "[0]")) (array 1 (array 0) (array) (array) (array "c")))) (array "Use.plusOne" (array (array (array "c" (array 4) (array))) 5 (array 1 (array)) 1 1 (array (array "C" (array "Lib.Container"))) (array (array "C.Item" 6))) 2 (array 0 (array (array (array) 4 "[0]")) (array 1 (array 0) (array) (array) (array "c")))))) (entry "typeMembers" (array (array "Use.Thing" (array (array "Item" 1))))) (entry "typeNumbering" (array)) (entry "typeTable" (array (array 4) (array 4) (array 15 "C") (array 19 "C" "Item") (array 15 "C") (array 19 "C" "Item") (array 4))) (entry "types" (array (array "Use.Thing" (array 9 (array (array "x" 0)))))) (entry "valueTable" (array (array 2 1))) (entry "variables" (array)))))

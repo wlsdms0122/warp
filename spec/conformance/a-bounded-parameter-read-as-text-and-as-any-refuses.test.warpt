@@ -15,13 +15,14 @@
     (parameter a (type (some T App.Nums)))
     (parameter b (type (some T)))
     (returns (some T))
-    (result a))
+    (body
+      (return a)))
   (procedure entry
     (access public)
     (returns Any)
     (body
       (let s (type String) "x")
       (let u (type Any) 1)
-      (let r (call App.f s u)))
-    (result r)))
+      (let r (call App.f s u))
+      (return r))))
 (expect (refuses build))

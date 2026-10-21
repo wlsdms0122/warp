@@ -20,8 +20,8 @@
           (conditional
             (when (call Standard.Logic.not answered))
             (then
-              (return false)))))))
-  (result true))
+              (return false))))))
+    (return true)))
 
 (procedure Standard.Logic.not
   (description "The opposite of a truth.")
@@ -29,7 +29,8 @@
   (isolated)
   (parameter value (type Bool))
   (returns Bool)
-  (result (call Standard.Logic.equal value false)))
+  (body
+    (return (call Standard.Logic.equal value false))))
 
 (procedure Standard.Logic.notEqual
   (description "Whether two values differ.")
@@ -38,7 +39,8 @@
   (parameter lhs)
   (parameter rhs)
   (returns Bool)
-  (result (call Standard.Logic.equal (call Standard.Logic.equal lhs rhs) false)))
+  (body
+    (return (call Standard.Logic.equal (call Standard.Logic.equal lhs rhs) false))))
 
 (procedure Standard.Logic.or
   (description "Whether one answers true, asked until one does.")
@@ -56,8 +58,8 @@
           (conditional
             (when answered)
             (then
-              (return true)))))))
-  (result false))
+              (return true))))))
+    (return false)))
 
 (procedure Standard.Logic.select
   (description "The value one of two sides answers, chosen by a truth.")
@@ -73,8 +75,8 @@
       (then
         (let taken (apply then))
         (return taken)))
-    (let left (apply else)))
-  (result left))
+    (let left (apply else))
+    (return left)))
 
 (procedure Standard.Logic.tryAnd
   (description "Whether every side, each of which may fail, answers true, asked until one does not.")
@@ -93,8 +95,8 @@
           (conditional
             (when (call Standard.Logic.not answered))
             (then
-              (return false)))))))
-  (result true))
+              (return false))))))
+    (return true)))
 
 (procedure Standard.Logic.tryOr
   (description "Whether one side, each of which may fail, answers true, asked until one does.")
@@ -113,8 +115,8 @@
           (conditional
             (when answered)
             (then
-              (return true)))))))
-  (result false))
+              (return true))))))
+    (return false)))
 
 (procedure Standard.Logic.trySelect
   (description "The value one of two sides, each of which may fail, answers, chosen by a truth.")
@@ -131,5 +133,5 @@
       (then
         (let taken (apply then))
         (return taken)))
-    (let left (apply else)))
-  (result left))
+    (let left (apply else))
+    (return left)))

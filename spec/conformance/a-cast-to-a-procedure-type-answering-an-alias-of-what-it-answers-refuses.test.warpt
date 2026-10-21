@@ -14,7 +14,8 @@
         (type (procedure (parameters) (returns Int)))
         (closure
           (returns Int)
-          (result 1)))
-      (let g (as f (procedure (parameters) (returns App.I)))))
-    (result g)))
+          (body
+            (return 1))))
+      (let g (as f (procedure (parameters) (returns App.I))))
+      (return g))))
 (expect (refuses build))

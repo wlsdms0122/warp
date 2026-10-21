@@ -1,0 +1,19 @@
+(test 1)
+(name "an-attempt-named-with-var-refuses")
+(note "An attempt's name is its failure, which nothing writes, so an attempt takes its name with `let`, and one taking it with `var` refuses at the load.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var failed
+        (attempt
+          (body
+            (call Standard.Control.abort "stop"))
+          (rescue
+            (let seen (path failed (field message))))))
+      (return 1))))
+(expect (refuses load))

@@ -14,6 +14,6 @@
         (when true)
         (then
           (let limit 9)
-          (set y limit))))
-    (result (dictionary (entry "inner" y) (entry "outer" limit)))))
+          (set y limit)))
+      (return (dictionary (entry "inner" y) (entry "outer" limit))))))
 (expect (answers (dictionary (entry "inner" 9) (entry "outer" 3))))

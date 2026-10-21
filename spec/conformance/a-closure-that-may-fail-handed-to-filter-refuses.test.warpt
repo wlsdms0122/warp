@@ -10,14 +10,16 @@
     (access public)
     (returns (array Int))
     (failing (anything))
-    (result
-      (call Standard.Collection.filter
-        (array 1 2 3 4)
-        (closure
-          (const)
-          (isolated)
-          (parameter x (type Int))
-          (returns Bool)
-          (failing aborted)
-          (result (call Standard.Comparable.lessThan 2 x)))))))
+    (body
+      (return
+        (call Standard.Collection.filter
+          (array 1 2 3 4)
+          (closure
+            (const)
+            (isolated)
+            (parameter x (type Int))
+            (returns Bool)
+            (failing aborted)
+            (body
+              (return (call Standard.Comparable.lessThan 2 x)))))))))
 (expect (refuses build))

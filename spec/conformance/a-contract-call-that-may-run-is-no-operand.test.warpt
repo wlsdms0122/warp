@@ -11,7 +11,8 @@
     (procedure name
       (parameter of (type App.Thing))
       (returns String)
-      (result "thing")))
+      (body
+        (return "thing"))))
   (contract App.Named
     (procedure name
       (parameter of (type Self))
@@ -19,10 +20,12 @@
   (procedure App.tell
     (parameter it (type (some T App.Named)))
     (returns String)
-    (result (call Standard.Text.uppercased (call App.Named.name it))))
+    (body
+      (return (call Standard.Text.uppercased (call App.Named.name it)))))
   (procedure entry
     (access public)
     (returns String)
     (failing cast_refused)
-    (result (call App.tell (as (struct (field id 1)) App.Thing)))))
+    (body
+      (return (call App.tell (as (struct (field id 1)) App.Thing))))))
 (expect (refuses build))

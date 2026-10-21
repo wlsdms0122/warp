@@ -9,6 +9,6 @@
     (access public)
     (returns (array Hashable))
     (body
-      (let d (type (dictionary Hashable Int)) (dictionary (entry "b" 1) (entry 2 2))))
-    (result (call Standard.Collection.keys d))))
+      (let d (type (dictionary Hashable Int)) (dictionary (entry "b" 1) (entry 2 2)))
+      (return (call Standard.Collection.keys d)))))
 (expect (refuses build))

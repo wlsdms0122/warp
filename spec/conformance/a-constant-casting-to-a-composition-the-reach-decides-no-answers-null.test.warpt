@@ -18,7 +18,8 @@
       (const)
       (isolated)
       (returns Int)
-      (result 1)))
+      (body
+        (return 1))))
   (document
     (warp 1)
     (import App.Marked)
@@ -35,8 +36,8 @@
       (isolated)
       (returns Any)
       (body
-        (let two (type Any) (array "s")))
-      (result (as? two (composition App.Marked App.Tagged))))))
+        (let two (type Any) (array "s"))
+        (return (as? two (composition App.Marked App.Tagged)))))))
 
 (program
   (warp 1)
@@ -49,6 +50,6 @@
     (isolated)
     (returns Any)
     (body
-      (let m (call In.mark)))
-    (result folded)))
+      (let m (call In.mark))
+      (return folded))))
 (expect (answers null))

@@ -18,15 +18,18 @@
       (parameter step (type (procedure (const) (parameters Int) (failing (anything)) (returns Int))))
       (returns Int)
       (failing (anything))
-      (result (apply step of))))
+      (body
+        (return (apply step of)))))
   (procedure entry
     (access public)
     (returns Int)
     (failing aborted cast_refused concurrent_failed)
-    (result
-      (call App.Runner.run 1
-        (closure
-          (parameter x (type Int))
-          (returns Int)
-          (result x))))))
+    (body
+      (return
+        (call App.Runner.run 1
+          (closure
+            (parameter x (type Int))
+            (returns Int)
+            (body
+              (return x))))))))
 (expect (refuses build))

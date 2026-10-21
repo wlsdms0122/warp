@@ -17,16 +17,18 @@
       (parameter of (type Int))
       (returns Int)
       (failing aborted)
-      (result (call Standard.Control.abort "no"))))
+      (body
+        (return (call Standard.Control.abort "no")))))
   (procedure entry
     (access public)
     (returns (nullable String))
     (body
-      (let failed
+      (var failed)
+      (let caught
         (attempt
           (body
             (call App.Checked.check 1))
           (rescue
-            (result (path failed (field type)))))))
-    (result failed)))
+            (set failed (path caught (field type))))))
+      (return failed))))
 (expect (answers "aborted"))

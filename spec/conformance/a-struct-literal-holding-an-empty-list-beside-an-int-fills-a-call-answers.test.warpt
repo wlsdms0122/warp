@@ -11,9 +11,11 @@
     (parameter b (type (named App.Box (array (some T)))))
     (parameter x (type (some T)))
     (returns (some T))
-    (result x))
+    (body
+      (return x)))
   (procedure entry
     (access public)
     (returns Int)
-    (result (call App.take2 (struct (field item (array))) 1))))
+    (body
+      (return (call App.take2 (struct (field item (array))) 1)))))
 (expect (answers 1))

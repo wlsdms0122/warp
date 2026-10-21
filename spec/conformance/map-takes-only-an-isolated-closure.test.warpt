@@ -17,7 +17,7 @@
           (parameter item (type Int))
           (returns Int)
           (body
-            (set tally item))
-          (result item))))
-    (result tally)))
+            (set tally item)
+            (return item))))
+      (return tally))))
 (expect (refuses build))

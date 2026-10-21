@@ -8,12 +8,12 @@
     (access public)
     (returns String)
     (body
-      (let tried
-        (attempt
-          (body
-            (let checked (as null (nullable Int)))
-            (return "left from inside"))
-          (rescue
-            (result "the rescue ran")))))
-    (result tried)))
+      (var tried)
+      (attempt
+        (body
+          (let checked (as null (nullable Int)))
+          (return "left from inside"))
+        (rescue
+          (set tried "the rescue ran")))
+      (return tried))))
 (expect (answers "left from inside"))

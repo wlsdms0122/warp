@@ -1,6 +1,6 @@
 (test 1)
 (name "an-attempt-body-reads-the-variable-its-statement-name-shadows")
-(note "An attempt binds its statement's name to the failure in the rescue alone, so its body reads the variable around it under that spelling. A closure whose `let n = attempt` body reads the outer `n` takes `n`, and a later `set` of `n` to another type refuses at the build.")
+(note "An attempt binds its statement's name to the failure in the rescue alone, so its body reads the variable around it under that spelling. A closure holding an attempt named `n` whose body reads the outer `n` takes `n`, and a later `set` of `n` to another type refuses at the build.")
 
 (program
   (warp 1)
@@ -14,8 +14,8 @@
       (conditional
         (when (call Standard.Comparable.lessThan x 0))
         (then
-          (call Standard.Control.abort "negative"))))
-    (result x))
+          (call Standard.Control.abort "negative")))
+      (return x)))
   (procedure entry
     (access public)
     (returns Int)
@@ -25,14 +25,15 @@
         (closure
           (returns Int)
           (body
+            (var kept)
             (let n
               (attempt
                 (body
-                  (let c (call check n)))
-                (result c)
+                  (let c (call check n))
+                  (set kept c))
                 (rescue
-                  (result 0)))))
-          (result n)))
-      (set n "s"))
-    (result 1)))
+                  (set kept 0))))
+            (return kept))))
+      (set n "s")
+      (return 1))))
 (expect (refuses build))

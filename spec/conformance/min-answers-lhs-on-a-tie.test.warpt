@@ -9,5 +9,6 @@
   (procedure entry
     (access public)
     (returns String)
-    (result (call Standard.Text.text (call Standard.Math.min 0.0 -0.0)))))
+    (body
+      (return (call Standard.Text.text (call Standard.Math.min 0.0 -0.0))))))
 (expect (answers "0.0"))

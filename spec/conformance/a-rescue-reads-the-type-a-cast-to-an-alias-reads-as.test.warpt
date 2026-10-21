@@ -12,12 +12,13 @@
     (parameter payload)
     (returns (nullable (dictionary String Any)))
     (body
-      (let tried
+      (var tried)
+      (let caught
         (attempt
           (body
             (as payload App.A))
           (rescue
-            (result (dictionary (entry "actual" (path tried (field details) (index "actual"))) (entry "expected" (path tried (field details) (index "expected")))))))))
-    (result tried)))
+            (set tried (dictionary (entry "actual" (path caught (field details) (index "actual"))) (entry "expected" (path caught (field details) (index "expected"))))))))
+      (return tried))))
 (arguments (argument payload "not a struct"))
 (expect (answers (dictionary (entry "actual" "String") (entry "expected" "App.P"))))

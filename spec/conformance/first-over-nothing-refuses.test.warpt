@@ -9,5 +9,6 @@
     (access public)
     (returns Never)
     (failing concurrent_failed)
-    (result (call Standard.Concurrent.first (array)))))
+    (body
+      (return (call Standard.Concurrent.first (array))))))
 (expect (refuses run))

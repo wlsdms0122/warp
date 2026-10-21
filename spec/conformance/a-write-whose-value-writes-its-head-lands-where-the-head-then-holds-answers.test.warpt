@@ -12,14 +12,14 @@
     (returns Int)
     (failing cast_refused)
     (body
-      (set (path of (field p)) (as (dictionary) (dictionary Int Int))))
-    (result 5))
+      (set (path of (field p)) (as (dictionary) (dictionary Int Int)))
+      (return 5)))
   (procedure entry
     (access public)
     (returns Int)
     (failing cast_refused)
     (body
       (var w (type App.A) (struct (field p (dictionary (entry 2 1)))))
-      (set (path w (field p) (index 1)) (call App.emptied w)))
-    (result (call Standard.Collection.count (path w (field p))))))
+      (set (path w (field p) (index 1)) (call App.emptied w))
+      (return (call Standard.Collection.count (path w (field p)))))))
 (expect (answers 1))

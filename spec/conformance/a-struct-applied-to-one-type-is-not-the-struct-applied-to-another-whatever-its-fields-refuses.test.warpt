@@ -15,6 +15,6 @@
     (returns Int)
     (body
       (let a (type (named App.Tagged App.A Int)) (struct (field raw 1)))
-      (let b (type (named App.Tagged App.B Int)) a))
-    (result 1)))
+      (let b (type (named App.Tagged App.B Int)) a)
+      (return 1))))
 (expect (refuses build))

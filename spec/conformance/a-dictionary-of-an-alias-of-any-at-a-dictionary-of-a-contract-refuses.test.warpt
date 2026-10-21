@@ -12,11 +12,12 @@
   (procedure App.g
     (parameter p (type (dictionary String App.Shape)))
     (returns Int)
-    (result 1))
+    (body
+      (return 1)))
   (procedure entry
     (access public)
     (returns Int)
     (body
-      (let d (type (dictionary String App.Loose)) (dictionary (entry "k" 5))))
-    (result (call App.g d))))
+      (let d (type (dictionary String App.Loose)) (dictionary (entry "k" 5)))
+      (return (call App.g d)))))
 (expect (refuses build))

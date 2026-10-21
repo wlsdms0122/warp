@@ -11,6 +11,7 @@
     (access public)
     (parameter task (type Task))
     (returns Bool)
-    (result (path task (field done)))))
+    (body
+      (return (path task (field done))))))
 (arguments (argument task (struct Task (field id "a"))))
 (expect (refuses run))

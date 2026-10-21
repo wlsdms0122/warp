@@ -11,17 +11,18 @@
     (isolated)
     (returns (array Int))
     (failing concurrent_failed)
-    (result
-      (call Standard.Concurrent.map
-        (array 1 2)
-        (closure
-          (const)
-          (isolated)
-          (parameter item (type Int))
-          (parameter index (type Int))
-          (returns Int)
-          (body
-            (var held item)
-            (set held (call Standard.Numeric.times held 2)))
-          (result held))))))
+    (body
+      (return
+        (call Standard.Concurrent.map
+          (array 1 2)
+          (closure
+            (const)
+            (isolated)
+            (parameter item (type Int))
+            (parameter index (type Int))
+            (returns Int)
+            (body
+              (var held item)
+              (set held (call Standard.Numeric.times held 2))
+              (return held))))))))
 (expect (answers (array 2 4)))

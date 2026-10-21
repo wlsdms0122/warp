@@ -15,6 +15,6 @@
       (let down (call Standard.Math.floored 2.9))
       (let below (call Standard.Math.floored -2.1))
       (let near (call Standard.Math.rounded 2.5))
-      (let nearBelow (call Standard.Math.rounded -2.5)))
-    (result (array sized down below near nearBelow))))
+      (let nearBelow (call Standard.Math.rounded -2.5))
+      (return (array sized down below near nearBelow)))))
 (expect (answers (array 3 2 -3 3 -3)))

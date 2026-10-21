@@ -10,6 +10,7 @@
     (access public)
     (parameter account (type Account))
     (returns Int)
-    (result (path account (field balance)))))
+    (body
+      (return (path account (field balance))))))
 (arguments (argument account (struct Account (field balance 3))))
 (expect (answers 3))

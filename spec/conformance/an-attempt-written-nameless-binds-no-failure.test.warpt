@@ -14,7 +14,6 @@
         (body
           (call Standard.Control.abort "stop"))
         (rescue
-          (body
-            (set said "rescued")))))
-    (result said)))
+          (set said "rescued")))
+      (return said))))
 (expect (answers "rescued"))

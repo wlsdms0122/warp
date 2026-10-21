@@ -13,8 +13,9 @@
         (closure
           (parameter y (type (some T)))
           (returns (some T))
-          (result y))))
-    (result 0))
+          (body
+            (return y))))
+      (return 0)))
   (procedure entry
     (access public)
     (returns Int)
@@ -24,8 +25,9 @@
         (closure
           (parameter n (type Int))
           (returns Int)
-          (result (call Standard.Numeric.plus n 1))))
+          (body
+            (return (call Standard.Numeric.plus n 1)))))
       (call App.swap g)
-      (let r (apply g 5)))
-    (result r)))
+      (let r (apply g 5))
+      (return r))))
 (expect (answers 5))

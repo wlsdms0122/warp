@@ -9,8 +9,8 @@
     (parameter body (type (procedure (const) (parameters) (returns String))))
     (returns String)
     (body
-      (let answered (apply body)))
-    (result answered))
+      (let answered (apply body))
+      (return answered)))
   (procedure entry
     (access public)
     (const)
@@ -23,7 +23,7 @@
           (returns String)
           (body
             (var held "first")
-            (set held "second"))
-          (result held))))
-    (result (call asking given))))
+            (set held "second")
+            (return held))))
+      (return (call asking given)))))
 (expect (answers "second"))

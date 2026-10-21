@@ -12,7 +12,8 @@
       (access public)
       (parameter b (type (named App.Box (some T Hashable))))
       (returns (some T))
-      (result (path b (field item))))))
+      (body
+        (return (path b (field item)))))))
 
 (program
   (warp 1)
@@ -22,6 +23,6 @@
     (access public)
     (returns Any)
     (body
-      (let b (type (named App.Box Hashable)) (struct (field item 1))))
-    (result (call App.get b))))
+      (let b (type (named App.Box Hashable)) (struct (field item 1)))
+      (return (call App.get b)))))
 (expect (refuses build))

@@ -18,12 +18,14 @@
     (const)
     (returns Bool)
     (failing (anything))
-    (result
-      (call Standard.Logic.and
-        (array
-          (closure
-            (const)
-            (isolated)
-            (returns Bool)
-            (result (call App.yes))))))))
+    (body
+      (return
+        (call Standard.Logic.and
+          (array
+            (closure
+              (const)
+              (isolated)
+              (returns Bool)
+              (body
+                (return (call App.yes))))))))))
 (expect (answers true))

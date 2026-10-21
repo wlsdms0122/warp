@@ -10,8 +10,8 @@
     (parameter c (type (inout Int)))
     (returns Int)
     (body
-      (set c (call Standard.Numeric.plus c 1)))
-    (result 0))
+      (set c (call Standard.Numeric.plus c 1))
+      (return 0)))
   (procedure entry
     (access public)
     (returns (nullable Int))
@@ -24,6 +24,6 @@
           (body
             (set x 1)
             (call App.bump x)
-            (set i (call Standard.Numeric.plus i 1))))))
-    (result x)))
+            (set i (call Standard.Numeric.plus i 1)))))
+      (return x))))
 (expect (answers 2))

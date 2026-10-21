@@ -9,8 +9,8 @@
     (parameter completion (type (procedure (parameters Bool) (returns String))))
     (returns String)
     (body
-      (let said (apply completion true)))
-    (result said))
+      (let said (apply completion true))
+      (return said)))
   (procedure entry
     (access public)
     (returns (array String))
@@ -19,11 +19,13 @@
         (closure
           (parameter done (type Bool))
           (returns String)
-          (result (call Standard.Text.text done))))
+          (body
+            (return (call Standard.Text.text done)))))
       (let second
         (closure
           (parameter finished (type Bool))
           (returns String)
-          (result (call Standard.Text.text finished)))))
-    (result (array (call App.told first) (call App.told second)))))
+          (body
+            (return (call Standard.Text.text finished)))))
+      (return (array (call App.told first) (call App.told second))))))
 (expect (answers (array "true" "true")))

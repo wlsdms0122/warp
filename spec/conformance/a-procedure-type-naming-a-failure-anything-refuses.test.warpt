@@ -7,13 +7,16 @@
   (procedure App.f
     (parameter p (type (procedure (parameters) (failing anything) (returns Int))))
     (returns Int)
-    (result 1))
+    (body
+      (return 1)))
   (procedure entry
     (access public)
     (returns Int)
-    (result
-      (call App.f
-        (closure
-          (returns Int)
-          (result 1))))))
+    (body
+      (return
+        (call App.f
+          (closure
+            (returns Int)
+            (body
+              (return 1))))))))
 (expect (refuses load))

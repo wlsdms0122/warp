@@ -14,7 +14,8 @@
       (access public)
       (parameter c (type (some C Lib.Container)))
       (returns (some C.Item))
-      (result (call Lib.Container.first c))))
+      (body
+        (return (call Lib.Container.first c)))))
   (document
     (warp 1)
     (import Lib.Container)
@@ -26,7 +27,8 @@
         (access public)
         (parameter of (type (array (some E))))
         (returns (some E))
-        (result (path of (index 0)))))))
+        (body
+          (return (path of (index 0))))))))
 
 (program
   (warp 1)
@@ -37,6 +39,6 @@
     (access public)
     (returns Int)
     (body
-      (let x (call Lib.firstOf (array 2))))
-    (result (call Int.plus x 1))))
+      (let x (call Lib.firstOf (array 2)))
+      (return (call Int.plus x 1)))))
 (expect (answers 3))

@@ -15,11 +15,13 @@
   (procedure entry
     (access public)
     (returns Bool)
-    (result
-      (call Standard.Logic.and
-        (array
-          (closure
-            (isolated)
-            (returns Bool)
-            (result (call App.ask))))))))
+    (body
+      (return
+        (call Standard.Logic.and
+          (array
+            (closure
+              (isolated)
+              (returns Bool)
+              (body
+                (return (call App.ask))))))))))
 (expect (refuses build))

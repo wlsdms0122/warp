@@ -8,5 +8,6 @@
   (procedure entry
     (access public)
     (returns Bool)
-    (result (call Standard.Comparable.lessThan x"01" x"02"))))
+    (body
+      (return (call Standard.Comparable.lessThan x"01" x"02")))))
 (expect (refuses build))

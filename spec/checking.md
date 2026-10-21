@@ -27,7 +27,7 @@ A program is read, checked and built before any of it runs, the arms nobody take
 - every `inout` parameter is handed a variable's path a write may take; two parameters handed paths under one head hold one box two ways, under [procedures](procedure.md), and nothing keeps them apart;
 - what a closure writes into a variable it captured fits what the capturing body holds;
 - a struct type fits only a value of exactly it: a value read under one declared struct name fits no slot declaring another, nor `Dictionary<String, T>`, and a map fits no declared struct; a struct literal is read as the declared struct of the place it is written into, judged field by field and taking the name, and one written where no declared struct is read refuses;
-- what `return` carries fits the declaration;
+- what `return` carries fits the declaration, and a body whose declaration writes `returns` reaches its end on no way through it, under *a procedure* in [procedures](procedure.md), a closure literal's body included;
 - a statement whose call answers `Never`, as its callee's `returns` declares, never finishes: it takes no name, and nothing follows it;
 - every name the program writes is **written**, and is **normal form C**, compared as bytes: one name has one byte spelling, so a declaration and a reference can only meet by being the same bytes, `é` written two ways is a refusal, not two names, and nothing written is no name, since a declaration is called something and a reference writes something. A struct's field names hold this line at the encodings, and the names a program writes hold it here;
 - every name holds the grammar of where it is written, and one that does not **refuses at the load** where it is written. A **type's name** is what a type or a contract a module declares is called: identifiers joined by dots, an identifier being ASCII letters, digits and `_` and not beginning with a digit, since a dot is a character of a type's name, and none begins `Self.`, which writes an associated type of `Self`. A **type parameter's name** is the `T` of `some T`, a name a struct's `typeParameters` lists and the part of a key of `bounds` before its first dot: one identifier. Neither is a word the language writes itself: a name it gives its own types (`Any`, `Never`, `Null`, `Bool`, `Int`, `Double`, `String`, `Array`, `Dictionary`, `Procedure`, `Self`) or what it declares itself (`Hashable`, `Failure`, `Round`), a word a type's spelling writes (`some`, `const`, `isolated`, `inout`, `var`, `throws`), or `null`, `true` or `false`. A **mention** of a type or a contract in a slot or a cast, and a struct's name, is a type's name or a name the language declares, which is that declaration and no document's. A **contract** a bound, a part joined with `&` or a claim names is a type's name or `Hashable`, so a type the language names or a struct it declares written there refuses at the load. The **type an extension or a claim is about** is a mention or a type the language names a value an instance of (`Null`, `Bool`, `Int`, `Double`, `String`, `Array`, `Dictionary`), which is that type; what a head applies it to is written as a mention is, and the `T` of a head's `some T` and of its bounds is a type parameter's name. A **value's name** is what a constant, a module variable, a statement, a loop's round, an attempt's failure, a parameter, a contract's procedure's included, and a field of a struct type are called: a name a path reads back as one name. A path is written with `.`, `[`, `]` and `?`, so a value's name holding one, or white space at either end, any character Unicode counts as white space or a line break, is one no `ref` or `set` reaches, and there a dot is a step. A **contract's procedure** is named by one identifier, since a call writes the contract's name, a dot and the procedure's name, and a dot in the procedure's name would make one spelling two contracts' procedures. A **member** is named by one identifier for the same reason, after its type's name, and so is a **type member**, the type a contract asks under `types` and a type gives under its own: `some T.Item` writes it after the type parameter's name and a dot, and a key of `bounds` or `sameTypes` writing an associated type is its label: what it stands on, a type parameter's name or another associated type's label, a dot, and its name. A procedure a document declares under `procedures` is held to no grammar but being written.
@@ -36,11 +36,12 @@ A program is read, checked and built before any of it runs, the arms nobody take
 
 **What a variable reads as.** A name a statement fixed reads as what that statement bound, and a variable reads as what the ways through the text could have left in it. The checking follows the flow the running takes:
 
-- a name that **declared** what it holds reads as that declaration, and no write changes it. What is written is held to the declaration instead, a list, map or struct literal part by part along what the declaration asks of each part (every element of a list, every key and value of a map, each field a struct names), an empty list holding no element, so `[[], [1]]` written where `Array<Array<String>>` is declared refuses at the build, and so does `[1, "s"]` where `Array<Int>` is. Every slot a value is written into holds it that way: a name's start value or a later write, a parameter of a call or of a called value, and a declared answer, from a result or from a `return`. An attempt writes what its body answers and what its rescue answers, each held on its own as a write on that way would be;
+- a name that **declared** what it holds reads as that declaration, and no write changes it. What is written is held to the declaration instead, a list, map or struct literal part by part along what the declaration asks of each part (every element of a list, every key and value of a map, each field a struct names), an empty list holding no element, so `[[], [1]]` written where `Array<Array<String>>` is declared refuses at the build, and so does `[1, "s"]` where `Array<Int>` is. Every slot a value is written into holds it that way: a name's start value or a later write, a parameter of a call or of a called value, and a declared answer, from a `return`;
 - a variable a closure captured or a call handed in place is held to the type it read as there, under *what a write reaches* in [statements](statement.md), and a write into it is judged against that type and leaves it reading it, since the taker may write any value of it later;
 - an **unconditional** write retypes any other variable: after `set x` at the top of the flow, `x` reads as what was written, whatever it held before;
-- a write only **some** ways make (one arm of a conditional, a loop's round, an attempt's body) joins with what the name held. Null beside a value reads `T?`: after `var x` and a conditional whose one arm sets an int, `x` reads `Int?`, because the run either took the arm or did not. Two readings join part by part, a whole literal beside a fraction among them, under [types](type.md). This join is not the variable's own rule: it reads wherever two readings of one slot meet (an attempt's body beside its rescue, an array literal's elements), so an attempt whose rescue answers nothing reads `T?` too, and `[1, null]` reads `Array<Int?>`;
+- a write only **some** ways make (one arm of a conditional, a loop's round, one way of an attempt) joins with what the name held. Null beside a value reads `T?`: after `var x` and a conditional whose one arm sets an int, `x` reads `Int?`, because the run either took the arm or did not. Two readings join part by part, a whole literal beside a fraction among them, under [types](type.md). This join is not the variable's own rule: it reads wherever two readings of one slot meet, an array literal's elements among them, so `[1, null]` reads `Array<Int?>`;
 - a write **both** arms make is unconditional again, whichever arm ran, the write happened, and an arm that **leaves** contributes nothing: no run comes back from it, so the ways that finish are the only ways a reading after the conditional can stand on. `var x` with one arm setting an int and the other returning reads `Int` afterwards, plain;
+- an attempt's **body and rescue** are its two ways in the same sense. The rescue runs where the body failed and reads what the body wrote on the way there, and after the attempt the way that finished the body meets the way that finished the rescue. A write both make is unconditional, so `var x` with a body and a rescue that each set an int reads `Int` afterwards;
 - what an arm **declares** (`let`, `var`) stays its own. Declarations die with the arm, and only the box a `set` writes outlives it.
 
 Reading does not decide everything: whether a number will be zero when something divides by it is found out by running, under [running](running.md).
@@ -58,7 +59,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-failure-in-a-loop-round-carries-the-rounds-before-it`
 - `a-list-holding-a-struct-of-more-fields-than-a-struct-type-refuses`
 - `a-list-literal-a-declared-name-starts-with-is-read-position-by-position-refuses`
-- `a-list-literal-a-result-answers-is-read-position-by-position-refuses`
 - `a-list-literal-a-return-answers-is-read-position-by-position-refuses`
 - `a-list-literal-handed-to-a-call-is-read-part-by-part-refuses`
 - `a-list-literal-handed-to-a-called-value-is-read-position-by-position-refuses`
@@ -73,10 +73,12 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-procedure-only-an-untaken-arm-sends-is-still-needed`
 - `a-procedure-two-modules-declare-refuses`
 - `a-reference-to-a-statement-written-later-refuses`
+- `a-rescue-reads-what-the-body-wrote-before-it-failed`
 - `a-statement-name-no-path-reads-refuses`
 - `a-struct-type-field-no-path-reads-refuses`
 - `a-type-named-beginning-self-refuses`
 - `a-value-name-ending-in-a-line-break-refuses`
+- `a-variable-both-ways-of-an-attempt-write-reads-its-type-after-it`
 - `a-write-a-called-value-answers-in-a-loop-reads-what-its-slot-wrote`
 - `a-write-a-loop-round-makes-reads-back-nullable`
 - `a-write-an-attempt-body-makes-reads-back-nullable`
@@ -85,9 +87,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-arm-that-leaves-keeps-the-other-write-definite`
 - `an-array-literal-joins-its-elements`
 - `an-attempt-joins-its-body-with-its-rescue`
-- `an-attempt-whose-rescue-answers-a-list-literal-of-other-elements-refuses`
-- `an-attempt-whose-ways-both-fit-a-slot-answers`
-- `an-attempt-written-into-a-slot-holds-each-way-on-its-own-refuses`
 - `an-empty-name-refuses`
 - `an-untaken-arm-is-checked-too`
 - `inout-written-outside-a-parameter-refuses`

@@ -12,7 +12,8 @@
     (returns (nullable String))
     (failing cast_refused)
     (body
-      (let tried
+      (var tried)
+      (let caught
         (attempt
           (body
             (call Standard.Concurrent.allKeyed
@@ -22,7 +23,8 @@
                     (const)
                     (isolated)
                     (returns String)
-                    (result "ok")))
+                    (body
+                      (return "ok"))))
                 (entry "fragile"
                   (closure
                     (const)
@@ -32,9 +34,8 @@
                     (body
                       (call Standard.Control.abort "on purpose")))))))
           (rescue
-            (body
-              (let failures (as (path tried (field details) (index "failures")) (dictionary String Any)))
-              (let piece (as (path failures (index "fragile")) Failure)))
-            (result (path piece (field type)))))))
-    (result tried)))
+            (let failures (as (path caught (field details) (index "failures")) (dictionary String Any)))
+            (let piece (as (path failures (index "fragile")) Failure))
+            (set tried (path piece (field type))))))
+      (return tried))))
 (expect (answers "aborted"))

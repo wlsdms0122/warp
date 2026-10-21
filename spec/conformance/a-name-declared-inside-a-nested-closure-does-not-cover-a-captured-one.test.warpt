@@ -10,19 +10,19 @@
     (returns (array Int))
     (failing concurrent_failed)
     (body
-      (var tally 0))
-    (result
-      (call Standard.Concurrent.map
-        (array 1)
-        (closure
-          (isolated)
-          (parameter item (type Int))
-          (returns Int)
-          (body
-            (let inner
-              (closure
-                (body
-                  (var tally 1))))
-            (set tally 1))
-          (result item))))))
+      (var tally 0)
+      (return
+        (call Standard.Concurrent.map
+          (array 1)
+          (closure
+            (isolated)
+            (parameter item (type Int))
+            (returns Int)
+            (body
+              (let inner
+                (closure
+                  (body
+                    (var tally 1))))
+              (set tally 1)
+              (return item))))))))
 (expect (refuses build))

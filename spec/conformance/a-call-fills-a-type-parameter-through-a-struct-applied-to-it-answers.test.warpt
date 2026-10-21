@@ -10,11 +10,12 @@
   (procedure App.unwrap
     (parameter b (type (named App.Box (some T))))
     (returns (some T))
-    (result (path b (field item))))
+    (body
+      (return (path b (field item)))))
   (procedure entry
     (access public)
     (returns String)
     (body
-      (let b (type (named App.Box String)) (struct (field item "x"))))
-    (result (call App.unwrap b))))
+      (let b (type (named App.Box String)) (struct (field item "x")))
+      (return (call App.unwrap b)))))
 (expect (answers "x"))

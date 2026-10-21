@@ -6,9 +6,11 @@
   (warp 1)
   (procedure Wallet.fee
     (returns Int)
-    (result 7))
+    (body
+      (return 7)))
   (procedure entry
     (access public)
     (returns Int)
-    (result (call fee))))
+    (body
+      (return (call fee)))))
 (expect (refuses load))

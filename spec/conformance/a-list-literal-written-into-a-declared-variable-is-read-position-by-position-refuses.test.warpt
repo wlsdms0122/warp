@@ -11,6 +11,6 @@
     (body
       (var ys (type (array (dictionary String (array String)))) (array))
       (set ys (array (dictionary (entry "a" (array))) (dictionary (entry "a" (array 1)))))
-      (let n (call Standard.Collection.count ys)))
-    (result n)))
+      (let n (call Standard.Collection.count ys))
+      (return n))))
 (expect (refuses build))

@@ -11,7 +11,8 @@
     (parameter a (type (some U)))
     (parameter b (type (some U)))
     (returns (array (some U)))
-    (result (array a b)))
+    (body
+      (return (array a b))))
   (procedure entry
     (access public)
     (const)
@@ -19,6 +20,7 @@
     (parameter x (type (some T)))
     (parameter y (type (some T)))
     (returns String)
-    (result (call Standard.Text.text (call App.lt x y)))))
+    (body
+      (return (call Standard.Text.text (call App.lt x y))))))
 (arguments (argument x 5) (argument y "s"))
 (expect (refuses run))

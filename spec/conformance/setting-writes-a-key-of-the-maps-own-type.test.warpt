@@ -8,5 +8,6 @@
   (procedure entry
     (access public)
     (returns (dictionary Int String))
-    (result (call Standard.Collection.setting (dictionary (entry 3 "c") (entry 1 "a")) 2 "b"))))
+    (body
+      (return (call Standard.Collection.setting (dictionary (entry 3 "c") (entry 1 "a")) 2 "b")))))
 (expect (answers (dictionary (entry 1 "a") (entry 2 "b") (entry 3 "c"))))

@@ -17,11 +17,12 @@
     (procedure describe
       (parameter of (type (named App.Box (some U Hashable))))
       (returns String)
-      (result "box")))
+      (body
+        (return "box"))))
   (procedure entry
     (access public)
     (returns String)
     (body
-      (let b (type (named App.Box Int)) (struct (field item 1))))
-    (result (call App.Describable.describe b))))
+      (let b (type (named App.Box Int)) (struct (field item 1)))
+      (return (call App.Describable.describe b)))))
 (expect (refuses build))

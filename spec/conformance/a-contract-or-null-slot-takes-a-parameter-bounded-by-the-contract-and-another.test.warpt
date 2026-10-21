@@ -10,7 +10,8 @@
     (procedure size
       (parameter of (type Bank.Card))
       (returns Int)
-      (result 4)))
+      (body
+        (return 4))))
   (struct Bank.Coin
     (satisfies App.Maybe)
     (field cents Int))
@@ -22,19 +23,20 @@
   (procedure App.f
     (parameter n (type (nullable App.Sized)))
     (returns String)
-    (result "took"))
+    (body
+      (return "took")))
   (procedure App.g
     (parameter m (type (some T App.Maybe App.Sized)))
     (returns String)
     (body
-      (let s (call App.f m)))
-    (result s))
+      (let s (call App.f m))
+      (return s)))
   (procedure entry
     (access public)
     (returns String)
     (failing cast_refused)
     (body
       (let c (as (struct (field last "4")) Bank.Card))
-      (let s (call App.g c)))
-    (result s)))
+      (let s (call App.g c))
+      (return s))))
 (expect (answers "took"))

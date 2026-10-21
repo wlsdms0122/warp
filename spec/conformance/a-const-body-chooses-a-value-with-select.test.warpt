@@ -12,18 +12,21 @@
     (parameter item (type Int))
     (returns String)
     (failing (anything))
-    (result
-      (call Standard.Logic.select
-        (call Standard.Comparable.lessThan item 10)
-        (closure
-          (const)
-          (isolated)
-          (returns String)
-          (result "small"))
-        (closure
-          (const)
-          (isolated)
-          (returns String)
-          (result "large"))))))
+    (body
+      (return
+        (call Standard.Logic.select
+          (call Standard.Comparable.lessThan item 10)
+          (closure
+            (const)
+            (isolated)
+            (returns String)
+            (body
+              (return "small")))
+          (closure
+            (const)
+            (isolated)
+            (returns String)
+            (body
+              (return "large"))))))))
 (arguments (argument item 3))
 (expect (answers "small"))

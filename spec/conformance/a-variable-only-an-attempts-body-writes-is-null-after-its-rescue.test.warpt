@@ -1,0 +1,21 @@
+(test 1)
+(name "a-variable-only-an-attempts-body-writes-is-null-after-its-rescue")
+(note "A rescue runs statements for effect and need not write what the body writes. When the body fails before its write and the rescue is the way taken, the variable still holds null, which is the value behind the `T?` the join reads.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter payload)
+    (returns (nullable Int))
+    (body
+      (var tried)
+      (attempt
+        (body
+          (let read (as payload Int))
+          (set tried read))
+        (rescue
+          (let noted 0)))
+      (return tried))))
+(arguments (argument payload "not a whole number"))
+(expect (answers null))

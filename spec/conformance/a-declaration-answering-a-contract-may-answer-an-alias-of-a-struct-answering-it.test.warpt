@@ -11,11 +11,13 @@
     (procedure describe
       (parameter of (type Bank.Card))
       (returns String)
-      (result "a card"))
+      (body
+        (return "a card")))
     (procedure pick
       (parameter of (type Bank.Card))
       (returns Bank.Alias)
-      (result of)))
+      (body
+        (return of))))
   (contract App.Describable
     (procedure describe
       (parameter of (type Self))
@@ -31,6 +33,6 @@
     (body
       (let c (as (struct (field last "42")) Bank.Card))
       (let p (call App.Pick.pick c))
-      (let s (call App.Describable.describe p)))
-    (result s)))
+      (let s (call App.Describable.describe p))
+      (return s))))
 (expect (answers "a card"))

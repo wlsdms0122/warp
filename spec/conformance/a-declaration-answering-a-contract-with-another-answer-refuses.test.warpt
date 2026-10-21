@@ -10,7 +10,8 @@
     (procedure describe
       (parameter of (type Bank.Account))
       (returns Int)
-      (result 1)))
+      (body
+        (return 1))))
   (contract App.Describable
     (procedure describe
       (parameter of (type Self))
@@ -18,12 +19,13 @@
   (procedure App.tell
     (parameter it (type (some T App.Describable)))
     (returns String)
-    (result (call App.Describable.describe it)))
+    (body
+      (return (call App.Describable.describe it))))
   (procedure entry
     (access public)
     (returns String)
     (failing cast_refused)
     (body
-      (let held (as (struct (field balance 1)) Bank.Account)))
-    (result (call App.tell held))))
+      (let held (as (struct (field balance 1)) Bank.Account))
+      (return (call App.tell held)))))
 (expect (refuses build))

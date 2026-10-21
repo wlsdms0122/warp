@@ -8,13 +8,13 @@
     (parameter xs (type (inout (array (some T)))))
     (returns Int)
     (body
-      (set xs (array)))
-    (result 0))
+      (set xs (array))
+      (return 0)))
   (procedure entry
     (access public)
     (returns (array String))
     (body
       (var s (array "a" "b"))
-      (call App.clear s))
-    (result s)))
+      (call App.clear s)
+      (return s))))
 (expect (answers (array)))

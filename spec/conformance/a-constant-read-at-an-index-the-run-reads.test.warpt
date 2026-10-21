@@ -15,6 +15,7 @@
     (parameter at (type Int))
     (parameter key (type String))
     (returns App.Found)
-    (result (struct (field found (path digits (index key))) (field name (path names (index at))) (field nested (path digits (index (path names (index at)))))))))
+    (body
+      (return (struct (field found (path digits (index key))) (field name (path names (index at))) (field nested (path digits (index (path names (index at))))))))))
 (arguments (argument at 1) (argument key "1"))
 (expect (answers (struct App.Found (field found 1) (field name "0") (field nested 0))))

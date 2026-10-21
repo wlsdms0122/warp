@@ -14,7 +14,8 @@
           (parameter a (type Int))
           (parameter b (type (nullable String)))
           (returns (nullable String))
-          (result b)))
-      (let made (apply pair 1)))
-    (result made)))
+          (body
+            (return b))))
+      (let made (apply pair 1))
+      (return made))))
 (expect (refuses build))

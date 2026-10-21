@@ -9,6 +9,6 @@
     (returns String)
     (body
       (let d (type (dictionary (nullable Int) String)) (dictionary (entry 1 "one") (entry null "none")))
-      (let k (type (nullable Int)) null))
-    (result (path d (index k)))))
+      (let k (type (nullable Int)) null)
+      (return (path d (index k))))))
 (expect (answers "none"))

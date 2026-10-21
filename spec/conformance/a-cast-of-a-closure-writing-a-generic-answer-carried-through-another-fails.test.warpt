@@ -10,7 +10,8 @@
     (parameter junk)
     (returns (some T))
     (failing (anything))
-    (result (call App.h n junk)))
+    (body
+      (return (call App.h n junk))))
   (procedure App.h
     (parameter n (type (some T)))
     (parameter junk)
@@ -23,23 +24,24 @@
           (parameter y (type (some T)))
           (returns Int)
           (body
-            (set cell y))
-          (result 0)))
+            (set cell y)
+            (return 0))))
       (let a (type Any) c)
       (let w (as a (procedure (parameters String) (returns Int))))
-      (let z (apply w (as junk String))))
-    (result cell))
+      (let z (apply w (as junk String)))
+      (return cell)))
   (procedure entry
     (access public)
     (returns Any)
     (body
-      (let tried
+      (var tried)
+      (let caught
         (attempt
           (body
             (let r (call App.g 1 "s"))
-            (let y (call Standard.Numeric.plus r 1)))
-          (result y)
+            (let y (call Standard.Numeric.plus r 1))
+            (set tried y))
           (rescue
-            (result (path tried (field type)))))))
-    (result tried)))
+            (set tried (path caught (field type))))))
+      (return tried))))
 (expect (answers "cast_refused"))

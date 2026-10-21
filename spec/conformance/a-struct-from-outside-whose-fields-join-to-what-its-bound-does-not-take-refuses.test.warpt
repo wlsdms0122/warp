@@ -12,7 +12,8 @@
     (procedure describe
       (parameter of (type (named App.Pair (some T App.Same))))
       (returns Int)
-      (result (call App.Same.measure (path of (field a)) (path of (field b))))))
+      (body
+        (return (call App.Same.measure (path of (field a)) (path of (field b)))))))
   (contract App.Described
     (procedure describe
       (parameter of (type Self))
@@ -29,7 +30,8 @@
       (parameter lhs (type Int))
       (parameter rhs (type Int))
       (returns Int)
-      (result rhs)))
+      (body
+        (return rhs))))
   (extension
     (head String)
     (satisfies App.Same)
@@ -37,11 +39,13 @@
       (parameter lhs (type String))
       (parameter rhs (type String))
       (returns Int)
-      (result 7)))
+      (body
+        (return 7))))
   (procedure entry
     (access public)
     (parameter x (type App.Described))
     (returns Int)
-    (result (call App.Described.describe x))))
+    (body
+      (return (call App.Described.describe x)))))
 (arguments (argument x (struct App.Pair (field a 1) (field b "x"))))
 (expect (refuses run))

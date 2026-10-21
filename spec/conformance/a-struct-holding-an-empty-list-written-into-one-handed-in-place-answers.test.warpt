@@ -11,16 +11,17 @@
     (parameter b (type (inout (named App.Box (array (some T))))))
     (returns Int)
     (body
-      (set b (call App.wrap (array))))
-    (result 1))
+      (set b (call App.wrap (array)))
+      (return 1)))
   (procedure App.wrap
     (parameter x (type (some T)))
     (returns (named App.Box (some T)))
-    (result (struct (field item x))))
+    (body
+      (return (struct (field item x)))))
   (procedure entry
     (access public)
     (returns Int)
     (body
-      (var b (type (named App.Box (array Int))) (struct (field item (array 1)))))
-    (result (call App.clear b))))
+      (var b (type (named App.Box (array Int))) (struct (field item (array 1))))
+      (return (call App.clear b)))))
 (expect (answers 1))

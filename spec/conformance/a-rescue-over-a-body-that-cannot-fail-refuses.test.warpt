@@ -9,11 +9,11 @@
     (access public)
     (returns Int)
     (body
-      (let tried
-        (attempt
-          (body)
-          (result (call Standard.Numeric.plus 1 2))
-          (rescue
-            (result 0)))))
-    (result tried)))
+      (var tried)
+      (attempt
+        (body
+          (set tried (call Standard.Numeric.plus 1 2)))
+        (rescue
+          (set tried 0)))
+      (return tried))))
 (expect (refuses build))

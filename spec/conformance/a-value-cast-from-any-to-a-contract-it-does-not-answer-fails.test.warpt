@@ -14,18 +14,20 @@
     (procedure describe
       (parameter of (type Int))
       (returns String)
-      (result "a whole number")))
+      (body
+        (return "a whole number"))))
   (procedure entry
     (access public)
     (parameter left)
     (returns (nullable String))
     (body
-      (let tried
+      (var tried)
+      (let caught
         (attempt
           (body
             (let got (call App.Described.describe (as left App.Described))))
           (rescue
-            (result (path tried (field type)))))))
-    (result tried)))
+            (set tried (path caught (field type))))))
+      (return tried))))
 (arguments (argument left true))
 (expect (answers "cast_refused"))

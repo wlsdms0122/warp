@@ -9,10 +9,11 @@
     (const)
     (returns Int)
     (body
-      (let count 5))
-    (result count))
+      (let count 5)
+      (return count)))
   (procedure entry
     (access public)
     (returns Int)
-    (result (call App.read))))
+    (body
+      (return (call App.read)))))
 (expect (answers 5))

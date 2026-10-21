@@ -16,7 +16,7 @@
           (parameter item (type Int))
           (returns Int)
           (body
-            (set seen (call Standard.Numeric.plus seen item)))
-          (result item))))
-    (result seen)))
+            (set seen (call Standard.Numeric.plus seen item))
+            (return item))))
+      (return seen))))
 (expect (refuses build))

@@ -14,9 +14,11 @@
   (procedure entry
     (access public)
     (returns String)
-    (result
-      (call App.Described.describe
-        (closure
-          (returns Int)
-          (result 1))))))
+    (body
+      (return
+        (call App.Described.describe
+          (closure
+            (returns Int)
+            (body
+              (return 1))))))))
 (expect (refuses load))

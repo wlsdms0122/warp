@@ -8,14 +8,17 @@
   (procedure App.g
     (parameter f (type (procedure (parameters) (returns Int))))
     (returns Int)
-    (result (call Standard.Numeric.plus 1 (apply f))))
+    (body
+      (return (call Standard.Numeric.plus 1 (apply f)))))
   (procedure entry
     (access public)
     (returns Int)
-    (result
-      (call App.g
-        (closure
-          (const)
-          (returns Int)
-          (result 1))))))
+    (body
+      (return
+        (call App.g
+          (closure
+            (const)
+            (returns Int)
+            (body
+              (return 1))))))))
 (expect (refuses build))

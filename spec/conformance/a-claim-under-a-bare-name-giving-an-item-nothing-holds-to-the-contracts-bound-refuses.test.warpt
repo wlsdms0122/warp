@@ -22,12 +22,14 @@
         (access public)
         (parameter of (type (named App.Box (some T))))
         (returns (some T))
-        (result (path of (field item)))))))
+        (body
+          (return (path of (field item))))))))
 
 (program
   (warp 1)
   (procedure entry
     (access public)
     (returns Int)
-    (result 1)))
+    (body
+      (return 1))))
 (expect (refuses build))

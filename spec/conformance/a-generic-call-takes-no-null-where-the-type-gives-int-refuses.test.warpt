@@ -26,13 +26,15 @@
         (access public)
         (parameter of (type App.IntBag))
         (returns Int)
-        (result (path of (field n))))
+        (body
+          (return (path of (field n)))))
       (procedure take
         (access public)
         (parameter of (type App.IntBag))
         (parameter x (type Int))
         (returns Int)
-        (result (call Int.plus x 1)))))
+        (body
+          (return (call Int.plus x 1))))))
   (document
     (warp 1)
     (import Lib.Bag)
@@ -42,7 +44,8 @@
       (parameter c (type (some C Lib.Bag)))
       (parameter x (type (some C.Item)))
       (returns Int)
-      (result (call Lib.Bag.take c x)))))
+      (body
+        (return (call Lib.Bag.take c x))))))
 
 (program
   (warp 1)
@@ -53,6 +56,6 @@
     (returns Int)
     (body
       (let b (type App.IntBag) (struct (field n 1)))
-      (let v (type (nullable Int)) null))
-    (result (call Use.put b v))))
+      (let v (type (nullable Int)) null)
+      (return (call Use.put b v)))))
 (expect (refuses build))

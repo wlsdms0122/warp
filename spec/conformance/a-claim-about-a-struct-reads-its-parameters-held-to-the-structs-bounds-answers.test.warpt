@@ -12,7 +12,8 @@
     (procedure describe
       (parameter of (type (named App.Cache (some K Hashable) (some V))))
       (returns String)
-      (result "cache")))
+      (body
+        (return "cache"))))
   (contract App.Describable
     (procedure describe
       (parameter of (type Self))
@@ -21,6 +22,6 @@
     (access public)
     (returns String)
     (body
-      (let c (type (named App.Cache String Int)) (struct (field table (dictionary)))))
-    (result (call App.Describable.describe c))))
+      (let c (type (named App.Cache String Int)) (struct (field table (dictionary))))
+      (return (call App.Describable.describe c)))))
 (expect (answers "cache"))

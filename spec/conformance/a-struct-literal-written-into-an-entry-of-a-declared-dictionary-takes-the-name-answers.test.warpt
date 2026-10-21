@@ -12,7 +12,8 @@
       (isolated)
       (parameter of (type Bank.A))
       (returns String)
-      (result "a")))
+      (body
+        (return "a"))))
   (contract App.P
     (procedure show
       (const)
@@ -28,6 +29,6 @@
     (body
       (let a (as (struct (field k "x")) Bank.A))
       (var r (type (dictionary String Bank.A)) (dictionary (entry "x" a)))
-      (set (path r (index "x")) (struct (field k "y"))))
-    (result (call App.P.show (path r (index "x"))))))
+      (set (path r (index "x")) (struct (field k "y")))
+      (return (call App.P.show (path r (index "x")))))))
 (expect (answers "a"))

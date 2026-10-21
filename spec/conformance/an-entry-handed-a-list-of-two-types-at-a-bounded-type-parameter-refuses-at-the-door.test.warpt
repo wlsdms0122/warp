@@ -19,8 +19,8 @@
       (parameter o (type Int))
       (returns String)
       (body
-        (let m (type Int) o))
-      (result (call Standard.Text.joined (array "Int.f got" (call Standard.Text.text m)) " "))))
+        (let m (type Int) o)
+        (return (call Standard.Text.joined (array "Int.f got" (call Standard.Text.text m)) " ")))))
   (extension
     (head String)
     (satisfies App.C)
@@ -28,13 +28,14 @@
       (parameter s (type String))
       (parameter o (type String))
       (returns String)
-      (result "String.f")))
+      (body
+        (return "String.f"))))
   (procedure entry
     (access public)
     (parameter xs (type (array (some T App.C))))
     (returns String)
     (body
-      (let r (call App.C.f (path xs (index 0)) (path xs (index 1)))))
-    (result r)))
+      (let r (call App.C.f (path xs (index 0)) (path xs (index 1))))
+      (return r))))
 (arguments (argument xs (array 5 "s")))
 (expect (refuses run))

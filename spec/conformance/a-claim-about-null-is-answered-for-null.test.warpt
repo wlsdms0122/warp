@@ -14,9 +14,11 @@
     (procedure describe
       (parameter of (type Null))
       (returns String)
-      (result "nothing")))
+      (body
+        (return "nothing"))))
   (procedure entry
     (access public)
     (returns String)
-    (result (call App.Described.describe null))))
+    (body
+      (return (call App.Described.describe null)))))
 (expect (answers "nothing"))

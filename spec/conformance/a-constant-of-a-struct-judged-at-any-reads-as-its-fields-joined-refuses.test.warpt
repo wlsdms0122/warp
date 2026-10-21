@@ -12,13 +12,16 @@
     (procedure App.hide
       (parameter v)
       (returns Any)
-      (result v))
+      (body
+        (return v)))
     (procedure App.mk
       (returns (named App.Pair (nullable Int)))
-      (result (struct (field a 1) (field b null))))
+      (body
+        (return (struct (field a 1) (field b null)))))
     (procedure App.mkS
       (returns (named App.Pair Any))
-      (result (struct (field a 1) (field b "x"))))))
+      (body
+        (return (struct (field a 1) (field b "x")))))))
 
 (program
   (warp 1)
@@ -28,5 +31,6 @@
   (procedure entry
     (access public)
     (returns Int)
-    (result (path k (field b)))))
+    (body
+      (return (path k (field b))))))
 (expect (refuses build))

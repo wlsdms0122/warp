@@ -1,6 +1,6 @@
 (test 1)
 (name "a-procedure-types-answer-runs-to-the-end-of-its-spelling")
-(note "What stands after `->` is the procedure's answer to the end of the spelling, so `(Int) -> Int?` answers what may be null rather than being a procedure that may be null. A closure that answers nothing stands there, and calling it answers null.")
+(note "What stands after `->` is the procedure's answer to the end of the spelling, so `(Int) -> Int?` answers what may be null rather than being a procedure that may be null. A closure returning null stands there, and calling it answers null.")
 
 (program
   (warp 1)
@@ -12,7 +12,9 @@
         (type (procedure (parameters Int) (returns (nullable Int))))
         (closure
           (parameter x (type Int))
-          (returns (nullable Int))))
-      (let made (apply f 1)))
-    (result made)))
+          (returns (nullable Int))
+          (body
+            (return))))
+      (let made (apply f 1))
+      (return made))))
 (expect (answers null))

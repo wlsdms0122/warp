@@ -12,6 +12,6 @@
     (access public)
     (returns Int)
     (body
-      (let n (type (named App.Nest Int)) (struct (field inner null) (field v 1))))
-    (result (path n (field v)))))
+      (let n (type (named App.Nest Int)) (struct (field inner null) (field v 1)))
+      (return (path n (field v))))))
 (expect (answers 1))

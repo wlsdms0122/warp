@@ -8,14 +8,17 @@
     (parameter g (type Procedure))
     (returns Int)
     (failing (anything))
-    (result (apply (as g (procedure (parameters) (returns Int))))))
+    (body
+      (return (apply (as g (procedure (parameters) (returns Int)))))))
   (procedure entry
     (access public)
     (returns Int)
     (failing (anything))
-    (result
-      (call App.f
-        (closure
-          (returns Int)
-          (result 1))))))
+    (body
+      (return
+        (call App.f
+          (closure
+            (returns Int)
+            (body
+              (return 1))))))))
 (expect (answers 1))

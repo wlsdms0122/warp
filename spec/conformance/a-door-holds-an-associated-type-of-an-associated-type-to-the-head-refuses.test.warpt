@@ -20,13 +20,14 @@
       (parameter n (type (some N Lib.Nested)))
       (returns (some N.Inner.Item))
       (body
-        (let i (call Lib.Nested.inner n)))
-      (result (call Lib.firstOf i)))
+        (let i (call Lib.Nested.inner n))
+        (return (call Lib.firstOf i))))
     (procedure Lib.firstOf
       (access public)
       (parameter c (type (some C Lib.Container)))
       (returns (some C.Item))
-      (result (call Lib.Container.first c))))
+      (body
+        (return (call Lib.Container.first c)))))
   (document
     (warp 1)
     (import Lib.Container)
@@ -47,7 +48,8 @@
         (access public)
         (parameter of (type (named App.Box (some T))))
         (returns (some T))
-        (result (path of (field item)))))
+        (body
+          (return (path of (field item))))))
     (extension
       (head (named App.Outer (some T Hashable)))
       (satisfies Lib.Nested)
@@ -56,7 +58,8 @@
         (access public)
         (parameter of (type (named App.Outer (some T))))
         (returns (named App.Box (some T)))
-        (result (path of (field inner)))))))
+        (body
+          (return (path of (field inner))))))))
 
 (program
   (warp 1)
@@ -66,6 +69,7 @@
     (access public)
     (parameter n (type (some N Lib.Nested)))
     (returns (some N.Inner.Item))
-    (result (call Lib.deep n))))
+    (body
+      (return (call Lib.deep n)))))
 (arguments (argument n (struct App.Outer (field inner (struct App.Box (field item (struct App.Plain (field x 1))))))))
 (expect (refuses run))

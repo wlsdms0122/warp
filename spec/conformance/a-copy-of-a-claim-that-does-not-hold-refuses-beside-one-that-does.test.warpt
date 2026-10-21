@@ -23,7 +23,8 @@
       (procedure describe
         (parameter of (type T.Card))
         (returns String)
-        (result "given"))))
+        (body
+          (return "given")))))
   (document
     (warp 1)
     (import App.Describable)
@@ -39,6 +40,6 @@
     (access public)
     (returns Int)
     (body
-      (let card (as (struct (field rank 3)) T.Card)))
-    (result (path card (field rank)))))
+      (let card (as (struct (field rank 3)) T.Card))
+      (return (path card (field rank))))))
 (expect (refuses build))

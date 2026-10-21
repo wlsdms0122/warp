@@ -14,6 +14,7 @@
     (access public)
     (parameter a (type App.Shape))
     (returns String)
-    (result (call Standard.Text.text a))))
+    (body
+      (return (call Standard.Text.text a)))))
 (arguments (argument a (struct App.P (field x 1))))
 (expect (refuses run))

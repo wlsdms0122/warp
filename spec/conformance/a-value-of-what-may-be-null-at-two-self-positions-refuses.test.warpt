@@ -16,7 +16,8 @@
       (parameter lhs (type Int))
       (parameter rhs (type Int))
       (returns String)
-      (result "ii")))
+      (body
+        (return "ii"))))
   (extension
     (head Null)
     (satisfies App.Same)
@@ -24,11 +25,12 @@
       (parameter lhs (type Null))
       (parameter rhs (type Null))
       (returns String)
-      (result "nn")))
+      (body
+        (return "nn"))))
   (procedure entry
     (access public)
     (returns String)
     (body
-      (let c (type (nullable Int)) null))
-    (result (call App.Same.same c 1))))
+      (let c (type (nullable Int)) null)
+      (return (call App.Same.same c 1)))))
 (expect (refuses build))

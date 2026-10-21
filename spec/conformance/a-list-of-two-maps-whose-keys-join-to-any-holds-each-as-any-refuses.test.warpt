@@ -8,6 +8,6 @@
     (access public)
     (returns String)
     (body
-      (let xs (array (dictionary (entry 1 "a")) (dictionary (entry "b" "c")))))
-    (result (path xs (index 0) (index 1)))))
+      (let xs (array (dictionary (entry 1 "a")) (dictionary (entry "b" "c"))))
+      (return (path xs (index 0) (index 1))))))
 (expect (refuses build))

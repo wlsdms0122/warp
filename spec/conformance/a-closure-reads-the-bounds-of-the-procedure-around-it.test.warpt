@@ -14,7 +14,8 @@
     (procedure name
       (parameter of (type App.Thing))
       (returns String)
-      (result (call Standard.Text.text (path of (field id))))))
+      (body
+        (return (call Standard.Text.text (path of (field id)))))))
   (contract App.Named
     (procedure name
       (parameter of (type Self))
@@ -30,20 +31,23 @@
           (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Collection.count of)))
           (body
             (let got (apply by (path of (index (path walk (field index))))))
-            (call Standard.Collection.append out got)))))
-    (result out))
+            (call Standard.Collection.append out got))))
+      (return out)))
   (procedure App.names
     (parameter of (type (array (some T App.Named))))
     (returns (array String))
-    (result
-      (call App.each of
-        (closure
-          (parameter item (type (some T)))
-          (returns String)
-          (result (call App.Named.name item))))))
+    (body
+      (return
+        (call App.each of
+          (closure
+            (parameter item (type (some T)))
+            (returns String)
+            (body
+              (return (call App.Named.name item))))))))
   (procedure entry
     (access public)
     (returns (array String))
     (failing cast_refused)
-    (result (call App.names (array (as (struct (field id 1)) App.Thing) (as (struct (field id 2)) App.Thing))))))
+    (body
+      (return (call App.names (array (as (struct (field id 1)) App.Thing) (as (struct (field id 2)) App.Thing)))))))
 (expect (answers (array "1" "2")))

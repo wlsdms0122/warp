@@ -9,13 +9,13 @@
     (parameter x (type (some T)))
     (returns (some T))
     (body
-      (var y (type Any) 5))
-    (result y))
+      (var y (type Any) 5)
+      (return y)))
   (procedure entry
     (access public)
     (returns String)
     (body
       (let r (call App.gen "s"))
-      (let u (call Standard.Text.uppercased r)))
-    (result u)))
+      (let u (call Standard.Text.uppercased r))
+      (return u))))
 (expect (refuses build))

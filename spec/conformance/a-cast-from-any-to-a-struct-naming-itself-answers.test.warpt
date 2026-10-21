@@ -12,6 +12,6 @@
     (failing cast_refused)
     (body
       (let t (type App.Node) (struct (field children (array (struct (field children (array)))))))
-      (let v (type Any) t))
-    (result (as v App.Node))))
+      (let v (type Any) t)
+      (return (as v App.Node)))))
 (expect (answers (struct App.Node (field children (array (struct App.Node (field children (array))))))))

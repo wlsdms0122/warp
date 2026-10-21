@@ -10,5 +10,6 @@
     (access public)
     (returns Any)
     (failing cast_refused)
-    (result (as (struct (field balance 1)) Bank.Account))))
+    (body
+      (return (as (struct (field balance 1)) Bank.Account)))))
 (expect (answers (struct Bank.Account (field balance 1))))

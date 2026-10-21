@@ -12,6 +12,6 @@
     (body
       (let items (array 1 2 3))
       (let front (call Standard.Collection.first items))
-      (let back (call Standard.Collection.last items)))
-    (result (array front back))))
+      (let back (call Standard.Collection.last items))
+      (return (array front back)))))
 (expect (answers (array 1 3)))

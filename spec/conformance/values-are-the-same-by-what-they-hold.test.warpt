@@ -14,23 +14,27 @@
     (const)
     (returns Bool)
     (failing (anything))
-    (result
-      (call Standard.Logic.tryAnd
-        (array
-          (closure
-            (const)
-            (isolated)
-            (returns Bool)
-            (result (call Standard.Logic.equal 1 1.0)))
-          (closure
-            (const)
-            (isolated)
-            (returns Bool)
-            (failing cast_refused)
-            (result (call Standard.Logic.equal (as (struct (field a 1) (field b 2)) App.P) (as (struct (field a 1) (field b 2)) App.P))))
-          (closure
-            (const)
-            (isolated)
-            (returns Bool)
-            (result (call Standard.Logic.equal (array 1 2) (array 1 2)))))))))
+    (body
+      (return
+        (call Standard.Logic.tryAnd
+          (array
+            (closure
+              (const)
+              (isolated)
+              (returns Bool)
+              (body
+                (return (call Standard.Logic.equal 1 1.0))))
+            (closure
+              (const)
+              (isolated)
+              (returns Bool)
+              (failing cast_refused)
+              (body
+                (return (call Standard.Logic.equal (as (struct (field a 1) (field b 2)) App.P) (as (struct (field a 1) (field b 2)) App.P)))))
+            (closure
+              (const)
+              (isolated)
+              (returns Bool)
+              (body
+                (return (call Standard.Logic.equal (array 1 2) (array 1 2)))))))))))
 (expect (answers true))

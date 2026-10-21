@@ -12,6 +12,6 @@
     (returns (array String))
     (body
       (set seen (call Standard.Collection.setting seen "a" 1))
-      (set seen (call Standard.Collection.setting seen "b" 2)))
-    (result (call Standard.Collection.keys seen))))
+      (set seen (call Standard.Collection.setting seen "b" 2))
+      (return (call Standard.Collection.keys seen)))))
 (expect (answers (array "a" "b")))

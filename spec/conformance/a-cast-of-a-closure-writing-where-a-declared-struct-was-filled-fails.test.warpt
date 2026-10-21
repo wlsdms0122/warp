@@ -19,23 +19,24 @@
           (parameter y (type (some T)))
           (returns Int)
           (body
-            (set cell y))
-          (result 0)))
+            (set cell y)
+            (return 0))))
       (let a (type Any) c)
       (let w (as a (procedure (parameters App.X) (returns Int))))
-      (let z (apply w (struct (field x 7)))))
-    (result cell))
+      (let z (apply w (struct (field x 7))))
+      (return cell)))
   (procedure entry
     (access public)
     (returns Any)
     (body
-      (let tried
+      (var tried)
+      (let caught
         (attempt
           (body
             (let p (type App.R) (struct (field x 1)))
-            (let r (call App.h p)))
-          (result (path r (field x)))
+            (let r (call App.h p))
+            (set tried (path r (field x))))
           (rescue
-            (result (path tried (field type)))))))
-    (result tried)))
+            (set tried (path caught (field type))))))
+      (return tried))))
 (expect (answers "cast_refused"))

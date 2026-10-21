@@ -16,9 +16,11 @@
       (parameter of (type Double))
       (parameter by (type Double))
       (returns Double)
-      (result of)))
+      (body
+        (return of))))
   (procedure entry
     (access public)
     (returns Double)
-    (result (call App.Scalable.scale 2 0.5))))
+    (body
+      (return (call App.Scalable.scale 2 0.5)))))
 (expect (answers 2.0))

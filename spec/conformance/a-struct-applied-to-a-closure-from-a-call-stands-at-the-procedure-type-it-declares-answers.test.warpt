@@ -11,7 +11,8 @@
   (procedure App.wrap
     (parameter x (type (some T)))
     (returns (named App.Box (some T)))
-    (result (struct (field item x))))
+    (body
+      (return (struct (field item x)))))
   (procedure entry
     (access public)
     (returns Int)
@@ -22,6 +23,7 @@
           (closure
             (parameter x (type Int))
             (returns Int)
-            (result x)))))
-    (result (apply (path b (field item)) 2))))
+            (body
+              (return x)))))
+      (return (apply (path b (field item)) 2)))))
 (expect (answers 2))

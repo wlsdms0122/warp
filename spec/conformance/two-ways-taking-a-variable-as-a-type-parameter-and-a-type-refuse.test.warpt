@@ -16,16 +16,19 @@
           (let a
             (closure
               (returns (some T))
-              (result n))))
+              (body
+                (return n)))))
         (else
           (set n 1)
           (let b
             (closure
               (returns Int)
-              (result n))))))
-    (result 1))
+              (body
+                (return n))))))
+      (return 1)))
   (procedure entry
     (access public)
     (returns Int)
-    (result (call App.pick 2 true))))
+    (body
+      (return (call App.pick 2 true)))))
 (expect (refuses build))

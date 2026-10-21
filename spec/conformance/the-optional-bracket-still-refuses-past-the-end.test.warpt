@@ -8,6 +8,7 @@
     (access public)
     (parameter items (type (nullable (array String))))
     (returns (nullable String))
-    (result (path items (index? 5)))))
+    (body
+      (return (path items (index? 5))))))
 (arguments (argument items (array "only")))
 (expect (refuses run))

@@ -8,9 +8,11 @@
   (const one
     (closure
       (returns Int)
-      (result 1)))
+      (body
+        (return 1))))
   (procedure entry
     (access public)
     (returns Int)
-    (result c)))
+    (body
+      (return c))))
 (expect (refuses build))

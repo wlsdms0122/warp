@@ -9,6 +9,7 @@
     (access public)
     (parameter text (type String))
     (returns Int)
-    (result (call Standard.Collection.count text))))
+    (body
+      (return (call Standard.Collection.count text)))))
 (arguments (argument text "café"))
 (expect (answers 4))

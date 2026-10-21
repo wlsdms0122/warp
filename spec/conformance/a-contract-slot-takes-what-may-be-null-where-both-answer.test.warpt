@@ -10,7 +10,8 @@
     (procedure describe
       (parameter of (type Bank.Card))
       (returns String)
-      (result "a card")))
+      (body
+        (return "a card"))))
   (contract App.Described
     (procedure describe
       (parameter of (type Self))
@@ -21,15 +22,17 @@
     (procedure describe
       (parameter of (type Null))
       (returns String)
-      (result "nothing")))
+      (body
+        (return "nothing"))))
   (procedure App.tell
     (parameter it (type App.Described))
     (returns String)
-    (result (call App.Described.describe it)))
+    (body
+      (return (call App.Described.describe it))))
   (procedure entry
     (access public)
     (returns String)
     (body
-      (let c (type (nullable Bank.Card)) null))
-    (result (call App.tell c))))
+      (let c (type (nullable Bank.Card)) null)
+      (return (call App.tell c)))))
 (expect (answers "nothing"))

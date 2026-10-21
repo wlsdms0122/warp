@@ -8,8 +8,8 @@
     (parameter read (type (procedure (parameters Int) (returns Int))))
     (returns Int)
     (body
-      (let answered (apply read 10)))
-    (result answered))
+      (let answered (apply read 10))
+      (return answered)))
   (procedure entry
     (access public)
     (returns Int)
@@ -18,6 +18,7 @@
         (closure
           (parameter count (type (inout Int)))
           (returns Int)
-          (result count))))
-    (result (call calling reading))))
+          (body
+            (return count))))
+      (return (call calling reading)))))
 (expect (refuses build))

@@ -9,8 +9,8 @@
       (returns Int)
       (failing cast_refused)
       (body
-        (let c (as (struct (field x 1)) App.Box)))
-      (result (path c (field x)))))
+        (let c (as (struct (field x 1)) App.Box))
+        (return (path c (field x))))))
   (struct App.Box
     (field x Int))
   (procedure entry
@@ -18,6 +18,6 @@
     (returns Int)
     (failing (anything))
     (body
-      (let a (apply v)))
-    (result a)))
+      (let a (apply v))
+      (return a))))
 (expect (answers 1))

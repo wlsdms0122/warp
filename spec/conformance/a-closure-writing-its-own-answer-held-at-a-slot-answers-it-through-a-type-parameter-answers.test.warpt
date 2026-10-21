@@ -12,7 +12,8 @@
       (isolated)
       (parameter of (type Bank.A))
       (returns String)
-      (result "a")))
+      (body
+        (return "a"))))
   (contract App.P
     (procedure show
       (const)
@@ -22,7 +23,8 @@
   (procedure App.run
     (parameter c (type (procedure (parameters) (returns (some T)))))
     (returns (some T))
-    (result (apply c)))
+    (body
+      (return (apply c))))
   (procedure entry
     (access public)
     (returns String)
@@ -33,7 +35,8 @@
           (const)
           (isolated)
           (returns Bank.A)
-          (result (struct (field k "x")))))
-      (let v (call App.run c)))
-    (result (call App.P.show v))))
+          (body
+            (return (struct (field k "x"))))))
+      (let v (call App.run c))
+      (return (call App.P.show v)))))
 (expect (answers "a"))

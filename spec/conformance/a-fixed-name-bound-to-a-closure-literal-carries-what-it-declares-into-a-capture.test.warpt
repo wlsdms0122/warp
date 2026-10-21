@@ -15,16 +15,17 @@
           (isolated)
           (parameter x (type Int))
           (returns Int)
-          (result x))))
-    (result
-      (call Standard.Collection.map
-        (array 1 2)
-        (closure
-          (const)
-          (isolated)
-          (parameter x (type Int))
-          (returns Int)
           (body
-            (let y (apply f x)))
-          (result y))))))
+            (return x))))
+      (return
+        (call Standard.Collection.map
+          (array 1 2)
+          (closure
+            (const)
+            (isolated)
+            (parameter x (type Int))
+            (returns Int)
+            (body
+              (let y (apply f x))
+              (return y))))))))
 (expect (answers (array 1 2)))

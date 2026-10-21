@@ -14,17 +14,21 @@
     (procedure describe
       (parameter of (type Int))
       (returns String)
-      (result "a whole number")))
+      (body
+        (return "a whole number"))))
   (procedure App.first
     (parameter xs (type (array (some T App.Described))))
     (returns Int)
-    (result 1))
+    (body
+      (return 1)))
   (procedure App.wrap
     (parameter x (type App.Described))
     (returns Int)
-    (result (call App.first (array x))))
+    (body
+      (return (call App.first (array x)))))
   (procedure entry
     (access public)
     (returns Int)
-    (result (call App.wrap 1))))
+    (body
+      (return (call App.wrap 1)))))
 (expect (refuses build))

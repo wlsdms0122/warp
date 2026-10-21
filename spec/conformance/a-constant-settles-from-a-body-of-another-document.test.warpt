@@ -11,7 +11,8 @@
       (isolated)
       (parameter of (type Int))
       (returns Int)
-      (result (call Standard.Numeric.times of 2)))))
+      (body
+        (return (call Standard.Numeric.times of 2))))))
 
 (program
   (warp 1)
@@ -22,5 +23,6 @@
     (const)
     (isolated)
     (returns Int)
-    (result twelve)))
+    (body
+      (return twelve))))
 (expect (answers 12))

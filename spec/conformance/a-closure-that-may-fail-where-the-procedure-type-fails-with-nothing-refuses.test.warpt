@@ -17,16 +17,19 @@
       (parameter of (type Int))
       (parameter step (type (procedure (const) (parameters Int) (returns Int))))
       (returns Int)
-      (result (apply step of))))
+      (body
+        (return (apply step of)))))
   (procedure entry
     (access public)
     (returns Int)
-    (result
-      (call App.Runner.run 1
-        (closure
-          (const)
-          (parameter x (type Int))
-          (returns Int)
-          (failing aborted)
-          (result (call Standard.Control.abort "no")))))))
+    (body
+      (return
+        (call App.Runner.run 1
+          (closure
+            (const)
+            (parameter x (type Int))
+            (returns Int)
+            (failing aborted)
+            (body
+              (return (call Standard.Control.abort "no")))))))))
 (expect (refuses build))

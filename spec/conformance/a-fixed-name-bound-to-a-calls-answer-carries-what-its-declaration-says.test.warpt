@@ -9,25 +9,27 @@
     (access public)
     (returns (array Int))
     (body
-      (let f (call make)))
-    (result
-      (call Standard.Collection.map
-        (array 1 2)
+      (let f (call make))
+      (return
+        (call Standard.Collection.map
+          (array 1 2)
+          (closure
+            (const)
+            (isolated)
+            (parameter x (type Int))
+            (returns Int)
+            (body
+              (let y (apply f x))
+              (return y)))))))
+  (procedure make
+    (returns (procedure (const) (isolated) (parameters Int) (returns Int)))
+    (body
+      (return
         (closure
           (const)
           (isolated)
           (parameter x (type Int))
           (returns Int)
           (body
-            (let y (apply f x)))
-          (result y)))))
-  (procedure make
-    (returns (procedure (const) (isolated) (parameters Int) (returns Int)))
-    (result
-      (closure
-        (const)
-        (isolated)
-        (parameter x (type Int))
-        (returns Int)
-        (result x)))))
+            (return x)))))))
 (expect (answers (array 1 2)))

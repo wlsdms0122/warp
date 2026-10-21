@@ -18,6 +18,6 @@
           (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Collection.count items)))
           (body
             (let item (path items (index (path walk (field index)))))
-            (set tally (call Standard.Numeric.plus tally item))))))
-    (result (dictionary (entry "tally" tally)))))
+            (set tally (call Standard.Numeric.plus tally item)))))
+      (return (dictionary (entry "tally" tally))))))
 (expect (answers (dictionary (entry "tally" 6))))

@@ -16,7 +16,8 @@
       (procedure describe
         (parameter of (type T.Card))
         (returns String)
-        (result "card"))))
+        (body
+          (return "card")))))
   (document
     (warp 1)
     (description "one maker")
@@ -28,7 +29,8 @@
     (procedure One.mark
       (access public)
       (returns Int)
-      (result 1)))
+      (body
+        (return 1))))
   (document
     (warp 1)
     (description "another maker")
@@ -40,7 +42,8 @@
     (procedure Two.mark
       (access public)
       (returns Int)
-      (result 1))))
+      (body
+        (return 1)))))
 
 (program
   (warp 1)
@@ -55,6 +58,6 @@
     (body
       (let one (call One.mark))
       (let two (call Two.mark))
-      (let card (as (struct (field rank 1)) T.Card)))
-    (result (call App.Describable.describe card))))
+      (let card (as (struct (field rank 1)) T.Card))
+      (return (call App.Describable.describe card)))))
 (expect (answers "card"))

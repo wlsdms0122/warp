@@ -16,9 +16,11 @@
       (parameter of (type Int))
       (returns Int)
       (failing aborted)
-      (result (call Standard.Control.abort "no"))))
+      (body
+        (return (call Standard.Control.abort "no")))))
   (procedure entry
     (access public)
     (returns Int)
-    (result (call App.Checked.check 1))))
+    (body
+      (return (call App.Checked.check 1)))))
 (expect (refuses build))

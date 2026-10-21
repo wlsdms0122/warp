@@ -35,8 +35,8 @@
             (when (call Standard.Logic.equal (path array (index (path walk (field index)))) element))
             (then
               (set found true)
-              (break)))))))
-  (result found))
+              (break))))))
+    (return found)))
 
 (procedure Standard.Collection.dropFirst
   (description "The elements after the first.")
@@ -50,8 +50,8 @@
       (loop
         (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Numeric.minus (call Standard.Collection.count array) 1)))
         (body
-          (set places (call Standard.Collection.appending places (call Standard.Numeric.plus (path walk (field index)) 1)))))))
-  (result (call Standard.Collection.gathering array places)))
+          (set places (call Standard.Collection.appending places (call Standard.Numeric.plus (path walk (field index)) 1))))))
+    (return (call Standard.Collection.gathering array places))))
 
 (procedure Standard.Collection.dropLast
   (description "The elements before the last.")
@@ -65,8 +65,8 @@
       (loop
         (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Numeric.minus (call Standard.Collection.count array) 1)))
         (body
-          (set places (call Standard.Collection.appending places (path walk (field index))))))))
-  (result (call Standard.Collection.gathering array places)))
+          (set places (call Standard.Collection.appending places (path walk (field index)))))))
+    (return (call Standard.Collection.gathering array places))))
 
 (procedure Standard.Collection.filter
   (description "The elements a procedure answers true for.")
@@ -85,8 +85,8 @@
           (conditional
             (when kept)
             (then
-              (set places (call Standard.Collection.appending places (path walk (field index))))))))))
-  (result (call Standard.Collection.gathering array places)))
+              (set places (call Standard.Collection.appending places (path walk (field index)))))))))
+    (return (call Standard.Collection.gathering array places))))
 
 (procedure Standard.Collection.first
   (description "The first element.")
@@ -94,7 +94,8 @@
   (isolated)
   (parameter array (type (array (some Element))))
   (returns (some Element))
-  (result (path array (index 0))))
+  (body
+    (return (path array (index 0)))))
 
 (procedure Standard.Collection.last
   (description "The last element.")
@@ -103,8 +104,8 @@
   (parameter array (type (array (some Element))))
   (returns (some Element))
   (body
-    (let at (call Standard.Numeric.minus (call Standard.Collection.count array) 1)))
-  (result (path array (index at))))
+    (let at (call Standard.Numeric.minus (call Standard.Collection.count array) 1))
+    (return (path array (index at)))))
 
 (procedure Standard.Collection.map
   (description "Each element answered by a procedure, in order.")
@@ -120,8 +121,8 @@
         (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Collection.count array)))
         (body
           (let answered (apply transform (path array (index (path walk (field index))))))
-          (set answers (call Standard.Collection.appending answers answered))))))
-  (result answers))
+          (set answers (call Standard.Collection.appending answers answered)))))
+    (return answers)))
 
 (procedure Standard.Collection.prepending
   (description "The elements with one more at the front.")
@@ -132,8 +133,8 @@
   (returns (array (some Element)))
   (body
     (let back (call Standard.Collection.reversed array))
-    (let grown (call Standard.Collection.appending back element)))
-  (result (call Standard.Collection.reversed grown)))
+    (let grown (call Standard.Collection.appending back element))
+    (return (call Standard.Collection.reversed grown))))
 
 (procedure Standard.Collection.reduce
   (description "The elements folded into one, starting from a value.")
@@ -150,8 +151,8 @@
         (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Collection.count array)))
         (body
           (let answered (apply nextPartialResult carried (path array (index (path walk (field index))))))
-          (set carried answered)))))
-  (result carried))
+          (set carried answered))))
+    (return carried)))
 
 (procedure Standard.Collection.reversed
   (description "The elements back to front.")
@@ -165,8 +166,8 @@
       (loop
         (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Collection.count array)))
         (body
-          (set places (call Standard.Collection.appending places (call Standard.Numeric.minus (call Standard.Collection.count array) (call Standard.Numeric.plus (path walk (field index)) 1))))))))
-  (result (call Standard.Collection.gathering array places)))
+          (set places (call Standard.Collection.appending places (call Standard.Numeric.minus (call Standard.Collection.count array) (call Standard.Numeric.plus (path walk (field index)) 1)))))))
+    (return (call Standard.Collection.gathering array places))))
 
 (procedure Standard.Collection.sorted
   (description "The elements in the order lessThan puts them in, for any type that orders.")
@@ -225,8 +226,8 @@
                 (conditional
                   (when same)
                   (then
-                    (set places (call Standard.Collection.appending places (path scan (field index)))))))))))))
-  (result (call Standard.Collection.gathering array places)))
+                    (set places (call Standard.Collection.appending places (path scan (field index))))))))))))
+    (return (call Standard.Collection.gathering array places))))
 
 (procedure Standard.Collection.tryFilter
   (description "The elements a procedure that may fail answers true for.")
@@ -246,8 +247,8 @@
           (conditional
             (when kept)
             (then
-              (set places (call Standard.Collection.appending places (path walk (field index))))))))))
-  (result (call Standard.Collection.gathering array places)))
+              (set places (call Standard.Collection.appending places (path walk (field index)))))))))
+    (return (call Standard.Collection.gathering array places))))
 
 (procedure Standard.Collection.tryMap
   (description "Each element answered by a procedure that may fail, in order.")
@@ -264,8 +265,8 @@
         (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Collection.count array)))
         (body
           (let answered (apply transform (path array (index (path walk (field index))))))
-          (set answers (call Standard.Collection.appending answers answered))))))
-  (result answers))
+          (set answers (call Standard.Collection.appending answers answered)))))
+    (return answers)))
 
 (procedure Standard.Collection.tryReduce
   (description "The elements folded into one by a procedure that may fail, starting from a value.")
@@ -283,8 +284,8 @@
         (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Collection.count array)))
         (body
           (let answered (apply nextPartialResult carried (path array (index (path walk (field index))))))
-          (set carried answered)))))
-  (result carried))
+          (set carried answered))))
+    (return carried)))
 
 (procedure Standard.Collection.values
   (description "What a map holds, by its keys in the key order.")
@@ -300,5 +301,5 @@
         (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Collection.count keys)))
         (body
           (let key (path keys (index (path walk (field index)))))
-          (set held (call Standard.Collection.appending held (path dictionary (index key))))))))
-  (result held))
+          (set held (call Standard.Collection.appending held (path dictionary (index key)))))))
+    (return held)))

@@ -21,7 +21,8 @@
         (access public)
         (parameter of (type App.Card))
         (returns App.Plain)
-        (result (path of (field plain)))))
+        (body
+          (return (path of (field plain))))))
     (struct App.Plain
       (field x Int))))
 
@@ -30,5 +31,6 @@
   (procedure entry
     (access public)
     (returns Int)
-    (result 1)))
+    (body
+      (return 1))))
 (expect (refuses build))

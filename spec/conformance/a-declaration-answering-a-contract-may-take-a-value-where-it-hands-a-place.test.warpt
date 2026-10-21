@@ -12,7 +12,8 @@
       (parameter of (type Bank.Card))
       (parameter n (type Int))
       (returns Int)
-      (result (call Standard.Numeric.plus n 1))))
+      (body
+        (return (call Standard.Numeric.plus n 1)))))
   (contract App.Sized
     (procedure size
       (parameter of (type Self))
@@ -26,6 +27,6 @@
       (let c (as (struct (field last "42")) Bank.Card))
       (var k 4)
       (let s (call App.Sized.size c k))
-      (let t (call Standard.Numeric.plus s k)))
-    (result t)))
+      (let t (call Standard.Numeric.plus s k))
+      (return t))))
 (expect (answers 9))

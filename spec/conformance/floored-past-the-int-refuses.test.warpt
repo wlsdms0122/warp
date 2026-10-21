@@ -8,5 +8,6 @@
   (procedure entry
     (access public)
     (returns Int)
-    (result (call Standard.Math.floored 1e+30))))
+    (body
+      (return (call Standard.Math.floored 1e+30)))))
 (expect (refuses run))

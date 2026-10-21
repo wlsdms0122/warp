@@ -9,11 +9,13 @@
     (access public)
     (returns (array Any))
     (failing concurrent_failed)
-    (result
-      (call Standard.Concurrent.all
-        (array
-          (closure
-            (returns Int)
-            (result 1))
-          2)))))
+    (body
+      (return
+        (call Standard.Concurrent.all
+          (array
+            (closure
+              (returns Int)
+              (body
+                (return 1)))
+            2))))))
 (expect (refuses build))

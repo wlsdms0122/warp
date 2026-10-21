@@ -12,7 +12,8 @@
       (parameter of (type Bank.Card))
       (parameter x (type (some T)))
       (returns (some T))
-      (result x)))
+      (body
+        (return x))))
   (contract App.Describable
     (procedure describe
       (parameter of (type Self))
@@ -25,6 +26,6 @@
     (body
       (let c (as (struct (field last "42")) Bank.Card))
       (let d (call App.Describable.describe c 1))
-      (let u (call Standard.Text.uppercased d)))
-    (result u)))
+      (let u (call Standard.Text.uppercased d))
+      (return u))))
 (expect (refuses build))

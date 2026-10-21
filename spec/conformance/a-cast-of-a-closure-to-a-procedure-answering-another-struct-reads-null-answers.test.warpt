@@ -16,8 +16,9 @@
         (type (procedure (parameters) (returns Bank.A)))
         (closure
           (returns Bank.A)
-          (result (struct (field k "x")))))
+          (body
+            (return (struct (field k "x"))))))
       (let a (type Any) c)
-      (let v (as? a (procedure (parameters) (returns Bank.B)))))
-    (result v)))
+      (let v (as? a (procedure (parameters) (returns Bank.B))))
+      (return v))))
 (expect (answers null))

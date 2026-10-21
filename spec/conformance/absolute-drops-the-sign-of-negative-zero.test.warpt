@@ -11,6 +11,6 @@
     (access public)
     (returns String)
     (body
-      (let zero (call Standard.Numeric.times -1.0 0.0)))
-    (result (call Standard.Text.text (call Standard.Math.absolute zero)))))
+      (let zero (call Standard.Numeric.times -1.0 0.0))
+      (return (call Standard.Text.text (call Standard.Math.absolute zero))))))
 (expect (answers "0.0"))

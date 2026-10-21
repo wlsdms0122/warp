@@ -20,7 +20,7 @@
             (returns Bool)
             (failing concurrent_failed)
             (body
-              (let raced (call Standard.Concurrent.all (array))))
-            (result true)))))
-    (result kept)))
+              (let raced (call Standard.Concurrent.all (array)))
+              (return true)))))
+      (return kept))))
 (expect (refuses build))

@@ -7,7 +7,8 @@
   (procedure App.none
     (parameter f (type (procedure (parameters (some T)) (returns Bool))))
     (returns (array (some T)))
-    (result (array)))
+    (body
+      (return (array))))
   (procedure entry
     (access public)
     (returns (array Int))
@@ -18,6 +19,7 @@
           (closure
             (parameter n (type Int))
             (returns Bool)
-            (result true)))))
-    (result xs)))
+            (body
+              (return true)))))
+      (return xs))))
 (expect (answers (array)))

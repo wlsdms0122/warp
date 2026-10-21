@@ -8,7 +8,8 @@
   (procedure App.run
     (parameter c (type (procedure (parameters) (returns (some T)))))
     (returns (some T))
-    (result (apply c)))
+    (body
+      (return (apply c))))
   (procedure entry
     (access public)
     (returns String)
@@ -17,7 +18,8 @@
         (type (procedure (parameters) (returns Double)))
         (closure
           (returns Int)
-          (result 1)))
-      (let v (call App.run c)))
-    (result (call Standard.Text.text v))))
+          (body
+            (return 1))))
+      (let v (call App.run c))
+      (return (call Standard.Text.text v)))))
 (expect (refuses build))

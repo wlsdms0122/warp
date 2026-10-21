@@ -17,13 +17,16 @@
       (parameter lhs (type Int))
       (parameter rhs (type Int))
       (returns Bool)
-      (result (call Standard.Comparable.lessThan lhs rhs))))
+      (body
+        (return (call Standard.Comparable.lessThan lhs rhs)))))
   (procedure App.check
     (parameter x (type App.Ordered))
     (returns Bool)
-    (result (call App.Ordered.before x x)))
+    (body
+      (return (call App.Ordered.before x x))))
   (procedure entry
     (access public)
     (returns Bool)
-    (result (call App.check 1))))
+    (body
+      (return (call App.check 1)))))
 (expect (refuses build))

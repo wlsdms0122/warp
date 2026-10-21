@@ -21,7 +21,8 @@
             (isolated)
             (parameter v)
             (returns Bool)
-            (result true))))
+            (body
+              (return true)))))
       (let carried
         (type Int)
         (call Standard.Collection.reduce
@@ -33,7 +34,8 @@
             (parameter acc)
             (parameter x)
             (returns Int)
-            (result 1))))
-      (let head (type Int) (call Standard.Collection.first kept)))
-    (result (array kept carried head))))
+            (body
+              (return 1)))))
+      (let head (type Int) (call Standard.Collection.first kept))
+      (return (array kept carried head)))))
 (expect (answers (array (array 1 2 3) 1 1)))

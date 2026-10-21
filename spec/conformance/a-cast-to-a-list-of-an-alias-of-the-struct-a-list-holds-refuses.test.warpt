@@ -13,6 +13,6 @@
     (failing cast_refused)
     (body
       (let xs (type (array Bank.B)) (array (struct (field k "x"))))
-      (let ys (as xs (array Bank.BB))))
-    (result 0)))
+      (let ys (as xs (array Bank.BB)))
+      (return 0))))
 (expect (refuses build))

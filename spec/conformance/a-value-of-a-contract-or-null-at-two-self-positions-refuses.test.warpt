@@ -16,7 +16,8 @@
       (parameter lhs (type Int))
       (parameter rhs (type Int))
       (returns String)
-      (result "ii")))
+      (body
+        (return "ii"))))
   (extension
     (head Null)
     (satisfies App.Same)
@@ -24,7 +25,8 @@
       (parameter lhs (type Null))
       (parameter rhs (type Null))
       (returns String)
-      (result "nn")))
+      (body
+        (return "nn"))))
   (extension
     (head String)
     (satisfies App.Same)
@@ -32,14 +34,17 @@
       (parameter lhs (type String))
       (parameter rhs (type String))
       (returns String)
-      (result "ss")))
+      (body
+        (return "ss"))))
   (procedure App.pair
     (parameter a (type (nullable App.Same)))
     (parameter b (type (nullable App.Same)))
     (returns String)
-    (result (call App.Same.same a b)))
+    (body
+      (return (call App.Same.same a b))))
   (procedure entry
     (access public)
     (returns String)
-    (result (call App.pair 1 "s"))))
+    (body
+      (return (call App.pair 1 "s")))))
 (expect (refuses build))

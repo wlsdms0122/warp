@@ -1,0 +1,19 @@
+(test 1)
+(name "an-attempts-name-reads-nothing-after-the-attempt-refuses")
+(note "An attempt answers nothing, and its name is its failure's, read in the rescue. After the attempt the name reads nothing, so reading it there refuses at the load.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let tried
+        (attempt
+          (body
+            (call Standard.Control.abort "stop"))
+          (rescue
+            (let seen (path tried (field message))))))
+      (return tried))))
+(expect (refuses load))

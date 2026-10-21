@@ -12,5 +12,6 @@
     (access public)
     (returns Int)
     (failing cast_refused)
-    (result (call Standard.Collection.count (as (struct (field balance 1) (field owner "a")) Account)))))
+    (body
+      (return (call Standard.Collection.count (as (struct (field balance 1) (field owner "a")) Account))))))
 (expect (refuses build))

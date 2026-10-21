@@ -11,8 +11,8 @@
     (returns Int)
     (body
       (let y (call App.h b j))
-      (set a (array)))
-    (result 0))
+      (set a (array))
+      (return 0)))
   (procedure App.h
     (parameter n (type (some T)))
     (parameter j)
@@ -24,14 +24,14 @@
           (parameter y (type (some T)))
           (returns Int)
           (body
-            (set cell y))
-          (result 0))))
-    (result cell))
+            (set cell y)
+            (return 0))))
+      (return cell)))
   (procedure entry
     (access public)
     (returns (array Int))
     (body
       (var xs (array 1))
-      (let r (call App.g xs (path xs (index 0)) 5)))
-    (result xs)))
+      (let r (call App.g xs (path xs (index 0)) 5))
+      (return xs))))
 (expect (answers (array)))

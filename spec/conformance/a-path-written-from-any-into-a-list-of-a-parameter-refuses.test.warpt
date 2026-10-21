@@ -10,12 +10,12 @@
     (returns (array (some T)))
     (body
       (var cell (array x))
-      (set (path cell (index 0)) junk))
-    (result cell))
+      (set (path cell (index 0)) junk)
+      (return cell)))
   (procedure entry
     (access public)
     (returns (array Int))
     (body
-      (let r (call App.g 1 "s")))
-    (result r)))
+      (let r (call App.g 1 "s"))
+      (return r))))
 (expect (refuses build))

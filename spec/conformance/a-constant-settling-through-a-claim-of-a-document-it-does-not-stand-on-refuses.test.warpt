@@ -23,7 +23,8 @@
         (parameter of (type Int))
         (parameter other (type Int))
         (returns Int)
-        (result of)))))
+        (body
+          (return of))))))
 
 (program
   (warp 1)
@@ -32,5 +33,6 @@
   (procedure entry
     (access public)
     (returns Int)
-    (result joined)))
+    (body
+      (return joined))))
 (expect (refuses build))

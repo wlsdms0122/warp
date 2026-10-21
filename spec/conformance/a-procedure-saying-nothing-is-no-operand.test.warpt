@@ -7,9 +7,11 @@
   (import Standard.Numeric.plus)
   (procedure App.two
     (returns Int)
-    (result 2))
+    (body
+      (return 2)))
   (procedure entry
     (access public)
     (returns Int)
-    (result (call Standard.Numeric.plus (call App.two) 1))))
+    (body
+      (return (call Standard.Numeric.plus (call App.two) 1)))))
 (expect (refuses build))

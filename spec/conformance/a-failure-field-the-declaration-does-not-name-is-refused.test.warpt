@@ -9,11 +9,12 @@
     (access public)
     (returns Any)
     (body
-      (let tried
+      (var tried)
+      (let caught
         (attempt
           (body
             (call Standard.Control.abort "on purpose"))
           (rescue
-            (result (path tried (field failures)))))))
-    (result tried)))
+            (set tried (path caught (field failures))))))
+      (return tried))))
 (expect (refuses build))

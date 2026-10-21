@@ -10,8 +10,8 @@
     (parameter x (type (inout (some T))))
     (returns Int)
     (body
-      (apply f x))
-    (result 0))
+      (apply f x)
+      (return 0)))
   (procedure entry
     (access public)
     (returns Int)
@@ -22,7 +22,8 @@
           (parameter c (type (inout Int)))
           (returns Any)
           (body
-            (set c (call Standard.Numeric.plus c 1))))
-        n))
-    (result n)))
+            (set c (call Standard.Numeric.plus c 1))
+            (return)))
+        n)
+      (return n))))
 (expect (answers 1))

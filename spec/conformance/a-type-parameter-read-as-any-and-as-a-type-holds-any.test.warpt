@@ -10,7 +10,7 @@
     (parameter xs (type (array Any)))
     (returns (array Any))
     (body
-      (let one (call Standard.Collection.appending xs 1)))
-    (result (call Standard.Collection.appending one "a"))))
+      (let one (call Standard.Collection.appending xs 1))
+      (return (call Standard.Collection.appending one "a")))))
 (arguments (argument xs (array)))
 (expect (answers (array 1 "a")))

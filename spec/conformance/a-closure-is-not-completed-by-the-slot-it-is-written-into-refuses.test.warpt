@@ -8,13 +8,15 @@
     (parameter f (type (procedure (parameters) (returns Int))))
     (returns Int)
     (body
-      (let answered (apply f)))
-    (result answered))
+      (let answered (apply f))
+      (return answered)))
   (procedure entry
     (access public)
     (returns Int)
-    (result
-      (call App.run
-        (closure
-          (result 1))))))
+    (body
+      (return
+        (call App.run
+          (closure
+            (body
+              (return 1))))))))
 (expect (refuses build))

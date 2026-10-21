@@ -15,16 +15,19 @@
             (parameter x (type Int))
             (returns Int)
             (failing aborted)
-            (result (call Standard.Control.abort "no")))))
-      (let failed
+            (body
+              (return (call Standard.Control.abort "no"))))))
+      (var failed)
+      (let caught
         (attempt
           (body
             (let f (as any (procedure (parameters Int) (returns Int)))))
           (rescue
-            (result (path failed (field type)))))))
-    (result failed))
+            (set failed (path caught (field type))))))
+      (return failed)))
   (procedure hide
     (parameter v)
     (returns Any)
-    (result v)))
+    (body
+      (return v))))
 (expect (answers "cast_refused"))

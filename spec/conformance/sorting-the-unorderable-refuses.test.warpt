@@ -8,5 +8,6 @@
   (procedure entry
     (access public)
     (returns (array Bool))
-    (result (call Standard.Collection.sorted (array true false)))))
+    (body
+      (return (call Standard.Collection.sorted (array true false))))))
 (expect (refuses build))

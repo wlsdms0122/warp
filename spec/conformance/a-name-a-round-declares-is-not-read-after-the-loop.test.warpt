@@ -14,6 +14,6 @@
           (while (call Standard.Comparable.lessThan (path walk (field index)) 3))
           (body
             (let transient (path walk (field index))))))
-      (let read transient))
-    (result read)))
+      (let read transient)
+      (return read))))
 (expect (refuses load))

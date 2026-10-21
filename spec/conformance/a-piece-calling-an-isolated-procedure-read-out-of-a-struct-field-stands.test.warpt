@@ -13,30 +13,33 @@
     (parameter item (type Int))
     (returns Int)
     (body
-      (let a (apply (path body (field f)) item)))
-    (result a))
+      (let a (apply (path body (field f)) item))
+      (return a)))
   (procedure entry
     (access public)
     (isolated)
     (returns (array Int))
     (failing concurrent_failed)
-    (result
-      (call Standard.Concurrent.map
-        (array 1 2)
-        (closure
-          (isolated)
-          (parameter item (type Int))
-          (parameter index (type Int))
-          (returns Int)
-          (result
-            (call asking
-              (struct
-                (field f
-                  (closure
-                    (const)
-                    (isolated)
-                    (parameter x (type Int))
-                    (returns Int)
-                    (result x))))
-              item)))))))
+    (body
+      (return
+        (call Standard.Concurrent.map
+          (array 1 2)
+          (closure
+            (isolated)
+            (parameter item (type Int))
+            (parameter index (type Int))
+            (returns Int)
+            (body
+              (return
+                (call asking
+                  (struct
+                    (field f
+                      (closure
+                        (const)
+                        (isolated)
+                        (parameter x (type Int))
+                        (returns Int)
+                        (body
+                          (return x)))))
+                  item)))))))))
 (expect (answers (array 1 2)))

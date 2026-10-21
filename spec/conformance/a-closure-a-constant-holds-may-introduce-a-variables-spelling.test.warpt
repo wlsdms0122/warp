@@ -8,12 +8,13 @@
     (closure
       (returns Int)
       (body
-        (let count 1))
-      (result count)))
+        (let count 1)
+        (return count))))
   (var count 0)
   (procedure entry
     (access public)
     (returns Int)
     (failing (anything))
-    (result (apply make))))
+    (body
+      (return (apply make)))))
 (expect (answers 1))

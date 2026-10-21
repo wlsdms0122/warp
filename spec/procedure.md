@@ -16,9 +16,8 @@ What a declaration says about itself, and what saying it permits. Four things: t
 | `bounds` | map: an associated type of a type parameter, `T.Item` → the names of contracts, one or several joined with `&`. A type parameter is bounded beside the first `some T` the slots write, `some T: Standard.Comparable`, so a key naming one **refuses at the load**, and so does one standing on a parameter no slot mentions, under [types](type.md) | no |
 | `sameTypes` | map: an associated type of a type parameter, `T.Item` → the type it is, under *the associated types of a type parameter* in [types](type.md) | no |
 | `body` | statements | no |
-| `result` | expression. What the procedure answers | no |
 
-A procedure answers what `result` names, and nothing if it names nothing.
+**A procedure answers through `return`.** One that writes `returns` leaves on every way through its body, by a `return` or by a call answering `Never`, and a way that reaches the end of the body **refuses at the build**, under [checking](checking.md). One that writes no `returns` answers null when its body reaches its end.
 
 **What a declaration leaves out says the least.** A call reads the declaration and nothing else, so nothing a declaration leaves out is read off its body: a body answering more than `returns` admits, failing with more than `failing` names, or doing what `const` or `isolated` says it does not, **refuses at the build**, under [checking](checking.md). Each key written as what leaving it out says, `returns: Null`, an empty `failing`, `const: false` or `isolated: false`, **refuses at the load**, and so does `failing` written as anything but a list of names or `anything`. A failure named by anything but one identifier, or named `anything`, **refuses at the load**, in `failing` and in a procedure type's `throws(…)` alike.
 
@@ -40,7 +39,7 @@ A declaration's `access` travels with it: an object writes it on the row, under 
 
 ## A procedure the host answers
 
-A procedure the host answers is not written in a document. A declaration in a document with no `body` and no `result` is a procedure that answers nothing. The host's procedure arrives at the link in a module the host assembled in its own language, declared there under its spelling the way any declaration is, its answer, what it may **fail** with, whether it **touches** a name another body could touch at the same time and whether it **answers without running** among it, and beside that the **procedures it sends**, because there is no text to read them off. A call reaches one of these the way it reaches any other declaration, and is judged against the declaration the same way.
+A procedure the host answers is not written in a document. A declaration in a document with no `body` is one whose body holds no statement. The host's procedure arrives at the link in a module the host assembled in its own language, declared there under its spelling the way any declaration is, its answer, what it may **fail** with, whether it **touches** a name another body could touch at the same time and whether it **answers without running** among it, and beside that the **procedures it sends**, because there is no text to read them off. A call reaches one of these the way it reaches any other declaration, and is judged against the declaration the same way.
 
 **Its sends are held to the rest of what it said.** They are declared beside the signature, so the build reads them. A send names the declaration it reaches, so a send naming a contract's procedure **refuses at the build**: which declaration answers one is a call's first argument to say, and a send has no call to read it from. A procedure declaring it answers without running and sending one that does not declare so **refuses at the build**, and so does one declaring it touches nothing shared and sending one that does not declare so. So does one declaring it answers without running and answering through the door that reaches outside the run, under *what a runtime hands one* below.
 
@@ -122,6 +121,8 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-body-answering-a-value-where-no-returns-is-written-refuses`
 - `a-body-declared-const-reading-a-module-variable-refuses`
 - `a-body-declared-const-writing-at-a-place-a-module-variable-finds-refuses`
+- `a-body-ending-in-a-conditional-both-of-whose-arms-return-answers-as-declared`
+- `a-body-ending-in-a-conditional-only-one-arm-of-which-returns-refuses`
 - `a-body-reading-a-module-variable-does-not-answer-without-running`
 - `a-body-that-branches-answers-without-running`
 - `a-body-that-loops-answers-without-running`
@@ -145,6 +146,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-closure-that-writes-what-it-captured-is-not-const`
 - `a-closure-writes-its-own-parameter-in-place-and-no-name-it-shadows`
 - `a-closure-writing-no-returns-answers-null`
+- `a-closure-writing-returns-whose-body-reaches-its-end-refuses`
 - `a-closures-parameter-is-not-the-const-procedure-it-shadows`
 - `a-const-body-reading-a-module-variable-in-an-attempt-under-its-failures-name-refuses`
 - `a-const-body-reading-a-name-under-a-variables-spelling-answers`
@@ -177,6 +179,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-declaration-calling-a-procedure-whose-type-may-fail-with-anything-backs-no-contract-refuses`
 - `a-declaration-that-runs-backs-no-const-contract`
 - `a-declaration-writing-no-returns-answers-null`
+- `a-declaration-writing-returns-whose-body-reaches-its-end-refuses`
 - `a-dictionary-entry-handed-in-place-is-read-by-the-callee`
 - `a-failure-name-that-is-no-identifier-refuses`
 - `a-failure-named-anything-refuses`

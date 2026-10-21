@@ -14,16 +14,19 @@
     (procedure describe
       (parameter of (type Null))
       (returns String)
-      (result "nothing")))
+      (body
+        (return "nothing"))))
   (procedure App.tell
     (parameter it (type (some T App.Described)))
     (returns String)
-    (result (call App.Described.describe it)))
+    (body
+      (return (call App.Described.describe it))))
   (procedure entry
     (access public)
     (parameter absent)
     (returns String)
     (failing cast_refused)
-    (result (call App.tell (as absent App.Described)))))
+    (body
+      (return (call App.tell (as absent App.Described))))))
 (arguments (argument absent null))
 (expect (answers "nothing"))

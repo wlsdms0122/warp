@@ -19,9 +19,11 @@
   (procedure entry
     (access public)
     (returns String)
-    (result (call keep "k")))
+    (body
+      (return (call keep "k"))))
   (procedure keep
     (parameter value (type (some T Num.Scalar)))
     (returns (some T))
-    (result value)))
+    (body
+      (return value))))
 (expect (answers "k"))

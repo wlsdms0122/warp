@@ -8,7 +8,8 @@
     (type Lo.Loose Any)
     (procedure Lo.unused
       (returns Int)
-      (result 0))))
+      (body
+        (return 0)))))
 
 (program
   (warp 1)
@@ -20,11 +21,12 @@
   (procedure App.g
     (parameter p (type App.Shape))
     (returns Int)
-    (result 1))
+    (body
+      (return 1)))
   (procedure entry
     (access public)
     (returns Int)
     (body
-      (let d (type Lo.Loose) 5))
-    (result (call App.g d))))
+      (let d (type Lo.Loose) 5)
+      (return (call App.g d)))))
 (expect (refuses build))

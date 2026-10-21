@@ -9,6 +9,6 @@
     (access public)
     (returns Int)
     (body
-      (var d (type (array Int)) (array 1)))
-    (result (path d (index K)))))
+      (var d (type (array Int)) (array 1))
+      (return (path d (index K))))))
 (expect (refuses build))

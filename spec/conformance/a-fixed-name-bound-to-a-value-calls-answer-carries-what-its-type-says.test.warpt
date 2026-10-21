@@ -9,19 +9,22 @@
     (parameter g (type (procedure (const) (parameters) (returns (procedure (const) (parameters) (returns Int))))))
     (returns Int)
     (body
-      (let f (apply g)))
-    (result (apply f)))
+      (let f (apply g))
+      (return (apply f))))
   (procedure entry
     (access public)
     (returns Int)
-    (result
-      (call App.run
-        (closure
-          (const)
-          (returns (procedure (const) (parameters) (returns Int)))
-          (result
-            (closure
-              (const)
-              (returns Int)
-              (result 1))))))))
+    (body
+      (return
+        (call App.run
+          (closure
+            (const)
+            (returns (procedure (const) (parameters) (returns Int)))
+            (body
+              (return
+                (closure
+                  (const)
+                  (returns Int)
+                  (body
+                    (return 1)))))))))))
 (expect (answers 1))

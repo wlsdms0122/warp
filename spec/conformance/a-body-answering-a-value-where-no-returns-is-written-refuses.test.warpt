@@ -1,10 +1,11 @@
 (test 1)
 (name "a-body-answering-a-value-where-no-returns-is-written-refuses")
-(note "A declaration that writes no `returns` answers null, so a body whose `result` names a number answers more than its declaration says, and refuses at the build.")
+(note "A declaration that writes no `returns` answers null, so a body whose `return` carries a number answers more than its declaration says, and refuses at the build.")
 
 (program
   (warp 1)
   (procedure entry
     (access public)
-    (result 1)))
+    (body
+      (return 1))))
 (expect (refuses build))

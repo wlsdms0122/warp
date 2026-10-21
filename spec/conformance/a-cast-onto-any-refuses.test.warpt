@@ -8,6 +8,7 @@
     (access public)
     (parameter payload)
     (returns Any)
-    (result (as payload Any))))
+    (body
+      (return (as payload Any)))))
 (arguments (argument payload 1))
 (expect (refuses build))

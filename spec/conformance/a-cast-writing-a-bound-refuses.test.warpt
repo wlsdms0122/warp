@@ -7,9 +7,11 @@
   (procedure App.f
     (parameter x (type (some T)))
     (returns (some T))
-    (result (as x (some T Hashable))))
+    (body
+      (return (as x (some T Hashable)))))
   (procedure entry
     (access public)
     (returns Int)
-    (result 1)))
+    (body
+      (return 1))))
 (expect (refuses load))

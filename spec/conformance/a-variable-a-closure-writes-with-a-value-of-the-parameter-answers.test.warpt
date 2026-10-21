@@ -15,15 +15,15 @@
           (parameter y (type (some T)))
           (returns Int)
           (body
-            (set cell y))
-          (result 0)))
-      (let z (apply c x)))
-    (result cell))
+            (set cell y)
+            (return 0))))
+      (let z (apply c x))
+      (return cell)))
   (procedure entry
     (access public)
     (returns Int)
     (failing (anything))
     (body
-      (let r (call App.g 1)))
-    (result r)))
+      (let r (call App.g 1))
+      (return r))))
 (expect (answers 1))

@@ -15,7 +15,8 @@
       (access public)
       (parameter p (type (some P Lib.Keyed)))
       (returns (some P.Value))
-      (result (call Lib.Keyed.value p))))
+      (body
+        (return (call Lib.Keyed.value p)))))
   (document
     (warp 1)
     (import Lib.Keyed)
@@ -33,7 +34,8 @@
         (access public)
         (parameter of (type (named App.Pair (some A) (some B))))
         (returns (some B))
-        (result (path of (field b)))))))
+        (body
+          (return (path of (field b))))))))
 
 (program
   (warp 1)
@@ -43,6 +45,6 @@
     (access public)
     (returns String)
     (body
-      (let p (type (named App.Pair Int String)) (struct (field a 1) (field b "b"))))
-    (result (call Lib.valueOf p))))
+      (let p (type (named App.Pair Int String)) (struct (field a 1) (field b "b")))
+      (return (call Lib.valueOf p)))))
 (expect (answers "b"))

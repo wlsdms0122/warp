@@ -9,5 +9,6 @@
     (access public)
     (returns (array String))
     (failing aborted)
-    (result (call Standard.Text.split "--a--b--" "--"))))
+    (body
+      (return (call Standard.Text.split "--a--b--" "--")))))
 (expect (answers (array "" "a" "b" "")))

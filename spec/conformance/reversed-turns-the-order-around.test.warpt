@@ -10,6 +10,6 @@
     (returns (array (array Int)))
     (body
       (let items (array 1 2 3))
-      (let backwards (call Standard.Collection.reversed items)))
-    (result (array backwards items))))
+      (let backwards (call Standard.Collection.reversed items))
+      (return (array backwards items)))))
 (expect (answers (array (array 3 2 1) (array 1 2 3))))

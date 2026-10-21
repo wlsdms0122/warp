@@ -25,8 +25,9 @@
                 (const)
                 (isolated)
                 (returns Int)
-                (result x)))
+                (body
+                  (return x))))
             (let y (call Standard.Numeric.plus x 1))
-            (set i (call Standard.Numeric.plus i 1))))))
-    (result x)))
+            (set i (call Standard.Numeric.plus i 1)))))
+      (return x))))
 (expect (answers 1))

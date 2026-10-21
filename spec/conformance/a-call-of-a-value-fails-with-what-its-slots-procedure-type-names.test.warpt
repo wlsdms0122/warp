@@ -11,13 +11,15 @@
     (parameter step (type (procedure (const) (parameters Int) (failing aborted) (returns Int))))
     (returns Int)
     (failing aborted)
-    (result (apply step of)))
+    (body
+      (return (apply step of))))
   (procedure entry
     (access public)
     (const)
     (returns (nullable String))
     (body
-      (let failed
+      (var failed)
+      (let caught
         (attempt
           (body
             (call apply 1
@@ -27,8 +29,9 @@
                 (parameter x (type Int))
                 (returns Int)
                 (failing aborted)
-                (result (call Standard.Control.abort "no")))))
+                (body
+                  (return (call Standard.Control.abort "no"))))))
           (rescue
-            (result (path failed (field type)))))))
-    (result failed)))
+            (set failed (path caught (field type))))))
+      (return failed))))
 (expect (answers "aborted"))

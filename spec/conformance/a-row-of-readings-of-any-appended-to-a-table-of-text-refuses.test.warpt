@@ -15,6 +15,6 @@
       (var table (array (array "h1" "h2")))
       (call Standard.Collection.append table (array (path src (index "a")) (path src (index "b"))))
       (let row (call Standard.Collection.last table))
-      (let u (call Standard.Collection.appending row "z")))
-    (result u)))
+      (let u (call Standard.Collection.appending row "z"))
+      (return u))))
 (expect (refuses build))

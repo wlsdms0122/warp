@@ -8,9 +8,11 @@
     (parameter xs (type (array Int)))
     (parameter k (type (some T)))
     (returns Int)
-    (result (path xs (index k))))
+    (body
+      (return (path xs (index k)))))
   (procedure entry
     (access public)
     (returns Int)
-    (result 1)))
+    (body
+      (return 1))))
 (expect (refuses build))

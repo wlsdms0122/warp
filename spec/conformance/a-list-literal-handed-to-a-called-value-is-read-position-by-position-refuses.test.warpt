@@ -15,8 +15,8 @@
           (parameter xs (type (array (dictionary String (array String)))))
           (returns Int)
           (body
-            (let k (call Standard.Collection.count xs)))
-          (result k)))
-      (let n (apply f (array (dictionary (entry "a" (array))) (dictionary (entry "a" (array 1)))))))
-    (result n)))
+            (let k (call Standard.Collection.count xs))
+            (return k))))
+      (let n (apply f (array (dictionary (entry "a" (array))) (dictionary (entry "a" (array 1))))))
+      (return n))))
 (expect (refuses build))

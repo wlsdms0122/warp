@@ -9,9 +9,11 @@
     (procedure make
       (parameter from (type String))
       (returns App.Box)
-      (result (struct (field v 1)))))
+      (body
+        (return (struct (field v 1))))))
   (procedure entry
     (access public)
     (returns Int)
-    (result 1)))
+    (body
+      (return 1))))
 (expect (refuses load))

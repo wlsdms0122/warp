@@ -14,13 +14,14 @@
   (procedure App.f
     (parameter gs (type (array (array (some T App.M)))))
     (returns Int)
-    (result 0))
+    (body
+      (return 0)))
   (procedure entry
     (access public)
     (returns Int)
     (body
       (let xs (type (array Bool)) (array true))
       (let ys (type (array Int)) (array 1))
-      (let r (call App.f (array xs ys))))
-    (result r)))
+      (let r (call App.f (array xs ys)))
+      (return r))))
 (expect (refuses build))

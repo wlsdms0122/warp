@@ -15,14 +15,16 @@
         (type (procedure (parameters) (returns Int)))
         (closure
           (returns Int)
-          (result 0)))
+          (body
+            (return 0))))
       (conditional
         (when true)
         (then
           (set keep
             (closure
               (returns Int)
-              (result (call Standard.Numeric.plus x 1)))))
+              (body
+                (return (call Standard.Numeric.plus x 1))))))
         (else
           (set x null)))
       (let clear
@@ -31,6 +33,6 @@
           (body
             (set v null))))
       (apply clear x)
-      (let r (apply keep)))
-    (result r)))
+      (let r (apply keep))
+      (return r))))
 (expect (refuses build))

@@ -20,10 +20,11 @@
               (let a
                 (closure
                   (returns String)
-                  (result n)))
+                  (body
+                    (return n))))
               (return 0)))
           (break)))
-      (set n 5))
-    (result n)))
+      (set n 5)
+      (return n))))
 (arguments (argument ready false))
 (expect (answers 5))

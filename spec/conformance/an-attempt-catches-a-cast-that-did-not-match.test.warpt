@@ -9,13 +9,13 @@
     (parameter payload)
     (returns String)
     (body
-      (let tried
-        (attempt
-          (body
-            (let read (as payload String)))
-          (result read)
-          (rescue
-            (result "caught")))))
-    (result tried)))
+      (var tried)
+      (attempt
+        (body
+          (let read (as payload String))
+          (set tried read))
+        (rescue
+          (set tried "caught")))
+      (return tried))))
 (arguments (argument payload 1))
 (expect (answers "caught"))

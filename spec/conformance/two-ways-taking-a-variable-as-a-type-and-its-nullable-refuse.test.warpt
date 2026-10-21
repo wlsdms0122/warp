@@ -26,8 +26,9 @@
           (let b
             (closure
               (returns Int)
-              (result n)))))
-      (set n 5))
-    (result n)))
+              (body
+                (return n))))))
+      (set n 5)
+      (return n))))
 (arguments (argument ready true))
 (expect (refuses build))

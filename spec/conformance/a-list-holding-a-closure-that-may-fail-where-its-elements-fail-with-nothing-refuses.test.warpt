@@ -8,20 +8,24 @@
   (procedure entry
     (access public)
     (returns Int)
-    (result
-      (call take
-        (array
-          (closure
-            (parameter x (type Int))
-            (returns Int)
-            (result x))
-          (closure
-            (parameter x (type Int))
-            (returns Int)
-            (failing aborted)
-            (result (call Standard.Control.abort "no")))))))
+    (body
+      (return
+        (call take
+          (array
+            (closure
+              (parameter x (type Int))
+              (returns Int)
+              (body
+                (return x)))
+            (closure
+              (parameter x (type Int))
+              (returns Int)
+              (failing aborted)
+              (body
+                (return (call Standard.Control.abort "no")))))))))
   (procedure take
     (parameter steps (type (array (procedure (const) (parameters Int) (returns Int)))))
     (returns Int)
-    (result 1)))
+    (body
+      (return 1))))
 (expect (refuses build))

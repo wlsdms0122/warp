@@ -11,6 +11,6 @@
     (returns Int)
     (body
       (var p (type App.P) (struct (field x 1)))
-      (set (path p (field x)) "five"))
-    (result (path p (field x)))))
+      (set (path p (field x)) "five")
+      (return (path p (field x))))))
 (expect (refuses build))

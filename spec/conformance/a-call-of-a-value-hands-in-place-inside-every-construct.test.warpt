@@ -36,8 +36,8 @@
           (failing (anything))
           (body
             (var m 0)
-            (apply bump m))
-          (result m)))
+            (apply bump m)
+            (return m))))
       (let r
         (dictionary
           (entry "f"
@@ -46,8 +46,8 @@
               (failing (anything))
               (body
                 (var m 0)
-                (apply bump m))
-              (result m)))))
+                (apply bump m)
+                (return m))))))
       (let a
         (array
           (closure
@@ -55,22 +55,21 @@
             (failing (anything))
             (body
               (var m 0)
-              (apply bump m))
-            (result m))))
+              (apply bump m)
+              (return m)))))
       (let got (call relay inner))
       (attempt
         (body
           (apply bump n)
           (call Standard.Control.abort "x"))
         (rescue
-          (body
-            (apply bump n)))))
-    (result n))
+          (apply bump n)))
+      (return n)))
   (procedure relay
     (parameter f (type (procedure (parameters) (failing (anything)) (returns Any))))
     (returns Any)
     (failing (anything))
     (body
-      (let x (apply f)))
-    (result x)))
+      (let x (apply f))
+      (return x))))
 (expect (answers 5))

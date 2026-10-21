@@ -9,5 +9,6 @@
     (access public)
     (parameter names (type (array String)))
     (returns (array String))
-    (result (call Standard.Collection.appending names 1))))
+    (body
+      (return (call Standard.Collection.appending names 1)))))
 (expect (refuses build))

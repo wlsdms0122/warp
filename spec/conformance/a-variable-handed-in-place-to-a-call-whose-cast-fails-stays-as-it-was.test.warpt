@@ -18,12 +18,12 @@
           (parameter y (type (some T)))
           (returns Int)
           (body
-            (set cell y))
-          (result 0)))
+            (set cell y)
+            (return 0))))
       (let a (type Any) c)
       (let w (as a (procedure (parameters Int) (returns Int))))
-      (let z (apply w (as junk Int))))
-    (result cell))
+      (let z (apply w (as junk Int)))
+      (return cell)))
   (procedure App.put
     (parameter n (type (some T)))
     (parameter junk)
@@ -37,8 +37,8 @@
       (conditional
         (when stop)
         (then
-          (call Standard.Control.abort "boom"))))
-    (result 0))
+          (call Standard.Control.abort "boom")))
+      (return 0)))
   (procedure entry
     (access public)
     (returns (array String))
@@ -47,7 +47,6 @@
       (attempt
         (body
           (call App.put "b" 5 s true))
-        (rescue
-          (body 0))))
-    (result s)))
+        (rescue 0))
+      (return s))))
 (expect (answers (array "a")))

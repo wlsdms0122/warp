@@ -11,7 +11,8 @@
       (access private)
       (parameter of (type App.Handle))
       (returns String)
-      (result "a handle")))
+      (body
+        (return "a handle"))))
   (contract App.Describable
     (procedure describe
       (parameter of (type Self))
@@ -19,12 +20,13 @@
   (procedure App.tell
     (parameter it (type (some T App.Describable)))
     (returns String)
-    (result (call App.Describable.describe it)))
+    (body
+      (return (call App.Describable.describe it))))
   (procedure entry
     (access public)
     (returns String)
     (failing cast_refused)
     (body
-      (let handle (as (struct (field name "x")) App.Handle)))
-    (result (call App.tell handle))))
+      (let handle (as (struct (field name "x")) App.Handle))
+      (return (call App.tell handle)))))
 (expect (refuses build))

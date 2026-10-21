@@ -10,6 +10,6 @@
     (access public)
     (returns Any)
     (body
-      (let point (type App.Point) (struct (field x 1))))
-    (result (path point (field? x)))))
+      (let point (type App.Point) (struct (field x 1)))
+      (return (path point (field? x))))))
 (expect (refuses build))

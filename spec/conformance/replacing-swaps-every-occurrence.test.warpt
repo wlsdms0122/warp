@@ -9,5 +9,6 @@
     (access public)
     (returns String)
     (failing aborted)
-    (result (call Standard.Text.replacing "a-b-a" "a" "c"))))
+    (body
+      (return (call Standard.Text.replacing "a-b-a" "a" "c")))))
 (expect (answers "c-b-c"))

@@ -13,11 +13,12 @@
           (closure
             (returns Int)
             (body
-              (let said "hi"))
-            (result said)))))
-    (result ran))
+              (let said "hi")
+              (return said)))))
+      (return ran)))
   (procedure twice
     (parameter body (type (procedure (parameters) (returns Int))))
     (returns Int)
-    (result (apply body))))
+    (body
+      (return (apply body)))))
 (expect (refuses build))

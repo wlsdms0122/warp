@@ -11,7 +11,8 @@
       (parameter of (type App.Box))
       (parameter at (type App.Spot))
       (returns Int)
-      (result (path at (field x)))))
+      (body
+        (return (path at (field x))))))
   (struct App.Point
     (field x Int))
   (type App.Spot App.Point)
@@ -26,6 +27,6 @@
     (failing cast_refused)
     (body
       (let box (as (struct (field v 1)) App.Box))
-      (let point (as (struct (field x 5)) App.Point)))
-    (result (call App.Placing.place box point))))
+      (let point (as (struct (field x 5)) App.Point))
+      (return (call App.Placing.place box point)))))
 (expect (answers 5))

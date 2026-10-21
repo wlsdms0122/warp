@@ -10,6 +10,7 @@
     (access public)
     (parameter counts (type (array Standard.Numeric)))
     (returns (array Standard.Numeric))
-    (result (call Standard.Collection.appending counts 1))))
+    (body
+      (return (call Standard.Collection.appending counts 1)))))
 (arguments (argument counts (array 2.5)))
 (expect (answers (array 2.5 1)))

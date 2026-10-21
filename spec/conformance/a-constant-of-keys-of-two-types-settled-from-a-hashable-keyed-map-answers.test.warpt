@@ -10,8 +10,8 @@
       (isolated)
       (returns (dictionary Hashable Int))
       (body
-        (let m (type (dictionary Hashable Int)) (dictionary (entry 1 1) (entry "a" 2))))
-      (result m))))
+        (let m (type (dictionary Hashable Int)) (dictionary (entry 1 1) (entry "a" 2)))
+        (return m)))))
 
 (program
   (warp 1)
@@ -24,6 +24,6 @@
     (isolated)
     (returns Int)
     (body
-      (let d (type (dictionary Hashable Int)) made))
-    (result (call Standard.Collection.count d))))
+      (let d (type (dictionary Hashable Int)) made)
+      (return (call Standard.Collection.count d)))))
 (expect (answers 2))

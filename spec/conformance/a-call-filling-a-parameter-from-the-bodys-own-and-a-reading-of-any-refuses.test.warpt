@@ -9,17 +9,18 @@
     (parameter j (type (array Any)))
     (returns (array (some T)))
     (body
-      (let p (call App.pick (array n) j)))
-    (result p))
+      (let p (call App.pick (array n) j))
+      (return p)))
   (procedure App.pick
     (parameter a (type (some E)))
     (parameter b (type (some E)))
     (returns (some E))
-    (result b))
+    (body
+      (return b)))
   (procedure entry
     (access public)
     (returns (array Int))
     (body
-      (let r (call App.g 1 (array "s"))))
-    (result r)))
+      (let r (call App.g 1 (array "s")))
+      (return r))))
 (expect (refuses build))

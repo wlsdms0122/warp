@@ -10,6 +10,6 @@
     (returns Bool)
     (body
       (var b (type (array Int)) x"0102")
-      (set (path b (index 0)) 5))
-    (result (call Standard.Logic.equal b (array 5 2)))))
+      (set (path b (index 0)) 5)
+      (return (call Standard.Logic.equal b (array 5 2))))))
 (expect (answers true))

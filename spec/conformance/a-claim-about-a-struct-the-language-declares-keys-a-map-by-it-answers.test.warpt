@@ -12,6 +12,6 @@
     (access public)
     (returns Int)
     (body
-      (let d (type (dictionary Round Int)) (dictionary (entry (struct (field index 0)) 1))))
-    (result (call Standard.Collection.count d))))
+      (let d (type (dictionary Round Int)) (dictionary (entry (struct (field index 0)) 1)))
+      (return (call Standard.Collection.count d)))))
 (expect (answers 1))

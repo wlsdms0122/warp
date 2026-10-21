@@ -10,6 +10,7 @@
     (access public)
     (parameter task (type (nullable Task)))
     (returns (nullable String))
-    (result (path task (field? name)))))
+    (body
+      (return (path task (field? name))))))
 (arguments (argument task (struct Task (field name "loaded"))))
 (expect (answers "loaded"))

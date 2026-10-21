@@ -8,15 +8,16 @@
   (const f
     (closure
       (returns Int)
-      (result 1)))
+      (body
+        (return 1))))
   (procedure entry
     (access public)
     (returns Int)
     (failing (anything))
     (body
       (let held (apply f))
-      (let called (call f)))
-    (result (call Standard.Numeric.plus held called)))
+      (let called (call f))
+      (return (call Standard.Numeric.plus held called))))
   (procedure f
     (returns Int)
     (failing (anything))
@@ -24,6 +25,7 @@
       (let g
         (closure
           (returns Int)
-          (result 2))))
-    (result (apply g))))
+          (body
+            (return 2))))
+      (return (apply g)))))
 (expect (answers 3))

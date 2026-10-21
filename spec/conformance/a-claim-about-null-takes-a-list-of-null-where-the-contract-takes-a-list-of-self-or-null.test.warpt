@@ -16,9 +16,11 @@
       (parameter s (type Null))
       (parameter t (type (array Null)))
       (returns Int)
-      (result 1)))
+      (body
+        (return 1))))
   (procedure entry
     (access public)
     (returns Int)
-    (result (call App.Q.q null (array null)))))
+    (body
+      (return (call App.Q.q null (array null))))))
 (expect (answers 1))

@@ -16,9 +16,10 @@
           (isolated)
           (parameter x (type Int))
           (returns Int)
-          (result x)))
-      (call swap step))
-    (result 1))
+          (body
+            (return x))))
+      (call swap step)
+      (return 1)))
   (procedure swap
     (const)
     (isolated)

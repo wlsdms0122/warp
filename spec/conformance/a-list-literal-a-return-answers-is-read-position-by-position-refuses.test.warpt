@@ -1,6 +1,6 @@
 (test 1)
 (name "a-list-literal-a-return-answers-is-read-position-by-position-refuses")
-(note "App.g declares it answers Array<Dictionary<String, Array<String>>>, and one way through returns a list of two map literals, one holding `[]` under `a` and one holding `[1]`. A return writes into the declared answer as the result does, so the build refuses it.")
+(note "App.g declares it answers Array<Dictionary<String, Array<String>>>, and one way through returns a list of two map literals, one holding `[]` under `a` and one holding `[1]`. A return writes into the declared answer, its elements joined position by position, so the build refuses it.")
 
 (program
   (warp 1)
@@ -12,13 +12,13 @@
       (conditional
         (when x)
         (then
-          (return (array (dictionary (entry "a" (array))) (dictionary (entry "a" (array 1))))))))
-    (result (array (dictionary (entry "a" (array))) (dictionary (entry "a" (array "s"))))))
+          (return (array (dictionary (entry "a" (array))) (dictionary (entry "a" (array 1)))))))
+      (return (array (dictionary (entry "a" (array))) (dictionary (entry "a" (array "s")))))))
   (procedure entry
     (access public)
     (returns Int)
     (body
       (let r (call App.g true))
-      (let n (call Standard.Collection.count r)))
-    (result n)))
+      (let n (call Standard.Collection.count r))
+      (return n))))
 (expect (refuses build))

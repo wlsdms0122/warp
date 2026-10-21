@@ -12,22 +12,24 @@
     (parameter body (type App.Holder))
     (returns Int)
     (body
-      (let a (apply (path body (field f)) 1)))
-    (result a))
+      (let a (apply (path body (field f)) 1))
+      (return a)))
   (procedure entry
     (access public)
     (const)
     (returns Int)
-    (result
-      (call Standard.Numeric.plus
-        (call asking
-          (struct
-            (field f
-              (closure
-                (const)
-                (isolated)
-                (parameter x (type Int))
-                (returns Int)
-                (result x)))))
-        1))))
+    (body
+      (return
+        (call Standard.Numeric.plus
+          (call asking
+            (struct
+              (field f
+                (closure
+                  (const)
+                  (isolated)
+                  (parameter x (type Int))
+                  (returns Int)
+                  (body
+                    (return x))))))
+          1)))))
 (expect (answers 2))

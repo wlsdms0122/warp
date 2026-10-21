@@ -14,11 +14,12 @@
     (procedure find
       (parameter of (type Int))
       (returns (nullable Int))
-      (result of)))
+      (body
+        (return of))))
   (procedure entry
     (access public)
     (returns (nullable Int))
     (body
-      (let found (type (nullable Int)) (call App.Find.find 5)))
-    (result found)))
+      (let found (type (nullable Int)) (call App.Find.find 5))
+      (return found))))
 (expect (answers 5))

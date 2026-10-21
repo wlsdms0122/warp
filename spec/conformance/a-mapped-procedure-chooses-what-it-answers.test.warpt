@@ -11,25 +11,29 @@
     (access public)
     (const)
     (returns (array String))
-    (result
-      (call Standard.Collection.map
-        (array 1 2)
-        (closure
-          (const)
-          (isolated)
-          (parameter item (type Int))
-          (returns String)
-          (result
-            (call Standard.Logic.select
-              (call Standard.Logic.equal item 1)
-              (closure
-                (const)
-                (isolated)
-                (returns String)
-                (result "one"))
-              (closure
-                (const)
-                (isolated)
-                (returns String)
-                (result "other")))))))))
+    (body
+      (return
+        (call Standard.Collection.map
+          (array 1 2)
+          (closure
+            (const)
+            (isolated)
+            (parameter item (type Int))
+            (returns String)
+            (body
+              (return
+                (call Standard.Logic.select
+                  (call Standard.Logic.equal item 1)
+                  (closure
+                    (const)
+                    (isolated)
+                    (returns String)
+                    (body
+                      (return "one")))
+                  (closure
+                    (const)
+                    (isolated)
+                    (returns String)
+                    (body
+                      (return "other"))))))))))))
 (expect (answers (array "one" "other")))

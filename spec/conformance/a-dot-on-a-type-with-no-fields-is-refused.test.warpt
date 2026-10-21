@@ -8,5 +8,6 @@
     (access public)
     (parameter text (type String))
     (returns Any)
-    (result (path text (field count)))))
+    (body
+      (return (path text (field count))))))
 (expect (refuses build))

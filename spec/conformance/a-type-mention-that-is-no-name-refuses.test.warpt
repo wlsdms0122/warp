@@ -8,9 +8,11 @@
   (procedure entry
     (access public)
     (returns Any)
-    (result (call keep 1)))
+    (body
+      (return (call keep 1))))
   (procedure keep
     (parameter value (type `a b`))
     (returns Any)
-    (result value)))
+    (body
+      (return value))))
 (expect (refuses load))

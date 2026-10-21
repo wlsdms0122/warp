@@ -9,8 +9,8 @@
     (parameter body (type (procedure (const) (parameters) (returns String))))
     (returns String)
     (body
-      (let answered (apply body)))
-    (result answered))
+      (let answered (apply body))
+      (return answered)))
   (procedure entry
     (access public)
     (const)
@@ -25,7 +25,7 @@
             (loop
               (while true)
               (body
-                (return "counted"))))
-          (result "never reached"))))
-    (result (call asking given))))
+                (return "counted")))
+            (return "never reached"))))
+      (return (call asking given)))))
 (expect (answers "counted"))

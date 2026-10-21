@@ -12,6 +12,7 @@
       (let f
         (closure
           (returns Never)
-          (result (call Standard.Control.abort "no")))))
-    (result 1)))
+          (body
+            (return (call Standard.Control.abort "no")))))
+      (return 1))))
 (expect (refuses build))

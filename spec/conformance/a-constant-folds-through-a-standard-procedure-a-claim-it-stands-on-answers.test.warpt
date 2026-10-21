@@ -16,7 +16,8 @@
         (parameter lhs (type App.Score))
         (parameter rhs (type App.Score))
         (returns Bool)
-        (result (call Standard.Comparable.lessThan (path lhs (field n)) (path rhs (field n))))))))
+        (body
+          (return (call Standard.Comparable.lessThan (path lhs (field n)) (path rhs (field n)))))))))
 
 (program
   (warp 1)
@@ -28,5 +29,6 @@
     (const)
     (isolated)
     (returns Int)
-    (result (path smaller (field n)))))
+    (body
+      (return (path smaller (field n))))))
 (expect (answers 1))

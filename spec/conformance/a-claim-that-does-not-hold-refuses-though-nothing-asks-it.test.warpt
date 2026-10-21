@@ -28,6 +28,6 @@
     (access public)
     (returns Int)
     (body
-      (let card (as (struct (field rank 3)) T.Card)))
-    (result (path card (field rank)))))
+      (let card (as (struct (field rank 3)) T.Card))
+      (return (path card (field rank))))))
 (expect (refuses build))

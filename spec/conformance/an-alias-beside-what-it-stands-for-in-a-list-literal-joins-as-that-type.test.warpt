@@ -11,6 +11,6 @@
     (body
       (let a (type App.L) (array 1 2))
       (let ys (array a (array 3)))
-      (let y (type (array (array Int))) ys))
-    (result y)))
+      (let y (type (array (array Int))) ys)
+      (return y))))
 (expect (answers (array (array 1 2) (array 3))))

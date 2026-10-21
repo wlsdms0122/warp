@@ -8,5 +8,6 @@
   (procedure entry
     (access public)
     (returns Int)
-    (result (call Standard.Math.rounded 1e+19))))
+    (body
+      (return (call Standard.Math.rounded 1e+19)))))
 (expect (refuses run))

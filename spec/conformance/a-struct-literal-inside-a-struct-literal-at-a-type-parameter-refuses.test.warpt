@@ -10,11 +10,12 @@
   (procedure App.unwrap
     (parameter b (type (named App.Box (some T))))
     (returns (some T))
-    (result (path b (field item))))
+    (body
+      (return (path b (field item)))))
   (procedure entry
     (access public)
     (returns Int)
     (body
-      (let x (call App.unwrap (struct (field item (struct (field item 6)))))))
-    (result (path x (field item)))))
+      (let x (call App.unwrap (struct (field item (struct (field item 6))))))
+      (return (path x (field item))))))
 (expect (refuses build))

@@ -9,6 +9,6 @@
     (access public)
     (returns Int)
     (body
-      (let d (type (dictionary Hashable String)) (dictionary (entry 1 "a") (entry "b" "c"))))
-    (result (call Standard.Collection.count d))))
+      (let d (type (dictionary Hashable String)) (dictionary (entry 1 "a") (entry "b" "c")))
+      (return (call Standard.Collection.count d)))))
 (expect (answers 2))

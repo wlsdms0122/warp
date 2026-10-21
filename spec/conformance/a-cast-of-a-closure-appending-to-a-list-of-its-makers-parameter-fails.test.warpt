@@ -16,22 +16,23 @@
           (parameter y (type (some T)))
           (returns Int)
           (body
-            (call Standard.Collection.append cell y))
-          (result 0)))
+            (call Standard.Collection.append cell y)
+            (return 0))))
       (let a (type Any) c)
       (let h (as a (procedure (parameters String) (returns Int))))
-      (let z (apply h "s")))
-    (result cell))
+      (let z (apply h "s"))
+      (return cell)))
   (procedure entry
     (access public)
     (returns Any)
     (body
-      (let tried
+      (var tried)
+      (let caught
         (attempt
           (body
-            (let r (call App.g 1)))
-          (result r)
+            (let r (call App.g 1))
+            (set tried r))
           (rescue
-            (result (path tried (field type)))))))
-    (result tried)))
+            (set tried (path caught (field type))))))
+      (return tried))))
 (expect (answers "cast_refused"))

@@ -11,11 +11,13 @@
     (procedure App.listMaybe
       (parameter x (type Int))
       (returns (array (nullable Int)))
-      (result (array x)))
+      (body
+        (return (array x))))
     (procedure App.wrapMaybe
       (parameter x (type Int))
       (returns (named App.Box (nullable Int)))
-      (result (struct (field item x))))))
+      (body
+        (return (struct (field item x)))))))
 
 (program
   (warp 1)
@@ -25,9 +27,11 @@
   (procedure App.need
     (parameter b (type (named App.Box Int)))
     (returns Int)
-    (result (path b (field item))))
+    (body
+      (return (path b (field item)))))
   (procedure entry
     (access public)
     (returns Int)
-    (result (call App.need k))))
+    (body
+      (return (call App.need k)))))
 (expect (refuses build))

@@ -14,12 +14,15 @@
     (procedure describe
       (parameter of (type Int))
       (returns String)
-      (result "a whole number")))
+      (body
+        (return "a whole number"))))
   (procedure App.anything
     (returns Any)
-    (result 1))
+    (body
+      (return 1)))
   (procedure entry
     (access public)
     (returns String)
-    (result (call App.Described.describe (call App.anything)))))
+    (body
+      (return (call App.Described.describe (call App.anything))))))
 (expect (refuses build))

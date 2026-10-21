@@ -27,10 +27,11 @@
             (conditional
               (when (call Standard.Logic.equal same false))
               (then
-                (return false)))))))
-    (result true))
+                (return false))))))
+      (return true)))
   (procedure entry
     (access public)
     (returns Bool)
-    (result (call App.startsWith "warp runtime" "warp"))))
+    (body
+      (return (call App.startsWith "warp runtime" "warp")))))
 (expect (answers true))

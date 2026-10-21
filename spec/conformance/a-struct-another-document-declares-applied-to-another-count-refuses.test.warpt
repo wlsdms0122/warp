@@ -11,7 +11,8 @@
     (procedure App.wrap
       (parameter x (type (some T)))
       (returns (named App.Box (some T)))
-      (result (struct (field item x))))))
+      (body
+        (return (struct (field item x)))))))
 
 (program
   (warp 1)
@@ -20,6 +21,6 @@
     (access public)
     (returns Int)
     (body
-      (let b (type (nullable (named App.Box Int Int))) null))
-    (result 1)))
+      (let b (type (nullable (named App.Box Int Int))) null)
+      (return 1))))
 (expect (refuses build))

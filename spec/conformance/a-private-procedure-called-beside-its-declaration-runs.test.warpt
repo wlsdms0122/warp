@@ -7,9 +7,11 @@
   (procedure App.seven
     (access private)
     (returns Int)
-    (result 7))
+    (body
+      (return 7)))
   (procedure entry
     (access public)
     (returns Int)
-    (result (call App.seven))))
+    (body
+      (return (call App.seven)))))
 (expect (answers 7))

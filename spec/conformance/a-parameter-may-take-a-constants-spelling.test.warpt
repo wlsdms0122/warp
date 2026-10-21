@@ -8,9 +8,11 @@
   (procedure App.f
     (parameter limit (type Int))
     (returns Int)
-    (result limit))
+    (body
+      (return limit)))
   (procedure entry
     (access public)
     (returns Int)
-    (result (call App.f 7))))
+    (body
+      (return (call App.f 7)))))
 (expect (answers 7))

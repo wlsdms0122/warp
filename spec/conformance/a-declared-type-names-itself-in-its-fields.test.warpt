@@ -18,6 +18,6 @@
     (failing cast_refused)
     (body
       (let leaf (as (struct (field kids (array)) (field left null) (field n 1)) T.Node))
-      (let root (as (struct (field kids (array leaf leaf)) (field left leaf) (field n 2)) T.Node)))
-    (result (struct (field first (path root (field kids) (index 0) (field n))) (field kids (call Standard.Collection.count (path root (field kids))))))))
+      (let root (as (struct (field kids (array leaf leaf)) (field left leaf) (field n 2)) T.Node))
+      (return (struct (field first (path root (field kids) (index 0) (field n))) (field kids (call Standard.Collection.count (path root (field kids)))))))))
 (expect (answers (struct App.Head (field first 1) (field kids 2))))

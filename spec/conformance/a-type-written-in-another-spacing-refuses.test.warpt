@@ -1,5 +1,5 @@
 (test 1)
 (name "a-type-written-in-another-spacing-refuses")
 (note "A type is written one way, and `Dictionary<String,Int>` writes the map type without the space after its comma. It reads as `Dictionary<String, Int>`, so it is a second spelling of that type, and the document is refused where it is read.")
-(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "parameters" (array (dictionary (entry "name" "m") (entry "type" "Dictionary<String,Int>")))) (entry "result" 1) (entry "returns" "Int"))))) (entry "warp" 1)))
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" 1)))))) (entry "parameters" (array (dictionary (entry "name" "m") (entry "type" "Dictionary<String,Int>")))) (entry "returns" "Int"))))) (entry "warp" 1)))
 (expect (refuses load))

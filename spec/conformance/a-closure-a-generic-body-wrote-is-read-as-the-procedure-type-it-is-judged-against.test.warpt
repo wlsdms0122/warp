@@ -8,11 +8,13 @@
   (procedure App.mk
     (parameter g (type (procedure (parameters (some T)) (returns (some T)))))
     (returns (procedure (parameters (some T)) (returns (some T))))
-    (result
-      (closure
-        (parameter y (type (some T)))
-        (returns (some T))
-        (result (apply g y)))))
+    (body
+      (return
+        (closure
+          (parameter y (type (some T)))
+          (returns (some T))
+          (body
+            (return (apply g y)))))))
   (procedure entry
     (access public)
     (returns Int)
@@ -23,7 +25,8 @@
           (closure
             (parameter n (type Int))
             (returns Int)
-            (result (call Standard.Numeric.plus n 10)))))
-      (let r (apply h 5)))
-    (result r)))
+            (body
+              (return (call Standard.Numeric.plus n 10))))))
+      (let r (apply h 5))
+      (return r))))
 (expect (answers 15))

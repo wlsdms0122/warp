@@ -10,6 +10,6 @@
     (returns Int)
     (body
       (let one (type Hashable) 1)
-      (let fraction (type Hashable) 1.0))
-    (result (call Standard.Collection.count (dictionary (entry one "a") (entry fraction "b"))))))
+      (let fraction (type Hashable) 1.0)
+      (return (call Standard.Collection.count (dictionary (entry one "a") (entry fraction "b")))))))
 (expect (answers 1))

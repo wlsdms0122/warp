@@ -10,7 +10,8 @@
     (parameter x (type (some T)))
     (parameter f (type (procedure (parameters (some T)) (returns Any))))
     (returns (procedure (parameters (some T)) (returns Any)))
-    (result f))
+    (body
+      (return f)))
   (procedure entry
     (access public)
     (returns Any)
@@ -22,6 +23,7 @@
           (closure
             (parameter p (type Int))
             (returns Any)
-            (result p)))))
-    (result (apply h (as (struct (field x 3)) App.Point)))))
+            (body
+              (return p)))))
+      (return (apply h (as (struct (field x 3)) App.Point))))))
 (expect (refuses build))

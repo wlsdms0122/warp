@@ -12,6 +12,6 @@
     (returns App.Point)
     (body
       (var p (type App.Point) (struct (field x 1) (field y 2)))
-      (set (path p (field x)) 5))
-    (result p)))
+      (set (path p (field x)) 5)
+      (return p))))
 (expect (answers (struct App.Point (field x 5) (field y 2))))

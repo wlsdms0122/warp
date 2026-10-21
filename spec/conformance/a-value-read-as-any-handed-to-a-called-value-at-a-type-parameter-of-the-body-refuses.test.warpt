@@ -11,17 +11,19 @@
     (parameter g (type (procedure (parameters (some T)) (returns Any))))
     (returns Any)
     (body
-      (let a (type Any) "s"))
-    (result (apply g a)))
+      (let a (type Any) "s")
+      (return (apply g a))))
   (procedure entry
     (access public)
     (returns Any)
     (failing cast_refused)
-    (result
-      (call App.run
-        (as (struct (field x 1)) App.Point)
-        (closure
-          (parameter p)
-          (returns Any)
-          (result p))))))
+    (body
+      (return
+        (call App.run
+          (as (struct (field x 1)) App.Point)
+          (closure
+            (parameter p)
+            (returns Any)
+            (body
+              (return p))))))))
 (expect (refuses build))

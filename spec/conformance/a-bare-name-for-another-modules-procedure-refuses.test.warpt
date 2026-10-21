@@ -9,5 +9,6 @@
     (access public)
     (returns Int)
     (failing (anything))
-    (result (call plus 1 2))))
+    (body
+      (return (call plus 1 2)))))
 (expect (refuses build))

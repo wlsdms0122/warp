@@ -17,11 +17,13 @@
     (procedure describe
       (parameter of (type (named App.Box (nullable Int))))
       (returns String)
-      (result "box")))
+      (body
+        (return "box"))))
   (procedure entry
     (access public)
     (parameter xs (type (array (some T App.Describable))))
     (returns String)
-    (result (call App.Describable.describe (path xs (index 0))))))
+    (body
+      (return (call App.Describable.describe (path xs (index 0)))))))
 (arguments (argument xs (array (struct App.Box (field item 1)) (struct App.Box (field item null)))))
 (expect (answers "box"))

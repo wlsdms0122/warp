@@ -9,6 +9,6 @@
     (returns Int)
     (body
       (let which "first")
-      (let items (array 1 2)))
-    (result (path items (index which)))))
+      (let items (array 1 2))
+      (return (path items (index which))))))
 (expect (refuses build))

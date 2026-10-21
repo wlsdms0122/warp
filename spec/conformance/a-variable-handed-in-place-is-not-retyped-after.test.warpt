@@ -19,11 +19,11 @@
             (let w
               (closure
                 (body
-                  (set c 99)))))
-          (result w)))
+                  (set c 99))))
+            (return w))))
       (let w (apply make n))
       (set n "s")
       (apply w)
-      (let u (call Standard.Text.uppercased n)))
-    (result u)))
+      (let u (call Standard.Text.uppercased n))
+      (return u))))
 (expect (refuses build))

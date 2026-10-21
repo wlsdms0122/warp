@@ -12,6 +12,7 @@
     (access public)
     (parameter a (type Account))
     (returns Account)
-    (result a)))
+    (body
+      (return a))))
 (arguments (argument a (struct Vault (field balance 3))))
 (expect (refuses run))

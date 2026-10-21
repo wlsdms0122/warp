@@ -17,8 +17,8 @@
             (isolated)
             (returns Int)
             (body
-              (set tally 1))
-            (result 1))))
-      (call Standard.Concurrent.all pieces))
-    (result tally)))
+              (set tally 1)
+              (return 1)))))
+      (call Standard.Concurrent.all pieces)
+      (return tally))))
 (expect (refuses build))

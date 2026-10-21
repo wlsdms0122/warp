@@ -12,8 +12,8 @@
       (isolated)
       (returns Any)
       (body
-        (let p (type K.P) (struct (field x 1))))
-      (result p))))
+        (let p (type K.P) (struct (field x 1)))
+        (return p)))))
 
 (program
   (warp 1)
@@ -24,5 +24,6 @@
     (const)
     (isolated)
     (returns Int)
-    (result (path made (field x)))))
+    (body
+      (return (path made (field x))))))
 (expect (answers 1))

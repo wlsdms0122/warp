@@ -18,7 +18,8 @@
       (const)
       (isolated)
       (returns Int)
-      (result 1)))
+      (body
+        (return 1))))
   (document
     (warp 1)
     (import App.Tagged)
@@ -34,8 +35,8 @@
       (isolated)
       (returns Any)
       (body
-        (let two (type Any) (array "x" (array "s"))))
-      (result (as? two (array App.Tagged))))))
+        (let two (type Any) (array "x" (array "s")))
+        (return (as? two (array App.Tagged)))))))
 
 (program
   (warp 1)
@@ -48,6 +49,6 @@
     (isolated)
     (returns Any)
     (body
-      (let m (call In.mark)))
-    (result folded)))
+      (let m (call In.mark))
+      (return folded))))
 (expect (answers null))

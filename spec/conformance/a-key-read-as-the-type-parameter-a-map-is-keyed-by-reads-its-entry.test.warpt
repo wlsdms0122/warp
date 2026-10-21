@@ -8,9 +8,11 @@
     (parameter d (type (dictionary (some K Hashable) Int)))
     (parameter k (type (some K)))
     (returns Int)
-    (result (path d (index k))))
+    (body
+      (return (path d (index k)))))
   (procedure entry
     (access public)
     (returns Int)
-    (result (call App.at (dictionary (entry "a" 1)) "a"))))
+    (body
+      (return (call App.at (dictionary (entry "a" 1)) "a")))))
 (expect (answers 1))

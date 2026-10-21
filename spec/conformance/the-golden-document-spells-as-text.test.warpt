@@ -1,5 +1,5 @@
 (test 1)
 (name "the-golden-document-spells-as-text")
 (note "The writer lays a text out one way: one node a line at the top, a blank line before a node that breaks, a block's parts on lines of their own two spaces deeper, and the text ending in one newline. This is that layout for the golden document, and a writer answering any other text for the tree has a layout of its own.")
-(text "(warp 1)\n(const a 1)\n(const b (array true null))\n(const c \"hi\")\n(const d 1.5)\n(const e x\"6a73\")\n\n(procedure entry\n  (access public)\n  (returns Int)\n  (result a))\n")
-(expect (spells (dictionary (entry "const" (dictionary (entry "a" 1) (entry "b" (array true null)) (entry "c" "hi") (entry "d" 1.5) (entry "e" x"6a73"))) (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "result" (dictionary (entry "ref" "a"))) (entry "returns" "Int"))))) (entry "warp" 1))))
+(text "(warp 1)\n(const a 1)\n(const b (array true null))\n(const c \"hi\")\n(const d 1.5)\n(const e x\"6a73\")\n\n(procedure entry\n  (access public)\n  (returns Int)\n  (body\n    (return a)))\n")
+(expect (spells (dictionary (entry "const" (dictionary (entry "a" 1) (entry "b" (array true null)) (entry "c" "hi") (entry "d" 1.5) (entry "e" x"6a73"))) (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" (dictionary (entry "ref" "a")))))))) (entry "returns" "Int"))))) (entry "warp" 1))))

@@ -19,14 +19,16 @@
               (let a
                 (closure
                   (returns Int)
-                  (result n)))
+                  (body
+                    (return n))))
               (break)))
           (set n "s")
           (let b
             (closure
               (returns String)
-              (result n)))
-          (break))))
-    (result 1)))
+              (body
+                (return n))))
+          (break)))
+      (return 1))))
 (arguments (argument ready false))
 (expect (refuses build))

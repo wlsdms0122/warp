@@ -8,11 +8,12 @@
   (procedure App.h
     (parameter x (type App.Json))
     (returns Int)
-    (result 1))
+    (body
+      (return 1)))
   (procedure entry
     (access public)
     (returns Int)
     (body
-      (let v (type Any) 5))
-    (result (call App.h v))))
+      (let v (type Any) 5)
+      (return (call App.h v)))))
 (expect (answers 1))

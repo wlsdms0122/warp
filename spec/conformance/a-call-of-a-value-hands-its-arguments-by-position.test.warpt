@@ -17,7 +17,8 @@
           (parameter first (type Int))
           (parameter second (type String))
           (returns App.Pair)
-          (result (struct (field first first) (field second second)))))
-      (let made (apply pair 1 "x")))
-    (result made)))
+          (body
+            (return (struct (field first first) (field second second))))))
+      (let made (apply pair 1 "x"))
+      (return made))))
 (expect (answers (struct App.Pair (field first 1) (field second "x"))))

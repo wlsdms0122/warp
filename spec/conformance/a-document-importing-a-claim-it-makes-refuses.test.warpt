@@ -21,11 +21,12 @@
     (procedure describe
       (parameter of (type T.Card))
       (returns String)
-      (result "card")))
+      (body
+        (return "card"))))
   (procedure entry
     (access public)
     (returns String)
     (body
-      (let card (as (struct (field rank 1)) T.Card)))
-    (result (call App.Describable.describe card))))
+      (let card (as (struct (field rank 1)) T.Card))
+      (return (call App.Describable.describe card)))))
 (expect (refuses load))

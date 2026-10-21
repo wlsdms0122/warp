@@ -14,8 +14,9 @@
         (type (procedure (parameters) (returns Int)))
         (closure
           (returns Int)
-          (result 1)))
+          (body
+            (return 1))))
       (let j (type (procedure (parameters) (returns Standard.Numeric))) c)
-      (let e (as j (procedure (parameters) (returns Int)))))
-    (result (apply e))))
+      (let e (as j (procedure (parameters) (returns Int))))
+      (return (apply e)))))
 (expect (answers 1))

@@ -95,7 +95,7 @@ The *implementation* is `[0, body, frame]` for a written body, or `[1, sends]` f
 
 A *frame* is `[size, parameters, variables, captures, names]`: how many slots; which slots the parameters fill, in parameter order; `[variable, slot]` for each module variable the body reads, by its position in `variables`; which slots a closure fills from what it took with it; and what each slot was called, one name per slot, for a refusal that names one.
 
-A *body* is `[instructions, result]`, the result an *operation* or nothing. An *instruction* is `[binding, operation, label]`: the binding or nothing, what to compute, and the string a trace calls the statement. A *binding* is `[0, slot]` to bind, `[1, slot]` to declare, or `[2, address]` to assign. A *reach* is `0` the procedure, for `return`, `1` the loop, for `break`, or `2` the round, for `continue`.
+A *body* is a list of *instruction*. An *instruction* is `[binding, operation, label]`: the binding or nothing, what to compute, and the string a trace calls the statement. A *binding* is `[0, slot]` to bind, `[1, slot]` to declare, or `[2, address]` to assign. A *reach* is `0` the procedure, for `return`, `1` the loop, for `break`, or `2` the round, for `continue`.
 
 An *address* is the number of an entry in `addressTable`, and the entry is `[slot, steps]`, each *step* `[0, position, name, optional]` for a field of a struct whose layout the build proved, `[1, name, optional]` for a field read by its name, written past a null or a `Never` the build laid out no struct for, `[2, value, optional]` for a *value* between the brackets, a position on a list and a key on a map, or `[3, address, optional]` for one read from a slot. An *optional* is a bool, true for a step written `?.` or `?[` and for a cast written `as?`.
 
@@ -114,7 +114,7 @@ An *operation* is the number of an entry in `operationTable`, and the entry is `
 | 6 | a cast | *operation*, *lowered type*, *optional* |
 | 8 | a conditional | the condition *operation*, then: *instruction* list, else: *instruction* list or nothing |
 | 9 | a loop | the condition *operation*, the round: *instruction* list, the round's slot or nothing |
-| 10 | an attempt | *body*, the rescue *body*, the failure's slot or nothing |
+| 10 | an attempt | the body: *instruction* list, the rescue: *instruction* list, the failure's slot or nothing |
 | 11 | a call | *call* |
 | 12 | a call through a contract | *dispatch* |
 | 13 | leaving | *reach*, the target name or nothing, what it takes or nothing |
@@ -124,7 +124,7 @@ A *layout* is `[name, fields]`: the declared struct's name, and the field names 
 
 ### How a body lowers
 
-A body is lowered in the order it is written, and that order gives each slot its number: a slot is the next one free when the walk first meets its name. The parameters come first, in the declaration's order. Then each statement in turn: what its construct reads is lowered, and then the name the statement binds takes its slot. A loop's round takes a slot before its condition, and an attempt's failure one after the attempted body and before the rescue. Inside a construct the parts are walked in the order its operation writes them, a callee before its arguments, a struct's fields in name order, a key before its value, `then` before `else`, and a body's `result` after its statements. A name introduced in a nested body takes a slot of the same frame, and a name introduced twice takes two.
+A body is lowered in the order it is written, and that order gives each slot its number: a slot is the next one free when the walk first meets its name. The parameters come first, in the declaration's order. Then each statement in turn: what its construct reads is lowered, and then the name the statement binds takes its slot. A loop's round takes a slot before its condition, and an attempt's failure one after the attempted body and before the rescue. Inside a construct the parts are walked in the order its operation writes them, a callee before its arguments, a struct's fields in name order, a key before its value, and `then` before `else`. A name introduced in a nested body takes a slot of the same frame, and a name introduced twice takes two.
 
 A name a body reads and did not introduce takes a slot the first time it is read: a module variable, written under the frame's `variables`, and a constant the build could not settle into the reading, which is one read at an index the run reads. A closure is lowered on a frame of its own, the same way, where it stands; every name from the body around it, a module variable and a constant included, is taken from that body, so it takes a slot in that body as a read there would and one in the closure's frame, written under the frame's `captures`, and the closure literal writes the two as a pair.
 
@@ -194,7 +194,8 @@ The document
   (isolated)
   (parameter n (type (array Int)))
   (returns (array Int))
-  (result (call Standard.Collection.appending n 1)))
+  (body
+    (return (call Standard.Collection.appending n 1))))
 ```
 
 compiles to an object with one row, written as data, one entry a line and `rows` broken onto a few more, and its two digests elided:
@@ -213,12 +214,12 @@ compiles to an object with one row, written as data, one entry a line and `rows`
   (entry "members" (array))
   (entry "numbering" (array (array "Standard.Collection.appending") (array)))
   (entry "object" 1)
-  (entry "operationTable" (array (array 1 0) (array 0 0) (array 11 (array 0 (array (array 0) (array 1)) (array)))))
+  (entry "operationTable" (array (array 1 0) (array 0 0) (array 11 (array 0 (array (array 0) (array 1)) (array))) (array 13 0 (array) (array 2))))
   (entry "rows" (array
     (array "entry"
       (array (array (array "n" (array 1) (array))) 3 (array 1 (array)) 1 1 (array) (array))
       2
-      (array 0 (array (array) (array 2)) (array 1 (array 0) (array) (array) (array "n"))))))
+      (array 0 (array (array (array) 3 "[0]")) (array 1 (array 0) (array) (array) (array "n"))))))
   (entry "typeMembers" (array))
   (entry "typeNumbering" (array))
   (entry "typeTable" (array (array 4) (array 7 0) (array 4) (array 7 2)))
@@ -227,7 +228,7 @@ compiles to an object with one row, written as data, one entry a line and `rows`
   (entry "variables" (array)))
 ```
 
-Read it back: `rows` holds `entry`, whose signature takes `n` as type `1` and answers type `3`. In `typeTable`, entry `1` is an array (tag 7) of entry `0`, `Int` (tag 4), and entry `3` is the same over entry `2`: both are `Array<Int>`, each written once where it is held. The signature fails with nothing (`(array 1 (array))`), is const (`1`) and isolated (`1`), bounds nothing and says no associated type is a type (`(array) (array)`); the row is public (`2`). Its implementation is a body (`0`) with no instructions and a result, operation `2`: a call (`11`) to row `0` of the numbering, which is `Standard.Collection.appending`, with two arguments, operations `0` and `1`, neither handed in place. Operation `0` reads (`1`) address `0`, slot `0` with no steps, and operation `1` is the literal (`0`) value `0`, the int (`2`) `1`. Every number stands before the entry holding it. The frame has one slot, filled by the parameter, called `n`. The dependency is what the host keyed the standard vocabulary's object under.
+Read it back: `rows` holds `entry`, whose signature takes `n` as type `1` and answers type `3`. In `typeTable`, entry `1` is an array (tag 7) of entry `0`, `Int` (tag 4), and entry `3` is the same over entry `2`: both are `Array<Int>`, each written once where it is held. The signature fails with nothing (`(array 1 (array))`), is const (`1`) and isolated (`1`), bounds nothing and says no associated type is a type (`(array) (array)`); the row is public (`2`). Its implementation is a body (`0`) of one instruction, which binds nothing, computes operation `3` and is labelled `[0]`, its position. Operation `3` leaves (`13`) the procedure (`0`), naming no loop, and takes operation `2`: a call (`11`) to row `0` of the numbering, which is `Standard.Collection.appending`, with two arguments, operations `0` and `1`, neither handed in place. Operation `0` reads (`1`) address `0`, slot `0` with no steps, and operation `1` is the literal (`0`) value `0`, the int (`2`) `1`. Every number stands before the entry holding it. The frame has one slot, filled by the parameter, called `n`. The dependency is what the host keyed the standard vocabulary's object under.
 
 ## Cases
 

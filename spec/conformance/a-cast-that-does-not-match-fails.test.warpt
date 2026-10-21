@@ -9,12 +9,13 @@
     (parameter payload)
     (returns (nullable String))
     (body
-      (let tried
+      (var tried)
+      (let caught
         (attempt
           (body
             (as payload Int))
           (rescue
-            (result (path tried (field type)))))))
-    (result tried)))
+            (set tried (path caught (field type))))))
+      (return tried))))
 (arguments (argument payload "not a whole number"))
 (expect (answers "cast_refused"))

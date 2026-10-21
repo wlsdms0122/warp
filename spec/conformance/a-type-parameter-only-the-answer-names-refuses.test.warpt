@@ -7,9 +7,11 @@
   (import Standard.Control.abort)
   (procedure App.f
     (returns (some T))
-    (result (call Standard.Control.abort "never")))
+    (body
+      (return (call Standard.Control.abort "never"))))
   (procedure entry
     (access public)
     (returns Int)
-    (result (call App.f))))
+    (body
+      (return (call App.f)))))
 (expect (refuses load))

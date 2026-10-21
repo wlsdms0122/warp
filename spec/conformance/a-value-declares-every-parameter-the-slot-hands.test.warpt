@@ -10,11 +10,13 @@
     (access public)
     (returns (array Int))
     (failing concurrent_failed)
-    (result
-      (call Standard.Concurrent.map
-        (array 1 2)
-        (closure
-          (parameter item (type Int))
-          (returns Int)
-          (result (call Standard.Numeric.plus item 1)))))))
+    (body
+      (return
+        (call Standard.Concurrent.map
+          (array 1 2)
+          (closure
+            (parameter item (type Int))
+            (returns Int)
+            (body
+              (return (call Standard.Numeric.plus item 1)))))))))
 (expect (refuses build))

@@ -7,9 +7,11 @@
   (procedure entry
     (access public)
     (returns (array Int))
-    (result (call keep x"6869")))
+    (body
+      (return (call keep x"6869"))))
   (procedure keep
     (parameter value (type (array Int)))
     (returns (array Int))
-    (result value)))
+    (body
+      (return value))))
 (expect (answers x"6869"))

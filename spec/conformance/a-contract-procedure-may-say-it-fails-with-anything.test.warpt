@@ -17,17 +17,18 @@
       (parameter of (type Int))
       (returns Never)
       (failing (anything))
-      (result (call Standard.Control.abort "no"))))
+      (body
+        (return (call Standard.Control.abort "no")))))
   (procedure entry
     (access public)
     (returns String)
     (body
-      (let tried
-        (attempt
-          (body
-            (let ran (call App.Runner.run 1)))
-          (result "ran")
-          (rescue
-            (result "caught")))))
-    (result tried)))
+      (var tried)
+      (attempt
+        (body
+          (let ran (call App.Runner.run 1))
+          (set tried "ran"))
+        (rescue
+          (set tried "caught")))
+      (return tried))))
 (expect (answers "caught"))

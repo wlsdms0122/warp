@@ -10,6 +10,6 @@
     (returns (array (array Any)))
     (body
       (let back (call Standard.Collection.gathering x"6869" (array 1 0)))
-      (let picked (call Standard.Collection.gathering (array "a" "b" "c") (array 2 0))))
-    (result (array back picked))))
+      (let picked (call Standard.Collection.gathering (array "a" "b" "c") (array 2 0)))
+      (return (array back picked)))))
 (expect (answers (array x"6968" (array "c" "a"))))

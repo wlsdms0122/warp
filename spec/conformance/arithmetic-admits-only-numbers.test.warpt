@@ -8,5 +8,6 @@
   (procedure entry
     (access public)
     (returns String)
-    (result (call Standard.Numeric.plus "a" "b"))))
+    (body
+      (return (call Standard.Numeric.plus "a" "b")))))
 (expect (refuses build))

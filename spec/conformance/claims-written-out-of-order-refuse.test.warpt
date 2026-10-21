@@ -10,11 +10,13 @@
     (procedure d
       (parameter of (type Bank.A))
       (returns String)
-      (result "a"))
+      (body
+        (return "a")))
     (procedure e
       (parameter of (type Bank.A))
       (returns String)
-      (result "a")))
+      (body
+        (return "a"))))
   (contract App.X
     (procedure d
       (parameter of (type Self))
@@ -26,5 +28,6 @@
   (procedure entry
     (access public)
     (returns Int)
-    (result 1)))
+    (body
+      (return 1))))
 (expect (refuses load))

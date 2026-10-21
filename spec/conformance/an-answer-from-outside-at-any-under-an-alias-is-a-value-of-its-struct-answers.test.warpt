@@ -19,6 +19,6 @@
     (access public)
     (returns String)
     (body
-      (let r (call App.v)))
-    (result (call Standard.Text.text r))))
+      (let r (call App.v))
+      (return (call Standard.Text.text r)))))
 (expect (answers "App.P {a:1}"))

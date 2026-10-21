@@ -10,18 +10,20 @@
   (procedure App.hide
     (parameter v)
     (returns Any)
-    (result v))
+    (body
+      (return v)))
   (procedure entry
     (access public)
     (returns (nullable String))
     (body
       (let b (type (named App.Box Int)) (struct (field item 1)))
       (let any (call App.hide b))
-      (let failed
+      (var failed)
+      (let caught
         (attempt
           (body
             (let c (as any (named App.Box String))))
           (rescue
-            (result (path failed (field type)))))))
-    (result failed)))
+            (set failed (path caught (field type))))))
+      (return failed))))
 (expect (answers "cast_refused"))

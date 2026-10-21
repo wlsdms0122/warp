@@ -43,7 +43,7 @@ A type is written as a string:
 
 **Two readings of one place join part by part.** Null beside a value reads as what may be null. Two lists join by their elements and two maps by their keys and their values; two maps whose keys join to `Any` read `Any` whole, since a map's key answers `Hashable`. Two procedures join to a procedure that keeps the parameters and answer both write alike, the constness and isolation both carry and what either may fail with. Two parts that still differ read `Any`.
 
-**Ways that each answer are places of their own.** Where they meet, each of an attempt's two ways is a place of its own, so one answering a whole literal beside another answering a fraction reads `Any`, which a slot of a type takes only through a cast.
+**Ways that each write a name are places of their own.** A write lands as what the name holds it as, so where two ways meet, one writing a whole literal beside another writing a fraction reads `Any`, which a slot of a type takes only through a cast.
 
 ## What a slot takes, exactly
 
@@ -321,6 +321,7 @@ How a type is written:
 - `a-type-nested-to-the-bound-is-read`
 - `a-type-the-language-names-written-with-brackets-refuses`
 - `a-type-written-in-another-spacing-refuses`
+- `a-whole-literal-one-way-writes-beside-a-fraction-is-no-fraction-refuses`
 - `an-alias-applied-to-a-type-refuses`
 - `inout-written-on-a-name-refuses`
 - `inout-written-on-returns-refuses`
@@ -333,7 +334,6 @@ Numbers and readings:
 - `a-list-of-two-maps-whose-keys-join-to-any-holds-each-as-any-refuses`
 - `a-map-literal-reads-a-whole-key-beside-a-fraction-as-the-fraction`
 - `a-struct-literal-beside-a-declared-struct-at-a-type-parameter-reads-as-that-struct-answers`
-- `a-whole-literal-an-attempt-answers-beside-a-fraction-is-no-fraction-refuses`
 - `a-whole-literal-at-a-fraction-slot-is-the-fraction`
 - `a-whole-literal-beside-a-fraction-at-a-bounded-parameter-is-held-to-the-bound-as-the-fraction`
 - `a-whole-literal-between-the-brackets-of-a-map-keyed-by-fractions-is-the-fraction`
@@ -523,7 +523,6 @@ Type parameters:
 - `a-parameter-handed-in-place-holding-dictionaries-of-a-parameter-takes-maps-of-other-keys-of-it`
 - `a-parameter-handed-in-place-holding-dictionaries-of-lists-of-a-parameter-takes-maps-of-an-empty-list-and-of-it`
 - `a-parameter-handed-in-place-holding-dictionaries-of-lists-of-a-parameter-takes-maps-of-other-keys`
-- `a-parameter-handed-in-place-holding-lists-of-a-parameter-refuses-an-attempt-whose-rescue-answers-a-number`
 - `a-parameter-handed-in-place-holding-lists-of-a-parameter-takes-a-list-of-an-empty-list`
 - `a-parameter-handed-in-place-holding-lists-of-a-parameter-takes-an-empty-list-beside-a-list-of-it`
 - `a-parameter-handed-in-place-holding-nullable-dictionaries-of-lists-of-a-parameter-takes-null-and-a-map-of-an-empty-list`

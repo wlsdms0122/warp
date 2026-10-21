@@ -7,11 +7,12 @@
   (procedure App.keep
     (parameter xs (type (array (some T))))
     (returns (array (some T)))
-    (result xs))
+    (body
+      (return xs)))
   (procedure entry
     (access public)
     (returns (array String))
     (body
-      (let ys (type (array String)) (call App.keep (array))))
-    (result ys)))
+      (let ys (type (array String)) (call App.keep (array)))
+      (return ys))))
 (expect (answers (array)))

@@ -8,9 +8,11 @@
   (procedure entry
     (access public)
     (returns Int)
-    (result (call wants (call Standard.Numeric.plus 1 2))))
+    (body
+      (return (call wants (call Standard.Numeric.plus 1 2)))))
   (procedure wants
     (parameter it (type Int))
     (returns Int)
-    (result it)))
+    (body
+      (return it))))
 (expect (answers 3))

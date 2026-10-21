@@ -15,13 +15,15 @@
           (parameter x (type Int))
           (returns Int)
           (failing aborted)
-          (result (call Standard.Control.abort "no"))))
+          (body
+            (return (call Standard.Control.abort "no")))))
       (let g
         (type (procedure (parameters Int) (failing aborted) (returns Int)))
         (closure
           (parameter x (type Int))
           (returns Int)
           (failing aborted)
-          (result (call Standard.Control.abort "no")))))
-    (result 1)))
+          (body
+            (return (call Standard.Control.abort "no")))))
+      (return 1))))
 (expect (answers 1))

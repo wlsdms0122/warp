@@ -11,5 +11,6 @@
       (set count 1)))
   (procedure entry
     (access public)
-    (result (call App.bump))))
+    (body
+      (return (call App.bump)))))
 (expect (refuses build))

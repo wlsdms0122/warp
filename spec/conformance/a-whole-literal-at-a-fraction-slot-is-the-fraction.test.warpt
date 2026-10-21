@@ -7,9 +7,11 @@
   (procedure entry
     (access public)
     (returns Double)
-    (result (call wants 2)))
+    (body
+      (return (call wants 2))))
   (procedure wants
     (parameter it (type Double))
     (returns Double)
-    (result it)))
+    (body
+      (return it))))
 (expect (answers 2.0))

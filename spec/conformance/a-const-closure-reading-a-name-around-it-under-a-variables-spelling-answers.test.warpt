@@ -14,6 +14,7 @@
         (closure
           (const)
           (returns Int)
-          (result count))))
-    (result (apply c))))
+          (body
+            (return count))))
+      (return (apply c)))))
 (expect (answers 4))

@@ -7,5 +7,6 @@
   (procedure entry
     (access public)
     (returns Any)
-    (result (struct Ghost.T (field x 1)))))
+    (body
+      (return (struct Ghost.T (field x 1))))))
 (expect (refuses load))

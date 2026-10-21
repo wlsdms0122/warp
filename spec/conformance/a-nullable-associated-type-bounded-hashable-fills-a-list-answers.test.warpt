@@ -25,13 +25,15 @@
         (access public)
         (parameter of (type App.MaybeBag))
         (returns (nullable Int))
-        (result (path of (field n))))
+        (body
+          (return (path of (field n)))))
       (procedure take
         (access public)
         (parameter of (type App.MaybeBag))
         (parameter x (type (nullable Int)))
         (returns Int)
-        (result 0))))
+        (body
+          (return 0)))))
   (document
     (warp 1)
     (import Lib.Bag)
@@ -41,7 +43,8 @@
       (parameter xs (type (array (some C.Item))))
       (returns Int)
       (bound C.Item Hashable)
-      (result 0))))
+      (body
+        (return 0)))))
 
 (program
   (warp 1)
@@ -51,6 +54,6 @@
     (access public)
     (returns Int)
     (body
-      (let b (type App.MaybeBag) (struct (field n null))))
-    (result (call Use.putH b (array 1 null)))))
+      (let b (type App.MaybeBag) (struct (field n null)))
+      (return (call Use.putH b (array 1 null))))))
 (expect (answers 0))

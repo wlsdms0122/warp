@@ -8,14 +8,14 @@
     (parameter xs (type (inout (array (nullable (dictionary String (array (some T))))))))
     (returns Int)
     (body
-      (set xs (array null (dictionary (entry "k" (array))))))
-    (result 0))
+      (set xs (array null (dictionary (entry "k" (array)))))
+      (return 0)))
   (procedure entry
     (access public)
     (returns (array (nullable (dictionary String (array String)))))
     (failing cast_refused)
     (body
       (var s (as (array (dictionary (entry "k" (array "a")))) (array (nullable (dictionary String (array String))))))
-      (call App.g s))
-    (result s)))
+      (call App.g s)
+      (return s))))
 (expect (answers (array null (dictionary (entry "k" (array))))))

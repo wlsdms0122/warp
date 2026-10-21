@@ -8,9 +8,11 @@
   (procedure App.takes
     (parameter it)
     (returns Bool)
-    (result (call Standard.Logic.equal it null)))
+    (body
+      (return (call Standard.Logic.equal it null))))
   (procedure entry
     (access public)
     (returns Bool)
-    (result (call App.takes null))))
+    (body
+      (return (call App.takes null)))))
 (expect (answers true))

@@ -1,5 +1,5 @@
 (test 1)
 (name "a-construct-key-in-an-argument-refuses")
 (note "A construct key outside a statement's `value` is not a construct. Written bare in an argument, `{ conditional … }` is read as an expression form, no form is named `conditional`, and it refuses at the load.")
-(tree (dictionary (entry "imports" (array "Standard.Collection.count")) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "result" (dictionary (entry "call" (dictionary (entry "arguments" (array (dictionary (entry "conditional" (dictionary (entry "then" (array (dictionary (entry "value" 1)))) (entry "when" true)))))) (entry "procedure" "Standard.Collection.count"))))) (entry "returns" "Int"))))) (entry "warp" 1)))
+(tree (dictionary (entry "imports" (array "Standard.Collection.count")) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" (dictionary (entry "call" (dictionary (entry "arguments" (array (dictionary (entry "conditional" (dictionary (entry "then" (array (dictionary (entry "value" 1)))) (entry "when" true)))))) (entry "procedure" "Standard.Collection.count")))))))))) (entry "returns" "Int"))))) (entry "warp" 1)))
 (expect (refuses load))

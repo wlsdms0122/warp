@@ -8,16 +8,19 @@
   (procedure entry
     (access public)
     (returns Bool)
-    (result
-      (call Standard.Logic.and
-        (array
-          (closure
-            (const)
-            (isolated)
-            (returns Bool)
-            (result true))
-          (closure
-            (const)
-            (returns Bool)
-            (result true)))))))
+    (body
+      (return
+        (call Standard.Logic.and
+          (array
+            (closure
+              (const)
+              (isolated)
+              (returns Bool)
+              (body
+                (return true)))
+            (closure
+              (const)
+              (returns Bool)
+              (body
+                (return true)))))))))
 (expect (refuses build))

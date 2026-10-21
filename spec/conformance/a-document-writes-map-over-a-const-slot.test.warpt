@@ -21,19 +21,21 @@
           (body
             (let item (path of (index (path walk (field index)))))
             (let rewritten (apply value item))
-            (set kept (call Standard.Collection.appending kept rewritten))))))
-    (result kept))
+            (set kept (call Standard.Collection.appending kept rewritten)))))
+      (return kept)))
   (procedure entry
     (access public)
     (const)
     (returns (array Int))
-    (result
-      (call App.mapped
-        (array 1 2 3)
-        (closure
-          (const)
-          (isolated)
-          (parameter item (type Int))
-          (returns Int)
-          (result (call Standard.Numeric.times item 2)))))))
+    (body
+      (return
+        (call App.mapped
+          (array 1 2 3)
+          (closure
+            (const)
+            (isolated)
+            (parameter item (type Int))
+            (returns Int)
+            (body
+              (return (call Standard.Numeric.times item 2)))))))))
 (expect (answers (array 2 4 6)))

@@ -13,12 +13,13 @@
         (closure
           (returns Int)
           (body
-            (let x 2))
-          (result x))))
-    (result (apply c)))
+            (let x 2)
+            (return x))))
+      (return (apply c))))
   (procedure entry
     (access public)
     (returns Int)
     (failing (anything))
-    (result (call App.f 1))))
+    (body
+      (return (call App.f 1)))))
 (expect (answers 2))

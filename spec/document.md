@@ -2,7 +2,7 @@
 
 What a document is: the map a program travels as, and the module it declares. This page is the outline. What each of its slots holds is [procedures](procedure.md), [statements](statement.md), [expressions](expression.md) and [types](type.md), and the bytes it arrives as are [encodings](encoding.md).
 
-A document is one map. Every map this grammar names, on this page and on the pages it points to, is keyed by names, text in normal form C with something in it, and is **closed**: a key that is no name, and a key none of them names, **refuse at the load**. Every slot marked *expression*, *block*, *statements* or *type* takes the grammar of that name.
+A document is one map. Every map this grammar names, on this page and on the pages it points to, is keyed by names, text in normal form C with something in it, and is **closed**: a key that is no name, and a key none of them names, **refuse at the load**. Every slot marked *expression*, *statements* or *type* takes the grammar of that name.
 
 ## The module
 
@@ -40,7 +40,7 @@ A document says its list, and one that does not **refuses at the load**, the way
 
 ## A document says each thing one way
 
-A program has one document. Reading **refuses at the load** a document that says what it says another way: a key written with what its absence means (`access "internal"`, `result null`), marks in another order, a list the document keeps in name order written out of it. The one way is what writing the program back out gives, so a document that has been read and written is the document that was read, and one program never stands under two identities.
+A program has one document. Reading **refuses at the load** a document that says what it says another way: a key written with what its absence means (`access "internal"`), marks in another order, a list the document keeps in name order written out of it. The one way is what writing the program back out gives, so a document that has been read and written is the document that was read, and one program never stands under two identities.
 
 ## Shorthands are the front end's
 
@@ -85,7 +85,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-module-variable-starting-empty-without-a-type-refuses`
 - `a-module-variable-writing-no-type-holds-a-procedure-without-what-its-start-fails-with`
 - `a-name-declared-as-both-a-constant-and-a-variable-refuses`
-- `a-result-written-as-null-refuses`
 - `a-send-is-a-declared-spelling-or-an-import`
 - `a-struct-literal-written-into-a-module-variable-declaring-a-struct-takes-the-name-answers`
 - `a-variable-start-reading-another-variable-refuses`

@@ -8,20 +8,20 @@
     (parameter xs (type (inout (array (array (some T))))))
     (returns Int)
     (body
-      (call App.put xs (array (array))))
-    (result 0))
+      (call App.put xs (array (array)))
+      (return 0)))
   (procedure App.put
     (parameter a (type (inout (some U))))
     (parameter b (type (some U)))
     (returns Int)
     (body
-      (set a b))
-    (result 0))
+      (set a b)
+      (return 0)))
   (procedure entry
     (access public)
     (returns (array (array String)))
     (body
       (var s (array (array "a")))
-      (call App.g s))
-    (result s)))
+      (call App.g s)
+      (return s))))
 (expect (answers (array (array))))

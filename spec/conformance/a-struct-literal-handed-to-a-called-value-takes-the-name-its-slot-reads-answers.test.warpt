@@ -17,6 +17,7 @@
         (closure
           (parameter p)
           (returns Any)
-          (result (as? p App.X)))))
-    (result (apply g (struct (field x 1))))))
+          (body
+            (return (as? p App.X)))))
+      (return (apply g (struct (field x 1)))))))
 (expect (answers null))

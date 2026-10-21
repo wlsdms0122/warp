@@ -21,6 +21,7 @@
             (parameter carried (type Int))
             (parameter item (type Int))
             (returns Int)
-            (result (call Standard.Numeric.plus carried item))))))
-    (result total)))
+            (body
+              (return (call Standard.Numeric.plus carried item))))))
+      (return total))))
 (expect (answers 6))

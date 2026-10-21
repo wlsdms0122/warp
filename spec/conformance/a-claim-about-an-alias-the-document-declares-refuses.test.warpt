@@ -15,15 +15,17 @@
     (procedure describe
       (parameter of (type App.Num))
       (returns String)
-      (result "a number")))
+      (body
+        (return "a number"))))
   (procedure entry
     (access public)
     (returns String)
     (body
       (let n (call make))
-      (let s (call App.Describable.describe n)))
-    (result s))
+      (let s (call App.Describable.describe n))
+      (return s)))
   (procedure make
     (returns App.Num)
-    (result 3)))
+    (body
+      (return 3))))
 (expect (refuses load))

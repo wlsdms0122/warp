@@ -19,12 +19,14 @@
                 (const)
                 (isolated)
                 (returns Int)
-                (result 1)))
+                (body
+                  (return 1))))
             (entry "right"
               (closure
                 (const)
                 (isolated)
                 (returns Int)
-                (result 2)))))))
-    (result both)))
+                (body
+                  (return 2)))))))
+      (return both))))
 (expect (answers (dictionary (entry "left" 1) (entry "right" 2))))

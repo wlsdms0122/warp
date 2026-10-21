@@ -8,6 +8,6 @@
     (access public)
     (returns Int)
     (body
-      (let d (type (dictionary String Int)) (dictionary (entry "a.b[0]\"c\\" 1))))
-    (result (path d (index "a.b[0]\"c\\")))))
+      (let d (type (dictionary String Int)) (dictionary (entry "a.b[0]\"c\\" 1)))
+      (return (path d (index "a.b[0]\"c\\"))))))
 (expect (answers 1))

@@ -15,7 +15,8 @@
     (parameter gs (type (array (procedure (parameters (some T App.M)) (returns Int)))))
     (parameter x (type (some T)))
     (returns Int)
-    (result (apply (path gs (index 0)) x)))
+    (body
+      (return (apply (path gs (index 0)) x))))
   (procedure entry
     (access public)
     (returns Int)
@@ -26,11 +27,13 @@
             (closure
               (parameter n (type Int))
               (returns Int)
-              (result n))
+              (body
+                (return n)))
             (closure
               (parameter n)
               (returns Int)
-              (result 7)))
-          1)))
-    (result r)))
+              (body
+                (return 7))))
+          1))
+      (return r))))
 (expect (answers 1))

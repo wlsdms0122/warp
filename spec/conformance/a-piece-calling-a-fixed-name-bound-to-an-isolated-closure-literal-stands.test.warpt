@@ -16,18 +16,18 @@
           (isolated)
           (parameter c (type (inout Int)))
           (body
-            (set c (call Standard.Numeric.plus c 1))))))
-    (result
-      (call Standard.Concurrent.map
-        (array 1 2)
-        (closure
-          (isolated)
-          (parameter x (type Int))
-          (parameter i (type Int))
-          (returns Int)
-          (failing (anything))
-          (body
-            (var m 0)
-            (apply bump m))
-          (result m))))))
+            (set c (call Standard.Numeric.plus c 1)))))
+      (return
+        (call Standard.Concurrent.map
+          (array 1 2)
+          (closure
+            (isolated)
+            (parameter x (type Int))
+            (parameter i (type Int))
+            (returns Int)
+            (failing (anything))
+            (body
+              (var m 0)
+              (apply bump m)
+              (return m))))))))
 (expect (answers (array 1 1)))

@@ -11,7 +11,8 @@
       (parameter of (type Bank.Account))
       (parameter label (type String))
       (returns String)
-      (result label)))
+      (body
+        (return label))))
   (contract App.Describable
     (procedure describe
       (parameter of (type Self))
@@ -20,5 +21,6 @@
   (procedure entry
     (access public)
     (returns String)
-    (result (call App.Describable.describe))))
+    (body
+      (return (call App.Describable.describe)))))
 (expect (refuses build))

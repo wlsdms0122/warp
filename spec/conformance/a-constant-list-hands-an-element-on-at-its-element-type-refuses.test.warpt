@@ -10,7 +10,8 @@
       (closure
         (parameter x (type Int))
         (returns Int)
-        (result x))
+        (body
+          (return x)))
       (closure
         (parameter x (type Int))
         (returns Int)
@@ -20,12 +21,14 @@
             (closure
               (parameter q (type Int))
               (returns Int)
-              (result q)))
-          (let z (apply h x)))
-        (result z))))
+              (body
+                (return q))))
+          (let z (apply h x))
+          (return z)))))
   (procedure entry
     (access public)
     (returns (array Int))
     (failing (anything))
-    (result (call Standard.Collection.map (array 1) (path k (index 0))))))
+    (body
+      (return (call Standard.Collection.map (array 1) (path k (index 0)))))))
 (expect (refuses build))

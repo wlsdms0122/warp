@@ -13,13 +13,13 @@
     (parameter xs (type (inout (array (some T App.Real)))))
     (returns Int)
     (body
-      (call Standard.Collection.append xs 2.5))
-    (result 0))
+      (call Standard.Collection.append xs 2.5)
+      (return 0)))
   (procedure entry
     (access public)
     (returns (array Int))
     (body
       (var ns (array 1))
-      (let r (call App.gen ns)))
-    (result ns)))
+      (let r (call App.gen ns))
+      (return ns))))
 (expect (refuses build))

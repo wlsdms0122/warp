@@ -9,10 +9,12 @@
     (parameter held (type (some N Standard.Numeric)))
     (returns Any)
     (failing (anything))
-    (result (apply held)))
+    (body
+      (return (apply held))))
   (procedure entry
     (access public)
     (returns Any)
     (failing (anything))
-    (result (call App.run 1))))
+    (body
+      (return (call App.run 1)))))
 (expect (refuses build))

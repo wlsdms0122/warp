@@ -14,11 +14,12 @@
     (procedure describe
       (parameter of (type (array Int)))
       (returns String)
-      (result "ints")))
+      (body
+        (return "ints"))))
   (procedure entry
     (access public)
     (returns String)
     (body
-      (let b (type (array String)) (array "a")))
-    (result (call App.Describable.describe b))))
+      (let b (type (array String)) (array "a"))
+      (return (call App.Describable.describe b)))))
 (expect (refuses build))

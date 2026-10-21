@@ -10,9 +10,11 @@
     (parameter a (type (some T)))
     (parameter b (type (some T)))
     (returns (some T))
-    (result b))
+    (body
+      (return b)))
   (procedure entry
     (access public)
     (returns Int)
-    (result (call App.same 1 (struct (field x 2))))))
+    (body
+      (return (call App.same 1 (struct (field x 2)))))))
 (expect (refuses build))

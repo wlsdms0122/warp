@@ -8,9 +8,11 @@
   (procedure App.read
     (const)
     (returns Int)
-    (result count))
+    (body
+      (return count)))
   (procedure entry
     (access public)
     (returns Int)
-    (result (call App.read))))
+    (body
+      (return (call App.read)))))
 (expect (refuses build))

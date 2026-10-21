@@ -12,6 +12,6 @@
     (access public)
     (returns Bool)
     (body
-      (let c (type App.C) (struct (field conditional (struct (field when true))))))
-    (result (path c (field conditional) (field when)))))
+      (let c (type App.C) (struct (field conditional (struct (field when true)))))
+      (return (path c (field conditional) (field when))))))
 (expect (answers true))

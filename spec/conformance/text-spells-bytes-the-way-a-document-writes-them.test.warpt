@@ -10,6 +10,6 @@
     (returns (array String))
     (body
       (let alone (call Standard.Text.text x"6869"))
-      (let held (call Standard.Text.text (array x"6869"))))
-    (result (array alone held))))
+      (let held (call Standard.Text.text (array x"6869")))
+      (return (array alone held)))))
 (expect (answers (array "x\"6869\"" "[\"x\\\"6869\\\"\"]")))

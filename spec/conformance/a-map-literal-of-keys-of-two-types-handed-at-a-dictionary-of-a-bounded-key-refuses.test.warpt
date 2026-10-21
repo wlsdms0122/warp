@@ -7,9 +7,11 @@
   (procedure App.g
     (parameter x (type (dictionary (some K Hashable) Int)))
     (returns Int)
-    (result 0))
+    (body
+      (return 0)))
   (procedure entry
     (access public)
     (returns Int)
-    (result (call App.g (dictionary (entry 1 1) (entry "a" 2))))))
+    (body
+      (return (call App.g (dictionary (entry 1 1) (entry "a" 2)))))))
 (expect (refuses build))

@@ -7,10 +7,12 @@
   (procedure App.f
     (returns Int)
     (failing anything)
-    (result 1))
+    (body
+      (return 1)))
   (procedure entry
     (access public)
     (returns Int)
     (failing (anything))
-    (result (call App.f))))
+    (body
+      (return (call App.f)))))
 (expect (refuses load))

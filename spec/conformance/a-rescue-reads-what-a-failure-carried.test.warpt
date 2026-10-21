@@ -13,7 +13,8 @@
     (returns (nullable (dictionary String Any)))
     (failing cast_refused)
     (body
-      (let tried
+      (var tried)
+      (let caught
         (attempt
           (body
             (call Standard.Concurrent.allKeyed
@@ -23,7 +24,8 @@
                     (const)
                     (isolated)
                     (returns String)
-                    (result "ok")))
+                    (body
+                      (return "ok"))))
                 (entry "fragile"
                   (closure
                     (const)
@@ -33,6 +35,6 @@
                     (body
                       (call Standard.Control.abort "on purpose")))))))
           (rescue
-            (result (dictionary (entry "pieces" (call Standard.Collection.keys (as (path tried (field details) (index "failures")) (dictionary String Any)))) (entry "type" (path tried (field type)))))))))
-    (result tried)))
+            (set tried (dictionary (entry "pieces" (call Standard.Collection.keys (as (path caught (field details) (index "failures")) (dictionary String Any)))) (entry "type" (path caught (field type))))))))
+      (return tried))))
 (expect (answers (dictionary (entry "pieces" (array "fragile")) (entry "type" "concurrent_failed"))))

@@ -9,8 +9,8 @@
     (returns Any)
     (failing (anything))
     (body
-      (let answered (apply read 10)))
-    (result answered))
+      (let answered (apply read 10))
+      (return answered)))
   (procedure entry
     (access public)
     (returns Any)
@@ -20,6 +20,7 @@
         (closure
           (parameter count (type Int))
           (returns Int)
-          (result count))))
-    (result (call calling reading))))
+          (body
+            (return count))))
+      (return (call calling reading)))))
 (expect (refuses build))

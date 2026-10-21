@@ -10,7 +10,8 @@
     (procedure describe
       (parameter of (type Bank.Account))
       (returns String)
-      (result "acct")))
+      (body
+        (return "acct"))))
   (struct Bank.Other
     (field n Int))
   (contract App.Describable
@@ -20,7 +21,8 @@
   (procedure App.g
     (parameter xs (type (array App.Describable)))
     (returns Int)
-    (result 0))
+    (body
+      (return 0)))
   (procedure entry
     (access public)
     (returns Int)
@@ -28,6 +30,6 @@
     (body
       (let a (as (struct (field balance 1)) Bank.Account))
       (let o (as (struct (field n 1)) Bank.Other))
-      (let r (call App.g (array a o))))
-    (result r)))
+      (let r (call App.g (array a o)))
+      (return r))))
 (expect (refuses build))

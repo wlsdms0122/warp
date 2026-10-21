@@ -12,7 +12,8 @@
     (procedure size
       (parameter of (type Bank.Card))
       (returns Int)
-      (result 4)))
+      (body
+        (return 4))))
   (struct Bank.Coin
     (field cents Int))
   (type Bank.MaybeCard (nullable Bank.Card))
@@ -23,13 +24,14 @@
   (procedure App.f
     (parameter n (type App.Sized))
     (returns String)
-    (result "took"))
+    (body
+      (return "took")))
   (procedure entry
     (access public)
     (returns String)
     (failing cast_refused)
     (body
       (let c (type Bank.MaybeCard) (as (struct (field last "4")) Bank.Card))
-      (let s (call App.f c)))
-    (result s)))
+      (let s (call App.f c))
+      (return s))))
 (expect (refuses build))

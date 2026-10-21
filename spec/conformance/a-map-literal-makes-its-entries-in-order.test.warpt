@@ -7,5 +7,6 @@
   (procedure entry
     (access public)
     (returns (dictionary String Int))
-    (result (dictionary (entry "b" 2) (entry "a" 1) (entry "b" 3)))))
+    (body
+      (return (dictionary (entry "b" 2) (entry "a" 1) (entry "b" 3))))))
 (expect (answers (dictionary (entry "a" 1) (entry "b" 3))))

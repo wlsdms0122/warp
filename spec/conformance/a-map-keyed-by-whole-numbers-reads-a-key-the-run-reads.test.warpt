@@ -8,9 +8,11 @@
     (parameter of (type (dictionary Int String)))
     (parameter key (type Int))
     (returns String)
-    (result (path of (index key))))
+    (body
+      (return (path of (index key)))))
   (procedure entry
     (access public)
     (returns String)
-    (result (call App.read (dictionary (entry 0 "y") (entry 7 "x")) 7))))
+    (body
+      (return (call App.read (dictionary (entry 0 "y") (entry 7 "x")) 7)))))
 (expect (answers "x"))

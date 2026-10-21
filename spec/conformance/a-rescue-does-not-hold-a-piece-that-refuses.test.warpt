@@ -12,26 +12,28 @@
     (parameter z (type Int))
     (returns (nullable String))
     (body
-      (let tried
-        (attempt
-          (body
-            (let both
-              (call Standard.Concurrent.allKeyed
-                (dictionary
-                  (entry "broken"
-                    (closure
-                      (const)
-                      (isolated)
-                      (returns Double)
-                      (result (call Standard.Numeric.dividedBy 1 z))))
-                  (entry "fine"
-                    (closure
-                      (const)
-                      (isolated)
-                      (returns Int)
-                      (result 1)))))))
-          (rescue
-            (result "rescued")))))
-    (result tried)))
+      (var tried)
+      (attempt
+        (body
+          (let both
+            (call Standard.Concurrent.allKeyed
+              (dictionary
+                (entry "broken"
+                  (closure
+                    (const)
+                    (isolated)
+                    (returns Double)
+                    (body
+                      (return (call Standard.Numeric.dividedBy 1 z)))))
+                (entry "fine"
+                  (closure
+                    (const)
+                    (isolated)
+                    (returns Int)
+                    (body
+                      (return 1))))))))
+        (rescue
+          (set tried "rescued")))
+      (return tried))))
 (arguments (argument z 0))
 (expect (refuses run))

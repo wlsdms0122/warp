@@ -10,10 +10,11 @@
     (returns (array Int))
     (body
       (var a (array 0 0))
-      (set (path a (index count)) 5))
-    (result a))
+      (set (path a (index count)) 5)
+      (return a)))
   (procedure entry
     (access public)
     (returns (array Int))
-    (result (call App.read))))
+    (body
+      (return (call App.read)))))
 (expect (refuses build))

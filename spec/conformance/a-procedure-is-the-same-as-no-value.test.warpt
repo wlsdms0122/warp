@@ -12,7 +12,8 @@
       (let f
         (closure
           (returns Int)
-          (result 1)))
-      (let held (array f)))
-    (result (array (call Standard.Logic.equal f f) (call Standard.Logic.equal held held)))))
+          (body
+            (return 1))))
+      (let held (array f))
+      (return (array (call Standard.Logic.equal f f) (call Standard.Logic.equal held held))))))
 (expect (answers (array false false)))

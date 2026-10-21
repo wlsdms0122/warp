@@ -13,7 +13,8 @@
       (parameter a (type (some V)))
       (parameter b (type (some V)))
       (returns (some V))
-      (result a)))
+      (body
+        (return a))))
   (contract App.Two
     (procedure two
       (parameter of (type Self))
@@ -26,6 +27,6 @@
     (failing cast_refused)
     (body
       (let c (as (struct (field last "42")) Bank.Card))
-      (let t (call App.Two.two c 1 2.5)))
-    (result (call Standard.Text.text t))))
+      (let t (call App.Two.two c 1 2.5))
+      (return (call Standard.Text.text t)))))
 (expect (answers "1.0"))

@@ -9,6 +9,6 @@
     (returns Int)
     (body
       (let k (type Any) "a")
-      (let held (type (dictionary String Int)) (dictionary (entry "a" 1))))
-    (result (path held (index k)))))
+      (let held (type (dictionary String Int)) (dictionary (entry "a" 1)))
+      (return (path held (index k))))))
 (expect (refuses build))

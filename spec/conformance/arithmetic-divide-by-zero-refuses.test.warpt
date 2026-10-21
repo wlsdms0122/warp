@@ -8,5 +8,6 @@
   (procedure entry
     (access public)
     (returns Double)
-    (result (call Standard.Numeric.dividedBy 1 0))))
+    (body
+      (return (call Standard.Numeric.dividedBy 1 0)))))
 (expect (refuses run))

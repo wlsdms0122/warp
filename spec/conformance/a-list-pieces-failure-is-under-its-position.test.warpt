@@ -13,7 +13,8 @@
     (returns (array Int))
     (failing cast_refused)
     (body
-      (let tried
+      (var tried)
+      (let caught
         (attempt
           (body
             (call Standard.Concurrent.all
@@ -22,18 +23,18 @@
                   (const)
                   (isolated)
                   (returns String)
-                  (result "ok"))
+                  (body
+                    (return "ok")))
                 (closure
                   (const)
                   (isolated)
                   (returns Never)
                   (failing aborted)
                   (body
-                    (call Standard.Control.abort "on purpose"))))))
-          (result (array))
+                    (call Standard.Control.abort "on purpose")))))
+            (set tried (array)))
           (rescue
-            (body
-              (let failures (as (path tried (field details) (index "failures")) (dictionary Int Any))))
-            (result (call Standard.Collection.keys failures))))))
-    (result tried)))
+            (let failures (as (path caught (field details) (index "failures")) (dictionary Int Any)))
+            (set tried (call Standard.Collection.keys failures)))))
+      (return tried))))
 (expect (answers (array 1)))

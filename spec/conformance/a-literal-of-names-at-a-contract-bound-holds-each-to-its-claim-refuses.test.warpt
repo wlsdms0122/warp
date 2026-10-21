@@ -10,7 +10,8 @@
     (procedure describe
       (parameter of (type Bank.P))
       (returns String)
-      (result "p")))
+      (body
+        (return "p"))))
   (struct Bank.Q
     (field b String))
   (contract App.Describable
@@ -22,7 +23,8 @@
   (procedure App.f
     (parameter gs (type (array (array (some T App.Describable)))))
     (returns Int)
-    (result 0))
+    (body
+      (return 0)))
   (procedure entry
     (access public)
     (returns Int)
@@ -30,6 +32,6 @@
     (body
       (let ps (type (array Bank.P)) (array (as (struct (field a "1")) Bank.P)))
       (let qs (type (array Bank.Q)) (array (as (struct (field b "1")) Bank.Q)))
-      (let r (call App.f (array ps qs))))
-    (result r)))
+      (let r (call App.f (array ps qs)))
+      (return r))))
 (expect (refuses build))

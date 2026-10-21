@@ -8,5 +8,6 @@
   (procedure entry
     (access public)
     (returns (array Any))
-    (result (array (call Standard.Numeric.remainder -7 3) (call Standard.Numeric.remainder 7 -3) (call Standard.Numeric.remainder -5.5 2.0)))))
+    (body
+      (return (array (call Standard.Numeric.remainder -7 3) (call Standard.Numeric.remainder 7 -3) (call Standard.Numeric.remainder -5.5 2.0))))))
 (expect (answers (array -1 1 -1.5)))

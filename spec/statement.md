@@ -24,23 +24,19 @@ A declared name is fixed at what it says: a write into a declared `var` is held 
 
 A statement with no naming key, `{ value: … }`, runs its expression and binds nothing. The answer is dropped, which is how an effect is asked for on its own. Three families step out of this freedom, in different directions:
 
-- The constructs that bind **through** the statement's name, `loop` (its round) and `attempt` (its failure). The name they bind through is one the statement introduces, with `let` or `var`. Written nameless they bind nothing: a loop with no name has no round to read and an attempt with no name has no failure to read, and each runs the same otherwise. An attempt under a `set` binds no failure and writes what it answers; a loop answers nothing, so a `set` of one **refuses at the load**.
+- The constructs that bind **through** the statement's name, `loop` (its round) and `attempt` (its failure). The name they bind through is one the statement introduces, with `let`: nothing writes it, so one introduced with `var` **refuses at the load**, and each answers nothing, so a `set` of one **refuses at the load** as well. Written nameless they bind nothing: a loop with no name has no round to read and an attempt with no name has no failure to read, and each runs the same otherwise.
 - The leaving constructs (`return`, `break`, `continue`) take **no** naming key at all: such a statement never finishes, so its name could never bind, and a key that promises a binding that cannot happen **refuses**. The same rule reaches a **call**: a statement whose call answers `Never`, as its callee's `returns` declares, binds nothing and takes no name. Held at the **build**, because only the build knows what a call answers, where the leaves the text shows are held at the load.
-- A **`conditional`** takes no naming key either, for the other reason: it finishes, but it answers nothing, under **`conditional`** below. A `loop` answers nothing too, and its name is its round's alone.
+- A **`conditional`** takes no naming key either, for the other reason: it finishes, but it answers nothing, under **`conditional`** below. A `loop` and an `attempt` answer nothing too, and the name of each is its round's or its failure's alone.
 
 **What a write reaches.** A `set` names a path, and the head of the path is the variable written. A segment after the head written optional (`?.`, `?[`) **refuses at the load**, because a write reads no absence. Every segment after the head is judged at the **build** against the type the walk has reached: a field of a type declared in `types` is passed through only when the declaration wrote it `var`; an entry of a map and an element of a list are passed through as they are, and an entry the map does not hold yet is made by the write that lands on it, while a write passing through one **refuses at the run**, as a read of one does; `Any` and a nullable type are not written into. What is written has to fit the type the path reaches, and is judged against it, so a box that said what it holds holds a value of its declaration after a write as it did after its declaration, and a box that said nothing holds what the build reads the path as. A write to a whole local variable retypes it unless the variable declared what it holds, under *what a variable reads as* in [checking](checking.md). A variable a closure captured, or a call handed in place, holds from there on the type it read as there, and a later write has to fit it, since the closure or the callee reads and writes the box as that type. Two ways that took one variable as different types **refuse at the build** where they meet, since what each took goes on writing its own type; two names for one declared struct are one type. A way meets the others where its leave lands. A write to a module variable or to an `inout` parameter has to fit the type the box holds and retypes nothing. At the run the value is computed first, and then the box is rewritten once, so nothing observes the box halfway, and the path reaches what the names hold once the value has run, the head and the names it indexes with included. What stands between the brackets is judged as a read's is, under [expressions](expression.md), and a path there is read where the write stands: the write lands on that one position of a list, or on that entry of a map, made where the map does not hold it yet.
 
 **A `var` may stand alone.** A statement that is only `{ var: name }`, with no `value`, introduces the name with nothing in it yet, and a name holding nothing holds null. It is the declaration a conditional's arms write into; what the name reads as afterwards is under *what a variable reads as* in [checking](checking.md). The other two spellings say something about a value, so they still require one, and one written without it **refuses at the load**.
 
-**Where a name may be introduced.** A body introduces a name once, and a second `let` or `var` of it **refuses at the load**. A procedure's parameters are names its own body introduced before its first statement, so a `let` or `var` of a parameter's spelling there **refuses at the load** too, and so does one of a closure's parameter in the closure's body. A name declared inside a `conditional` arm, a `loop`'s round, an `attempt`'s body or rescue, or a closure's body is read from the statement after it to the end of that body, its `result` included, and nowhere after, so two bodies side by side may each introduce it. A body may introduce any name it sees: a constant or a variable its document declares, a parameter of the procedure it is written in, or a name a body around it introduced. Inside it the name is the new one, with a box of its own: the outer name keeps what it held, and a `set` of that spelling writes the inner name, which **refuses at the load** where a `let` fixed it. A procedure's body stands inside its document, so a parameter may take a constant's or a variable's spelling, and a closure's parameter may take any name around the closure.
+**Where a name may be introduced.** A body introduces a name once, and a second `let` or `var` of it **refuses at the load**. A procedure's parameters are names its own body introduced before its first statement, so a `let` or `var` of a parameter's spelling there **refuses at the load** too, and so does one of a closure's parameter in the closure's body. A name declared inside a `conditional` arm, a `loop`'s round, an `attempt`'s body or rescue, or a closure's body is read from the statement after it to the end of that body, and nowhere after, so two bodies side by side may each introduce it. A body may introduce any name it sees: a constant or a variable its document declares, a parameter of the procedure it is written in, or a name a body around it introduced. Inside it the name is the new one, with a box of its own: the outer name keeps what it held, and a `set` of that spelling writes the inner name, which **refuses at the load** where a `let` fixed it. A procedure's body stands inside its document, so a parameter may take a constant's or a variable's spelling, and a closure's parameter may take any name around the closure.
 
 **One name, several askers.** A statement's name names the statement, and every reader of it reads that one fact: an expression reads the value the statement bound; a body inside a binding construct reads the construct's own binding under it (`round.index`, `tried.message`); a `break` or `continue` names the loop statement it ends. These are not three names sharing a spelling. They are one name, asked three questions, and which question applies is fixed by where the asker stands. What keeps the readings from colliding is scope, stated per construct: a loop's round is readable in its condition and body, and its name reads nothing after it; an attempt's name binds the failure only while the rescue runs, so the binding reading and the value reading are never live at the same place.
 
 The construct keys, each detailed below and each written inside `value`: `conditional`, `loop`, `attempt`, `return`, `break`, `continue`. `value` holding anything else holds an expression, under [expressions](expression.md), a call among them.
-
-## Blocks
-
-A block is `{ body: <statements>, result: <expression> }`, both optional. A block answers what its `result` names, and nothing if it names nothing.
 
 ## Calls
 
@@ -72,7 +68,7 @@ A conditional is a statement: it **answers nothing**, and it **takes no name**. 
 | `while` | expression. Runs another round while true | yes |
 | `body` | statements | yes |
 
-A loop is a statement: it **answers nothing**, the way a `conditional` does, and what a round keeps it writes to an outer variable. The loop's own statement name binds the round it is on, a `Round`, a struct the language declares as `{ struct: { index: Int } }`, readable where the loop speaks, the `while` condition and the `body`, and nowhere after the loop. Nothing writes the round, so the name is introduced with `let`, and one introduced with `var` **refuses at the load**. A loop written nameless binds no round: a `break` or `continue` naming no loop still ends it, and one naming a loop passes through it. The condition reads the state before the round it would start, so `round.index` there is how many rounds have finished.
+A loop is a statement: it **answers nothing**, the way a `conditional` does, and what a round keeps it writes to an outer variable. The loop's own statement name binds the round it is on, a `Round`, a struct the language declares as `{ struct: { index: Int } }`, readable where the loop speaks, the `while` condition and the `body`, and nowhere after the loop. A loop written nameless binds no round: a `break` or `continue` naming no loop still ends it, and one naming a loop passes through it. The condition reads the state before the round it would start, so `round.index` there is how many rounds have finished.
 
 Bounding a loop is the author's to write, with a counter in its condition, and stopping one is the host's **cancellation**, under [running](running.md).
 
@@ -87,10 +83,9 @@ Running things at once is **vocabulary**: `Standard.Concurrent`, under [the stan
 | key | takes | required |
 |---|---|---|
 | `body` | statements | yes |
-| `result` | expression | no |
-| `rescue` | block. Runs if the body fails | yes |
+| `rescue` | statements. Runs if the body fails | yes |
 
-A rescue catches failure (what the world did), not leaving (what the program said). A rescue with nothing in it, no statement to run for effect and no `result` to answer, **refuses at the load**: it would swallow a failure into null without a trace. A rescue over a body that cannot fail, one whose casts and calls say no failure, **refuses at the build** for the other half of the same reason: it is a body no run reaches. A refusal at the run is not a failure and does not make a body one that can fail, under [running](running.md). This is the one exception to a block's optional `result`, and the failure is the reason. The statement's own name binds the failure **while the rescue runs**, an attempt written nameless binds none, and what a name binds is a **`Failure`**, a struct the language declares as `{ struct: { type: String, message: String, details: Dictionary<String, Any> } }`, under [types](type.md). `type` names what happened (`aborted`, `concurrent_failed`), `message` is text for a person, and `details` is what the failing procedure carried. Every failure holds all three by construction: a runtime assembles the payload from what a failure declares, so no procedure can hand over one without them.
+An attempt is a statement: it **answers nothing**, the way a `conditional` does. Its body and its rescue are its two ways through, and what either keeps it writes to an outer variable with `set`. A rescue catches failure (what the world did), not leaving (what the program said). A rescue with no statement in it **refuses at the load**: it would drop a failure without a trace. A rescue over a body that cannot fail, one whose casts and calls say no failure, **refuses at the build** for the other half of the same reason: it is a body no run reaches. A refusal at the run is not a failure and does not make a body one that can fail, under [running](running.md). The statement's own name binds the failure **while the rescue runs** and nowhere after the attempt, an attempt written nameless binds none, and what a name binds is a **`Failure`**, a struct the language declares as `{ struct: { type: String, message: String, details: Dictionary<String, Any> } }`, under [types](type.md). `type` names what happened (`aborted`, `concurrent_failed`), `message` is text for a person, and `details` is what the failing procedure carried. Every failure holds all three by construction: a runtime assembles the payload from what a failure declares, so no procedure can hand over one without them.
 
 The envelope is this specification's; what rides in `details` is the procedure's own, the standard vocabulary's under [the standard vocabulary](vocabulary.md).
 
@@ -110,7 +105,7 @@ The envelope is this specification's; what rides in `details` is the procedure's
 
 A procedure the host answers says what it may fail with the same way. **A procedure that says nothing fails nothing**, which is right for the many procedures that throw only at an author mistake, and a procedure that can fail says so. `Standard.Control.abort` says `aborted`; `Standard.Concurrent` says `concurrent_failed`, every piece's failure being gathered into that one. A piece that refuses at the run refuses the whole run instead, under [running](running.md), and the failures beside it are not gathered. A procedure that fails and does not say so has broken its contract, the same way one that holds state and calls itself isolated has.
 
-**`return`**. Answer the enclosing procedure from here. Takes an expression, or nothing (`return null`) to answer nothing. The answer must fit what the procedure declared.
+**`return`**. Answer the enclosing procedure from here. Takes an expression, or nothing (`return null`) to answer nothing. The answer must fit what the procedure declared, and it is the only way a body answers, under *a procedure* in [procedures](procedure.md).
 
 **`break`**. End a loop. **`continue`**. End the round and go on to the next. Each takes a loop's statement name, or nothing for the nearest enclosing loop. Both **refuse at the load** when nothing encloses them: a closure runs away from where it was written, so the loops around the writing are not around the running, and neither crosses into a procedure written inside another.
 
@@ -157,7 +152,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-loop-reads-how-many-rounds-passed`
 - `a-loop-takes-no-budget`
 - `a-loop-under-a-set-refuses`
-- `a-loop-writing-a-result-refuses`
 - `a-loop-written-nameless-binds-no-round`
 - `a-loops-name-leaves-the-outer-name-after-the-loop`
 - `a-loops-name-leaves-the-outer-name-to-what-a-constant-call-reads`
@@ -189,10 +183,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-rescue-reads-the-type-a-cast-to-an-alias-reads-as`
 - `a-rescue-reads-what-a-cast-refused`
 - `a-rescue-reads-what-a-failure-carried`
-- `a-rescue-that-answers-nothing-answers-null`
 - `a-rescue-that-produces-nothing-refuses`
-- `a-result-after-leaving-refuses`
-- `a-result-after-what-never-finishes-refuses`
 - `a-return-is-held-to-the-declaration`
 - `a-round-ending-in-continue-goes-on-to-the-next`
 - `a-set-of-a-failures-name-refuses`
@@ -205,6 +196,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-taken-variable-a-loop-writes-is-read-after-it-as-written`
 - `a-var-field-lets-a-path-through`
 - `a-variable-a-closure-captured-is-not-retyped-after`
+- `a-variable-only-an-attempts-body-writes-is-null-after-its-rescue`
 - `a-walk-is-a-loop-over-the-count`
 - `a-way-ending-in-a-call-answering-an-alias-of-never-contributes-nothing`
 - `a-way-that-leaves-is-not-met-by-the-ways-that-go-on`
@@ -232,9 +224,11 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-attempt-around-a-call-of-a-value-whose-type-fails-with-nothing-refuses`
 - `an-attempt-body-reads-the-variable-its-statement-name-shadows`
 - `an-attempt-catches-a-cast-that-did-not-match`
-- `an-attempt-under-a-set-binds-no-failure`
+- `an-attempt-named-with-var-refuses`
+- `an-attempt-under-a-set-refuses`
 - `an-attempt-without-a-rescue-refuses`
 - `an-attempt-written-nameless-binds-no-failure`
+- `an-attempts-name-reads-nothing-after-the-attempt-refuses`
 - `an-attempts-name-reads-the-failure-inside-its-rescue`
 - `an-inner-constant-of-an-outer-name-is-not-written`
 - `break-ends-the-loop`

@@ -10,12 +10,14 @@
       (const)
       (isolated)
       (returns Int)
-      (result 1))
+      (body
+        (return 1)))
     (procedure Lib.seven
       (const)
       (isolated)
       (returns Int)
-      (result (call App.helper)))))
+      (body
+        (return (call App.helper))))))
 
 (program
   (warp 1)
@@ -26,11 +28,13 @@
     (const)
     (isolated)
     (returns Int)
-    (result 7))
+    (body
+      (return 7)))
   (procedure entry
     (access public)
     (const)
     (isolated)
     (returns Int)
-    (result (call Standard.Numeric.plus (call App.helper) (call Lib.seven)))))
+    (body
+      (return (call Standard.Numeric.plus (call App.helper) (call Lib.seven))))))
 (expect (answers 8))

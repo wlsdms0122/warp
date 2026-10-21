@@ -11,7 +11,8 @@
       (parameter account (type Bank.Account))
       (parameter prefix (type String))
       (returns String)
-      (result prefix)))
+      (body
+        (return prefix))))
   (contract App.Describable
     (procedure describe
       (parameter of (type Self))
@@ -20,12 +21,13 @@
   (procedure App.tell
     (parameter it (type (some T App.Describable)))
     (returns String)
-    (result (call App.Describable.describe it "hi")))
+    (body
+      (return (call App.Describable.describe it "hi"))))
   (procedure entry
     (access public)
     (returns String)
     (failing cast_refused)
     (body
-      (let account (as (struct (field balance 1)) Bank.Account)))
-    (result (call App.tell account))))
+      (let account (as (struct (field balance 1)) Bank.Account))
+      (return (call App.tell account)))))
 (expect (answers "hi"))

@@ -8,5 +8,6 @@
   (procedure entry
     (access public)
     (returns (array Int))
-    (result (call Standard.Collection.prepending (array 1 2) 0))))
+    (body
+      (return (call Standard.Collection.prepending (array 1 2) 0)))))
 (expect (answers (array 0 1 2)))

@@ -14,7 +14,8 @@
       (isolated)
       (parameter of (type App.Thing))
       (returns String)
-      (result (call Standard.Text.text (path of (field id))))))
+      (body
+        (return (call Standard.Text.text (path of (field id)))))))
   (contract App.Named
     (procedure name
       (isolated)
@@ -25,18 +26,21 @@
     (parameter of (type (array (some T App.Named))))
     (returns (array String))
     (failing concurrent_failed)
-    (result
-      (call Standard.Concurrent.map of
-        (closure
-          (isolated)
-          (parameter item (type (some T)))
-          (parameter index (type Int))
-          (returns String)
-          (result (call App.Named.name item))))))
+    (body
+      (return
+        (call Standard.Concurrent.map of
+          (closure
+            (isolated)
+            (parameter item (type (some T)))
+            (parameter index (type Int))
+            (returns String)
+            (body
+              (return (call App.Named.name item))))))))
   (procedure entry
     (access public)
     (isolated)
     (returns (array String))
     (failing cast_refused concurrent_failed)
-    (result (call App.names (array (as (struct (field id 1)) App.Thing) (as (struct (field id 2)) App.Thing))))))
+    (body
+      (return (call App.names (array (as (struct (field id 1)) App.Thing) (as (struct (field id 2)) App.Thing)))))))
 (expect (answers (array "1" "2")))

@@ -13,7 +13,8 @@
           (entry
             (closure
               (returns Int)
-              (result 1))
-            1))))
-    (result 1)))
+              (body
+                (return 1)))
+            1)))
+      (return 1))))
 (expect (refuses build))

@@ -11,7 +11,8 @@
     (procedure describe
       (parameter of (type Bank.Card))
       (returns String)
-      (result "a card")))
+      (body
+        (return "a card"))))
   (contract App.Describable
     (procedure describe
       (parameter of (type Self))
@@ -21,12 +22,12 @@
     (returns String)
     (failing cast_refused)
     (body
-      (let c (as (struct (field last "1")) Bank.Card)))
-    (result (call show c)))
+      (let c (as (struct (field last "1")) Bank.Card))
+      (return (call show c))))
   (procedure show
     (parameter c (type App.D))
     (returns String)
     (body
-      (let s (call App.Describable.describe c)))
-    (result s)))
+      (let s (call App.Describable.describe c))
+      (return s))))
 (expect (answers "a card"))

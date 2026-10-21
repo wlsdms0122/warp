@@ -13,7 +13,8 @@
     (isolated)
     (returns (nullable String))
     (body
-      (let failed
+      (var failed)
+      (let caught
         (attempt
           (body
             (call Standard.Collection.tryMap
@@ -28,9 +29,9 @@
                   (conditional
                     (when (call Standard.Comparable.lessThan 2 x))
                     (then
-                      (call Standard.Control.abort "too big"))))
-                (result x))))
+                      (call Standard.Control.abort "too big")))
+                  (return x)))))
           (rescue
-            (result (path failed (field type)))))))
-    (result failed)))
+            (set failed (path caught (field type))))))
+      (return failed))))
 (expect (answers "aborted"))

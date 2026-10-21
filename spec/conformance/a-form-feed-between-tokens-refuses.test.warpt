@@ -1,5 +1,5 @@
 (test 1)
 (name "a-form-feed-between-tokens-refuses")
 (note "White space is space, tab, line feed and carriage return. A form feed is none of them, so it is part of the token it touches, and a bare name holding a control character written raw is no name.")
-(text "(warp 1)\n(const\u000ca 1)\n")
+(text "(warp 1)\n(const\\u000ca 1)\n")
 (expect (refuses load))

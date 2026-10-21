@@ -9,7 +9,8 @@
     (closure
       (parameter x (type Int))
       (returns Int)
-      (result x)))
+      (body
+        (return x))))
   (procedure entry
     (access public)
     (returns Int)
@@ -19,6 +20,7 @@
           (parameter x (type Int))
           (returns Int)
           (failing aborted)
-          (result (call Standard.Control.abort "no")))))
-    (result 1)))
+          (body
+            (return (call Standard.Control.abort "no")))))
+      (return 1))))
 (expect (answers 1))

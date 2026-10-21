@@ -15,10 +15,10 @@
           (parameter y (type (some T)))
           (returns Int)
           (body
-            (set cell y))
-          (result 0)))
-      (let z (apply run s)))
-    (result cell))
+            (set cell y)
+            (return 0))))
+      (let z (apply run s))
+      (return cell)))
   (procedure entry
     (access public)
     (returns Int)
@@ -28,8 +28,8 @@
           (parameter f (type (procedure (parameters Int) (returns Int))))
           (returns Int)
           (body
-            (let a (type Any) "s"))
-          (result (apply f a))))
-      (let r (call App.with 1 cb)))
-    (result r)))
+            (let a (type Any) "s")
+            (return (apply f a)))))
+      (let r (call App.with 1 cb))
+      (return r))))
 (expect (refuses build))

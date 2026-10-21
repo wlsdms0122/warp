@@ -15,9 +15,8 @@
           (body
             (call poke n))
           (rescue
-            (body
-              (let seen 1))))))
-    (result n))
+            (let seen 1))))
+      (return n)))
   (procedure poke
     (parameter count (type (inout Int)))
     (returns Never)

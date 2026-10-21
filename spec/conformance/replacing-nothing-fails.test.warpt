@@ -9,11 +9,12 @@
     (access public)
     (returns (nullable (dictionary String String)))
     (body
-      (let tried
+      (var tried)
+      (let caught
         (attempt
           (body
             (call Standard.Text.replacing "abc" "" "x"))
           (rescue
-            (result (dictionary (entry "message" (path tried (field message))) (entry "type" (path tried (field type)))))))))
-    (result tried)))
+            (set tried (dictionary (entry "message" (path caught (field message))) (entry "type" (path caught (field type))))))))
+      (return tried))))
 (expect (answers (dictionary (entry "message" "replacing asks an empty piece") (entry "type" "aborted"))))

@@ -10,6 +10,6 @@
     (returns (array Bool))
     (body
       (let yes (call Standard.Math.greaterThan 3 2))
-      (let no (call Standard.Math.greaterThan "a" "b")))
-    (result (array yes no))))
+      (let no (call Standard.Math.greaterThan "a" "b"))
+      (return (array yes no)))))
 (expect (answers (array true false)))

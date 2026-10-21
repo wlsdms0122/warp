@@ -16,7 +16,8 @@
       (procedure describe
         (parameter of (type T.Card))
         (returns String)
-        (result "card"))))
+        (body
+          (return "card")))))
   (document
     (warp 1)
     (import App.Describable)
@@ -33,8 +34,8 @@
       (returns (nullable App.Describable))
       (failing cast_refused)
       (body
-        (let two (type Any) (as (struct (field rank 1)) T.Card)))
-      (result (as? two App.Describable)))))
+        (let two (type Any) (as (struct (field rank 1)) T.Card))
+        (return (as? two App.Describable))))))
 
 (program
   (warp 1)
@@ -44,5 +45,6 @@
   (procedure entry
     (access public)
     (returns (nullable App.Describable))
-    (result folded)))
+    (body
+      (return folded))))
 (expect (refuses build))

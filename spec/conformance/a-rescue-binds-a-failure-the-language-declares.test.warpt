@@ -8,16 +8,18 @@
   (procedure App.told
     (parameter failed (type Failure))
     (returns String)
-    (result (path failed (field message))))
+    (body
+      (return (path failed (field message)))))
   (procedure entry
     (access public)
     (returns String)
     (body
-      (let tried
+      (var tried)
+      (let caught
         (attempt
           (body
             (call Standard.Control.abort "on purpose"))
           (rescue
-            (result (call App.told tried))))))
-    (result tried)))
+            (set tried (call App.told caught)))))
+      (return tried))))
 (expect (answers "on purpose"))

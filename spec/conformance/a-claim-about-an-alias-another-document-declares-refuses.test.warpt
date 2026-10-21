@@ -20,9 +20,11 @@
     (procedure describe
       (parameter of (type App.Num))
       (returns String)
-      (result "n")))
+      (body
+        (return "n"))))
   (procedure entry
     (access public)
     (returns Int)
-    (result 1)))
+    (body
+      (return 1))))
 (expect (refuses build))

@@ -10,8 +10,8 @@
     (parameter p (type (inout (procedure (const) (parameters Int) (returns Int)))))
     (returns Int)
     (body
-      (let a (apply p 1)))
-    (result a))
+      (let a (apply p 1))
+      (return a)))
   (procedure entry
     (access public)
     (const)
@@ -24,6 +24,7 @@
           (isolated)
           (parameter x (type Int))
           (returns Int)
-          (result x))))
-    (result (call Standard.Numeric.plus (call asking held) 1))))
+          (body
+            (return x))))
+      (return (call Standard.Numeric.plus (call asking held) 1)))))
 (expect (answers 2))

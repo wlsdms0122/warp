@@ -9,8 +9,8 @@
     (parameter body (type (procedure (const) (parameters) (returns String))))
     (returns String)
     (body
-      (let answered (apply body)))
-    (result answered))
+      (let answered (apply body))
+      (return answered)))
   (procedure entry
     (access public)
     (const)
@@ -25,7 +25,7 @@
             (conditional
               (when true)
               (then
-                (return "taken"))))
-          (result "fell through"))))
-    (result (call asking given))))
+                (return "taken")))
+            (return "fell through"))))
+      (return (call asking given)))))
 (expect (answers "taken"))

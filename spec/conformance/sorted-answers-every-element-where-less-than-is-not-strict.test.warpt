@@ -18,20 +18,22 @@
       (parameter lhs (type App.Score))
       (parameter rhs (type App.Score))
       (returns Bool)
-      (result (call Standard.Logic.not (call Standard.Comparable.lessThan (path rhs (field v)) (path lhs (field v)))))))
+      (body
+        (return (call Standard.Logic.not (call Standard.Comparable.lessThan (path rhs (field v)) (path lhs (field v))))))))
   (procedure entry
     (access public)
     (const)
     (returns (array Int))
     (body
-      (let scores (type (array App.Score)) (array (struct (field v 2)) (struct (field v 1)) (struct (field v 2)))))
-    (result
-      (call Standard.Collection.map
-        (call Standard.Collection.sorted scores)
-        (closure
-          (const)
-          (isolated)
-          (parameter s (type App.Score))
-          (returns Int)
-          (result (path s (field v))))))))
+      (let scores (type (array App.Score)) (array (struct (field v 2)) (struct (field v 1)) (struct (field v 2))))
+      (return
+        (call Standard.Collection.map
+          (call Standard.Collection.sorted scores)
+          (closure
+            (const)
+            (isolated)
+            (parameter s (type App.Score))
+            (returns Int)
+            (body
+              (return (path s (field v))))))))))
 (expect (answers (array 1 2 2)))

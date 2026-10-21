@@ -9,20 +9,22 @@
     (parameter step (type (procedure (const) (parameters Int) (returns Int))))
     (returns Int)
     (body
-      (let r
-        (attempt
-          (body
-            (apply step of))
-          (rescue
-            (result 0)))))
-    (result 1))
+      (var r)
+      (attempt
+        (body
+          (apply step of))
+        (rescue
+          (set r 0)))
+      (return 1)))
   (procedure entry
     (access public)
     (returns Int)
-    (result
-      (call apply 1
-        (closure
-          (parameter x (type Int))
-          (returns Int)
-          (result x))))))
+    (body
+      (return
+        (call apply 1
+          (closure
+            (parameter x (type Int))
+            (returns Int)
+            (body
+              (return x))))))))
 (expect (refuses build))

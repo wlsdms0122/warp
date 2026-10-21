@@ -9,20 +9,20 @@
     (parameter x (type (some T)))
     (returns Int)
     (body
-      (call App.put xs (array (dictionary (entry "k" (array x))) (dictionary (entry "k" (array))))))
-    (result 0))
+      (call App.put xs (array (dictionary (entry "k" (array x))) (dictionary (entry "k" (array)))))
+      (return 0)))
   (procedure App.put
     (parameter a (type (inout (some U))))
     (parameter b (type (some U)))
     (returns Int)
     (body
-      (set a b))
-    (result 0))
+      (set a b)
+      (return 0)))
   (procedure entry
     (access public)
     (returns (array (dictionary String (array String))))
     (body
       (var s (type (array (dictionary String (array String)))) (array (dictionary (entry "k" (array "a")))))
-      (call App.g s "b"))
-    (result s)))
+      (call App.g s "b")
+      (return s))))
 (expect (answers (array (dictionary (entry "k" (array "b"))) (dictionary (entry "k" (array))))))

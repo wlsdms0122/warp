@@ -14,6 +14,7 @@
     (parameter d)
     (returns Bool)
     (failing cast_refused)
-    (result (call Standard.Logic.equal d (as (dictionary (entry (struct (field x 1)) 1)) (dictionary App.P Int))))))
+    (body
+      (return (call Standard.Logic.equal d (as (dictionary (entry (struct (field x 1)) 1)) (dictionary App.P Int)))))))
 (arguments (argument d (dictionary (entry (struct App.A (field x 1)) 1))))
 (expect (answers true))

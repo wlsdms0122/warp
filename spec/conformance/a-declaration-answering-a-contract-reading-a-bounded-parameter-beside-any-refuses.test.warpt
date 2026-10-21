@@ -12,7 +12,8 @@
       (parameter a (type (some T App.Nums)))
       (parameter b (type (some T)))
       (returns Int)
-      (result 0)))
+      (body
+        (return 0))))
   (contract App.C
     (procedure m
       (const)
@@ -34,6 +35,6 @@
     (body
       (let x (type Bank.X) (struct (field k "a")))
       (let s (type String) "s")
-      (let u (type Any) 1))
-    (result (call App.C.m x s u))))
+      (let u (type Any) 1)
+      (return (call App.C.m x s u)))))
 (expect (refuses build))

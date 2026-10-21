@@ -7,11 +7,12 @@
   (procedure App.half
     (parameter x (type Double))
     (returns Double)
-    (result x))
+    (body
+      (return x)))
   (procedure entry
     (access public)
     (returns Double)
     (body
-      (let n 1))
-    (result (call App.half n))))
+      (let n 1)
+      (return (call App.half n)))))
 (expect (refuses build))

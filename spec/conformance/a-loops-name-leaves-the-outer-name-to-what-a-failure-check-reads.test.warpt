@@ -17,8 +17,8 @@
             (loop
               (while false)
               (body)))
-          (let r (apply g of)))))
-    (result 1))
+          (let r (apply g of))))
+      (return 1)))
   (procedure entry
     (access public)
     (returns Int)
@@ -29,6 +29,7 @@
             (const)
             (parameter x (type Int))
             (returns Int)
-            (result x)))))
-    (result 1)))
+            (body
+              (return x)))))
+      (return 1))))
 (expect (answers 1))

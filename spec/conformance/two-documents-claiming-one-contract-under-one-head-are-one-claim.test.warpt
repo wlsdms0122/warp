@@ -16,7 +16,8 @@
         (access public)
         (parameter of (type (array Int)))
         (returns String)
-        (result "ints")))))
+        (body
+          (return "ints"))))))
 
 (program
   (warp 1)
@@ -29,6 +30,6 @@
     (access public)
     (returns String)
     (body
-      (let b (type (array Int)) (array 1)))
-    (result (call App.Describable.describe b))))
+      (let b (type (array Int)) (array 1))
+      (return (call App.Describable.describe b)))))
 (expect (answers "ints"))
