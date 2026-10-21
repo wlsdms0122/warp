@@ -1,5 +1,5 @@
 (test 1)
 (name "a-mapping-with-no-tag-refuses")
 (note "A mapping where a value is wanted is an expression by its one key: `ref`, `struct`, `call`, `closure`, `as` or `as?`. A struct is written under `struct`, so a bare mapping is no expression and is refused where it is read.")
-(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "result" (dictionary (entry "answer" 1))))))) (entry "warp" 1)))
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "result" (dictionary (entry "answer" 1))) (entry "returns" "Any"))))) (entry "warp" 1)))
 (expect (refuses load))

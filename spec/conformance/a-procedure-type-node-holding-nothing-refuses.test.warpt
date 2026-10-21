@@ -1,0 +1,5 @@
+(test 1)
+(name "a-procedure-type-node-holding-nothing-refuses")
+(note "`Procedure` bare is a name, so a procedure type node holding neither a modifier nor a signature refuses.")
+(text "(warp 1)\n\n(procedure App.f\n  (parameter f (type (procedure)))\n  (returns Int)\n  (result 1))")
+(expect (refuses load))

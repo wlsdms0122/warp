@@ -1,5 +1,13 @@
 (test 1)
 (name "a-let-without-a-value-refuses")
 (note "Only `var` may stand without a `value`. A `let` fixes a name at what it is given, and one given nothing refuses at the load.")
-(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "let" "x")))) (entry "result" 1))))) (entry "warp" 1)))
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let x))
+    (result 1)))
 (expect (refuses load))

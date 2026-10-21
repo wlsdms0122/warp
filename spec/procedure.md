@@ -18,7 +18,7 @@ What a declaration says about itself, and what saying it permits. Four things: t
 | `body` | statements | no |
 | `result` | expression. What the procedure answers | no |
 
-A procedure answers what `result` names, and nothing if it names nothing. The value of the last statement is never the answer.
+A procedure answers what `result` names, and nothing if it names nothing.
 
 **What a declaration leaves out says the least.** A call reads the declaration and nothing else, so nothing a declaration leaves out is read off its body: a body answering more than `returns` admits, failing with more than `failing` names, or doing what `const` or `isolated` says it does not, **refuses at the build**, under [checking](checking.md). Each key written as what leaving it out says, `returns: Null`, an empty `failing`, `const: false` or `isolated: false`, **refuses at the load**, and so does `failing` written as anything but a list of names or `anything`. A failure named by anything but one identifier, or named `anything`, **refuses at the load**, in `failing` and in a procedure type's `throws(…)` alike.
 
@@ -48,7 +48,7 @@ A procedure the host answers is not written in a document. A declaration in a do
 
 **Note.** A link holds the code, not the text it was written as, and no reading of a built procedure says whether it asked the clock.
 
-**What a runtime hands one is where the claim is kept.** A procedure that answers without running is handed what its call wrote, a way to send the procedures it declared, and a way to call a procedure it was handed. One that reaches outside is handed those and three more: what a parameter handed in place holds, a way to write it, and whatever the host keeps beside the program. Those three are what the first kind is refused.
+**What a runtime hands one is where the claim is kept.** A procedure that answers without running is handed what its call wrote, a parameter handed in place as what it holds when the call is made, a way to send the procedures it declared, and a way to call a procedure it was handed. One that reaches outside is handed those and two more: a parameter handed in place as the caller's variable, read and written as it runs, and whatever the host keeps beside the program. Those two are what the first kind is refused.
 
 ## What answers without running
 
@@ -57,7 +57,7 @@ Some of what a program writes is **read** and some of it is **run**. A literal, 
 A procedure **answers without running** when nothing it reaches stands outside the run it was handed:
 
 - it reads no module variable and writes no name it does not own: a module variable, a name a closure captured, or a parameter handed in place, whether written by `set` or handed in place to a call. What such a name holds is the run's rather than the text's, and a name the body introduces or a parameter it holds outright is its own;
-- it calls a value only where **the type written for it** is a `const` procedure type. The type written for a value is the type a slot gave it (a parameter, a name that writes its type, a module variable's declared type), a closure literal's signature, the type a cast names, the answer a called declaration declares, or the answer the type written for a called value says. A fixed name, a `let` or a module constant, that writes no type follows the type written where its value came from, and a path reaches inside one of those by the type written (an element of an array, an entry of a dictionary, a field of a struct type). The value is held to that type where it is handed over, made, cast or answered, so that is where something before the run says what the value answers. A variable that writes no type holds whatever its writes leave, which nothing wrote, so calling what it holds carries no claim. The claim is the written type's, and so it stands wherever the name is read, a closure that **captured** the name included;
+- it calls a value only where **the type written for it** is a `const` procedure type. The type written for a value is the type a slot gave it (a parameter, a name that writes its type, a module variable's declared type), a closure literal's signature, the type a cast names, the answer a called declaration declares, or the answer the type written for a called value says. A fixed name, a `let` or a module constant, that writes no type follows the type written where its value came from, and a path reaches inside one of those by the type written (an element of an array, an entry of a dictionary, a field of a struct type). A list or map literal writes no type for its parts, so a part of one reached through a name that writes none carries no claim. The value is held to that type where it is handed over, made, cast or answered, so that is where something before the run says what the value answers. A variable that writes no type holds whatever its writes leave, which nothing wrote, so calling what it holds carries no claim. The claim is the written type's, and so it stands wherever the name is read, a closure that **captured** the name included;
 - and every procedure it sends declares it answers without running.
 
 A construct reaches nothing on its own. Which part of a `conditional`, `loop` or `attempt` runs is decided inside the body, so one of them is read exactly as far as the parts it holds are, and the same goes for `return`, `break` and `continue`. A name the body introduces is the body's own: a `let` and a `var` both make one, neither leaves the body, and so declaring either says nothing about what the body reaches.
@@ -126,6 +126,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-body-that-branches-answers-without-running`
 - `a-body-that-loops-answers-without-running`
 - `a-call-failing-before-it-writes-an-entry-taken-in-place-is-rescued`
+- `a-call-of-a-part-of-a-list-literal-may-fail-with-anything-refuses`
 - `a-call-of-a-value-hands-in-place-inside-every-construct`
 - `a-call-of-a-value-hands-its-arguments-by-position`
 - `a-call-of-a-value-indexed-by-a-module-variable-does-not-answer-without-running`
@@ -166,7 +167,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-constant-folds-through-a-standard-procedure-a-claim-it-stands-on-answers`
 - `a-constant-settles-from-a-body-of-another-document`
 - `a-constant-settling-through-a-claim-of-a-document-it-does-not-stand-on-refuses`
-- `a-constant-whose-settling-is-refused-refuses-at-the-build`
+- `a-constant-whose-settling-is-refused-refuses`
 - `a-contract-asking-const-lets-its-call-stand-in-a-const-slot`
 - `a-contract-asking-isolated-lets-its-call-stand-in-an-isolated-slot`
 - `a-contract-call-that-may-run-is-no-operand`

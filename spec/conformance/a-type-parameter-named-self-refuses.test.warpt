@@ -1,5 +1,17 @@
 (test 1)
 (name "a-type-parameter-named-self-refuses")
 (note "`Self` is the type answering a contract, read as such in that contract's procedures, so no type parameter takes its name. `some Self` is refused where the document is read.")
-(tree (dictionary (entry "contracts" (dictionary (entry "App.Ordered" (dictionary (entry "procedures" (dictionary (entry "before" (dictionary (entry "parameters" (array (dictionary (entry "name" "lhs") (entry "type" "Self")) (dictionary (entry "name" "rhs") (entry "type" "Self")))) (entry "returns" "Bool"))))))))) (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "parameters" (array (dictionary (entry "name" "x") (entry "type" "some Self")))) (entry "result" 1))))) (entry "warp" 1)))
+
+(program
+  (warp 1)
+  (contract App.Ordered
+    (procedure before
+      (parameter lhs (type Self))
+      (parameter rhs (type Self))
+      (returns Bool)))
+  (procedure entry
+    (access public)
+    (parameter x (type (some Self)))
+    (returns Int)
+    (result 1)))
 (expect (refuses load))

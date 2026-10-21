@@ -1,5 +1,16 @@
 (test 1)
 (name "a-bound-beside-an-associated-type-in-a-slot-refuses")
 (note "A bound stands beside a type parameter where it is introduced, and an associated type is introduced by the contract that asks it. A slot writing `some C.Item: Hashable` refuses at the load; the signature says it under `bounds`, keyed by `C.Item`.")
-(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "App.f" (dictionary (entry "parameters" (array (dictionary (entry "name" "c") (entry "type" "some C")) (dictionary (entry "name" "i") (entry "type" "some C.Item: Hashable")))) (entry "result" 1) (entry "returns" "Int"))) (entry "entry" (dictionary (entry "access" "public") (entry "result" 1) (entry "returns" "Int"))))) (entry "warp" 1)))
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter c (type (some C)))
+    (parameter i (type (some C.Item Hashable)))
+    (returns Int)
+    (result 1))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result 1)))
 (expect (refuses load))

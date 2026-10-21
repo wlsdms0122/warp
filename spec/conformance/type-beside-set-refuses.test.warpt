@@ -1,5 +1,14 @@
 (test 1)
 (name "type-beside-set-refuses")
 (note "`type` declares what a new name takes. A `set` reaches a name something else declared, so `type` beside it is refused where the document is read.")
-(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "set" "count") (entry "type" "Int") (entry "value" 2)))) (entry "result" (dictionary (entry "ref" "count"))) (entry "returns" "Int"))))) (entry "var" (dictionary (entry "count" 1))) (entry "warp" 1)))
+
+(program
+  (warp 1)
+  (var count 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (set count (type Int) 2))
+    (result count)))
 (expect (refuses load))

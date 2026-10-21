@@ -1,0 +1,16 @@
+(test 1)
+(name "a-key-read-as-the-type-parameter-a-map-is-keyed-by-reads-its-entry")
+(note "A map keyed by `some K` reads its key where `K` is read, so a key read as that same parameter stands between the brackets and reads the entry under what it holds.")
+
+(program
+  (warp 1)
+  (procedure App.at
+    (parameter d (type (dictionary (some K Hashable) Int)))
+    (parameter k (type (some K)))
+    (returns Int)
+    (result (path d (index k))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (result (call App.at (dictionary (entry "a" 1)) "a"))))
+(expect (answers 1))

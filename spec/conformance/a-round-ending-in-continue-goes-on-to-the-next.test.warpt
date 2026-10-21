@@ -1,0 +1,21 @@
+(test 1)
+(name "a-round-ending-in-continue-goes-on-to-the-next")
+(note "A `continue` ending a round's own body ends the round, and the loop goes on to the next.")
+
+(program
+  (warp 1)
+  (import Standard.Comparable.lessThan)
+  (import Standard.Text.joined)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (var seen "")
+      (let walk
+        (loop
+          (while (call Standard.Comparable.lessThan (path walk (field index)) 2))
+          (body
+            (set seen (call Standard.Text.joined (array seen "a") ""))
+            (continue)))))
+    (result seen)))
+(expect (answers "aa"))

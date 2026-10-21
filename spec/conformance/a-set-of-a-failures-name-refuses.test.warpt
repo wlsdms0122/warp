@@ -1,19 +1,19 @@
 (test 1)
-(name "a-set-of-a-failures-name-refuses-at-the-load")
+(name "a-set-of-a-failures-name-refuses")
 (note "An attempt's failure is a fixed name inside the rescue, whatever its spelling names outside. `caught` is a variable of the document, and inside the rescue it is the failure, so a `set` of it refuses at the load.")
 
 (program
   (warp 1)
-  (import Standard.Numeric.dividedBy)
   (var caught 0)
   (procedure entry
     (access public)
+    (parameter payload)
     (returns Int)
     (body
       (let caught
         (attempt
           (body
-            (let n (call Standard.Numeric.dividedBy 1 0)))
+            (let n (as payload Int)))
           (result 1)
           (rescue
             (body

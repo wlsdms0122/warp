@@ -1,5 +1,16 @@
 (test 1)
 (name "a-type-mention-that-is-no-name-refuses")
 (note "A name in the types namespace is identifiers joined by dots. `a b` is none, so a slot writing it refuses at the load, though the imports list names it.")
-(tree (dictionary (entry "imports" (array "a b")) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "result" (dictionary (entry "call" (dictionary (entry "arguments" (array 1)) (entry "procedure" "keep"))))))) (entry "keep" (dictionary (entry "parameters" (array (dictionary (entry "name" "value") (entry "type" "a b")))) (entry "result" (dictionary (entry "ref" "value"))))))) (entry "warp" 1)))
+
+(program
+  (warp 1)
+  (import `a b`)
+  (procedure entry
+    (access public)
+    (returns Any)
+    (result (call keep 1)))
+  (procedure keep
+    (parameter value (type `a b`))
+    (returns Any)
+    (result value)))
 (expect (refuses load))

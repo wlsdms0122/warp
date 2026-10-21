@@ -1,5 +1,12 @@
 (test 1)
 (name "modifiers-written-in-another-order-refuse")
 (note "A procedure type that is const and isolated is written `const isolated Procedure`, and `isolated const Procedure` is a second spelling of the same type. A document says each thing one way, and this one is refused where it is read.")
-(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "parameters" (array (dictionary (entry "name" "f") (entry "type" "isolated const Procedure")))) (entry "result" 1) (entry "returns" "Int"))))) (entry "warp" 1)))
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter f (type (procedure (isolated) (const))))
+    (returns Int)
+    (result 1)))
 (expect (refuses load))

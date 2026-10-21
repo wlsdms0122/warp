@@ -16,7 +16,7 @@ An object is one map. It carries **exactly** these keys, and a key none of them 
 | `types` | name → what the document declared: a struct as `[9, …]` under *type* below, and an alias as the *type* it stands for | by name |
 | `contracts` | name → `[ types, bounds, procedures ]`: the types the contract asks; name → the contracts bounding the type of that name, ascending, at least one, for each one it bounds; and procedure name → *signature* | by name; the types ascending, the bounds and the procedures by name |
 | `claims` | *head* → the contracts it says the values the head takes answer, at least one | by head; the contracts ascending |
-| `members` | *head* → the members it gives the type under the head, at least one, each the name of a row under the type's name and its own | by head; the members ascending |
+| `members` | *head* → the members it gives the type under the head, at least one, each a member's name | by head; the members ascending |
 | `typeMembers` | *head* → (name → *type*): the type members it gives the type under the head, at least one, each written in the head's type parameters, or the struct's where the head is bare and the document declares the struct | by head, then by name |
 | `importedClaims` | the claims its document imports, each `[type, contract]`, the pair the claim is about | by type, then by contract |
 | `rows` | the declarations, each a *row* under its spelling | by name |
@@ -37,7 +37,7 @@ An object is one map. It carries **exactly** these keys, and a key none of them 
 
 **What nests stands in a table.** A *type*, a *lowered type*, a *value*, an *operation* and an *address* are each written once, as an entry of their own table, and whatever holds one writes the entry's number. An entry is laid out the way this page lays its kind out, with a number wherever it holds another of these. So an object nests no deeper for a program nesting deeper. An entry stands right after everything it holds: the parts are read in the order of the keys above, the fields of a part and of an entry in their order, and each table numbers its entries from zero in the order they are finished. Every entry is held exactly once, and an entry held twice, held nowhere, or standing at another number than that order gives it **refuses**. Entries nest no deeper than a written tree may, [128](encoding.md) levels: an entry is a level, and an entry of its own table it holds is a level below it. A table nesting deeper **refuses**, and no object is written for a compiled document whose entries would.
 
-**The rows.** A declaration's row stands under its spelling in `rows`, in name order; the rows its bodies lifted stand in `lifted`, without a spelling, in the order the numbering counts them. A body numbers its calls and its types from the document itself, under [procedures](procedure.md): the spellings it sends first, in name order, then its own declarations in name order, then the closures its declarations wrote, in the order the numbering lists the declarations and, within one, the order the body wrote them. Where a row lands in a link is the link's answer, so nothing here says it, and one object answers every entry asked of it.
+**The rows.** A declaration's row stands under its spelling in `rows`, in name order; the rows its bodies lifted stand in `lifted`, without a spelling, in the order the numbering counts them. A body numbers its calls and its types from the document itself: the spellings it sends first, in name order, then its own declarations in name order, then the closures its declarations wrote, in the order the numbering lists the declarations and, within one, the order the body wrote them. Where a row lands in a link is the link's answer, so nothing here says it, and one object answers every entry asked of it.
 
 **`numbering`** writes what a reading uses and cannot work out: the spellings sent, in name order; then `(declaration, count)` for each declaration that wrote a closure, counts above zero. A *declaration* is `[0, name]` for a procedure and `[1, name]` for a constant or a variable, since a procedure and a constant may be spelled alike; the procedures stand first, then the constants and variables, each in name order, none twice. **`typeNumbering`** writes the declared types the lowered bodies stand on, ascending by name, none twice: each of them numbers its types in that order. A start in `variables` is a value, which carries a struct's name as its spelling and numbers no type. A contract a bound names is written by its name and numbered nowhere. What a number stands for is arithmetic over these lists and the declared spellings, so the numbers themselves are not written.
 
@@ -95,9 +95,9 @@ The *implementation* is `[0, body, frame]` for a written body, or `[1, sends]` f
 
 A *frame* is `[size, parameters, variables, captures, names]`: how many slots; which slots the parameters fill, in parameter order; `[variable, slot]` for each module variable the body reads, by its position in `variables`; which slots a closure fills from what it took with it; and what each slot was called, one name per slot, for a refusal that names one.
 
-A *body* is `[instructions, result]`, the result an *operation* or nothing. An *instruction* is `[binding, operation, label]`: the binding or nothing, what to compute, and the string a trace calls the statement. A *binding* is `[0, slot]` to bind, `[1, slot]` to declare, or `[2, address]` to assign.
+A *body* is `[instructions, result]`, the result an *operation* or nothing. An *instruction* is `[binding, operation, label]`: the binding or nothing, what to compute, and the string a trace calls the statement. A *binding* is `[0, slot]` to bind, `[1, slot]` to declare, or `[2, address]` to assign. A *reach* is `0` the procedure, for `return`, `1` the loop, for `break`, or `2` the round, for `continue`.
 
-An *address* is the number of an entry in `addressTable`, and the entry is `[slot, steps]`, each *step* `[0, position, name, optional]` for a field of a struct whose layout the build proved, `[1, name, optional]` for a field read by its name, written past a null or a `Never` the build laid out no struct for, `[2, value, optional]` for a *value* between the brackets, a position on a list and a key on a map, or `[3, address, optional]` for one read from a slot.
+An *address* is the number of an entry in `addressTable`, and the entry is `[slot, steps]`, each *step* `[0, position, name, optional]` for a field of a struct whose layout the build proved, `[1, name, optional]` for a field read by its name, written past a null or a `Never` the build laid out no struct for, `[2, value, optional]` for a *value* between the brackets, a position on a list and a key on a map, or `[3, address, optional]` for one read from a slot. An *optional* is a bool, true for a step written `?.` or `?[` and for a cast written `as?`.
 
 ### Operations
 
@@ -111,7 +111,7 @@ An *operation* is the number of an entry in `operationTable`, and the entry is `
 | 3 | a struct built from parts | `[layout, operations]`: the *layout*, and a list of *operation* in the layout's field order |
 | 4 | a closure literal | the closure's number, captures: `[outer slot, inner slot]` list |
 | 5 | calling a value | the callee *operation*, arguments: list of *argument*, in position order |
-| 6 | a cast | *operation*, *lowered type*, optional |
+| 6 | a cast | *operation*, *lowered type*, *optional* |
 | 8 | a conditional | the condition *operation*, then: *instruction* list, else: *instruction* list or nothing |
 | 9 | a loop | the condition *operation*, the round: *instruction* list, the round's slot or nothing |
 | 10 | an attempt | *body*, the rescue *body*, the failure's slot or nothing |
@@ -121,6 +121,16 @@ An *operation* is the number of an entry in `operationTable`, and the entry is `
 | 14 | a map built from parts | a list of `[key, value]`, each an *operation*, in the order written |
 
 A *layout* is `[name, fields]`: the declared struct's name, and the field names ascending. A *call* is `[procedure, arguments, handed]`: the row the call reaches, numbered by the document; one *operation* or nothing per parameter of the callee, in parameter order, nothing exactly where the call hands that parameter an address in place; and `[position, address]` for each parameter handed in place, by position ascending. A *dispatch* is `[contract, procedure, first, arguments]`: the contract's name, the procedure's, the first argument's *operation*, and the arguments after it by position, each an *argument*. Which row answers is the link's, and stands nowhere in an object. An *argument* is `[0, operation]` by value or `[1, address]` by reference: the place a call of a value hands in place, or one a call through a contract hands to whichever row takes it in place.
+
+### How a body lowers
+
+A body is lowered in the order it is written, and that order gives each slot its number: a slot is the next one free when the walk first meets its name. The parameters come first, in the declaration's order. Then each statement in turn: what its construct reads is lowered, and then the name the statement binds takes its slot. A loop's round takes a slot before its condition, and an attempt's failure one after the attempted body and before the rescue. Inside a construct the parts are walked in the order its operation writes them, a callee before its arguments, a struct's fields in name order, a key before its value, `then` before `else`, and a body's `result` after its statements. A name introduced in a nested body takes a slot of the same frame, and a name introduced twice takes two.
+
+A name a body reads and did not introduce takes a slot the first time it is read: a module variable, written under the frame's `variables`, and a constant the build could not settle into the reading, which is one read at an index the run reads. A closure is lowered on a frame of its own, the same way, where it stands; every name from the body around it, a module variable and a constant included, is taken from that body, so it takes a slot in that body as a read there would and one in the closure's frame, written under the frame's `captures`, and the closure literal writes the two as a pair.
+
+A body reading such a constant starts with one instruction for each, in slot order, binding its slot to the constant's settled value as a literal and labelled with the constant's name. Every other instruction is a statement, labelled with the statement's name, or with `[position]`, its position in the body counted from zero, where it has none.
+
+A body stands on a declared type only through a cast, the one operation that writes a *lowered type*, so the types a document's `typeNumbering` holds are the declared types its bodies' casts name.
 
 ### Lowered types
 
@@ -155,20 +165,18 @@ A reading refuses what it cannot read and traps on nothing: the reading runs ins
 
 - a lifted row where the numbering counts no closure, a numbering counting more closures than `lifted` holds, a count of none for a declaration it counts, and counts that add up past what an int holds
 - a frame naming other than one name per slot, standing other than one slot per parameter its declaration takes, or standing a parameter, a variable or a capture past its end
-- a body standing on a slot past its frame or on a variable past its document's `variables`, and a loop keeping a run its frame does not hold
+- a body standing on a slot past its frame or on a variable past its document's `variables`
 - a call handing in place at other positions than the ones it writes nothing at, or out of ascending order
 - a closure literal taking what it captured into slots other than the captures of its own row's frame
-- a `keeps` that ends before it begins
-- a contract's bound holding a type the contract does not ask
 - a declared type that is no struct and comes back to itself through what it stands for, which the load refuses in a document, under [types](type.md)
 - a struct built from parts holding other than one part per field its layout names
 - a lowered procedure type writing what it answers or what it may fail with other than exactly where it writes what it takes
 - a row of a procedure the host answers whose sends do not stand one to a place from the first, or reach a spelling the document's `numbering` does not number
 - an object standing against a document other than the one it was kept under
 
-Every one of these is refused where the object is read, before it is laid beside anything. What only the documents beside it can answer is refused at `build`, where a compile lays the object down or a link does, under [checking](checking.md): which row a number is and whether a call stands as many arguments as that row takes, which type answers a contract, and whether what it sends and every type its declared types, signatures and bodies name is declared by it or by a document standing before it, so two objects that need each other refuse as two documents do.
+Every one of these is refused where the object is read, before it is laid beside anything. What only the documents beside it can answer is refused at `build`, where a compile lays the object down or a link does, under [checking](checking.md): whether every object under its `dependencies` is beside it, which row a number is and whether a call stands as many arguments as that row takes, which type answers a contract, and whether it stands after every document it names, so two objects that need each other refuse as two documents do. A type its declarations, signatures and bodies name is the declaration its compile read, which its `dependencies` say is beside it, and a build does not ask that again.
 
-The names an object writes are the ones its document wrote, and each held the grammar of where it is written when that document was loaded, under [checking](checking.md): a type's, a contract's, a claim's, a member's, a bound's and a part joined with `&` alike. An object is what a build wrote, so a reading asks those names nothing again, and what a name stands for beside the documents is the link's to say, for an object as for a document.
+The names an object writes are the ones its document wrote, and each held the grammar of where it is written when that document was loaded, under [checking](checking.md): a type's, a contract's, a claim's, a member's, a failure's, a bound's and a part joined with `&` alike. An object is what a build wrote, so a reading asks those names nothing again, and what a name stands for beside the documents is the link's to say, for an object as for a document.
 
 What a build judged, an object writes down as judged: what a signature says, `returns`, `failing`, `const` and `isolated`, and the type every reading in a body was judged to be. A reading, a link and a run take each of those as written and judge none of them again. A body is held to its declaration once, by the compile of its document, under [checking](checking.md). An object a reading admits and no build would write, a body answering what its declaration does not take or calling what is no procedure, is one this specification gives no answer for, save one: a run of it **traps on nothing**, for the reason a reading does not, and where it stops, it stops by refusing the run. Whether an object handed over is the one a build wrote is the transport's to say, by whatever seals what it carries. Nothing an object writes proves it, so a reading does not ask.
 
@@ -228,11 +236,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-document-is-not-an-object`
 - `an-object-applying-a-struct-to-no-types-refuses`
 - `an-object-bounding-a-type-a-contract-asks-by-nothing-refuses`
-- `an-object-bounding-a-type-its-contract-does-not-ask-refuses`
 - `an-object-bounding-a-type-parameter-by-nothing-refuses`
 - `an-object-claiming-no-contract-for-a-type-refuses`
 - `an-object-counting-no-closures-for-a-declaration-refuses`
-- `an-object-giving-a-type-a-member-no-row-stands-under-refuses`
 - `an-object-giving-a-type-no-member-refuses`
 - `an-object-giving-a-type-no-type-member-refuses`
 - `an-object-holding-a-number-past-its-table-refuses`

@@ -7,10 +7,10 @@ Seven bundles, each taken with what it depends on, so a host grants what its pro
 | module | procedures |
 |---|---|
 | `Standard` | The contracts below, answered for the types the language names: `Int.plus` `Int.minus` `Int.times` `Int.dividedBy` `Int.remainder` `Int.lessThan`, the same six for `Double`, `String.lessThan`, and `Array.count` `Dictionary.count` `String.count` |
-| `Standard.Logic` | `equal` `notEqual` `not` `and` `or` `select` |
+| `Standard.Logic` | `equal` `notEqual` `not` `and` `or` `select` `tryAnd` `tryOr` `trySelect` |
 | `Standard.Math` | `min` `max` `absolute` `floored` `rounded` `greaterThan` |
 | `Standard.Text` | `text` `characters` `contains` `startsWith` `uppercased` `lowercased` `trimmed` `split` `joined` `replacing` `decoded` `encoded` |
-| `Standard.Collection` | `append` `contains` `first` `last` `reversed` `appending` `prepending` `gathering` `dropFirst` `dropLast` `sorted` `map` `filter` `reduce` `keys` `values` `setting` |
+| `Standard.Collection` | `append` `contains` `first` `last` `reversed` `appending` `prepending` `gathering` `dropFirst` `dropLast` `sorted` `map` `filter` `reduce` `tryMap` `tryFilter` `tryReduce` `keys` `values` `setting` |
 | `Standard.Control` | `abort`. Declared `returns: Never` |
 | `Standard.Concurrent` | `all` `allKeyed` `first` `firstKeyed` `map`. Run closures at once |
 
@@ -152,7 +152,7 @@ The contracts, each procedure answering without running and touching nothing, an
 | `firstKeyed` | `pieces`. A map of `isolated` procedures taking nothing under keys of `some Key`, each answering `some Answer` | `some Answer`. Bounds `Key: Hashable` |
 | `map` | `array: Array<some Element>`, `transform`. `isolated` procedure, handed the item, then its index, answering `some Answer` | `Array<some Answer>` |
 
-**`Standard.Concurrent`**. Running closures at once. `all` takes a list of closures, runs every one, and answers every answer in the list's order; `allKeyed` takes a map of closures under keys, and answers each answer under its key. A failure fails the whole procedure with `concurrent_failed`, whose `details` hold `failures`: every piece's failure under the piece's key, a map's piece under the key it stood under and a list's under its position, an `Int`, and each is the envelope that piece raised, so a rescue reads a piece's own `type`, `message` and `details` through it. `first` and `firstKeyed` take the same and answer the first success, asking the rest to stop; which piece wins is the one timing fact this language admits. `map` takes a collection and one closure, calls it once per element, handing it the element and then its index, and answers in the collection's order. These are procedures rather than grammar because a closure is already the safe unit of concurrent work, and being procedures makes concurrency a permission: what a host does not link, a program cannot do. Each procedure its rows take may fail with anything, its type writing `throws`. Each runs what it is handed, so none is `const`, and each declares `failing: [concurrent_failed]`.
+**`Standard.Concurrent`**. Running closures at once. `all` takes a list of closures, runs every one, and answers every answer in the list's order; `allKeyed` takes a map of closures under keys, and answers each answer under its key. A failure fails the whole procedure with `concurrent_failed`, whose `details` hold `failures`: every piece's failure under the piece's key, a map's piece under the key it stood under and a list's under its position, an `Int`, and each is the envelope that piece raised, so a rescue reads a piece's own `type`, `message` and `details` through it. `first` and `firstKeyed` take the same and answer the first success, asking the rest to stop; which piece wins is the one timing fact this language admits. A piece that refuses at the run before one succeeds ends the race the way a success does, and refuses the whole run. What a piece does once the rest are asked to stop is not reported. `map` takes a collection and one closure, calls it once per element, handing it the element and then its index, and answers in the collection's order. These are procedures rather than grammar because a closure is already the safe unit of concurrent work, and being procedures makes concurrency a permission: what a host does not link, a program cannot do. Each procedure its rows take may fail with anything, its type writing `throws`. Each runs what it is handed, so none is `const`, and each declares `failing: [concurrent_failed]`.
 
 The names are plain ones with the module carrying the context. A call site spells the module, so `Standard.Collection.first` and `Standard.Concurrent.first` are two names, and a link carrying both bundles holds both: every `first` and every `map`, the sequential ones included, is written with its bundle, and concurrency shows at the call site.
 
@@ -171,7 +171,7 @@ Behaviour at the edges, where implementations quietly differ, stated as requirem
 - Arithmetic takes two of one type: both sides are `Self` of `Standard.Numeric`, and so is the answer of `plus`, `minus`, `times` and `remainder`. A whole number added to text **refuses at the build**, and so do two pieces of text, because no claim puts text under `Standard.Numeric`.
 - Ordering (`lessThan`, `greaterThan`, `sorted`, `min`, `max`) compares two of one type under `Standard.Comparable`, `String` among them. A type no claim puts under it, or a reading whose type the build does not know, refuses at the build, under **Bounds** in [types](type.md).
 - Whole-number arithmetic with no whole answer **refuses at the run**. It does not wrap and does not silently widen. The rule covers every standard procedure that answers an `Int` and can miss it: `plus`, `minus`, `times` off the int's edge, `absolute` of the int's own minimum, and `floored`/`rounded` of a fraction whose whole part is past the int. `remainder` is not on the list because its answer always fits. A remainder is smaller in size than its divisor, and the one divisor that trips a machine's division instruction still has one: `-9223372036854775808 remainder -1` answers `0`. These run-stage refusals (overflow, and the zero divisor below) are the program's own defect, not a failure of the work: an `attempt` does **not** catch them, the way it does not catch an index past the end. What a rescue catches is `abort` and a procedure's own failure.
-- Fraction arithmetic with no finite answer **refuses at the run** for the same reason: infinity is a value the arithmetic can reach and no document can carry.
+- Fraction arithmetic with no finite answer **refuses at the run**, at the door its answer crosses under [running](running.md): infinity is a value the arithmetic can reach and no document can carry.
 - `dividedBy` answers a fraction, whole or not. Division by zero **refuses at the run**. The quotient is binary64's own: a whole operand reads as the fraction nearest it first, and the division rounds once more, so two implementations spell the same quotient bit for bit.
 - `remainder` truncates toward zero, for wholes and fractions alike: what is left takes the dividend's sign, so `-7 remainder 3` is `-1`, `7 remainder -3` is `1` and `-5.5 remainder 2.0` is `-1.5`. A zero divisor **refuses at the run**, the same as under `dividedBy`.
 - A whole number is no fraction, and a fraction is no whole number, under [types](type.md), which says too where a whole number written as a literal is read as the fraction it names.
@@ -189,7 +189,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-document-writes-a-short-circuiting-connective`
 - `a-document-writes-map-over-a-const-slot`
 - `a-document-writes-startsWith-over-characters`
-- `a-list-holding-no-byte-handed-to-decoded-refuses-at-the-run`
+- `a-list-holding-no-byte-handed-to-decoded-refuses`
 - `a-list-of-pieces-joining-to-any-refuses-at-a-fan-out`
 - `a-mapped-procedure-chooses-what-it-answers`
 - `a-piece-that-is-not-a-closure-refuses`
@@ -207,9 +207,10 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `absolute-of-the-minimum-refuses`
 - `all-keyed-answers-under-keys-of-any-type`
 - `an-attempt-does-not-catch-overflow`
-- `an-encoding-a-procedure-does-not-have-refuses-at-the-run`
+- `an-encoding-a-procedure-does-not-have-refuses`
 - `an-isolated-body-filters-through-a-closure-that-fails-with-nothing`
 - `an-operand-of-and-that-answers-no-bool-refuses`
+- `and-over-nothing-answers-true`
 - `append-writes-the-array-in-place`
 - `arithmetic-admits-only-numbers`
 - `arithmetic-answers-the-type-it-was-given`
@@ -240,6 +241,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `first-in-which-nothing-succeeds-fails-with-every-piece`
 - `first-keyed-over-nothing-refuses`
 - `first-over-nothing-refuses`
+- `first-refuses-the-run-for-a-piece-that-refuses-before-one-succeeds`
 - `floored-past-the-int-refuses`
 - `fraction-arithmetic-with-no-finite-answer-refuses`
 - `gathering-past-the-end-refuses`
@@ -261,6 +263,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `minus-off-the-ints-edge-refuses`
 - `not-and-notequal-say-the-opposite`
 - `or-does-not-ask-past-the-first-yes`
+- `or-over-nothing-answers-false`
 - `ordering-compares-two-of-one-type`
 - `prepending-writes-the-front`
 - `reduce-folds-in-order`
@@ -296,4 +299,4 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `uppercased-uses-unicode-full-case-mapping`
 - `values-answer-in-canonical-order`
 - `values-of-a-map-keyed-by-whole-numbers-answer-in-the-key-order`
-- `what-is-not-utf8-text-refuses-to-decode-at-the-run`
+- `what-is-not-utf8-text-refuses-to-decode`

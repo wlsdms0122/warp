@@ -29,7 +29,9 @@ A type is written as a string:
 | `(Int) throws -> Bool` / `(Int) throws(aborted, cast_refused) -> Bool` | what a procedure type may fail with, written between its parameters and `->`: `throws` alone says anything, and `throws(…)` the failures it lists, in name order. Written without `throws`, it fails with nothing. `throws()` and a failure listed twice **refuse at the load** |
 | `((Int) -> Int)?` / `(const Procedure)?` | a procedure type writing its signature or a modifier, or null: parentheses group a type, so the `?` after them is the whole type's. A type is written one way, so parentheses anywhere else **refuse at the load** |
 
-**A type written inside another is one level deeper**: an element, a key or a value, a type a struct is applied to, a parameter or an answer, and what `?`, `inout` or `var` marks. A modifier and the parentheses that group add none. The levels count on from the containers around the type's string, against the bound a document's nesting has under [encoding](encoding.md), and a type past it **refuses at the load**, before it is read further.
+**A type is written one way**, the spelling the writer gives it: no white space at either end of the string or of a type inside it, and none before `?`, `<` or `>`; one space after `some`, `inout`, `var`, `const` and `isolated`, and before `throws`; `, ` between the types brackets or parentheses hold and between the failures `throws(…)` lists, `: ` between `some T` and its bound, ` & ` between the names a bound or a composition joins, and ` -> ` around the arrow. A procedure type's modifiers stand `const` first, and its failures and a composition's names in name order. Any other string for one type, `Dictionary<String,Int>` or `Array< Int>`, is a second spelling and **refuses at the load**, as a document saying a thing another way does under [the document format](document.md).
+
+**A type written inside another is one level deeper**: an element, a key or a value, a type a struct is applied to, a parameter or an answer, and what `?`, `inout` or `var` marks. A modifier and the parentheses that group add none. The levels count on from the containers around the type's string, against the bound of 128 a document's nesting has under [encoding](encoding.md): `Array<Int>` where 127 containers stand around its string is 128 deep, and `Array<Array<Int>>` there **refuses at the load**, before it is read further.
 
 ## Numbers and readings
 
@@ -93,7 +95,7 @@ Where a value meets a declaration (an argument, an answer, and a write into a bo
 
 **A mention applies the struct to one type per parameter**, `Box<Int>`, `Box<some T>` in a signature, and is the struct with each parameter read as the type at its position, so every judgement above asks that of its fields. A type standing at a bounded position answers the contracts its bound names, a type parameter by its own bounds, the way a map's key answers `Hashable`, or **refuses at the build** where the mention is written. A value of one carries the struct's name and its fields, and nothing of what it was applied to, as a list carries no element type.
 
-**Two mentions of one struct are one type only where they are applied to the same types.** What a reading says of one value and no declaration writes is read as what is declared: a whole literal as the number it names, `Never` as any type, and a procedure as its positions and answer, the constness, isolation and failing its signature declares meeting what is declared. So `Box<Int>` does not stand where `Box<Int?>` is declared, though a list of `Int` stands where a list of `Int?` is; two readings applied to different types join to `Any`; and a constant holding one is the struct its expression was judged as, or, judged at `Any`, what its value reads as, its fields' readings joined.
+**Two mentions of one struct are one type only where they are applied to the same types.** What a reading says of one value and no declaration writes is read as what is declared: a whole literal as the number it names, and `Never` as any type. A procedure type is the same type only where it declares the same constness, isolation and failing. So `Box<Int>` does not stand where `Box<Int?>` is declared, though a list of `Int` stands where a list of `Int?` is, and `Box<isolated () -> Int>` does not stand where `Box<() -> Int>` is; two readings applied to different types join to `Any`; and a constant holding one is the struct its expression was judged as, or, judged at `Any`, what its value reads as, its fields' readings joined.
 
 **A call filling a type parameter walks into what the struct is applied to**, as into a list's element.
 
@@ -137,7 +139,7 @@ Where a value meets a declaration (an argument, an answer, and a write into a bo
 
 **An associated type is bounded under `bounds`.** What a signature does not introduce, an associated type of one of its type parameters, it bounds under `bounds`, keyed by its label, `bounds: { "T.Item": Hashable }`, beside what `sameTypes` says of it, under *the associated types of a type parameter* below. A key of `bounds` naming a type parameter, one standing on a parameter no slot mentions, and a bound a slot writes beside an associated type, `some T.Item: Hashable`, each **refuse at the load**.
 
-**Only the declaring procedure, a head and a struct write a bound.** A bound written anywhere else a type is written, a field, an alias, a variable's or a name's declared type, a cast, a type member, a same type or a contract procedure's slot, **refuses at the load**, and a closure writes none, under [expressions](expression.md).
+**Only the declaring procedure, beside its first `some T` and under `bounds`, a head, a struct and a contract's `types` write a bound.** A bound written anywhere else a type is written, a field, an alias, a variable's or a name's declared type, a cast, a type member, a same type or a contract procedure's slot, **refuses at the load**, and a closure writes none, under [expressions](expression.md).
 
 **A closure written in the body reads the same names**: its `some T` is the `T` the caller filled, held to the bounds the declaration wrote, so a closure may send what the body around it may. One writing a `some T` the procedure around it does not declare, or written where no procedure is, **refuses at the load**.
 
@@ -199,7 +201,7 @@ Where a value meets a declaration (an argument, an answer, and a write into a bo
 
 **A document stands on** the documents declaring what it names, on the documents those stand on, and on the claims it and they import: a claim imported is the claim, every copy of it the link holds, and not what the documents making it stand on, since the copies are one claim.
 
-**A claim is imported by its pair.** A claim declares no name, so a document reaches one made in a document it names nothing of by writing the pair the claim is about among its `imports`, the type's name and the contract's with a colon and a space between, `"T.Card: App.Describable"`. An import naming a claim the document makes itself or one the language makes **refuses at the load**, and so does one written as neither a name nor a pair, or as a pair whose halves are no type's name and no contract's. One naming a claim no document in the link makes **refuses at the build**, as a name nothing declares does.
+**A claim is imported by its pair**, under *a claim among the imports* in [documents](document.md).
 
 **Whether a type answers a contract is judged at the build**, against the claims made within what the asking document stands on, the language's among them: a reading of a type no claim there is about, or one the claim's head does not take, answers nothing, and **refuses at the build** where it is handed. So what a document builds to is a fact of it and of what it stands on, whatever else the link holds.
 
@@ -213,7 +215,7 @@ Where a value meets a declaration (an argument, an answer, and a write into a bo
 
 ## Members
 
-**What a document gives a type under `procedures` are the type's members**, in the struct's declaration or in an extension. A member is a procedure under its type's name and its own with a dot between them, `Bank.Account.describe`, the spelling a call writes, and it stands among the procedures as any declaration does: a procedure declared under that spelling, or a second member under it, is one name with two declarers, and **refuses at the load** in one document and **at the build** across documents. A member is named by one identifier, so one named otherwise **refuses at the load**.
+**What a document gives a type under `procedures` are the type's members**, in the struct's declaration or in an extension. A member is a procedure under its type's name and its own with a dot between them, `Bank.Account.describe`, the spelling a call writes, and it stands among the procedures as any declaration does: a procedure declared under that spelling, or a second member under it, is one name with two declarers, and **refuses at the load** in one document and **at the build** across documents. A member's name holds the grammar [checking](checking.md) gives it.
 
 **A type answers a contract's procedure by its member of that name**, given in the claim's document or in one that document stands on. So a claim written in an extension stands on the members a struct's declaration gives, and a claim written in a struct's declaration takes no member from an extension, which stands on the declaration and not the other way round.
 
@@ -233,7 +235,7 @@ Where a value meets a declaration (an argument, an answer, and a write into a bo
 
 **A type gives one by its type member of that name**, written under `types` beside `procedures` where the document gives the type what it gives it, `types: { Item: "some T" }`, in a struct's declaration or in an extension. Under a head a type member writes the head's own type parameters, in a struct's declaration the struct's, and under a bare head elsewhere none, so one taking the type's parameters is given under a head applying the type.
 
-**A type member is named by one identifier**, and the type's name and its own with a dot between them, `App.Box.Item`, is its spelling, one type member per spelling: one document giving one type a type member under one name twice, under two heads, **refuses at the load**, and two documents giving it **refuse at the build**, as two declarers of a name do.
+**A type member's name holds the grammar [checking](checking.md) gives it**, and the type's name and its own with a dot between them, `App.Box.Item`, is its spelling, one type member per spelling: one document giving one type a type member under one name twice, under two heads, **refuses at the load**, and two documents giving it **refuse at the build**, as two declarers of a name do.
 
 **A claim holds where the type gives every type the contract asks**: for each, the type's type member of that name is given in the claim's document or in one it stands on, under a head taking every value the claim's head takes, and its type, read under the claim's head, answers what the contract holds it to. A claim that does not **refuses at the build, at the claim**. Two contracts asking one name ask one type member of a type answering both.
 
@@ -318,6 +320,7 @@ How a type is written:
 - `a-type-nested-past-the-bound-refuses`
 - `a-type-nested-to-the-bound-is-read`
 - `a-type-the-language-names-written-with-brackets-refuses`
+- `a-type-written-in-another-spacing-refuses`
 - `an-alias-applied-to-a-type-refuses`
 - `inout-written-on-a-name-refuses`
 - `inout-written-on-returns-refuses`
@@ -439,8 +442,10 @@ A struct may take type parameters:
 - `a-signature-applying-a-struct-to-a-parameter-its-bounds-do-not-hold-refuses`
 - `a-struct-another-document-declares-with-a-type-parameter-is-applied-here-answers`
 - `a-struct-applied-to-a-closure-from-a-call-stands-at-the-procedure-type-it-declares-answers`
+- `a-struct-applied-to-a-procedure-failing-nothing-where-it-is-applied-to-one-that-may-fail-refuses`
 - `a-struct-applied-to-a-type-its-bound-does-not-take-refuses`
 - `a-struct-applied-to-a-type-parameter-handed-in-place-takes-a-write-of-it-answers`
+- `a-struct-applied-to-an-isolated-procedure-where-it-is-applied-to-one-saying-nothing-refuses`
 - `a-struct-applied-to-int-handed-in-place-is-written-through-answers`
 - `a-struct-applied-to-int-where-it-is-applied-to-int-or-null-refuses`
 - `a-struct-applied-to-int-where-it-is-applied-to-text-refuses`

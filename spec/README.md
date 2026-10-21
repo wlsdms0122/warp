@@ -2,7 +2,7 @@
 
 Warp is a language, and this is where the language is. The directories beside this one hold implementations of it; nothing they do adds to the language. [Known costs](cost.md) says where a decision lands a cost on one.
 
-This describes **Warp 0.1.0**. Nothing has shipped: no document exists anywhere this specification does not control.
+This describes **Warp 0.1.0**.
 
 These pages are written the way a protocol is written: they say what a conforming implementation **must** do, field by field and byte by byte, and the cases under `conformance/` are the same statements as data.
 
@@ -39,7 +39,7 @@ the document                one format, this specification  ← what travels
         ↓
 the constructs              this specification              what a program is made of
         ↓
-a runtime                   Swift, Kotlin, …                implementations. Many, replaceable
+a runtime                   Swift                           implementations. One per implementation
 ```
 
 - A **front end** turns what a person wrote into a document. Its input syntax and its shorthands are its own; its output is this specification's. A front end owes nothing to any runtime and never produces anything runnable.
@@ -58,6 +58,8 @@ Refusals happen at one of three stages, and the stage is part of the behaviour:
 3. **Running**. The program was sound and the run went past what it holds: division by zero, overflow, an index or a key that is not there, a value its slot does not take at a door.
 
 **Note.** A paragraph opening with **Note.** is not a requirement. It says what a rule is for, what an implementation is likely to get wrong, or what the rule would cost written another way. Removing every one of them removes nothing an implementation is held to, and the cases under `conformance/` never measure one.
+
+**How the pages write examples.** A mapping in braces, `{ ref: "x" }`, shows a part of a document's tree, and brackets, `[1, "s"]`, show a list value; neither is an encoding. An example in parentheses, `(array 1 "s")`, is the text, under [the text](text.md).
 
 Two implementations that run the same programs identically and disagree about which programs to refuse, or *where*, are not the same language. A refusal at the run where another implementation refuses at the build means something already happened, and what already happened cannot be taken back.
 

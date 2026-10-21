@@ -24,5 +24,16 @@
     (extension
       (head T.Card)
       (satisfies App.Describable))))
-(tree (dictionary (entry "imports" (array "App.Describable.describe" "T.Card" "T.Card<Int>: App.Describable")) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "let" "card") (entry "value" (dictionary (entry "as" (dictionary (entry "of" (dictionary (entry "struct" (dictionary (entry "rank" 1))))) (entry "type" "T.Card")))))))) (entry "result" (dictionary (entry "call" (dictionary (entry "arguments" (array (dictionary (entry "ref" "card")))) (entry "procedure" "App.Describable.describe"))))) (entry "returns" "String"))))) (entry "warp" 1)))
+
+(program
+  (warp 1)
+  (import App.Describable.describe)
+  (import T.Card)
+  (import T.Card<Int> App.Describable)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let card (as (struct (field rank 1)) T.Card)))
+    (result (call App.Describable.describe card))))
 (expect (refuses load))

@@ -8,13 +8,16 @@
   (import Standard.Comparable.lessThan)
   (procedure App.f
     (parameter x (type (some T)))
+    (returns Bool)
     (body
       (let g
         (closure
           (parameter y (type (some T Standard.Comparable)))
+          (returns Bool)
           (result (call Standard.Comparable.lessThan y y)))))
     (result (apply g x)))
   (procedure entry
     (access public)
+    (returns Bool)
     (result (call App.f true))))
 (expect (refuses load))

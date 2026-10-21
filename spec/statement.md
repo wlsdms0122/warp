@@ -36,15 +36,15 @@ A statement with no naming key, `{ value: … }`, runs its expression and binds 
 
 **One name, several askers.** A statement's name names the statement, and every reader of it reads that one fact: an expression reads the value the statement bound; a body inside a binding construct reads the construct's own binding under it (`round.index`, `tried.message`); a `break` or `continue` names the loop statement it ends. These are not three names sharing a spelling. They are one name, asked three questions, and which question applies is fixed by where the asker stands. What keeps the readings from colliding is scope, stated per construct: a loop's round is readable in its condition and body, and its name reads nothing after it; an attempt's name binds the failure only while the rescue runs, so the binding reading and the value reading are never live at the same place.
 
-The construct keys, each detailed below and each written inside `value`: `call`, `conditional`, `loop`, `attempt`, `return`, `break`, `continue`. `value` holding anything else holds an expression, under [expressions](expression.md).
+The construct keys, each detailed below and each written inside `value`: `conditional`, `loop`, `attempt`, `return`, `break`, `continue`. `value` holding anything else holds an expression, under [expressions](expression.md), a call among them.
 
 ## Blocks
 
 A block is `{ body: <statements>, result: <expression> }`, both optional. A block answers what its `result` names, and nothing if it names nothing.
 
-## The constructs
+## Calls
 
-**`call`**. A procedure called, by its spelling or as a value:
+A call is an expression, `{ call: … }`, written wherever a value is wanted and as a statement's `value`. A procedure called, by its spelling or as a value:
 
 | key | takes | required |
 |---|---|---|
@@ -52,6 +52,8 @@ A block is `{ body: <statements>, result: <expression> }`, both optional. A bloc
 | `arguments` | list of expressions, by position: the first fills the first parameter, and so on, one for each parameter, under *one calling convention* in [procedures](procedure.md) | no |
 
 A body a procedure is to run travels as a **closure argument**, like any other value.
+
+## The constructs
 
 **`conditional`**
 
@@ -61,7 +63,7 @@ A body a procedure is to run travels as a **closure argument**, like any other v
 | `then` | statements | yes |
 | `else` | statements | no |
 
-A conditional is a statement: it **answers nothing**, and it **takes no name**. The condition chooses a way through the body. An arm is statements alone, with no `result` slot, because there is nowhere for a result to go. What an arm keeps it writes to an outer variable with `set`, and a value leaves the procedure through `return`. Both arms are checked whether or not they are taken.
+A conditional is a statement: it **answers nothing**, and it **takes no name**. The condition chooses a way through the body. An arm is statements. What an arm keeps it writes to an outer variable with `set`, and a value leaves the procedure through `return`. Both arms are checked whether or not they are taken.
 
 **`loop`**
 
@@ -108,9 +110,9 @@ The envelope is this specification's; what rides in `details` is the procedure's
 
 A procedure the host answers says what it may fail with the same way. **A procedure that says nothing fails nothing**, which is right for the many procedures that throw only at an author mistake, and a procedure that can fail says so. `Standard.Control.abort` says `aborted`; `Standard.Concurrent` says `concurrent_failed`, every piece's failure being gathered into that one. A piece that refuses at the run refuses the whole run instead, under [running](running.md), and the failures beside it are not gathered. A procedure that fails and does not say so has broken its contract, the same way one that holds state and calls itself isolated has.
 
-**`return`**. Answer the enclosing procedure from here. Takes an expression, or nothing (`return null`) to answer nothing. The answer must fit what the procedure declared. A `return` leaves early: one ending a procedure's or a closure's own body answers what its `result` would, and a body says what it answers one way, so that one **refuses at the load**.
+**`return`**. Answer the enclosing procedure from here. Takes an expression, or nothing (`return null`) to answer nothing. The answer must fit what the procedure declared.
 
-**`break`**. End a loop. **`continue`**. End the round and go on to the next; one ending a round's own body goes where the round goes on its own, and **refuses at the load**. Each takes a loop's statement name, or nothing for the nearest enclosing loop. Both **refuse at the load** when nothing encloses them: a closure runs away from where it was written, so the loops around the writing are not around the running, and neither crosses into a procedure written inside another.
+**`break`**. End a loop. **`continue`**. End the round and go on to the next. Each takes a loop's statement name, or nothing for the nearest enclosing loop. Both **refuse at the load** when nothing encloses them: a closure runs away from where it was written, so the loops around the writing are not around the running, and neither crosses into a procedure written inside another.
 
 Nothing may be written after a `return`, `break` or `continue` in the same body: it would never run, and the name it would bind would never bind. The same holds after a call whose callee declares `returns: Never`, at the build. The rule reaches through structure, because the fact does: a `conditional` both of whose arms leave never finishes either, so nothing may follow it. Held at the **load**, since the arms are text. A construct that can finish (a conditional with no `else`, a loop, an `attempt`, whose rescue may finish normally) is not a leave, however its bodies end.
 
@@ -121,7 +123,7 @@ Failing on purpose is a procedure, `Standard.Control.abort` under [the standard 
 What `conformance/` asks about this page, by the name each case's file carries.
 
 - `a-body-ending-in-a-call-answering-an-alias-of-never-answers-as-declared`
-- `a-body-ending-in-a-return-refuses`
+- `a-body-ending-in-a-return-answers-what-it-returns`
 - `a-body-failing-beyond-its-declaration-refuses`
 - `a-body-introduces-its-parameter-once`
 - `a-call-of-a-value-fails-with-what-its-slots-procedure-type-names`
@@ -192,9 +194,9 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-result-after-leaving-refuses`
 - `a-result-after-what-never-finishes-refuses`
 - `a-return-is-held-to-the-declaration`
-- `a-round-ending-in-continue-refuses`
-- `a-set-of-a-failures-name-refuses-at-the-load`
-- `a-set-of-a-rounds-name-refuses-at-the-load`
+- `a-round-ending-in-continue-goes-on-to-the-next`
+- `a-set-of-a-failures-name-refuses`
+- `a-set-of-a-rounds-name-refuses`
 - `a-set-without-a-value-refuses`
 - `a-statement-saying-two-things-refuses`
 - `a-statement-with-no-name-still-runs`

@@ -1,0 +1,5 @@
+(test 1)
+(name "a-procedure-type-node-writing-parameters-alone-refuses")
+(note "A procedure type writes `parameters` and `returns` both, or neither and a modifier. One writing `parameters` alone has no string, and refuses.")
+(text "(warp 1)\n\n(procedure App.f\n  (parameter f (type (procedure (parameters Int))))\n  (returns Int)\n  (result 1))")
+(expect (refuses load))
