@@ -138,7 +138,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-call-short-of-what-the-callee-takes-refuses`
 - `a-call-that-fails-after-writing-has-written`
 - `a-call-to-a-private-procedure-the-host-brings-refuses`
-- `a-closure-a-loop-round-writes-reading-a-module-variable-at-a-const-slot-refuses`
 - `a-closure-calling-a-module-constant-closure-carries-what-it-declares`
 - `a-closure-carries-what-a-captured-slot-said`
 - `a-closure-declared-const-reading-a-module-variable-refuses`
@@ -223,6 +222,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-value-read-as-any-handed-to-a-called-value-at-a-type-parameter-of-the-body-refuses`
 - `a-value-taking-a-value-reads-the-variable-its-slot-hands-in-place`
 - `a-variable-a-body-declares-is-its-own`
+- `a-variable-a-loop-round-rewrites-handed-at-a-const-slot-refuses`
 - `a-variable-declared-const-procedure-carries-that-into-a-capture`
 - `a-variable-handed-in-place-is-written-by-a-called-value`
 - `a-variable-handed-in-place-is-written-by-the-callee`
