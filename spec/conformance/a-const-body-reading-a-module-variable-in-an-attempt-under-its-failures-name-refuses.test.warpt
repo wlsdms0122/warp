@@ -9,14 +9,15 @@
     (const)
     (returns Any)
     (body
+      (var kept)
       (let tried
         (attempt
           (body
-            (let read (as tried String)))
-          (result read)
+            (let read (as tried String))
+            (set kept read))
           (rescue
-            (result "caught")))))
-    (result tried))
+            (set kept "caught")))))
+    (result kept))
   (procedure entry
     (access public)
     (returns Any)

@@ -63,8 +63,7 @@
           (apply bump n)
           (call Standard.Control.abort "x"))
         (rescue
-          (body
-            (apply bump n)))))
+          (apply bump n))))
     (result n))
   (procedure relay
     (parameter f (type (procedure (parameters) (failing (anything)) (returns Any))))

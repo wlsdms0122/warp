@@ -17,11 +17,12 @@
     (body
       (let b (type (named App.Box Int)) (struct (field item 1)))
       (let any (call App.hide b))
-      (let failed
+      (var failed)
+      (let caught
         (attempt
           (body
             (let c (as any (named App.Box String))))
           (rescue
-            (result (path failed (field type)))))))
+            (set failed (path caught (field type)))))))
     (result failed)))
 (expect (answers "cast_refused"))

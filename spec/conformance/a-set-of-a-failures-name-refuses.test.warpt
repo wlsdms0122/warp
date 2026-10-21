@@ -14,10 +14,7 @@
         (attempt
           (body
             (let n (as payload Int)))
-          (result 1)
           (rescue
-            (body
-              (set caught 1))
-            (result 2)))))
+            (set caught 1)))))
     (result caught)))
 (expect (refuses load))

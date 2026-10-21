@@ -9,11 +9,11 @@
     (access public)
     (returns String)
     (body
-      (let tried
-        (attempt
-          (body)
-          (result (call Standard.Control.abort "no"))
-          (rescue
-            (result "rescued")))))
+      (var tried)
+      (attempt
+        (body
+          (call Standard.Control.abort "no"))
+        (rescue
+          (set tried "rescued"))))
     (result tried)))
 (expect (answers "rescued"))

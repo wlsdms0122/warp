@@ -1,6 +1,6 @@
 (test 1)
 (name "an-attempts-name-reads-the-failure-inside-its-rescue")
-(note "An attempt's statement name is the failure inside its rescue and what the attempt answered after it. The `h` around the arm is another name and keeps its value.")
+(note "An attempt's statement name is the failure inside its rescue, and binds nothing after it. The `h` around the arm is another name and keeps its value.")
 
 (program
   (warp 1)
@@ -19,7 +19,6 @@
               (body
                 (call Standard.Control.abort "on purpose"))
               (rescue
-                (result (path h (field message))))))
-          (set inner h))))
+                (set inner (path h (field message)))))))))
     (result (dictionary (entry "inner" inner) (entry "outer" h)))))
 (expect (answers (dictionary (entry "inner" "on purpose") (entry "outer" "f"))))

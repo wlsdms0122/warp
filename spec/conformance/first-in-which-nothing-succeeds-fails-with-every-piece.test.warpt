@@ -13,7 +13,8 @@
     (returns (array String))
     (failing cast_refused)
     (body
-      (let tried
+      (var tried)
+      (let caught
         (attempt
           (body
             (call Standard.Concurrent.firstKeyed
@@ -33,11 +34,10 @@
                     (returns Int)
                     (failing aborted)
                     (body
-                      (call Standard.Control.abort "right")))))))
-          (result (array))
+                      (call Standard.Control.abort "right"))))))
+            (set tried (array)))
           (rescue
-            (body
-              (let failures (as (path tried (field details) (index "failures")) (dictionary String Any))))
-            (result (call Standard.Collection.keys failures))))))
+            (let failures (as (path caught (field details) (index "failures")) (dictionary String Any)))
+            (set tried (call Standard.Collection.keys failures))))))
     (result tried)))
 (expect (answers (array "left" "right")))

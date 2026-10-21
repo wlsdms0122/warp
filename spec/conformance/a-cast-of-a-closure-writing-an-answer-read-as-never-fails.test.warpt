@@ -30,12 +30,13 @@
     (access public)
     (returns Any)
     (body
-      (let tried
+      (var tried)
+      (let caught
         (attempt
           (body
-            (let k (call App.h)))
-          (result (array k))
+            (let k (call App.h))
+            (set tried (array k)))
           (rescue
-            (result (path tried (field type)))))))
+            (set tried (path caught (field type)))))))
     (result tried)))
 (expect (answers "cast_refused"))

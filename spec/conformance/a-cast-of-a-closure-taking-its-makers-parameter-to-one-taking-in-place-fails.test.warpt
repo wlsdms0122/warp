@@ -16,15 +16,16 @@
     (access public)
     (returns Any)
     (body
-      (let tried
+      (var tried)
+      (let caught
         (attempt
           (body
             (let a (type Any) (call App.mk (array "z")))
             (let f (as a (procedure (parameters (inout (array String))) (returns Int))))
             (var s (array "a"))
-            (apply f s))
-          (result s)
+            (apply f s)
+            (set tried s))
           (rescue
-            (result (path tried (field type)))))))
+            (set tried (path caught (field type)))))))
     (result tried)))
 (expect (answers "cast_refused"))

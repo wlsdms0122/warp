@@ -22,12 +22,12 @@
     (access public)
     (returns String)
     (body
-      (let tried
-        (attempt
-          (body
-            (let ran (call App.Runner.run 1)))
-          (result "ran")
-          (rescue
-            (result "caught")))))
+      (var tried)
+      (attempt
+        (body
+          (let ran (call App.Runner.run 1))
+          (set tried "ran"))
+        (rescue
+          (set tried "caught"))))
     (result tried)))
 (expect (answers "caught"))

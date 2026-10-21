@@ -1,6 +1,6 @@
 (test 1)
 (name "a-rescue-that-produces-nothing-refuses")
-(note "A rescue that produces nothing would swallow a failure into null without a trace.")
+(note "A rescue with no statement in it would drop a failure without a trace.")
 
 (program
   (warp 1)
@@ -8,12 +8,11 @@
     (access public)
     (returns Int)
     (body
-      (let tried
-        (attempt
-          (body
-            (let work 1))
-          (result work)
-          (rescue
-            (body)))))
+      (var tried)
+      (attempt
+        (body
+          (let work 1)
+          (set tried work))
+        (rescue)))
     (result tried)))
 (expect (refuses load))

@@ -17,7 +17,8 @@
     (const)
     (returns (nullable String))
     (body
-      (let failed
+      (var failed)
+      (let caught
         (attempt
           (body
             (call apply 1
@@ -29,6 +30,6 @@
                 (failing aborted)
                 (result (call Standard.Control.abort "no")))))
           (rescue
-            (result (path failed (field type)))))))
+            (set failed (path caught (field type)))))))
     (result failed)))
 (expect (answers "aborted"))

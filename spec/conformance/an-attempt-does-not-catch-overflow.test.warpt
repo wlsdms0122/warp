@@ -11,17 +11,17 @@
     (parameter loud (type Bool))
     (returns Any)
     (body
-      (let tried
-        (attempt
-          (body
-            (let sum (call Standard.Numeric.plus 9223372036854775807 1))
-            (conditional
-              (when loud)
-              (then
-                (call Standard.Control.abort "loud"))))
-          (result sum)
-          (rescue
-            (result "caught")))))
+      (var tried)
+      (attempt
+        (body
+          (let sum (call Standard.Numeric.plus 9223372036854775807 1))
+          (conditional
+            (when loud)
+            (then
+              (call Standard.Control.abort "loud")))
+          (set tried sum))
+        (rescue
+          (set tried "caught"))))
     (result tried)))
 (arguments (argument loud false))
 (expect (refuses run))

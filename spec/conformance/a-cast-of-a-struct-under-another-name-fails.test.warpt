@@ -14,12 +14,13 @@
     (failing cast_refused)
     (body
       (let held (as (struct (field balance 1)) Vault))
-      (let tried
+      (var tried)
+      (let caught
         (attempt
           (body
             (let got (call read held)))
           (rescue
-            (result (path tried (field type)))))))
+            (set tried (path caught (field type)))))))
     (result tried))
   (procedure read
     (parameter account)

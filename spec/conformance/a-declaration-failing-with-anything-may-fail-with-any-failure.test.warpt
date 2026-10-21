@@ -13,11 +13,11 @@
     (access public)
     (returns String)
     (body
-      (let tried
-        (attempt
-          (body
-            (call App.go))
-          (rescue
-            (result "caught")))))
+      (var tried)
+      (attempt
+        (body
+          (call App.go))
+        (rescue
+          (set tried "caught"))))
     (result tried)))
 (expect (answers "caught"))

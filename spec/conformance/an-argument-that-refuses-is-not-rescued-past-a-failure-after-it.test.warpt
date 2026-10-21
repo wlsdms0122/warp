@@ -15,11 +15,11 @@
     (access public)
     (returns Any)
     (body
-      (let tried
-        (attempt
-          (body
-            (call App.f (call Standard.Numeric.dividedBy 1 0) (call Standard.Control.abort "second")))
-          (rescue
-            (result "rescued")))))
+      (var tried)
+      (attempt
+        (body
+          (call App.f (call Standard.Numeric.dividedBy 1 0) (call Standard.Control.abort "second")))
+        (rescue
+          (set tried "rescued"))))
     (result tried)))
 (expect (refuses run))

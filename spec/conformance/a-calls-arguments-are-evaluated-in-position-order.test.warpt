@@ -15,19 +15,22 @@
     (access public)
     (returns (array (nullable String)))
     (body
-      (let declared
+      (var declared)
+      (let caught
         (attempt
           (body
             (let paired (call App.pair (call Standard.Control.abort "zulu") (call Standard.Control.abort "alpha"))))
           (rescue
-            (result (path declared (field message))))))
-      (let hosted
+            (set declared (path caught (field message))))))
+      (var hosted)
+      (let failed
         (attempt
           (body
             (let set (call Standard.Collection.setting (call Standard.Control.abort "map") (call Standard.Control.abort "key") 1)))
           (rescue
-            (result (path hosted (field message))))))
-      (let applied
+            (set hosted (path failed (field message))))))
+      (var applied)
+      (let failure
         (attempt
           (body
             (let f
@@ -38,6 +41,6 @@
                 (result first)))
             (let made (apply f (call Standard.Control.abort "first") (call Standard.Control.abort "second"))))
           (rescue
-            (result (path applied (field message)))))))
+            (set applied (path failure (field message)))))))
     (result (array declared hosted applied))))
 (expect (answers (array "zulu" "map" "first")))

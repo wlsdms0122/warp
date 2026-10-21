@@ -13,11 +13,12 @@
     (access public)
     (returns String)
     (body
-      (let tried
+      (var tried)
+      (let caught
         (attempt
           (body
             (call Standard.Control.abort "on purpose"))
           (rescue
-            (result (call App.told tried))))))
+            (set tried (call App.told caught))))))
     (result tried)))
 (expect (answers "on purpose"))

@@ -29,13 +29,14 @@
     (access public)
     (returns Any)
     (body
-      (let tried
+      (var tried)
+      (let caught
         (attempt
           (body
             (let p (type App.R) (struct (field x 1)))
-            (let r (call App.h p)))
-          (result (path r (field x)))
+            (let r (call App.h p))
+            (set tried (path r (field x))))
           (rescue
-            (result (path tried (field type)))))))
+            (set tried (path caught (field type)))))))
     (result tried)))
 (expect (answers "cast_refused"))

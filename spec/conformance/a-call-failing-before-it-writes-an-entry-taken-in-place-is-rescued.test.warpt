@@ -43,7 +43,6 @@
         (body
           (call App.touch (path d (index "new")) 2 3 true))
         (rescue
-          (body
-            (set seen "rescued")))))
+          (set seen "rescued"))))
     (result seen)))
 (expect (answers "rescued"))

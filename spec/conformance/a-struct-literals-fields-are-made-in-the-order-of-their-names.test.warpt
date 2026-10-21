@@ -12,12 +12,13 @@
     (access public)
     (returns String)
     (body
-      (let tried
+      (var tried)
+      (let caught
         (attempt
           (body
-            (let p (type App.P) (struct (field a (call Standard.Control.abort "a first")) (field b (call Standard.Control.abort "b first")))))
-          (result "no")
+            (let p (type App.P) (struct (field a (call Standard.Control.abort "a first")) (field b (call Standard.Control.abort "b first"))))
+            (set tried "no"))
           (rescue
-            (result (path tried (field message)))))))
+            (set tried (path caught (field message)))))))
     (result tried)))
 (expect (answers "a first"))

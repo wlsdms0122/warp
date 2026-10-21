@@ -9,12 +9,12 @@
     (parameter step (type (procedure (const) (parameters Int) (returns Int))))
     (returns Int)
     (body
-      (let r
-        (attempt
-          (body
-            (apply step of))
-          (rescue
-            (result 0)))))
+      (var r)
+      (attempt
+        (body
+          (apply step of))
+        (rescue
+          (set r 0))))
     (result 1))
   (procedure entry
     (access public)

@@ -16,12 +16,13 @@
             (returns Int)
             (failing aborted)
             (result (call Standard.Control.abort "no")))))
-      (let failed
+      (var failed)
+      (let caught
         (attempt
           (body
             (let f (as any (procedure (parameters Int) (returns Int)))))
           (rescue
-            (result (path failed (field type)))))))
+            (set failed (path caught (field type)))))))
     (result failed))
   (procedure hide
     (parameter v)

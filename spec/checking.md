@@ -85,9 +85,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-arm-that-leaves-keeps-the-other-write-definite`
 - `an-array-literal-joins-its-elements`
 - `an-attempt-joins-its-body-with-its-rescue`
-- `an-attempt-whose-rescue-answers-a-list-literal-of-other-elements-refuses`
-- `an-attempt-whose-ways-both-fit-a-slot-answers`
-- `an-attempt-written-into-a-slot-holds-each-way-on-its-own-refuses`
 - `an-empty-name-refuses`
 - `an-untaken-arm-is-checked-too`
 - `inout-written-outside-a-parameter-refuses`

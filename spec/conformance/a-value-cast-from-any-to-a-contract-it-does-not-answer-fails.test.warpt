@@ -20,12 +20,13 @@
     (parameter left)
     (returns (nullable String))
     (body
-      (let tried
+      (var tried)
+      (let caught
         (attempt
           (body
             (let got (call App.Described.describe (as left App.Described))))
           (rescue
-            (result (path tried (field type)))))))
+            (set tried (path caught (field type)))))))
     (result tried)))
 (arguments (argument left true))
 (expect (answers "cast_refused"))

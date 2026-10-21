@@ -28,16 +28,17 @@
     (access public)
     (returns Any)
     (body
-      (let tried
+      (var tried)
+      (let caught
         (attempt
           (body
             (let p (call App.mk 1))
             (let a (type Any) (path p (field s)))
             (let h (as a (procedure (parameters String) (returns Int))))
             (let z (apply h "s"))
-            (let r (apply (as (path p (field g)) (procedure (parameters) (returns Int))))))
-          (result r)
+            (let r (apply (as (path p (field g)) (procedure (parameters) (returns Int)))))
+            (set tried r))
           (rescue
-            (result (path tried (field type)))))))
+            (set tried (path caught (field type)))))))
     (result tried)))
 (expect (answers "cast_refused"))

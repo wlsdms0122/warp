@@ -22,11 +22,12 @@
     (access public)
     (returns (nullable String))
     (body
-      (let failed
+      (var failed)
+      (let caught
         (attempt
           (body
             (call App.Checked.check 1))
           (rescue
-            (result (path failed (field type)))))))
+            (set failed (path caught (field type)))))))
     (result failed)))
 (expect (answers "aborted"))

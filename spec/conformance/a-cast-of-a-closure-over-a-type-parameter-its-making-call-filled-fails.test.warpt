@@ -18,11 +18,12 @@
     (returns (nullable String))
     (body
       (let a (type Any) (call App.mk 5))
-      (let r
+      (var r)
+      (let caught
         (attempt
           (body
             (let f (as a (procedure (parameters Double) (returns Int)))))
           (rescue
-            (result (path r (field type)))))))
+            (set r (path caught (field type)))))))
     (result r)))
 (expect (answers "cast_refused"))

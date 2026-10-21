@@ -37,13 +37,14 @@
     (access public)
     (returns Any)
     (body
-      (let tried
+      (var tried)
+      (let caught
         (attempt
           (body
             (var s (array "a"))
-            (call App.put "b" 5 s))
-          (result s)
+            (call App.put "b" 5 s)
+            (set tried s))
           (rescue
-            (result (path tried (field type)))))))
+            (set tried (path caught (field type)))))))
     (result tried)))
 (expect (answers "cast_refused"))

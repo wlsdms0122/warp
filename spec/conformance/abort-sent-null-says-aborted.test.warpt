@@ -10,11 +10,12 @@
     (returns (dictionary String String))
     (body
       (var nothing)
-      (let tried
+      (var tried)
+      (let caught
         (attempt
           (body
             (call Standard.Control.abort nothing))
           (rescue
-            (result (dictionary (entry "message" (path tried (field message))) (entry "type" (path tried (field type)))))))))
+            (set tried (dictionary (entry "message" (path caught (field message))) (entry "type" (path caught (field type)))))))))
     (result tried)))
 (expect (answers (dictionary (entry "message" "aborted") (entry "type" "aborted"))))

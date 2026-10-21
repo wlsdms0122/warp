@@ -232,7 +232,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `an-attempt-around-a-call-of-a-value-whose-type-fails-with-nothing-refuses`
 - `an-attempt-body-reads-the-variable-its-statement-name-shadows`
 - `an-attempt-catches-a-cast-that-did-not-match`
-- `an-attempt-under-a-set-binds-no-failure`
+- `an-attempt-under-a-set-refuses`
 - `an-attempt-without-a-rescue-refuses`
 - `an-attempt-written-nameless-binds-no-failure`
 - `an-attempts-name-reads-the-failure-inside-its-rescue`
