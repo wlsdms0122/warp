@@ -145,8 +145,10 @@ Text:
 - `a-bare-token-running-into-a-quote-refuses`
 - `a-form-feed-between-tokens-refuses`
 - `a-fraction-ending-at-its-point-refuses`
+- `a-fraction-in-the-farther-of-two-shortest-decimals-refuses`
 - `a-fraction-not-in-its-one-writing-refuses`
 - `a-fraction-reads-by-its-point-or-exponent`
+- `a-fraction-spells-as-the-nearer-of-two-shortest-decimals`
 - `a-list-left-open-refuses`
 - `a-name-in-backticks-escapes-a-backtick-and-not-a-quote`
 - `a-name-in-backticks-holding-nothing-refuses`
