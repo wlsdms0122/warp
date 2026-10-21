@@ -1,0 +1,30 @@
+(test 1)
+(name "an-operand-calling-through-a-value-indexed-by-a-module-variable-refuses")
+(note "Which value a call of a value calls is read like any name. A body reading a module variable to pick the entry it calls out of a `Dictionary<String, const Procedure>` answers by the run's state, so it does not answer without running, and an operand may not call it.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (var mode "k")
+  (procedure asking
+    (parameter body (type (dictionary String (procedure (const) (parameters Int) (returns Int)))))
+    (returns Int)
+    (body
+      (let a (apply (path body (index mode)) 1))
+      (return a)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return
+        (call Standard.Numeric.plus
+          (call asking
+            (struct
+              (field k
+                (closure
+                  (parameter x (type Int))
+                  (returns Int)
+                  (body
+                    (return x))))))
+          1)))))
+(expect (refuses build))
