@@ -1,0 +1,26 @@
+(test 1)
+(name "a-rescue-reads-what-the-body-wrote-before-it-failed")
+(note "The rescue runs where the body failed, so it reads what the body wrote on the way there. `kept` starts null and the body writes it an int before the cast that fails, so inside the rescue `kept` reads `Int` and a slot declared `Int` takes it.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter payload)
+    (returns Int)
+    (body
+      (var kept)
+      (var said 0)
+      (attempt
+        (body
+          (set kept 1)
+          (let read (as payload Int)))
+        (rescue
+          (set said (call wants kept)))))
+    (result said))
+  (procedure wants
+    (parameter it (type Int))
+    (returns Int)
+    (result it)))
+(arguments (argument payload "not a whole number"))
+(expect (answers 1))

@@ -74,10 +74,12 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-procedure-only-an-untaken-arm-sends-is-still-needed`
 - `a-procedure-two-modules-declare-refuses`
 - `a-reference-to-a-statement-written-later-refuses`
+- `a-rescue-reads-what-the-body-wrote-before-it-failed`
 - `a-statement-name-no-path-reads-refuses`
 - `a-struct-type-field-no-path-reads-refuses`
 - `a-type-named-beginning-self-refuses`
 - `a-value-name-ending-in-a-line-break-refuses`
+- `a-variable-both-ways-of-an-attempt-write-reads-its-type-after-it`
 - `a-write-a-called-value-answers-in-a-loop-reads-what-its-slot-wrote`
 - `a-write-a-loop-round-makes-reads-back-nullable`
 - `a-write-an-attempt-body-makes-reads-back-nullable`
