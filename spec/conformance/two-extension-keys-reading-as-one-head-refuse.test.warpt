@@ -1,0 +1,20 @@
+(test 1)
+(name "two-extension-keys-reading-as-one-head-refuse")
+(note "A head's bounds on one type parameter are a set, so `Array<some T: App.B & App.A>` reads as the head `Array<some T: App.A & App.B>`, and the document writes two extensions under one head, though each gives its own contract.")
+
+(program
+  (warp 1)
+  (contract App.A)
+  (contract App.B)
+  (extension
+    (head (array (some T App.A App.B)))
+    (satisfies App.A))
+  (extension
+    (head (array (some T App.B App.A)))
+    (satisfies App.B))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

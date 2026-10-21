@@ -1,0 +1,16 @@
+(test 1)
+(name "a-struct-listing-a-type-parameter-twice-refuses")
+(note "A struct lists each of its type parameters once: `App.Box` lists `T` twice, which would be one name introduced two ways.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (typeParameter T)
+    (field item (some T)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

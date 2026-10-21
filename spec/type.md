@@ -459,6 +459,7 @@ A struct may take type parameters:
 - `a-struct-from-outside-whose-fields-join-to-what-its-bound-does-not-take-refuses`
 - `a-struct-holding-a-procedure-of-its-parameter-does-not-stand-applied-to-another-type-refuses`
 - `a-struct-holding-an-empty-list-written-into-one-handed-in-place-answers`
+- `a-struct-listing-a-type-parameter-twice-refuses`
 - `a-struct-listing-no-type-parameters-refuses`
 - `a-struct-literal-handed-at-a-struct-of-a-type-parameter-fills-it-from-its-fields-answers`
 - `a-struct-literal-holding-an-empty-list-beside-an-int-fills-a-call-answers`
@@ -676,6 +677,7 @@ Heads:
 - `a-value-outside-a-head-bounding-its-parameter-refuses`
 - `an-extension-of-a-struct-the-document-declares-under-a-head-applying-it-answers`
 - `an-optional-cast-to-a-contract-of-a-box-of-a-box-of-what-is-not-hashable-reads-null`
+- `two-extension-keys-reading-as-one-head-refuse`
 - `values-from-outside-meeting-at-a-bounded-parameter-are-one-type-where-they-are-of-one-struct`
 
 A claim holds to members:
@@ -878,6 +880,7 @@ Names:
 - `a-contract-procedure-named-with-a-dot-refuses`
 - `a-name-declared-as-both-a-type-and-a-contract-refuses`
 - `a-parameter-naming-a-type-nothing-declares-refuses`
+- `a-procedure-declared-under-a-contracts-procedure-spelling-refuses`
 - `a-type-declared-under-a-name-the-language-gives-refuses`
 - `a-type-declared-under-a-word-a-type-spelling-writes-refuses`
 - `a-type-declared-under-throws-refuses`
