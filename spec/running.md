@@ -49,7 +49,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-piece-calling-a-procedure-that-writes-a-module-variable-refuses`
 - `a-piece-calling-an-isolated-module-variable-stands`
 - `a-piece-calling-an-isolated-procedure-read-out-of-a-struct-field-stands`
-- `a-piece-of-first-that-writes-what-it-captured-refuses`
+- `a-piece-of-first-not-declaring-isolated-refuses`
 - `a-rescue-does-not-hold-a-piece-that-refuses`
 - `a-run-given-an-argument-its-entry-does-not-declare-refuses`
 - `a-run-given-nothing-for-a-nullable-parameter-refuses`
