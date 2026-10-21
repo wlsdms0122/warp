@@ -55,6 +55,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-break-from-a-rescue-carries-what-the-body-did-before-failing`
 - `a-declaration-is-named-by-its-whole-spelling`
 - `a-document-sending-a-contract-procedure-stands-before-a-later-one`
+- `a-document-sending-to-one-laid-after-it-refuses`
 - `a-failure-in-a-loop-condition-carries-the-rounds-before-it`
 - `a-failure-in-a-loop-round-carries-the-rounds-before-it`
 - `a-list-holding-a-struct-of-more-fields-than-a-struct-type-refuses`
@@ -91,5 +92,4 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `arithmetic-on-a-name-only-an-attempt-body-writes-refuses`
 - `inout-written-outside-a-parameter-refuses`
 - `one-document-handed-twice-refuses`
-- `two-documents-that-need-each-other-refuse`
 - `var-written-outside-a-declared-field-refuses`
