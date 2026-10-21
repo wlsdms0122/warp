@@ -188,7 +188,6 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-rescue-reads-the-type-a-cast-to-an-alias-reads-as`
 - `a-rescue-reads-what-a-cast-refused`
 - `a-rescue-reads-what-a-failure-carried`
-- `a-rescue-that-answers-nothing-answers-null`
 - `a-rescue-that-produces-nothing-refuses`
 - `a-result-after-leaving-refuses`
 - `a-result-after-what-never-finishes-refuses`
@@ -204,6 +203,7 @@ What `conformance/` asks about this page, by the name each case's file carries.
 - `a-taken-variable-a-loop-writes-is-read-after-it-as-written`
 - `a-var-field-lets-a-path-through`
 - `a-variable-a-closure-captured-is-not-retyped-after`
+- `a-variable-only-an-attempts-body-writes-is-null-after-its-rescue`
 - `a-walk-is-a-loop-over-the-count`
 - `a-way-ending-in-a-call-answering-an-alias-of-never-contributes-nothing`
 - `a-way-that-leaves-is-not-met-by-the-ways-that-go-on`

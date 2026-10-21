@@ -321,6 +321,7 @@ How a type is written:
 - `a-type-nested-to-the-bound-is-read`
 - `a-type-the-language-names-written-with-brackets-refuses`
 - `a-type-written-in-another-spacing-refuses`
+- `a-whole-literal-one-way-writes-beside-a-fraction-is-no-fraction-refuses`
 - `an-alias-applied-to-a-type-refuses`
 - `inout-written-on-a-name-refuses`
 - `inout-written-on-returns-refuses`
@@ -333,7 +334,6 @@ Numbers and readings:
 - `a-list-of-two-maps-whose-keys-join-to-any-holds-each-as-any-refuses`
 - `a-map-literal-reads-a-whole-key-beside-a-fraction-as-the-fraction`
 - `a-struct-literal-beside-a-declared-struct-at-a-type-parameter-reads-as-that-struct-answers`
-- `a-whole-literal-an-attempt-answers-beside-a-fraction-is-no-fraction-refuses`
 - `a-whole-literal-at-a-fraction-slot-is-the-fraction`
 - `a-whole-literal-beside-a-fraction-at-a-bounded-parameter-is-held-to-the-bound-as-the-fraction`
 - `a-whole-literal-between-the-brackets-of-a-map-keyed-by-fractions-is-the-fraction`
