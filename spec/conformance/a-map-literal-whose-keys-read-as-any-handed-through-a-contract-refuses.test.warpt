@@ -8,5 +8,6 @@
   (procedure entry
     (access public)
     (returns Int)
-    (result (call Standard.Collection.count (dictionary (entry 1 "a") (entry "b" 2))))))
+    (body
+      (return (call Standard.Collection.count (dictionary (entry 1 "a") (entry "b" 2)))))))
 (expect (refuses build))

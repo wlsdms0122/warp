@@ -9,6 +9,6 @@
     (returns (dictionary Double String))
     (body
       (var d (type (dictionary Double String)) (dictionary))
-      (set (path d (index 1)) "one"))
-    (result d)))
+      (set (path d (index 1)) "one")
+      (return d))))
 (expect (answers (dictionary (entry 1.0 "one"))))

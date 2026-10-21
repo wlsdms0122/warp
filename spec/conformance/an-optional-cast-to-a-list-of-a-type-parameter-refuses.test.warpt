@@ -9,13 +9,13 @@
     (parameter raw)
     (returns (nullable (array (some T))))
     (body
-      (let y (as? raw (array (some T)))))
-    (result y))
+      (let y (as? raw (array (some T))))
+      (return y)))
   (procedure entry
     (access public)
     (returns (nullable (array Int)))
     (body
       (let raw (type Any) (array "7"))
-      (let xs (call App.decode 0 raw)))
-    (result xs)))
+      (let xs (call App.decode 0 raw))
+      (return xs))))
 (expect (refuses load))

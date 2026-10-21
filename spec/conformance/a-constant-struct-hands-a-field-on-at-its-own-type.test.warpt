@@ -14,7 +14,8 @@
             (isolated)
             (parameter x (type Int))
             (returns Int)
-            (result x)))
+            (body
+              (return x))))
         (field b
           (closure
             (parameter x (type Int))
@@ -27,9 +28,10 @@
                   (isolated)
                   (parameter q (type Int))
                   (returns Int)
-                  (result q)))
-              (let z (apply h x)))
-            (result z))))
+                  (body
+                    (return q))))
+              (let z (apply h x))
+              (return z)))))
       App.K))
   (struct App.K
     (field a (procedure (const) (isolated) (parameters Int) (returns Int)))
@@ -38,5 +40,6 @@
     (access public)
     (const)
     (returns (array Int))
-    (result (call Standard.Collection.map (array 1) (path k (field a))))))
+    (body
+      (return (call Standard.Collection.map (array 1) (path k (field a)))))))
 (expect (answers (array 1)))

@@ -38,6 +38,6 @@
             (set tried (array)))
           (rescue
             (let failures (as (path caught (field details) (index "failures")) (dictionary String Any)))
-            (set tried (call Standard.Collection.keys failures))))))
-    (result tried)))
+            (set tried (call Standard.Collection.keys failures)))))
+      (return tried))))
 (expect (answers (array "left" "right")))

@@ -7,9 +7,11 @@
   (procedure App.takes
     (parameter it)
     (returns Any)
-    (result it))
+    (body
+      (return it)))
   (procedure entry
     (access public)
     (returns Any)
-    (result (call App.takes))))
+    (body
+      (return (call App.takes)))))
 (expect (refuses build))

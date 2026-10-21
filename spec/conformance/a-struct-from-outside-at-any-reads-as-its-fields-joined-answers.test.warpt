@@ -14,7 +14,7 @@
     (returns (nullable Int))
     (failing cast_refused)
     (body
-      (let q (as p (named App.Pair (nullable Int)))))
-    (result (path q (field b)))))
+      (let q (as p (named App.Pair (nullable Int))))
+      (return (path q (field b))))))
 (arguments (argument p (struct App.Pair (field a 1) (field b null))))
 (expect (answers null))

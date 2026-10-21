@@ -9,13 +9,13 @@
     (parameter x (type Int))
     (returns (array (dictionary String (array String))))
     (body
-      (let k x))
-    (result (array (dictionary (entry "a" (array))) (dictionary (entry "a" (array 1))))))
+      (let k x)
+      (return (array (dictionary (entry "a" (array))) (dictionary (entry "a" (array 1)))))))
   (procedure entry
     (access public)
     (returns Int)
     (body
       (let r (call App.g 1))
-      (let n (call Standard.Collection.count r)))
-    (result n)))
+      (let n (call Standard.Collection.count r))
+      (return n))))
 (expect (refuses build))

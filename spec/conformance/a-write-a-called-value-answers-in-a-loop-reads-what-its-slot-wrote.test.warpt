@@ -18,11 +18,12 @@
         (closure
           (parameter c (type App.Counter))
           (returns App.Counter)
-          (result (struct (field at (call Standard.Numeric.plus (path c (field at)) 1))))))
+          (body
+            (return (struct (field at (call Standard.Numeric.plus (path c (field at)) 1)))))))
       (let w
         (loop
           (while (call Standard.Comparable.lessThan (path c (field at)) 3))
           (body
-            (set c (apply next c))))))
-    (result (path c (field at)))))
+            (set c (apply next c)))))
+      (return (path c (field at))))))
 (expect (answers 3))

@@ -17,13 +17,16 @@
     (procedure describe
       (parameter of (type (named App.Box (some T))))
       (returns String)
-      (result "box")))
+      (body
+        (return "box"))))
   (procedure entry
     (access public)
     (returns String)
-    (result (call relay (struct (field item 1)))))
+    (body
+      (return (call relay (struct (field item 1))))))
   (procedure relay
     (parameter b (type (named App.Box (some T Hashable))))
     (returns String)
-    (result (call App.Describable.describe b))))
+    (body
+      (return (call App.Describable.describe b)))))
 (expect (answers "box"))

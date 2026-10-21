@@ -15,15 +15,15 @@
         (closure
           (returns Int)
           (body
-            (set cell junk))
-          (result 0)))
-      (let z (apply c)))
-    (result cell))
+            (set cell junk)
+            (return 0))))
+      (let z (apply c))
+      (return cell)))
   (procedure entry
     (access public)
     (returns Int)
     (failing (anything))
     (body
-      (let r (call App.g 1 "s")))
-    (result r)))
+      (let r (call App.g 1 "s"))
+      (return r))))
 (expect (refuses build))

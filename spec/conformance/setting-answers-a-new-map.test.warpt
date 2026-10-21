@@ -10,6 +10,6 @@
     (returns (array (dictionary String Int)))
     (body
       (let data (dictionary (entry "a" 1)))
-      (let grown (call Standard.Collection.setting data "b" 2)))
-    (result (array grown data))))
+      (let grown (call Standard.Collection.setting data "b" 2))
+      (return (array grown data)))))
 (expect (answers (array (dictionary (entry "a" 1) (entry "b" 2)) (dictionary (entry "a" 1)))))

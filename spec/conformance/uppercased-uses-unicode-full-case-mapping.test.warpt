@@ -8,5 +8,6 @@
   (procedure entry
     (access public)
     (returns String)
-    (result (call Standard.Text.uppercased "ß"))))
+    (body
+      (return (call Standard.Text.uppercased "ß")))))
 (expect (answers "SS"))

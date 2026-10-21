@@ -8,8 +8,8 @@
     (procedure K.make
       (returns Any)
       (body
-        (let m (type (dictionary Hashable Int)) (dictionary (entry 1 1) (entry "a" 2))))
-      (result m))))
+        (let m (type (dictionary Hashable Int)) (dictionary (entry 1 1) (entry "a" 2)))
+        (return m)))))
 
 (program
   (warp 1)
@@ -19,5 +19,6 @@
   (procedure entry
     (access public)
     (returns Int)
-    (result (call Standard.Collection.count made))))
+    (body
+      (return (call Standard.Collection.count made)))))
 (expect (refuses build))

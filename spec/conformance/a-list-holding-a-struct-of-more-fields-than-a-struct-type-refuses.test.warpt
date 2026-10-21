@@ -9,13 +9,14 @@
   (procedure App.g
     (parameter ps (type (array App.A)))
     (returns Int)
-    (result 0))
+    (body
+      (return 0)))
   (procedure entry
     (access public)
     (returns Int)
     (body
       (let i 1)
       (let t "s")
-      (let r (call App.g (array (struct (field a i)) (struct (field a i) (field b t))))))
-    (result r)))
+      (let r (call App.g (array (struct (field a i)) (struct (field a i) (field b t)))))
+      (return r))))
 (expect (refuses build))

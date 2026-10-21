@@ -20,6 +20,7 @@
             (parameter item (type Int))
             (parameter index (type Int))
             (returns Int)
-            (result item)))))
-    (result walked)))
+            (body
+              (return item)))))
+      (return walked))))
 (expect (answers (array 1 2 3)))

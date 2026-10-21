@@ -11,7 +11,8 @@
         (access public)
         (parameter n (type Int))
         (returns Int)
-        (result 2)))))
+        (body
+          (return 2))))))
 
 (program
   (warp 1)
@@ -21,9 +22,11 @@
       (access public)
       (parameter n (type Int))
       (returns Int)
-      (result 3)))
+      (body
+        (return 3))))
   (procedure entry
     (access public)
     (returns Int)
-    (result 1)))
+    (body
+      (return 1))))
 (expect (refuses build))

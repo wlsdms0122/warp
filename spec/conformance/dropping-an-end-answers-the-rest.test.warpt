@@ -12,6 +12,6 @@
     (body
       (let items (array 1 2 3))
       (let head (call Standard.Collection.dropFirst items))
-      (let tail (call Standard.Collection.dropLast items)))
-    (result (array head tail))))
+      (let tail (call Standard.Collection.dropLast items))
+      (return (array head tail)))))
 (expect (answers (array (array 2 3) (array 1 2))))

@@ -11,6 +11,7 @@
     (access public)
     (parameter who (type Someone))
     (returns Person)
-    (result who)))
+    (body
+      (return who))))
 (arguments (argument who (struct Someone (field name "a"))))
 (expect (answers (struct Person (field name "a"))))

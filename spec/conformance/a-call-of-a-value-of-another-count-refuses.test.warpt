@@ -14,7 +14,8 @@
           (parameter first (type Int))
           (parameter second (type String))
           (returns Int)
-          (result first)))
-      (let made (apply pair 1)))
-    (result made)))
+          (body
+            (return first))))
+      (let made (apply pair 1))
+      (return made))))
 (expect (refuses build))

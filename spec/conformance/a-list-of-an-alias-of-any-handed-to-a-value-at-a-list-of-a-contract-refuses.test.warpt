@@ -19,6 +19,7 @@
         (closure
           (parameter p)
           (returns Any)
-          (result p))))
-    (result (apply g d))))
+          (body
+            (return p))))
+      (return (apply g d)))))
 (expect (refuses build))

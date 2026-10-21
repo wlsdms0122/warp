@@ -12,13 +12,14 @@
     (parameter x (type (some T)))
     (parameter y (type (some T)))
     (returns (some T))
-    (result y))
+    (body
+      (return y)))
   (procedure entry
     (access public)
     (returns Int)
     (body
       (let p (type App.P) (struct (field a 1)))
       (let s (type App.S) (struct (field b "hi")))
-      (let r (call App.same (array p) (array (struct (field a 2)) s))))
-    (result (path r (index 1) (field a)))))
+      (let r (call App.same (array p) (array (struct (field a 2)) s)))
+      (return (path r (index 1) (field a))))))
 (expect (refuses build))

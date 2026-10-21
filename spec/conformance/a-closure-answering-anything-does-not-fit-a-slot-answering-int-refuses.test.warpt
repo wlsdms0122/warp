@@ -9,8 +9,8 @@
     (parameter f (type (procedure (parameters) (returns Int))))
     (returns Any)
     (body
-      (let v (apply f)))
-    (result (call Standard.Collection.appending (array 1) v)))
+      (let v (apply f))
+      (return (call Standard.Collection.appending (array 1) v))))
   (procedure entry
     (access public)
     (returns Any)
@@ -19,6 +19,7 @@
         (call App.callIt
           (closure
             (returns Any)
-            (result "s")))))
-    (result xs)))
+            (body
+              (return "s")))))
+      (return xs))))
 (expect (refuses build))

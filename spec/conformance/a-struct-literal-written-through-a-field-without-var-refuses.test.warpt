@@ -13,6 +13,6 @@
     (returns Never)
     (body
       (var w (type App.W) (struct (field p (struct (field k "x")))))
-      (set (path w (field p)) (struct (field k "y"))))
-    (result (path w (field p) (field k)))))
+      (set (path w (field p)) (struct (field k "y")))
+      (return (path w (field p) (field k))))))
 (expect (refuses build))

@@ -24,7 +24,8 @@
         (access public)
         (parameter of (type (named App.Box (some T))))
         (returns String)
-        (result "box")))))
+        (body
+          (return "box"))))))
 
 (program
   (warp 1)
@@ -36,6 +37,6 @@
     (returns (nullable Lib.Describable))
     (failing cast_refused)
     (body
-      (let a (type Any) (as (struct (field item (struct (field item (struct (field x 1)))))) (named App.Box (named App.Box App.Plain)))))
-    (result (as? a Lib.Describable))))
+      (let a (type Any) (as (struct (field item (struct (field item (struct (field x 1)))))) (named App.Box (named App.Box App.Plain))))
+      (return (as? a Lib.Describable)))))
 (expect (answers null))

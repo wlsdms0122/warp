@@ -19,6 +19,6 @@
               (body
                 (call Standard.Control.abort "on purpose"))
               (rescue
-                (set inner (path h (field message)))))))))
-    (result (dictionary (entry "inner" inner) (entry "outer" h)))))
+                (set inner (path h (field message))))))))
+      (return (dictionary (entry "inner" inner) (entry "outer" h))))))
 (expect (answers (dictionary (entry "inner" "on purpose") (entry "outer" "f"))))

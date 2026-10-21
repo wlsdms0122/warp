@@ -8,5 +8,6 @@
   (procedure entry
     (access public)
     (returns String)
-    (result (call Standard.Text.decoded (array 104 105) "utf8"))))
+    (body
+      (return (call Standard.Text.decoded (array 104 105) "utf8")))))
 (expect (answers "hi"))

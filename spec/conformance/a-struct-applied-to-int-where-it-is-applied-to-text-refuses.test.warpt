@@ -12,6 +12,6 @@
     (returns Int)
     (body
       (let b (type (named App.Box Int)) (struct (field item 1)))
-      (let c (type (named App.Box String)) b))
-    (result 1)))
+      (let c (type (named App.Box String)) b)
+      (return 1))))
 (expect (refuses build))

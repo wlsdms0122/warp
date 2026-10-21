@@ -15,6 +15,6 @@
           (body
             (call Standard.Control.abort "on purpose"))
           (rescue
-            (set tried (dictionary (entry "message" (path caught (field message))) (entry "type" (path caught (field type)))))))))
-    (result tried)))
+            (set tried (dictionary (entry "message" (path caught (field message))) (entry "type" (path caught (field type))))))))
+      (return tried))))
 (expect (answers (dictionary (entry "message" "on purpose") (entry "type" "aborted"))))

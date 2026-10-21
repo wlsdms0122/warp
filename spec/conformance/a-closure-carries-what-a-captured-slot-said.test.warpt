@@ -27,22 +27,24 @@
                 (isolated)
                 (returns Int)
                 (body
-                  (let answered (apply value item)))
-                (result answered)))
-            (set pieces (call Standard.Collection.appending pieces piece))))))
-    (result (call Standard.Concurrent.all pieces)))
+                  (let answered (apply value item))
+                  (return answered))))
+            (set pieces (call Standard.Collection.appending pieces piece)))))
+      (return (call Standard.Concurrent.all pieces))))
   (procedure entry
     (access public)
     (isolated)
     (returns (array Int))
     (failing concurrent_failed)
-    (result
-      (call App.eachAtOnce
-        (array 1 2 3)
-        (closure
-          (const)
-          (isolated)
-          (parameter item (type Int))
-          (returns Int)
-          (result (call Standard.Numeric.times item 2)))))))
+    (body
+      (return
+        (call App.eachAtOnce
+          (array 1 2 3)
+          (closure
+            (const)
+            (isolated)
+            (parameter item (type Int))
+            (returns Int)
+            (body
+              (return (call Standard.Numeric.times item 2)))))))))
 (expect (answers (array 2 4 6)))

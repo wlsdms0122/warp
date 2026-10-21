@@ -7,9 +7,11 @@
   (procedure entry
     (access public)
     (returns (array Double))
-    (result (call keep x"6869")))
+    (body
+      (return (call keep x"6869"))))
   (procedure keep
     (parameter value (type (array Double)))
     (returns (array Double))
-    (result value)))
+    (body
+      (return value))))
 (expect (refuses build))

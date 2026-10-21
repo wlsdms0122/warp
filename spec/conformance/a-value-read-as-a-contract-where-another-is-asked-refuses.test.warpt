@@ -13,13 +13,16 @@
   (procedure App.f
     (parameter v (type (composition App.A App.B)))
     (returns Int)
-    (result (call App.g v)))
+    (body
+      (return (call App.g v))))
   (procedure App.g
     (parameter c (type App.C))
     (returns Int)
-    (result 1))
+    (body
+      (return 1)))
   (procedure entry
     (access public)
     (returns Int)
-    (result (call App.f 1))))
+    (body
+      (return (call App.f 1)))))
 (expect (refuses build))

@@ -8,6 +8,6 @@
     (access public)
     (returns Int)
     (body
-      (let d (type (dictionary Int Int)) (dictionary (entry 1 2))))
-    (result (path d (index "1")))))
+      (let d (type (dictionary Int Int)) (dictionary (entry 1 2)))
+      (return (path d (index "1"))))))
 (expect (refuses build))

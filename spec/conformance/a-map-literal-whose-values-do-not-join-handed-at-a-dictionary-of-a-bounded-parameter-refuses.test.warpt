@@ -14,11 +14,12 @@
   (procedure App.g
     (parameter x (type (dictionary String (some T App.M))))
     (returns Int)
-    (result 0))
+    (body
+      (return 0)))
   (procedure entry
     (access public)
     (returns Int)
     (body
-      (let r (call App.g (dictionary (entry "a" 1) (entry "b" true)))))
-    (result r)))
+      (let r (call App.g (dictionary (entry "a" 1) (entry "b" true))))
+      (return r))))
 (expect (refuses build))

@@ -13,22 +13,25 @@
     (body
       (var x f)
       (set x g)
-      (let a (apply x 1)))
-    (result a))
+      (let a (apply x 1))
+      (return a)))
   (procedure entry
     (access public)
     (returns Int)
     (failing (anything))
-    (result
-      (call Standard.Numeric.plus
-        (call asking
-          (closure
-            (parameter x (type Int))
-            (returns Int)
-            (result x))
-          (closure
-            (parameter x (type Int))
-            (returns Int)
-            (result x)))
-        1))))
+    (body
+      (return
+        (call Standard.Numeric.plus
+          (call asking
+            (closure
+              (parameter x (type Int))
+              (returns Int)
+              (body
+                (return x)))
+            (closure
+              (parameter x (type Int))
+              (returns Int)
+              (body
+                (return x))))
+          1)))))
 (expect (refuses build))

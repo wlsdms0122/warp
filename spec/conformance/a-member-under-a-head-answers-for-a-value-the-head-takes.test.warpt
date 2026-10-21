@@ -12,10 +12,12 @@
     (procedure describe
       (parameter of (type (named App.Box (some T))))
       (returns String)
-      (result "box")))
+      (body
+        (return "box"))))
   (procedure entry
     (access public)
     (returns String)
     (failing cast_refused)
-    (result (call App.Box.describe (as (struct (field item 1)) (named App.Box Int))))))
+    (body
+      (return (call App.Box.describe (as (struct (field item 1)) (named App.Box Int)))))))
 (expect (answers "box"))

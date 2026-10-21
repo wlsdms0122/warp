@@ -1,5 +1,5 @@
 (test 1)
 (name "text-as-the-callee-of-apply-refuses")
 (note "`apply` calls a value, and text under `procedure` in the tree names a declaration, which `call` writes. Text as `apply`'s callee has no tree, and refuses.")
-(text "(warp 1)\n\n(procedure entry\n  (access public)\n  (returns Int)\n  (result (apply \"App.f\")))")
+(text "(warp 1)\n\n(procedure entry\n  (access public)\n  (returns Int)\n  (body\n    (return (apply \"App.f\"))))")
 (expect (refuses load))

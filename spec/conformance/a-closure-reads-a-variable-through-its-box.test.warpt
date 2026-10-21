@@ -13,8 +13,9 @@
       (let held
         (closure
           (returns Int)
-          (result tally)))
+          (body
+            (return tally))))
       (set tally 5)
-      (let called (apply held)))
-    (result called)))
+      (let called (apply held))
+      (return called))))
 (expect (answers 5))

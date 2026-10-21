@@ -11,6 +11,6 @@
     (access public)
     (returns Int)
     (body
-      (let b (type (named App.Box (named App.Box Int))) (struct (field item (struct (field item 4))))))
-    (result (path b (field item) (field item)))))
+      (let b (type (named App.Box (named App.Box Int))) (struct (field item (struct (field item 4)))))
+      (return (path b (field item) (field item))))))
 (expect (answers 4))

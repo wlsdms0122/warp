@@ -15,9 +15,10 @@
           (isolated)
           (parameter x (type Int))
           (returns Int)
-          (result x)))
-      (call swap step))
-    (result 1))
+          (body
+            (return x))))
+      (call swap step)
+      (return 1)))
   (procedure swap
     (parameter step (type (inout (procedure (parameters Int) (returns Int)))))
     (body
@@ -25,5 +26,6 @@
         (closure
           (parameter x (type Int))
           (returns Int)
-          (result 9))))))
+          (body
+            (return 9)))))))
 (expect (answers 1))

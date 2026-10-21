@@ -1,5 +1,5 @@
 (test 1)
 (name "an-unclosed-bracket-in-a-path-is-refused")
 (note "A `[` in a path is closed by a `]`. One left open is not read as part of the name after it.")
-(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "parameters" (array (dictionary (entry "name" "a") (entry "type" "Array<Int>")))) (entry "result" (dictionary (entry "ref" "a[0"))) (entry "returns" "Int"))))) (entry "warp" 1)))
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" (dictionary (entry "ref" "a[0")))))))) (entry "parameters" (array (dictionary (entry "name" "a") (entry "type" "Array<Int>")))) (entry "returns" "Int"))))) (entry "warp" 1)))
 (expect (refuses load))

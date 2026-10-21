@@ -9,9 +9,11 @@
   (procedure App.next
     (parameter x (type (some T Standard.Numeric)))
     (returns (some T))
-    (result (call Standard.Numeric.plus x 1)))
+    (body
+      (return (call Standard.Numeric.plus x 1))))
   (procedure entry
     (access public)
     (returns Int)
-    (result (call App.next 2))))
+    (body
+      (return (call App.next 2)))))
 (expect (refuses build))

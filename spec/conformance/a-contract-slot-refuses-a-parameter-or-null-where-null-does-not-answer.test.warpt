@@ -11,7 +11,8 @@
   (procedure App.f
     (parameter n (type App.Num))
     (returns String)
-    (result "took"))
+    (body
+      (return "took")))
   (procedure App.g
     (parameter m (type (some T App.Num)))
     (returns String)
@@ -21,12 +22,12 @@
         (when true)
         (then
           (set v m)))
-      (let s (call App.f v)))
-    (result s))
+      (let s (call App.f v))
+      (return s)))
   (procedure entry
     (access public)
     (returns String)
     (body
-      (let s (call App.g 3)))
-    (result s)))
+      (let s (call App.g 3))
+      (return s))))
 (expect (refuses build))

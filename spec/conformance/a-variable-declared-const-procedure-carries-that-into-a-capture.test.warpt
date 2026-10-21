@@ -9,8 +9,8 @@
     (parameter body (type (procedure (const) (parameters) (returns String))))
     (returns String)
     (body
-      (let answered (apply body)))
-    (result answered))
+      (let answered (apply body))
+      (return answered)))
   (procedure entry
     (access public)
     (const)
@@ -22,13 +22,14 @@
           (const)
           (isolated)
           (returns String)
-          (result "answered")))
+          (body
+            (return "answered"))))
       (let relaying
         (closure
           (const)
           (returns String)
           (body
-            (let answered (apply answering)))
-          (result answered))))
-    (result (call App.asking relaying))))
+            (let answered (apply answering))
+            (return answered))))
+      (return (call App.asking relaying)))))
 (expect (answers "answered"))

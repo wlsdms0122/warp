@@ -10,5 +10,6 @@
     (access public)
     (returns Bool)
     (failing concurrent_failed)
-    (result (call Standard.Logic.equal 1 (call Standard.Concurrent.all (array))))))
+    (body
+      (return (call Standard.Logic.equal 1 (call Standard.Concurrent.all (array)))))))
 (expect (refuses build))

@@ -14,7 +14,8 @@
       (isolated)
       (parameter of (type App.Thing))
       (returns String)
-      (result (call Standard.Text.text (path of (field id))))))
+      (body
+        (return (call Standard.Text.text (path of (field id)))))))
   (contract App.Named
     (procedure name
       (const)
@@ -26,18 +27,21 @@
     (isolated)
     (parameter of (type (array (some T App.Named))))
     (returns (array String))
-    (result
-      (call Standard.Collection.map of
-        (closure
-          (const)
-          (isolated)
-          (parameter item (type (some T)))
-          (returns String)
-          (result (call App.Named.name item))))))
+    (body
+      (return
+        (call Standard.Collection.map of
+          (closure
+            (const)
+            (isolated)
+            (parameter item (type (some T)))
+            (returns String)
+            (body
+              (return (call App.Named.name item))))))))
   (procedure entry
     (access public)
     (const)
     (returns (array String))
     (failing (anything))
-    (result (call App.names (array (as (struct (field id 1)) App.Thing) (as (struct (field id 2)) App.Thing))))))
+    (body
+      (return (call App.names (array (as (struct (field id 1)) App.Thing) (as (struct (field id 2)) App.Thing)))))))
 (expect (answers (array "1" "2")))

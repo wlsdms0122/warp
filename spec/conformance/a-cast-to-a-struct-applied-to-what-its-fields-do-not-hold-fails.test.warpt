@@ -10,7 +10,8 @@
   (procedure App.hide
     (parameter v)
     (returns Any)
-    (result v))
+    (body
+      (return v)))
   (procedure entry
     (access public)
     (returns (nullable String))
@@ -23,6 +24,6 @@
           (body
             (let c (as any (named App.Box String))))
           (rescue
-            (set failed (path caught (field type)))))))
-    (result failed)))
+            (set failed (path caught (field type))))))
+      (return failed))))
 (expect (answers "cast_refused"))

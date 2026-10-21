@@ -15,7 +15,7 @@
           (let read (as payload Int))
           (set tried read))
         (rescue
-          (let noted 0))))
-    (result tried)))
+          (let noted 0)))
+      (return tried))))
 (arguments (argument payload "not a whole number"))
 (expect (answers null))

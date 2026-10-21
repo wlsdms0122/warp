@@ -8,5 +8,6 @@
   (procedure entry
     (access public)
     (returns Double)
-    (result (call Standard.Numeric.times 1e+308 10.0))))
+    (body
+      (return (call Standard.Numeric.times 1e+308 10.0)))))
 (expect (refuses run))

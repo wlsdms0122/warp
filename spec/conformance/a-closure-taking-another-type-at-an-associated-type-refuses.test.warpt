@@ -16,13 +16,14 @@
       (parameter f (type (procedure (parameters (some C.Item)) (returns Int))))
       (returns Int)
       (body
-        (let i (call Lib.Container.first c)))
-      (result (apply f i)))
+        (let i (call Lib.Container.first c))
+        (return (apply f i))))
     (procedure Lib.firstOf
       (access public)
       (parameter c (type (some C Lib.Container)))
       (returns (some C.Item))
-      (result (call Lib.Container.first c))))
+      (body
+        (return (call Lib.Container.first c)))))
   (document
     (warp 1)
     (import Lib.Container)
@@ -39,7 +40,8 @@
         (access public)
         (parameter of (type (named App.Box (some T))))
         (returns (some T))
-        (result (path of (field item)))))))
+        (body
+          (return (path of (field item))))))))
 
 (program
   (warp 1)
@@ -49,11 +51,12 @@
     (access public)
     (returns Int)
     (body
-      (let b (type (named App.Box Int)) (struct (field item 1))))
-    (result
-      (call Lib.apply b
-        (closure
-          (parameter x (type String))
-          (returns Int)
-          (result 0))))))
+      (let b (type (named App.Box Int)) (struct (field item 1)))
+      (return
+        (call Lib.apply b
+          (closure
+            (parameter x (type String))
+            (returns Int)
+            (body
+              (return 0))))))))
 (expect (refuses build))

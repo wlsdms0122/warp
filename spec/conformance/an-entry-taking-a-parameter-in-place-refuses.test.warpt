@@ -10,7 +10,7 @@
     (parameter count (type (inout Int)))
     (returns Int)
     (body
-      (set count (call Standard.Numeric.plus count 1)))
-    (result count)))
+      (set count (call Standard.Numeric.plus count 1))
+      (return count))))
 (arguments (argument count 1))
 (expect (refuses run))

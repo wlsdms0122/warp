@@ -13,10 +13,11 @@
         (when true)
         (then
           (let x 2)
-          (set y x))))
-    (result (dictionary (entry "inner" y) (entry "outer" x))))
+          (set y x)))
+      (return (dictionary (entry "inner" y) (entry "outer" x)))))
   (procedure entry
     (access public)
     (returns (dictionary String Int))
-    (result (call App.f 1))))
+    (body
+      (return (call App.f 1)))))
 (expect (answers (dictionary (entry "inner" 2) (entry "outer" 1))))

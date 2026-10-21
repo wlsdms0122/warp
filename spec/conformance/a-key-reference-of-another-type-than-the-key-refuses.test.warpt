@@ -8,9 +8,11 @@
     (parameter d (type (dictionary String Int)))
     (parameter k (type Int))
     (returns Any)
-    (result (path d (index k))))
+    (body
+      (return (path d (index k)))))
   (procedure entry
     (access public)
     (returns Any)
-    (result (call App.f (dictionary (entry "a" 1)) 0))))
+    (body
+      (return (call App.f (dictionary (entry "a" 1)) 0)))))
 (expect (refuses build))

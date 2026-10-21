@@ -8,5 +8,6 @@
   (procedure entry
     (access public)
     (returns (array Int))
-    (result (call Standard.Text.encoded "hi" "utf9"))))
+    (body
+      (return (call Standard.Text.encoded "hi" "utf9")))))
 (expect (refuses run))

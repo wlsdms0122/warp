@@ -11,7 +11,8 @@
       (access public)
       (parameter of (type Bank.Card))
       (returns String)
-      (result "card"))))
+      (body
+        (return "card")))))
 
 (program
   (warp 1)
@@ -25,13 +26,14 @@
   (procedure App.h
     (parameter x (type (dictionary String App.P)))
     (returns String)
-    (result (call App.P.show (path x (index "a")))))
+    (body
+      (return (call App.P.show (path x (index "a"))))))
   (procedure entry
     (access public)
     (returns String)
     (failing cast_refused)
     (body
       (let c (as (struct (field last "1")) Bank.Card))
-      (let s (call App.h (dictionary (entry "a" c)))))
-    (result s)))
+      (let s (call App.h (dictionary (entry "a" c))))
+      (return s))))
 (expect (refuses build))

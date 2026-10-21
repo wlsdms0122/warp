@@ -13,6 +13,6 @@
     (failing cast_refused)
     (body
       (var a (as (struct (field balance 1) (field owner "kim")) Account))
-      (set (path a (field balance)) 5))
-    (result (path a (field balance)))))
+      (set (path a (field balance)) 5)
+      (return (path a (field balance))))))
 (expect (refuses build))

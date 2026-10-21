@@ -26,11 +26,12 @@
       (access public)
       (parameter of (type App.Card))
       (returns String)
-      (result "card")))
+      (body
+        (return "card"))))
   (procedure entry
     (access public)
     (returns String)
     (body
-      (let card (as (struct (field rank 1)) App.Card)))
-    (result (call App.Describable.describe card))))
+      (let card (as (struct (field rank 1)) App.Card))
+      (return (call App.Describable.describe card)))))
 (expect (refuses build))

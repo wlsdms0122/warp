@@ -9,5 +9,6 @@
     (access public)
     (returns Any)
     (failing (anything))
-    (result (call nobodyDeclaresThis))))
+    (body
+      (return (call nobodyDeclaresThis)))))
 (expect (refuses build))

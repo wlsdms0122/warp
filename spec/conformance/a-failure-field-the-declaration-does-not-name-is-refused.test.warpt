@@ -15,6 +15,6 @@
           (body
             (call Standard.Control.abort "on purpose"))
           (rescue
-            (set tried (path caught (field failures)))))))
-    (result tried)))
+            (set tried (path caught (field failures))))))
+      (return tried))))
 (expect (refuses build))

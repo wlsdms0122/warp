@@ -10,13 +10,14 @@
   (procedure App.first
     (parameter bs (type (array (named App.Box (some T)))))
     (returns (some T))
-    (result (path bs (index 0) (field item))))
+    (body
+      (return (path bs (index 0) (field item)))))
   (procedure entry
     (access public)
     (returns String)
     (body
       (let a (type (named App.Box Int)) (struct (field item 1)))
       (let b (type (named App.Box String)) (struct (field item "x")))
-      (let xs (array a b)))
-    (result (call App.first xs))))
+      (let xs (array a b))
+      (return (call App.first xs)))))
 (expect (refuses build))

@@ -11,7 +11,8 @@
       (parameter of (type Bank.Card))
       (parameter n (type (some U)))
       (returns (some U))
-      (result n)))
+      (body
+        (return n))))
   (contract App.Sized
     (procedure size
       (parameter of (type Self))
@@ -23,6 +24,6 @@
     (failing cast_refused)
     (body
       (let c (as (struct (field last "42")) Bank.Card))
-      (let s (call App.Sized.size c "x")))
-    (result s)))
+      (let s (call App.Sized.size c "x"))
+      (return s))))
 (expect (answers "x"))

@@ -11,9 +11,11 @@
   (procedure App.first
     (parameter p (type (named App.Pair (some T))))
     (returns (some T))
-    (result (path p (field a))))
+    (body
+      (return (path p (field a)))))
   (procedure entry
     (access public)
     (returns Int)
-    (result (call App.first (struct (field a 1) (field b "x"))))))
+    (body
+      (return (call App.first (struct (field a 1) (field b "x")))))))
 (expect (refuses build))

@@ -7,17 +7,21 @@
   (procedure App.f
     (parameter g (type Procedure))
     (returns Int)
-    (result (call App.h g)))
+    (body
+      (return (call App.h g))))
   (procedure App.h
     (parameter g (type (procedure (parameters) (returns Int))))
     (returns Int)
-    (result (apply g)))
+    (body
+      (return (apply g))))
   (procedure entry
     (access public)
     (returns Int)
-    (result
-      (call App.f
-        (closure
-          (returns Int)
-          (result 1))))))
+    (body
+      (return
+        (call App.f
+          (closure
+            (returns Int)
+            (body
+              (return 1))))))))
 (expect (refuses build))

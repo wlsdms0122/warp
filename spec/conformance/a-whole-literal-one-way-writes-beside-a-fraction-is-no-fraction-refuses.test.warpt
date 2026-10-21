@@ -15,7 +15,7 @@
           (as payload Int)
           (set tried 1))
         (rescue
-          (set tried 2.5))))
-    (result tried)))
+          (set tried 2.5)))
+      (return tried))))
 (arguments (argument payload 3))
 (expect (refuses build))

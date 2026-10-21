@@ -14,9 +14,11 @@
   (procedure entry
     (access public)
     (returns Int)
-    (result (call keep 7)))
+    (body
+      (return (call keep 7))))
   (procedure keep
     (parameter value (type (some T Scalar)))
     (returns (some T))
-    (result value)))
+    (body
+      (return value))))
 (expect (answers 7))

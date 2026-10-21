@@ -31,7 +31,7 @@
           (parameter index (type Int))
           (returns Int)
           (body
-            (call adding bump))
-          (result item))))
-    (result total)))
+            (call adding bump)
+            (return item))))
+      (return total))))
 (expect (refuses build))

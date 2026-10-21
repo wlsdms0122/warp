@@ -10,14 +10,16 @@
     (procedure describe
       (parameter of (type Bank.Account))
       (returns String)
-      (result "an account")))
+      (body
+        (return "an account"))))
   (struct Bank.Card
     (satisfies App.Describable)
     (field last String)
     (procedure describe
       (parameter of (type Bank.Card))
       (returns String)
-      (result "a card")))
+      (body
+        (return "a card"))))
   (contract App.Describable
     (procedure describe
       (parameter of (type Self))
@@ -25,12 +27,13 @@
   (procedure App.tell
     (parameter it (type (some T App.Describable)))
     (returns String)
-    (result (call App.Describable.describe it)))
+    (body
+      (return (call App.Describable.describe it))))
   (procedure entry
     (access public)
     (returns String)
     (failing cast_refused)
     (body
-      (let card (as (struct (field last "42")) Bank.Card)))
-    (result (call App.tell card))))
+      (let card (as (struct (field last "42")) Bank.Card))
+      (return (call App.tell card)))))
 (expect (answers "a card"))

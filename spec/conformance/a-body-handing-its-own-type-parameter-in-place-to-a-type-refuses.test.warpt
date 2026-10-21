@@ -10,19 +10,19 @@
     (returns (some T))
     (body
       (var y x)
-      (call App.poke y))
-    (result y))
+      (call App.poke y)
+      (return y)))
   (procedure App.poke
     (parameter v (type (inout Int)))
     (returns Int)
     (body
-      (set v 7))
-    (result 0))
+      (set v 7)
+      (return 0)))
   (procedure entry
     (access public)
     (returns String)
     (body
       (let r (call App.gen "s"))
-      (let u (call Standard.Text.uppercased r)))
-    (result u)))
+      (let u (call Standard.Text.uppercased r))
+      (return u))))
 (expect (refuses build))

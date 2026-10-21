@@ -19,10 +19,11 @@
           (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Collection.count names)))
           (body
             (let name (path names (index (path walk (field index)))))
-            (set held (call Standard.Collection.appending held (path of (index name))))))))
-    (result held))
+            (set held (call Standard.Collection.appending held (path of (index name)))))))
+      (return held)))
   (procedure entry
     (access public)
     (returns (array Int))
-    (result (call App.values (dictionary (entry "first" 1) (entry "second" 2))))))
+    (body
+      (return (call App.values (dictionary (entry "first" 1) (entry "second" 2)))))))
 (expect (answers (array 1 2)))

@@ -13,10 +13,11 @@
     (returns Int)
     (failing cast_refused)
     (body
-      (let held (as (struct (field balance 1)) Vault)))
-    (result (call read held)))
+      (let held (as (struct (field balance 1)) Vault))
+      (return (call read held))))
   (procedure read
     (parameter account (type Account))
     (returns Int)
-    (result (path account (field balance)))))
+    (body
+      (return (path account (field balance))))))
 (expect (refuses build))

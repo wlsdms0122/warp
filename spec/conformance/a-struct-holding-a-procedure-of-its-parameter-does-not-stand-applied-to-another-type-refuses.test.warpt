@@ -18,7 +18,8 @@
             (closure
               (parameter x (type Int))
               (returns (array Int))
-              (result (array x))))))
-      (let g (type (named App.Holder (nullable Int))) h))
-    (result (apply (path g (field run)) null))))
+              (body
+                (return (array x)))))))
+      (let g (type (named App.Holder (nullable Int))) h)
+      (return (apply (path g (field run)) null)))))
 (expect (refuses build))

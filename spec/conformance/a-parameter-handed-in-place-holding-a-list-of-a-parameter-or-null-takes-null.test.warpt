@@ -9,13 +9,13 @@
     (parameter y (type (some T)))
     (returns Int)
     (body
-      (set x null))
-    (result 0))
+      (set x null)
+      (return 0)))
   (procedure entry
     (access public)
     (returns (nullable (array String)))
     (body
       (var s (type (nullable (array String))) (array "a"))
-      (let r (call App.gen s "b")))
-    (result s)))
+      (let r (call App.gen s "b"))
+      (return s))))
 (expect (answers null))

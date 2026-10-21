@@ -14,32 +14,36 @@
     (procedure describe
       (parameter of (type (array Any)))
       (returns String)
-      (result "a list")))
+      (body
+        (return "a list"))))
   (extension
     (head Dictionary)
     (satisfies App.Described)
     (procedure describe
       (parameter of (type (dictionary (some Key Hashable) Any)))
       (returns String)
-      (result "a map")))
+      (body
+        (return "a map"))))
   (extension
     (head Int)
     (satisfies App.Described)
     (procedure describe
       (parameter of (type Int))
       (returns String)
-      (result "a whole number")))
+      (body
+        (return "a whole number"))))
   (extension
     (head String)
     (satisfies App.Described)
     (procedure describe
       (parameter of (type String))
       (returns String)
-      (result "text")))
+      (body
+        (return "text"))))
   (procedure entry
     (access public)
     (returns (array String))
     (body
-      (let map (type (dictionary String Int)) (dictionary (entry "a" 1))))
-    (result (array (call App.Described.describe 1) (call App.Described.describe "s") (call App.Described.describe (array 1)) (call App.Described.describe map)))))
+      (let map (type (dictionary String Int)) (dictionary (entry "a" 1)))
+      (return (array (call App.Described.describe 1) (call App.Described.describe "s") (call App.Described.describe (array 1)) (call App.Described.describe map))))))
 (expect (answers (array "a whole number" "text" "a list" "a map")))

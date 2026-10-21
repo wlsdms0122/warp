@@ -14,10 +14,12 @@
         (closure
           (parameter y (type (some T Standard.Comparable)))
           (returns Bool)
-          (result (call Standard.Comparable.lessThan y y)))))
-    (result (apply g x)))
+          (body
+            (return (call Standard.Comparable.lessThan y y)))))
+      (return (apply g x))))
   (procedure entry
     (access public)
     (returns Bool)
-    (result (call App.f true))))
+    (body
+      (return (call App.f true)))))
 (expect (refuses load))

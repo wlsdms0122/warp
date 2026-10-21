@@ -14,7 +14,8 @@
         (array
           (closure
             (returns Int)
-            (result 1))
-          1)))
-    (result (call Standard.Concurrent.all pieces))))
+            (body
+              (return 1)))
+          1))
+      (return (call Standard.Concurrent.all pieces)))))
 (expect (refuses build))

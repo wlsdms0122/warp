@@ -7,17 +7,19 @@
   (procedure App.mk
     (parameter x (type (some T)))
     (returns (procedure (parameters (some T)) (returns (some T))))
-    (result
-      (closure
-        (parameter y (type (some T)))
-        (returns (some T))
-        (result y))))
+    (body
+      (return
+        (closure
+          (parameter y (type (some T)))
+          (returns (some T))
+          (body
+            (return y))))))
   (procedure entry
     (access public)
     (returns String)
     (failing cast_refused)
     (body
       (let a (type Any) (call App.mk 5))
-      (let p (as a Procedure)))
-    (result "ok")))
+      (let p (as a Procedure))
+      (return "ok"))))
 (expect (answers "ok"))

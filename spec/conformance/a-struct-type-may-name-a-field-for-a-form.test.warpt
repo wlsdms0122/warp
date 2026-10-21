@@ -11,6 +11,6 @@
     (returns Int)
     (failing cast_refused)
     (body
-      (let held (as (struct (field array 1)) App.Holder)))
-    (result (path held (field array)))))
+      (let held (as (struct (field array 1)) App.Holder))
+      (return (path held (field array))))))
 (expect (answers 1))

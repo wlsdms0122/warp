@@ -18,6 +18,7 @@
             (closure
               (parameter x (type Int))
               (returns Int)
-              (result x))))))
-    (result (apply (path h (field run)) 2))))
+              (body
+                (return x))))))
+      (return (apply (path h (field run)) 2)))))
 (expect (answers 2))

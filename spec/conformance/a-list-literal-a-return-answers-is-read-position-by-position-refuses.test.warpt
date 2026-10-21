@@ -12,13 +12,13 @@
       (conditional
         (when x)
         (then
-          (return (array (dictionary (entry "a" (array))) (dictionary (entry "a" (array 1))))))))
-    (result (array (dictionary (entry "a" (array))) (dictionary (entry "a" (array "s"))))))
+          (return (array (dictionary (entry "a" (array))) (dictionary (entry "a" (array 1)))))))
+      (return (array (dictionary (entry "a" (array))) (dictionary (entry "a" (array "s")))))))
   (procedure entry
     (access public)
     (returns Int)
     (body
       (let r (call App.g true))
-      (let n (call Standard.Collection.count r)))
-    (result n)))
+      (let n (call Standard.Collection.count r))
+      (return n))))
 (expect (refuses build))

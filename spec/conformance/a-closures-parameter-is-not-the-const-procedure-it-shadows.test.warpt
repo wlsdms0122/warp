@@ -12,9 +12,10 @@
         (closure
           (parameter x (type Int))
           (returns Int)
-          (result x)))
-      (let answered (apply body given)))
-    (result answered))
+          (body
+            (return x))))
+      (let answered (apply body given))
+      (return answered)))
   (procedure entry
     (access public)
     (returns Int)
@@ -24,13 +25,14 @@
         (closure
           (parameter x (type Int))
           (returns Int)
-          (result x)))
+          (body
+            (return x))))
       (let g
         (closure
           (parameter f (type (procedure (parameters Int) (returns Int))))
           (returns Int)
           (body
-            (let y (apply f 1)))
-          (result y))))
-    (result (call asking g))))
+            (let y (apply f 1))
+            (return y))))
+      (return (call asking g)))))
 (expect (refuses build))

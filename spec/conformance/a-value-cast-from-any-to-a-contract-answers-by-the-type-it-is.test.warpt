@@ -16,15 +16,18 @@
       (isolated)
       (parameter of (type Int))
       (returns String)
-      (result "a whole number")))
+      (body
+        (return "a whole number"))))
   (procedure App.anything
     (const)
     (isolated)
     (returns Any)
-    (result 1))
+    (body
+      (return 1)))
   (procedure entry
     (access public)
     (returns String)
     (failing cast_refused)
-    (result (call App.Described.describe (as (call App.anything) App.Described)))))
+    (body
+      (return (call App.Described.describe (as (call App.anything) App.Described))))))
 (expect (answers "a whole number"))

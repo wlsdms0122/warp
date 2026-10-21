@@ -20,13 +20,15 @@
           (let a
             (closure
               (returns App.Point)
-              (result n))))
+              (body
+                (return n)))))
         (else
           (set n (as (struct (field x 2)) App.Point))
           (let b
             (closure
               (returns App.Point)
-              (result n))))))
-    (result 1)))
+              (body
+                (return n))))))
+      (return 1))))
 (arguments (argument ready true))
 (expect (answers 1))

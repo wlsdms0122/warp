@@ -11,10 +11,12 @@
       (isolated)
       (parameter x (type Int))
       (returns Int)
-      (result x)))
+      (body
+        (return x))))
   (procedure entry
     (access public)
     (const)
     (returns (array Int))
-    (result (call Standard.Collection.map (array 1 2) f))))
+    (body
+      (return (call Standard.Collection.map (array 1 2) f)))))
 (expect (answers (array 1 2)))

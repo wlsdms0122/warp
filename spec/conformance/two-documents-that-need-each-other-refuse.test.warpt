@@ -9,13 +9,15 @@
     (procedure Ring.a
       (returns Int)
       (failing (anything))
-      (result (call Ring.b))))
+      (body
+        (return (call Ring.b)))))
   (document
     (warp 1)
     (import Ring.a)
     (procedure Ring.b
       (returns Int)
-      (result (call Ring.a)))))
+      (body
+        (return (call Ring.a))))))
 
 (program
   (warp 1)
@@ -23,5 +25,6 @@
   (procedure entry
     (access public)
     (returns Int)
-    (result (call Ring.a))))
+    (body
+      (return (call Ring.a)))))
 (expect (refuses build))

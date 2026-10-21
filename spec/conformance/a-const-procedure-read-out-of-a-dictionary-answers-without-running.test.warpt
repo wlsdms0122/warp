@@ -11,23 +11,25 @@
     (parameter key (type String))
     (returns Int)
     (body
-      (let a (apply (path body (index key)) 1)))
-    (result a))
+      (let a (apply (path body (index key)) 1))
+      (return a)))
   (procedure entry
     (access public)
     (const)
     (returns Int)
-    (result
-      (call Standard.Numeric.plus
-        (call asking
-          (dictionary
-            (entry "k"
-              (closure
-                (const)
-                (isolated)
-                (parameter x (type Int))
-                (returns Int)
-                (result x))))
-          "k")
-        1))))
+    (body
+      (return
+        (call Standard.Numeric.plus
+          (call asking
+            (dictionary
+              (entry "k"
+                (closure
+                  (const)
+                  (isolated)
+                  (parameter x (type Int))
+                  (returns Int)
+                  (body
+                    (return x)))))
+            "k")
+          1)))))
 (expect (answers 2))

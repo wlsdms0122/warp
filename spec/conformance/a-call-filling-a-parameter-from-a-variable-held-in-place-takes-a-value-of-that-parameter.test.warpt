@@ -14,13 +14,13 @@
     (parameter y (type (some T)))
     (returns Int)
     (body
-      (call Standard.Collection.append xs y))
-    (result 0))
+      (call Standard.Collection.append xs y)
+      (return 0)))
   (procedure entry
     (access public)
     (returns (array Double))
     (body
       (var ns (array 1.5))
-      (let r (call App.gen ns 2.5)))
-    (result ns)))
+      (let r (call App.gen ns 2.5))
+      (return ns))))
 (expect (answers (array 1.5 2.5)))

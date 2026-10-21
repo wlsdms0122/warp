@@ -17,7 +17,8 @@
           (field item
             (closure
               (returns Int)
-              (result 1)))))
-      (let b2 (type (named App.Box (procedure (parameters) (failing aborted) (returns Int)))) b1))
-    (result 1)))
+              (body
+                (return 1))))))
+      (let b2 (type (named App.Box (procedure (parameters) (failing aborted) (returns Int)))) b1)
+      (return 1))))
 (expect (refuses build))

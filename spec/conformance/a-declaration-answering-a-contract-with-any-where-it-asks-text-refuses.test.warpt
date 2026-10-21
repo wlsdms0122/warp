@@ -11,7 +11,8 @@
     (procedure describe
       (parameter of (type Bank.Card))
       (returns Any)
-      (result 5)))
+      (body
+        (return 5))))
   (contract App.Describable
     (procedure describe
       (parameter of (type Self))
@@ -23,6 +24,6 @@
     (body
       (let c (as (struct (field last "42")) Bank.Card))
       (let d (call App.Describable.describe c))
-      (let xs (call Standard.Collection.appending (array "a") d)))
-    (result xs)))
+      (let xs (call Standard.Collection.appending (array "a") d))
+      (return xs))))
 (expect (refuses build))

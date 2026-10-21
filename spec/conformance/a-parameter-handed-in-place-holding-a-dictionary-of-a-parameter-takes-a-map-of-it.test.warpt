@@ -9,13 +9,13 @@
     (parameter y (type (some T)))
     (returns Int)
     (body
-      (set x (dictionary (entry "a" y))))
-    (result 0))
+      (set x (dictionary (entry "a" y)))
+      (return 0)))
   (procedure entry
     (access public)
     (returns (dictionary String String))
     (body
       (var s (type (dictionary String String)) (dictionary (entry "a" "z")))
-      (let r (call App.gen s "b")))
-    (result s)))
+      (let r (call App.gen s "b"))
+      (return s))))
 (expect (answers (dictionary (entry "a" "b"))))

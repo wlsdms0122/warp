@@ -10,11 +10,12 @@
     (parameter a (type (some T)))
     (parameter b (type (some T)))
     (returns (some T))
-    (result b))
+    (body
+      (return b)))
   (procedure entry
     (access public)
     (returns App.P)
     (body
-      (let p (type App.P) (struct (field x 1))))
-    (result (call App.same p (struct (field x 2))))))
+      (let p (type App.P) (struct (field x 1)))
+      (return (call App.same p (struct (field x 2)))))))
 (expect (answers (struct App.P (field x 2))))

@@ -8,5 +8,6 @@
   (procedure entry
     (access public)
     (returns (array Int))
-    (result (call Standard.Collection.gathering (array 10 20 30) x"0201"))))
+    (body
+      (return (call Standard.Collection.gathering (array 10 20 30) x"0201")))))
 (expect (answers (array 30 20)))

@@ -9,12 +9,12 @@
     (returns (dictionary String (some T)))
     (body
       (let a (type Any) (struct (field k "s")))
-      (let y (as a (dictionary String (some T)))))
-    (result y))
+      (let y (as a (dictionary String (some T))))
+      (return y)))
   (procedure entry
     (access public)
     (returns (dictionary String Int))
     (body
-      (let r (call App.g 1)))
-    (result r)))
+      (let r (call App.g 1))
+      (return r))))
 (expect (refuses load))

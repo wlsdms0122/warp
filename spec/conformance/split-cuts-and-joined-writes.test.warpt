@@ -12,6 +12,6 @@
     (failing aborted)
     (body
       (let pieces (call Standard.Text.split "a,b,c" ","))
-      (let line (call Standard.Text.joined pieces "-")))
-    (result line)))
+      (let line (call Standard.Text.joined pieces "-"))
+      (return line))))
 (expect (answers "a-b-c"))

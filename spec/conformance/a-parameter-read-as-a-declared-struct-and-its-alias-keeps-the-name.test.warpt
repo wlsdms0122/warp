@@ -13,7 +13,8 @@
       (isolated)
       (parameter of (type Bank.Card))
       (returns String)
-      (result "a card")))
+      (body
+        (return "a card"))))
   (contract App.Describable
     (procedure describe
       (const)
@@ -31,8 +32,8 @@
       (conditional
         (when c)
         (then
-          (return x))))
-    (result y))
+          (return x)))
+      (return y)))
   (procedure entry
     (access public)
     (const)
@@ -42,6 +43,6 @@
     (body
       (let c (as (struct (field last "1")) Bank.Alias))
       (let r (call App.pick false (as (struct (field last "42")) Bank.Card) c))
-      (let s (call App.Describable.describe r)))
-    (result s)))
+      (let s (call App.Describable.describe r))
+      (return s))))
 (expect (answers "a card"))

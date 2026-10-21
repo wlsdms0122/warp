@@ -14,7 +14,8 @@
       (access public)
       (parameter c (type (some C Lib.Container)))
       (returns (some C.Item))
-      (result (call Lib.Container.first c)))))
+      (body
+        (return (call Lib.Container.first c))))))
 
 (program
   (warp 1)
@@ -28,10 +29,12 @@
           (parameter y (type (some C.Item)))
           (returns (some C.Item))
           (sameType C.Item Int)
-          (result y))))
-    (result 1))
+          (body
+            (return y))))
+      (return 1)))
   (procedure entry
     (access public)
     (returns Int)
-    (result 1)))
+    (body
+      (return 1))))
 (expect (refuses load))

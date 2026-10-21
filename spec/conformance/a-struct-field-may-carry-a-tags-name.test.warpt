@@ -11,6 +11,6 @@
     (access public)
     (returns App.R)
     (body
-      (let n 1))
-    (result (struct (field ref "nowhere") (field value n)))))
+      (let n 1)
+      (return (struct (field ref "nowhere") (field value n))))))
 (expect (answers (struct App.R (field ref "nowhere") (field value 1))))

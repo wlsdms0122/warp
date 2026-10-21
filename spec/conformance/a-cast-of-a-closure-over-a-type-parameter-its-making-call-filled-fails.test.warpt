@@ -8,11 +8,13 @@
   (procedure App.mk
     (parameter x (type (some T Standard.Numeric)))
     (returns (procedure (parameters (some T)) (returns Int)))
-    (result
-      (closure
-        (parameter y (type (some T)))
-        (returns Int)
-        (result 0))))
+    (body
+      (return
+        (closure
+          (parameter y (type (some T)))
+          (returns Int)
+          (body
+            (return 0))))))
   (procedure entry
     (access public)
     (returns (nullable String))
@@ -24,6 +26,6 @@
           (body
             (let f (as a (procedure (parameters Double) (returns Int)))))
           (rescue
-            (set r (path caught (field type)))))))
-    (result r)))
+            (set r (path caught (field type))))))
+      (return r))))
 (expect (answers "cast_refused"))

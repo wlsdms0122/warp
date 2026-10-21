@@ -12,13 +12,15 @@
       (access public)
       (parameter x (type (some T)))
       (returns (named App.Fn (some T)))
-      (result
-        (struct
-          (field run
-            (closure
-              (parameter y (type (some T)))
-              (returns (some T))
-              (result y))))))))
+      (body
+        (return
+          (struct
+            (field run
+              (closure
+                (parameter y (type (some T)))
+                (returns (some T))
+                (body
+                  (return y))))))))))
 
 (program
   (warp 1)
@@ -28,6 +30,6 @@
     (access public)
     (returns (nullable (named App.Fn Int)))
     (body
-      (let a (type Any) (call App.wrap 1)))
-    (result (as? a (named App.Fn Int)))))
+      (let a (type Any) (call App.wrap 1))
+      (return (as? a (named App.Fn Int))))))
 (expect (answers null))

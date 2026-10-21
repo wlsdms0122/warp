@@ -12,6 +12,6 @@
     (returns Int)
     (body
       (var b (type (named App.Box Int)) (struct (field item 1)))
-      (set (path b (field item)) 2))
-    (result (path b (field item)))))
+      (set (path b (field item)) 2)
+      (return (path b (field item))))))
 (expect (answers 2))

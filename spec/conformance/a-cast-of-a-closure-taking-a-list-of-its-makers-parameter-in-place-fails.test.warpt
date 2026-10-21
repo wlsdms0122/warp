@@ -8,13 +8,14 @@
   (procedure App.mk
     (parameter x (type (some T)))
     (returns (procedure (parameters (inout (array (some T)))) (returns Int)))
-    (result
-      (closure
-        (parameter xs (type (inout (array (some T)))))
-        (returns Int)
-        (body
-          (call Standard.Collection.append xs x))
-        (result 0))))
+    (body
+      (return
+        (closure
+          (parameter xs (type (inout (array (some T)))))
+          (returns Int)
+          (body
+            (call Standard.Collection.append xs x)
+            (return 0))))))
   (procedure entry
     (access public)
     (returns Any)
@@ -29,6 +30,6 @@
             (apply f s)
             (set tried s))
           (rescue
-            (set tried (path caught (field type)))))))
-    (result tried)))
+            (set tried (path caught (field type))))))
+      (return tried))))
 (expect (answers "cast_refused"))

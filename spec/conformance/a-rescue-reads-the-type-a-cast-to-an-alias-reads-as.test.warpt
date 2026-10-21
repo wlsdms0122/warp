@@ -18,7 +18,7 @@
           (body
             (as payload App.A))
           (rescue
-            (set tried (dictionary (entry "actual" (path caught (field details) (index "actual"))) (entry "expected" (path caught (field details) (index "expected")))))))))
-    (result tried)))
+            (set tried (dictionary (entry "actual" (path caught (field details) (index "actual"))) (entry "expected" (path caught (field details) (index "expected"))))))))
+      (return tried))))
 (arguments (argument payload "not a struct"))
 (expect (answers (dictionary (entry "actual" "String") (entry "expected" "App.P"))))

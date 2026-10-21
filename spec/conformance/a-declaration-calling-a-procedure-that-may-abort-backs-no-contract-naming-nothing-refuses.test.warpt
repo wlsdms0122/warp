@@ -17,14 +17,17 @@
       (parameter step (type (procedure (const) (parameters Int) (failing aborted) (returns Int))))
       (returns Int)
       (failing aborted)
-      (result (apply step of))))
+      (body
+        (return (apply step of)))))
   (procedure entry
     (access public)
     (returns Int)
-    (result
-      (call App.Runner.run 1
-        (closure
-          (parameter x (type Int))
-          (returns Int)
-          (result x))))))
+    (body
+      (return
+        (call App.Runner.run 1
+          (closure
+            (parameter x (type Int))
+            (returns Int)
+            (body
+              (return x))))))))
 (expect (refuses build))

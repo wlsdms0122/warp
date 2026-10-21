@@ -12,7 +12,7 @@
     (returns String)
     (failing cast_refused)
     (body
-      (let read (as payload App.Named)))
-    (result (path read (field name)))))
+      (let read (as payload App.Named))
+      (return (path read (field name))))))
 (arguments (argument payload (struct App.Named (field name "warp"))))
 (expect (answers "warp"))

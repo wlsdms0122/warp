@@ -13,12 +13,13 @@
   (procedure App.tell
     (parameter it (type App.Describable))
     (returns String)
-    (result (call App.Describable.describe it)))
+    (body
+      (return (call App.Describable.describe it))))
   (procedure entry
     (access public)
     (returns String)
     (failing cast_refused)
     (body
-      (let card (as (struct (field last "42")) Bank.Card)))
-    (result (call App.tell card))))
+      (let card (as (struct (field last "42")) Bank.Card))
+      (return (call App.tell card)))))
 (expect (refuses build))

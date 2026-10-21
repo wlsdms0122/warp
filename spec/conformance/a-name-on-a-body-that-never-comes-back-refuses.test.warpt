@@ -8,7 +8,8 @@
   (procedure App.giveUp
     (returns Never)
     (failing aborted)
-    (result (call Standard.Control.abort "done")))
+    (body
+      (return (call Standard.Control.abort "done"))))
   (procedure entry
     (access public)
     (returns Never)

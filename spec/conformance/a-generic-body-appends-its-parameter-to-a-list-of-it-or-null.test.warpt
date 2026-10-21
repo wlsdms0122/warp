@@ -10,12 +10,12 @@
     (returns (array Any))
     (body
       (var ys (array null x))
-      (call Standard.Collection.append ys x))
-    (result ys))
+      (call Standard.Collection.append ys x)
+      (return ys)))
   (procedure entry
     (access public)
     (returns (array Any))
     (body
-      (let ys (call App.put 3)))
-    (result ys)))
+      (let ys (call App.put 3))
+      (return ys))))
 (expect (answers (array null 3 3)))

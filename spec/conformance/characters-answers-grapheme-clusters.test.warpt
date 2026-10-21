@@ -8,5 +8,6 @@
   (procedure entry
     (access public)
     (returns (array String))
-    (result (call Standard.Text.characters "éa"))))
+    (body
+      (return (call Standard.Text.characters "éa")))))
 (expect (answers (array "é" "a")))

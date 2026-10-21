@@ -20,24 +20,27 @@
             (loop
               (while false)
               (body)))
-          (set answered (apply f)))))
-    (result answered))
+          (set answered (apply f))))
+      (return answered)))
   (procedure entry
     (access public)
     (const)
     (returns Bool)
-    (result
-      (call Standard.Logic.and
-        (array
-          (closure
-            (const)
-            (isolated)
-            (returns Bool)
-            (result
-              (call App.asking
-                (closure
-                  (const)
-                  (isolated)
-                  (returns Bool)
-                  (result true))))))))))
+    (body
+      (return
+        (call Standard.Logic.and
+          (array
+            (closure
+              (const)
+              (isolated)
+              (returns Bool)
+              (body
+                (return
+                  (call App.asking
+                    (closure
+                      (const)
+                      (isolated)
+                      (returns Bool)
+                      (body
+                        (return true)))))))))))))
 (expect (answers true))

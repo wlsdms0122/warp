@@ -16,6 +16,6 @@
     (failing cast_refused)
     (body
       (let n (type App.NA) (struct (field a "x")))
-      (let b (as n App.B)))
-    (result b)))
+      (let b (as n App.B))
+      (return b))))
 (expect (refuses build))

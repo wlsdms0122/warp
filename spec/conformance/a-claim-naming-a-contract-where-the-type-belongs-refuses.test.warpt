@@ -16,9 +16,11 @@
   (procedure Bank.A.d
     (parameter of (type Bank.A))
     (returns String)
-    (result "a"))
+    (body
+      (return "a")))
   (procedure entry
     (access public)
     (returns Int)
-    (result 1)))
+    (body
+      (return 1))))
 (expect (refuses build))

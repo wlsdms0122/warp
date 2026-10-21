@@ -16,7 +16,7 @@
           (closure
             (returns Int)
             (body
-              (set tally 1))
-            (result 1)))))
-    (result tally)))
+              (set tally 1)
+              (return 1)))))
+      (return tally))))
 (expect (refuses build))

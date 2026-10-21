@@ -10,7 +10,8 @@
   (procedure App.hide
     (parameter v)
     (returns Any)
-    (result v))
+    (body
+      (return v)))
   (procedure entry
     (access public)
     (returns Int)
@@ -18,6 +19,6 @@
     (body
       (let b (type (named App.Box Int)) (struct (field item 1)))
       (let any (call App.hide b))
-      (let c (as any (named App.Box Int))))
-    (result (path c (field item)))))
+      (let c (as any (named App.Box Int)))
+      (return (path c (field item))))))
 (expect (answers 1))

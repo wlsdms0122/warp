@@ -15,19 +15,20 @@
           (isolated)
           (parameter count (type (inout Int)))
           (returns Int)
-          (result count))))
-    (result
-      (call Standard.Collection.map
-        (array 1 2)
-        (closure
-          (const)
-          (isolated)
-          (parameter item (type Int))
-          (returns Int)
           (body
-            (var own item)
-            (let got (call relay own peek)))
-          (result got)))))
+            (return count))))
+      (return
+        (call Standard.Collection.map
+          (array 1 2)
+          (closure
+            (const)
+            (isolated)
+            (parameter item (type Int))
+            (returns Int)
+            (body
+              (var own item)
+              (let got (call relay own peek))
+              (return got)))))))
   (procedure relay
     (const)
     (isolated)
@@ -35,6 +36,6 @@
     (parameter read (type (procedure (const) (isolated) (parameters (inout Int)) (returns Int))))
     (returns Int)
     (body
-      (let got (apply read n)))
-    (result got)))
+      (let got (apply read n))
+      (return got))))
 (expect (refuses build))

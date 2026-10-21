@@ -9,5 +9,6 @@
   (procedure entry
     (access public)
     (returns Bank.Account)
-    (result (struct (field balance 1)))))
+    (body
+      (return (struct (field balance 1))))))
 (expect (answers (struct Bank.Account (field balance 1))))

@@ -10,9 +10,11 @@
     (procedure m
       (parameter of (type (named App.Box Any)))
       (returns Int)
-      (result 1)))
+      (body
+        (return 1))))
   (procedure entry
     (access public)
     (returns Int)
-    (result 1)))
+    (body
+      (return 1))))
 (expect (refuses build))

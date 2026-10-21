@@ -16,7 +16,8 @@
       (procedure describe
         (parameter of (type T.Card))
         (returns String)
-        (result "card"))))
+        (body
+          (return "card")))))
   (document
     (warp 1)
     (description "one maker")
@@ -35,8 +36,8 @@
       (returns String)
       (failing cast_refused)
       (body
-        (let card (as (struct (field rank 1)) T.Card)))
-      (result (call App.Describable.describe card))))
+        (let card (as (struct (field rank 1)) T.Card))
+        (return (call App.Describable.describe card)))))
   (document
     (warp 1)
     (description "another maker")
@@ -53,5 +54,6 @@
     (access public)
     (returns String)
     (failing cast_refused)
-    (result (call Imp.tell))))
+    (body
+      (return (call Imp.tell)))))
 (expect (answers "card"))

@@ -14,7 +14,8 @@
       (access public)
       (parameter c (type (some C Lib.Container)))
       (returns (some C.Item))
-      (result (call Lib.Container.first c))))
+      (body
+        (return (call Lib.Container.first c)))))
   (document
     (warp 1)
     (import Lib.Container)
@@ -27,7 +28,8 @@
         (access public)
         (parameter of (type (named App.Box (some T Hashable))))
         (returns (some T))
-        (result (path of (field item)))))))
+        (body
+          (return (path of (field item))))))))
 
 (program
   (warp 1)
@@ -37,6 +39,6 @@
     (access public)
     (returns Int)
     (body
-      (let b (type (named App.Box Int)) (struct (field item 1))))
-    (result (call Lib.firstOf b))))
+      (let b (type (named App.Box Int)) (struct (field item 1)))
+      (return (call Lib.firstOf b)))))
 (expect (answers 1))

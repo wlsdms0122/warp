@@ -12,8 +12,8 @@
       (parameter n (type (inout Int)))
       (returns Int)
       (body
-        (set n 9))
-      (result 7)))
+        (set n 9)
+        (return 7))))
   (contract App.Sized
     (procedure size
       (parameter of (type Self))
@@ -26,6 +26,6 @@
     (body
       (let c (as (struct (field last "42")) Bank.Card))
       (let k 4)
-      (let s (call App.Sized.size c k)))
-    (result s)))
+      (let s (call App.Sized.size c k))
+      (return s))))
 (expect (refuses build))

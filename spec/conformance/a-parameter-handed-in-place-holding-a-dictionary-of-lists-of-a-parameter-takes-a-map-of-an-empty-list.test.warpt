@@ -8,13 +8,13 @@
     (parameter d (type (inout (dictionary String (array (some T))))))
     (returns Int)
     (body
-      (set d (dictionary (entry "k" (array)))))
-    (result 0))
+      (set d (dictionary (entry "k" (array))))
+      (return 0)))
   (procedure entry
     (access public)
     (returns (dictionary String (array String)))
     (body
       (var s (type (dictionary String (array String))) (dictionary (entry "k" (array "a"))))
-      (call App.g s))
-    (result s)))
+      (call App.g s)
+      (return s))))
 (expect (answers (dictionary (entry "k" (array)))))

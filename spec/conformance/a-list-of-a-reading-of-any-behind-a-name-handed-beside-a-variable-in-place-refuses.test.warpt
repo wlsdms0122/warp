@@ -10,14 +10,14 @@
     (parameter b (type (some U)))
     (returns Int)
     (body
-      (set a b))
-    (result 0))
+      (set a b)
+      (return 0)))
   (procedure entry
     (access public)
     (returns (array String))
     (body
       (let j (type App.Loose) 1)
       (var s (array "a"))
-      (call App.put s (array j)))
-    (result s)))
+      (call App.put s (array j))
+      (return s))))
 (expect (refuses build))

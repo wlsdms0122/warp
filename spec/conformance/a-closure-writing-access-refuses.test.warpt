@@ -7,14 +7,17 @@
   (procedure App.g
     (parameter f (type (procedure (parameters) (returns Int))))
     (returns Int)
-    (result (apply f)))
+    (body
+      (return (apply f))))
   (procedure entry
     (access public)
     (returns Int)
-    (result
-      (call App.g
-        (closure
-          (access private)
-          (returns Int)
-          (result 7))))))
+    (body
+      (return
+        (call App.g
+          (closure
+            (access private)
+            (returns Int)
+            (body
+              (return 7))))))))
 (expect (refuses load))

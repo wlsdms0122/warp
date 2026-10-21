@@ -13,6 +13,6 @@
     (returns (nullable Int))
     (body
       (let b (type (named App.Box Int)) (struct (field item 1)))
-      (let m (type (dictionary (named App.Box Int) Int)) (dictionary (entry b 7))))
-    (result (path m (index b)))))
+      (let m (type (dictionary (named App.Box Int) Int)) (dictionary (entry b 7)))
+      (return (path m (index b))))))
 (expect (answers 7))

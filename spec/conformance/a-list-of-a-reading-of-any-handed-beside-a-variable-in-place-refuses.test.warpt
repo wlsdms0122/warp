@@ -10,8 +10,8 @@
     (parameter b (type (some U)))
     (returns Int)
     (body
-      (set a b))
-    (result 0))
+      (set a b)
+      (return 0)))
   (procedure entry
     (access public)
     (returns (array String))
@@ -19,6 +19,6 @@
       (let j (type Any) 1)
       (var s (array "a"))
       (call App.put s (array j))
-      (let xs (call Standard.Collection.appending s "b")))
-    (result xs)))
+      (let xs (call Standard.Collection.appending s "b"))
+      (return xs))))
 (expect (refuses build))

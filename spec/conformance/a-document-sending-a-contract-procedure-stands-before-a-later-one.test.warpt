@@ -25,12 +25,14 @@
         (isolated)
         (parameter of (type Bank.Account))
         (returns String)
-        (result "an account")))
+        (body
+          (return "an account"))))
     (procedure Bank.tell
       (const)
       (parameter of (type Bank.Account))
       (returns String)
-      (result (call App.Describable.describe of)))))
+      (body
+        (return (call App.Describable.describe of))))))
 
 (program
   (warp 1)
@@ -42,6 +44,6 @@
     (returns String)
     (failing cast_refused)
     (body
-      (let account (as (struct (field balance 1)) Bank.Account)))
-    (result (call Bank.tell account))))
+      (let account (as (struct (field balance 1)) Bank.Account))
+      (return (call Bank.tell account)))))
 (expect (answers "an account"))

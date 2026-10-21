@@ -15,7 +15,7 @@
           (let read (as payload String))
           (set tried read))
         (rescue
-          (set tried "caught"))))
-    (result tried)))
+          (set tried "caught")))
+      (return tried))))
 (arguments (argument payload 1))
 (expect (answers "caught"))

@@ -13,6 +13,6 @@
     (failing cast_refused)
     (body
       (let b (type (named App.Box Int)) (struct (field item 1)))
-      (let c (as b (named App.Box String))))
-    (result 1)))
+      (let c (as b (named App.Box String)))
+      (return 1))))
 (expect (refuses build))

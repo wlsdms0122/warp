@@ -17,6 +17,6 @@
     (returns String)
     (body
       (var b (type (named App.Box String)) (struct (field item "x")))
-      (call App.reset b "y"))
-    (result (path b (field item)))))
+      (call App.reset b "y")
+      (return (path b (field item))))))
 (expect (answers "y"))

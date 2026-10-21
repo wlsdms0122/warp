@@ -11,6 +11,6 @@
     (returns App.P)
     (failing cast_refused)
     (body
-      (let m (type (dictionary String Int)) (dictionary (entry "x" 1))))
-    (result (as m App.P))))
+      (let m (type (dictionary String Int)) (dictionary (entry "x" 1)))
+      (return (as m App.P)))))
 (expect (refuses build))

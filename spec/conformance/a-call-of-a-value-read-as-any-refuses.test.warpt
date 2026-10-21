@@ -7,7 +7,8 @@
   (procedure App.blind
     (parameter of)
     (returns Any)
-    (result of))
+    (body
+      (return of)))
   (procedure entry
     (access public)
     (returns Any)
@@ -17,8 +18,9 @@
         (closure
           (parameter n (type Int))
           (returns Int)
-          (result n)))
+          (body
+            (return n))))
       (let held (call App.blind double))
-      (let made (apply held 1)))
-    (result made)))
+      (let made (apply held 1))
+      (return made))))
 (expect (refuses build))

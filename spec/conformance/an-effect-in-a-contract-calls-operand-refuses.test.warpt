@@ -12,7 +12,8 @@
       (parameter of (type Bank.Account))
       (parameter note)
       (returns String)
-      (result "an account")))
+      (body
+        (return "an account"))))
   (contract App.Describable
     (procedure describe
       (parameter of (type Self))
@@ -23,6 +24,6 @@
     (returns String)
     (failing cast_refused concurrent_failed)
     (body
-      (let held (as (struct (field balance 1)) Bank.Account)))
-    (result (call App.Describable.describe held (call Standard.Concurrent.all (array))))))
+      (let held (as (struct (field balance 1)) Bank.Account))
+      (return (call App.Describable.describe held (call Standard.Concurrent.all (array)))))))
 (expect (refuses build))

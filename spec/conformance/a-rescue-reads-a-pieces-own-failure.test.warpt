@@ -23,7 +23,8 @@
                     (const)
                     (isolated)
                     (returns String)
-                    (result "ok")))
+                    (body
+                      (return "ok"))))
                 (entry "fragile"
                   (closure
                     (const)
@@ -35,6 +36,6 @@
           (rescue
             (let failures (as (path caught (field details) (index "failures")) (dictionary String Any)))
             (let piece (as (path failures (index "fragile")) Failure))
-            (set tried (path piece (field type)))))))
-    (result tried)))
+            (set tried (path piece (field type))))))
+      (return tried))))
 (expect (answers "aborted"))

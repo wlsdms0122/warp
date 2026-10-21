@@ -10,6 +10,6 @@
     (returns Int)
     (body
       (var d (type (dictionary String Int)) (dictionary (entry "a" 1)))
-      (set (path d (index K)) 2))
-    (result (path d (index K)))))
+      (set (path d (index K)) 2)
+      (return (path d (index K))))))
 (expect (answers 2))

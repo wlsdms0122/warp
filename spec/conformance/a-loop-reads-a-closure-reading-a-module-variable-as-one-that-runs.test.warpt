@@ -10,8 +10,8 @@
     (parameter body (type (procedure (const) (parameters) (returns String))))
     (returns String)
     (body
-      (let answered (apply body)))
-    (result answered))
+      (let answered (apply body))
+      (return answered)))
   (procedure entry
     (access public)
     (returns String)
@@ -19,7 +19,8 @@
       (var g
         (closure
           (returns String)
-          (result "x")))
+          (body
+            (return "x"))))
       (let r
         (loop
           (while (call Standard.Comparable.lessThan (path r (field index)) 2))
@@ -28,6 +29,7 @@
             (set g
               (closure
                 (returns String)
-                (result standing)))))))
-    (result "done")))
+                (body
+                  (return standing)))))))
+      (return "done"))))
 (expect (refuses build))

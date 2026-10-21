@@ -8,10 +8,12 @@
   (procedure entry
     (access public)
     (returns String)
-    (result
-      (call Standard.Text.text
-        (array
-          (closure
-            (returns Int)
-            (result 1)))))))
+    (body
+      (return
+        (call Standard.Text.text
+          (array
+            (closure
+              (returns Int)
+              (body
+                (return 1)))))))))
 (expect (answers "[\"<procedure>\"]"))

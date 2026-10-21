@@ -10,16 +10,17 @@
   (procedure entry
     (access public)
     (returns (array Int))
-    (result
-      (call Standard.Collection.map
-        (array 1 2)
-        (closure
-          (const)
-          (isolated)
-          (parameter item (type Int))
-          (returns Int)
-          (body
-            (var own (type (array Int)) (array))
-            (call Standard.Collection.append own item))
-          (result (call Standard.Collection.count own)))))))
+    (body
+      (return
+        (call Standard.Collection.map
+          (array 1 2)
+          (closure
+            (const)
+            (isolated)
+            (parameter item (type Int))
+            (returns Int)
+            (body
+              (var own (type (array Int)) (array))
+              (call Standard.Collection.append own item)
+              (return (call Standard.Collection.count own)))))))))
 (expect (refuses build))

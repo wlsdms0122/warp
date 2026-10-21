@@ -17,5 +17,6 @@
     (access public)
     (returns Int)
     (failing (anything))
-    (result (call App.seat))))
+    (body
+      (return (call App.seat)))))
 (expect (refuses build))

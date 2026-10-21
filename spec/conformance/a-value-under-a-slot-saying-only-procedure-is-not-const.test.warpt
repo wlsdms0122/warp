@@ -8,8 +8,8 @@
     (parameter body (type (procedure (const) (parameters) (returns String))))
     (returns String)
     (body
-      (let answered (apply body)))
-    (result answered))
+      (let answered (apply body))
+      (return answered)))
   (procedure entry
     (access public)
     (returns String)
@@ -18,16 +18,19 @@
         (closure
           (const)
           (returns String)
-          (result "answered")))
+          (body
+            (return "answered"))))
       (let given
         (closure
           (const)
           (returns String)
-          (result (call relaying answering)))))
-    (result (call asking given)))
+          (body
+            (return (call relaying answering)))))
+      (return (call asking given))))
   (procedure relaying
     (const)
     (parameter body (type (procedure (parameters) (returns String))))
     (returns String)
-    (result (apply body))))
+    (body
+      (return (apply body)))))
 (expect (refuses build))

@@ -12,6 +12,7 @@
     (access public)
     (parameter p (type (named App.Pair (nullable Int))))
     (returns (nullable Int))
-    (result (path p (field b)))))
+    (body
+      (return (path p (field b))))))
 (arguments (argument p (struct App.Pair (field a 1) (field b null))))
 (expect (answers null))

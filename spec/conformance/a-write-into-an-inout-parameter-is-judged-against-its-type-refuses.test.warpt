@@ -8,13 +8,13 @@
     (parameter n (type (inout Int)))
     (returns Int)
     (body
-      (set n "eleven"))
-    (result 0))
+      (set n "eleven")
+      (return 0)))
   (procedure entry
     (access public)
     (returns Int)
     (body
       (var x (type Int) 10)
-      (call App.bump x))
-    (result x)))
+      (call App.bump x)
+      (return x))))
 (expect (refuses build))

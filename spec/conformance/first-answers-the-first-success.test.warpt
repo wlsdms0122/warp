@@ -11,21 +11,23 @@
     (isolated)
     (returns Any)
     (failing concurrent_failed)
-    (result
-      (call Standard.Concurrent.firstKeyed
-        (dictionary
-          (entry "fine"
-            (closure
-              (const)
-              (isolated)
-              (returns Int)
-              (result 1)))
-          (entry "fragile"
-            (closure
-              (const)
-              (isolated)
-              (returns Never)
-              (failing aborted)
-              (body
-                (call Standard.Control.abort "on purpose")))))))))
+    (body
+      (return
+        (call Standard.Concurrent.firstKeyed
+          (dictionary
+            (entry "fine"
+              (closure
+                (const)
+                (isolated)
+                (returns Int)
+                (body
+                  (return 1))))
+            (entry "fragile"
+              (closure
+                (const)
+                (isolated)
+                (returns Never)
+                (failing aborted)
+                (body
+                  (call Standard.Control.abort "on purpose"))))))))))
 (expect (answers 1))

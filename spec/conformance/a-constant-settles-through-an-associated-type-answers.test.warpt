@@ -25,7 +25,8 @@
         (isolated)
         (parameter of (type (named App.Box (some T))))
         (returns (some T))
-        (result (path of (field item)))))))
+        (body
+          (return (path of (field item))))))))
 
 (program
   (warp 1)
@@ -38,5 +39,6 @@
     (const)
     (isolated)
     (returns Int)
-    (result (call Int.plus k 1))))
+    (body
+      (return (call Int.plus k 1)))))
 (expect (answers 2))

@@ -11,13 +11,16 @@
   (procedure App.f
     (parameter n (type Int))
     (returns Int)
-    (result 1))
+    (body
+      (return 1)))
   (procedure App.g
     (parameter x (type App.Marked))
     (returns Int)
-    (result (call App.f x)))
+    (body
+      (return (call App.f x))))
   (procedure entry
     (access public)
     (returns Int)
-    (result (call App.g 1))))
+    (body
+      (return (call App.g 1)))))
 (expect (refuses build))

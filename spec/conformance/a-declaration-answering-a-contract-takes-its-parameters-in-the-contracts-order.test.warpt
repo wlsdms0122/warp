@@ -12,7 +12,8 @@
       (parameter b (type String))
       (parameter a (type Int))
       (returns String)
-      (result b)))
+      (body
+        (return b))))
   (contract App.Labelled
     (procedure label
       (parameter of (type Self))
@@ -22,12 +23,13 @@
   (procedure App.tell
     (parameter it (type (some T App.Labelled)))
     (returns String)
-    (result (call App.Labelled.label it 1 "x")))
+    (body
+      (return (call App.Labelled.label it 1 "x"))))
   (procedure entry
     (access public)
     (returns String)
     (failing cast_refused)
     (body
-      (let card (as (struct (field last "42")) App.Card)))
-    (result (call App.tell card))))
+      (let card (as (struct (field last "42")) App.Card))
+      (return (call App.tell card)))))
 (expect (refuses build))

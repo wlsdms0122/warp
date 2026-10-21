@@ -8,11 +8,12 @@
     (parameter a (type (some T)))
     (parameter b (type (some T)))
     (returns (some T))
-    (result a))
+    (body
+      (return a)))
   (procedure entry
     (access public)
     (returns (nullable Int))
     (body
-      (let x (type (nullable Int)) 1))
-    (result (call App.pick x))))
+      (let x (type (nullable Int)) 1)
+      (return (call App.pick x)))))
 (expect (refuses build))

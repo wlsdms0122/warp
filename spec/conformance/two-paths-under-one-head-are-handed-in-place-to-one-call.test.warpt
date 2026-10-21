@@ -9,8 +9,8 @@
     (returns (array Int))
     (body
       (var xs (array 1 2))
-      (call swap (path xs (index 0)) (path xs (index 1))))
-    (result xs))
+      (call swap (path xs (index 0)) (path xs (index 1)))
+      (return xs)))
   (procedure swap
     (parameter left (type (inout Int)))
     (parameter right (type (inout Int)))

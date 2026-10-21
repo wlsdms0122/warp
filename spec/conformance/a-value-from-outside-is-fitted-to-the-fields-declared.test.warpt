@@ -10,6 +10,7 @@
     (access public)
     (parameter row (type App.Row))
     (returns App.Row)
-    (result row)))
+    (body
+      (return row))))
 (arguments (argument row (struct App.Row (field extra 1) (field id "a"))))
 (expect (answers (struct App.Row (field id "a"))))

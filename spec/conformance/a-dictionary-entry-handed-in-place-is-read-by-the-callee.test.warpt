@@ -14,6 +14,6 @@
     (returns Int)
     (body
       (var d (type (dictionary String Int)) (dictionary (entry "a" 1)))
-      (call bump (path d (index "a"))))
-    (result (path d (index "a")))))
+      (call bump (path d (index "a")))
+      (return (path d (index "a"))))))
 (expect (answers 2))

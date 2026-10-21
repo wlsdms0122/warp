@@ -10,6 +10,6 @@
     (access public)
     (returns Bool)
     (body
-      (let unequal (call Standard.Logic.notEqual 1 1.0)))
-    (result (call Standard.Logic.not unequal))))
+      (let unequal (call Standard.Logic.notEqual 1 1.0))
+      (return (call Standard.Logic.not unequal)))))
 (expect (answers true))

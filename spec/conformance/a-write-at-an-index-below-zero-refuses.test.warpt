@@ -9,6 +9,6 @@
     (returns Int)
     (body
       (var d (type (array Int)) (array 1))
-      (set (path d (index -1)) 2))
-    (result (path d (index 0)))))
+      (set (path d (index -1)) 2)
+      (return (path d (index 0))))))
 (expect (refuses build))

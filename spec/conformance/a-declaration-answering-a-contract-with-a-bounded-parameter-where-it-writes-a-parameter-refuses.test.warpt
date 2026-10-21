@@ -11,7 +11,8 @@
       (parameter of (type Bank.Card))
       (parameter n (type (some U App.Whole)))
       (returns String)
-      (result "shown")))
+      (body
+        (return "shown"))))
   (struct Bank.Coin
     (field cents Int))
   (contract App.Shown
@@ -33,6 +34,6 @@
     (failing cast_refused)
     (body
       (let c (as (struct (field last "4")) Bank.Card))
-      (let s (call App.Shown.show c 3)))
-    (result s)))
+      (let s (call App.Shown.show c 3))
+      (return s))))
 (expect (refuses build))

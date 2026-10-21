@@ -11,14 +11,16 @@
       (parameter of (type Bank.Box))
       (parameter n)
       (returns String)
-      (result "shown")))
+      (body
+        (return "shown"))))
   (struct Bank.Card
     (satisfies App.Sized)
     (field last String)
     (procedure size
       (parameter of (type Bank.Card))
       (returns Int)
-      (result 4)))
+      (body
+        (return 4))))
   (struct Bank.Coin
     (field cents Int))
   (contract App.Shown
@@ -37,6 +39,6 @@
     (body
       (let b (as (struct (field n 1)) Bank.Box))
       (let c (as (struct (field last "4")) Bank.Card))
-      (let s (call App.Shown.show b c)))
-    (result s)))
+      (let s (call App.Shown.show b c))
+      (return s))))
 (expect (answers "shown"))

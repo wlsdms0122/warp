@@ -16,10 +16,11 @@
             (let read (as tried String))
             (set kept read))
           (rescue
-            (set kept "caught")))))
-    (result kept))
+            (set kept "caught"))))
+      (return kept)))
   (procedure entry
     (access public)
     (returns Any)
-    (result (call App.r))))
+    (body
+      (return (call App.r)))))
 (expect (refuses build))

@@ -1,5 +1,5 @@
 (test 1)
 (name "a-break-naming-null-refuses")
 (note "A break's operand is a name, and `null` is no name, so `(break null)` refuses as a text. A loop called `null` is broken with ``(break `null`)``.")
-(text "(warp 1)\n\n(procedure entry\n  (access public)\n  (returns Int)\n  (body\n    (let w\n      (loop\n        (while true)\n        (body\n          (break null)))))\n  (result 1))")
+(text "(warp 1)\n\n(procedure entry\n  (access public)\n  (returns Int)\n  (body\n    (let w\n      (loop\n        (while true)\n        (body\n          (break null))))\n    (return 1)))")
 (expect (refuses load))

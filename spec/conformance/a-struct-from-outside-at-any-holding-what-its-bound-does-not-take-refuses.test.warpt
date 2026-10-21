@@ -11,7 +11,8 @@
     (procedure describe
       (parameter of (type (named App.Shelf (some T App.Shown))))
       (returns String)
-      (result (call App.Shown.show (path of (field item))))))
+      (body
+        (return (call App.Shown.show (path of (field item)))))))
   (contract App.Described
     (procedure describe
       (parameter of (type Self))
@@ -26,12 +27,14 @@
     (procedure show
       (parameter of (type Int))
       (returns String)
-      (result "int")))
+      (body
+        (return "int"))))
   (procedure entry
     (access public)
     (parameter x)
     (returns String)
     (failing cast_refused)
-    (result (call App.Described.describe (as x App.Described)))))
+    (body
+      (return (call App.Described.describe (as x App.Described))))))
 (arguments (argument x (struct App.Shelf (field item true))))
 (expect (refuses run))

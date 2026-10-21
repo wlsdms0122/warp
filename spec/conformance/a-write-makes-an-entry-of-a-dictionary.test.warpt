@@ -9,6 +9,6 @@
     (returns Int)
     (body
       (var held (type (dictionary String Int)) (dictionary (entry "a" 1)))
-      (set (path held (index "b")) 2))
-    (result (path held (index "b")))))
+      (set (path held (index "b")) 2)
+      (return (path held (index "b"))))))
 (expect (answers 2))

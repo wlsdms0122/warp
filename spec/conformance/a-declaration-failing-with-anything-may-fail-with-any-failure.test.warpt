@@ -8,7 +8,8 @@
   (procedure App.go
     (returns Never)
     (failing (anything))
-    (result (call Standard.Control.abort "no")))
+    (body
+      (return (call Standard.Control.abort "no"))))
   (procedure entry
     (access public)
     (returns String)
@@ -18,6 +19,6 @@
         (body
           (call App.go))
         (rescue
-          (set tried "caught"))))
-    (result tried)))
+          (set tried "caught")))
+      (return tried))))
 (expect (answers "caught"))

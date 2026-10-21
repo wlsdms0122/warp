@@ -12,7 +12,8 @@
         (array
           (closure
             (returns Int)
-            (result 1))))
-      (let r (apply (path fs (index 0)))))
-    (result r)))
+            (body
+              (return 1)))))
+      (let r (apply (path fs (index 0))))
+      (return r))))
 (expect (refuses build))

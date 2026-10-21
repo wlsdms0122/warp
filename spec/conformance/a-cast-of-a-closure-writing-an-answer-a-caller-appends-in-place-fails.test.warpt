@@ -17,12 +17,12 @@
           (parameter y (type (some T)))
           (returns Int)
           (body
-            (set cell y))
-          (result 0)))
+            (set cell y)
+            (return 0))))
       (let a (type Any) c)
       (let w (as a (procedure (parameters Int) (returns Int))))
-      (let z (apply w (as junk Int))))
-    (result cell))
+      (let z (apply w (as junk Int)))
+      (return cell)))
   (procedure App.put
     (parameter n (type (some T)))
     (parameter junk)
@@ -31,8 +31,8 @@
     (failing (anything))
     (body
       (let got (call App.h n junk))
-      (call Standard.Collection.append xs got))
-    (result 0))
+      (call Standard.Collection.append xs got)
+      (return 0)))
   (procedure entry
     (access public)
     (returns Any)
@@ -45,6 +45,6 @@
             (call App.put "b" 5 s)
             (set tried s))
           (rescue
-            (set tried (path caught (field type)))))))
-    (result tried)))
+            (set tried (path caught (field type))))))
+      (return tried))))
 (expect (answers "cast_refused"))

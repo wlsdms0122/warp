@@ -9,5 +9,6 @@
   (procedure entry
     (access public)
     (returns (array String))
-    (result (array (call Standard.Text.uppercased "i") (call Standard.Text.lowercased "I")))))
+    (body
+      (return (array (call Standard.Text.uppercased "i") (call Standard.Text.lowercased "I"))))))
 (expect (answers (array "I" "i")))

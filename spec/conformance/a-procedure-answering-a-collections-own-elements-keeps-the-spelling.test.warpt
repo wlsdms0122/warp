@@ -13,6 +13,6 @@
     (body
       (let back (call Standard.Collection.reversed x"6869"))
       (let ordered (call Standard.Collection.sorted x"6968"))
-      (let grown (call Standard.Collection.appending x"6869" 300)))
-    (result (array back ordered grown))))
+      (let grown (call Standard.Collection.appending x"6869" 300))
+      (return (array back ordered grown)))))
 (expect (answers (array x"6968" x"6869" (array 104 105 300))))

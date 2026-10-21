@@ -13,6 +13,7 @@
     (parameter a)
     (returns Bool)
     (failing cast_refused)
-    (result (call Standard.Logic.equal a (as (struct (field x 1)) App.P)))))
+    (body
+      (return (call Standard.Logic.equal a (as (struct (field x 1)) App.P))))))
 (arguments (argument a (struct App.A (field x 1))))
 (expect (answers true))

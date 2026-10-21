@@ -27,7 +27,8 @@
         (access public)
         (parameter of (type App.Card))
         (returns Int)
-        (result (path of (field k)))))
+        (body
+          (return (path of (field k))))))
     (struct App.Shelf
       (satisfies Lib.Outer)
       (field card App.Card)
@@ -36,7 +37,8 @@
         (access public)
         (parameter of (type App.Shelf))
         (returns App.Card)
-        (result (path of (field card))))))
+        (body
+          (return (path of (field card)))))))
   (document
     (warp 1)
     (import Int.plus)
@@ -50,8 +52,8 @@
       (sameType C.Item.Key Int)
       (body
         (let x (call Lib.Outer.first c))
-        (let k (call Lib.Keyed.key x)))
-      (result (call Int.plus k 1)))))
+        (let k (call Lib.Keyed.key x))
+        (return (call Int.plus k 1))))))
 
 (program
   (warp 1)
@@ -61,6 +63,6 @@
     (access public)
     (returns Int)
     (body
-      (let s (type App.Shelf) (struct (field card (struct (field k 1))))))
-    (result (call Use.keyPlus s))))
+      (let s (type App.Shelf) (struct (field card (struct (field k 1)))))
+      (return (call Use.keyPlus s)))))
 (expect (answers 2))

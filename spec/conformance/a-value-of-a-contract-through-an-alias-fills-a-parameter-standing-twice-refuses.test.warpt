@@ -17,14 +17,17 @@
       (parameter of (type Int))
       (parameter other (type Int))
       (returns Bool)
-      (result true)))
+      (body
+        (return true))))
   (procedure App.check
     (parameter x (type App.Shape))
     (parameter y (type App.Shape))
     (returns Bool)
-    (result (call App.Ordered.before x y)))
+    (body
+      (return (call App.Ordered.before x y))))
   (procedure entry
     (access public)
     (returns Bool)
-    (result (call App.check 1 2))))
+    (body
+      (return (call App.check 1 2)))))
 (expect (refuses build))

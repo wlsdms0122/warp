@@ -9,8 +9,8 @@
     (parameter xs (type (array (dictionary String (array String)))))
     (returns (array (dictionary String (array String))))
     (body
-      (let k (call Standard.Collection.count xs)))
-    (result (array (dictionary (entry "a" (array))) (dictionary (entry "a" (array "s"))))))
+      (let k (call Standard.Collection.count xs))
+      (return (array (dictionary (entry "a" (array))) (dictionary (entry "a" (array "s")))))))
   (procedure entry
     (access public)
     (returns Int)
@@ -22,10 +22,10 @@
           (parameter xs (type (array (dictionary String (array String)))))
           (returns Int)
           (body
-            (let k (call Standard.Collection.count xs)))
-          (result k)))
+            (let k (call Standard.Collection.count xs))
+            (return k))))
       (let a (apply f (array (dictionary (entry "a" (array))) (dictionary (entry "a" (array "s"))))))
       (let r (call App.g (array (dictionary (entry "a" (array))) (dictionary (entry "a" (array "s"))))))
-      (let n (call Standard.Collection.count r)))
-    (result n)))
+      (let n (call Standard.Collection.count r))
+      (return n))))
 (expect (answers 2))

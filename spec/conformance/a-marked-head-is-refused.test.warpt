@@ -1,5 +1,5 @@
 (test 1)
 (name "a-marked-head-is-refused")
 (note "`?.` and `?[` expect an absence to read past, and the head of a path is a name a scope holds. There is nothing before it to read past. A head that answers nothing is a reading gone wrong, not an absence, so the mark is refused wherever the path is judged.")
-(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "parameters" (array (dictionary (entry "name" "text") (entry "type" "String?")))) (entry "result" (dictionary (entry "ref" "?.text"))) (entry "returns" "String?"))))) (entry "warp" 1)))
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" (dictionary (entry "ref" "?.text")))))))) (entry "parameters" (array (dictionary (entry "name" "text") (entry "type" "String?")))) (entry "returns" "String?"))))) (entry "warp" 1)))
 (expect (refuses load))

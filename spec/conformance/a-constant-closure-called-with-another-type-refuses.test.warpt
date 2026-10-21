@@ -8,12 +8,13 @@
     (closure
       (parameter x (type Int))
       (returns Int)
-      (result x)))
+      (body
+        (return x))))
   (procedure entry
     (access public)
     (returns Int)
     (failing (anything))
     (body
-      (let a (apply f "s")))
-    (result a)))
+      (let a (apply f "s"))
+      (return a))))
 (expect (refuses build))

@@ -17,9 +17,11 @@
       (parameter lhs (type Int))
       (parameter rhs (type Int))
       (returns Bool)
-      (result (call Standard.Comparable.lessThan lhs rhs))))
+      (body
+        (return (call Standard.Comparable.lessThan lhs rhs)))))
   (procedure entry
     (access public)
     (returns Bool)
-    (result (call App.Ordered.before 1 2))))
+    (body
+      (return (call App.Ordered.before 1 2)))))
 (expect (answers true))

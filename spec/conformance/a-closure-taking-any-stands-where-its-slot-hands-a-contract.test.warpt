@@ -19,6 +19,7 @@
         (closure
           (parameter p)
           (returns Any)
-          (result p))))
-    (result (apply g c))))
+          (body
+            (return p))))
+      (return (apply g c)))))
 (expect (answers (struct App.Point (field x 1))))

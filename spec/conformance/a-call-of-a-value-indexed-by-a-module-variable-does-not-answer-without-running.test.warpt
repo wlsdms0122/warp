@@ -10,19 +10,21 @@
     (parameter body (type (dictionary String (procedure (const) (parameters Int) (returns Int)))))
     (returns Int)
     (body
-      (let a (apply (path body (index mode)) 1)))
-    (result a))
+      (let a (apply (path body (index mode)) 1))
+      (return a)))
   (procedure entry
     (access public)
     (returns Int)
-    (result
-      (call Standard.Numeric.plus
-        (call asking
-          (struct
-            (field k
-              (closure
-                (parameter x (type Int))
-                (returns Int)
-                (result x)))))
-        1))))
+    (body
+      (return
+        (call Standard.Numeric.plus
+          (call asking
+            (struct
+              (field k
+                (closure
+                  (parameter x (type Int))
+                  (returns Int)
+                  (body
+                    (return x))))))
+          1)))))
 (expect (refuses build))

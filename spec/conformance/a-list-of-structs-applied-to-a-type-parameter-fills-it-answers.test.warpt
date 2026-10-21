@@ -10,11 +10,12 @@
   (procedure App.first
     (parameter bs (type (array (named App.Box (some T)))))
     (returns (some T))
-    (result (path bs (index 0) (field item))))
+    (body
+      (return (path bs (index 0) (field item)))))
   (procedure entry
     (access public)
     (returns Int)
     (body
-      (let bs (type (array (named App.Box Int))) (array (struct (field item 3)))))
-    (result (call App.first bs))))
+      (let bs (type (array (named App.Box Int))) (array (struct (field item 3))))
+      (return (call App.first bs)))))
 (expect (answers 3))

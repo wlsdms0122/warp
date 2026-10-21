@@ -10,18 +10,20 @@
     (const)
     (returns Bool)
     (body
-      (let flags (type (array Bool)) (array)))
-    (result
-      (call Standard.Logic.or
-        (array
-          (closure
-            (const)
-            (isolated)
-            (returns Bool)
-            (result true))
-          (closure
-            (const)
-            (isolated)
-            (returns Bool)
-            (result (path flags (index 0)))))))))
+      (let flags (type (array Bool)) (array))
+      (return
+        (call Standard.Logic.or
+          (array
+            (closure
+              (const)
+              (isolated)
+              (returns Bool)
+              (body
+                (return true)))
+            (closure
+              (const)
+              (isolated)
+              (returns Bool)
+              (body
+                (return (path flags (index 0)))))))))))
 (expect (answers true))

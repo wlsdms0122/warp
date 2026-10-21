@@ -17,7 +17,8 @@
       (parameter of (type Int))
       (returns Never)
       (failing (anything))
-      (result (call Standard.Control.abort "no"))))
+      (body
+        (return (call Standard.Control.abort "no")))))
   (procedure entry
     (access public)
     (returns String)
@@ -28,6 +29,6 @@
           (let ran (call App.Runner.run 1))
           (set tried "ran"))
         (rescue
-          (set tried "caught"))))
-    (result tried)))
+          (set tried "caught")))
+      (return tried))))
 (expect (answers "caught"))

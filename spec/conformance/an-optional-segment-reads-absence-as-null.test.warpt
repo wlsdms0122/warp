@@ -8,6 +8,7 @@
     (access public)
     (parameter data (type (dictionary String Any)))
     (returns Any)
-    (result (path data (index? "missing")))))
+    (body
+      (return (path data (index? "missing"))))))
 (arguments (argument data (dictionary)))
 (expect (answers null))

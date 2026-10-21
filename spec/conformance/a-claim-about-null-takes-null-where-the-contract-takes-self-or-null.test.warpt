@@ -16,9 +16,11 @@
       (parameter s (type Null))
       (parameter t (type Null))
       (returns Int)
-      (result 1)))
+      (body
+        (return 1))))
   (procedure entry
     (access public)
     (returns Int)
-    (result (call App.Pick.pick null null))))
+    (body
+      (return (call App.Pick.pick null null)))))
 (expect (answers 1))

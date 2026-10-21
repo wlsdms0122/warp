@@ -19,6 +19,6 @@
             (let p (type App.P) (struct (field a (call Standard.Control.abort "a first")) (field b (call Standard.Control.abort "b first"))))
             (set tried "no"))
           (rescue
-            (set tried (path caught (field message)))))))
-    (result tried)))
+            (set tried (path caught (field message))))))
+      (return tried))))
 (expect (answers "a first"))

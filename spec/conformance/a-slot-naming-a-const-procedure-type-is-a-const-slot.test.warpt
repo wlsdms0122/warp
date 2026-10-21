@@ -11,20 +11,22 @@
     (parameter body (type App.Pick))
     (returns Int)
     (body
-      (let a (apply body 1)))
-    (result a))
+      (let a (apply body 1))
+      (return a)))
   (procedure entry
     (access public)
     (const)
     (returns Int)
-    (result
-      (call Standard.Numeric.plus
-        (call asking
-          (closure
-            (const)
-            (isolated)
-            (parameter x (type Int))
-            (returns Int)
-            (result x)))
-        1))))
+    (body
+      (return
+        (call Standard.Numeric.plus
+          (call asking
+            (closure
+              (const)
+              (isolated)
+              (parameter x (type Int))
+              (returns Int)
+              (body
+                (return x))))
+          1)))))
 (expect (answers 2))

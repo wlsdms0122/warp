@@ -10,13 +10,15 @@
     (access public)
     (const)
     (returns (array Int))
-    (result
-      (call Standard.Collection.map
-        (array 1 2 3)
-        (closure
-          (const)
-          (isolated)
-          (parameter item (type Int))
-          (returns Int)
-          (result (call Standard.Numeric.times item 2)))))))
+    (body
+      (return
+        (call Standard.Collection.map
+          (array 1 2 3)
+          (closure
+            (const)
+            (isolated)
+            (parameter item (type Int))
+            (returns Int)
+            (body
+              (return (call Standard.Numeric.times item 2)))))))))
 (expect (answers (array 2 4 6)))

@@ -9,5 +9,6 @@
     (parameter count (type Int))
     (returns Int)
     (failing cast_refused)
-    (result (as count Int))))
+    (body
+      (return (as count Int)))))
 (expect (refuses build))

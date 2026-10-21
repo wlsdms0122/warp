@@ -9,14 +9,15 @@
   (procedure App.keep
     (parameter f (type (inout (procedure (const) (isolated) (parameters Int Int) (returns Int)))))
     (returns (procedure (isolated) (parameters Int Int) (returns Int)))
-    (result
-      (closure
-        (parameter x (type Int))
-        (parameter i (type Int))
-        (returns Int)
-        (body
-          (let y (apply f x i)))
-        (result y))))
+    (body
+      (return
+        (closure
+          (parameter x (type Int))
+          (parameter i (type Int))
+          (returns Int)
+          (body
+            (let y (apply f x i))
+            (return y))))))
   (procedure entry
     (access public)
     (returns Never)
@@ -27,7 +28,8 @@
           (parameter x (type Int))
           (parameter i (type Int))
           (returns Int)
-          (result x)))
+          (body
+            (return x))))
       (let k (call App.keep h))
       (var count 0)
       (set h
@@ -36,8 +38,8 @@
           (parameter i (type Int))
           (returns Int)
           (body
-            (set count (call Standard.Numeric.plus count 1)))
-          (result x)))
-      (let out (call Standard.Concurrent.map (array 1 2 3) k)))
-    (result (struct (field count count) (field out out)))))
+            (set count (call Standard.Numeric.plus count 1))
+            (return x))))
+      (let out (call Standard.Concurrent.map (array 1 2 3) k))
+      (return (struct (field count count) (field out out))))))
 (expect (refuses build))

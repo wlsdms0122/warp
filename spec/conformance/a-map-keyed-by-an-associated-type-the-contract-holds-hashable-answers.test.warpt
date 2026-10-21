@@ -15,8 +15,8 @@
       (parameter c (type (some C Lib.Keyed)))
       (returns (dictionary (some C.Item) Int))
       (body
-        (let k (call Lib.Keyed.key c)))
-      (result (dictionary (entry k 1)))))
+        (let k (call Lib.Keyed.key c))
+        (return (dictionary (entry k 1))))))
   (document
     (warp 1)
     (import Lib.Keyed)
@@ -28,7 +28,8 @@
         (access public)
         (parameter of (type App.Card))
         (returns String)
-        (result "card")))))
+        (body
+          (return "card"))))))
 
 (program
   (warp 1)
@@ -39,6 +40,6 @@
     (returns (nullable Int))
     (body
       (let c (type App.Card) (struct (field rank 1)))
-      (let m (call Lib.index c)))
-    (result (path m (index "card")))))
+      (let m (call Lib.index c))
+      (return (path m (index "card"))))))
 (expect (answers 1))

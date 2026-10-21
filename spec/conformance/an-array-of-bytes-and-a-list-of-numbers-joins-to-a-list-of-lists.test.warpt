@@ -8,10 +8,11 @@
     (access public)
     (returns Int)
     (body
-      (let mixed (array x"6869" (array 1 2))))
-    (result (call wants mixed)))
+      (let mixed (array x"6869" (array 1 2)))
+      (return (call wants mixed))))
   (procedure wants
     (parameter texts (type (array String)))
     (returns Int)
-    (result 1)))
+    (body
+      (return 1))))
 (expect (refuses build))

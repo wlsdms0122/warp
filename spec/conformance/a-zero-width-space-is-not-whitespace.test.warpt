@@ -16,6 +16,6 @@
       (let thin (call Standard.Text.decoded x"e2808b" "utf8"))
       (let written (call Standard.Text.joined (array " " "warp" thin " ") ""))
       (let bare (call Standard.Text.trimmed written))
-      (let held (call Standard.Collection.count (call Standard.Text.characters bare))))
-    (result held)))
+      (let held (call Standard.Collection.count (call Standard.Text.characters bare)))
+      (return held))))
 (expect (answers 5))

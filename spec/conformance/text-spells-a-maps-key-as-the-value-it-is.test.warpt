@@ -8,5 +8,6 @@
   (procedure entry
     (access public)
     (returns (array String))
-    (result (array (call Standard.Text.text (dictionary (entry 10 "b") (entry 2 "a"))) (call Standard.Text.text (dictionary (entry (array 1 2) true)))))))
+    (body
+      (return (array (call Standard.Text.text (dictionary (entry 10 "b") (entry 2 "a"))) (call Standard.Text.text (dictionary (entry (array 1 2) true))))))))
 (expect (answers (array "{2:\"a\",10:\"b\"}" "{[1,2]:true}")))

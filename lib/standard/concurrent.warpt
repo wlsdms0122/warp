@@ -26,7 +26,7 @@
               (returns (some Answer))
               (failing (anything))
               (body
-                (let answered (apply transform item index)))
-              (result answered)))
-          (set pieces (call Standard.Collection.appending pieces piece))))))
-  (result (call Standard.Concurrent.all pieces)))
+                (let answered (apply transform item index))
+                (return answered))))
+          (set pieces (call Standard.Collection.appending pieces piece)))))
+    (return (call Standard.Concurrent.all pieces))))

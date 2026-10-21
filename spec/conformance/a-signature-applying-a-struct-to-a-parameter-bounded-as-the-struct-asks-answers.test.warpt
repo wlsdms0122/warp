@@ -11,11 +11,12 @@
   (procedure App.size
     (parameter c (type (named App.Cache (some K Hashable) Int)))
     (returns Int)
-    (result 1))
+    (body
+      (return 1)))
   (procedure entry
     (access public)
     (returns Int)
     (body
-      (let c (type (named App.Cache String Int)) (struct (field table (dictionary)))))
-    (result (call App.size c))))
+      (let c (type (named App.Cache String Int)) (struct (field table (dictionary))))
+      (return (call App.size c)))))
 (expect (answers 1))

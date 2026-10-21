@@ -7,9 +7,11 @@
   (procedure App.read
     (parameter p (type (some T)))
     (returns Int)
-    (result (path p (field x))))
+    (body
+      (return (path p (field x)))))
   (procedure entry
     (access public)
     (returns Int)
-    (result 1)))
+    (body
+      (return 1))))
 (expect (refuses build))

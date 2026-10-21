@@ -15,7 +15,7 @@
           (body
             (as payload Int))
           (rescue
-            (set tried (path caught (field type)))))))
-    (result tried)))
+            (set tried (path caught (field type))))))
+      (return tried))))
 (arguments (argument payload "not a whole number"))
 (expect (answers "cast_refused"))

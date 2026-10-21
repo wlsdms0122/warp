@@ -16,8 +16,8 @@
     (conditional
       (when (call Standard.Comparable.lessThan zero number))
       (then
-        (return number))))
-  (result (call Standard.Numeric.minus zero number)))
+        (return number)))
+    (return (call Standard.Numeric.minus zero number))))
 
 (procedure Standard.Math.greaterThan
   (description "Whether the first is larger, by the one order.")
@@ -26,7 +26,8 @@
   (parameter lhs (type (some T Standard.Comparable)))
   (parameter rhs (type (some T)))
   (returns Bool)
-  (result (call Standard.Comparable.lessThan rhs lhs)))
+  (body
+    (return (call Standard.Comparable.lessThan rhs lhs))))
 
 (procedure Standard.Math.max
   (description "The larger of two of one type, by the one order.")
@@ -39,8 +40,8 @@
     (conditional
       (when (call Standard.Comparable.lessThan rhs lhs))
       (then
-        (return lhs))))
-  (result rhs))
+        (return lhs)))
+    (return rhs)))
 
 (procedure Standard.Math.min
   (description "The smaller of two of one type, by the one order.")
@@ -53,5 +54,5 @@
     (conditional
       (when (call Standard.Comparable.lessThan rhs lhs))
       (then
-        (return rhs))))
-  (result lhs))
+        (return rhs)))
+    (return lhs)))

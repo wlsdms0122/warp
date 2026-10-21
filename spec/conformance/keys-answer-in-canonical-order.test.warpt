@@ -10,6 +10,6 @@
     (returns (array String))
     (body
       (let data (dictionary (entry "a" 2) (entry "b" 1) (entry "c" 3)))
-      (let names (call Standard.Collection.keys data)))
-    (result names)))
+      (let names (call Standard.Collection.keys data))
+      (return names))))
 (expect (answers (array "a" "b" "c")))

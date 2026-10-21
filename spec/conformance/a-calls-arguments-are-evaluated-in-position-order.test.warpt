@@ -10,7 +10,8 @@
     (parameter zulu (type String))
     (parameter alpha (type String))
     (returns String)
-    (result zulu))
+    (body
+      (return zulu)))
   (procedure entry
     (access public)
     (returns (array (nullable String)))
@@ -38,9 +39,10 @@
                 (parameter first (type String))
                 (parameter second (type String))
                 (returns String)
-                (result first)))
+                (body
+                  (return first))))
             (let made (apply f (call Standard.Control.abort "first") (call Standard.Control.abort "second"))))
           (rescue
-            (set applied (path failure (field message)))))))
-    (result (array declared hosted applied))))
+            (set applied (path failure (field message))))))
+      (return (array declared hosted applied)))))
 (expect (answers (array "zulu" "map" "first")))

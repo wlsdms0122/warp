@@ -1,5 +1,5 @@
 (test 1)
 (name "a-statement-saying-two-things-refuses")
 (note "A statement names itself at most once, with `let`, `var` or `set`. One carrying both `let` and `var` says two things about one name and refuses at the load.")
-(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "let" "x") (entry "value" 1) (entry "var" "x")))) (entry "result" (dictionary (entry "ref" "x"))) (entry "returns" "Int"))))) (entry "warp" 1)))
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "let" "x") (entry "value" 1) (entry "var" "x")) (dictionary (entry "value" (dictionary (entry "return" (dictionary (entry "ref" "x")))))))) (entry "returns" "Int"))))) (entry "warp" 1)))
 (expect (refuses load))

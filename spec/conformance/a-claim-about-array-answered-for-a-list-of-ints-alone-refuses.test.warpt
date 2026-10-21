@@ -16,9 +16,11 @@
     (procedure total
       (parameter of (type (array Int)))
       (returns Int)
-      (result 0)))
+      (body
+        (return 0))))
   (procedure entry
     (access public)
     (returns Int)
-    (result (call App.Totalable.total (array "s")))))
+    (body
+      (return (call App.Totalable.total (array "s"))))))
 (expect (refuses build))

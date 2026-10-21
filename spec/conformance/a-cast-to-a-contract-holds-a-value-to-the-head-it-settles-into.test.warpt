@@ -17,12 +17,13 @@
     (procedure describe
       (parameter of (type (named App.Box (nullable Int))))
       (returns String)
-      (result "box")))
+      (body
+        (return "box"))))
   (procedure entry
     (access public)
     (returns String)
     (failing cast_refused)
     (body
-      (let one (type Any) (as (struct (field item null)) (named App.Box (nullable Int)))))
-    (result (call App.Describable.describe (as one App.Describable)))))
+      (let one (type Any) (as (struct (field item null)) (named App.Box (nullable Int))))
+      (return (call App.Describable.describe (as one App.Describable))))))
 (expect (answers "box"))

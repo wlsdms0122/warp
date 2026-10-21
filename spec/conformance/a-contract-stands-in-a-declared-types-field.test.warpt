@@ -12,7 +12,8 @@
       (isolated)
       (parameter of (type Bank.Card))
       (returns String)
-      (result "a card")))
+      (body
+        (return "a card"))))
   (struct Bank.Wallet
     (field cards (array App.Describable)))
   (contract App.Describable
@@ -26,6 +27,6 @@
     (returns String)
     (failing cast_refused)
     (body
-      (let wallet (as (struct (field cards (array (as (struct (field limit 5)) Bank.Card)))) Bank.Wallet)))
-    (result (call App.Describable.describe (path wallet (field cards) (index 0))))))
+      (let wallet (as (struct (field cards (array (as (struct (field limit 5)) Bank.Card)))) Bank.Wallet))
+      (return (call App.Describable.describe (path wallet (field cards) (index 0)))))))
 (expect (answers "a card"))

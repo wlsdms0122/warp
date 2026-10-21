@@ -18,7 +18,8 @@
           (field f
             (closure
               (returns Int)
-              (result 1)))
-          (field n m))))
-    (result (apply (path h (field f))))))
+              (body
+                (return 1))))
+          (field n m)))
+      (return (apply (path h (field f)))))))
 (expect (answers 1))

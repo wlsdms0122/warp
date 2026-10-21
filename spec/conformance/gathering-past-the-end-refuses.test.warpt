@@ -9,6 +9,7 @@
     (access public)
     (parameter at (type (array Int)))
     (returns (array Int))
-    (result (call Standard.Collection.gathering (array 1 2) at))))
+    (body
+      (return (call Standard.Collection.gathering (array 1 2) at)))))
 (arguments (argument at (array 0 2)))
 (expect (refuses run))

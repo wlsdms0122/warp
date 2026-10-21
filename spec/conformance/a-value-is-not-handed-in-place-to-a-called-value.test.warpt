@@ -16,6 +16,6 @@
           (parameter count (type (inout Int)))
           (body
             (set count (call Standard.Numeric.plus count 1)))))
-      (apply bump 10))
-    (result n)))
+      (apply bump 10)
+      (return n))))
 (expect (refuses build))

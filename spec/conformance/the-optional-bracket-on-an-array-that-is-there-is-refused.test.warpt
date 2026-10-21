@@ -8,5 +8,6 @@
     (access public)
     (parameter items (type (array String)))
     (returns Any)
-    (result (path items (index? 0)))))
+    (body
+      (return (path items (index? 0))))))
 (expect (refuses build))

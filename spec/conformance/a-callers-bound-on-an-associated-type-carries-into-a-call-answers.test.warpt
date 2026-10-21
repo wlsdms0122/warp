@@ -14,7 +14,8 @@
       (access public)
       (parameter c (type (some C Lib.Container)))
       (returns (some C.Item))
-      (result (call Lib.Container.first c))))
+      (body
+        (return (call Lib.Container.first c)))))
   (document
     (warp 1)
     (import Lib.Container)
@@ -27,7 +28,8 @@
         (access public)
         (parameter of (type (named App.Box (some T))))
         (returns (some T))
-        (result (path of (field item))))))
+        (body
+          (return (path of (field item)))))))
   (document
     (warp 1)
     (contract App.Describable
@@ -41,7 +43,8 @@
         (access public)
         (parameter of (type Int))
         (returns String)
-        (result "one"))))
+        (body
+          (return "one")))))
   (document
     (warp 1)
     (import App.Describable)
@@ -54,8 +57,8 @@
       (returns String)
       (bound C.Item App.Describable)
       (body
-        (let x (call Lib.Container.first c)))
-      (result (call App.Describable.describe x))))
+        (let x (call Lib.Container.first c))
+        (return (call App.Describable.describe x)))))
   (document
     (warp 1)
     (import App.Describable)
@@ -67,8 +70,8 @@
       (returns String)
       (bound C.Item App.Describable)
       (body
-        (let x (call Use.firstText c)))
-      (result x))))
+        (let x (call Use.firstText c))
+        (return x)))))
 
 (program
   (warp 1)
@@ -79,6 +82,6 @@
     (returns String)
     (body
       (let b (type (named App.Box Int)) (struct (field item 1)))
-      (let x (call Use.outer b)))
-    (result x)))
+      (let x (call Use.outer b))
+      (return x))))
 (expect (answers "one"))

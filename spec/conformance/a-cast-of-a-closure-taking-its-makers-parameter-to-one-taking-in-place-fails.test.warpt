@@ -7,11 +7,13 @@
   (procedure App.mk
     (parameter x (type (some T)))
     (returns (procedure (parameters (some T)) (returns Int)))
-    (result
-      (closure
-        (parameter y (type (some T)))
-        (returns Int)
-        (result 0))))
+    (body
+      (return
+        (closure
+          (parameter y (type (some T)))
+          (returns Int)
+          (body
+            (return 0))))))
   (procedure entry
     (access public)
     (returns Any)
@@ -26,6 +28,6 @@
             (apply f s)
             (set tried s))
           (rescue
-            (set tried (path caught (field type)))))))
-    (result tried)))
+            (set tried (path caught (field type))))))
+      (return tried))))
 (expect (answers "cast_refused"))

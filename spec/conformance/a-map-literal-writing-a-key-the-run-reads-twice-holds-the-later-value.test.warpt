@@ -8,11 +8,12 @@
     (parameter a (type Int))
     (parameter b (type Int))
     (returns (dictionary Int Int))
-    (result (dictionary (entry a 1) (entry b 2))))
+    (body
+      (return (dictionary (entry a 1) (entry b 2)))))
   (procedure entry
     (access public)
     (returns (nullable Int))
     (body
-      (let m (call App.m 3 3)))
-    (result (path m (index 3)))))
+      (let m (call App.m 3 3))
+      (return (path m (index 3))))))
 (expect (answers 2))

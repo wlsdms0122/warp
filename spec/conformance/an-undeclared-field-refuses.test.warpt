@@ -10,5 +10,6 @@
     (access public)
     (parameter task (type App.Task))
     (returns Any)
-    (result (path task (field done)))))
+    (body
+      (return (path task (field done))))))
 (expect (refuses build))

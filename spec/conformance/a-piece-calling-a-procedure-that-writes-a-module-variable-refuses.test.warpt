@@ -10,21 +10,24 @@
   (procedure bump
     (returns Int)
     (body
-      (set count (call Standard.Numeric.plus count 1)))
-    (result count))
+      (set count (call Standard.Numeric.plus count 1))
+      (return count)))
   (procedure entry
     (access public)
     (returns (array Int))
     (failing concurrent_failed)
-    (result
-      (call Standard.Concurrent.all
-        (array
-          (closure
-            (isolated)
-            (returns Int)
-            (result 1))
-          (closure
-            (isolated)
-            (returns Int)
-            (result (call bump))))))))
+    (body
+      (return
+        (call Standard.Concurrent.all
+          (array
+            (closure
+              (isolated)
+              (returns Int)
+              (body
+                (return 1)))
+            (closure
+              (isolated)
+              (returns Int)
+              (body
+                (return (call bump))))))))))
 (expect (refuses build))

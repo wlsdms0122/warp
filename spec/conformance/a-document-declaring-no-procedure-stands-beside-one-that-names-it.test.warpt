@@ -15,6 +15,6 @@
     (access public)
     (returns Int)
     (body
-      (let p (type Geo.Point) (struct (field x 2))))
-    (result (path p (field x)))))
+      (let p (type Geo.Point) (struct (field x 2)))
+      (return (path p (field x))))))
 (expect (answers 2))

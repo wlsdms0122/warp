@@ -19,12 +19,13 @@
     (procedure describe
       (parameter of (type (named App.Box (some T))))
       (returns String)
-      (result "box")))
+      (body
+        (return "box"))))
   (procedure entry
     (access public)
     (returns (nullable App.Describable))
     (failing cast_refused)
     (body
-      (let two (type Any) (as (struct (field item (struct (field x 1)))) (named App.Box App.Plain))))
-    (result (as? two App.Describable))))
+      (let two (type Any) (as (struct (field item (struct (field x 1)))) (named App.Box App.Plain)))
+      (return (as? two App.Describable)))))
 (expect (answers null))

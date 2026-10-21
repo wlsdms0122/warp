@@ -9,20 +9,22 @@
     (access public)
     (const)
     (returns Int)
-    (result
-      (call Standard.Numeric.plus
-        (call relay
-          (closure
-            (const)
-            (isolated)
-            (returns Int)
-            (result 1)))
-        1)))
+    (body
+      (return
+        (call Standard.Numeric.plus
+          (call relay
+            (closure
+              (const)
+              (isolated)
+              (returns Int)
+              (body
+                (return 1))))
+          1))))
   (procedure relay
     (const)
     (parameter body (type (procedure (const) (parameters) (returns Int))))
     (returns Int)
     (body
-      (let g body))
-    (result (apply g))))
+      (let g body)
+      (return (apply g)))))
 (expect (answers 2))

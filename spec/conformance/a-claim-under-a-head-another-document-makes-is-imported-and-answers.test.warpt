@@ -23,7 +23,8 @@
         (access public)
         (parameter of (type (named App.Box (some T))))
         (returns String)
-        (result "box")))))
+        (body
+          (return "box"))))))
 
 (program
   (warp 1)
@@ -34,6 +35,6 @@
     (access public)
     (returns String)
     (body
-      (let b (type (named App.Box Int)) (struct (field item 1))))
-    (result (call App.Describable.describe b))))
+      (let b (type (named App.Box Int)) (struct (field item 1)))
+      (return (call App.Describable.describe b)))))
 (expect (answers "box"))

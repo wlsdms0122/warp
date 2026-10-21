@@ -8,5 +8,6 @@
     (access public)
     (parameter payload)
     (returns Any)
-    (result (path payload (index 0)))))
+    (body
+      (return (path payload (index 0))))))
 (expect (refuses build))

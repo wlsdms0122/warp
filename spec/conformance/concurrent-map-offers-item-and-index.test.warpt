@@ -23,7 +23,7 @@
             (parameter index (type Int))
             (returns String)
             (body
-              (let place (call Standard.Text.text index)))
-            (result (call Standard.Text.joined (array place item) ""))))))
-    (result tagged)))
+              (let place (call Standard.Text.text index))
+              (return (call Standard.Text.joined (array place item) ""))))))
+      (return tagged))))
 (expect (answers (array "0a" "1b")))

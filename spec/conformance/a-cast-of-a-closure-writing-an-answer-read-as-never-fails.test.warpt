@@ -16,16 +16,17 @@
           (parameter z (type (some T)))
           (returns Int)
           (body
-            (set ys (call Standard.Collection.appending ys z)))
-          (result 0)))
+            (set ys (call Standard.Collection.appending ys z))
+            (return 0))))
       (let a (type Any) c)
       (let d (as a (procedure (parameters String) (returns Int))))
-      (apply d "s"))
-    (result (path ys (index 0))))
+      (apply d "s")
+      (return (path ys (index 0)))))
   (procedure App.h
     (returns Int)
     (failing (anything))
-    (result (call App.f (array))))
+    (body
+      (return (call App.f (array)))))
   (procedure entry
     (access public)
     (returns Any)
@@ -37,6 +38,6 @@
             (let k (call App.h))
             (set tried (array k)))
           (rescue
-            (set tried (path caught (field type)))))))
-    (result tried)))
+            (set tried (path caught (field type))))))
+      (return tried))))
 (expect (answers "cast_refused"))

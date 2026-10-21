@@ -10,5 +10,6 @@
     (access public)
     (parameter task (type (nullable Task)))
     (returns Any)
-    (result (path task (field name)))))
+    (body
+      (return (path task (field name))))))
 (expect (refuses build))

@@ -11,6 +11,6 @@
     (returns (array Any))
     (body
       (let low (call Standard.Math.min 3 1))
-      (let high (call Standard.Math.max 2.5 7.25)))
-    (result (array low high))))
+      (let high (call Standard.Math.max 2.5 7.25))
+      (return (array low high)))))
 (expect (answers (array 1 7.25)))

@@ -14,6 +14,6 @@
           (let checked (as null (nullable Int)))
           (return "left from inside"))
         (rescue
-          (set tried "the rescue ran"))))
-    (result tried)))
+          (set tried "the rescue ran")))
+      (return tried))))
 (expect (answers "left from inside"))

@@ -27,7 +27,8 @@
         (access public)
         (parameter of (type App.Card))
         (returns Int)
-        (result (path of (field k)))))
+        (body
+          (return (path of (field k))))))
     (struct App.Shelf
       (satisfies Lib.Outer)
       (field card App.Card)
@@ -36,7 +37,8 @@
         (access public)
         (parameter of (type App.Shelf))
         (returns App.Card)
-        (result (path of (field card))))))
+        (body
+          (return (path of (field card)))))))
   (document
     (warp 1)
     (import Lib.Keyed)
@@ -62,18 +64,21 @@
         (access public)
         (parameter of (type App.DShelf))
         (returns String)
-        (result "x"))
+        (body
+          (return "x")))
       (procedure keyPlus
         (access public)
         (parameter of (type App.DShelf))
         (parameter k (type Int))
         (returns Int)
-        (result (call Int.plus k 1))))))
+        (body
+          (return (call Int.plus k 1)))))))
 
 (program
   (warp 1)
   (procedure entry
     (access public)
     (returns Int)
-    (result 1)))
+    (body
+      (return 1))))
 (expect (refuses build))

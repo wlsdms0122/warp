@@ -8,5 +8,6 @@
   (procedure entry
     (access public)
     (returns (array Bool))
-    (result (array (call Standard.Logic.equal 9007199254740993 9007199254740992.0) (call Standard.Logic.equal 9007199254740992 9007199254740992.0)))))
+    (body
+      (return (array (call Standard.Logic.equal 9007199254740993 9007199254740992.0) (call Standard.Logic.equal 9007199254740992 9007199254740992.0))))))
 (expect (answers (array false true)))

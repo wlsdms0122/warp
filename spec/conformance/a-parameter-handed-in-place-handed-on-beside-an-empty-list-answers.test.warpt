@@ -9,13 +9,13 @@
     (parameter xs (type (inout (array (array (some T))))))
     (returns Int)
     (body
-      (call Standard.Collection.append xs (array)))
-    (result 0))
+      (call Standard.Collection.append xs (array))
+      (return 0)))
   (procedure entry
     (access public)
     (returns (array (array String)))
     (body
       (var s (array (array "a")))
-      (call App.g s))
-    (result s)))
+      (call App.g s)
+      (return s))))
 (expect (answers (array (array "a") (array))))

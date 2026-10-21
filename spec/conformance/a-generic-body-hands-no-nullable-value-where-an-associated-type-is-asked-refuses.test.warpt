@@ -23,12 +23,14 @@
       (parameter c (type (some C Lib.Bag)))
       (parameter d (type (nullable (some C.Item))))
       (returns Int)
-      (result (call Lib.Bag.take c d)))))
+      (body
+        (return (call Lib.Bag.take c d))))))
 
 (program
   (warp 1)
   (procedure entry
     (access public)
     (returns Int)
-    (result 1)))
+    (body
+      (return 1))))
 (expect (refuses build))

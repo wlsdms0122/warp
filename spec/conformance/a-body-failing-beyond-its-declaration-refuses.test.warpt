@@ -7,10 +7,12 @@
   (import Standard.Control.abort)
   (procedure App.go
     (returns Never)
-    (result (call Standard.Control.abort "no")))
+    (body
+      (return (call Standard.Control.abort "no"))))
   (procedure entry
     (access public)
     (returns Never)
     (failing aborted)
-    (result (call App.go))))
+    (body
+      (return (call App.go)))))
 (expect (refuses build))

@@ -9,7 +9,8 @@
     (parameter a (type (some E)))
     (parameter b (type (some E)))
     (returns (some E))
-    (result b))
+    (body
+      (return b)))
   (procedure entry
     (access public)
     (returns (array Any))
@@ -18,13 +19,15 @@
       (let fs
         (closure
           (returns String)
-          (result "x")))
+          (body
+            (return "x"))))
       (let fa
         (closure
           (returns Any)
-          (result 1)))
+          (body
+            (return 1))))
       (let r (call App.pick fs fa))
       (let v (apply r))
-      (let t (call Standard.Collection.appending (array v) "z")))
-    (result t)))
+      (let t (call Standard.Collection.appending (array v) "z"))
+      (return t))))
 (expect (answers (array 1 "z")))

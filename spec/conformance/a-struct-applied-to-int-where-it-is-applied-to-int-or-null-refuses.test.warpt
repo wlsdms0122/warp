@@ -12,6 +12,6 @@
     (returns (nullable Int))
     (body
       (let a (type (named App.Box Int)) (struct (field item 1)))
-      (let b (type (named App.Box (nullable Int))) a))
-    (result (path b (field item)))))
+      (let b (type (named App.Box (nullable Int))) a)
+      (return (path b (field item))))))
 (expect (refuses build))

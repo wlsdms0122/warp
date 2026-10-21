@@ -22,7 +22,8 @@
         (isolated)
         (parameter of (type (named App.Box (nullable Int))))
         (returns String)
-        (result "box")))))
+        (body
+          (return "box"))))))
 
 (program
   (warp 1)
@@ -34,5 +35,6 @@
     (const)
     (isolated)
     (returns String)
-    (result d)))
+    (body
+      (return d))))
 (expect (answers "box"))

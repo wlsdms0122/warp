@@ -14,12 +14,12 @@
           (parameter y (type (some T)))
           (returns Int)
           (body
-            (set x y))
-          (result 0)))
+            (set x y)
+            (return 0))))
       (let a (type Any) c)
       (let h (as a (procedure (parameters String) (returns Int))))
-      (let z (apply h "s")))
-    (result 0))
+      (let z (apply h "s"))
+      (return 0)))
   (procedure entry
     (access public)
     (returns Any)
@@ -32,6 +32,6 @@
             (call App.g v)
             (set tried v))
           (rescue
-            (set tried (path caught (field type)))))))
-    (result tried)))
+            (set tried (path caught (field type))))))
+      (return tried))))
 (expect (answers "cast_refused"))

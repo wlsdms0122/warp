@@ -7,7 +7,8 @@
   (procedure App.ready
     (parameter peek (type (procedure (parameters) (returns Int))))
     (returns Bool)
-    (result true))
+    (body
+      (return true)))
   (procedure entry
     (access public)
     (returns Int)
@@ -18,9 +19,10 @@
           (call App.ready
             (closure
               (returns Int)
-              (result n))))
+              (body
+                (return n)))))
         (body
           (set n "s")
-          (break))))
-    (result 1)))
+          (break)))
+      (return 1))))
 (expect (refuses build))

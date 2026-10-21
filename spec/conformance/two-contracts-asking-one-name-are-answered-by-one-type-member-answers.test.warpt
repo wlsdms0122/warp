@@ -14,7 +14,8 @@
       (access public)
       (parameter c (type (some C Lib.Container)))
       (returns (some C.Item))
-      (result (call Lib.Container.first c))))
+      (body
+        (return (call Lib.Container.first c)))))
   (document
     (warp 1)
     (contract Lib.Held
@@ -35,12 +36,14 @@
         (access public)
         (parameter of (type (named App.Box (some T))))
         (returns (some T))
-        (result (path of (field item))))
+        (body
+          (return (path of (field item)))))
       (procedure held
         (access public)
         (parameter of (type (named App.Box (some T))))
         (returns (some T))
-        (result (path of (field item))))))
+        (body
+          (return (path of (field item)))))))
   (document
     (warp 1)
     (import Lib.Container)
@@ -51,8 +54,8 @@
       (parameter c (type (some C Lib.Container Lib.Held)))
       (returns (some C.Item))
       (body
-        (let x (call Lib.Container.first c)))
-      (result x))))
+        (let x (call Lib.Container.first c))
+        (return x)))))
 
 (program
   (warp 1)
@@ -63,6 +66,6 @@
     (returns Int)
     (body
       (let b (type (named App.Box Int)) (struct (field item 1)))
-      (let x (call Use.both b)))
-    (result x)))
+      (let x (call Use.both b))
+      (return x))))
 (expect (answers 1))

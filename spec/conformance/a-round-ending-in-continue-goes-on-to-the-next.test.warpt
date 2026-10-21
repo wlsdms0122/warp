@@ -16,6 +16,6 @@
           (while (call Standard.Comparable.lessThan (path walk (field index)) 2))
           (body
             (set seen (call Standard.Text.joined (array seen "a") ""))
-            (continue)))))
-    (result seen)))
+            (continue))))
+      (return seen))))
 (expect (answers "aa"))

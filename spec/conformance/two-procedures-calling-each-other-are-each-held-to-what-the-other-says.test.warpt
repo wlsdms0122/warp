@@ -15,8 +15,8 @@
       (conditional
         (when (call Standard.Logic.equal n 0))
         (then
-          (return true))))
-    (result (call App.odd (call Standard.Numeric.minus n 1))))
+          (return true)))
+      (return (call App.odd (call Standard.Numeric.minus n 1)))))
   (procedure App.odd
     (const)
     (parameter n (type Int))
@@ -25,10 +25,11 @@
       (conditional
         (when (call Standard.Logic.equal n 0))
         (then
-          (return false))))
-    (result (call App.even (call Standard.Numeric.minus n 1))))
+          (return false)))
+      (return (call App.even (call Standard.Numeric.minus n 1)))))
   (procedure entry
     (access public)
     (returns Bool)
-    (result (call Standard.Logic.not (call App.odd 4)))))
+    (body
+      (return (call Standard.Logic.not (call App.odd 4))))))
 (expect (answers true))

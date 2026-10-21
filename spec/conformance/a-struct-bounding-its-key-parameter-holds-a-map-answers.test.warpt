@@ -12,6 +12,6 @@
     (access public)
     (returns (nullable Int))
     (body
-      (let c (type (named App.Cache String Int)) (struct (field table (dictionary (entry "a" 2))))))
-    (result (path c (field table) (index "a")))))
+      (let c (type (named App.Cache String Int)) (struct (field table (dictionary (entry "a" 2)))))
+      (return (path c (field table) (index "a"))))))
 (expect (answers 2))

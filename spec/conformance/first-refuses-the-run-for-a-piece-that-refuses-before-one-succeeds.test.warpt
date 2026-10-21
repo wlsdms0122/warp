@@ -12,23 +12,25 @@
     (parameter z (type Int))
     (returns Any)
     (failing concurrent_failed)
-    (result
-      (call Standard.Concurrent.first
-        (array
-          (closure
-            (const)
-            (isolated)
-            (returns Double)
-            (result (call Standard.Numeric.dividedBy 1 z)))
-          (closure
-            (const)
-            (isolated)
-            (returns Int)
-            (body
-              (loop
-                (while true)
-                (body
-                  (let round 1))))
-            (result 1)))))))
+    (body
+      (return
+        (call Standard.Concurrent.first
+          (array
+            (closure
+              (const)
+              (isolated)
+              (returns Double)
+              (body
+                (return (call Standard.Numeric.dividedBy 1 z))))
+            (closure
+              (const)
+              (isolated)
+              (returns Int)
+              (body
+                (loop
+                  (while true)
+                  (body
+                    (let round 1)))
+                (return 1)))))))))
 (arguments (argument z 0))
 (expect (refuses run))

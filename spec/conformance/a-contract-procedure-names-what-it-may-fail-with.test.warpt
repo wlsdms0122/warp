@@ -17,7 +17,8 @@
       (parameter of (type Int))
       (returns Int)
       (failing aborted)
-      (result (call Standard.Control.abort "no"))))
+      (body
+        (return (call Standard.Control.abort "no")))))
   (procedure entry
     (access public)
     (returns (nullable String))
@@ -28,6 +29,6 @@
           (body
             (call App.Checked.check 1))
           (rescue
-            (set failed (path caught (field type)))))))
-    (result failed)))
+            (set failed (path caught (field type))))))
+      (return failed))))
 (expect (answers "aborted"))

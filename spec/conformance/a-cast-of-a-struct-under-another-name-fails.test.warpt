@@ -20,11 +20,12 @@
           (body
             (let got (call read held)))
           (rescue
-            (set tried (path caught (field type)))))))
-    (result tried))
+            (set tried (path caught (field type))))))
+      (return tried)))
   (procedure read
     (parameter account)
     (returns Account)
     (failing cast_refused)
-    (result (as account Account))))
+    (body
+      (return (as account Account)))))
 (expect (answers "cast_refused"))

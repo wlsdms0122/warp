@@ -20,11 +20,13 @@
     (procedure describe
       (parameter of (type (named App.Box (nullable Int))))
       (returns String)
-      (result "box")))
+      (body
+        (return "box"))))
   (procedure entry
     (access public)
     (parameter x)
     (returns Int)
-    (result 1)))
+    (body
+      (return 1))))
 (arguments (argument x (struct App.Keyed (field item (struct App.Box (field item 1))))))
 (expect (answers 1))

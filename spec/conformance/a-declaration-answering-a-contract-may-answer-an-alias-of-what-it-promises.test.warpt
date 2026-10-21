@@ -11,11 +11,13 @@
     (procedure describe
       (parameter of (type Bank.Card))
       (returns String)
-      (result "a card"))
+      (body
+        (return "a card")))
     (procedure make
       (parameter of (type Bank.Card))
       (returns App.D)
-      (result of)))
+      (body
+        (return of))))
   (contract App.Describable
     (procedure describe
       (parameter of (type Self))
@@ -30,6 +32,6 @@
     (failing cast_refused)
     (body
       (let c (as (struct (field last "1")) Bank.Card))
-      (let m (call App.Maker.make c)))
-    (result (call App.Describable.describe m))))
+      (let m (call App.Maker.make c))
+      (return (call App.Describable.describe m)))))
 (expect (answers "a card"))

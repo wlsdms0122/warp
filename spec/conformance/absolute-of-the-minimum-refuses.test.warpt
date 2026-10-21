@@ -8,5 +8,6 @@
   (procedure entry
     (access public)
     (returns Int)
-    (result (call Standard.Math.absolute -9223372036854775808))))
+    (body
+      (return (call Standard.Math.absolute -9223372036854775808)))))
 (expect (refuses run))

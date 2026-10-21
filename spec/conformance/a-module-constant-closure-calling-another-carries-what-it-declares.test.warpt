@@ -7,13 +7,16 @@
   (const a
     (closure
       (returns Int)
-      (result 1)))
+      (body
+        (return 1))))
   (const b
     (closure
       (returns Int)
-      (result (apply a))))
+      (body
+        (return (apply a)))))
   (procedure entry
     (access public)
     (returns Int)
-    (result (apply b))))
+    (body
+      (return (apply b)))))
 (expect (answers 1))

@@ -14,9 +14,11 @@
     (procedure describe
       (parameter of (type Int))
       (returns String)
-      (result "a whole number")))
+      (body
+        (return "a whole number"))))
   (procedure entry
     (access public)
     (returns String)
-    (result (call Array<Int>.describe 1))))
+    (body
+      (return (call Array<Int>.describe 1)))))
 (expect (refuses load))

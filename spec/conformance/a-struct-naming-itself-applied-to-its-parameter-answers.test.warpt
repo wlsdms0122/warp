@@ -12,6 +12,6 @@
     (access public)
     (returns (nullable Int))
     (body
-      (let l (type (named App.List Int)) (struct (field head 1) (field tail (struct (field head 2) (field tail null))))))
-    (result (path l (field tail) (field? head)))))
+      (let l (type (named App.List Int)) (struct (field head 1) (field tail (struct (field head 2) (field tail null)))))
+      (return (path l (field tail) (field? head))))))
 (expect (answers 2))

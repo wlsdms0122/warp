@@ -19,13 +19,13 @@
       (returns (dictionary (some K) (some E)))
       (body
         (let ks (call Standard.Collection.keys s))
-        (let vs (call Standard.Collection.values s)))
-      (result (call Standard.Collection.setting s (path ks (index 0)) (path vs (index 1))))))
+        (let vs (call Standard.Collection.values s))
+        (return (call Standard.Collection.setting s (path ks (index 0)) (path vs (index 1)))))))
   (procedure entry
     (access public)
     (returns Int)
     (body
       (let r (call App.C.f (dictionary (entry "a" 1) (entry "b" "s"))))
-      (let n (type Int) (path r (index "a"))))
-    (result n)))
+      (let n (type Int) (path r (index "a")))
+      (return n))))
 (expect (refuses build))

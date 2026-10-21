@@ -15,8 +15,8 @@
       (returns Int)
       (body
         (let run (path box (field held)))
-        (let made (apply run x)))
-      (result made)))
+        (let made (apply run x))
+        (return made))))
   (procedure entry
     (access public)
     (returns Int)
@@ -28,7 +28,8 @@
             (closure
               (parameter x (type Int))
               (returns Int)
-              (result x)))))
-      (let made (call App.Box.applied box 2)))
-    (result made)))
+              (body
+                (return x))))))
+      (let made (call App.Box.applied box 2))
+      (return made))))
 (expect (answers 2))

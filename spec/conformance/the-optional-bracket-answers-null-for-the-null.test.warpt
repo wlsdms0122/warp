@@ -8,6 +8,7 @@
     (access public)
     (parameter items (type (nullable (array String))))
     (returns (nullable String))
-    (result (path items (index? 0)))))
+    (body
+      (return (path items (index? 0))))))
 (arguments (argument items null))
 (expect (answers null))

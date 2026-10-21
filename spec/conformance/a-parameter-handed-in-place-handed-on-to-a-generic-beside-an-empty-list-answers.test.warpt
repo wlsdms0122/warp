@@ -9,21 +9,21 @@
     (parameter xs (type (inout (array (some T)))))
     (returns Int)
     (body
-      (call App.put xs (array)))
-    (result 0))
+      (call App.put xs (array))
+      (return 0)))
   (procedure App.put
     (parameter a (type (inout (some U))))
     (parameter b (type (some U)))
     (returns Int)
     (body
-      (set a b))
-    (result 0))
+      (set a b)
+      (return 0)))
   (procedure entry
     (access public)
     (returns (array String))
     (body
       (var s (array "a"))
       (call App.g s)
-      (call Standard.Collection.append s "b"))
-    (result s)))
+      (call Standard.Collection.append s "b")
+      (return s))))
 (expect (answers (array "b")))

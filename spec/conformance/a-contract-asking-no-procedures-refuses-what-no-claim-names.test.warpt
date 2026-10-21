@@ -11,9 +11,11 @@
   (procedure App.take
     (parameter it (type App.Marked))
     (returns Int)
-    (result 1))
+    (body
+      (return 1)))
   (procedure entry
     (access public)
     (returns Int)
-    (result (call App.take "seven"))))
+    (body
+      (return (call App.take "seven")))))
 (expect (refuses build))

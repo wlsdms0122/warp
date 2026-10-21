@@ -12,7 +12,8 @@
       (isolated)
       (parameter n (type Int))
       (returns Int)
-      (result n)))
+      (body
+        (return n))))
   (procedure entry
     (access public)
     (returns Int)
@@ -22,7 +23,8 @@
         (closure
           (parameter n (type Int))
           (returns Int)
-          (result (call Standard.Numeric.plus n base))))
-      (let a (apply onTick 1)))
-    (result a)))
+          (body
+            (return (call Standard.Numeric.plus n base)))))
+      (let a (apply onTick 1))
+      (return a))))
 (expect (answers 2))

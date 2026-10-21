@@ -17,9 +17,9 @@
             (conditional
               (when true)
               (then
-                (return "inner"))))
-          (result "outer")))
+                (return "inner")))
+            (return "outer"))))
       (let got (apply shout))
-      (let after (call Standard.Text.joined (array got "-and-on") "")))
-    (result after)))
+      (let after (call Standard.Text.joined (array got "-and-on") ""))
+      (return after))))
 (expect (answers "inner-and-on"))

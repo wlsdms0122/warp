@@ -9,8 +9,8 @@
     (procedure Ctr.bump
       (returns Int)
       (body
-        (set counter 1))
-      (result counter))))
+        (set counter 1)
+        (return counter)))))
 
 (program
   (warp 1)
@@ -19,6 +19,6 @@
     (access public)
     (returns Int)
     (body
-      (call Ctr.bump))
-    (result counter)))
+      (call Ctr.bump)
+      (return counter))))
 (expect (refuses load))

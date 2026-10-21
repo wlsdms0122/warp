@@ -10,12 +10,14 @@
       (const)
       (isolated)
       (returns String)
-      (result "seven"))
+      (body
+        (return "seven")))
     (procedure Lib.spell
       (const)
       (isolated)
       (returns String)
-      (result (call App.helper)))))
+      (body
+        (return (call App.helper))))))
 
 (program
   (warp 1)
@@ -24,11 +26,13 @@
     (const)
     (isolated)
     (returns Int)
-    (result 7))
+    (body
+      (return 7)))
   (procedure entry
     (access public)
     (const)
     (isolated)
     (returns Int)
-    (result (call App.helper))))
+    (body
+      (return (call App.helper)))))
 (expect (answers 7))

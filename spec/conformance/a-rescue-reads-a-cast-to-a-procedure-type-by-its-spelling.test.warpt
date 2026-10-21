@@ -15,7 +15,7 @@
           (body
             (as payload (procedure (const) (parameters Int) (returns Int))))
           (rescue
-            (set tried (dictionary (entry "actual" (path caught (field details) (index "actual"))) (entry "expected" (path caught (field details) (index "expected")))))))))
-    (result tried)))
+            (set tried (dictionary (entry "actual" (path caught (field details) (index "actual"))) (entry "expected" (path caught (field details) (index "expected"))))))))
+      (return tried))))
 (arguments (argument payload "not a procedure"))
 (expect (answers (dictionary (entry "actual" "String") (entry "expected" "const (Int) -> Int"))))

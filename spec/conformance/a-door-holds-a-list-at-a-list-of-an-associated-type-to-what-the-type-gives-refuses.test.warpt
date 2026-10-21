@@ -26,13 +26,15 @@
         (access public)
         (parameter of (type App.IntBag))
         (returns Int)
-        (result (path of (field n))))
+        (body
+          (return (path of (field n)))))
       (procedure take
         (access public)
         (parameter of (type App.IntBag))
         (parameter x (type Int))
         (returns Int)
-        (result (call Int.plus x 1))))))
+        (body
+          (return (call Int.plus x 1)))))))
 
 (program
   (warp 1)
@@ -44,7 +46,7 @@
     (parameter xs (type (array (some C.Item))))
     (returns Int)
     (body
-      (let y (path xs (index 1))))
-    (result (call Lib.Bag.take c y))))
+      (let y (path xs (index 1)))
+      (return (call Lib.Bag.take c y)))))
 (arguments (argument c (struct App.IntBag (field n 1))) (argument xs (array 1 "s")))
 (expect (refuses run))

@@ -14,9 +14,11 @@
     (procedure find
       (parameter of (type Int))
       (returns (nullable String))
-      (result "s")))
+      (body
+        (return "s"))))
   (procedure entry
     (access public)
     (returns (nullable Int))
-    (result (call App.Find.find 5))))
+    (body
+      (return (call App.Find.find 5)))))
 (expect (refuses build))

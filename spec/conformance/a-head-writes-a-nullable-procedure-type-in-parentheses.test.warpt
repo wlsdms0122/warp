@@ -12,9 +12,11 @@
     (procedure one
       (parameter it (type (named App.Box (nullable (procedure (const))))))
       (returns Int)
-      (result 1)))
+      (body
+        (return 1))))
   (procedure entry
     (access public)
     (returns Int)
-    (result 1)))
+    (body
+      (return 1))))
 (expect (answers 1))

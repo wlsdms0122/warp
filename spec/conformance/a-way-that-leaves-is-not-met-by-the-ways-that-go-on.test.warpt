@@ -18,14 +18,15 @@
           (let a
             (closure
               (returns String)
-              (result n)))
+              (body
+                (return n))))
           (return 0))
         (else
           (let h
             (closure
               (body
                 (set n (call Standard.Numeric.plus n 1)))))))
-      (set n 5))
-    (result n)))
+      (set n 5)
+      (return n))))
 (arguments (argument ready false))
 (expect (answers 5))

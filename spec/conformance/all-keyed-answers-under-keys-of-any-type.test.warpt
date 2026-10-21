@@ -10,19 +10,22 @@
     (isolated)
     (returns (dictionary Int String))
     (failing concurrent_failed)
-    (result
-      (call Standard.Concurrent.allKeyed
-        (dictionary
-          (entry 2
-            (closure
-              (const)
-              (isolated)
-              (returns String)
-              (result "b")))
-          (entry 1
-            (closure
-              (const)
-              (isolated)
-              (returns String)
-              (result "a"))))))))
+    (body
+      (return
+        (call Standard.Concurrent.allKeyed
+          (dictionary
+            (entry 2
+              (closure
+                (const)
+                (isolated)
+                (returns String)
+                (body
+                  (return "b"))))
+            (entry 1
+              (closure
+                (const)
+                (isolated)
+                (returns String)
+                (body
+                  (return "a"))))))))))
 (expect (answers (dictionary (entry 1 "a") (entry 2 "b"))))

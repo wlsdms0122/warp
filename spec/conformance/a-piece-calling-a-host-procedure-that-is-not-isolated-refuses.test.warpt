@@ -17,13 +17,15 @@
     (access public)
     (returns (array Int))
     (failing concurrent_failed)
-    (result
-      (call Standard.Concurrent.map
-        (array 1 2)
-        (closure
-          (isolated)
-          (parameter item (type Int))
-          (parameter index (type Int))
-          (returns Int)
-          (result (call App.count)))))))
+    (body
+      (return
+        (call Standard.Concurrent.map
+          (array 1 2)
+          (closure
+            (isolated)
+            (parameter item (type Int))
+            (parameter index (type Int))
+            (returns Int)
+            (body
+              (return (call App.count)))))))))
 (expect (refuses build))

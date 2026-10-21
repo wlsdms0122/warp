@@ -8,9 +8,11 @@
   (procedure entry
     (access public)
     (returns Int)
-    (result (call keep 3)))
+    (body
+      (return (call keep 3))))
   (procedure keep
     (parameter value (type (some T Comparable)))
     (returns (some T))
-    (result value)))
+    (body
+      (return value))))
 (expect (refuses build))

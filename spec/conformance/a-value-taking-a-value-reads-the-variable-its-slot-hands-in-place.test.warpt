@@ -9,8 +9,8 @@
     (returns Int)
     (body
       (var n 5)
-      (let got (apply read n)))
-    (result got))
+      (let got (apply read n))
+      (return got)))
   (procedure entry
     (access public)
     (returns Int)
@@ -19,6 +19,7 @@
         (closure
           (parameter count (type Int))
           (returns Int)
-          (result count))))
-    (result (call calling reading))))
+          (body
+            (return count))))
+      (return (call calling reading)))))
 (expect (answers 5))

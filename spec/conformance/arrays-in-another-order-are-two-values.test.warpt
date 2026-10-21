@@ -8,5 +8,6 @@
   (procedure entry
     (access public)
     (returns Bool)
-    (result (call Standard.Logic.equal (array 1 2) (array 2 1)))))
+    (body
+      (return (call Standard.Logic.equal (array 1 2) (array 2 1))))))
 (expect (answers false))

@@ -16,7 +16,8 @@
     (procedure describe
       (parameter of (type (named App.Box Int)))
       (returns String)
-      (result "box")))
+      (body
+        (return "box"))))
   (extension
     (head (named App.Box (some T Hashable)))
     (satisfies App.Describable))
@@ -24,6 +25,6 @@
     (access public)
     (returns String)
     (body
-      (let b (type (named App.Box Int)) (struct (field item 1))))
-    (result (call App.Describable.describe b))))
+      (let b (type (named App.Box Int)) (struct (field item 1)))
+      (return (call App.Describable.describe b)))))
 (expect (refuses build))

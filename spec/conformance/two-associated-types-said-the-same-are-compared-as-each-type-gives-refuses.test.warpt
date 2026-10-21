@@ -26,13 +26,15 @@
         (access public)
         (parameter of (type App.IntBag))
         (returns Int)
-        (result (path of (field n))))
+        (body
+          (return (path of (field n)))))
       (procedure take
         (access public)
         (parameter of (type App.IntBag))
         (parameter x (type Int))
         (returns Int)
-        (result (call Int.plus x 1)))))
+        (body
+          (return (call Int.plus x 1))))))
   (document
     (warp 1)
     (import Lib.Bag)
@@ -44,13 +46,15 @@
         (access public)
         (parameter of (type App.MaybeBag))
         (returns (nullable Int))
-        (result (path of (field n))))
+        (body
+          (return (path of (field n)))))
       (procedure take
         (access public)
         (parameter of (type App.MaybeBag))
         (parameter x (type (nullable Int)))
         (returns Int)
-        (result 0))))
+        (body
+          (return 0)))))
   (document
     (warp 1)
     (import Lib.Bag)
@@ -63,8 +67,8 @@
       (returns Int)
       (sameType C.Item (some D.Item))
       (body
-        (let y (call Lib.Bag.first c)))
-      (result (call Lib.Bag.take d y)))))
+        (let y (call Lib.Bag.first c))
+        (return (call Lib.Bag.take d y))))))
 
 (program
   (warp 1)
@@ -76,6 +80,6 @@
     (returns Int)
     (body
       (let b (type App.IntBag) (struct (field n 1)))
-      (let m (type App.MaybeBag) (struct (field n null))))
-    (result (call Use.pick m b))))
+      (let m (type App.MaybeBag) (struct (field n null)))
+      (return (call Use.pick m b)))))
 (expect (refuses build))

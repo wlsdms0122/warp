@@ -7,13 +7,16 @@
   (procedure entry
     (access public)
     (returns String)
-    (result
-      (call through
-        (closure
-          (returns Int)
-          (result 1)))))
+    (body
+      (return
+        (call through
+          (closure
+            (returns Int)
+            (body
+              (return 1)))))))
   (procedure through
     (parameter body (type (procedure (parameters) (returns Int))))
     (returns String)
-    (result (apply body))))
+    (body
+      (return (apply body)))))
 (expect (refuses build))

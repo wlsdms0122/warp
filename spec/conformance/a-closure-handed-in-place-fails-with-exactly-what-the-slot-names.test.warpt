@@ -13,9 +13,10 @@
         (closure
           (parameter x (type Int))
           (returns Int)
-          (result x)))
-      (call keep s))
-    (result (apply s 1)))
+          (body
+            (return x))))
+      (call keep s)
+      (return (apply s 1))))
   (procedure keep
     (parameter step (type (inout (procedure (const) (isolated) (parameters Int) (failing (anything)) (returns Int)))))))
 (expect (refuses build))

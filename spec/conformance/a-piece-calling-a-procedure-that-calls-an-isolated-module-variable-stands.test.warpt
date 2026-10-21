@@ -11,23 +11,25 @@
       (const)
       (isolated)
       (returns Int)
-      (result 0)))
+      (body
+        (return 0))))
   (procedure entry
     (access public)
     (isolated)
     (returns (array Int))
     (failing concurrent_failed)
-    (result
-      (call Standard.Concurrent.map
-        (array 1 2)
-        (closure
-          (isolated)
-          (parameter item (type Int))
-          (parameter index (type Int))
-          (returns Int)
-          (body
-            (call relayH))
-          (result item)))))
+    (body
+      (return
+        (call Standard.Concurrent.map
+          (array 1 2)
+          (closure
+            (isolated)
+            (parameter item (type Int))
+            (parameter index (type Int))
+            (returns Int)
+            (body
+              (call relayH)
+              (return item)))))))
   (procedure relayH
     (isolated)
     (body

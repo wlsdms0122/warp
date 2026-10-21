@@ -15,6 +15,6 @@
     (failing cast_refused)
     (body
       (let one (as (struct (field balance 1)) Account))
-      (let other (as (struct (field balance 1)) Vault)))
-    (result (call Standard.Logic.equal one other))))
+      (let other (as (struct (field balance 1)) Vault))
+      (return (call Standard.Logic.equal one other)))))
 (expect (answers false))

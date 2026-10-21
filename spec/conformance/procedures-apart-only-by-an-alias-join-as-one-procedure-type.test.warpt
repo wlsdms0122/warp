@@ -15,7 +15,8 @@
         (closure
           (parameter x (type App.D))
           (returns Double)
-          (result x)))
+          (body
+            (return x))))
       (conditional
         (when c)
         (then
@@ -23,7 +24,8 @@
             (closure
               (parameter x (type Double))
               (returns Double)
-              (result x))))))
-    (result (apply f 2.5))))
+              (body
+                (return x))))))
+      (return (apply f 2.5)))))
 (arguments (argument c false))
 (expect (answers 2.5))

@@ -10,17 +10,19 @@
     (const)
     (returns Any)
     (body
-      (let none (type (array Any)) (array)))
-    (result
-      (call Standard.Logic.select true
-        (closure
-          (const)
-          (isolated)
-          (returns Any)
-          (result "taken"))
-        (closure
-          (const)
-          (isolated)
-          (returns Any)
-          (result (path none (index 0))))))))
+      (let none (type (array Any)) (array))
+      (return
+        (call Standard.Logic.select true
+          (closure
+            (const)
+            (isolated)
+            (returns Any)
+            (body
+              (return "taken")))
+          (closure
+            (const)
+            (isolated)
+            (returns Any)
+            (body
+              (return (path none (index 0))))))))))
 (expect (answers "taken"))

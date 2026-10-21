@@ -12,6 +12,7 @@
     (access public)
     (parameter d (type (dictionary App.P Int)))
     (returns Int)
-    (result (call Standard.Collection.count d))))
+    (body
+      (return (call Standard.Collection.count d)))))
 (arguments (argument d (dictionary (entry (struct App.P (field x 1)) 1) (entry (struct App.P (field x 1) (field y 2)) 2))))
 (expect (refuses run))

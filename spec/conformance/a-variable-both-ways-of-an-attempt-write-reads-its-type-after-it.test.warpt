@@ -16,11 +16,12 @@
           (set kept read))
         (rescue
           (set kept 0)))
-      (let said (call wants kept)))
-    (result said))
+      (let said (call wants kept))
+      (return said)))
   (procedure wants
     (parameter it (type Int))
     (returns Int)
-    (result it)))
+    (body
+      (return it))))
 (arguments (argument payload "not a whole number"))
 (expect (answers 0))

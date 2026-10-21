@@ -11,7 +11,8 @@
       (parameter of (type Bank.Card))
       (parameter a (type (some U)))
       (returns (array (some U)))
-      (result (array a))))
+      (body
+        (return (array a)))))
   (contract App.Paired
     (procedure pair
       (parameter of (type Self))
@@ -23,6 +24,6 @@
     (failing cast_refused)
     (body
       (let c (as (struct (field last "42")) Bank.Card))
-      (let p (call App.Paired.pair c "x")))
-    (result (path p (index 0)))))
+      (let p (call App.Paired.pair c "x"))
+      (return (path p (index 0))))))
 (expect (answers "x"))

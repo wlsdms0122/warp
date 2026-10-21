@@ -10,7 +10,8 @@
     (parameter a (type (some E)))
     (parameter b (type (some E)))
     (returns (some E))
-    (result b))
+    (body
+      (return b)))
   (procedure entry
     (access public)
     (returns Int)
@@ -18,6 +19,6 @@
     (body
       (let j (type Any) 1)
       (let r (call App.pick (array "a") (array j)))
-      (let q (call Standard.Numeric.plus (as (call Standard.Collection.first r) Int) 1)))
-    (result q)))
+      (let q (call Standard.Numeric.plus (as (call Standard.Collection.first r) Int) 1))
+      (return q))))
 (expect (answers 2))

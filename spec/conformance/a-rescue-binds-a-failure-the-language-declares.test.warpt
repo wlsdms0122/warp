@@ -8,7 +8,8 @@
   (procedure App.told
     (parameter failed (type Failure))
     (returns String)
-    (result (path failed (field message))))
+    (body
+      (return (path failed (field message)))))
   (procedure entry
     (access public)
     (returns String)
@@ -19,6 +20,6 @@
           (body
             (call Standard.Control.abort "on purpose"))
           (rescue
-            (set tried (call App.told caught))))))
-    (result tried)))
+            (set tried (call App.told caught)))))
+      (return tried))))
 (expect (answers "on purpose"))

@@ -1,5 +1,5 @@
 (test 1)
 (name "a-path-node-of-one-name-refuses")
 (note "A name alone is the path of that one name, so `(path a)` with no segment refuses.")
-(text "(warp 1)\n(const a 1)\n\n(procedure entry\n  (access public)\n  (returns Int)\n  (result (path a)))")
+(text "(warp 1)\n(const a 1)\n\n(procedure entry\n  (access public)\n  (returns Int)\n  (body\n    (return (path a))))")
 (expect (refuses load))

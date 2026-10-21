@@ -16,7 +16,8 @@
       (procedure describe
         (parameter of (type T.Card))
         (returns String)
-        (result "card"))))
+        (body
+          (return "card")))))
   (document
     (warp 1)
     (import App.Describable)
@@ -27,7 +28,8 @@
     (procedure One.mark
       (access public)
       (returns Int)
-      (result 1)))
+      (body
+        (return 1))))
   (document
     (warp 1)
     (import App.Describable)
@@ -38,7 +40,8 @@
     (procedure Two.mark
       (access public)
       (returns Int)
-      (result 1))))
+      (body
+        (return 1)))))
 
 (program
   (warp 1)
@@ -51,6 +54,6 @@
     (failing cast_refused)
     (body
       (let card (as (struct (field rank 1)) T.Card))
-      (let m (call Two.mark)))
-    (result (call App.Describable.describe card))))
+      (let m (call Two.mark))
+      (return (call App.Describable.describe card)))))
 (expect (answers "card"))

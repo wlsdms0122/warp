@@ -10,6 +10,6 @@
     (returns (array Bool))
     (body
       (let spelled (call Standard.Text.startsWith "étoile" "é"))
-      (let elsewhere (call Standard.Text.startsWith "warp" "arp")))
-    (result (array spelled elsewhere))))
+      (let elsewhere (call Standard.Text.startsWith "warp" "arp"))
+      (return (array spelled elsewhere)))))
 (expect (answers (array true false)))

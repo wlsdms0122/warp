@@ -8,6 +8,7 @@
     (access public)
     (parameter payload)
     (returns Int)
-    (result (as? payload Int))))
+    (body
+      (return (as? payload Int)))))
 (arguments (argument payload 1))
 (expect (refuses build))

@@ -10,9 +10,11 @@
   (procedure App.unwrap
     (parameter b (type (named App.Box (some T))))
     (returns (some T))
-    (result (path b (field item))))
+    (body
+      (return (path b (field item)))))
   (procedure entry
     (access public)
     (returns Int)
-    (result (call App.unwrap (struct (field item 5))))))
+    (body
+      (return (call App.unwrap (struct (field item 5)))))))
 (expect (answers 5))

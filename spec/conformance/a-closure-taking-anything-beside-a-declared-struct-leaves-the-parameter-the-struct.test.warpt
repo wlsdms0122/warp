@@ -10,7 +10,8 @@
     (parameter x (type (some T)))
     (parameter f (type (procedure (parameters (some T)) (returns Any))))
     (returns (some T))
-    (result x))
+    (body
+      (return x)))
   (procedure entry
     (access public)
     (returns Int)
@@ -23,6 +24,7 @@
           (closure
             (parameter q)
             (returns Any)
-            (result q)))))
-    (result (path p (field x)))))
+            (body
+              (return q)))))
+      (return (path p (field x))))))
 (expect (answers 1))

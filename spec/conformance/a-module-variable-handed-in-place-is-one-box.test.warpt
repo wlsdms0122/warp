@@ -8,11 +8,12 @@
   (procedure entry
     (access public)
     (returns (array Int))
-    (result (call poke (path items (index 0)))))
+    (body
+      (return (call poke (path items (index 0))))))
   (procedure poke
     (parameter first (type (inout Int)))
     (returns (array Int))
     (body
-      (set first 9))
-    (result items)))
+      (set first 9)
+      (return items))))
 (expect (answers (array 9 2)))

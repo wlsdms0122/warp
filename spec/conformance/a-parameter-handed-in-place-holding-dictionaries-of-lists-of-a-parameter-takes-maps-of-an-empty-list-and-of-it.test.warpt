@@ -9,13 +9,13 @@
     (parameter x (type (some T)))
     (returns Int)
     (body
-      (set xs (array (dictionary (entry "k" (array))) (dictionary (entry "k" (array x))))))
-    (result 0))
+      (set xs (array (dictionary (entry "k" (array))) (dictionary (entry "k" (array x)))))
+      (return 0)))
   (procedure entry
     (access public)
     (returns (array (dictionary String (array String))))
     (body
       (var s (type (array (dictionary String (array String)))) (array (dictionary (entry "k" (array "a")))))
-      (call App.g s "b"))
-    (result s)))
+      (call App.g s "b")
+      (return s))))
 (expect (answers (array (dictionary (entry "k" (array))) (dictionary (entry "k" (array "b"))))))

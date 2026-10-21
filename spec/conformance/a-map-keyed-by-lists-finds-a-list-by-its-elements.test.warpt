@@ -9,6 +9,6 @@
     (returns String)
     (body
       (let d (type (dictionary (array Int) String)) (dictionary (entry (array 1 2) "a") (entry (array 1) "b")))
-      (let k (type (array Int)) (array 1 2)))
-    (result (path d (index k)))))
+      (let k (type (array Int)) (array 1 2))
+      (return (path d (index k))))))
 (expect (answers "a"))

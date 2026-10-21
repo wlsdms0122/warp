@@ -13,7 +13,8 @@
         (type (procedure (parameters) (returns Any)))
         (closure
           (returns Int)
-          (result 1)))
-      (let got (apply one)))
-    (result (as got Int))))
+          (body
+            (return 1))))
+      (let got (apply one))
+      (return (as got Int)))))
 (expect (answers 1))

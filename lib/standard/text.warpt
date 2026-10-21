@@ -39,8 +39,8 @@
           (conditional
             (when same)
             (then
-              (return true)))))))
-  (result false))
+              (return true))))))
+    (return false)))
 
 (procedure Standard.Text.replacing
   (description "Every occurrence of a piece swapped for another.")
@@ -55,8 +55,8 @@
     (conditional
       (when (call Standard.Logic.equal target ""))
       (then
-        (call Standard.Control.abort "replacing asks an empty piece"))))
-  (result (call Standard.Text.joined (call Standard.Text.split text target) replacement)))
+        (call Standard.Control.abort "replacing asks an empty piece")))
+    (return (call Standard.Text.joined (call Standard.Text.split text target) replacement))))
 
 (procedure Standard.Text.split
   (description "The text cut on a separator.")
@@ -104,8 +104,8 @@
               (set at (call Standard.Numeric.plus at wantedCount)))
             (else
               (set current (call Standard.Collection.appending current (path held (index at))))
-              (set at (call Standard.Numeric.plus at 1))))))))
-  (result (call Standard.Collection.appending pieces (call Standard.Text.joined current ""))))
+              (set at (call Standard.Numeric.plus at 1)))))))
+    (return (call Standard.Collection.appending pieces (call Standard.Text.joined current "")))))
 
 (procedure Standard.Text.startsWith
   (description "Whether a string begins with another.")
@@ -128,5 +128,5 @@
           (conditional
             (when (call Standard.Logic.not (call Standard.Logic.equal (path held (index (path walk (field index)))) (path wanted (index (path walk (field index)))))))
             (then
-              (return false)))))))
-  (result true))
+              (return false))))))
+    (return true)))

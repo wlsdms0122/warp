@@ -14,10 +14,12 @@
   (procedure App.tellAll
     (parameter them (type (array App.Describable)))
     (returns Int)
-    (result 1))
+    (body
+      (return 1)))
   (procedure entry
     (access public)
     (parameter cards (type App.Cards))
     (returns Int)
-    (result (call App.tellAll cards))))
+    (body
+      (return (call App.tellAll cards)))))
 (expect (refuses build))

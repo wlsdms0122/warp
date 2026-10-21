@@ -8,5 +8,6 @@
   (procedure entry
     (access public)
     (returns String)
-    (result (call Standard.Text.trimmed " a ́"))))
+    (body
+      (return (call Standard.Text.trimmed " a ́")))))
 (expect (answers "a ́"))

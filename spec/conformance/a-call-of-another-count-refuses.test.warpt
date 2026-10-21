@@ -7,9 +7,11 @@
   (procedure entry
     (access public)
     (returns Int)
-    (result (call plain 7 8)))
+    (body
+      (return (call plain 7 8))))
   (procedure plain
     (parameter value (type Int))
     (returns Int)
-    (result value)))
+    (body
+      (return value))))
 (expect (refuses build))

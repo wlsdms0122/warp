@@ -10,7 +10,8 @@
     (procedure describe
       (parameter of (type Bank.Account))
       (returns String)
-      (result "an account")))
+      (body
+        (return "an account"))))
   (struct Bank.Plain
     (satisfies App.Describable)
     (field note String))
@@ -21,12 +22,13 @@
   (procedure App.tell
     (parameter it (type (some T App.Describable)))
     (returns String)
-    (result (call App.Describable.describe it)))
+    (body
+      (return (call App.Describable.describe it))))
   (procedure entry
     (access public)
     (returns String)
     (failing cast_refused)
     (body
-      (let plain (as (struct (field note "x")) Bank.Plain)))
-    (result (call App.tell plain))))
+      (let plain (as (struct (field note "x")) Bank.Plain))
+      (return (call App.tell plain)))))
 (expect (refuses build))

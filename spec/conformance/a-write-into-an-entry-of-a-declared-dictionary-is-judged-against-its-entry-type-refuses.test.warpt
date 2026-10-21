@@ -9,6 +9,6 @@
     (returns Int)
     (body
       (var r (type (dictionary String Int)) (dictionary (entry "x" 0)))
-      (set (path r (index "x")) "nine"))
-    (result (path r (index "x")))))
+      (set (path r (index "x")) "nine")
+      (return (path r (index "x"))))))
 (expect (refuses build))

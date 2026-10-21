@@ -29,9 +29,9 @@
                   (conditional
                     (when (call Standard.Comparable.lessThan 2 x))
                     (then
-                      (call Standard.Control.abort "too big"))))
-                (result x))))
+                      (call Standard.Control.abort "too big")))
+                  (return x)))))
           (rescue
-            (set failed (path caught (field type)))))))
-    (result failed)))
+            (set failed (path caught (field type))))))
+      (return failed))))
 (expect (answers "aborted"))

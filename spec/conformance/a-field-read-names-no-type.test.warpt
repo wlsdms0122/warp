@@ -11,7 +11,8 @@
     (procedure Core.origin
       (returns Core.Point)
       (failing cast_refused)
-      (result (as (struct (field x 3) (field y 4)) Core.Point))))
+      (body
+        (return (as (struct (field x 3) (field y 4)) Core.Point)))))
   (document
     (warp 1)
     (import Core.Point)
@@ -19,7 +20,8 @@
     (procedure Mid.tip
       (returns Core.Point)
       (failing cast_refused)
-      (result (call Core.origin)))))
+      (body
+        (return (call Core.origin))))))
 
 (program
   (warp 1)
@@ -29,6 +31,6 @@
     (returns Int)
     (failing cast_refused)
     (body
-      (let tip (call Mid.tip)))
-    (result (path tip (field x)))))
+      (let tip (call Mid.tip))
+      (return (path tip (field x))))))
 (expect (answers 3))

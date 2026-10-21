@@ -17,18 +17,21 @@
           (const)
           (isolated)
           (returns (procedure (const) (isolated) (parameters (some T)) (returns Bool)))
-          (result
-            (closure
-              (const)
-              (isolated)
-              (parameter y (type (some T)))
-              (returns Bool)
-              (result (call Standard.Comparable.lessThan y y)))))))
-    (result x))
+          (body
+            (return
+              (closure
+                (const)
+                (isolated)
+                (parameter y (type (some T)))
+                (returns Bool)
+                (body
+                  (return (call Standard.Comparable.lessThan y y))))))))
+      (return x)))
   (procedure entry
     (access public)
     (const)
     (isolated)
     (returns Int)
-    (result (call App.f 2))))
+    (body
+      (return (call App.f 2)))))
 (expect (answers 2))

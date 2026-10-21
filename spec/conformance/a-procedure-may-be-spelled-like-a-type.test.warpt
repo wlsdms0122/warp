@@ -8,11 +8,13 @@
     (field open Bool))
   (procedure App.Account
     (returns Bool)
-    (result true))
+    (body
+      (return true)))
   (procedure entry
     (access public)
     (parameter held (type App.Account))
     (returns Bool)
-    (result (call App.Account))))
+    (body
+      (return (call App.Account)))))
 (arguments (argument held (struct App.Account (field open true))))
 (expect (answers true))

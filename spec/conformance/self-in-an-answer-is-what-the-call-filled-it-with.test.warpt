@@ -14,11 +14,12 @@
     (procedure copy
       (parameter of (type Int))
       (returns Int)
-      (result of)))
+      (body
+        (return of))))
   (procedure entry
     (access public)
     (returns Int)
     (body
-      (let n (type Int) (call App.Copyable.copy 5)))
-    (result n)))
+      (let n (type Int) (call App.Copyable.copy 5))
+      (return n))))
 (expect (answers 5))

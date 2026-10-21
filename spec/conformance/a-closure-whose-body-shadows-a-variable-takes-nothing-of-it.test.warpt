@@ -13,8 +13,8 @@
         (closure
           (returns String)
           (body
-            (let n "a"))
-          (result n)))
-      (set n "s"))
-    (result n)))
+            (let n "a")
+            (return n))))
+      (set n "s")
+      (return n))))
 (expect (answers "s"))

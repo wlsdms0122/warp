@@ -16,9 +16,11 @@
       (parameter lhs (type Int))
       (parameter rhs (type String))
       (returns Bool)
-      (result true)))
+      (body
+        (return true))))
   (procedure entry
     (access public)
     (returns Bool)
-    (result (call App.Ordered.before 1 2))))
+    (body
+      (return (call App.Ordered.before 1 2)))))
 (expect (refuses build))

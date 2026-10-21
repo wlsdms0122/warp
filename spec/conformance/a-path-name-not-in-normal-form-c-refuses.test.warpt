@@ -1,5 +1,5 @@
 (test 1)
 (name "a-path-name-not-in-normal-form-c-refuses")
 (note "Names are normal form C. A path's name read from a text that is not refuses where it stands, as any name from outside does.")
-(text "(warp 1)\n(const café 1)\n\n(procedure entry\n  (access public)\n  (returns Int)\n  (result café))")
+(text "(warp 1)\n(const café 1)\n\n(procedure entry\n  (access public)\n  (returns Int)\n  (body\n    (return café)))")
 (expect (refuses load))

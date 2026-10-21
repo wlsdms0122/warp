@@ -16,6 +16,6 @@
     (returns Int)
     (body
       (var b (type (named App.Box Int)) (struct (field item 1)))
-      (call App.bump b))
-    (result (path b (field item)))))
+      (call App.bump b)
+      (return (path b (field item))))))
 (expect (answers 9))

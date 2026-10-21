@@ -8,11 +8,12 @@
   (procedure entry
     (access public)
     (returns Int)
-    (result (call poke (path items (index 1)))))
+    (body
+      (return (call poke (path items (index 1))))))
   (procedure poke
     (parameter second (type (inout Int)))
     (returns Int)
     (body
-      (set items (array 7)))
-    (result second)))
+      (set items (array 7))
+      (return second))))
 (expect (refuses run))

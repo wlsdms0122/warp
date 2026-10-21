@@ -11,7 +11,8 @@
       (parameter of (type App.Card))
       (parameter suffix (type (nullable String)))
       (returns String)
-      (result (path of (field last)))))
+      (body
+        (return (path of (field last))))))
   (contract App.Labelled
     (procedure label
       (parameter of (type Self))
@@ -20,5 +21,6 @@
     (access public)
     (returns String)
     (failing cast_refused)
-    (result (call App.Labelled.label (as (struct (field last "42")) App.Card)))))
+    (body
+      (return (call App.Labelled.label (as (struct (field last "42")) App.Card))))))
 (expect (refuses build))

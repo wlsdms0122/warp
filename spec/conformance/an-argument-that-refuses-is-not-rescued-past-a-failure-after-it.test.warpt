@@ -10,7 +10,8 @@
     (parameter x)
     (parameter y)
     (returns Int)
-    (result 0))
+    (body
+      (return 0)))
   (procedure entry
     (access public)
     (returns Any)
@@ -20,6 +21,6 @@
         (body
           (call App.f (call Standard.Numeric.dividedBy 1 0) (call Standard.Control.abort "second")))
         (rescue
-          (set tried "rescued"))))
-    (result tried)))
+          (set tried "rescued")))
+      (return tried))))
 (expect (refuses run))

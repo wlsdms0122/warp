@@ -10,9 +10,11 @@
     (parameter r (type App.A))
     (parameter k (type String))
     (returns Any)
-    (result (path r (index k))))
+    (body
+      (return (path r (index k)))))
   (procedure entry
     (access public)
     (returns Any)
-    (result (call App.f (struct (field a 1)) "a"))))
+    (body
+      (return (call App.f (struct (field a 1)) "a")))))
 (expect (refuses build))

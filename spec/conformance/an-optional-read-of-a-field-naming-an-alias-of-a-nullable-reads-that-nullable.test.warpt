@@ -12,7 +12,7 @@
     (parameter r (type (nullable App.R)))
     (returns (nullable Int))
     (body
-      (let y (type (nullable Int)) (path r (field? f))))
-    (result y)))
+      (let y (type (nullable Int)) (path r (field? f)))
+      (return y))))
 (arguments (argument r (struct App.R (field f 3))))
 (expect (answers 3))

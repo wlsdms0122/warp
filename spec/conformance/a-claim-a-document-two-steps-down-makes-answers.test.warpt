@@ -16,7 +16,8 @@
       (procedure describe
         (parameter of (type T.Card))
         (returns String)
-        (result "card"))))
+        (body
+          (return "card")))))
   (document
     (warp 1)
     (import App.Describable)
@@ -27,7 +28,8 @@
     (procedure Glue.mark
       (access public)
       (returns Int)
-      (result 1)))
+      (body
+        (return 1))))
   (document
     (warp 1)
     (import App.Describable)
@@ -38,8 +40,8 @@
       (parameter of (type (some T App.Describable)))
       (returns String)
       (body
-        (let marked (call Glue.mark)))
-      (result (call App.Describable.describe of)))))
+        (let marked (call Glue.mark))
+        (return (call App.Describable.describe of))))))
 
 (program
   (warp 1)
@@ -50,6 +52,6 @@
     (returns String)
     (failing cast_refused)
     (body
-      (let card (as (struct (field rank 1)) T.Card)))
-    (result (call Lib.tell card))))
+      (let card (as (struct (field rank 1)) T.Card))
+      (return (call Lib.tell card)))))
 (expect (answers "card"))

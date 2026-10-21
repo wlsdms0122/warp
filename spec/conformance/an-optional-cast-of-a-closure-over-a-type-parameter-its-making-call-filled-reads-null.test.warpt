@@ -8,16 +8,18 @@
   (procedure App.mk
     (parameter x (type (some T Standard.Numeric)))
     (returns (procedure (parameters (some T)) (returns Int)))
-    (result
-      (closure
-        (parameter y (type (some T)))
-        (returns Int)
-        (result 0))))
+    (body
+      (return
+        (closure
+          (parameter y (type (some T)))
+          (returns Int)
+          (body
+            (return 0))))))
   (procedure entry
     (access public)
     (returns (nullable (procedure (parameters Double) (returns Int))))
     (body
       (let a (type Any) (call App.mk 5))
-      (let r (as? a (procedure (parameters Double) (returns Int)))))
-    (result r)))
+      (let r (as? a (procedure (parameters Double) (returns Int))))
+      (return r))))
 (expect (answers null))

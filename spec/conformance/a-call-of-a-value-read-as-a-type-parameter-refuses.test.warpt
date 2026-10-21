@@ -8,14 +8,17 @@
     (parameter g (type (some T)))
     (returns Any)
     (failing (anything))
-    (result (apply g)))
+    (body
+      (return (apply g))))
   (procedure entry
     (access public)
     (returns Any)
     (failing (anything))
-    (result
-      (call App.f
-        (closure
-          (returns Int)
-          (result 1))))))
+    (body
+      (return
+        (call App.f
+          (closure
+            (returns Int)
+            (body
+              (return 1))))))))
 (expect (refuses build))

@@ -13,15 +13,16 @@
       (returns Bank.Coin)
       (failing cast_refused)
       (body
-        (let k (as (struct (field cents 9)) Bank.Coin)))
-      (result k)))
+        (let k (as (struct (field cents 9)) Bank.Coin))
+        (return k))))
   (struct Bank.Card
     (satisfies App.Sized)
     (field last String)
     (procedure size
       (parameter of (type Bank.Card))
       (returns Int)
-      (result 4)))
+      (body
+        (return 4))))
   (struct Bank.Coin
     (field cents Int))
   (contract App.Shown
@@ -40,6 +41,6 @@
     (body
       (let b (as (struct (field n 1)) Bank.Box))
       (let c (as (struct (field last "4")) Bank.Card))
-      (let s (call App.Shown.show b c)))
-    (result "ok")))
+      (let s (call App.Shown.show b c))
+      (return "ok"))))
 (expect (refuses build))

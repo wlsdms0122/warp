@@ -8,10 +8,11 @@
     (parameter x (type (some T)))
     (returns Int)
     (body
-      (let y (type (some T)) x))
-    (result 1))
+      (let y (type (some T)) x)
+      (return 1)))
   (procedure entry
     (access public)
     (returns Int)
-    (result (call App.f 1))))
+    (body
+      (return (call App.f 1)))))
 (expect (refuses load))

@@ -22,7 +22,8 @@
       (parameter cs (type (array (some C Lib.Bag))))
       (parameter x (type (some C.Item)))
       (returns Int)
-      (result 0))))
+      (body
+        (return 0)))))
 
 (program
   (warp 1)
@@ -30,5 +31,6 @@
   (procedure entry
     (access public)
     (returns Int)
-    (result (call Use.count (array) "s"))))
+    (body
+      (return (call Use.count (array) "s")))))
 (expect (refuses build))

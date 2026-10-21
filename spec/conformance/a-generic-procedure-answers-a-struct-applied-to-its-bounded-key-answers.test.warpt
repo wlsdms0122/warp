@@ -11,11 +11,12 @@
   (procedure App.single
     (parameter k (type (some K Hashable)))
     (returns (named App.Cache (some K) Int))
-    (result (struct (field table (dictionary (entry k 1))))))
+    (body
+      (return (struct (field table (dictionary (entry k 1)))))))
   (procedure entry
     (access public)
     (returns (nullable Int))
     (body
-      (let c (call App.single "a")))
-    (result (path c (field table) (index "a")))))
+      (let c (call App.single "a"))
+      (return (path c (field table) (index "a"))))))
 (expect (answers 1))

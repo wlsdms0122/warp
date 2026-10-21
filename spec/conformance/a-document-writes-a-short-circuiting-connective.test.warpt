@@ -21,23 +21,26 @@
             (conditional
               (when (call Standard.Logic.not answered))
               (then
-                (return false)))))))
-    (result true))
+                (return false))))))
+      (return true)))
   (procedure entry
     (access public)
     (const)
     (returns Bool)
-    (result
-      (call App.and
-        (array
-          (closure
-            (const)
-            (isolated)
-            (returns Bool)
-            (result true))
-          (closure
-            (const)
-            (isolated)
-            (returns Bool)
-            (result false)))))))
+    (body
+      (return
+        (call App.and
+          (array
+            (closure
+              (const)
+              (isolated)
+              (returns Bool)
+              (body
+                (return true)))
+            (closure
+              (const)
+              (isolated)
+              (returns Bool)
+              (body
+                (return false)))))))))
 (expect (answers false))

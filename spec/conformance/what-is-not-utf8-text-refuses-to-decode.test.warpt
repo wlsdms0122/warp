@@ -8,5 +8,6 @@
   (procedure entry
     (access public)
     (returns String)
-    (result (call Standard.Text.decoded x"ff" "utf8"))))
+    (body
+      (return (call Standard.Text.decoded x"ff" "utf8")))))
 (expect (refuses run))

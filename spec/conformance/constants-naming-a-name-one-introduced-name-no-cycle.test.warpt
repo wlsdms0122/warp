@@ -8,16 +8,18 @@
     (closure
       (returns Int)
       (body
-        (let b 1))
-      (result b)))
+        (let b 1)
+        (return b))))
   (const b
     (closure
       (returns Int)
       (failing (anything))
-      (result (apply a))))
+      (body
+        (return (apply a)))))
   (procedure entry
     (access public)
     (returns Int)
     (failing (anything))
-    (result (apply b))))
+    (body
+      (return (apply b)))))
 (expect (answers 1))

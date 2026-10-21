@@ -11,8 +11,8 @@
     (parameter c (type (inout Int)))
     (returns Int)
     (body
-      (set c (call Standard.Numeric.plus c 1)))
-    (result 0))
+      (set c (call Standard.Numeric.plus c 1))
+      (return 0)))
   (procedure entry
     (access public)
     (isolated)
@@ -29,11 +29,12 @@
               (const)
               (isolated)
               (returns Int)
-              (result x))))
+              (body
+                (return x)))))
         (else
           (set x null)))
       (set x 5)
-      (call App.bump x))
-    (result x)))
+      (call App.bump x)
+      (return x))))
 (arguments (argument c false))
 (expect (answers 6))

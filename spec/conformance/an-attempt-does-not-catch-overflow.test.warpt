@@ -21,7 +21,7 @@
               (call Standard.Control.abort "loud")))
           (set tried sum))
         (rescue
-          (set tried "caught"))))
-    (result tried)))
+          (set tried "caught")))
+      (return tried))))
 (arguments (argument loud false))
 (expect (refuses run))

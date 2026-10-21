@@ -1,5 +1,5 @@
 (test 1)
 (name "a-struct-declared-without-its-struct-key-refuses")
 (note "A struct is declared under its name in `types` as `{ struct: { … } }`, its fields under `struct`. A mapping of fields with nothing around them is no struct and no type.")
-(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "result" 1) (entry "returns" "Int"))))) (entry "types" (dictionary (entry "App.Point" (dictionary (entry "x" "Int"))))) (entry "warp" 1)))
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" 1)))))) (entry "returns" "Int"))))) (entry "types" (dictionary (entry "App.Point" (dictionary (entry "x" "Int"))))) (entry "warp" 1)))
 (expect (refuses load))

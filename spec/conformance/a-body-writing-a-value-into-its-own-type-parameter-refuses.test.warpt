@@ -9,14 +9,14 @@
     (parameter y (type (inout (some T))))
     (returns Int)
     (body
-      (set y 5))
-    (result 0))
+      (set y 5)
+      (return 0)))
   (procedure entry
     (access public)
     (returns String)
     (body
       (var s (type String) "a")
       (call App.gen s)
-      (let u (call Standard.Text.uppercased s)))
-    (result u)))
+      (let u (call Standard.Text.uppercased s))
+      (return u))))
 (expect (refuses build))
