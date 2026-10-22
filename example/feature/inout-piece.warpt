@@ -1,0 +1,17 @@
+(warp 1)
+(import Standard.Concurrent.allKeyed)
+(import ib.bump)
+
+(procedure entry
+  (access public)
+  (returns Int)
+  (failing aborted cast_refused concurrent_failed)
+  (body
+    (var n 0)
+    (call Standard.Concurrent.allKeyed
+      (dictionary
+        (entry "a"
+          (closure
+            (body
+              (call ib.bump n))))))
+    (return n)))

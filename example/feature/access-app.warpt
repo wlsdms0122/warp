@@ -1,0 +1,13 @@
+(warp 1)
+(import lib.hello)
+(import lib.helper)
+
+(struct app.Answer
+  (field hello String)
+  (field helper Int))
+
+(procedure entry
+  (access public)
+  (returns app.Answer)
+  (body
+    (return (struct (field hello (call lib.hello)) (field helper (call lib.helper))))))

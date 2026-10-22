@@ -1,0 +1,14 @@
+(warp 1)
+(import pay.Card)
+(import pay.Cash)
+(import pay.Payable)
+(contract pay.Method)
+
+(extension
+  (head pay.Card)
+  (satisfies pay.Method pay.Payable))
+
+(extension
+  (head pay.Cash)
+  (satisfies pay.Method pay.Payable))
+(procedure pay.nothing)

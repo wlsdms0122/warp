@@ -1,0 +1,20 @@
+(warp 1)
+(import Standard.Collection.keys)
+(import Standard.Collection.setting)
+(import Standard.Collection.values)
+
+(struct dictionaries.Answer
+  (field absent Any)
+  (field keys (array String))
+  (field one Int)
+  (field values (array Int)))
+
+(procedure entry
+  (access public)
+  (returns dictionaries.Answer)
+  (body
+    (var d (type (dictionary String Int)) (dictionary))
+    (set d (call Standard.Collection.setting d "b" 2))
+    (set d (call Standard.Collection.setting d "a" 1))
+    (set d (call Standard.Collection.setting d "b" 20))
+    (return (struct (field absent (path d (index? "zzz"))) (field keys (call Standard.Collection.keys d)) (field one (path d (index "a"))) (field values (call Standard.Collection.values d))))))

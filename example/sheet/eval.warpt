@@ -1,0 +1,165 @@
+(warp 1)
+(import Standard.Collection.appending)
+(import Standard.Collection.count)
+(import Standard.Comparable.lessThan)
+(import Standard.Control.abort)
+(import Standard.Logic.equal)
+(import Standard.Math.max)
+(import Standard.Math.min)
+(import Standard.Numeric.dividedBy)
+(import Standard.Numeric.minus)
+(import Standard.Numeric.plus)
+(import Standard.Numeric.times)
+(import Standard.Text.joined)
+(import ast.cells)
+(import sheet.Node)
+
+(procedure eval.cell
+  (isolated)
+  (parameter name (type String))
+  (parameter values (type (dictionary String Double)))
+  (returns Double)
+  (failing aborted cast_refused)
+  (body
+    (let held (path values (index? name)))
+    (conditional
+      (when (call Standard.Logic.equal held null))
+      (then
+        (call Standard.Control.abort (call Standard.Text.joined (array "'" name "' is empty") ""))))
+    (return (as held Double))))
+
+(procedure eval.function
+  (isolated)
+  (parameter name (type String))
+  (parameter over (type (array Double)))
+  (returns Double)
+  (failing aborted)
+  (body
+    (conditional
+      (when (call Standard.Logic.equal (call Standard.Collection.count over) 0))
+      (then
+        (call Standard.Control.abort (call Standard.Text.joined (array name " over nothing") ""))))
+    (var acc (path over (index 0)))
+    (var i 1)
+    (let fold
+      (loop
+        (while (call Standard.Comparable.lessThan i (call Standard.Collection.count over)))
+        (body
+          (let x (path over (index i)))
+          (conditional
+            (when (call Standard.Logic.equal name "SUM"))
+            (then
+              (set acc (call Standard.Numeric.plus acc x)))
+            (else
+              (conditional
+                (when (call Standard.Logic.equal name "AVG"))
+                (then
+                  (set acc (call Standard.Numeric.plus acc x)))
+                (else
+                  (conditional
+                    (when (call Standard.Logic.equal name "MAX"))
+                    (then
+                      (set acc (call Standard.Math.max acc x)))
+                    (else
+                      (conditional
+                        (when (call Standard.Logic.equal name "MIN"))
+                        (then
+                          (set acc (call Standard.Math.min acc x)))
+                        (else
+                          (call Standard.Control.abort (call Standard.Text.joined (array "no function named " name) ""))))))))))
+          (set i (call Standard.Numeric.plus i 1)))))
+    (conditional
+      (when (call Standard.Logic.equal name "AVG"))
+      (then
+        (set acc (call Standard.Numeric.dividedBy acc (call Standard.Numeric.dividedBy (call Standard.Collection.count over) 1)))))
+    (return acc)))
+
+(procedure eval.gather
+  (isolated)
+  (parameter args (type (array sheet.Node)))
+  (parameter values (type (dictionary String Double)))
+  (returns (array Double))
+  (failing aborted cast_refused)
+  (body
+    (var out (type (array Double)) (array))
+    (var a 0)
+    (let each
+      (loop
+        (while (call Standard.Comparable.lessThan a (call Standard.Collection.count args)))
+        (body
+          (let arg (path args (index a)))
+          (conditional
+            (when (call Standard.Logic.equal (path arg (field kind)) "range"))
+            (then
+              (let cells (call ast.cells (as (path arg (field left) (field? name)) String) (as (path arg (field right) (field? name)) String)))
+              (var i 0)
+              (let walk
+                (loop
+                  (while (call Standard.Comparable.lessThan i (call Standard.Collection.count cells)))
+                  (body
+                    (let held (call eval.cell (path cells (index i)) values))
+                    (set out (call Standard.Collection.appending out held))
+                    (set i (call Standard.Numeric.plus i 1))))))
+            (else
+              (let one (call eval.node arg values))
+              (set out (call Standard.Collection.appending out one))))
+          (set a (call Standard.Numeric.plus a 1)))))
+    (return out)))
+
+(procedure eval.node
+  (isolated)
+  (parameter of (type sheet.Node))
+  (parameter values (type (dictionary String Double)))
+  (returns Double)
+  (failing aborted cast_refused)
+  (body
+    (var answer 0.0)
+    (conditional
+      (when (call Standard.Logic.equal (path of (field kind)) "number"))
+      (then
+        (set answer (path of (field number))))
+      (else
+        (conditional
+          (when (call Standard.Logic.equal (path of (field kind)) "ref"))
+          (then
+            (set answer (call eval.cell (path of (field name)) values)))
+          (else
+            (conditional
+              (when (call Standard.Logic.equal (path of (field kind)) "binary"))
+              (then
+                (let l (call eval.node (as (path of (field left)) sheet.Node) values))
+                (let r (call eval.node (as (path of (field right)) sheet.Node) values))
+                (conditional
+                  (when (call Standard.Logic.equal (path of (field name)) "+"))
+                  (then
+                    (set answer (call Standard.Numeric.plus l r)))
+                  (else
+                    (conditional
+                      (when (call Standard.Logic.equal (path of (field name)) "-"))
+                      (then
+                        (set answer (call Standard.Numeric.minus l r)))
+                      (else
+                        (conditional
+                          (when (call Standard.Logic.equal (path of (field name)) "*"))
+                          (then
+                            (set answer (call Standard.Numeric.times l r)))
+                          (else
+                            (conditional
+                              (when (call Standard.Logic.equal (path of (field name)) "/"))
+                              (then
+                                (conditional
+                                  (when (call Standard.Logic.equal r 0.0))
+                                  (then
+                                    (call Standard.Control.abort (call Standard.Text.joined (array "division by zero") ""))))
+                                (set answer (call Standard.Numeric.dividedBy l r)))
+                              (else
+                                (call Standard.Control.abort (call Standard.Text.joined (array "no operator " (path of (field name))) "")))))))))))
+              (else
+                (conditional
+                  (when (call Standard.Logic.equal (path of (field kind)) "call"))
+                  (then
+                    (let gathered (call eval.gather (path of (field args)) values))
+                    (set answer (call eval.function (path of (field name)) gathered)))
+                  (else
+                    (call Standard.Control.abort (call Standard.Text.joined (array "a " (path of (field kind)) " stands where a value should") ""))))))))))
+    (return answer)))

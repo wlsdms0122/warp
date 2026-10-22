@@ -1,0 +1,104 @@
+(warp 1)
+(import Standard.Collection.appending)
+(import Standard.Collection.contains)
+(import Standard.Collection.count)
+(import Standard.Collection.keys)
+(import Standard.Collection.sorted)
+(import Standard.Comparable.lessThan)
+(import Standard.Logic.equal)
+(import Standard.Logic.select)
+(import Standard.Numeric.plus)
+(import Standard.Text.joined)
+(import Standard.Text.text)
+(import ast.column)
+(import ast.row)
+
+(procedure format.distinct
+  (parameter of (type (array String)))
+  (returns (array String))
+  (body
+    (var out (type (array String)) (array))
+    (var i 0)
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan i (call Standard.Collection.count of)))
+        (body
+          (conditional
+            (when (call Standard.Collection.contains out (path of (index i))))
+            (then)
+            (else
+              (set out (call Standard.Collection.appending out (path of (index i))))))
+          (set i (call Standard.Numeric.plus i 1)))))
+    (return (call Standard.Collection.sorted out))))
+
+(procedure format.grid
+  (parameter values (type (dictionary String Double)))
+  (returns String)
+  (failing aborted)
+  (body
+    (let cells (call Standard.Collection.sorted (call Standard.Collection.keys values)))
+    (var columns (type (array String)) (array))
+    (var rows (type (array Int)) (array))
+    (var i 0)
+    (let split
+      (loop
+        (while (call Standard.Comparable.lessThan i (call Standard.Collection.count cells)))
+        (body
+          (set columns (call Standard.Collection.appending columns (call ast.column (path cells (index i)))))
+          (set rows (call Standard.Collection.appending rows (call ast.row (path cells (index i)))))
+          (set i (call Standard.Numeric.plus i 1)))))
+    (let cols (call format.distinct columns))
+    (var rowSet (type (array Int)) (array))
+    (set i 0)
+    (let dedupe
+      (loop
+        (while (call Standard.Comparable.lessThan i (call Standard.Collection.count rows)))
+        (body
+          (conditional
+            (when (call Standard.Collection.contains rowSet (path rows (index i))))
+            (then)
+            (else
+              (set rowSet (call Standard.Collection.appending rowSet (path rows (index i))))))
+          (set i (call Standard.Numeric.plus i 1)))))
+    (let rowList (call Standard.Collection.sorted rowSet))
+    (var lines (type (array String)) (array (call Standard.Text.joined (array "     | " (call Standard.Text.joined cols " | ")) "")))
+    (var r 0)
+    (let eachRow
+      (loop
+        (while (call Standard.Comparable.lessThan r (call Standard.Collection.count rowList)))
+        (body
+          (let row (path rowList (index r)))
+          (var parts (type (array String)) (array))
+          (var c 0)
+          (let eachColumn
+            (loop
+              (while (call Standard.Comparable.lessThan c (call Standard.Collection.count cols)))
+              (body
+                (let held (call format.lookup values (call Standard.Text.joined (array (path cols (index c)) (call Standard.Text.text row)) "")))
+                (set parts (call Standard.Collection.appending parts held))
+                (set c (call Standard.Numeric.plus c 1)))))
+          (set lines (call Standard.Collection.appending lines (call Standard.Text.joined (array (call Standard.Text.text row) "    | " (call Standard.Text.joined parts " | ")) "")))
+          (set r (call Standard.Numeric.plus r 1)))))
+    (return (call Standard.Text.joined lines "\n"))))
+
+(procedure format.lookup
+  (parameter values (type (dictionary String Double)))
+  (parameter cell (type String))
+  (returns String)
+  (body
+    (let held (path values (index? cell)))
+    (return
+      (call Standard.Logic.select
+        (call Standard.Logic.equal held null)
+        (closure
+          (const)
+          (isolated)
+          (returns String)
+          (body
+            (return "")))
+        (closure
+          (const)
+          (isolated)
+          (returns String)
+          (body
+            (return (call Standard.Text.text held))))))))

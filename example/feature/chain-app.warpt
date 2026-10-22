@@ -1,0 +1,20 @@
+(warp 1)
+(import Standard.Numeric.plus)
+(import k.small)
+(import k.ten)
+(const eleven (call Standard.Numeric.plus (call k.ten) 1))
+
+(struct app.Answer
+  (field eleven Int)
+  (field small String))
+
+(procedure entry
+  (access public)
+  (returns app.Answer)
+  (body
+    (var small (type String) "no")
+    (conditional
+      (when (call k.small 3))
+      (then
+        (set small "yes")))
+    (return (struct (field eleven eleven) (field small small)))))

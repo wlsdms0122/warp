@@ -1,0 +1,51 @@
+(warp 1)
+(import Standard.Collection.append)
+(import Standard.Collection.count)
+(import Standard.Comparable.lessThan)
+(import Standard.Text.text)
+
+(struct p.Thing
+  (satisfies p.Named)
+  (field id Int)
+  (procedure name
+    (parameter of (type p.Thing))
+    (returns String)
+    (body
+      (return (call Standard.Text.text (path of (field id)))))))
+
+(contract p.Named
+  (procedure name
+    (parameter of (type Self))
+    (returns String)))
+
+(procedure entry
+  (access public)
+  (returns (array String))
+  (failing aborted cast_refused)
+  (body
+    (return (call p.names (array (as (struct (field id 1)) p.Thing) (as (struct (field id 2)) p.Thing))))))
+
+(procedure p.each
+  (parameter of (type (array (some T p.Named))))
+  (parameter by (type (procedure (parameters (some T)) (returns String))))
+  (returns (array String))
+  (body
+    (var out (type (array String)) (array))
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Collection.count of)))
+        (body
+          (let got (apply by (path of (index (path walk (field index))))))
+          (call Standard.Collection.append out got))))
+    (return out)))
+
+(procedure p.names
+  (parameter of (type (array (some T p.Named))))
+  (returns (array String))
+  (body
+    (return (call p.each of
+        (closure
+          (parameter item (type (some T)))
+          (returns String)
+          (body
+            (return (call p.Named.name item))))))))

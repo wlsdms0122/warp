@@ -1,0 +1,14 @@
+(warp 1)
+(import even.is)
+(import odd.is)
+
+(struct app.Answer
+  (field even10 Bool)
+  (field odd10 Bool)
+  (field odd7 Bool))
+
+(procedure entry
+  (access public)
+  (returns app.Answer)
+  (body
+    (return (struct (field even10 (call even.is 10)) (field odd10 (call odd.is 10)) (field odd7 (call odd.is 7))))))

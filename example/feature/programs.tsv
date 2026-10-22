@@ -1,0 +1,89 @@
+name	documents	entry	arguments	laid	expects	asks
+text	text	entry		together	answers	dictionary counts through `setting` and `?[`, characters, reversed, case mapping
+sort	sort	entry		together	answers	quicksort by recursion over `filter` closures and `reduce`, checked against `sorted`
+failure	failure	entry		together	answers	an abort caught by a rescue, a failure crossing procedures, a return from a rescue inside a loop
+concurrent	concurrent	entry		together	answers	`Standard.Concurrent.map`, `allKeyed` over a map, `first` over pieces
+host	host	entry		together	answers	host effects keeping state across procedures, logged in the order they ran
+closures	closures	entry		together	answers	a captured counter, closures made by a procedure, held in an array and applied in a loop, a module constant
+structs	structs	entry		together	answers	a nested path written through `var` fields, a declared struct handed back
+variables	variables	entry		together	answers	module variables shared by procedures
+generics	generics	entry		together	answers	a bounded numeric procedure over `Int` and `Double`, identity over `some T`
+logic	logic	entry		together	answers	`select`, short-circuiting `and` and `or` over const closures, `not`
+strings	strings	entry		together	answers	replacing, a split with an empty part, joined, startsWith, trimmed, grapheme count
+dictionaries	dictionaries	entry		together	answers	keys, values, an entry by key, an absent entry through `?[`
+casts	casts	entry		together	answers	`as` narrowing, `as?` answering null, a declared struct read back from `Any`
+dynamic	dynamic	entry		together	answers	a mixed `Any` array, `as?` per element, `text` of each
+first-failing	first-failing	entry		together	answers	`all` with a failing piece caught, `first` with a failing piece losing
+tickets	tickets	entry		together	answers	a ticket the host issues, read by one procedure and redeemed through another, a second redeemed by the host
+fib	fib	entry	n=null	together	answers	recursion with an early return, a loop over two variables, an `Int?` parameter handed null
+primes	primes	entry	below=null	together	answers	appending in place, nested loops, break and return out of them
+stress	stress	entry	fib=null rounds=null depth=null	together	answers	fib(24), 200k loop rounds, recursion 2000 deep
+echo	echo	entry	of=1	together	answers	a value handed through an argument and answered back with its `text`
+shapes	shapes-lib shapes-app	entry		together	answers	a contract in a library, claims from both documents, bounded generic procedures, a private helper
+consts	consts-lib consts-app	entry		together	answers	an app's constants settling from a library procedure at the build
+inout	inout-lib inout-app	entry		together	answers	a library writing the app's variables in place, `append` through `inout`
+bound-in-closure	bound-in-closure	entry		together	answers	a closure in a bounded procedure sending a contract's const procedure, handed to `map`
+bound-in-closure-plain-slot	bound-in-closure-plain-slot	entry		together	answers	the same closure handed to a plain procedure slot of the document's own and applied in a loop
+bound-in-closure-concurrent	bound-in-closure-concurrent	entry		together	answers	the same closure over a contract asking `isolated`, handed to `Standard.Concurrent.map`
+return-type-plain	return-type-plain	entry		together	refuses at the build	`return "x"` where the declaration answers `Int`
+return-type-in-rescue	return-type-in-rescue	entry		together	refuses at the build	the same `return` inside a rescue inside a loop
+apply-typed-parameter	apply-typed-parameter	entry		together	refuses at the build	a procedure value applied as an operand, where nothing written says it is const
+apply-in-closure	apply-in-closure	entry		together	refuses at the build	the same as a closure's answer, handed to `map`'s const slot
+ticket-kept	ticket-kept	entry		together	answers	a ticket issued and never redeemed; the host keeps it
+ticket-twice	ticket-twice	entry		together	refuses at the run	one ticket redeemed twice; the host refuses the second
+layers	layers-core layers-mid layers-app	entry		together	answers	the app reads fields of the middle layer answers without naming the bottom layer
+layers-reversed	layers-app layers-mid layers-core	entry		together	answers	the same given app first
+access	access-lib access-app	entry		together	answers	public and internal procedures called from another document
+access-lib-entry	access-lib access-app	lib.hello		together	answers	the same with `lib.hello` of the library document as the entry
+access-private	access-lib access-private-app	entry		together	refuses at the build	a private procedure called from another document
+claim-elsewhere	claim-contract claim-card claim-claim claim-app	entry		together	answers	contract, type, claim and the asking call each in its own document, the app importing the claim
+claim-reversed	claim-app claim-claim claim-card claim-contract	entry		together	answers	the same given app first
+claim-reversed-in-order	claim-app claim-claim claim-card claim-contract	entry		in order	refuses at the build	the same laid in that order: the app comes before the claim it imports
+claim-twice	claim-contract claim-card claim-claim claim-again claim-app	entry		together	answers	two documents making one claim
+claim-unbacked	claim-contract claim-plain claim-claim claim-app	entry		together	refuses at the build	a claim about a type with no `describe`
+claim-unleaned	claim-contract claim-plain claim-claim claim-idle	entry		together	refuses at the build	the same claim beside a program that never asks it
+claim-builtin	claim-builtin	entry		together	answers	`Int` answering a contract through an extension
+module-var	module-var-lib module-var-app	entry		together	answers	a module variable bumped through another document's procedures
+module-var-reach	module-var-lib module-var-reach-app	entry		together	refuses at the load	another document's variable read by name
+duplicate	duplicate-a duplicate-b duplicate-app	entry		together	refuses at the build	one internal name declared by two documents
+private-twins	twins-a twins-b twins-app	entry		together	answers	one private name in three documents, each reaching its own
+scalar	scalar-lib scalar-app	entry		together	answers	built-in types answering one library's contract, bounding procedures in both documents
+scalar-outside	scalar-lib scalar-outside-app	entry		together	refuses at the build	a bound filled with a type no claim says answers the contract
+closures-across	closures-lib closures-app	entry		together	answers	a closure handed to another document's const slot, one another document made, one writing this document's variable
+failure-across	failure-lib failure-app	entry		together	answers	an abort raised in one document, rescued in another, its envelope read
+mutual	mutual-even mutual-odd mutual-app	entry		together	refuses at the build	two documents that call each other
+mutual-in-order	mutual-even mutual-odd mutual-app	entry		in order	refuses at the build	the same laid in order: the first sends what is not laid yet
+constants-chain	chain-bottom chain-middle chain-app	entry		together	answers	a constant settled from a constant of another document, settled from a third
+isolated-across	isolated-lib isolated-app	entry		together	answers	`Standard.Concurrent.map` through another document's procedure
+isolated-shared	isolated-lib isolated-shared-app	entry		together	refuses at the build	the same through a procedure writing a module variable
+type-only	type-only-lib type-only-app	entry		together	answers	a document naming only another document's type
+unlisted-type	type-only-lib unlisted-app	entry		together	refuses at the load	another document's type named in a cast and not imported
+dot-prefix	dot-a dot-b dot-app	entry		together	answers	`a.x` in one document, `a.y` and `b.a.x` in another
+contract-any	any-lib any-app	entry		together	answers	a contract asked over values that arrived as `Any`, one through the host's store
+shapes-reversed	shapes-app shapes-lib	entry		together	answers	the shapes pair given app first
+shapes-reversed-in-order	shapes-app shapes-lib	entry		in order	refuses at the build	the same laid in that order
+concurrent-across	conc-lib conc-mid conc-app	entry		together	answers	`allKeyed` over pieces calling another document, one fanning out again inside it, and a `first`
+concurrent-failing-across	fail-lib conc-fail-app	entry		together	answers	`all` losing a piece in another document; the rescue reads the pieces by key and the failing piece's own type and message
+failure-relay	fail-lib fail-mid fail-app	entry		together	answers	a middle document rescuing the bottom's failure and aborting with its own, and a `cast_refused` two documents away
+piece-appends-captured	piece-appends-captured	entry		together	refuses at the build	a piece handing a captured variable in place to `append`
+piece-logs	piece-logs	entry		together	refuses at the build	a piece calling `Host.log`, which is not isolated
+const-appends	const-appends	entry		together	refuses at the build	a closure in `map`'s const slot handing a captured variable in place to `append`
+const-sets	const-sets	entry		together	refuses at the build	a closure in `map`'s const slot setting a captured variable
+const-own	const-own	entry		together	refuses at the build	a closure in `map`'s const slot appending to a variable of its own
+rescue-over-safe	conc-lib rescue-safe-app	entry		together	refuses at the build	a rescue over a body that cannot fail
+closure-box-across	box-lib box-app	entry		together	answers	closures another document made: one moving that document variable, two accumulators, one over a constant
+module-var-closure	module-var-closure	entry		together	answers	a module variable starting as a closure, applied
+closure-registry-across	registry-lib registry-app	entry		together	answers	a library keeping the closures an app hands in and applying them later
+bodyless-answer	bodyless-answer	entry		together	refuses at the build	a procedure with no `returns`, its answer handed where `Int` stands
+bodyless-closure-answer	bodyless-closure-answer	entry		together	refuses at the build	the same as a closure, applied
+inout-three	inout-bottom inout-middle inout-top	entry		together	answers	an app's variables written two documents down, one handed to two parameters at once
+inout-let	inout-bottom inout-let	entry		together	refuses at the build	a `let` handed in place to another document
+inout-any	inout-bottom inout-any	entry		together	refuses at the build	`Array<Any>` handed where `inout Array<Int>` stands
+inout-piece	inout-bottom inout-piece	entry		together	refuses at the build	a piece handing a captured variable in place to another document's `inout`
+contract-across	pay-types pay-claims pay-app	entry		together	answers	types and a contract in one document, the claims in a second, a third bounding by both contracts at once
+module-var-empty-array	module-var-empty-array	entry		together	refuses at the build	a module variable starting as an empty array with no type
+module-var-empty-dictionary	module-var-empty-dictionary	entry		together	answers	a module variable starting as an empty dictionary cast to its type
+contract-in-field	contract-in-field	entry		together	answers	a contract standing as a field's element type
+recursive-type	recursive-type	entry		together	answers	a struct whose field holds its own type
+constant-indexed-by-name	constant-indexed-by-name	entry	key="1" at=1	together	answers	a module constant indexed by an argument through a name
+constant-indexed-directly	constant-indexed-directly	entry	key="1" at=1	together	answers	the same indexed directly

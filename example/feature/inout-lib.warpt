@@ -1,0 +1,15 @@
+(warp 1)
+(import Standard.Collection.append)
+(import Standard.Numeric.plus)
+
+(procedure io.bump
+  (parameter count (type (inout Int)))
+  (parameter by (type Int))
+  (body
+    (set count (call Standard.Numeric.plus count by))))
+
+(procedure io.push
+  (parameter onto (type (inout (array Int))))
+  (parameter value (type Int))
+  (body
+    (call Standard.Collection.append onto value)))

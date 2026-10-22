@@ -1,0 +1,84 @@
+(warp 1)
+(import Standard.Collection.reduce)
+(import Standard.Numeric.plus)
+(import Standard.Numeric.times)
+
+(struct geo.Circle
+  (satisfies geo.Shape)
+  (field radius Double)
+  (procedure area
+    (const)
+    (isolated)
+    (parameter of (type geo.Circle))
+    (returns Double)
+    (body
+      (return (call Standard.Numeric.times (call Standard.Numeric.times (path of (field radius)) (path of (field radius))) (call geo.pi)))))
+  (procedure name
+    (const)
+    (isolated)
+    (parameter of (type geo.Circle))
+    (returns String)
+    (body
+      (return "circle"))))
+
+(struct geo.Rect
+  (satisfies geo.Shape)
+  (field height Double)
+  (field width Double)
+  (procedure area
+    (const)
+    (isolated)
+    (parameter of (type geo.Rect))
+    (returns Double)
+    (body
+      (return (call Standard.Numeric.times (path of (field width)) (path of (field height))))))
+  (procedure name
+    (const)
+    (isolated)
+    (parameter of (type geo.Rect))
+    (returns String)
+    (body
+      (return "rect"))))
+
+(contract geo.Shape
+  (procedure area
+    (const)
+    (isolated)
+    (parameter of (type Self))
+    (returns Double))
+  (procedure name
+    (const)
+    (isolated)
+    (parameter of (type Self))
+    (returns String)))
+
+(procedure geo.describe
+  (access public)
+  (parameter of (type (some T geo.Shape)))
+  (returns String)
+  (body
+    (return (call geo.Shape.name of))))
+
+(procedure geo.pi
+  (access private)
+  (const)
+  (isolated)
+  (returns Double)
+  (body
+    (return 3.14159)))
+
+(procedure geo.total
+  (access public)
+  (parameter of (type (array (some T geo.Shape))))
+  (returns Double)
+  (failing (anything))
+  (body
+    (return (call Standard.Collection.reduce of 0.0
+        (closure
+          (const)
+          (isolated)
+          (parameter carried (type Double))
+          (parameter item (type (some T)))
+          (returns Double)
+          (body
+            (return (call Standard.Numeric.plus carried (call geo.Shape.area item)))))))))

@@ -1,0 +1,6 @@
+(warp 1)
+(import Standard.Text.text)
+(import chk.positive)
+(struct app.Answer (field fine Int) (field given String) (field message String) (field type String))
+(struct app.Caught (field given String) (field message String) (field type String))
+(procedure entry (access public) (returns app.Answer) (failing aborted cast_refused) (body (var caught) (let failed (attempt (body (let got (call chk.positive -3)) (set caught (as (struct (field given (call Standard.Text.text got)) (field message "") (field type "none")) app.Caught))) (rescue (set caught (as (struct (field given (call Standard.Text.text (path failed (field details)))) (field message (path failed (field message))) (field type (path failed (field type)))) app.Caught))))) (return (struct (field fine (call chk.positive 4)) (field given (path caught (field given))) (field message (path caught (field message))) (field type (path caught (field type)))))))

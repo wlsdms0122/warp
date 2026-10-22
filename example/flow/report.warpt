@@ -1,0 +1,69 @@
+(warp 1)
+(import File.write)
+(import JSON.text)
+(import Standard.Collection.appending)
+(import Standard.Collection.count)
+(import Standard.Comparable.lessThan)
+(import Standard.Numeric.plus)
+(import Standard.Text.joined)
+(import Standard.Text.text)
+(import flow.Outcome)
+
+(procedure flow.Outcome.line
+  (const)
+  (parameter of (type flow.Outcome))
+  (returns String)
+  (body
+    (var mark (type String) "FAIL ")
+    (conditional
+      (when (path of (field ok)))
+      (then
+        (set mark "ok   ")))
+    (return (call Standard.Text.joined (array mark (path of (field id)) ": " (path of (field message))) ""))))
+
+(procedure report.failures
+  (const)
+  (parameter of (type (array flow.Outcome)))
+  (returns Int)
+  (body
+    (var n 0)
+    (var i 0)
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan i (call Standard.Collection.count of)))
+        (body
+          (conditional
+            (when (path of (index i) (field ok)))
+            (then)
+            (else
+              (set n (call Standard.Numeric.plus n 1))))
+          (set i (call Standard.Numeric.plus i 1)))))
+    (return n)))
+
+(procedure report.text
+  (parameter of (type (array flow.Outcome)))
+  (parameter elapsed (type Int))
+  (returns String)
+  (body
+    (var lines (type (array String)) (array))
+    (var i 0)
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan i (call Standard.Collection.count of)))
+        (body
+          (set lines (call Standard.Collection.appending lines (call flow.Outcome.line (path of (index i)))))
+          (set i (call Standard.Numeric.plus i 1)))))
+    (set lines (call Standard.Collection.appending lines (call Standard.Text.joined (array (call Standard.Text.text (call Standard.Collection.count of)) " steps, " (call Standard.Text.text (call report.failures of)) " failed, " (call Standard.Text.text elapsed) " ms") "")))
+    (return (call Standard.Text.joined lines "\n"))))
+
+(procedure report.write
+  (parameter of (type (array flow.Outcome)))
+  (parameter elapsed (type Int))
+  (parameter path (type String))
+  (returns String)
+  (failing file_failed json_failed)
+  (body
+    (let rendered (call report.text of elapsed))
+    (call File.write path rendered)
+    (call File.write (call Standard.Text.joined (array path ".json") "") (call JSON.text of))
+    (return rendered)))

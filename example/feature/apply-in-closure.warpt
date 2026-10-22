@@ -1,0 +1,22 @@
+(warp 1)
+(import Standard.Collection.map)
+(import Standard.Numeric.plus)
+
+(procedure entry
+  (access public)
+  (returns (array Int))
+  (failing (anything))
+  (body
+    (let fs
+      (array
+        (closure
+          (parameter of (type Int))
+          (returns Int)
+          (body
+            (return (call Standard.Numeric.plus of 1))))))
+    (return (call Standard.Collection.map fs
+        (closure
+          (parameter item (type (procedure (parameters Int) (returns Int))))
+          (returns Int)
+          (body
+            (return (apply item 10))))))))

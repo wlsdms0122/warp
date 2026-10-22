@@ -1,0 +1,19 @@
+(warp 1)
+(import Standard.Numeric.plus)
+(var seen (type (array Int)) (array))
+(var total 100)
+
+(procedure entry
+  (access public)
+  (returns Int)
+  (body
+    (call v.add 1)
+    (call v.add 2)
+    (call v.add 3)
+    (return total)))
+
+(procedure v.add
+  (access private)
+  (parameter n (type Int))
+  (body
+    (set total (call Standard.Numeric.plus total n))))

@@ -1,0 +1,16 @@
+(warp 1)
+(import Host.log)
+(import Standard.Concurrent.allKeyed)
+
+(procedure entry
+  (access public)
+  (returns Int)
+  (failing aborted cast_refused concurrent_failed)
+  (body
+    (call Standard.Concurrent.allKeyed
+      (dictionary
+        (entry "a"
+          (closure
+            (body
+              (call Host.log 1))))))
+    (return 1)))

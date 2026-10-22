@@ -1,0 +1,42 @@
+(warp 1)
+(import Standard.Collection.map)
+(import Standard.Text.text)
+
+(struct p.Thing
+  (satisfies p.Named)
+  (field id Int)
+  (procedure name
+    (const)
+    (isolated)
+    (parameter of (type p.Thing))
+    (returns String)
+    (body
+      (return (call Standard.Text.text (path of (field id)))))))
+
+(contract p.Named
+  (procedure name
+    (const)
+    (isolated)
+    (parameter of (type Self))
+    (returns String)))
+
+(procedure entry
+  (access public)
+  (returns (array String))
+  (failing (anything))
+  (body
+    (return (call p.names (array (as (struct (field id 1)) p.Thing) (as (struct (field id 2)) p.Thing))))))
+
+(procedure p.names
+  (parameter of (type (array (some T p.Named))))
+  (returns (array String))
+  (failing (anything))
+  (body
+    (return (call Standard.Collection.map of
+        (closure
+          (const)
+          (isolated)
+          (parameter item (type (some T)))
+          (returns String)
+          (body
+            (return (call p.Named.name item))))))))

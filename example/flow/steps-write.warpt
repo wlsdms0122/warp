@@ -1,0 +1,54 @@
+(warp 1)
+(import File.write)
+(import JSON.text)
+(import Standard.Collection.count)
+(import Standard.Logic.notEqual)
+(import Standard.Text.joined)
+(import Standard.Text.text)
+(import flow.Outcome)
+(import flow.Runnable)
+(import flow.failed)
+(import flow.succeeded)
+(import state.get)
+
+(struct flow.Write
+  (satisfies flow.Runnable)
+  (field from String)
+  (field id String)
+  (field path String)
+  (procedure describe
+    (const)
+    (parameter of (type flow.Write))
+    (returns String)
+    (body
+      (return (call Standard.Text.joined (array "write " (path of (field from)) " to " (path of (field path))) ""))))
+  (procedure run
+    (parameter of (type flow.Write))
+    (returns flow.Outcome)
+    (failing cast_refused json_failed)
+    (body
+      (let value (call state.get (path of (field from))))
+      (let plain (as? value String))
+      (var content (type String) "")
+      (conditional
+        (when (call Standard.Logic.notEqual plain null))
+        (then
+          (set content (as plain String)))
+        (else
+          (set content (call JSON.text value))))
+      (var outcome)
+      (let caught
+        (attempt
+          (body
+            (call File.write (path of (field path)) content)
+            (set outcome (call flow.succeeded (path of (field id)) (path of (field path)) (call Standard.Text.joined (array "wrote " (call Standard.Text.text (call Standard.Collection.count content)) " characters") ""))))
+          (rescue
+            (set outcome (call flow.failed (path of (field id)) (call Standard.Text.joined (array "write failed: " (path caught (field message))) ""))))))
+      (return outcome))))
+
+(procedure flow.Write.parse
+  (parameter of (type (dictionary String Any)))
+  (returns flow.Write)
+  (failing cast_refused)
+  (body
+    (return (as (struct (field from (as (path of (index "from")) String)) (field id (as (path of (index "id")) String)) (field path (as (path of (index "path")) String))) flow.Write))))

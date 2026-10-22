@@ -1,0 +1,35 @@
+(warp 1)
+(import Standard.Numeric.plus)
+(import Standard.Numeric.times)
+(import fn.adder)
+(import fn.each)
+(import fn.twice)
+
+(struct app.Answer
+  (field added Int)
+  (field sum Int)
+  (field twice Int))
+
+(procedure entry
+  (access public)
+  (returns app.Answer)
+  (body
+    (let twice
+      (call fn.twice
+        (closure
+          (const)
+          (parameter of (type Int))
+          (returns Int)
+          (body
+            (return (call Standard.Numeric.times of 3))))
+        2))
+    (let addFive (call fn.adder 5))
+    (let added (apply addFive 10))
+    (var sum 0)
+    (call fn.each
+      (array 1 2 3)
+      (closure
+        (parameter of (type Int))
+        (body
+          (set sum (call Standard.Numeric.plus sum of)))))
+    (return (struct (field added added) (field sum sum) (field twice twice)))))

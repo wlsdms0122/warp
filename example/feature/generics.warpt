@@ -1,0 +1,31 @@
+(warp 1)
+(import Standard.Numeric)
+(import Standard.Numeric.plus)
+(import Standard.Numeric.times)
+
+(struct g.Answer
+  (field doubles Double)
+  (field ints Int)
+  (field same String))
+
+(procedure entry
+  (access public)
+  (returns g.Answer)
+  (body
+    (return (struct (field doubles (call g.scaleSum (array 1.5 2.5) 2.0)) (field ints (call g.scaleSum (array 1 2) 3)) (field same (call g.same "me"))))))
+
+(procedure g.same
+  (access private)
+  (parameter of (type (some T)))
+  (returns (some T))
+  (body
+    (return of)))
+
+(procedure g.scaleSum
+  (access private)
+  (parameter of (type (array (some N Standard.Numeric))))
+  (parameter by (type (some N)))
+  (returns (some N))
+  (body
+    (var sum (path of (index 0)))
+    (return (call Standard.Numeric.times (call Standard.Numeric.plus sum (path of (index 1))) by))))

@@ -43,6 +43,8 @@ A **front end** turns what a person wrote into a document. A **runtime** reads d
 |---|---|
 | [`spec/`](spec/README.md) | the language: constructs, document format, encodings, object format, refusal rules, conformance cases |
 | [`lib/standard/`](lib/standard) | the part of the standard vocabulary written in Warp |
+| [`example/`](example/README.md) | programs written in Warp, and the vocabulary a host lends them |
+| `tool/` | `server.py`, the local server the examples that reach a network talk to |
 
 Implementations live in repositories of their own:
 
