@@ -1,0 +1,20 @@
+(warp 1)
+(import Standard.Collection.append)
+(import Standard.Collection.count)
+(import Standard.Collection.map)
+
+(procedure entry
+  (access public)
+  (returns (array Int))
+  (failing (anything))
+  (body
+    (return (call Standard.Collection.map
+        (array 1 2)
+        (closure
+          (parameter item (type Int))
+          (returns Int)
+          (body
+            (var own (type (array Int)) (array))
+            (call Standard.Collection.append own item)
+            (call Standard.Collection.append own item)
+            (return (call Standard.Collection.count own))))))))

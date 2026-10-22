@@ -1,0 +1,20 @@
+(warp 1)
+(import Standard.Numeric.plus)
+
+(procedure entry
+  (access public)
+  (returns Int)
+  (body
+    (return (call p.twice
+        (closure
+          (parameter of (type Int))
+          (returns Int)
+          (body
+            (return (call Standard.Numeric.plus of 1))))))))
+
+(procedure p.twice
+  (access private)
+  (parameter f (type (procedure (parameters Int) (returns Int))))
+  (returns Int)
+  (body
+    (return (apply f (apply f 1)))))

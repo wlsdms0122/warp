@@ -1,0 +1,33 @@
+(warp 1)
+(import Standard.Collection.append)
+(import Standard.Collection.count)
+(import Standard.Comparable.lessThan)
+(import Standard.Logic.equal)
+(import Standard.Numeric.plus)
+(import Standard.Text.text)
+
+(struct dynamic.Answer
+  (field ints Int)
+  (field texts (array String)))
+
+(procedure entry
+  (access public)
+  (returns dynamic.Answer)
+  (failing aborted cast_refused)
+  (body
+    (let mixed (array 1 "two" 3.0 true null (array 4) (dictionary (entry "five" 5))))
+    (var texts (type (array String)) (array))
+    (var ints 0)
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Collection.count mixed)))
+        (body
+          (let item (path mixed (index (path walk (field index)))))
+          (call Standard.Collection.append texts (call Standard.Text.text item))
+          (let asInt (as? item Int))
+          (conditional
+            (when (call Standard.Logic.equal asInt null))
+            (then)
+            (else
+              (set ints (call Standard.Numeric.plus ints (as asInt Int))))))))
+    (return (struct (field ints ints) (field texts texts)))))

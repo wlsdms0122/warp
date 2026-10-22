@@ -1,0 +1,127 @@
+(warp 1)
+(import File.read)
+(import File.write)
+(import IO.write)
+(import JSON.parse)
+(import JSON.text)
+(import Standard.Collection.count)
+(import Standard.Collection.dropFirst)
+(import Standard.Collection.keys)
+(import Standard.Collection.setting)
+(import Standard.Collection.sorted)
+(import Standard.Comparable.lessThan)
+(import Standard.Concurrent.map)
+(import Standard.Control.abort)
+(import Standard.Logic.equal)
+(import Standard.Logic.notEqual)
+(import Standard.Numeric.plus)
+(import Standard.Text.characters)
+(import Standard.Text.joined)
+(import Standard.Text.startsWith)
+(import Standard.Text.text)
+(import ast.number)
+(import ast.refs)
+(import eval.node)
+(import format.grid)
+(import graph.levels)
+(import lex.number)
+(import parse.formula)
+(import sheet.Node)
+
+(procedure sheet.firstFailure
+  (parameter failures (type (dictionary Int Any)))
+  (parameter level (type (array String)))
+  (returns String)
+  (failing cast_refused)
+  (body
+    (let positions (call Standard.Collection.keys failures))
+    (let index (path positions (index 0)))
+    (let piece (as (path failures (index index)) Failure))
+    (return (call Standard.Text.joined (array (path level (index index)) ": " (path piece (field message))) ""))))
+
+(procedure sheet.main
+  (access public)
+  (parameter path (type String))
+  (parameter out (type (nullable String)))
+  (returns Int)
+  (failing aborted cast_refused file_failed json_failed)
+  (body
+    (var target (type String) "out/sheet.txt")
+    (conditional
+      (when (call Standard.Logic.notEqual out null))
+      (then
+        (set target (as out String))))
+    (let stored (call File.read path))
+    (conditional
+      (when (call Standard.Logic.equal stored null))
+      (then
+        (call Standard.Control.abort (call Standard.Text.joined (array "no sheet at " path) ""))))
+    (let raw (as (call JSON.parse (as stored String)) (dictionary String Any)))
+    (let cells (call Standard.Collection.sorted (call Standard.Collection.keys raw)))
+    (var nodes (type (dictionary String sheet.Node)) (dictionary))
+    (var deps (type (dictionary String (array String))) (dictionary))
+    (var i 0)
+    (let parse
+      (loop
+        (while (call Standard.Comparable.lessThan i (call Standard.Collection.count cells)))
+        (body
+          (let cell (path cells (index i)))
+          (let written (as (path raw (index cell)) String))
+          (let parsed
+            (attempt
+              (body
+                (var tree (call ast.number 0.0))
+                (conditional
+                  (when (call Standard.Text.startsWith written "="))
+                  (then
+                    (set tree (call parse.formula (call Standard.Text.joined (call Standard.Collection.dropFirst (call Standard.Text.characters written)) ""))))
+                  (else
+                    (set tree (call ast.number (call lex.number written)))))
+                (set nodes (call Standard.Collection.setting nodes cell tree))
+                (set deps (call Standard.Collection.setting deps cell (call ast.refs tree))))
+              (rescue
+                (call Standard.Control.abort (call Standard.Text.joined (array cell ": " (path parsed (field message))) "")))))
+          (set i (call Standard.Numeric.plus i 1)))))
+    (let levels (call graph.levels deps))
+    (call IO.write (call Standard.Text.joined (array "levels: " (call Standard.Text.text (call Standard.Collection.count levels)) "\n") ""))
+    (var values (type (dictionary String Double)) (dictionary))
+    (var l 0)
+    (let level
+      (loop
+        (while (call Standard.Comparable.lessThan l (call Standard.Collection.count levels)))
+        (body
+          (let level (path levels (index l)))
+          (let known values)
+          (let trees nodes)
+          (var computed)
+          (let caught
+            (attempt
+              (body
+                (let answers
+                  (call Standard.Concurrent.map level
+                    (closure
+                      (isolated)
+                      (parameter item (type String))
+                      (parameter index (type Int))
+                      (returns Double)
+                      (failing aborted cast_refused)
+                      (body
+                        (return (call eval.node (path trees (index item)) known))))))
+                (set computed answers))
+              (rescue
+                (let failures (as (path caught (field details) (index "failures")) (dictionary Int Any)))
+                (let first (call sheet.firstFailure failures level))
+                (call Standard.Control.abort (call Standard.Text.joined (array first) "")))))
+          (var k 0)
+          (let store
+            (loop
+              (while (call Standard.Comparable.lessThan k (call Standard.Collection.count level)))
+              (body
+                (set values (call Standard.Collection.setting values (path level (index k)) (path computed (index k))))
+                (set k (call Standard.Numeric.plus k 1)))))
+          (set l (call Standard.Numeric.plus l 1)))))
+    (let grid (call format.grid values))
+    (call File.write target grid)
+    (call File.write (call Standard.Text.joined (array target ".json") "") (call JSON.text values))
+    (call IO.write (call Standard.Text.joined (array grid "\n") ""))
+    (return (call Standard.Collection.count values))))

@@ -1,0 +1,38 @@
+(warp 1)
+
+(struct flow.Outcome
+  (field id String)
+  (field message String)
+  (field ok Bool)
+  (field produced Any))
+
+(struct flow.Plan
+  (field name String)
+  (field steps (array flow.Runnable)))
+
+(contract flow.Runnable
+  (procedure describe
+    (const)
+    (parameter of (type Self))
+    (returns String))
+  (procedure run
+    (parameter of (type Self))
+    (returns flow.Outcome)
+    (failing aborted cast_refused json_failed)))
+
+(procedure flow.failed
+  (parameter id (type String))
+  (parameter message (type String))
+  (returns flow.Outcome)
+  (failing cast_refused)
+  (body
+    (return (as (struct (field id id) (field message message) (field ok false) (field produced null)) flow.Outcome))))
+
+(procedure flow.succeeded
+  (parameter id (type String))
+  (parameter value)
+  (parameter message (type String))
+  (returns flow.Outcome)
+  (failing cast_refused)
+  (body
+    (return (as (struct (field id id) (field message message) (field ok true) (field produced value)) flow.Outcome))))

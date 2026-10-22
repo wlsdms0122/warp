@@ -1,0 +1,35 @@
+(warp 1)
+(import Standard.Collection.count)
+(import Standard.Comparable.lessThan)
+(import Standard.Numeric.plus)
+
+(procedure fn.adder
+  (parameter by (type Int))
+  (returns (procedure (parameters Int) (returns Int)))
+  (body
+    (return (closure
+        (parameter of (type Int))
+        (returns Int)
+        (body
+          (return (call Standard.Numeric.plus of by)))))))
+
+(procedure fn.each
+  (parameter of (type (array Int)))
+  (parameter do (type (procedure (parameters Int) (returns Any))))
+  (body
+    (var i 0)
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan i (call Standard.Collection.count of)))
+        (body
+          (apply do (path of (index i)))
+          (set i (call Standard.Numeric.plus i 1)))))))
+
+(procedure fn.twice
+  (parameter f (type (procedure (const) (parameters Int) (returns Int))))
+  (parameter start (type Int))
+  (returns Int)
+  (body
+    (let once (apply f start))
+    (let again (apply f once))
+    (return again)))

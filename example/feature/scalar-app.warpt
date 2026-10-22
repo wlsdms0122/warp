@@ -1,0 +1,36 @@
+(warp 1)
+(import num.Scalar)
+(import num.first)
+
+(struct app.Answer
+  (field double Double)
+  (field int Int)
+  (field key String)
+  (field string String))
+(contract app.Key)
+
+(extension
+  (head Int)
+  (satisfies app.Key))
+
+(extension
+  (head String)
+  (satisfies app.Key))
+
+(procedure app.key
+  (parameter of (type (some K app.Key)))
+  (returns (some K))
+  (body
+    (return of)))
+
+(procedure app.pick
+  (parameter of (type (array (some T num.Scalar))))
+  (returns (some T))
+  (body
+    (return (call num.first of))))
+
+(procedure entry
+  (access public)
+  (returns app.Answer)
+  (body
+    (return (struct (field double (call num.first (array 1.5))) (field int (call app.pick (array 1 2))) (field key (call app.key "k")) (field string (call num.first (array "s")))))))

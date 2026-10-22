@@ -1,0 +1,229 @@
+(warp 1)
+(import Standard.Collection.appending)
+(import Standard.Collection.count)
+(import Standard.Comparable.lessThan)
+(import Standard.Control.abort)
+(import Standard.Logic.equal)
+(import Standard.Math.floored)
+(import Standard.Numeric.plus)
+(import Standard.Text.characters)
+(import Standard.Text.joined)
+(import Standard.Text.text)
+(import lex.isDigit)
+(import lex.isLetter)
+(import lex.number)
+(const letters (array "A" "B" "C" "D" "E" "F" "G" "H" "I" "J" "K" "L" "M" "N" "O" "P" "Q" "R" "S" "T" "U" "V" "W" "X" "Y" "Z"))
+
+(struct sheet.Node
+  (field args (array sheet.Node))
+  (field kind String)
+  (field left (nullable sheet.Node))
+  (field name String)
+  (field number Double)
+  (field right (nullable sheet.Node)))
+
+(procedure ast.binary
+  (parameter op (type String))
+  (parameter left (type sheet.Node))
+  (parameter right (type sheet.Node))
+  (returns sheet.Node)
+  (failing cast_refused)
+  (body
+    (return (as (struct (field args (array)) (field kind "binary") (field left left) (field name op) (field number 0.0) (field right right)) sheet.Node))))
+
+(procedure ast.call
+  (parameter function (type String))
+  (parameter args (type (array sheet.Node)))
+  (returns sheet.Node)
+  (failing cast_refused)
+  (body
+    (return (as (struct (field args args) (field kind "call") (field left null) (field name function) (field number 0.0) (field right null)) sheet.Node))))
+
+(procedure ast.cells
+  (const)
+  (isolated)
+  (parameter from (type String))
+  (parameter to (type String))
+  (returns (array String))
+  (failing aborted)
+  (body
+    (let c1 (call ast.column from))
+    (let c2 (call ast.column to))
+    (let r1 (call ast.row from))
+    (let r2 (call ast.row to))
+    (var cells (type (array String)) (array))
+    (conditional
+      (when (call Standard.Logic.equal c1 c2))
+      (then
+        (var r r1)
+        (let down
+          (loop
+            (while (call Standard.Comparable.lessThan r (call Standard.Numeric.plus r2 1)))
+            (body
+              (set cells (call Standard.Collection.appending cells (call Standard.Text.joined (array c1 (call Standard.Text.text r)) "")))
+              (set r (call Standard.Numeric.plus r 1))))))
+      (else
+        (conditional
+          (when (call Standard.Logic.equal r1 r2))
+          (then
+            (var c (call ast.columnIndex c1))
+            (let last (call ast.columnIndex c2))
+            (let across
+              (loop
+                (while (call Standard.Comparable.lessThan c (call Standard.Numeric.plus last 1)))
+                (body
+                  (set cells (call Standard.Collection.appending cells (call Standard.Text.joined (array (path letters (index c)) (call Standard.Text.text r1)) "")))
+                  (set c (call Standard.Numeric.plus c 1))))))
+          (else
+            (call Standard.Control.abort (call Standard.Text.joined (array "a range runs down one column or across one row: " from ":" to) ""))))))
+    (return cells)))
+
+(procedure ast.column
+  (const)
+  (isolated)
+  (parameter of (type String))
+  (returns String)
+  (body
+    (let chars (call Standard.Text.characters of))
+    (var found (type (array String)) (array))
+    (var i 0)
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan i (call Standard.Collection.count chars)))
+        (body
+          (conditional
+            (when (call lex.isLetter (path chars (index i))))
+            (then
+              (set found (call Standard.Collection.appending found (path chars (index i))))))
+          (set i (call Standard.Numeric.plus i 1)))))
+    (return (call Standard.Text.joined found ""))))
+
+(procedure ast.columnIndex
+  (const)
+  (isolated)
+  (parameter of (type String))
+  (returns Int)
+  (failing aborted)
+  (body
+    (var i 0)
+    (var found -1)
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan i (call Standard.Collection.count letters)))
+        (body
+          (conditional
+            (when (call Standard.Logic.equal (path letters (index i)) of))
+            (then
+              (set found i)))
+          (set i (call Standard.Numeric.plus i 1)))))
+    (conditional
+      (when (call Standard.Comparable.lessThan found 0))
+      (then
+        (call Standard.Control.abort (call Standard.Text.joined (array "'" of "' is not a column") ""))))
+    (return found)))
+
+(procedure ast.number
+  (const)
+  (parameter n (type Double))
+  (returns sheet.Node)
+  (failing cast_refused)
+  (body
+    (return (as (struct (field args (array)) (field kind "number") (field left null) (field name "") (field number n) (field right null)) sheet.Node))))
+
+(procedure ast.range
+  (const)
+  (parameter from (type String))
+  (parameter to (type String))
+  (returns sheet.Node)
+  (failing cast_refused)
+  (body
+    (return (as (struct (field args (array)) (field kind "range") (field left (call ast.ref from)) (field name "") (field number 0.0) (field right (call ast.ref to))) sheet.Node))))
+
+(procedure ast.ref
+  (const)
+  (parameter cell (type String))
+  (returns sheet.Node)
+  (failing cast_refused)
+  (body
+    (return (as (struct (field args (array)) (field kind "ref") (field left null) (field name cell) (field number 0.0) (field right null)) sheet.Node))))
+
+(procedure ast.refs
+  (const)
+  (parameter of (type sheet.Node))
+  (returns (array String))
+  (failing aborted cast_refused)
+  (body
+    (var found (type (array String)) (array))
+    (conditional
+      (when (call Standard.Logic.equal (path of (field kind)) "ref"))
+      (then
+        (set found (array (path of (field name)))))
+      (else
+        (conditional
+          (when (call Standard.Logic.equal (path of (field kind)) "range"))
+          (then
+            (set found (call ast.cells (as (path of (field left) (field? name)) String) (as (path of (field right) (field? name)) String))))
+          (else
+            (conditional
+              (when (call Standard.Logic.equal (path of (field kind)) "binary"))
+              (then
+                (let l (call ast.refs (as (path of (field left)) sheet.Node)))
+                (let r (call ast.refs (as (path of (field right)) sheet.Node)))
+                (var i 0)
+                (let walkL
+                  (loop
+                    (while (call Standard.Comparable.lessThan i (call Standard.Collection.count l)))
+                    (body
+                      (set found (call Standard.Collection.appending found (path l (index i))))
+                      (set i (call Standard.Numeric.plus i 1)))))
+                (set i 0)
+                (let walkR
+                  (loop
+                    (while (call Standard.Comparable.lessThan i (call Standard.Collection.count r)))
+                    (body
+                      (set found (call Standard.Collection.appending found (path r (index i))))
+                      (set i (call Standard.Numeric.plus i 1))))))
+              (else
+                (conditional
+                  (when (call Standard.Logic.equal (path of (field kind)) "call"))
+                  (then
+                    (var a 0)
+                    (let args
+                      (loop
+                        (while (call Standard.Comparable.lessThan a (call Standard.Collection.count (path of (field args)))))
+                        (body
+                          (let inner (call ast.refs (path of (field args) (index a))))
+                          (var i 0)
+                          (let walk
+                            (loop
+                              (while (call Standard.Comparable.lessThan i (call Standard.Collection.count inner)))
+                              (body
+                                (set found (call Standard.Collection.appending found (path inner (index i))))
+                                (set i (call Standard.Numeric.plus i 1)))))
+                          (set a (call Standard.Numeric.plus a 1)))))))))))))
+    (return found)))
+
+(procedure ast.row
+  (const)
+  (isolated)
+  (parameter of (type String))
+  (returns Int)
+  (failing aborted)
+  (body
+    (let chars (call Standard.Text.characters of))
+    (var digits (type (array String)) (array))
+    (var i 0)
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan i (call Standard.Collection.count chars)))
+        (body
+          (conditional
+            (when (call lex.isDigit (path chars (index i))))
+            (then
+              (set digits (call Standard.Collection.appending digits (path chars (index i))))))
+          (set i (call Standard.Numeric.plus i 1)))))
+    (conditional
+      (when (call Standard.Logic.equal (call Standard.Collection.count digits) 0))
+      (then
+        (call Standard.Control.abort (call Standard.Text.joined (array "'" of "' names no row") ""))))
+    (return (call Standard.Math.floored (call lex.number (call Standard.Text.joined digits ""))))))

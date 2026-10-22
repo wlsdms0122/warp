@@ -1,0 +1,18 @@
+(warp 1)
+(import io.bump)
+(import io.push)
+
+(struct app.Answer
+  (field n Int)
+  (field xs (array Int)))
+
+(procedure entry
+  (access public)
+  (returns app.Answer)
+  (body
+    (var n 1)
+    (var xs (type (array Int)) (array))
+    (call io.bump n 41)
+    (call io.push xs 1)
+    (call io.push xs 2)
+    (return (struct (field n n) (field xs xs)))))

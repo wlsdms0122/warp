@@ -1,0 +1,49 @@
+(warp 1)
+(import Standard.Collection.count)
+(import Standard.Comparable.lessThan)
+(import Standard.Numeric.plus)
+(import pay.Card)
+(import pay.Cash)
+(import pay.Method)
+(import pay.Payable)
+(import pay.Payable.amount)
+
+(struct app.Answer
+  (field cards Int)
+  (field cash Int)
+  (field member Int)
+  (field one Int))
+
+(procedure app.member
+  (parameter of (type pay.Method))
+  (returns Int)
+  (failing cast_refused)
+  (body
+    (return (call pay.Payable.amount (as of pay.Payable)))))
+
+(procedure app.one
+  (parameter of (type (composition pay.Method pay.Payable)))
+  (returns Int)
+  (body
+    (return (call pay.Payable.amount of))))
+
+(procedure app.total
+  (parameter of (type (array (some T pay.Method pay.Payable))))
+  (returns Int)
+  (body
+    (var i 0)
+    (var sum 0)
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan i (call Standard.Collection.count of)))
+        (body
+          (set sum (call Standard.Numeric.plus sum (call pay.Payable.amount (path of (index i)))))
+          (set i (call Standard.Numeric.plus i 1)))))
+    (return sum)))
+
+(procedure entry
+  (access public)
+  (returns app.Answer)
+  (failing (anything))
+  (body
+    (return (struct (field cards (call app.total (array (as (struct (field limit 10)) pay.Card) (as (struct (field limit 5)) pay.Card)))) (field cash (call app.total (array (as (struct (field notes 7)) pay.Cash)))) (field member (call app.member (as (struct (field limit 1)) pay.Card))) (field one (call app.one (as (struct (field notes 2)) pay.Cash)))))))

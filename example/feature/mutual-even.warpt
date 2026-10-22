@@ -1,0 +1,14 @@
+(warp 1)
+(import Standard.Logic.equal)
+(import Standard.Numeric.minus)
+(import odd.is)
+
+(procedure even.is
+  (parameter n (type Int))
+  (returns Bool)
+  (body
+    (conditional
+      (when (call Standard.Logic.equal n 0))
+      (then
+        (return true)))
+    (return (call odd.is (call Standard.Numeric.minus n 1)))))

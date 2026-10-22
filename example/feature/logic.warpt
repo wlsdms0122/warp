@@ -1,0 +1,82 @@
+(warp 1)
+(import Standard.Comparable.lessThan)
+(import Standard.Control.abort)
+(import Standard.Logic.not)
+(import Standard.Logic.select)
+(import Standard.Logic.tryAnd)
+(import Standard.Logic.tryOr)
+
+(struct l.Answer
+  (field chosen String)
+  (field inverted Bool)
+  (field short Bool)
+  (field shortOr Bool))
+
+(procedure entry
+  (access public)
+  (returns l.Answer)
+  (failing (anything))
+  (body
+    (return (struct
+        (field chosen
+          (call Standard.Logic.select
+            (call Standard.Comparable.lessThan 1 2)
+            (closure
+              (const)
+              (isolated)
+              (returns String)
+              (body
+                (return "less")))
+            (closure
+              (const)
+              (isolated)
+              (returns String)
+              (body
+                (return "not less")))))
+        (field inverted (call Standard.Logic.not false))
+        (field short
+          (call Standard.Logic.tryAnd
+            (array
+              (closure
+                (const)
+                (isolated)
+                (returns Bool)
+                (body
+                  (return false)))
+              (closure
+                (const)
+                (isolated)
+                (returns Bool)
+                (failing aborted)
+                (body
+                  (return (call l.boom 1)))))))
+        (field shortOr
+          (call Standard.Logic.tryOr
+            (array
+              (closure
+                (const)
+                (isolated)
+                (returns Bool)
+                (body
+                  (return true)))
+              (closure
+                (const)
+                (isolated)
+                (returns Bool)
+                (failing aborted)
+                (body
+                  (return (call l.boom 1)))))))))))
+
+(procedure l.boom
+  (access private)
+  (const)
+  (isolated)
+  (parameter n (type Int))
+  (returns Bool)
+  (failing aborted)
+  (body
+    (conditional
+      (when (call Standard.Comparable.lessThan n 2))
+      (then
+        (call Standard.Control.abort "never asked")))
+    (return true)))

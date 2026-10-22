@@ -1,0 +1,24 @@
+(warp 1)
+(import ib.add)
+(import ib.bump)
+(import ib.twoWays)
+
+(procedure im.addBoth
+  (parameter into (type (inout (array Int))))
+  (parameter a (type Int))
+  (parameter b (type Int))
+  (body
+    (call ib.add into a)
+    (call ib.add into b)))
+
+(procedure im.bumpTwice
+  (parameter count (type (inout Int)))
+  (body
+    (call ib.bump count)
+    (call ib.bump count)))
+
+(procedure im.same
+  (parameter count (type (inout Int)))
+  (returns Int)
+  (body
+    (return (call ib.twoWays count count))))

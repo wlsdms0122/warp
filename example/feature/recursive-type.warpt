@@ -1,0 +1,50 @@
+(warp 1)
+(import Standard.Collection.count)
+(import Standard.Comparable.lessThan)
+(import Standard.Logic.notEqual)
+(import Standard.Numeric.plus)
+
+(struct t.Node
+  (field kids (array t.Node))
+  (field left (nullable t.Node))
+  (field n Int)
+  (field right (nullable t.Node)))
+
+(procedure entry
+  (access public)
+  (returns Int)
+  (failing aborted cast_refused)
+  (body
+    (let tree (as (struct (field kids (array)) (field left (call t.leaf 2)) (field n 1) (field right (as (struct (field kids (array (call t.leaf 5) (call t.leaf 6))) (field left (call t.leaf 4)) (field n 3) (field right null)) t.Node))) t.Node))
+    (return (call t.sum tree))))
+
+(procedure t.leaf
+  (parameter n (type Int))
+  (returns t.Node)
+  (failing cast_refused)
+  (body
+    (return (as (struct (field kids (array)) (field left null) (field n n) (field right null)) t.Node))))
+
+(procedure t.sum
+  (const)
+  (parameter of (type t.Node))
+  (returns Int)
+  (failing cast_refused)
+  (body
+    (var total (path of (field n)))
+    (conditional
+      (when (call Standard.Logic.notEqual (path of (field left)) null))
+      (then
+        (set total (call Standard.Numeric.plus total (call t.sum (as (path of (field left)) t.Node))))))
+    (conditional
+      (when (call Standard.Logic.notEqual (path of (field right)) null))
+      (then
+        (set total (call Standard.Numeric.plus total (call t.sum (as (path of (field right)) t.Node))))))
+    (var i 0)
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan i (call Standard.Collection.count (path of (field kids)))))
+        (body
+          (set total (call Standard.Numeric.plus total (call t.sum (path of (field kids) (index i)))))
+          (set i (call Standard.Numeric.plus i 1)))))
+    (return total)))

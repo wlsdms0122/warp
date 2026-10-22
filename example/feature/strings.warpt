@@ -1,0 +1,24 @@
+(warp 1)
+(import Standard.Collection.count)
+(import Standard.Text.characters)
+(import Standard.Text.joined)
+(import Standard.Text.replacing)
+(import Standard.Text.split)
+(import Standard.Text.startsWith)
+(import Standard.Text.trimmed)
+
+(struct strings.Answer
+  (field chars Int)
+  (field parts (array String))
+  (field rejoined String)
+  (field replaced String)
+  (field starts Bool)
+  (field trimmed String))
+
+(procedure entry
+  (access public)
+  (returns strings.Answer)
+  (failing aborted cast_refused)
+  (body
+    (let parts (call Standard.Text.split "a,b,,c" ","))
+    (return (struct (field chars (call Standard.Collection.count (call Standard.Text.characters "éa😀"))) (field parts parts) (field rejoined (call Standard.Text.joined parts "-")) (field replaced (call Standard.Text.replacing "warp is warp" "warp" "Warp")) (field starts (call Standard.Text.startsWith "warpt 1" "warp")) (field trimmed (call Standard.Text.trimmed "  x  "))))))

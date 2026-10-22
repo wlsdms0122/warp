@@ -1,0 +1,50 @@
+(warp 1)
+(import Standard.Comparable.lessThan)
+(import Standard.Logic.notEqual)
+(import Standard.Numeric.minus)
+(import Standard.Numeric.plus)
+
+(struct fib.Answer
+  (field iterative Int)
+  (field recursive Int))
+
+(procedure entry
+  (access public)
+  (parameter n (type (nullable Int)))
+  (returns fib.Answer)
+  (failing aborted cast_refused)
+  (body
+    (var upto (type Int) 20)
+    (conditional
+      (when (call Standard.Logic.notEqual n null))
+      (then
+        (set upto (as n Int))))
+    (return (struct (field iterative (call fib.iterative upto)) (field recursive (call fib.recursive upto))))))
+
+(procedure fib.iterative
+  (access private)
+  (parameter n (type Int))
+  (returns Int)
+  (body
+    (var a 0)
+    (var b 1)
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan (path walk (field index)) n))
+        (body
+          (let next (call Standard.Numeric.plus a b))
+          (set a b)
+          (set b next))))
+    (return a)))
+
+(procedure fib.recursive
+  (access private)
+  (const)
+  (parameter n (type Int))
+  (returns Int)
+  (body
+    (conditional
+      (when (call Standard.Comparable.lessThan n 2))
+      (then
+        (return n)))
+    (return (call Standard.Numeric.plus (call fib.recursive (call Standard.Numeric.minus n 1)) (call fib.recursive (call Standard.Numeric.minus n 2))))))
