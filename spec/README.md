@@ -1,6 +1,6 @@
 # The Warp specification
 
-Warp is a language, and this is where the language is. The directories beside this one hold implementations of it; nothing they do adds to the language. [Known costs](cost.md) says where a decision lands a cost on one.
+Warp is a language, and this is where the language is. Its implementations live in repositories of their own, and nothing they do adds to the language. [Known costs](cost.md) says where a decision lands a cost on one.
 
 This describes **Warp 0.1.0**.
 
