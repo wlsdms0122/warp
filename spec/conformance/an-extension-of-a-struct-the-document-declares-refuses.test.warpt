@@ -1,0 +1,17 @@
+(test 1)
+(name "an-extension-of-a-struct-the-document-declares-refuses")
+(note "A document gives a struct it declares what it gives it in the declaration, so an extension of it would be a second way to write one document, and the load refuses it.")
+
+(program
+  (warp 1)
+  (struct App.Card
+    (field rank Int))
+  (extension
+    (head App.Card)
+    (satisfies Hashable))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

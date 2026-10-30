@@ -1,0 +1,35 @@
+(test 1)
+(name "a-same-type-writing-a-type-parameter-no-slot-writes-refuses")
+(note "`sameTypes` says `C.Item` is `Array<some U>`, and no slot writes `some U`. What a same type writes is filled where a call fills the slots, so this refuses at the load.")
+
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Container
+      (type Item)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item)))
+    (procedure Lib.firstOf
+      (access public)
+      (parameter c (type (some C Lib.Container)))
+      (returns (some C.Item))
+      (body
+        (return (call Lib.Container.first c))))))
+
+(program
+  (warp 1)
+  (import Lib.Container)
+  (procedure Use.it
+    (access public)
+    (parameter c (type (some C Lib.Container)))
+    (returns Int)
+    (sameType C.Item (array (some U)))
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

@@ -1,0 +1,50 @@
+(test 1)
+(name "a-call-fills-an-associated-type-only-a-reading-in-the-body-reaches")
+(note "App.g bounds C by App.Container, which asks `Item`, and writes `C.Item` nowhere: its call of App.Container.first reads as `some C.Item`, and that reading fills App.h's U. The call of App.g fills `C.Item` once it fills C, so App.h's cast to U matches a string where App.Words fills C and an integer where App.Box does.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (satisfies App.Container)
+    (field x Int)
+    (type Item Int)
+    (procedure first
+      (parameter of (type App.Box))
+      (returns Int)
+      (body
+        (return 0))))
+  (struct App.Words
+    (satisfies App.Container)
+    (field x Int)
+    (type Item String)
+    (procedure first
+      (parameter of (type App.Words))
+      (returns String)
+      (body
+        (return "w"))))
+  (contract App.Container
+    (type Item)
+    (procedure first
+      (parameter of (type Self))
+      (returns Self.Item)))
+  (procedure App.g
+    (parameter c (type (some C App.Container)))
+    (parameter a)
+    (returns Any)
+    (body
+      (let i (call App.Container.first c))
+      (return (call App.h i a))))
+  (procedure App.h
+    (parameter x (type (some U)))
+    (parameter a)
+    (returns Any)
+    (body
+      (return (as? a (some U)))))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let w (type App.Words) (struct (field x 1)))
+      (let b (type App.Box) (struct (field x 1)))
+      (return (array (call App.g w "s") (call App.g w 1) (call App.g b 1) (call App.g b "s"))))))
+(expect (answers (array "s" null 1 null)))

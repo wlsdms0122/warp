@@ -1,0 +1,17 @@
+(test 1)
+(name "bytes-at-a-list-of-doubles-refuse")
+(note "Bytes are a list of integers in a compact spelling, and an integer is no floating-point number. `Array<Double>` takes none of them, so bytes handed there are refused at the build.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns (array Double))
+    (body
+      (return (call keep x"6869"))))
+  (procedure keep
+    (parameter value (type (array Double)))
+    (returns (array Double))
+    (body
+      (return value))))
+(expect (refuses build))

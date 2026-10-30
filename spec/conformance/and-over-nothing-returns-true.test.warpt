@@ -1,0 +1,13 @@
+(test 1)
+(name "and-over-nothing-returns-true")
+(note "`Standard.Logic.and` over no condition returns `true`: no side decided the result, so the chain's own result stands.")
+
+(program
+  (warp 1)
+  (import Standard.Logic.and)
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (body
+      (return (call Standard.Logic.and (array))))))
+(expect (answers true))

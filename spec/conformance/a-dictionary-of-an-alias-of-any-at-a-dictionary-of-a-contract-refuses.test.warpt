@@ -1,0 +1,23 @@
+(test 1)
+(name "a-dictionary-of-an-alias-of-any-at-a-dictionary-of-a-contract-refuses")
+(note "Each entry of a Dictionary<String, App.Loose> is read as Any, which stands nowhere a contract is asked, so handing it where a Dictionary<String, App.Shape> is declared refuses at the build.")
+
+(program
+  (warp 1)
+  (type App.Loose Any)
+  (struct App.Point
+    (satisfies App.Shape)
+    (field x Int))
+  (contract App.Shape)
+  (procedure App.g
+    (parameter p (type (dictionary String App.Shape)))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let d (type (dictionary String App.Loose)) (dictionary (entry "k" 5)))
+      (return (call App.g d)))))
+(expect (refuses build))

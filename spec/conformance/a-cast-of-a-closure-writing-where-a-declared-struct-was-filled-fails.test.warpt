@@ -1,0 +1,42 @@
+(test 1)
+(name "a-cast-of-a-closure-writing-where-a-declared-struct-was-filled-fails")
+(note "App.h keeps n in cell and writes a closure that sets cell from its own some T, held as Any. The entry fills T with App.R. The cast reading the closure as taking an App.X, a struct of the same fields under another name, fails with cast_refused, since only App.h's call filled its T, and the try in the entry catches the failure.")
+
+(program
+  (warp 1)
+  (struct App.R
+    (field x Int))
+  (struct App.X
+    (field x Int))
+  (procedure App.h
+    (parameter n (type (some T)))
+    (returns (some T))
+    (failing (anything))
+    (body
+      (var cell n)
+      (let c
+        (closure
+          (parameter y (type (some T)))
+          (returns Int)
+          (body
+            (set cell y)
+            (return 0))))
+      (let a (type Any) c)
+      (let w (as a (procedure (parameters App.X) (returns Int))))
+      (let z (apply w (struct (field x 7))))
+      (return cell)))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (var tried)
+      (let caught
+        (try
+          (body
+            (let p (type App.R) (struct (field x 1)))
+            (let r (call App.h p))
+            (set tried (path r (field x))))
+          (catch
+            (set tried (path caught (field type))))))
+      (return tried))))
+(expect (answers "cast_refused"))

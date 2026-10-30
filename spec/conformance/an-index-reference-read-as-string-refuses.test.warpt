@@ -1,0 +1,14 @@
+(test 1)
+(name "an-index-reference-read-as-string-refuses")
+(note "On a list an index stands where an Int is read, and `which` reads String, so the build refuses the reference.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let which "first")
+      (let items (array 1 2))
+      (return (path items (index which))))))
+(expect (refuses build))

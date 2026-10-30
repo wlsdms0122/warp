@@ -1,0 +1,13 @@
+(test 1)
+(name "arithmetic-overflow-refuses")
+(note "Integer arithmetic with no integer result refuses. Wrapping would give a result, and giving a wrong one is worse than giving none.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call Standard.Numeric.plus 9223372036854775807 1)))))
+(expect (refuses run))

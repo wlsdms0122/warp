@@ -1,0 +1,36 @@
+(test 1)
+(name "a-contract-value-at-any-is-its-value")
+(note "`p` is read as `App.Maker` and holds `App.Box<Int?>`. Written into a name read as `Any`, the type drops, so the cast back to `App.Maker` holds the type the box is an instance of, `App.Box<Int>`. The row it picks fills `T` with `Int`, the closure it makes is a value of `(Int) -> Int`, the cast to that type takes it, and applying it to 7 answers 7.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (satisfies App.Maker)
+    (field item (some T))
+    (procedure make
+      (parameter of (type (named App.Box (some T))))
+      (returns Any)
+      (body
+        (return
+          (closure
+            (parameter y (type (some T)))
+            (returns (some T))
+            (body
+              (return y)))))))
+  (contract App.Maker
+    (procedure make
+      (parameter of (type Self))
+      (returns Any)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing cast_refused)
+    (body
+      (let b (type (named App.Box (optional Int))) (struct (field item 5)))
+      (let p (type App.Maker) b)
+      (let a (type Any) p)
+      (let q (as a App.Maker))
+      (let g (as (call App.Maker.make q) (procedure (parameters Int) (returns Int))))
+      (return (apply g 7)))))
+(expect (answers 7))

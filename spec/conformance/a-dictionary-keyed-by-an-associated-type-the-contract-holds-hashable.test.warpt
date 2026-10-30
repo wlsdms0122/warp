@@ -1,0 +1,45 @@
+(test 1)
+(name "a-dictionary-keyed-by-an-associated-type-the-contract-holds-hashable")
+(note "`Lib.Keyed` holds Item to Hashable, so `Dictionary<some C.Item, Int>` is a dictionary type.")
+
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Keyed
+      (type Item Hashable)
+      (procedure key
+        (parameter of (type Self))
+        (returns Self.Item)))
+    (procedure Lib.index
+      (access public)
+      (parameter c (type (some C Lib.Keyed)))
+      (returns (dictionary (some C.Item) Int))
+      (body
+        (let k (call Lib.Keyed.key c))
+        (return (dictionary (entry k 1))))))
+  (document
+    (warp 1)
+    (import Lib.Keyed)
+    (struct App.Card
+      (satisfies Lib.Keyed)
+      (field rank Int)
+      (type Item String)
+      (procedure key
+        (access public)
+        (parameter of (type App.Card))
+        (returns String)
+        (body
+          (return "card"))))))
+
+(program
+  (warp 1)
+  (import App.Card)
+  (import Lib.index)
+  (procedure entry
+    (access public)
+    (returns (optional Int))
+    (body
+      (let c (type App.Card) (struct (field rank 1)))
+      (let m (call Lib.index c))
+      (return (path m (index "card"))))))
+(expect (answers 1))

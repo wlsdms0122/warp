@@ -1,0 +1,16 @@
+(test 1)
+(name "a-loops-name-reads-nothing-after-the-loop-refuses")
+(note "A loop has no value, and its name is its round's, read in the condition and the body. After the loop the name reads nothing, so reading it there refuses at the load.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let walk
+        (loop
+          (while false)
+          (body)))
+      (return walk))))
+(expect (refuses load))

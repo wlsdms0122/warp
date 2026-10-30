@@ -1,0 +1,19 @@
+(test 1)
+(name "a-bound-naming-a-struct-a-document-declares-refuses")
+(note "A bound names a contract. `App.P` is a struct, and what a name declares is the link's to say, so the build refuses the bound.")
+
+(program
+  (warp 1)
+  (struct App.P
+    (field x Int))
+  (procedure App.f
+    (parameter x (type (some T App.P)))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

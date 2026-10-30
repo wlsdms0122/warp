@@ -1,0 +1,16 @@
+(test 1)
+(name "returning-from-the-middle-leaves-early")
+(note "Returning from inside a body leaves the procedure with what it carries. The statements after the leave never run.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (conditional
+        (when true)
+        (then
+          (return "left early")))
+      (return "went on"))))
+(expect (answers "left early"))

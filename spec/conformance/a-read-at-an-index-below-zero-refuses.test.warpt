@@ -1,0 +1,13 @@
+(test 1)
+(name "a-read-at-an-index-below-zero-refuses")
+(note "`d[-1]` on a list writes an integer below zero between the brackets, which is no position, so the path refuses at the build, where what is indexed is known.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var d (type (array Int)) (array 1))
+      (return (path d (index -1))))))
+(expect (refuses build))

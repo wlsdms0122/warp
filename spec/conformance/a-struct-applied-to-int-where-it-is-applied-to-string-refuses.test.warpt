@@ -1,0 +1,17 @@
+(test 1)
+(name "a-struct-applied-to-int-where-it-is-applied-to-string-refuses")
+(note "Two mentions of one struct are one type where they are applied to the same types. An `App.Box<Int>` does not stand where `App.Box<String>` is declared.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let b (type (named App.Box Int)) (struct (field item 1)))
+      (let c (type (named App.Box String)) b)
+      (return 1))))
+(expect (refuses build))

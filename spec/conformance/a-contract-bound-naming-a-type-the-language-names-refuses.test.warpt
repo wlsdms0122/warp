@@ -1,0 +1,15 @@
+(test 1)
+(name "a-contract-bound-naming-a-type-the-language-names-refuses")
+(note "A contract holds a type it asks to contracts, and Int is a type the language names, so `Lib.Holder` bounding Item by Int refuses at the load.")
+(documents)
+
+(program
+  (warp 1)
+  (contract Lib.Holder
+    (type Item Int))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

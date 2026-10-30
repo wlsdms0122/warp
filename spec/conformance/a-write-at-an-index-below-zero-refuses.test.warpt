@@ -1,0 +1,14 @@
+(test 1)
+(name "a-write-at-an-index-below-zero-refuses")
+(note "`set d[-1]` on a list writes an integer below zero between the brackets, which is no position, so the write refuses at the build, where what is written into is known.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var d (type (array Int)) (array 1))
+      (set (path d (index -1)) 2)
+      (return (path d (index 0))))))
+(expect (refuses build))

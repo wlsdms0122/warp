@@ -1,0 +1,5 @@
+(test 1)
+(name "bytes-spell-from-text")
+(note "Bytes are `x` and lowercase hex, two digits a byte, and that is the one text a writer gives them.")
+(text "(warp 1)\n(const a x\"6a73\")\n")
+(expect (spells (dictionary (entry "const" (dictionary (entry "a" x"6a73"))) (entry "imports" (array)) (entry "warp" 1))))

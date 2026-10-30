@@ -1,0 +1,19 @@
+(test 1)
+(name "a-bound-naming-a-type-the-language-names-refuses")
+(note "`Int` is a type the language names, which the load knows is no contract, so the bound refuses there.")
+
+(program
+  (warp 1)
+  (struct App.P
+    (field x Int))
+  (procedure App.f
+    (parameter x (type (some T Int)))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

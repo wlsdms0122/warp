@@ -1,0 +1,38 @@
+(test 1)
+(name "a-struct-literal-a-closure-writes-into-a-captured-variable-takes-the-name")
+(note "`r` declares nothing and starts as `a`, a `Bank.A`. A closure that captured it writes the struct literal `{ k: \"y\" }` into it. The closure holds `r` to what it read as there, so the literal is written where `Bank.A` is read and takes the name, and `App.P.show`, which a member of `Bank.A` satisfies, is sent to `r` after the closure ran.")
+
+(program
+  (warp 1)
+  (struct Bank.A
+    (satisfies App.P)
+    (field k String)
+    (procedure show
+      (const)
+      (isolated)
+      (parameter of (type Bank.A))
+      (returns String)
+      (body
+        (return "a"))))
+  (contract App.P
+    (procedure show
+      (const)
+      (isolated)
+      (parameter of (type Self))
+      (returns String)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing (anything))
+    (body
+      (let a (as (struct (field k "x")) Bank.A))
+      (var r a)
+      (let w
+        (closure
+          (returns Int)
+          (body
+            (set r (struct (field k "y")))
+            (return 0))))
+      (let z (apply w))
+      (return (call App.P.show r)))))
+(expect (answers "a"))

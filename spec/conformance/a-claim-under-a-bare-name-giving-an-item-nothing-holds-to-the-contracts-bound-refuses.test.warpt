@@ -1,0 +1,35 @@
+(test 1)
+(name "a-claim-under-a-bare-name-giving-an-item-nothing-holds-to-the-contracts-bound-refuses")
+(note "The contract holds `Item` to Hashable. Box claims it under its bare name with `Item` the box's `T`, which nothing holds to Hashable, so the claim refuses.")
+
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Container
+      (type Item Hashable)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item))))
+  (document
+    (warp 1)
+    (import Lib.Container)
+    (struct App.Box
+      (typeParameter T)
+      (satisfies Lib.Container)
+      (field item (some T))
+      (type Item (some T))
+      (procedure first
+        (access public)
+        (parameter of (type (named App.Box (some T))))
+        (returns (some T))
+        (body
+          (return (path of (field item))))))))
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

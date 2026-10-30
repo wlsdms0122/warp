@@ -1,0 +1,14 @@
+(test 1)
+(name "a-constant-whose-folding-is-refused-refuses")
+(note "A constant folds at the build. Dividing by zero refuses at the run where a body does it, and where a constant does it the constant has nothing to fold to, so the document refuses at the build, though nothing reads the constant.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.dividedBy)
+  (const c (call Standard.Numeric.dividedBy 1 0))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

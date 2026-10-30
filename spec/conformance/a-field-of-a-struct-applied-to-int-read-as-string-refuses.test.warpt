@@ -1,0 +1,16 @@
+(test 1)
+(name "a-field-of-a-struct-applied-to-int-read-as-string-refuses")
+(note "A mention of a struct applied to `Int` reads its field as `Int`, so returning that field where the declaration promises `String` is refused at the build.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let b (type (named App.Box Int)) (struct (field item 1)))
+      (return (path b (field item))))))
+(expect (refuses build))

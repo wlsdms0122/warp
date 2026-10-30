@@ -1,0 +1,14 @@
+(test 1)
+(name "a-return-value-that-may-be-null-where-null-is-not-declared-refuses")
+(note "A body and the `returns` beside it are one document's text, so what the body reads is held to what the declaration promises without waiting for a run. `as?` reads `Int?`, and an Optional does not stand where null was never declared.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter payload)
+    (returns Int)
+    (body
+      (return (as? payload Int)))))
+(arguments (argument payload 1))
+(expect (refuses build))

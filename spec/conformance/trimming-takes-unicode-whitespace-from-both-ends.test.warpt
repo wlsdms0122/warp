@@ -1,0 +1,14 @@
+(test 1)
+(name "trimming-takes-unicode-whitespace-from-both-ends")
+(note "What `trimmed` removes is Unicode's White_Space and not a platform's own set. A no-break space and an ideographic space are whitespace; a zero-width space is not, so one at either end stays.")
+
+(program
+  (warp 1)
+  (import Standard.Text.trimmed)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let bare (call Standard.Text.trimmed " 　 warp \r\n"))
+      (return bare))))
+(expect (answers "warp"))

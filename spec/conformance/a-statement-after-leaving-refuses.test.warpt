@@ -1,0 +1,13 @@
+(test 1)
+(name "a-statement-after-leaving-refuses")
+(note "A statement after one that leaves never runs, so the name it was going to bind never binds.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (return "here")
+      (let unreachable "never"))))
+(expect (refuses load))

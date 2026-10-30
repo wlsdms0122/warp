@@ -1,0 +1,5 @@
+(test 1)
+(name "bounds-written-empty-refuse")
+(note "A signature bounding no associated type writes no `bounds`, so `bounds: {}` says it a second way.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" 1)))))) (entry "bounds" (dictionary)) (entry "returns" "Int"))))) (entry "warp" 1)))
+(expect (refuses load))

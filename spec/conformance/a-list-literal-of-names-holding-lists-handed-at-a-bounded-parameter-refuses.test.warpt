@@ -1,0 +1,27 @@
+(test 1)
+(name "a-list-literal-of-names-holding-lists-handed-at-a-bounded-parameter-refuses")
+(note "`App.f` bounds `T` by `App.M`, which `Int` and `String` conform to, and takes `Array<Array<some T>>`. The literal `[xs, ys]` handed there holds two names, `xs` a list of booleans and `ys` a list of integers. What each name reads as stands at the parameter by its elements, and a boolean does not conform to `App.M`, so the call refuses at the build.")
+
+(program
+  (warp 1)
+  (contract App.M)
+  (extension
+    (head Int)
+    (satisfies App.M))
+  (extension
+    (head String)
+    (satisfies App.M))
+  (procedure App.f
+    (parameter gs (type (array (array (some T App.M)))))
+    (returns Int)
+    (body
+      (return 0)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let xs (type (array Bool)) (array true))
+      (let ys (type (array Int)) (array 1))
+      (let r (call App.f (array xs ys)))
+      (return r))))
+(expect (refuses build))

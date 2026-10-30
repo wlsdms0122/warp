@@ -1,0 +1,51 @@
+(warp 1)
+(import Standard.Collection.count)
+(import Standard.Logic.notEqual)
+(import Standard.Text.joined)
+(import Standard.Text.text)
+(import flow.Outcome)
+(import flow.Runnable)
+(import flow.failed)
+(import flow.succeeded)
+(import state.get)
+(import state.put)
+
+(struct flow.Count
+  (satisfies flow.Runnable)
+  (field from String)
+  (field id String)
+  (procedure describe
+    (const)
+    (parameter of (type flow.Count))
+    (returns String)
+    (body
+      (return (call Standard.Text.joined (array "count " (path of (field from))) ""))))
+  (procedure run
+    (parameter of (type flow.Count))
+    (returns flow.Outcome)
+    (failing cast_refused)
+    (body
+      (let value (call state.get (path of (field from))))
+      (let list (as? value (array Any)))
+      (let table (as? value (dictionary String Any)))
+      (var n 0)
+      (conditional
+        (when (call Standard.Logic.notEqual list null))
+        (then
+          (set n (call Standard.Collection.count (as list (array Any)))))
+        (else
+          (conditional
+            (when (call Standard.Logic.notEqual table null))
+            (then
+              (set n (call Standard.Collection.count (as table (dictionary String Any)))))
+            (else
+              (return (call flow.failed (path of (field id)) (call Standard.Text.joined (array "'" (path of (field from)) "' holds nothing countable") "")))))))
+      (call state.put (path of (field id)) n)
+      (return (call flow.succeeded (path of (field id)) n (call Standard.Text.joined (array (call Standard.Text.text n) " elements") ""))))))
+
+(procedure flow.Count.parse
+  (parameter of (type (dictionary String Any)))
+  (returns flow.Count)
+  (failing cast_refused)
+  (body
+    (return (as (struct (field from (as (path of (index "from")) String)) (field id (as (path of (index "id")) String))) flow.Count))))

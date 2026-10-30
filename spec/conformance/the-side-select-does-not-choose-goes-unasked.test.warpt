@@ -1,0 +1,28 @@
+(test 1)
+(name "the-side-select-does-not-choose-goes-unasked")
+(note "Both sides are procedures so the one not chosen is never asked. The side left alone here reads past the end of a list holding nothing, which would refuse the run, and the result shows it was never read.")
+
+(program
+  (warp 1)
+  (import Standard.Logic.select)
+  (procedure entry
+    (access public)
+    (const)
+    (returns Any)
+    (body
+      (let none (type (array Any)) (array))
+      (return
+        (call Standard.Logic.select true
+          (closure
+            (const)
+            (isolated)
+            (returns Any)
+            (body
+              (return "taken")))
+          (closure
+            (const)
+            (isolated)
+            (returns Any)
+            (body
+              (return (path none (index 0))))))))))
+(expect (answers "taken"))

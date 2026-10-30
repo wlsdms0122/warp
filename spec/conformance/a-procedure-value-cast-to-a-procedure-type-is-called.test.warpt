@@ -1,0 +1,24 @@
+(test 1)
+(name "a-procedure-value-cast-to-a-procedure-type-is-called")
+(note "A value of Procedure is called once a cast says what procedure it is: the run judges the closure against the procedure type the cast names, and the call stands on that type.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter g (type Procedure))
+    (returns Int)
+    (failing (anything))
+    (body
+      (return (apply (as g (procedure (parameters) (returns Int)))))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (body
+      (return
+        (call App.f
+          (closure
+            (returns Int)
+            (body
+              (return 1))))))))
+(expect (answers 1))

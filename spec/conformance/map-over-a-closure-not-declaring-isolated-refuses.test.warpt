@@ -1,0 +1,24 @@
+(test 1)
+(name "map-over-a-closure-not-declaring-isolated-refuses")
+(note "`Standard.Concurrent.map` asks for an isolated closure. This one writes the captured variable `tally`, as a closure not declaring `isolated` may, and it is handed where `isolated` is declared, so the build refuses it there.")
+
+(program
+  (warp 1)
+  (import Standard.Concurrent.map)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing concurrent_failed)
+    (body
+      (var tally 0)
+      (call Standard.Concurrent.map
+        (array 1 2)
+        (closure
+          (parameter item (type Int))
+          (parameter index (type Int))
+          (returns Int)
+          (body
+            (set tally item)
+            (return item))))
+      (return tally))))
+(expect (refuses build))

@@ -1,0 +1,21 @@
+(test 1)
+(name "a-parameter-handed-in-place-holding-dictionaries-of-lists-of-a-parameter-takes-dictionaries-of-other-keys")
+(note "App.g writes a list of two dictionary literals into xs, a list of dictionaries of lists of T handed in place, one holding `[]` under `a` and one holding `[x]` under `b`, where x is its own some T. The literal is judged part by part, so the two dictionaries need not hold one key: each is a dictionary of lists of T, and the caller reads both.")
+
+(program
+  (warp 1)
+  (procedure App.g
+    (parameter xs (type (inout (array (dictionary String (array (some T)))))))
+    (parameter x (type (some T)))
+    (returns Int)
+    (body
+      (set xs (array (dictionary (entry "a" (array))) (dictionary (entry "b" (array x)))))
+      (return 0)))
+  (procedure entry
+    (access public)
+    (returns (array (dictionary String (array String))))
+    (body
+      (var s (type (array (dictionary String (array String)))) (array (dictionary (entry "k" (array "a")))))
+      (call App.g s "b")
+      (return s))))
+(expect (answers (array (dictionary (entry "a" (array))) (dictionary (entry "b" (array "b"))))))

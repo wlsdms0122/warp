@@ -1,0 +1,22 @@
+(test 1)
+(name "a-head-bounds-a-type-parameter-inside-a-procedure-type")
+(note "A head bounds a type parameter where it first names it, inside a procedure type it applies a struct to too, so `App.Box<(some T: Hashable) -> Int>` loads.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field held (some T)))
+  (extension
+    (head (named App.Box (procedure (parameters (some T Hashable)) (returns Int))))
+    (procedure one
+      (parameter it (type (named App.Box (procedure (parameters (some T)) (returns Int)))))
+      (returns Int)
+      (body
+        (return 1))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (answers 1))

@@ -1,0 +1,5 @@
+(test 1)
+(name "an-escape-in-uppercase-hex-refuses")
+(note "A `\\u` escape is four lowercase hex digits, so one written in uppercase is a second spelling of its character and is refused.")
+(text "(warp 1)\n(const a \"\\u001A\")\n")
+(expect (refuses load))

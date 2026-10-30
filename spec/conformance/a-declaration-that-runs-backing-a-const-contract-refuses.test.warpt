@@ -1,0 +1,32 @@
+(test 1)
+(name "a-declaration-that-runs-backing-a-const-contract-refuses")
+(note "A contract's procedure writing `const` asks every declaration satisfying it to be const. `App.Thing.name` does not declare `const`, so it says it may run, and the claim it would back does not hold, and refuses at the build, at the claim.")
+
+(program
+  (warp 1)
+  (var label "thing")
+  (struct App.Thing
+    (satisfies App.Named)
+    (field id Int)
+    (procedure name
+      (parameter of (type App.Thing))
+      (returns String)
+      (body
+        (return label))))
+  (contract App.Named
+    (procedure name
+      (const)
+      (parameter of (type Self))
+      (returns String)))
+  (procedure App.tell
+    (parameter it (type (some T App.Named)))
+    (returns String)
+    (body
+      (return (call App.Named.name it))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (return (call App.tell (as (struct (field id 1)) App.Thing))))))
+(expect (refuses build))

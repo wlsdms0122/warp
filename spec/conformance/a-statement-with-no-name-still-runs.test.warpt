@@ -1,0 +1,17 @@
+(test 1)
+(name "a-statement-with-no-name-still-runs")
+(note "A statement with no naming key runs its construct and drops the result, which is how an effect is asked for on its own.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var seen 0)
+      (conditional
+        (when true)
+        (then
+          (set seen 1)))
+      (return seen))))
+(expect (answers 1))

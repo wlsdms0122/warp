@@ -1,0 +1,48 @@
+(test 1)
+(name "a-module-variable-declared-as-a-contract-holds-the-type-its-start-was-read-as")
+(note "`App.maybe` returns `5` read as `Int?`. The start of `v`, declared `App.Described`, folds at the build and holds `Int?`, as `p` does when a body binds the same call at the same type, so the call through the contract reaches `Optional`'s `describe` on both, though each value is `5`.")
+
+(documents
+  (document
+    (warp 1)
+    (procedure App.maybe
+      (access public)
+      (const)
+      (isolated)
+      (returns (optional Int))
+      (body
+        (return 5)))))
+
+(program
+  (warp 1)
+  (import App.maybe)
+  (var v (type App.Described) (call App.maybe))
+  (contract App.Described
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head Int)
+    (satisfies App.Described)
+    (procedure describe
+      (parameter of (type Int))
+      (returns String)
+      (body
+        (return "a number"))))
+  (extension
+    (head (optional Int))
+    (satisfies App.Described)
+    (procedure describe
+      (parameter of (type (optional Int)))
+      (returns String)
+      (body
+        (return "a number or none"))))
+  (procedure entry
+    (access public)
+    (returns (array String))
+    (body
+      (let p (type App.Described) (call App.maybe))
+      (let first (call App.Described.describe v))
+      (let second (call App.Described.describe p))
+      (return (array first second)))))
+(expect (answers (array "a number or none" "a number or none")))

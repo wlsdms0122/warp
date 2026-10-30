@@ -1,0 +1,23 @@
+(test 1)
+(name "a-return-value-from-outside-at-any-under-its-name-is-held-to-its-struct-refuses")
+(note "`App.v` is a native procedure declaring it returns `Any`, and it returns `(struct App.P (field a \"s\"))`, whose field `a` the struct declares `Int`. Its return value comes in through the door at `Any`, which holds a struct under a name to the struct the name declares, so the run refuses there, before anything reads `r`.")
+
+(vocabulary
+  (struct App.P
+    (field a Int))
+  (type App.Q App.P)
+  (procedure App.v
+    (isolated)
+    (returns Any)
+    (answers (struct App.P (field a "s")))))
+
+(program
+  (warp 1)
+  (import App.v)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let r (call App.v))
+      (return "ok"))))
+(expect (refuses run))

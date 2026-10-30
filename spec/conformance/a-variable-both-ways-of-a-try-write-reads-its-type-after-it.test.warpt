@@ -1,0 +1,27 @@
+(test 1)
+(name "a-variable-both-ways-of-a-try-write-reads-its-type-after-it")
+(note "A try's body and its catch are its two ways, and a write both make is unconditional the way one both arms of a conditional make is. `kept` starts null, the body writes it an int and the catch writes it an int, so after the try it reads `Int` and a slot declared `Int` takes it.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter payload)
+    (returns Int)
+    (body
+      (var kept)
+      (try
+        (body
+          (let read (as payload Int))
+          (set kept read))
+        (catch
+          (set kept 0)))
+      (let said (call wants kept))
+      (return said)))
+  (procedure wants
+    (parameter it (type Int))
+    (returns Int)
+    (body
+      (return it))))
+(arguments (argument payload "not a whole number"))
+(expect (answers 0))

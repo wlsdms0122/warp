@@ -1,0 +1,17 @@
+(test 1)
+(name "a-var-field-of-a-struct-taking-a-type-parameter-is-written-through")
+(note "A field written `var some T` is written through like any `var` field, and holds what the mention applies the struct to.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (var (some T))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var b (type (named App.Box Int)) (struct (field item 1)))
+      (set (path b (field item)) 2)
+      (return (path b (field item))))))
+(expect (answers 2))

@@ -1,0 +1,5 @@
+(test 1)
+(name "an-integer-literal-past-what-an-int-holds-refuses")
+(note "An integer literal is an `Int`, so one past the largest an `Int` holds is refused rather than widened or wrapped.")
+(text "(warp 1)\n(const a 9223372036854775808)\n")
+(expect (refuses load))

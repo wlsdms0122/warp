@@ -1,0 +1,5 @@
+(test 1)
+(name "an-array-claiming-more-than-the-document-holds-refuses")
+(note "Every element of an array costs at least a byte, so an array claiming more elements than the document has bytes is refused before anything is set aside for them.")
+(bytes x"574152500106808080808080808001")
+(expect (refuses load))

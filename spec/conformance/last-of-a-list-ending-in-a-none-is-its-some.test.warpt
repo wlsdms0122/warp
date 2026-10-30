@@ -1,0 +1,20 @@
+(test 1)
+(name "last-of-a-list-ending-in-a-none-is-its-some")
+(note "`last` returns the element as its some, so over `[1, null]` of `Array<Int?>` it returns the some of the inner none, which an unwrap takes apart to `null`.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.last)
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let items (type (array (optional Int))) (array 1 null))
+      (let l (call Standard.Collection.last items))
+      (var r (type Any) "none")
+      (let x
+        (unwrap l
+          (then
+            (set r (array "some" x)))))
+      (return r))))
+(expect (answers (array "some" null)))

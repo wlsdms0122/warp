@@ -1,0 +1,13 @@
+(test 1)
+(name "an-index-past-the-end-refuses")
+(note "An array says how long it is, so an index past its end read the length wrong. `xs[3]` on an array of two refuses at the run.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let xs (array 1 2))
+      (return (path xs (index 3))))))
+(expect (refuses run))

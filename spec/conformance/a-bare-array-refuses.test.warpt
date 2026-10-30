@@ -1,0 +1,13 @@
+(test 1)
+(name "a-bare-array-refuses")
+(note "A list says what it holds. `Array<Any>` is a list of anything, and `Array` written bare is not a second spelling of it, so a type written that way is refused where the document is read.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter items (type Array))
+    (returns Any)
+    (body
+      (return items))))
+(expect (refuses load))

@@ -1,0 +1,36 @@
+(test 1)
+(name "a-type-not-conforming-to-the-contract-at-a-contract-or-null-slot-refuses")
+(note "App.f takes App.Sized? and is handed a Bank.Coin, which no document says conforms to App.Sized.")
+
+(program
+  (warp 1)
+  (struct Bank.Box
+    (field n Int))
+  (struct Bank.Card
+    (satisfies App.Sized)
+    (field last String)
+    (procedure size
+      (parameter of (type Bank.Card))
+      (returns Int)
+      (body
+        (return 4))))
+  (struct Bank.Coin
+    (field cents Int))
+  (contract App.Sized
+    (procedure size
+      (parameter of (type Self))
+      (returns Int)))
+  (procedure App.f
+    (parameter n (type (optional App.Sized)))
+    (returns String)
+    (body
+      (return "took")))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let c (as (struct (field cents 4)) Bank.Coin))
+      (let s (call App.f c))
+      (return s))))
+(expect (refuses build))

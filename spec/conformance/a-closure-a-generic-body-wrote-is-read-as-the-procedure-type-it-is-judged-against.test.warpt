@@ -1,0 +1,32 @@
+(test 1)
+(name "a-closure-a-generic-body-wrote-is-read-as-the-procedure-type-it-is-judged-against")
+(note "App.mk returns a closure naming its own some T, and the call filled T with Int, so it reads the closure as `(Int) -> Int`. The build held the closure to the T it names, so calling it returns 15.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure App.mk
+    (parameter g (type (procedure (parameters (some T)) (returns (some T)))))
+    (returns (procedure (parameters (some T)) (returns (some T))))
+    (body
+      (return
+        (closure
+          (parameter y (type (some T)))
+          (returns (some T))
+          (body
+            (return (apply g y)))))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (body
+      (let h
+        (call App.mk
+          (closure
+            (parameter n (type Int))
+            (returns Int)
+            (body
+              (return (call Standard.Numeric.plus n 10))))))
+      (let r (apply h 5))
+      (return r))))
+(expect (answers 15))

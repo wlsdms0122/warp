@@ -1,0 +1,23 @@
+(test 1)
+(name "a-list-of-a-reading-of-any-behind-a-name-handed-beside-a-variable-in-place-refuses")
+(note "App.Loose names Any, and App.put fills U from s, a list of strings handed in place, and from [j], j declared App.Loose. A reading of Any behind a name is Any at its position too, so U reads Array<Any>, which s is not, and the build refuses the call.")
+
+(program
+  (warp 1)
+  (type App.Loose Any)
+  (procedure App.put
+    (parameter a (type (inout (some U))))
+    (parameter b (type (some U)))
+    (returns Int)
+    (body
+      (set a b)
+      (return 0)))
+  (procedure entry
+    (access public)
+    (returns (array String))
+    (body
+      (let j (type App.Loose) 1)
+      (var s (array "a"))
+      (call App.put s (array j))
+      (return s))))
+(expect (refuses build))

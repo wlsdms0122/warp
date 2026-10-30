@@ -1,0 +1,24 @@
+(test 1)
+(name "a-cast-to-a-list-of-a-type-parameter-reads-it-as-the-call-filled-it")
+(note "App.decode reads raw as Array<some T>, and the call fills `T` with `Int`, so the run judges what arrives against `Array<Int>`. A list of integers is one, and the cast reads it.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.appending)
+  (procedure App.decode
+    (parameter sample (type (some T)))
+    (parameter raw)
+    (returns (array (some T)))
+    (failing cast_refused)
+    (body
+      (return (as raw (array (some T))))))
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (failing cast_refused)
+    (body
+      (let raw (type Any) (array 7 8))
+      (let xs (call App.decode 0 raw))
+      (let ys (call Standard.Collection.appending xs 9))
+      (return ys))))
+(expect (answers (array 7 8 9)))

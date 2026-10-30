@@ -1,0 +1,14 @@
+(test 1)
+(name "a-run-given-an-argument-its-entry-does-not-declare-refuses")
+(note "A run is given the parameters its entry declares and nothing more. A value under a name the entry does not declare stands in no slot, and the run is refused before anything runs.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter x (type Int))
+    (returns Int)
+    (body
+      (return x))))
+(arguments (argument x 1) (argument y 2))
+(expect (refuses run))

@@ -1,0 +1,25 @@
+(test 1)
+(name "a-closure-returning-int-does-not-fit-a-slot-returning-double-refuses")
+(note "A value's type is fixed at the build, and an integer is no floating-point number. A closure that writes `returns Int` returns integers, so it does not fit a slot whose procedure type returns `Double`: nothing turns the one return value into the other.")
+
+(program
+  (warp 1)
+  (import Standard.Text.text)
+  (procedure App.run
+    (parameter c (type (procedure (parameters) (returns (some T)))))
+    (returns (some T))
+    (body
+      (return (apply c))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let c
+        (type (procedure (parameters) (returns Double)))
+        (closure
+          (returns Int)
+          (body
+            (return 1))))
+      (let v (call App.run c))
+      (return (call Standard.Text.text v)))))
+(expect (refuses build))

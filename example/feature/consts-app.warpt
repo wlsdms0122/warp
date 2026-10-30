@@ -1,0 +1,15 @@
+(warp 1)
+(import Standard.Numeric.plus)
+(import k.twice)
+(const thirteen (call Standard.Numeric.plus twelve 1))
+(const twelve (call k.twice 6))
+
+(struct app.Answer
+  (field thirteen Int)
+  (field twelve Int))
+
+(procedure entry
+  (access public)
+  (returns app.Answer)
+  (body
+    (return (struct (field thirteen thirteen) (field twelve twelve)))))

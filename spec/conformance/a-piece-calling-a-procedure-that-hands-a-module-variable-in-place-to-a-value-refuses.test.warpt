@@ -1,0 +1,37 @@
+(test 1)
+(name "a-piece-calling-a-procedure-that-hands-a-module-variable-in-place-to-a-value-refuses")
+(note "A body handing a module variable in place to a value writes it through that value, the way it would through a declaration. `adding` declares `isolated` and hands `total` in place to `f`, so it refuses at the build, and no piece of `Standard.Concurrent.map` calling it stands.")
+
+(program
+  (warp 1)
+  (import Standard.Concurrent.map)
+  (import Standard.Numeric.plus)
+  (var total 0)
+  (procedure adding
+    (isolated)
+    (parameter f (type (procedure (isolated) (parameters (inout Int)) (returns Any))))
+    (body
+      (apply f total)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing concurrent_failed)
+    (body
+      (let bump
+        (closure
+          (isolated)
+          (parameter count (type (inout Int)))
+          (body
+            (set count (call Standard.Numeric.plus count 1)))))
+      (call Standard.Concurrent.map
+        (array 1 2)
+        (closure
+          (isolated)
+          (parameter item (type Int))
+          (parameter index (type Int))
+          (returns Int)
+          (body
+            (call adding bump)
+            (return item))))
+      (return total))))
+(expect (refuses build))

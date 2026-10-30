@@ -1,0 +1,32 @@
+(test 1)
+(name "a-slot-naming-a-const-procedure-type-is-a-const-slot")
+(note "A slot says a procedure it holds is const by writing a `const` procedure type, and a slot naming a declared type that stands for one says the same: a name is what it names. `asking` declares `const` and calls what its slot of `App.Pick` holds, which the build holds it to, so an operand may call it.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (type App.Pick (procedure (const) (parameters Int) (returns Int)))
+  (procedure asking
+    (const)
+    (parameter body (type App.Pick))
+    (returns Int)
+    (body
+      (let a (apply body 1))
+      (return a)))
+  (procedure entry
+    (access public)
+    (const)
+    (returns Int)
+    (body
+      (return
+        (call Standard.Numeric.plus
+          (call asking
+            (closure
+              (const)
+              (isolated)
+              (parameter x (type Int))
+              (returns Int)
+              (body
+                (return x))))
+          1)))))
+(expect (answers 2))

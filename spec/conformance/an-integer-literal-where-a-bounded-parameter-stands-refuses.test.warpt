@@ -1,0 +1,19 @@
+(test 1)
+(name "an-integer-literal-where-a-bounded-parameter-stands-refuses")
+(note "Inside a body, a type parameter is one type the body does not know, held to its bounds. An integer written as a literal is an Int, and an Int is not known to be that type, however many types conforming to the bound it may be: arithmetic handing it beside the parameter is refused at the build.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric)
+  (import Standard.Numeric.plus)
+  (procedure App.next
+    (parameter x (type (some T Standard.Numeric)))
+    (returns (some T))
+    (body
+      (return (call Standard.Numeric.plus x 1))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.next 2)))))
+(expect (refuses build))

@@ -1,0 +1,13 @@
+(warp 1)
+(import Host.issue)
+(import Host.redeem)
+(import Standard.Numeric.plus)
+
+(procedure entry
+  (access public)
+  (returns Int)
+  (body
+    (let ticket (call Host.issue))
+    (let a (call Host.redeem ticket))
+    (let b (call Host.redeem ticket))
+    (return (call Standard.Numeric.plus a b))))

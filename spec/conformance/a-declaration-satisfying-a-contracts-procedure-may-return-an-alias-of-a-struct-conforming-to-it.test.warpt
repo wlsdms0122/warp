@@ -1,0 +1,38 @@
+(test 1)
+(name "a-declaration-satisfying-a-contracts-procedure-may-return-an-alias-of-a-struct-conforming-to-it")
+(note "The contract returns App.Describable and the declaration satisfying it returns Bank.Alias, which names Bank.Card, and a document says Bank.Card conforms to App.Describable.")
+
+(program
+  (warp 1)
+  (type Bank.Alias Bank.Card)
+  (struct Bank.Card
+    (satisfies App.Describable App.Pick)
+    (field last String)
+    (procedure describe
+      (parameter of (type Bank.Card))
+      (returns String)
+      (body
+        (return "a card")))
+    (procedure pick
+      (parameter of (type Bank.Card))
+      (returns Bank.Alias)
+      (body
+        (return of))))
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (contract App.Pick
+    (procedure pick
+      (parameter of (type Self))
+      (returns App.Describable)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let c (as (struct (field last "42")) Bank.Card))
+      (let p (call App.Pick.pick c))
+      (let s (call App.Describable.describe p))
+      (return s))))
+(expect (answers "a card"))

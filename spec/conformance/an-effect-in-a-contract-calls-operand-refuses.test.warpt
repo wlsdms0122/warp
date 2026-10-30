@@ -1,0 +1,29 @@
+(test 1)
+(name "an-effect-in-a-contract-calls-operand-refuses")
+(note "What a slot takes has nothing to do with whether the operand written into it is read or run. A call through a contract reaches whatever type arrives, and its operands are data all the same.")
+
+(program
+  (warp 1)
+  (import Standard.Concurrent.all)
+  (struct Bank.Account
+    (satisfies App.Describable)
+    (field balance Int)
+    (procedure describe
+      (parameter of (type Bank.Account))
+      (parameter note)
+      (returns String)
+      (body
+        (return "an account"))))
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (parameter note)
+      (returns String)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused concurrent_failed)
+    (body
+      (let held (as (struct (field balance 1)) Bank.Account))
+      (return (call App.Describable.describe held (call Standard.Concurrent.all (array)))))))
+(expect (refuses build))

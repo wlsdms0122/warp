@@ -1,0 +1,24 @@
+(test 1)
+(name "a-returned-list-literal-is-read-position-by-position-refuses")
+(note "App.g declares it returns Array<Dictionary<String, Array<String>>>, and one way through returns a list of two dictionary literals, one holding `[]` under `a` and one holding `[1]`. A return writes into the declared return type, its elements joined position by position, so the build refuses it.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.count)
+  (procedure App.g
+    (parameter x (type Bool))
+    (returns (array (dictionary String (array String))))
+    (body
+      (conditional
+        (when x)
+        (then
+          (return (array (dictionary (entry "a" (array))) (dictionary (entry "a" (array 1)))))))
+      (return (array (dictionary (entry "a" (array))) (dictionary (entry "a" (array "s")))))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let r (call App.g true))
+      (let n (call Standard.Collection.count r))
+      (return n))))
+(expect (refuses build))

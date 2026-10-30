@@ -1,0 +1,21 @@
+(test 1)
+(name "an-arm-that-leaves-keeps-the-other-write-definite")
+(note "No run comes back from an arm that leaves, so the ways that finish all made the other arm's write. The name reads as that write alone, and returning it where Int is declared builds.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter ready (type Bool))
+    (returns Int)
+    (body
+      (var kept)
+      (conditional
+        (when ready)
+        (then
+          (set kept 1))
+        (else
+          (return 0)))
+      (return kept))))
+(arguments (argument ready true))
+(expect (answers 1))

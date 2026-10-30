@@ -1,0 +1,40 @@
+(test 1)
+(name "a-value-of-a-bounded-parameter-at-an-optional-of-its-contract-is-its-some")
+(note "A value of `some T: App.Described` handed where `App.Described?` is declared is a value of the contract, so it is the Optional's some, whatever fills `T`. Filled by `Int?`, only the claim about every Optional names a row, and both 5 and the none reach it.")
+
+(program
+  (warp 1)
+  (contract App.Described
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head (optional (some W)))
+    (satisfies App.Described)
+    (procedure describe
+      (parameter of (type (optional (some W))))
+      (returns String)
+      (body
+        (return "an optional"))))
+  (procedure App.lift
+    (parameter it (type (some T App.Described)))
+    (returns String)
+    (body
+      (return (call App.show it))))
+  (procedure App.show
+    (parameter p (type (optional App.Described)))
+    (returns String)
+    (body
+      (let x
+        (unwrap p
+          (then
+            (return (call App.Described.describe x)))))
+      (return "none")))
+  (procedure entry
+    (access public)
+    (returns (array String))
+    (body
+      (let five (type (optional Int)) 5)
+      (let nothing (type (optional Int)) null)
+      (return (array (call App.lift five) (call App.lift nothing))))))
+(expect (answers (array "an optional" "an optional")))

@@ -1,0 +1,29 @@
+(test 1)
+(name "a-cast-to-a-contract-reads-a-value-by-the-head-of-its-claim")
+(note "A cast judges what arrived: a box of `Int` read as `Any` is taken by `App.Box<some T: Hashable>`, so it stands as App.Describable and the call through the contract reaches the member.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head (named App.Box (some T Hashable)))
+    (satisfies App.Describable)
+    (procedure describe
+      (parameter of (type (named App.Box (some T))))
+      (returns String)
+      (body
+        (return "box"))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let one (type Any) (as (struct (field item 1)) (named App.Box Int)))
+      (return (call App.Describable.describe (as one App.Describable))))))
+(expect (answers "box"))

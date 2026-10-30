@@ -1,0 +1,5 @@
+(test 1)
+(name "failing-written-as-a-word-other-than-anything-refuses")
+(note "`failing` names the failures as a list, or is `anything`. A single name written without the list is neither, and refuses at the load.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "failing" "aborted"))))) (entry "warp" 1)))
+(expect (refuses load))

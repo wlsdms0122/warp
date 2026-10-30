@@ -1,0 +1,13 @@
+(test 1)
+(name "text-spells-a-dictionarys-key-as-the-value-it-is")
+(note "text spells a dictionary's key the way it spells any value inside a container: an integer bare and a list between brackets, where a string key is quoted, the entries in the key order.")
+
+(program
+  (warp 1)
+  (import Standard.Text.text)
+  (procedure entry
+    (access public)
+    (returns (array String))
+    (body
+      (return (array (call Standard.Text.text (dictionary (entry 10 "b") (entry 2 "a"))) (call Standard.Text.text (dictionary (entry (array 1 2) true))))))))
+(expect (answers (array "{2:\"a\",10:\"b\"}" "{[1,2]:true}")))

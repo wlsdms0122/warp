@@ -1,0 +1,20 @@
+(test 1)
+(name "a-value-a-native-procedure-returns-outside-its-returns-refuses")
+(note "`App.h` declares it returns `Int` and hands back a string. What a native procedure returns is judged against its `returns` at the door it comes through, so the return value refuses at the run there, before anything reads it.")
+
+(vocabulary
+  (procedure App.h
+    (const)
+    (isolated)
+    (returns Int)
+    (answers "s")))
+
+(program
+  (warp 1)
+  (import App.h)
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (return (call App.h)))))
+(expect (refuses run))

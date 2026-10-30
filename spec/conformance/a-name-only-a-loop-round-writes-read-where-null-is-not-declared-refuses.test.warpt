@@ -1,0 +1,24 @@
+(test 1)
+(name "a-name-only-a-loop-round-writes-read-where-null-is-not-declared-refuses")
+(note "A loop's round runs some number of times, none included, so a write inside it joins with what the name held. After it the name reads `Int?`, and a slot declared `Int` refuses it.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter ready (type Bool))
+    (body
+      (var kept)
+      (loop
+        (while ready)
+        (body
+          (set kept 1)
+          (break)))
+      (let said (call wants kept))))
+  (procedure wants
+    (parameter it (type Int))
+    (returns Bool)
+    (body
+      (return true))))
+(arguments (argument ready true))
+(expect (refuses build))

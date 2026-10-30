@@ -1,0 +1,31 @@
+(test 1)
+(name "the-object-of-every-type-spelling")
+(note "Every type spelling a document writes lowers under the tag the page gives it: the scalars with `Null` and `Never`, a dictionary, the marks var and inout, the Optional, a procedure type with the types it takes and returns, what it may fail with and its claims, and a type parameter.")
+
+(program
+  (warp 1)
+  (struct App.Kinds
+    (field f Procedure)
+    (field flag (var Bool))
+    (field g (procedure (const) (isolated) (parameters String Int) (failing aborted) (returns Int)))
+    (field maybe (optional Int))
+    (field none Null)
+    (field stop (procedure (parameters) (failing (anything)) (returns Never)))
+    (field table (dictionary String String)))
+  (procedure App.read
+    (const)
+    (isolated)
+    (parameter p (type (some T)))
+    (returns (some T))
+    (body
+      (return p)))
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (parameter io (type (inout Int)))
+    (parameter k (type App.Kinds))
+    (returns App.Kinds)
+    (body
+      (return k))))
+(expect (builds (dictionary (entry "addressTable" (array (array 0 (array) false) (array 1 (array) false))) (entry "claims" (array)) (entry "constants" (array)) (entry "contracts" (array)) (entry "dependencies" (array)) (entry "document" (array x"4eda9deee2b60811b650dcc55dccf63eed6bfd2fff5508587aea1189eec05651")) (entry "importedClaims" (array)) (entry "lifted" (array)) (entry "loweredTypeTable" (array)) (entry "members" (array)) (entry "numbering" (array (array) (array))) (entry "object" 1) (entry "operationTable" (array (array 1 0) (array 13 0 (array 0)) (array 1 1) (array 13 0 (array 2)))) (entry "rows" (array (array "App.read" (array (array (array "p" (array 15))) 16 (array 1 (array)) 1 1 (array) (array)) 1 (array 0 (array (array (array) 1 "[0]")) (array 1 (array 0) (array) (array) (array "p")))) (array "entry" (array (array (array "io" (array 18)) (array "k" (array 19))) 20 (array 1 (array)) 1 1 (array) (array)) 2 (array 0 (array (array (array) 3 "[0]")) (array 2 (array 0 1) (array) (array) (array "io" "k")))))) (entry "typeMembers" (array)) (entry "typeNumbering" (array)) (entry "typeTable" (array (array 10 (array) 0 0) (array 3) (array 11 1) (array 6) (array 4) (array 4) (array 10 (array (array (array 3 4) 5 (array 1 (array "aborted")))) 1 1) (array 4) (array 13 7) (array 2) (array 1) (array 10 (array (array (array) 10 (array 0))) 0 0) (array 6) (array 6) (array 8 12 13) (array 15 "T") (array 15 "T") (array 4) (array 12 17) (array 14 "App.Kinds") (array 14 "App.Kinds"))) (entry "types" (array (array "App.Kinds" (array 9 (array (array "f" 0) (array "flag" 2) (array "g" 6) (array "maybe" 8) (array "none" 9) (array "stop" 11) (array "table" 14)))))) (entry "valueTable" (array)) (entry "variables" (array)))))

@@ -1,0 +1,19 @@
+(test 1)
+(name "a-procedure-is-the-same-as-no-value")
+(note "A procedure is the same as no value, itself included, and so is a collection holding one: `Standard.Logic.equal` returns false for a closure beside itself and for a list holding it beside itself.")
+
+(program
+  (warp 1)
+  (import Standard.Logic.equal)
+  (procedure entry
+    (access public)
+    (returns (array Bool))
+    (body
+      (let f
+        (closure
+          (returns Int)
+          (body
+            (return 1))))
+      (let held (array f))
+      (return (array (call Standard.Logic.equal f f) (call Standard.Logic.equal held held))))))
+(expect (answers (array false false)))

@@ -1,0 +1,25 @@
+(test 1)
+(name "concurrent-map-over-nothing-returns-an-empty-list")
+(note "`Standard.Concurrent.map` returns one element per element it was given, in the collection's order, so a map over nothing returns nothing rather than failing.")
+
+(program
+  (warp 1)
+  (import Standard.Concurrent.map)
+  (procedure entry
+    (access public)
+    (isolated)
+    (returns (array Any))
+    (failing concurrent_failed)
+    (body
+      (return
+        (call Standard.Concurrent.map
+          (array)
+          (closure
+            (const)
+            (isolated)
+            (parameter item)
+            (parameter index (type Int))
+            (returns Any)
+            (body
+              (return item))))))))
+(expect (answers (array)))

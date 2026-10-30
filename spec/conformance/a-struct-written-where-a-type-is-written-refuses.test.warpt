@@ -1,0 +1,5 @@
+(test 1)
+(name "a-struct-written-where-a-type-is-written-refuses")
+(note "A struct is declared once, under its name in `types` as `{ struct: { … } }`, and a type names it everywhere else. Written where a type is written, `{ struct: { … } }` is no type.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" 1)))))) (entry "parameters" (array (dictionary (entry "name" "point") (entry "type" (dictionary (entry "struct" (dictionary (entry "x" "Int")))))))) (entry "returns" "Int"))))) (entry "warp" 1)))
+(expect (refuses load))

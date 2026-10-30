@@ -1,0 +1,29 @@
+(test 1)
+(name "unwrapped-runs-its-else-only-on-none")
+(note "`Standard.Optional.unwrapped` returns the payload of a some and calls its closure only on a none. Handed 5 and a closure taking a remainder by 0, which would refuse at the run, it returns 5; handed `null` and the same closure over 1, it returns the closure's 0.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.remainder)
+  (import Standard.Optional.unwrapped)
+  (procedure App.f
+    (const)
+    (isolated)
+    (parameter o (type (optional Int)))
+    (parameter divisor (type Int))
+    (returns Int)
+    (body
+      (return
+        (call Standard.Optional.unwrapped o
+          (closure
+            (const)
+            (isolated)
+            (returns Int)
+            (body
+              (return (call Standard.Numeric.remainder 1 divisor))))))))
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (body
+      (return (array (call App.f 5 0) (call App.f null 1))))))
+(expect (answers (array 5 0)))

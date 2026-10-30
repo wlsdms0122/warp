@@ -1,0 +1,17 @@
+(test 1)
+(name "a-construct-key-outside-a-statement-is-a-field-name")
+(note "A construct key is read directly under a statement's `value` and nowhere else. Under `struct` it is a field name like any other, so the value is a struct with one field named `conditional`, and a path reads through it.")
+
+(program
+  (warp 1)
+  (struct App.C
+    (field conditional App.When))
+  (struct App.When
+    (field when Bool))
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (body
+      (let c (type App.C) (struct (field conditional (struct (field when true)))))
+      (return (path c (field conditional) (field when))))))
+(expect (answers true))

@@ -1,0 +1,19 @@
+(test 1)
+(name "a-catch-over-a-body-that-cannot-fail-refuses")
+(note "What a catch takes is what the body casts and calls. A body that casts nothing and calls nothing that fails leaves the catch a body no run reaches, and the build says so rather than letting it stand.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var tried)
+      (try
+        (body
+          (set tried (call Standard.Numeric.plus 1 2)))
+        (catch
+          (set tried 0)))
+      (return tried))))
+(expect (refuses build))

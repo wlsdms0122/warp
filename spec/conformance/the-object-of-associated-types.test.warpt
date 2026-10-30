@@ -1,0 +1,45 @@
+(test 1)
+(name "the-object-of-associated-types")
+(note "An object writes the associated types a contract asks and their bounds, the type members a type is given, the associated types a signature says are a type, and a return type declared at an associated type: a type parameter labelled by it.")
+
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Container
+      (type Item)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item)))
+    (procedure Lib.firstOf
+      (access public)
+      (parameter c (type (some C Lib.Container)))
+      (returns (some C.Item))
+      (body
+        (return (call Lib.Container.first c))))))
+
+(program
+  (warp 1)
+  (import Lib.Container)
+  (import Lib.Container.first)
+  (struct Use.Thing
+    (satisfies Use.Sized)
+    (field x Int)
+    (type Item Int))
+  (contract Use.Sized
+    (type Item Hashable))
+  (procedure Use.first
+    (access public)
+    (parameter c (type (some C Lib.Container)))
+    (returns (some C.Item))
+    (body
+      (return (call Lib.Container.first c))))
+  (procedure Use.plusOne
+    (access public)
+    (const)
+    (isolated)
+    (parameter c (type (some C Lib.Container)))
+    (returns (some C.Item))
+    (sameType C.Item Int)
+    (body
+      (return 1))))
+(expect (builds (dictionary (entry "addressTable" (array (array 0 (array) false))) (entry "claims" (array (array "Use.Thing" (array "Use.Sized")))) (entry "constants" (array)) (entry "contracts" (array (array "Use.Sized" (array (array "Item") (array (array "Item" (array "Hashable"))) (array))))) (entry "dependencies" (array x"f737c2bbfd9044493ec735a839da9ddbd4044d2975981682426b2b50b89ac7cd")) (entry "document" (array x"78f58a852f82fa6485da9881afddad49623ea910b912763130e480c51feb65cd")) (entry "importedClaims" (array)) (entry "lifted" (array)) (entry "loweredTypeTable" (array (array 15 "C" (array "Lib.Container")))) (entry "members" (array)) (entry "numbering" (array (array "Lib.Container.first") (array))) (entry "object" 1) (entry "operationTable" (array (array 12 (array "Lib.Container" "first" (array 0) (array 1 0) (array))) (array 13 0 (array 0)) (array 0 0) (array 13 0 (array 2)))) (entry "rows" (array (array "Use.first" (array (array (array "c" (array 2))) 3 (array 1 (array)) 0 0 (array (array "C" (array "Lib.Container"))) (array)) 2 (array 0 (array (array (array) 1 "[0]")) (array 1 (array 0) (array) (array) (array "c")))) (array "Use.plusOne" (array (array (array "c" (array 4))) 5 (array 1 (array)) 1 1 (array (array "C" (array "Lib.Container"))) (array (array "C.Item" 6))) 2 (array 0 (array (array (array) 3 "[0]")) (array 1 (array 0) (array) (array) (array "c")))))) (entry "typeMembers" (array (array "Use.Thing" (array (array "Item" 1))))) (entry "typeNumbering" (array)) (entry "typeTable" (array (array 4) (array 4) (array 15 "C") (array 19 "C" "Item") (array 15 "C") (array 19 "C" "Item") (array 4))) (entry "types" (array (array "Use.Thing" (array 9 (array (array "x" 0)))))) (entry "valueTable" (array (array 2 1))) (entry "variables" (array)))))

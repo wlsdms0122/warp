@@ -1,0 +1,5 @@
+(test 1)
+(name "a-string-left-open-between-the-brackets-refuses")
+(note "A string between the brackets is closed by a quote, and one never closed leaves the path unfinished.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "let" "d") (entry "type" "Dictionary<String, Int>") (entry "value" (dictionary (entry "dictionary" (array (array "a" 1)))))) (dictionary (entry "value" (dictionary (entry "return" (dictionary (entry "ref" "d[\"a]")))))))) (entry "returns" "Int"))))) (entry "warp" 1)))
+(expect (refuses load))

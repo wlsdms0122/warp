@@ -1,0 +1,38 @@
+(warp 1)
+(import IO.write)
+(import Standard.Collection.appending)
+(import Standard.Collection.count)
+(import Standard.Comparable.lessThan)
+(import Standard.Numeric.plus)
+(import Standard.Text.joined)
+(import flow.Outcome)
+(import flow.Plan)
+(import flow.Runnable.describe)
+(import flow.Runnable.run)
+(import flow.failed)
+
+(procedure exec.run
+  (parameter plan (type flow.Plan))
+  (returns (array flow.Outcome))
+  (failing cast_refused)
+  (body
+    (var outcomes (type (array flow.Outcome)) (array))
+    (var i 0)
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan i (call Standard.Collection.count (path plan (field steps)))))
+        (body
+          (let step (path plan (field steps) (index i)))
+          (let label (call flow.Runnable.describe step))
+          (call IO.write (call Standard.Text.joined (array "- " label "\n") ""))
+          (var outcome)
+          (let caught
+            (try
+              (body
+                (let got (call flow.Runnable.run step))
+                (set outcome got))
+              (catch
+                (set outcome (call flow.failed label (call Standard.Text.joined (array (path caught (field type)) ": " (path caught (field message))) ""))))))
+          (set outcomes (call Standard.Collection.appending outcomes outcome))
+          (set i (call Standard.Numeric.plus i 1)))))
+    (return outcomes)))

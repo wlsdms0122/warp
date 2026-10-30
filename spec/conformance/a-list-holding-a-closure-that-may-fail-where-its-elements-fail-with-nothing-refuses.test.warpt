@@ -1,0 +1,33 @@
+(test 1)
+(name "a-list-holding-a-closure-that-may-fail-where-its-elements-fail-with-nothing-refuses")
+(note "Two closures in one list join to a procedure that may fail with what either may. One of these aborts, and the list's element type fails with nothing, so the argument is refused at the build.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return
+        (call take
+          (array
+            (closure
+              (const)
+              (parameter x (type Int))
+              (returns Int)
+              (body
+                (return x)))
+            (closure
+              (const)
+              (parameter x (type Int))
+              (returns Int)
+              (failing aborted)
+              (body
+                (return (call Standard.Control.abort "no")))))))))
+  (procedure take
+    (parameter steps (type (array (procedure (const) (parameters Int) (returns Int)))))
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

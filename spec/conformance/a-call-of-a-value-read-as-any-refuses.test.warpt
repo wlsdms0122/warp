@@ -1,0 +1,26 @@
+(test 1)
+(name "a-call-of-a-value-read-as-any-refuses")
+(note "A value the text opens to `Any` writes no parameters the build can hold an argument against, so calling it refuses at the build. A cast says what procedure it is.")
+
+(program
+  (warp 1)
+  (procedure App.blind
+    (parameter of)
+    (returns Any)
+    (body
+      (return of)))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (failing (anything))
+    (body
+      (let double
+        (closure
+          (parameter n (type Int))
+          (returns Int)
+          (body
+            (return n))))
+      (let held (call App.blind double))
+      (let made (apply held 1))
+      (return made))))
+(expect (refuses build))

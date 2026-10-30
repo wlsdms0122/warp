@@ -1,0 +1,20 @@
+(test 1)
+(name "a-parameter-read-where-its-join-would-drop-a-held-type-refuses")
+(note "`App.pick` reads `T` as `Hashable` from `h` and as `Any` from `a`. The join fills `T` with `Any`, where the value `h` holds would drop the type it was read as, so the call refuses at the build.")
+
+(program
+  (warp 1)
+  (procedure App.pick
+    (parameter one (type (some T)))
+    (parameter other (type (some T)))
+    (returns (some T))
+    (body
+      (return one)))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let h (type Hashable) 1)
+      (let a (type Any) "a")
+      (return (call App.pick h a)))))
+(expect (refuses build))

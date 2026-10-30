@@ -1,0 +1,67 @@
+(test 1)
+(name "an-associated-type-may-stand-on-another")
+(note "`Lib.Outer` asks Item and holds it to `Lib.Keyed`, which asks Key, so `some C.Item.Key` is the Key of the Item of C. App.Shelf gives Item as App.Card, which gives Key as Int, so what `Use.keyOf` returns for a shelf is an Int.")
+
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Keyed
+      (type Key)
+      (procedure key
+        (parameter of (type Self))
+        (returns Self.Key)))
+    (contract Lib.Outer
+      (type Item Lib.Keyed)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item))))
+  (document
+    (warp 1)
+    (import Lib.Keyed)
+    (import Lib.Outer)
+    (struct App.Card
+      (satisfies Lib.Keyed)
+      (field k Int)
+      (type Key Int)
+      (procedure key
+        (access public)
+        (parameter of (type App.Card))
+        (returns Int)
+        (body
+          (return (path of (field k))))))
+    (struct App.Shelf
+      (satisfies Lib.Outer)
+      (field card App.Card)
+      (type Item App.Card)
+      (procedure first
+        (access public)
+        (parameter of (type App.Shelf))
+        (returns App.Card)
+        (body
+          (return (path of (field card)))))))
+  (document
+    (warp 1)
+    (import Lib.Keyed.key)
+    (import Lib.Outer)
+    (import Lib.Outer.first)
+    (procedure Use.keyOf
+      (access public)
+      (parameter c (type (some C Lib.Outer)))
+      (returns (some C.Item.Key))
+      (body
+        (let x (call Lib.Outer.first c))
+        (return (call Lib.Keyed.key x))))))
+
+(program
+  (warp 1)
+  (import App.Shelf)
+  (import Int.plus)
+  (import Use.keyOf)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let s (type App.Shelf) (struct (field card (struct (field k 1)))))
+      (let r (call Use.keyOf s))
+      (return (call Int.plus r 1)))))
+(expect (answers 2))

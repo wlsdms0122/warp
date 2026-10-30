@@ -1,0 +1,14 @@
+(test 1)
+(name "a-module-variable-started-by-a-cast-to-an-optional-takes-null")
+(note "A module variable that declares no type holds the type its start reads as, and a cast to the Optional of a list says it, so the variable takes null afterwards.")
+
+(program
+  (warp 1)
+  (var seen (as (array) (optional (array String))))
+  (procedure entry
+    (access public)
+    (returns (optional (array String)))
+    (body
+      (set seen null)
+      (return seen))))
+(expect (answers null))

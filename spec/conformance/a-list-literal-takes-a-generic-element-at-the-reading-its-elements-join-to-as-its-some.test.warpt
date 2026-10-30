@@ -1,0 +1,18 @@
+(test 1)
+(name "a-list-literal-takes-a-generic-element-at-the-reading-its-elements-join-to-as-its-some")
+(note "A literal's elements are no ways that meet: each is written into the reading the elements join to, as into a place. `null` beside `x` joins to `some T?`, so `x` stands there as its some, and with `T` filled by `Null` the some of a none is the struct `Some` holding it.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter x (type (some T)))
+    (returns (array (optional (some T))))
+    (body
+      (let ys (array null x))
+      (return ys)))
+  (procedure entry
+    (access public)
+    (returns (array (optional Null)))
+    (body
+      (return (call App.f null)))))
+(expect (answers (array null (struct Some (field wrapped null)))))

@@ -1,0 +1,9 @@
+(warp 1)
+(import Standard.Control.abort)
+(import Standard.Text.joined)
+(import chk.positive)
+(procedure relay.narrow (parameter of) (returns Int) (failing cast_refused) (body
+                                                                              (return (as of Int))))
+(procedure relay.through (parameter n (type Int)) (returns Int) (failing aborted) (body
+                                                                                    (return (call chk.positive n))))
+(procedure relay.wrapped (parameter n (type Int)) (returns Int) (failing aborted) (body (var inner) (let caught (try (body (let got (call chk.positive n)) (set inner got)) (catch (call Standard.Control.abort (call Standard.Text.joined (array "wrapped: " (path caught (field message))) ""))))) (return inner)))

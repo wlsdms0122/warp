@@ -1,0 +1,23 @@
+(test 1)
+(name "a-variable-a-generic-arm-writes-where-arms-meet-at-its-optional-refuses")
+(note "`y` reads `Null` where the arm is declined and `some T` where the arm wrote `x`, so the arms meet reading `some T?`. A value of `some T` may be a none, which would have to become its some to stand there, so the build refuses.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter x (type (some T)))
+    (parameter c (type Bool))
+    (returns (optional (some T)))
+    (body
+      (var y)
+      (conditional
+        (when c)
+        (then
+          (set y x)))
+      (return y)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

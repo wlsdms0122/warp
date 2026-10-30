@@ -1,0 +1,25 @@
+(test 1)
+(name "a-name-on-a-call-of-a-declared-procedure-type-returning-an-alias-of-never-refuses")
+(note "`App.F` declares a procedure type returning `App.N`, a spelling of `Never`. A call of `f`, read as `App.F`, returns `Never`, so it never finishes and `y` could never bind.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (type App.F (procedure (parameters Int) (failing (anything)) (returns App.N)))
+  (type App.N Never)
+  (procedure entry
+    (access public)
+    (returns Never)
+    (failing (anything))
+    (body
+      (let f
+        (type App.F)
+        (closure
+          (parameter x (type Int))
+          (returns Never)
+          (failing aborted)
+          (body
+            (call Standard.Control.abort "no"))))
+      (let y (apply f 1))
+      (return 1))))
+(expect (refuses build))

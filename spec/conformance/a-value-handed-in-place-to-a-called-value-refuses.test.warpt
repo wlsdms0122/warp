@@ -1,0 +1,21 @@
+(test 1)
+(name "a-value-handed-in-place-to-a-called-value-refuses")
+(note "What a call of a value hands in place is a variable's path, held at the build the way a call to a declaration's is. A literal refuses at the build.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (body
+      (var n 10)
+      (let bump
+        (closure
+          (parameter count (type (inout Int)))
+          (body
+            (set count (call Standard.Numeric.plus count 1)))))
+      (apply bump 10)
+      (return n))))
+(expect (refuses build))

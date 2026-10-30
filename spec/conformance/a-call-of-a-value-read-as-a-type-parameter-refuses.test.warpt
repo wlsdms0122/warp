@@ -1,0 +1,24 @@
+(test 1)
+(name "a-call-of-a-value-read-as-a-type-parameter-refuses")
+(note "A value read as a type parameter writes no parameters the build can hold an argument against, so calling it refuses at the build.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter g (type (some T)))
+    (returns Any)
+    (failing (anything))
+    (body
+      (return (apply g))))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (failing (anything))
+    (body
+      (return
+        (call App.f
+          (closure
+            (returns Int)
+            (body
+              (return 1))))))))
+(expect (refuses build))

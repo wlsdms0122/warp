@@ -1,0 +1,19 @@
+(test 1)
+(name "a-name-on-a-body-that-never-comes-back-refuses")
+(note "`App.giveUp` declares it returns `Never`, and its body returns a call of `Standard.Control.abort`, which never finishes. A name on a call of it promises a binding that cannot happen, and the build refuses it.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure App.giveUp
+    (returns Never)
+    (failing aborted)
+    (body
+      (return (call Standard.Control.abort "done"))))
+  (procedure entry
+    (access public)
+    (returns Never)
+    (failing aborted)
+    (body
+      (let gone (call App.giveUp)))))
+(expect (refuses build))

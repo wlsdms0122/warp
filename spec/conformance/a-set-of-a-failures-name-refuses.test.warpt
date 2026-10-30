@@ -1,0 +1,20 @@
+(test 1)
+(name "a-set-of-a-failures-name-refuses")
+(note "A try's failure is a fixed name inside the catch, whatever its spelling names outside. `caught` is a variable of the document, and inside the catch it is the failure, so a `set` of it refuses at the load.")
+
+(program
+  (warp 1)
+  (var caught 0)
+  (procedure entry
+    (access public)
+    (parameter payload)
+    (returns Int)
+    (body
+      (let caught
+        (try
+          (body
+            (let n (as payload Int)))
+          (catch
+            (set caught 1))))
+      (return caught))))
+(expect (refuses load))

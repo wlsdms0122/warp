@@ -1,0 +1,35 @@
+(test 1)
+(name "a-loops-name-leaves-the-outer-name-to-what-a-failure-check-reads")
+(note "A loop's name binds nothing after the loop in what a body is held to: `g` after a loop of that name is the outer `step`, which says it fails with nothing, so `apply`, which declares no failure, builds and returns.")
+
+(program
+  (warp 1)
+  (procedure apply
+    (parameter of (type Int))
+    (parameter step (type (procedure (const) (parameters Int) (returns Int))))
+    (returns Int)
+    (body
+      (let g step)
+      (conditional
+        (when true)
+        (then
+          (let g
+            (loop
+              (while false)
+              (body)))
+          (let r (apply g of))))
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let r
+        (call apply 1
+          (closure
+            (const)
+            (parameter x (type Int))
+            (returns Int)
+            (body
+              (return x)))))
+      (return 1))))
+(expect (answers 1))

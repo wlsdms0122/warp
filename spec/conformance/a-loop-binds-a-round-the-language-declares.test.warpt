@@ -1,0 +1,24 @@
+(test 1)
+(name "a-loop-binds-a-round-the-language-declares")
+(note "What a loop binds each round is a `Round`, a struct the language declares, so a slot that declares `Round` takes it as it is and reads its `index`.")
+
+(program
+  (warp 1)
+  (import Standard.Comparable.lessThan)
+  (procedure App.reached
+    (parameter at (type Round))
+    (returns Int)
+    (body
+      (return (path at (field index)))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var seen 0)
+      (let walk
+        (loop
+          (while (call Standard.Comparable.lessThan (path walk (field index)) 2))
+          (body
+            (set seen (call App.reached walk)))))
+      (return seen))))
+(expect (answers 1))

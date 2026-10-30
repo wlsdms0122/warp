@@ -1,0 +1,231 @@
+(warp 1)
+(import Standard.Collection.appending)
+(import Standard.Collection.contains)
+(import Standard.Collection.count)
+(import Standard.Comparable.lessThan)
+(import Standard.Control.abort)
+(import Standard.Logic.and)
+(import Standard.Logic.equal)
+(import Standard.Logic.notEqual)
+(import Standard.Logic.or)
+(import Standard.Numeric.dividedBy)
+(import Standard.Numeric.plus)
+(import Standard.Numeric.times)
+(import Standard.Text.characters)
+(import Standard.Text.joined)
+(const digits (dictionary (entry "0" 0) (entry "1" 1) (entry "2" 2) (entry "3" 3) (entry "4" 4) (entry "5" 5) (entry "6" 6) (entry "7" 7) (entry "8" 8) (entry "9" 9)))
+(const letters (dictionary (entry "A" 0) (entry "B" 1) (entry "C" 2) (entry "D" 3) (entry "E" 4) (entry "F" 5) (entry "G" 6) (entry "H" 7) (entry "I" 8) (entry "J" 9) (entry "K" 10) (entry "L" 11) (entry "M" 12) (entry "N" 13) (entry "O" 14) (entry "P" 15) (entry "Q" 16) (entry "R" 17) (entry "S" 18) (entry "T" 19) (entry "U" 20) (entry "V" 21) (entry "W" 22) (entry "X" 23) (entry "Y" 24) (entry "Z" 25)))
+(const ops (array "+" "-" "*" "/"))
+
+(struct lex.Token
+  (field kind String)
+  (field text String))
+
+(procedure lex.digit
+  (const)
+  (isolated)
+  (parameter of (type String))
+  (returns Int)
+  (body
+    (return (path digits (index of)))))
+
+(procedure lex.isDigit
+  (const)
+  (isolated)
+  (parameter of (type String))
+  (returns Bool)
+  (body
+    (return (call Standard.Logic.notEqual (path digits (index? of)) null))))
+
+(procedure lex.isLetter
+  (const)
+  (isolated)
+  (parameter of (type String))
+  (returns Bool)
+  (body
+    (return (call Standard.Logic.notEqual (path letters (index? of)) null))))
+
+(procedure lex.number
+  (const)
+  (isolated)
+  (parameter of (type String))
+  (returns Double)
+  (failing aborted)
+  (body
+    (let chars (call Standard.Text.characters of))
+    (var whole 0.0)
+    (var fraction 0.0)
+    (var scale 1.0)
+    (var afterPoint false)
+    (var i 0)
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan i (call Standard.Collection.count chars)))
+        (body
+          (let ch (path chars (index i)))
+          (conditional
+            (when (call Standard.Logic.equal ch "."))
+            (then
+              (conditional
+                (when afterPoint)
+                (then
+                  (call Standard.Control.abort (call Standard.Text.joined (array "'" of "' has two points") ""))))
+              (set afterPoint true))
+            (else
+              (conditional
+                (when (call lex.isDigit ch))
+                (then
+                  (let digit (call Standard.Numeric.dividedBy (call lex.digit ch) 1))
+                  (conditional
+                    (when afterPoint)
+                    (then
+                      (set scale (call Standard.Numeric.dividedBy scale 10))
+                      (set fraction (call Standard.Numeric.plus fraction (call Standard.Numeric.times digit scale))))
+                    (else
+                      (set whole (call Standard.Numeric.plus (call Standard.Numeric.times whole 10.0) digit)))))
+                (else
+                  (call Standard.Control.abort (call Standard.Text.joined (array "'" of "' is not a number") ""))))))
+          (set i (call Standard.Numeric.plus i 1)))))
+    (return (call Standard.Numeric.plus whole fraction))))
+
+(procedure lex.run
+  (parameter chars (type (array String)))
+  (parameter at (type (inout Int)))
+  (parameter digitsToo (type Bool))
+  (returns String)
+  (body
+    (var out (type (array String)) (array))
+    (var going true)
+    (let walk
+      (loop
+        (while going)
+        (body
+          (conditional
+            (when (call Standard.Comparable.lessThan at (call Standard.Collection.count chars)))
+            (then
+              (let ch (path chars (index at)))
+              (let ok
+                (call Standard.Logic.or
+                  (array
+                    (closure
+                      (const)
+                      (isolated)
+                      (returns Bool)
+                      (body
+                        (return (call lex.isDigit ch))))
+                    (closure
+                      (const)
+                      (isolated)
+                      (returns Bool)
+                      (body
+                        (return
+                          (call Standard.Logic.or
+                            (array
+                              (closure
+                                (const)
+                                (isolated)
+                                (returns Bool)
+                                (body
+                                  (return (call Standard.Logic.equal ch "."))))
+                              (closure
+                                (const)
+                                (isolated)
+                                (returns Bool)
+                                (body
+                                  (return
+                                    (call Standard.Logic.and
+                                      (array
+                                        (closure
+                                          (const)
+                                          (isolated)
+                                          (returns Bool)
+                                          (body
+                                            (return digitsToo)))
+                                        (closure
+                                          (const)
+                                          (isolated)
+                                          (returns Bool)
+                                          (body
+                                            (return (call lex.isLetter ch)))))))))))))))))
+              (conditional
+                (when ok)
+                (then
+                  (set out (call Standard.Collection.appending out ch))
+                  (set at (call Standard.Numeric.plus at 1)))
+                (else
+                  (set going false))))
+            (else
+              (set going false))))))
+    (return (call Standard.Text.joined out ""))))
+
+(procedure lex.token
+  (const)
+  (parameter kind (type String))
+  (parameter text (type String))
+  (returns lex.Token)
+  (failing cast_refused)
+  (body
+    (return (as (struct (field kind kind) (field text text)) lex.Token))))
+
+(procedure lex.tokens
+  (parameter of (type String))
+  (returns (array lex.Token))
+  (failing aborted cast_refused)
+  (body
+    (let chars (call Standard.Text.characters of))
+    (var i 0)
+    (var tokens (type (array lex.Token)) (array))
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan i (call Standard.Collection.count chars)))
+        (body
+          (let ch (path chars (index i)))
+          (conditional
+            (when (call Standard.Logic.equal ch " "))
+            (then
+              (set i (call Standard.Numeric.plus i 1)))
+            (else
+              (conditional
+                (when (call lex.isDigit ch))
+                (then
+                  (let text (call lex.run chars i false))
+                  (set tokens (call Standard.Collection.appending tokens (call lex.token "number" text))))
+                (else
+                  (conditional
+                    (when (call lex.isLetter ch))
+                    (then
+                      (let text (call lex.run chars i true))
+                      (set tokens (call Standard.Collection.appending tokens (call lex.token "name" text))))
+                    (else
+                      (conditional
+                        (when (call Standard.Collection.contains ops ch))
+                        (then
+                          (set tokens (call Standard.Collection.appending tokens (call lex.token "op" ch)))
+                          (set i (call Standard.Numeric.plus i 1)))
+                        (else
+                          (conditional
+                            (when (call Standard.Logic.equal ch "("))
+                            (then
+                              (set tokens (call Standard.Collection.appending tokens (call lex.token "open" ch)))
+                              (set i (call Standard.Numeric.plus i 1)))
+                            (else
+                              (conditional
+                                (when (call Standard.Logic.equal ch ")"))
+                                (then
+                                  (set tokens (call Standard.Collection.appending tokens (call lex.token "close" ch)))
+                                  (set i (call Standard.Numeric.plus i 1)))
+                                (else
+                                  (conditional
+                                    (when (call Standard.Logic.equal ch ":"))
+                                    (then
+                                      (set tokens (call Standard.Collection.appending tokens (call lex.token "colon" ch)))
+                                      (set i (call Standard.Numeric.plus i 1)))
+                                    (else
+                                      (conditional
+                                        (when (call Standard.Logic.equal ch ","))
+                                        (then
+                                          (set tokens (call Standard.Collection.appending tokens (call lex.token "comma" ch)))
+                                          (set i (call Standard.Numeric.plus i 1)))
+                                        (else
+                                          (call Standard.Control.abort (call Standard.Text.joined (array "unexpected character '" ch "'") "")))))))))))))))))))))
+    (return tokens)))

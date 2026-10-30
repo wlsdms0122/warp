@@ -1,0 +1,5 @@
+(test 1)
+(name "a-struct-named-as-the-contract-the-language-declares-refuses")
+(note "A struct carries the name of a declared struct: a type's name, or one of the structs the language declares. `Hashable` is the contract the language declares, so a struct carrying it is no value, and the text refuses it.")
+(text "(warp 1)\n(var v (type Any) (struct Hashable))\n(procedure entry\n  (access public)\n  (returns Any)\n  (body\n    (return v)))\n")
+(expect (refuses load))

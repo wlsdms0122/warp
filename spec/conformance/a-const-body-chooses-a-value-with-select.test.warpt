@@ -1,0 +1,32 @@
+(test 1)
+(name "a-const-body-chooses-a-value-with-select")
+(note "A conditional has no value, so a const body chooses with a procedure. The side not chosen goes unasked, which is why both sides are procedures.")
+
+(program
+  (warp 1)
+  (import Standard.Comparable.lessThan)
+  (import Standard.Logic.select)
+  (procedure entry
+    (access public)
+    (const)
+    (parameter item (type Int))
+    (returns String)
+    (failing (anything))
+    (body
+      (return
+        (call Standard.Logic.select
+          (call Standard.Comparable.lessThan item 10)
+          (closure
+            (const)
+            (isolated)
+            (returns String)
+            (body
+              (return "small")))
+          (closure
+            (const)
+            (isolated)
+            (returns String)
+            (body
+              (return "large"))))))))
+(arguments (argument item 3))
+(expect (answers "small"))

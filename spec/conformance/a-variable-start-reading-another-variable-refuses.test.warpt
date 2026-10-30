@@ -1,0 +1,14 @@
+(test 1)
+(name "a-variable-start-reading-another-variable-refuses")
+(note "A variable's start reads the constants beside it and nothing else. `b` starts by reading the variable `a`, and the document refuses at the load.")
+
+(program
+  (warp 1)
+  (var a 1)
+  (var b a)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return b))))
+(expect (refuses load))

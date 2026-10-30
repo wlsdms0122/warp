@@ -1,0 +1,25 @@
+(test 1)
+(name "a-call-through-a-contract-handed-a-variable-in-place-hands-the-row-the-value-held")
+(note "`d` is a variable read as `App.Bumpable` holding 5, handed in place to a call through the contract. The row of `Int` reads the 5 `d` holds, adds one, and the whole value it writes is held beside `Int` again, so `d` answers 6.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (contract App.Bumpable
+    (procedure bump
+      (parameter of (type (inout Self)))))
+  (extension
+    (head Int)
+    (satisfies App.Bumpable)
+    (procedure bump
+      (parameter of (type (inout Int)))
+      (body
+        (set of (call Standard.Numeric.plus of 1)))))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (var d (type App.Bumpable) 5)
+      (call App.Bumpable.bump d)
+      (return d))))
+(expect (answers 6))

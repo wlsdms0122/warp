@@ -1,0 +1,28 @@
+(test 1)
+(name "a-value-read-as-a-contract-where-another-is-asked-refuses")
+(note "A value read as a contract stands where a slot asks only contracts it is read as, so one read as App.A & App.B handed where App.C is asked refuses at the build, until a cast says what it is.")
+
+(program
+  (warp 1)
+  (contract App.A)
+  (contract App.B)
+  (contract App.C)
+  (extension
+    (head Int)
+    (satisfies App.A App.B App.C))
+  (procedure App.f
+    (parameter v (type (composition App.A App.B)))
+    (returns Int)
+    (body
+      (return (call App.g v))))
+  (procedure App.g
+    (parameter c (type App.C))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.f 1)))))
+(expect (refuses build))

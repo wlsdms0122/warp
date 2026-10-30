@@ -1,0 +1,19 @@
+(test 1)
+(name "a-try-written-nameless-binds-no-failure")
+(note "A try written with no naming key binds no failure and catches the same.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (var said (type String) "ran")
+      (try
+        (body
+          (call Standard.Control.abort "stop"))
+        (catch
+          (set said "rescued")))
+      (return said))))
+(expect (answers "rescued"))

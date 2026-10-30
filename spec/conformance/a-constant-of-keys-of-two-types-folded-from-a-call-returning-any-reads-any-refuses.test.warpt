@@ -1,0 +1,25 @@
+(test 1)
+(name "a-constant-of-keys-of-two-types-folded-from-a-call-returning-any-reads-any-refuses")
+(note "`K.make` declares it returns `Any`, and the dictionary it returns holds `1` and `\"a\"`. Keys of two types join to `Any`, which keys no dictionary, and nothing written says which key the dictionary has, so the constant reads `Any` whole, as two dictionaries keyed apart do, and handing it to `count` without `as` refuses at the build.")
+
+(documents
+  (document
+    (warp 1)
+    (procedure K.make
+      (const)
+      (returns Any)
+      (body
+        (let m (type (dictionary Hashable Int)) (dictionary (entry 1 1) (entry "a" 2)))
+        (return m)))))
+
+(program
+  (warp 1)
+  (import K.make)
+  (import Standard.Collection.count)
+  (const made (call K.make))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call Standard.Collection.count made)))))
+(expect (refuses build))

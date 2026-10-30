@@ -1,0 +1,25 @@
+(test 1)
+(name "a-closure-alone-fills-a-parameter-with-what-it-takes")
+(note "`App.none` takes only a procedure taking `some T`. Nothing else handed fills `T`, so what the closure takes, `Int`, fills it, and the return value, of `Array<some T>`, is held where `Array<Int>` is declared.")
+
+(program
+  (warp 1)
+  (procedure App.none
+    (parameter f (type (procedure (parameters (some T)) (returns Bool))))
+    (returns (array (some T)))
+    (body
+      (return (array))))
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (body
+      (let xs
+        (type (array Int))
+        (call App.none
+          (closure
+            (parameter n (type Int))
+            (returns Bool)
+            (body
+              (return true)))))
+      (return xs))))
+(expect (answers (array)))

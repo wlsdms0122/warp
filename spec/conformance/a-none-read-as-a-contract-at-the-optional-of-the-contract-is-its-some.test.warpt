@@ -1,0 +1,40 @@
+(test 1)
+(name "a-none-read-as-a-contract-at-the-optional-of-the-contract-is-its-some")
+(note "`d` is read as `App.D` from an `Int?` none, so it is a value of `App.D` whose value is `null`. Written where `App.D?` is declared it is that Optional's some, a marker holding `null`, and an unwrap takes the some's way.")
+
+(program
+  (warp 1)
+  (contract App.D
+    (procedure describe
+      (parameter of (type Self))
+      (returns Any)))
+  (extension
+    (head (optional (some W App.D)))
+    (satisfies App.D)
+    (procedure describe
+      (parameter of (type (optional (some W))))
+      (returns Any)
+      (body
+        (return "opt"))))
+  (extension
+    (head Int)
+    (satisfies App.D)
+    (procedure describe
+      (parameter of (type Int))
+      (returns Any)
+      (body
+        (return "int"))))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let n1 (type (optional Int)) null)
+      (let d (type App.D) n1)
+      (let o (type (optional App.D)) d)
+      (var seen "none")
+      (let x
+        (unwrap o
+          (then
+            (set seen "some"))))
+      (return (array o seen)))))
+(expect (answers (array (struct Some (field wrapped null)) "some")))

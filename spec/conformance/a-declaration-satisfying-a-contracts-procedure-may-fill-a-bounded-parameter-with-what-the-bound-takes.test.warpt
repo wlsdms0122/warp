@@ -1,0 +1,39 @@
+(test 1)
+(name "a-declaration-satisfying-a-contracts-procedure-may-fill-a-bounded-parameter-with-what-the-bound-takes")
+(note "The contract takes an int at n, and the declaration satisfying it takes some U there, bounded by App.Whole, which Int conforms to.")
+
+(program
+  (warp 1)
+  (struct Bank.Card
+    (satisfies App.Shown)
+    (field last String)
+    (procedure show
+      (parameter of (type Bank.Card))
+      (parameter n (type (some U App.Whole)))
+      (returns String)
+      (body
+        (return "shown"))))
+  (struct Bank.Coin
+    (field cents Int))
+  (contract App.Shown
+    (procedure show
+      (parameter of (type Self))
+      (parameter n (type Int))
+      (returns String)))
+  (contract App.Sized
+    (procedure size
+      (parameter of (type Self))
+      (returns Int)))
+  (contract App.Whole)
+  (extension
+    (head Int)
+    (satisfies App.Whole))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let c (as (struct (field last "4")) Bank.Card))
+      (let s (call App.Shown.show c 3))
+      (return s))))
+(expect (answers "shown"))

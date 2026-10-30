@@ -1,0 +1,24 @@
+(test 1)
+(name "an-operand-calling-a-value-nothing-says-is-const-refuses")
+(note "An operand is read rather than run, and which procedure a value is, the run decides. `f` is a parameter declared `() -> Int`, so nothing written says the procedure it holds is const, though the closure handed to it says `const`, and a call of it written as an argument refuses at the build; written as a statement it stands.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure App.g
+    (parameter f (type (procedure (parameters) (returns Int))))
+    (returns Int)
+    (body
+      (return (call Standard.Numeric.plus 1 (apply f)))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return
+        (call App.g
+          (closure
+            (const)
+            (returns Int)
+            (body
+              (return 1))))))))
+(expect (refuses build))

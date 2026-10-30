@@ -1,0 +1,47 @@
+(test 1)
+(name "a-contract-asking-const-lets-its-call-stand-in-a-const-slot")
+(note "A contract's procedure writing `const` and `isolated` is const and touches nothing, so a call through it stands where a call to a declaration saying both does: the closure in `App.names` declares both and sends it, and stands in the `const isolated` slot map asks. Every declaration satisfying that procedure is held to that where its claim is checked.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.map)
+  (import Standard.Text.text)
+  (struct App.Thing
+    (satisfies App.Named)
+    (field id Int)
+    (procedure name
+      (const)
+      (isolated)
+      (parameter of (type App.Thing))
+      (returns String)
+      (body
+        (return (call Standard.Text.text (path of (field id)))))))
+  (contract App.Named
+    (procedure name
+      (const)
+      (isolated)
+      (parameter of (type Self))
+      (returns String)))
+  (procedure App.names
+    (const)
+    (isolated)
+    (parameter of (type (array (some T App.Named))))
+    (returns (array String))
+    (body
+      (return
+        (call Standard.Collection.map of
+          (closure
+            (const)
+            (isolated)
+            (parameter item (type (some T)))
+            (returns String)
+            (body
+              (return (call App.Named.name item))))))))
+  (procedure entry
+    (access public)
+    (const)
+    (returns (array String))
+    (failing (anything))
+    (body
+      (return (call App.names (array (as (struct (field id 1)) App.Thing) (as (struct (field id 2)) App.Thing)))))))
+(expect (answers (array "1" "2")))

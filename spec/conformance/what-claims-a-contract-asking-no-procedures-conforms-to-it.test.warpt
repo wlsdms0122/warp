@@ -1,0 +1,21 @@
+(test 1)
+(name "what-claims-a-contract-asking-no-procedures-conforms-to-it")
+(note "A contract may ask no procedures. It is a mark a claim gives a type, and a type conforms to it where a document claims it does: an integer stands where the mark is asked because `Int` is claimed for it.")
+
+(program
+  (warp 1)
+  (contract App.Marked)
+  (extension
+    (head Int)
+    (satisfies App.Marked))
+  (procedure App.take
+    (parameter it (type App.Marked))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.take 7)))))
+(expect (answers 1))

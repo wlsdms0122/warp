@@ -1,0 +1,32 @@
+(test 1)
+(name "an-optional-gives-the-associated-type-its-claim-gives")
+(note "The claim of `App.Container` under `some W?` is backed by `Optional.first` and the type member `Item`, given as `Int`. A call filling `C` with `String?` reads `some C.Item` as `Int`, so the entry answers what `Optional.first` returns.")
+
+(program
+  (warp 1)
+  (contract App.Container
+    (type Item)
+    (procedure first
+      (parameter of (type Self))
+      (returns Self.Item)))
+  (extension
+    (head (optional (some W)))
+    (satisfies App.Container)
+    (type Item Int)
+    (procedure first
+      (parameter of (type (optional (some W))))
+      (returns Int)
+      (body
+        (return 3))))
+  (procedure App.firstOf
+    (parameter c (type (some C App.Container)))
+    (returns (some C.Item))
+    (body
+      (return (call App.Container.first c))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let maybe (type (optional String)) "a")
+      (return (call App.firstOf maybe)))))
+(expect (answers 3))

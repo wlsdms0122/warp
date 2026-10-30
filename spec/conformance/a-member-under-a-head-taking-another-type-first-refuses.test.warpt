@@ -1,0 +1,24 @@
+(test 1)
+(name "a-member-under-a-head-taking-another-type-first-refuses")
+(note "A member under `App.Box<some T: Hashable>` is there for the boxes the head takes and takes one first, written as the head. One taking `App.Box<some U>` first would be there for every box, so the load refuses it.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (struct App.Plain
+    (field x Int))
+  (extension
+    (head (named App.Box (some T Hashable)))
+    (procedure describe
+      (parameter of (type (named App.Box (some U))))
+      (returns String)
+      (body
+        (return "box"))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (return (call App.Box.describe (as (struct (field item (struct (field x 1)))) (named App.Box App.Plain)))))))
+(expect (refuses load))

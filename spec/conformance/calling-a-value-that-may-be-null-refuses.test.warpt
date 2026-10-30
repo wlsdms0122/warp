@@ -1,0 +1,14 @@
+(test 1)
+(name "calling-a-value-that-may-be-null-refuses")
+(note "A slot declaring `Procedure?` may hold its none, and a call of it would call through the none. A none is not called through, the way it is not read through, so the call refuses where it is written.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter held (type (optional Procedure)))
+    (returns Any)
+    (failing (anything))
+    (body
+      (return (apply held)))))
+(expect (refuses build))

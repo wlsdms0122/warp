@@ -1,0 +1,43 @@
+(test 1)
+(name "a-closure-held-at-a-contract-slot-returns-the-struct-it-returns")
+(note "`c` is declared `() -> Bank.A`, and its closure writes `returns Bank.A`, the struct literal `{ k: \"x\" }` it returns taking the name. `d` holds it again at `() -> App.P`, which `Bank.A` conforms to, and a slot hands a value on as it is, so the call inside `App.run` returns a `Bank.A` and `App.P.show` reaches `Bank.A.show`.")
+
+(program
+  (warp 1)
+  (struct Bank.A
+    (satisfies App.P)
+    (field k String)
+    (procedure show
+      (const)
+      (isolated)
+      (parameter of (type Bank.A))
+      (returns String)
+      (body
+        (return "a"))))
+  (contract App.P
+    (procedure show
+      (const)
+      (isolated)
+      (parameter of (type Self))
+      (returns String)))
+  (procedure App.run
+    (parameter c (type (procedure (parameters) (returns (some T)))))
+    (returns (some T))
+    (body
+      (return (apply c))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let c
+        (type (procedure (parameters) (returns Bank.A)))
+        (closure
+          (const)
+          (isolated)
+          (returns Bank.A)
+          (body
+            (return (struct (field k "x"))))))
+      (let d (type (procedure (parameters) (returns App.P))) c)
+      (let v (call App.run d))
+      (return (call App.P.show v)))))
+(expect (answers "a"))

@@ -1,0 +1,23 @@
+(test 1)
+(name "a-loop-written-nameless-binds-no-round")
+(note "A loop written with no naming key binds no round and runs the same: a `break` naming no loop still ends it.")
+
+(program
+  (warp 1)
+  (import Standard.Comparable.lessThan)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var i (type Int) 0)
+      (loop
+        (while true)
+        (body
+          (set i (call Standard.Numeric.plus i 1))
+          (conditional
+            (when (call Standard.Comparable.lessThan 2 i))
+            (then
+              (break)))))
+      (return i))))
+(expect (answers 3))

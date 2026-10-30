@@ -1,0 +1,18 @@
+(test 1)
+(name "a-procedure-returning-a-collections-own-elements-keeps-the-spelling")
+(note "reversed and sorted return a collection's own elements in another order, so bytes return bytes. Sorted included, whose element declaration carries a bound: `Int` conforms to it, so every byte conforms to it at once. appending puts something among them that is not a byte, and the return value says so by the spelling it comes back in. The spelling is a fact about the value, and claiming otherwise would be a claim no value backs.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.appending)
+  (import Standard.Collection.reversed)
+  (import Standard.Collection.sorted)
+  (procedure entry
+    (access public)
+    (returns (array (array Int)))
+    (body
+      (let back (call Standard.Collection.reversed x"6869"))
+      (let ordered (call Standard.Collection.sorted x"6968"))
+      (let grown (call Standard.Collection.appending x"6869" 300))
+      (return (array back ordered grown)))))
+(expect (answers (array x"6968" x"6869" (array 104 105 300))))

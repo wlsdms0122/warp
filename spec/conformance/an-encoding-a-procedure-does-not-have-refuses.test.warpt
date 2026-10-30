@@ -1,0 +1,13 @@
+(test 1)
+(name "an-encoding-a-procedure-does-not-have-refuses")
+(note "Which encodings `encoded` has is the procedure's to say when it runs, whatever wrote the name: `utf9` is no encoding it has, so the call refuses at the run.")
+
+(program
+  (warp 1)
+  (import Standard.Text.encoded)
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (body
+      (return (call Standard.Text.encoded "hi" "utf9")))))
+(expect (refuses run))

@@ -1,0 +1,20 @@
+(test 1)
+(name "a-procedure-may-be-spelled-like-a-type")
+(note "Procedures and types are two namespaces. A name in one says nothing about the other, so one document may declare a procedure and a type under `App.Account` at once, and each is reached by what mentions it: a call reaches the procedure, a slot reaches the type.")
+
+(program
+  (warp 1)
+  (struct App.Account
+    (field open Bool))
+  (procedure App.Account
+    (returns Bool)
+    (body
+      (return true)))
+  (procedure entry
+    (access public)
+    (parameter held (type App.Account))
+    (returns Bool)
+    (body
+      (return (call App.Account)))))
+(arguments (argument held (struct App.Account (field open true))))
+(expect (answers true))

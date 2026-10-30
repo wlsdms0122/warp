@@ -1,0 +1,5 @@
+(test 1)
+(name "isolated-written-false-refuses")
+(note "Leaving `isolated` out is the declaration making no claim, so `isolated: false` written out refuses at the load.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "isolated" false))))) (entry "warp" 1)))
+(expect (refuses load))

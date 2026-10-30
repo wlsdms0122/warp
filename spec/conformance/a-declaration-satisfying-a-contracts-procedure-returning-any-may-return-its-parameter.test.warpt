@@ -1,0 +1,30 @@
+(test 1)
+(name "a-declaration-satisfying-a-contracts-procedure-returning-any-may-return-its-parameter")
+(note "The contract takes some T and returns Any. The declaration satisfying it takes and returns some U, which the contract's T fills, and a return type of anything takes a T.")
+
+(program
+  (warp 1)
+  (struct Bank.Card
+    (satisfies App.Sized)
+    (field last String)
+    (procedure size
+      (parameter of (type Bank.Card))
+      (parameter n (type (some U)))
+      (returns (some U))
+      (body
+        (return n))))
+  (contract App.Sized
+    (procedure size
+      (parameter of (type Self))
+      (parameter n (type (some T)))
+      (returns Any)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let c (as (struct (field last "42")) Bank.Card))
+      (let s (call App.Sized.size c "x"))
+      (let t (as s String))
+      (return t))))
+(expect (answers "x"))

@@ -1,0 +1,22 @@
+(test 1)
+(name "an-unwrap-without-then-binds-after-it")
+(note "An unwrap written with no `then` binds the payload under its name from the statement after it, and its `else` leaves. Handed 5, `x` is 5 after the unwrap; handed `null`, the `else` returns 0.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure App.f
+    (parameter o (type (optional Int)))
+    (returns Int)
+    (body
+      (let x
+        (unwrap o
+          (else
+            (return 0))))
+      (return (call Standard.Numeric.plus x 1))))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (return (array (call App.f 5) (call App.f null))))))
+(expect (answers (array 6 0)))

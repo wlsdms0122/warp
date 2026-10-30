@@ -1,0 +1,14 @@
+(test 1)
+(name "replacing-swaps-every-occurrence")
+(note "replacing returns a new string with every occurrence of the value rewritten, not only the first.")
+
+(program
+  (warp 1)
+  (import Standard.Text.replacing)
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing aborted)
+    (body
+      (return (call Standard.Text.replacing "a-b-a" "a" "c")))))
+(expect (answers "c-b-c"))

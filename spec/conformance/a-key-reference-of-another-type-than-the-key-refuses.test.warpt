@@ -1,0 +1,18 @@
+(test 1)
+(name "a-key-reference-of-another-type-than-the-key-refuses")
+(note "What stands between the brackets of a dictionary stands where its key type is read, and `k` reads `Int` on `Dictionary<String, Int>`, so `d[k]` refuses at the build.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter d (type (dictionary String Int)))
+    (parameter k (type Int))
+    (returns Any)
+    (body
+      (return (path d (index k)))))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (return (call App.f (dictionary (entry "a" 1)) 0)))))
+(expect (refuses build))

@@ -1,0 +1,40 @@
+(test 1)
+(name "a-struct-from-outside-at-any-holding-what-its-bound-does-not-take-refuses")
+(note "A struct from outside at a slot that applies it to nothing is applied to what its fields fill its parameters with, as a door fills a slot's. `App.Shelf` bounds `T` by `App.Shown`, and a `Bool` in its field does not conform to it, so the door refuses the value.")
+
+(program
+  (warp 1)
+  (struct App.Shelf
+    (typeParameter T App.Shown)
+    (satisfies App.Described)
+    (field item (some T))
+    (procedure describe
+      (parameter of (type (named App.Shelf (some T App.Shown))))
+      (returns String)
+      (body
+        (return (call App.Shown.show (path of (field item)))))))
+  (contract App.Described
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (contract App.Shown
+    (procedure show
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head Int)
+    (satisfies App.Shown)
+    (procedure show
+      (parameter of (type Int))
+      (returns String)
+      (body
+        (return "int"))))
+  (procedure entry
+    (access public)
+    (parameter x)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (return (call App.Described.describe (as x App.Described))))))
+(arguments (argument x (struct App.Shelf (field item true))))
+(expect (refuses run))

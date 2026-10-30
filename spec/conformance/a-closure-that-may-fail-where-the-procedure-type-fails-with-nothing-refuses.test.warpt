@@ -1,0 +1,35 @@
+(test 1)
+(name "a-closure-that-may-fail-where-the-procedure-type-fails-with-nothing-refuses")
+(note "The closure declares it may fail with `aborted`, and the slot's procedure type `const (Int) -> Int` says it fails with nothing, so the argument is refused at the build.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (contract App.Runner
+    (procedure run
+      (parameter of (type Self))
+      (parameter step (type (procedure (const) (parameters Int) (returns Int))))
+      (returns Int)))
+  (extension
+    (head Int)
+    (satisfies App.Runner)
+    (procedure run
+      (parameter of (type Int))
+      (parameter step (type (procedure (const) (parameters Int) (returns Int))))
+      (returns Int)
+      (body
+        (return (apply step of)))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return
+        (call App.Runner.run 1
+          (closure
+            (const)
+            (parameter x (type Int))
+            (returns Int)
+            (failing aborted)
+            (body
+              (return (call Standard.Control.abort "no")))))))))
+(expect (refuses build))

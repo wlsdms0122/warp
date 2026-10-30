@@ -1,0 +1,13 @@
+(test 1)
+(name "a-module-variable-start-outside-its-declared-type-refuses")
+(note "A module variable's start is held to the type it declares, the way an argument is held to its slot, so a start the declared type does not take refuses at the build.")
+
+(program
+  (warp 1)
+  (var total (type Int) "many")
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return total))))
+(expect (refuses build))

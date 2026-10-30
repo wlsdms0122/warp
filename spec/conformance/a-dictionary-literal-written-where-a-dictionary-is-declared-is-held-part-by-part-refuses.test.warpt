@@ -1,0 +1,12 @@
+(test 1)
+(name "a-dictionary-literal-written-where-a-dictionary-is-declared-is-held-part-by-part-refuses")
+(note "A dictionary literal written where a dictionary type is declared is held to it part by part, every key against the key's type and every value against the value's, so a string value among integers refuses at the build.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns (dictionary String Int))
+    (body
+      (return (dictionary (entry "a" 1) (entry "b" "two"))))))
+(expect (refuses build))

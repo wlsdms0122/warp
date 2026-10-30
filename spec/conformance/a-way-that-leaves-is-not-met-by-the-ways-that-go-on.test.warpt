@@ -1,0 +1,32 @@
+(test 1)
+(name "a-way-that-leaves-is-not-met-by-the-ways-that-go-on")
+(note "The arm that sets `n` to a string and takes it there returns, so no write after the conditional runs on that way. Only the other arm, which takes `n` as an int, reaches what follows, and a later write of an int stands.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (parameter ready (type Bool))
+    (returns Int)
+    (body
+      (var n 0)
+      (conditional
+        (when ready)
+        (then
+          (set n "s")
+          (let a
+            (closure
+              (returns String)
+              (body
+                (return n))))
+          (return 0))
+        (else
+          (let h
+            (closure
+              (body
+                (set n (call Standard.Numeric.plus n 1)))))))
+      (set n 5)
+      (return n))))
+(arguments (argument ready false))
+(expect (answers 5))

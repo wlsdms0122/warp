@@ -1,0 +1,15 @@
+(test 1)
+(name "first-of-a-list-of-a-none-is-its-some")
+(note "`first` of a list of `Int?` returns `Int??`. The element `null` is the inner none, so `first` returns it as its some, the marker holding `null`, and an empty list's none stays `null`: the caller tells the two apart.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.first)
+  (procedure entry
+    (access public)
+    (returns (array (optional (optional Int))))
+    (body
+      (let held (type (array (optional Int))) (array null))
+      (let empty (type (array (optional Int))) (array))
+      (return (array (call Standard.Collection.first held) (call Standard.Collection.first empty))))))
+(expect (answers (array (struct Some (field wrapped null)) null)))

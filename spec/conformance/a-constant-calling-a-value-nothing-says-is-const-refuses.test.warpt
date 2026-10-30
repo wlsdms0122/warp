@@ -1,0 +1,18 @@
+(test 1)
+(name "a-constant-calling-a-value-nothing-says-is-const-refuses")
+(note "A constant folds at the build, so what it is written from is read rather than run, as an operand is. `one` holds a closure whose literal declares `() -> Int`, so nothing written says the procedure is const, and `c`, which calls it, refuses at the build, though its body reaches nothing outside the run.")
+
+(program
+  (warp 1)
+  (const c (apply one))
+  (const one
+    (closure
+      (returns Int)
+      (body
+        (return 1))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return c))))
+(expect (refuses build))

@@ -1,0 +1,21 @@
+(test 1)
+(name "a-closure-reads-a-variable-through-its-box")
+(note "A closure captures a fixed name's value and a variable's box. A variable set between the making and the calling is seen by the call: the box is one thing under one name everywhere it is visible.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (body
+      (var tally 0)
+      (let held
+        (closure
+          (returns Int)
+          (body
+            (return tally))))
+      (set tally 5)
+      (let called (apply held))
+      (return called))))
+(expect (answers 5))

@@ -1,0 +1,45 @@
+(test 1)
+(name "a-contract-value-at-a-bounded-parameter-a-procedure-type-the-call-returns-writes-refuses")
+(note "`App.later` returns a procedure returning `some T`, and `held`, a value of `App.Described` holding `Int?`, fills `T`. What that procedure returns would be read as `App.Described` holding no type, so the call refuses at the build.")
+
+(program
+  (warp 1)
+  (contract App.Described
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head Int)
+    (satisfies App.Described)
+    (procedure describe
+      (parameter of (type Int))
+      (returns String)
+      (body
+        (return "a number"))))
+  (extension
+    (head (optional Int))
+    (satisfies App.Described)
+    (procedure describe
+      (parameter of (type (optional Int)))
+      (returns String)
+      (body
+        (return "a number or none"))))
+  (procedure App.later
+    (parameter x (type (some T App.Described)))
+    (returns (procedure (parameters) (returns (some T))))
+    (body
+      (return
+        (closure
+          (returns (some T))
+          (body
+            (return x))))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let maybe (type (optional Int)) 5)
+      (let held (type App.Described) maybe)
+      (let f (call App.later held))
+      (let r (apply f))
+      (return (call App.Described.describe r)))))
+(expect (refuses build))

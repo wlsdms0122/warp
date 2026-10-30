@@ -1,0 +1,23 @@
+(test 1)
+(name "a-name-only-one-arm-writes-read-where-null-is-not-declared-refuses")
+(note "The run either took the arm or did not, so afterwards the name holds the write or the null it started with. Int?, and a slot declared Int refuses it where names resolve.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter ready (type Bool))
+    (body
+      (var kept)
+      (conditional
+        (when ready)
+        (then
+          (set kept 1)))
+      (let said (call wants kept))))
+  (procedure wants
+    (parameter it (type Int))
+    (returns Bool)
+    (body
+      (return true))))
+(arguments (argument ready true))
+(expect (refuses build))

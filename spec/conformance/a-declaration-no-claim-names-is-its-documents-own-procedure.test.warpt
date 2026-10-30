@@ -1,0 +1,32 @@
+(test 1)
+(name "a-declaration-no-claim-names-is-its-documents-own-procedure")
+(note "A procedure spelled like a member of a type and declared among the document's procedures is its document's procedure and nothing else. A contract asking that procedure beside it reserves nothing, and the document builds the same.")
+
+(documents
+  (document
+    (warp 1)
+    (contract App.Describable
+      (procedure describe
+        (parameter of (type Self))
+        (returns String)))
+    (procedure App.ask
+      (returns Int)
+      (body
+        (return 1)))))
+
+(program
+  (warp 1)
+  (struct Bank.Account
+    (field balance Int))
+  (procedure Bank.Account.describe
+    (parameter of (type Bank.Account))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing cast_refused)
+    (body
+      (return (call Bank.Account.describe (as (struct (field balance 1)) Bank.Account))))))
+(expect (answers 1))

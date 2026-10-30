@@ -1,0 +1,20 @@
+(test 1)
+(name "an-unwrap-written-nameless-binds-no-payload")
+(note "An unwrap written with no naming key binds no payload and takes its ways the same: `o` holds a some, so its `then` runs.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter o (type (optional Int)))
+    (returns String)
+    (body
+      (var said (type String) "ran")
+      (unwrap o
+        (then
+          (set said "some"))
+        (else
+          (set said "none")))
+      (return said))))
+(arguments (argument o 5))
+(expect (answers "some"))

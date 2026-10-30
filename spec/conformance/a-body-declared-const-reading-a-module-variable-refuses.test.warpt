@@ -1,0 +1,18 @@
+(test 1)
+(name "a-body-declared-const-reading-a-module-variable-refuses")
+(note "A body declared `const` must be const, and one reading a module variable returns what the run's state holds, so the declaration refuses at the build.")
+
+(program
+  (warp 1)
+  (var count 0)
+  (procedure App.read
+    (const)
+    (returns Int)
+    (body
+      (return count)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.read)))))
+(expect (refuses build))

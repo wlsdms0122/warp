@@ -1,0 +1,37 @@
+(test 1)
+(name "a-document-writes-startsWith-over-characters")
+(note "A string read as an array of its characters is what lets a document write the procedures that scan strings. Each character is a string of its own, so the comparison is the value model's one sameness and reads as a person reads.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.count)
+  (import Standard.Comparable.lessThan)
+  (import Standard.Logic.equal)
+  (import Standard.Text.characters)
+  (procedure App.startsWith
+    (parameter of (type String))
+    (parameter value (type String))
+    (returns Bool)
+    (body
+      (let held (call Standard.Text.characters of))
+      (let wanted (call Standard.Text.characters value))
+      (conditional
+        (when (call Standard.Comparable.lessThan (call Standard.Collection.count held) (call Standard.Collection.count wanted)))
+        (then
+          (return false)))
+      (let walk
+        (loop
+          (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Collection.count wanted)))
+          (body
+            (let same (call Standard.Logic.equal (path held (index (path walk (field index)))) (path wanted (index (path walk (field index))))))
+            (conditional
+              (when (call Standard.Logic.equal same false))
+              (then
+                (return false))))))
+      (return true)))
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (body
+      (return (call App.startsWith "warp runtime" "warp")))))
+(expect (answers true))

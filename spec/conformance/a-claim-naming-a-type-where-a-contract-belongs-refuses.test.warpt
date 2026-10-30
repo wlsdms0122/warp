@@ -1,0 +1,16 @@
+(test 1)
+(name "a-claim-naming-a-type-where-a-contract-belongs-refuses")
+(note "A claim names a type and the contracts it conforms to. A type where a contract belongs is a claim no document arriving later can make right, and it is refused at the claim.")
+
+(program
+  (warp 1)
+  (type App.Scalar Int)
+  (struct Bank.Account
+    (satisfies App.Scalar)
+    (field balance Int))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

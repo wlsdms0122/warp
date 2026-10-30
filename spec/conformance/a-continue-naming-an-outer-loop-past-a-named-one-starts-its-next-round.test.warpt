@@ -1,0 +1,25 @@
+(test 1)
+(name "a-continue-naming-an-outer-loop-past-a-named-one-starts-its-next-round")
+(note "The `continue` stands in the loop `inner` and names `outer`, the loop around it. The inner loop ends, and the outer loop goes on to its next round, three in all.")
+
+(program
+  (warp 1)
+  (import Standard.Comparable.lessThan)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var i (type Int) 0)
+      (let outer
+        (loop
+          (while (call Standard.Comparable.lessThan (path outer (field index)) 3))
+          (body
+            (let inner
+              (loop
+                (while true)
+                (body
+                  (set i (call Standard.Numeric.plus i 1))
+                  (continue outer)))))))
+      (return i))))
+(expect (answers 3))

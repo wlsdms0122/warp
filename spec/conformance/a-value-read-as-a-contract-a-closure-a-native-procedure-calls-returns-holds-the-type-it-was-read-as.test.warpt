@@ -1,0 +1,36 @@
+(test 1)
+(name "a-value-read-as-a-contract-a-closure-a-native-procedure-calls-returns-holds-the-type-it-was-read-as")
+(note "Standard.Concurrent.all calls each closure it is handed and hands back what they return. A closure a native procedure calls returns into the run, so 5 read as Int? at App.Described still holds Int? in the list all returns, and the call picks the row of the Optional, not of Int.")
+
+(program
+  (warp 1)
+  (import Standard.Concurrent.all)
+  (contract App.Described
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head (optional (some W)))
+    (satisfies App.Described)
+    (procedure describe
+      (parameter of (type (optional (some W))))
+      (returns String)
+      (body
+        (return "an optional"))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing concurrent_failed)
+    (body
+      (let ys
+        (call Standard.Concurrent.all
+          (array
+            (closure
+              (const)
+              (isolated)
+              (returns App.Described)
+              (body
+                (let maybe (type (optional Int)) 5)
+                (return maybe))))))
+      (return (call App.Described.describe (path ys (index 0)))))))
+(expect (answers "an optional"))

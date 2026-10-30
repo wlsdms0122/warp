@@ -1,0 +1,20 @@
+(test 1)
+(name "a-document-declaring-no-procedure-stands-beside-one-that-names-it")
+(note "`procedures` is required and may be empty. A document declaring only a type is read, and the program beside it names the type.")
+
+(documents
+  (document
+    (warp 1)
+    (struct Geo.Point
+      (field x Int))))
+
+(program
+  (warp 1)
+  (import Geo.Point)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let p (type Geo.Point) (struct (field x 2)))
+      (return (path p (field x))))))
+(expect (answers 2))

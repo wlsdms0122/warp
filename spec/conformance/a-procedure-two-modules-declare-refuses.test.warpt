@@ -1,0 +1,17 @@
+(test 1)
+(name "a-procedure-two-modules-declare-refuses")
+(note "Every procedure a program sends is declared by some module in the link exactly once. A spelling two documents declare is not a question of which to read first: the link has no one row for that name, and it refuses.")
+
+(program
+  (warp 1)
+  (procedure Standard.Math.floored
+    (parameter number (type Double))
+    (returns Int)
+    (body
+      (return 0)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

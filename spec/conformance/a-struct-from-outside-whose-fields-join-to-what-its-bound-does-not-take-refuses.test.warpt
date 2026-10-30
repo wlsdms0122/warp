@@ -1,0 +1,51 @@
+(test 1)
+(name "a-struct-from-outside-whose-fields-join-to-what-its-bound-does-not-take-refuses")
+(note "A struct from outside at a slot that applies it to nothing reads as applied to its fields' readings joined, as a list value reads as its elements joined. `App.Pair` holding an `Int` and a `String` reads `App.Pair<Any>`, and `Any` does not conform to the contract the parameter is bounded by, so the door refuses the value.")
+
+(program
+  (warp 1)
+  (struct App.Pair
+    (typeParameter T App.Same)
+    (satisfies App.Described)
+    (field a (some T))
+    (field b (some T))
+    (procedure describe
+      (parameter of (type (named App.Pair (some T App.Same))))
+      (returns Int)
+      (body
+        (return (call App.Same.measure (path of (field a)) (path of (field b)))))))
+  (contract App.Described
+    (procedure describe
+      (parameter of (type Self))
+      (returns Int)))
+  (contract App.Same
+    (procedure measure
+      (parameter lhs (type Self))
+      (parameter rhs (type Self))
+      (returns Int)))
+  (extension
+    (head Int)
+    (satisfies App.Same)
+    (procedure measure
+      (parameter lhs (type Int))
+      (parameter rhs (type Int))
+      (returns Int)
+      (body
+        (return rhs))))
+  (extension
+    (head String)
+    (satisfies App.Same)
+    (procedure measure
+      (parameter lhs (type String))
+      (parameter rhs (type String))
+      (returns Int)
+      (body
+        (return 7))))
+  (procedure entry
+    (access public)
+    (parameter x (type App.Described))
+    (returns Int)
+    (body
+      (return (call App.Described.describe x)))))
+(arguments (argument x (struct App.Pair (field a 1) (field b "x"))))
+(expect (refuses run))

@@ -1,0 +1,18 @@
+(test 1)
+(name "a-cast-of-a-struct-to-the-struct-applied-to-what-it-already-is-refuses")
+(note "A reading of `App.Box<Int>` already is `App.Box<Int>`, so a cast naming it says nothing and is refused at the build.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing cast_refused)
+    (body
+      (let b (type (named App.Box Int)) (struct (field item 1)))
+      (let c (as b (named App.Box Int)))
+      (return 1))))
+(expect (refuses build))

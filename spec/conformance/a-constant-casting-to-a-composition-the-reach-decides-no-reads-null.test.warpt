@@ -1,0 +1,55 @@
+(test 1)
+(name "a-constant-casting-to-a-composition-the-reach-decides-no-reads-null")
+(note "A fold's cast whose result the claims within reach decide stands as the run's would. The value conforms to no contract of the composition by a claim within reach, and one contract it is cast to is decided against it there, so `as?` gives null whichever contract is asked first.")
+
+(documents
+  (document
+    (warp 1)
+    (contract App.Marked)
+    (contract App.Tagged))
+  (document
+    (warp 1)
+    (import App.Tagged)
+    (extension
+      (head (array Int))
+      (satisfies App.Tagged))
+    (procedure In.mark
+      (access public)
+      (const)
+      (isolated)
+      (returns Int)
+      (body
+        (return 1))))
+  (document
+    (warp 1)
+    (import App.Marked)
+    (extension
+      (head Array)
+      (satisfies App.Marked)))
+  (document
+    (warp 1)
+    (import App.Marked)
+    (import App.Tagged)
+    (procedure L.probe
+      (access public)
+      (const)
+      (isolated)
+      (returns Any)
+      (body
+        (let two (type Any) (array "s"))
+        (return (as? two (composition App.Marked App.Tagged)))))))
+
+(program
+  (warp 1)
+  (import In.mark)
+  (import L.probe)
+  (const folded (call L.probe))
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (returns Any)
+    (body
+      (let m (call In.mark))
+      (return folded))))
+(expect (answers null))

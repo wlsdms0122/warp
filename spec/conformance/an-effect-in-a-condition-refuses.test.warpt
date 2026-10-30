@@ -1,0 +1,16 @@
+(test 1)
+(name "an-effect-in-a-condition-refuses")
+(note "A condition is read rather than run, so a procedure that is not const cannot stand in one. The build knows which declarations those are, so the refusal is the build's.")
+
+(program
+  (warp 1)
+  (import Standard.Concurrent.all)
+  (procedure entry
+    (access public)
+    (failing concurrent_failed)
+    (body
+      (conditional
+        (when (call Standard.Concurrent.all (array)))
+        (then
+          (let kept 1))))))
+(expect (refuses build))

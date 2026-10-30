@@ -1,0 +1,5 @@
+(test 1)
+(name "a-name-in-backticks-escapes-a-backtick-and-not-a-quote")
+(note "In backticks a name is escaped as a string is, with a backslash before a backtick and a quote written as itself, and a name holding either is written in backticks.")
+(text "(warp 1)\n(const `a\\`b\"c` 1)\n")
+(expect (spells (dictionary (entry "const" (dictionary (entry "a`b\"c" 1))) (entry "imports" (array)) (entry "warp" 1))))

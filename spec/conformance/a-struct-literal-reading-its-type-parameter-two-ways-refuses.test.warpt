@@ -1,0 +1,21 @@
+(test 1)
+(name "a-struct-literal-reading-its-type-parameter-two-ways-refuses")
+(note "`App.Pair` writes `some T` in both fields. A literal reading the parameter as `Int` in one and as `String` in the other fills the call's `T` with the first, and the other field is refused against it.")
+
+(program
+  (warp 1)
+  (struct App.Pair
+    (typeParameter T)
+    (field a (some T))
+    (field b (some T)))
+  (procedure App.first
+    (parameter p (type (named App.Pair (some T))))
+    (returns (some T))
+    (body
+      (return (path p (field a)))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.first (struct (field a 1) (field b "x")))))))
+(expect (refuses build))

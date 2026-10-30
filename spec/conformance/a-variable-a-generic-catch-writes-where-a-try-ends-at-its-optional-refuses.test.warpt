@@ -1,0 +1,24 @@
+(test 1)
+(name "a-variable-a-generic-catch-writes-where-a-try-ends-at-its-optional-refuses")
+(note "`y` reads `Null` where the body finishes and `some T` where the catch wrote `x`, so the ways meet past the try reading `some T?`. A value of `some T` may be a none, which would have to become its some to stand there, so the build refuses.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter x (type (some T)))
+    (parameter v)
+    (returns (optional (some T)))
+    (body
+      (var y)
+      (try
+        (body
+          (let first (as v Int)))
+        (catch
+          (set y x)))
+      (return y)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

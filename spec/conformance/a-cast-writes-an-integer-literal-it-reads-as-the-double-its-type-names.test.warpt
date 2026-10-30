@@ -1,0 +1,13 @@
+(test 1)
+(name "a-cast-writes-an-integer-literal-it-reads-as-the-double-its-type-names")
+(note "The type a cast names is a place a literal in what it reads is written into, as a slot is. `[1]` read as `Array<Double>` holds the floating-point number `1` names, so the cast holds and gives `[1.0]`.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns (array Double))
+    (failing cast_refused)
+    (body
+      (return (as (array 1) (array Double))))))
+(expect (answers (array 1.0)))

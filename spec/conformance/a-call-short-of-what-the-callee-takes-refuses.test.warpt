@@ -1,0 +1,19 @@
+(test 1)
+(name "a-call-short-of-what-the-callee-takes-refuses")
+(note "A call hands exactly what the callee takes. `App.pick` takes two, and a call handing one is refused where it is written, whatever the one it hands was read as.")
+
+(program
+  (warp 1)
+  (procedure App.pick
+    (parameter a (type (some T)))
+    (parameter b (type (some T)))
+    (returns (some T))
+    (body
+      (return a)))
+  (procedure entry
+    (access public)
+    (returns (optional Int))
+    (body
+      (let x (type (optional Int)) 1)
+      (return (call App.pick x)))))
+(expect (refuses build))

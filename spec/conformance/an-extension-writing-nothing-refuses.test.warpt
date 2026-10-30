@@ -1,0 +1,14 @@
+(test 1)
+(name "an-extension-writing-nothing-refuses")
+(note "An extension that gives a type nothing is no extension the writer writes, so the document says one thing two ways and the load refuses it.")
+
+(program
+  (warp 1)
+  (extension
+    (head Int))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

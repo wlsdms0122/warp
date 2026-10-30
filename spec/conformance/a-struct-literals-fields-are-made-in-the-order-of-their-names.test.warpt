@@ -1,0 +1,24 @@
+(test 1)
+(name "a-struct-literals-fields-are-made-in-the-order-of-their-names")
+(note "A struct literal makes its fields in the order of their names. Both of `App.P`'s fields abort, so `a` is made first, its failure is the one the catch takes, and `b` is never made.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (struct App.P
+    (field a String)
+    (field b String))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (var tried)
+      (let caught
+        (try
+          (body
+            (let p (type App.P) (struct (field a (call Standard.Control.abort "a first")) (field b (call Standard.Control.abort "b first"))))
+            (set tried "no"))
+          (catch
+            (set tried (path caught (field message))))))
+      (return tried))))
+(expect (answers "a first"))

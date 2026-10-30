@@ -1,0 +1,13 @@
+(test 1)
+(name "decoded-reads-bytes-written-one-by-one")
+(note "The compact spelling is the value's own fact and not the slot's, so bytes written out one by one as integers arrive at an `Array<Int>` slot as the array they are, and a native procedure reads them as the bytes they also are.")
+
+(program
+  (warp 1)
+  (import Standard.Text.decoded)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (return (call Standard.Text.decoded (array 104 105) "utf8")))))
+(expect (answers "hi"))

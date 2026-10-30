@@ -1,0 +1,15 @@
+(test 1)
+(name "a-body-ending-in-a-while-true-loop-whose-body-returns-refuses")
+(note "A loop written with `while` may finish whatever its condition reads, so the way past this one reaches the end of a body that writes `returns`, though every round returns.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (loop
+        (while true)
+        (body
+          (return 1))))))
+(expect (refuses build))

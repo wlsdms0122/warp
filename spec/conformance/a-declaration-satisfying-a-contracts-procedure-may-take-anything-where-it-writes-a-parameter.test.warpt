@@ -1,0 +1,29 @@
+(test 1)
+(name "a-declaration-satisfying-a-contracts-procedure-may-take-anything-where-it-writes-a-parameter")
+(note "The contract takes some T, its own parameter, and the declaration satisfying it takes Any there. A slot taking anything takes whatever the contract's parameter stands for.")
+
+(program
+  (warp 1)
+  (struct Bank.Card
+    (satisfies App.Sized)
+    (field last String)
+    (procedure size
+      (parameter of (type Bank.Card))
+      (parameter n)
+      (returns Int)
+      (body
+        (return 7))))
+  (contract App.Sized
+    (procedure size
+      (parameter of (type Self))
+      (parameter n (type (some T)))
+      (returns Int)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing cast_refused)
+    (body
+      (let c (as (struct (field last "42")) Bank.Card))
+      (let s (call App.Sized.size c "x"))
+      (return s))))
+(expect (answers 7))

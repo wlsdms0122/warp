@@ -1,0 +1,25 @@
+(test 1)
+(name "a-struct-holding-a-procedure-of-its-parameter-does-not-stand-applied-to-another-type-refuses")
+(note "`App.Holder` holds a procedure taking its parameter. A struct is one type only at the same arguments, so `App.Holder<Int>` does not stand where `App.Holder<Int?>` is declared, and nothing can hand its procedure a null.")
+
+(program
+  (warp 1)
+  (struct App.Holder
+    (typeParameter T)
+    (field run (procedure (parameters (some T)) (returns (array Int)))))
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (body
+      (let h
+        (type (named App.Holder Int))
+        (struct
+          (field run
+            (closure
+              (parameter x (type Int))
+              (returns (array Int))
+              (body
+                (return (array x)))))))
+      (let g (type (named App.Holder (optional Int))) h)
+      (return (apply (path g (field run)) null)))))
+(expect (refuses build))

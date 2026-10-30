@@ -1,0 +1,25 @@
+(test 1)
+(name "a-contract-procedure-may-return-self-or-null")
+(note "`App.Find.find` returns `Self?`. The claim about `Int` reads it as `Int?`, which `Int.find` returns, and the call through the contract, filling `Self` with `Int`, returns `Int?`, held where `Int?` is declared.")
+
+(program
+  (warp 1)
+  (contract App.Find
+    (procedure find
+      (parameter of (type Self))
+      (returns (optional Self))))
+  (extension
+    (head Int)
+    (satisfies App.Find)
+    (procedure find
+      (parameter of (type Int))
+      (returns (optional Int))
+      (body
+        (return of))))
+  (procedure entry
+    (access public)
+    (returns (optional Int))
+    (body
+      (let found (type (optional Int)) (call App.Find.find 5))
+      (return found))))
+(expect (answers 5))

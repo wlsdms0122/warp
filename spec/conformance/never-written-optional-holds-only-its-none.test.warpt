@@ -1,0 +1,17 @@
+(test 1)
+(name "never-written-optional-holds-only-its-none")
+(note "`Never?` is a type, and no value is a `Never`, so its one value is its none. `App.f` handed `null` at `Never?` holds `null`.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter x (type (optional Never)))
+    (returns Any)
+    (body
+      (return x)))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (return (call App.f null)))))
+(expect (answers null))

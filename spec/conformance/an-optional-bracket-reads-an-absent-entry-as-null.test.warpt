@@ -1,0 +1,18 @@
+(test 1)
+(name "an-optional-bracket-reads-an-absent-entry-as-null")
+(note "On a dictionary `?[` expects the entry's absence, as `?.` does: a key the run reads that names no entry reads as null rather than refusing.")
+
+(program
+  (warp 1)
+  (procedure App.read
+    (parameter of (type (dictionary String Int)))
+    (parameter key (type String))
+    (returns (optional Int))
+    (body
+      (return (path of (index? key)))))
+  (procedure entry
+    (access public)
+    (returns (optional Int))
+    (body
+      (return (call App.read (dictionary (entry "a" 1)) "b")))))
+(expect (answers null))

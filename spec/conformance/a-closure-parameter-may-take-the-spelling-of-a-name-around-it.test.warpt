@@ -1,0 +1,20 @@
+(test 1)
+(name "a-closure-parameter-may-take-the-spelling-of-a-name-around-it")
+(note "A closure's body is nested in the body that writes it, so its parameter may take the spelling of a `let` around it. Inside the closure `x` is the parameter, and the call returns what it was handed.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (body
+      (let x 1)
+      (let c
+        (closure
+          (parameter x (type Int))
+          (returns Int)
+          (body
+            (return x))))
+      (return (apply c 5)))))
+(expect (answers 5))

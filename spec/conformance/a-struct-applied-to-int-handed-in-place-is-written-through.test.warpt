@@ -1,0 +1,21 @@
+(test 1)
+(name "a-struct-applied-to-int-handed-in-place-is-written-through")
+(note "A struct applied to `Int` handed in place is the caller's box, and a write through its `var` field is what the caller reads back.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (var (some T))))
+  (procedure App.bump
+    (parameter b (type (inout (named App.Box Int))))
+    (body
+      (set (path b (field item)) 9)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var b (type (named App.Box Int)) (struct (field item 1)))
+      (call App.bump b)
+      (return (path b (field item))))))
+(expect (answers 9))

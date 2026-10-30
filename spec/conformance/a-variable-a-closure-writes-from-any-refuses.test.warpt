@@ -1,0 +1,29 @@
+(test 1)
+(name "a-variable-a-closure-writes-from-any-refuses")
+(note "App.g keeps x in cell, and a closure it calls writes junk, read as Any, into cell. cell holds T, which takes only a value of it, so the write in the closure refuses at the build.")
+
+(program
+  (warp 1)
+  (procedure App.g
+    (parameter x (type (some T)))
+    (parameter junk)
+    (returns (some T))
+    (failing (anything))
+    (body
+      (var cell x)
+      (let c
+        (closure
+          (returns Int)
+          (body
+            (set cell junk)
+            (return 0))))
+      (let z (apply c))
+      (return cell)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (body
+      (let r (call App.g 1 "s"))
+      (return r))))
+(expect (refuses build))

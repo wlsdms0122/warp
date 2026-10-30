@@ -1,0 +1,20 @@
+(test 1)
+(name "a-list-literal-handed-to-a-call-is-read-part-by-part-refuses")
+(note "`App.g` takes `Array<Int>` and is handed `[i, t]`, an int and a string read from names. The argument is held to the parameter element by element, so the string refuses at the build.")
+
+(program
+  (warp 1)
+  (procedure App.g
+    (parameter xs (type (array Int)))
+    (returns Int)
+    (body
+      (return 0)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let i 1)
+      (let t "s")
+      (let r (call App.g (array i t)))
+      (return r))))
+(expect (refuses build))

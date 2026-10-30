@@ -1,0 +1,20 @@
+(test 1)
+(name "a-parameter-read-where-its-join-would-change-a-value-refuses")
+(note "`App.pick` reads `T` as `Int` from `o`, an `Int?` at `some T?`, and as `Int?` from `other`. The join fills `T` with `Int?`, where the none `o` holds would change to the some of `Int??`, so the call refuses at the build.")
+
+(program
+  (warp 1)
+  (procedure App.pick
+    (parameter o (type (optional (some T))))
+    (parameter other (type (some T)))
+    (returns (optional (some T)))
+    (body
+      (return o)))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let o (type (optional Int)) null)
+      (let other (type (optional Int)) 7)
+      (return (call App.pick o other)))))
+(expect (refuses build))

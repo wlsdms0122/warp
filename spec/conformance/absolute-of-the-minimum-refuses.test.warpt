@@ -1,0 +1,13 @@
+(test 1)
+(name "absolute-of-the-minimum-refuses")
+(note "absolute returns an int only when an int holds the result. The procedure's own minimum is the one magnitude the procedure does not hold, and the refusal is the overflow rule, not a special case.")
+
+(program
+  (warp 1)
+  (import Standard.Math.absolute)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call Standard.Math.absolute -9223372036854775808)))))
+(expect (refuses run))

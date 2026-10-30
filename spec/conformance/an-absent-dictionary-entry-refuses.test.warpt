@@ -1,0 +1,14 @@
+(test 1)
+(name "an-absent-dictionary-entry-refuses")
+(note "A dictionary's entries are data, so which keys are there is a run's fact. The plain bracket promises the entry is there. An absent one refuses rather than inventing a null nobody wrote.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter data (type (dictionary String Any)))
+    (returns Any)
+    (body
+      (return (path data (index "missing"))))))
+(arguments (argument data (dictionary)))
+(expect (refuses run))

@@ -1,0 +1,90 @@
+(test 1)
+(name "a-type-satisfies-a-contract-procedure-writing-an-associated-type-of-an-associated-type")
+(note "`Lib.Deep` asks Item, holds it to `Lib.Keyed`, which asks Key, and its procedures write `Self.Item.Key`. App.DShelf gives Item as App.Card, whose Key is Int, so its members returning an Int and taking one satisfy the contract's procedures.")
+
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Keyed
+      (type Key)
+      (procedure key
+        (parameter of (type Self))
+        (returns Self.Key)))
+    (contract Lib.Outer
+      (type Item Lib.Keyed)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item))))
+  (document
+    (warp 1)
+    (import Lib.Keyed)
+    (import Lib.Outer)
+    (struct App.Card
+      (satisfies Lib.Keyed)
+      (field k Int)
+      (type Key Int)
+      (procedure key
+        (access public)
+        (parameter of (type App.Card))
+        (returns Int)
+        (body
+          (return (path of (field k))))))
+    (struct App.Shelf
+      (satisfies Lib.Outer)
+      (field card App.Card)
+      (type Item App.Card)
+      (procedure first
+        (access public)
+        (parameter of (type App.Shelf))
+        (returns App.Card)
+        (body
+          (return (path of (field card)))))))
+  (document
+    (warp 1)
+    (import Lib.Keyed)
+    (contract Lib.Deep
+      (type Item Lib.Keyed)
+      (procedure firstKey
+        (parameter of (type Self))
+        (returns Self.Item.Key))
+      (procedure keyPlus
+        (parameter of (type Self))
+        (parameter k (type Self.Item.Key))
+        (returns Int))))
+  (document
+    (warp 1)
+    (import App.Card)
+    (import Int.plus)
+    (import Lib.Deep)
+    (import Lib.Keyed.key)
+    (struct App.DShelf
+      (satisfies Lib.Deep)
+      (field card App.Card)
+      (type Item App.Card)
+      (procedure firstKey
+        (access public)
+        (parameter of (type App.DShelf))
+        (returns Int)
+        (body
+          (return (call Lib.Keyed.key (path of (field card))))))
+      (procedure keyPlus
+        (access public)
+        (parameter of (type App.DShelf))
+        (parameter k (type Int))
+        (returns Int)
+        (body
+          (return (call Int.plus k 1)))))))
+
+(program
+  (warp 1)
+  (import App.DShelf)
+  (import Lib.Deep.firstKey)
+  (import Lib.Deep.keyPlus)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let s (type App.DShelf) (struct (field card (struct (field k 1)))))
+      (let k (call Lib.Deep.firstKey s))
+      (return (call Lib.Deep.keyPlus s k)))))
+(expect (answers 2))

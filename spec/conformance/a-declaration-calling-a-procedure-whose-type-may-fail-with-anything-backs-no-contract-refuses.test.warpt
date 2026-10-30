@@ -1,0 +1,36 @@
+(test 1)
+(name "a-declaration-calling-a-procedure-whose-type-may-fail-with-anything-backs-no-contract-refuses")
+(note "`step`'s type writes `throws` with no list, so a call of it may fail with anything, and no list a contract names holds that: `Int.run` backs no claim of `run`, whatever `run` lets fail.")
+
+(program
+  (warp 1)
+  (contract App.Runner
+    (procedure run
+      (parameter of (type Self))
+      (parameter step (type (procedure (const) (parameters Int) (failing (anything)) (returns Int))))
+      (returns Int)
+      (failing aborted cast_refused concurrent_failed)))
+  (extension
+    (head Int)
+    (satisfies App.Runner)
+    (procedure run
+      (parameter of (type Int))
+      (parameter step (type (procedure (const) (parameters Int) (failing (anything)) (returns Int))))
+      (returns Int)
+      (failing (anything))
+      (body
+        (return (apply step of)))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing aborted cast_refused concurrent_failed)
+    (body
+      (return
+        (call App.Runner.run 1
+          (closure
+            (const)
+            (parameter x (type Int))
+            (returns Int)
+            (body
+              (return x))))))))
+(expect (refuses build))

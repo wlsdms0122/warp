@@ -1,0 +1,12 @@
+(test 1)
+(name "a-body-ending-in-a-return-returns-its-value")
+(note "A `return` ending a procedure's own body gives the procedure's return value, as one anywhere else in it does.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (answers 1))

@@ -1,0 +1,35 @@
+(test 1)
+(name "a-value-read-as-any-sent-to-a-closure-held-at-a-procedure-type-refuses")
+(note "App.with hands a closure taking some T to a callback, which holds it as `(Int) -> Int` and sends it a string read as Any. A value read as `Any` is no Int the build can see, so the call refuses at the build.")
+
+(program
+  (warp 1)
+  (procedure App.with
+    (parameter x (type (some T)))
+    (parameter run (type (procedure (parameters (procedure (parameters (some T)) (returns Int))) (returns Int))))
+    (returns (some T))
+    (body
+      (var cell x)
+      (let s
+        (closure
+          (parameter y (type (some T)))
+          (returns Int)
+          (body
+            (set cell y)
+            (return 0))))
+      (let z (apply run s))
+      (return cell)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let cb
+        (closure
+          (parameter f (type (procedure (parameters Int) (returns Int))))
+          (returns Int)
+          (body
+            (let a (type Any) "s")
+            (return (apply f a)))))
+      (let r (call App.with 1 cb))
+      (return r))))
+(expect (refuses build))

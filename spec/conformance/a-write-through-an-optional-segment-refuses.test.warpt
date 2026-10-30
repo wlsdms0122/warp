@@ -1,0 +1,16 @@
+(test 1)
+(name "a-write-through-an-optional-segment-refuses")
+(note "A write reads no absence, so a path written through `?.` is not written through. The text shows the mark, so `set x?.a` refuses at the load.")
+
+(program
+  (warp 1)
+  (struct App.T
+    (field a (var Int)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var x (type (optional App.T)))
+      (set (path x (field? a)) 2)
+      (return 1))))
+(expect (refuses load))

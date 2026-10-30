@@ -1,0 +1,16 @@
+(test 1)
+(name "a-list-literal-written-into-a-declared-variable-is-read-position-by-position-refuses")
+(note "ys declares Array<Dictionary<String, Array<String>>>, and a list of two dictionary literals, one holding `[]` under `a` and one holding `[1]` is written into it. The literal is read as its elements joined position by position, the empty list holding no element, so it holds a dictionary whose `a` is a list of numbers, and the build refuses it where strings are declared.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.count)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var ys (type (array (dictionary String (array String)))) (array))
+      (set ys (array (dictionary (entry "a" (array))) (dictionary (entry "a" (array 1)))))
+      (let n (call Standard.Collection.count ys))
+      (return n))))
+(expect (refuses build))

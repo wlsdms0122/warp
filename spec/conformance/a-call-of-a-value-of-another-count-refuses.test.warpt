@@ -1,0 +1,21 @@
+(test 1)
+(name "a-call-of-a-value-of-another-count-refuses")
+(note "Every position is given when a value is called, so a call of it with fewer arguments than the value's type takes is one no run could make, and the build refuses it where the value's type is known.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (body
+      (let pair
+        (closure
+          (parameter first (type Int))
+          (parameter second (type String))
+          (returns Int)
+          (body
+            (return first))))
+      (let made (apply pair 1))
+      (return made))))
+(expect (refuses build))

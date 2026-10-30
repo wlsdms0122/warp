@@ -1,0 +1,19 @@
+(test 1)
+(name "a-closure-declared-const-reading-a-module-variable-refuses")
+(note "A closure literal declared `const` is held to being const where it is written, and one reading a module variable does not, so it refuses at the build.")
+
+(program
+  (warp 1)
+  (var count 0)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let f
+        (closure
+          (const)
+          (returns Int)
+          (body
+            (return count))))
+      (return 1))))
+(expect (refuses build))

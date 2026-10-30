@@ -1,0 +1,13 @@
+(test 1)
+(name "minus-off-the-ints-edge-refuses")
+(note "Integer arithmetic with no integer result refuses at the run. `minus` off the int's low edge does not wrap.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.minus)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call Standard.Numeric.minus -9223372036854775808 1)))))
+(expect (refuses run))

@@ -1,0 +1,14 @@
+(test 1)
+(name "a-type-reaching-itself-through-names-alone-refuses")
+(note "`App.A` names `App.B?`, and `App.B` names `App.A`: neither is a struct, so the chain spells no type, and the document says so alone. A type that holds itself is a declared struct.")
+
+(program
+  (warp 1)
+  (type App.A (optional App.B))
+  (type App.B App.A)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

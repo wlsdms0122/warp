@@ -1,0 +1,19 @@
+(test 1)
+(name "an-optional-dot-ending-at-a-field-that-may-hold-a-none-reads-it-as-its-some")
+(note "`o?.v` on a field read as `Any` reads `Any?`. A receiver that is absent is the none, and a field holding a none is the some: `Some` holding `null`. A field holding anything else is itself.")
+
+(program
+  (warp 1)
+  (struct App.Cell
+    (field v Any))
+  (procedure App.read
+    (parameter o (type (optional App.Cell)))
+    (returns (optional Any))
+    (body
+      (return (path o (field? v)))))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (return (array (call App.read null) (call App.read (struct (field v null))) (call App.read (struct (field v 1))))))))
+(expect (answers (array null (struct Some (field wrapped null)) 1)))

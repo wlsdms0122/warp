@@ -1,0 +1,43 @@
+(test 1)
+(name "first-in-which-nothing-succeeds-fails-with-every-piece")
+(note "A `firstKeyed` in which nothing succeeds fails the way `allKeyed` fails: every piece's failure reported, keyed by the piece it came from, so a catch reads one failure per piece.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.keys)
+  (import Standard.Concurrent.firstKeyed)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (isolated)
+    (returns (array String))
+    (failing cast_refused)
+    (body
+      (var tried)
+      (let caught
+        (try
+          (body
+            (call Standard.Concurrent.firstKeyed
+              (dictionary
+                (entry "left"
+                  (closure
+                    (const)
+                    (isolated)
+                    (returns Int)
+                    (failing aborted)
+                    (body
+                      (call Standard.Control.abort "left"))))
+                (entry "right"
+                  (closure
+                    (const)
+                    (isolated)
+                    (returns Int)
+                    (failing aborted)
+                    (body
+                      (call Standard.Control.abort "right"))))))
+            (set tried (array)))
+          (catch
+            (let failures (as (path caught (field details) (index "failures")) (dictionary String Any)))
+            (set tried (call Standard.Collection.keys failures)))))
+      (return tried))))
+(expect (answers (array "left" "right")))

@@ -1,0 +1,19 @@
+(test 1)
+(name "an-unwrap-named-with-var-refuses")
+(note "An unwrap's name is its payload, which nothing writes, so an unwrap takes its name with `let`, and one taking it with `var` refuses at the load.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter o (type (optional Int)))
+    (returns Int)
+    (body
+      (var n 0)
+      (var x
+        (unwrap o
+          (then
+            (set n x))))
+      (return n))))
+(arguments (argument o 5))
+(expect (refuses load))

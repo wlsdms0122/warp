@@ -1,0 +1,30 @@
+(test 1)
+(name "a-fixed-name-bound-to-a-const-slot-carries-its-claim")
+(note "`relay` binds `g` to its parameter of a `const` procedure type returning Int, without a type, so `g` holds the type the parameter was declared. Calling `g` calls a value a slot declared `const`, so `relay`, which declares `const`, holds to it, and an operand calls it.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (const)
+    (returns Int)
+    (body
+      (return
+        (call Standard.Numeric.plus
+          (call relay
+            (closure
+              (const)
+              (isolated)
+              (returns Int)
+              (body
+                (return 1))))
+          1))))
+  (procedure relay
+    (const)
+    (parameter body (type (procedure (const) (parameters) (returns Int))))
+    (returns Int)
+    (body
+      (let g body)
+      (return (apply g)))))
+(expect (answers 2))

@@ -1,0 +1,14 @@
+(test 1)
+(name "a-cast-onto-any-refuses")
+(note "A cast names the type a value is read as. `Any` names no type to read, so a cast onto it is refused at the build.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter payload)
+    (returns Any)
+    (body
+      (return (as payload Any)))))
+(arguments (argument payload 1))
+(expect (refuses build))

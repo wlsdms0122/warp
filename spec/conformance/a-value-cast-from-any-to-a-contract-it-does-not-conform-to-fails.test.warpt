@@ -1,0 +1,33 @@
+(test 1)
+(name "a-value-cast-from-any-to-a-contract-it-does-not-conform-to-fails")
+(note "The cast reads `left` as `App.Described`, and the run holds the value to the contract by the type it is an instance of. No claim of it holds for a bool, so the cast fails with cast_refused before `App.Described.describe` is asked, which the try catches.")
+
+(program
+  (warp 1)
+  (contract App.Described
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head Int)
+    (satisfies App.Described)
+    (procedure describe
+      (parameter of (type Int))
+      (returns String)
+      (body
+        (return "a whole number"))))
+  (procedure entry
+    (access public)
+    (parameter left)
+    (returns (optional String))
+    (body
+      (var tried)
+      (let caught
+        (try
+          (body
+            (let got (call App.Described.describe (as left App.Described))))
+          (catch
+            (set tried (path caught (field type))))))
+      (return tried))))
+(arguments (argument left true))
+(expect (answers "cast_refused"))

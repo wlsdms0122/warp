@@ -1,0 +1,5 @@
+(test 1)
+(name "dictionary-keys-out-of-order-refuse")
+(note "A dictionary's keys ascend in the key order, kind before kind, so a number stands before a string. A string written ahead of a number is bytes the writer would not write, and a reader that sorted them would give one document two byte spellings.")
+(bytes x"5741525001070205016100030200")
+(expect (refuses load))

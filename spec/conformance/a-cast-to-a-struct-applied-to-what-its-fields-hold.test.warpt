@@ -1,0 +1,24 @@
+(test 1)
+(name "a-cast-to-a-struct-applied-to-what-its-fields-hold")
+(note "A value carries a struct's name and its fields and nothing of what it was applied to. A cast to `App.Box<Int>` judges the fields against `Int`, which they hold.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (procedure App.hide
+    (parameter v)
+    (returns Any)
+    (body
+      (return v)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing cast_refused)
+    (body
+      (let b (type (named App.Box Int)) (struct (field item 1)))
+      (let any (call App.hide b))
+      (let c (as any (named App.Box Int)))
+      (return (path c (field item))))))
+(expect (answers 1))

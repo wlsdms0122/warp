@@ -1,0 +1,19 @@
+(test 1)
+(name "a-head-bounding-by-what-no-module-declares-as-a-contract-refuses")
+(note "A head bounds its own type parameters by contracts, and `App.Nothing` is declared by no module in the link, so the build refuses the extension.")
+
+(program
+  (warp 1)
+  (import App.Nothing)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (extension
+    (head (named App.Box (some T App.Nothing)))
+    (satisfies Hashable))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

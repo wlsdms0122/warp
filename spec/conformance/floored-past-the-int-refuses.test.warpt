@@ -1,0 +1,13 @@
+(test 1)
+(name "floored-past-the-int-refuses")
+(note "floored and rounded return an int, and a floating-point number whose integer part is past the int has no int to return. The refusal is the overflow rule, the same one arithmetic holds at the int's edge.")
+
+(program
+  (warp 1)
+  (import Standard.Math.floored)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call Standard.Math.floored 1e+30)))))
+(expect (refuses run))

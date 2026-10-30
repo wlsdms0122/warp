@@ -1,0 +1,29 @@
+(test 1)
+(name "a-cast-to-a-struct-applied-to-what-its-fields-do-not-hold-fails")
+(note "A cast to `App.Box<String>` judges the value's fields against `String`. The field holds an `Int`, so the cast fails with `cast_refused`.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (procedure App.hide
+    (parameter v)
+    (returns Any)
+    (body
+      (return v)))
+  (procedure entry
+    (access public)
+    (returns (optional String))
+    (body
+      (let b (type (named App.Box Int)) (struct (field item 1)))
+      (let any (call App.hide b))
+      (var failed)
+      (let caught
+        (try
+          (body
+            (let c (as any (named App.Box String))))
+          (catch
+            (set failed (path caught (field type))))))
+      (return failed))))
+(expect (answers "cast_refused"))

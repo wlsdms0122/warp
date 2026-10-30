@@ -1,0 +1,45 @@
+(test 1)
+(name "a-piece-calling-an-isolated-procedure-read-out-of-a-struct-field-stands")
+(note "A slot declaring a struct type says what each of its fields holds. `asking` declares `isolated` and calls what the field `f` holds, which `App.Holder` declares an `isolated` procedure type, so the build holds it to that, and a piece of `Standard.Concurrent.map` calling `asking` stands.")
+
+(program
+  (warp 1)
+  (import Standard.Concurrent.map)
+  (struct App.Holder
+    (field f (procedure (isolated) (parameters Int) (returns Int))))
+  (procedure asking
+    (isolated)
+    (parameter body (type App.Holder))
+    (parameter item (type Int))
+    (returns Int)
+    (body
+      (let a (apply (path body (field f)) item))
+      (return a)))
+  (procedure entry
+    (access public)
+    (isolated)
+    (returns (array Int))
+    (failing concurrent_failed)
+    (body
+      (return
+        (call Standard.Concurrent.map
+          (array 1 2)
+          (closure
+            (isolated)
+            (parameter item (type Int))
+            (parameter index (type Int))
+            (returns Int)
+            (body
+              (return
+                (call asking
+                  (struct
+                    (field f
+                      (closure
+                        (const)
+                        (isolated)
+                        (parameter x (type Int))
+                        (returns Int)
+                        (body
+                          (return x)))))
+                  item)))))))))
+(expect (answers (array 1 2)))

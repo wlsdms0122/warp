@@ -1,0 +1,43 @@
+(test 1)
+(name "a-cast-of-a-closure-writing-a-return-type-read-as-never-fails")
+(note "App.f returns its own T and writes a closure that sets a variable of T, held as Any. App.h fills T with an empty list, so its call reads Never. The cast reading the closure as taking a String fails with cast_refused, since only App.f's call filled its T, so nothing reaches the return value read as Never and the try in the entry catches the failure.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.appending)
+  (procedure App.f
+    (parameter xs (type (array (some T))))
+    (returns (some T))
+    (failing (anything))
+    (body
+      (var ys xs)
+      (let c
+        (closure
+          (parameter z (type (some T)))
+          (returns Int)
+          (body
+            (set ys (call Standard.Collection.appending ys z))
+            (return 0))))
+      (let a (type Any) c)
+      (let d (as a (procedure (parameters String) (returns Int))))
+      (apply d "s")
+      (return (path ys (index 0)))))
+  (procedure App.h
+    (returns Int)
+    (failing (anything))
+    (body
+      (return (call App.f (array)))))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (var tried)
+      (let caught
+        (try
+          (body
+            (let k (call App.h))
+            (set tried (array k)))
+          (catch
+            (set tried (path caught (field type))))))
+      (return tried))))
+(expect (answers "cast_refused"))

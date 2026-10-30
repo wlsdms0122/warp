@@ -1,0 +1,19 @@
+(test 1)
+(name "leaving-is-not-failing")
+(note "A catch is for what the world did; leaving is what the program said. The cast is what the try stands over, since a catch over a body that cannot fail refuses; the return leaves past it either way.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (var tried)
+      (try
+        (body
+          (let checked (as null (optional Int)))
+          (return "left from inside"))
+        (catch
+          (set tried "the catch ran")))
+      (return tried))))
+(expect (answers "left from inside"))

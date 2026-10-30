@@ -1,0 +1,29 @@
+(test 1)
+(name "a-declaration-satisfying-a-contracts-procedure-may-take-a-wider-type")
+(note "The contract takes an Int and the declaration satisfying it takes `Int?`. Every Int a call through the contract hands is an `Int?`, so the declaration satisfies the contract.")
+
+(program
+  (warp 1)
+  (struct Bank.Card
+    (satisfies App.Sized)
+    (field last String)
+    (procedure size
+      (parameter of (type Bank.Card))
+      (parameter n (type (optional Int)))
+      (returns Int)
+      (body
+        (return 7))))
+  (contract App.Sized
+    (procedure size
+      (parameter of (type Self))
+      (parameter n (type Int))
+      (returns Int)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing cast_refused)
+    (body
+      (let c (as (struct (field last "42")) Bank.Card))
+      (let s (call App.Sized.size c 2))
+      (return s))))
+(expect (answers 7))

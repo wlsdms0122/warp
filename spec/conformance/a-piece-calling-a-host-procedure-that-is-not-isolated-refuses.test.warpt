@@ -1,0 +1,31 @@
+(test 1)
+(name "a-piece-calling-a-host-procedure-that-is-not-isolated-refuses")
+(note "A native procedure says whether it is isolated, and `App.count` says only `const`. A piece declaring `isolated` calls only declarations that say they are isolated, so the build refuses it and `Standard.Concurrent.map` never takes it.")
+
+(vocabulary
+  (procedure App.count
+    (access public)
+    (const)
+    (returns Int)
+    (answers 1)))
+
+(program
+  (warp 1)
+  (import App.count)
+  (import Standard.Concurrent.map)
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (failing concurrent_failed)
+    (body
+      (return
+        (call Standard.Concurrent.map
+          (array 1 2)
+          (closure
+            (isolated)
+            (parameter item (type Int))
+            (parameter index (type Int))
+            (returns Int)
+            (body
+              (return (call App.count)))))))))
+(expect (refuses build))

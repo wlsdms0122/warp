@@ -1,0 +1,19 @@
+(warp 1)
+(import Standard.Collection.count)
+(import mid.path)
+(import mid.tip)
+
+(struct app.Answer
+  (field count Int)
+  (field lastX Int)
+  (field lastY Int)
+  (field tipX Int))
+
+(procedure entry
+  (access public)
+  (returns app.Answer)
+  (failing aborted cast_refused)
+  (body
+    (let points (call mid.path 3))
+    (let tip (call mid.tip 5))
+    (return (struct (field count (call Standard.Collection.count points)) (field lastX (path points (index 3) (field x))) (field lastY (path points (index 3) (field y))) (field tipX (path tip (field x)))))))

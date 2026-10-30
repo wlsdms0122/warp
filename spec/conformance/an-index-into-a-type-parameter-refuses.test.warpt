@@ -1,0 +1,18 @@
+(test 1)
+(name "an-index-into-a-type-parameter-refuses")
+(note "A type parameter is one type the body does not know, so brackets on it read nothing the build can judge: `d[k]` refuses at the build, whatever a call fills `T` with.")
+
+(program
+  (warp 1)
+  (procedure App.at
+    (parameter d (type (some T)))
+    (parameter k (type String))
+    (returns Int)
+    (body
+      (return (path d (index k)))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

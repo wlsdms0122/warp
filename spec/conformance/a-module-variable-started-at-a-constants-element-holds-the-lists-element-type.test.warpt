@@ -1,0 +1,15 @@
+(test 1)
+(name "a-module-variable-started-at-a-constants-element-holds-the-lists-element-type")
+(note "A module variable that declares no type holds the type its start reads as. `k[0]` of `[1, \"s\"]` reads as the list's one element type, `Any`, though it folds to 1, so the variable takes a string.")
+
+(program
+  (warp 1)
+  (const k (array 1 "s"))
+  (var v (path k (index 0)))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (set v "w")
+      (return v))))
+(expect (answers "w"))

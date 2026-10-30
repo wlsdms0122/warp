@@ -1,0 +1,17 @@
+(test 1)
+(name "a-procedure-returning-a-parameter-held-as-returning-its-optional-refuses")
+(note "A procedure value returning `some T` where one returning `some T?` is asked would need each value it returns promoted, and a procedure value is not walked, so the build refuses it.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter make (type (procedure (parameters) (returns (some T)))))
+    (returns (procedure (parameters) (returns (optional (some T)))))
+    (body
+      (return make)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

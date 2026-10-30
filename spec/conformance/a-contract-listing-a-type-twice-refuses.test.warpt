@@ -1,0 +1,15 @@
+(test 1)
+(name "a-contract-listing-a-type-twice-refuses")
+(note "A contract lists each type it asks once, beside what holds it. Listing `Item` twice would be one name bounded two ways, and refuses at the load.")
+
+(program
+  (warp 1)
+  (contract App.Keyed
+    (type Item Hashable)
+    (type Item))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

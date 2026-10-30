@@ -1,0 +1,25 @@
+(test 1)
+(name "a-closure-writing-bounds-refuses")
+(note "Only the declaring procedure writes a bound. `App.f` bounds nothing, and the closure it writes puts a bound beside its `some T`, `some T: Standard.Comparable`, so the document refuses at the load.")
+
+(program
+  (warp 1)
+  (import Standard.Comparable)
+  (import Standard.Comparable.lessThan)
+  (procedure App.f
+    (parameter x (type (some T)))
+    (returns Bool)
+    (body
+      (let g
+        (closure
+          (parameter y (type (some T Standard.Comparable)))
+          (returns Bool)
+          (body
+            (return (call Standard.Comparable.lessThan y y)))))
+      (return (apply g x))))
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (body
+      (return (call App.f true)))))
+(expect (refuses load))

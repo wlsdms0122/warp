@@ -1,0 +1,27 @@
+(test 1)
+(name "self-stands-for-the-type-conforming-to-a-contract")
+(note "`Self` in a contract's procedure is the type conforming to the contract, wherever it is written. A claim reads it as the type the claim is about, so `Int.before` takes two integers, and a call through the contract reads `Self` as one type it fills from the call: both arguments are integers here.")
+
+(program
+  (warp 1)
+  (import Standard.Comparable.lessThan)
+  (contract App.Ordered
+    (procedure before
+      (parameter lhs (type Self))
+      (parameter rhs (type Self))
+      (returns Bool)))
+  (extension
+    (head Int)
+    (satisfies App.Ordered)
+    (procedure before
+      (parameter lhs (type Int))
+      (parameter rhs (type Int))
+      (returns Bool)
+      (body
+        (return (call Standard.Comparable.lessThan lhs rhs)))))
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (body
+      (return (call App.Ordered.before 1 2)))))
+(expect (answers true))

@@ -1,0 +1,46 @@
+(test 1)
+(name "a-declaration-satisfying-a-contracts-procedure-with-an-optional-where-it-returns-a-contract-refuses")
+(note "The contract returns App.Sized and the declaration satisfying it returns Bank.Card?. Bank.Card conforms to App.Sized, and no document claims App.Sized for an Optional, so Bank.Card? does not, and the contract's return type never declared it.")
+
+(program
+  (warp 1)
+  (struct Bank.Box
+    (satisfies App.Shown)
+    (field n Int)
+    (procedure show
+      (parameter of (type Bank.Box))
+      (parameter n (type App.Sized))
+      (returns (optional Bank.Card))
+      (failing cast_refused)
+      (body
+        (let k (as (struct (field last "9")) Bank.Card))
+        (return k))))
+  (struct Bank.Card
+    (satisfies App.Sized)
+    (field last String)
+    (procedure size
+      (parameter of (type Bank.Card))
+      (returns Int)
+      (body
+        (return 4))))
+  (struct Bank.Coin
+    (field cents Int))
+  (contract App.Shown
+    (procedure show
+      (parameter of (type Self))
+      (parameter n (type App.Sized))
+      (returns App.Sized)))
+  (contract App.Sized
+    (procedure size
+      (parameter of (type Self))
+      (returns Int)))
+  (procedure entry
+    (access public)
+    (returns App.Sized)
+    (failing cast_refused)
+    (body
+      (let b (as (struct (field n 1)) Bank.Box))
+      (let c (as (struct (field last "4")) Bank.Card))
+      (let s (call App.Shown.show b c))
+      (return s))))
+(expect (refuses build))

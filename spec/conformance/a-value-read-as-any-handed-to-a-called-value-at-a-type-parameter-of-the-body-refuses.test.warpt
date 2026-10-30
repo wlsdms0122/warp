@@ -1,0 +1,29 @@
+(test 1)
+(name "a-value-read-as-any-handed-to-a-called-value-at-a-type-parameter-of-the-body-refuses")
+(note "Inside `App.run`, `g` is held at `(some T) -> Any`, and `T` is the body's own, which no call fills and no run can hold a value to. What `g` is handed at that position has to be a value of `T` already, the way a write into a box of it does, and `a`, read as `Any`, is not, so the build refuses.")
+
+(program
+  (warp 1)
+  (struct App.Point
+    (field x Int))
+  (procedure App.run
+    (parameter x (type (some T)))
+    (parameter g (type (procedure (parameters (some T)) (returns Any))))
+    (returns Any)
+    (body
+      (let a (type Any) "s")
+      (return (apply g a))))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (failing cast_refused)
+    (body
+      (return
+        (call App.run
+          (as (struct (field x 1)) App.Point)
+          (closure
+            (parameter p)
+            (returns Any)
+            (body
+              (return p))))))))
+(expect (refuses build))

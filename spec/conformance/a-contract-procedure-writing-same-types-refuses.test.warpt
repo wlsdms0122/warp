@@ -1,0 +1,19 @@
+(test 1)
+(name "a-contract-procedure-writing-same-types-refuses")
+(note "What a type gives under a name a contract asks is the type's to say, so a contract's procedure writing `sameTypes` refuses at the load.")
+(documents)
+
+(program
+  (warp 1)
+  (contract Lib.Holder
+    (type Item)
+    (procedure first
+      (parameter of (type Self))
+      (returns Self.Item)
+      (sameType Self.Item Int)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

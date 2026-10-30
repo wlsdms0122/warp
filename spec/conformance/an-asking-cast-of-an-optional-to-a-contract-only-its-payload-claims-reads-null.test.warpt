@@ -1,0 +1,25 @@
+(test 1)
+(name "an-asking-cast-of-an-optional-to-a-contract-only-its-payload-claims-reads-null")
+(note "`maybe` reads `Int?` and holds `5`, and only `Int` claims `App.Described`. The cast holds the reading, `Int?`, which does not conform, so `as?` reads the none though the value is a some, as a name declared `App.Described` refuses that reading.")
+
+(program
+  (warp 1)
+  (contract App.Described
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head Int)
+    (satisfies App.Described)
+    (procedure describe
+      (parameter of (type Int))
+      (returns String)
+      (body
+        (return "a number"))))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let maybe (type (optional Int)) 5)
+      (return (as? maybe App.Described)))))
+(expect (answers null))

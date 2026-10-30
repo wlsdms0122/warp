@@ -1,0 +1,17 @@
+(test 1)
+(name "a-declining-conditional-writes-nothing")
+(note "A bare var introduces a name holding null, and a conditional whose condition declines runs nothing. The variable holds what it held.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns (optional String))
+    (body
+      (var chosen)
+      (conditional
+        (when false)
+        (then
+          (set chosen "took-then")))
+      (return chosen))))
+(expect (answers null))

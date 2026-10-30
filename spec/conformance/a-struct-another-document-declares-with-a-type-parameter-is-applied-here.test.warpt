@@ -1,0 +1,27 @@
+(test 1)
+(name "a-struct-another-document-declares-with-a-type-parameter-is-applied-here")
+(note "A struct taking type parameters is applied by a mention in any document of the link. This one applies `App.Box` from the document beside it to `Int`.")
+
+(documents
+  (document
+    (warp 1)
+    (struct App.Box
+      (typeParameter T)
+      (field item (some T)))
+    (procedure App.wrap
+      (parameter x (type (some T)))
+      (returns (named App.Box (some T)))
+      (body
+        (return (struct (field item x)))))))
+
+(program
+  (warp 1)
+  (import App.Box)
+  (import App.wrap)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let b (type (named App.Box Int)) (call App.wrap 3))
+      (return (path b (field item))))))
+(expect (answers 3))

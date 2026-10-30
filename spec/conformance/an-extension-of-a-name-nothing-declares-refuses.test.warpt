@@ -1,0 +1,17 @@
+(test 1)
+(name "an-extension-of-a-name-nothing-declares-refuses")
+(note "Nothing in this link declares `App.Later`, and a name a document stands on is declared within what it stands on, so the extension claiming it a contract refuses at the build.")
+
+(program
+  (warp 1)
+  (import App.Later)
+  (contract App.Mark)
+  (extension
+    (head App.Later)
+    (satisfies App.Mark))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

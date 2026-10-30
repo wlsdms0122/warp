@@ -1,0 +1,13 @@
+(test 1)
+(name "a-constant-is-a-name-a-body-reads")
+(note "A constant is declared by the module and read like any name; building folds it into the value it always was.")
+
+(program
+  (warp 1)
+  (const limit 3)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return limit))))
+(expect (answers 3))

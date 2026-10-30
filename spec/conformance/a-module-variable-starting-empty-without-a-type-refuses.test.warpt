@@ -1,0 +1,13 @@
+(test 1)
+(name "a-module-variable-starting-empty-without-a-type-refuses")
+(note "A module variable that declares no type holds the type its start reads as, and an empty list holds no element, so nothing says what the box will hold. The build refuses the variable until it declares its type.")
+
+(program
+  (warp 1)
+  (var seen (array))
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (body
+      (return seen))))
+(expect (refuses build))

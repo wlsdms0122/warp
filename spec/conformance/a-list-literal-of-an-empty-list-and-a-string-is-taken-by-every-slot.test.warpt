@@ -1,0 +1,31 @@
+(test 1)
+(name "a-list-literal-of-an-empty-list-and-a-string-is-taken-by-every-slot")
+(note "[{ a: [] }, { a: [\"s\"] }] is a declared name's start value, a called value's argument, a declaration's argument and what it returns, each slot declaring Array<Dictionary<String, Array<String>>>. The empty list holds no element, so every slot takes the literal and the program returns the count.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.count)
+  (procedure App.g
+    (parameter xs (type (array (dictionary String (array String)))))
+    (returns (array (dictionary String (array String))))
+    (body
+      (let k (call Standard.Collection.count xs))
+      (return (array (dictionary (entry "a" (array))) (dictionary (entry "a" (array "s")))))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (body
+      (var ys (type (array (dictionary String (array String)))) (array (dictionary (entry "a" (array))) (dictionary (entry "a" (array "s")))))
+      (let f
+        (closure
+          (parameter xs (type (array (dictionary String (array String)))))
+          (returns Int)
+          (body
+            (let k (call Standard.Collection.count xs))
+            (return k))))
+      (let a (apply f (array (dictionary (entry "a" (array))) (dictionary (entry "a" (array "s"))))))
+      (let r (call App.g (array (dictionary (entry "a" (array))) (dictionary (entry "a" (array "s"))))))
+      (let n (call Standard.Collection.count r))
+      (return n))))
+(expect (answers 2))

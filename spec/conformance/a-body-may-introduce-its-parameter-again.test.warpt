@@ -1,0 +1,19 @@
+(test 1)
+(name "a-body-may-introduce-its-parameter-again")
+(note "A procedure's parameters stand in a scope around its body, so the body may introduce one again. Before the `let` `x` is the parameter, holding what it was handed; after it `x` is the `let`.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter x (type Int))
+    (returns (array Int))
+    (body
+      (let y x)
+      (let x 2)
+      (return (array y x))))
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (body
+      (return (call App.f 1)))))
+(expect (answers (array 1 2)))

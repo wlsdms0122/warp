@@ -1,0 +1,13 @@
+(test 1)
+(name "a-value-name-ending-in-a-line-break-refuses")
+(note "A path reads a segment without the white space at its ends, a line break included, so a name ending in one is never the name a path reaches, and the document refuses at the load.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let `a\n` 1)
+      (return 1))))
+(expect (refuses load))

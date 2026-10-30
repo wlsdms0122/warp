@@ -1,0 +1,17 @@
+(warp 1)
+(import Standard.Numeric.plus)
+(import a.answer)
+(import b.answer)
+
+(procedure entry
+  (access public)
+  (returns Int)
+  (body
+    (return (call Standard.Numeric.plus (call Standard.Numeric.plus (call a.answer) (call b.answer)) (call util.helper)))))
+
+(procedure util.helper
+  (access private)
+  (const)
+  (returns Int)
+  (body
+    (return 100)))

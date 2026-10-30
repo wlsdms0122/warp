@@ -1,0 +1,42 @@
+(test 1)
+(name "a-cast-to-a-contract-settles-a-box-of-a-box-through-its-own-claim")
+(note "A box of a box of Int, read as `Any`, is cast to `Lib.Describable`. The inner box conforms to Hashable through its own conditional claim, so the outer settles into `App.Box<some T: Hashable>`.")
+
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Describable
+      (procedure describe
+        (parameter of (type Self))
+        (returns String))))
+  (document
+    (warp 1)
+    (import Lib.Describable)
+    (struct App.Box
+      (typeParameter T)
+      (field item (some T)))
+    (struct App.Plain
+      (field x Int))
+    (extension
+      (head (named App.Box (some T Hashable)))
+      (satisfies Hashable Lib.Describable)
+      (procedure describe
+        (access public)
+        (parameter of (type (named App.Box (some T))))
+        (returns String)
+        (body
+          (return "box"))))))
+
+(program
+  (warp 1)
+  (import App.Box)
+  (import Lib.Describable)
+  (import Lib.Describable.describe)
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let a (type Any) (as (struct (field item (struct (field item 1)))) (named App.Box (named App.Box Int))))
+      (return (call Lib.Describable.describe (as a Lib.Describable))))))
+(expect (answers "box"))

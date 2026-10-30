@@ -1,0 +1,20 @@
+(test 1)
+(name "a-closure-body-may-introduce-its-parameter-again")
+(note "A closure's parameters stand in a scope around the closure's body, so the body may introduce one again. After the `let` `x` is the `let`, whatever the closure was handed.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (body
+      (let c
+        (closure
+          (parameter x (type Int))
+          (returns Int)
+          (body
+            (let x 2)
+            (return x))))
+      (return (apply c 1)))))
+(expect (answers 2))

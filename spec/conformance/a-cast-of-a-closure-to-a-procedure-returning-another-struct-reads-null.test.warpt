@@ -1,0 +1,24 @@
+(test 1)
+(name "a-cast-of-a-closure-to-a-procedure-returning-another-struct-reads-null")
+(note "`c` is declared `() -> Bank.A` and holds a closure writing `returns Bank.A`, and it travels through `Any`. `Bank.B` never takes a `Bank.A`, so the asking cast to `() -> Bank.B` reads it as null.")
+
+(program
+  (warp 1)
+  (struct Bank.A
+    (field k String))
+  (struct Bank.B
+    (field k String))
+  (procedure entry
+    (access public)
+    (returns (optional (procedure (parameters) (returns Bank.B))))
+    (body
+      (let c
+        (type (procedure (parameters) (returns Bank.A)))
+        (closure
+          (returns Bank.A)
+          (body
+            (return (struct (field k "x"))))))
+      (let a (type Any) c)
+      (let v (as? a (procedure (parameters) (returns Bank.B))))
+      (return v))))
+(expect (answers null))

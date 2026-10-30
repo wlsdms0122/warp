@@ -1,0 +1,20 @@
+(test 1)
+(name "a-closure-whose-body-shadows-a-variable-takes-nothing-of-it")
+(note "A closure takes the variables around it that its body reads or writes. One whose body introduces the name again with its own `let` reads that name and not the variable, so it takes nothing of the variable, and a later `set` of the variable to another type retypes it.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (var n 0)
+      (let f
+        (closure
+          (returns String)
+          (body
+            (let n "a")
+            (return n))))
+      (set n "s")
+      (return n))))
+(expect (answers "s"))

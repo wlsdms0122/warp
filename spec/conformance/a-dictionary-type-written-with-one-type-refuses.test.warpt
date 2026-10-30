@@ -1,0 +1,17 @@
+(test 1)
+(name "a-dictionary-type-written-with-one-type-refuses")
+(note "A dictionary type says two types between its brackets, its key's and its value's, as `Dictionary<String, Int>`. One type there is no spelling of a dictionary, so a type written that way refuses at the load.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter m (type (named Dictionary Int)))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

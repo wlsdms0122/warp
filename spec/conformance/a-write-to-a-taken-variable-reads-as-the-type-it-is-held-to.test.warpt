@@ -1,0 +1,40 @@
+(test 1)
+(name "a-write-to-a-taken-variable-reads-as-the-type-it-is-held-to")
+(note "One arm lets a closure capture an Int variable and the other writes null into it, so after the conditional it is held to Int and reads Int?. Writing an int into it leaves it reading Int, and it is handed in place to an Int slot.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.append)
+  (import Standard.Numeric.plus)
+  (procedure App.bump
+    (isolated)
+    (parameter c (type (inout Int)))
+    (returns Int)
+    (body
+      (set c (call Standard.Numeric.plus c 1))
+      (return 0)))
+  (procedure entry
+    (access public)
+    (isolated)
+    (parameter c (type Bool))
+    (returns Int)
+    (body
+      (var x 0)
+      (var fs (type (array (procedure (const) (isolated) (parameters) (returns Int)))) (array))
+      (conditional
+        (when c)
+        (then
+          (call Standard.Collection.append fs
+            (closure
+              (const)
+              (isolated)
+              (returns Int)
+              (body
+                (return x)))))
+        (else
+          (set x null)))
+      (set x 5)
+      (call App.bump x)
+      (return x))))
+(arguments (argument c false))
+(expect (answers 6))

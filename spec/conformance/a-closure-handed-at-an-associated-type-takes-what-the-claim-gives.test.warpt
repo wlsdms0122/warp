@@ -1,0 +1,63 @@
+(test 1)
+(name "a-closure-handed-at-an-associated-type-takes-what-the-claim-gives")
+(note "`Lib.apply` hands a closure the box's item at `C.Item`. The closure takes Int, and C is a box of Int, so it builds.")
+
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Container
+      (type Item)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item)))
+    (procedure Lib.apply
+      (access public)
+      (parameter c (type (some C Lib.Container)))
+      (parameter f (type (procedure (parameters (some C.Item)) (returns Int))))
+      (returns Int)
+      (body
+        (let i (call Lib.Container.first c))
+        (return (apply f i))))
+    (procedure Lib.firstOf
+      (access public)
+      (parameter c (type (some C Lib.Container)))
+      (returns (some C.Item))
+      (body
+        (return (call Lib.Container.first c)))))
+  (document
+    (warp 1)
+    (import Lib.Container)
+    (struct App.Box
+      (typeParameter T)
+      (field item (some T)))
+    (struct App.Plain
+      (field x Int))
+    (extension
+      (head (named App.Box (some T Hashable)))
+      (satisfies Lib.Container)
+      (type Item (some T))
+      (procedure first
+        (access public)
+        (parameter of (type (named App.Box (some T))))
+        (returns (some T))
+        (body
+          (return (path of (field item))))))))
+
+(program
+  (warp 1)
+  (import App.Box)
+  (import Int.plus)
+  (import Lib.apply)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let b (type (named App.Box Int)) (struct (field item 1)))
+      (return
+        (call Lib.apply b
+          (closure
+            (parameter x (type Int))
+            (returns Int)
+            (body
+              (return (call Int.plus x 10)))))))))
+(expect (answers 11))

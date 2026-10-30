@@ -1,0 +1,15 @@
+(test 1)
+(name "not-and-notequal-say-the-opposite")
+(note "notEqual returns what equal would deny, and not turns a truth around. The negations decide by the language's one sameness.")
+
+(program
+  (warp 1)
+  (import Standard.Logic.not)
+  (import Standard.Logic.notEqual)
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (body
+      (let unequal (call Standard.Logic.notEqual 1 1.0))
+      (return (call Standard.Logic.not unequal)))))
+(expect (answers true))

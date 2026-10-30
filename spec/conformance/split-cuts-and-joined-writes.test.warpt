@@ -1,0 +1,17 @@
+(test 1)
+(name "split-cuts-and-joined-writes")
+(note "split returns the string cut on a separator; joined writes strings one after another with one between.")
+
+(program
+  (warp 1)
+  (import Standard.Text.joined)
+  (import Standard.Text.split)
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing aborted)
+    (body
+      (let pieces (call Standard.Text.split "a,b,c" ","))
+      (let line (call Standard.Text.joined pieces "-"))
+      (return line))))
+(expect (answers "a-b-c"))

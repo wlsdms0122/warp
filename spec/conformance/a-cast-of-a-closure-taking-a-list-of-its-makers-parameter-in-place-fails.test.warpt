@@ -1,0 +1,35 @@
+(test 1)
+(name "a-cast-of-a-closure-taking-a-list-of-its-makers-parameter-in-place-fails")
+(note "App.mk returns a closure appending its x to a list it takes in place as `Array<some T>`, its own T, and the entry holds it as Any. The call of App.mk with 5 fills that T with Int, and the closure holds that, so the cast reading it as taking a list of strings fails with cast_refused before anything is written, since Int is not String, which the try catches.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.append)
+  (procedure App.mk
+    (parameter x (type (some T)))
+    (returns (procedure (parameters (inout (array (some T)))) (returns Int)))
+    (body
+      (return
+        (closure
+          (parameter xs (type (inout (array (some T)))))
+          (returns Int)
+          (body
+            (call Standard.Collection.append xs x)
+            (return 0))))))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (var tried)
+      (let caught
+        (try
+          (body
+            (let a (type Any) (call App.mk 5))
+            (let f (as a (procedure (parameters (inout (array String))) (returns Int))))
+            (var s (array "a"))
+            (apply f s)
+            (set tried s))
+          (catch
+            (set tried (path caught (field type))))))
+      (return tried))))
+(expect (answers "cast_refused"))

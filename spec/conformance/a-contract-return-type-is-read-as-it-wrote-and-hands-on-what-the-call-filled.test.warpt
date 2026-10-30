@@ -1,0 +1,29 @@
+(test 1)
+(name "a-contract-return-type-is-read-as-it-wrote-and-hands-on-what-the-call-filled")
+(note "`App.Paired.pair` takes `some T` and returns `Array<some T>`, and `Bank.Card.pair` returns `Array<some U>`. The call reads the return value by what the contract wrote, filled with what the call filled `T` with, so `p[0]` reads the string handed in.")
+
+(program
+  (warp 1)
+  (struct Bank.Card
+    (satisfies App.Paired)
+    (field last String)
+    (procedure pair
+      (parameter of (type Bank.Card))
+      (parameter a (type (some U)))
+      (returns (array (some U)))
+      (body
+        (return (array a)))))
+  (contract App.Paired
+    (procedure pair
+      (parameter of (type Self))
+      (parameter a (type (some T)))
+      (returns (array (some T)))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let c (as (struct (field last "42")) Bank.Card))
+      (let p (call App.Paired.pair c "x"))
+      (return (path p (index 0))))))
+(expect (answers "x"))

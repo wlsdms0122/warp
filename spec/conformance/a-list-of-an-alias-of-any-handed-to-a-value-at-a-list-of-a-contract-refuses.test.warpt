@@ -1,0 +1,25 @@
+(test 1)
+(name "a-list-of-an-alias-of-any-handed-to-a-value-at-a-list-of-a-contract-refuses")
+(note "A call of a value is held to what its slot's type takes, as a call to a declaration is. The slot takes a list of App.Shape, and each element of an Array<App.Loose> is read as Any, so the call refuses at the build whatever the closure standing there takes.")
+
+(program
+  (warp 1)
+  (type App.Loose Any)
+  (struct App.Point
+    (satisfies App.Shape)
+    (field x Int))
+  (contract App.Shape)
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let d (type (array App.Loose)) (array 5))
+      (let g
+        (type (procedure (parameters (array App.Shape)) (returns Any)))
+        (closure
+          (parameter p)
+          (returns Any)
+          (body
+            (return p))))
+      (return (apply g d)))))
+(expect (refuses build))

@@ -1,0 +1,20 @@
+(test 1)
+(name "a-const-closure-reading-a-name-around-it-under-a-variables-spelling")
+(note "A closure declared `const` refuses reading a module variable, and a name the body around it introduced under that spelling is no module variable. The closure reads the `let` it captured, so it is const.")
+
+(program
+  (warp 1)
+  (var count 0)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let count 4)
+      (let c
+        (closure
+          (const)
+          (returns Int)
+          (body
+            (return count))))
+      (return (apply c)))))
+(expect (answers 4))

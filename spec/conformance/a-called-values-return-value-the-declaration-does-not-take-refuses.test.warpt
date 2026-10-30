@@ -1,0 +1,22 @@
+(test 1)
+(name "a-called-values-return-value-the-declaration-does-not-take-refuses")
+(note "A call of a value has the return type the slot holding it wrote after `->`, so a body that hands that return value up as something else is refused where both are written, the way a call's return value is.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (return
+        (call through
+          (closure
+            (returns Int)
+            (body
+              (return 1)))))))
+  (procedure through
+    (parameter body (type (procedure (parameters) (returns Int))))
+    (returns String)
+    (body
+      (return (apply body)))))
+(expect (refuses build))

@@ -1,0 +1,17 @@
+(test 1)
+(name "a-name-declared-again-inside-an-arm-is-a-new-name")
+(note "A `var` inside an arm spelled like a name outside introduces a new name with a box of its own. The outer box keeps what it held.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (var verdict "outer")
+      (conditional
+        (when true)
+        (then
+          (var verdict "inner")))
+      (return verdict))))
+(expect (answers "outer"))

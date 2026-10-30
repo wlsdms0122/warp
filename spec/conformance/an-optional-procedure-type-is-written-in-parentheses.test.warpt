@@ -1,0 +1,13 @@
+(test 1)
+(name "an-optional-procedure-type-is-written-in-parentheses")
+(note "A `?` making the whole procedure type an Optional follows parentheses around it, `((Int) -> Int)?`, since one after its return type would be the return type's. Null stands there.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns (optional (procedure (parameters Int) (returns Int))))
+    (body
+      (let f (type (optional (procedure (parameters Int) (returns Int)))) null)
+      (return f))))
+(expect (answers null))

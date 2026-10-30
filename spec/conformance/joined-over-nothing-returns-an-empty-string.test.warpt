@@ -1,0 +1,13 @@
+(test 1)
+(name "joined-over-nothing-returns-an-empty-string")
+(note "`joined` over an array with nothing in it returns the empty string, whatever the separator: there is nothing to put between.")
+
+(program
+  (warp 1)
+  (import Standard.Text.joined)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (return (call Standard.Text.joined (array) ", ")))))
+(expect (answers ""))

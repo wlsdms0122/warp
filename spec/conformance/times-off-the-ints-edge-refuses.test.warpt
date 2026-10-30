@@ -1,0 +1,13 @@
+(test 1)
+(name "times-off-the-ints-edge-refuses")
+(note "Integer arithmetic with no integer result refuses at the run. `times` past the int's edge does not wrap and does not widen.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.times)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call Standard.Numeric.times 4611686018427387904 2)))))
+(expect (refuses run))

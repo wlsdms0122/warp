@@ -1,0 +1,27 @@
+(test 1)
+(name "a-procedure-value-at-a-slot-writing-a-procedure-type-refuses")
+(note "A value of Procedure says nothing of what it takes or returns, so it stands where Procedure or Any is declared, and a slot writing a procedure type takes it only once a cast says what it is.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter g (type Procedure))
+    (returns Int)
+    (body
+      (return (call App.h g))))
+  (procedure App.h
+    (parameter g (type (procedure (parameters) (returns Int))))
+    (returns Int)
+    (body
+      (return (apply g))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return
+        (call App.f
+          (closure
+            (returns Int)
+            (body
+              (return 1))))))))
+(expect (refuses build))

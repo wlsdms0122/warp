@@ -1,0 +1,17 @@
+(test 1)
+(name "a-type-nested-past-the-bound-refuses")
+(note "A type's levels count on from the containers around its string, and a document nests at most 128: a type written inside another is one level deeper. This parameter's type stands inside five containers and holds 124 types inside it, one past the bound, and the load refuses it rather than walking it.")
+
+(program
+  (warp 1)
+  (procedure App.take
+    (parameter taken (type (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array (array Int))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+    (returns Int)
+    (body
+      (return 0)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 0))))
+(expect (refuses load))

@@ -1,0 +1,24 @@
+(test 1)
+(name "a-value-taking-a-parameter-in-place-at-a-slot-handing-a-value-refuses")
+(note "A value standing in a procedure-typed slot accepts what the slot hands at each position. A value taking a parameter in place takes a variable, and a slot handing a value there has none to give it, so it refuses at the build.")
+
+(program
+  (warp 1)
+  (procedure calling
+    (parameter read (type (procedure (parameters Int) (returns Int))))
+    (returns Int)
+    (body
+      (let answered (apply read 10))
+      (return answered)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let reading
+        (closure
+          (parameter count (type (inout Int)))
+          (returns Int)
+          (body
+            (return count))))
+      (return (call calling reading)))))
+(expect (refuses build))

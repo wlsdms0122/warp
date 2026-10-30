@@ -1,0 +1,30 @@
+(test 1)
+(name "a-try-around-a-call-of-a-value-whose-type-fails-with-nothing-refuses")
+(note "`step`'s type says it fails with nothing, so the call of it in the try fails with nothing, and the catch is a body no run reaches: refused at the build.")
+
+(program
+  (warp 1)
+  (procedure apply
+    (parameter of (type Int))
+    (parameter step (type (procedure (const) (parameters Int) (returns Int))))
+    (returns Int)
+    (body
+      (var r)
+      (try
+        (body
+          (apply step of))
+        (catch
+          (set r 0)))
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return
+        (call apply 1
+          (closure
+            (parameter x (type Int))
+            (returns Int)
+            (body
+              (return x))))))))
+(expect (refuses build))

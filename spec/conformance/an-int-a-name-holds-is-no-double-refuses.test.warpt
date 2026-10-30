@@ -1,0 +1,18 @@
+(test 1)
+(name "an-int-a-name-holds-is-no-double-refuses")
+(note "An integer written as a literal is an Int wherever its place declares no Double, and a name bound to it holds an Int. Handing that name where a Double is declared is refused at the build: nothing turns an integer into a floating-point number but a literal's own place.")
+
+(program
+  (warp 1)
+  (procedure App.half
+    (parameter x (type Double))
+    (returns Double)
+    (body
+      (return x)))
+  (procedure entry
+    (access public)
+    (returns Double)
+    (body
+      (let n 1)
+      (return (call App.half n)))))
+(expect (refuses build))

@@ -1,0 +1,5 @@
+(test 1)
+(name "a-floating-point-literal-in-the-farther-of-two-shortest-decimals-refuses")
+(note "Of two shortest decimals that read back to one floating-point number, the one nearer its value is its one writing, so `4e-324`, as short as `5e-324` and farther from the least positive double, is refused.")
+(text "(warp 1)\n(const a 4e-324)\n")
+(expect (refuses load))

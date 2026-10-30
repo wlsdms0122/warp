@@ -1,0 +1,16 @@
+(test 1)
+(name "a-contract-bound-naming-no-contract-refuses")
+(note "A contract holds a type it asks to contracts, and no module in the link declares `Lib.Nothing`, so `Lib.Holder` refuses at the build.")
+(documents)
+
+(program
+  (warp 1)
+  (import Lib.Nothing)
+  (contract Lib.Holder
+    (type Item Lib.Nothing))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

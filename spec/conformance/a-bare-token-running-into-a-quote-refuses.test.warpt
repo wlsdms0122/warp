@@ -1,0 +1,5 @@
+(test 1)
+(name "a-bare-token-running-into-a-quote-refuses")
+(note "White space or a parenthesis separates a bare token from what follows it. `a\"hi\"` is neither a name and a string laid out close together nor bytes, which `x` alone begins.")
+(text "(warp 1)\n(const a\"hi\")\n")
+(expect (refuses load))

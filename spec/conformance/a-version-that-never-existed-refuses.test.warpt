@@ -1,0 +1,12 @@
+(test 1)
+(name "a-version-that-never-existed-refuses")
+(note "A reader reads the version it implements and refuses any other. No version 0 of the language exists, and a document saying it refuses at the load.")
+
+(program
+  (warp 0)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

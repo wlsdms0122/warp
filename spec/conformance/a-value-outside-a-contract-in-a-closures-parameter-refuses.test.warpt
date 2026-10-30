@@ -1,0 +1,33 @@
+(test 1)
+(name "a-value-outside-a-contract-in-a-closures-parameter-refuses")
+(note "Calling a value hands each argument to the position the value's type declares, and a name bound to a closure literal holds the procedure type its signature declares: `1`, handed where `tell` takes `App.Describable`, is of a type that provably conforms to no such contract, so it is refused at the build, and the body never sees it.")
+
+(program
+  (warp 1)
+  (struct Bank.Card
+    (satisfies App.Describable)
+    (field last String)
+    (procedure describe
+      (parameter of (type Bank.Card))
+      (returns String)
+      (body
+        (return "a card"))))
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing (anything))
+    (body
+      (let tell
+        (closure
+          (parameter it (type App.Describable))
+          (returns String)
+          (body
+            (return (call App.Describable.describe it)))))
+      (let card (as (struct (field last "42")) Bank.Card))
+      (let applied (apply tell 1))
+      (return applied))))
+(expect (refuses build))

@@ -1,0 +1,15 @@
+(test 1)
+(name "an-optional-of-an-optional-tells-its-inner-none-from-its-none")
+(note "`Int??` is a type of its own, and its some of a none is no none of it. The host hands `Some` holding `null` at an `Int??` parameter, and it is not the same as `null`.")
+
+(program
+  (warp 1)
+  (import Standard.Logic.equal)
+  (procedure entry
+    (access public)
+    (parameter x (type (optional (optional Int))))
+    (returns Bool)
+    (body
+      (return (call Standard.Logic.equal x null)))))
+(arguments (argument x (struct Some (field wrapped null))))
+(expect (answers false))

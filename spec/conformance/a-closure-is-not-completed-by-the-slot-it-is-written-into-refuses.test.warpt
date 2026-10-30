@@ -1,0 +1,22 @@
+(test 1)
+(name "a-closure-is-not-completed-by-the-slot-it-is-written-into-refuses")
+(note "A closure literal's signature is what it writes. One writing no `returns` returns null even where its slot asks for an `Int`, so the closure returning `1` returns more than its signature says, and refuses at the build.")
+
+(program
+  (warp 1)
+  (procedure App.run
+    (parameter f (type (procedure (parameters) (returns Int))))
+    (returns Int)
+    (body
+      (let answered (apply f))
+      (return answered)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return
+        (call App.run
+          (closure
+            (body
+              (return 1))))))))
+(expect (refuses build))

@@ -1,0 +1,20 @@
+(test 1)
+(name "a-catch-reads-the-failure-it-caught")
+(note "While the catch runs, the statement's name binds the failure as a struct of `type`, `message` and `details`. This catch reads the first two.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (returns (dictionary String String))
+    (body
+      (var tried)
+      (let caught
+        (try
+          (body
+            (call Standard.Control.abort "on purpose"))
+          (catch
+            (set tried (dictionary (entry "message" (path caught (field message))) (entry "type" (path caught (field type))))))))
+      (return tried))))
+(expect (answers (dictionary (entry "message" "on purpose") (entry "type" "aborted"))))

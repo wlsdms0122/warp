@@ -1,0 +1,100 @@
+(warp 1)
+(import File.read)
+(import File.write)
+(import IO.write)
+(import JSON.parse)
+(import JSON.text)
+(import Standard.Collection.appending)
+(import Standard.Collection.count)
+(import Standard.Collection.setting)
+(import Standard.Comparable.lessThan)
+(import Standard.Logic.equal)
+(import Standard.Numeric.plus)
+(import Standard.Text.joined)
+(import Standard.Text.text)
+
+(procedure todo.list
+  (access private)
+  (parameter items (type (array Any)))
+  (failing cast_refused)
+  (body
+    (conditional
+      (when (call Standard.Logic.equal (call Standard.Collection.count items) 0))
+      (then
+        (call IO.write (call Standard.Text.joined (array "nothing to do" "\n") ""))))
+    (var i (type Int) 0)
+    (loop
+      (while (call Standard.Comparable.lessThan i (call Standard.Collection.count items)))
+      (body
+        (let item (as (path items (index i)) (dictionary String Any)))
+        (var mark (type String) "[ ]")
+        (conditional
+          (when (call Standard.Logic.equal (path item (index "done")) true))
+          (then
+            (set mark "[x]")))
+        (call IO.write (call Standard.Text.joined (array (call Standard.Text.text (call Standard.Numeric.plus i 1)) ". " mark " " (as (path item (index "text")) String) "\n") ""))
+        (set i (call Standard.Numeric.plus i 1))))))
+
+(procedure todo.load
+  (access private)
+  (returns (array Any))
+  (failing cast_refused file_failed json_failed)
+  (body
+    (let stored (call File.read "todo.json"))
+    (conditional
+      (when (call Standard.Logic.equal stored null))
+      (then
+        (return (array))))
+    (let parsed (as (call JSON.parse (as stored String)) (dictionary String Any)))
+    (return (as (path parsed (index "items")) (array Any)))))
+
+(procedure todo.main
+  (access public)
+  (parameter command (type String))
+  (parameter text (type (optional String)))
+  (parameter number (type (optional Int)))
+  (returns Int)
+  (failing cast_refused file_failed json_failed)
+  (body
+    (var items (type (array Any)) (call todo.load))
+    (conditional
+      (when (call Standard.Logic.equal command "add"))
+      (then
+        (conditional
+          (when (call Standard.Logic.equal text null))
+          (then
+            (call IO.write (call Standard.Text.joined (array "add takes text" "\n") ""))
+            (return 1)))
+        (set items (call Standard.Collection.appending items (dictionary (entry "text" (as text String)) (entry "done" false))))
+        (call todo.save items)))
+    (conditional
+      (when (call Standard.Logic.equal command "done"))
+      (then
+        (conditional
+          (when (call Standard.Logic.equal number null))
+          (then
+            (call IO.write (call Standard.Text.joined (array "done takes a number" "\n") ""))
+            (return 1)))
+        (let at (call Standard.Numeric.plus (as number Int) -1))
+        (conditional
+          (when (call Standard.Comparable.lessThan at 0))
+          (then
+            (call IO.write (call Standard.Text.joined (array "no such item" "\n") ""))
+            (return 1)))
+        (conditional
+          (when (call Standard.Comparable.lessThan at (call Standard.Collection.count items)))
+          (then)
+          (else
+            (call IO.write (call Standard.Text.joined (array "no such item" "\n") ""))
+            (return 1)))
+        (set (path items (index at)) (call Standard.Collection.setting (as (path items (index at)) (dictionary String Any)) "done" true))
+        (call todo.save items)))
+    (call todo.list items)
+    (return 0)))
+
+(procedure todo.save
+  (access private)
+  (parameter items (type (array Any)))
+  (failing file_failed json_failed)
+  (body
+    (call File.write "todo.json" (call JSON.text (dictionary (entry "items" items))))))

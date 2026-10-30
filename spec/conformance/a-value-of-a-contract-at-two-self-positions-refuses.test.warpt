@@ -1,0 +1,32 @@
+(test 1)
+(name "a-value-of-a-contract-at-two-self-positions-refuses")
+(note "A value of a contract is of whichever type conforms to it, so two of them are not known to be one type, and `Self` is one type wherever it stands. Handing them where a procedure writes `Self` twice is refused at the build, whichever types the run would bring.")
+
+(program
+  (warp 1)
+  (import Standard.Comparable.lessThan)
+  (contract App.Ordered
+    (procedure before
+      (parameter lhs (type Self))
+      (parameter rhs (type Self))
+      (returns Bool)))
+  (extension
+    (head Int)
+    (satisfies App.Ordered)
+    (procedure before
+      (parameter lhs (type Int))
+      (parameter rhs (type Int))
+      (returns Bool)
+      (body
+        (return (call Standard.Comparable.lessThan lhs rhs)))))
+  (procedure App.check
+    (parameter x (type App.Ordered))
+    (returns Bool)
+    (body
+      (return (call App.Ordered.before x x))))
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (body
+      (return (call App.check 1)))))
+(expect (refuses build))

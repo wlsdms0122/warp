@@ -1,0 +1,17 @@
+(test 1)
+(name "a-bare-dictionary-refuses")
+(note "A dictionary says what it holds, its key's type and its value's. `Dictionary<String, Any>` is a dictionary from strings to anything, and `Dictionary` written bare is not a second spelling of it, so a type written that way refuses at the load.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter d (type Dictionary))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

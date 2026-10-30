@@ -1,0 +1,14 @@
+(test 1)
+(name "a-struct-type-field-no-path-reads-refuses")
+(note "A field of a struct type is reached by a path alone, so its name is a value's name. `a.b` is two steps to a path, so no path reaches the field, and the document refuses at the load.")
+
+(program
+  (warp 1)
+  (struct App.T
+    (field a.b Int))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

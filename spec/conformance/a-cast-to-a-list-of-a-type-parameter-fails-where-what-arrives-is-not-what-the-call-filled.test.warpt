@@ -1,0 +1,27 @@
+(test 1)
+(name "a-cast-to-a-list-of-a-type-parameter-fails-where-what-arrives-is-not-what-the-call-filled")
+(note "App.decode reads raw as Array<some T>, and the call fills `T` with `Int`, so the run judges what arrives against `Array<Int>`. A list of strings is none, so the cast fails with cast_refused, which the try catches.")
+
+(program
+  (warp 1)
+  (procedure App.decode
+    (parameter sample (type (some T)))
+    (parameter raw)
+    (returns (array (some T)))
+    (failing cast_refused)
+    (body
+      (return (as raw (array (some T))))))
+  (procedure entry
+    (access public)
+    (returns (optional String))
+    (body
+      (let raw (type Any) (array "7" "8"))
+      (var r)
+      (let caught
+        (try
+          (body
+            (let xs (call App.decode 0 raw)))
+          (catch
+            (set r (path caught (field type))))))
+      (return r))))
+(expect (answers "cast_refused"))

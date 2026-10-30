@@ -1,0 +1,23 @@
+(test 1)
+(name "a-call-of-a-value-read-as-a-contract-refuses")
+(note "A value read as a contract is of whichever type conforms to it, `Procedure` included, and its type writes no parameters the build can hold an argument against, so calling it refuses at the build until a cast says what procedure it is.")
+
+(program
+  (warp 1)
+  (contract App.A)
+  (extension
+    (head Int)
+    (satisfies App.A))
+  (procedure App.f
+    (parameter g (type App.A))
+    (returns Any)
+    (failing (anything))
+    (body
+      (return (apply g))))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (failing (anything))
+    (body
+      (return (call App.f 1)))))
+(expect (refuses build))

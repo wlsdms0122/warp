@@ -1,0 +1,20 @@
+(test 1)
+(name "absolute-of-an-int-floored-and-rounded-return-an-int")
+(note "absolute drops the sign and keeps the type; floored goes toward the smaller integer even below zero; rounded goes to the nearest integer, away from zero at the halfway.")
+
+(program
+  (warp 1)
+  (import Standard.Math.absolute)
+  (import Standard.Math.floored)
+  (import Standard.Math.rounded)
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (body
+      (let sized (call Standard.Math.absolute -3))
+      (let down (call Standard.Math.floored 2.9))
+      (let below (call Standard.Math.floored -2.1))
+      (let near (call Standard.Math.rounded 2.5))
+      (let nearBelow (call Standard.Math.rounded -2.5))
+      (return (array sized down below near nearBelow)))))
+(expect (answers (array 3 2 -3 3 -3)))

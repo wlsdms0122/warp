@@ -1,0 +1,25 @@
+(test 1)
+(name "the-object-of-a-contract-value-a-variable-starts-with")
+(note "A value held beside a type stands in an object as value tag 10, the value and then the type it holds as a document writes one, here what `v` starts a run holding: `5`, read as `Int` where `v` reads it as `App.Described`.")
+
+(program
+  (warp 1)
+  (var v (type App.Described) 5)
+  (contract App.Described
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head Int)
+    (satisfies App.Described)
+    (procedure describe
+      (parameter of (type Int))
+      (returns String)
+      (body
+        (return "a number"))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (return (call App.Described.describe v)))))
+(expect (builds (dictionary (entry "addressTable" (array (array 0 (array) false))) (entry "claims" (array (array "Int" (array "App.Described")))) (entry "constants" (array)) (entry "contracts" (array (array "App.Described" (array (array) (array) (array (array "describe" (array (array (array "of" (array 0))) 1 (array 1 (array)) 0 0 (array) (array)))))))) (entry "dependencies" (array)) (entry "document" (array x"88667b07412a4b0c20ad8811a734a922c565d5a2bfb2eaf72196aa950310388d")) (entry "importedClaims" (array)) (entry "lifted" (array)) (entry "loweredTypeTable" (array (array 16 (array "App.Described")))) (entry "members" (array (array "Int" (array "describe")))) (entry "numbering" (array (array) (array))) (entry "object" 1) (entry "operationTable" (array (array 0 0) (array 13 0 (array 0)) (array 12 (array "App.Described" "describe" (array 0) (array 1 0) (array))) (array 13 0 (array 2)))) (entry "rows" (array (array "Int.describe" (array (array (array "of" (array 2))) 3 (array 1 (array)) 0 0 (array) (array)) 1 (array 0 (array (array (array) 1 "[0]")) (array 1 (array 0) (array) (array) (array "of")))) (array "entry" (array (array) 4 (array 1 (array)) 0 0 (array) (array)) 2 (array 0 (array (array (array) 3 "[0]")) (array 1 (array) (array (array 0 0)) (array) (array "v")))))) (entry "typeMembers" (array)) (entry "typeNumbering" (array)) (entry "typeTable" (array (array 18) (array 6) (array 4) (array 6) (array 6) (array 4))) (entry "types" (array)) (entry "valueTable" (array (array 4 "a number") (array 2 5) (array 10 1 5))) (entry "variables" (array (array "v" 2))))))

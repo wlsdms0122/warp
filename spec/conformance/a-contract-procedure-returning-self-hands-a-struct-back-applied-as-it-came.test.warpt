@@ -1,0 +1,27 @@
+(test 1)
+(name "a-contract-procedure-returning-self-hands-a-struct-back-applied-as-it-came")
+(note "A call through a contract reads `Self` as the type handed, so a procedure returning `Self` for an `App.Box<Int>` returns an `App.Box<Int>`, whose field reads as `Int`.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (satisfies App.Same)
+    (field item (some T))
+    (procedure same
+      (parameter of (type (named App.Box (some T))))
+      (returns (named App.Box (some T)))
+      (body
+        (return of))))
+  (contract App.Same
+    (procedure same
+      (parameter of (type Self))
+      (returns Self)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let b (type (named App.Box Int)) (struct (field item 1)))
+      (let c (call App.Same.same b))
+      (return (path c (field item))))))
+(expect (answers 1))

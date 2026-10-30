@@ -1,0 +1,25 @@
+(test 1)
+(name "a-value-taking-a-value-reads-the-variable-its-slot-hands-in-place")
+(note "A call of a value hands a variable in place where the slot's type writes `inout`. A value standing in that slot whose own parameter takes a value reads what the variable holds.")
+
+(program
+  (warp 1)
+  (procedure calling
+    (parameter read (type (procedure (parameters (inout Int)) (returns Int))))
+    (returns Int)
+    (body
+      (var n 5)
+      (let got (apply read n))
+      (return got)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let reading
+        (closure
+          (parameter count (type Int))
+          (returns Int)
+          (body
+            (return count))))
+      (return (call calling reading)))))
+(expect (answers 5))

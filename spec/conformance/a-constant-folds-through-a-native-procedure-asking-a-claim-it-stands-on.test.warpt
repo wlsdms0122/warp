@@ -1,0 +1,23 @@
+(test 1)
+(name "a-constant-folds-through-a-native-procedure-asking-a-claim-it-stands-on")
+(note "A native procedure judges what a fold hands it against the claims within the folding document's reach. `Standard.Collection.setting` keys its dictionary by what conforms to `Hashable`, which the document declaring App.Key claims for it, and the program names App.Key, so the constant folds to a dictionary of one entry.")
+
+(documents
+  (document
+    (warp 1)
+    (struct App.Key
+      (satisfies Hashable)
+      (field n Int))))
+
+(program
+  (warp 1)
+  (import App.Key)
+  (import Standard.Collection.count)
+  (import Standard.Collection.setting)
+  (const keyed (call Standard.Collection.setting (dictionary) (as (struct (field n 1)) App.Key) 5))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call Standard.Collection.count keyed)))))
+(expect (answers 1))

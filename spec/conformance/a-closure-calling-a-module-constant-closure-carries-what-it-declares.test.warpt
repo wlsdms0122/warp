@@ -1,0 +1,22 @@
+(test 1)
+(name "a-closure-calling-a-module-constant-closure-carries-what-it-declares")
+(note "A closure written in a body is held to its declaration by the type written where each value it calls came from, as the body around it is: the closure calls the module constant 'a', whose closure declares it fails with nothing, so the closure fails with nothing and returns.")
+
+(program
+  (warp 1)
+  (const a
+    (closure
+      (returns Int)
+      (body
+        (return 1))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return
+        (apply
+          (closure
+            (returns Int)
+            (body
+              (return (apply a)))))))))
+(expect (answers 1))

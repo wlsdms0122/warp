@@ -1,0 +1,52 @@
+(test 1)
+(name "a-variable-handed-in-place-to-a-call-whose-cast-fails-stays-as-it-was")
+(note "App.put appends what App.h returns to the list handed to it in place and then fails, and the caller catches. App.h's closure sets cell from its own some T, and the cast reading it as taking a number fails with cast_refused, since only App.h's call filled its T. The failure passes before anything is appended, the catch holds it, and the list is returned as it was.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.append)
+  (import Standard.Control.abort)
+  (procedure App.h
+    (parameter n (type (some T)))
+    (parameter junk)
+    (returns (some T))
+    (failing (anything))
+    (body
+      (var cell n)
+      (let c
+        (closure
+          (parameter y (type (some T)))
+          (returns Int)
+          (body
+            (set cell y)
+            (return 0))))
+      (let a (type Any) c)
+      (let w (as a (procedure (parameters Int) (returns Int))))
+      (let z (apply w (as junk Int)))
+      (return cell)))
+  (procedure App.put
+    (parameter n (type (some T)))
+    (parameter junk)
+    (parameter xs (type (inout (array (some T)))))
+    (parameter stop (type Bool))
+    (returns Int)
+    (failing (anything))
+    (body
+      (let got (call App.h n junk))
+      (call Standard.Collection.append xs got)
+      (conditional
+        (when stop)
+        (then
+          (call Standard.Control.abort "boom")))
+      (return 0)))
+  (procedure entry
+    (access public)
+    (returns (array String))
+    (body
+      (var s (array "a"))
+      (try
+        (body
+          (call App.put "b" 5 s true))
+        (catch 0))
+      (return s))))
+(expect (answers (array "a")))

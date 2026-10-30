@@ -1,0 +1,18 @@
+(test 1)
+(name "a-cast-opens-what-any-declares-nothing-about")
+(note "A cast names the type a value is read as, and from there the reading is that type, so the dot the build refused on `Any` is judged, and the run is left only the question of what arrived.")
+
+(program
+  (warp 1)
+  (struct App.Named
+    (field name String))
+  (procedure entry
+    (access public)
+    (parameter payload)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let read (as payload App.Named))
+      (return (path read (field name))))))
+(arguments (argument payload (struct App.Named (field name "warp"))))
+(expect (answers "warp"))

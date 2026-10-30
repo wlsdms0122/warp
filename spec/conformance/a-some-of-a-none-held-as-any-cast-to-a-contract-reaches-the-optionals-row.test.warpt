@@ -1,0 +1,53 @@
+(test 1)
+(name "a-some-of-a-none-held-as-any-cast-to-a-contract-reaches-the-optionals-row")
+(note "`a` holds the marker holding `null`, a value of `Int??` at `Any`. Cast to `App.D` it is judged as an instance of `Null?`, which the claim about every Optional of an `App.D` covers, so the Optional's row unwraps it and describes its payload `null`.")
+
+(program
+  (warp 1)
+  (contract App.D
+    (procedure describe
+      (const)
+      (parameter of (type Self))
+      (returns Any)))
+  (extension
+    (head (optional (some W App.D)))
+    (satisfies App.D)
+    (procedure describe
+      (const)
+      (parameter of (type (optional (some W))))
+      (returns Any)
+      (body
+        (let x
+          (unwrap of
+            (else
+              (return "none"))))
+        (return (array "some" (call App.D.describe x))))))
+  (extension
+    (head Int)
+    (satisfies App.D)
+    (procedure describe
+      (const)
+      (parameter of (type Int))
+      (returns Any)
+      (body
+        (return "int"))))
+  (extension
+    (head Null)
+    (satisfies App.D)
+    (procedure describe
+      (const)
+      (parameter of (type Null))
+      (returns Any)
+      (body
+        (return "null"))))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (failing cast_refused)
+    (body
+      (let n1 (type (optional Int)) null)
+      (let s2 (type (optional (optional Int))) n1)
+      (let a (type Any) s2)
+      (let back (as a App.D))
+      (return (call App.D.describe back)))))
+(expect (answers (array "some" "null")))

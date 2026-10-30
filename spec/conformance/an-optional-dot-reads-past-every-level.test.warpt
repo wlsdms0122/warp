@@ -1,0 +1,24 @@
+(test 1)
+(name "an-optional-dot-reads-past-every-level")
+(note "A marked step reads past every level of an Optional. On `App.Box??`, `o?.v` is the none where the outer level is a none, `null`, and where the inner one is, `Some` holding `null`, and the field otherwise.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (field v Int))
+  (procedure App.inner
+    (parameter o (type (optional App.Box)))
+    (returns (optional Int))
+    (body
+      (return (call App.read o))))
+  (procedure App.read
+    (parameter o (type (optional (optional App.Box))))
+    (returns (optional Int))
+    (body
+      (return (path o (field? v)))))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (return (array (call App.read null) (call App.inner null) (call App.inner (struct (field v 1))))))))
+(expect (answers (array null null 1)))

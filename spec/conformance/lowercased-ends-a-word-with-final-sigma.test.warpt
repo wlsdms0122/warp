@@ -1,0 +1,13 @@
+(test 1)
+(name "lowercased-ends-a-word-with-final-sigma")
+(note "Unicode's full default case mapping lowers a capital sigma by where it stands: after a cased letter and with none following it, it is the final sigma. Everywhere else it is the plain one.")
+
+(program
+  (warp 1)
+  (import Standard.Text.lowercased)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (return (call Standard.Text.lowercased "ΟΔΟΣ ΣΑΣ Σ")))))
+(expect (answers "οδος σας σ"))

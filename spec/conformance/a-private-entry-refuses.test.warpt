@@ -1,0 +1,12 @@
+(test 1)
+(name "a-private-entry-refuses")
+(note "A run starts from outside the link, and a private declaration is named by nothing outside its document. Starting a run from an entry written private is refused at the run, before anything runs, as what it is rather than as a name nothing declares.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access private)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses run))

@@ -1,0 +1,12 @@
+(test 1)
+(name "a-var-started-at-null-written-out-refuses")
+(note "A `var` written with no value holds null, and that is the one spelling of it. Written with `value: null` it says the same thing a second way, and refuses at the load.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (body
+      (var x null)
+      (return x))))
+(expect (refuses load))

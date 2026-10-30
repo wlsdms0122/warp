@@ -1,0 +1,14 @@
+(test 1)
+(name "an-index-reference-read-as-a-double-refuses")
+(note "An index stands where an Int is read, and a Double is another type: a floating-point number never stands where an integer is, whatever its value, so the build refuses the reference.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let which 1.0)
+      (let items (array 1 2))
+      (return (path items (index which))))))
+(expect (refuses build))

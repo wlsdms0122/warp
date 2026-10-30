@@ -1,0 +1,18 @@
+(test 1)
+(name "a-declared-type-naming-a-type-parameter-reads-it-as-the-call-filled-it")
+(note "A name in a body may declare a type parameter of the procedure it is written in, read as the call filled it. `y` declares `some T`, and the call filling `T` with `Int` reads it as `Int`.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter x (type (some T)))
+    (returns (some T))
+    (body
+      (let y (type (some T)) x)
+      (return y)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.f 1)))))
+(expect (answers 1))

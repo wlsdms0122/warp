@@ -1,0 +1,21 @@
+(test 1)
+(name "type-on-a-statement-binding-a-try-refuses")
+(note "A try's statement name binds its failure inside the catch, and what the failure holds is the language's `Failure`. Writing `type` on that statement refuses at the load.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (var m "none")
+      (let f
+        (type Failure)
+        (try
+          (body
+            (call Standard.Control.abort "on purpose"))
+          (catch
+            (set m (path f (field message))))))
+      (return m))))
+(expect (refuses load))

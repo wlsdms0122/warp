@@ -1,0 +1,16 @@
+(test 1)
+(name "a-module-variable-declares-what-it-holds")
+(note "A module variable may say what it holds under `type` beside its start, the way a `var` statement does, so a start that is an empty collection still says what the box will hold. Every write is judged against the declared type.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.keys)
+  (import Standard.Collection.setting)
+  (var seen (type (dictionary String Int)) (dictionary))
+  (procedure entry
+    (access public)
+    (returns (array String))
+    (body
+      (set seen (call Standard.Collection.setting seen "a" 1))
+      (return (call Standard.Collection.keys seen)))))
+(expect (answers (array "a")))

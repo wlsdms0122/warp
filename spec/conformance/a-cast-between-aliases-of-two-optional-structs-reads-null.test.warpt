@@ -1,0 +1,20 @@
+(test 1)
+(name "a-cast-between-aliases-of-two-optional-structs-reads-null")
+(note "`App.NA` names `App.A?` and `App.NB` names `App.B?`. Each is an alias and stands for what it names, and the none is a value of every Optional, so a value both read exists, the cast builds, and the run reads `null` as the none of `App.NB`.")
+
+(program
+  (warp 1)
+  (struct App.A
+    (field a String))
+  (struct App.B
+    (field b Int))
+  (type App.NA (optional App.A))
+  (type App.NB (optional App.B))
+  (procedure entry
+    (access public)
+    (returns (optional App.B))
+    (failing cast_refused)
+    (body
+      (let n (type App.NA) null)
+      (return (as n App.NB)))))
+(expect (answers null))

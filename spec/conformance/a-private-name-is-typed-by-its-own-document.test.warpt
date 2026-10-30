@@ -1,0 +1,38 @@
+(test 1)
+(name "a-private-name-is-typed-by-its-own-document")
+(note "Two documents may each declare a private name, and each is typed by its own declaration: what the other document's declaration under that spelling returns says nothing about this one's.")
+
+(documents
+  (document
+    (warp 1)
+    (procedure App.helper
+      (access private)
+      (const)
+      (isolated)
+      (returns String)
+      (body
+        (return "seven")))
+    (procedure Lib.spell
+      (const)
+      (isolated)
+      (returns String)
+      (body
+        (return (call App.helper))))))
+
+(program
+  (warp 1)
+  (procedure App.helper
+    (access private)
+    (const)
+    (isolated)
+    (returns Int)
+    (body
+      (return 7)))
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (returns Int)
+    (body
+      (return (call App.helper)))))
+(expect (answers 7))

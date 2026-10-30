@@ -1,0 +1,24 @@
+(test 1)
+(name "a-module-declares-a-contract-a-bound-names")
+(note "A module declares a contract and says which types conform to it: a slot writes only the parameter, the signature binds it in bounds, and the judgement a bounded parameter gets is the same one the standard procedures get.")
+
+(program
+  (warp 1)
+  (contract Scalar)
+  (extension
+    (head Int)
+    (satisfies Scalar))
+  (extension
+    (head String)
+    (satisfies Scalar))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call keep 7))))
+  (procedure keep
+    (parameter value (type (some T Scalar)))
+    (returns (some T))
+    (body
+      (return value))))
+(expect (answers 7))

@@ -1,0 +1,19 @@
+(test 1)
+(name "a-dictionary-literal-writing-a-key-the-run-reads-twice-holds-the-later-value")
+(note "The entries are made in the order written, keys the run reads included, so two keys that turn out one leave the later value.")
+
+(program
+  (warp 1)
+  (procedure App.m
+    (parameter a (type Int))
+    (parameter b (type Int))
+    (returns (dictionary Int Int))
+    (body
+      (return (dictionary (entry a 1) (entry b 2)))))
+  (procedure entry
+    (access public)
+    (returns (optional Int))
+    (body
+      (let m (call App.m 3 3))
+      (return (path m (index 3))))))
+(expect (answers 2))

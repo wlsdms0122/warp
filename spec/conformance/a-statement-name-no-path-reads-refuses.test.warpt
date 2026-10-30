@@ -1,0 +1,13 @@
+(test 1)
+(name "a-statement-name-no-path-reads-refuses")
+(note "A dot is a step of a path, so a statement named `a.b` is a name no `ref` reaches: `a.b` reads the field `b` of `a`. It refuses at the load where it is declared, read or not.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let a.b 1)
+      (return 1))))
+(expect (refuses load))

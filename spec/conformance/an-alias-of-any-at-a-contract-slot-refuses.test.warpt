@@ -1,0 +1,23 @@
+(test 1)
+(name "an-alias-of-any-at-a-contract-slot-refuses")
+(note "App.Loose stands for Any, and an alias is judged by what it stands for. A value read as Any stands nowhere a contract is asked, so the call refuses at the build however the reading is spelled.")
+
+(program
+  (warp 1)
+  (type App.Loose Any)
+  (struct App.Point
+    (satisfies App.Shape)
+    (field x Int))
+  (contract App.Shape)
+  (procedure App.g
+    (parameter p (type App.Shape))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let d (type App.Loose) 5)
+      (return (call App.g d)))))
+(expect (refuses build))

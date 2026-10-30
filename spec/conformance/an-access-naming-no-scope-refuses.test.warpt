@@ -1,0 +1,12 @@
+(test 1)
+(name "an-access-naming-no-scope-refuses")
+(note "`access` is one of `public`, `internal` and `private`. Any other value names no scope a reader could hold the declaration to, so it is refused where the document is read.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access open)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

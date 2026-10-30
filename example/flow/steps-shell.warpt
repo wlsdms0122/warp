@@ -1,0 +1,47 @@
+(warp 1)
+(import Process.run)
+(import Standard.Logic.equal)
+(import Standard.Text.joined)
+(import Standard.Text.text)
+(import flow.Outcome)
+(import flow.Runnable)
+(import flow.failed)
+(import flow.succeeded)
+(import state.put)
+
+(struct flow.Shell
+  (satisfies flow.Runnable)
+  (field command String)
+  (field id String)
+  (procedure describe
+    (const)
+    (parameter of (type flow.Shell))
+    (returns String)
+    (body
+      (return (call Standard.Text.joined (array "shell `" (path of (field command)) "`") ""))))
+  (procedure run
+    (parameter of (type flow.Shell))
+    (returns flow.Outcome)
+    (failing cast_refused)
+    (body
+      (var outcome)
+      (let caught
+        (try
+          (body
+            (let result (call Process.run (path of (field command))))
+            (call state.put (path of (field id)) (path result (field output)))
+            (set outcome (call flow.failed (path of (field id)) (call Standard.Text.joined (array "exit " (call Standard.Text.text (path result (field status))) ": " (path result (field output))) "")))
+            (conditional
+              (when (call Standard.Logic.equal (path result (field status)) 0))
+              (then
+                (set outcome (call flow.succeeded (path of (field id)) (path result (field output)) "exit 0")))))
+          (catch
+            (set outcome (call flow.failed (path of (field id)) (call Standard.Text.joined (array "shell failed: " (path caught (field message))) ""))))))
+      (return outcome))))
+
+(procedure flow.Shell.parse
+  (parameter of (type (dictionary String Any)))
+  (returns flow.Shell)
+  (failing cast_refused)
+  (body
+    (return (as (struct (field command (as (path of (index "command")) String)) (field id (as (path of (index "id")) String))) flow.Shell))))

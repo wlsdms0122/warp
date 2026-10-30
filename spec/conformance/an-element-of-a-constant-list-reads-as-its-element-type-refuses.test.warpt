@@ -1,0 +1,14 @@
+(test 1)
+(name "an-element-of-a-constant-list-reads-as-its-element-type-refuses")
+(note "A constant's list has one element type, the join of every element's, and a path on the constant reads by it. `[1, \"s\"]` holds `Array<Any>`, so `k[0]` reads `Any` though it folds to `1`, and a name declaring `Int` refuses it at the build.")
+
+(program
+  (warp 1)
+  (const k (array 1 "s"))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let x (type Int) (path k (index 0)))
+      (return x))))
+(expect (refuses build))

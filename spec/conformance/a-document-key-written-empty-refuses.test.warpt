@@ -1,0 +1,5 @@
+(test 1)
+(name "a-document-key-written-empty-refuses")
+(note "A document declaring no constant writes no `const`, so `const: {}` says it a second way.")
+(tree (dictionary (entry "const" (dictionary)) (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" 1)))))) (entry "returns" "Int"))))) (entry "warp" 1)))
+(expect (refuses load))

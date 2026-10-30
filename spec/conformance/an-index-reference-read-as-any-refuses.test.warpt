@@ -1,0 +1,14 @@
+(test 1)
+(name "an-index-reference-read-as-any-refuses")
+(note "An index stands where an Int is read, and `which` reads Any, which stands only where Any is declared until a cast says what it is, so the build refuses the reference.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let which (type Any) 0)
+      (let items (array 1 2))
+      (return (path items (index which))))))
+(expect (refuses build))

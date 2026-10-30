@@ -1,0 +1,14 @@
+(test 1)
+(name "a-cast-to-an-optional-of-what-its-operand-reads-refuses")
+(note "`x` reads `Int?`, and `Int??` takes that reading as its some by promotion, so a cast of `x` to `Int??` says what a name declared `Int??` says, and refuses at the build.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Any)
+    (failing cast_refused)
+    (body
+      (let x (type (optional Int)) null)
+      (return (as x (optional (optional Int)))))))
+(expect (refuses build))

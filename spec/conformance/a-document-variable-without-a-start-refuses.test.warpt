@@ -1,0 +1,5 @@
+(test 1)
+(name "a-document-variable-without-a-start-refuses")
+(note "A document's variable always has a start, so `(var count)` at the top of a document writes no tree, and refuses.")
+(text "(warp 1)\n(var count)")
+(expect (refuses load))

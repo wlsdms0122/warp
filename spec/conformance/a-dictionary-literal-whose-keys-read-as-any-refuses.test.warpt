@@ -1,0 +1,13 @@
+(test 1)
+(name "a-dictionary-literal-whose-keys-read-as-any-refuses")
+(note "A dictionary literal reads as a dictionary keyed by what its keys join to, and an integer beside a string joins to `Any`, which does not conform to `Hashable`. The name declares no dictionary, so the literal is that dictionary type and refuses at the build where it is written, as `Dictionary<Any, String>` written there would.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let d (dictionary (entry 1 "a") (entry "b" "c")))
+      (return 1))))
+(expect (refuses build))

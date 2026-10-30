@@ -1,0 +1,11 @@
+(test 1)
+(name "an-internal-entry-refuses")
+(note "A run starts from outside the link, and only a public declaration is named from there. A declaration that writes no access is internal, the link's own, so starting a run from one is refused at the run, before anything runs, the way starting from an entry nothing declares is.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses run))

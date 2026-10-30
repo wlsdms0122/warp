@@ -1,0 +1,24 @@
+(test 1)
+(name "a-catch-reads-the-type-a-cast-to-an-alias-reads-as")
+(note "An alias is a second spelling of what it stands for, and no judgement sees it, so a cast to `App.A` reads as `App.P` and `cast_refused`'s `expected` names `App.P`.")
+
+(program
+  (warp 1)
+  (type App.A App.P)
+  (struct App.P
+    (field x Int))
+  (procedure entry
+    (access public)
+    (parameter payload)
+    (returns (optional (dictionary String Any)))
+    (body
+      (var tried)
+      (let caught
+        (try
+          (body
+            (as payload App.A))
+          (catch
+            (set tried (dictionary (entry "actual" (path caught (field details) (index "actual"))) (entry "expected" (path caught (field details) (index "expected"))))))))
+      (return tried))))
+(arguments (argument payload "not a struct"))
+(expect (answers (dictionary (entry "actual" "String") (entry "expected" "App.P"))))

@@ -1,0 +1,38 @@
+(test 1)
+(name "a-contract-procedure-taking-a-procedure-that-names-its-failures-is-backed-by-a-declaration-calling-it")
+(note "A procedure type names what it may fail with, the way a contract's procedure does. `run` takes `step`, whose type may fail with `aborted`, and `Int.run` calls it: a call of a value fails with what the slot it came out of names, so `Int.run` may fail with `aborted`, which `run` lets it, and the claim holds.")
+
+(program
+  (warp 1)
+  (contract App.Runner
+    (procedure run
+      (parameter of (type Self))
+      (parameter step (type (procedure (const) (parameters Int) (failing aborted) (returns Int))))
+      (returns Int)
+      (failing aborted)))
+  (extension
+    (head Int)
+    (satisfies App.Runner)
+    (procedure run
+      (const)
+      (parameter of (type Int))
+      (parameter step (type (procedure (const) (parameters Int) (failing aborted) (returns Int))))
+      (returns Int)
+      (failing aborted)
+      (body
+        (return (apply step of)))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing aborted)
+    (body
+      (return
+        (call App.Runner.run 1
+          (closure
+            (const)
+            (isolated)
+            (parameter x (type Int))
+            (returns Int)
+            (body
+              (return x))))))))
+(expect (answers 1))

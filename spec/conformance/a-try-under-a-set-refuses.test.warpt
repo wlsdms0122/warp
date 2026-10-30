@@ -1,0 +1,18 @@
+(test 1)
+(name "a-try-under-a-set-refuses")
+(note "A try has no value, so a `set` of one has nothing to write. What either of its ways keeps it writes to an outer variable.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (body
+      (var r 5)
+      (set r
+        (try
+          (body
+            (call Standard.Control.abort "stop"))
+          (catch
+            (let noted 1)))))))
+(expect (refuses load))

@@ -1,0 +1,28 @@
+(test 1)
+(name "a-contract-procedure-taking-self-in-place-is-handed-a-variable-of-the-contract")
+(note "`App.Bumpable.bump` takes `inout Self`, and `c` is a variable of `App.Bumpable` holding a counter. A reading of a contract names no one type, so the call reads what the variable holds, a `Bank.Counter`, and that type's row adds one to the count of the counter in the variable.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (struct Bank.Counter
+    (satisfies App.Bumpable)
+    (field count (var Int))
+    (procedure bump
+      (parameter of (type (inout Bank.Counter)))
+      (body
+        (set (path of (field count)) (call Standard.Numeric.plus (path of (field count)) 1)))))
+  (contract App.Bumpable
+    (procedure bump
+      (parameter of (type (inout Self)))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing cast_refused)
+    (body
+      (let start (type Bank.Counter) (struct (field count 4)))
+      (var c (type App.Bumpable) start)
+      (call App.Bumpable.bump c)
+      (let held (as c Bank.Counter))
+      (return (path held (field count))))))
+(expect (answers 5))

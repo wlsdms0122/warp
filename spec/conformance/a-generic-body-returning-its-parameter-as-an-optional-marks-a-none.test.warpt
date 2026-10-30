@@ -1,0 +1,22 @@
+(test 1)
+(name "a-generic-body-returning-its-parameter-as-an-optional-marks-a-none")
+(note "A reading of `some T` where `some T?` is asked is its some, and `T` may hold a none, so the build writes the promotion and the run puts `Some` on the `null` it is handed. Filled with `Int?` and handed its none, `App.f` returns `Some` holding `null`.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter x (type (some T)))
+    (returns (optional (some T)))
+    (body
+      (return x)))
+  (procedure App.g
+    (parameter y (type (optional Int)))
+    (returns Any)
+    (body
+      (return (call App.f y))))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (return (call App.g null)))))
+(expect (answers (struct Some (field wrapped null))))

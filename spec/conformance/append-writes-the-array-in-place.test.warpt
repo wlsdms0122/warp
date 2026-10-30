@@ -1,0 +1,15 @@
+(test 1)
+(name "append-writes-the-array-in-place")
+(note "`Standard.Collection.append` takes the array as a variable handed in place and writes the longer array back through it.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.append)
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (body
+      (var xs (array 1))
+      (call Standard.Collection.append xs 2)
+      (return xs))))
+(expect (answers (array 1 2)))

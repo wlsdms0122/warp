@@ -1,0 +1,37 @@
+(test 1)
+(name "a-call-of-a-value-fails-with-what-its-slots-procedure-type-names")
+(note "`apply` calls `step`, whose type may fail with `aborted`, so `apply` may fail with `aborted` and the try around the call is one a run reaches; the closure handed aborts, and the catch reads the failure.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure apply
+    (const)
+    (parameter of (type Int))
+    (parameter step (type (procedure (const) (parameters Int) (failing aborted) (returns Int))))
+    (returns Int)
+    (failing aborted)
+    (body
+      (return (apply step of))))
+  (procedure entry
+    (access public)
+    (const)
+    (returns (optional String))
+    (body
+      (var failed)
+      (let caught
+        (try
+          (body
+            (call apply 1
+              (closure
+                (const)
+                (isolated)
+                (parameter x (type Int))
+                (returns Int)
+                (failing aborted)
+                (body
+                  (return (call Standard.Control.abort "no"))))))
+          (catch
+            (set failed (path caught (field type))))))
+      (return failed))))
+(expect (answers "aborted"))

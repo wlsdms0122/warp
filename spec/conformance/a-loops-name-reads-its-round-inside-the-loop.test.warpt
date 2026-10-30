@@ -1,0 +1,23 @@
+(test 1)
+(name "a-loops-name-reads-its-round-inside-the-loop")
+(note "A loop's statement name is the round inside the loop: `h.index` in the condition and the body reads the round, and the last round to run is 1. The `h` around the arm is another name and keeps its value.")
+
+(program
+  (warp 1)
+  (import Standard.Comparable.lessThan)
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let h "f")
+      (var inner 0)
+      (conditional
+        (when true)
+        (then
+          (let h
+            (loop
+              (while (call Standard.Comparable.lessThan (path h (field index)) 2))
+              (body
+                (set inner (path h (field index))))))))
+      (return (dictionary (entry "inner" inner) (entry "outer" h))))))
+(expect (answers (dictionary (entry "inner" 1) (entry "outer" "f"))))

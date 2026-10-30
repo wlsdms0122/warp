@@ -1,0 +1,41 @@
+(test 1)
+(name "a-contract-procedure-writing-self-in-place-whole-keeps-the-type-the-variable-holds")
+(note "`p` is read as `App.Maker` and holds a box beside `App.Box<Int?>`, though the box is an instance of `App.Box<Int>`. `App.Maker.reset` picks `App.Box.reset` by that type, which writes a whole box into the variable handed in place. The variable holds the box beside the type it held, so `App.Maker.make` fills `T` with `Int?`, the cast to `(Int?) -> Int?` takes the closure, and applying it to 7 answers 7.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (satisfies App.Maker)
+    (field item (some T))
+    (procedure make
+      (parameter of (type (named App.Box (some T))))
+      (returns Any)
+      (body
+        (return
+          (closure
+            (parameter y (type (some T)))
+            (returns (some T))
+            (body
+              (return y))))))
+    (procedure reset
+      (parameter of (type (inout (named App.Box (some T)))))
+      (body
+        (set of (struct (field item (path of (field item))))))))
+  (contract App.Maker
+    (procedure make
+      (parameter of (type Self))
+      (returns Any))
+    (procedure reset
+      (parameter of (type (inout Self)))))
+  (procedure entry
+    (access public)
+    (returns (optional Int))
+    (failing cast_refused)
+    (body
+      (let b (type (named App.Box (optional Int))) (struct (field item 5)))
+      (var p (type App.Maker) b)
+      (call App.Maker.reset p)
+      (let g (as (call App.Maker.make p) (procedure (parameters (optional Int)) (returns (optional Int)))))
+      (return (apply g 7)))))
+(expect (answers 7))

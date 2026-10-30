@@ -1,0 +1,18 @@
+(test 1)
+(name "a-dictionary-from-outside-whose-keys-the-door-makes-one-key-refuses")
+(note "The host hands two keys that differ only in `y`, a field `App.P` does not declare. The door leaves `y` out of a struct in a key as it does in a value, which makes the two keys one, and a dictionary holding one key twice refuses there, as one written so does.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.count)
+  (struct App.P
+    (satisfies Hashable)
+    (field x Int))
+  (procedure entry
+    (access public)
+    (parameter d (type (dictionary App.P Int)))
+    (returns Int)
+    (body
+      (return (call Standard.Collection.count d)))))
+(arguments (argument d (dictionary (entry (struct App.P (field x 1)) 1) (entry (struct App.P (field x 1) (field y 2)) 2))))
+(expect (refuses run))

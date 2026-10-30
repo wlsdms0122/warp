@@ -1,0 +1,297 @@
+(warp 1)
+(import Standard.Collection.appending)
+(import Standard.Collection.count)
+(import Standard.Collection.gathering)
+(import Standard.Collection.keys)
+(import Standard.Comparable)
+(import Standard.Comparable.lessThan)
+(import Standard.Logic.equal)
+(import Standard.Numeric.minus)
+(import Standard.Numeric.plus)
+
+(procedure Standard.Collection.append
+  (isolated)
+  (parameter array (type (inout (array (some Element)))))
+  (parameter element (type (some Element)))
+  (body
+    (set array (call Standard.Collection.appending array element))))
+
+(procedure Standard.Collection.contains
+  (const)
+  (isolated)
+  (parameter array (type (array (some Element))))
+  (parameter element (type (some Element)))
+  (returns Bool)
+  (body
+    (var found false)
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Collection.count array)))
+        (body
+          (conditional
+            (when (call Standard.Logic.equal (path array (index (path walk (field index)))) element))
+            (then
+              (set found true)
+              (break))))))
+    (return found)))
+
+(procedure Standard.Collection.dropFirst
+  (const)
+  (isolated)
+  (parameter array (type (array (some Element))))
+  (returns (array (some Element)))
+  (body
+    (var places (array))
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Numeric.minus (call Standard.Collection.count array) 1)))
+        (body
+          (set places (call Standard.Collection.appending places (call Standard.Numeric.plus (path walk (field index)) 1))))))
+    (return (call Standard.Collection.gathering array places))))
+
+(procedure Standard.Collection.dropLast
+  (const)
+  (isolated)
+  (parameter array (type (array (some Element))))
+  (returns (array (some Element)))
+  (body
+    (var places (array))
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Numeric.minus (call Standard.Collection.count array) 1)))
+        (body
+          (set places (call Standard.Collection.appending places (path walk (field index)))))))
+    (return (call Standard.Collection.gathering array places))))
+
+(procedure Standard.Collection.filter
+  (const)
+  (isolated)
+  (parameter array (type (array (some Element))))
+  (parameter isIncluded (type (procedure (const) (isolated) (parameters (some Element)) (returns Bool))))
+  (returns (array (some Element)))
+  (body
+    (var places (array))
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Collection.count array)))
+        (body
+          (let kept (apply isIncluded (path array (index (path walk (field index))))))
+          (conditional
+            (when kept)
+            (then
+              (set places (call Standard.Collection.appending places (path walk (field index)))))))))
+    (return (call Standard.Collection.gathering array places))))
+
+(procedure Standard.Collection.first
+  (const)
+  (isolated)
+  (parameter array (type (array (some Element))))
+  (returns (optional (some Element)))
+  (body
+    (conditional
+      (when (call Standard.Logic.equal (call Standard.Collection.count array) 0))
+      (then
+        (return)))
+    (return (path array (index 0)))))
+
+(procedure Standard.Collection.last
+  (const)
+  (isolated)
+  (parameter array (type (array (some Element))))
+  (returns (optional (some Element)))
+  (body
+    (let total (call Standard.Collection.count array))
+    (conditional
+      (when (call Standard.Logic.equal total 0))
+      (then
+        (return)))
+    (let at (call Standard.Numeric.minus total 1))
+    (return (path array (index at)))))
+
+(procedure Standard.Collection.map
+  (const)
+  (isolated)
+  (parameter array (type (array (some Element))))
+  (parameter transform (type (procedure (const) (isolated) (parameters (some Element)) (returns (some Result)))))
+  (returns (array (some Result)))
+  (body
+    (var mapped (array))
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Collection.count array)))
+        (body
+          (let returned (apply transform (path array (index (path walk (field index))))))
+          (set mapped (call Standard.Collection.appending mapped returned)))))
+    (return mapped)))
+
+(procedure Standard.Collection.prepending
+  (const)
+  (isolated)
+  (parameter array (type (array (some Element))))
+  (parameter element (type (some Element)))
+  (returns (array (some Element)))
+  (body
+    (let back (call Standard.Collection.reversed array))
+    (let grown (call Standard.Collection.appending back element))
+    (return (call Standard.Collection.reversed grown))))
+
+(procedure Standard.Collection.reduce
+  (const)
+  (isolated)
+  (parameter array (type (array (some Element))))
+  (parameter initialResult (type (some Carried)))
+  (parameter nextPartialResult (type (procedure (const) (isolated) (parameters (some Carried) (some Element)) (returns (some Carried)))))
+  (returns (some Carried))
+  (body
+    (var carried initialResult)
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Collection.count array)))
+        (body
+          (let returned (apply nextPartialResult carried (path array (index (path walk (field index))))))
+          (set carried returned))))
+    (return carried)))
+
+(procedure Standard.Collection.reversed
+  (const)
+  (isolated)
+  (parameter array (type (array (some Element))))
+  (returns (array (some Element)))
+  (body
+    (var places (array))
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Collection.count array)))
+        (body
+          (set places (call Standard.Collection.appending places (call Standard.Numeric.minus (call Standard.Collection.count array) (call Standard.Numeric.plus (path walk (field index)) 1)))))))
+    (return (call Standard.Collection.gathering array places))))
+
+(procedure Standard.Collection.sorted
+  (const)
+  (isolated)
+  (parameter array (type (array (some Element Standard.Comparable))))
+  (returns (array (some Element)))
+  (body
+    (let total (call Standard.Collection.count array))
+    (var ranks (array))
+    (let outer
+      (loop
+        (while (call Standard.Comparable.lessThan (path outer (field index)) total))
+        (body
+          (var rank 0)
+          (let inner
+            (loop
+              (while (call Standard.Comparable.lessThan (path inner (field index)) total))
+              (body
+                (var tie true)
+                (conditional
+                  (when (call Standard.Comparable.lessThan (path array (index (path inner (field index)))) (path array (index (path outer (field index))))))
+                  (then
+                    (set rank (call Standard.Numeric.plus rank 1))
+                    (set tie false)))
+                (conditional
+                  (when (call Standard.Comparable.lessThan (path array (index (path outer (field index)))) (path array (index (path inner (field index))))))
+                  (then
+                    (set tie false)))
+                (conditional
+                  (when tie)
+                  (then
+                    (conditional
+                      (when (call Standard.Comparable.lessThan (path inner (field index)) (path outer (field index))))
+                      (then
+                        (set rank (call Standard.Numeric.plus rank 1)))))))))
+          (set ranks (call Standard.Collection.appending ranks rank)))))
+    (var places (array))
+    (let pick
+      (loop
+        (while (call Standard.Comparable.lessThan (path pick (field index)) (call Standard.Numeric.plus total 1)))
+        (body
+          (let scan
+            (loop
+              (while (call Standard.Comparable.lessThan (path scan (field index)) total))
+              (body
+                (var same true)
+                (conditional
+                  (when (call Standard.Comparable.lessThan (path ranks (index (path scan (field index)))) (path pick (field index))))
+                  (then
+                    (set same false)))
+                (conditional
+                  (when (call Standard.Comparable.lessThan (path pick (field index)) (path ranks (index (path scan (field index))))))
+                  (then
+                    (set same false)))
+                (conditional
+                  (when same)
+                  (then
+                    (set places (call Standard.Collection.appending places (path scan (field index))))))))))))
+    (return (call Standard.Collection.gathering array places))))
+
+(procedure Standard.Collection.tryFilter
+  (const)
+  (isolated)
+  (parameter array (type (array (some Element))))
+  (parameter isIncluded (type (procedure (const) (isolated) (parameters (some Element)) (failing (anything)) (returns Bool))))
+  (returns (array (some Element)))
+  (failing (anything))
+  (body
+    (var places (array))
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Collection.count array)))
+        (body
+          (let kept (apply isIncluded (path array (index (path walk (field index))))))
+          (conditional
+            (when kept)
+            (then
+              (set places (call Standard.Collection.appending places (path walk (field index)))))))))
+    (return (call Standard.Collection.gathering array places))))
+
+(procedure Standard.Collection.tryMap
+  (const)
+  (isolated)
+  (parameter array (type (array (some Element))))
+  (parameter transform (type (procedure (const) (isolated) (parameters (some Element)) (failing (anything)) (returns (some Result)))))
+  (returns (array (some Result)))
+  (failing (anything))
+  (body
+    (var mapped (array))
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Collection.count array)))
+        (body
+          (let returned (apply transform (path array (index (path walk (field index))))))
+          (set mapped (call Standard.Collection.appending mapped returned)))))
+    (return mapped)))
+
+(procedure Standard.Collection.tryReduce
+  (const)
+  (isolated)
+  (parameter array (type (array (some Element))))
+  (parameter initialResult (type (some Carried)))
+  (parameter nextPartialResult (type (procedure (const) (isolated) (parameters (some Carried) (some Element)) (failing (anything)) (returns (some Carried)))))
+  (returns (some Carried))
+  (failing (anything))
+  (body
+    (var carried initialResult)
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Collection.count array)))
+        (body
+          (let returned (apply nextPartialResult carried (path array (index (path walk (field index))))))
+          (set carried returned))))
+    (return carried)))
+
+(procedure Standard.Collection.values
+  (const)
+  (isolated)
+  (parameter dictionary (type (dictionary (some Key Hashable) (some Entry))))
+  (returns (array (some Entry)))
+  (body
+    (let keys (call Standard.Collection.keys dictionary))
+    (var held (array))
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Collection.count keys)))
+        (body
+          (let key (path keys (index (path walk (field index)))))
+          (set held (call Standard.Collection.appending held (path dictionary (index key)))))))
+    (return held)))

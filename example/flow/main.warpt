@@ -1,0 +1,42 @@
+(warp 1)
+(import File.read)
+(import IO.write)
+(import Standard.Collection.count)
+(import Standard.Control.abort)
+(import Standard.Logic.equal)
+(import Standard.Logic.notEqual)
+(import Standard.Numeric.minus)
+(import Standard.Text.joined)
+(import Standard.Text.text)
+(import Time.now)
+(import exec.run)
+(import parse.plan)
+(import report.failures)
+(import report.write)
+
+(procedure flow.main
+  (access public)
+  (parameter path (type String))
+  (parameter report (type (optional String)))
+  (returns Int)
+  (failing aborted cast_refused file_failed json_failed)
+  (body
+    (var target (type String) "out/report.txt")
+    (conditional
+      (when (call Standard.Logic.notEqual report null))
+      (then
+        (set target (as report String))))
+    (let stored (call File.read path))
+    (conditional
+      (when (call Standard.Logic.equal stored null))
+      (then
+        (call Standard.Control.abort (call Standard.Text.joined (array "no plan at " path) ""))))
+    (let plan (call parse.plan (as stored String)))
+    (call IO.write (call Standard.Text.joined (array "plan " (path plan (field name)) ": " (call Standard.Text.text (call Standard.Collection.count (path plan (field steps)))) " steps" "\n") ""))
+    (let started (call Time.now))
+    (let outcomes (call exec.run plan))
+    (let finished (call Time.now))
+    (let elapsed (call Standard.Numeric.minus finished started))
+    (let rendered (call report.write outcomes elapsed target))
+    (call IO.write (call Standard.Text.joined (array rendered "\n") ""))
+    (return (call report.failures outcomes))))

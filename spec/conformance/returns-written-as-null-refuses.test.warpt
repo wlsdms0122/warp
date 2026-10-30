@@ -1,0 +1,10 @@
+(test 1)
+(name "returns-written-as-null-refuses")
+(note "Leaving `returns` out says the declaration returns null, and one thing is written one way, so `returns: Null` written out refuses at the load.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Null)))
+(expect (refuses load))

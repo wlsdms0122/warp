@@ -1,0 +1,14 @@
+(test 1)
+(name "calling-a-value-no-procedure-could-be-refuses")
+(note "A `call` whose procedure is a value calls whatever the run holds there, and a value read as `Int` is never a procedure. Every run would refuse the call, so the build does, where it is written.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Any)
+    (failing (anything))
+    (body
+      (let held 5)
+      (return (apply held)))))
+(expect (refuses build))

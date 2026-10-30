@@ -1,0 +1,13 @@
+(test 1)
+(name "remainder-at-the-ints-minimum")
+(note "A remainder is smaller than its divisor, so it always fits the int. The one divisor that trips a machine's division instruction still has a result, and it is 0. Overflow never reaches remainder.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.remainder)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call Standard.Numeric.remainder -9223372036854775808 -1)))))
+(expect (answers 0))

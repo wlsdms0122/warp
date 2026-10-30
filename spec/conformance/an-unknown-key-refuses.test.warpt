@@ -1,0 +1,5 @@
+(test 1)
+(name "an-unknown-key-refuses")
+(note "Every struct in the grammar is closed. A key this specification does not name is refused where it is read, not skipped.")
+(tree (dictionary (entry "imports" (array)) (entry "mystery" 1) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" 1)))))) (entry "returns" "Int"))))) (entry "warp" 1)))
+(expect (refuses load))

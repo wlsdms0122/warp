@@ -1,0 +1,45 @@
+(test 1)
+(name "a-cast-of-a-setter-a-generic-procedure-made-fails-before-its-getter-reads")
+(note "`App.mk` keeps `x` in a box and returns a struct of a setter and a getter over it, both closures over its `T`, which the struct holds as `Procedure`. Called with 1, the setter is read through `Any` and cast to take a `String`, which fails with cast_refused, since only the call of `App.mk` filled its `T`. The getter is never read, and the try in the entry catches the failure.")
+
+(program
+  (warp 1)
+  (struct App.Pair
+    (field g Procedure)
+    (field s Procedure))
+  (procedure App.mk
+    (parameter x (type (some T)))
+    (returns App.Pair)
+    (body
+      (var cell x)
+      (let s
+        (closure
+          (parameter y (type (some T)))
+          (returns Int)
+          (body
+            (set cell y)
+            (return 0))))
+      (let g
+        (closure
+          (returns (some T))
+          (body
+            (return cell))))
+      (return (struct (field g g) (field s s)))))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (var tried)
+      (let caught
+        (try
+          (body
+            (let p (call App.mk 1))
+            (let a (type Any) (path p (field s)))
+            (let h (as a (procedure (parameters String) (returns Int))))
+            (let z (apply h "s"))
+            (let r (apply (as (path p (field g)) (procedure (parameters) (returns Int)))))
+            (set tried r))
+          (catch
+            (set tried (path caught (field type))))))
+      (return tried))))
+(expect (answers "cast_refused"))

@@ -1,0 +1,17 @@
+(test 1)
+(name "a-cast-from-any-to-a-struct-naming-itself")
+(note "`App.Node` is a declared struct holding a list of itself, which is how a type holds itself. `v` is read as `Any`, and the cast to `App.Node` judges the value at every depth the struct names itself at and gives it.")
+
+(program
+  (warp 1)
+  (struct App.Node
+    (field children (array App.Node)))
+  (procedure entry
+    (access public)
+    (returns App.Node)
+    (failing cast_refused)
+    (body
+      (let t (type App.Node) (struct (field children (array (struct (field children (array)))))))
+      (let v (type Any) t)
+      (return (as v App.Node)))))
+(expect (answers (struct App.Node (field children (array (struct App.Node (field children (array))))))))

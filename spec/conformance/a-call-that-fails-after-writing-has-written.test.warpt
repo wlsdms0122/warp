@@ -1,0 +1,27 @@
+(test 1)
+(name "a-call-that-fails-after-writing-has-written")
+(note "The box is the caller's, so a write made before the callee fails is a write the caller sees after the catch.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var n 0)
+      (let tried
+        (try
+          (body
+            (call poke n))
+          (catch
+            (let seen 1))))
+      (return n)))
+  (procedure poke
+    (parameter count (type (inout Int)))
+    (returns Never)
+    (failing aborted)
+    (body
+      (set count 1)
+      (call Standard.Control.abort "after writing"))))
+(expect (answers 1))

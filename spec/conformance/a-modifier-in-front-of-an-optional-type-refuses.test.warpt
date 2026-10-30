@@ -1,0 +1,5 @@
+(test 1)
+(name "a-modifier-in-front-of-an-optional-type-refuses")
+(note "A modifier stands in front of a procedure type, and `?` belongs to what it trails, so `const Procedure?` writes `const` in front of an Optional and refuses at the load. The Optional of a const procedure is written `(const Procedure)?`.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "let" "f") (entry "type" "const Procedure?") (entry "value" null)) (dictionary (entry "value" (dictionary (entry "return" (dictionary (entry "ref" "f")))))))) (entry "returns" "Any"))))) (entry "warp" 1)))
+(expect (refuses load))

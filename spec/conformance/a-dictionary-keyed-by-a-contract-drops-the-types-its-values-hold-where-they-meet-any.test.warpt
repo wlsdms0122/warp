@@ -1,0 +1,37 @@
+(test 1)
+(name "a-dictionary-keyed-by-a-contract-drops-the-types-its-values-hold-where-they-meet-any")
+(note "`m` is keyed by `Hashable` and reads its values as `App.Described`, so the value written from `maybe` holds `Int?`. Written into `a`, keyed by `Hashable` with values of `Any`, the key keeps what it holds and the value meets `Any`, where the type it holds drops. Cast back to `App.Described`, it is judged as the `Int` it is and reaches `Int`'s row.")
+
+(program
+  (warp 1)
+  (contract App.Described
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head (optional (some W App.Described)))
+    (satisfies App.Described)
+    (procedure describe
+      (parameter of (type (optional (some W))))
+      (returns String)
+      (body
+        (return "an optional"))))
+  (extension
+    (head Int)
+    (satisfies App.Described)
+    (procedure describe
+      (parameter of (type Int))
+      (returns String)
+      (body
+        (return "an int"))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let maybe (type (optional Int)) 5)
+      (let m (type (dictionary Hashable App.Described)) (dictionary (entry "k" maybe)))
+      (let a (type (dictionary Hashable Any)) m)
+      (let v (path a (index "k")))
+      (return (call App.Described.describe (as v App.Described))))))
+(expect (answers "an int"))

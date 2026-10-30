@@ -1,0 +1,5 @@
+(test 1)
+(name "an-escape-a-string-does-not-have-refuses")
+(note "A string escapes a quote, a backslash, `\\n`, `\\r`, `\\t` and, through `\\u`, the other control characters, so a backslash before anything else, `\\f` here, is refused.")
+(text "(warp 1)\n(const a \"\\f\")\n")
+(expect (refuses load))

@@ -1,0 +1,14 @@
+(test 1)
+(name "a-bound-naming-a-parameter-no-slot-mentions-refuses")
+(note "`bounds` holds the associated types of the type parameters the signature's slots mention. `T.Item` stands on `T`, which no slot writes as `some T`, so it is bound to nothing, and is refused where the document is read.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter item (type Int))
+    (returns Int)
+    (bound T.Item Standard.Comparable)
+    (body
+      (return 1))))
+(expect (refuses load))

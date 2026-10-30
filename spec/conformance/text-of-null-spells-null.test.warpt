@@ -1,0 +1,13 @@
+(test 1)
+(name "text-of-null-spells-null")
+(note "`text` returns a value's own spelling, and null's is `null`, alone as it is inside a container.")
+
+(program
+  (warp 1)
+  (import Standard.Text.text)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (return (call Standard.Text.text null)))))
+(expect (answers "null"))

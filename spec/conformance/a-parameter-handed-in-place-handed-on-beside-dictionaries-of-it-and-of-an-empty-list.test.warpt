@@ -1,0 +1,28 @@
+(test 1)
+(name "a-parameter-handed-in-place-handed-on-beside-dictionaries-of-it-and-of-an-empty-list")
+(note "App.g hands xs, a list of dictionaries of lists of T handed in place, on to App.put beside a list of two dictionary literals, one holding `[x]` under `k` and one holding `[]` there. The dictionaries are taken entry by entry whichever stands first, so the literal is a value of Array<Dictionary<String, Array<some T>>>, and the caller reads both dictionaries.")
+
+(program
+  (warp 1)
+  (procedure App.g
+    (parameter xs (type (inout (array (dictionary String (array (some T)))))))
+    (parameter x (type (some T)))
+    (returns Int)
+    (body
+      (call App.put xs (array (dictionary (entry "k" (array x))) (dictionary (entry "k" (array)))))
+      (return 0)))
+  (procedure App.put
+    (parameter a (type (inout (some U))))
+    (parameter b (type (some U)))
+    (returns Int)
+    (body
+      (set a b)
+      (return 0)))
+  (procedure entry
+    (access public)
+    (returns (array (dictionary String (array String))))
+    (body
+      (var s (type (array (dictionary String (array String)))) (array (dictionary (entry "k" (array "a")))))
+      (call App.g s "b")
+      (return s))))
+(expect (answers (array (dictionary (entry "k" (array "b"))) (dictionary (entry "k" (array))))))

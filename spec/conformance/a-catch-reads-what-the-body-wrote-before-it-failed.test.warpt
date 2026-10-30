@@ -1,0 +1,27 @@
+(test 1)
+(name "a-catch-reads-what-the-body-wrote-before-it-failed")
+(note "The catch runs where the body failed, so it reads what the body wrote on the way there. `kept` starts null and the body writes it an int before the cast that fails, so inside the catch `kept` reads `Int` and a slot declared `Int` takes it.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter payload)
+    (returns Int)
+    (body
+      (var kept)
+      (var said 0)
+      (try
+        (body
+          (set kept 1)
+          (let read (as payload Int)))
+        (catch
+          (set said (call wants kept))))
+      (return said)))
+  (procedure wants
+    (parameter it (type Int))
+    (returns Int)
+    (body
+      (return it))))
+(arguments (argument payload "not a whole number"))
+(expect (answers 1))

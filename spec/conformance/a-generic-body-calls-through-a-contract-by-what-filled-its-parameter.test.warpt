@@ -1,0 +1,40 @@
+(test 1)
+(name "a-generic-body-calls-through-a-contract-by-what-filled-its-parameter")
+(note "`App.tell` calls `App.Describable.describe` on its `some T`. The call of it with a `Bank.Card` fills `T` with `Bank.Card` and the one with an `Int` fills it with `Int`, and each call through the contract reaches the row of the type that filled `T`.")
+
+(program
+  (warp 1)
+  (struct Bank.Card
+    (satisfies App.Describable)
+    (field last String)
+    (procedure describe
+      (parameter of (type Bank.Card))
+      (returns String)
+      (body
+        (return "a card"))))
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head Int)
+    (satisfies App.Describable)
+    (procedure describe
+      (parameter of (type Int))
+      (returns String)
+      (body
+        (return "a number"))))
+  (procedure App.tell
+    (parameter it (type (some T App.Describable)))
+    (returns String)
+    (body
+      (return (call App.Describable.describe it))))
+  (procedure entry
+    (access public)
+    (returns (array String))
+    (body
+      (let card (type Bank.Card) (struct (field last "42")))
+      (let first (call App.tell card))
+      (let second (call App.tell 7))
+      (return (array first second)))))
+(expect (answers (array "a card" "a number")))

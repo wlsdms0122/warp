@@ -1,0 +1,19 @@
+(test 1)
+(name "text-of-a-list-holding-a-procedure-quotes-its-marker")
+(note "Inside a container a procedure is quoted as a string is, its marker being its spelling at any depth, so `text` of a list holding a closure is `[\"<procedure>\"]`.")
+
+(program
+  (warp 1)
+  (import Standard.Text.text)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (return
+        (call Standard.Text.text
+          (array
+            (closure
+              (returns Int)
+              (body
+                (return 1)))))))))
+(expect (answers "[\"<procedure>\"]"))

@@ -1,0 +1,17 @@
+(test 1)
+(name "a-struct-applied-to-int-where-it-is-applied-to-int-or-null-refuses")
+(note "A struct is one type only where it is applied to the same types. `App.Box<Int>` does not stand where `App.Box<Int?>` is declared, though an `Int` stands where `Int?` is.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (procedure entry
+    (access public)
+    (returns (optional Int))
+    (body
+      (let a (type (named App.Box Int)) (struct (field item 1)))
+      (let b (type (named App.Box (optional Int))) a)
+      (return (path b (field item))))))
+(expect (refuses build))

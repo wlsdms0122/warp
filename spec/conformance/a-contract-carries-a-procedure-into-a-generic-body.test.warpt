@@ -1,0 +1,39 @@
+(test 1)
+(name "a-contract-carries-a-procedure-into-a-generic-body")
+(note "A contract is the procedures a conforming type must give. A document says which types adopt it under `satisfies`, a signature bounds a type parameter by it, and the body calls the procedure without knowing which type it holds. The link finds the declaration behind each claimed procedure and the run reads one by the name the value wears.")
+
+(program
+  (warp 1)
+  (struct Bank.Account
+    (satisfies App.Describable)
+    (field balance Int)
+    (procedure describe
+      (parameter of (type Bank.Account))
+      (returns String)
+      (body
+        (return "an account"))))
+  (struct Bank.Card
+    (satisfies App.Describable)
+    (field last String)
+    (procedure describe
+      (parameter of (type Bank.Card))
+      (returns String)
+      (body
+        (return "a card"))))
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (procedure App.tell
+    (parameter it (type (some T App.Describable)))
+    (returns String)
+    (body
+      (return (call App.Describable.describe it))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let card (as (struct (field last "42")) Bank.Card))
+      (return (call App.tell card)))))
+(expect (answers "a card"))

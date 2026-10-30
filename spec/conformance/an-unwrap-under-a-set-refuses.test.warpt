@@ -1,0 +1,19 @@
+(test 1)
+(name "an-unwrap-under-a-set-refuses")
+(note "An unwrap written with a `then` has no value, so a `set` of one has nothing to write. What its `then` keeps it writes to an outer variable.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter o (type (optional Int)))
+    (returns Int)
+    (body
+      (var n 0)
+      (set n
+        (unwrap o
+          (then
+            (let kept 1))))
+      (return n))))
+(arguments (argument o 5))
+(expect (refuses load))

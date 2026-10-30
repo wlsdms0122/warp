@@ -1,0 +1,18 @@
+(warp 1)
+(import Standard.Comparable.lessThan)
+(import Standard.Numeric.times)
+(import k.base)
+(const ten (call Standard.Numeric.times (call k.base) 2))
+
+(procedure k.small
+  (const)
+  (parameter n (type Int))
+  (returns Bool)
+  (body
+    (return (call Standard.Comparable.lessThan n ten))))
+
+(procedure k.ten
+  (const)
+  (returns Int)
+  (body
+    (return ten)))

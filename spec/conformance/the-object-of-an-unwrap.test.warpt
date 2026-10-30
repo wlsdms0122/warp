@@ -1,0 +1,27 @@
+(test 1)
+(name "the-object-of-an-unwrap")
+(note "An unwrap carries what it takes apart, its `then` and `else` and the slot the payload is bound in for `then` to read. One written with no `then` gives the payload, and its instruction binds it.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (parameter o (type (optional Int)))
+    (returns Int)
+    (body
+      (var n 0)
+      (let x
+        (unwrap o
+          (then
+            (set n x))
+          (else
+            (set n 1))))
+      (let y
+        (unwrap o
+          (else
+            (return n))))
+      (return y))))
+(arguments (argument o 5))
+(expect (builds (dictionary (entry "addressTable" (array (array 0 (array) false) (array 1 (array) false) (array 2 (array) false) (array 1 (array) false) (array 0 (array) false) (array 1 (array) false) (array 3 (array) false))) (entry "claims" (array)) (entry "constants" (array)) (entry "contracts" (array)) (entry "dependencies" (array)) (entry "document" (array x"103c92c35d37874840cd8b28cfb6b2c30de0191a2e65b4f0c2de4deec2e6fcf8")) (entry "importedClaims" (array)) (entry "lifted" (array)) (entry "loweredTypeTable" (array)) (entry "members" (array)) (entry "numbering" (array (array) (array))) (entry "object" 1) (entry "operationTable" (array (array 0 0) (array 1 0) (array 1 2) (array 0 1) (array 16 1 (array (array (array (array (array 2 1)) 2 "n"))) (array (array (array (array (array 2 3)) 3 "n"))) (array 2)) (array 1 4) (array 1 5) (array 13 0 (array 6)) (array 16 5 (array) (array (array (array (array) 7 "[0]"))) (array)) (array 1 6) (array 13 0 (array 9)))) (entry "rows" (array (array "entry" (array (array (array "o" (array 1))) 2 (array 1 (array)) 1 1 (array) (array)) 2 (array 0 (array (array (array (array 1 1)) 0 "n") (array (array) 4 "x") (array (array (array 0 3)) 8 "y") (array (array) 10 "[3]")) (array 4 (array 0) (array) (array) (array "o" "n" "x" "y")))))) (entry "typeMembers" (array)) (entry "typeNumbering" (array)) (entry "typeTable" (array (array 4) (array 13 0) (array 4))) (entry "types" (array)) (entry "valueTable" (array (array 2 0) (array 2 1))) (entry "variables" (array)))))

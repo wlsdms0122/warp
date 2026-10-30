@@ -1,0 +1,15 @@
+(test 1)
+(name "the-object-of-an-array-built-from-parts")
+(note "An array whose elements are not all constants is built at the run from its parts, under operation tag 2; one that is all constants would be a literal.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (parameter n (type Int))
+    (returns (array Int))
+    (body
+      (return (array n 2)))))
+(expect (builds (dictionary (entry "addressTable" (array (array 0 (array) false))) (entry "claims" (array)) (entry "constants" (array)) (entry "contracts" (array)) (entry "dependencies" (array)) (entry "document" (array x"3ca99999a2380a09ebcb41ba121cbb7ff162d9c4d4d3bc454d8de41f4013a68a")) (entry "importedClaims" (array)) (entry "lifted" (array)) (entry "loweredTypeTable" (array)) (entry "members" (array)) (entry "numbering" (array (array) (array))) (entry "object" 1) (entry "operationTable" (array (array 1 0) (array 0 0) (array 2 (array 0 1)) (array 13 0 (array 2)))) (entry "rows" (array (array "entry" (array (array (array "n" (array 0))) 2 (array 1 (array)) 1 1 (array) (array)) 2 (array 0 (array (array (array) 3 "[0]")) (array 1 (array 0) (array) (array) (array "n")))))) (entry "typeMembers" (array)) (entry "typeNumbering" (array)) (entry "typeTable" (array (array 4) (array 4) (array 7 1))) (entry "types" (array)) (entry "valueTable" (array (array 2 2))) (entry "variables" (array)))))

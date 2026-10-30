@@ -1,0 +1,23 @@
+(test 1)
+(name "an-alias-of-any-at-an-optional-contract-slot-refuses")
+(note "A slot taking `App.Shape?` judges a some against the contract, and a value read through an alias of Any is of a type the build does not know, so the call refuses at the build.")
+
+(program
+  (warp 1)
+  (type App.Loose Any)
+  (struct App.Point
+    (satisfies App.Shape)
+    (field x Int))
+  (contract App.Shape)
+  (procedure App.g
+    (parameter p (type (optional App.Shape)))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let d (type App.Loose) 5)
+      (return (call App.g d)))))
+(expect (refuses build))

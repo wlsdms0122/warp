@@ -1,0 +1,33 @@
+(test 1)
+(name "a-value-cast-from-any-to-a-contract-dispatches-by-the-type-it-is")
+(note "The cast reads what `App.anything` returns, read as `Any`, as `App.Described`, and the run holds the value to the contract by the type it is an instance of. An `Int` conforms because a document claims the contract for `Int`, and the call picks `Int.describe`.")
+
+(program
+  (warp 1)
+  (contract App.Described
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head Int)
+    (satisfies App.Described)
+    (procedure describe
+      (const)
+      (isolated)
+      (parameter of (type Int))
+      (returns String)
+      (body
+        (return "a whole number"))))
+  (procedure App.anything
+    (const)
+    (isolated)
+    (returns Any)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (return (call App.Described.describe (as (call App.anything) App.Described))))))
+(expect (answers "a whole number"))

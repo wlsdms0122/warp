@@ -1,0 +1,23 @@
+(test 1)
+(name "the-asking-cast-reads-another-name-as-null")
+(note "Through `Any` the build cannot see the name, so the asking cast reads it at the run: a name that does not match reads as null, the way a type that does not match does.")
+
+(program
+  (warp 1)
+  (struct Account
+    (field balance Int))
+  (struct Vault
+    (field balance Int))
+  (procedure entry
+    (access public)
+    (returns (optional Account))
+    (failing cast_refused)
+    (body
+      (let held (as (struct (field balance 1)) Vault))
+      (return (call read held))))
+  (procedure read
+    (parameter account)
+    (returns (optional Account))
+    (body
+      (return (as? account Account)))))
+(expect (answers null))

@@ -1,0 +1,17 @@
+(test 1)
+(name "first-and-last-read-the-ends")
+(note "first and last return the elements at the ends of an array, in the order the array holds, each as the some of `some Element?`, which is the element itself.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.first)
+  (import Standard.Collection.last)
+  (procedure entry
+    (access public)
+    (returns (array (optional Int)))
+    (body
+      (let items (array 1 2 3))
+      (let front (call Standard.Collection.first items))
+      (let back (call Standard.Collection.last items))
+      (return (array front back)))))
+(expect (answers (array 1 3)))

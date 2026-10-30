@@ -1,0 +1,26 @@
+(test 1)
+(name "a-type-member-given-twice-in-one-document-refuses")
+(note "One document gives App.Box the type member Item under `App.Box<Int>` and under `App.Box<String>`. One type gives one type member under a name, so the two refuse at the load.")
+
+(documents
+  (document
+    (warp 1)
+    (struct App.Box
+      (typeParameter T)
+      (field item (some T)))))
+
+(program
+  (warp 1)
+  (import App.Box)
+  (extension
+    (head (named App.Box Int))
+    (type Item Int))
+  (extension
+    (head (named App.Box String))
+    (type Item String))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

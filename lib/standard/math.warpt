@@ -1,0 +1,53 @@
+(warp 1)
+(import Standard.Comparable)
+(import Standard.Comparable.lessThan)
+(import Standard.Numeric)
+(import Standard.Numeric.minus)
+
+(procedure Standard.Math.absolute
+  (const)
+  (isolated)
+  (parameter number (type (some N Standard.Comparable Standard.Numeric)))
+  (returns (some N))
+  (body
+    (let zero (call Standard.Numeric.minus number number))
+    (conditional
+      (when (call Standard.Comparable.lessThan zero number))
+      (then
+        (return number)))
+    (return (call Standard.Numeric.minus zero number))))
+
+(procedure Standard.Math.greaterThan
+  (const)
+  (isolated)
+  (parameter lhs (type (some T Standard.Comparable)))
+  (parameter rhs (type (some T)))
+  (returns Bool)
+  (body
+    (return (call Standard.Comparable.lessThan rhs lhs))))
+
+(procedure Standard.Math.max
+  (const)
+  (isolated)
+  (parameter lhs (type (some T Standard.Comparable)))
+  (parameter rhs (type (some T)))
+  (returns (some T))
+  (body
+    (conditional
+      (when (call Standard.Comparable.lessThan rhs lhs))
+      (then
+        (return lhs)))
+    (return rhs)))
+
+(procedure Standard.Math.min
+  (const)
+  (isolated)
+  (parameter lhs (type (some T Standard.Comparable)))
+  (parameter rhs (type (some T)))
+  (returns (some T))
+  (body
+    (conditional
+      (when (call Standard.Comparable.lessThan rhs lhs))
+      (then
+        (return rhs)))
+    (return lhs)))

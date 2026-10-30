@@ -1,0 +1,18 @@
+(test 1)
+(name "a-bound-beside-an-associated-type-in-a-slot-refuses")
+(note "A bound stands beside a type parameter where it is introduced, and an associated type is introduced by the contract that asks it. A slot writing `some C.Item: Hashable` refuses at the load; the signature says it under `bounds`, keyed by `C.Item`.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter c (type (some C)))
+    (parameter i (type (some C.Item Hashable)))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

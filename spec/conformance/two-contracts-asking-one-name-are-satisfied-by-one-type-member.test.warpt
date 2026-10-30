@@ -1,0 +1,71 @@
+(test 1)
+(name "two-contracts-asking-one-name-are-satisfied-by-one-type-member")
+(note "`Lib.Container` and `Lib.Held` both ask Item, and App.Box's one type member satisfies both.")
+
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Container
+      (type Item)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item)))
+    (procedure Lib.firstOf
+      (access public)
+      (parameter c (type (some C Lib.Container)))
+      (returns (some C.Item))
+      (body
+        (return (call Lib.Container.first c)))))
+  (document
+    (warp 1)
+    (contract Lib.Held
+      (type Item)
+      (procedure held
+        (parameter of (type Self))
+        (returns Self.Item))))
+  (document
+    (warp 1)
+    (import Lib.Container)
+    (import Lib.Held)
+    (struct App.Box
+      (typeParameter T)
+      (satisfies Lib.Container Lib.Held)
+      (field item (some T))
+      (type Item (some T))
+      (procedure first
+        (access public)
+        (parameter of (type (named App.Box (some T))))
+        (returns (some T))
+        (body
+          (return (path of (field item)))))
+      (procedure held
+        (access public)
+        (parameter of (type (named App.Box (some T))))
+        (returns (some T))
+        (body
+          (return (path of (field item)))))))
+  (document
+    (warp 1)
+    (import Lib.Container)
+    (import Lib.Container.first)
+    (import Lib.Held)
+    (procedure Use.both
+      (access public)
+      (parameter c (type (some C Lib.Container Lib.Held)))
+      (returns (some C.Item))
+      (body
+        (let x (call Lib.Container.first c))
+        (return x)))))
+
+(program
+  (warp 1)
+  (import App.Box)
+  (import Use.both)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let b (type (named App.Box Int)) (struct (field item 1)))
+      (let x (call Use.both b))
+      (return x))))
+(expect (answers 1))

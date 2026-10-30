@@ -1,0 +1,5 @@
+(test 1)
+(name "bytes-running-into-bytes-refuse")
+(note "Bytes end at their closing quote, and white space or a parenthesis separates them from the next token. `x\"6a\"x\"73\"` is neither one spelling of two bytes nor two elements.")
+(text "(warp 1)\n(const a (array x\"6a\"x\"73\"))\n")
+(expect (refuses load))

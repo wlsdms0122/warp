@@ -1,0 +1,14 @@
+(test 1)
+(name "a-cast-naming-what-the-reading-already-is-refuses")
+(note "A cast names a type the reading is not yet. Where the reading already is that type, the claim says nothing, and it is refused at the build the way a needless `?.` is.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter count (type Int))
+    (returns Int)
+    (failing cast_refused)
+    (body
+      (return (as count Int)))))
+(expect (refuses build))

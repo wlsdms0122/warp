@@ -1,0 +1,31 @@
+(test 1)
+(name "a-contract-stands-where-a-type-is-written")
+(note "A contract's name stands where a type is written: the slot takes a value of whatever type conforms to it, the body calls the contract's procedure without knowing which type it holds, and no name ties the slot to any other.")
+
+(program
+  (warp 1)
+  (struct Bank.Card
+    (satisfies App.Describable)
+    (field last String)
+    (procedure describe
+      (parameter of (type Bank.Card))
+      (returns String)
+      (body
+        (return "a card"))))
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (procedure App.tell
+    (parameter it (type App.Describable))
+    (returns String)
+    (body
+      (return (call App.Describable.describe it))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let card (as (struct (field last "42")) Bank.Card))
+      (return (call App.tell card)))))
+(expect (answers "a card"))

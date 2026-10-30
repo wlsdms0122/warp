@@ -1,0 +1,35 @@
+(test 1)
+(name "a-fixed-name-bound-to-a-calls-return-value-carries-what-its-declaration-says")
+(note "`f` is bound to what calling `make` returns, and `make` declares that it returns a `const` procedure type. A call of a declaration returns what the declaration says, so `f` follows that type, and a closure that captured `f` and declares `const` may call it.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.map)
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (body
+      (let f (call make))
+      (return
+        (call Standard.Collection.map
+          (array 1 2)
+          (closure
+            (const)
+            (isolated)
+            (parameter x (type Int))
+            (returns Int)
+            (body
+              (let y (apply f x))
+              (return y)))))))
+  (procedure make
+    (returns (procedure (const) (isolated) (parameters Int) (returns Int)))
+    (body
+      (return
+        (closure
+          (const)
+          (isolated)
+          (parameter x (type Int))
+          (returns Int)
+          (body
+            (return x)))))))
+(expect (answers (array 1 2)))

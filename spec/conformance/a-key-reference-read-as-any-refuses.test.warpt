@@ -1,0 +1,14 @@
+(test 1)
+(name "a-key-reference-read-as-any-refuses")
+(note "On a dictionary keyed by strings a key stands where a String is read, and k reads Any, which stands only where Any is declared until a cast says what it is, so the build refuses the reference.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let k (type Any) "a")
+      (let held (type (dictionary String Int)) (dictionary (entry "a" 1)))
+      (return (path held (index k))))))
+(expect (refuses build))

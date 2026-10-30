@@ -1,0 +1,28 @@
+(warp 1)
+
+(struct p.Bag
+  (field items (array p.Named)))
+
+(struct p.Cat
+  (satisfies p.Named)
+  (field lives Int)
+  (procedure name
+    (const)
+    (parameter of (type p.Cat))
+    (returns String)
+    (body
+      (return "cat"))))
+
+(contract p.Named
+  (procedure name
+    (const)
+    (parameter of (type Self))
+    (returns String)))
+
+(procedure entry
+  (access public)
+  (returns String)
+  (failing aborted cast_refused)
+  (body
+    (let bag (as (struct (field items (array (as (struct (field lives 9)) p.Cat)))) p.Bag))
+    (return (call p.Named.name (path bag (field items) (index 0))))))

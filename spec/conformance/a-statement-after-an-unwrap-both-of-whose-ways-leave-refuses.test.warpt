@@ -1,0 +1,20 @@
+(test 1)
+(name "a-statement-after-an-unwrap-both-of-whose-ways-leave-refuses")
+(note "The leave rules reach through structure: an unwrap whose `then` and `else` both end in a `return` never finishes, so nothing may follow it.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter o (type (optional Int)))
+    (returns Int)
+    (body
+      (let x
+        (unwrap o
+          (then
+            (return x))
+          (else
+            (return 0))))
+      (return 9))))
+(arguments (argument o 5))
+(expect (refuses load))

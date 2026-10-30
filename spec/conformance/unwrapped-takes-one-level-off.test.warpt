@@ -1,0 +1,22 @@
+(test 1)
+(name "unwrapped-takes-one-level-off")
+(note "`unwrapped` takes one level off, as an unwrap does. Over `Int??` holding the some of the inner none it returns that none, `null`, and `else` is not asked.")
+
+(program
+  (warp 1)
+  (import Standard.Optional.unwrapped)
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let inner (type (optional Int)) null)
+      (let o (type (optional (optional Int))) inner)
+      (return
+        (call Standard.Optional.unwrapped o
+          (closure
+            (const)
+            (isolated)
+            (returns (optional Int))
+            (body
+              (return 7))))))))
+(expect (answers null))

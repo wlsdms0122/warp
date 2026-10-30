@@ -1,0 +1,14 @@
+(test 1)
+(name "a-loop-condition-that-is-not-a-bool-refuses")
+(note "A loop asks its condition before every round, and the result chooses whether the round runs, so it is a bool the same way a conditional's is.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (body
+      (let spin
+        (loop
+          (while "yes")
+          (body))))))
+(expect (refuses build))

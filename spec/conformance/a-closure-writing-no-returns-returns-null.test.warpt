@@ -1,0 +1,17 @@
+(test 1)
+(name "a-closure-writing-no-returns-returns-null")
+(note "A closure literal writes its signature the way a declaration does, and one writing no `returns` returns null wherever it is written.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (body
+      (let f
+        (type (procedure (parameters) (returns Null)))
+        (closure
+          (body
+            (let x 1))))
+      (let answered (apply f))
+      (return answered))))
+(expect (answers null))

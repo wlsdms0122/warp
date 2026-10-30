@@ -1,0 +1,22 @@
+(test 1)
+(name "a-dictionary-keyed-by-a-parameter-handed-as-keyed-by-its-optional-marks-its-nones")
+(note "A dictionary whose keys read `some T` where one whose keys read `some T?` is asked is walked, and each key is its some, by value. Filled with `Int?`, the key `null` is `Some` holding `null`, and the key `2` is `2`.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter xs (type (dictionary (some T Hashable) Int)))
+    (returns (dictionary (optional (some T)) Int))
+    (body
+      (return xs)))
+  (procedure App.g
+    (parameter ys (type (dictionary (optional Int) Int)))
+    (returns Any)
+    (body
+      (return (call App.f ys))))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (return (call App.g (dictionary (entry null 1) (entry 2 3)))))))
+(expect (answers (dictionary (entry 2 3) (entry (struct Some (field wrapped null)) 1))))

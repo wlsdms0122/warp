@@ -1,0 +1,31 @@
+(test 1)
+(name "a-cast-of-a-closure-over-a-type-parameter-its-making-call-filled-fails")
+(note "`App.mk` returns a closure taking its own `some T`, and the call of it with 5 fills `T` with `Int`. The closure holds that, so held as `Any` it is a value of `(Int) -> Int`, and the cast to `(Double) -> Int` fails with cast_refused, since `Int` is not `Double`, which the try catches.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric)
+  (procedure App.mk
+    (parameter x (type (some T Standard.Numeric)))
+    (returns (procedure (parameters (some T)) (returns Int)))
+    (body
+      (return
+        (closure
+          (parameter y (type (some T)))
+          (returns Int)
+          (body
+            (return 0))))))
+  (procedure entry
+    (access public)
+    (returns (optional String))
+    (body
+      (let a (type Any) (call App.mk 5))
+      (var r)
+      (let caught
+        (try
+          (body
+            (let f (as a (procedure (parameters Double) (returns Int)))))
+          (catch
+            (set r (path caught (field type))))))
+      (return r))))
+(expect (answers "cast_refused"))

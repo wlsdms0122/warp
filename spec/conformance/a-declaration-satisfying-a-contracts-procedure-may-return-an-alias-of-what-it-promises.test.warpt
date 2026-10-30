@@ -1,0 +1,37 @@
+(test 1)
+(name "a-declaration-satisfying-a-contracts-procedure-may-return-an-alias-of-what-it-promises")
+(note "The contract returns App.Describable and the declaration satisfying it returns App.D, which names App.Describable.")
+
+(program
+  (warp 1)
+  (type App.D App.Describable)
+  (struct Bank.Card
+    (satisfies App.Describable App.Maker)
+    (field last String)
+    (procedure describe
+      (parameter of (type Bank.Card))
+      (returns String)
+      (body
+        (return "a card")))
+    (procedure make
+      (parameter of (type Bank.Card))
+      (returns App.D)
+      (body
+        (return of))))
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (contract App.Maker
+    (procedure make
+      (parameter of (type Self))
+      (returns App.Describable)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let c (as (struct (field last "1")) Bank.Card))
+      (let m (call App.Maker.make c))
+      (return (call App.Describable.describe m)))))
+(expect (answers "a card"))

@@ -1,0 +1,15 @@
+(test 1)
+(name "text-spells-bytes-the-way-a-document-writes-them")
+(note "text spells bytes the way a document writes them, as x and their hex digits. A value's spelling does not change with how deep it sits, so a container shows that same spelling, quoted the way a string in that position is quoted.")
+
+(program
+  (warp 1)
+  (import Standard.Text.text)
+  (procedure entry
+    (access public)
+    (returns (array String))
+    (body
+      (let alone (call Standard.Text.text x"6869"))
+      (let held (call Standard.Text.text (array x"6869")))
+      (return (array alone held)))))
+(expect (answers (array "x\"6869\"" "[\"x\\\"6869\\\"\"]")))

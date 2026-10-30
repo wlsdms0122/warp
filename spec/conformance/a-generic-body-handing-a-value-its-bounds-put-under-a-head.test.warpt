@@ -1,0 +1,32 @@
+(test 1)
+(name "a-generic-body-handing-a-value-its-bounds-put-under-a-head")
+(note "A procedure bounding `T` by `Hashable` hands a box of `T` where App.Describable is asked, and the head `App.Box<some T: Hashable>` takes every box its bounds allow, so the reading is one the claim's head takes and it conforms.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head (named App.Box (some T Hashable)))
+    (satisfies App.Describable)
+    (procedure describe
+      (parameter of (type (named App.Box (some T))))
+      (returns String)
+      (body
+        (return "box"))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (return (call relay (struct (field item 1))))))
+  (procedure relay
+    (parameter b (type (named App.Box (some T Hashable))))
+    (returns String)
+    (body
+      (return (call App.Describable.describe b)))))
+(expect (answers "box"))

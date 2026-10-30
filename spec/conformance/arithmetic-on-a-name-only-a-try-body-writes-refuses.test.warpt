@@ -1,0 +1,22 @@
+(test 1)
+(name "arithmetic-on-a-name-only-a-try-body-writes-refuses")
+(note "A try's body and its catch are its two ways, and they meet after it. The body writes `tried` an int and the catch runs statements writing nothing, so `tried` joins the int with the null it held and reads `Int?`, and a procedure asking for `Int` refuses it at the build.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (parameter payload)
+    (returns Int)
+    (body
+      (var tried)
+      (try
+        (body
+          (let read (as payload Int))
+          (set tried read))
+        (catch
+          (let noted 0)))
+      (let sum (call Standard.Numeric.plus tried 1))
+      (return sum))))
+(expect (refuses build))

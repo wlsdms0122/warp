@@ -1,0 +1,5 @@
+(test 1)
+(name "a-some-holding-what-is-not-a-none-written-as-text-refuses")
+(note "A `Some` holds `null` or a `Some` under its one field, `wrapped`. This text writes a module variable holding a `Some` that holds 5, which is no value, so the text refuses it as the binary does.")
+(text "(warp 1)\n(var v (type Any) (struct Some (field wrapped 5)))\n(procedure entry\n  (access public)\n  (returns Any)\n  (body\n    (return v)))\n")
+(expect (refuses load))

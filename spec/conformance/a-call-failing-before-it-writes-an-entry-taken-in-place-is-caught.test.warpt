@@ -1,0 +1,48 @@
+(test 1)
+(name "a-call-failing-before-it-writes-an-entry-taken-in-place-is-caught")
+(note "`App.touch` takes an entry of a dictionary not written yet in place at its own `some T`, and fails before writing it. The failure reaches the caller as it was raised, so the caller's try catches it.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure App.h
+    (parameter n (type (some T)))
+    (parameter j)
+    (returns (some T))
+    (body
+      (var cell n)
+      (let c
+        (closure
+          (parameter y (type (some T)))
+          (returns Int)
+          (body
+            (set cell y)
+            (return 0))))
+      (return cell)))
+  (procedure App.touch
+    (parameter x (type (inout (some T))))
+    (parameter n (type (some T)))
+    (parameter j)
+    (parameter stop (type Bool))
+    (returns Int)
+    (failing aborted)
+    (body
+      (let y (call App.h n j))
+      (conditional
+        (when stop)
+        (then
+          (call Standard.Control.abort "boom")))
+      (return 0)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (var d (type (dictionary String Int)) (dictionary (entry "a" 1)))
+      (var seen "no")
+      (try
+        (body
+          (call App.touch (path d (index "new")) 2 3 true))
+        (catch
+          (set seen "rescued")))
+      (return seen))))
+(expect (answers "rescued"))

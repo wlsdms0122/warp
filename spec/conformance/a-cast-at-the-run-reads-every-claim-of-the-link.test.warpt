@@ -1,0 +1,55 @@
+(test 1)
+(name "a-cast-at-the-run-reads-every-claim-of-the-link")
+(note "A cast at the run judges what arrives against every claim the link holds. The program stands on nothing of the document claiming T.Card conforms to App.Describable, and the cast `App.probe` writes, run, gives the card, which the program describes.")
+
+(documents
+  (document
+    (warp 1)
+    (contract App.Describable
+      (procedure describe
+        (parameter of (type Self))
+        (returns String))))
+  (document
+    (warp 1)
+    (struct T.Card
+      (field rank Int)
+      (procedure describe
+        (const)
+        (isolated)
+        (parameter of (type T.Card))
+        (returns String)
+        (body
+          (return "card")))))
+  (document
+    (warp 1)
+    (import App.Describable)
+    (import T.Card)
+    (extension
+      (head T.Card)
+      (satisfies App.Describable)))
+  (document
+    (warp 1)
+    (import App.Describable)
+    (import T.Card)
+    (procedure App.probe
+      (access public)
+      (const)
+      (isolated)
+      (returns (optional App.Describable))
+      (failing cast_refused)
+      (body
+        (let two (type Any) (as (struct (field rank 1)) T.Card))
+        (return (as? two App.Describable))))))
+
+(program
+  (warp 1)
+  (import App.Describable)
+  (import App.Describable.describe)
+  (import App.probe)
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (return (call App.Describable.describe (as (call App.probe) App.Describable))))))
+(expect (answers "card"))

@@ -1,0 +1,13 @@
+(test 1)
+(name "inout-written-on-a-name-refuses")
+(note "`inout` is written on a parameter's type and nowhere else. A `let` declaring `inout Int` refuses at the load.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let x (type (inout Int)) 1)
+      (return x))))
+(expect (refuses load))

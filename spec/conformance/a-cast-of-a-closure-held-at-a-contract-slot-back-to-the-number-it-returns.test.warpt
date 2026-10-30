@@ -1,0 +1,22 @@
+(test 1)
+(name "a-cast-of-a-closure-held-at-a-contract-slot-back-to-the-number-it-returns")
+(note "`c` is declared `() -> Int`, and its closure writes `returns Int`, and holding it at `() -> Standard.Numeric`, which `Int` conforms to, hands it on as it is. The cast back to `() -> Int` takes the closure.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (body
+      (let c
+        (type (procedure (parameters) (returns Int)))
+        (closure
+          (returns Int)
+          (body
+            (return 1))))
+      (let j (type (procedure (parameters) (returns Standard.Numeric))) c)
+      (let e (as j (procedure (parameters) (returns Int))))
+      (return (apply e)))))
+(expect (answers 1))

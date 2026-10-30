@@ -1,0 +1,21 @@
+(test 1)
+(name "a-conditional-writes-the-flow-it-is-in")
+(note "A conditional has no value. The condition chooses a way through the body, and what an arm keeps it writes to an outer variable.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter take (type Bool))
+    (returns String)
+    (body
+      (var chosen)
+      (conditional
+        (when take)
+        (then
+          (set chosen "took-then"))
+        (else
+          (set chosen "took-else")))
+      (return chosen))))
+(arguments (argument take true))
+(expect (answers "took-then"))

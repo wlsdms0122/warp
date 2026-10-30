@@ -1,0 +1,65 @@
+(test 1)
+(name "a-closure-returning-an-associated-type-two-steps-from-its-parameter")
+(note "`Use.deep` bounds `C.Item` by `Lib.Container`, and a closure in its body returns the first of the first of c, whose type stands two steps from C.")
+
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Container
+      (type Item)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item)))
+    (procedure Lib.firstOf
+      (access public)
+      (parameter c (type (some C Lib.Container)))
+      (returns (some C.Item))
+      (body
+        (return (call Lib.Container.first c)))))
+  (document
+    (warp 1)
+    (import Lib.Container)
+    (struct App.Box
+      (typeParameter T)
+      (satisfies Lib.Container)
+      (field item (some T))
+      (type Item (some T))
+      (procedure first
+        (access public)
+        (parameter of (type (named App.Box (some T))))
+        (returns (some T))
+        (body
+          (return (path of (field item)))))))
+  (document
+    (warp 1)
+    (import Lib.Container)
+    (import Lib.Container.first)
+    (import Lib.firstOf)
+    (procedure Use.deep
+      (access public)
+      (parameter c (type (some C Lib.Container)))
+      (returns Int)
+      (bound C.Item Lib.Container)
+      (body
+        (let f
+          (closure
+            (returns (some C.Item.Item))
+            (body
+              (let y (call Lib.Container.first c))
+              (return (call Lib.firstOf y)))))
+        (return 1)))))
+
+(program
+  (warp 1)
+  (import App.Box)
+  (import Int.plus)
+  (import Use.deep)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let b (type (named App.Box Int)) (struct (field item 1)))
+      (let bb (type (named App.Box (named App.Box Int))) (struct (field item b)))
+      (let r (call Use.deep bb))
+      (return (call Int.plus r 1)))))
+(expect (answers 2))

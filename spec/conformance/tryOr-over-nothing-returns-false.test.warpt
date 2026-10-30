@@ -1,0 +1,14 @@
+(test 1)
+(name "tryOr-over-nothing-returns-false")
+(note "`Standard.Logic.tryOr` over no condition returns `false`, as `or` does: no side decided the result, so the chain's own result stands. It declares `failing: anything`, and so does the entry.")
+
+(program
+  (warp 1)
+  (import Standard.Logic.tryOr)
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (failing (anything))
+    (body
+      (return (call Standard.Logic.tryOr (array))))))
+(expect (answers false))

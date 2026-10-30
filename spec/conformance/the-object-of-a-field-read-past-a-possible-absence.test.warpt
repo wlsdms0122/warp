@@ -1,0 +1,22 @@
+(test 1)
+(name "the-object-of-a-field-read-past-a-possible-absence")
+(note "A dot after `?.` or after `?[` reads a field of the declared struct the walk reached past the absence, so its step stands at the field's place with the mark riding on it, as a dot after a plain segment does. `p?.y`, `xs?[0].y` and `q.y` each read `y` at place 1.")
+
+(program
+  (warp 1)
+  (struct App.P
+    (field x Int)
+    (field y Int))
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (parameter p (type (optional App.P)))
+    (parameter q (type App.P))
+    (parameter xs (type (optional (array App.P))))
+    (returns Int)
+    (body
+      (let a (path p (field? y)))
+      (let b (path xs (index? 0) (field y)))
+      (return (path q (field y))))))
+(expect (builds (dictionary (entry "addressTable" (array (array 0 (array (array 0 1 "y" true)) false) (array 2 (array (array 2 0 true) (array 0 1 "y" false)) false) (array 1 (array (array 0 1 "y" false)) false))) (entry "claims" (array)) (entry "constants" (array)) (entry "contracts" (array)) (entry "dependencies" (array)) (entry "document" (array x"f96adc4186208a5c30b49db4a914e1cfe45bd38bcf61ee63970531ee17caca2c")) (entry "importedClaims" (array)) (entry "lifted" (array)) (entry "loweredTypeTable" (array)) (entry "members" (array)) (entry "numbering" (array (array) (array))) (entry "object" 1) (entry "operationTable" (array (array 1 0) (array 1 1) (array 1 2) (array 13 0 (array 2)))) (entry "rows" (array (array "entry" (array (array (array "p" (array 3)) (array "q" (array 4)) (array "xs" (array 7))) 8 (array 1 (array)) 1 1 (array) (array)) 2 (array 0 (array (array (array (array 0 3)) 0 "a") (array (array (array 0 4)) 1 "b") (array (array) 3 "[2]")) (array 5 (array 0 1 2) (array) (array) (array "p" "q" "xs" "a" "b")))))) (entry "typeMembers" (array)) (entry "typeNumbering" (array)) (entry "typeTable" (array (array 4) (array 4) (array 14 "App.P") (array 13 2) (array 14 "App.P") (array 14 "App.P") (array 7 5) (array 13 6) (array 4))) (entry "types" (array (array "App.P" (array 9 (array (array "x" 0) (array "y" 1)))))) (entry "valueTable" (array (array 2 0))) (entry "variables" (array)))))

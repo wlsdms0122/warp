@@ -1,0 +1,18 @@
+(test 1)
+(name "a-path-writing-through-a-field-not-declared-var-refuses")
+(note "A declared type says which of its fields a path may write through: `var Int` opens the field, and a field written without `var` stops the path at the build.")
+
+(program
+  (warp 1)
+  (struct Account
+    (field balance Int)
+    (field owner String))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing cast_refused)
+    (body
+      (var a (as (struct (field balance 1) (field owner "kim")) Account))
+      (set (path a (field balance)) 5)
+      (return (path a (field balance))))))
+(expect (refuses build))

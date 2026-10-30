@@ -1,0 +1,12 @@
+(test 1)
+(name "body-returns-only-what-it-declares")
+(note "A body that writes no `returns` returns nothing when it reaches its end. Reading the last statement would put the return value in the ordering, where nothing points at it.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (body
+      (let first 1)
+      (let second 2))))
+(expect (answers null))

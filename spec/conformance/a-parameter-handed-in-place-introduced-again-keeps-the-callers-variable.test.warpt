@@ -1,0 +1,22 @@
+(test 1)
+(name "a-parameter-handed-in-place-introduced-again-keeps-the-callers-variable")
+(note "A body may introduce a parameter it takes in place again, and the new name has a box of its own. The `set` before the `var` writes the caller's variable; the one after it writes the body's own `x`, and the caller's keeps 5.")
+
+(program
+  (warp 1)
+  (procedure App.bump
+    (parameter x (type (inout Int)))
+    (returns Int)
+    (body
+      (set x 5)
+      (var x 10)
+      (set x 20)
+      (return x)))
+  (procedure entry
+    (access public)
+    (returns (dictionary String Int))
+    (body
+      (var n 1)
+      (let r (call App.bump n))
+      (return (dictionary (entry "n" n) (entry "r" r))))))
+(expect (answers (dictionary (entry "n" 5) (entry "r" 20))))

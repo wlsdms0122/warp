@@ -1,0 +1,23 @@
+(test 1)
+(name "a-statement-after-a-try-both-of-whose-ways-leave-refuses")
+(note "The leave rules reach through structure: a try whose body and catch both end in a `return` never finishes, so nothing may follow it.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure App.check
+    (returns Int)
+    (failing aborted)
+    (body
+      (call Standard.Control.abort "checked")))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (try
+        (body
+          (return (call App.check)))
+        (catch
+          (return 0)))
+      (return 9))))
+(expect (refuses load))

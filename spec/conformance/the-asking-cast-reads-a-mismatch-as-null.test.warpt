@@ -1,0 +1,14 @@
+(test 1)
+(name "the-asking-cast-reads-a-mismatch-as-null")
+(note "`as?` is `as` with the mark `?.` carries: the author expects the value may not be the named type, so the mismatch reads as the none, `null`, instead of refusing, and the result is exactly `T?`.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter payload)
+    (returns (optional Int))
+    (body
+      (return (as? payload Int)))))
+(arguments (argument payload "not a whole number"))
+(expect (answers null))

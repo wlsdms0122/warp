@@ -1,0 +1,13 @@
+(test 1)
+(name "arithmetic-reads-an-integer-literal-beside-a-double-as-the-double")
+(note "Arithmetic takes two of one type. An integer literal beside a `Double` is read as the `Double` it names, so `1` and `0.5` are both `Double` and the sum is 1.5.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (returns Double)
+    (body
+      (return (call Standard.Numeric.plus 1 0.5)))))
+(expect (answers 1.5))

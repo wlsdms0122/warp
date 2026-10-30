@@ -1,0 +1,15 @@
+(warp 1)
+
+(var handler
+  (closure
+    (returns Int)
+    (body
+      (return 1))))
+
+(procedure entry
+  (access public)
+  (returns Int)
+  (failing (anything))
+  (body
+    (let got (apply handler))
+    (return got)))

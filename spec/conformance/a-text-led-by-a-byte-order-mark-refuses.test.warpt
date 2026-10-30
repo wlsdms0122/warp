@@ -1,0 +1,5 @@
+(test 1)
+(name "a-text-led-by-a-byte-order-mark-refuses")
+(note "A text begins with its first node. Bytes led by U+FEFF begin with another character, so they are no text.")
+(text x"efbbbf28776172702031290a")
+(expect (refuses load))

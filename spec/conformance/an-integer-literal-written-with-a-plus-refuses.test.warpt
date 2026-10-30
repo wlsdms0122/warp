@@ -1,0 +1,5 @@
+(test 1)
+(name "an-integer-literal-written-with-a-plus-refuses")
+(note "An integer is written with a `-` when negative and with no sign otherwise, so `+1` is no number's one writing and is refused.")
+(text "(warp 1)\n(const a +1)\n")
+(expect (refuses load))

@@ -1,0 +1,12 @@
+(test 1)
+(name "a-name-on-a-return-refuses")
+(note "A `return` never finishes, so a name on it could never bind. The statement refuses at the load.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let x (return 1)))))
+(expect (refuses load))

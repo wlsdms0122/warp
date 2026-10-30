@@ -1,0 +1,20 @@
+(test 1)
+(name "a-dictionary-literal-keyed-by-a-closure-refuses")
+(note "A procedure conforms to no contract, so a dictionary literal whose key is a closure reads as a dictionary keyed by a procedure type, which does not conform to `Hashable`, and it refuses at the build where it is written.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let d
+        (dictionary
+          (entry
+            (closure
+              (returns Int)
+              (body
+                (return 1)))
+            1)))
+      (return 1))))
+(expect (refuses build))

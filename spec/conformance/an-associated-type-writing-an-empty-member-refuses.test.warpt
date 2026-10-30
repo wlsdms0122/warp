@@ -1,0 +1,23 @@
+(test 1)
+(name "an-associated-type-writing-an-empty-member-refuses")
+(note "An associated type is its base and its members, each a name, and a name is written. `some C..Item` writes nothing between its two dots, so it refuses at the load.")
+
+(program
+  (warp 1)
+  (contract App.Container
+    (type Item)
+    (procedure first
+      (parameter of (type Self))
+      (returns Self.Item)))
+  (procedure App.f
+    (parameter c (type (some C App.Container)))
+    (parameter i (type (some C..Item)))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

@@ -1,0 +1,40 @@
+(test 1)
+(name "a-declaration-satisfying-a-contracts-procedure-reading-a-bounded-parameter-beside-any-refuses")
+(note "`App.C` asks `m` taking a string and `Any` after the type. `Bank.X.m` satisfies it with two of `some T`, bounded by `App.Nums`, which `Int` and `Double` conform to. Held to the contract, `T` is read as `String` and as `Any`, which join to `Any`; each reading is held to the bounds as it was read, `String` conforms to no bound, and the claim refuses at the build, at the claim.")
+
+(program
+  (warp 1)
+  (struct Bank.X
+    (satisfies App.C)
+    (field k String)
+    (procedure m
+      (parameter of (type Bank.X))
+      (parameter a (type (some T App.Nums)))
+      (parameter b (type (some T)))
+      (returns Int)
+      (body
+        (return 0))))
+  (contract App.C
+    (procedure m
+      (const)
+      (isolated)
+      (parameter of (type Self))
+      (parameter a (type String))
+      (parameter b)
+      (returns Int)))
+  (contract App.Nums)
+  (extension
+    (head Double)
+    (satisfies App.Nums))
+  (extension
+    (head Int)
+    (satisfies App.Nums))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let x (type Bank.X) (struct (field k "a")))
+      (let s (type String) "s")
+      (let u (type Any) 1)
+      (return (call App.C.m x s u)))))
+(expect (refuses build))

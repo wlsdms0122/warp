@@ -1,0 +1,40 @@
+(test 1)
+(name "a-closure-writing-same-types-refuses")
+(note "A closure's `some C` is the procedure's around it, which says what its associated types are, so a closure writing `sameTypes` refuses at the load.")
+
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Container
+      (type Item)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item)))
+    (procedure Lib.firstOf
+      (access public)
+      (parameter c (type (some C Lib.Container)))
+      (returns (some C.Item))
+      (body
+        (return (call Lib.Container.first c))))))
+
+(program
+  (warp 1)
+  (import Lib.Container)
+  (procedure Use.it
+    (parameter c (type (some C Lib.Container)))
+    (returns Int)
+    (body
+      (let f
+        (closure
+          (parameter y (type (some C.Item)))
+          (returns (some C.Item))
+          (sameType C.Item Int)
+          (body
+            (return y))))
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

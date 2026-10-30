@@ -1,0 +1,16 @@
+(test 1)
+(name "a-try-without-a-catch-refuses")
+(note "A try's `catch` is required. One written without it refuses at the load.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (try
+        (body
+          (call Standard.Control.abort "x")))
+      (return 1))))
+(expect (refuses load))

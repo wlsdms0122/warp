@@ -1,0 +1,26 @@
+(test 1)
+(name "a-call-of-a-value-whose-type-writes-no-parameters-refuses")
+(note "A call of a value whose type writes no parameters gives the build nothing to hold an argument or a variable against, so it refuses at the build. A cast says what procedure it is.")
+
+(program
+  (warp 1)
+  (procedure calling
+    (parameter read (type Procedure))
+    (returns Any)
+    (failing (anything))
+    (body
+      (let answered (apply read 10))
+      (return answered)))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (failing (anything))
+    (body
+      (let reading
+        (closure
+          (parameter count (type Int))
+          (returns Int)
+          (body
+            (return count))))
+      (return (call calling reading)))))
+(expect (refuses build))

@@ -1,0 +1,34 @@
+(test 1)
+(name "two-ways-taking-a-variable-as-a-type-and-its-optional-refuse")
+(note "One arm makes a closure that takes `n` while it reads `Int?` and writes null into it, and the other sets `n` to an int first and takes it as `Int`. The first closure goes on writing null whatever the second reads `n` as, so the build refuses where the arms meet.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter ready (type Bool))
+    (returns (optional Int))
+    (body
+      (var n 0)
+      (conditional
+        (when ready)
+        (then
+          (set n null)))
+      (conditional
+        (when ready)
+        (then
+          (let a
+            (closure
+              (body
+                (set n null)))))
+        (else
+          (set n 2)
+          (let b
+            (closure
+              (returns Int)
+              (body
+                (return n))))))
+      (set n 5)
+      (return n))))
+(arguments (argument ready true))
+(expect (refuses build))

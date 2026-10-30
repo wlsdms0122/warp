@@ -1,0 +1,21 @@
+(test 1)
+(name "a-struct-literal-handed-to-a-called-value-at-a-struct-naming-itself")
+(note "`App.Node` is a declared struct holding a list of itself, and `g` is held at `(App.Node) -> Any`. A call of `g` holds the literal to that slot field by field, however deep the struct goes, and names each level `App.Node`.")
+
+(program
+  (warp 1)
+  (struct App.Node
+    (field children (array App.Node)))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let g
+        (type (procedure (parameters App.Node) (returns Any)))
+        (closure
+          (parameter p)
+          (returns Any)
+          (body
+            (return p))))
+      (return (apply g (struct (field children (array (struct (field children (array)))))))))))
+(expect (answers (struct App.Node (field children (array (struct App.Node (field children (array))))))))

@@ -1,0 +1,26 @@
+(test 1)
+(name "a-slot-of-a-type-takes-no-value-read-as-a-contract-refuses")
+(note "A value read as a contract is of whichever type conforms to it, and the build does not know which, so a slot of a type takes it only through a cast. Handing a value read as `App.Marked` where `Int` is declared refuses at the build, though `Int` conforms to `App.Marked`.")
+
+(program
+  (warp 1)
+  (contract App.Marked)
+  (extension
+    (head Int)
+    (satisfies App.Marked))
+  (procedure App.f
+    (parameter n (type Int))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure App.g
+    (parameter x (type App.Marked))
+    (returns Int)
+    (body
+      (return (call App.f x))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.g 1)))))
+(expect (refuses build))

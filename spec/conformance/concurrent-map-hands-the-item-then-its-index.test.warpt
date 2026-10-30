@@ -1,0 +1,29 @@
+(test 1)
+(name "concurrent-map-hands-the-item-then-its-index")
+(note "The concurrent map hands its closure the item, then its index, and the closure declares both, in that order, under names of its own. It returns in the collection's order.")
+
+(program
+  (warp 1)
+  (import Standard.Concurrent.map)
+  (import Standard.Text.joined)
+  (import Standard.Text.text)
+  (procedure entry
+    (access public)
+    (isolated)
+    (returns (array String))
+    (failing concurrent_failed)
+    (body
+      (let tagged
+        (call Standard.Concurrent.map
+          (array "a" "b")
+          (closure
+            (const)
+            (isolated)
+            (parameter item (type String))
+            (parameter index (type Int))
+            (returns String)
+            (body
+              (let place (call Standard.Text.text index))
+              (return (call Standard.Text.joined (array place item) ""))))))
+      (return tagged))))
+(expect (answers (array "0a" "1b")))

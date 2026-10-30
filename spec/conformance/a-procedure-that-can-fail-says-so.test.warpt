@@ -1,0 +1,19 @@
+(test 1)
+(name "a-procedure-that-can-fail-says-so")
+(note "`Standard.Control.abort` says it raises `aborted`, so the try around it stands and the catch reads the procedure the failure names itself by.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (var tried)
+      (try
+        (body
+          (call Standard.Control.abort "no"))
+        (catch
+          (set tried "rescued")))
+      (return tried))))
+(expect (answers "rescued"))

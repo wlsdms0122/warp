@@ -1,0 +1,25 @@
+(test 1)
+(name "constants-naming-a-name-one-introduced-name-no-cycle")
+(note "A constant folds from the constants it reads, and a name its closure introduced is not one of them. `a`'s closure reads its own `b`, so `a` reads no constant, and `b` reading `a` is no cycle.")
+
+(program
+  (warp 1)
+  (const a
+    (closure
+      (returns Int)
+      (body
+        (let b 1)
+        (return b))))
+  (const b
+    (closure
+      (returns Int)
+      (failing (anything))
+      (body
+        (return (apply a)))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (body
+      (return (apply b)))))
+(expect (answers 1))

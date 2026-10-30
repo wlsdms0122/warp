@@ -1,0 +1,13 @@
+(test 1)
+(name "arrays-in-another-order-are-two-values")
+(note "Arrays are the same when their elements are, in order. `[1, 2]` and `[2, 1]` hold the same elements in another order and are two values.")
+
+(program
+  (warp 1)
+  (import Standard.Logic.equal)
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (body
+      (return (call Standard.Logic.equal (array 1 2) (array 2 1))))))
+(expect (answers false))

@@ -1,0 +1,14 @@
+(test 1)
+(name "a-dictionary-keyed-by-an-optional-holds-null-as-a-key")
+(note "`Int?` conforms to `Hashable` by the language's claim about every Optional of what does, so it is a dictionary's key type, and `null` is one of its keys like any other: the entry under it is read by a name holding null.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let d (type (dictionary (optional Int) String)) (dictionary (entry 1 "one") (entry null "none")))
+      (let k (type (optional Int)) null)
+      (return (path d (index k))))))
+(expect (answers "none"))

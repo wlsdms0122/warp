@@ -1,0 +1,30 @@
+(warp 1)
+
+(procedure Standard.Optional.tryUnwrapped
+  (const)
+  (isolated)
+  (parameter optional (type (optional (some Wrapped))))
+  (parameter else (type (procedure (const) (isolated) (parameters) (failing (anything)) (returns (some Wrapped)))))
+  (returns (some Wrapped))
+  (failing (anything))
+  (body
+    (let wrapped
+      (unwrap optional
+        (else
+          (let left (apply else))
+          (return left))))
+    (return wrapped)))
+
+(procedure Standard.Optional.unwrapped
+  (const)
+  (isolated)
+  (parameter optional (type (optional (some Wrapped))))
+  (parameter else (type (procedure (const) (isolated) (parameters) (returns (some Wrapped)))))
+  (returns (some Wrapped))
+  (body
+    (let wrapped
+      (unwrap optional
+        (else
+          (let left (apply else))
+          (return left))))
+    (return wrapped)))

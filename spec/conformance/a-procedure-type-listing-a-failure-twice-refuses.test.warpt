@@ -1,0 +1,19 @@
+(test 1)
+(name "a-procedure-type-listing-a-failure-twice-refuses")
+(note "`throws(aborted, aborted)` says what `throws(aborted)` says, and one type is written one way, so this refuses at the load.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let f
+        (type (procedure (parameters Int) (failing aborted aborted) (returns Int)))
+        (closure
+          (parameter x (type Int))
+          (returns Int)
+          (body
+            (return x))))
+      (return 1))))
+(expect (refuses load))

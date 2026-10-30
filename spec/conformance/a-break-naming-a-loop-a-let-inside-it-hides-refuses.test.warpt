@@ -1,0 +1,21 @@
+(test 1)
+(name "a-break-naming-a-loop-a-let-inside-it-hides-refuses")
+(note "The inner loop's body introduces `w` again, and from there `w` names that statement to every asker, so the `break` names no loop around it.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let w
+        (loop
+          (while true)
+          (body
+            (loop
+              (while true)
+              (body
+                (let w 1)
+                (break w))))))
+      (return 1))))
+(expect (refuses load))

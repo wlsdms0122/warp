@@ -1,0 +1,13 @@
+(test 1)
+(name "optional-written-with-brackets-refuses")
+(note "An Optional is written by its `?`, and `Optional` is a name the language writes itself, so a document writing `Optional<Int>` refuses at the load.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let b (type (named Optional Int)) 1)
+      (return 1))))
+(expect (refuses load))

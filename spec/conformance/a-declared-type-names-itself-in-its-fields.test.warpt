@@ -1,0 +1,23 @@
+(test 1)
+(name "a-declared-type-names-itself-in-its-fields")
+(note "A type declared in `types` may name itself in a field, inside an Optional or as a list's element, and a value of it is built and read like any other.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.count)
+  (struct App.Head
+    (field first Int)
+    (field kids Int))
+  (struct T.Node
+    (field kids (array T.Node))
+    (field left (optional T.Node))
+    (field n Int))
+  (procedure entry
+    (access public)
+    (returns App.Head)
+    (failing cast_refused)
+    (body
+      (let leaf (as (struct (field kids (array)) (field left null) (field n 1)) T.Node))
+      (let root (as (struct (field kids (array leaf leaf)) (field left leaf) (field n 2)) T.Node))
+      (return (struct (field first (path root (field kids) (index 0) (field n))) (field kids (call Standard.Collection.count (path root (field kids)))))))))
+(expect (answers (struct App.Head (field first 1) (field kids 2))))

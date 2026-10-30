@@ -1,0 +1,31 @@
+(test 1)
+(name "a-way-ending-in-a-call-returning-an-alias-of-never-contributes-nothing")
+(note "The arm that calls `App.f`, which declares `App.N`, a name for `Never`, never comes back, so it contributes nothing where the ways meet: after the conditional `x` reads `Int`, which `y` holds.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (type App.N Never)
+  (procedure App.f
+    (parameter go (type Bool))
+    (returns App.N)
+    (failing aborted)
+    (body
+      (call Standard.Control.abort "no")))
+  (procedure entry
+    (access public)
+    (parameter c (type Bool))
+    (returns Int)
+    (failing aborted)
+    (body
+      (var x)
+      (conditional
+        (when c)
+        (then
+          (set x 1))
+        (else
+          (call App.f true)))
+      (let y (type Int) x)
+      (return y))))
+(arguments (argument c true))
+(expect (answers 1))

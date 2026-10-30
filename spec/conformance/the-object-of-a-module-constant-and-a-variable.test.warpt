@@ -1,0 +1,15 @@
+(test 1)
+(name "the-object-of-a-module-constant-and-a-variable")
+(note "A constant stands by spelling under constants, folded into every body that read it; a variable stands under variables with what it starts a run holding, and a frame says which slot reads which variable.")
+
+(program
+  (warp 1)
+  (const step 1)
+  (var total 0)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (set total step)
+      (return total))))
+(expect (builds (dictionary (entry "addressTable" (array (array 0 (array) false) (array 0 (array) false))) (entry "claims" (array)) (entry "constants" (array "step")) (entry "contracts" (array)) (entry "dependencies" (array)) (entry "document" (array x"1a593a85b70164500ba8ac74978e47eabbf423444b4f706c2268a90cb969ccd7")) (entry "importedClaims" (array)) (entry "lifted" (array)) (entry "loweredTypeTable" (array)) (entry "members" (array)) (entry "numbering" (array (array) (array))) (entry "object" 1) (entry "operationTable" (array (array 0 0) (array 1 1) (array 13 0 (array 1)))) (entry "rows" (array (array "entry" (array (array) 0 (array 1 (array)) 0 0 (array) (array)) 2 (array 0 (array (array (array (array 2 0)) 0 "total") (array (array) 2 "[1]")) (array 1 (array) (array (array 0 0)) (array) (array "total")))))) (entry "typeMembers" (array)) (entry "typeNumbering" (array)) (entry "typeTable" (array (array 4))) (entry "types" (array)) (entry "valueTable" (array (array 2 1) (array 2 0))) (entry "variables" (array (array "total" 1))))))

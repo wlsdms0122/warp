@@ -1,0 +1,21 @@
+(test 1)
+(name "two-paths-under-one-head-are-handed-in-place-to-one-call")
+(note "Two `inout` parameters may be handed paths under one head. Both hold the same box, and each write lands in it as it is made, so swapping through them swaps the elements.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (body
+      (var xs (array 1 2))
+      (call swap (path xs (index 0)) (path xs (index 1)))
+      (return xs)))
+  (procedure swap
+    (parameter left (type (inout Int)))
+    (parameter right (type (inout Int)))
+    (body
+      (let held left)
+      (set left right)
+      (set right held))))
+(expect (answers (array 2 1)))

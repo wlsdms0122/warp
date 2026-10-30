@@ -1,0 +1,28 @@
+(test 1)
+(name "a-bounded-parameter-read-as-string-and-as-any-refuses")
+(note "`App.f` bounds `T` by `App.Nums`, which `Int` and `Double` conform to, and takes two of `some T`. The call hands a name read as `String` and a name read as `Any`, which makes the parameter `Any`, and a reading of `Any` stands at a bounded parameter only through a cast, so the call refuses at the build.")
+
+(program
+  (warp 1)
+  (contract App.Nums)
+  (extension
+    (head Double)
+    (satisfies App.Nums))
+  (extension
+    (head Int)
+    (satisfies App.Nums))
+  (procedure App.f
+    (parameter a (type (some T App.Nums)))
+    (parameter b (type (some T)))
+    (returns (some T))
+    (body
+      (return a)))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let s (type String) "x")
+      (let u (type Any) 1)
+      (let r (call App.f s u))
+      (return r))))
+(expect (refuses build))

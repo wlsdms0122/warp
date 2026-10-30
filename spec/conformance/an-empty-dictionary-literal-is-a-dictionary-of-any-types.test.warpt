@@ -1,0 +1,14 @@
+(test 1)
+(name "an-empty-dictionary-literal-is-a-dictionary-of-any-types")
+(note "An empty dictionary literal holds `Never` at its keys and its values, so it is a value of a dictionary of any key and value type: here one keyed by integers, which the language claims `Hashable` for.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.count)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let m (type (dictionary Int (array String))) (dictionary))
+      (return (call Standard.Collection.count m)))))
+(expect (answers 0))

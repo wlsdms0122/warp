@@ -1,0 +1,27 @@
+(test 1)
+(name "a-body-introducing-its-parameter-again-reads-the-parameter-in-its-value")
+(note "A body may introduce its `Int?` parameter `x` again as an `Int` whose value reads the parameter: handed `null`, `x` is what the closure returns; handed 5, it is 5.")
+
+(program
+  (warp 1)
+  (import Standard.Optional.unwrapped)
+  (procedure App.f
+    (parameter x (type (optional Int)))
+    (returns Int)
+    (body
+      (let x
+        (type Int)
+        (call Standard.Optional.unwrapped x
+          (closure
+            (const)
+            (isolated)
+            (returns Int)
+            (body
+              (return 30)))))
+      (return x)))
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (body
+      (return (array (call App.f null) (call App.f 5))))))
+(expect (answers (array 30 5)))

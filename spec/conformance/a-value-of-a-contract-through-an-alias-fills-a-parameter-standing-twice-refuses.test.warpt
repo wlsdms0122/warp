@@ -1,0 +1,33 @@
+(test 1)
+(name "a-value-of-a-contract-through-an-alias-fills-a-parameter-standing-twice-refuses")
+(note "`App.Shape` is a name for the contract `App.Ordered`, so a value of it is of whichever type conforms to the contract. `before` takes `Self` twice, and two such values are not known to be one type, through a name as without one.")
+
+(program
+  (warp 1)
+  (type App.Shape App.Ordered)
+  (contract App.Ordered
+    (procedure before
+      (parameter of (type Self))
+      (parameter other (type Self))
+      (returns Bool)))
+  (extension
+    (head Int)
+    (satisfies App.Ordered)
+    (procedure before
+      (parameter of (type Int))
+      (parameter other (type Int))
+      (returns Bool)
+      (body
+        (return true))))
+  (procedure App.check
+    (parameter x (type App.Shape))
+    (parameter y (type App.Shape))
+    (returns Bool)
+    (body
+      (return (call App.Ordered.before x y))))
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (body
+      (return (call App.check 1 2)))))
+(expect (refuses build))

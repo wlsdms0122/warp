@@ -1,0 +1,17 @@
+(test 1)
+(name "a-struct-bounding-its-key-parameter-holds-a-dictionary")
+(note "`App.Cache` holds `Dictionary<some K, some V>` and bounds `K` by `Hashable`, which is what a dictionary's key conforms to, so the struct is declared and a value of `App.Cache<String, Int>` reads its dictionary.")
+
+(program
+  (warp 1)
+  (struct App.Cache
+    (typeParameter K Hashable)
+    (typeParameter V)
+    (field table (dictionary (some K) (some V))))
+  (procedure entry
+    (access public)
+    (returns (optional Int))
+    (body
+      (let c (type (named App.Cache String Int)) (struct (field table (dictionary (entry "a" 2)))))
+      (return (path c (field table) (index "a"))))))
+(expect (answers 2))

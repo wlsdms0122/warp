@@ -1,0 +1,23 @@
+(test 1)
+(name "two-structs-applied-to-one-type-in-a-list-join-to-it")
+(note "Two readings of one struct applied to the same types are that one type, so a list of two `App.Box<Int>` hands `App.first` a list of `App.Box<Int>`.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (procedure App.first
+    (parameter bs (type (array (named App.Box (some T)))))
+    (returns (some T))
+    (body
+      (return (path bs (index 0) (field item)))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let a (type (named App.Box Int)) (struct (field item 1)))
+      (let b (type (named App.Box Int)) (struct (field item 2)))
+      (let xs (array a b))
+      (return (call App.first xs)))))
+(expect (answers 1))

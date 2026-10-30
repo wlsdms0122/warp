@@ -1,0 +1,43 @@
+(test 1)
+(name "the-object-of-an-imported-claim")
+(note "An object lists the claims its document imports, by the type and the contract, so what it stands on is read off the object.")
+
+(documents
+  (document
+    (warp 1)
+    (contract App.Describable
+      (procedure describe
+        (parameter of (type Self))
+        (returns String))))
+  (document
+    (warp 1)
+    (struct T.Card
+      (field rank Int)
+      (procedure describe
+        (const)
+        (isolated)
+        (parameter of (type T.Card))
+        (returns String)
+        (body
+          (return "card")))))
+  (document
+    (warp 1)
+    (import App.Describable)
+    (import T.Card)
+    (extension
+      (head T.Card)
+      (satisfies App.Describable))))
+
+(program
+  (warp 1)
+  (import App.Describable.describe)
+  (import T.Card)
+  (import T.Card App.Describable)
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let card (as (struct (field rank 1)) T.Card))
+      (return (call App.Describable.describe card)))))
+(expect (builds (dictionary (entry "addressTable" (array (array 0 (array) false))) (entry "claims" (array)) (entry "constants" (array)) (entry "contracts" (array)) (entry "dependencies" (array x"b68aaef24eba3752720b22960caffe08854df875988b8daacf74fcf27c778f9b" x"c5b9cefd6deb6a82a2bcb6de9536ee1752e13061200244384afe3476b67e8b50" x"da9a1e7d5b96a005a5c8fb8c2c66e961250c3d2fe04f418092447e6009cd8d17")) (entry "document" (array x"232d9458d3eec8fb69f6ce44919f5cca8ec9eeaf3c55a71353ef8363e8285e26")) (entry "importedClaims" (array (array "T.Card" "App.Describable"))) (entry "lifted" (array)) (entry "loweredTypeTable" (array (array 14 0) (array 14 0))) (entry "members" (array)) (entry "numbering" (array (array "App.Describable.describe") (array))) (entry "object" 1) (entry "operationTable" (array (array 0 0) (array 3 (array (array "T.Card" (array "rank")) (array 0))) (array 6 1 0 false) (array 12 (array "App.Describable" "describe" (array 1) (array 1 0) (array))) (array 13 0 (array 3)))) (entry "rows" (array (array "entry" (array (array) 0 (array 1 (array "cast_refused")) 0 0 (array) (array)) 2 (array 0 (array (array (array (array 0 0)) 2 "card") (array (array) 4 "[1]")) (array 1 (array) (array) (array) (array "card")))))) (entry "typeMembers" (array)) (entry "typeNumbering" (array "T.Card")) (entry "typeTable" (array (array 6))) (entry "types" (array)) (entry "valueTable" (array (array 2 1))) (entry "variables" (array)))))

@@ -1,0 +1,25 @@
+(test 1)
+(name "an-extension-giving-another-documents-alias-members-refuses")
+(note "`Lib.Num` names `Int`, and a value of it is an instance of `Int` and of no other name, so the build refuses an extension giving it members, as it refuses a claim about it.")
+
+(documents
+  (document
+    (warp 1)
+    (type Lib.Num Int)))
+
+(program
+  (warp 1)
+  (import Lib.Num)
+  (extension
+    (head Lib.Num)
+    (procedure m
+      (parameter of (type Lib.Num))
+      (returns Int)
+      (body
+        (return 7))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

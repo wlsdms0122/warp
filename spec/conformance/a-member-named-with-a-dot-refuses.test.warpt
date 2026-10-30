@@ -1,0 +1,19 @@
+(test 1)
+(name "a-member-named-with-a-dot-refuses")
+(note "A call writes the type's name, a dot and the member's, so a member is named by one identifier.")
+
+(program
+  (warp 1)
+  (extension
+    (head Int)
+    (procedure a.b
+      (parameter n (type Int))
+      (returns Int)
+      (body
+        (return 1))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

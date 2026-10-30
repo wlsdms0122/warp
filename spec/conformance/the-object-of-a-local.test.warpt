@@ -1,0 +1,15 @@
+(test 1)
+(name "the-object-of-a-local")
+(note "A name lowers to the slot the build gave it, read through an address with no steps, and the frame says the parameter fills that slot and what it was called.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (parameter n (type Int))
+    (returns Int)
+    (body
+      (return n))))
+(expect (builds (dictionary (entry "addressTable" (array (array 0 (array) false))) (entry "claims" (array)) (entry "constants" (array)) (entry "contracts" (array)) (entry "dependencies" (array)) (entry "document" (array x"f2dc1140a5d26b24ab7e2af49c31f14e4580a788486ff24f418df5c1f029f774")) (entry "importedClaims" (array)) (entry "lifted" (array)) (entry "loweredTypeTable" (array)) (entry "members" (array)) (entry "numbering" (array (array) (array))) (entry "object" 1) (entry "operationTable" (array (array 1 0) (array 13 0 (array 0)))) (entry "rows" (array (array "entry" (array (array (array "n" (array 0))) 1 (array 1 (array)) 1 1 (array) (array)) 2 (array 0 (array (array (array) 1 "[0]")) (array 1 (array 0) (array) (array) (array "n")))))) (entry "typeMembers" (array)) (entry "typeNumbering" (array)) (entry "typeTable" (array (array 4) (array 4))) (entry "types" (array)) (entry "valueTable" (array)) (entry "variables" (array)))))

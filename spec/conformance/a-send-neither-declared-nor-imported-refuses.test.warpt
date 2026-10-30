@@ -1,0 +1,16 @@
+(test 1)
+(name "a-send-neither-declared-nor-imported-refuses")
+(note "The document declares `Wallet.fee` and sends `fee`. That spelling is not one the document declares, so it is a procedure the document imports, and a list that leaves it out is refused when the module is made.")
+
+(program
+  (warp 1)
+  (procedure Wallet.fee
+    (returns Int)
+    (body
+      (return 7)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call fee)))))
+(expect (refuses load))

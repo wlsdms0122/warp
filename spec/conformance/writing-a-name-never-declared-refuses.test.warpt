@@ -1,0 +1,13 @@
+(test 1)
+(name "writing-a-name-never-declared-refuses")
+(note "`set` writes a name a `var` declared earlier. With no declaration there is nothing to write.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (set x 2)
+      (return x))))
+(expect (refuses load))

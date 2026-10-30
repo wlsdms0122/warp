@@ -1,0 +1,27 @@
+(test 1)
+(name "a-module-variable-starting-at-a-struct-applied-to-an-empty-list-refuses")
+(note "A variable declaring no type starts as what its start reads, and an empty list holds nothing at whatever depth, what a struct is applied to included. `App.Box<Array<Never>>` says nothing of what the variable will hold, so the build refuses it.")
+
+(documents
+  (document
+    (warp 1)
+    (struct App.Box
+      (typeParameter T)
+      (field item (some T)))
+    (procedure App.wrap
+      (const)
+      (parameter x (type (some T)))
+      (returns (named App.Box (some T)))
+      (body
+        (return (struct (field item x)))))))
+
+(program
+  (warp 1)
+  (import App.wrap)
+  (var v (call App.wrap (array)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

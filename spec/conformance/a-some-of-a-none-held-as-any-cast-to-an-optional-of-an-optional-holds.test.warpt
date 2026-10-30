@@ -1,0 +1,15 @@
+(test 1)
+(name "a-some-of-a-none-held-as-any-cast-to-an-optional-of-an-optional-holds")
+(note "`Some` holding `null` is a value of `Int??`, the some of the none of `Int?`, so a value held as `Any` cast to `Int??` holds and is handed on as it came.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter a)
+    (returns Any)
+    (failing cast_refused)
+    (body
+      (return (as a (optional (optional Int)))))))
+(arguments (argument a (struct Some (field wrapped null))))
+(expect (answers (struct Some (field wrapped null))))

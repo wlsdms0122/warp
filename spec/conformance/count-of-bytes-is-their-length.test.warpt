@@ -1,0 +1,13 @@
+(test 1)
+(name "count-of-bytes-is-their-length")
+(note "Bytes stand as an array, so count reads their length: one per byte, and no question of what one is.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.count)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call Standard.Collection.count x"6869")))))
+(expect (answers 2))

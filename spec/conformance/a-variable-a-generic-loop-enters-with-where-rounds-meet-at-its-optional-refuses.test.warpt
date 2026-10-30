@@ -1,0 +1,25 @@
+(test 1)
+(name "a-variable-a-generic-loop-enters-with-where-rounds-meet-at-its-optional-refuses")
+(note "`y` reads `some T` where the loop is entered and `Null` where a round finished, so a round starts with it reading `some T?`. A value of `some T` may be a none, which would have to become its some to stand there, so the build refuses.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter x (type (some T)))
+    (parameter c (type Bool))
+    (returns (optional (some T)))
+    (body
+      (var y x)
+      (var going c)
+      (loop
+        (while going)
+        (body
+          (set y null)
+          (set going false)))
+      (return y)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

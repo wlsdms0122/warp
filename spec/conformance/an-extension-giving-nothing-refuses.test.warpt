@@ -1,0 +1,14 @@
+(test 1)
+(name "an-extension-giving-nothing-refuses")
+(note "An extension stands for what a document gives a type under a head, so one giving nothing is a key for nothing, which the document says by writing no extension.")
+
+(program
+  (warp 1)
+  (extension
+    (head Int))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

@@ -1,0 +1,18 @@
+(test 1)
+(name "a-body-failing-beyond-its-declaration-refuses")
+(note "`App.go` calls `abort`, which may fail with `aborted`, and its declaration names no failure. A body failing with more than its declaration names refuses at the build.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure App.go
+    (returns Never)
+    (body
+      (return (call Standard.Control.abort "no"))))
+  (procedure entry
+    (access public)
+    (returns Never)
+    (failing aborted)
+    (body
+      (return (call App.go)))))
+(expect (refuses build))

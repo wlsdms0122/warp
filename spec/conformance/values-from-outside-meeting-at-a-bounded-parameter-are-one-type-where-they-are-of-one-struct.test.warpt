@@ -1,0 +1,29 @@
+(test 1)
+(name "values-from-outside-meeting-at-a-bounded-parameter-are-one-type-where-they-are-of-one-struct")
+(note "The host hands a list of a box holding `1` and one holding null where `Array<some T>` is bounded by App.Describable, claimed under `App.Box<Int?>`. A value carries no type's arguments, so the two boxes are of one type, and each settles into the head.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head (named App.Box (optional Int)))
+    (satisfies App.Describable)
+    (procedure describe
+      (parameter of (type (named App.Box (optional Int))))
+      (returns String)
+      (body
+        (return "box"))))
+  (procedure entry
+    (access public)
+    (parameter xs (type (array (some T App.Describable))))
+    (returns String)
+    (body
+      (return (call App.Describable.describe (path xs (index 0)))))))
+(arguments (argument xs (array (struct App.Box (field item 1)) (struct App.Box (field item null)))))
+(expect (answers "box"))

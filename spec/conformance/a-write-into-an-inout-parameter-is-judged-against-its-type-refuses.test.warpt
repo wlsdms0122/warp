@@ -1,0 +1,20 @@
+(test 1)
+(name "a-write-into-an-inout-parameter-is-judged-against-its-type-refuses")
+(note "`n` is an `inout Int`, and the body writes a string into it. A write into a box handed in place is judged against the type the box holds, as a write into a module variable is, so the write refuses at the build.")
+
+(program
+  (warp 1)
+  (procedure App.bump
+    (parameter n (type (inout Int)))
+    (returns Int)
+    (body
+      (set n "eleven")
+      (return 0)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var x (type Int) 10)
+      (call App.bump x)
+      (return x))))
+(expect (refuses build))

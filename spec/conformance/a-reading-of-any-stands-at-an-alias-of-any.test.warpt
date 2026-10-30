@@ -1,0 +1,19 @@
+(test 1)
+(name "a-reading-of-any-stands-at-an-alias-of-any")
+(note "`App.Json` is a spelling of `Any`, so `App.h` declares `Any` at `x`, and `v`, read as `Any`, stands there with no cast.")
+
+(program
+  (warp 1)
+  (type App.Json Any)
+  (procedure App.h
+    (parameter x (type App.Json))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let v (type Any) 5)
+      (return (call App.h v)))))
+(expect (answers 1))

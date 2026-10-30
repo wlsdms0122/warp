@@ -1,0 +1,22 @@
+(test 1)
+(name "a-list-of-a-parameter-handed-as-a-list-of-its-optional-marks-its-nones")
+(note "A list of `some T` where a list of `some T?` is asked is walked, and each element is its some, by value. Filled with `Int?`, the list's `null` is `Some` holding `null`, and its `1` is `1`.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter xs (type (array (some T))))
+    (returns (array (optional (some T))))
+    (body
+      (return xs)))
+  (procedure App.g
+    (parameter ys (type (array (optional Int))))
+    (returns Any)
+    (body
+      (return (call App.f ys))))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (return (call App.g (array 1 null))))))
+(expect (answers (array 1 (struct Some (field wrapped null)))))

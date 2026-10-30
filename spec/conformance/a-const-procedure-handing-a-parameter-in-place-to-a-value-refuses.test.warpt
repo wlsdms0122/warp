@@ -1,0 +1,41 @@
+(test 1)
+(name "a-const-procedure-handing-a-parameter-in-place-to-a-value-refuses")
+(note "A parameter handed in place is the caller's box, and a body handing it on in place to a value reaches that box the way it would through a declaration, so it is not const. `relay` declares `const` and hands its parameter on in place to `read`, so it refuses at the build, even where the closure calling it hands it a variable of the closure's own.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.map)
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (body
+      (let peek
+        (closure
+          (const)
+          (isolated)
+          (parameter count (type (inout Int)))
+          (returns Int)
+          (body
+            (return count))))
+      (return
+        (call Standard.Collection.map
+          (array 1 2)
+          (closure
+            (const)
+            (isolated)
+            (parameter item (type Int))
+            (returns Int)
+            (body
+              (var own item)
+              (let got (call relay own peek))
+              (return got)))))))
+  (procedure relay
+    (const)
+    (isolated)
+    (parameter n (type (inout Int)))
+    (parameter read (type (procedure (const) (isolated) (parameters (inout Int)) (returns Int))))
+    (returns Int)
+    (body
+      (let got (apply read n))
+      (return got))))
+(expect (refuses build))

@@ -1,0 +1,20 @@
+(test 1)
+(name "a-slot-returning-any-opens-a-calls-return-value-to-any")
+(note "Calling a value returns what the procedure type of the slot holding it returns. `one` is declared `() -> Any` and holds a closure declaring `Int`, so the call returns `Any`. The cast to `Int` says what it is and is judged at the run; a return value read as `Int` would make it a cast naming what the reading already is.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing cast_refused)
+    (body
+      (let one
+        (type (procedure (parameters) (returns Any)))
+        (closure
+          (returns Int)
+          (body
+            (return 1))))
+      (let got (apply one))
+      (return (as got Int)))))
+(expect (answers 1))

@@ -1,0 +1,22 @@
+(test 1)
+(name "a-struct-applied-to-a-type-parameter-handed-in-place-takes-a-write-of-it")
+(note "`App.reset` takes `inout App.Box<some T>` and a `some T`, and writes the one into the other's field. The caller's `App.Box<String>` reads the write back.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (var (some T))))
+  (procedure App.reset
+    (parameter b (type (inout (named App.Box (some T)))))
+    (parameter to (type (some T)))
+    (body
+      (set (path b (field item)) to)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (var b (type (named App.Box String)) (struct (field item "x")))
+      (call App.reset b "y")
+      (return (path b (field item))))))
+(expect (answers "y"))

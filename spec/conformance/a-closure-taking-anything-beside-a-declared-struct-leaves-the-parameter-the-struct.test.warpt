@@ -1,0 +1,30 @@
+(test 1)
+(name "a-closure-taking-anything-beside-a-declared-struct-leaves-the-parameter-the-struct")
+(note "`App.keep` takes `some T` and a procedure taking `some T`. The point fills `T` with `App.Point`, and the closure, taking `Any`, takes every `App.Point` the slot may hand it, so the call returns `App.Point` and `p` holds it.")
+
+(program
+  (warp 1)
+  (struct App.Point
+    (field x Int))
+  (procedure App.keep
+    (parameter x (type (some T)))
+    (parameter f (type (procedure (parameters (some T)) (returns Any))))
+    (returns (some T))
+    (body
+      (return x)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing cast_refused)
+    (body
+      (let p
+        (type App.Point)
+        (call App.keep
+          (as (struct (field x 1)) App.Point)
+          (closure
+            (parameter q)
+            (returns Any)
+            (body
+              (return q)))))
+      (return (path p (field x))))))
+(expect (answers 1))

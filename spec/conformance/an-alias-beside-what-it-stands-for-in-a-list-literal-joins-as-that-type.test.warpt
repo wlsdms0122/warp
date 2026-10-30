@@ -1,0 +1,16 @@
+(test 1)
+(name "an-alias-beside-what-it-stands-for-in-a-list-literal-joins-as-that-type")
+(note "`App.L` is a spelling of `Array<Int>`, so `a`, read as `App.L`, and the literal `[3]` beside it are two lists of `Int`. The literal `ys` joins them as `Array<Array<Int>>`, which is what `y` declares.")
+
+(program
+  (warp 1)
+  (type App.L (array Int))
+  (procedure entry
+    (access public)
+    (returns (array (array Int)))
+    (body
+      (let a (type App.L) (array 1 2))
+      (let ys (array a (array 3)))
+      (let y (type (array (array Int))) ys)
+      (return y))))
+(expect (answers (array (array 1 2) (array 3))))

@@ -1,0 +1,21 @@
+(test 1)
+(name "the-object-of-a-break-and-a-continue")
+(note "A `break` and a `continue` carry how far they reach and then the loop each names, or nothing for the nearest.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let outer
+        (loop
+          (while true)
+          (body
+            (loop
+              (while true)
+              (body
+                (break outer)))
+            (continue))))
+      (return 1))))
+(expect (builds (dictionary (entry "addressTable" (array)) (entry "claims" (array)) (entry "constants" (array)) (entry "contracts" (array)) (entry "dependencies" (array)) (entry "document" (array x"cc20f5f42905888f801288b58b815e4514360ec0278b8c3d98abae0d51a2fc2f")) (entry "importedClaims" (array)) (entry "lifted" (array)) (entry "loweredTypeTable" (array)) (entry "members" (array)) (entry "numbering" (array (array) (array))) (entry "object" 1) (entry "operationTable" (array (array 0 0) (array 0 1) (array 13 1 (array "outer")) (array 9 1 (array (array (array) 2 "[0]")) (array)) (array 13 2 (array)) (array 9 0 (array (array (array) 3 "[0]") (array (array) 4 "[1]")) (array 0)) (array 0 2) (array 13 0 (array 6)))) (entry "rows" (array (array "entry" (array (array) 0 (array 1 (array)) 0 0 (array) (array)) 2 (array 0 (array (array (array) 5 "outer") (array (array) 7 "[1]")) (array 1 (array) (array) (array) (array "outer")))))) (entry "typeMembers" (array)) (entry "typeNumbering" (array)) (entry "typeTable" (array (array 4))) (entry "types" (array)) (entry "valueTable" (array (array 1 true) (array 1 true) (array 2 1))) (entry "variables" (array)))))

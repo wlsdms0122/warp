@@ -1,0 +1,35 @@
+(test 1)
+(name "a-variable-a-loop-round-rewrites-handed-at-a-const-slot-refuses")
+(note "A loop's round hands a variable holding a `const` closure to a slot of a `const` procedure type and then writes into it a closure that does not declare `const`. The round after reads the variable as what both rounds wrote, which says nothing about running, so the hand refuses.")
+
+(program
+  (warp 1)
+  (import Standard.Comparable.lessThan)
+  (procedure asking
+    (parameter body (type (procedure (const) (parameters) (returns String))))
+    (returns String)
+    (body
+      (let answered (apply body))
+      (return answered)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (var g
+        (closure
+          (const)
+          (returns String)
+          (body
+            (return "x"))))
+      (let r
+        (loop
+          (while (call Standard.Comparable.lessThan (path r (field index)) 2))
+          (body
+            (let a (call asking g))
+            (set g
+              (closure
+                (returns String)
+                (body
+                  (return "y")))))))
+      (return "done"))))
+(expect (refuses build))

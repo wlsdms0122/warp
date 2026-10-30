@@ -1,0 +1,17 @@
+(test 1)
+(name "a-struct-from-outside-under-its-name-at-any-is-held-to-its-struct-refuses")
+(note "The host hands `a` as an `App.P` whose `x` is a string, where the entry declares nothing. A struct under a declared struct's name is a value of that struct wherever it comes in, so the door judges it against `App.P` and the run refuses.")
+
+(program
+  (warp 1)
+  (type App.A App.P)
+  (struct App.P
+    (field x Int))
+  (procedure entry
+    (access public)
+    (parameter a)
+    (returns Any)
+    (body
+      (return a))))
+(arguments (argument a (struct App.P (field x "s"))))
+(expect (refuses run))

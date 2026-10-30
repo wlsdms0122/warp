@@ -1,0 +1,25 @@
+(test 1)
+(name "a-claim-under-a-head-applying-a-list-to-int-holds-for-a-list-of-ints")
+(note "The extension of `Array<Int>` is about every list of integers, so a list of them conforms to App.Describable through the member it gives.")
+
+(program
+  (warp 1)
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head (array Int))
+    (satisfies App.Describable)
+    (procedure describe
+      (parameter of (type (array Int)))
+      (returns String)
+      (body
+        (return "ints"))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let b (type (array Int)) (array 1 2))
+      (return (call App.Describable.describe b)))))
+(expect (answers "ints"))

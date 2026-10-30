@@ -1,0 +1,13 @@
+(test 1)
+(name "a-parameter-writing-its-type-as-any-refuses")
+(note "A parameter writing no type takes anything, so `type: Any` written out is a second way to say it.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter x (type Any))
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

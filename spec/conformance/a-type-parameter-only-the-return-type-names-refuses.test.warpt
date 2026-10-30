@@ -1,0 +1,17 @@
+(test 1)
+(name "a-type-parameter-only-the-return-type-names-refuses")
+(note "A call fills a type parameter from what it hands, so `App.f` returning `some T` with no parameter naming `T` is filled by nothing and refuses at the load.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure App.f
+    (returns (some T))
+    (body
+      (return (call Standard.Control.abort "never"))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.f)))))
+(expect (refuses load))

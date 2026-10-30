@@ -1,0 +1,5 @@
+(test 1)
+(name "a-mapping-keyed-by-what-is-no-name-refuses")
+(note "Every mapping a document writes is keyed by names. `entry` writes the key `1`, an integer and no name, beside the keys a procedure takes, so the document refuses at the load, at the mapping that writes it.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry 1 2) (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" 1)))))) (entry "returns" "Int"))))) (entry "warp" 1)))
+(expect (refuses load))

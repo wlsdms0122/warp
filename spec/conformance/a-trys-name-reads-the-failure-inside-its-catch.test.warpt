@@ -1,0 +1,24 @@
+(test 1)
+(name "a-trys-name-reads-the-failure-inside-its-catch")
+(note "A try's statement name is the failure inside its catch, and binds nothing after it. The `h` around the arm is another name and keeps its value.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let h "f")
+      (var inner)
+      (conditional
+        (when true)
+        (then
+          (let h
+            (try
+              (body
+                (call Standard.Control.abort "on purpose"))
+              (catch
+                (set inner (path h (field message))))))))
+      (return (dictionary (entry "inner" inner) (entry "outer" h))))))
+(expect (answers (dictionary (entry "inner" "on purpose") (entry "outer" "f"))))

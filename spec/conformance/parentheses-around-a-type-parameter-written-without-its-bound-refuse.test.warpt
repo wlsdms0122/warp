@@ -1,0 +1,5 @@
+(test 1)
+(name "parentheses-around-a-type-parameter-written-without-its-bound-refuse")
+(note "Parentheses group a type before its `?` where the `?` would otherwise stand inside it: a procedure type, and a type parameter written with its bound, which runs to the end of the spelling. `some T` writes no bound, so `(some T)?` is a second spelling of `some T?`, and the parentheses refuse at the load.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "App.f" (dictionary (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" 1)))))) (entry "parameters" (array (dictionary (entry "name" "x") (entry "type" "(some T)?")))) (entry "returns" "Int"))) (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" 1)))))) (entry "returns" "Int"))))) (entry "warp" 1)))
+(expect (refuses load))

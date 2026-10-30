@@ -1,0 +1,33 @@
+(test 1)
+(name "a-cast-of-a-closure-that-may-fail-to-a-procedure-type-failing-nothing-fails")
+(note "A closure carries what it may fail with. Read as `Any` and cast to a procedure type that fails with nothing, one that aborts is not that type, and the cast fails with `cast_refused`.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (returns (optional String))
+    (body
+      (let any
+        (call hide
+          (closure
+            (parameter x (type Int))
+            (returns Int)
+            (failing aborted)
+            (body
+              (return (call Standard.Control.abort "no"))))))
+      (var failed)
+      (let caught
+        (try
+          (body
+            (let f (as any (procedure (parameters Int) (returns Int)))))
+          (catch
+            (set failed (path caught (field type))))))
+      (return failed)))
+  (procedure hide
+    (parameter v)
+    (returns Any)
+    (body
+      (return v))))
+(expect (answers "cast_refused"))

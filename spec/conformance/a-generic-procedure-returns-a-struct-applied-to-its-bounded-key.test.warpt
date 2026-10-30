@@ -1,0 +1,22 @@
+(test 1)
+(name "a-generic-procedure-returns-a-struct-applied-to-its-bounded-key")
+(note "`App.single` bounds `K` by `Hashable` and returns `App.Cache<some K, Int>`, so a call handing a `String` returns an `App.Cache<String, Int>`.")
+
+(program
+  (warp 1)
+  (struct App.Cache
+    (typeParameter K Hashable)
+    (typeParameter V)
+    (field table (dictionary (some K) (some V))))
+  (procedure App.single
+    (parameter k (type (some K Hashable)))
+    (returns (named App.Cache (some K) Int))
+    (body
+      (return (struct (field table (dictionary (entry k 1)))))))
+  (procedure entry
+    (access public)
+    (returns (optional Int))
+    (body
+      (let c (call App.single "a"))
+      (return (path c (field table) (index "a"))))))
+(expect (answers 1))

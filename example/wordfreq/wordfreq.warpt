@@ -1,0 +1,115 @@
+(warp 1)
+(import File.read)
+(import IO.write)
+(import Standard.Collection.appending)
+(import Standard.Collection.count)
+(import Standard.Collection.keys)
+(import Standard.Collection.setting)
+(import Standard.Comparable.lessThan)
+(import Standard.Logic.equal)
+(import Standard.Logic.notEqual)
+(import Standard.Math.greaterThan)
+(import Standard.Numeric.plus)
+(import Standard.Text.joined)
+(import Standard.Text.lowercased)
+(import Standard.Text.replacing)
+(import Standard.Text.split)
+(import Standard.Text.text)
+(import Standard.Text.trimmed)
+
+(procedure words.bare
+  (access private)
+  (parameter of (type String))
+  (returns String)
+  (failing aborted)
+  (body
+    (var word (type String) (call Standard.Text.trimmed of))
+    (let marks (array "." "," ";" ":" "!" "?" "\"" "(" ")"))
+    (var i (type Int) 0)
+    (loop
+      (while (call Standard.Comparable.lessThan i (call Standard.Collection.count marks)))
+      (body
+        (set word (call Standard.Text.replacing word (path marks (index i)) ""))
+        (set i (call Standard.Numeric.plus i 1))))
+    (return word)))
+
+(procedure words.counted
+  (access private)
+  (parameter of (type String))
+  (returns (dictionary String Int))
+  (failing aborted cast_refused)
+  (body
+    (var counts (type (dictionary String Int)) (dictionary))
+    (let flat (call Standard.Text.replacing (call Standard.Text.lowercased of) "\n" " "))
+    (let parts (call Standard.Text.split flat " "))
+    (var i (type Int) 0)
+    (loop
+      (while (call Standard.Comparable.lessThan i (call Standard.Collection.count parts)))
+      (body
+        (let word (call words.bare (path parts (index i))))
+        (conditional
+          (when (call Standard.Logic.notEqual word ""))
+          (then
+            (var seen (type Int) 0)
+            (let had (path counts (index? word)))
+            (conditional
+              (when (call Standard.Logic.notEqual had null))
+              (then
+                (set seen (as had Int))))
+            (set counts (call Standard.Collection.setting counts word (call Standard.Numeric.plus seen 1)))))
+        (set i (call Standard.Numeric.plus i 1))))
+    (return counts)))
+
+(procedure words.main
+  (access public)
+  (parameter path (type String))
+  (parameter top (type (optional Int)))
+  (returns Int)
+  (failing aborted cast_refused file_failed)
+  (body
+    (var limit (type Int) 5)
+    (conditional
+      (when (call Standard.Logic.notEqual top null))
+      (then
+        (set limit (as top Int))))
+    (let stored (call File.read path))
+    (conditional
+      (when (call Standard.Logic.equal stored null))
+      (then
+        (call IO.write (call Standard.Text.joined (array "no file at " path "\n") ""))
+        (return 1)))
+    (let counts (call words.counted (as stored String)))
+    (var remaining (type (array String)) (call Standard.Collection.keys counts))
+    (var rank (type Int) 0)
+    (loop
+      (while (call Standard.Comparable.lessThan rank limit))
+      (body
+        (conditional
+          (when (call Standard.Logic.equal (call Standard.Collection.count remaining) 0))
+          (then
+            (break)))
+        (var best (type String) (path remaining (index 0)))
+        (var i (type Int) 0)
+        (loop
+          (while (call Standard.Comparable.lessThan i (call Standard.Collection.count remaining)))
+          (body
+            (let word (path remaining (index i)))
+            (conditional
+              (when (call Standard.Math.greaterThan (path counts (index word)) (path counts (index best))))
+              (then
+                (set best word)))
+            (set i (call Standard.Numeric.plus i 1))))
+        (call IO.write (call Standard.Text.joined (array (call Standard.Text.text (call Standard.Numeric.plus rank 1)) ". " best " " (call Standard.Text.text (path counts (index best))) "\n") ""))
+        (var kept (type (array String)) (array))
+        (var j (type Int) 0)
+        (loop
+          (while (call Standard.Comparable.lessThan j (call Standard.Collection.count remaining)))
+          (body
+            (conditional
+              (when (call Standard.Logic.notEqual (path remaining (index j)) best))
+              (then
+                (set kept (call Standard.Collection.appending kept (path remaining (index j))))))
+            (set j (call Standard.Numeric.plus j 1))))
+        (set remaining kept)
+        (set rank (call Standard.Numeric.plus rank 1))))
+    (return 0)))
