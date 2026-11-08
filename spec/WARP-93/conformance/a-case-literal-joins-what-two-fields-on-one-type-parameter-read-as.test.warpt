@@ -1,0 +1,26 @@
+(test 1)
+(name "a-case-literal-joins-what-two-fields-on-one-type-parameter-read-as")
+(note "A case literal is handed where `App.Pair<some T>` is declared, and both its fields stand on `T`, one reading `Int` and one `Int?`. `Int?` accepts `Int`, so the two join to `Int?`, which fills `T`, and the call returns the first.")
+
+(program
+  (warp 1)
+  (enum App.Pair
+    (typeParameter T)
+    (case both (field first (some T)) (field second (some T))))
+  (procedure App.firstOf
+    (parameter pair (type (named App.Pair (some T))))
+    (returns (some T))
+    (body
+      (switch pair
+        (case both
+          (bind first f)
+          (then
+            (return f))))))
+  (procedure entry
+    (access public)
+    (parameter other (type (optional Int)))
+    (returns (optional Int))
+    (body
+      (return (call App.firstOf (case both (field first 1) (field second other)))))))
+(arguments (argument other 2))
+(expect (answers 1))

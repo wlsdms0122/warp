@@ -1,0 +1,33 @@
+(test 1)
+(name "a-cast-of-a-closure-taking-its-makers-parameter-by-value-to-one-taking-it-in-place-holds-it")
+(note "App.mk returns a closure taking its own some T by value, and the call of it with a list of strings fills T with Array<String>. The closure holds that, so held as Any it is a value of (Array<String>) -> Int, which a procedure type taking that list in place holds, as it holds every procedure taking it by value. The cast takes it, and applying it to s leaves s as it was.")
+
+(program
+  (warp 1)
+  (procedure App.mk
+    (parameter x (type (some T)))
+    (returns (procedure (parameters (some T)) (returns Int)))
+    (body
+      (return
+        (closure
+          (parameter y (type (some T)))
+          (returns Int)
+          (body
+            (return 0))))))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (var tried)
+      (let caught
+        (try
+          (body
+            (let a (type Any) (call App.mk (array "z")))
+            (let f (as a (procedure (parameters (inout (array String))) (returns Int))))
+            (var s (array "a"))
+            (apply f s)
+            (set tried s))
+          (catch
+            (set tried (path caught (field type))))))
+      (return tried))))
+(expect (answers (array "a")))

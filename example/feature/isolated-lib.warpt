@@ -1,0 +1,18 @@
+(warp 1)
+(import Standard.Numeric.plus)
+(import Standard.Numeric.times)
+(var seen 0)
+
+(procedure iso.note
+  (parameter of (type Int))
+  (returns Int)
+  (body
+    (set seen (call Standard.Numeric.plus seen 1))
+    (return of)))
+
+(procedure iso.square
+  (isolated)
+  (parameter of (type Int))
+  (returns Int)
+  (body
+    (return (call Standard.Numeric.times of of))))

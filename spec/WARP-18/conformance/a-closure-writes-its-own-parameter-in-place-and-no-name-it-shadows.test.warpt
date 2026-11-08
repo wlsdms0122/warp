@@ -1,0 +1,21 @@
+(test 1)
+(name "a-closure-writes-its-own-parameter-in-place-and-no-name-it-shadows")
+(note "A closure's parameter is its own name, whatever a name of the same spelling outside it holds. Writing the parameter it takes in place writes the caller's box and captures nothing, so an outer variable of that spelling and another type has no say in it.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (body
+      (var count (type String) "a")
+      (var n 1)
+      (let bump
+        (closure
+          (parameter count (type (inout Int)))
+          (body
+            (set count 5))))
+      (apply bump n)
+      (return n))))
+(expect (answers 5))

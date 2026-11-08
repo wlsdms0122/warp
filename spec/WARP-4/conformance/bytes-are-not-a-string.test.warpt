@@ -1,0 +1,13 @@
+(test 1)
+(name "bytes-are-not-a-string")
+(note "Bytes are not a String, and no Unicode rule applies to them: the bytes of `hi` are not the string `hi`, and the UTF-8 of `é` composed and decomposed are two values.")
+
+(program
+  (warp 1)
+  (import Standard.Logic.equal)
+  (procedure entry
+    (access public)
+    (returns (array Bool))
+    (body
+      (return (array (call Standard.Logic.equal x"6869" "hi") (call Standard.Logic.equal x"c3a9" x"65cc81"))))))
+(expect (answers (array false false)))

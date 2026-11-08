@@ -1,0 +1,21 @@
+(test 1)
+(name "an-enum-beside-another-enum-joins-to-any")
+(note "`light` is an `App.Light` and `signal` an `App.Signal`, and an enum beside any reading but `Null` joins to `Any`. The list reads `Array<Any>`, which the entry returns as it is.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (enum App.Signal
+    (case green)
+    (case red))
+  (procedure entry
+    (access public)
+    (returns (array Any))
+    (body
+      (let light (type App.Light) (case red))
+      (let signal (type App.Signal) (case red))
+      (let both (array light signal))
+      (return both))))
+(expect (answers (array (struct App.Light.red) (struct App.Signal.red))))

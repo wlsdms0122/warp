@@ -1,0 +1,13 @@
+(test 1)
+(name "a-promotion-two-parts-deep-walks-there-in-one-list-of-steps")
+(note "A promotion's steps are one walk from the value to the parts it promotes. A list of dictionaries of `Int?` meeting a list of dictionaries of `Int??` promotes each value of each element, coercion `[2, [], [0, 1]]`: into each element, then into each value.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter xs (type (array (dictionary String (optional Int)))))
+    (returns (array (dictionary String (optional (optional Int)))))
+    (body
+      (return xs))))
+(expect (builds (dictionary (entry "addressTable" (array (array 0 (array) false))) (entry "claims" (array)) (entry "constants" (array)) (entry "contracts" (array)) (entry "dependencies" (array)) (entry "document" (array x"6b4a1de6389812bbc7c05345b4d3c9b3c6090ba237b2d6221fd6d045ed177bf0")) (entry "importedClaims" (array)) (entry "lifted" (array)) (entry "loweredTypeTable" (array)) (entry "members" (array)) (entry "numbering" (array (array) (array))) (entry "object" 1) (entry "operationTable" (array (array 1 0) (array 15 0 (array 2 (array) (array 0 1))) (array 13 0 (array 1)))) (entry "rows" (array (array "entry" (array (array (array "xs" (array 4))) 10 (array 1 (array)) 0 0 (array) (array)) 2 (array 0 (array (array (array) 2)) (array 1 (array 0) (array) (array) (array) (array "xs")))))) (entry "typeMembers" (array)) (entry "typeNumbering" (array)) (entry "typeTable" (array (array 6) (array 4) (array 13 1) (array 8 0 2) (array 7 3) (array 6) (array 4) (array 13 6) (array 13 7) (array 8 5 8) (array 7 9))) (entry "types" (array)) (entry "valueTable" (array)) (entry "variables" (array)))))

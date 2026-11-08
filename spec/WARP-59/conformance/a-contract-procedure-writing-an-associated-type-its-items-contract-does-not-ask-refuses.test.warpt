@@ -1,0 +1,27 @@
+(test 1)
+(name "a-contract-procedure-writing-an-associated-type-its-items-contract-does-not-ask-refuses")
+(note "In a contract's procedures, the name after `Self.` is one the contract asks, and each name after it is judged at the build, as an associated type standing on another is. `Lib.Deep` asks `Item` and holds it to `Lib.Keyed`, from another document, which asks only `Key`, so `Self.Item.Nope` names a type no contract bounding `Self.Item` asks, and the build refuses it.")
+
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Keyed
+      (type Key)
+      (procedure key
+        (parameter of (type Self))
+        (returns Self.Key)))))
+
+(program
+  (warp 1)
+  (import Lib.Keyed)
+  (contract Lib.Deep
+    (type Item Lib.Keyed)
+    (procedure firstNope
+      (parameter of (type Self))
+      (returns Self.Item.Nope)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

@@ -1,0 +1,54 @@
+(test 1)
+(name "a-constant-casting-a-list-the-reach-decides-no-reads-null")
+(note "In claims Array<Int>: App.Tagged; Out (not reached) claims String: App.Tagged. A fold casts [\"x\", [\"s\"]] read as Any to Array<App.Tagged>: the second element is a list of strings, which the reach already says is no App.Tagged.")
+
+(documents
+  (document
+    (warp 1)
+    (contract App.Marked)
+    (contract App.Tagged))
+  (document
+    (warp 1)
+    (import App.Tagged)
+    (extension
+      (head (array Int))
+      (satisfies App.Tagged))
+    (procedure In.mark
+      (access public)
+      (const)
+      (isolated)
+      (returns Int)
+      (body
+        (return 1))))
+  (document
+    (warp 1)
+    (import App.Tagged)
+    (extension
+      (head String)
+      (satisfies App.Tagged)))
+  (document
+    (warp 1)
+    (import App.Tagged)
+    (procedure L.probe
+      (access public)
+      (const)
+      (isolated)
+      (returns Any)
+      (body
+        (let two (type Any) (array "x" (array "s")))
+        (return (as? two (array App.Tagged)))))))
+
+(program
+  (warp 1)
+  (import In.mark)
+  (import L.probe)
+  (const folded (call L.probe))
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (returns Any)
+    (body
+      (let m (call In.mark))
+      (return folded))))
+(expect (answers null))

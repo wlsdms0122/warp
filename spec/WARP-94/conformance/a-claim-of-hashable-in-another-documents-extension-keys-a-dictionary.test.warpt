@@ -1,0 +1,25 @@
+(test 1)
+(name "a-claim-of-hashable-in-another-documents-extension-keys-a-dictionary")
+(note "The document beside the program declares `App.Suit`, and the program claims `Hashable` for it in an extension. A claim within what the document stands on puts the enum under `Hashable`, so the dictionary keyed by it builds.")
+
+(documents
+  (document
+    (warp 1)
+    (enum App.Suit
+      (case clubs)
+      (case hearts))))
+
+(program
+  (warp 1)
+  (import App.Suit)
+  (extension
+    (head App.Suit)
+    (satisfies Hashable))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let counts (type (dictionary App.Suit Int)) (dictionary (entry (case clubs) 1) (entry (case hearts) 2)))
+      (let suit (type App.Suit) (case hearts))
+      (return (path counts (index suit))))))
+(expect (answers 2))

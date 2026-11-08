@@ -1,0 +1,24 @@
+(test 1)
+(name "a-const-closure-at-an-isolated-slot-refuses")
+(note "A slot asking `isolated` takes what is declared isolated, and being const does not stand in for it. The closure is const and not isolated, so handing it to `App.run` refuses at the build.")
+
+(program
+  (warp 1)
+  (procedure App.run
+    (parameter f (type (procedure (isolated) (parameters Int) (returns Int))))
+    (returns Int)
+    (body
+      (return (apply f 1))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return
+        (call App.run
+          (closure
+            (const)
+            (parameter x (type Int))
+            (returns Int)
+            (body
+              (return x))))))))
+(expect (refuses build))

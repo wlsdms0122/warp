@@ -1,0 +1,44 @@
+(warp 1)
+(import JSON.parse)
+(import Net.get)
+(import Standard.Text.joined)
+(import Standard.Text.text)
+(import flow.Outcome)
+(import flow.Runnable)
+(import flow.failed)
+(import flow.succeeded)
+(import state.put)
+
+(struct flow.Fetch
+  (satisfies flow.Runnable)
+  (field id String)
+  (field url String)
+  (procedure describe
+    (const)
+    (parameter of (type flow.Fetch))
+    (returns String)
+    (body
+      (return (call Standard.Text.joined (array "fetch " (path of (field url))) ""))))
+  (procedure run
+    (parameter of (type flow.Fetch))
+    (returns flow.Outcome)
+    (failing cast_refused)
+    (body
+      (var outcome)
+      (let caught
+        (try
+          (body
+            (let response (call Net.get (path of (field url)) null))
+            (let body (call JSON.parse (path response (field body))))
+            (call state.put (path of (field id)) body)
+            (set outcome (call flow.succeeded (path of (field id)) body (call Standard.Text.joined (array "status " (call Standard.Text.text (path response (field status)))) ""))))
+          (catch
+            (set outcome (call flow.failed (path of (field id)) (call Standard.Text.joined (array "fetch failed: " (path caught (field message))) ""))))))
+      (return outcome))))
+
+(procedure flow.Fetch.parse
+  (parameter of (type (dictionary String Any)))
+  (returns flow.Fetch)
+  (failing cast_refused)
+  (body
+    (return (as (struct (field id (as (path of (index "id")) String)) (field url (as (path of (index "url")) String))) flow.Fetch))))

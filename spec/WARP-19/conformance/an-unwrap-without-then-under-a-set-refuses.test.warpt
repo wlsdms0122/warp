@@ -1,0 +1,19 @@
+(test 1)
+(name "an-unwrap-without-then-under-a-set-refuses")
+(note "An unwrap written with no `then` gives its payload, and the name it binds the payload through is the construct's, which nothing writes, so a `set` of one refuses.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter o (type (optional Int)))
+    (returns Int)
+    (body
+      (var n 0)
+      (set n
+        (unwrap o
+          (else
+            (return 1))))
+      (return n))))
+(arguments (argument o 5))
+(expect (refuses load))

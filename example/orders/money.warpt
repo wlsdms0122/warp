@@ -1,0 +1,36 @@
+(warp 1)
+(import Standard.Collection.count)
+(import Standard.Comparable.lessThan)
+(import Standard.Math.floored)
+(import Standard.Numeric.dividedBy)
+(import Standard.Numeric.plus)
+(import Standard.Numeric.remainder)
+(import Standard.Text.joined)
+(import Standard.Text.text)
+
+(procedure money.format
+  (const)
+  (parameter of (type Int))
+  (returns String)
+  (body
+    (let dollars (call Standard.Math.floored (call Standard.Numeric.dividedBy of 100)))
+    (let cents (call Standard.Numeric.remainder of 100))
+    (var tail (type String) (call Standard.Text.text cents))
+    (conditional
+      (when (call Standard.Comparable.lessThan cents 10))
+      (then
+        (set tail (call Standard.Text.joined (array "0" tail) ""))))
+    (return (call Standard.Text.joined (array "$" (call Standard.Text.text dollars) "." tail) ""))))
+
+(procedure money.sum
+  (parameter of (type (array Int)))
+  (returns Int)
+  (body
+    (var total (type Int) 0)
+    (var i (type Int) 0)
+    (loop
+      (while (call Standard.Comparable.lessThan i (call Standard.Collection.count of)))
+      (body
+        (set total (call Standard.Numeric.plus total (path of (index i))))
+        (set i (call Standard.Numeric.plus i 1))))
+    (return total)))

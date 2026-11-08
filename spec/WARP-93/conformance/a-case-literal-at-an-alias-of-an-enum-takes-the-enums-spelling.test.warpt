@@ -1,0 +1,17 @@
+(test 1)
+(name "a-case-literal-at-an-alias-of-an-enum-takes-the-enums-spelling")
+(note "`App.Signal` is an alias of `App.Light`, a second spelling of it, so a case literal where `App.Signal` is declared is read as `App.Light` and takes the case's spelling `App.Light.red`. An alias gives an enum's cases no second spelling.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (type App.Signal App.Light)
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let signal (type App.Signal) (case red))
+      (return signal))))
+(expect (answers (struct App.Light.red)))

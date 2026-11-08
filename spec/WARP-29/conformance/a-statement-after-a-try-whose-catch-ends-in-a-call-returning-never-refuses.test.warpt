@@ -1,0 +1,24 @@
+(test 1)
+(name "a-statement-after-a-try-whose-catch-ends-in-a-call-returning-never-refuses")
+(note "The body returns and the catch ends in `Standard.Control.abort`, which returns `Never`, so the try never finishes and nothing may follow it. Only the build knows what the call returns.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure App.check
+    (returns Int)
+    (failing aborted)
+    (body
+      (call Standard.Control.abort "checked")))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing aborted)
+    (body
+      (try
+        (body
+          (return (call App.check)))
+        (catch
+          (call Standard.Control.abort "rescued")))
+      (return 9))))
+(expect (refuses build))

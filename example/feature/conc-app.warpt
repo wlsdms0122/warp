@@ -1,0 +1,50 @@
+(warp 1)
+(import Standard.Concurrent.allKeyed)
+(import Standard.Concurrent.first)
+(import cl.fan)
+(import cm.pair)
+
+(procedure entry
+  (access public)
+  (returns (dictionary String Any))
+  (failing (anything))
+  (body
+    (return (call Standard.Concurrent.allKeyed
+        (dictionary
+          (entry "fan"
+            (closure
+              (isolated)
+              (returns Any)
+              (failing concurrent_failed)
+              (body
+                (return (call cl.fan (array 1 2 3))))))
+          (entry "pair"
+            (closure
+              (isolated)
+              (returns Any)
+              (failing concurrent_failed)
+              (body
+                (return (call cm.pair 4)))))
+          (entry "first"
+            (closure
+              (isolated)
+              (returns Any)
+              (failing concurrent_failed)
+              (body
+                (return (call Standard.Concurrent.first
+                    (array
+                      (closure
+                        (isolated)
+                        (returns Int)
+                        (body
+                          (return 7)))
+                      (closure
+                        (isolated)
+                        (returns Int)
+                        (body
+                          (return 7)))
+                      (closure
+                        (isolated)
+                        (returns Int)
+                        (body
+                          (return 7))))))))))))))

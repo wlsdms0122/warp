@@ -1,0 +1,13 @@
+(test 1)
+(name "decoding-an-encoded-surrogate-refuses")
+(note "ED A0 80 is the three-byte form of the surrogate U+D800, which is no scalar and so no UTF-8 text. decoded completes and replaces nothing, so it refuses at the run.")
+
+(program
+  (warp 1)
+  (import Standard.Text.decoded)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (return (call Standard.Text.decoded x"eda080" "utf8")))))
+(expect (refuses run))

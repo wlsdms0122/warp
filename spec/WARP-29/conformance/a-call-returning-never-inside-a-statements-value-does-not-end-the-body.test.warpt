@@ -1,0 +1,20 @@
+(test 1)
+(name "a-call-returning-never-inside-a-statements-value-does-not-end-the-body")
+(note "A statement never finishes where its own call returns `Never`. Here the call stands inside an array literal, so the `let` is no such statement, the `set` after it is written where it may stand, and the failure `abort` raises reaches the catch.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (var r (type String) "none")
+      (try
+        (body
+          (let held (array (call Standard.Control.abort "m")))
+          (set r "after"))
+        (catch
+          (set r "caught")))
+      (return r))))
+(expect (answers "caught"))

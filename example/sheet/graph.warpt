@@ -1,0 +1,67 @@
+(warp 1)
+(import Standard.Collection.appending)
+(import Standard.Collection.contains)
+(import Standard.Collection.count)
+(import Standard.Collection.keys)
+(import Standard.Collection.sorted)
+(import Standard.Comparable.lessThan)
+(import Standard.Control.abort)
+(import Standard.Logic.equal)
+(import Standard.Math.greaterThan)
+(import Standard.Numeric.plus)
+(import Standard.Text.joined)
+
+(procedure graph.levels
+  (parameter deps (type (dictionary String (array String))))
+  (returns (array (array String)))
+  (failing aborted)
+  (body
+    (var remaining (call Standard.Collection.sorted (call Standard.Collection.keys deps)))
+    (var settled (type (array String)) (array))
+    (var levels (type (array (array String))) (array))
+    (let round
+      (loop
+        (while (call Standard.Math.greaterThan (call Standard.Collection.count remaining) 0))
+        (body
+          (var ready (type (array String)) (array))
+          (var waiting (type (array String)) (array))
+          (var i 0)
+          (let each
+            (loop
+              (while (call Standard.Comparable.lessThan i (call Standard.Collection.count remaining)))
+              (body
+                (let cell (path remaining (index i)))
+                (let needs (path deps (index cell)))
+                (var all true)
+                (var k 0)
+                (let check
+                  (loop
+                    (while (call Standard.Comparable.lessThan k (call Standard.Collection.count needs)))
+                    (body
+                      (conditional
+                        (when (call Standard.Collection.contains settled (path needs (index k))))
+                        (then)
+                        (else
+                          (set all false)))
+                      (set k (call Standard.Numeric.plus k 1)))))
+                (conditional
+                  (when all)
+                  (then
+                    (set ready (call Standard.Collection.appending ready cell)))
+                  (else
+                    (set waiting (call Standard.Collection.appending waiting cell))))
+                (set i (call Standard.Numeric.plus i 1)))))
+          (conditional
+            (when (call Standard.Logic.equal (call Standard.Collection.count ready) 0))
+            (then
+              (call Standard.Control.abort (call Standard.Text.joined (array "a cycle among " (call Standard.Text.joined waiting ", ")) ""))))
+          (set levels (call Standard.Collection.appending levels ready))
+          (set i 0)
+          (let mark
+            (loop
+              (while (call Standard.Comparable.lessThan i (call Standard.Collection.count ready)))
+              (body
+                (set settled (call Standard.Collection.appending settled (path ready (index i))))
+                (set i (call Standard.Numeric.plus i 1)))))
+          (set remaining waiting))))
+    (return levels)))

@@ -1,0 +1,18 @@
+(test 1)
+(name "a-declared-type-naming-a-type-parameter-its-procedure-does-not-declare-refuses")
+(note "A name in a body may declare a type parameter of the procedure it is written in. `App.f` declares `T` alone, so `y` declaring `some U?` names a type parameter nothing fills, and it refuses at the load.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter x (type (some T)))
+    (returns (some T))
+    (body
+      (var y (type (optional (some U))))
+      (return x)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

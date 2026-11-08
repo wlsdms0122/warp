@@ -1,0 +1,30 @@
+(test 1)
+(name "a-constant-folded-from-a-list-of-hashable-keyed-dictionaries-keeps-their-key")
+(note "A dictionary a constant holds keeps the key its expression was read as at that dictionary's position. `K.make` returns `Array<Dictionary<Hashable, Int>>`, so each dictionary in the list keeps `Hashable` though one is keyed by `1` and the other by `\"a\"`, the constant is a value of that list type, and `count` returns 2.")
+
+(documents
+  (document
+    (warp 1)
+    (procedure K.make
+      (const)
+      (isolated)
+      (returns (array (dictionary Hashable Int)))
+      (body
+        (let a (type (dictionary Hashable Int)) (dictionary (entry 1 1)))
+        (let b (type (dictionary Hashable Int)) (dictionary (entry "a" 2)))
+        (return (array a b))))))
+
+(program
+  (warp 1)
+  (import K.make)
+  (import Standard.Collection.count)
+  (const made (call K.make))
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (returns Int)
+    (body
+      (let xs (type (array (dictionary Hashable Int))) made)
+      (return (call Standard.Collection.count xs)))))
+(expect (answers 2))

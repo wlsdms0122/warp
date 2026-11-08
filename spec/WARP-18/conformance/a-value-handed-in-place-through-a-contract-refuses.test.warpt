@@ -1,0 +1,25 @@
+(test 1)
+(name "a-value-handed-in-place-through-a-contract-refuses")
+(note "A parameter a contract writes `inout` takes a variable, the same as one a declaration writes. A literal has no box to write, so handing one in place through the contract refuses at the build.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (struct App.Thing
+    (satisfies App.Bumping)
+    (field id Int)
+    (procedure bump
+      (parameter of (type App.Thing))
+      (parameter count (type (inout Int)))
+      (body
+        (set count (call Standard.Numeric.plus count 1)))))
+  (contract App.Bumping
+    (procedure bump
+      (parameter of (type Self))
+      (parameter count (type (inout Int)))))
+  (procedure entry
+    (access public)
+    (failing cast_refused)
+    (body
+      (call App.Bumping.bump (as (struct (field id 1)) App.Thing) 10))))
+(expect (refuses build))

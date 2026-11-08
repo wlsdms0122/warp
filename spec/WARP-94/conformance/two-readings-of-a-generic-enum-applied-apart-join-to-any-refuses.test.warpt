@@ -1,0 +1,24 @@
+(test 1)
+(name "two-readings-of-a-generic-enum-applied-apart-join-to-any-refuses")
+(note "`a` is an `App.Slot<Int>` and `b` an `App.Slot<String>`, so the two join to `Any` and the list reads `Array<Any>`. `App.count` asks a list of `App.Slot<some T>`, which `Array<Any>` is not, so the build refuses the call.")
+
+(program
+  (warp 1)
+  (enum App.Slot
+    (typeParameter T)
+    (case empty)
+    (case full (field item (some T))))
+  (procedure App.count
+    (parameter slots (type (array (named App.Slot (some T)))))
+    (returns Int)
+    (body
+      (return 2)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let a (type (named App.Slot Int)) (case full (field item 1)))
+      (let b (type (named App.Slot String)) (case full (field item "x")))
+      (let slots (array a b))
+      (return (call App.count slots)))))
+(expect (refuses build))

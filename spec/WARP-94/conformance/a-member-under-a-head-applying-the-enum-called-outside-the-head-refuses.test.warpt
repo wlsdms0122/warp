@@ -1,0 +1,25 @@
+(test 1)
+(name "a-member-under-a-head-applying-the-enum-called-outside-the-head-refuses")
+(note "`describe` is given under `App.Result<Int, some E>`, so it holds for results whose `T` is `Int` and no other. `result` is an `App.Result<String, String>`, which the head does not take, so the build refuses the call.")
+
+(program
+  (warp 1)
+  (enum App.Result
+    (typeParameter T)
+    (typeParameter E)
+    (case failure (field error (some E)))
+    (case success (field value (some T))))
+  (extension
+    (head (named App.Result Int (some E)))
+    (procedure describe
+      (parameter of (type (named App.Result Int (some E))))
+      (returns String)
+      (body
+        (return "int result"))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let result (type (named App.Result String String)) (case success (field value "s")))
+      (return (call App.Result.describe result)))))
+(expect (refuses build))

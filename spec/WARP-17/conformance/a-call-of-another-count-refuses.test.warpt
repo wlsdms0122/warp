@@ -1,0 +1,17 @@
+(test 1)
+(name "a-call-of-another-count-refuses")
+(note "A call hands its arguments by position, and `plain` takes one. A second argument would stand at a position `plain` does not have, and the build says so rather than dropping it.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call plain 7 8))))
+  (procedure plain
+    (parameter value (type Int))
+    (returns Int)
+    (body
+      (return value))))
+(expect (refuses build))

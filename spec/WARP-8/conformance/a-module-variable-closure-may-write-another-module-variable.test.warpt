@@ -1,0 +1,24 @@
+(test 1)
+(name "a-module-variable-closure-may-write-another-module-variable")
+(note "A start reads only the constants beside it, and a closure literal written in it is a procedure of its document, whose body reads and writes what any body the document declares does. The closure `bump` starts at writes the module variable `count` each time it is called, which the start itself does not read, so two calls return 2.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (var bump
+    (type (procedure (parameters) (returns Int)))
+    (closure
+      (returns Int)
+      (body
+        (set count (call Standard.Numeric.plus count 1))
+        (return count))))
+  (var count (type Int) 0)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (body
+      (let a (apply bump))
+      (let b (apply bump))
+      (return b))))
+(expect (answers 2))

@@ -1,0 +1,27 @@
+(test 1)
+(name "a-switch-binds-what-a-case-carries")
+(note "`App.Target.remote` carries a host and a port. The switch takes the value apart by its case, and the `remote` arm binds the field `port` to `p`, which reads `Int` there, so handed a `remote` carrying 8080 it returns 8080. The arm binds nothing to `host`, which it does not read.")
+
+(program
+  (warp 1)
+  (enum App.Target
+    (case local)
+    (case remote (field host String) (field port Int)))
+  (procedure App.port
+    (parameter target (type App.Target))
+    (returns Int)
+    (body
+      (switch target
+        (case local
+          (then
+            (return 0)))
+        (case remote
+          (bind port p)
+          (then
+            (return p))))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.port (case remote (field host "example.com") (field port 8080)))))))
+(expect (answers 8080))

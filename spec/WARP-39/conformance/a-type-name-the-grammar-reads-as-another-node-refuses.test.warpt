@@ -1,0 +1,5 @@
+(test 1)
+(name "a-type-name-the-grammar-reads-as-another-node-refuses")
+(note "A name atom writes its name as the type's string, so a name the type grammar reads as another node has no node of its own: `A & B` reads as `(composition A B)`, and `` `A & B` `` refuses.")
+(text "(warp 1)\n\n(procedure App.f\n  (parameter x (type `A & B`))\n  (returns Int)\n  (body\n    (return 1)))")
+(expect (refuses load))

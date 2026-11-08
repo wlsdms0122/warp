@@ -1,0 +1,16 @@
+(test 1)
+(name "a-head-applying-a-list-to-an-in-place-type-refuses")
+(note "Each type an `applied` head holds is written as a head writes it, with no `some T.Item`, `Self` or mark. `Array<inout Int>` writes a mark inside the head, so the load refuses it.")
+
+(program
+  (warp 1)
+  (contract App.Marked)
+  (extension
+    (head (array (inout Int)))
+    (satisfies App.Marked))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

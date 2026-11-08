@@ -1,0 +1,386 @@
+(warp 1)
+(import Standard.Collection.appending)
+(import Standard.Collection.count)
+(import Standard.Comparable.lessThan)
+(import Standard.Control.abort)
+(import Standard.Logic.and)
+(import Standard.Logic.equal)
+(import Standard.Logic.or)
+(import Standard.Numeric.plus)
+(import Standard.Text.joined)
+(import ast.binary)
+(import ast.call)
+(import ast.number)
+(import ast.range)
+(import ast.ref)
+(import lex.Token)
+(import lex.number)
+(import lex.tokens)
+(import sheet.Node)
+
+(procedure parse.args
+  (parameter tokens (type (array lex.Token)))
+  (parameter at (type (inout Int)))
+  (returns (array sheet.Node))
+  (failing aborted cast_refused)
+  (body
+    (var args (type (array sheet.Node)) (array))
+    (var going true)
+    (let each
+      (loop
+        (while going)
+        (body
+          (conditional
+            (when
+              (call Standard.Logic.and
+                (array
+                  (closure
+                    (const)
+                    (isolated)
+                    (returns Bool)
+                    (body
+                      (return
+                        (call Standard.Logic.and
+                          (array
+                            (closure
+                              (const)
+                              (isolated)
+                              (returns Bool)
+                              (body
+                                (return (call Standard.Comparable.lessThan at (call Standard.Collection.count tokens)))))
+                            (closure
+                              (const)
+                              (isolated)
+                              (returns Bool)
+                              (body
+                                (return (call Standard.Logic.equal (path tokens (index at) (field kind)) "name")))))))))
+                  (closure
+                    (const)
+                    (isolated)
+                    (returns Bool)
+                    (body
+                      (return (call parse.colonFollows tokens at)))))))
+            (then
+              (let from (path tokens (index at) (field text)))
+              (set at (call Standard.Numeric.plus at 2))
+              (conditional
+                (when
+                  (call Standard.Logic.and
+                    (array
+                      (closure
+                        (const)
+                        (isolated)
+                        (returns Bool)
+                        (body
+                          (return (call Standard.Comparable.lessThan at (call Standard.Collection.count tokens)))))
+                      (closure
+                        (const)
+                        (isolated)
+                        (returns Bool)
+                        (body
+                          (return (call Standard.Logic.equal (path tokens (index at) (field kind)) "name")))))))
+                (then)
+                (else
+                  (call Standard.Control.abort (call Standard.Text.joined (array "a range needs a cell after ':'") ""))))
+              (let to (path tokens (index at) (field text)))
+              (set at (call Standard.Numeric.plus at 1))
+              (set args (call Standard.Collection.appending args (call ast.range from to))))
+            (else
+              (let expr (call parse.expr tokens at))
+              (set args (call Standard.Collection.appending args expr))))
+          (conditional
+            (when
+              (call Standard.Logic.and
+                (array
+                  (closure
+                    (const)
+                    (isolated)
+                    (returns Bool)
+                    (body
+                      (return (call Standard.Comparable.lessThan at (call Standard.Collection.count tokens)))))
+                  (closure
+                    (const)
+                    (isolated)
+                    (returns Bool)
+                    (body
+                      (return (call Standard.Logic.equal (path tokens (index at) (field kind)) "comma")))))))
+            (then
+              (set at (call Standard.Numeric.plus at 1)))
+            (else
+              (conditional
+                (when
+                  (call Standard.Logic.and
+                    (array
+                      (closure
+                        (const)
+                        (isolated)
+                        (returns Bool)
+                        (body
+                          (return (call Standard.Comparable.lessThan at (call Standard.Collection.count tokens)))))
+                      (closure
+                        (const)
+                        (isolated)
+                        (returns Bool)
+                        (body
+                          (return (call Standard.Logic.equal (path tokens (index at) (field kind)) "close")))))))
+                (then
+                  (set at (call Standard.Numeric.plus at 1))
+                  (set going false))
+                (else
+                  (call Standard.Control.abort (call Standard.Text.joined (array "a call without its ')'") "")))))))))
+    (return args)))
+
+(procedure parse.colonFollows
+  (const)
+  (isolated)
+  (parameter tokens (type (array lex.Token)))
+  (parameter at (type Int))
+  (returns Bool)
+  (body
+    (let next (call Standard.Numeric.plus at 1))
+    (return
+      (call Standard.Logic.and
+        (array
+          (closure
+            (const)
+            (isolated)
+            (returns Bool)
+            (body
+              (return (call Standard.Comparable.lessThan next (call Standard.Collection.count tokens)))))
+          (closure
+            (const)
+            (isolated)
+            (returns Bool)
+            (body
+              (return (call Standard.Logic.equal (path tokens (index next) (field kind)) "colon")))))))))
+
+(procedure parse.expr
+  (parameter tokens (type (array lex.Token)))
+  (parameter at (type (inout Int)))
+  (returns sheet.Node)
+  (failing aborted cast_refused)
+  (body
+    (var left (call parse.term tokens at))
+    (let more
+      (loop
+        (while
+          (call Standard.Logic.and
+            (array
+              (closure
+                (const)
+                (isolated)
+                (returns Bool)
+                (body
+                  (return
+                    (call Standard.Logic.and
+                      (array
+                        (closure
+                          (const)
+                          (isolated)
+                          (returns Bool)
+                          (body
+                            (return (call Standard.Comparable.lessThan at (call Standard.Collection.count tokens)))))
+                        (closure
+                          (const)
+                          (isolated)
+                          (returns Bool)
+                          (body
+                            (return (call Standard.Logic.equal (path tokens (index at) (field kind)) "op")))))))))
+              (closure
+                (const)
+                (isolated)
+                (returns Bool)
+                (body
+                  (return
+                    (call Standard.Logic.or
+                      (array
+                        (closure
+                          (const)
+                          (isolated)
+                          (returns Bool)
+                          (body
+                            (return (call Standard.Logic.equal (path tokens (index at) (field text)) "+"))))
+                        (closure
+                          (const)
+                          (isolated)
+                          (returns Bool)
+                          (body
+                            (return (call Standard.Logic.equal (path tokens (index at) (field text)) "-"))))))))))))
+        (body
+          (let op (path tokens (index at) (field text)))
+          (set at (call Standard.Numeric.plus at 1))
+          (let right (call parse.term tokens at))
+          (set left (call ast.binary op left right)))))
+    (return left)))
+
+(procedure parse.factor
+  (parameter tokens (type (array lex.Token)))
+  (parameter at (type (inout Int)))
+  (returns sheet.Node)
+  (failing aborted cast_refused)
+  (body
+    (conditional
+      (when (call Standard.Logic.equal at (call Standard.Collection.count tokens)))
+      (then
+        (call Standard.Control.abort (call Standard.Text.joined (array "the formula ends where a value should stand") ""))))
+    (let token (path tokens (index at)))
+    (var made (call ast.number 0.0))
+    (conditional
+      (when (call Standard.Logic.equal (path token (field kind)) "number"))
+      (then
+        (set at (call Standard.Numeric.plus at 1))
+        (set made (call ast.number (call lex.number (path token (field text))))))
+      (else
+        (conditional
+          (when (call Standard.Logic.equal (path token (field kind)) "name"))
+          (then
+            (set at (call Standard.Numeric.plus at 1))
+            (conditional
+              (when
+                (call Standard.Logic.and
+                  (array
+                    (closure
+                      (const)
+                      (isolated)
+                      (returns Bool)
+                      (body
+                        (return (call Standard.Comparable.lessThan at (call Standard.Collection.count tokens)))))
+                    (closure
+                      (const)
+                      (isolated)
+                      (returns Bool)
+                      (body
+                        (return (call Standard.Logic.equal (path tokens (index at) (field kind)) "open")))))))
+              (then
+                (set at (call Standard.Numeric.plus at 1))
+                (let args (call parse.args tokens at))
+                (set made (call ast.call (path token (field text)) args)))
+              (else
+                (set made (call ast.ref (path token (field text)))))))
+          (else
+            (conditional
+              (when (call Standard.Logic.equal (path token (field kind)) "open"))
+              (then
+                (set at (call Standard.Numeric.plus at 1))
+                (set made (call parse.expr tokens at))
+                (conditional
+                  (when
+                    (call Standard.Logic.and
+                      (array
+                        (closure
+                          (const)
+                          (isolated)
+                          (returns Bool)
+                          (body
+                            (return (call Standard.Comparable.lessThan at (call Standard.Collection.count tokens)))))
+                        (closure
+                          (const)
+                          (isolated)
+                          (returns Bool)
+                          (body
+                            (return (call Standard.Logic.equal (path tokens (index at) (field kind)) "close")))))))
+                  (then
+                    (set at (call Standard.Numeric.plus at 1)))
+                  (else
+                    (call Standard.Control.abort (call Standard.Text.joined (array "a '(' without its ')'") "")))))
+              (else
+                (conditional
+                  (when
+                    (call Standard.Logic.and
+                      (array
+                        (closure
+                          (const)
+                          (isolated)
+                          (returns Bool)
+                          (body
+                            (return (call Standard.Logic.equal (path token (field kind)) "op"))))
+                        (closure
+                          (const)
+                          (isolated)
+                          (returns Bool)
+                          (body
+                            (return (call Standard.Logic.equal (path token (field text)) "-")))))))
+                  (then
+                    (set at (call Standard.Numeric.plus at 1))
+                    (let negated (call parse.factor tokens at))
+                    (set made (call ast.binary "-" (call ast.number 0.0) negated)))
+                  (else
+                    (call Standard.Control.abort (call Standard.Text.joined (array "unexpected '" (path token (field text)) "'") ""))))))))))
+    (return made)))
+
+(procedure parse.formula
+  (parameter of (type String))
+  (returns sheet.Node)
+  (failing aborted cast_refused)
+  (body
+    (let tokens (call lex.tokens of))
+    (var at 0)
+    (conditional
+      (when (call Standard.Logic.equal (call Standard.Collection.count tokens) 0))
+      (then
+        (call Standard.Control.abort (call Standard.Text.joined (array "an empty formula") ""))))
+    (let tree (call parse.expr tokens at))
+    (conditional
+      (when (call Standard.Comparable.lessThan at (call Standard.Collection.count tokens)))
+      (then
+        (call Standard.Control.abort (call Standard.Text.joined (array "unexpected '" (path tokens (index at) (field text)) "'") ""))))
+    (return tree)))
+
+(procedure parse.term
+  (parameter tokens (type (array lex.Token)))
+  (parameter at (type (inout Int)))
+  (returns sheet.Node)
+  (failing aborted cast_refused)
+  (body
+    (var left (call parse.factor tokens at))
+    (let more
+      (loop
+        (while
+          (call Standard.Logic.and
+            (array
+              (closure
+                (const)
+                (isolated)
+                (returns Bool)
+                (body
+                  (return
+                    (call Standard.Logic.and
+                      (array
+                        (closure
+                          (const)
+                          (isolated)
+                          (returns Bool)
+                          (body
+                            (return (call Standard.Comparable.lessThan at (call Standard.Collection.count tokens)))))
+                        (closure
+                          (const)
+                          (isolated)
+                          (returns Bool)
+                          (body
+                            (return (call Standard.Logic.equal (path tokens (index at) (field kind)) "op")))))))))
+              (closure
+                (const)
+                (isolated)
+                (returns Bool)
+                (body
+                  (return
+                    (call Standard.Logic.or
+                      (array
+                        (closure
+                          (const)
+                          (isolated)
+                          (returns Bool)
+                          (body
+                            (return (call Standard.Logic.equal (path tokens (index at) (field text)) "*"))))
+                        (closure
+                          (const)
+                          (isolated)
+                          (returns Bool)
+                          (body
+                            (return (call Standard.Logic.equal (path tokens (index at) (field text)) "/"))))))))))))
+        (body
+          (let op (path tokens (index at) (field text)))
+          (set at (call Standard.Numeric.plus at 1))
+          (let right (call parse.factor tokens at))
+          (set left (call ast.binary op left right)))))
+    (return left)))

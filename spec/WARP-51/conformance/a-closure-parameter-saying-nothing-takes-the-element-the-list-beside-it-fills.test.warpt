@@ -1,0 +1,41 @@
+(test 1)
+(name "a-closure-parameter-saying-nothing-takes-the-element-the-list-beside-it-fills")
+(note "Each closure's parameters write no type, so each takes `Any`. What a procedure handed to a call takes is what it accepts, not a value the call hands, so the list beside it fills `Element` with `Int` and each closure is judged against that: `filter` returns `Array<Int>`, `first` of it an `Int?`, and `reduce` carries the `Int` its closure returns, each held where `Int` or `Int?` is declared.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.filter)
+  (import Standard.Collection.first)
+  (import Standard.Collection.reduce)
+  (procedure entry
+    (access public)
+    (const)
+    (returns (array Any))
+    (body
+      (let kept
+        (type (array Int))
+        (call Standard.Collection.filter
+          (array 1 2 3)
+          (closure
+            (const)
+            (isolated)
+            (parameter v)
+            (returns Bool)
+            (body
+              (return true)))))
+      (let carried
+        (type Int)
+        (call Standard.Collection.reduce
+          (array 1 2 3)
+          0
+          (closure
+            (const)
+            (isolated)
+            (parameter acc)
+            (parameter x)
+            (returns Int)
+            (body
+              (return 1)))))
+      (let head (type (optional Int)) (call Standard.Collection.first kept))
+      (return (array kept carried head)))))
+(expect (answers (array (array 1 2 3) 1 1)))

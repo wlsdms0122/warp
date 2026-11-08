@@ -1,0 +1,20 @@
+(test 1)
+(name "an-index-read-by-a-name-under-a-constants-spelling-reads-the-name")
+(note "An index folds where the path between the brackets is headed by the module's constant, and a name a body introduced under that spelling is not the constant. Inside the arm `K` is the `let`, so `items[K]` reads the element at 1.")
+
+(program
+  (warp 1)
+  (const K 0)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let items (array 10 20))
+      (var y 0)
+      (conditional
+        (when true)
+        (then
+          (let K 1)
+          (set y (path items (index K)))))
+      (return y))))
+(expect (answers 20))

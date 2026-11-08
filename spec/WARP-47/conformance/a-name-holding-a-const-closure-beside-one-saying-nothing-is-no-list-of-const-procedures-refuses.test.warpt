@@ -1,0 +1,30 @@
+(test 1)
+(name "a-name-holding-a-const-closure-beside-one-saying-nothing-is-no-list-of-const-procedures-refuses")
+(note "Two procedures join to one carrying the constness both carry. `fs` declares no type, so it reads the join of a const closure and one saying nothing, which is not const, and handing it where a list of const procedures is declared refuses at the build.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let fs
+        (array
+          (closure
+            (const)
+            (parameter x (type Int))
+            (returns Int)
+            (body
+              (return x)))
+          (closure
+            (parameter x (type Int))
+            (returns Int)
+            (body
+              (return x)))))
+      (return (call take fs))))
+  (procedure take
+    (parameter steps (type (array (procedure (const) (parameters Int) (returns Int)))))
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

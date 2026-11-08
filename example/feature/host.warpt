@@ -1,0 +1,42 @@
+(warp 1)
+(import Host.get)
+(import Host.log)
+(import Host.put)
+(import Standard.Comparable.lessThan)
+(import Standard.Logic.equal)
+(import Standard.Numeric.plus)
+
+(struct keep.Answer
+  (field hits Any)
+  (field missing Any)
+  (field name Any))
+
+(procedure entry
+  (access public)
+  (returns keep.Answer)
+  (failing aborted cast_refused)
+  (body
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan (path walk (field index)) 3))
+        (body
+          (call keep.bump "hits"))))
+    (call Host.put "name" "warp")
+    (return (struct (field hits (call Host.get "hits")) (field missing (call Host.get "nothing")) (field name (call Host.get "name"))))))
+
+(procedure keep.bump
+  (access private)
+  (parameter key (type String))
+  (returns Int)
+  (failing cast_refused)
+  (body
+    (let was (call Host.get key))
+    (var next (type Int) 1)
+    (conditional
+      (when (call Standard.Logic.equal was null))
+      (then)
+      (else
+        (set next (call Standard.Numeric.plus (as was Int) 1))))
+    (call Host.put key next)
+    (call Host.log next)
+    (return next)))

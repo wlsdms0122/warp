@@ -1,0 +1,13 @@
+(test 1)
+(name "an-int-and-a-double-meet-exactly")
+(note "Equality reads numbers by what they are worth, at every size. 2^53 + 1 rounds to 2^53 in binary64, and equality does not follow the rounding: the integer 2^53 + 1 is not the floating-point number 2^53, and 2^53 is.")
+
+(program
+  (warp 1)
+  (import Standard.Logic.equal)
+  (procedure entry
+    (access public)
+    (returns (array Bool))
+    (body
+      (return (array (call Standard.Logic.equal 9007199254740993 9007199254740992.0) (call Standard.Logic.equal 9007199254740992 9007199254740992.0))))))
+(expect (answers (array false true)))

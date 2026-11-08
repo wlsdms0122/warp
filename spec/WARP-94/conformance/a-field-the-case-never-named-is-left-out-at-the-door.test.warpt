@@ -1,0 +1,18 @@
+(test 1)
+(name "a-field-the-case-never-named-is-left-out-at-the-door")
+(note "The host hands `App.Target.remote` with a field `tls` the case never names, where the entry declares nothing. At every door, `Any` included, a struct under a case's spelling is fitted to that case, so `tls` is left out and the text shows `host` and `port` alone.")
+
+(program
+  (warp 1)
+  (import Standard.Text.text)
+  (enum App.Target
+    (case local)
+    (case remote (field host String) (field port Int)))
+  (procedure entry
+    (access public)
+    (parameter target)
+    (returns String)
+    (body
+      (return (call Standard.Text.text target)))))
+(arguments (argument target (struct App.Target.remote (field host "a") (field port 8080) (field tls true))))
+(expect (answers "App.Target.remote {host:\"a\",port:8080}"))

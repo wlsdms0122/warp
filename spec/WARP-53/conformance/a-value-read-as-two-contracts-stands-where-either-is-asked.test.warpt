@@ -1,0 +1,47 @@
+(test 1)
+(name "a-value-read-as-two-contracts-stands-where-either-is-asked")
+(note "A value read as `A & B` stands where either is asked, and handed where `A` is asked holds what it held. `both` is read as `App.A & App.B` from `maybe`, read as `Int?` and holding `5`. Handed where `App.A` is asked it still holds `Int?`, so the call through `App.A` reaches the Optional's row, and handed where `App.B` is asked it builds too.")
+
+(program
+  (warp 1)
+  (contract App.A
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (contract App.B)
+  (extension
+    (head Int)
+    (satisfies App.A App.B)
+    (procedure describe
+      (parameter of (type Int))
+      (returns String)
+      (body
+        (return "a number"))))
+  (extension
+    (head (optional Int))
+    (satisfies App.A App.B)
+    (procedure describe
+      (parameter of (type (optional Int)))
+      (returns String)
+      (body
+        (return "a number or none"))))
+  (procedure App.mark
+    (parameter b (type App.B))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure App.tell
+    (parameter a (type App.A))
+    (returns String)
+    (body
+      (return (call App.A.describe a))))
+  (procedure entry
+    (access public)
+    (returns (array Any))
+    (body
+      (let maybe (type (optional Int)) 5)
+      (let both (type (composition App.A App.B)) maybe)
+      (let told (call App.tell both))
+      (let marked (call App.mark both))
+      (return (array told marked)))))
+(expect (answers (array "a number or none" 1)))

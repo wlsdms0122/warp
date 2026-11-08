@@ -1,0 +1,17 @@
+(test 1)
+(name "a-contract-procedure-writing-a-bound-refuses")
+(note "A type parameter is bounded by the signature of the procedure that declares it, and a contract procedure is satisfied by declarations that each declare their own. A bound beside the `some T` of a contract procedure slot refuses at the load.")
+
+(program
+  (warp 1)
+  (contract App.Kept
+    (procedure keep
+      (parameter of (type Self))
+      (parameter with (type (some T Hashable)))
+      (returns Int)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

@@ -1,0 +1,24 @@
+(test 1)
+(name "a-name-the-default-declares-read-after-the-switch-refuses")
+(note "A name the `default` declares is read to the end of that body and nowhere after. The `default` declares `inner`, and the statement after the switch reads it, so the load refuses it.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure entry
+    (access public)
+    (parameter light (type App.Light))
+    (returns Int)
+    (body
+      (switch light
+        (case green
+          (then
+            (return 2)))
+        (default
+          (var inner 1)))
+      (let read inner)
+      (return read))))
+(arguments (argument light (struct App.Light.red)))
+(expect (refuses load))

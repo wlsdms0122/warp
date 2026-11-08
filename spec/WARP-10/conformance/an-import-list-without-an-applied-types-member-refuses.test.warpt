@@ -1,0 +1,26 @@
+(test 1)
+(name "an-import-list-without-an-applied-types-member-refuses")
+(note "The program writes `App.Wrapper<String>.Item`, which uses App.Wrapper and App.Wrapper.Item, and its imports list App.Wrapper alone. The list says less than the program uses, so the load refuses.")
+
+(documents
+  (document
+    (warp 1)
+    (struct App.Wrapper
+      (typeParameter T)
+      (field item (some T))
+      (type Item (some T)))))
+
+(program
+  (warp 1)
+  (import App.Wrapper)
+  (procedure App.echo
+    (parameter x (type (member (named App.Wrapper String) Item)))
+    (returns String)
+    (body
+      (return x)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

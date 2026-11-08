@@ -1,0 +1,5 @@
+(test 1)
+(name "a-structs-types-written-empty-refuses")
+(note "A struct giving no type member writes no `types`, so `types: {}` says it a second way.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" 1)))))) (entry "returns" "Int"))))) (entry "types" (dictionary (entry "App.P" (dictionary (entry "struct" (dictionary (entry "x" "Int"))) (entry "types" (dictionary)))))) (entry "warp" 1)))
+(expect (refuses load))

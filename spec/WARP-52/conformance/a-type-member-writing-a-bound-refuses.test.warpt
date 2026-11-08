@@ -1,0 +1,19 @@
+(test 1)
+(name "a-type-member-writing-a-bound-refuses")
+(note "A type member says what a type gives under a name and introduces no type parameter, so a bound beside the `some T` it writes refuses at the load.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (satisfies App.Container)
+    (field item (some T))
+    (type Item (some T Hashable)))
+  (contract App.Container
+    (type Item))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

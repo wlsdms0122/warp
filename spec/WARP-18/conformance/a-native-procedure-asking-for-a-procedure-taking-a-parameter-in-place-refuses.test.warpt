@@ -1,0 +1,26 @@
+(test 1)
+(name "a-native-procedure-asking-for-a-procedure-taking-a-parameter-in-place-refuses")
+(note "A native procedure hands values to a procedure it was handed, so one declaring a parameter that asks for a procedure taking a parameter in place refuses at the build. `App.run`'s `first` asks for one taking `inout Int`.")
+
+(vocabulary
+  (procedure App.run
+    (parameter first (type (procedure (parameters (inout Int)) (returns Int))))
+    (returns Int)
+    (answers 1)))
+
+(program
+  (warp 1)
+  (import App.run)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let r
+        (call App.run
+          (closure
+            (parameter c (type (inout Int)))
+            (returns Int)
+            (body
+              (return c)))))
+      (return r))))
+(expect (refuses build))

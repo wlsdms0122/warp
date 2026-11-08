@@ -1,0 +1,25 @@
+(test 1)
+(name "a-closure-may-introduce-a-parameter-of-the-procedure-around-it")
+(note "A closure's body is nested in the body that writes it, so it may introduce a parameter's spelling of the procedure around it. Inside the closure `x` is its own `let`.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter x (type Int))
+    (returns Int)
+    (failing (anything))
+    (body
+      (let c
+        (closure
+          (returns Int)
+          (body
+            (let x 2)
+            (return x))))
+      (return (apply c))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (body
+      (return (call App.f 1)))))
+(expect (answers 2))

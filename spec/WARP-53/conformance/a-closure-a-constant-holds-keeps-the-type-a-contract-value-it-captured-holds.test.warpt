@@ -1,0 +1,55 @@
+(test 1)
+(name "a-closure-a-constant-holds-keeps-the-type-a-contract-value-it-captured-holds")
+(note "`App.maybe` returns `5` read as `Int?`. `App.make` binds it as `App.Described` and returns a closure capturing it. `f` folds at the build to that closure, and the value it captured still holds `Int?`, so the call through the contract reaches `Optional`'s `describe`, though the value is `5`.")
+
+(documents
+  (document
+    (warp 1)
+    (contract App.Described
+      (procedure describe
+        (parameter of (type Self))
+        (returns String)))
+    (extension
+      (head Int)
+      (satisfies App.Described)
+      (procedure describe
+        (parameter of (type Int))
+        (returns String)
+        (body
+          (return "a number"))))
+    (extension
+      (head (optional Int))
+      (satisfies App.Described)
+      (procedure describe
+        (parameter of (type (optional Int)))
+        (returns String)
+        (body
+          (return "a number or none"))))
+    (procedure App.make
+      (access public)
+      (const)
+      (returns (procedure (parameters) (returns String)))
+      (body
+        (let p (type App.Described) (call App.maybe))
+        (return
+          (closure
+            (returns String)
+            (body
+              (return (call App.Described.describe p)))))))
+    (procedure App.maybe
+      (const)
+      (isolated)
+      (returns (optional Int))
+      (body
+        (return 5)))))
+
+(program
+  (warp 1)
+  (import App.make)
+  (const f (call App.make))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (return (apply f)))))
+(expect (answers "a number or none"))

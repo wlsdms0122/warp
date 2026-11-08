@@ -1,0 +1,16 @@
+(warp 1)
+(import Standard.Comparable.lessThan)
+(import Standard.Control.abort)
+(import Standard.Text.joined)
+(import Standard.Text.text)
+
+(procedure chk.positive
+  (parameter n (type Int))
+  (returns Int)
+  (failing aborted)
+  (body
+    (conditional
+      (when (call Standard.Comparable.lessThan n 1))
+      (then
+        (call Standard.Control.abort (call Standard.Text.joined (array "not positive: " (call Standard.Text.text n)) ""))))
+    (return n)))

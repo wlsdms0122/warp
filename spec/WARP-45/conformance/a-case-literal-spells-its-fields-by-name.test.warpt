@@ -1,0 +1,5 @@
+(test 1)
+(name "a-case-literal-spells-its-fields-by-name")
+(note "A case literal writes its case's name, then its `field`s by name.")
+(text "(warp 1)\n(const a (case c (field x 2) (field y 1)))\n")
+(expect (spells (dictionary (entry "const" (dictionary (entry "a" (dictionary (entry "case" (dictionary (entry "c" (dictionary (entry "x" 2) (entry "y" 1))))))))) (entry "imports" (array)) (entry "warp" 1))))

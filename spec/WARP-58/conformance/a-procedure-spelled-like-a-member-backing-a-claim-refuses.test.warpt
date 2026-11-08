@@ -1,0 +1,26 @@
+(test 1)
+(name "a-procedure-spelled-like-a-member-backing-a-claim-refuses")
+(note "`App.Card.describe` is declared among the procedures and not given to App.Card, so it is that document's procedure and satisfies no contract's procedure: the claim holds nothing, and refuses at the build, at the claim.")
+
+(program
+  (warp 1)
+  (struct App.Card
+    (satisfies App.Describable)
+    (field rank Int))
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (procedure App.Card.describe
+    (parameter of (type App.Card))
+    (returns String)
+    (body
+      (return "card")))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let card (as (struct (field rank 1)) App.Card))
+      (return (call App.Describable.describe card)))))
+(expect (refuses build))

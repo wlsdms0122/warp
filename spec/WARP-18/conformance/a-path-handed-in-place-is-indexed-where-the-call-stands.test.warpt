@@ -1,0 +1,21 @@
+(test 1)
+(name "a-path-handed-in-place-is-indexed-where-the-call-stands")
+(note "A name between the brackets of a path handed in place is read where the call stands. `poke` is handed `a[i]` and `i`, writes `i` first and then `x`, and `x` is still `a[0]`, so `a` ends [99, 20] and `i` 1.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (body
+      (var a (array 10 20))
+      (var i 0)
+      (call poke (path a (index i)) i)
+      (return (array (path a (index 0)) (path a (index 1)) i))))
+  (procedure poke
+    (parameter x (type (inout Int)))
+    (parameter j (type (inout Int)))
+    (body
+      (set j 1)
+      (set x 99))))
+(expect (answers (array 99 20 1)))

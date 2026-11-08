@@ -1,0 +1,18 @@
+(test 1)
+(name "a-bound-ends-at-the-comma-after-it")
+(note "A bound is all of the type it stands in, which ends at the comma of the list holding it, so `Dictionary<some K: Hashable, Int>` bounds the key's type by `Hashable` and holds values of `Int`. A dictionary from strings to ints stands there, and `App.f` reads the value under the key it is handed.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter d (type (dictionary (some K Hashable) Int)))
+    (parameter key (type (some K)))
+    (returns (optional Int))
+    (body
+      (return (path d (index key)))))
+  (procedure entry
+    (access public)
+    (returns (optional Int))
+    (body
+      (return (call App.f (dictionary (entry "a" 2)) "a")))))
+(expect (answers 2))

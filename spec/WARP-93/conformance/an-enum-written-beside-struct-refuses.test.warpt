@@ -1,0 +1,5 @@
+(test 1)
+(name "an-enum-written-beside-struct-refuses")
+(note "`App.Light` writes both `enum` and `struct`, so it says two declarations under one name. The document shows it alone, and the load refuses.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" 1)))))) (entry "returns" "Int"))))) (entry "types" (dictionary (entry "App.Light" (dictionary (entry "enum" (dictionary (entry "red" (dictionary)))) (entry "struct" (dictionary (entry "x" "Int"))))))) (entry "warp" 1)))
+(expect (refuses load))

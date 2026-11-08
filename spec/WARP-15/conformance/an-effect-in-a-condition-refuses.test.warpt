@@ -1,0 +1,18 @@
+(test 1)
+(name "an-effect-in-a-condition-refuses")
+(note "A condition is read rather than run, so a procedure that is not const cannot stand in one. `App.ready` returns a `Bool` and says nothing of itself, and the build knows which declarations those are, so the refusal is the build's.")
+
+(program
+  (warp 1)
+  (procedure App.ready
+    (returns Bool)
+    (body
+      (return true)))
+  (procedure entry
+    (access public)
+    (body
+      (conditional
+        (when (call App.ready))
+        (then
+          (let kept 1))))))
+(expect (refuses build))

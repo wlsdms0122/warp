@@ -1,0 +1,13 @@
+(test 1)
+(name "an-optional-const-procedure-reads-as-written")
+(note "Parentheses around a procedure type with a modifier make the `?` after them the whole procedure's, so `(const Procedure)?` is the Optional of a const procedure.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns (optional (procedure (const))))
+    (body
+      (let f (type (optional (procedure (const)))) null)
+      (return f))))
+(expect (answers null))

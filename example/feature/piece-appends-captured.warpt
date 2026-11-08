@@ -1,0 +1,17 @@
+(warp 1)
+(import Standard.Collection.append)
+(import Standard.Concurrent.allKeyed)
+
+(procedure entry
+  (access public)
+  (returns (array Int))
+  (failing aborted cast_refused concurrent_failed)
+  (body
+    (var xs (type (array Int)) (array))
+    (call Standard.Concurrent.allKeyed
+      (dictionary
+        (entry "a"
+          (closure
+            (body
+              (call Standard.Collection.append xs 1))))))
+    (return xs)))

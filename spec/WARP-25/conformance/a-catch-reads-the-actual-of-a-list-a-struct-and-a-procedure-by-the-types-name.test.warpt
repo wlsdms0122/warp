@@ -1,0 +1,33 @@
+(test 1)
+(name "a-catch-reads-the-actual-of-a-list-a-struct-and-a-procedure-by-the-types-name")
+(note "`actual` names the type the value is an instance of by the type's name, with nothing it was applied to: a list is an `Array` whatever it holds, bytes among them, a struct is the name it carries, and a procedure is a `Procedure`, which names no signature.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (procedure App.actual
+    (parameter p)
+    (returns Any)
+    (body
+      (let caught
+        (try
+          (body
+            (as p Bool))
+          (catch
+            (return (path caught (field details) (index "actual"))))))
+      (return "no failure")))
+  (procedure entry
+    (access public)
+    (parameter box)
+    (returns (array Any))
+    (body
+      (let f
+        (closure
+          (returns Int)
+          (body
+            (return 1))))
+      (return (array (call App.actual (array 1 "a")) (call App.actual x"6869") (call App.actual box) (call App.actual f))))))
+(arguments (argument box (struct App.Box (field item 1))))
+(expect (answers (array "Array" "Array" "App.Box" "Procedure")))

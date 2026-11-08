@@ -1,0 +1,16 @@
+(test 1)
+(name "an-index-on-an-enum-refuses")
+(note "An enum declares no field of its own and holds no element, so an index on a reading of `App.Target` reads nothing, and the build refuses it.")
+
+(program
+  (warp 1)
+  (enum App.Target
+    (case local)
+    (case remote (field host String) (field port Int)))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let target (type App.Target) (case remote (field host "a") (field port 8080)))
+      (return (path target (index "port"))))))
+(expect (refuses build))

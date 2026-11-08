@@ -1,0 +1,43 @@
+(test 1)
+(name "an-asking-cast-to-a-list-of-an-associated-type-reads-it-as-the-call-filled-it")
+(note "App.g bounds C by App.Container, which asks `Item`, and asks for `Array<some C.Item>`. Each call reads the list as its own filling of `Item`: a list of strings for App.Words, a list of integers for App.Box.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (satisfies App.Container)
+    (field x Int)
+    (type Item Int)
+    (procedure first
+      (parameter of (type App.Box))
+      (returns Int)
+      (body
+        (return 0))))
+  (struct App.Words
+    (satisfies App.Container)
+    (field x Int)
+    (type Item String)
+    (procedure first
+      (parameter of (type App.Words))
+      (returns String)
+      (body
+        (return "w"))))
+  (contract App.Container
+    (type Item)
+    (procedure first
+      (parameter of (type Self))
+      (returns Self.Item)))
+  (procedure App.g
+    (parameter c (type (some C App.Container)))
+    (parameter a)
+    (returns (optional (array (some C.Item))))
+    (body
+      (return (as? a (array (some C.Item))))))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let w (type App.Words) (struct (field x 1)))
+      (let b (type App.Box) (struct (field x 1)))
+      (return (array (call App.g w (array "s")) (call App.g w (array 1)) (call App.g b (array 1)) (call App.g b (array "s")))))))
+(expect (answers (array (array "s") null (array 1) null)))

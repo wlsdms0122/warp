@@ -1,0 +1,17 @@
+(test 1)
+(name "a-dictionary-keyed-by-a-type-parameter-bounded-by-hashable")
+(note "A type parameter its bounds hold to `Hashable` conforms to it, so a dictionary keyed by one is a dictionary whatever key type a call fills it with, and the document builds.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter m (type (dictionary (some K Hashable) Int)))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (answers 1))

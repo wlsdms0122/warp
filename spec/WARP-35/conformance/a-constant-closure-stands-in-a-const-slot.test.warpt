@@ -1,0 +1,22 @@
+(test 1)
+(name "a-constant-closure-stands-in-a-const-slot")
+(note "A constant keeps the one value it folded to, so the closure it holds reads as the procedure type its literal declares, `const` included. `Standard.Collection.map` takes it in its slot of a `const` procedure type.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.map)
+  (const f
+    (closure
+      (const)
+      (isolated)
+      (parameter x (type Int))
+      (returns Int)
+      (body
+        (return x))))
+  (procedure entry
+    (access public)
+    (const)
+    (returns (array Int))
+    (body
+      (return (call Standard.Collection.map (array 1 2) f)))))
+(expect (answers (array 1 2)))

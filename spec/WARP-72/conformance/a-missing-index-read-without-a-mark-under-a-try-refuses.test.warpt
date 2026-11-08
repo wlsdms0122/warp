@@ -1,0 +1,21 @@
+(test 1)
+(name "a-missing-index-read-without-a-mark-under-a-try-refuses")
+(note "`xs` holds one element and the body reads `xs[3]` without `?`, which stops the run. The abort after it makes the try one a run may reach, and no catch holds a refusal, so the run refuses rather than answering \"rescued\".")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (var tried)
+      (let xs (type (array Int)) (array 1))
+      (try
+        (body
+          (let v (path xs (index 3)))
+          (call Standard.Control.abort "after"))
+        (catch
+          (set tried "rescued")))
+      (return tried))))
+(expect (refuses run))

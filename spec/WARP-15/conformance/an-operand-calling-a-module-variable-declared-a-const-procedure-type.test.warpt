@@ -1,0 +1,20 @@
+(test 1)
+(name "an-operand-calling-a-module-variable-declared-a-const-procedure-type")
+(note "The type written for a value includes a module variable's declared type. `pick` declares a `const` procedure type, so a call of it written as an argument is an operand that stands, and the entry returns 2.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (var pick
+    (type (procedure (const) (parameters) (returns Int)))
+    (closure
+      (const)
+      (returns Int)
+      (body
+        (return 1))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call Standard.Numeric.plus (apply pick) 1)))))
+(expect (answers 2))

@@ -1,0 +1,5 @@
+(test 1)
+(name "a-key-led-by-a-byte-order-mark-sorts-by-its-bytes")
+(note "A key led by U+FEFF keeps it and sorts by the bytes it is written with, `EF` after `62`.")
+(bytes x"5741525001070205016203020504efbbbf610304")
+(expect (spells (dictionary (entry "b" 1) (entry "﻿a" 2))))

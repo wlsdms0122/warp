@@ -1,0 +1,27 @@
+(test 1)
+(name "a-closure-a-generic-body-wrote-taking-a-list-in-place-is-read-as-the-type-it-is-judged-against")
+(note "App.mk returns a closure taking a list of its own some T in place, and the call fills the T with `String`. Held as a procedure taking a list of strings, the closure is read as that type, and calling it appends to the list.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.append)
+  (procedure App.mk
+    (parameter x (type (some T)))
+    (returns (procedure (parameters (inout (array (some T)))) (returns Int)))
+    (body
+      (return
+        (closure
+          (parameter xs (type (inout (array (some T)))))
+          (returns Int)
+          (body
+            (call Standard.Collection.append xs x)
+            (return 0))))))
+  (procedure entry
+    (access public)
+    (returns (array String))
+    (body
+      (let f (type (procedure (parameters (inout (array String))) (returns Int))) (call App.mk "b"))
+      (var s (array "a"))
+      (apply f s)
+      (return s))))
+(expect (answers (array "a" "b")))

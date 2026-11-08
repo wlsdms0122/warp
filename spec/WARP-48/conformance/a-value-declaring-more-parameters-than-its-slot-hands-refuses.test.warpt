@@ -1,0 +1,24 @@
+(test 1)
+(name "a-value-declaring-more-parameters-than-its-slot-hands-refuses")
+(note "A value at a procedure-typed slot takes exactly the positions the slot hands. A closure taking two where the slot hands one refuses at the build.")
+
+(program
+  (warp 1)
+  (procedure App.run
+    (parameter f (type (procedure (parameters Int) (returns Int))))
+    (returns Int)
+    (body
+      (return (apply f 1))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return
+        (call App.run
+          (closure
+            (parameter x (type Int))
+            (parameter y (type Int))
+            (returns Int)
+            (body
+              (return x))))))))
+(expect (refuses build))

@@ -1,0 +1,25 @@
+(test 1)
+(name "a-cast-from-any-reads-a-case-of-the-enum")
+(note "`value` takes anything, and the host hands it `App.Light.red`, which the door holds to the case `red`. The cast to `App.Light` judges that the value is one of its cases and reads it as one, so the switch takes the `red` arm.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure entry
+    (access public)
+    (parameter value)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let light (as value App.Light))
+      (switch light
+        (case green
+          (then
+            (return "go")))
+        (case red
+          (then
+            (return "stop")))))))
+(arguments (argument value (struct App.Light.red)))
+(expect (answers "stop"))

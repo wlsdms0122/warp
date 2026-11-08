@@ -1,0 +1,5 @@
+(test 1)
+(name "a-claim-imported-as-three-names-refuses")
+(note "A claim imported is an array of exactly two strings, the type and the contract it is about. An entry of three names is no claim, and refuses at the load.")
+(tree (dictionary (entry "importedClaims" (array (array "T.Card" "App.X" "App.Y"))) (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" 1)))))) (entry "returns" "Int"))))) (entry "warp" 1)))
+(expect (refuses load))

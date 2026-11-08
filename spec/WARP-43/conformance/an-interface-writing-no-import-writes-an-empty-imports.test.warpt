@@ -1,0 +1,5 @@
+(test 1)
+(name "an-interface-writing-no-import-writes-an-empty-imports")
+(note "An interface's tree is a document's with `interface` in the place of `warp`, and `imports` is written whether or not any node imports, so an interface naming nothing it does not declare writes `imports: []`.")
+(text "(interface 1)\n")
+(expect (spells (dictionary (entry "imports" (array)) (entry "interface" 1))))

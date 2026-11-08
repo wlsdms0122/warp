@@ -1,0 +1,5 @@
+(test 1)
+(name "a-double-spells-as-the-nearer-of-two-shortest-decimals")
+(note "A floating-point number is written as the shortest decimal that reads back to it, and of two as short the one nearer its value: `4e-324` and `5e-324` both read back to the least positive double, and it is written `5e-324`.")
+(text "(warp 1)\n(const a 5e-324)\n")
+(expect (spells (dictionary (entry "const" (dictionary (entry "a" 5e-324))) (entry "imports" (array)) (entry "warp" 1))))

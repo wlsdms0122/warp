@@ -1,0 +1,16 @@
+(test 1)
+(name "a-constant-cast-to-an-enum-holds-its-case")
+(note "A cast is a place, so the case literal under `as App.Light` in the constant is read as `App.Light`. The constant folds into `App.Light.red`, which the entry returns.")
+
+(program
+  (warp 1)
+  (const light (as (case red) App.Light))
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure entry
+    (access public)
+    (returns App.Light)
+    (body
+      (return light))))
+(expect (answers (struct App.Light.red)))

@@ -1,0 +1,28 @@
+(test 1)
+(name "a-switch-over-an-enum-another-document-declares-takes-its-default")
+(note "The document beside the program declares `App.Light`, and the program switches over one with an arm for `green` and a `default`. The build reads the cases off that document's declaration, so the switch builds, and handed `yellow` it runs the `default`.")
+
+(documents
+  (document
+    (warp 1)
+    (enum App.Light
+      (case green)
+      (case red)
+      (case yellow))))
+
+(program
+  (warp 1)
+  (import App.Light)
+  (procedure entry
+    (access public)
+    (parameter light (type App.Light))
+    (returns String)
+    (body
+      (switch light
+        (case green
+          (then
+            (return "go")))
+        (default
+          (return "stop"))))))
+(arguments (argument light (struct App.Light.yellow)))
+(expect (answers "stop"))

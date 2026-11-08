@@ -1,0 +1,15 @@
+(test 1)
+(name "a-case-literal-at-an-optional-of-an-enum-is-its-some")
+(note "The entry returns `App.Light?`, and a case literal is read as the enum its place reads, an Optional's some included. So `red` is read as `App.Light` and returned as the some.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure entry
+    (access public)
+    (returns (optional App.Light))
+    (body
+      (return (case red)))))
+(expect (answers (struct App.Light.red)))

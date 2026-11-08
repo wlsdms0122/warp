@@ -1,0 +1,17 @@
+(test 1)
+(name "a-dictionary-keyed-by-a-type-parameter-no-bound-holds-refuses")
+(note "A type parameter conforms to what its bounds name and nothing else, so a dictionary keyed by one conforms to `Hashable` only where the signature writes `some K: Hashable`. Without it the key conforms to nothing and the declaration refuses at the build.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter m (type (dictionary (some K) Int)))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

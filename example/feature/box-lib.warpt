@@ -1,0 +1,42 @@
+(warp 1)
+(import Standard.Numeric.plus)
+(import Standard.Numeric.times)
+(const factor 3)
+(var count 0)
+
+(procedure box.accumulator
+  (parameter start (type Int))
+  (returns (procedure (parameters Int) (returns Int)))
+  (body
+    (var acc start)
+    (return (closure
+        (parameter of (type Int))
+        (returns Int)
+        (body
+          (set acc (call Standard.Numeric.plus acc of))
+          (return acc))))))
+
+(procedure box.counter
+  (returns (procedure (parameters) (returns Int)))
+  (body
+    (return (closure
+        (returns Int)
+        (body
+          (set count (call Standard.Numeric.plus count 1))
+          (return count))))))
+
+(procedure box.read
+  (returns Int)
+  (body
+    (return count)))
+
+(procedure box.scaled
+  (returns (procedure (const) (isolated) (parameters Int) (returns Int)))
+  (body
+    (return (closure
+        (const)
+        (isolated)
+        (parameter item (type Int))
+        (returns Int)
+        (body
+          (return (call Standard.Numeric.times item factor)))))))

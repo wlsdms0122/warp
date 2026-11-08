@@ -1,0 +1,14 @@
+(test 1)
+(name "a-reference-to-a-statement-written-later-refuses")
+(note "A reference resolves to a statement written before it. One naming a statement further down reads a name that is not there yet, and the document alone says so.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let early late)
+      (let late 1)
+      (return early))))
+(expect (refuses load))

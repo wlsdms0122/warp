@@ -1,0 +1,14 @@
+(test 1)
+(name "an-integer-handed-to-an-entry-at-a-double-refuses")
+(note "`Double` refuses every `Int`, whatever its value. A value from outside has no reading the build knows, so the host handing `1` where the entry declares `Double` is refused at the run, at the door.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter x (type Double))
+    (returns Double)
+    (body
+      (return x))))
+(arguments (argument x 1))
+(expect (refuses run))

@@ -1,0 +1,13 @@
+(test 1)
+(name "a-list-literal-of-other-types-written-into-a-list-refuses")
+(note "A variable declared `Array<Int>` starts with `[1, \"s\"]`. The literal is held to the declaration element by element, so the string refuses at the build.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var xs (type (array Int)) (array 1 "s"))
+      (return 0))))
+(expect (refuses build))

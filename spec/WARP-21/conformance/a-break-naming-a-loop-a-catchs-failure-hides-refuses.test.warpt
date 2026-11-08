@@ -1,0 +1,23 @@
+(test 1)
+(name "a-break-naming-a-loop-a-catchs-failure-hides-refuses")
+(note "A name a body introduces again is the new one to every asker, a leave included. The try inside loop `w` is named `w`, so in its catch `w` is the failure, and a `break` naming it names no loop around it.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let w
+        (loop
+          (while true)
+          (body
+            (let w
+              (try
+                (body
+                  (call Standard.Control.abort "x"))
+                (catch
+                  (break w)))))))
+      (return 1))))
+(expect (refuses load))

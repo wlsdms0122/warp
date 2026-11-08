@@ -1,0 +1,37 @@
+(test 1)
+(name "a-closure-inside-a-closure-reads-the-bounds-of-the-procedure-around-them")
+(note "A closure written inside another closure reads the type parameters of the procedure around both: its `some T` is held to the bounds that procedure wrote, though the closure between them names no `T`, so it may send the procedures of the contract the bound names.")
+
+(program
+  (warp 1)
+  (import Standard.Comparable)
+  (import Standard.Comparable.lessThan)
+  (procedure App.f
+    (const)
+    (isolated)
+    (parameter x (type (some T Standard.Comparable)))
+    (returns (some T))
+    (body
+      (let outer
+        (closure
+          (const)
+          (isolated)
+          (returns (procedure (const) (isolated) (parameters (some T)) (returns Bool)))
+          (body
+            (return
+              (closure
+                (const)
+                (isolated)
+                (parameter y (type (some T)))
+                (returns Bool)
+                (body
+                  (return (call Standard.Comparable.lessThan y y))))))))
+      (return x)))
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (returns Int)
+    (body
+      (return (call App.f 2)))))
+(expect (answers 2))

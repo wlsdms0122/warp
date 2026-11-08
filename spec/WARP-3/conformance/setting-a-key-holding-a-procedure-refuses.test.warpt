@@ -1,0 +1,21 @@
+(test 1)
+(name "setting-a-key-holding-a-procedure-refuses")
+(note "`setting` writes an entry the way a path does, so a key holding a procedure, which is no key, refuses at the run there too.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.count)
+  (import Standard.Collection.setting)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let f
+        (closure
+          (returns Int)
+          (body
+            (return 1))))
+      (let k (type (array Any)) (array f))
+      (let d (type (dictionary (array Any) Int)) (dictionary))
+      (return (call Standard.Collection.count (call Standard.Collection.setting d k 1))))))
+(expect (refuses run))

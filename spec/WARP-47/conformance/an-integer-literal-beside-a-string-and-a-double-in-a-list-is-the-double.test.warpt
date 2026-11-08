@@ -1,0 +1,14 @@
+(test 1)
+(name "an-integer-literal-beside-a-string-and-a-double-in-a-list-is-the-double")
+(note "Every element of `[1, \"a\", 2.5]` stands at the list's one element position, so `1` stands beside `2.5` though a string stands between them, and is the `Double` it names whatever the place declares.")
+
+(program
+  (warp 1)
+  (import Standard.Text.text)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let xs (type (array Any)) (array 1 "a" 2.5))
+      (return (call Standard.Text.text xs)))))
+(expect (answers "[1.0,\"a\",2.5]"))

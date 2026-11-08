@@ -1,0 +1,33 @@
+(test 1)
+(name "an-isolated-piece-switches-over-a-value-of-an-enum")
+(note "`Standard.Concurrent.map` runs an isolated closure for each element of a list of `App.Light`. A switch reaches nothing outside its piece, so each piece takes its value apart and returns its own number.")
+
+(program
+  (warp 1)
+  (import Standard.Concurrent.map)
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (failing concurrent_failed)
+    (body
+      (let lights (type (array App.Light)) (array (case green) (case red)))
+      (return
+        (call Standard.Concurrent.map lights
+          (closure
+            (isolated)
+            (parameter x (type App.Light))
+            (parameter i (type Int))
+            (returns Int)
+            (failing (anything))
+            (body
+              (switch x
+                (case green
+                  (then
+                    (return 1)))
+                (case red
+                  (then
+                    (return 2)))))))))))
+(expect (answers (array 1 2)))

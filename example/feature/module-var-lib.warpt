@@ -1,0 +1,14 @@
+(warp 1)
+(import Standard.Numeric.plus)
+(var counter 0)
+
+(procedure ctr.bump
+  (returns Int)
+  (body
+    (set counter (call Standard.Numeric.plus counter 1))
+    (return counter)))
+
+(procedure ctr.read
+  (returns Int)
+  (body
+    (return counter)))

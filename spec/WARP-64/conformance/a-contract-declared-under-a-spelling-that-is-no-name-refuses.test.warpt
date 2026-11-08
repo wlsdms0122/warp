@@ -1,0 +1,24 @@
+(test 1)
+(name "a-contract-declared-under-a-spelling-that-is-no-name-refuses")
+(note "A contract stands in the types namespace beside the types, and is named the way a type is. `Array<Int>` is no name, so a contract declared under it refuses at the load.")
+
+(program
+  (warp 1)
+  (contract Array<Int>
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head Int)
+    (satisfies Array<Int>)
+    (procedure describe
+      (parameter of (type Int))
+      (returns String)
+      (body
+        (return "a whole number"))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (return (call Array<Int>.describe 1)))))
+(expect (refuses load))

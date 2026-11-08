@@ -1,0 +1,27 @@
+(test 1)
+(name "values-from-outside-meeting-at-a-bounded-parameter-are-one-type-where-they-are-cases-of-one-enum")
+(note "Values meeting at one type parameter of a call from outside are one type where they are of one struct, or of cases of one enum. The host hands `green` and `red` of `App.Light` where `Array<some T>` is bounded by `App.Shown`, which `App.Light` claims, so the two are one type and the call through the contract reaches `App.Light.show`.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (satisfies App.Shown)
+    (case green)
+    (case red)
+    (procedure show
+      (parameter of (type App.Light))
+      (returns String)
+      (body
+        (return "light"))))
+  (contract App.Shown
+    (procedure show
+      (parameter of (type Self))
+      (returns String)))
+  (procedure entry
+    (access public)
+    (parameter xs (type (array (some T App.Shown))))
+    (returns String)
+    (body
+      (return (call App.Shown.show (path xs (index 1)))))))
+(arguments (argument xs (array (struct App.Light.green) (struct App.Light.red))))
+(expect (answers "light"))

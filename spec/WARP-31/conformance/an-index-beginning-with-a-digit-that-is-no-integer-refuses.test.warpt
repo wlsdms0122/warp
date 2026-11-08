@@ -1,0 +1,13 @@
+(test 1)
+(name "an-index-beginning-with-a-digit-that-is-no-integer-refuses")
+(note "Between the brackets a digit begins an integer, and a name is an identifier, which begins with no digit. `1x` is neither, so `a[1x]` is no path, and the document refuses at the load.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let a (array 5 6))
+      (return (path a (index `1x`))))))
+(expect (refuses load))

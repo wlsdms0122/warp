@@ -1,0 +1,55 @@
+(warp 1)
+(import Standard.Concurrent.allKeyed)
+(import Standard.Concurrent.first)
+(import Standard.Concurrent.map)
+(import Standard.Numeric.times)
+
+(struct concurrent.Answer
+  (field both Any)
+  (field squares (array Int))
+  (field winner Any))
+
+(procedure entry
+  (access public)
+  (returns concurrent.Answer)
+  (failing aborted cast_refused concurrent_failed)
+  (body
+    (let squares
+      (call Standard.Concurrent.map
+        (array 1 2 3 4)
+        (closure
+          (isolated)
+          (parameter item (type Int))
+          (parameter index (type Int))
+          (returns Int)
+          (body
+            (return (call Standard.Numeric.times item item))))))
+    (let both
+      (call Standard.Concurrent.allKeyed
+        (dictionary
+          (entry "left"
+            (closure
+              (isolated)
+              (returns String)
+              (body
+                (return "L"))))
+          (entry "right"
+            (closure
+              (isolated)
+              (returns String)
+              (body
+                (return "R")))))))
+    (let winner
+      (call Standard.Concurrent.first
+        (array
+          (closure
+            (isolated)
+            (returns Int)
+            (body
+              (return 7)))
+          (closure
+            (isolated)
+            (returns Int)
+            (body
+              (return 8))))))
+    (return (struct (field both both) (field squares squares) (field winner winner)))))

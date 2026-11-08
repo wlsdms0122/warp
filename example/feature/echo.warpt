@@ -1,0 +1,33 @@
+(warp 1)
+(import Standard.Collection)
+(import Standard.Collection.count)
+(import Standard.Text.text)
+
+(struct e.Answer
+  (field back Any)
+  (field text String))
+
+(struct e.Point
+  (field x Int)
+  (field y Double))
+
+(procedure deep
+  (access public)
+  (parameter of (type Standard.Collection))
+  (returns Int)
+  (body
+    (return (call Standard.Collection.count of))))
+
+(procedure entry
+  (access public)
+  (parameter of)
+  (returns e.Answer)
+  (body
+    (return (struct (field back of) (field text (call Standard.Text.text of))))))
+
+(procedure point
+  (access public)
+  (parameter of (type e.Point))
+  (returns e.Point)
+  (body
+    (return of)))

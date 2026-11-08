@@ -1,0 +1,13 @@
+(test 1)
+(name "a-variable-declaring-a-type-and-writing-no-value-holds-null")
+(note "A `var` may leave out its `value` beside a `type` as it may alone, and the name holds null, which `Int?` takes as its none.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns (optional Int))
+    (body
+      (var x (type (optional Int)))
+      (return x))))
+(expect (answers null))

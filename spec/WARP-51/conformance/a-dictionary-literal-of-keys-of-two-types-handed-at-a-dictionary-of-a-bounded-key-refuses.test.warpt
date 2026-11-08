@@ -1,0 +1,17 @@
+(test 1)
+(name "a-dictionary-literal-of-keys-of-two-types-handed-at-a-dictionary-of-a-bounded-key-refuses")
+(note "`App.g` takes `Dictionary<some K, Int>`, its key bounded by `Hashable`, which `Int` and `String` each conform to. The dictionary literal keyed by `1` and `\"a\"` handed there fills `K` with its keys joined, `Any`, which conforms to no contract, so the build refuses though each key conforms. A bounded parameter is one type.")
+
+(program
+  (warp 1)
+  (procedure App.g
+    (parameter x (type (dictionary (some K Hashable) Int)))
+    (returns Int)
+    (body
+      (return 0)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.g (dictionary (entry 1 1) (entry "a" 2)))))))
+(expect (refuses build))

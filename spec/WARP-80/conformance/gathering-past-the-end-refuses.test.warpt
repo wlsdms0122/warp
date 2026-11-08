@@ -1,0 +1,15 @@
+(test 1)
+(name "gathering-past-the-end-refuses")
+(note "The collection is there and says how long it is, so a position it does not hold read the length wrong. The same result an index written past the end gets.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.gathering)
+  (procedure entry
+    (access public)
+    (parameter at (type (array Int)))
+    (returns (array Int))
+    (body
+      (return (call Standard.Collection.gathering (array 1 2) at)))))
+(arguments (argument at (array 0 2)))
+(expect (refuses run))

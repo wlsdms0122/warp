@@ -1,0 +1,37 @@
+(test 1)
+(name "a-cast-of-a-closure-writing-a-variable-handed-in-place-fails")
+(note "A closure in App.g writes x, handed in place, from its own parameter, and is held as Any. The cast reading it as taking a string fails with cast_refused, since only App.g's call filled its T, so the caller's variable keeps a value of its type and the try in the entry catches the failure.")
+
+(program
+  (warp 1)
+  (procedure App.g
+    (parameter x (type (inout (some T))))
+    (returns Int)
+    (failing (anything))
+    (body
+      (let c
+        (closure
+          (parameter y (type (some T)))
+          (returns Int)
+          (body
+            (set x y)
+            (return 0))))
+      (let a (type Any) c)
+      (let h (as a (procedure (parameters String) (returns Int))))
+      (let z (apply h "s"))
+      (return 0)))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (var tried)
+      (let caught
+        (try
+          (body
+            (var v 1)
+            (call App.g v)
+            (set tried v))
+          (catch
+            (set tried (path caught (field type))))))
+      (return tried))))
+(expect (answers "cast_refused"))

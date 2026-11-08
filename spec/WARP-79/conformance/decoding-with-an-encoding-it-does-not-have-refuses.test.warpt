@@ -1,0 +1,13 @@
+(test 1)
+(name "decoding-with-an-encoding-it-does-not-have-refuses")
+(note "decoded refuses at the run when the encoding is not one it has: `utf9` is none.")
+
+(program
+  (warp 1)
+  (import Standard.Text.decoded)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (return (call Standard.Text.decoded x"6869" "utf9")))))
+(expect (refuses run))

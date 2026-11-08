@@ -1,0 +1,24 @@
+(test 1)
+(name "an-extension-headed-by-another-documents-type-members-spelling-refuses")
+(note "The document beside the program gives App.Box the type member Item, and the program heads an extension by its spelling `App.Box.Item`, an alias of Int. An extension headed by a declared name that is no struct and no enum refuses at the build, where the name resolves.")
+
+(documents
+  (document
+    (warp 1)
+    (struct App.Box
+      (field item Int)
+      (type Item Int))))
+
+(program
+  (warp 1)
+  (import App.Box.Item)
+  (contract App.Marked)
+  (extension
+    (head App.Box.Item)
+    (satisfies App.Marked))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

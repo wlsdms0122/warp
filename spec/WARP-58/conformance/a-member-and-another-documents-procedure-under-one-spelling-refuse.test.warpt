@@ -1,0 +1,30 @@
+(test 1)
+(name "a-member-and-another-documents-procedure-under-one-spelling-refuse")
+(note "A procedure declared under a member's spelling is one name with two declarers, which refuses at the build across documents. The document beside the program declares the procedure `Int.twice`, and the program gives `Int` the member `twice`.")
+
+(documents
+  (document
+    (warp 1)
+    (procedure Int.twice
+      (access public)
+      (parameter n (type Int))
+      (returns Int)
+      (body
+        (return 2)))))
+
+(program
+  (warp 1)
+  (extension
+    (head Int)
+    (procedure twice
+      (access public)
+      (parameter n (type Int))
+      (returns Int)
+      (body
+        (return 3))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

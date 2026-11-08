@@ -1,0 +1,29 @@
+(test 1)
+(name "a-break-in-a-switch-arm-leaves-the-loop-around-it")
+(note "A switch is no loop, so a `break` in one of its arms ends the loop around the switch and not the switch. Handed `green`, the arm breaks before `n` is set, so the entry returns 0.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure entry
+    (access public)
+    (parameter light (type App.Light))
+    (returns Int)
+    (body
+      (var n 0)
+      (loop
+        (while true)
+        (body
+          (switch light
+            (case green
+              (then
+                (break)))
+            (case red
+              (then)))
+          (set n 1)
+          (break)))
+      (return n))))
+(arguments (argument light (struct App.Light.green)))
+(expect (answers 0))

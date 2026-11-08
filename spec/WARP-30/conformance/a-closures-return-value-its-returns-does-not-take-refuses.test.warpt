@@ -1,0 +1,24 @@
+(test 1)
+(name "a-closures-return-value-its-returns-does-not-take-refuses")
+(note "A closure literal writes a signature and a body side by side, the way a declaration does, so what its body returns is held to its `returns` where both are written.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let ran
+        (call twice
+          (closure
+            (returns Int)
+            (body
+              (let said "hi")
+              (return said)))))
+      (return ran)))
+  (procedure twice
+    (parameter body (type (procedure (parameters) (returns Int))))
+    (returns Int)
+    (body
+      (return (apply body)))))
+(expect (refuses build))

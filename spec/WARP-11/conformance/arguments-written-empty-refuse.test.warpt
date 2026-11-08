@@ -1,0 +1,5 @@
+(test 1)
+(name "arguments-written-empty-refuse")
+(note "A call handing nothing writes no `arguments`, so `arguments: []` says it a second way.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "App.f" (dictionary)) (entry "App.g" (dictionary (entry "body" (array (dictionary (entry "value" (dictionary (entry "call" (dictionary (entry "arguments" (array)) (entry "procedure" "App.f")))))))))) (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" 1)))))) (entry "returns" "Int"))))) (entry "warp" 1)))
+(expect (refuses load))

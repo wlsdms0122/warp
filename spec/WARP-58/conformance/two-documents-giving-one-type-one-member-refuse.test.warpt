@@ -1,0 +1,32 @@
+(test 1)
+(name "two-documents-giving-one-type-one-member-refuse")
+(note "A member is a declaration under its type's name and its own, and one name has one declarer, so two documents giving `Int` a member `twice` refuse at the build.")
+
+(documents
+  (document
+    (warp 1)
+    (extension
+      (head Int)
+      (procedure twice
+        (access public)
+        (parameter n (type Int))
+        (returns Int)
+        (body
+          (return 2))))))
+
+(program
+  (warp 1)
+  (extension
+    (head Int)
+    (procedure twice
+      (access public)
+      (parameter n (type Int))
+      (returns Int)
+      (body
+        (return 3))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

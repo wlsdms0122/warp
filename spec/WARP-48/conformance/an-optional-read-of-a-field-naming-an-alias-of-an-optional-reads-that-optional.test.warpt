@@ -1,0 +1,18 @@
+(test 1)
+(name "an-optional-read-of-a-field-naming-an-alias-of-an-optional-reads-that-optional")
+(note "`App.OI` is a spelling of `Int?`, and `r?.f` reads a field of that type past a possible absence. An Optional already, read past an absence, is what it was, so the read is `Int?` and stands where `y` declares `Int?`.")
+
+(program
+  (warp 1)
+  (type App.OI (optional Int))
+  (struct App.R
+    (field f App.OI))
+  (procedure entry
+    (access public)
+    (parameter r (type (optional App.R)))
+    (returns (optional Int))
+    (body
+      (let y (type (optional Int)) (path r (field? f)))
+      (return y))))
+(arguments (argument r (struct App.R (field f 3))))
+(expect (answers 3))

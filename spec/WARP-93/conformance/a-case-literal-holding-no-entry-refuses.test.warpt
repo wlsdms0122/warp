@@ -1,0 +1,5 @@
+(test 1)
+(name "a-case-literal-holding-no-entry-refuses")
+(note "A case literal is a dictionary of one entry, the case's name and its fields. `{ case: {}` } names no case, so the load refuses it.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" (dictionary (entry "case" (dictionary))))))))) (entry "returns" "App.Light"))))) (entry "types" (dictionary (entry "App.Light" (dictionary (entry "enum" (dictionary (entry "green" (dictionary)) (entry "red" (dictionary)))))))) (entry "warp" 1)))
+(expect (refuses load))

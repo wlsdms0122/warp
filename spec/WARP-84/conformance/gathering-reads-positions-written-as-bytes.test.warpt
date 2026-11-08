@@ -1,0 +1,13 @@
+(test 1)
+(name "gathering-reads-positions-written-as-bytes")
+(note "`positions` is declared `Array<Int>`, and bytes are an array of small integers that crosses that slot whole, so positions written as bytes are read as the positions they are.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.gathering)
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (body
+      (return (call Standard.Collection.gathering (array 10 20 30) x"0201")))))
+(expect (answers (array 30 20)))

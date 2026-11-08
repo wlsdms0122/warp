@@ -1,0 +1,13 @@
+(test 1)
+(name "values-return-in-canonical-order")
+(note "values walks a dictionary the one way a dictionary can be walked: in its key order, strings ascending, so the same dictionary gives the same walk on every run.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.values)
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (body
+      (return (call Standard.Collection.values (dictionary (entry "a" 1) (entry "b" 2)))))))
+(expect (answers (array 1 2)))

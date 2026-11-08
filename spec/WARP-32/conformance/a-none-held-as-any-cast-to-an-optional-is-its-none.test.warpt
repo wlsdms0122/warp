@@ -1,0 +1,17 @@
+(test 1)
+(name "a-none-held-as-any-cast-to-an-optional-is-its-none")
+(note "A cast judges what arrived against the type it names. `null` held as `Any` is a value of `Int?`, its none, so `as Int?` holds and reads it as the none.")
+
+(program
+  (warp 1)
+  (import Standard.Logic.equal)
+  (procedure entry
+    (access public)
+    (parameter a)
+    (returns Bool)
+    (failing cast_refused)
+    (body
+      (let read (as a (optional Int)))
+      (return (call Standard.Logic.equal read null)))))
+(arguments (argument a null))
+(expect (answers true))

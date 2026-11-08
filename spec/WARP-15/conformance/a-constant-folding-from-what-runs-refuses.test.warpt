@@ -1,0 +1,20 @@
+(test 1)
+(name "a-constant-folding-from-what-runs-refuses")
+(note "A constant is folded at the build, so it folds from const procedures. One that reaches outside the run has nothing to say before the run.")
+
+(vocabulary
+  (procedure App.clock
+    (isolated)
+    (returns Int)
+    (answers 7)))
+
+(program
+  (warp 1)
+  (import App.clock)
+  (const now (call App.clock))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return now))))
+(expect (refuses build))

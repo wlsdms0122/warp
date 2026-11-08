@@ -1,0 +1,41 @@
+(warp 1)
+(import Standard.Numeric.times)
+(import geo.Circle)
+(import geo.Rect)
+(import geo.Shape)
+(import geo.describe)
+(import geo.total)
+
+(struct app.Answer
+  (field circle Double)
+  (field names (array String))
+  (field rects Double)
+  (field squares Double))
+
+(struct app.Square
+  (satisfies geo.Shape)
+  (field side Double)
+  (procedure area
+    (const)
+    (isolated)
+    (parameter of (type app.Square))
+    (returns Double)
+    (body
+      (return (call Standard.Numeric.times (path of (field side)) (path of (field side))))))
+  (procedure name
+    (const)
+    (isolated)
+    (parameter of (type app.Square))
+    (returns String)
+    (body
+      (return "square"))))
+
+(procedure entry
+  (access public)
+  (returns app.Answer)
+  (failing (anything))
+  (body
+    (let square (as (struct (field side 2.0)) app.Square))
+    (let circle (as (struct (field radius 1.0)) geo.Circle))
+    (let rect (as (struct (field height 3.0) (field width 2.0)) geo.Rect))
+    (return (struct (field circle (call geo.total (array circle))) (field names (array (call geo.describe square) (call geo.describe circle) (call geo.describe rect))) (field rects (call geo.total (array rect))) (field squares (call geo.total (array square square)))))))

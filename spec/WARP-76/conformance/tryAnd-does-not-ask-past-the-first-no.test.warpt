@@ -1,0 +1,30 @@
+(test 1)
+(name "tryAnd-does-not-ask-past-the-first-no")
+(note "tryAnd stops at the first false as and does. The second side aborts, and a failure escaping the entry matches no expectation, so the answer shows it was never asked.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (import Standard.Logic.tryAnd)
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (failing (anything))
+    (body
+      (return
+        (call Standard.Logic.tryAnd
+          (array
+            (closure
+              (const)
+              (isolated)
+              (returns Bool)
+              (body
+                (return false)))
+            (closure
+              (const)
+              (isolated)
+              (returns Bool)
+              (failing aborted)
+              (body
+                (call Standard.Control.abort "asked")))))))))
+(expect (answers false))

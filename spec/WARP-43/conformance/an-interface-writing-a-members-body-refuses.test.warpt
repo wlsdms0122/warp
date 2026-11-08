@@ -1,0 +1,5 @@
+(test 1)
+(name "an-interface-writing-a-members-body-refuses")
+(note "A procedure in an interface, a member included, is its signature's nodes, so a struct's member writing a `body` refuses as a procedure at the top does.")
+(text "(interface 1)\n\n(struct App.Box\n  (field x Int)\n  (procedure area\n    (returns Int)\n    (body\n      (return 1))))\n")
+(expect (refuses load))

@@ -1,0 +1,25 @@
+(test 1)
+(name "count-of-a-declared-struct-a-claim-names-answers")
+(note "count takes a declared struct where a document claims Standard.Collection for it, and the run picks the struct's own count.")
+
+(program
+  (warp 1)
+  (import Standard.Collection)
+  (import Standard.Collection.count)
+  (struct App.Bag
+    (satisfies Standard.Collection)
+    (field items (array Int))
+    (procedure count
+      (const)
+      (isolated)
+      (parameter collection (type App.Bag))
+      (returns Int)
+      (body
+        (return (call Standard.Collection.count (path collection (field items)))))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let bag (type App.Bag) (struct (field items (array 1 2 3))))
+      (return (call Standard.Collection.count bag)))))
+(expect (answers 3))

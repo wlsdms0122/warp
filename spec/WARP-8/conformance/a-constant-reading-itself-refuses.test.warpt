@@ -1,0 +1,13 @@
+(test 1)
+(name "a-constant-reading-itself-refuses")
+(note "Constants that read each other back have no order to fold in, and the shortest such cycle is one constant reading itself. The document's text alone shows it, so `a` refuses at the load.")
+
+(program
+  (warp 1)
+  (const a a)
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (return a))))
+(expect (refuses load))

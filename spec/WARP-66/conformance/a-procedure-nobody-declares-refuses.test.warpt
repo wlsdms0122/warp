@@ -1,0 +1,14 @@
+(test 1)
+(name "a-procedure-nobody-declares-refuses")
+(note "Every procedure a program sends has to come from somewhere in the link, and finding out is building rather than running.")
+
+(program
+  (warp 1)
+  (import nobodyDeclaresThis)
+  (procedure entry
+    (access public)
+    (returns Any)
+    (failing (anything))
+    (body
+      (return (call nobodyDeclaresThis)))))
+(expect (refuses build))

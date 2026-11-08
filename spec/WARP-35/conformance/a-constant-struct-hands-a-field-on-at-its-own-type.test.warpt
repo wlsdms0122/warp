@@ -1,0 +1,45 @@
+(test 1)
+(name "a-constant-struct-hands-a-field-on-at-its-own-type")
+(note "A constant of a declared struct reads each field at the type its declaration writes, so `k.a`, declared a `const isolated` procedure beside a field that runs, stands where `map` asks one.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.map)
+  (const k
+    (as
+      (struct
+        (field a
+          (closure
+            (const)
+            (isolated)
+            (parameter x (type Int))
+            (returns Int)
+            (body
+              (return x))))
+        (field b
+          (closure
+            (parameter x (type Int))
+            (returns Int)
+            (failing (anything))
+            (body
+              (let h
+                (closure
+                  (const)
+                  (isolated)
+                  (parameter q (type Int))
+                  (returns Int)
+                  (body
+                    (return q))))
+              (let z (apply h x))
+              (return z)))))
+      App.K))
+  (struct App.K
+    (field a (procedure (const) (isolated) (parameters Int) (returns Int)))
+    (field b (procedure (parameters Int) (failing (anything)) (returns Int))))
+  (procedure entry
+    (access public)
+    (const)
+    (returns (array Int))
+    (body
+      (return (call Standard.Collection.map (array 1) (path k (field a)))))))
+(expect (answers (array 1)))

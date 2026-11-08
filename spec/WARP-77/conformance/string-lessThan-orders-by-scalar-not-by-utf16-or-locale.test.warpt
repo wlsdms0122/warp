@@ -1,0 +1,13 @@
+(test 1)
+(name "string-lessThan-orders-by-scalar-not-by-utf16-or-locale")
+(note "String.lessThan orders as the key order orders strings, by their UTF-8 bytes once in NFC, which is the order of their scalars. U+FF61 orders before U+1F600, which UTF-16 code units order the other way, and `B` before `a`, which a locale's collation orders the other way.")
+
+(program
+  (warp 1)
+  (import Standard.Comparable.lessThan)
+  (procedure entry
+    (access public)
+    (returns (array Bool))
+    (body
+      (return (array (call Standard.Comparable.lessThan "｡" "😀") (call Standard.Comparable.lessThan "B" "a"))))))
+(expect (answers (array true true)))

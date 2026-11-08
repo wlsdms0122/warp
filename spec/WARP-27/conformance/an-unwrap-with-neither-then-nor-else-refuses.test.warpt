@@ -1,0 +1,18 @@
+(test 1)
+(name "an-unwrap-with-neither-then-nor-else-refuses")
+(note "An unwrap writing neither `then` nor `else` has no way that reads what it takes apart, so the load refuses it.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter o (type (optional Int)))
+    (returns Int)
+    (body
+      (let x (unwrap o))
+      (return 0)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.f 1)))))
+(expect (refuses load))

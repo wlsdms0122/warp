@@ -1,0 +1,13 @@
+(test 1)
+(name "a-value-name-holding-a-quote-refuses")
+(note "A value's name is an identifier, ASCII letters, digits and `_`, so a statement named `b\"c` refuses at the load.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let `b"c` 1)
+      (return 1))))
+(expect (refuses load))

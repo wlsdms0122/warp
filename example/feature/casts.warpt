@@ -1,0 +1,26 @@
+(warp 1)
+(import Standard.Logic.equal)
+
+(struct c.Answer
+  (field asked (optional Int))
+  (field askedStruct (optional c.Named))
+  (field narrowed Int)
+  (field same Bool))
+
+(struct c.Named
+  (field name String))
+
+(procedure c.pass
+  (access private)
+  (parameter of)
+  (returns Any)
+  (body
+    (return of)))
+
+(procedure entry
+  (access public)
+  (returns c.Answer)
+  (failing aborted cast_refused)
+  (body
+    (let held (call c.pass 7))
+    (return (struct (field asked (as? (call c.pass "seven") Int)) (field askedStruct (as? (call c.pass (as (struct (field name "n")) c.Named)) c.Named)) (field narrowed (as held Int)) (field same (call Standard.Logic.equal (as held Int) 7))))))

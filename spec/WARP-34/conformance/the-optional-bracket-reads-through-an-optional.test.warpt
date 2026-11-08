@@ -1,0 +1,14 @@
+(test 1)
+(name "the-optional-bracket-reads-through-an-optional")
+(note "`?[` unwraps an Optional array: an array that arrived reads its element, and a null the host handed would give null for the whole path. The path's own result is an Optional for the same reason.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter items (type (optional (array String))))
+    (returns (optional String))
+    (body
+      (return (path items (index? 0))))))
+(arguments (argument items (array "first" "second")))
+(expect (answers "first"))

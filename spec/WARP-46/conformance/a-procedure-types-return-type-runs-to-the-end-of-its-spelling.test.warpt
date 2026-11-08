@@ -1,0 +1,20 @@
+(test 1)
+(name "a-procedure-types-return-type-runs-to-the-end-of-its-spelling")
+(note "What stands after `->` is the procedure's return type to the end of the spelling, so `(Int) -> Int?` returns an Optional rather than being the Optional of a procedure. A closure returning null stands there, and calling it returns null.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns (optional Int))
+    (body
+      (let f
+        (type (procedure (parameters Int) (returns (optional Int))))
+        (closure
+          (parameter x (type Int))
+          (returns (optional Int))
+          (body
+            (return))))
+      (let made (apply f 1))
+      (return made))))
+(expect (answers null))

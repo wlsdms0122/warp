@@ -1,0 +1,34 @@
+(test 1)
+(name "a-struct-literal-written-into-an-entry-of-a-declared-dictionary-takes-the-name")
+(note "`r` declares `Dictionary<String, Bank.A>`, and `set r[\"x\"]` writes the struct literal `{ k: \"y\" }` into an entry. The path reaches `Bank.A`, so the literal takes the name, and `App.P.show` reaches `Bank.A.show`.")
+
+(program
+  (warp 1)
+  (struct Bank.A
+    (satisfies App.P)
+    (field k String)
+    (procedure show
+      (const)
+      (isolated)
+      (parameter of (type Bank.A))
+      (returns String)
+      (body
+        (return "a"))))
+  (contract App.P
+    (procedure show
+      (const)
+      (isolated)
+      (parameter of (type Self))
+      (returns String)))
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let a (as (struct (field k "x")) Bank.A))
+      (var r (type (dictionary String Bank.A)) (dictionary (entry "x" a)))
+      (set (path r (index "x")) (struct (field k "y")))
+      (return (call App.P.show (path r (index "x")))))))
+(expect (answers "a"))

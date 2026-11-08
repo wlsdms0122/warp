@@ -1,0 +1,5 @@
+(test 1)
+(name "a-constructs-parts-read-in-any-order")
+(note "The nodes a construct holds under its keys are a dictionary's keys, which stand in any order on the way in, so a conditional written `else`, `then`, `when` reads as the one the writer lays out `when`, `then`, `else`.")
+(text "(warp 1)\n(procedure entry (body (conditional (else) (then) (when true))))\n")
+(expect (reads (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "body" (array (dictionary (entry "value" (dictionary (entry "conditional" (dictionary (entry "else" (array)) (entry "then" (array)) (entry "when" true)))))))))))) (entry "warp" 1))))

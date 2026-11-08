@@ -1,0 +1,25 @@
+(test 1)
+(name "a-member-under-a-head-applying-the-enum-holds-for-the-values-the-head-takes")
+(note "`describe` is given under `App.Result<Int, some E>`, so it holds for every result whose `T` is `Int`. `result` is an `App.Result<Int, String>`, which the head takes, and the call reaches the member.")
+
+(program
+  (warp 1)
+  (enum App.Result
+    (typeParameter T)
+    (typeParameter E)
+    (case failure (field error (some E)))
+    (case success (field value (some T))))
+  (extension
+    (head (named App.Result Int (some E)))
+    (procedure describe
+      (parameter of (type (named App.Result Int (some E))))
+      (returns String)
+      (body
+        (return "int result"))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let result (type (named App.Result Int String)) (case success (field value 1)))
+      (return (call App.Result.describe result)))))
+(expect (answers "int result"))

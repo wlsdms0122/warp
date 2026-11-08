@@ -1,0 +1,16 @@
+(test 1)
+(name "a-string-procedure-returns-a-new-string")
+(note "String procedures return a new string and touch nothing: trimming drops surrounding whitespace, casing rewrites the letters.")
+
+(program
+  (warp 1)
+  (import Standard.Text.trimmed)
+  (import Standard.Text.uppercased)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let clean (call Standard.Text.trimmed " hi "))
+      (let loud (call Standard.Text.uppercased clean))
+      (return loud))))
+(expect (answers "HI"))

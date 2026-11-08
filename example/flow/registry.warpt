@@ -1,0 +1,43 @@
+(warp 1)
+(import Standard.Control.abort)
+(import Standard.Logic.equal)
+(import Standard.Text.joined)
+(import flow.Count.parse)
+(import flow.Fetch.parse)
+(import flow.Print.parse)
+(import flow.Runnable)
+(import flow.Shell.parse)
+(import flow.Sleep.parse)
+(import flow.Write.parse)
+
+(procedure registry.make
+  (parameter of (type (dictionary String Any)))
+  (returns flow.Runnable)
+  (failing aborted cast_refused)
+  (body
+    (let kind (as (path of (index "kind")) String))
+    (conditional
+      (when (call Standard.Logic.equal kind "fetch"))
+      (then
+        (return (call flow.Fetch.parse of))))
+    (conditional
+      (when (call Standard.Logic.equal kind "count"))
+      (then
+        (return (call flow.Count.parse of))))
+    (conditional
+      (when (call Standard.Logic.equal kind "write"))
+      (then
+        (return (call flow.Write.parse of))))
+    (conditional
+      (when (call Standard.Logic.equal kind "print"))
+      (then
+        (return (call flow.Print.parse of))))
+    (conditional
+      (when (call Standard.Logic.equal kind "shell"))
+      (then
+        (return (call flow.Shell.parse of))))
+    (conditional
+      (when (call Standard.Logic.equal kind "sleep"))
+      (then
+        (return (call flow.Sleep.parse of))))
+    (call Standard.Control.abort (call Standard.Text.joined (array "unknown step kind: " kind) ""))))

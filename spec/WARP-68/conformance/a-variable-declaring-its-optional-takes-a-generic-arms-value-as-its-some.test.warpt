@@ -1,0 +1,23 @@
+(test 1)
+(name "a-variable-declaring-its-optional-takes-a-generic-arms-value-as-its-some")
+(note "`y` declares `some T?`, so the arm's write of `x` is a write into a declared type, and a value of `some T` lands there as its some. Handed `null`, which fills `T` with `Null`, the arm taken leaves `Some` holding `null`, and the arm declined leaves the none `y` started with.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter x (type (some T)))
+    (parameter c (type Bool))
+    (returns (optional (some T)))
+    (body
+      (var y (type (optional (some T))))
+      (conditional
+        (when c)
+        (then
+          (set y x)))
+      (return y)))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (return (array (call App.f null true) (call App.f null false))))))
+(expect (answers (array (struct Some (field wrapped null)) null)))

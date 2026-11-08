@@ -1,0 +1,20 @@
+(test 1)
+(name "an-integer-literal-a-closure-returns-is-the-double-its-returns-names")
+(note "`c` holds a closure literal writing `returns Double`, and a closure's declared return type is a place a literal is written into, so the `1` it returns is the floating-point number 1.0, and the text of the return value says so.")
+
+(program
+  (warp 1)
+  (import Standard.Text.text)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let c
+        (type (procedure (parameters) (returns Double)))
+        (closure
+          (returns Double)
+          (body
+            (return 1))))
+      (let v (apply c))
+      (return (call Standard.Text.text v)))))
+(expect (answers "1.0"))

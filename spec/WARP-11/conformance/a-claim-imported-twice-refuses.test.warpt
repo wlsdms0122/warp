@@ -1,0 +1,14 @@
+(test 1)
+(name "a-claim-imported-twice-refuses")
+(note "A list the document keeps in name order holds each entry once, so `[T.Card, App.X]` listed twice under `importedClaims` says the list a second way, and refuses at the load before the build could look for a document making the claim.")
+
+(program
+  (warp 1)
+  (import T.Card App.X)
+  (import T.Card App.X)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

@@ -1,0 +1,14 @@
+(test 1)
+(name "a-key-reference-read-as-the-payload-of-an-optional-key-type-reads-its-entry")
+(note "The value between the brackets stands where the dictionary's key type is read as a slot of it does. Here that is `Int?`, which takes `k`, read as `Int`, as its some, so the path reads the entry under 1.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let k (type Int) 1)
+      (let held (type (dictionary (optional Int) String)) (dictionary (entry 1 "a")))
+      (return (path held (index k))))))
+(expect (answers "a"))

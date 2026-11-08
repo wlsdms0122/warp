@@ -1,0 +1,57 @@
+(test 1)
+(name "a-claim-a-document-two-steps-down-makes")
+(note "What a document stands on is what it names and, through that, what those documents name. The program calls Lib.tell, whose document calls Glue.mark, whose document claims T.Card conforms to App.Describable, so the claim is within the program's reach.")
+
+(documents
+  (document
+    (warp 1)
+    (contract App.Describable
+      (procedure describe
+        (parameter of (type Self))
+        (returns String))))
+  (document
+    (warp 1)
+    (struct T.Card
+      (field rank Int)
+      (procedure describe
+        (parameter of (type T.Card))
+        (returns String)
+        (body
+          (return "card")))))
+  (document
+    (warp 1)
+    (import App.Describable)
+    (import T.Card)
+    (extension
+      (head T.Card)
+      (satisfies App.Describable))
+    (procedure Glue.mark
+      (access public)
+      (returns Int)
+      (body
+        (return 1))))
+  (document
+    (warp 1)
+    (import App.Describable)
+    (import App.Describable.describe)
+    (import Glue.mark)
+    (procedure Lib.tell
+      (access public)
+      (parameter of (type (some T App.Describable)))
+      (returns String)
+      (body
+        (let marked (call Glue.mark))
+        (return (call App.Describable.describe of))))))
+
+(program
+  (warp 1)
+  (import Lib.tell)
+  (import T.Card)
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let card (as (struct (field rank 1)) T.Card))
+      (return (call Lib.tell card)))))
+(expect (answers "card"))

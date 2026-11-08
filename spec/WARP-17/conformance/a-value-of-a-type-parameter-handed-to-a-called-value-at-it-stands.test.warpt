@@ -1,0 +1,24 @@
+(test 1)
+(name "a-value-of-a-type-parameter-handed-to-a-called-value-at-it-stands")
+(note "In a `call` of a value, a type parameter the slot names at a position is the body's own, and what stands there is a value of it already. `App.run` hands its own `x`, a value of `T`, to `g` at `T`, so the call stands and returns 1.")
+
+(program
+  (warp 1)
+  (procedure App.run
+    (parameter x (type (some T)))
+    (parameter g (type (procedure (parameters (some T)) (returns Any))))
+    (returns Any)
+    (body
+      (return (apply g x))))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (return
+        (call App.run 1
+          (closure
+            (parameter p)
+            (returns Any)
+            (body
+              (return p))))))))
+(expect (answers 1))

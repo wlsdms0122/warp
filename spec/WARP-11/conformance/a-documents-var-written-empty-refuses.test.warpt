@@ -1,0 +1,5 @@
+(test 1)
+(name "a-documents-var-written-empty-refuses")
+(note "A document declaring no module variable writes no `var`, so `var: {}` says it a second way.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" 1)))))) (entry "returns" "Int"))))) (entry "var" (dictionary)) (entry "warp" 1)))
+(expect (refuses load))

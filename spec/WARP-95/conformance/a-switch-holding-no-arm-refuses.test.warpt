@@ -1,0 +1,19 @@
+(test 1)
+(name "a-switch-holding-no-arm-refuses")
+(note "A switch holds at least one arm, since one with none would say what its `default` says alone. This one writes a `default` and no arm, so the load refuses it.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure entry
+    (access public)
+    (parameter light (type App.Light))
+    (returns Int)
+    (body
+      (switch light
+        (default
+          (return 1))))))
+(arguments (argument light (struct App.Light.red)))
+(expect (refuses load))

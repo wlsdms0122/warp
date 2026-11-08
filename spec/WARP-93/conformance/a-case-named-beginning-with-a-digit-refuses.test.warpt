@@ -1,0 +1,15 @@
+(test 1)
+(name "a-case-named-beginning-with-a-digit-refuses")
+(note "A case is named by one identifier, and an identifier does not begin with a digit. `2fa` is no identifier, so the load refuses the enum.")
+
+(program
+  (warp 1)
+  (enum App.Login
+    (case `2fa`)
+    (case password))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

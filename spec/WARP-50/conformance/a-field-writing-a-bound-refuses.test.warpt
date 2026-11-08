@@ -1,0 +1,15 @@
+(test 1)
+(name "a-field-writing-a-bound-refuses")
+(note "A struct bounds its type parameters in `typeParameters`, each entry a name and what holds it, `T: Hashable`. A field writing `some T: Hashable` writes a bound where no name is introduced, and refuses at the load.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T Hashable)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

@@ -1,0 +1,42 @@
+(test 1)
+(name "a-contract-or-null-slot-takes-a-parameter-bounded-by-the-contract-and-another")
+(note "App.g hands its some T, bounded by App.Maybe & App.Sized, to App.f, which takes App.Sized?. T conforms to App.Sized by its bound, whatever type conforming to both fills it.")
+
+(program
+  (warp 1)
+  (struct Bank.Card
+    (satisfies App.Maybe App.Sized)
+    (field last String)
+    (procedure size
+      (parameter of (type Bank.Card))
+      (returns Int)
+      (body
+        (return 4))))
+  (struct Bank.Coin
+    (satisfies App.Maybe)
+    (field cents Int))
+  (contract App.Maybe)
+  (contract App.Sized
+    (procedure size
+      (parameter of (type Self))
+      (returns Int)))
+  (procedure App.f
+    (parameter n (type (optional App.Sized)))
+    (returns String)
+    (body
+      (return "took")))
+  (procedure App.g
+    (parameter m (type (some T App.Maybe App.Sized)))
+    (returns String)
+    (body
+      (let s (call App.f m))
+      (return s)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let c (as (struct (field last "4")) Bank.Card))
+      (let s (call App.g c))
+      (return s))))
+(expect (answers "took"))

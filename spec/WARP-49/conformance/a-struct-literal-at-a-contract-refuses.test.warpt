@@ -1,0 +1,21 @@
+(test 1)
+(name "a-struct-literal-at-a-contract-refuses")
+(note "A struct literal written where no declared struct is read, at a contract among them, refuses at the build, though `App.Point`, which has the literal's fields, conforms to the contract.")
+
+(program
+  (warp 1)
+  (struct App.Point
+    (satisfies App.Shape)
+    (field x Int))
+  (contract App.Shape)
+  (procedure App.g
+    (parameter p (type App.Shape))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.g (struct (field x 1)))))))
+(expect (refuses build))

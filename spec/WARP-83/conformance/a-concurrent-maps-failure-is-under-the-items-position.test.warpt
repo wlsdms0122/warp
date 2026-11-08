@@ -1,0 +1,41 @@
+(test 1)
+(name "a-concurrent-maps-failure-is-under-the-items-position")
+(note "Under Standard.Concurrent.map a piece's key in failures is the position of the item it was handed, an Int: the item 20 stands at 1, so failures is keyed by 1 and not by 20.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.keys)
+  (import Standard.Concurrent.map)
+  (import Standard.Control.abort)
+  (import Standard.Logic.equal)
+  (procedure entry
+    (access public)
+    (isolated)
+    (returns (array Int))
+    (failing cast_refused)
+    (body
+      (var tried)
+      (let caught
+        (try
+          (body
+            (call Standard.Concurrent.map
+              (array 10 20 30)
+              (closure
+                (const)
+                (isolated)
+                (parameter item (type Int))
+                (parameter index (type Int))
+                (returns Int)
+                (failing aborted)
+                (body
+                  (conditional
+                    (when (call Standard.Logic.equal item 20))
+                    (then
+                      (call Standard.Control.abort "twenty")))
+                  (return item))))
+            (set tried (array)))
+          (catch
+            (let failures (as (path caught (field details) (index "failures")) (dictionary Int Any)))
+            (set tried (call Standard.Collection.keys failures)))))
+      (return tried))))
+(expect (answers (array 1)))

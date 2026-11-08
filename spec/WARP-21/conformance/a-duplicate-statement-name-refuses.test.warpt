@@ -1,0 +1,14 @@
+(test 1)
+(name "a-duplicate-statement-name-refuses")
+(note "A name is introduced once in a scope. Two statements fixing the same name would leave two readings of one spelling.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let x 1)
+      (let x 2)
+      (return x))))
+(expect (refuses load))

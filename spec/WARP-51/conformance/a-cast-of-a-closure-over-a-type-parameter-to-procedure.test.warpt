@@ -1,0 +1,25 @@
+(test 1)
+(name "a-cast-of-a-closure-over-a-type-parameter-to-procedure")
+(note "`App.mk` returns a closure taking its own `some T`, which only the call that made it fills, and `a` holds it as `Any`. `Procedure` writes no signature, and every procedure is an instance of it, so the cast reads the closure and the run returns.")
+
+(program
+  (warp 1)
+  (procedure App.mk
+    (parameter x (type (some T)))
+    (returns (procedure (parameters (some T)) (returns (some T))))
+    (body
+      (return
+        (closure
+          (parameter y (type (some T)))
+          (returns (some T))
+          (body
+            (return y))))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let a (type Any) (call App.mk 5))
+      (let p (as a Procedure))
+      (return "ok"))))
+(expect (answers "ok"))

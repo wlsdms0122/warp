@@ -1,0 +1,18 @@
+(test 1)
+(name "a-generic-enum-value-carries-nothing-of-what-it-was-applied-to")
+(note "`r` is an `App.Result<Int, String>`, and the entry hands it to the host at `Any`. A value carries its case's spelling and nothing of what the enum was applied to, so the host receives `App.Result.success` holding its field alone.")
+
+(program
+  (warp 1)
+  (enum App.Result
+    (typeParameter T)
+    (typeParameter E)
+    (case failure (field error (some E)))
+    (case success (field value (some T))))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let r (type (named App.Result Int String)) (case success (field value 5)))
+      (return r))))
+(expect (answers (struct App.Result.success (field value 5))))

@@ -1,0 +1,25 @@
+(test 1)
+(name "the-object-of-an-enum-taking-a-type-parameter")
+(note "An enum taking a type parameter writes its cases under tag 20 and then its type parameters' names and their bounds, as tag 9 does, and a mention applying it writes the types after its name, tag 14. The case literal's layout is the case's spelling, with nothing of what the enum is applied to.")
+
+(program
+  (warp 1)
+  (enum App.Maybe
+    (typeParameter T)
+    (case empty)
+    (case full (field value (some T))))
+  (procedure App.wrap
+    (const)
+    (isolated)
+    (parameter x (type (some T)))
+    (returns (named App.Maybe (some T)))
+    (body
+      (return (case full (field value x)))))
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (returns (named App.Maybe Int))
+    (body
+      (return (call App.wrap 3)))))
+(expect (builds (dictionary (entry "addressTable" (array (array 0 (array) false))) (entry "claims" (array)) (entry "constants" (array)) (entry "contracts" (array)) (entry "dependencies" (array)) (entry "document" (array x"6e163bbe9929d148234ef55c1d734b5992e6f6d14dd01734969cc7b891e114f1")) (entry "importedClaims" (array)) (entry "lifted" (array)) (entry "loweredTypeTable" (array (array 4))) (entry "members" (array)) (entry "numbering" (array (array) (array))) (entry "object" 1) (entry "operationTable" (array (array 1 0) (array 3 (array (array "App.Maybe.full" (array "value")) (array 0))) (array 13 0 (array 1)) (array 0 0) (array 11 (array 0 (array (array 3)) (array) (array 0))) (array 13 0 (array 4)))) (entry "rows" (array (array "App.wrap" (array (array (array "x" (array 1))) 3 (array 1 (array)) 1 1 (array) (array)) 1 (array 0 (array (array (array) 2)) (array 1 (array 0) (array) (array) (array) (array "x")))) (array "entry" (array (array) 5 (array 1 (array)) 1 1 (array) (array)) 2 (array 0 (array (array (array) 5)) (array 0 (array) (array) (array) (array) (array)))))) (entry "typeMembers" (array)) (entry "typeNumbering" (array)) (entry "typeTable" (array (array 15 "T") (array 15 "T") (array 15 "T") (array 14 "App.Maybe" (array 2)) (array 4) (array 14 "App.Maybe" (array 4)))) (entry "types" (array (array "App.Maybe" (array 20 (array (array "empty" (array)) (array "full" (array (array "value" 0)))) (array "T") (array))))) (entry "valueTable" (array (array 2 3))) (entry "variables" (array)))))

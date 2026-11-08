@@ -1,0 +1,16 @@
+(test 1)
+(name "a-procedure-name-holding-a-hyphen-refuses")
+(note "A procedure's name is identifiers joined by dots, an identifier being ASCII letters, digits and `_`, so a procedure declared as `App.send-mail` refuses at the load where it is declared.")
+
+(program
+  (warp 1)
+  (procedure App.send-mail
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

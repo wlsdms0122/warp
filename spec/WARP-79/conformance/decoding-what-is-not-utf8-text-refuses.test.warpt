@@ -1,0 +1,13 @@
+(test 1)
+(name "decoding-what-is-not-utf8-text-refuses")
+(note "Bytes carry no promise of being text, and completing a broken sequence with replacement characters would return a string nobody sent. Whether bytes are text is `decoded`'s to say when it runs, whatever wrote them, so the call refuses at the run.")
+
+(program
+  (warp 1)
+  (import Standard.Text.decoded)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (return (call Standard.Text.decoded x"ff" "utf8")))))
+(expect (refuses run))

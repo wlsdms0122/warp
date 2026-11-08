@@ -1,0 +1,22 @@
+(test 1)
+(name "an-arm-writing-no-then-refuses")
+(note "An arm is `{ binds?, then }`, and `then` is required. `(case red)` inside the switch writes an arm with no `then`, which no tree the load takes holds, so the load refuses it.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure entry
+    (access public)
+    (parameter light (type App.Light))
+    (returns Int)
+    (body
+      (switch light
+        (case green
+          (then
+            (return 1)))
+        (case red))
+      (return 2))))
+(arguments (argument light (struct App.Light.red)))
+(expect (refuses load))

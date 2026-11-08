@@ -1,0 +1,14 @@
+(test 1)
+(name "a-dictionary-literal-where-a-declared-struct-is-read-refuses")
+(note "A declared struct and `Dictionary<String, T>` of its fields take nothing of each other, so a dictionary literal returned where `App.P` is declared refuses at the build.")
+
+(program
+  (warp 1)
+  (struct App.P
+    (field x Int))
+  (procedure entry
+    (access public)
+    (returns App.P)
+    (body
+      (return (dictionary (entry "x" 1))))))
+(expect (refuses build))

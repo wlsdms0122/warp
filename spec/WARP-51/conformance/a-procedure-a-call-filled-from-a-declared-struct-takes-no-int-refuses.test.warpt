@@ -1,0 +1,29 @@
+(test 1)
+(name "a-procedure-a-call-filled-from-a-declared-struct-takes-no-int-refuses")
+(note "`App.make` returns the procedure it is handed as one taking `some T`. The point fills `T` with `App.Point`; the closure's `Any` fills nothing, so `h` takes `App.Point`, and calling it with `5` refuses at the build.")
+
+(program
+  (warp 1)
+  (struct App.Point
+    (field x Int))
+  (procedure App.make
+    (parameter x (type (some T)))
+    (parameter f (type (procedure (parameters (some T)) (returns Any))))
+    (returns (procedure (parameters (some T)) (returns Any)))
+    (body
+      (return f)))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (failing (anything))
+    (body
+      (let h
+        (call App.make
+          (as (struct (field x 1)) App.Point)
+          (closure
+            (parameter p)
+            (returns Any)
+            (body
+              (return p)))))
+      (return (apply h 5)))))
+(expect (refuses build))

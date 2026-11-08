@@ -1,0 +1,19 @@
+(test 1)
+(name "an-extension-headed-by-a-type-members-spelling-refuses")
+(note "The document gives App.Box the type member Item, so it declares the alias `App.Box.Item`, and an extension headed by it gives an alias a contract. The document declaring an alias gives it nothing at all, so the load refuses.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (field item Int)
+    (type Item Int))
+  (contract App.Marked)
+  (extension
+    (head App.Box.Item)
+    (satisfies App.Marked))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

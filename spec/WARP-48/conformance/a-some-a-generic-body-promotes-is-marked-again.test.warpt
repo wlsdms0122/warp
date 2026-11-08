@@ -1,0 +1,23 @@
+(test 1)
+(name "a-some-a-generic-body-promotes-is-marked-again")
+(note "The run puts `Some` on exactly the `null`s and the `Some`s. `App.f` is filled with `Int??` and handed `Some` holding `null`. Returned at `some T?`, that value is a `Some`, so it is marked again.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter x (type (some T)))
+    (returns (optional (some T)))
+    (body
+      (return x)))
+  (procedure App.g
+    (parameter y (type (optional (optional Int))))
+    (returns Any)
+    (body
+      (return (call App.f y))))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let n (type (optional Int)) null)
+      (return (call App.g n)))))
+(expect (answers (struct Some (field wrapped (struct Some (field wrapped null))))))

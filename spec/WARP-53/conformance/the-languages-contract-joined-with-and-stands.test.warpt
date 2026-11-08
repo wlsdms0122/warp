@@ -1,0 +1,21 @@
+(test 1)
+(name "the-languages-contract-joined-with-and-stands")
+(note "A part joined with `&` is a contract, and `Hashable` is the contract the language declares, so `App.Text & Hashable` loads and builds, and `7`, of a type conforming to both, stands there. It is the other side of the edge a-type-the-language-names-joined-with-and-refuses holds.")
+
+(program
+  (warp 1)
+  (contract App.Text)
+  (extension
+    (head Int)
+    (satisfies App.Text))
+  (procedure App.f
+    (parameter it (type (composition App.Text Hashable)))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.f 7)))))
+(expect (answers 1))

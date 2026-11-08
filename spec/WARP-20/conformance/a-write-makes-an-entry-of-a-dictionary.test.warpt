@@ -1,0 +1,14 @@
+(test 1)
+(name "a-write-makes-an-entry-of-a-dictionary")
+(note "A dictionary's keys are data, so a write under a key it does not hold yet makes the entry.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var held (type (dictionary String Int)) (dictionary (entry "a" 1)))
+      (set (path held (index "b")) 2)
+      (return (path held (index "b"))))))
+(expect (answers 2))

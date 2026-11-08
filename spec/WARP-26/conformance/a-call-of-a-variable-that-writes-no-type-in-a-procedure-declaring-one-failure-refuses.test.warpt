@@ -1,0 +1,33 @@
+(test 1)
+(name "a-call-of-a-variable-that-writes-no-type-in-a-procedure-declaring-one-failure-refuses")
+(note "`f` is a `var` that writes no type, so a call of it may fail with anything, whatever the closure it holds declares. `App.g` declares `aborted` alone, so it fails with more than it declares and the build refuses.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure App.g
+    (returns Int)
+    (failing aborted)
+    (body
+      (var f)
+      (set f
+        (closure
+          (returns Int)
+          (failing aborted)
+          (body
+            (return (call Standard.Control.abort "no")))))
+      (return (apply f))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (var r (type String) "none")
+      (let tried
+        (try
+          (body
+            (let got (call App.g))
+            (set r "after"))
+          (catch
+            (set r (path tried (field type))))))
+      (return r))))
+(expect (refuses build))

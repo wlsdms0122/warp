@@ -1,0 +1,26 @@
+(test 1)
+(name "a-claim-about-array-backed-for-a-list-of-ints-alone-refuses")
+(note "A claim about `Array` is about every list, whatever it holds, since a value does not say which elements a slot declared it to hold. `Array.total` is given under `Array<Int>`, for lists of integers alone, so a list of strings handed through the contract would reach a slot that refuses it, and the claim does not hold.")
+
+(program
+  (warp 1)
+  (contract App.Totalable
+    (procedure total
+      (parameter of (type Self))
+      (returns Int)))
+  (extension
+    (head Array)
+    (satisfies App.Totalable))
+  (extension
+    (head (array Int))
+    (procedure total
+      (parameter of (type (array Int)))
+      (returns Int)
+      (body
+        (return 0))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.Totalable.total (array "s"))))))
+(expect (refuses build))

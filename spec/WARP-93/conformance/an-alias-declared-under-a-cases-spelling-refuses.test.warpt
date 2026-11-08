@@ -1,0 +1,16 @@
+(test 1)
+(name "an-alias-declared-under-a-cases-spelling-refuses")
+(note "`App.Light.red` is the spelling of the case `red`, a name of the namespace types and contracts share, so no type is declared under it, an alias included. One document declaring an alias there shows it alone, and the load refuses.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (type App.Light.red Int)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

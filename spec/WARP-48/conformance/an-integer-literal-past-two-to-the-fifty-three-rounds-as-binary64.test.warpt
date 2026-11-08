@@ -1,0 +1,17 @@
+(test 1)
+(name "an-integer-literal-past-two-to-the-fifty-three-rounds-as-binary64")
+(note "A literal read as a `Double` names the binary64 value nearest it. 9007199254740993 lies halfway between two binary64 values and rounds to the even one, 9007199254740992.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Double)
+    (body
+      (return (call wants 9007199254740993))))
+  (procedure wants
+    (parameter it (type Double))
+    (returns Double)
+    (body
+      (return it))))
+(expect (answers 9007199254740992.0))

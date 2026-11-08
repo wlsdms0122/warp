@@ -1,0 +1,14 @@
+(test 1)
+(name "aliases-naming-each-other-with-nothing-between-refuse")
+(note "`App.A` names `App.B` and `App.B` names `App.A`, with no `?` and no structure between them. Neither is a struct, so the two come back to themselves through names alone and spell no type.")
+
+(program
+  (warp 1)
+  (type App.A App.B)
+  (type App.B App.A)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

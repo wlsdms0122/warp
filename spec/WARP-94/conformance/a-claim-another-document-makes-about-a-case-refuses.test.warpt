@@ -1,0 +1,23 @@
+(test 1)
+(name "a-claim-another-document-makes-about-a-case-refuses")
+(note "The document beside the program declares `App.Light`, and the program claims `Hashable` of its case's spelling `App.Light.red`. A claim about a case is a claim about no type, and only the build resolves the name another document declares, so the build refuses.")
+
+(documents
+  (document
+    (warp 1)
+    (enum App.Light
+      (case green)
+      (case red))))
+
+(program
+  (warp 1)
+  (import App.Light.red)
+  (extension
+    (head App.Light.red)
+    (satisfies Hashable))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

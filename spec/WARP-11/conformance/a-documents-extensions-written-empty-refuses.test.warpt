@@ -1,0 +1,5 @@
+(test 1)
+(name "a-documents-extensions-written-empty-refuses")
+(note "A document extending no type writes no `extensions`, so `extensions: {}` says it a second way.")
+(tree (dictionary (entry "extensions" (dictionary)) (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" 1)))))) (entry "returns" "Int"))))) (entry "warp" 1)))
+(expect (refuses load))

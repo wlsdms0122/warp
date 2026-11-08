@@ -1,0 +1,17 @@
+(test 1)
+(name "a-double-where-an-int-is-declared-refuses")
+(note "A slot asking for an `Int` does not take a `Double`. Taking one that happened to be integral would make whether a value fits depend on the value rather than the type, so 2.0 would be accepted where 2.5 is refused by a declaration that names neither.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call wants 2.0))))
+  (procedure wants
+    (parameter it (type Int))
+    (returns Int)
+    (body
+      (return it))))
+(expect (refuses build))

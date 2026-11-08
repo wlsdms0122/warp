@@ -1,0 +1,28 @@
+(test 1)
+(name "a-same-type-naming-the-associated-type-it-says-refuses")
+(note "An associated type `sameTypes` names itself refuses at the load. `Use.it` says `C.Item` is `Array<some C.Item>`, which names the associated type it says, so the load refuses it.")
+
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Container
+      (type Item)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item)))))
+
+(program
+  (warp 1)
+  (import Lib.Container)
+  (procedure Use.it
+    (parameter c (type (some C Lib.Container)))
+    (returns Int)
+    (sameType C.Item (array (some C.Item)))
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

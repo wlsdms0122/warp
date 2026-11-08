@@ -1,0 +1,18 @@
+(test 1)
+(name "an-empty-list-handed-to-a-generic-returns-a-list-of-any-type")
+(note "An empty list holds no element, so a type parameter only it reads is filled with Never, and what the call returns is a list of any type: a name declaring Array<String> takes it.")
+
+(program
+  (warp 1)
+  (procedure App.keep
+    (parameter xs (type (array (some T))))
+    (returns (array (some T)))
+    (body
+      (return xs)))
+  (procedure entry
+    (access public)
+    (returns (array String))
+    (body
+      (let ys (type (array String)) (call App.keep (array)))
+      (return ys))))
+(expect (answers (array)))

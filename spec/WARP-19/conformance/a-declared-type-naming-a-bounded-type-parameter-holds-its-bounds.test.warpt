@@ -1,0 +1,23 @@
+(test 1)
+(name "a-declared-type-naming-a-bounded-type-parameter-holds-its-bounds")
+(note "`y` declares `some T`, which is the `T` the call filled, held to the bound the declaration wrote, so `y` fills `App.g`'s `some U` bounded by `Hashable`.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter x (type (some T Hashable)))
+    (returns Int)
+    (body
+      (let y (type (some T)) x)
+      (return (call App.g y))))
+  (procedure App.g
+    (parameter u (type (some U Hashable)))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.f "a")))))
+(expect (answers 1))

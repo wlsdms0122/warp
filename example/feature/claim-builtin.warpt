@@ -1,0 +1,24 @@
+(warp 1)
+(import Standard.Text.text)
+
+(contract p.Described
+  (procedure describe
+    (const)
+    (parameter of (type Self))
+    (returns String)))
+
+(extension
+  (head Int)
+  (satisfies p.Described)
+  (procedure describe
+    (const)
+    (parameter of (type Int))
+    (returns String)
+    (body
+      (return (call Standard.Text.text of)))))
+
+(procedure entry
+  (access public)
+  (returns String)
+  (body
+    (return (call p.Described.describe 5))))

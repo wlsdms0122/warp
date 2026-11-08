@@ -1,0 +1,40 @@
+(test 1)
+(name "two-documents-may-each-declare-a-private-name")
+(note "A private declaration takes no spelling from the link: its own document reaches it, and nothing else does. So two documents may each declare one under one spelling, and each reaches its own, where two declarations any other document could name would refuse.")
+
+(documents
+  (document
+    (warp 1)
+    (procedure App.helper
+      (access private)
+      (const)
+      (isolated)
+      (returns Int)
+      (body
+        (return 1)))
+    (procedure Lib.seven
+      (const)
+      (isolated)
+      (returns Int)
+      (body
+        (return (call App.helper))))))
+
+(program
+  (warp 1)
+  (import Lib.seven)
+  (import Standard.Numeric.plus)
+  (procedure App.helper
+    (access private)
+    (const)
+    (isolated)
+    (returns Int)
+    (body
+      (return 7)))
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (returns Int)
+    (body
+      (return (call Standard.Numeric.plus (call App.helper) (call Lib.seven))))))
+(expect (answers 8))

@@ -1,0 +1,20 @@
+(test 1)
+(name "a-struct-literal-handed-at-a-struct-of-a-type-parameter-fills-it-from-its-fields")
+(note "A struct literal handed where `App.Box<some T>` is declared is read as applied to what its fields read the parameter as, so the call fills `T` with `Int` from the literal's `item`.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (procedure App.unwrap
+    (parameter b (type (named App.Box (some T))))
+    (returns (some T))
+    (body
+      (return (path b (field item)))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.unwrap (struct (field item 5)))))))
+(expect (answers 5))

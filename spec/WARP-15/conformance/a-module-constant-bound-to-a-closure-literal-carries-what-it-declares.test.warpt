@@ -1,0 +1,19 @@
+(test 1)
+(name "a-module-constant-bound-to-a-closure-literal-carries-what-it-declares")
+(note "`k` is a module constant bound to a closure literal declared const. A constant is a fixed name, and a fixed name that writes no type follows the type written where its value came from, here the closure's signature, so `entry`, declared const, may call it.")
+
+(program
+  (warp 1)
+  (const k
+    (closure
+      (const)
+      (returns Int)
+      (body
+        (return 1))))
+  (procedure entry
+    (access public)
+    (const)
+    (returns Int)
+    (body
+      (return (apply k)))))
+(expect (answers 1))

@@ -1,0 +1,34 @@
+(test 1)
+(name "a-same-type-of-a-type-parameter-refuses")
+(note "A same type is said of an associated type of a type parameter. One keyed by the parameter itself refuses at the load.")
+
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Container
+      (type Item)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item)))
+    (procedure Lib.firstOf
+      (access public)
+      (parameter c (type (some C Lib.Container)))
+      (returns (some C.Item))
+      (body
+        (return (call Lib.Container.first c))))))
+
+(program
+  (warp 1)
+  (import Lib.Container)
+  (procedure Use.it
+    (parameter c (type (some C Lib.Container)))
+    (returns Int)
+    (sameType C Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

@@ -1,0 +1,27 @@
+(test 1)
+(name "a-switch-over-a-type-parameter-refuses")
+(note "An `of` whose reading is no enum refuses at the build. `x` reads `some T`, which a call may fill with any type, so the build has no declaration to hold the arms to.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure App.word
+    (parameter x (type (some T)))
+    (returns Int)
+    (body
+      (switch x
+        (case green
+          (then
+            (return 1)))
+        (case red
+          (then
+            (return 2))))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let light (type App.Light) (case red))
+      (return (call App.word light)))))
+(expect (refuses build))

@@ -1,0 +1,23 @@
+(test 1)
+(name "a-head-applies-a-list-to-a-type-members-spelling")
+(note "What a head's brackets hold is a type written as a head writes it, and `App.Box.Item`, the spelling of a type member given as `Int`, is one. So `Array<App.Box.Item>` is a head, and a list of integers reaches `Array.size`, given under it.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (field x Int)
+    (type Item Int))
+  (extension
+    (head (array App.Box.Item))
+    (procedure size
+      (parameter of (type (array App.Box.Item)))
+      (returns String)
+      (body
+        (return "ints"))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let xs (type (array Int)) (array 1 2))
+      (return (call Array.size xs)))))
+(expect (answers "ints"))

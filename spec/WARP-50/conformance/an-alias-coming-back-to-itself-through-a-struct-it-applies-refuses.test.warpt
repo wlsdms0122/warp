@@ -1,0 +1,16 @@
+(test 1)
+(name "an-alias-coming-back-to-itself-through-a-struct-it-applies-refuses")
+(note "`App.A` stands for `App.Box<App.A>`, so it comes back to itself through the type a struct is applied to, and its reading `App.Box<App.Box<…>>` never ends. It spells no type, and the document says so alone.")
+
+(program
+  (warp 1)
+  (type App.A (named App.Box App.A))
+  (struct App.Box
+    (typeParameter T)
+    (field item (optional (some T))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

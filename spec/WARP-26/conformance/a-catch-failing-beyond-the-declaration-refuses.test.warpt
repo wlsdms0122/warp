@@ -1,0 +1,20 @@
+(test 1)
+(name "a-catch-failing-beyond-the-declaration-refuses")
+(note "A body fails with whatever its catches fail with. The cast is caught, and the catch calls `abort`, so the body may fail with `aborted`, which its declaration does not name: refused at the build.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (parameter payload)
+    (returns Int)
+    (body
+      (var got (type Int) 0)
+      (try
+        (body
+          (set got (as payload Int)))
+        (catch
+          (call Standard.Control.abort "again")))
+      (return got))))
+(expect (refuses build))

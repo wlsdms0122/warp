@@ -1,0 +1,42 @@
+(test 1)
+(name "an-entry-handed-two-values-of-one-type-at-a-bounded-type-parameter-answers")
+(note "The entry's door fills `T` from what its arguments read as. `5` and `6` both read `Int`, which conforms to the bound `App.C`, so the run starts and `Int`'s row answers, where `5` beside a string refuses.")
+
+(program
+  (warp 1)
+  (import Standard.Text.joined)
+  (import Standard.Text.text)
+  (contract App.C
+    (procedure f
+      (parameter s (type Self))
+      (parameter o (type Self))
+      (returns String)))
+  (extension
+    (head Int)
+    (satisfies App.C)
+    (procedure f
+      (parameter s (type Int))
+      (parameter o (type Int))
+      (returns String)
+      (body
+        (let m (type Int) o)
+        (return (call Standard.Text.joined (array "Int.f got" (call Standard.Text.text m)) " ")))))
+  (extension
+    (head String)
+    (satisfies App.C)
+    (procedure f
+      (parameter s (type String))
+      (parameter o (type String))
+      (returns String)
+      (body
+        (return "String.f"))))
+  (procedure entry
+    (access public)
+    (parameter x (type (some T App.C)))
+    (parameter y (type (some T)))
+    (returns String)
+    (body
+      (let r (call App.C.f x y))
+      (return r))))
+(arguments (argument x 5) (argument y 6))
+(expect (answers "Int.f got 6"))

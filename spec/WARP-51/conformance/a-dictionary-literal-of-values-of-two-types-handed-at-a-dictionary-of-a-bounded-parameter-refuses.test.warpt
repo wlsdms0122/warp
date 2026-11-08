@@ -1,0 +1,25 @@
+(test 1)
+(name "a-dictionary-literal-of-values-of-two-types-handed-at-a-dictionary-of-a-bounded-parameter-refuses")
+(note "`App.g` bounds `T` by `App.M`, which `Int` and `String` conform to, and takes `Dictionary<String, some T>`. The dictionary literal holding `1` under `a` and `\"s\"` under `b` handed there fills `T` with its values joined, `Any`, which conforms to no contract, so the build refuses though each value conforms. A bounded parameter is one type.")
+
+(program
+  (warp 1)
+  (contract App.M)
+  (extension
+    (head Int)
+    (satisfies App.M))
+  (extension
+    (head String)
+    (satisfies App.M))
+  (procedure App.g
+    (parameter x (type (dictionary String (some T App.M))))
+    (returns Int)
+    (body
+      (return 0)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let r (call App.g (dictionary (entry "a" 1) (entry "b" "s"))))
+      (return r))))
+(expect (refuses build))

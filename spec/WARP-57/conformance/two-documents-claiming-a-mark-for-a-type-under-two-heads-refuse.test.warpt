@@ -1,0 +1,24 @@
+(test 1)
+(name "two-documents-claiming-a-mark-for-a-type-under-two-heads-refuse")
+(note "A type conforms to a contract one way, so claims across documents under heads taking different values, `Array<Int>` and `Array<String>`, refuse at the build. The contract asks no procedures, so neither claim misses a member, and the one-way rule is the only thing that refuses.")
+
+(documents
+  (document
+    (warp 1)
+    (contract App.Marked)
+    (extension
+      (head (array Int))
+      (satisfies App.Marked))))
+
+(program
+  (warp 1)
+  (import App.Marked)
+  (extension
+    (head (array String))
+    (satisfies App.Marked))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

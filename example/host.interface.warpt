@@ -1,0 +1,102 @@
+(interface 1)
+
+(struct Host.Ticket
+  (field id Int))
+
+(struct Net.Response
+  (field body String)
+  (field headers (dictionary String String))
+  (field status Int))
+
+(struct Process.Result
+  (field output String)
+  (field status Int))
+
+(procedure File.exists
+  (parameter path (type String))
+  (returns Bool)
+  (failing file_failed))
+
+(procedure File.list
+  (parameter path (type String))
+  (returns (array String))
+  (failing file_failed))
+
+(procedure File.read
+  (parameter path (type String))
+  (returns (optional String))
+  (failing file_failed))
+
+(procedure File.write
+  (parameter path (type String))
+  (parameter text (type String))
+  (failing file_failed))
+
+(procedure Host.get
+  (parameter key (type String))
+  (returns Any))
+
+(procedure Host.issue
+  (returns Host.Ticket))
+
+(procedure Host.log
+  (parameter of))
+
+(procedure Host.put
+  (parameter key (type String))
+  (parameter value))
+
+(procedure Host.redeem
+  (parameter of (type Host.Ticket))
+  (returns Int))
+
+(procedure IO.clear)
+
+(procedure IO.key
+  (returns (optional String)))
+
+(procedure IO.write
+  (parameter text (type String)))
+
+(procedure JSON.parse
+  (const)
+  (isolated)
+  (parameter of (type String))
+  (returns Any)
+  (failing json_failed))
+
+(procedure JSON.text
+  (const)
+  (isolated)
+  (parameter of)
+  (returns String)
+  (failing json_failed))
+
+(procedure Net.get
+  (parameter url (type String))
+  (parameter headers (type (optional (dictionary String String))))
+  (returns Net.Response)
+  (failing net_failed))
+
+(procedure Net.post
+  (parameter url (type String))
+  (parameter body (type String))
+  (parameter headers (type (optional (dictionary String String))))
+  (returns Net.Response)
+  (failing net_failed))
+
+(procedure Process.run
+  (parameter command (type String))
+  (returns Process.Result)
+  (failing process_failed))
+
+(procedure Random.int
+  (isolated)
+  (parameter under (type Int))
+  (returns Int))
+
+(procedure Time.now
+  (returns Int))
+
+(procedure Time.wait
+  (parameter milliseconds (type Int)))

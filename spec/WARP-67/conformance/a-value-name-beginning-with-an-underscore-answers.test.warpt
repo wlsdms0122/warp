@@ -1,0 +1,13 @@
+(test 1)
+(name "a-value-name-beginning-with-an-underscore-answers")
+(note "An identifier begins with a letter or `_` and goes on with letters, digits and `_`, so a statement named `_n1` is a value's name, and a path reads it.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let _n1 1)
+      (return _n1))))
+(expect (answers 1))

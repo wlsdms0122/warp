@@ -1,0 +1,26 @@
+(test 1)
+(name "a-statement-after-a-switch-whose-way-ends-in-a-call-returning-never-refuses")
+(note "The `green` arm returns and the `red` arm ends in `Standard.Control.abort`, which returns `Never`, so the switch never finishes and nothing may follow it. Only the build knows what the call returns, so the build refuses the statement after it.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure entry
+    (access public)
+    (parameter light (type App.Light))
+    (returns Int)
+    (failing aborted)
+    (body
+      (switch light
+        (case green
+          (then
+            (return 1)))
+        (case red
+          (then
+            (call Standard.Control.abort "red"))))
+      (return 3))))
+(arguments (argument light (struct App.Light.green)))
+(expect (refuses build))

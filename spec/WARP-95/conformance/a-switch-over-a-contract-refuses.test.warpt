@@ -1,0 +1,24 @@
+(test 1)
+(name "a-switch-over-a-contract-refuses")
+(note "`light` is read as `Hashable`, a contract `App.Light` claims, and a contract is no enum, so it holds no case for an arm to name. A switch whose `of` reads no enum refuses at the build.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (satisfies Hashable)
+    (case green)
+    (case red))
+  (procedure entry
+    (access public)
+    (parameter light (type Hashable))
+    (returns Int)
+    (body
+      (switch light
+        (case green
+          (then
+            (return 1)))
+        (case red
+          (then
+            (return 2)))))))
+(arguments (argument light (struct App.Light.red)))
+(expect (refuses build))

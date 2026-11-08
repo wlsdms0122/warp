@@ -1,0 +1,5 @@
+(test 1)
+(name "an-exponent-form-writing-a-point-after-one-digit-refuses")
+(note "The exponent form writes a point only where its digits are more than one, so `1e+16` is the one writing of ten to the sixteenth and `1.0e+16`, one digit longer, is refused.")
+(text "(warp 1)\n(const a 1.0e+16)\n")
+(expect (refuses load))

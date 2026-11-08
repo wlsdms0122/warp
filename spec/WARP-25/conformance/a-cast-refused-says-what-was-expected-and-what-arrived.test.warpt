@@ -1,0 +1,21 @@
+(test 1)
+(name "a-cast-refused-says-what-was-expected-and-what-arrived")
+(note "The language raises `cast_refused` itself, so this specification writes its `message` as it writes its `details`: `expected`, the expected type, `, got` and the actual one, the whole value's however deep the mismatch stood.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter payload)
+    (returns String)
+    (body
+      (var tried "none")
+      (let caught
+        (try
+          (body
+            (as payload (array Int)))
+          (catch
+            (set tried (path caught (field message))))))
+      (return tried))))
+(arguments (argument payload (array 1 "two")))
+(expect (answers "expected Array<Int>, got Array"))

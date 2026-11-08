@@ -1,0 +1,20 @@
+(warp 1)
+(import Standard.Collection.append)
+(import Standard.Collection.map)
+
+(procedure entry
+  (access public)
+  (returns (array Int))
+  (failing (anything))
+  (body
+    (var xs (type (array Int)) (array))
+    (let mapped
+      (call Standard.Collection.map
+        (array 1 2)
+        (closure
+          (parameter item (type Int))
+          (returns Int)
+          (body
+            (call Standard.Collection.append xs item)
+            (return item)))))
+    (return xs)))

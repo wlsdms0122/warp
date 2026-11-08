@@ -1,0 +1,13 @@
+(warp 1)
+(import Standard.Numeric.plus)
+
+(procedure entry
+  (access public)
+  (returns Int)
+  (body
+    (let f
+      (closure
+        (body
+          (let x 1))))
+    (let got (apply f))
+    (return (call Standard.Numeric.plus got 1))))

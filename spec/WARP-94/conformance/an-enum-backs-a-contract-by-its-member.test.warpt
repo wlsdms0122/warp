@@ -1,0 +1,32 @@
+(test 1)
+(name "an-enum-backs-a-contract-by-its-member")
+(note "`App.Light` claims `App.Described` beside its cases and gives the member `describe` the contract asks, so a call through the contract reaches the member for a value of any of its cases. This is how an enum is given a spelling of its own.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (satisfies App.Described)
+    (case green)
+    (case red)
+    (procedure describe
+      (parameter light (type App.Light))
+      (returns String)
+      (body
+        (switch light
+          (case green
+            (then
+              (return "go")))
+          (case red
+            (then
+              (return "stop")))))))
+  (contract App.Described
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let light (type App.Light) (case red))
+      (return (call App.Described.describe light)))))
+(expect (answers "stop"))

@@ -1,0 +1,5 @@
+(test 1)
+(name "a-struct-spells-from-text")
+(note "A struct is `struct`, the declared type's name, and a `field` node for each field. The struct reads with that name on, and that is the one text a writer gives it.")
+(text "(warp 1)\n(const a (struct Bank.Account (field balance 1)))\n")
+(expect (spells (dictionary (entry "const" (dictionary (entry "a" (struct Bank.Account (field balance 1))))) (entry "imports" (array)) (entry "warp" 1))))

@@ -1,0 +1,24 @@
+(test 1)
+(name "a-closure-that-may-fail-handed-to-and-refuses")
+(note "Standard.Logic.and takes sides that fail with nothing, and the side handed says it may fail with aborted, so the call refuses at the build where the side is handed. A side that may fail is handed to tryAnd.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (import Standard.Logic.and)
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (failing (anything))
+    (body
+      (return
+        (call Standard.Logic.and
+          (array
+            (closure
+              (const)
+              (isolated)
+              (returns Bool)
+              (failing aborted)
+              (body
+                (call Standard.Control.abort "side")))))))))
+(expect (refuses build))

@@ -1,0 +1,30 @@
+(test 1)
+(name "a-member-backing-a-claim-under-a-head-for-less-than-the-head-takes-refuses")
+(note "The claim is about every box of something that conforms to `Hashable`, and the member `describe` is given under `App.Box<Int>` and takes a box of `Int` alone, so it does not satisfy the procedure for every value the claim's head takes and the claim refuses at the build, at the claim.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head (named App.Box Int))
+    (procedure describe
+      (parameter of (type (named App.Box Int)))
+      (returns String)
+      (body
+        (return "box"))))
+  (extension
+    (head (named App.Box (some T Hashable)))
+    (satisfies App.Describable))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let b (type (named App.Box Int)) (struct (field item 1)))
+      (return (call App.Describable.describe b)))))
+(expect (refuses build))

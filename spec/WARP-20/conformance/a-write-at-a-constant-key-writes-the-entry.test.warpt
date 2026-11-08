@@ -1,0 +1,15 @@
+(test 1)
+(name "a-write-at-a-constant-key-writes-the-entry")
+(note "A constant written between the brackets of a write folds at the build the way a read's does, to the key of the entry the write lands on.")
+
+(program
+  (warp 1)
+  (const K "a")
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var d (type (dictionary String Int)) (dictionary (entry "a" 1)))
+      (set (path d (index K)) 2)
+      (return (path d (index K))))))
+(expect (answers 2))

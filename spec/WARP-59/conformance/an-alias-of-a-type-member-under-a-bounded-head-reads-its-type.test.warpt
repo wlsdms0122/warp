@@ -1,0 +1,23 @@
+(test 1)
+(name "an-alias-of-a-type-member-under-a-bounded-head-reads-its-type")
+(note "App.Wrapper bounds T by Hashable and gives Item as T. The alias App.Y stands for `App.Wrapper<Int>.Item`, and Int conforms to Hashable, so App.Y is Int and a parameter of it takes 7.")
+
+(program
+  (warp 1)
+  (struct App.Wrapper
+    (typeParameter T Hashable)
+    (field item (some T))
+    (type Item (some T)))
+  (type App.Y (member (named App.Wrapper Int) Item))
+  (procedure App.echo
+    (parameter x (type App.Y))
+    (returns Int)
+    (body
+      (return x)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let echoed (call App.echo 7))
+      (return echoed))))
+(expect (answers 7))

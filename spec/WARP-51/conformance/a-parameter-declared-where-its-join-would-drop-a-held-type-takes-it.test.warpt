@@ -1,0 +1,21 @@
+(test 1)
+(name "a-parameter-declared-where-its-join-would-drop-a-held-type-takes-it")
+(note "`d` declares `Any`, a place, so the value read as `Hashable` drops its type there. `App.pick` reads `T` as `Any` from both, and the call answers what `d` holds.")
+
+(program
+  (warp 1)
+  (procedure App.pick
+    (parameter one (type (some T)))
+    (parameter other (type (some T)))
+    (returns (some T))
+    (body
+      (return one)))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let h (type Hashable) 1)
+      (let d (type Any) h)
+      (let a (type Any) "a")
+      (return (call App.pick d a)))))
+(expect (answers 1))

@@ -1,0 +1,13 @@
+(test 1)
+(name "an-index-written-with-an-exponent-refuses")
+(note "Between the brackets an integer is an integer-atom and a name an identifier, and a path reads no floating-point literal. `1e3` is none of them, so `a[1e3]` is no path, and the document refuses at the load.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let a (array 5 6))
+      (return (path a (index `1e3`))))))
+(expect (refuses load))

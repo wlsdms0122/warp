@@ -1,0 +1,26 @@
+(test 1)
+(name "a-cast-to-an-enum-of-another-enums-case-fails-with-cast-refused")
+(note "The host hands `App.Signal.red`, which is no value of `App.Light`, and the entry casts it to `App.Light`. A cast to an enum that does not hold fails with `cast_refused`, which the catch reads.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (enum App.Signal
+    (case green)
+    (case red))
+  (procedure entry
+    (access public)
+    (parameter value)
+    (returns Any)
+    (body
+      (let caught
+        (try
+          (body
+            (as value App.Light))
+          (catch
+            (return (path caught (field type))))))
+      (return "no failure"))))
+(arguments (argument value (struct App.Signal.red)))
+(expect (answers "cast_refused"))

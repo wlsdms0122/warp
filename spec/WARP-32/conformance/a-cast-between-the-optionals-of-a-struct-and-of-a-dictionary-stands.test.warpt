@@ -1,0 +1,17 @@
+(test 1)
+(name "a-cast-between-the-optionals-of-a-struct-and-of-a-dictionary-stands")
+(note "`p` reads `App.P?` and the cast names `Dictionary<String, Int>?`. The none is a value of both, so the two share a value and the cast stands, and handed the none it reads the none.")
+
+(program
+  (warp 1)
+  (struct App.P
+    (field x Int))
+  (procedure entry
+    (access public)
+    (parameter p (type (optional App.P)))
+    (returns (optional (dictionary String Int)))
+    (failing cast_refused)
+    (body
+      (return (as p (optional (dictionary String Int)))))))
+(arguments (argument p null))
+(expect (answers null))

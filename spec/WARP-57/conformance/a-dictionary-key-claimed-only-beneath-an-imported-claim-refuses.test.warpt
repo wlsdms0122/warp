@@ -1,0 +1,60 @@
+(test 1)
+(name "a-dictionary-key-claimed-only-beneath-an-imported-claim-refuses")
+(note "A claim imported is the claim and not what the document making it stands on. The program imports the claim that T.Card conforms to App.Describable, made in a document standing on the one claiming App.Key conforms to `Hashable`, and names App.Key and nothing of that document, so a dictionary keyed by App.Key refuses at the build.")
+
+(documents
+  (document
+    (warp 1)
+    (contract App.Describable
+      (procedure describe
+        (parameter of (type Self))
+        (returns String))))
+  (document
+    (warp 1)
+    (struct T.Card
+      (field rank Int)
+      (procedure describe
+        (parameter of (type T.Card))
+        (returns String)
+        (body
+          (return "card")))))
+  (document
+    (warp 1)
+    (struct App.Key
+      (field n Int)))
+  (document
+    (warp 1)
+    (import App.Key)
+    (extension
+      (head App.Key)
+      (satisfies Hashable))
+    (procedure X.mark
+      (access public)
+      (returns Int)
+      (body
+        (return 1))))
+  (document
+    (warp 1)
+    (import App.Describable)
+    (import T.Card)
+    (import X.mark)
+    (extension
+      (head T.Card)
+      (satisfies App.Describable))
+    (procedure D.mark
+      (access public)
+      (returns Int)
+      (body
+        (return (call X.mark))))))
+
+(program
+  (warp 1)
+  (import App.Key)
+  (import T.Card App.Describable)
+  (procedure entry
+    (access public)
+    (parameter m (type (optional (dictionary App.Key Int))))
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

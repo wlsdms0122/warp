@@ -1,0 +1,13 @@
+(test 1)
+(name "decoding-an-overlong-sequence-refuses")
+(note "C0 AF is an overlong writing of `/`, which is not UTF-8 text, so decoded refuses at the run.")
+
+(program
+  (warp 1)
+  (import Standard.Text.decoded)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (return (call Standard.Text.decoded x"c0af" "utf8")))))
+(expect (refuses run))

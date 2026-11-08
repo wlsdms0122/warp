@@ -1,0 +1,35 @@
+(test 1)
+(name "a-claim-about-an-optional-is-reached-through-its-contract")
+(note "A document claims `App.Described` for `Int?` and for `Int`. A call through the contract handed a reading of `Int?` is filled with `Int?` at `Self`, so it reaches `Optional.describe`, though the value standing there is `5`, and one handed `5` read as `Int` reaches `Int.describe`.")
+
+(program
+  (warp 1)
+  (contract App.Described
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head Int)
+    (satisfies App.Described)
+    (procedure describe
+      (parameter of (type Int))
+      (returns String)
+      (body
+        (return "a number"))))
+  (extension
+    (head (optional Int))
+    (satisfies App.Described)
+    (procedure describe
+      (parameter of (type (optional Int)))
+      (returns String)
+      (body
+        (return "a number or none"))))
+  (procedure entry
+    (access public)
+    (returns (array String))
+    (body
+      (let maybe (type (optional Int)) 5)
+      (let first (call App.Described.describe maybe))
+      (let second (call App.Described.describe 5))
+      (return (array first second)))))
+(expect (answers (array "a number or none" "a number")))

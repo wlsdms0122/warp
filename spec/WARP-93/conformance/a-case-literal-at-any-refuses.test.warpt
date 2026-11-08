@@ -1,0 +1,15 @@
+(test 1)
+(name "a-case-literal-at-any-refuses")
+(note "A case literal writes no enum's name and is read as the enum its place reads. The entry returns `Any`, which reads no enum, so the build refuses the literal.")
+
+(program
+  (warp 1)
+  (enum App.Target
+    (case local)
+    (case remote (field host String) (field port Int)))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (return (case local)))))
+(expect (refuses build))

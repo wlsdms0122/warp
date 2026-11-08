@@ -1,0 +1,13 @@
+(test 1)
+(name "dictionaries-are-the-same-by-every-key-and-value")
+(note "Dictionaries are the same when they hold the same keys bound to the same values: one more key or another value makes two values, and the order entries were written in makes none.")
+
+(program
+  (warp 1)
+  (import Standard.Logic.equal)
+  (procedure entry
+    (access public)
+    (returns (array Bool))
+    (body
+      (return (array (call Standard.Logic.equal (dictionary (entry 1 "a")) (dictionary (entry 1 "a") (entry 2 "b"))) (call Standard.Logic.equal (dictionary (entry 1 "a")) (dictionary (entry 1 "b"))) (call Standard.Logic.equal (dictionary (entry 1 "a") (entry 2 "b")) (dictionary (entry 2 "b") (entry 1 "a"))))))))
+(expect (answers (array false false true)))

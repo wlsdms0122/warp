@@ -1,0 +1,5 @@
+(test 1)
+(name "a-document-variable-without-a-type-refuses")
+(note "A document's variable always declares its type and has a start, so `(var count 0)` at the top of a document writes no tree, and refuses. A `var` statement in a body declares its type or not.")
+(text "(warp 1)\n(var count 0)")
+(expect (refuses load))

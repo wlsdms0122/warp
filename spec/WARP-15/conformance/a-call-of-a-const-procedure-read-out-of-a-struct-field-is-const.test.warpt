@@ -1,0 +1,35 @@
+(test 1)
+(name "a-call-of-a-const-procedure-read-out-of-a-struct-field-is-const")
+(note "A slot declaring a struct type says what each of its fields holds, and the value was judged against it when it was handed over. `asking` declares `const` and calls what the field `f` holds, which `App.Holder` declares a `const` procedure type, so the build holds it to that, the way it does one calling an element or an entry, and an operand may call it.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (struct App.Holder
+    (field f (procedure (const) (parameters Int) (returns Int))))
+  (procedure asking
+    (const)
+    (parameter body (type App.Holder))
+    (returns Int)
+    (body
+      (let a (apply (path body (field f)) 1))
+      (return a)))
+  (procedure entry
+    (access public)
+    (const)
+    (returns Int)
+    (body
+      (return
+        (call Standard.Numeric.plus
+          (call asking
+            (struct
+              (field f
+                (closure
+                  (const)
+                  (isolated)
+                  (parameter x (type Int))
+                  (returns Int)
+                  (body
+                    (return x))))))
+          1)))))
+(expect (answers 2))

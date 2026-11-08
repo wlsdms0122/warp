@@ -1,0 +1,13 @@
+(test 1)
+(name "ordering-compares-two-of-one-type")
+(note "The procedures that order values take what conforms to Standard.Comparable, and String conforms to it, so two strings order.")
+
+(program
+  (warp 1)
+  (import Standard.Comparable.lessThan)
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (body
+      (return (call Standard.Comparable.lessThan "a" "b")))))
+(expect (answers true))

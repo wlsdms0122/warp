@@ -1,0 +1,24 @@
+(test 1)
+(name "a-struct-applied-to-a-procedure-failing-nothing-where-it-is-applied-to-one-that-may-fail-refuses")
+(note "`App.Box<() -> Int>` and `App.Box<() throws(aborted) -> Int>` apply the struct to two procedure types, one failing with nothing and one with `aborted`, so they are two types and a name holding the first is not the second. Taken, a field of the box taking `some T` could be handed a procedure that fails where the first box promised none. Binding it is refused at the build.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let b1
+        (type (named App.Box (procedure (parameters) (returns Int))))
+        (struct
+          (field item
+            (closure
+              (returns Int)
+              (body
+                (return 1))))))
+      (let b2 (type (named App.Box (procedure (parameters) (failing aborted) (returns Int)))) b1)
+      (return 1))))
+(expect (refuses build))

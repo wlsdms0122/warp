@@ -1,0 +1,13 @@
+(test 1)
+(name "an-int-below-zero-is-a-key-of-a-dictionary")
+(note "An integer below zero is no position of a list, and on a dictionary keyed by `Int` it is a key like any other.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let d (type (dictionary Int String)) (dictionary (entry -1 "z") (entry 1 "a")))
+      (return (path d (index -1))))))
+(expect (answers "z"))

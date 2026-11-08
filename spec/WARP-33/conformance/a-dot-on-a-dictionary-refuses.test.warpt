@@ -1,0 +1,13 @@
+(test 1)
+(name "a-dot-on-a-dictionary-refuses")
+(note "A dot reads a field a declared struct declares, and a dictionary declares none: its keys are data, read through brackets, so `d.a` refuses at the build where `d[\"a\"]` reads the entry.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let d (type (dictionary String Int)) (dictionary (entry "a" 1)))
+      (return (path d (field a))))))
+(expect (refuses build))

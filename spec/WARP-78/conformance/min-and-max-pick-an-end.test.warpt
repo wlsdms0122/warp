@@ -1,0 +1,16 @@
+(test 1)
+(name "min-and-max-pick-an-end")
+(note "min and max return the lesser and the greater of two of one type, by worth.")
+
+(program
+  (warp 1)
+  (import Standard.Math.max)
+  (import Standard.Math.min)
+  (procedure entry
+    (access public)
+    (returns (array Any))
+    (body
+      (let low (call Standard.Math.min 3 1))
+      (let high (call Standard.Math.max 2.5 7.25))
+      (return (array low high)))))
+(expect (answers (array 1 7.25)))

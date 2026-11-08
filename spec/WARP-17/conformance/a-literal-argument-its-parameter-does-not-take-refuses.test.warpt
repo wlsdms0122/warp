@@ -1,0 +1,17 @@
+(test 1)
+(name "a-literal-argument-its-parameter-does-not-take-refuses")
+(note "Every argument is judged against the slot it fills at the build, a literal as any other value, so a call passing a literal the slot does not take refuses at the build.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call wants "not a number"))))
+  (procedure wants
+    (parameter it (type Int))
+    (returns Int)
+    (body
+      (return it))))
+(expect (refuses build))

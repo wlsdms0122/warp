@@ -1,0 +1,20 @@
+(test 1)
+(name "a-closure-with-two-parameters-under-one-name-refuses")
+(note "Two parameters under one name refuse at the load, and a closure literal's names are its own the way a declaration's are. The closure `f` declares `n` twice.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let f
+        (closure
+          (parameter n (type Int))
+          (parameter n (type Int))
+          (returns Int)
+          (body
+            (return n))))
+      (let r (apply f 1 2))
+      (return r))))
+(expect (refuses load))

@@ -1,0 +1,14 @@
+(test 1)
+(name "an-alias-applied-to-a-type-refuses")
+(note "An alias takes no type parameters. `App.Number` stands for `Int`, and applying it to a type is refused at the build where the name resolves.")
+
+(program
+  (warp 1)
+  (type App.Number Int)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let b (type (named App.Number Int)) 1)
+      (return 1))))
+(expect (refuses build))

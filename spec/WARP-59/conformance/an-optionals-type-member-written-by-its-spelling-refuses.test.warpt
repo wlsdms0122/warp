@@ -1,0 +1,20 @@
+(test 1)
+(name "an-optionals-type-member-written-by-its-spelling-refuses")
+(note "The type member `Item` given under `some W?` is spelled `Optional.Item`, and the type before its dot is named as a mention names it. No mention names the Optional, so a parameter written `Optional.Item` refuses at the build.")
+
+(program
+  (warp 1)
+  (extension
+    (head (optional (some W)))
+    (type Item String))
+  (procedure App.take
+    (parameter x (type Optional.Item))
+    (returns String)
+    (body
+      (return x)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (return (call App.take "z")))))
+(expect (refuses build))

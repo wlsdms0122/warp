@@ -1,0 +1,13 @@
+(test 1)
+(name "floored-at-two-to-the-sixty-third-refuses")
+(note "floored returns an Int only where an Int holds the result. 2^63 is the first Double past the int's maximum and the Double nearest that maximum, so a range test against the maximum read as a Double lets it through.")
+
+(program
+  (warp 1)
+  (import Standard.Math.floored)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call Standard.Math.floored 9.223372036854776e+18)))))
+(expect (refuses run))

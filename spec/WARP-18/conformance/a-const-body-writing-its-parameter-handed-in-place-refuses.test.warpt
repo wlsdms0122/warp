@@ -1,0 +1,21 @@
+(test 1)
+(name "a-const-body-writing-its-parameter-handed-in-place-refuses")
+(note "A body declared `const` that writes through a parameter handed in place refuses at the build. `App.reset` sets its `inout` parameter and reaches nothing else.")
+
+(program
+  (warp 1)
+  (procedure App.reset
+    (const)
+    (parameter n (type (inout Int)))
+    (returns Int)
+    (body
+      (set n 1)
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var x 0)
+      (let r (call App.reset x))
+      (return x))))
+(expect (refuses build))

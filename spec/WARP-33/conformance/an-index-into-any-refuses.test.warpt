@@ -1,0 +1,13 @@
+(test 1)
+(name "an-index-into-any-refuses")
+(note "An index says as much as a dot does. That a type is there to read into, and `Any` declares neither. The type is named to read it, the way a dot's is.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter payload)
+    (returns Any)
+    (body
+      (return (path payload (index 0))))))
+(expect (refuses build))

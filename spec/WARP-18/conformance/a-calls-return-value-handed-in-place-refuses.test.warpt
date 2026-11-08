@@ -1,0 +1,21 @@
+(test 1)
+(name "a-calls-return-value-handed-in-place-refuses")
+(note "What is handed in place is a variable, and a call's return value is none. `App.ten` is const, so its call may stand as an argument, and handed at `bump`'s `inout` slot it refuses at the build.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure App.ten
+    (const)
+    (returns Int)
+    (body
+      (return 10)))
+  (procedure bump
+    (parameter count (type (inout Int)))
+    (body
+      (set count (call Standard.Numeric.plus count 1))))
+  (procedure entry
+    (access public)
+    (body
+      (call bump (call App.ten)))))
+(expect (refuses build))

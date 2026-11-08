@@ -1,0 +1,17 @@
+(test 1)
+(name "a-type-parameter-written-optional-takes-a-value-of-the-parameter")
+(note "`some T?` is the Optional of whatever the call fills `T` with. `App.f` handed 1 at `some T?` fills `T` with `Int`, and returns what it took as that Optional.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter x (type (optional (some T))))
+    (returns (optional (some T)))
+    (body
+      (return x)))
+  (procedure entry
+    (access public)
+    (returns (optional Int))
+    (body
+      (return (call App.f 1)))))
+(expect (answers 1))

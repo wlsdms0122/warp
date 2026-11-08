@@ -1,0 +1,20 @@
+(test 1)
+(name "a-key-holding-a-closure-in-a-dictionary-keyed-by-lists-of-anything-refuses")
+(note "The language claims `Hashable` for every `Array`, so `Dictionary<Array<Any>, Int>` builds. The key `[f]` holds a procedure, which is no key under the value model, and the run refuses where the dictionary is made.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.count)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let f
+        (closure
+          (returns Int)
+          (body
+            (return 1))))
+      (let k (type (array Any)) (array f))
+      (let d (type (dictionary (array Any) Int)) (dictionary (entry k 1)))
+      (return (call Standard.Collection.count d)))))
+(expect (refuses run))

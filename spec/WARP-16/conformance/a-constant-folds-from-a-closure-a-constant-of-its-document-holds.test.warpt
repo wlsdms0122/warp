@@ -1,0 +1,22 @@
+(test 1)
+(name "a-constant-folds-from-a-closure-a-constant-of-its-document-holds")
+(note "A constant folds from a closure that a constant of its own document holds: the closure is a value written in the document, held to its signature where it is written, and not a declaration still being resolved beside the constants. `six` calls `twice` with 3.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.times)
+  (const six (apply twice 3))
+  (const twice
+    (closure
+      (const)
+      (isolated)
+      (parameter n (type Int))
+      (returns Int)
+      (body
+        (return (call Standard.Numeric.times n 2)))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return six))))
+(expect (answers 6))

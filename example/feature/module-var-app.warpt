@@ -1,0 +1,17 @@
+(warp 1)
+(import ctr.bump)
+(import ctr.read)
+
+(struct app.Answer
+  (field first Int)
+  (field read Int)
+  (field third Int))
+
+(procedure entry
+  (access public)
+  (returns app.Answer)
+  (body
+    (let first (call ctr.bump))
+    (call ctr.bump)
+    (let third (call ctr.bump))
+    (return (struct (field first first) (field read (call ctr.read)) (field third third)))))

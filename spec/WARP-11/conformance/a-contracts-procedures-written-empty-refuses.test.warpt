@@ -1,0 +1,5 @@
+(test 1)
+(name "a-contracts-procedures-written-empty-refuses")
+(note "A contract asking no procedure writes no `procedures`, and a contract asking nothing is `{}`, so `procedures: {}` says it a second way.")
+(tree (dictionary (entry "contracts" (dictionary (entry "App.C" (dictionary (entry "procedures" (dictionary)))))) (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" 1)))))) (entry "returns" "Int"))))) (entry "warp" 1)))
+(expect (refuses load))

@@ -1,0 +1,14 @@
+(test 1)
+(name "a-dictionary-literal-of-keys-of-two-types-written-where-a-hashable-keyed-dictionary-is-declared")
+(note "Where the place declares a dictionary, each key is held to the key it declares, and an integer and a string each conform to `Hashable`, so the literal holds both.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.count)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let d (type (dictionary Hashable String)) (dictionary (entry 1 "a") (entry "b" "c")))
+      (return (call Standard.Collection.count d)))))
+(expect (answers 2))

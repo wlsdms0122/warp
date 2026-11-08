@@ -1,0 +1,12 @@
+(test 1)
+(name "an-integer-literal-returned-where-a-double-is-declared-is-the-double")
+(note "A procedure's declared return type is a place, so `2` returned where `Double` is declared is `2.0`.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Double)
+    (body
+      (return 2))))
+(expect (answers 2.0))

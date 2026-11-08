@@ -1,0 +1,17 @@
+(test 1)
+(name "the-text-of-an-enum-value-is-its-cases-spelling-and-fields")
+(note "`Standard.Text.text` reads a value of an enum as the struct it is, so it spells the case's spelling, a space, and the fields by name between braces.")
+
+(program
+  (warp 1)
+  (import Standard.Text.text)
+  (enum App.Target
+    (case local)
+    (case remote (field host String) (field port Int)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let t (type App.Target) (case remote (field host "a") (field port 8080)))
+      (return (call Standard.Text.text t)))))
+(expect (answers "App.Target.remote {host:\"a\",port:8080}"))

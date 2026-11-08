@@ -1,0 +1,91 @@
+(warp 1)
+(import Standard.Collection.appending)
+(import Standard.Collection.count)
+(import Standard.Collection.dropFirst)
+(import Standard.Collection.filter)
+(import Standard.Collection.reduce)
+(import Standard.Collection.sorted)
+(import Standard.Comparable.lessThan)
+(import Standard.Logic.equal)
+(import Standard.Logic.not)
+(import Standard.Numeric.plus)
+
+(struct sort.Answer
+  (field agree Bool)
+  (field quick (array Int))
+  (field sum Int))
+
+(procedure entry
+  (access public)
+  (returns sort.Answer)
+  (failing (anything))
+  (body
+    (let data (array 5 3 9 1 5 8 2 7))
+    (let quick (call sort.quick data))
+    (let standard (call Standard.Collection.sorted data))
+    (return (struct
+        (field agree (call Standard.Logic.equal quick standard))
+        (field quick quick)
+        (field sum
+          (call Standard.Collection.reduce data 0
+            (closure
+              (const)
+              (isolated)
+              (parameter carried (type Int))
+              (parameter item (type Int))
+              (returns Int)
+              (body
+                (return (call Standard.Numeric.plus carried item))))))))))
+
+(procedure sort.join
+  (access private)
+  (const)
+  (isolated)
+  (parameter of (type (array Int)))
+  (parameter value (type (array Int)))
+  (returns (array Int))
+  (failing (anything))
+  (body
+    (return (call Standard.Collection.reduce value of
+        (closure
+          (const)
+          (isolated)
+          (parameter carried (type (array Int)))
+          (parameter item (type Int))
+          (returns (array Int))
+          (body
+            (return (call Standard.Collection.appending carried item))))))))
+
+(procedure sort.quick
+  (access private)
+  (const)
+  (isolated)
+  (parameter of (type (array Int)))
+  (returns (array Int))
+  (failing (anything))
+  (body
+    (conditional
+      (when (call Standard.Comparable.lessThan (call Standard.Collection.count of) 2))
+      (then
+        (return of)))
+    (let pivot (path of (index 0)))
+    (let rest (call Standard.Collection.dropFirst of))
+    (let below
+      (call Standard.Collection.filter rest
+        (closure
+          (const)
+          (isolated)
+          (parameter item (type Int))
+          (returns Bool)
+          (body
+            (return (call Standard.Comparable.lessThan item pivot))))))
+    (let above
+      (call Standard.Collection.filter rest
+        (closure
+          (const)
+          (isolated)
+          (parameter item (type Int))
+          (returns Bool)
+          (body
+            (return (call Standard.Logic.not (call Standard.Comparable.lessThan item pivot)))))))
+    (return (call sort.join (call sort.join (call sort.quick below) (array pivot)) (call sort.quick above)))))

@@ -1,0 +1,21 @@
+(test 1)
+(name "a-type-member-of-a-struct-taking-type-parameters-named-without-brackets-refuses")
+(note "The type before the dot is named as any mention names it, so `App.Wrapper.Item`, where `App.Wrapper` lists type parameters, refuses at the build.")
+
+(program
+  (warp 1)
+  (struct App.Wrapper
+    (typeParameter T)
+    (field item (some T))
+    (type Item (some T)))
+  (procedure App.f
+    (parameter x (type App.Wrapper.Item))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

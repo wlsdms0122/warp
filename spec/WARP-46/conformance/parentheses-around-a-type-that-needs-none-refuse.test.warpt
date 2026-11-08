@@ -1,0 +1,5 @@
+(test 1)
+(name "parentheses-around-a-type-that-needs-none-refuse")
+(note "Parentheses stand before a `?` around a procedure type writing its signature or a modifier, and around a type parameter written with its bound. `Procedure?` says the same as `(Procedure)?` without them, and one type is written one way, so the parentheses refuse at the load.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "let" "f") (entry "type" "(Procedure)?") (entry "value" null)) (dictionary (entry "value" (dictionary (entry "return" (dictionary (entry "ref" "f")))))))) (entry "returns" "Any"))))) (entry "warp" 1)))
+(expect (refuses load))

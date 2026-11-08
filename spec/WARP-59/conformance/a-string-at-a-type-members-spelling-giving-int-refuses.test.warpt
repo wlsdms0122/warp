@@ -1,0 +1,21 @@
+(test 1)
+(name "a-string-at-a-type-members-spelling-giving-int-refuses")
+(note "`App.Box.Item` is an alias of Int, the type App.Box's type member Item gives. A call handing \"a\" to a parameter of it hands a string where Int is declared, so the build refuses.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (field item Int)
+    (type Item Int))
+  (procedure App.take
+    (parameter item (type App.Box.Item))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let taken (call App.take "a"))
+      (return taken))))
+(expect (refuses build))

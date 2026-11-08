@@ -1,0 +1,20 @@
+(test 1)
+(name "a-dictionary-keyed-by-a-declared-struct-claimed-hashable")
+(note "A declared struct conforms to `Hashable` where a document claims it does, and the claim asks no procedures, so a dictionary keyed by the struct builds.")
+
+(program
+  (warp 1)
+  (struct App.Point
+    (satisfies Hashable)
+    (field x Int))
+  (procedure App.f
+    (parameter m (type (dictionary App.Point Int)))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (answers 1))

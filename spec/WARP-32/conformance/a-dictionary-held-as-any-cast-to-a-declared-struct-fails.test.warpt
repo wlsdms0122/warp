@@ -1,0 +1,23 @@
+(test 1)
+(name "a-dictionary-held-as-any-cast-to-a-declared-struct-fails")
+(note "A dictionary arriving where a cast reads a declared struct from a reading of `Any` is no value of it, whatever its keys, so the cast fails with `cast_refused`, which the try catches.")
+
+(program
+  (warp 1)
+  (struct App.P
+    (field x Int))
+  (procedure entry
+    (access public)
+    (parameter payload)
+    (returns (optional String))
+    (body
+      (var tried)
+      (let caught
+        (try
+          (body
+            (let p (as payload App.P)))
+          (catch
+            (set tried (path caught (field type))))))
+      (return tried))))
+(arguments (argument payload (dictionary (entry "x" 1))))
+(expect (answers "cast_refused"))

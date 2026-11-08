@@ -1,0 +1,16 @@
+(test 1)
+(name "ordering-two-readings-of-any-refuses")
+(note "Ordering compares two of one type under Standard.Comparable, and a reading whose type the build does not know refuses at the build: two parameters read as Any, whatever arrives at them.")
+
+(program
+  (warp 1)
+  (import Standard.Comparable.lessThan)
+  (procedure entry
+    (access public)
+    (parameter lhs)
+    (parameter rhs)
+    (returns Bool)
+    (body
+      (return (call Standard.Comparable.lessThan lhs rhs)))))
+(arguments (argument lhs 1) (argument rhs 2))
+(expect (refuses build))

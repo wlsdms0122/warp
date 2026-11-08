@@ -1,0 +1,15 @@
+(warp 1)
+(import Host.get)
+(import Host.put)
+(import d.Cat)
+(import d.Dog)
+(import d.nameOf)
+
+(procedure entry
+  (access public)
+  (returns (array String))
+  (failing aborted cast_refused)
+  (body
+    (call Host.put "pet" (as (struct (field barks true)) d.Dog))
+    (let kept (call Host.get "pet"))
+    (return (array (call d.nameOf (as (struct (field lives 9)) d.Cat)) (call d.nameOf kept) (call d.nameOf 3)))))

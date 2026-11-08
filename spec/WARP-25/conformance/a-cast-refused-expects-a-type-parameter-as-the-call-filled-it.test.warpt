@@ -1,0 +1,26 @@
+(test 1)
+(name "a-cast-refused-expects-a-type-parameter-as-the-call-filled-it")
+(note "A type parameter written inside a cast's type reads as the call filled it, and `expected` is the type the cast reads as, so `Array<some T>` in a call filling `T` with `Int` expects `Array<Int>`.")
+
+(program
+  (warp 1)
+  (procedure App.expected
+    (parameter x (type (some T)))
+    (parameter payload)
+    (returns Any)
+    (body
+      (let caught
+        (try
+          (body
+            (as payload (array (some T))))
+          (catch
+            (return (path caught (field details) (index "expected"))))))
+      (return "no failure")))
+  (procedure entry
+    (access public)
+    (parameter payload)
+    (returns Any)
+    (body
+      (return (call App.expected 1 payload)))))
+(arguments (argument payload "not a list"))
+(expect (answers "Array<Int>"))

@@ -1,0 +1,14 @@
+(test 1)
+(name "the-empty-string-is-a-key")
+(note "A dictionary's key is data, and the empty string is a string, so a write under `\"\"` makes the entry and a read finds it.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var d (type (dictionary String Int)) (dictionary))
+      (set (path d (index "")) 1)
+      (return (path d (index ""))))))
+(expect (answers 1))

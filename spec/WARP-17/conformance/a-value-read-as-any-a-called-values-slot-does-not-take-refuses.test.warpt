@@ -1,0 +1,22 @@
+(test 1)
+(name "a-value-read-as-any-a-called-values-slot-does-not-take-refuses")
+(note "`g` is held at `(App.Point) -> Any`, and its closure takes `Any`. A call of `g` hands its argument at what the slot reads, and `a`, read as `Any`, is no `App.Point` the build can see, so the build refuses, though the closure would take anything.")
+
+(program
+  (warp 1)
+  (struct App.Point
+    (field x Int))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let a (type Any) "s")
+      (let g
+        (type (procedure (parameters App.Point) (returns Any)))
+        (closure
+          (parameter p)
+          (returns Any)
+          (body
+            (return p))))
+      (return (apply g a)))))
+(expect (refuses build))

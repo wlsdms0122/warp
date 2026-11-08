@@ -1,0 +1,15 @@
+(test 1)
+(name "a-struct-listing-no-type-parameters-applied-to-one-refuses")
+(note "`App.Plain` lists no type parameters, so a mention writing brackets applies it to another count, refused at the build.")
+
+(program
+  (warp 1)
+  (struct App.Plain
+    (field x Int))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let p (type (optional (named App.Plain Int))) null)
+      (return 1))))
+(expect (refuses build))

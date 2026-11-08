@@ -1,0 +1,5 @@
+(test 1)
+(name "a-binding-writing-its-type-after-its-value-refuses")
+(note "A binding is its name, then `(type …)` where it writes one, then its value. `(type …)` stands between two operands that stand by position, so it has that place and no other, and `(let x 1 (type Int))` refuses.")
+(text "(warp 1)\n(procedure entry (body (let x 1 (type Int)) (return x)))\n")
+(expect (refuses load))

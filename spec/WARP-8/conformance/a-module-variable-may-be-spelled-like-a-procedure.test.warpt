@@ -1,0 +1,20 @@
+(test 1)
+(name "a-module-variable-may-be-spelled-like-a-procedure")
+(note "A module variable and a procedure spelled alike are two declarations: a reference reads the variable, a `set` writes it, and a call names the procedure. The variable `f` is written 2, the procedure `f` returns 10, and the sum is 12.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (var f (type Int) 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (set f 2)
+      (let called (call f))
+      (return (call Standard.Numeric.plus f called))))
+  (procedure f
+    (returns Int)
+    (body
+      (return 10))))
+(expect (answers 12))

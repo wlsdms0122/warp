@@ -1,0 +1,23 @@
+(test 1)
+(name "a-switch-with-a-way-that-finishes-is-no-leave")
+(note "The `green` arm returns and the `red` arm finishes, so the switch may finish, however its other way ends, and the statement after it is reached. Handed `red`, the entry returns 3.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure entry
+    (access public)
+    (parameter light (type App.Light))
+    (returns Int)
+    (body
+      (switch light
+        (case green
+          (then
+            (return 1)))
+        (case red
+          (then)))
+      (return 3))))
+(arguments (argument light (struct App.Light.red)))
+(expect (answers 3))

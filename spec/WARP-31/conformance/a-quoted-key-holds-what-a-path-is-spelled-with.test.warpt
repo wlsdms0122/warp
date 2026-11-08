@@ -1,0 +1,13 @@
+(test 1)
+(name "a-quoted-key-holds-what-a-path-is-spelled-with")
+(note "Inside the quotes every character is the key's, a dot and a bracket included; a quote is written `\\\"` and a backslash `\\\\`.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let d (type (dictionary String Int)) (dictionary (entry "a.b[0]\"c\\" 1)))
+      (return (path d (index "a.b[0]\"c\\"))))))
+(expect (answers 1))

@@ -1,0 +1,15 @@
+(test 1)
+(name "a-claim-of-hashable-for-an-optional-beside-the-languages-refuses")
+(note "The language claims `Hashable` for every Optional of what conforms to it, under `(some Wrapped: Hashable)?`. A document claiming it for `Int?` claims it under a second head taking other values, and a type conforms to a contract one way, so the claim refuses at the build.")
+
+(program
+  (warp 1)
+  (extension
+    (head (optional Int))
+    (satisfies Hashable))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

@@ -1,0 +1,22 @@
+(test 1)
+(name "a-closure-returning-anything-does-not-fit-a-slot-returning-a-declared-struct-refuses")
+(note "`f` declares it returns `Any`. A slot whose procedure type returns `App.Point` takes only a procedure returning one, and a return type of `Any` is none the build can see, so the build refuses.")
+
+(program
+  (warp 1)
+  (struct App.Point
+    (field x Int))
+  (procedure entry
+    (access public)
+    (returns App.Point)
+    (body
+      (let f
+        (closure
+          (parameter a)
+          (returns Any)
+          (body
+            (return a))))
+      (let c (type (procedure (parameters Any) (returns App.Point))) f)
+      (let r (apply c 1))
+      (return r))))
+(expect (refuses build))

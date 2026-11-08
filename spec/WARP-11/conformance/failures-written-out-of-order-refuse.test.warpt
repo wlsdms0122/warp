@@ -1,0 +1,14 @@
+(test 1)
+(name "failures-written-out-of-order-refuse")
+(note "`failing` lists its failures in name order, so `[b, a]` says `[a, b]` a second way.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (failing b a))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

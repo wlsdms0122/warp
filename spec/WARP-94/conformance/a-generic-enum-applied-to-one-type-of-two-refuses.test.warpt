@@ -1,0 +1,22 @@
+(test 1)
+(name "a-generic-enum-applied-to-one-type-of-two-refuses")
+(note "A mention applies an enum to one type per parameter. `App.Result` takes two, and the parameter applies it to `Int` alone, so the build refuses the mention.")
+
+(program
+  (warp 1)
+  (enum App.Result
+    (typeParameter T)
+    (typeParameter E)
+    (case failure (field error (some E)))
+    (case success (field value (some T))))
+  (procedure App.take
+    (parameter result (type (named App.Result Int)))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

@@ -1,0 +1,26 @@
+(test 1)
+(name "the-object-of-a-cast-to-an-enum")
+(note "The body stands on `App.Light` through a cast, so it numbers `App.Light` in `typeNumbering`, as it would a struct.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (parameter value)
+    (returns Int)
+    (failing cast_refused)
+    (body
+      (let light (as value App.Light))
+      (switch light
+        (case green
+          (then
+            (return 1)))
+        (case red
+          (then
+            (return 2)))))))
+(expect (builds (dictionary (entry "addressTable" (array (array 0 (array) false) (array 1 (array) false))) (entry "claims" (array)) (entry "constants" (array)) (entry "contracts" (array)) (entry "dependencies" (array)) (entry "document" (array x"f2e26795339c1074921a58485ca6454f4a111e73c37dcd2bb6648a5d129e68ef")) (entry "importedClaims" (array)) (entry "lifted" (array)) (entry "loweredTypeTable" (array (array 14 0))) (entry "members" (array)) (entry "numbering" (array (array) (array))) (entry "object" 1) (entry "operationTable" (array (array 1 0) (array 6 0 0 false) (array 1 1) (array 0 0) (array 13 0 (array 3)) (array 0 1) (array 13 0 (array 5)) (array 17 2 "App.Light" (array (array "green" (array) (array (array (array) 4))) (array "red" (array) (array (array (array) 6)))) (array)))) (entry "rows" (array (array "entry" (array (array (array "value" (array))) 0 (array 1 (array "cast_refused")) 1 1 (array) (array)) 2 (array 0 (array (array (array (array 0 1)) 1) (array (array) 7)) (array 2 (array 0) (array) (array) (array) (array "value" "light")))))) (entry "typeMembers" (array)) (entry "typeNumbering" (array "App.Light")) (entry "typeTable" (array (array 4))) (entry "types" (array (array "App.Light" (array 20 (array (array "green" (array)) (array "red" (array))))))) (entry "valueTable" (array (array 2 1) (array 2 2))) (entry "variables" (array)))))

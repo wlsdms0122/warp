@@ -1,0 +1,20 @@
+(test 1)
+(name "a-module-variable-starting-from-what-runs-refuses")
+(note "A module variable folds at the build from const procedures alone, as a constant does. `now` starts from `App.clock`, which is not declared const, so the build refuses it.")
+
+(vocabulary
+  (procedure App.clock
+    (isolated)
+    (returns Int)
+    (answers 7)))
+
+(program
+  (warp 1)
+  (import App.clock)
+  (var now (type Int) (call App.clock))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return now))))
+(expect (refuses build))

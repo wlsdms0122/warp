@@ -1,0 +1,18 @@
+(test 1)
+(name "a-type-no-module-declares-refuses")
+(note "What a name stands for is the build's. The document imports `App.Nope`, so its imports list is what it uses, and no module in the link declares the type, so the build refuses it.")
+
+(program
+  (warp 1)
+  (import App.Nope)
+  (procedure App.f
+    (parameter x (type App.Nope))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

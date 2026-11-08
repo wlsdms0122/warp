@@ -1,0 +1,14 @@
+(test 1)
+(name "imported-claims-written-out-of-order-refuse")
+(note "The claims a document imports stand by the type and then by the contract, so `[T.Card, App.Y]` before `[T.Card, App.X]` is a second spelling of the same list. A document says each thing one way, and this one refuses at the load.")
+
+(program
+  (warp 1)
+  (import T.Card App.Y)
+  (import T.Card App.X)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

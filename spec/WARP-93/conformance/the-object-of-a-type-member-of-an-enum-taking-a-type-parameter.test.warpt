@@ -1,0 +1,35 @@
+(test 1)
+(name "the-object-of-a-type-member-of-an-enum-taking-a-type-parameter")
+(note "`App.Box` takes `T` and gives `App.Container` the type member `Item` as `some T`. `typeMembers` writes `Item` under the bare head `App.Box`, in the enum's own type parameter `T`, as it writes a struct's.")
+
+(program
+  (warp 1)
+  (enum App.Box
+    (typeParameter T)
+    (satisfies App.Container)
+    (case full (field value (some T)))
+    (type Item (some T))
+    (procedure first
+      (const)
+      (isolated)
+      (parameter of (type (named App.Box (some T))))
+      (returns (some T))
+      (body
+        (switch of
+          (case full
+            (bind value v)
+            (then
+              (return v)))))))
+  (contract App.Container
+    (type Item)
+    (procedure first
+      (parameter of (type Self))
+      (returns Self.Item)))
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (builds (dictionary (entry "addressTable" (array (array 0 (array) false) (array 1 (array) false))) (entry "claims" (array (array "App.Box" (array "App.Container")))) (entry "constants" (array)) (entry "contracts" (array (array "App.Container" (array (array "Item") (array) (array (array "first" (array (array (array "of" (array 1))) 2 (array 1 (array)) 0 0 (array) (array)))))))) (entry "dependencies" (array)) (entry "document" (array x"62d4d96115085f70c4b73a31af5f56c9ff62ee99884d00d008b80da57ad7c1d5")) (entry "importedClaims" (array)) (entry "lifted" (array)) (entry "loweredTypeTable" (array)) (entry "members" (array (array "App.Box" (array "first")))) (entry "numbering" (array (array) (array))) (entry "object" 1) (entry "operationTable" (array (array 1 0) (array 1 1) (array 13 0 (array 1)) (array 17 0 "App.Box" (array (array "full" (array (array "value" 1)) (array (array (array) 2)))) (array)) (array 0 0) (array 13 0 (array 4)))) (entry "rows" (array (array "App.Box.first" (array (array (array "of" (array 5))) 6 (array 1 (array)) 1 1 (array) (array)) 1 (array 0 (array (array (array) 3)) (array 2 (array 0) (array) (array) (array) (array "of" "v")))) (array "entry" (array (array) 7 (array 1 (array)) 1 1 (array) (array)) 2 (array 0 (array (array (array) 5)) (array 0 (array) (array) (array) (array) (array)))))) (entry "typeMembers" (array (array "App.Box" (array (array "Item" 3))))) (entry "typeNumbering" (array)) (entry "typeTable" (array (array 15 "T") (array 18) (array 19 "Self" "Item") (array 15 "T") (array 15 "T") (array 14 "App.Box" (array 4)) (array 15 "T") (array 4))) (entry "types" (array (array "App.Box" (array 20 (array (array "full" (array (array "value" 0)))) (array "T") (array))))) (entry "valueTable" (array (array 2 1))) (entry "variables" (array)))))

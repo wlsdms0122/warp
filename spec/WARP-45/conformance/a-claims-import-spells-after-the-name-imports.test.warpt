@@ -1,0 +1,5 @@
+(test 1)
+(name "a-claims-import-spells-after-the-name-imports")
+(note "A document writes the `import`s of names in the order `imports` lists them, then the `import`s of claims in the order `importedClaims` lists them.")
+(text "(warp 1)\n(import Standard.Numeric.plus)\n(import App.Point Hashable)\n")
+(expect (spells (dictionary (entry "importedClaims" (array (array "App.Point" "Hashable"))) (entry "imports" (array "Standard.Numeric.plus")) (entry "warp" 1))))

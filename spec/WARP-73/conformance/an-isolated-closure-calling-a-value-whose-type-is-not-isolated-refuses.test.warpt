@@ -1,0 +1,23 @@
+(test 1)
+(name "an-isolated-closure-calling-a-value-whose-type-is-not-isolated-refuses")
+(note "An isolated body calls a value only where the type written for it is an `isolated` procedure type. `g` is bound to a closure literal that does not say it is isolated, so the closure declaring `isolated` that calls it refuses at the build.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let g
+        (closure
+          (returns Int)
+          (body
+            (return 1))))
+      (let c
+        (closure
+          (isolated)
+          (returns Int)
+          (body
+            (return (apply g)))))
+      (return 1))))
+(expect (refuses build))

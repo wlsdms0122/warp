@@ -1,0 +1,14 @@
+(test 1)
+(name "a-write-at-a-position-a-list-does-not-hold-refuses")
+(note "A write lands on a position the list holds, and one landing on any other position refuses at the run. `xs` holds two elements and the write lands at position 2, so it refuses rather than appends.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (body
+      (var xs (array 1 2))
+      (set (path xs (index 2)) 3)
+      (return xs))))
+(expect (refuses run))

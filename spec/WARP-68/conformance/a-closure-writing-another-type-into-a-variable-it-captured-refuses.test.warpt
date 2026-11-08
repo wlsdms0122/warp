@@ -1,0 +1,19 @@
+(test 1)
+(name "a-closure-writing-another-type-into-a-variable-it-captured-refuses")
+(note "A variable a closure captured is held to the type it read as there, and a write into it is judged against that type. `x` reads `Int` where the closure captures it, so the closure's write of a string refuses at the build.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var x 1)
+      (let c
+        (closure
+          (returns Int)
+          (body
+            (set x "s")
+            (return 1))))
+      (return x))))
+(expect (refuses build))

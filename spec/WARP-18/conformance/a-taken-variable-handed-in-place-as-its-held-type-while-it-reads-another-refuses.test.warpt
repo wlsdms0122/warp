@@ -1,0 +1,38 @@
+(test 1)
+(name "a-taken-variable-handed-in-place-as-its-held-type-while-it-reads-another-refuses")
+(note "One arm lets a closure capture the Int variable x and the other writes null into it, so after the conditional x is held to Int and reads Int?. Handed in place to an inout Int slot, the body would read a box that may hold null as Int.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure App.clear
+    (parameter v (type (inout Int)))
+    (returns Int)
+    (body
+      (set v 1)
+      (return 0)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var x 0)
+      (var keep
+        (type (procedure (parameters) (returns Int)))
+        (closure
+          (returns Int)
+          (body
+            (return 0))))
+      (conditional
+        (when true)
+        (then
+          (set keep
+            (closure
+              (returns Int)
+              (body
+                (return (call Standard.Numeric.plus x 1))))))
+        (else
+          (set x null)))
+      (call App.clear x)
+      (let r (apply keep))
+      (return r))))
+(expect (refuses build))

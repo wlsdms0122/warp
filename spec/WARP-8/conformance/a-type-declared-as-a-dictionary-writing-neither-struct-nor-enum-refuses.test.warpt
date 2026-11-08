@@ -1,0 +1,5 @@
+(test 1)
+(name "a-type-declared-as-a-dictionary-writing-neither-struct-nor-enum-refuses")
+(note "A type a document declares is a dictionary writing `struct`, one writing `enum`, or a type's string. `App.T` writes `typeParameters` alone, which a struct's declaration may write beside `struct`, and is none of the three.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" 1)))))) (entry "returns" "Int"))))) (entry "types" (dictionary (entry "App.T" (dictionary (entry "typeParameters" (array "T")))))) (entry "warp" 1)))
+(expect (refuses load))

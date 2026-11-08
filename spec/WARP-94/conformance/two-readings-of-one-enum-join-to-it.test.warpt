@@ -1,0 +1,23 @@
+(test 1)
+(name "two-readings-of-one-enum-join-to-it")
+(note "`a` and `b` are both read as `App.Light`, and two readings of one enum join to it. The list reads `Array<App.Light>`, so `App.last` takes it and returns its last element.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure App.last
+    (parameter lights (type (array App.Light)))
+    (returns App.Light)
+    (body
+      (return (path lights (index 1)))))
+  (procedure entry
+    (access public)
+    (returns App.Light)
+    (body
+      (let a (type App.Light) (case green))
+      (let b (type App.Light) (case red))
+      (let lights (array a b))
+      (return (call App.last lights)))))
+(expect (answers (struct App.Light.red)))

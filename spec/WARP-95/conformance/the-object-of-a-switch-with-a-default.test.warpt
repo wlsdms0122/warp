@@ -1,0 +1,24 @@
+(test 1)
+(name "the-object-of-a-switch-with-a-default")
+(note "The switch names one arm and a `default`, which operation 17 writes last as an instruction list in a list of one. A switch with no `default` writes an empty list there, and one whose `default` holds no statement a list holding an empty instruction list.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red)
+    (case yellow))
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (parameter light (type App.Light))
+    (returns Int)
+    (body
+      (switch light
+        (case green
+          (then
+            (return 1)))
+        (default
+          (return 0))))))
+(expect (builds (dictionary (entry "addressTable" (array (array 0 (array) false))) (entry "claims" (array)) (entry "constants" (array)) (entry "contracts" (array)) (entry "dependencies" (array)) (entry "document" (array x"f04ccc369bcde0641b33490938f59b9185f6416877b918ae45eaae5bd9d214d1")) (entry "importedClaims" (array)) (entry "lifted" (array)) (entry "loweredTypeTable" (array)) (entry "members" (array)) (entry "numbering" (array (array) (array))) (entry "object" 1) (entry "operationTable" (array (array 1 0) (array 0 0) (array 13 0 (array 1)) (array 0 1) (array 13 0 (array 3)) (array 17 0 "App.Light" (array (array "green" (array) (array (array (array) 2)))) (array (array (array (array) 4)))))) (entry "rows" (array (array "entry" (array (array (array "light" (array 0))) 1 (array 1 (array)) 1 1 (array) (array)) 2 (array 0 (array (array (array) 5)) (array 1 (array 0) (array) (array) (array) (array "light")))))) (entry "typeMembers" (array)) (entry "typeNumbering" (array)) (entry "typeTable" (array (array 14 "App.Light") (array 4))) (entry "types" (array (array "App.Light" (array 20 (array (array "green" (array)) (array "red" (array)) (array "yellow" (array))))))) (entry "valueTable" (array (array 2 1) (array 2 0))) (entry "variables" (array)))))

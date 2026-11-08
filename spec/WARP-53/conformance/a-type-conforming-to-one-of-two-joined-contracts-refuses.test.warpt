@@ -1,0 +1,22 @@
+(test 1)
+(name "a-type-conforming-to-one-of-two-joined-contracts-refuses")
+(note "`A & B` takes a value of whatever type conforms to every contract named. `Int` is claimed for `App.A` alone, so handing `1` where `App.A & App.B` is declared refuses at the build.")
+
+(program
+  (warp 1)
+  (contract App.A)
+  (contract App.B)
+  (extension
+    (head Int)
+    (satisfies App.A))
+  (procedure App.f
+    (parameter v (type (composition App.A App.B)))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.f 1)))))
+(expect (refuses build))

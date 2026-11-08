@@ -1,0 +1,25 @@
+(test 1)
+(name "a-write-whose-value-writes-its-head-lands-where-the-head-then-holds")
+(note "The value is computed before the write lands, and may itself write the head, so a path write lands where the head holds after the value. `w.p` holds the key `2`; the value hands `w` in place to a procedure that empties its dictionary, so the key `1` is written into the empty dictionary and the dictionary holds one key.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.count)
+  (struct App.A
+    (field p (var (dictionary Int Int))))
+  (procedure App.emptied
+    (parameter of (type (inout App.A)))
+    (returns Int)
+    (failing cast_refused)
+    (body
+      (set (path of (field p)) (as (dictionary) (dictionary Int Int)))
+      (return 5)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing cast_refused)
+    (body
+      (var w (type App.A) (struct (field p (dictionary (entry 2 1)))))
+      (set (path w (field p) (index 1)) (call App.emptied w))
+      (return (call Standard.Collection.count (path w (field p)))))))
+(expect (answers 1))

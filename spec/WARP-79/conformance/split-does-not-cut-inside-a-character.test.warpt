@@ -1,0 +1,14 @@
+(test 1)
+(name "split-does-not-cut-inside-a-character")
+(note "A string looked for matches whole characters. A carriage return and a line feed are one character, so a line feed alone stands nowhere in a string that holds the two together, and split returns the string whole.")
+
+(program
+  (warp 1)
+  (import Standard.Text.split)
+  (procedure entry
+    (access public)
+    (returns (array String))
+    (failing aborted)
+    (body
+      (return (call Standard.Text.split "a\r\nb" "\n")))))
+(expect (answers (array "a\r\nb")))

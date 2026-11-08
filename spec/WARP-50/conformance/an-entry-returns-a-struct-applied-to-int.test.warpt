@@ -1,0 +1,16 @@
+(test 1)
+(name "an-entry-returns-a-struct-applied-to-int")
+(note "An entry declaring `App.Box<Int>` returns the struct with its fields; the value carries the name and not what it was applied to.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (procedure entry
+    (access public)
+    (returns (named App.Box Int))
+    (body
+      (let b (type (named App.Box Int)) (struct (field item 1)))
+      (return b))))
+(expect (answers (struct App.Box (field item 1))))

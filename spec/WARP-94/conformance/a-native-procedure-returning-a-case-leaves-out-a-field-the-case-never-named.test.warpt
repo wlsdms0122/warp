@@ -1,0 +1,22 @@
+(test 1)
+(name "a-native-procedure-returning-a-case-leaves-out-a-field-the-case-never-named")
+(note "`App.pick` is declared to return `App.Light`, and the host answers `App.Light.red` carrying a field `x` the case never named. The door fits the value to its case and leaves `x` out, so the entry returns `red` carrying nothing.")
+
+(vocabulary
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure App.pick
+    (returns App.Light)
+    (answers (struct App.Light.red (field x 1)))))
+
+(program
+  (warp 1)
+  (import App.Light)
+  (import App.pick)
+  (procedure entry
+    (access public)
+    (returns App.Light)
+    (body
+      (return (call App.pick)))))
+(expect (answers (struct App.Light.red)))

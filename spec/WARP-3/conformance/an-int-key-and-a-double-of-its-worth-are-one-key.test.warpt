@@ -1,0 +1,15 @@
+(test 1)
+(name "an-int-key-and-a-double-of-its-worth-are-one-key")
+(note "A dictionary's keys are found by the value model's sameness, so the integer `1` and the floating-point number `1.0` are one key: the second entry writes over the first, and the dictionary holds one. `one` and `fraction` are read as `Hashable`, a contract, so no key is an integer literal beside a floating-point number and each is what its name holds, and `count`, whose row takes a dictionary under any key its bound holds to `Hashable`, counts the dictionary they made.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.count)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let one (type Hashable) 1)
+      (let fraction (type Hashable) 1.0)
+      (return (call Standard.Collection.count (dictionary (entry one "a") (entry fraction "b")))))))
+(expect (answers 1))

@@ -1,0 +1,24 @@
+(test 1)
+(name "a-value-of-another-enum-at-an-enum-slot-refuses")
+(note "`App.Light` and `App.Signal` declare cases of one name, and two enums are two types by name. `signal` is read as `App.Signal`, which `App.Light` does not take, so the build refuses the call.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (enum App.Signal
+    (case green)
+    (case red))
+  (procedure App.take
+    (parameter light (type App.Light))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let signal (type App.Signal) (case red))
+      (return (call App.take signal)))))
+(expect (refuses build))

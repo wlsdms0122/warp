@@ -1,0 +1,26 @@
+(test 1)
+(name "a-side-not-saying-it-is-isolated-handed-to-and-refuses")
+(note "`Standard.Logic.and` takes sides that touch nothing, written `const isolated`, and the side handed second says only that it is const, so it refuses where it is handed.")
+
+(program
+  (warp 1)
+  (import Standard.Logic.and)
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (body
+      (return
+        (call Standard.Logic.and
+          (array
+            (closure
+              (const)
+              (isolated)
+              (returns Bool)
+              (body
+                (return true)))
+            (closure
+              (const)
+              (returns Bool)
+              (body
+                (return true)))))))))
+(expect (refuses build))

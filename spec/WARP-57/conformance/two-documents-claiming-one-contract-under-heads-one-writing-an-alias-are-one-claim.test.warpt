@@ -1,0 +1,36 @@
+(test 1)
+(name "two-documents-claiming-one-contract-under-heads-one-writing-an-alias-are-one-claim")
+(note "Two documents claiming one type a contract under heads that take the same values are one claim, one written through an alias among them. `App.Num` is an alias of `Int`, so `Array<App.Num>` takes every list of integers, as `Array<Int>` does, and the second claim says what the first said.")
+
+(documents
+  (document
+    (warp 1)
+    (contract App.Describable
+      (procedure describe
+        (parameter of (type Self))
+        (returns String)))
+    (extension
+      (head (array Int))
+      (satisfies App.Describable)
+      (procedure describe
+        (access public)
+        (parameter of (type (array Int)))
+        (returns String)
+        (body
+          (return "ints"))))))
+
+(program
+  (warp 1)
+  (import App.Describable)
+  (import App.Describable.describe)
+  (type App.Num Int)
+  (extension
+    (head (array App.Num))
+    (satisfies App.Describable))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let b (type (array Int)) (array 1))
+      (return (call App.Describable.describe b)))))
+(expect (answers "ints"))

@@ -1,0 +1,22 @@
+(test 1)
+(name "a-vocabulary-imports-the-contract-a-bound-names")
+(note "A vocabulary is a module and lists what it uses under `imports`, as any module does, so a procedure the host brings may bound a type parameter by `Standard.Numeric`. The program sends `App.h` an integer, which conforms to the bound, and `App.h` returns 6.")
+
+(vocabulary
+  (import Standard.Numeric)
+  (procedure App.h
+    (const)
+    (isolated)
+    (parameter first (type (some T Standard.Numeric)))
+    (returns (some T))
+    (answers 6)))
+
+(program
+  (warp 1)
+  (import App.h)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.h 5)))))
+(expect (answers 6))

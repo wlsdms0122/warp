@@ -1,0 +1,53 @@
+(test 1)
+(name "a-constant-folds-through-a-claim-a-document-it-names-stands-on")
+(note "A constant folds through a contract where the claim stands in a document its document stands on, near or far. The claim is `T.Card`'s, in a document the program does not name and `K.probe`'s document does, so the cast in the fold finds it and the constant folds to \"card\".")
+
+(documents
+  (document
+    (warp 1)
+    (contract App.Describable
+      (procedure describe
+        (parameter of (type Self))
+        (returns String))))
+  (document
+    (warp 1)
+    (import App.Describable)
+    (struct T.Card
+      (satisfies App.Describable)
+      (field rank Int)
+      (procedure describe
+        (const)
+        (isolated)
+        (parameter of (type T.Card))
+        (returns String)
+        (body
+          (return "card")))))
+  (document
+    (warp 1)
+    (import App.Describable)
+    (import T.Card)
+    (procedure K.probe
+      (access public)
+      (const)
+      (isolated)
+      (returns String)
+      (failing cast_refused)
+      (body
+        (let two (type Any) (as (struct (field rank 1)) T.Card))
+        (let d
+          (unwrap
+            (as? two App.Describable)
+            (else
+              (return "none"))))
+        (return "card")))))
+
+(program
+  (warp 1)
+  (import K.probe)
+  (const folded (call K.probe))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (return folded))))
+(expect (answers "card"))

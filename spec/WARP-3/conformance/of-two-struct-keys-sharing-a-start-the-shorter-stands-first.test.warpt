@@ -1,0 +1,5 @@
+(test 1)
+(name "of-two-struct-keys-sharing-a-start-the-shorter-stands-first")
+(note "Two structs of one name compare field by field, and of two sharing a start the shorter comes first, as two arrays do, so the struct holding `a` alone stands before the one holding `a` and `b`.")
+(bytes x"574152500107020903412e500101610312000903412e5002016103120162030000")
+(expect (spells (dictionary (entry (struct A.P (field a 9)) null) (entry (struct A.P (field a 9) (field b 0)) null))))

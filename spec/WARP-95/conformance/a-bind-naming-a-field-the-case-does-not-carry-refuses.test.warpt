@@ -1,0 +1,24 @@
+(test 1)
+(name "a-bind-naming-a-field-the-case-does-not-carry-refuses")
+(note "`remote` carries `host` and `port`, and the arm binds `tls`, which it does not carry. Which fields a case carries is read off the declaration, so the build refuses it.")
+
+(program
+  (warp 1)
+  (enum App.Target
+    (case local)
+    (case remote (field host String) (field port Int)))
+  (procedure entry
+    (access public)
+    (parameter target (type App.Target))
+    (returns Int)
+    (body
+      (switch target
+        (case local
+          (then
+            (return 0)))
+        (case remote
+          (bind tls t)
+          (then
+            (return 1)))))))
+(arguments (argument target (struct App.Target.remote (field host "a") (field port 8080))))
+(expect (refuses build))

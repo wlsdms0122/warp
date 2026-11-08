@@ -1,0 +1,25 @@
+(warp 1)
+(import Standard.Collection.appending)
+(import Standard.Collection.count)
+(import Standard.Comparable.lessThan)
+(import Standard.Numeric.plus)
+(var handlers (type (array (procedure (parameters) (returns Int)))) (array))
+
+(procedure reg.add
+  (parameter f (type (procedure (parameters) (returns Int))))
+  (body
+    (set handlers (call Standard.Collection.appending handlers f))))
+
+(procedure reg.fire
+  (returns (array Int))
+  (body
+    (var i 0)
+    (var out (type (array Int)) (array))
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan i (call Standard.Collection.count handlers)))
+        (body
+          (let got (apply (path handlers (index i))))
+          (set out (call Standard.Collection.appending out got))
+          (set i (call Standard.Numeric.plus i 1)))))
+    (return out)))

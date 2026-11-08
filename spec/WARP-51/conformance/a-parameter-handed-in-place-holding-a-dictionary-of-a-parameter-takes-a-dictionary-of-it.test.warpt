@@ -1,0 +1,21 @@
+(test 1)
+(name "a-parameter-handed-in-place-holding-a-dictionary-of-a-parameter-takes-a-dictionary-of-it")
+(note "App.gen takes Dictionary<String, some T> in place and writes a dictionary literal of its own some T into it. A dictionary literal whose every value the entry takes is such a dictionary.")
+
+(program
+  (warp 1)
+  (procedure App.gen
+    (parameter x (type (inout (dictionary String (some T)))))
+    (parameter y (type (some T)))
+    (returns Int)
+    (body
+      (set x (dictionary (entry "a" y)))
+      (return 0)))
+  (procedure entry
+    (access public)
+    (returns (dictionary String String))
+    (body
+      (var s (type (dictionary String String)) (dictionary (entry "a" "z")))
+      (let r (call App.gen s "b"))
+      (return s))))
+(expect (answers (dictionary (entry "a" "b"))))

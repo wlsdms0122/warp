@@ -1,0 +1,13 @@
+(test 1)
+(name "a-mention-of-some-refuses")
+(note "`Some` is a struct the language declares and only the language writes: it is how a value is held, and no type a program reads. The parameter names it, so the load refuses the program.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter a (type Some))
+    (returns Any)
+    (body
+      (return a))))
+(expect (refuses load))

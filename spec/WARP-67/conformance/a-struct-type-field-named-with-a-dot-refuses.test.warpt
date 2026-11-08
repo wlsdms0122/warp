@@ -1,0 +1,14 @@
+(test 1)
+(name "a-struct-type-field-named-with-a-dot-refuses")
+(note "A field of a struct type is called by a value's name, an identifier, which holds no dot, so a field named `a.b` refuses at the load. A path would read it as two steps.")
+
+(program
+  (warp 1)
+  (struct App.T
+    (field a.b Int))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

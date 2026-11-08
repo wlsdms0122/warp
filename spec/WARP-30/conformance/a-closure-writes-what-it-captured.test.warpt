@@ -1,0 +1,19 @@
+(test 1)
+(name "a-closure-writes-what-it-captured")
+(note "A variable's box is one thing under one name everywhere the name is visible, and a closure's body is one of those places. Calling the closure writes the box the enclosing body reads.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (body
+      (var tally 0)
+      (let held
+        (closure
+          (body
+            (set tally 1))))
+      (apply held)
+      (return tally))))
+(expect (answers 1))

@@ -1,0 +1,11 @@
+(warp 1)
+(import Standard.Numeric.plus)
+(import a.x)
+(import a.y)
+(import b.a.x)
+
+(procedure entry
+  (access public)
+  (returns Int)
+  (body
+    (return (call Standard.Numeric.plus (call Standard.Numeric.plus (call a.x) (call a.y)) (call b.a.x)))))

@@ -1,0 +1,32 @@
+(test 1)
+(name "a-constant-folding-to-a-closure-holding-a-variable-of-its-run-refuses")
+(note "What folds at the build folds to a value, and a compiled document carries no box of the build's run. `K.make` returns a closure that captured its own `var n`, so a constant folding to it refuses at the build.")
+
+(documents
+  (document
+    (warp 1)
+    (procedure K.make
+      (const)
+      (isolated)
+      (returns (procedure (const) (isolated) (parameters) (returns Int)))
+      (body
+        (var n 1)
+        (return
+          (closure
+            (const)
+            (isolated)
+            (returns Int)
+            (body
+              (return n))))))))
+
+(program
+  (warp 1)
+  (import K.make)
+  (const f (call K.make))
+  (procedure entry
+    (access public)
+    (const)
+    (returns Int)
+    (body
+      (return (apply f)))))
+(expect (refuses build))

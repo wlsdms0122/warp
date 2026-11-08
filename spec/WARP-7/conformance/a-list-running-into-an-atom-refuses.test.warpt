@@ -1,0 +1,5 @@
+(test 1)
+(name "a-list-running-into-an-atom-refuses")
+(note "An element is followed by white space, a parenthesis or the end, a list as much as an atom. `(array)1` is not a list and an integer laid out close together.")
+(text "(warp 1)\n(const a (array (array)1))\n")
+(expect (refuses load))

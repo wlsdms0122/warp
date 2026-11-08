@@ -1,0 +1,13 @@
+(test 1)
+(name "uppercased-uses-unicode-full-case-mapping")
+(note "Case mapping is Unicode's full default mapping, so a character may map to more than one: `ß` uppercases to `SS`.")
+
+(program
+  (warp 1)
+  (import Standard.Text.uppercased)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (return (call Standard.Text.uppercased "ß")))))
+(expect (answers "SS"))

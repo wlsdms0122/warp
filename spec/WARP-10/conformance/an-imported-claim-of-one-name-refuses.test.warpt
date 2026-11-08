@@ -1,0 +1,5 @@
+(test 1)
+(name "an-imported-claim-of-one-name-refuses")
+(note "A claim imported is its pair, the type and the contract it is about. An entry of one name is no claim, and refuses at the load.")
+(tree (dictionary (entry "importedClaims" (array (array "T.Card"))) (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" 1)))))) (entry "returns" "Int"))))) (entry "warp" 1)))
+(expect (refuses load))

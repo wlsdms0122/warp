@@ -1,0 +1,34 @@
+(warp 1)
+(import IO.write)
+(import Standard.Text.joined)
+(import Standard.Text.text)
+(import flow.Outcome)
+(import flow.Runnable)
+(import flow.succeeded)
+(import state.get)
+
+(struct flow.Print
+  (satisfies flow.Runnable)
+  (field from String)
+  (field id String)
+  (procedure describe
+    (const)
+    (parameter of (type flow.Print))
+    (returns String)
+    (body
+      (return (call Standard.Text.joined (array "print " (path of (field from))) ""))))
+  (procedure run
+    (parameter of (type flow.Print))
+    (returns flow.Outcome)
+    (failing cast_refused)
+    (body
+      (let value (call state.get (path of (field from))))
+      (call IO.write (call Standard.Text.joined (array "  " (path of (field from)) " -> " (call Standard.Text.text value) "\n") ""))
+      (return (call flow.succeeded (path of (field id)) value "printed")))))
+
+(procedure flow.Print.parse
+  (parameter of (type (dictionary String Any)))
+  (returns flow.Print)
+  (failing cast_refused)
+  (body
+    (return (as (struct (field from (as (path of (index "from")) String)) (field id (as (path of (index "id")) String))) flow.Print))))

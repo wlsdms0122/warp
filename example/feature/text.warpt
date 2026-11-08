@@ -1,0 +1,57 @@
+(warp 1)
+(import Standard.Collection.count)
+(import Standard.Collection.reversed)
+(import Standard.Collection.setting)
+(import Standard.Comparable.lessThan)
+(import Standard.Logic.equal)
+(import Standard.Numeric.plus)
+(import Standard.Text.characters)
+(import Standard.Text.joined)
+(import Standard.Text.lowercased)
+(import Standard.Text.split)
+(import Standard.Text.uppercased)
+
+(struct text.Answer
+  (field counts (dictionary String Int))
+  (field notPalindrome Bool)
+  (field palindrome Bool)
+  (field shout String))
+
+(procedure entry
+  (access public)
+  (returns text.Answer)
+  (failing aborted cast_refused)
+  (body
+    (return (struct (field counts (call text.counts "the cat and the hat and the bat")) (field notPalindrome (call text.isPalindrome "Warp")) (field palindrome (call text.isPalindrome "Racecar")) (field shout (call Standard.Text.uppercased "warp"))))))
+
+(procedure text.counts
+  (access private)
+  (parameter of (type String))
+  (returns (dictionary String Int))
+  (failing aborted cast_refused)
+  (body
+    (let words (call Standard.Text.split of " "))
+    (var tally (type (dictionary String Int)) (dictionary))
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Collection.count words)))
+        (body
+          (let word (path words (index (path walk (field index)))))
+          (let seen (path tally (index? word)))
+          (var n (type Int) 0)
+          (conditional
+            (when (call Standard.Logic.equal seen null))
+            (then
+              (set n 1))
+            (else
+              (set n (call Standard.Numeric.plus (as seen Int) 1))))
+          (set tally (call Standard.Collection.setting tally word n)))))
+    (return tally)))
+
+(procedure text.isPalindrome
+  (access private)
+  (parameter of (type String))
+  (returns Bool)
+  (body
+    (let chars (call Standard.Text.characters (call Standard.Text.lowercased of)))
+    (return (call Standard.Logic.equal (call Standard.Text.joined chars "") (call Standard.Text.joined (call Standard.Collection.reversed chars) "")))))

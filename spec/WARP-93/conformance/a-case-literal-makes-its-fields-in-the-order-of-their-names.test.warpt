@@ -1,0 +1,28 @@
+(test 1)
+(name "a-case-literal-makes-its-fields-in-the-order-of-their-names")
+(note "A case literal makes its fields in the order of their names. Handed `true`, both fields' casts fail, and `a` is made before `b`, so the failure the catch reads is the cast to `Int`.")
+
+(program
+  (warp 1)
+  (enum App.Pair
+    (case both (field a Int) (field b String)))
+  (procedure App.make
+    (parameter v)
+    (returns App.Pair)
+    (failing cast_refused)
+    (body
+      (return (case both (field a (as v Int)) (field b (as v String))))))
+  (procedure entry
+    (access public)
+    (parameter v)
+    (returns Any)
+    (body
+      (let caught
+        (try
+          (body
+            (call App.make v))
+          (catch
+            (return (path caught (field details) (index "expected"))))))
+      (return "no failure"))))
+(arguments (argument v true))
+(expect (answers "Int"))

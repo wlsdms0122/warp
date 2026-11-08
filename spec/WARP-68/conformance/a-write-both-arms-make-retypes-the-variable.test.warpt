@@ -1,0 +1,21 @@
+(test 1)
+(name "a-write-both-arms-make-retypes-the-variable")
+(note "A write every finishing way makes is definite: whichever arm ran, the name holds an int, so returning it where Int is declared builds.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter ready (type Bool))
+    (returns Int)
+    (body
+      (var kept)
+      (conditional
+        (when ready)
+        (then
+          (set kept 1))
+        (else
+          (set kept 2)))
+      (return kept))))
+(arguments (argument ready false))
+(expect (answers 2))

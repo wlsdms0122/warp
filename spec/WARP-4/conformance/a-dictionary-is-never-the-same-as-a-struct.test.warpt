@@ -1,0 +1,17 @@
+(test 1)
+(name "a-dictionary-is-never-the-same-as-a-struct")
+(note "A struct holds the name of the struct it is, and a dictionary holds none: an `App.P` holding `1` in `x` and a dictionary holding `1` under the string `\"x\"` are two values, so `equal` returns false.")
+
+(program
+  (warp 1)
+  (import Standard.Logic.equal)
+  (struct App.P
+    (field x Int))
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (body
+      (let point (type App.P) (struct (field x 1)))
+      (let dictionary (type (dictionary String Int)) (dictionary (entry "x" 1)))
+      (return (call Standard.Logic.equal point dictionary)))))
+(expect (answers false))

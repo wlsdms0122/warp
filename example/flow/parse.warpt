@@ -1,0 +1,27 @@
+(warp 1)
+(import JSON.parse)
+(import Standard.Collection.appending)
+(import Standard.Collection.count)
+(import Standard.Comparable.lessThan)
+(import Standard.Numeric.plus)
+(import flow.Plan)
+(import flow.Runnable)
+(import registry.make)
+
+(procedure parse.plan
+  (parameter text (type String))
+  (returns flow.Plan)
+  (failing aborted cast_refused json_failed)
+  (body
+    (let parsed (as (call JSON.parse text) (dictionary String Any)))
+    (let raw (as (path parsed (index "steps")) (array Any)))
+    (var steps (type (array flow.Runnable)) (array))
+    (var i 0)
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan i (call Standard.Collection.count raw)))
+        (body
+          (let step (call registry.make (as (path raw (index i)) (dictionary String Any))))
+          (set steps (call Standard.Collection.appending steps step))
+          (set i (call Standard.Numeric.plus i 1)))))
+    (return (as (struct (field name (as (path parsed (index "name")) String)) (field steps steps)) flow.Plan))))

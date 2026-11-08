@@ -1,0 +1,26 @@
+(test 1)
+(name "a-const-body-calling-a-value-cast-to-a-const-procedure-type")
+(note "The type written for a value includes the type a cast names. `App.run` is const and calls what its `Procedure` slot holds once a cast names it a `const` procedure type, so the call stands and returns 1.")
+
+(program
+  (warp 1)
+  (procedure App.run
+    (const)
+    (parameter g (type Procedure))
+    (returns Int)
+    (failing (anything))
+    (body
+      (return (apply (as g (procedure (const) (parameters) (returns Int)))))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (body
+      (return
+        (call App.run
+          (closure
+            (const)
+            (returns Int)
+            (body
+              (return 1))))))))
+(expect (answers 1))

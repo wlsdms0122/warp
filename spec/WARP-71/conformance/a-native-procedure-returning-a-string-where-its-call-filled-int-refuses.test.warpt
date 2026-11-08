@@ -1,0 +1,21 @@
+(test 1)
+(name "a-native-procedure-returning-a-string-where-its-call-filled-int-refuses")
+(note "What a native procedure hands back at a type parameter is judged at the door against what its call filled there. `App.h` returns `some T`, the call fills `T` with `Int`, and the host's procedure hands back a string, so the run refuses there.")
+
+(vocabulary
+  (procedure App.h
+    (const)
+    (isolated)
+    (parameter first (type (some T)))
+    (returns (some T))
+    (answers "s")))
+
+(program
+  (warp 1)
+  (import App.h)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.h 5)))))
+(expect (refuses run))

@@ -1,0 +1,34 @@
+(test 1)
+(name "a-value-of-a-contract-inside-a-list-at-a-bounded-parameter-refuses")
+(note "A bounded parameter is one type wherever it stands, and a list of values of a contract holds values of whichever types conform to it. A value of a contract fills a bounded parameter only where the parameter stands alone at one position, so one handed as a list's element is refused at the build.")
+
+(program
+  (warp 1)
+  (contract App.Described
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head Int)
+    (satisfies App.Described)
+    (procedure describe
+      (parameter of (type Int))
+      (returns String)
+      (body
+        (return "a whole number"))))
+  (procedure App.first
+    (parameter xs (type (array (some T App.Described))))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure App.wrap
+    (parameter x (type App.Described))
+    (returns Int)
+    (body
+      (return (call App.first (array x)))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.wrap 1)))))
+(expect (refuses build))

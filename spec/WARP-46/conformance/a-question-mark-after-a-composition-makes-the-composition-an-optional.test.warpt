@@ -1,0 +1,22 @@
+(test 1)
+(name "a-question-mark-after-a-composition-makes-the-composition-an-optional")
+(note "A `?` after the names `&` joins stands after the whole composition, so `App.A & App.B?` is the Optional of `App.A & App.B`. Null stands there, and `App.f` hands it back.")
+
+(program
+  (warp 1)
+  (contract App.A)
+  (contract App.B)
+  (extension
+    (head Int)
+    (satisfies App.A App.B))
+  (procedure App.f
+    (parameter x (type (optional (composition App.A App.B))))
+    (returns (optional (composition App.A App.B)))
+    (body
+      (return x)))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (return (call App.f null)))))
+(expect (answers null))

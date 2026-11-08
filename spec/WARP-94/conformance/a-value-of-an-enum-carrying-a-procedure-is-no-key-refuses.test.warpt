@@ -1,0 +1,23 @@
+(test 1)
+(name "a-value-of-an-enum-carrying-a-procedure-is-no-key-refuses")
+(note "`App.Task` claims `Hashable`, so a dictionary keyed by it builds, and its case `run` carries a procedure. A value holding a procedure is no key, so the run making a dictionary keyed by one refuses.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.count)
+  (enum App.Task
+    (satisfies Hashable)
+    (case idle)
+    (case run (field f (procedure (parameters) (returns Int)))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let g
+        (closure
+          (returns Int)
+          (body
+            (return 1))))
+      (let d (type (dictionary App.Task Int)) (dictionary (entry (case run (field f g)) 1)))
+      (return (call Standard.Collection.count d)))))
+(expect (refuses run))

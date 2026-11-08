@@ -1,0 +1,22 @@
+(test 1)
+(name "a-loop-with-no-while-binds-its-round-under-its-name")
+(note "A loop written with no `while` takes a name all the same, since the name binds its round inside it and nothing after it. The round's index counts the rounds finished, and the sixth round returns.")
+
+(program
+  (warp 1)
+  (import Standard.Comparable.lessThan)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var i (type Int) 0)
+      (let walk
+        (loop
+          (body
+            (conditional
+              (when (call Standard.Comparable.lessThan 4 (path walk (field index))))
+              (then
+                (return i)))
+            (set i (call Standard.Numeric.plus i 1))))))))
+(expect (answers 5))

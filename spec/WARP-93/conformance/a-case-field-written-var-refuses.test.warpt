@@ -1,0 +1,15 @@
+(test 1)
+(name "a-case-field-written-var-refuses")
+(note "Nothing writes into a value of an enum through a path, and `var` is written on a field of a struct and nowhere else, so the field `port` written `var Int` refuses at the load.")
+
+(program
+  (warp 1)
+  (enum App.Target
+    (case local)
+    (case remote (field port (var Int))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

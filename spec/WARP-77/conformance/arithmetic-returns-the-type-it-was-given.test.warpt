@@ -1,0 +1,18 @@
+(test 1)
+(name "arithmetic-returns-the-type-it-was-given")
+(note "An integer added to an integer returns an integer, so the return value fits a slot asking for one. The two sides and the return value are one type parameter bounded by `Standard.Numeric`.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call wants (call Standard.Numeric.plus 1 2)))))
+  (procedure wants
+    (parameter it (type Int))
+    (returns Int)
+    (body
+      (return it))))
+(expect (answers 3))

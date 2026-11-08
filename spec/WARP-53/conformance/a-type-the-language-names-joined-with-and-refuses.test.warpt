@@ -1,0 +1,17 @@
+(test 1)
+(name "a-type-the-language-names-joined-with-and-refuses")
+(note "A part joined with `&` is a contract, and a type the language names joined with `&` refuses at the load. `Int` is one, so `App.Text & Int` refuses where the document is read, though `Int` conforms to `App.Text`.")
+
+(program
+  (warp 1)
+  (contract App.Text)
+  (extension
+    (head Int)
+    (satisfies App.Text))
+  (procedure entry
+    (access public)
+    (parameter it (type (composition App.Text Int)))
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

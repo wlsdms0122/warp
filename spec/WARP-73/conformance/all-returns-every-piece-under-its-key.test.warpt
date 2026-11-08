@@ -1,0 +1,32 @@
+(test 1)
+(name "all-returns-every-piece-under-its-key")
+(note "Running at once is a procedure, not grammar. `Standard.Concurrent.allKeyed` runs every piece it is handed under a key and returns each piece's return value under the key the piece stood under.")
+
+(program
+  (warp 1)
+  (import Standard.Concurrent.allKeyed)
+  (procedure entry
+    (access public)
+    (isolated)
+    (returns (dictionary String Int))
+    (failing concurrent_failed)
+    (body
+      (let both
+        (call Standard.Concurrent.allKeyed
+          (dictionary
+            (entry "left"
+              (closure
+                (const)
+                (isolated)
+                (returns Int)
+                (body
+                  (return 1))))
+            (entry "right"
+              (closure
+                (const)
+                (isolated)
+                (returns Int)
+                (body
+                  (return 2)))))))
+      (return both))))
+(expect (answers (dictionary (entry "left" 1) (entry "right" 2))))

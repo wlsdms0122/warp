@@ -1,0 +1,32 @@
+(test 1)
+(name "a-struct-from-outside-holds-its-bounded-field-to-the-head-of-its-claim")
+(note "App.Keyed bounds `T` by App.Describable, and the host hands an App.Keyed holding a box of `1`. Its field is held to the bound by what it is, and it settles into the head `App.Box<Int?>`.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (struct App.Keyed
+    (typeParameter T App.Describable)
+    (field item (some T)))
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head (named App.Box (optional Int)))
+    (satisfies App.Describable)
+    (procedure describe
+      (parameter of (type (named App.Box (optional Int))))
+      (returns String)
+      (body
+        (return "box"))))
+  (procedure entry
+    (access public)
+    (parameter x)
+    (returns Int)
+    (body
+      (return 1))))
+(arguments (argument x (struct App.Keyed (field item (struct App.Box (field item 1))))))
+(expect (answers 1))

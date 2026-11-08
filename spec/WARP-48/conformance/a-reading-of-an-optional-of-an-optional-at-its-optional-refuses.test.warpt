@@ -1,0 +1,22 @@
+(test 1)
+(name "a-reading-of-an-optional-of-an-optional-at-its-optional-refuses")
+(note "A reading of `T?` does not fit a plain `T`, a level down too. `App.g` hands its `Int??` where `App.f` asks `Int?`, so the build refuses the call.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter x (type (optional Int)))
+    (returns Any)
+    (body
+      (return x)))
+  (procedure App.g
+    (parameter y (type (optional (optional Int))))
+    (returns Any)
+    (body
+      (return (call App.f y))))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (return (call App.g null)))))
+(expect (refuses build))

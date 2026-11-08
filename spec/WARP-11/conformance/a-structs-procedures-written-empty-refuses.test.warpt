@@ -1,0 +1,5 @@
+(test 1)
+(name "a-structs-procedures-written-empty-refuses")
+(note "A struct with no member writes no `procedures`, so `procedures: {}` says it a second way.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" 1)))))) (entry "returns" "Int"))))) (entry "types" (dictionary (entry "App.P" (dictionary (entry "procedures" (dictionary)) (entry "struct" (dictionary (entry "x" "Int"))))))) (entry "warp" 1)))
+(expect (refuses load))

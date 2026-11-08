@@ -1,0 +1,22 @@
+(test 1)
+(name "a-composition-naming-a-contract-twice-refuses")
+(note "A composition names each contract once, so `App.A & App.A & App.B` is no spelling of a type, and the load refuses it.")
+
+(program
+  (warp 1)
+  (contract App.A)
+  (contract App.B)
+  (extension
+    (head Int)
+    (satisfies App.A App.B))
+  (procedure App.f
+    (parameter x (type (composition App.A App.A App.B)))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

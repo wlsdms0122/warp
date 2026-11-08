@@ -1,0 +1,22 @@
+(test 1)
+(name "a-write-of-another-type-into-a-variable-a-closure-captured-refuses")
+(note "A variable a closure captured holds the type it read as there from the capture on, since the closure writes the box as that type when it is called. Writing a string into the Int it was captured as refuses at the build.")
+
+(program
+  (warp 1)
+  (import Standard.Text.uppercased)
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing (anything))
+    (body
+      (var n 0)
+      (let w
+        (closure
+          (body
+            (set n 99))))
+      (set n "s")
+      (apply w)
+      (let u (call Standard.Text.uppercased n))
+      (return u))))
+(expect (refuses build))

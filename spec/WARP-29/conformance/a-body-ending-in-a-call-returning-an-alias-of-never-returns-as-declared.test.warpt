@@ -1,0 +1,32 @@
+(test 1)
+(name "a-body-ending-in-a-call-returning-an-alias-of-never-returns-as-declared")
+(note "`App.k` declares `Int` and its body ends in a call of `App.f`, which declares `App.N`, a name for `Never`. No way through the body comes back, so nothing it returns disagrees with `Int`, and the program runs.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (type App.N Never)
+  (procedure App.f
+    (parameter go (type Bool))
+    (returns App.N)
+    (failing aborted)
+    (body
+      (call Standard.Control.abort "no")))
+  (procedure App.k
+    (returns Int)
+    (failing aborted)
+    (body
+      (call App.f true)))
+  (procedure entry
+    (access public)
+    (parameter c (type Bool))
+    (returns Int)
+    (failing aborted)
+    (body
+      (conditional
+        (when c)
+        (then
+          (call App.k)))
+      (return 1))))
+(arguments (argument c false))
+(expect (answers 1))

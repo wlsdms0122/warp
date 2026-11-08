@@ -1,0 +1,34 @@
+(test 1)
+(name "a-claim-about-an-optional-is-imported-under-optional")
+(note "A claim among the imports names the type a head is about, and an Optional's head is about `Optional`. The program stands on no document making the claim under `Int?`, and reaches it by importing `Optional: App.Named`.")
+
+(documents
+  (document
+    (warp 1)
+    (contract App.Named
+      (procedure name
+        (parameter of (type Self))
+        (returns String))))
+  (document
+    (warp 1)
+    (import App.Named)
+    (extension
+      (head (optional Int))
+      (satisfies App.Named)
+      (procedure name
+        (parameter of (type (optional Int)))
+        (returns String)
+        (body
+          (return "named"))))))
+
+(program
+  (warp 1)
+  (import App.Named.name)
+  (import Optional App.Named)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let v (type (optional Int)) 1)
+      (return (call App.Named.name v)))))
+(expect (answers "named"))

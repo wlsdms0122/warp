@@ -1,0 +1,24 @@
+(test 1)
+(name "a-call-outside-a-bound-a-member-adds-to-its-heads-refuses")
+(note "A bound a member writes beside its head's type parameter holds beside the head's. `App.Box.m`, given under `App.Box<some T: Hashable>`, writes `App.Box<some T: App.Named>`, so a box of an integer, which conforms to `Hashable` and to no `App.Named`, refuses at the build.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (contract App.Named)
+  (extension
+    (head (named App.Box (some T Hashable)))
+    (procedure m
+      (parameter of (type (named App.Box (some T App.Named))))
+      (returns Int)
+      (body
+        (return 1))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let b (type (named App.Box Int)) (struct (field item 1)))
+      (return (call App.Box.m b)))))
+(expect (refuses build))

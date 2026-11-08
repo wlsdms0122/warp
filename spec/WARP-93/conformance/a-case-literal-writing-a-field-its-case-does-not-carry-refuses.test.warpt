@@ -1,0 +1,15 @@
+(test 1)
+(name "a-case-literal-writing-a-field-its-case-does-not-carry-refuses")
+(note "A case literal writes exactly the fields its case carries. `remote` carries `host` and `port`, and the literal writes `tls` beside them, so the build refuses it.")
+
+(program
+  (warp 1)
+  (enum App.Target
+    (case local)
+    (case remote (field host String) (field port Int)))
+  (procedure entry
+    (access public)
+    (returns App.Target)
+    (body
+      (return (case remote (field host "a") (field port 8080) (field tls true))))))
+(expect (refuses build))

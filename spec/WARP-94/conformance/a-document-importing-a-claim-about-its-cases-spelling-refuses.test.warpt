@@ -1,0 +1,16 @@
+(test 1)
+(name "a-document-importing-a-claim-about-its-cases-spelling-refuses")
+(note "A case is not a type. A claim among the imports names its type, and `App.Light.red` is the spelling of the case red, which names no type. The document declaring the enum writes it there, which it shows alone, so the load refuses.")
+
+(program
+  (warp 1)
+  (import App.Light.red Hashable)
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

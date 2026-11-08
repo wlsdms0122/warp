@@ -1,0 +1,12 @@
+(test 1)
+(name "a-dictionary-literal-makes-its-entries-in-order")
+(note "A dictionary literal writes its entries as a list, each a key and a value, and makes them in the order written, so a key written twice holds the later value. The dictionary holds its keys in the key order, whatever order they were written in.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns (dictionary String Int))
+    (body
+      (return (dictionary (entry "b" 2) (entry "a" 1) (entry "b" 3))))))
+(expect (answers (dictionary (entry "a" 1) (entry "b" 3))))

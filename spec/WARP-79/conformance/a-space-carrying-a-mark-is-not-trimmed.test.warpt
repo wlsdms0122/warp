@@ -1,0 +1,13 @@
+(test 1)
+(name "a-space-carrying-a-mark-is-not-trimmed")
+(note "A character goes only if every one of its code points is White_Space. A space carrying a combining mark is one character and two code points, and the mark is not White_Space, so it stays where it was written.")
+
+(program
+  (warp 1)
+  (import Standard.Text.trimmed)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (return (call Standard.Text.trimmed " a ́")))))
+(expect (answers "a ́"))

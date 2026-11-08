@@ -1,0 +1,13 @@
+(test 1)
+(name "a-list-holding-no-byte-handed-to-decoded-refuses")
+(note "Bytes are integers from 0 to 255, and `decoded` says what it takes when it runs, whatever wrote the argument: `300` is no byte, so the call refuses at the run.")
+
+(program
+  (warp 1)
+  (import Standard.Text.decoded)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (return (call Standard.Text.decoded (array 104 300) "utf8")))))
+(expect (refuses run))

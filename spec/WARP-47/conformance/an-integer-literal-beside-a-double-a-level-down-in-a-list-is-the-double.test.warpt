@@ -1,0 +1,14 @@
+(test 1)
+(name "an-integer-literal-beside-a-double-a-level-down-in-a-list-is-the-double")
+(note "In `[[1], [2.5]]` the `1` and the `2.5` stand at one position, an element of an element, so `1` is the `Double` it names though `Array<Any>` is declared.")
+
+(program
+  (warp 1)
+  (import Standard.Text.text)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let xs (type (array Any)) (array (array 1) (array 2.5)))
+      (return (call Standard.Text.text xs)))))
+(expect (answers "[[1.0],[2.5]]"))

@@ -1,0 +1,26 @@
+(test 1)
+(name "a-document-naming-a-type-only-a-later-document-declares-refuses")
+(note "The documents of a link stand in an order where every type each one names is declared before it. `Ring.a` takes a `Ring.T`, which only the document laid after it declares, so the build refuses.")
+
+(documents
+  (document
+    (warp 1)
+    (import Ring.T)
+    (procedure Ring.a
+      (parameter p (type Ring.T))
+      (returns Int)
+      (body
+        (return 1))))
+  (document
+    (warp 1)
+    (struct Ring.T
+      (field x Int))))
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

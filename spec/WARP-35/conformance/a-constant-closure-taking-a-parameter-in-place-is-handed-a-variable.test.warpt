@@ -1,0 +1,21 @@
+(test 1)
+(name "a-constant-closure-taking-a-parameter-in-place-is-handed-a-variable")
+(note "A constant holds the type its expression was judged at, so `bump` reads as a procedure type writing `inout Int`. The build hands `n` in place at that position, and the closure writes it.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (const bump
+    (closure
+      (parameter c (type (inout Int)))
+      (body
+        (set c (call Standard.Numeric.plus c 1)))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (body
+      (var n 0)
+      (apply bump n)
+      (return n))))
+(expect (answers 1))

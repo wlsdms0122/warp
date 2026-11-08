@@ -1,0 +1,15 @@
+(test 1)
+(name "a-case-field-written-inout-refuses")
+(note "The row a case's field of where a type is written lets it write no `inout`, which stands in front of a parameter's type and nowhere else, so the field `port` written `inout Int` refuses at the load.")
+
+(program
+  (warp 1)
+  (enum App.Target
+    (case local)
+    (case remote (field port (inout Int))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

@@ -1,0 +1,18 @@
+(test 1)
+(name "two-cases-carrying-the-same-values-are-two-values")
+(note "`left` and `right` each carry `n: 1`, but a value carries its case's spelling, and two structs under two names are two values. So the two are not the same.")
+
+(program
+  (warp 1)
+  (import Standard.Logic.equal)
+  (enum App.Side
+    (case left (field n Int))
+    (case right (field n Int)))
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (body
+      (let a (type App.Side) (case left (field n 1)))
+      (let b (type App.Side) (case right (field n 1)))
+      (return (call Standard.Logic.equal a b)))))
+(expect (answers false))

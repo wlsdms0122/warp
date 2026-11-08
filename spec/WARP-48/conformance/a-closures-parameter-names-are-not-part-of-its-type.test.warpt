@@ -1,0 +1,31 @@
+(test 1)
+(name "a-closures-parameter-names-are-not-part-of-its-type")
+(note "A procedure type is the types it is called with, in order, and no names, so a closure naming its parameter `done` and another naming it `finished` fit one slot alike. The names belong to each closure, and a value is called by position.")
+
+(program
+  (warp 1)
+  (import Standard.Text.text)
+  (procedure App.told
+    (parameter completion (type (procedure (parameters Bool) (returns String))))
+    (returns String)
+    (body
+      (let said (apply completion true))
+      (return said)))
+  (procedure entry
+    (access public)
+    (returns (array String))
+    (body
+      (let first
+        (closure
+          (parameter done (type Bool))
+          (returns String)
+          (body
+            (return (call Standard.Text.text done)))))
+      (let second
+        (closure
+          (parameter finished (type Bool))
+          (returns String)
+          (body
+            (return (call Standard.Text.text finished)))))
+      (return (array (call App.told first) (call App.told second))))))
+(expect (answers (array "true" "true")))

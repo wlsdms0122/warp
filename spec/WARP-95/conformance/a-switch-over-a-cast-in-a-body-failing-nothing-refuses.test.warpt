@@ -1,0 +1,24 @@
+(test 1)
+(name "a-switch-over-a-cast-in-a-body-failing-nothing-refuses")
+(note "The switch takes apart a cast, which may fail with `cast_refused`, and a switch may fail with what its `of` fails with. The entry declares no failure, so the build refuses it.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure entry
+    (access public)
+    (parameter value)
+    (returns Int)
+    (body
+      (switch
+        (as value App.Light)
+        (case green
+          (then
+            (return 1)))
+        (case red
+          (then
+            (return 2)))))))
+(arguments (argument value (struct App.Light.red)))
+(expect (refuses build))

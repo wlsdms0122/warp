@@ -1,0 +1,20 @@
+(test 1)
+(name "a-catch-reads-the-actual-of-a-some-as-optional")
+(note "A `Some` is how an Optional's some is held and no type a program reads, so the type a `Some` holding `null` is an instance of is an Optional, and `actual` names it `Optional`.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter p)
+    (returns Any)
+    (body
+      (let caught
+        (try
+          (body
+            (as p Bool))
+          (catch
+            (return (path caught (field details) (index "actual"))))))
+      (return "no failure"))))
+(arguments (argument p (struct Some (field wrapped null))))
+(expect (answers "Optional"))

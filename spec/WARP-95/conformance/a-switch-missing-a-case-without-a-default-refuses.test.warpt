@@ -1,0 +1,27 @@
+(test 1)
+(name "a-switch-missing-a-case-without-a-default-refuses")
+(note "`App.Light` declares `green`, `red` and `yellow`, and the switch has arms for the first two and no `default`. A run holding `yellow` would have no way through it, and which cases an enum declares is known before anything runs, so the build refuses the switch.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red)
+    (case yellow))
+  (procedure App.word
+    (parameter light (type App.Light))
+    (returns String)
+    (body
+      (switch light
+        (case green
+          (then
+            (return "go")))
+        (case red
+          (then
+            (return "stop"))))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (return (call App.word (case green))))))
+(expect (refuses build))

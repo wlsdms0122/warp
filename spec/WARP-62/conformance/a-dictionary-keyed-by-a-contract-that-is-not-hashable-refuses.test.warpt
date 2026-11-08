@@ -1,0 +1,21 @@
+(test 1)
+(name "a-dictionary-keyed-by-a-contract-that-is-not-hashable-refuses")
+(note "A contract conforms to `Hashable` only where it is `Hashable` or a composition naming it, which is declared and not worked out from what conforms to the contract. `App.Named` is neither, though `Int` is its one conforming type, so a dictionary keyed by it refuses at the build.")
+
+(program
+  (warp 1)
+  (contract App.Named)
+  (extension
+    (head Int)
+    (satisfies App.Named))
+  (procedure App.f
+    (parameter m (type (dictionary App.Named Int)))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

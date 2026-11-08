@@ -1,0 +1,25 @@
+(test 1)
+(name "a-cast-of-an-int-to-a-contract-it-does-not-claim-fails")
+(note "Which values a contract holds is judged by what arrives, so a cast from `Int` to `App.Shape` stands at the build. No claim of `App.Shape` takes an `Int` here, so the cast fails with `cast_refused`, which the try catches.")
+
+(program
+  (warp 1)
+  (contract App.Shape
+    (procedure size
+      (parameter of (type Self))
+      (returns Int)))
+  (procedure entry
+    (access public)
+    (parameter x (type Int))
+    (returns String)
+    (body
+      (var r (type String) "none")
+      (let caught
+        (try
+          (body
+            (let s (as x App.Shape)))
+          (catch
+            (set r (path caught (field type))))))
+      (return r))))
+(arguments (argument x 1))
+(expect (answers "cast_refused"))

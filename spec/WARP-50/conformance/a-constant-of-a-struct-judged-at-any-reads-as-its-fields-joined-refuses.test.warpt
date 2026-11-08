@@ -1,0 +1,38 @@
+(test 1)
+(name "a-constant-of-a-struct-judged-at-any-reads-as-its-fields-joined-refuses")
+(note "A constant whose expression was judged at `Any` reads as its value, and a struct value reads as applied to its fields' readings joined. A pair holding an `Int` and a null reads `App.Pair<Int?>`, so its field is no `Int`.")
+
+(documents
+  (document
+    (warp 1)
+    (struct App.Pair
+      (typeParameter T)
+      (field a (some T))
+      (field b (some T)))
+    (procedure App.hide
+      (const)
+      (parameter v)
+      (returns Any)
+      (body
+        (return v)))
+    (procedure App.mk
+      (const)
+      (returns (named App.Pair (optional Int)))
+      (body
+        (return (struct (field a 1) (field b null)))))
+    (procedure App.mkS
+      (returns (named App.Pair Any))
+      (body
+        (return (struct (field a 1) (field b "x")))))))
+
+(program
+  (warp 1)
+  (import App.hide)
+  (import App.mk)
+  (const k (call App.hide (call App.mk)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (path k (field b))))))
+(expect (refuses build))

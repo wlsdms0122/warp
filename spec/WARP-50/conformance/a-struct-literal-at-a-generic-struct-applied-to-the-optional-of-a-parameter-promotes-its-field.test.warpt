@@ -1,0 +1,21 @@
+(test 1)
+(name "a-struct-literal-at-a-generic-struct-applied-to-the-optional-of-a-parameter-promotes-its-field")
+(note "Inside `App.f`, which takes `some T`, a literal of `App.Box` is returned where `App.Box<some T?>` is declared. It is that struct, and its field `item` is a place reading `some T?`: `x` stands there as its some. Filled by `Int?`, the none handed in is the marker holding it.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (procedure App.f
+    (parameter x (type (some T)))
+    (returns (named App.Box (optional (some T))))
+    (body
+      (return (struct (field item x)))))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let n1 (type (optional Int)) null)
+      (return (call App.f n1)))))
+(expect (answers (struct App.Box (field item (struct Some (field wrapped null))))))

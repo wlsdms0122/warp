@@ -1,0 +1,20 @@
+(warp 1)
+(import Standard.Collection.setting)
+(var values (type (dictionary String Any)) (dictionary))
+
+(procedure state.all
+  (returns (dictionary String Any))
+  (body
+    (return values)))
+
+(procedure state.get
+  (parameter id (type String))
+  (returns Any)
+  (body
+    (return (path values (index? id)))))
+
+(procedure state.put
+  (parameter id (type String))
+  (parameter value)
+  (body
+    (set values (call Standard.Collection.setting values id value))))

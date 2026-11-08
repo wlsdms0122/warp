@@ -1,0 +1,14 @@
+(test 1)
+(name "a-struct-literal-written-with-the-name-its-place-reads-refuses")
+(note "A struct takes its name from the place it is written into and never from a literal's text, so a literal written with a name refuses at the load even where the name is the declared struct the place reads.")
+
+(program
+  (warp 1)
+  (struct App.T
+    (field x Int))
+  (procedure entry
+    (access public)
+    (returns App.T)
+    (body
+      (return (struct App.T (field x 1))))))
+(expect (refuses load))

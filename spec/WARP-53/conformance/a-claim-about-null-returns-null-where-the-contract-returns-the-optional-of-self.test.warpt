@@ -1,0 +1,21 @@
+(test 1)
+(name "a-claim-about-null-returns-null-where-the-contract-returns-the-optional-of-self")
+(note "For a claim about `Null`, `Self?` in the return type is the Optional of `Null`, which takes what `Null.find` returns, so the claim holds. The call through the contract returns the Optional of `Null`, which the entry, returning `Any`, answers.")
+
+(program
+  (warp 1)
+  (contract App.Pick
+    (procedure find
+      (parameter s (type Self))
+      (returns (optional Self))))
+  (extension
+    (head Null)
+    (satisfies App.Pick)
+    (procedure find
+      (parameter s (type Null))))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (return (call App.Pick.find null)))))
+(expect (answers null))

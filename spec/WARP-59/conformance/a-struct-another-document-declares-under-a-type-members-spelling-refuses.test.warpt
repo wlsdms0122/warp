@@ -1,0 +1,21 @@
+(test 1)
+(name "a-struct-another-document-declares-under-a-type-members-spelling-refuses")
+(note "The document beside the program gives App.Box the type member Item, and with it the spelling `App.Box.Item`. The program declares a struct under that spelling, so the link has two declarers of one name, and the build refuses it.")
+
+(documents
+  (document
+    (warp 1)
+    (struct App.Box
+      (field item Int)
+      (type Item Int))))
+
+(program
+  (warp 1)
+  (struct App.Box.Item
+    (field shade Int))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

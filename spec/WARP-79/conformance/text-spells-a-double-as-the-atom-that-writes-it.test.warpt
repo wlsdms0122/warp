@@ -1,0 +1,13 @@
+(test 1)
+(name "text-spells-a-double-as-the-atom-that-writes-it")
+(note "text spells a Double as the atom that writes it under the encodings, at the top and inside a container alike, never as a host formatter does: on either side of the line between the point form and the exponent form.")
+
+(program
+  (warp 1)
+  (import Standard.Text.text)
+  (procedure entry
+    (access public)
+    (returns (array String))
+    (body
+      (return (array (call Standard.Text.text 1e+16) (call Standard.Text.text (array 1000000000000000.0 0.0001 1e-05 1.5)))))))
+(expect (answers (array "1e+16" "[1000000000000000.0,0.0001,1e-05,1.5]")))

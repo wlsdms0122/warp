@@ -1,0 +1,20 @@
+(test 1)
+(name "a-struct-read-by-a-key-the-run-reads-refuses")
+(note "A struct's fields are its type's, so a key the run reads has nothing there to be judged against. `r[k]` on a struct type refuses at the build.")
+
+(program
+  (warp 1)
+  (struct App.A
+    (field a Int))
+  (procedure App.f
+    (parameter r (type App.A))
+    (parameter k (type String))
+    (returns Any)
+    (body
+      (return (path r (index k)))))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (return (call App.f (struct (field a 1)) "a")))))
+(expect (refuses build))

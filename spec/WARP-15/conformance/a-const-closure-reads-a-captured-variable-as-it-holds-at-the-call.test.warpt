@@ -1,0 +1,23 @@
+(test 1)
+(name "a-const-closure-reads-a-captured-variable-as-it-holds-at-the-call")
+(note "A const body reads no module variable and writes no name it does not own, and it may read a name a closure captured. The const closure `read` reads `n` as it holds at each call, so it returns 1 and then 2: being const is no promise of returning one thing twice.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (body
+      (var n 1)
+      (let read
+        (closure
+          (const)
+          (isolated)
+          (returns Int)
+          (body
+            (return n))))
+      (let a (apply read))
+      (set n 2)
+      (let b (apply read))
+      (return (array a b)))))
+(expect (answers (array 1 2)))

@@ -1,0 +1,52 @@
+(test 1)
+(name "a-door-holds-a-same-type-of-a-generic-entry-refuses")
+(note "The entry says `C.Item` is Int and adds 1 to it. A box holding a string arrives at the door: the type the box gives at `Item` is String, not Int, so the door refuses.")
+
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Container
+      (type Item)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item)))
+    (procedure Lib.firstOf
+      (access public)
+      (parameter c (type (some C Lib.Container)))
+      (returns (some C.Item))
+      (body
+        (return (call Lib.Container.first c)))))
+  (document
+    (warp 1)
+    (import Lib.Container)
+    (struct App.Box
+      (typeParameter T)
+      (field item (some T)))
+    (struct App.Plain
+      (field x Int))
+    (extension
+      (head (named App.Box (some T Hashable)))
+      (satisfies Lib.Container)
+      (type Item (some T))
+      (procedure first
+        (access public)
+        (parameter of (type (named App.Box (some T))))
+        (returns (some T))
+        (body
+          (return (path of (field item))))))))
+
+(program
+  (warp 1)
+  (import Int.plus)
+  (import Lib.Container)
+  (import Lib.Container.first)
+  (procedure entry
+    (access public)
+    (parameter c (type (some C Lib.Container)))
+    (returns Int)
+    (sameType C.Item Int)
+    (body
+      (let v (call Lib.Container.first c))
+      (return (call Int.plus v 1)))))
+(arguments (argument c (struct App.Box (field item "a"))))
+(expect (refuses run))

@@ -1,0 +1,16 @@
+(test 1)
+(name "a-write-into-an-optional-refuses")
+(note "An Optional is not written into. `x` holds an `App.T?`, and an unmarked write to `x.a` refuses at the build against the type the walk reached.")
+
+(program
+  (warp 1)
+  (struct App.T
+    (field a (var Int)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var x (type (optional App.T)))
+      (set (path x (field a)) 2)
+      (return 1))))
+(expect (refuses build))

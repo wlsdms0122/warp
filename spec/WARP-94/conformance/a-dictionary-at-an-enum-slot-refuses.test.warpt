@@ -1,0 +1,21 @@
+(test 1)
+(name "a-dictionary-at-an-enum-slot-refuses")
+(note "A slot of an enum takes a value under one of its cases' spellings and no other. `d` is read as a dictionary, which no enum takes, so the build refuses the call.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure App.take
+    (parameter light (type App.Light))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let d (type (dictionary String Int)) (dictionary (entry "red" 1)))
+      (return (call App.take d)))))
+(expect (refuses build))

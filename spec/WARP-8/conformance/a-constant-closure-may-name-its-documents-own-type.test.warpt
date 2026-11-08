@@ -1,0 +1,23 @@
+(test 1)
+(name "a-constant-closure-may-name-its-documents-own-type")
+(note "A closure a constant holds is a procedure of the document that declared the constant, so its body reads the types that document declares, here a cast to one, the way a body written in a declaration does.")
+
+(program
+  (warp 1)
+  (const k
+    (closure
+      (returns Int)
+      (failing cast_refused)
+      (body
+        (let c (as (struct (field x 1)) App.Box))
+        (return (path c (field x))))))
+  (struct App.Box
+    (field x Int))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing cast_refused)
+    (body
+      (let a (apply k))
+      (return a))))
+(expect (answers 1))

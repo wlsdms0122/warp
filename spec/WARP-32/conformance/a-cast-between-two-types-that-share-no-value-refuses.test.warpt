@@ -1,0 +1,20 @@
+(test 1)
+(name "a-cast-between-two-types-that-share-no-value-refuses")
+(note "`x` reads `Int` and the cast names `String`, and no value is both, so the cast names a type no value it reads is and the build refuses it.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter x (type Int))
+    (returns String)
+    (body
+      (var r (type String) "none")
+      (try
+        (body
+          (as x String))
+        (catch
+          (set r "caught")))
+      (return r))))
+(arguments (argument x 1))
+(expect (refuses build))

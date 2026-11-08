@@ -1,0 +1,32 @@
+(test 1)
+(name "an-enum-naming-itself-holds-a-tree")
+(note "`App.Expr` names itself in the fields of `add`, and `number` names it nowhere, so a value ends there. The tree `2 + 3` is one declaration's value, and walking it returns 5.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (enum App.Expr
+    (case add (field lhs App.Expr) (field rhs App.Expr))
+    (case number (field value Int)))
+  (procedure App.eval
+    (parameter e (type App.Expr))
+    (returns Int)
+    (body
+      (switch e
+        (case add
+          (bind lhs l)
+          (bind rhs r)
+          (then
+            (let a (call App.eval l))
+            (let b (call App.eval r))
+            (return (call Standard.Numeric.plus a b))))
+        (case number
+          (bind value v)
+          (then
+            (return v))))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.eval (case add (field lhs (case number (field value 2))) (field rhs (case number (field value 3)))))))))
+(expect (answers 5))

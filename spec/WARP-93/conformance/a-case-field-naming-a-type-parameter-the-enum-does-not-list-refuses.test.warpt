@@ -1,0 +1,16 @@
+(test 1)
+(name "a-case-field-naming-a-type-parameter-the-enum-does-not-list-refuses")
+(note "A case's field writes `some T` only for a `T` its enum lists under `typeParameters`. `App.Slot` lists `T`, and the field writes `some U`, so the load refuses it.")
+
+(program
+  (warp 1)
+  (enum App.Slot
+    (typeParameter T)
+    (case empty)
+    (case full (field item (some U))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

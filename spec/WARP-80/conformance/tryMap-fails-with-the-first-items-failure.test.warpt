@@ -1,0 +1,38 @@
+(test 1)
+(name "tryMap-fails-with-the-first-items-failure")
+(note "A walk hands over the items in the array's order, and a twin fails with the first failure and hands over no item after it. The first two items abort with themselves and the third reads past the end of a list holding nothing, which would refuse the run, so only a walk in order that stops at the first failure fails with 1.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.tryMap)
+  (import Standard.Control.abort)
+  (import Standard.Logic.equal)
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (returns (optional String))
+    (body
+      (var failed)
+      (let caught
+        (try
+          (body
+            (call Standard.Collection.tryMap
+              (array 1 2 3)
+              (closure
+                (const)
+                (isolated)
+                (parameter x (type Int))
+                (returns Int)
+                (failing aborted)
+                (body
+                  (let none (type (array Int)) (array))
+                  (conditional
+                    (when (call Standard.Logic.equal x 3))
+                    (then
+                      (return (path none (index 0)))))
+                  (call Standard.Control.abort x)))))
+          (catch
+            (set failed (path caught (field message))))))
+      (return failed))))
+(expect (answers "1"))

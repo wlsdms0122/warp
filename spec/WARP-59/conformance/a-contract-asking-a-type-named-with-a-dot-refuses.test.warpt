@@ -1,0 +1,15 @@
+(test 1)
+(name "a-contract-asking-a-type-named-with-a-dot-refuses")
+(note "A type a contract asks is named the way an associated type names it, by one identifier, so `Lib.Holder` asking `Item.Key` refuses at the load.")
+(documents)
+
+(program
+  (warp 1)
+  (contract Lib.Holder
+    (type Item.Key))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

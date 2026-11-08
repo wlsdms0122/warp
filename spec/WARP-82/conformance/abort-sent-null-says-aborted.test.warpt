@@ -1,0 +1,21 @@
+(test 1)
+(name "abort-sent-null-says-aborted")
+(note "`abort` takes `message: Any`, and null is a value `Any` admits. Null spells nothing, and a failure says something, so the message is `aborted`. A bare `var` holds null, and `abort` reads it.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (returns (dictionary String String))
+    (body
+      (var nothing)
+      (var tried)
+      (let caught
+        (try
+          (body
+            (call Standard.Control.abort nothing))
+          (catch
+            (set tried (dictionary (entry "message" (path caught (field message))) (entry "type" (path caught (field type))))))))
+      (return tried))))
+(expect (answers (dictionary (entry "message" "aborted") (entry "type" "aborted"))))

@@ -1,0 +1,17 @@
+(test 1)
+(name "a-struct-declared-under-another-structs-name-and-a-dot-is-named-by-it")
+(note "A dot is a character of a spelling and nothing more, and a mention reaches whatever declares it. The document declares `App.Box` and `App.Box.Tag` and gives `App.Box` no type member, so `App.Box.Tag` names the struct declared under it and the run answers 1.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (field n Int))
+  (struct App.Box.Tag
+    (field x Int))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let v (type App.Box.Tag) (struct (field x 1)))
+      (return (path v (field x))))))
+(expect (answers 1))

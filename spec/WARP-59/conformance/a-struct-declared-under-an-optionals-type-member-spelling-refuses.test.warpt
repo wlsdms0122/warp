@@ -1,0 +1,17 @@
+(test 1)
+(name "a-struct-declared-under-an-optionals-type-member-spelling-refuses")
+(note "A type member's spelling is the name of the type its head is about and its own, and an Optional's head is about `Optional`, so the type member `Item` given under `some W?` is spelled `Optional.Item`. A struct declared there beside it refuses at the load.")
+
+(program
+  (warp 1)
+  (struct Optional.Item
+    (field x Int))
+  (extension
+    (head (optional (some W)))
+    (type Item String))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

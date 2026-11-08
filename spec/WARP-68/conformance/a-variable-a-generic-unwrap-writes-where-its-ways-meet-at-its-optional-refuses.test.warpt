@@ -1,0 +1,22 @@
+(test 1)
+(name "a-variable-a-generic-unwrap-writes-where-its-ways-meet-at-its-optional-refuses")
+(note "`y` reads `Null` where `o` holds the none and the unwrap, written with no `else`, goes on, and `some T` where its `then` wrote `x`, so the ways meet past the unwrap reading `some T?`. A value of `some T` may be a none, which would have to become its some to stand there, so the build refuses.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter x (type (some T)))
+    (parameter o (type (optional Int)))
+    (returns (optional (some T)))
+    (body
+      (var y)
+      (unwrap o
+        (then
+          (set y x)))
+      (return y)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

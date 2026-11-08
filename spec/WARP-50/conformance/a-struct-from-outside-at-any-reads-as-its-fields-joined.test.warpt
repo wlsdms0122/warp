@@ -1,0 +1,20 @@
+(test 1)
+(name "a-struct-from-outside-at-any-reads-as-its-fields-joined")
+(note "At `Any` a struct from outside reads as applied to its fields' readings joined, so a pair holding an `Int` and a null is an `App.Pair<Int?>`, and a cast to it succeeds.")
+
+(program
+  (warp 1)
+  (struct App.Pair
+    (typeParameter T)
+    (field a (some T))
+    (field b (some T)))
+  (procedure entry
+    (access public)
+    (parameter p)
+    (returns (optional Int))
+    (failing cast_refused)
+    (body
+      (let q (as p (named App.Pair (optional Int))))
+      (return (path q (field b))))))
+(arguments (argument p (struct App.Pair (field a 1) (field b null))))
+(expect (answers null))

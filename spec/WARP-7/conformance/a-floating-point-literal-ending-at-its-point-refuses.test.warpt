@@ -1,0 +1,5 @@
+(test 1)
+(name "a-floating-point-literal-ending-at-its-point-refuses")
+(note "A floating-point number is read only in its one writing, which has a digit after the point, so `1.` is refused.")
+(text "(warp 1)\n(const a 1.)\n")
+(expect (refuses load))

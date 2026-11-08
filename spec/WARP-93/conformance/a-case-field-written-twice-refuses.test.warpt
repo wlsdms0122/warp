@@ -1,0 +1,5 @@
+(test 1)
+(name "a-case-field-written-twice-refuses")
+(note "A case's fields are a dictionary keyed by their names, so `port` written twice in `remote` is a key written twice, and the text refuses at the load whatever type each one writes.")
+(text "(warp 1)\n(enum App.Target (case local) (case remote (field port Int) (field port String)))\n")
+(expect (refuses load))

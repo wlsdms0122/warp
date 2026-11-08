@@ -1,0 +1,21 @@
+(test 1)
+(name "a-list-of-structs-applied-to-a-type-parameter-fills-it")
+(note "`Array<App.Box<some T>>` is walked into through the list's element and then through what the struct is applied to, so a list of `App.Box<Int>` fills `T` with `Int`.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (procedure App.first
+    (parameter bs (type (array (named App.Box (some T)))))
+    (returns (some T))
+    (body
+      (return (path bs (index 0) (field item)))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let bs (type (array (named App.Box Int))) (array (struct (field item 3))))
+      (return (call App.first bs)))))
+(expect (answers 3))

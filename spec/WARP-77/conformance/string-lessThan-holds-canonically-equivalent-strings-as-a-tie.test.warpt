@@ -1,0 +1,13 @@
+(test 1)
+(name "string-lessThan-holds-canonically-equivalent-strings-as-a-tie")
+(note "String.lessThan reads both strings in NFC, so `e` with a combining acute and the precomposed `é`, one value under the value model, tie: neither orders before the other. Compared by raw scalars, the decomposed one orders first.")
+
+(program
+  (warp 1)
+  (import Standard.Comparable.lessThan)
+  (procedure entry
+    (access public)
+    (returns (array Bool))
+    (body
+      (return (array (call Standard.Comparable.lessThan "é" "é") (call Standard.Comparable.lessThan "é" "é"))))))
+(expect (answers (array false false)))

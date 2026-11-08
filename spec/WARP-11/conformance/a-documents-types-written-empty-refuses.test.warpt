@@ -1,0 +1,5 @@
+(test 1)
+(name "a-documents-types-written-empty-refuses")
+(note "A document declaring no type writes no `types`, so `types: {}` says it a second way.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" 1)))))) (entry "returns" "Int"))))) (entry "types" (dictionary)) (entry "warp" 1)))
+(expect (refuses load))

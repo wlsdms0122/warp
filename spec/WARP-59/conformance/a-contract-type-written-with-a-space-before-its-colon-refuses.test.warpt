@@ -1,0 +1,5 @@
+(test 1)
+(name "a-contract-type-written-with-a-space-before-its-colon-refuses")
+(note "A contract's `types` entry is written as a struct's `typeParameters` entry is, its name, a colon and a space, then its bound. `Item : Hashable` writes a space before the colon, so it is a second spelling of `Item: Hashable`, and refuses at the load.")
+(tree (dictionary (entry "contracts" (dictionary (entry "App.Container" (dictionary (entry "types" (array "Item : Hashable")))))) (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" 1)))))) (entry "returns" "Int"))))) (entry "warp" 1)))
+(expect (refuses load))

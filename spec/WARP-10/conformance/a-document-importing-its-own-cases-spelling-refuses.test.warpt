@@ -1,0 +1,16 @@
+(test 1)
+(name "a-document-importing-its-own-cases-spelling-refuses")
+(note "The document declaring an enum declares each of its cases' spellings, so it imports none of them. This one imports `App.Light.red`, which it declares itself, so its imports list is not what its program uses and the load refuses.")
+
+(program
+  (warp 1)
+  (import App.Light.red)
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

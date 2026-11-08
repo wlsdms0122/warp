@@ -1,0 +1,45 @@
+(test 1)
+(name "a-raw-value-is-written-as-members")
+(note "The member `rawValue` returns a number for each case by a switch, and `App.Level.fromRawValue` returns the case for a number as an `App.Level?`. Handed 2, it returns `high`, and the entry unwraps it and returns its `rawValue`, 2.")
+
+(program
+  (warp 1)
+  (import Standard.Logic.equal)
+  (enum App.Level
+    (case high)
+    (case low)
+    (procedure rawValue
+      (parameter level (type App.Level))
+      (returns Int)
+      (body
+        (switch level
+          (case high
+            (then
+              (return 2)))
+          (case low
+            (then
+              (return 1)))))))
+  (procedure App.Level.fromRawValue
+    (parameter raw (type Int))
+    (returns (optional App.Level))
+    (body
+      (conditional
+        (when (call Standard.Logic.equal raw 1))
+        (then
+          (return (case low))))
+      (conditional
+        (when (call Standard.Logic.equal raw 2))
+        (then
+          (return (case high))))
+      (return)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let found (call App.Level.fromRawValue 2))
+      (let level
+        (unwrap found
+          (else
+            (return 0))))
+      (return (call App.Level.rawValue level)))))
+(expect (answers 2))

@@ -1,0 +1,29 @@
+(test 1)
+(name "a-type-member-written-as-an-associated-type-reads-the-types-own")
+(note "App.Wrapper gives X as `some T.Key`, the associated type Key of its parameter T. The alias App.Y stands for `App.Wrapper<App.Foo>.X`, which reads T as App.Foo and so `T.Key` as App.Foo's own type member Key, String. A parameter of App.Y takes \"i\".")
+
+(program
+  (warp 1)
+  (struct App.Foo
+    (satisfies App.Keyed)
+    (field item Int)
+    (type Key String))
+  (struct App.Wrapper
+    (typeParameter T App.Keyed)
+    (field item (some T))
+    (type X (some T.Key)))
+  (type App.Y (member (named App.Wrapper App.Foo) X))
+  (contract App.Keyed
+    (type Key))
+  (procedure App.echo
+    (parameter x (type App.Y))
+    (returns String)
+    (body
+      (return x)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let echoed (call App.echo "i"))
+      (return echoed))))
+(expect (answers "i"))

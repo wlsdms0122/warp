@@ -1,0 +1,17 @@
+(test 1)
+(name "null-handed-at-an-int-refuses")
+(note "An argument holding null was given, and `null` is no value of `Int`, so a call handing null at an `Int` slot refuses at the build.")
+
+(program
+  (warp 1)
+  (procedure App.takes
+    (parameter x (type Int))
+    (returns Int)
+    (body
+      (return x)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.takes null)))))
+(expect (refuses build))

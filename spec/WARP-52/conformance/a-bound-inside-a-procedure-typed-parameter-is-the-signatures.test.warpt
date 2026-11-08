@@ -1,0 +1,27 @@
+(test 1)
+(name "a-bound-inside-a-procedure-typed-parameter-is-the-signatures")
+(note "A bound written inside a procedure-typed slot is the declaring signature's. The first `some T` is the parameter of `by`, so `T` is bounded there by `Standard.Comparable`, and the body may send `lessThan` to `x`.")
+
+(program
+  (warp 1)
+  (import Standard.Comparable)
+  (import Standard.Comparable.lessThan)
+  (procedure App.f
+    (parameter by (type (procedure (parameters (some T Standard.Comparable)) (returns Bool))))
+    (parameter x (type (some T)))
+    (returns Bool)
+    (body
+      (return (call Standard.Comparable.lessThan x x))))
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (body
+      (return
+        (call App.f
+          (closure
+            (parameter y (type Int))
+            (returns Bool)
+            (body
+              (return true)))
+          1)))))
+(expect (answers false))

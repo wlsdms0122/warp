@@ -1,0 +1,29 @@
+(test 1)
+(name "a-constant-folded-to-a-some-of-a-none-reads-as-the-optional-it-was-judged")
+(note "`k` folds to the marker holding `null`, the some of `Int??` whose payload is the none of `Int?`. Its type is that Optional, so it stands where `Int??` is declared.")
+
+(documents
+  (document
+    (warp 1)
+    (procedure App.inner
+      (const)
+      (returns (optional (optional Int)))
+      (body
+        (let n (type (optional Int)) null)
+        (return n)))))
+
+(program
+  (warp 1)
+  (import App.inner)
+  (const k (call App.inner))
+  (procedure App.f
+    (parameter o (type (optional (optional Int))))
+    (returns Any)
+    (body
+      (return o)))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (return (array k (call App.f k))))))
+(expect (answers (array (struct Some (field wrapped null)) (struct Some (field wrapped null)))))

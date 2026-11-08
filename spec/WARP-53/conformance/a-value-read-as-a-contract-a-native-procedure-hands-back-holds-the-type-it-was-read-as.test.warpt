@@ -1,0 +1,28 @@
+(test 1)
+(name "a-value-read-as-a-contract-a-native-procedure-hands-back-holds-the-type-it-was-read-as")
+(note "Standard.Collection.append hands its list and the element to the native Standard.Collection.appending and writes back the list it returns. A native procedure is handed a value read as a contract as the run holds it and hands it back the same way, so 5 read as Int? at App.Described still holds Int? and the call picks the row of the Optional, not of Int.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.append)
+  (contract App.Described
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head (optional (some W)))
+    (satisfies App.Described)
+    (procedure describe
+      (parameter of (type (optional (some W))))
+      (returns String)
+      (body
+        (return "an optional"))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let maybe (type (optional Int)) 5)
+      (var xs (type (array App.Described)) (array))
+      (call Standard.Collection.append xs maybe)
+      (return (call App.Described.describe (path xs (index 0)))))))
+(expect (answers "an optional"))

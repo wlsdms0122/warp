@@ -1,0 +1,19 @@
+(test 1)
+(name "the-optional-bracket-tells-an-absent-entry-from-a-none-it-holds")
+(note "On `Dictionary<String, Int?>`, `?[` reads the entry as `Int??` exactly: the entry the dictionary holds under \"a\" is `null`, which reads as its some, `Some` holding `null`, and the absent \"b\" reads as the none.")
+
+(program
+  (warp 1)
+  (procedure App.read
+    (parameter of (type (dictionary String (optional Int))))
+    (parameter key (type String))
+    (returns Any)
+    (body
+      (return (path of (index? key)))))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let held (type (dictionary String (optional Int))) (dictionary (entry "a" null)))
+      (return (array (call App.read held "a") (call App.read held "b"))))))
+(expect (answers (array (struct Some (field wrapped null)) null)))

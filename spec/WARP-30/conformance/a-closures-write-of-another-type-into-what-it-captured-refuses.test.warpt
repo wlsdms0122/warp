@@ -1,0 +1,19 @@
+(test 1)
+(name "a-closures-write-of-another-type-into-what-it-captured-refuses")
+(note "A closure may write what it captured, and what it writes has to fit what the capturing body holds: the body reads the variable as the type it gave it.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (body
+      (var tally 0)
+      (let held
+        (closure
+          (body
+            (set tally "one"))))
+      (apply held)
+      (return tally))))
+(expect (refuses build))

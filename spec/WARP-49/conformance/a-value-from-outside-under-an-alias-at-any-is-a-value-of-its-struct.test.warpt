@@ -1,0 +1,19 @@
+(test 1)
+(name "a-value-from-outside-under-an-alias-at-any-is-a-value-of-its-struct")
+(note "`App.A` is an alias of the struct `App.P`, and the host hands `a` under the alias's name where the entry declares nothing. The door holds every name a value carries to the struct the name declares, so `a` arrives as an `App.P` and equals the one the cast names.")
+
+(program
+  (warp 1)
+  (import Standard.Logic.equal)
+  (type App.A App.P)
+  (struct App.P
+    (field x Int))
+  (procedure entry
+    (access public)
+    (parameter a)
+    (returns Bool)
+    (failing cast_refused)
+    (body
+      (return (call Standard.Logic.equal a (as (struct (field x 1)) App.P))))))
+(arguments (argument a (struct App.A (field x 1))))
+(expect (answers true))

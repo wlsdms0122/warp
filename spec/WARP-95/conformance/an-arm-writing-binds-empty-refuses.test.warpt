@@ -1,0 +1,5 @@
+(test 1)
+(name "an-arm-writing-binds-empty-refuses")
+(note "An arm binding nothing writes no `binds`, so `binds: {}` says what its absence says, and the load refuses it.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "switch" (dictionary (entry "cases" (dictionary (entry "green" (dictionary (entry "binds" (dictionary)) (entry "then" (array (dictionary (entry "value" (dictionary (entry "return" 1)))))))) (entry "red" (dictionary (entry "then" (array (dictionary (entry "value" (dictionary (entry "return" 2)))))))))) (entry "of" (dictionary (entry "ref" "light")))))))))) (entry "parameters" (array (dictionary (entry "name" "light") (entry "type" "App.Light")))) (entry "returns" "Int"))))) (entry "types" (dictionary (entry "App.Light" (dictionary (entry "enum" (dictionary (entry "green" (dictionary)) (entry "red" (dictionary)))))))) (entry "warp" 1)))
+(expect (refuses load))

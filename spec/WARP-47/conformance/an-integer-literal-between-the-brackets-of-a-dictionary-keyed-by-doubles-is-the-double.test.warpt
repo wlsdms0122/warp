@@ -1,0 +1,14 @@
+(test 1)
+(name "an-integer-literal-between-the-brackets-of-a-dictionary-keyed-by-doubles-is-the-double")
+(note "What stands between a path's brackets is a place a literal is written into, read on a dictionary as its key type, so an integer written there on `Dictionary<Double, String>` is the floating-point number it names, and the write makes the entry under that floating-point number.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns (dictionary Double String))
+    (body
+      (var d (type (dictionary Double String)) (dictionary))
+      (set (path d (index 1)) "one")
+      (return d))))
+(expect (answers (dictionary (entry 1.0 "one"))))

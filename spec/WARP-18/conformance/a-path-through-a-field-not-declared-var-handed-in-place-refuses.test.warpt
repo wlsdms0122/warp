@@ -1,0 +1,22 @@
+(test 1)
+(name "a-path-through-a-field-not-declared-var-handed-in-place-refuses")
+(note "The path handed in place is one a write may take, and a write passes through a field only where the declaration wrote it `var`. `a.balance` is handed at an `inout Int` slot, and `balance` is not `var`.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (struct App.Account
+    (field balance Int))
+  (procedure bump
+    (parameter count (type (inout Int)))
+    (body
+      (set count (call Standard.Numeric.plus count 1))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing cast_refused)
+    (body
+      (var a (as (struct (field balance 1)) App.Account))
+      (call bump (path a (field balance)))
+      (return (path a (field balance))))))
+(expect (refuses build))

@@ -1,0 +1,14 @@
+(test 1)
+(name "constants-that-name-each-other-refuse")
+(note "A constant may name another declared beside it, so the order they fold in is the order they read each other. Two that read each other have no such order and neither can be first, which the document's text alone shows, so it refuses at the load.")
+
+(program
+  (warp 1)
+  (const ceiling floor)
+  (const floor ceiling)
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (return floor))))
+(expect (refuses load))

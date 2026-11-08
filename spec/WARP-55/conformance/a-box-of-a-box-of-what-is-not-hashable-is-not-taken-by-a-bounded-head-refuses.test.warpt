@@ -1,0 +1,49 @@
+(test 1)
+(name "a-box-of-a-box-of-what-is-not-hashable-is-not-taken-by-a-bounded-head-refuses")
+(note "The inner box holds a struct no claim makes Hashable, so the inner box is not Hashable and the outer box is not taken by the Container head.")
+
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Container
+      (type Item)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item)))
+    (procedure Lib.firstOf
+      (access public)
+      (parameter c (type (some C Lib.Container)))
+      (returns (some C.Item))
+      (body
+        (return (call Lib.Container.first c)))))
+  (document
+    (warp 1)
+    (import Lib.Container)
+    (struct App.Box
+      (typeParameter T)
+      (field item (some T)))
+    (struct App.Plain
+      (field x Int))
+    (extension
+      (head (named App.Box (some T Hashable)))
+      (satisfies Hashable Lib.Container)
+      (type Item (some T))
+      (procedure first
+        (access public)
+        (parameter of (type (named App.Box (some T))))
+        (returns (some T))
+        (body
+          (return (path of (field item))))))))
+
+(program
+  (warp 1)
+  (import App.Box)
+  (import App.Plain)
+  (import Lib.firstOf)
+  (procedure entry
+    (access public)
+    (returns (named App.Box App.Plain))
+    (body
+      (let b (type (named App.Box (named App.Box App.Plain))) (struct (field item (struct (field item (struct (field x 1)))))))
+      (return (call Lib.firstOf b)))))
+(expect (refuses build))

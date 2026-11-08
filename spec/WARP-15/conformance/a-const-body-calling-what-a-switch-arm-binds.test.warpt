@@ -1,0 +1,39 @@
+(test 1)
+(name "a-const-body-calling-what-a-switch-arm-binds")
+(note "For a name a switch's arm binds, the type written is the type the enum's declaration writes for the field. The case `run` holds a `const` procedure, so `App.go`, declared const, calls the name its arm binds, and the call returns 2.")
+
+(program
+  (warp 1)
+  (enum App.Step
+    (case none)
+    (case run (field f (procedure (const) (parameters Int) (returns Int)))))
+  (procedure App.go
+    (const)
+    (parameter s (type App.Step))
+    (returns Int)
+    (body
+      (switch s
+        (case none
+          (then
+            (return 0)))
+        (case run
+          (bind f g)
+          (then
+            (let r (apply g 2))
+            (return r))))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return
+        (call App.go
+          (case run
+            (field f
+              (closure
+                (const)
+                (isolated)
+                (parameter x (type Int))
+                (returns Int)
+                (body
+                  (return x))))))))))
+(expect (answers 2))

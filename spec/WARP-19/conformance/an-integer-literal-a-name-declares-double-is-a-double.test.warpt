@@ -1,0 +1,13 @@
+(test 1)
+(name "an-integer-literal-a-name-declares-double-is-a-double")
+(note "What a name takes is judged against its declaration the way an argument is, and an integer literal written where it declares a `Double` is the `Double` it names. Matching is strict, so the answer is 1.0 and not 1.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Double)
+    (body
+      (let x (type Double) 1)
+      (return x))))
+(expect (answers 1.0))

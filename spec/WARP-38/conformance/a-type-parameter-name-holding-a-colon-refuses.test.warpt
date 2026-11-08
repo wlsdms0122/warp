@@ -1,0 +1,5 @@
+(test 1)
+(name "a-type-parameter-name-holding-a-colon-refuses")
+(note "A `typeParameter`'s names join into one string, and a name that string reads back otherwise has no text there. The name `K: Hashable` writes the string `K: Hashable`, which reads back as `(typeParameter K Hashable)`, so it refuses.")
+(text "(warp 1)\n\n(struct App.Box\n  (typeParameter `K: Hashable`)\n  (field x (some K)))\n")
+(expect (refuses load))

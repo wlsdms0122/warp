@@ -1,0 +1,22 @@
+(test 1)
+(name "a-module-constant-closure-calling-another-carries-what-it-declares")
+(note "A module constant that writes no type follows the type written where its value came from, in a closure another constant holds as in a body: the closure 'b' holds calls 'a', whose closure declares it fails with nothing, so 'b' fails with nothing and returns.")
+
+(program
+  (warp 1)
+  (const a
+    (closure
+      (returns Int)
+      (body
+        (return 1))))
+  (const b
+    (closure
+      (returns Int)
+      (body
+        (return (apply a)))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (apply b)))))
+(expect (answers 1))

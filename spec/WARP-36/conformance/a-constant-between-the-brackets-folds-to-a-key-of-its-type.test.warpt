@@ -1,0 +1,14 @@
+(test 1)
+(name "a-constant-between-the-brackets-folds-to-a-key-of-its-type")
+(note "A constant between the brackets folds at the build to the value it reads, whatever its type, and that value stands as a key written there would.")
+
+(program
+  (warp 1)
+  (const K true)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let d (type (dictionary Bool Int)) (dictionary (entry false 0) (entry true 1)))
+      (return (path d (index K))))))
+(expect (answers 1))

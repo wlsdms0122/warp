@@ -1,0 +1,14 @@
+(test 1)
+(name "split-keeps-the-empty-pieces")
+(note "A separator is matched whole, and a cut at either end leaves an empty piece. Keeping them is a reading of the string; dropping them would be an opinion about it.")
+
+(program
+  (warp 1)
+  (import Standard.Text.split)
+  (procedure entry
+    (access public)
+    (returns (array String))
+    (failing aborted)
+    (body
+      (return (call Standard.Text.split "--a--b--" "--")))))
+(expect (answers (array "" "a" "b" "")))

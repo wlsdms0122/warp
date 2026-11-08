@@ -1,0 +1,15 @@
+(test 1)
+(name "a-cast-of-an-optional-reading-to-its-payload-stands")
+(note "The test for a needless cast is sameness, not admission: `o` reads `Int?`, and a cast to `Int` names something the types leave open, so it stands and the run judges what arrived. Handed 5, it answers 5.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter o (type (optional Int)))
+    (returns Int)
+    (failing cast_refused)
+    (body
+      (return (as o Int)))))
+(arguments (argument o 5))
+(expect (answers 5))

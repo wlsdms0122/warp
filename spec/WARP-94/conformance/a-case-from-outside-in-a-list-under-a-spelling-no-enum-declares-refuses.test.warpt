@@ -1,0 +1,17 @@
+(test 1)
+(name "a-case-from-outside-in-a-list-under-a-spelling-no-enum-declares-refuses")
+(note "The host hands a list holding `App.Light.blue` where the entry declares nothing. The door holds a value to its case at whatever depth a list holds it, and nothing declares `App.Light.blue`, so it refuses the run.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure entry
+    (access public)
+    (parameter lights)
+    (returns Int)
+    (body
+      (return 1))))
+(arguments (argument lights (array (struct App.Light.green) (struct App.Light.blue))))
+(expect (refuses run))

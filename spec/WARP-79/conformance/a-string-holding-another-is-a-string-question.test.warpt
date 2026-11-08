@@ -1,0 +1,14 @@
+(test 1)
+(name "a-string-holding-another-is-a-string-question")
+(note "A string is not an array here, so whether it holds another string is asked of the text bundle. The result reads characters, not positions.")
+
+(program
+  (warp 1)
+  (import Standard.Text.contains)
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (body
+      (let held (call Standard.Text.contains "hello, spec" "lo, sp"))
+      (return held))))
+(expect (answers true))

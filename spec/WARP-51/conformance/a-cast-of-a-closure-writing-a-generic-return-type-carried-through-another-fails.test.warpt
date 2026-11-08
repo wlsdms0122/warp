@@ -1,0 +1,47 @@
+(test 1)
+(name "a-cast-of-a-closure-writing-a-generic-return-type-carried-through-another-fails")
+(note "App.h keeps n in cell and writes a closure that sets cell from its own some T, held as Any. App.g returns what App.h returns. The cast reading the closure as taking a string fails with cast_refused, since only App.h's call filled its T, so nothing outside T reaches cell and the try in the entry catches the failure.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure App.g
+    (parameter n (type (some T)))
+    (parameter junk)
+    (returns (some T))
+    (failing (anything))
+    (body
+      (return (call App.h n junk))))
+  (procedure App.h
+    (parameter n (type (some T)))
+    (parameter junk)
+    (returns (some T))
+    (failing (anything))
+    (body
+      (var cell n)
+      (let c
+        (closure
+          (parameter y (type (some T)))
+          (returns Int)
+          (body
+            (set cell y)
+            (return 0))))
+      (let a (type Any) c)
+      (let w (as a (procedure (parameters String) (returns Int))))
+      (let z (apply w (as junk String)))
+      (return cell)))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (var tried)
+      (let caught
+        (try
+          (body
+            (let r (call App.g 1 "s"))
+            (let y (call Standard.Numeric.plus r 1))
+            (set tried y))
+          (catch
+            (set tried (path caught (field type))))))
+      (return tried))))
+(expect (answers "cast_refused"))

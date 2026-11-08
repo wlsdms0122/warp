@@ -1,0 +1,14 @@
+(test 1)
+(name "a-key-reference-read-as-a-double-on-a-dictionary-keyed-by-doubles-reads-its-entry")
+(note "The value between the brackets stands where the dictionary's key type is read, here `Double`, and `k` reads `Double`, so the place takes it and the path reads the entry under 1.5.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let k (type Double) 1.5)
+      (let held (type (dictionary Double Int)) (dictionary (entry 1.5 1)))
+      (return (path held (index k))))))
+(expect (answers 1))

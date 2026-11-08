@@ -1,0 +1,16 @@
+(test 1)
+(name "a-procedure-name-holding-a-colon-refuses")
+(note "An import cuts a name at `:`, so a procedure declared as `App.f: App.C` is one no other document can import. A procedure's name is identifiers joined by dots, and this one refuses at the load where it is declared.")
+
+(program
+  (warp 1)
+  (procedure `App.f: App.C`
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

@@ -1,0 +1,31 @@
+(test 1)
+(name "a-declaration-satisfying-a-contracts-procedure-with-another-return-type-refuses")
+(note "The build holds a claim to the type's members: the member of the procedure's name takes the contract's signature with the type first. One returning an `Int` where the contract writes a `String` backs no claim, and the claim refuses at the build, at the claim.")
+
+(program
+  (warp 1)
+  (struct Bank.Account
+    (satisfies App.Describable)
+    (field balance Int)
+    (procedure describe
+      (parameter of (type Bank.Account))
+      (returns Int)
+      (body
+        (return 1))))
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (procedure App.tell
+    (parameter it (type (some T App.Describable)))
+    (returns String)
+    (body
+      (return (call App.Describable.describe it))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let held (as (struct (field balance 1)) Bank.Account))
+      (return (call App.tell held)))))
+(expect (refuses build))

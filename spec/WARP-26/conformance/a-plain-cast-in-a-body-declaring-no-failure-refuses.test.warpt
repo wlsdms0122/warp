@@ -1,0 +1,13 @@
+(test 1)
+(name "a-plain-cast-in-a-body-declaring-no-failure-refuses")
+(note "A body fails with what its plain casts fail with, `cast_refused`. This body casts outside any try and its declaration names no failure, so it fails with more than it says and refuses at the build.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter payload)
+    (returns Int)
+    (body
+      (return (as payload Int)))))
+(expect (refuses build))

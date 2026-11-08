@@ -1,0 +1,13 @@
+(test 1)
+(name "setting-a-key-already-held-writes-its-value")
+(note "setting writes the entry under the key, and where the dictionary already holds the key the value is the one written.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.setting)
+  (procedure entry
+    (access public)
+    (returns (dictionary String Int))
+    (body
+      (return (call Standard.Collection.setting (dictionary (entry "a" 1) (entry "b" 2)) "a" 3)))))
+(expect (answers (dictionary (entry "a" 3) (entry "b" 2))))

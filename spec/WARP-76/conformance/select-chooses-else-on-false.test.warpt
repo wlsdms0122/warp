@@ -1,0 +1,28 @@
+(test 1)
+(name "select-chooses-else-on-false")
+(note "select returns what the side its condition chooses returns, and on false that is else. The then side reads past the end of a list holding nothing, so the answer shows it was never asked.")
+
+(program
+  (warp 1)
+  (import Standard.Logic.select)
+  (procedure entry
+    (access public)
+    (const)
+    (returns Any)
+    (body
+      (let none (type (array Any)) (array))
+      (return
+        (call Standard.Logic.select false
+          (closure
+            (const)
+            (isolated)
+            (returns Any)
+            (body
+              (return (path none (index 0)))))
+          (closure
+            (const)
+            (isolated)
+            (returns Any)
+            (body
+              (return "else"))))))))
+(expect (answers "else"))

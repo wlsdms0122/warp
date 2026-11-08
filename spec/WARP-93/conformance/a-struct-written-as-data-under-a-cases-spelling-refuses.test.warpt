@@ -1,0 +1,16 @@
+(test 1)
+(name "a-struct-written-as-data-under-a-cases-spelling-refuses")
+(note "The constant writes a struct as data under `App.Light.red`, a case's spelling the document declares. A literal holding a struct refuses at the load whatever its name, a case's spelling included, so the load refuses. A program writes a value of an enum with a case literal.")
+
+(program
+  (warp 1)
+  (const light (struct App.Light.red))
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure entry
+    (access public)
+    (returns App.Light)
+    (body
+      (return light))))
+(expect (refuses load))

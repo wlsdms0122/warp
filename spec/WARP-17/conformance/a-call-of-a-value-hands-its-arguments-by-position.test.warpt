@@ -1,0 +1,24 @@
+(test 1)
+(name "a-call-of-a-value-hands-its-arguments-by-position")
+(note "Calling a value hands its arguments as a list, each landing at the position it is written at, in the order the closure declared its parameters. A value carries no names, so there is nothing to hand by.")
+
+(program
+  (warp 1)
+  (struct App.Pair
+    (field first Int)
+    (field second String))
+  (procedure entry
+    (access public)
+    (returns App.Pair)
+    (failing (anything))
+    (body
+      (let pair
+        (closure
+          (parameter first (type Int))
+          (parameter second (type String))
+          (returns App.Pair)
+          (body
+            (return (struct (field first first) (field second second))))))
+      (let made (apply pair 1 "x"))
+      (return made))))
+(expect (answers (struct App.Pair (field first 1) (field second "x"))))

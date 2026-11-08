@@ -1,0 +1,20 @@
+(test 1)
+(name "an-unwraps-else-written-empty-beside-a-then-refuses")
+(note "Beside a `then`, an unwrap's `else` holding nothing says what an unwrap with no `else` says, so a document writing it says one thing two ways and refuses at the load.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter o (type (optional Int)))
+    (returns Int)
+    (body
+      (var n 0)
+      (let x
+        (unwrap o
+          (then
+            (set n x))
+          (else)))
+      (return n))))
+(arguments (argument o null))
+(expect (refuses load))

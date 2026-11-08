@@ -1,0 +1,19 @@
+(test 1)
+(name "an-enum-every-case-of-which-names-it-stands")
+(note "Every case of `App.Loop` names `App.Loop`, so no value of it can end. That is a front end's mistake and no stage refuses it, as with a struct whose field names the struct, so a procedure taking one builds.")
+
+(program
+  (warp 1)
+  (enum App.Loop
+    (case more (field next App.Loop)))
+  (procedure App.take
+    (parameter loop (type App.Loop))
+    (returns Int)
+    (body
+      (return 0)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (answers 1))

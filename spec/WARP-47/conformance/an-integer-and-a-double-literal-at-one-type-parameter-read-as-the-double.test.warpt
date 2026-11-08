@@ -1,0 +1,18 @@
+(test 1)
+(name "an-integer-and-a-double-literal-at-one-type-parameter-read-as-the-double")
+(note "`App.pick` takes `some T` twice and is handed the literals `1` and `2.5`. The two stand at one type parameter, so `1` stands beside a `Double` and is the `Double` it names, and `T` reads `Double`.")
+
+(program
+  (warp 1)
+  (procedure App.pick
+    (parameter one (type (some T)))
+    (parameter other (type (some T)))
+    (returns (some T))
+    (body
+      (return one)))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (return (call App.pick 1 2.5)))))
+(expect (answers 1.0))

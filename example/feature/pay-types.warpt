@@ -1,0 +1,25 @@
+(warp 1)
+
+(struct pay.Card
+  (field limit Int)
+  (procedure amount
+    (const)
+    (parameter of (type pay.Card))
+    (returns Int)
+    (body
+      (return (path of (field limit))))))
+
+(struct pay.Cash
+  (field notes Int)
+  (procedure amount
+    (const)
+    (parameter of (type pay.Cash))
+    (returns Int)
+    (body
+      (return (path of (field notes))))))
+
+(contract pay.Payable
+  (procedure amount
+    (const)
+    (parameter of (type Self))
+    (returns Int)))

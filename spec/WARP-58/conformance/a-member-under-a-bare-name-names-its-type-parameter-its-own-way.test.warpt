@@ -1,0 +1,21 @@
+(test 1)
+(name "a-member-under-a-bare-name-names-its-type-parameter-its-own-way")
+(note "Under the struct's bare name a member takes the struct applied to a type parameter of its own, so `App.Box<some U>` takes every box though the struct lists `T`, and a box of an integer reaches `App.Box.m`.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T))
+    (procedure m
+      (parameter of (type (named App.Box (some U))))
+      (returns Int)
+      (body
+        (return 1))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let b (type (named App.Box Int)) (struct (field item 1)))
+      (return (call App.Box.m b)))))
+(expect (answers 1))

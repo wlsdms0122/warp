@@ -1,0 +1,13 @@
+(test 1)
+(name "double-remainder-is-the-exact-truncated-remainder")
+(note "A Double remainder is exact, what is left of the dividend after the divisor's whole multiples toward zero, as IEEE 754's fmod gives it. 1.0 remainder 0.1 leaves 0.09999999999999995, where truncating the rounded quotient, 10.0, would leave 0.0.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.remainder)
+  (procedure entry
+    (access public)
+    (returns Double)
+    (body
+      (return (call Standard.Numeric.remainder 1.0 0.1)))))
+(expect (answers 0.09999999999999995))

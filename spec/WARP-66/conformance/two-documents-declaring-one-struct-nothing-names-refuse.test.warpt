@@ -1,0 +1,22 @@
+(test 1)
+(name "two-documents-declaring-one-struct-nothing-names-refuse")
+(note "One spelling has one declarer in a link. Two documents each declare the struct `Lib.Spare`, and the link refuses at the build though nothing names it.")
+
+(documents
+  (document
+    (warp 1)
+    (struct Lib.Spare
+      (field x Int)))
+  (document
+    (warp 1)
+    (struct Lib.Spare
+      (field y String))))
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 3))))
+(expect (refuses build))

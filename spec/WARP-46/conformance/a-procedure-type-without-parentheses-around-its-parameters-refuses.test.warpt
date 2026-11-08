@@ -1,0 +1,5 @@
+(test 1)
+(name "a-procedure-type-without-parentheses-around-its-parameters-refuses")
+(note "A procedure type writes the types it is called with in parentheses before `->`, `(Int) -> Int`, so `Int -> Int` refuses at the load.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "let" "f") (entry "type" "Int -> Int") (entry "value" (dictionary (entry "closure" (dictionary (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" (dictionary (entry "ref" "x")))))))) (entry "parameters" (array (dictionary (entry "name" "x") (entry "type" "Int")))) (entry "returns" "Int")))))) (dictionary (entry "value" (dictionary (entry "return" 1)))))) (entry "returns" "Int"))))) (entry "warp" 1)))
+(expect (refuses load))

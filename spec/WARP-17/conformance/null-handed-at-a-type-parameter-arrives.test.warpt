@@ -1,0 +1,17 @@
+(test 1)
+(name "null-handed-at-a-type-parameter-arrives")
+(note "An argument holding null was given, and a slot takes it where `null` is a value of its type. A type parameter stands for what arrived, so `App.id` takes null and returns it.")
+
+(program
+  (warp 1)
+  (procedure App.id
+    (parameter x (type (some T)))
+    (returns (some T))
+    (body
+      (return x)))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (return (call App.id null)))))
+(expect (answers null))

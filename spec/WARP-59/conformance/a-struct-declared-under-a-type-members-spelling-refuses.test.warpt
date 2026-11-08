@@ -1,0 +1,17 @@
+(test 1)
+(name "a-struct-declared-under-a-type-members-spelling-refuses")
+(note "`App.Box.Item` is the spelling of App.Box's type member Item, which declares the type member alone, so no type is declared under it. One document declaring a struct there beside the type member shows it alone, and the load refuses.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (field item Int)
+    (type Item Int))
+  (struct App.Box.Item
+    (field shade Int))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

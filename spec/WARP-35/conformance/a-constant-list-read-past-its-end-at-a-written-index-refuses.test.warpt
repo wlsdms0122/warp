@@ -1,0 +1,13 @@
+(test 1)
+(name "a-constant-list-read-past-its-end-at-a-written-index-refuses")
+(note "The path is headed by a constant and its index is written, so it folds at the build, where `names` holds two elements and the index is 5. The fold finds nothing there to fold to, so the build refuses the path.")
+
+(program
+  (warp 1)
+  (const names (array "a" "b"))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (return (path names (index 5))))))
+(expect (refuses build))

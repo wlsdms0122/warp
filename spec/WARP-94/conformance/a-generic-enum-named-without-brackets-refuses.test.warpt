@@ -1,0 +1,21 @@
+(test 1)
+(name "a-generic-enum-named-without-brackets-refuses")
+(note "`App.Slot` takes a type parameter, so a mention applies it to one type. The parameter names it bare, and the build refuses the mention.")
+
+(program
+  (warp 1)
+  (enum App.Slot
+    (typeParameter T)
+    (case empty)
+    (case full (field item (some T))))
+  (procedure App.take
+    (parameter slot (type App.Slot))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

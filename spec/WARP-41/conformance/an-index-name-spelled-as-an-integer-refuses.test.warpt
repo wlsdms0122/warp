@@ -1,0 +1,5 @@
+(test 1)
+(name "an-index-name-spelled-as-an-integer-refuses")
+(note "A path node's name is an identifier, which begins with no digit, so an index node holding the name 1 is no node. It would write `a[1]`, which reads back as a position.")
+(text "(warp 1)\n\n(procedure entry\n  (access public)\n  (returns Int)\n  (body\n    (let a (array 5 6))\n    (return (path a (index `1`)))))")
+(expect (refuses load))

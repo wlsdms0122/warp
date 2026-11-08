@@ -1,0 +1,24 @@
+(test 1)
+(name "a-default-holding-no-statement-does-nothing-for-its-cases")
+(note "The `default` may hold no statement, as an arm's `then` may. Handed `yellow`, which no arm names, the switch runs the empty `default`, and `n` keeps the 0 it started with.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red)
+    (case yellow))
+  (procedure entry
+    (access public)
+    (parameter light (type App.Light))
+    (returns Int)
+    (body
+      (var n 0)
+      (switch light
+        (case green
+          (then
+            (set n 1)))
+        (default))
+      (return n))))
+(arguments (argument light (struct App.Light.yellow)))
+(expect (answers 0))

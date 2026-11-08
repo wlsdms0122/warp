@@ -1,0 +1,14 @@
+(test 1)
+(name "a-declaration-in-a-document-with-no-body-runs-no-statement")
+(note "A declaration in a document with no `body` is one whose body holds no statement, not a native procedure. `App.nothing` writes no body and no `returns`, so a call of it runs nothing and returns null, and `entry` goes on to return 1.")
+
+(program
+  (warp 1)
+  (procedure App.nothing)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (call App.nothing)
+      (return 1))))
+(expect (answers 1))

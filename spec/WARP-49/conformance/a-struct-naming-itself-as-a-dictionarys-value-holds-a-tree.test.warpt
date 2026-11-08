@@ -1,0 +1,17 @@
+(test 1)
+(name "a-struct-naming-itself-as-a-dictionarys-value-holds-a-tree")
+(note "A declared struct may name itself in a field at any depth, a dictionary's value among them. `App.Dir` keys its children by name, and an empty dictionary ends the tree.")
+
+(program
+  (warp 1)
+  (struct App.Dir
+    (field kids (dictionary String App.Dir))
+    (field n Int))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let leaf (type App.Dir) (struct (field kids (dictionary)) (field n 1)))
+      (let root (type App.Dir) (struct (field kids (dictionary (entry "a" leaf))) (field n 2)))
+      (return (path root (field kids) (index "a") (field n))))))
+(expect (answers 1))

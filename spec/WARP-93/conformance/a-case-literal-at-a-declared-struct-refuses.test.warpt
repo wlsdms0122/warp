@@ -1,0 +1,18 @@
+(test 1)
+(name "a-case-literal-at-a-declared-struct-refuses")
+(note "`App.Lamp` is a declared struct, and a declared struct reads no enum. A case literal written where `App.Lamp` is declared has no enum to be, so the build refuses it.")
+
+(program
+  (warp 1)
+  (struct App.Lamp
+    (field watts Int))
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let lamp (type App.Lamp) (case red))
+      (return 1))))
+(expect (refuses build))

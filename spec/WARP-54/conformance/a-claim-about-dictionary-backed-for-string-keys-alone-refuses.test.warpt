@@ -1,0 +1,26 @@
+(test 1)
+(name "a-claim-about-dictionary-backed-for-string-keys-alone-refuses")
+(note "A claim about `Dictionary` is about every dictionary, under whatever keys. `Dictionary.size` is given under `Dictionary<String, Any>`, for dictionaries under string keys alone, so a member of that name backs no claim about `Dictionary`, and the claim refuses at the build, at the claim. It is the Dictionary half of a-claim-about-array-backed-for-a-list-of-ints-alone-refuses.")
+
+(program
+  (warp 1)
+  (contract App.Sized
+    (procedure size
+      (parameter of (type Self))
+      (returns Int)))
+  (extension
+    (head Dictionary)
+    (satisfies App.Sized))
+  (extension
+    (head (dictionary String Any))
+    (procedure size
+      (parameter of (type (dictionary String Any)))
+      (returns Int)
+      (body
+        (return 1))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

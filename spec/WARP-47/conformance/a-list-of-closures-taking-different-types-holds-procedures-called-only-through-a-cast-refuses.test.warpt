@@ -1,0 +1,24 @@
+(test 1)
+(name "a-list-of-closures-taking-different-types-holds-procedures-called-only-through-a-cast-refuses")
+(note "One closure takes `Int` and the other `String`, so the two join to `Procedure` and `fs` reads `Array<Procedure>`. Calling an element straight calls a value whose parameters no type says, and the build refuses it. A join reading `(Any) -> Int` would let the string reach the closure taking `Int`.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let fs
+        (array
+          (closure
+            (parameter x (type Int))
+            (returns Int)
+            (body
+              (return x)))
+          (closure
+            (parameter x (type String))
+            (returns Int)
+            (body
+              (return 1)))))
+      (return (apply (path fs (index 0)) "a")))))
+(expect (refuses build))

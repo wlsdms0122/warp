@@ -1,0 +1,18 @@
+(warp 1)
+(import Standard.Concurrent.map)
+(import iso.square)
+
+(procedure entry
+  (access public)
+  (returns (array Int))
+  (failing aborted cast_refused concurrent_failed)
+  (body
+    (return (call Standard.Concurrent.map
+        (array 1 2 3)
+        (closure
+          (isolated)
+          (parameter item (type Int))
+          (parameter index (type Int))
+          (returns Int)
+          (body
+            (return (call iso.square item))))))))

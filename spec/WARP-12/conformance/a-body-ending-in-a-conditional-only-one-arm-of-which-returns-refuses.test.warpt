@@ -1,0 +1,16 @@
+(test 1)
+(name "a-body-ending-in-a-conditional-only-one-arm-of-which-returns-refuses")
+(note "`entry` writes `returns Int`, and its body ends in a conditional whose `then` returns and which writes no `else`. Where `ready` is false the way goes on past the conditional to the end of the body, so the build refuses it, whatever `ready` holds at the run.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter ready (type Bool))
+    (returns Int)
+    (body
+      (conditional
+        (when ready)
+        (then
+          (return 1))))))
+(expect (refuses build))

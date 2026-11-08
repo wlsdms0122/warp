@@ -1,0 +1,20 @@
+(test 1)
+(name "a-case-literal-at-a-type-parameter-no-call-fills-with-an-enum-refuses")
+(note "`App.count` takes `some T`, and the call hands it a case literal and nothing else that fills `T`. No enum is read there, so the build refuses the literal.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure App.count
+    (parameter x (type (some T)))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.count (case red))))))
+(expect (refuses build))

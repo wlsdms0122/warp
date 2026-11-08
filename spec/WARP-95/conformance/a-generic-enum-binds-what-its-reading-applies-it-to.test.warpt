@@ -1,0 +1,31 @@
+(test 1)
+(name "a-generic-enum-binds-what-its-reading-applies-it-to")
+(note "`App.Result` takes `T` and `E`, and its cases carry one of each. `r` is an `App.Result<Int, String>`, so the call fills `T` with `Int` from it and from the fallback, and in the `success` arm the name bound to `value` reads `some T`, which the body returns.")
+
+(program
+  (warp 1)
+  (enum App.Result
+    (typeParameter T)
+    (typeParameter E)
+    (case failure (field error (some E)))
+    (case success (field value (some T))))
+  (procedure App.valueOr
+    (parameter result (type (named App.Result (some T) String)))
+    (parameter fallback (type (some T)))
+    (returns (some T))
+    (body
+      (switch result
+        (case failure
+          (then
+            (return fallback)))
+        (case success
+          (bind value v)
+          (then
+            (return v))))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let r (type (named App.Result Int String)) (case success (field value 5)))
+      (return (call App.valueOr r 0)))))
+(expect (answers 5))

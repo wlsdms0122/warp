@@ -1,0 +1,31 @@
+(test 1)
+(name "a-dictionary-handed-through-a-claim-about-dictionary-reads-as-the-dictionary-it-is-refuses")
+(note "A claim about `Dictionary` is about every dictionary, so `Dictionary.f` takes one under any key and of any values, and may write any of its values under any of its keys. A call through `App.C` fills `Self` from the dictionary handed there, a dictionary literal of `1` and `\"s\"` read as `Dictionary<String, Any>`, and reads the return value as that dictionary, so its entry under `\"a\"` reads `Any`, and holding it where an `Int` is declared refuses at the build.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.keys)
+  (import Standard.Collection.setting)
+  (import Standard.Collection.values)
+  (contract App.C
+    (procedure f
+      (parameter s (type Self))
+      (returns Self)))
+  (extension
+    (head Dictionary)
+    (satisfies App.C)
+    (procedure f
+      (parameter s (type (dictionary (some K Hashable) (some E))))
+      (returns (dictionary (some K) (some E)))
+      (body
+        (let ks (call Standard.Collection.keys s))
+        (let vs (call Standard.Collection.values s))
+        (return (call Standard.Collection.setting s (path ks (index 0)) (path vs (index 1)))))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let r (call App.C.f (dictionary (entry "a" 1) (entry "b" "s"))))
+      (let n (type Int) (path r (index "a")))
+      (return n))))
+(expect (refuses build))

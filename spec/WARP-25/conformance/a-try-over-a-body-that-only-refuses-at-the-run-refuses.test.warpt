@@ -1,0 +1,19 @@
+(test 1)
+(name "a-try-over-a-body-that-only-refuses-at-the-run-refuses")
+(note "A refusal at the run is not a failure and does not make a body one that can fail. The body only indexes a list, which may refuse at the run and fails with nothing, so the catch is a body no run reaches and the build refuses it.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let xs (array 1 2))
+      (var got 0)
+      (try
+        (body
+          (set got (path xs (index 3))))
+        (catch
+          (set got 9)))
+      (return got))))
+(expect (refuses build))

@@ -1,0 +1,25 @@
+(test 1)
+(name "a-constant-of-int-keys-folded-from-a-call-returning-any-reads-its-keys")
+(note "A constant's type is its value's. `K.make` returns `Any`, and the dictionary it returns holds only ints as keys, so the constant reads `Dictionary<Int, Int>` and `count` returns 2, where keys of two types would read `Any` whole.")
+
+(documents
+  (document
+    (warp 1)
+    (procedure K.make
+      (const)
+      (returns Any)
+      (body
+        (let m (type (dictionary Int Int)) (dictionary (entry 1 1) (entry 2 2)))
+        (return m)))))
+
+(program
+  (warp 1)
+  (import K.make)
+  (import Standard.Collection.count)
+  (const made (call K.make))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call Standard.Collection.count made)))))
+(expect (answers 2))

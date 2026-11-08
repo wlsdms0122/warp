@@ -1,0 +1,16 @@
+(test 1)
+(name "a-document-importing-a-claim-about-its-type-members-spelling-refuses")
+(note "A claim among the imports names its type, and `App.Box.Item` is the spelling of App.Box's type member Item, an alias of Int. A claim about an alias is made by no document, so the build refuses the import.")
+
+(program
+  (warp 1)
+  (import App.Box.Item Hashable)
+  (struct App.Box
+    (field item Int)
+    (type Item Int))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

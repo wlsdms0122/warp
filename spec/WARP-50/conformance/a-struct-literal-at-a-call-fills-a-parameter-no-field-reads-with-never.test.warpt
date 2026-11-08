@@ -1,0 +1,21 @@
+(test 1)
+(name "a-struct-literal-at-a-call-fills-a-parameter-no-field-reads-with-never")
+(note "A struct literal whose place leaves a position to a call is applied to `Never` where no field reads that position. `App.Tagged` lists `Tag`, which no field writes, so the literal reads `App.Tagged<Never, Int>`, and the call builds and returns the raw value.")
+
+(program
+  (warp 1)
+  (struct App.Tagged
+    (typeParameter Tag)
+    (typeParameter Raw)
+    (field raw (some Raw)))
+  (procedure App.raw
+    (parameter t (type (named App.Tagged (some Tag) (some Raw))))
+    (returns (some Raw))
+    (body
+      (return (path t (field raw)))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.raw (struct (field raw 1)))))))
+(expect (answers 1))

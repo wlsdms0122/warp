@@ -1,0 +1,14 @@
+(test 1)
+(name "a-string-not-holding-another-returns-false")
+(note "A part longer than the whole, and a part the whole never spells, both return false rather than refusing.")
+
+(program
+  (warp 1)
+  (import Standard.Text.contains)
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (body
+      (let held (call Standard.Text.contains "spec" "specification"))
+      (return held))))
+(expect (answers false))

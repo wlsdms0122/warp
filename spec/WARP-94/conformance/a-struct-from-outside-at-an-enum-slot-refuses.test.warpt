@@ -1,0 +1,19 @@
+(test 1)
+(name "a-struct-from-outside-at-an-enum-slot-refuses")
+(note "The host hands a struct under the declared struct's name `App.Point` where the entry declares `App.Light`. A slot of an enum takes a value under one of its cases' spellings and no other, so the door refuses the run.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (struct App.Point
+    (field x Int))
+  (procedure entry
+    (access public)
+    (parameter light (type App.Light))
+    (returns Int)
+    (body
+      (return 1))))
+(arguments (argument light (struct App.Point (field x 1))))
+(expect (refuses run))

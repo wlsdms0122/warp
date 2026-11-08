@@ -1,0 +1,21 @@
+(test 1)
+(name "a-name-one-document-declares-as-a-type-and-another-as-a-contract-refuses")
+(note "Types and contracts share one namespace, and one spelling has one declarer in the link. The document beside the program declares `App.Thing` as a type and the program declares it as a contract, so the build refuses.")
+
+(documents
+  (document
+    (warp 1)
+    (type App.Thing Int)))
+
+(program
+  (warp 1)
+  (contract App.Thing
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

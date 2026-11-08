@@ -1,0 +1,20 @@
+(test 1)
+(name "an-associated-type-of-a-parameter-in-a-contracts-procedure-refuses")
+(note "A contract's procedure writes no `some T.Item`. Nothing there can bound its `T`, so this is the one cell of the table refused at the build, under associated types.")
+
+(program
+  (warp 1)
+  (contract App.Container
+    (type Item))
+  (contract App.K
+    (procedure m
+      (parameter of (type Self))
+      (parameter c (type (some C)))
+      (parameter i (type (some C.Item)))
+      (returns Int)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

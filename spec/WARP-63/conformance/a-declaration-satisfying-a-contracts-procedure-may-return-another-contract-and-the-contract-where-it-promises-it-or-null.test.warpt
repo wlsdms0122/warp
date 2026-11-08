@@ -1,0 +1,50 @@
+(test 1)
+(name "a-declaration-satisfying-a-contracts-procedure-may-return-another-contract-and-the-contract-where-it-promises-it-or-null")
+(note "The contract returns App.Sized? and the declaration satisfying it returns App.Pockets & App.Sized, which conforms to App.Sized by what it writes, whatever type conforming to both it is.")
+
+(program
+  (warp 1)
+  (struct Bank.Box
+    (satisfies App.Shown)
+    (field n Int)
+    (procedure show
+      (parameter of (type Bank.Box))
+      (parameter n (type App.Sized))
+      (returns (composition App.Pockets App.Sized))
+      (failing cast_refused)
+      (body
+        (let k (as (struct (field last "9")) Bank.Card))
+        (return k))))
+  (struct Bank.Card
+    (satisfies App.Pockets App.Sized App.Wallets)
+    (field last String)
+    (procedure size
+      (parameter of (type Bank.Card))
+      (returns Int)
+      (body
+        (return 4))))
+  (struct Bank.Coin
+    (satisfies App.Pockets App.Wallets)
+    (field cents Int))
+  (contract App.Pockets)
+  (contract App.Shown
+    (procedure show
+      (parameter of (type Self))
+      (parameter n (type App.Sized))
+      (returns (optional App.Sized))
+      (failing cast_refused)))
+  (contract App.Sized
+    (procedure size
+      (parameter of (type Self))
+      (returns Int)))
+  (contract App.Wallets)
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let b (as (struct (field n 1)) Bank.Box))
+      (let c (as (struct (field last "4")) Bank.Card))
+      (let s (call App.Shown.show b c))
+      (return "ok"))))
+(expect (answers "ok"))

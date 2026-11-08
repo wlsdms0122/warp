@@ -1,0 +1,18 @@
+(test 1)
+(name "a-member-taking-nothing-refuses")
+(note "A member takes a value of its type first, and one taking nothing refuses at the load. `App.Box.make` declares no parameter, so it is no member of the box, and a procedure that takes no value of a type is declared under `procedures` with that spelling.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (field x Int)
+    (procedure make
+      (returns Int)
+      (body
+        (return 1))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

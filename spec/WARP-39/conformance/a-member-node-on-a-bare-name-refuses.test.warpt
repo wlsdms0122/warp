@@ -1,0 +1,5 @@
+(test 1)
+(name "a-member-node-on-a-bare-name-refuses")
+(note "`(member App.Box Item)` writes `App.Box.Item`, which is a name and reads back as the atom, so the node refuses.")
+(text "(warp 1)\n\n(procedure App.f\n  (parameter x (type (member App.Box Item)))\n  (returns Int)\n  (body\n    (return 1)))")
+(expect (refuses load))

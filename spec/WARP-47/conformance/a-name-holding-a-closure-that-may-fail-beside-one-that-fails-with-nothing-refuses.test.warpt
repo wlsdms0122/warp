@@ -1,0 +1,33 @@
+(test 1)
+(name "a-name-holding-a-closure-that-may-fail-beside-one-that-fails-with-nothing-refuses")
+(note "Two procedures join to one that may fail with what either may. `fs` declares no type, so it reads the join, which may fail with `aborted`, and handing it where the elements fail with nothing refuses at the build. No element is written at the slot, so the refusal is the join's.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let fs
+        (array
+          (closure
+            (const)
+            (parameter x (type Int))
+            (returns Int)
+            (body
+              (return x)))
+          (closure
+            (const)
+            (parameter x (type Int))
+            (returns Int)
+            (failing aborted)
+            (body
+              (return (call Standard.Control.abort "no"))))))
+      (return (call take fs))))
+  (procedure take
+    (parameter steps (type (array (procedure (const) (parameters Int) (returns Int)))))
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

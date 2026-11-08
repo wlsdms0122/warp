@@ -1,0 +1,29 @@
+(test 1)
+(name "a-break-out-of-a-try-body-is-no-failure-its-catch-takes")
+(note "Leaving travels out through whatever it is inside and is not a failure. The `break` inside the try's body leaves the loop, the catch does not run, and `seen` holds what it started with.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (parameter go (type Bool))
+    (returns String)
+    (body
+      (var seen "none")
+      (loop
+        (while true)
+        (body
+          (try
+            (body
+              (conditional
+                (when go)
+                (then
+                  (break)))
+              (call Standard.Control.abort "no"))
+            (catch
+              (set seen "caught")))
+          (break)))
+      (return seen))))
+(arguments (argument go true))
+(expect (answers "none"))

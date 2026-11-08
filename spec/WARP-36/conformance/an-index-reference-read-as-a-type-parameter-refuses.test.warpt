@@ -1,0 +1,18 @@
+(test 1)
+(name "an-index-reference-read-as-a-type-parameter-refuses")
+(note "A path between brackets on a list stands where an `Int` is read, and a type parameter is one type the body does not know, so `xs[k]` with `k` of `some T` refuses at the build, whatever a call fills `T` with.")
+
+(program
+  (warp 1)
+  (procedure App.at
+    (parameter xs (type (array Int)))
+    (parameter k (type (some T)))
+    (returns Int)
+    (body
+      (return (path xs (index k)))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

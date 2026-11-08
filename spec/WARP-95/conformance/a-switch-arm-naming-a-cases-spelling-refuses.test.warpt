@@ -1,0 +1,23 @@
+(test 1)
+(name "a-switch-arm-naming-a-cases-spelling-refuses")
+(note "Inside `switch` past its subject a `case` node is an arm, and its name is one identifier. `(case App.Light.red)` writes the spelling where the name stands, which is no case's name, so the load refuses it.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure entry
+    (access public)
+    (parameter light (type App.Light))
+    (returns Int)
+    (body
+      (switch light
+        (case App.Light.red
+          (then
+            (return 2)))
+        (case green
+          (then
+            (return 1)))))))
+(arguments (argument light (struct App.Light.red)))
+(expect (refuses load))

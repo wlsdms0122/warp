@@ -1,0 +1,19 @@
+(test 1)
+(name "a-cast-naming-a-type-parameter-its-procedure-does-not-declare-refuses")
+(note "A type parameter written in a cast's type is one of the procedure the cast stands in, and one the procedure does not declare refuses at the load. `App.f` declares `T` alone, and its cast names `some U`.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter x (type (some T)))
+    (parameter raw)
+    (returns Any)
+    (failing cast_refused)
+    (body
+      (return (as raw (array (some U))))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

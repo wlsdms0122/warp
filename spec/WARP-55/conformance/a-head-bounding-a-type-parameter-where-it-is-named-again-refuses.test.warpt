@@ -1,0 +1,15 @@
+(test 1)
+(name "a-head-bounding-a-type-parameter-where-it-is-named-again-refuses")
+(note "A head bounds a type parameter where it first names it, so bounds written at the second `some K` refuse at the load.")
+
+(program
+  (warp 1)
+  (extension
+    (head (dictionary (some K) (array (some K Hashable))))
+    (satisfies Hashable))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

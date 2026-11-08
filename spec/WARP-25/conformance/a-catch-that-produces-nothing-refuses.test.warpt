@@ -1,0 +1,17 @@
+(test 1)
+(name "a-catch-that-produces-nothing-refuses")
+(note "A catch with no statement in it would drop a failure without a trace. The body may fail with `aborted`, so the empty catch is the one thing refused, at the load.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (try
+        (body
+          (call Standard.Control.abort "x"))
+        (catch))
+      (return 1))))
+(expect (refuses load))

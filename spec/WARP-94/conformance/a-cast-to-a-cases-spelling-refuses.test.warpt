@@ -1,0 +1,17 @@
+(test 1)
+(name "a-cast-to-a-cases-spelling-refuses")
+(note "A case is not a type, so `App.Light.red` written as a cast's type names none. The document declaring the enum writes it, and shows it alone, so the load refuses.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure entry
+    (access public)
+    (parameter value)
+    (returns Bool)
+    (body
+      (return (as? value App.Light.red)))))
+(arguments (argument value (struct App.Light.red)))
+(expect (refuses load))

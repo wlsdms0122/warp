@@ -1,0 +1,24 @@
+(test 1)
+(name "a-contract-adopted-twice-under-satisfies-refuses")
+(note "A list the document keeps in name order holds each entry once, so `App.X` adopted twice under `satisfies` says one adoption a second way.")
+
+(program
+  (warp 1)
+  (struct Bank.A
+    (satisfies App.X App.X)
+    (field n Int)
+    (procedure d
+      (parameter of (type Bank.A))
+      (returns String)
+      (body
+        (return "a"))))
+  (contract App.X
+    (procedure d
+      (parameter of (type Self))
+      (returns String)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

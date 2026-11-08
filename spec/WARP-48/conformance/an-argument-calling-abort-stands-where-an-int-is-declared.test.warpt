@@ -1,0 +1,26 @@
+(test 1)
+(name "an-argument-calling-abort-stands-where-an-int-is-declared")
+(note "An expression typed `Never` may be written where any value is expected, so an argument calling `Standard.Control.abort` stands where `wants` declares `Int`, and evaluating it ends the evaluation it is inside. The call builds, and the try catches `aborted`.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (var r)
+      (let caught
+        (try
+          (body
+            (let v (call wants (call Standard.Control.abort "no")))
+            (set r v))
+          (catch
+            (set r (path caught (field type))))))
+      (return r)))
+  (procedure wants
+    (parameter it (type Int))
+    (returns Int)
+    (body
+      (return it))))
+(expect (answers "aborted"))

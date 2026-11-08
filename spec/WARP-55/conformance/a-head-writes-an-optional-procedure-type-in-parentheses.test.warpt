@@ -1,0 +1,22 @@
+(test 1)
+(name "a-head-writes-an-optional-procedure-type-in-parentheses")
+(note "A head writes the types it applies a struct to as a slot does, so the Optional of a const procedure is written `(const Procedure)?` there too, and the extension loads.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field held (some T)))
+  (extension
+    (head (named App.Box (optional (procedure (const)))))
+    (procedure one
+      (parameter it (type (named App.Box (optional (procedure (const))))))
+      (returns Int)
+      (body
+        (return 1))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (answers 1))

@@ -1,0 +1,37 @@
+(test 1)
+(name "a-name-for-an-optional-at-a-contract-no-optional-conforms-to-refuses")
+(note "App.f takes App.Sized and is handed a variable declared Bank.MaybeCard, which names Bank.Card?. The name stands for an Optional, and no document claims App.Sized for an Optional.")
+
+(program
+  (warp 1)
+  (struct Bank.Box
+    (field n Int))
+  (struct Bank.Card
+    (satisfies App.Sized)
+    (field last String)
+    (procedure size
+      (parameter of (type Bank.Card))
+      (returns Int)
+      (body
+        (return 4))))
+  (struct Bank.Coin
+    (field cents Int))
+  (type Bank.MaybeCard (optional Bank.Card))
+  (contract App.Sized
+    (procedure size
+      (parameter of (type Self))
+      (returns Int)))
+  (procedure App.f
+    (parameter n (type App.Sized))
+    (returns String)
+    (body
+      (return "took")))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let c (type Bank.MaybeCard) (as (struct (field last "4")) Bank.Card))
+      (let s (call App.f c))
+      (return s))))
+(expect (refuses build))

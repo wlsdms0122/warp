@@ -1,0 +1,5 @@
+(test 1)
+(name "a-dictionary-literal-entry-of-one-expression-refuses")
+(note "A dictionary literal's entry is a list of two, its key and its value, and `[\"a\"]` holds a key and no value.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" (dictionary (entry "dictionary" (array (array "a")))))))))) (entry "returns" "Dictionary<String, Int>"))))) (entry "warp" 1)))
+(expect (refuses load))

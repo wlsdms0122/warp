@@ -1,0 +1,20 @@
+(test 1)
+(name "abort-says-its-message-spelled-as-text")
+(note "`abort` takes `message: Any`, and the failure says the message as `text` spells it: a list of `1`, `\"a\"` and `null` says `[1,\"a\",null]`.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (returns (optional String))
+    (body
+      (var failed)
+      (let caught
+        (try
+          (body
+            (call Standard.Control.abort (array 1 "a" null)))
+          (catch
+            (set failed (path caught (field message))))))
+      (return failed))))
+(expect (answers "[1,\"a\",null]"))

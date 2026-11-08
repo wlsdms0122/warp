@@ -1,0 +1,5 @@
+(test 1)
+(name "an-index-name-beginning-with-a-quote-refuses")
+(note "A path node's name is an identifier, which holds no quote, so an index node holding the name `\"k\"` is no node. It would write `d[\"k\"]`, which reads back as a string key.")
+(text "(warp 1)\n\n(procedure entry\n  (access public)\n  (returns Int)\n  (body\n    (let d (dictionary (entry \"k\" 5)))\n    (return (path d (index `\"k\"`)))))")
+(expect (refuses load))

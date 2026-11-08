@@ -1,0 +1,75 @@
+(test 1)
+(name "a-call-of-a-value-hands-in-place-inside-every-construct")
+(note "A call of a value hands a variable in place wherever it is written: a body, both arms of a conditional, a loop's round, a try and its catch. A closure is written into a dictionary, an array and an argument the same way, and its own calls are judged and lowered with it.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (import Standard.Logic.not)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (body
+      (var n 0)
+      (let bump
+        (closure
+          (parameter c (type (inout Int)))
+          (body
+            (set c (call Standard.Numeric.plus c 1)))))
+      (apply bump n)
+      (conditional
+        (when true)
+        (then
+          (apply bump n))
+        (else
+          (apply bump n)))
+      (loop
+        (while (call Standard.Logic.not false))
+        (body
+          (apply bump n)
+          (break)))
+      (let inner
+        (closure
+          (returns Int)
+          (failing (anything))
+          (body
+            (var m 0)
+            (apply bump m)
+            (return m))))
+      (let r
+        (dictionary
+          (entry "f"
+            (closure
+              (returns Int)
+              (failing (anything))
+              (body
+                (var m 0)
+                (apply bump m)
+                (return m))))))
+      (let a
+        (array
+          (closure
+            (returns Int)
+            (failing (anything))
+            (body
+              (var m 0)
+              (apply bump m)
+              (return m)))))
+      (let got (call relay inner))
+      (try
+        (body
+          (apply bump n)
+          (call Standard.Control.abort "x"))
+        (catch
+          (apply bump n)))
+      (return n)))
+  (procedure relay
+    (parameter f (type (procedure (parameters) (failing (anything)) (returns Any))))
+    (returns Any)
+    (failing (anything))
+    (body
+      (let x (apply f))
+      (return x))))
+(expect (answers 5))

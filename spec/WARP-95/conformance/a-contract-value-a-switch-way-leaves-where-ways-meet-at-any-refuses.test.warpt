@@ -1,0 +1,28 @@
+(test 1)
+(name "a-contract-value-a-switch-way-leaves-where-ways-meet-at-any-refuses")
+(note "`y` reads `Hashable` where the `green` arm leaves it and `Int` where the `red` arm writes `1`, so the ways meet reading `Any`. A value read as `Hashable` holds the type it was read as, which would have to drop to stand at `Any`, so the build refuses.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure App.f
+    (parameter p (type Hashable))
+    (parameter light (type App.Light))
+    (returns Any)
+    (body
+      (var y p)
+      (switch light
+        (case green
+          (then))
+        (case red
+          (then
+            (set y 1))))
+      (return y)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

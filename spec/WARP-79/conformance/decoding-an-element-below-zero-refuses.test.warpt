@@ -1,0 +1,13 @@
+(test 1)
+(name "decoding-an-element-below-zero-refuses")
+(note "decoded refuses at the run when an element is no byte, an integer from 0 to 255, and -1 is just below the line.")
+
+(program
+  (warp 1)
+  (import Standard.Text.decoded)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (return (call Standard.Text.decoded (array 104 -1) "utf8")))))
+(expect (refuses run))

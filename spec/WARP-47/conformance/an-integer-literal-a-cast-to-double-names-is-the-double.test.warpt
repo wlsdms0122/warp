@@ -1,0 +1,13 @@
+(test 1)
+(name "an-integer-literal-a-cast-to-double-names-is-the-double")
+(note "The type a cast names is a place, so `1` cast to `Double` reads as `1.0`, and the cast holds it.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Double)
+    (failing cast_refused)
+    (body
+      (return (as 1 Double)))))
+(expect (answers 1.0))

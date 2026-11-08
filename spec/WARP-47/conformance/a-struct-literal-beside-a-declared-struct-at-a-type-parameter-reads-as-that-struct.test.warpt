@@ -1,0 +1,21 @@
+(test 1)
+(name "a-struct-literal-beside-a-declared-struct-at-a-type-parameter-reads-as-that-struct")
+(note "A type parameter a call fills beside is a place a literal is read at. `App.same` takes `some T` twice, the `App.P` handed first fills it, and the struct literal handed beside it is read as that struct once the readings join, so the call returns the literal as an `App.P`.")
+
+(program
+  (warp 1)
+  (struct App.P
+    (field x Int))
+  (procedure App.same
+    (parameter a (type (some T)))
+    (parameter b (type (some T)))
+    (returns (some T))
+    (body
+      (return b)))
+  (procedure entry
+    (access public)
+    (returns App.P)
+    (body
+      (let p (type App.P) (struct (field x 1)))
+      (return (call App.same p (struct (field x 2)))))))
+(expect (answers (struct App.P (field x 2))))

@@ -1,0 +1,21 @@
+(test 1)
+(name "a-generic-types-member-named-without-brackets-refuses")
+(note "App.Wrapper lists the type parameter T, and `App.Wrapper.Item` names it without brackets, so it says no reading of T and no type. The type before the dot is named as any mention names it, and the build refuses it as it refuses `App.Wrapper`.")
+
+(program
+  (warp 1)
+  (struct App.Wrapper
+    (typeParameter T)
+    (field item (some T))
+    (type Item (some T)))
+  (procedure App.take
+    (parameter x (type App.Wrapper.Item))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

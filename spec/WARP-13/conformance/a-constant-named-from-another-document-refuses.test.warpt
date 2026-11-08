@@ -1,0 +1,21 @@
+(test 1)
+(name "a-constant-named-from-another-document-refuses")
+(note "A constant is the document's own, and another document reaches it only through a procedure declared beside it. The program reads `limit`, which only the document beside it declares, so the name resolves nowhere in the program's own document and refuses at the load.")
+
+(documents
+  (document
+    (warp 1)
+    (const limit 3)
+    (procedure Lib.limit
+      (returns Int)
+      (body
+        (return limit)))))
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return limit))))
+(expect (refuses load))

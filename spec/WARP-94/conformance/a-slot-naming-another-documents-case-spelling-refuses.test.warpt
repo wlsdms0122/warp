@@ -1,0 +1,25 @@
+(test 1)
+(name "a-slot-naming-another-documents-case-spelling-refuses")
+(note "The document beside the program declares `App.Light`, and the program writes its case's spelling `App.Light.red` as a parameter's type. A case is not a type, and only the build resolves a name another document declares, so the build refuses.")
+
+(documents
+  (document
+    (warp 1)
+    (enum App.Light
+      (case green)
+      (case red))))
+
+(program
+  (warp 1)
+  (import App.Light.red)
+  (procedure App.stop
+    (parameter light (type App.Light.red))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

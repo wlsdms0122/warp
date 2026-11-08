@@ -1,0 +1,17 @@
+(test 1)
+(name "constants-fold-in-the-order-they-read-each-other")
+(note "A constant may name another declared beside it, and what it reads folds before it does. The order is the one the reading gives and not the one the names happen to sort in: `xerus` reads `yak`, which reads `zebra`, and the three sort in the reverse of that.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (import Standard.Numeric.times)
+  (const xerus (call Standard.Numeric.plus yak zebra))
+  (const yak (call Standard.Numeric.times zebra zebra))
+  (const zebra 2)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return xerus))))
+(expect (answers 6))

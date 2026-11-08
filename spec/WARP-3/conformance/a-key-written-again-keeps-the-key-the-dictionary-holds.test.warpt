@@ -1,0 +1,23 @@
+(test 1)
+(name "a-key-written-again-keeps-the-key-the-dictionary-holds")
+(note "Writing a key the dictionary already holds, as one value, writes the value and keeps the key it holds: a literal writing `1` and then `1.0`, a path writing `1.0` into a dictionary holding `1`, and `setting` under the decomposed spelling of a key held composed all keep the first spelling, which `text` and `encoded` read.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.keys)
+  (import Standard.Collection.setting)
+  (import Standard.Text.encoded)
+  (import Standard.Text.text)
+  (procedure entry
+    (access public)
+    (returns (array Any))
+    (body
+      (let whole (type Hashable) 1)
+      (let fraction (type Hashable) 1.0)
+      (let one (dictionary (entry whole "a") (entry fraction "b")))
+      (var two (dictionary (entry whole "a")))
+      (set (path two (index fraction)) "b")
+      (let three (call Standard.Collection.setting (dictionary (entry "é" 1)) "é" 2))
+      (let held (call Standard.Collection.keys three))
+      (return (array (call Standard.Text.text one) (call Standard.Text.text two) (call Standard.Text.encoded (path held (index 0)) "utf8") (path three (index "é")))))))
+(expect (answers (array "{1:\"b\"}" "{1:\"b\"}" x"c3a9" 2)))

@@ -1,0 +1,5 @@
+(test 1)
+(name "a-string-key-sorts-by-its-composed-spelling")
+(note "A string key sorts by the UTF-8 bytes of its composed spelling and travels as written, so `e` with a combining accent, composed c3 a9, stands after `f`, though its own bytes begin 65.")
+(bytes x"574152500107020501660302050365cc810304")
+(expect (spells (dictionary (entry "f" 1) (entry "é" 2))))

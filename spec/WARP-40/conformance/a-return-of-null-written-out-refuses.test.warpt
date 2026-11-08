@@ -1,0 +1,5 @@
+(test 1)
+(name "a-return-of-null-written-out-refuses")
+(note "A `return` of null leaves its operand out, `(return)`, which is the one text of it. `(return null)` writes the same tree a second way, and refuses.")
+(text "(warp 1)\n\n(procedure entry\n  (access public)\n  (body\n    (return null)))")
+(expect (refuses load))

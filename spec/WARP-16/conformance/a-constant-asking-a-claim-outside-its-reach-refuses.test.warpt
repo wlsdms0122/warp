@@ -1,0 +1,51 @@
+(test 1)
+(name "a-constant-asking-a-claim-outside-its-reach-refuses")
+(note "A constant folds at the build against what its document stands on. Folding this one casts a T.Card read as `Any` to App.Describable, and the claim that it conforms stands in a document the program does not stand on, so the build cannot say what the run, which reads every claim of the link, would decide, and the constant refuses.")
+
+(documents
+  (document
+    (warp 1)
+    (contract App.Describable
+      (procedure describe
+        (parameter of (type Self))
+        (returns String))))
+  (document
+    (warp 1)
+    (struct T.Card
+      (field rank Int)
+      (procedure describe
+        (parameter of (type T.Card))
+        (returns String)
+        (body
+          (return "card")))))
+  (document
+    (warp 1)
+    (import App.Describable)
+    (import T.Card)
+    (extension
+      (head T.Card)
+      (satisfies App.Describable)))
+  (document
+    (warp 1)
+    (import App.Describable)
+    (import T.Card)
+    (procedure App.probe
+      (access public)
+      (const)
+      (returns (optional App.Describable))
+      (failing cast_refused)
+      (body
+        (let two (type Any) (as (struct (field rank 1)) T.Card))
+        (return (as? two App.Describable))))))
+
+(program
+  (warp 1)
+  (import App.Describable)
+  (import App.probe)
+  (const folded (call App.probe))
+  (procedure entry
+    (access public)
+    (returns (optional App.Describable))
+    (body
+      (return folded))))
+(expect (refuses build))

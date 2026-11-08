@@ -1,0 +1,13 @@
+(test 1)
+(name "an-index-at-the-largest-int-reads-the-entry")
+(note "Between the brackets an integer is one an `Int` holds. 9223372036854775807 is the largest, so on a dictionary keyed by `Int` it reads the entry under it.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let d (type (dictionary Int String)) (dictionary (entry 9223372036854775807 "top")))
+      (return (path d (index 9223372036854775807))))))
+(expect (answers "top"))

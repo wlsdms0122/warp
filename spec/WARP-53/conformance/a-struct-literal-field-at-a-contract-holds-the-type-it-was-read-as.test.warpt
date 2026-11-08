@@ -1,0 +1,36 @@
+(test 1)
+(name "a-struct-literal-field-at-a-contract-holds-the-type-it-was-read-as")
+(note "Where a reading meets a contract at a part of a struct literal, the value is held beside that reading. `maybe` reads `Int?` and holds `5`, and the struct literal writes it at `it`, declared `App.Described`, so the field holds `Int?` and the call through the contract reaches the Optional's row, though the value is `5`.")
+
+(program
+  (warp 1)
+  (struct App.Holder
+    (field it App.Described))
+  (contract App.Described
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head Int)
+    (satisfies App.Described)
+    (procedure describe
+      (parameter of (type Int))
+      (returns String)
+      (body
+        (return "a number"))))
+  (extension
+    (head (optional Int))
+    (satisfies App.Described)
+    (procedure describe
+      (parameter of (type (optional Int)))
+      (returns String)
+      (body
+        (return "a number or none"))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let maybe (type (optional Int)) 5)
+      (let h (type App.Holder) (struct (field it maybe)))
+      (return (call App.Described.describe (path h (field it)))))))
+(expect (answers "a number or none"))

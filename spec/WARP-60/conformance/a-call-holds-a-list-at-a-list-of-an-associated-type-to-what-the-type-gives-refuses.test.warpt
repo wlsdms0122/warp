@@ -1,0 +1,61 @@
+(test 1)
+(name "a-call-holds-a-list-at-a-list-of-an-associated-type-to-what-the-type-gives-refuses")
+(note "A bag of Int fills C, and handing a list holding a string at `Array<some C.Item>` refuses at the build.")
+
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Bag
+      (type Item)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item))
+      (procedure take
+        (parameter of (type Self))
+        (parameter x (type Self.Item))
+        (returns Int))))
+  (document
+    (warp 1)
+    (import Int.plus)
+    (import Lib.Bag)
+    (struct App.IntBag
+      (satisfies Lib.Bag)
+      (field n Int)
+      (type Item Int)
+      (procedure first
+        (access public)
+        (parameter of (type App.IntBag))
+        (returns Int)
+        (body
+          (return (path of (field n)))))
+      (procedure take
+        (access public)
+        (parameter of (type App.IntBag))
+        (parameter x (type Int))
+        (returns Int)
+        (body
+          (return (call Int.plus x 1))))))
+  (document
+    (warp 1)
+    (import Lib.Bag)
+    (import Lib.Bag.take)
+    (procedure Use.putSecond
+      (access public)
+      (parameter c (type (some C Lib.Bag)))
+      (parameter xs (type (array (some C.Item))))
+      (returns Int)
+      (body
+        (let y (path xs (index 1)))
+        (return (call Lib.Bag.take c y))))))
+
+(program
+  (warp 1)
+  (import App.IntBag)
+  (import Use.putSecond)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let b (type App.IntBag) (struct (field n 1)))
+      (return (call Use.putSecond b (array 1 "s"))))))
+(expect (refuses build))

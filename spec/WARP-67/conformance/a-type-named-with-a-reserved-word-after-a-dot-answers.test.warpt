@@ -1,0 +1,18 @@
+(test 1)
+(name "a-type-named-with-a-reserved-word-after-a-dot-answers")
+(note "A type's name is a `qualified-name` that is not `reserved`, and `reserved` is matched against the whole name, so `App.Int` is a type's name and the run answers 1, where `Int` alone refuses.")
+
+(program
+  (warp 1)
+  (type App.Int String)
+  (procedure App.f
+    (parameter s (type App.Int))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.f "s")))))
+(expect (answers 1))

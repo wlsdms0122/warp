@@ -1,0 +1,20 @@
+(test 1)
+(name "a-closure-returns-a-case-literal-at-its-declared-type")
+(note "A closure declaring that it returns `App.Light` is a place reading the enum, so the case literal it returns is read as `App.Light` and takes the spelling `App.Light.red`.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure entry
+    (access public)
+    (returns App.Light)
+    (body
+      (let f
+        (closure
+          (returns App.Light)
+          (body
+            (return (case red)))))
+      (return (apply f)))))
+(expect (answers (struct App.Light.red)))

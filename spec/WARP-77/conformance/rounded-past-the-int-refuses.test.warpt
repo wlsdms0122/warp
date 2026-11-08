@@ -1,0 +1,13 @@
+(test 1)
+(name "rounded-past-the-int-refuses")
+(note "`rounded` returns an int only when an int holds the result. A floating-point number whose integer part is past the int has no integer result, and the read refuses at the run rather than wrapping or widening.")
+
+(program
+  (warp 1)
+  (import Standard.Math.rounded)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call Standard.Math.rounded 1e+19)))))
+(expect (refuses run))

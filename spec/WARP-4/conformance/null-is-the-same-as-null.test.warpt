@@ -1,0 +1,13 @@
+(test 1)
+(name "null-is-the-same-as-null")
+(note "Null is the same as null, so `Standard.Logic.equal` returns true for two of them.")
+
+(program
+  (warp 1)
+  (import Standard.Logic.equal)
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (body
+      (return (call Standard.Logic.equal null null)))))
+(expect (answers true))

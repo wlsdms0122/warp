@@ -1,0 +1,16 @@
+(test 1)
+(name "int-arithmetic-landing-on-the-ints-edge-answers")
+(note "Int arithmetic refuses only where no Int holds the result. Each of these lands exactly on an edge and answers: plus onto the maximum, -1 minus the minimum, times onto the minimum, and absolute of one above the minimum.")
+
+(program
+  (warp 1)
+  (import Standard.Math.absolute)
+  (import Standard.Numeric.minus)
+  (import Standard.Numeric.plus)
+  (import Standard.Numeric.times)
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (body
+      (return (array (call Standard.Numeric.plus 9223372036854775806 1) (call Standard.Numeric.minus -1 -9223372036854775808) (call Standard.Numeric.times -4611686018427387904 2) (call Standard.Math.absolute -9223372036854775807))))))
+(expect (answers (array 9223372036854775807 9223372036854775807 -9223372036854775808 9223372036854775807)))

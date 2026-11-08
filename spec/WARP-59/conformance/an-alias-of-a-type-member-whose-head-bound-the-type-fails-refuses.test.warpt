@@ -1,0 +1,22 @@
+(test 1)
+(name "an-alias-of-a-type-member-whose-head-bound-the-type-fails-refuses")
+(note "App.Wrapper bounds T by Hashable. The alias App.Y stands for `App.Wrapper<Any>.Item`, and Any conforms to no contract, so the head does not take the reading and the build refuses.")
+
+(program
+  (warp 1)
+  (struct App.Wrapper
+    (typeParameter T Hashable)
+    (field item (some T))
+    (type Item (some T)))
+  (type App.Y (member (named App.Wrapper Any) Item))
+  (procedure App.echo
+    (parameter x (type App.Y))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

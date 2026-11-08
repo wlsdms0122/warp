@@ -1,0 +1,19 @@
+(test 1)
+(name "a-try-over-an-asking-cast-alone-refuses")
+(note "`as?` reads a mismatch as the none and raises nothing, so a body whose only cast asks fails with nothing, and a catch over it is a body no run reaches: refused at the build.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter payload)
+    (returns (optional Int))
+    (body
+      (var got (type (optional Int)))
+      (try
+        (body
+          (set got (as? payload Int)))
+        (catch
+          (set got 0)))
+      (return got))))
+(expect (refuses build))

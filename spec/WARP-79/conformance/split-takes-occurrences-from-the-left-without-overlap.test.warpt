@@ -1,0 +1,14 @@
+(test 1)
+(name "split-takes-occurrences-from-the-left-without-overlap")
+(note "Occurrences are taken from the start, each search beginning after the last one taken. In `aaa` the separator `aa` stands at two places that overlap, and split cuts at the first, so the pieces are the empty text and `a`, not `a` and the empty text.")
+
+(program
+  (warp 1)
+  (import Standard.Text.split)
+  (procedure entry
+    (access public)
+    (returns (array String))
+    (failing aborted)
+    (body
+      (return (call Standard.Text.split "aaa" "aa")))))
+(expect (answers (array "" "a")))

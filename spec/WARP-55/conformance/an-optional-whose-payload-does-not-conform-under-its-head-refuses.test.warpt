@@ -1,0 +1,25 @@
+(test 1)
+(name "an-optional-whose-payload-does-not-conform-under-its-head-refuses")
+(note "The claim of `App.Described` under `(some W: App.Described)?` is about every Optional of what conforms to `App.Described`. No document claims it for `String`, so a reading of `String?` handed where the contract is asked refuses at the build.")
+
+(program
+  (warp 1)
+  (contract App.Described
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head (optional (some W App.Described)))
+    (satisfies App.Described)
+    (procedure describe
+      (parameter of (type (optional (some W))))
+      (returns String)
+      (body
+        (return "maybe"))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let maybe (type (optional String)) "a")
+      (return (call App.Described.describe maybe)))))
+(expect (refuses build))

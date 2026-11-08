@@ -1,0 +1,22 @@
+(test 1)
+(name "a-continue-naming-a-loop-an-unwraps-payload-hides-refuses")
+(note "A name a body introduces again is the new one to every asker, a leave included. The unwrap inside loop `w` is named `w`, so in its `then` `w` is the payload, and a `continue` naming it names no loop around it.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter o (type (optional Int)))
+    (returns Int)
+    (body
+      (let w
+        (loop
+          (while false)
+          (body
+            (let w
+              (unwrap o
+                (then
+                  (continue w)))))))
+      (return 1))))
+(arguments (argument o 5))
+(expect (refuses load))

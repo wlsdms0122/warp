@@ -1,0 +1,29 @@
+(test 1)
+(name "a-name-only-one-switch-arm-writes-read-where-null-is-not-declared-refuses")
+(note "Only the `red` arm writes `kept`, so after the switch it holds the write or the null it started with, and reads `Int?`. A slot declared `Int` refuses it at the build.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure App.wants
+    (parameter it (type Int))
+    (returns Int)
+    (body
+      (return it)))
+  (procedure entry
+    (access public)
+    (parameter light (type App.Light))
+    (returns Int)
+    (body
+      (var kept)
+      (switch light
+        (case green
+          (then))
+        (case red
+          (then
+            (set kept 1))))
+      (return (call App.wants kept)))))
+(arguments (argument light (struct App.Light.red)))
+(expect (refuses build))

@@ -1,0 +1,17 @@
+(test 1)
+(name "a-loop-under-a-set-refuses")
+(note "A loop has no value, so a `set` of one has nothing to write and refuses at the load.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var r (type Int) 5)
+      (set r
+        (loop
+          (while false)
+          (body)))
+      (return r))))
+(expect (refuses load))

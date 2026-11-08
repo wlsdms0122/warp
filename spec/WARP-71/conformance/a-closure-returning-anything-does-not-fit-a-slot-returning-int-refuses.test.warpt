@@ -1,0 +1,25 @@
+(test 1)
+(name "a-closure-returning-anything-does-not-fit-a-slot-returning-int-refuses")
+(note "App.callIt takes a procedure that returns Int. The closure handed to it returns Any, and a value read as `Any` is no Int the build can see, so the closure does not fit the slot and the build refuses.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.appending)
+  (procedure App.callIt
+    (parameter f (type (procedure (parameters) (returns Int))))
+    (returns Any)
+    (body
+      (let v (apply f))
+      (return (call Standard.Collection.appending (array 1) v))))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let xs
+        (call App.callIt
+          (closure
+            (returns Any)
+            (body
+              (return "s")))))
+      (return xs))))
+(expect (refuses build))

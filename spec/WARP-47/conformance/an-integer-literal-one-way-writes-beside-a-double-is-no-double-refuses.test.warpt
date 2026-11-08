@@ -1,0 +1,21 @@
+(test 1)
+(name "an-integer-literal-one-way-writes-beside-a-double-is-no-double-refuses")
+(note "A write lands as the type the name holds it as, and `tried` declares nothing. A try's body writes it an integer literal, which is the Int it is, and its catch a floating-point number, so where the two ways meet `tried` reads `Any`. The entry declares `Double`, and a value read as `Any` stands where a type is declared only where a cast says what it is, so the build refuses.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter payload)
+    (returns Double)
+    (body
+      (var tried)
+      (try
+        (body
+          (as payload Int)
+          (set tried 1))
+        (catch
+          (set tried 2.5)))
+      (return tried))))
+(arguments (argument payload 3))
+(expect (refuses build))

@@ -1,0 +1,17 @@
+(test 1)
+(name "a-case-literal-at-a-contract-refuses")
+(note "`Hashable` is a contract, and `App.Light` claims it, but a contract reads no enum. A case literal written where `Hashable` is declared has no enum to be, so the build refuses it.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (satisfies Hashable)
+    (case green)
+    (case red))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let light (type Hashable) (case red))
+      (return 1))))
+(expect (refuses build))

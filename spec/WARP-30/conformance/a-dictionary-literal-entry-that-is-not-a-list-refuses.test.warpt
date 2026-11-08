@@ -1,0 +1,5 @@
+(test 1)
+(name "a-dictionary-literal-entry-that-is-not-a-list-refuses")
+(note "A dictionary literal's entry is a list of two, its key and its value, and `\"a\"` written alone is no list.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" (dictionary (entry "dictionary" (array "a"))))))))) (entry "returns" "Dictionary<String, Int>"))))) (entry "warp" 1)))
+(expect (refuses load))

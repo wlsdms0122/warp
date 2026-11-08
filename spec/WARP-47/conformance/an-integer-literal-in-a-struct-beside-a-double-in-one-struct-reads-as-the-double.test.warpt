@@ -1,0 +1,20 @@
+(test 1)
+(name "an-integer-literal-in-a-struct-beside-a-double-in-one-struct-reads-as-the-double")
+(note "One struct is one type only at the same arguments, and an integer written as a literal is read as the floating-point number beside it. Two literals read at `App.Box<some T>` in one list, holding `1` and `2.5`, are both `App.Box<Double>`.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (procedure App.first
+    (parameter bs (type (array (named App.Box (some T)))))
+    (returns (some T))
+    (body
+      (return (path bs (index 0) (field item)))))
+  (procedure entry
+    (access public)
+    (returns Double)
+    (body
+      (return (call App.first (array (struct (field item 1)) (struct (field item 2.5))))))))
+(expect (answers 1.0))

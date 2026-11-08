@@ -1,0 +1,5 @@
+(test 1)
+(name "a-document-of-a-struct-and-a-type-spells-by-name")
+(note "The nodes of `types`, `type`, `struct` and `enum` alike, stand by name as one kind: `(struct App.A)` before `(type App.B Int)`.")
+(text "(warp 1)\n(struct App.A)\n(type App.B Int)\n")
+(expect (spells (dictionary (entry "imports" (array)) (entry "types" (dictionary (entry "App.A" (dictionary (entry "struct" (dictionary)))) (entry "App.B" "Int"))) (entry "warp" 1))))

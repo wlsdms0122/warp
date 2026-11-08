@@ -1,0 +1,47 @@
+(warp 1)
+(import Standard.Logic.notEqual)
+(import Standard.Text.joined)
+(import Standard.Text.text)
+
+(struct d.Cat
+  (satisfies d.Named)
+  (field lives Int)
+  (procedure name
+    (const)
+    (parameter of (type d.Cat))
+    (returns String)
+    (body
+      (return (call Standard.Text.joined (array "cat " (call Standard.Text.text (path of (field lives)))) "")))))
+
+(struct d.Dog
+  (satisfies d.Named)
+  (field barks Bool)
+  (procedure name
+    (const)
+    (parameter of (type d.Dog))
+    (returns String)
+    (body
+      (return "dog"))))
+
+(contract d.Named
+  (procedure name
+    (const)
+    (parameter of (type Self))
+    (returns String)))
+
+(procedure d.nameOf
+  (parameter of)
+  (returns String)
+  (failing cast_refused)
+  (body
+    (let cat (as? of d.Cat))
+    (let dog (as? of d.Dog))
+    (conditional
+      (when (call Standard.Logic.notEqual cat null))
+      (then
+        (return (call d.Named.name (as cat d.Cat)))))
+    (conditional
+      (when (call Standard.Logic.notEqual dog null))
+      (then
+        (return (call d.Named.name (as dog d.Dog)))))
+    (return "neither")))

@@ -1,0 +1,18 @@
+(test 1)
+(name "a-switch-over-a-declared-struct-refuses")
+(note "An `of` whose reading is no enum refuses at the build. `point` reads the declared struct `App.Point`, which is no enum, so the build has no declaration of cases to hold the arm to.")
+
+(program
+  (warp 1)
+  (struct App.Point
+    (field x Int))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let point (type App.Point) (struct (field x 1)))
+      (switch point
+        (case x
+          (then
+            (return 1)))))))
+(expect (refuses build))

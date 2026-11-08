@@ -1,0 +1,128 @@
+(warp 1)
+(import Standard.Collection.count)
+(import Standard.Comparable.lessThan)
+(import Standard.Logic.equal)
+
+(procedure Standard.Logic.and
+  (const)
+  (isolated)
+  (parameter conditions (type (array (procedure (const) (isolated) (parameters) (returns Bool)))))
+  (returns Bool)
+  (body
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Collection.count conditions)))
+        (body
+          (let side (path conditions (index (path walk (field index)))))
+          (let returned (apply side))
+          (conditional
+            (when (call Standard.Logic.not returned))
+            (then
+              (return false))))))
+    (return true)))
+
+(procedure Standard.Logic.not
+  (const)
+  (isolated)
+  (parameter value (type Bool))
+  (returns Bool)
+  (body
+    (return (call Standard.Logic.equal value false))))
+
+(procedure Standard.Logic.notEqual
+  (const)
+  (isolated)
+  (parameter lhs)
+  (parameter rhs)
+  (returns Bool)
+  (body
+    (return (call Standard.Logic.equal (call Standard.Logic.equal lhs rhs) false))))
+
+(procedure Standard.Logic.or
+  (const)
+  (isolated)
+  (parameter conditions (type (array (procedure (const) (isolated) (parameters) (returns Bool)))))
+  (returns Bool)
+  (body
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Collection.count conditions)))
+        (body
+          (let side (path conditions (index (path walk (field index)))))
+          (let returned (apply side))
+          (conditional
+            (when returned)
+            (then
+              (return true))))))
+    (return false)))
+
+(procedure Standard.Logic.select
+  (const)
+  (isolated)
+  (parameter condition (type Bool))
+  (parameter then (type (procedure (const) (isolated) (parameters) (returns (some Result)))))
+  (parameter else (type (procedure (const) (isolated) (parameters) (returns (some Result)))))
+  (returns (some Result))
+  (body
+    (conditional
+      (when condition)
+      (then
+        (let taken (apply then))
+        (return taken)))
+    (let left (apply else))
+    (return left)))
+
+(procedure Standard.Logic.tryAnd
+  (const)
+  (isolated)
+  (parameter conditions (type (array (procedure (const) (isolated) (parameters) (failing (anything)) (returns Bool)))))
+  (returns Bool)
+  (failing (anything))
+  (body
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Collection.count conditions)))
+        (body
+          (let side (path conditions (index (path walk (field index)))))
+          (let returned (apply side))
+          (conditional
+            (when (call Standard.Logic.not returned))
+            (then
+              (return false))))))
+    (return true)))
+
+(procedure Standard.Logic.tryOr
+  (const)
+  (isolated)
+  (parameter conditions (type (array (procedure (const) (isolated) (parameters) (failing (anything)) (returns Bool)))))
+  (returns Bool)
+  (failing (anything))
+  (body
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Collection.count conditions)))
+        (body
+          (let side (path conditions (index (path walk (field index)))))
+          (let returned (apply side))
+          (conditional
+            (when returned)
+            (then
+              (return true))))))
+    (return false)))
+
+(procedure Standard.Logic.trySelect
+  (const)
+  (isolated)
+  (parameter condition (type Bool))
+  (parameter then (type (procedure (const) (isolated) (parameters) (failing (anything)) (returns (some Result)))))
+  (parameter else (type (procedure (const) (isolated) (parameters) (failing (anything)) (returns (some Result)))))
+  (returns (some Result))
+  (failing (anything))
+  (body
+    (conditional
+      (when condition)
+      (then
+        (let taken (apply then))
+        (return taken)))
+    (let left (apply else))
+    (return left)))

@@ -1,0 +1,18 @@
+(test 1)
+(name "a-type-mention-that-is-no-name-refuses")
+(note "A name in the types namespace is identifiers joined by dots. `a b` is none, so a slot writing it refuses at the load, though the imports list names it.")
+
+(program
+  (warp 1)
+  (import `a b`)
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (return (call keep 1))))
+  (procedure keep
+    (parameter value (type `a b`))
+    (returns Any)
+    (body
+      (return value))))
+(expect (refuses load))

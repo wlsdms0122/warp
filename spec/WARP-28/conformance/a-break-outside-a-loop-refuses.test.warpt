@@ -1,0 +1,11 @@
+(test 1)
+(name "a-break-outside-a-loop-refuses")
+(note "Ending a loop where there is none names nothing, and a body may only write a leave something around it will catch.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (body
+      (break))))
+(expect (refuses load))

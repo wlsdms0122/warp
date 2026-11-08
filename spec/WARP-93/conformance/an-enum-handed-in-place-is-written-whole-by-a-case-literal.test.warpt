@@ -1,0 +1,21 @@
+(test 1)
+(name "an-enum-handed-in-place-is-written-whole-by-a-case-literal")
+(note "`App.stop` takes an `App.Light` in place and writes a case literal into it whole, which is read as `App.Light` there. The caller's variable holds the write, so it returns `red`.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure App.stop
+    (parameter light (type (inout App.Light)))
+    (body
+      (set light (case red))))
+  (procedure entry
+    (access public)
+    (returns App.Light)
+    (body
+      (var light (type App.Light) (case green))
+      (call App.stop light)
+      (return light))))
+(expect (answers (struct App.Light.red)))

@@ -1,0 +1,20 @@
+(test 1)
+(name "a-loops-body-introducing-its-round-again-reads-the-new-one")
+(note "A loop's round stands in a scope around its body, so the body may introduce `walk` again. From there `walk` is the new one and holds 5.")
+
+(program
+  (warp 1)
+  (import Standard.Comparable.lessThan)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var n 0)
+      (let walk
+        (loop
+          (while (call Standard.Comparable.lessThan (path walk (field index)) 1))
+          (body
+            (let walk 5)
+            (set n walk))))
+      (return n))))
+(expect (answers 5))

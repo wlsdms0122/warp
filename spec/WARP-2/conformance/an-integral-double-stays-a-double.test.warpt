@@ -1,0 +1,12 @@
+(test 1)
+(name "an-integral-double-stays-a-double")
+(note "A document tells an integer from a floating-point number. An encoding that wrote 1 for both would hand a declaration asking for a `Double` an `Int`.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Double)
+    (body
+      (return 2.0))))
+(expect (answers 2.0))

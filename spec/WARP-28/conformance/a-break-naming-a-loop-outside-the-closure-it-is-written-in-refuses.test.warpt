@@ -1,0 +1,25 @@
+(test 1)
+(name "a-break-naming-a-loop-outside-the-closure-it-is-written-in-refuses")
+(note "A `break` reaches the loops around it within the body it is written in. This one stands in a loop inside a closure and names `outer`, a loop outside the closure, so the load refuses it.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let outer
+        (loop
+          (while false)
+          (body
+            (let held
+              (closure
+                (returns Int)
+                (body
+                  (loop
+                    (while true)
+                    (body
+                      (break outer)))
+                  (return 1)))))))
+      (return 1))))
+(expect (refuses load))

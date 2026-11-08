@@ -1,0 +1,18 @@
+(test 1)
+(name "values-of-an-optional-are-the-same-by-what-they-hold")
+(note "Two values are the same by the value model's one sameness. A some of `Int?` is the value it holds, so an `Int?` holding 5 is the same as 5.")
+
+(program
+  (warp 1)
+  (import Standard.Logic.equal)
+  (procedure App.f
+    (parameter x (type (optional Int)))
+    (returns Bool)
+    (body
+      (return (call Standard.Logic.equal x 5))))
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (body
+      (return (call App.f 5)))))
+(expect (answers true))

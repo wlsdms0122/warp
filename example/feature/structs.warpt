@@ -1,0 +1,33 @@
+(warp 1)
+(import Standard.Numeric.plus)
+
+(struct r.Answer
+  (field moved r.Box)
+  (field x Int))
+
+(struct r.Box
+  (field label String)
+  (field origin (var r.Point)))
+
+(struct r.Point
+  (field x (var Int))
+  (field y Int))
+
+(procedure entry
+  (access public)
+  (returns r.Answer)
+  (failing aborted cast_refused)
+  (body
+    (let box (as (struct (field label "a") (field origin (as (struct (field x 1) (field y 2)) r.Point))) r.Box))
+    (let moved (call r.shift box 5))
+    (return (struct (field moved moved) (field x (path moved (field origin) (field x)))))))
+
+(procedure r.shift
+  (access private)
+  (parameter of (type r.Box))
+  (parameter by (type Int))
+  (returns r.Box)
+  (body
+    (var moved of)
+    (set (path moved (field origin) (field x)) (call Standard.Numeric.plus (path moved (field origin) (field x)) by))
+    (return moved)))

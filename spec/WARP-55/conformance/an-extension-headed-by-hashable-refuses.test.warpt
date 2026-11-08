@@ -1,0 +1,19 @@
+(test 1)
+(name "an-extension-headed-by-hashable-refuses")
+(note "A bare head is a type's name or a `language-name` that names a type. `Hashable` is the contract the language declares and names no type, so a key written `Hashable` is one the head grammar does not produce, and the load refuses it whatever the extension gives.")
+
+(program
+  (warp 1)
+  (extension
+    (head Hashable)
+    (procedure m
+      (parameter of (type Hashable))
+      (returns Int)
+      (body
+        (return 1))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

@@ -1,0 +1,21 @@
+(test 1)
+(name "a-constant-read-at-an-index-the-run-reads")
+(note "A constant-headed path folds at the build where every index on it is known there. Where an index is a reference the run reads, the build binds the constant's value in the body and the run reads past it like any name: a dictionary by a key, an array by a position, and a constant indexed by a constant indexed by a parameter.")
+
+(program
+  (warp 1)
+  (const digits (dictionary (entry "0" 0) (entry "1" 1)))
+  (const names (array "1" "0"))
+  (struct App.Found
+    (field found Int)
+    (field name String)
+    (field nested Int))
+  (procedure entry
+    (access public)
+    (parameter at (type Int))
+    (parameter key (type String))
+    (returns App.Found)
+    (body
+      (return (struct (field found (path digits (index key))) (field name (path names (index at))) (field nested (path digits (index (path names (index at))))))))))
+(arguments (argument at 1) (argument key "1"))
+(expect (answers (struct App.Found (field found 1) (field name "0") (field nested 0))))

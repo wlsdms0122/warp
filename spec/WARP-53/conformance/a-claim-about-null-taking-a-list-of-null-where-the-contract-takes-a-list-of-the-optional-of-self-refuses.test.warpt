@@ -1,0 +1,26 @@
+(test 1)
+(name "a-claim-about-null-taking-a-list-of-null-where-the-contract-takes-a-list-of-the-optional-of-self-refuses")
+(note "`Array<Self?>` read for a claim about `Null` is a list of the Optional of `Null`, which `Array<Null>` does not take, so `Null.q` writing it at the position does not back the claim, which refuses at the build, at the claim.")
+
+(program
+  (warp 1)
+  (contract App.Q
+    (procedure q
+      (parameter s (type Self))
+      (parameter t (type (array (optional Self))))
+      (returns Int)))
+  (extension
+    (head Null)
+    (satisfies App.Q)
+    (procedure q
+      (parameter s (type Null))
+      (parameter t (type (array Null)))
+      (returns Int)
+      (body
+        (return 1))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.Q.q null (array null))))))
+(expect (refuses build))

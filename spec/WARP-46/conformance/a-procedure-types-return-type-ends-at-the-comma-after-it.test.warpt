@@ -1,0 +1,28 @@
+(test 1)
+(name "a-procedure-types-return-type-ends-at-the-comma-after-it")
+(note "A procedure type's return type is all of the type it stands in, which ends at the comma of the list holding it, so `((Int) -> Int?, Int) -> Int?` takes a procedure returning `Int?` and an `Int`. The closure handed first returns null, and `g` returns what it returns.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns (optional Int))
+    (body
+      (let g
+        (type (procedure (parameters (procedure (parameters Int) (returns (optional Int))) Int) (returns (optional Int))))
+        (closure
+          (parameter f (type (procedure (parameters Int) (returns (optional Int)))))
+          (parameter n (type Int))
+          (returns (optional Int))
+          (body
+            (return (apply f n)))))
+      (let r
+        (apply g
+          (closure
+            (parameter x (type Int))
+            (returns (optional Int))
+            (body
+              (return)))
+          1))
+      (return r))))
+(expect (answers null))

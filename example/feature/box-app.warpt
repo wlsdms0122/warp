@@ -1,0 +1,30 @@
+(warp 1)
+(import Standard.Collection.map)
+(import box.accumulator)
+(import box.counter)
+(import box.read)
+(import box.scaled)
+
+(struct app.Answer
+  (field accA (array Int))
+  (field accB Int)
+  (field counted (array Int))
+  (field read Int)
+  (field scaled (array Int)))
+
+(procedure entry
+  (access public)
+  (returns app.Answer)
+  (failing (anything))
+  (body
+    (let tick (call box.counter))
+    (let t1 (apply tick))
+    (let t2 (apply tick))
+    (let t3 (apply tick))
+    (let a (call box.accumulator 10))
+    (let b (call box.accumulator 100))
+    (let a1 (apply a 1))
+    (let a2 (apply a 2))
+    (let accB (apply b 5))
+    (let scale (call box.scaled))
+    (return (struct (field accA (array a1 a2)) (field accB accB) (field counted (array t1 t2 t3)) (field read (call box.read)) (field scaled (call Standard.Collection.map (array 1 2) scale))))))

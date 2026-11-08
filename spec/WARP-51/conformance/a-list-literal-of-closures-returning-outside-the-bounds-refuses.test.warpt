@@ -1,0 +1,35 @@
+(test 1)
+(name "a-list-literal-of-closures-returning-outside-the-bounds-refuses")
+(note "`App.f` bounds `T` by `App.M`, which `Int` and `String` conform to, and takes a list of procedures returning `some T`. The literal handed there holds a closure returning `Int` and one returning `Bool`. A closure's return type stands at the parameter and is held to the bounds, as it is for a closure handed alone, and a boolean conforms to no bound, so the call refuses at the build.")
+
+(program
+  (warp 1)
+  (contract App.M)
+  (extension
+    (head Int)
+    (satisfies App.M))
+  (extension
+    (head String)
+    (satisfies App.M))
+  (procedure App.f
+    (parameter gs (type (array (procedure (parameters) (returns (some T App.M))))))
+    (returns (some T))
+    (body
+      (return (apply (path gs (index 1))))))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let r
+        (call App.f
+          (array
+            (closure
+              (returns Int)
+              (body
+                (return 1)))
+            (closure
+              (returns Bool)
+              (body
+                (return true))))))
+      (return r))))
+(expect (refuses build))

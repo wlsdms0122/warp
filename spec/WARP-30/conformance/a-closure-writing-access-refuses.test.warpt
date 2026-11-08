@@ -1,0 +1,23 @@
+(test 1)
+(name "a-closure-writing-access-refuses")
+(note "Who may name a declaration is what `access` says, and nothing names a closure. The closure here writes `access` and is otherwise one the entry hands `App.g`, so the document refuses at the load.")
+
+(program
+  (warp 1)
+  (procedure App.g
+    (parameter f (type (procedure (parameters) (returns Int))))
+    (returns Int)
+    (body
+      (return (apply f))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return
+        (call App.g
+          (closure
+            (access private)
+            (returns Int)
+            (body
+              (return 7))))))))
+(expect (refuses load))

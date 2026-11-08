@@ -1,0 +1,15 @@
+(test 1)
+(name "an-undeclared-field-refuses")
+(note "A dot on a declared struct reads a field, and a field the type does not declare is a defect the text shows. The type rules the field out, so no spelling reads past it, `?.` included.")
+
+(program
+  (warp 1)
+  (struct App.Task
+    (field id String))
+  (procedure entry
+    (access public)
+    (parameter task (type App.Task))
+    (returns Any)
+    (body
+      (return (path task (field done))))))
+(expect (refuses build))

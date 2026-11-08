@@ -1,0 +1,26 @@
+(test 1)
+(name "a-try-over-an-argument-that-refuses-before-one-that-fails-refuses")
+(note "The first argument divides by zero, which refuses at the run, and the second would fail with `abort`. The arguments are evaluated in position order, so the refusal comes first, and a refusal is no failure a try catches: the run refuses.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (import Standard.Numeric.dividedBy)
+  (procedure App.f
+    (parameter x)
+    (parameter y)
+    (returns Int)
+    (body
+      (return 0)))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (var tried)
+      (try
+        (body
+          (call App.f (call Standard.Numeric.dividedBy 1 0) (call Standard.Control.abort "second")))
+        (catch
+          (set tried "rescued")))
+      (return tried))))
+(expect (refuses run))

@@ -1,0 +1,17 @@
+(test 1)
+(name "an-alias-of-a-declared-struct-gives-a-value-from-outside-the-structs-name")
+(note "A declared name standing for a declared struct is an alias, and judges by what it stands for: a struct from outside under the alias's name takes the struct's own name at the door.")
+
+(program
+  (warp 1)
+  (struct Person
+    (field name String))
+  (type Someone Person)
+  (procedure entry
+    (access public)
+    (parameter who (type Someone))
+    (returns Person)
+    (body
+      (return who))))
+(arguments (argument who (struct Someone (field name "a"))))
+(expect (answers (struct Person (field name "a"))))

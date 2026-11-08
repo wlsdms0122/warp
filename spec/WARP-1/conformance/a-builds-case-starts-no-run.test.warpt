@@ -1,0 +1,14 @@
+(test 1)
+(name "a-builds-case-starts-no-run")
+(note "A case expecting `builds` asks what the program's own document compiles to, and starts no run. `entry` is public and aborts when it runs, so a runner that ran it would report the failure rather than the object.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (returns Never)
+    (failing aborted)
+    (body
+      (call Standard.Control.abort "ran"))))
+(expect (builds (dictionary (entry "addressTable" (array)) (entry "claims" (array)) (entry "constants" (array)) (entry "contracts" (array)) (entry "dependencies" (array x"ead6204e87389b33e319bd6967e96b59b23fc4d0f3a7342b75e639f7713dd95f")) (entry "document" (array x"70645393786f30229f92ee82ac53e51744d00c7c8e63e978aa15b7de7d6cc88c")) (entry "importedClaims" (array)) (entry "lifted" (array)) (entry "loweredTypeTable" (array)) (entry "members" (array)) (entry "numbering" (array (array "Standard.Control.abort") (array))) (entry "object" 1) (entry "operationTable" (array (array 0 0) (array 11 (array 0 (array (array 0)) (array) (array))))) (entry "rows" (array (array "entry" (array (array) 0 (array 1 (array "aborted")) 0 0 (array) (array)) 2 (array 0 (array (array (array) 1)) (array 0 (array) (array) (array) (array) (array)))))) (entry "typeMembers" (array)) (entry "typeNumbering" (array)) (entry "typeTable" (array (array 1))) (entry "types" (array)) (entry "valueTable" (array (array 4 "ran"))) (entry "variables" (array)))))

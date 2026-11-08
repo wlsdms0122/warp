@@ -1,0 +1,31 @@
+(warp 1)
+(import Standard.Collection.appending)
+(import Standard.Comparable.lessThan)
+(import Standard.Numeric.plus)
+(import core.Point)
+(import core.origin)
+(import core.shift)
+
+(procedure mid.path
+  (parameter steps (type Int))
+  (returns (array core.Point))
+  (failing cast_refused)
+  (body
+    (var at (call core.origin))
+    (var points (type (array core.Point)) (array at))
+    (var i 0)
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan i steps))
+        (body
+          (set at (call core.shift at 1 i))
+          (set points (call Standard.Collection.appending points at))
+          (set i (call Standard.Numeric.plus i 1)))))
+    (return points)))
+
+(procedure mid.tip
+  (parameter steps (type Int))
+  (returns core.Point)
+  (failing cast_refused)
+  (body
+    (return (call core.shift (call core.origin) steps steps))))

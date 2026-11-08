@@ -1,0 +1,5 @@
+(test 1)
+(name "a-struct-listing-no-type-parameters-refuses")
+(note "A struct taking no type parameters leaves `typeParameters` out, so an empty list is refused at the load.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" 1)))))) (entry "returns" "Int"))))) (entry "types" (dictionary (entry "App.Box" (dictionary (entry "struct" (dictionary (entry "item" "Int"))) (entry "typeParameters" (array)))))) (entry "warp" 1)))
+(expect (refuses load))

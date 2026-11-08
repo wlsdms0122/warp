@@ -1,0 +1,20 @@
+(test 1)
+(name "a-parameter-handed-in-place-holding-a-list-of-a-parameter-takes-an-empty-list")
+(note "App.clear takes Array<some T> in place and writes []. An empty list holds no element, so it is a list of whatever filled T.")
+
+(program
+  (warp 1)
+  (procedure App.clear
+    (parameter xs (type (inout (array (some T)))))
+    (returns Int)
+    (body
+      (set xs (array))
+      (return 0)))
+  (procedure entry
+    (access public)
+    (returns (array String))
+    (body
+      (var s (array "a" "b"))
+      (call App.clear s)
+      (return s))))
+(expect (answers (array)))

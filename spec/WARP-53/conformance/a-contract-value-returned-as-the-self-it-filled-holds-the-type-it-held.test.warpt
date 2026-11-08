@@ -1,0 +1,52 @@
+(test 1)
+(name "a-contract-value-returned-as-the-self-it-filled-holds-the-type-it-held")
+(note "`held` is read as `App.Copied` and holds `Int?`, and `plain` holds `Int`. A call of `App.Copied.copy` on each is filled with the type it holds at `Self`, and what it returns at `Self` is read as `App.Copied` holding that type, so `App.Copied.describe` on the copy of `held` reaches `Optional`'s, though the value is `5`, and on the copy of `plain` reaches `Int`'s.")
+
+(program
+  (warp 1)
+  (contract App.Copied
+    (procedure copy
+      (parameter of (type Self))
+      (returns Self))
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head Int)
+    (satisfies App.Copied)
+    (procedure copy
+      (parameter of (type Int))
+      (returns Int)
+      (body
+        (return of)))
+    (procedure describe
+      (parameter of (type Int))
+      (returns String)
+      (body
+        (return "a number"))))
+  (extension
+    (head (optional Int))
+    (satisfies App.Copied)
+    (procedure copy
+      (parameter of (type (optional Int)))
+      (returns (optional Int))
+      (body
+        (return of)))
+    (procedure describe
+      (parameter of (type (optional Int)))
+      (returns String)
+      (body
+        (return "a number or none"))))
+  (procedure entry
+    (access public)
+    (returns (array String))
+    (body
+      (let maybe (type (optional Int)) 5)
+      (let held (type App.Copied) maybe)
+      (let plain (type App.Copied) 5)
+      (let heldCopy (call App.Copied.copy held))
+      (let plainCopy (call App.Copied.copy plain))
+      (let first (call App.Copied.describe heldCopy))
+      (let second (call App.Copied.describe plainCopy))
+      (return (array first second)))))
+(expect (answers (array "a number or none" "a number")))

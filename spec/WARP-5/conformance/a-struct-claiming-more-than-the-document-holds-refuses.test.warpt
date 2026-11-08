@@ -1,0 +1,5 @@
+(test 1)
+(name "a-struct-claiming-more-than-the-document-holds-refuses")
+(note "Every field of a struct costs at least two bytes, its name and its value, so a struct claiming more fields than the document can hold is refused before anything is set aside for them.")
+(bytes x"57415250010903412e50808080808080808001")
+(expect (refuses load))

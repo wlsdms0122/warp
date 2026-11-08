@@ -1,0 +1,73 @@
+(test 1)
+(name "a-bound-on-an-associated-type-carries-a-call-through-another-contract")
+(note "`Use.firstText` bounds `C.Item` by App.Describable, so it calls describe on what `Lib.Container.first` returns.")
+
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Container
+      (type Item)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item)))
+    (procedure Lib.firstOf
+      (access public)
+      (parameter c (type (some C Lib.Container)))
+      (returns (some C.Item))
+      (body
+        (return (call Lib.Container.first c)))))
+  (document
+    (warp 1)
+    (import Lib.Container)
+    (struct App.Box
+      (typeParameter T)
+      (satisfies Lib.Container)
+      (field item (some T))
+      (type Item (some T))
+      (procedure first
+        (access public)
+        (parameter of (type (named App.Box (some T))))
+        (returns (some T))
+        (body
+          (return (path of (field item)))))))
+  (document
+    (warp 1)
+    (contract App.Describable
+      (procedure describe
+        (parameter of (type Self))
+        (returns String)))
+    (extension
+      (head Int)
+      (satisfies App.Describable)
+      (procedure describe
+        (access public)
+        (parameter of (type Int))
+        (returns String)
+        (body
+          (return "one")))))
+  (document
+    (warp 1)
+    (import App.Describable)
+    (import App.Describable.describe)
+    (import Lib.Container)
+    (import Lib.Container.first)
+    (procedure Use.firstText
+      (access public)
+      (parameter c (type (some C Lib.Container)))
+      (returns String)
+      (bound C.Item App.Describable)
+      (body
+        (let x (call Lib.Container.first c))
+        (return (call App.Describable.describe x))))))
+
+(program
+  (warp 1)
+  (import App.Box)
+  (import Use.firstText)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let b (type (named App.Box Int)) (struct (field item 1)))
+      (return (call Use.firstText b)))))
+(expect (answers "one"))

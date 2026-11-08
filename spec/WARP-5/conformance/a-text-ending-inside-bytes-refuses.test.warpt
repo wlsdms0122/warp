@@ -1,0 +1,5 @@
+(test 1)
+(name "a-text-ending-inside-bytes-refuses")
+(note "Bytes run to their closing quote, and a text that ends before it is refused.")
+(text "(warp 1)\n(const a x\"6a")
+(expect (refuses load))

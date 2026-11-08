@@ -1,0 +1,27 @@
+(test 1)
+(name "a-parameter-handed-in-place-handed-on-beside-a-list-of-an-empty-list")
+(note "App.g hands xs, a list of lists of T handed in place, on to App.put beside [[]]. The empty list inside holds no element, so [[]] is a value of Array<Array<some T>> as a write would take it, and the caller reads a list holding one empty list.")
+
+(program
+  (warp 1)
+  (procedure App.g
+    (parameter xs (type (inout (array (array (some T))))))
+    (returns Int)
+    (body
+      (call App.put xs (array (array)))
+      (return 0)))
+  (procedure App.put
+    (parameter a (type (inout (some U))))
+    (parameter b (type (some U)))
+    (returns Int)
+    (body
+      (set a b)
+      (return 0)))
+  (procedure entry
+    (access public)
+    (returns (array (array String)))
+    (body
+      (var s (array (array "a")))
+      (call App.g s)
+      (return s))))
+(expect (answers (array (array))))

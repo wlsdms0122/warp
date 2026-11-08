@@ -1,0 +1,16 @@
+(test 1)
+(name "the-optional-dot-reads-through-an-optional")
+(note "`?.` unwraps an Optional: a value that arrived reads its field, and a null the host handed would give null for the whole path. The path's own result is an Optional for the same reason.")
+
+(program
+  (warp 1)
+  (struct Task
+    (field name String))
+  (procedure entry
+    (access public)
+    (parameter task (type (optional Task)))
+    (returns (optional String))
+    (body
+      (return (path task (field? name))))))
+(arguments (argument task (struct Task (field name "loaded"))))
+(expect (answers "loaded"))

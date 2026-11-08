@@ -1,0 +1,24 @@
+(test 1)
+(name "a-path-writing-a-key-of-a-struct-holding-a-procedure-refuses")
+(note "A declared struct claimed `Hashable` may carry a procedure in a field, and a value holding a procedure is no key, so a path writing one into a dictionary refuses at the run.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.count)
+  (struct App.H
+    (satisfies Hashable)
+    (field f (procedure (parameters) (returns Int))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let g
+        (closure
+          (returns Int)
+          (body
+            (return 1))))
+      (let s (type App.H) (struct (field f g)))
+      (var d (type (dictionary App.H Int)) (dictionary))
+      (set (path d (index s)) 1)
+      (return (call Standard.Collection.count d)))))
+(expect (refuses run))

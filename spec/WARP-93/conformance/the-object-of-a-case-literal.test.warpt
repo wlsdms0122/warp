@@ -1,0 +1,23 @@
+(test 1)
+(name "the-object-of-a-case-literal")
+(note "A case literal is a struct built from parts, operation 3, whose layout is the case's spelling and the fields the case carries, ascending. A case carrying nothing has a layout with no fields and no parts.")
+
+(program
+  (warp 1)
+  (enum App.Target
+    (case local)
+    (case remote (field host String) (field port Int)))
+  (procedure App.local
+    (const)
+    (isolated)
+    (returns App.Target)
+    (body
+      (return (case local))))
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (returns App.Target)
+    (body
+      (return (case remote (field host "a") (field port 8080))))))
+(expect (builds (dictionary (entry "addressTable" (array)) (entry "claims" (array)) (entry "constants" (array)) (entry "contracts" (array)) (entry "dependencies" (array)) (entry "document" (array x"43aa15b50af034049fcc71421ecd8e15add849dc0b231203b1a115ef5931d909")) (entry "importedClaims" (array)) (entry "lifted" (array)) (entry "loweredTypeTable" (array)) (entry "members" (array)) (entry "numbering" (array (array) (array))) (entry "object" 1) (entry "operationTable" (array (array 3 (array (array "App.Target.local" (array)) (array))) (array 13 0 (array 0)) (array 0 0) (array 0 1) (array 3 (array (array "App.Target.remote" (array "host" "port")) (array 2 3))) (array 13 0 (array 4)))) (entry "rows" (array (array "App.local" (array (array) 2 (array 1 (array)) 1 1 (array) (array)) 1 (array 0 (array (array (array) 1)) (array 0 (array) (array) (array) (array) (array)))) (array "entry" (array (array) 3 (array 1 (array)) 1 1 (array) (array)) 2 (array 0 (array (array (array) 5)) (array 0 (array) (array) (array) (array) (array)))))) (entry "typeMembers" (array)) (entry "typeNumbering" (array)) (entry "typeTable" (array (array 6) (array 4) (array 14 "App.Target") (array 14 "App.Target"))) (entry "types" (array (array "App.Target" (array 20 (array (array "local" (array)) (array "remote" (array (array "host" 0) (array "port" 1)))))))) (entry "valueTable" (array (array 4 "a") (array 2 8080))) (entry "variables" (array)))))

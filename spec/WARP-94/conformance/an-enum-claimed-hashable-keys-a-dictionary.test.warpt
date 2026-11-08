@@ -1,0 +1,18 @@
+(test 1)
+(name "an-enum-claimed-hashable-keys-a-dictionary")
+(note "`App.Suit` claims `Hashable` beside its cases, so a dictionary keyed by it builds. Each key of the literal is read as the key the declared type writes, and `hearts` is one key with the `hearts` the path reads it under, by sameness.")
+
+(program
+  (warp 1)
+  (enum App.Suit
+    (satisfies Hashable)
+    (case clubs)
+    (case hearts))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let counts (type (dictionary App.Suit Int)) (dictionary (entry (case clubs) 1) (entry (case hearts) 2)))
+      (let suit (type App.Suit) (case hearts))
+      (return (path counts (index suit))))))
+(expect (answers 2))

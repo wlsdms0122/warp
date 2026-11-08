@@ -1,0 +1,22 @@
+(test 1)
+(name "an-enum-beside-null-joins-to-its-optional")
+(note "An enum beside `Null` joins to its Optional, so the list of `light` and `null` reads `Array<App.Light?>`, and `App.first` asking that takes it.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure App.first
+    (parameter lights (type (array (optional App.Light))))
+    (returns (optional App.Light))
+    (body
+      (return (path lights (index 0)))))
+  (procedure entry
+    (access public)
+    (returns (optional App.Light))
+    (body
+      (let light (type App.Light) (case red))
+      (let both (array light null))
+      (return (call App.first both)))))
+(expect (answers (struct App.Light.red)))

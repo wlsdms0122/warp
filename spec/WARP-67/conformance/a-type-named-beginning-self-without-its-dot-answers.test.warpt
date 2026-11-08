@@ -1,0 +1,18 @@
+(test 1)
+(name "a-type-named-beginning-self-without-its-dot-answers")
+(note "A type's name does not begin with `Self.`, the dot included. `Selfie.Card` begins with `Self` and no dot after it, so it is a type's name and the run answers 1, where `Self.Item` refuses.")
+
+(program
+  (warp 1)
+  (type Selfie.Card String)
+  (procedure App.f
+    (parameter s (type Selfie.Card))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.f "s")))))
+(expect (answers 1))

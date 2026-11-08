@@ -1,0 +1,13 @@
+(test 1)
+(name "a-variable-writing-no-value-under-a-type-null-is-no-value-of-refuses")
+(note "A `var` writing no `value` holds null, and what it declares has to take that null as it takes any value the statement is given. `Int` takes no null.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var x (type Int))
+      (return 1))))
+(expect (refuses build))

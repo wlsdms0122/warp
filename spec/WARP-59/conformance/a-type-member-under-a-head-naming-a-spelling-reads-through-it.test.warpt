@@ -1,0 +1,28 @@
+(test 1)
+(name "a-type-member-under-a-head-naming-a-spelling-reads-through-it")
+(note "The extension's head applies App.Wrapper to `App.Box.Item`, an alias of Int, so it is the head `App.Wrapper<Int>`. The alias App.Y stands for `App.Wrapper<Int>.X`, which that head gives as String, and a parameter of it takes \"a\".")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (field item Int)
+    (type Item Int))
+  (struct App.Wrapper
+    (typeParameter T)
+    (field item (some T)))
+  (type App.Y (member (named App.Wrapper Int) X))
+  (extension
+    (head (named App.Wrapper App.Box.Item))
+    (type X String))
+  (procedure App.echo
+    (parameter x (type App.Y))
+    (returns String)
+    (body
+      (return x)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let echoed (call App.echo "a"))
+      (return echoed))))
+(expect (answers "a"))

@@ -1,0 +1,21 @@
+(test 1)
+(name "a-nameless-unwrap-without-then-whose-else-finishes-refuses")
+(note "The unwrap in App.f has no `then` and no name. With no `then` the payload is the unwrap's value past it whether or not a name binds it, so every way through `else` leaves, and an `else` that only writes `n` finishes.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter o (type (optional Int)))
+    (returns Int)
+    (body
+      (var n 0)
+      (unwrap o
+        (else
+          (set n 1)))
+      (return n)))
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (body
+      (return (array (call App.f null) (call App.f 3))))))
+(expect (refuses build))

@@ -1,0 +1,5 @@
+(test 1)
+(name "an-exponent-form-writes-its-other-digits-after-a-point")
+(note "The exponent form writes the first digit, a point and the others where there are others, so 1.5 times ten to the sixteenth is written `1.5e+16`.")
+(text "(warp 1)\n(const a 1.5e+16)\n")
+(expect (spells (dictionary (entry "const" (dictionary (entry "a" 1.5e+16))) (entry "imports" (array)) (entry "warp" 1))))

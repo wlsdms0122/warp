@@ -1,0 +1,39 @@
+(test 1)
+(name "a-catch-does-not-hold-a-piece-that-refuses")
+(note "A piece refusing at the run refuses the whole run. A refusal is not a failure, so the catch around the fan-out does not hold it, and what the other pieces returned is not reported.")
+
+(program
+  (warp 1)
+  (import Standard.Concurrent.allKeyed)
+  (import Standard.Numeric.dividedBy)
+  (procedure entry
+    (access public)
+    (isolated)
+    (parameter z (type Int))
+    (returns (optional String))
+    (body
+      (var tried)
+      (try
+        (body
+          (let both
+            (call Standard.Concurrent.allKeyed
+              (dictionary
+                (entry "broken"
+                  (closure
+                    (const)
+                    (isolated)
+                    (returns Double)
+                    (body
+                      (return (call Standard.Numeric.dividedBy 1 z)))))
+                (entry "fine"
+                  (closure
+                    (const)
+                    (isolated)
+                    (returns Int)
+                    (body
+                      (return 1))))))))
+        (catch
+          (set tried "rescued")))
+      (return tried))))
+(arguments (argument z 0))
+(expect (refuses run))

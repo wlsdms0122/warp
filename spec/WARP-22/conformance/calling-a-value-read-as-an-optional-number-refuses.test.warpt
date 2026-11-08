@@ -1,0 +1,14 @@
+(test 1)
+(name "calling-a-value-read-as-an-optional-number-refuses")
+(note "A value read as `Int?` is its none or a number, and neither is a procedure. Calling it refuses at the build, the way calling an `Int` does.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter held (type (optional Int)))
+    (returns Any)
+    (failing (anything))
+    (body
+      (return (apply held)))))
+(expect (refuses build))

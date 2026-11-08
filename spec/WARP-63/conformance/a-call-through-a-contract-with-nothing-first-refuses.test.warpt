@@ -1,0 +1,26 @@
+(test 1)
+(name "a-call-through-a-contract-with-nothing-first-refuses")
+(note "A call through a contract dispatches by the type of its first argument. A call writing nothing there has nothing to dispatch on, and the build says so.")
+
+(program
+  (warp 1)
+  (struct Bank.Account
+    (satisfies App.Describable)
+    (field balance Int)
+    (procedure describe
+      (parameter of (type Bank.Account))
+      (parameter label (type String))
+      (returns String)
+      (body
+        (return label))))
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (parameter label (type String))
+      (returns String)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (return (call App.Describable.describe)))))
+(expect (refuses build))

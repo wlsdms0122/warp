@@ -1,0 +1,31 @@
+(test 1)
+(name "all-keyed-returns-under-keys-of-any-type")
+(note "allKeyed takes a dictionary of closures under keys of any type that conforms to Hashable and returns each piece's return value under the key it stood under, here integers in the key order.")
+
+(program
+  (warp 1)
+  (import Standard.Concurrent.allKeyed)
+  (procedure entry
+    (access public)
+    (isolated)
+    (returns (dictionary Int String))
+    (failing concurrent_failed)
+    (body
+      (return
+        (call Standard.Concurrent.allKeyed
+          (dictionary
+            (entry 2
+              (closure
+                (const)
+                (isolated)
+                (returns String)
+                (body
+                  (return "b"))))
+            (entry 1
+              (closure
+                (const)
+                (isolated)
+                (returns String)
+                (body
+                  (return "a"))))))))))
+(expect (answers (dictionary (entry 1 "a") (entry 2 "b"))))

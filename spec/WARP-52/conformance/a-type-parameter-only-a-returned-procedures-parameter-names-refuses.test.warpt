@@ -1,0 +1,21 @@
+(test 1)
+(name "a-type-parameter-only-a-returned-procedures-parameter-names-refuses")
+(note "A signature naming a type parameter in what it returns, and at none of its parameters, refuses at the load. `T` stands only on the parameter of the procedure type `App.f` returns, so nothing a call hands fills it.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (returns (procedure (parameters (some T)) (returns Int)))
+    (body
+      (return
+        (closure
+          (parameter y (type (some T)))
+          (returns Int)
+          (body
+            (return 0))))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

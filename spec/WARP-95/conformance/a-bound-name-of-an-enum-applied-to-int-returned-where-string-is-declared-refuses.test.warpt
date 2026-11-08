@@ -1,0 +1,30 @@
+(test 1)
+(name "a-bound-name-of-an-enum-applied-to-int-returned-where-string-is-declared-refuses")
+(note "In a switch over `App.Result<Int, String>`, a name bound to `success`'s `value` reads `Int`, the type the declaration writes with `T` read as the reading applies it. The `success` arm returns it where `String` is declared, so the build refuses it, though the `failure` arm's `String` stands there.")
+
+(program
+  (warp 1)
+  (enum App.Result
+    (typeParameter T)
+    (typeParameter E)
+    (case failure (field error (some E)))
+    (case success (field value (some T))))
+  (procedure App.word
+    (parameter result (type (named App.Result Int String)))
+    (returns String)
+    (body
+      (switch result
+        (case failure
+          (bind error e)
+          (then
+            (return e)))
+        (case success
+          (bind value v)
+          (then
+            (return v))))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

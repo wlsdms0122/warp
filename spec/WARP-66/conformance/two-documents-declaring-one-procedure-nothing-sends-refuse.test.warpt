@@ -1,0 +1,26 @@
+(test 1)
+(name "two-documents-declaring-one-procedure-nothing-sends-refuse")
+(note "One spelling has one declarer in a link. Two documents each declare the internal procedure `Lib.spare`, and the link refuses at the build though nothing sends it.")
+
+(documents
+  (document
+    (warp 1)
+    (procedure Lib.spare
+      (returns Int)
+      (body
+        (return 1))))
+  (document
+    (warp 1)
+    (procedure Lib.spare
+      (returns Int)
+      (body
+        (return 2)))))
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 3))))
+(expect (refuses build))

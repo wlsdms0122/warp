@@ -1,0 +1,59 @@
+(test 1)
+(name "a-document-writes-rounded-from-floored")
+(note "rounded is written from floored: what is left above the floor is exact in binary64, so comparing it with 0.5 tells below, above and the exact halfway apart, and the halfway goes away from zero. The body answers what Standard.Math.rounded answers, 0.49999999999999994 among them, where floored of the number plus 0.5 gives 1.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.map)
+  (import Standard.Comparable.lessThan)
+  (import Standard.Math.floored)
+  (import Standard.Math.rounded)
+  (import Standard.Numeric.dividedBy)
+  (import Standard.Numeric.minus)
+  (import Standard.Numeric.plus)
+  (procedure App.rounded
+    (const)
+    (isolated)
+    (parameter number (type Double))
+    (returns Int)
+    (body
+      (let down (call Standard.Math.floored number))
+      (let rest (call Standard.Numeric.minus number (call Standard.Numeric.dividedBy down 1)))
+      (conditional
+        (when (call Standard.Comparable.lessThan rest 0.5))
+        (then
+          (return down)))
+      (conditional
+        (when (call Standard.Comparable.lessThan 0.5 rest))
+        (then
+          (return (call Standard.Numeric.plus down 1))))
+      (conditional
+        (when (call Standard.Comparable.lessThan down 0))
+        (then
+          (return down)))
+      (return (call Standard.Numeric.plus down 1))))
+  (procedure entry
+    (access public)
+    (const)
+    (returns (array (array Int)))
+    (body
+      (let numbers (type (array Double)) (array 0.49999999999999994 0.5 -0.5 1.5 2.5 -2.5 -2.1 2.7 -0.0 4503599627370497.0 -4503599627370497.0 9.223372036854775e+18 -9.223372036854776e+18))
+      (return
+        (array
+          (call Standard.Collection.map numbers
+            (closure
+              (const)
+              (isolated)
+              (parameter number (type Double))
+              (returns Int)
+              (body
+                (return (call App.rounded number)))))
+          (call Standard.Collection.map numbers
+            (closure
+              (const)
+              (isolated)
+              (parameter number (type Double))
+              (returns Int)
+              (body
+                (return (call Standard.Math.rounded number))))))))))
+(expect (answers (array (array 0 1 -1 2 3 -3 -2 3 0 4503599627370497 -4503599627370497 9223372036854774784 -9223372036854775808) (array 0 1 -1 2 3 -3 -2 3 0 4503599627370497 -4503599627370497 9223372036854774784 -9223372036854775808))))

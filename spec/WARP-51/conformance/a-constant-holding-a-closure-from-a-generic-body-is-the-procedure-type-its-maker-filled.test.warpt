@@ -1,0 +1,32 @@
+(test 1)
+(name "a-constant-holding-a-closure-from-a-generic-body-is-the-procedure-type-its-maker-filled")
+(note "`f` folds the call of `App.mk` with 5, which fills `T` with `Int` and returns a closure taking its own `some T`. The constant holds that closure and the types it holds, so held as `Any` it is a value of `(Int) -> Int`, the cast to that type takes it, and applying it to 4 answers 4.")
+
+(documents
+  (document
+    (warp 1)
+    (procedure App.mk
+      (const)
+      (parameter x (type (some T)))
+      (returns (procedure (parameters (some T)) (returns (some T))))
+      (body
+        (return
+          (closure
+            (parameter y (type (some T)))
+            (returns (some T))
+            (body
+              (return y))))))))
+
+(program
+  (warp 1)
+  (import App.mk)
+  (const f (call App.mk 5))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing cast_refused)
+    (body
+      (let a (type Any) f)
+      (let g (as a (procedure (parameters Int) (returns Int))))
+      (return (apply g 4)))))
+(expect (answers 4))

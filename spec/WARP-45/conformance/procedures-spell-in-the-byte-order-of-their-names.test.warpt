@@ -1,0 +1,5 @@
+(test 1)
+(name "procedures-spell-in-the-byte-order-of-their-names")
+(note "Parts that stand by name stand ascending by the UTF-8 bytes of their names, with no case mapping: `App.C` before `App.b`.")
+(text "(warp 1)\n(procedure App.C)\n(procedure App.b)\n")
+(expect (spells (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "App.C" (dictionary)) (entry "App.b" (dictionary)))) (entry "warp" 1))))

@@ -1,0 +1,14 @@
+(test 1)
+(name "an-integer-literal-beside-a-string-and-a-double-a-level-down-is-the-double")
+(note "The elements of the inner lists of `[[1, \"a\"], [2.5]]` stand at one position, the outer list's element's element, so `1` stands beside `2.5` there and is the `Double` it names, though the outer list joins to a list of `Any`.")
+
+(program
+  (warp 1)
+  (import Standard.Text.text)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let xs (array (array 1 "a") (array 2.5)))
+      (return (call Standard.Text.text xs)))))
+(expect (answers "[[1.0,\"a\"],[2.5]]"))

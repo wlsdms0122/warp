@@ -1,0 +1,8 @@
+(warp 1)
+(import Standard.Text.text)
+(import relay.narrow)
+(import relay.through)
+(import relay.wrapped)
+(struct app.Answer (field actual String) (field castType String) (field expected String) (field fine Int) (field through String) (field wrapped String))
+(struct app.Caught (field actual String) (field expected String) (field type String))
+(procedure entry (access public) (returns app.Answer) (failing aborted cast_refused) (body (var w) (let caught (try (body (call relay.wrapped -1) (set w "no failure")) (catch (set w (path caught (field message)))))) (var t) (let failed (try (body (call relay.through -2) (set t "no failure")) (catch (set t (path failed (field type)))))) (var c) (let failure (try (body (call relay.narrow "not a number") (set c (as (struct (field actual "") (field expected "") (field type "none")) app.Caught))) (catch (set c (as (struct (field actual (call Standard.Text.text (path failure (field details) (index "actual")))) (field expected (call Standard.Text.text (path failure (field details) (index "expected")))) (field type (path failure (field type)))) app.Caught))))) (return (struct (field actual (path c (field actual))) (field castType (path c (field type))) (field expected (path c (field expected))) (field fine (call relay.narrow 9)) (field through t) (field wrapped w)))))

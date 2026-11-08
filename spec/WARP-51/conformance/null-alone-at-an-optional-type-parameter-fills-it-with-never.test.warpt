@@ -1,0 +1,17 @@
+(test 1)
+(name "null-alone-at-an-optional-type-parameter-fills-it-with-never")
+(note "`null` at `some T?` is its none and reads nothing at `T`, so no reading fills `T` and `T` is `Never`. The call returns `Never?`, which stands where `Int?` is declared.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter x (type (optional (some T))))
+    (returns (optional (some T)))
+    (body
+      (return x)))
+  (procedure entry
+    (access public)
+    (returns (optional Int))
+    (body
+      (return (call App.f null)))))
+(expect (answers null))

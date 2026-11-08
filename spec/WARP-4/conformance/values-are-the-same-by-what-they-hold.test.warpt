@@ -1,0 +1,40 @@
+(test 1)
+(name "values-are-the-same-by-what-they-hold")
+(note "An integer and a floating-point number of the same worth are one value, two structs of one name holding the same fields bound to the same values are one value, and two arrays holding the same elements in the same order are one value.")
+
+(program
+  (warp 1)
+  (import Standard.Logic.equal)
+  (import Standard.Logic.tryAnd)
+  (struct App.P
+    (field a Int)
+    (field b Int))
+  (procedure entry
+    (access public)
+    (const)
+    (returns Bool)
+    (failing (anything))
+    (body
+      (return
+        (call Standard.Logic.tryAnd
+          (array
+            (closure
+              (const)
+              (isolated)
+              (returns Bool)
+              (body
+                (return (call Standard.Logic.equal 1 1.0))))
+            (closure
+              (const)
+              (isolated)
+              (returns Bool)
+              (failing cast_refused)
+              (body
+                (return (call Standard.Logic.equal (as (struct (field a 1) (field b 2)) App.P) (as (struct (field a 1) (field b 2)) App.P)))))
+            (closure
+              (const)
+              (isolated)
+              (returns Bool)
+              (body
+                (return (call Standard.Logic.equal (array 1 2) (array 1 2)))))))))))
+(expect (answers true))

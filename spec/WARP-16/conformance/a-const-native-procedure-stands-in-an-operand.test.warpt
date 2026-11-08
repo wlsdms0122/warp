@@ -1,0 +1,21 @@
+(test 1)
+(name "a-const-native-procedure-stands-in-an-operand")
+(note "An operand is untouched by what a constant folds from, since it is read while the program runs and writes nothing down. `App.seat` is a native procedure declared `const`, so a call of it written as an argument stands, and the entry returns 8.")
+
+(vocabulary
+  (procedure App.seat
+    (const)
+    (isolated)
+    (returns Int)
+    (answers 7)))
+
+(program
+  (warp 1)
+  (import App.seat)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call Standard.Numeric.plus (call App.seat) 1)))))
+(expect (answers 8))

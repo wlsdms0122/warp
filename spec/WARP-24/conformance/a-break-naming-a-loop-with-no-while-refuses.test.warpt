@@ -1,0 +1,19 @@
+(test 1)
+(name "a-break-naming-a-loop-with-no-while-refuses")
+(note "The `break` stands in an inner loop and names the outer one, which is written with no `while` and so declares that it does not finish.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter done (type Bool))
+    (body
+      (let outer
+        (loop
+          (body
+            (loop
+              (while done)
+              (body
+                (break outer)))))))))
+(arguments (argument done true))
+(expect (refuses load))

@@ -1,0 +1,29 @@
+(test 1)
+(name "an-enum-naming-itself-inside-a-list-holds-a-tree")
+(note "An enum may name itself in a case's field at any depth. `App.Tree` names itself as the element of the list `node` carries, and `leaf` names it nowhere, so a value ends there. Walking to the first leaf returns 4.")
+
+(program
+  (warp 1)
+  (enum App.Tree
+    (case leaf (field value Int))
+    (case node (field children (array App.Tree))))
+  (procedure App.first
+    (parameter tree (type App.Tree))
+    (returns Int)
+    (body
+      (switch tree
+        (case leaf
+          (bind value v)
+          (then
+            (return v)))
+        (case node
+          (bind children c)
+          (then
+            (let head (path c (index 0)))
+            (return (call App.first head)))))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.first (case node (field children (array (case leaf (field value 4))))))))))
+(expect (answers 4))

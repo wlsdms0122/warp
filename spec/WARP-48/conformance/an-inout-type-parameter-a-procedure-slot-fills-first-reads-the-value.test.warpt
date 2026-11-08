@@ -1,0 +1,29 @@
+(test 1)
+(name "an-inout-type-parameter-a-procedure-slot-fills-first-reads-the-value")
+(note "`inout` says something about the slot and nothing about the value, so a type parameter a procedure slot's `inout some T` fills from a closure's `inout Int` reads `Int`, and the variable handed to the `inout some T` after it fits.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure App.once
+    (parameter f (type (procedure (parameters (inout (some T))) (returns Any))))
+    (parameter x (type (inout (some T))))
+    (returns Int)
+    (body
+      (apply f x)
+      (return 0)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var n 0)
+      (call App.once
+        (closure
+          (parameter c (type (inout Int)))
+          (returns Any)
+          (body
+            (set c (call Standard.Numeric.plus c 1))
+            (return)))
+        n)
+      (return n))))
+(expect (answers 1))

@@ -1,0 +1,33 @@
+(test 1)
+(name "an-optional-conforms-where-its-payload-does-under-its-head")
+(note "The claim of `App.Described` under `(some W: App.Described)?` is about every Optional of what conforms to `App.Described`. `Int` does, so a reading of `Int?` stands where the contract is asked and reaches `Optional.describe`.")
+
+(program
+  (warp 1)
+  (contract App.Described
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head (optional (some W App.Described)))
+    (satisfies App.Described)
+    (procedure describe
+      (parameter of (type (optional (some W))))
+      (returns String)
+      (body
+        (return "maybe a number"))))
+  (extension
+    (head Int)
+    (satisfies App.Described)
+    (procedure describe
+      (parameter of (type Int))
+      (returns String)
+      (body
+        (return "a number"))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let maybe (type (optional Int)) 5)
+      (return (call App.Described.describe maybe)))))
+(expect (answers "maybe a number"))

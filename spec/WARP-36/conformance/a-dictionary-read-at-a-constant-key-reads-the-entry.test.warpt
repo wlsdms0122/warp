@@ -1,0 +1,14 @@
+(test 1)
+(name "a-dictionary-read-at-a-constant-key-reads-the-entry")
+(note "A constant read between the brackets folds at the build to the key it reads, which finds its entry the way a written key does.")
+
+(program
+  (warp 1)
+  (const K "a")
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let d (type (dictionary String Int)) (dictionary (entry "a" 1)))
+      (return (path d (index K))))))
+(expect (answers 1))

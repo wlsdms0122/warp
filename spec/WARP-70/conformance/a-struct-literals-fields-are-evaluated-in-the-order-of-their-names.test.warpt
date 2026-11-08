@@ -1,0 +1,23 @@
+(test 1)
+(name "a-struct-literals-fields-are-evaluated-in-the-order-of-their-names")
+(note "A struct literal evaluates its fields in the order of their names. `a` and `b` each fail, and the catch sees `a`'s failure.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (struct App.Pair
+    (field a String)
+    (field b String))
+  (procedure entry
+    (access public)
+    (returns (optional String))
+    (body
+      (var seen)
+      (let caught
+        (try
+          (body
+            (let made (type App.Pair) (struct (field a (call Standard.Control.abort "a")) (field b (call Standard.Control.abort "b")))))
+          (catch
+            (set seen (path caught (field message))))))
+      (return seen))))
+(expect (answers "a"))

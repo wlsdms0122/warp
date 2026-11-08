@@ -1,0 +1,22 @@
+(test 1)
+(name "a-cast-refused-expects-what-an-alias-of-an-alias-stands-for")
+(note "`expected` reads an alias as what it stands for until no alias is left, so a cast to `App.A`, an alias of the alias `App.B` of `Int`, expects `Int`.")
+
+(program
+  (warp 1)
+  (type App.A App.B)
+  (type App.B Int)
+  (procedure entry
+    (access public)
+    (parameter payload)
+    (returns Any)
+    (body
+      (let caught
+        (try
+          (body
+            (as payload App.A))
+          (catch
+            (return (path caught (field details) (index "expected"))))))
+      (return "no failure"))))
+(arguments (argument payload "not an int"))
+(expect (answers "Int"))

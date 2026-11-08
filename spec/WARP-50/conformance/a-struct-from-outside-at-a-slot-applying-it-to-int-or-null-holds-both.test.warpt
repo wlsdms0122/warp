@@ -1,0 +1,18 @@
+(test 1)
+(name "a-struct-from-outside-at-a-slot-applying-it-to-int-or-null-holds-both")
+(note "Where the slot applies a struct to types, the door judges the value's fields against the struct so applied. `App.Pair<Int?>` takes a pair holding an `Int` and a null.")
+
+(program
+  (warp 1)
+  (struct App.Pair
+    (typeParameter T)
+    (field a (some T))
+    (field b (some T)))
+  (procedure entry
+    (access public)
+    (parameter p (type (named App.Pair (optional Int))))
+    (returns (optional Int))
+    (body
+      (return (path p (field b))))))
+(arguments (argument p (struct App.Pair (field a 1) (field b null))))
+(expect (answers null))

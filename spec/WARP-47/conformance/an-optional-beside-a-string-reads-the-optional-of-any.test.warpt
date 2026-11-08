@@ -1,0 +1,15 @@
+(test 1)
+(name "an-optional-beside-a-string-reads-the-optional-of-any")
+(note "An Optional beside a reading other than `Null` reads the Optional of what its payload joins with it, so `o`, an `Int?`, beside a string reads `Any?`. A list of `Any?` stands as it is where `Array<Any?>` is declared, so the none stays `null`. Joined to `Any`, the list would be walked and the none would arrive as `Some` holding `null`.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let o (type (optional Int)) null)
+      (let xs (array o "a"))
+      (let y (type (array (optional Any))) xs)
+      (return y))))
+(expect (answers (array null "a")))

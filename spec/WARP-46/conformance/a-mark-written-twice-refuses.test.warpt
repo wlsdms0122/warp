@@ -1,0 +1,14 @@
+(test 1)
+(name "a-mark-written-twice-refuses")
+(note "A slot that takes a mark takes one, so a field written `var var Int` is a part the table does not let it be, and the load refuses it.")
+
+(program
+  (warp 1)
+  (struct App.S
+    (field x (var (var Int))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

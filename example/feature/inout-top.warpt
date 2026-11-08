@@ -1,0 +1,30 @@
+(warp 1)
+(import im.addBoth)
+(import im.bumpTwice)
+(import im.same)
+
+(struct top.Answer
+  (field afterSame Int)
+  (field field Int)
+  (field n Int)
+  (field same Int)
+  (field xs (array Int)))
+
+(struct top.State
+  (field label String)
+  (field n (var Int)))
+
+(procedure entry
+  (access public)
+  (returns top.Answer)
+  (failing aborted cast_refused)
+  (body
+    (var xs (type (array Int)) (array))
+    (call im.addBoth xs 1 2)
+    (var n 0)
+    (call im.bumpTwice n)
+    (var state (as (struct (field label "s") (field n 5)) top.State))
+    (call im.bumpTwice (path state (field n)))
+    (var m 1)
+    (let same (call im.same m))
+    (return (struct (field afterSame m) (field field (path state (field n))) (field n n) (field same same) (field xs xs)))))

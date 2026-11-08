@@ -1,0 +1,20 @@
+(warp 1)
+(import Standard.Numeric.plus)
+
+(procedure lib.hello
+  (access public)
+  (returns String)
+  (body
+    (return "hello")))
+
+(procedure lib.helper
+  (returns Int)
+  (body
+    (return (call Standard.Numeric.plus (call lib.secret) 1))))
+
+(procedure lib.secret
+  (access private)
+  (const)
+  (returns Int)
+  (body
+    (return 41)))

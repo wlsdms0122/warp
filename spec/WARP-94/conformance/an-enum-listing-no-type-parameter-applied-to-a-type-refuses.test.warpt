@@ -1,0 +1,20 @@
+(test 1)
+(name "an-enum-listing-no-type-parameter-applied-to-a-type-refuses")
+(note "`App.Light` lists no type parameter, so a mention writes no brackets on it. The parameter applies it to `Int`, and the build refuses the mention.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure App.take
+    (parameter light (type (named App.Light Int)))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

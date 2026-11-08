@@ -1,0 +1,14 @@
+(test 1)
+(name "a-some-outside-a-signature-refuses")
+(note "A type parameter lives in a signature, where a call fills it, or in a struct listing it under `typeParameters`, where a mention fills it. A struct writing `some T` in a field and listing no `T` has nothing to fill it, and is refused at the load.")
+
+(program
+  (warp 1)
+  (struct Box
+    (field item (some T)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

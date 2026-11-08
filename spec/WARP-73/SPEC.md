@@ -1,0 +1,39 @@
+# WARP-73: Concurrency is isolation, and it is granted
+
+Status: accepted
+
+## Summary
+
+Concurrency is isolation, and it is granted. The rules decide which bodies may run beside another, that an isolated closure is one that says it is and that the build holds it to it, and what such a closure may touch.
+
+## Motivation
+
+Two bodies running at once that may write one name hold a race no reader of the document can find. Letting only closures that say they are isolated run beside each other, and holding each to it at the build as constness is held, keeps every race out of what Warp writes, and handing such closures to a procedure makes running at once a thing a host grants by linking that procedure, as Swift's `Sendable` closures are what its concurrency takes.
+
+## Rules
+
+**Concurrency is isolation, and it is granted.** Warp's values are all data, so the only thing two bodies running at once could contend for is a written name, or a box a native procedure holds. What may run beside another body is an **isolated** closure, one that says it is and that the build holds to it, the way it holds constness:
+
+- **Two kinds of body, told apart by where they are written.** Every `body` slot the document grammar has (a `conditional` arm, a `loop` round, a `try`'s body and its `catch`, an `unwrap`'s `then` and `else`, the arms and the `default` of a [`switch`](../WARP-95/SPEC.md#switch)) holds a body that runs here, in the flow that wrote it, and that is visible in the text, because no expression can carry one away. Such a body may `set` the enclosing variables. The one body that becomes a value is the **closure**: a *procedure*, with parameters and a declared return type, and a value may cross into a procedure, where no signature can say when, how often, or beside what the procedure runs it. So the split is carried by spelling rather than worked out by analysis: a body runs in place or is a closure by what it is written as, and the one channel into a procedure is the isolated one. A body that runs in place has no parameters, since nothing hands it anything, and a procedure has them.
+- What a closure captures is the name as it is: a fixed name's **value**, and a variable's **box**. Making a closure runs nothing; a variable set between the making and the calling is seen by the call, because the box is one thing under one name everywhere it is visible. The closure's body is one of those places, so a closure may `set` a variable it captured; what it writes has to fit what the capturing body holds, held at the **build**, because the capturing body reads the variable as the type it gave it.
+- **Isolation is declared, and a body is held to it.** A declaration or a closure literal says it is isolated by writing `isolated: true`. A body is isolated when it writes no name it did not declare (a module variable, or a variable a closure captured), hands none of those in place, calls a value only where the type written for it is an `isolated` procedure type, by the rule under *a const procedure* in [procedures](../WARP-15/SPEC.md), and calls only declarations that say they are isolated, and a body declared isolated that is not **refuses at the build**. The written type's mark is what says a called value writes only its own names, the same way a `const` procedure type is what says a called value is const, under *a const procedure* in [procedures](../WARP-15/SPEC.md), and a closure carries the mark for a name it captured. A closure value carries the constness, the isolation and the failures its signature declares, and a slot asking for any of them reads them wherever the value arrives, through a cast from `Any` included.
+- **A native procedure says whether it is isolated, and is taken at its word for what it does itself.** The build reads what a body writes and calls; what a procedure keeps in the host language is outside the document, so the procedure declares it the way any declaration does. One that holds state between calls does not, and a body declared isolated may not reach it. `const` does not decide this: a procedure can be const and still return from a box two callers share. What the build does hold this claim to is what the procedure sends, under *a native procedure* in [procedures](../WARP-14/SPEC.md).
+- **A procedure that runs closures at once asks for isolated ones.** `Standard.Concurrent.map` declares its closure an `isolated` procedure type, and `all`, `allKeyed`, `first` and `firstKeyed` declare their pieces a list or a dictionary of them, so a closure that writes a captured variable **refuses at the build** in every one. A piece returns a value; combining is written after the join, where the names are sequential again.
+- Because a closure already says whether it is isolated, running closures at once is a thing a **procedure** can be handed (`Standard.Concurrent`, under the vocabulary), and so concurrency is a *grant*: a host that leaves the bundle out of the link has programs that cannot fan out at all.
+- What this buys, exactly: **Warp itself writes no race.** Only isolated closures run beside each other, and an isolated closure writes, and hands in place, no name it did not declare, so while they run no body writes a name another body reads or writes, and no interleaving reaches a name two bodies hold. It is not "every result is deterministic": one thing is timing's, and it is named, which piece's value `first` returns. Everything else a join returns is the same under every interleaving. `all` waits for every piece, so a catch around a fan-out that lost twice is handed every failure, keyed by the piece it came from, whichever finished first. A piece that refuses at the run refuses the whole run, whichever finished first among the pieces the join waits for, and no catch holds it: a refusal is not a failure, and the failures beside it are not reported. Once one piece has succeeded or refused, `first` tells the rest to stop and returns when they have stopped, each where a run observes cancellation, under [vocabulary](../WARP-83/SPEC.md).
+- **Effects are the world's, and the world is the host's.** Two pieces' host calls interleave in an order nothing states. Two pieces reaching one host-held thing, a file or a counter, is contention the *host's* procedure must defend. What the language guarantees is that a procedure holding such a thing declares it and the build refuses to run two of its callers at once. A procedure that holds state and declares itself isolated has broken its contract: the language takes a procedure at its word here, though what it hands back is still judged at its door, under [doors](../WARP-71/SPEC.md).
+- **What the host holds lives where the host keeps it.** A file, a connection or a transaction is the host's: a value names it and says nothing about how long it lives, which the host's procedures say. Whatever is still open when the run is over, by a return, a failure, a refusal or a stop, is the host's to end. A value naming what the host has ended is a value like any other, and a procedure handed one fails as it declares, or refuses.
+
+**Note.** The concurrency grant needs a host that leaves `Standard.Concurrent` out of the link, and a runner links the standard vocabulary for every case.
+
+## Interactions
+
+- A host grants `Standard.Concurrent` by linking the bundle, under [the standard vocabulary](../WARP-74/SPEC.md).
+- Where a piece stops when told is where a run observes cancellation, under [order](../WARP-70/SPEC.md).
+
+## Alternatives considered
+
+- Low-level primitives, a spawn and a lock. A program carrying them can carry a race no reader of the document can find, and state shared while pieces run is the host's to keep behind its own procedures.
+- Isolation worked out from a body rather than declared. The IR holds declarations and the build checks a body against them; working a claim out is a front end's convenience when it writes the IR.
+
+## Notes

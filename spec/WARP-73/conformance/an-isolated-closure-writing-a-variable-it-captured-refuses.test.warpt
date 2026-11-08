@@ -1,0 +1,20 @@
+(test 1)
+(name "an-isolated-closure-writing-a-variable-it-captured-refuses")
+(note "A body is isolated when it writes no name it did not declare, a variable a closure captured among them. The closure declares `isolated` and writes `tally`, which the entry declared, so it refuses at the build where it is written.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var tally 0)
+      (let c
+        (closure
+          (isolated)
+          (returns Int)
+          (body
+            (set tally 1)
+            (return 1))))
+      (return tally))))
+(expect (refuses build))

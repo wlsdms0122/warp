@@ -1,0 +1,21 @@
+(test 1)
+(name "a-call-fills-a-type-parameter-through-a-struct-applied-to-it")
+(note "`App.unwrap` takes `App.Box<some T>` and returns `some T`. A call walks into what the struct is applied to as into a list's element, so handing an `App.Box<String>` fills `T` with `String`.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (procedure App.unwrap
+    (parameter b (type (named App.Box (some T))))
+    (returns (some T))
+    (body
+      (return (path b (field item)))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let b (type (named App.Box String)) (struct (field item "x")))
+      (return (call App.unwrap b)))))
+(expect (answers "x"))

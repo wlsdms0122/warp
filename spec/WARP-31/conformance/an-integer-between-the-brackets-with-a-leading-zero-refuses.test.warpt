@@ -1,0 +1,5 @@
+(test 1)
+(name "an-integer-between-the-brackets-with-a-leading-zero-refuses")
+(note "An integer between the brackets is written in decimal with no leading zero, so `a[01]` is a second spelling of `a[1]`.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "let" "a") (entry "value" (array 5 6))) (dictionary (entry "value" (dictionary (entry "return" (dictionary (entry "ref" "a[01]")))))))) (entry "returns" "Int"))))) (entry "warp" 1)))
+(expect (refuses load))

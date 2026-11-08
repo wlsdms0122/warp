@@ -1,0 +1,19 @@
+(test 1)
+(name "the-object-of-a-call-filling-a-type-parameter-with-any-and-never")
+(note "A call writes one lowered type per label its callee names, what the call fills it with: `T` filled by a value read as `Any` is tag 0, and filled by one read as `Never` is tag 1.")
+
+(program
+  (warp 1)
+  (procedure App.same
+    (parameter p (type (some T)))
+    (returns (some T))
+    (body
+      (return p)))
+  (procedure entry
+    (access public)
+    (parameter p)
+    (parameter v (type Never))
+    (returns (array Any))
+    (body
+      (return (array (call App.same p) (call App.same v))))))
+(expect (builds (dictionary (entry "addressTable" (array (array 0 (array) false) (array 0 (array) false) (array 1 (array) false))) (entry "claims" (array)) (entry "constants" (array)) (entry "contracts" (array)) (entry "dependencies" (array)) (entry "document" (array x"1439ebdefb165367e66764bca3c38af4cc5d17df4a62658bffee7a85bc69b0c6")) (entry "importedClaims" (array)) (entry "lifted" (array)) (entry "loweredTypeTable" (array (array 0) (array 1))) (entry "members" (array)) (entry "numbering" (array (array) (array))) (entry "object" 1) (entry "operationTable" (array (array 1 0) (array 13 0 (array 0)) (array 1 1) (array 11 (array 0 (array (array 2)) (array) (array 0))) (array 1 2) (array 11 (array 0 (array (array 4)) (array) (array 1))) (array 2 (array 3 5)) (array 13 0 (array 6)))) (entry "rows" (array (array "App.same" (array (array (array "p" (array 0))) 1 (array 1 (array)) 0 0 (array) (array)) 1 (array 0 (array (array (array) 1)) (array 1 (array 0) (array) (array) (array) (array "p")))) (array "entry" (array (array (array "p" (array)) (array "v" (array 2))) 4 (array 1 (array)) 0 0 (array) (array)) 2 (array 0 (array (array (array) 7)) (array 2 (array 0 1) (array) (array) (array) (array "p" "v")))))) (entry "typeMembers" (array)) (entry "typeNumbering" (array)) (entry "typeTable" (array (array 15 "T") (array 15 "T") (array 1) (array 0) (array 7 3))) (entry "types" (array)) (entry "valueTable" (array)) (entry "variables" (array)))))

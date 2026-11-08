@@ -1,0 +1,34 @@
+(warp 1)
+(import Host.Ticket)
+(import Host.issue)
+(import Host.redeem)
+(import Standard.Numeric.plus)
+
+(struct t.Answer
+  (field peeked Int)
+  (field second Int)
+  (field spent Int))
+
+(procedure entry
+  (access public)
+  (returns t.Answer)
+  (body
+    (let ticket (call Host.issue))
+    (let peeked (call t.peek ticket))
+    (let spent (call t.spend ticket))
+    (let another (call Host.issue))
+    (return (struct (field peeked peeked) (field second (call Host.redeem another)) (field spent spent)))))
+
+(procedure t.peek
+  (access private)
+  (parameter of (type Host.Ticket))
+  (returns Int)
+  (body
+    (return (call Standard.Numeric.plus (path of (field id)) 100))))
+
+(procedure t.spend
+  (access private)
+  (parameter of (type Host.Ticket))
+  (returns Int)
+  (body
+    (return (call Host.redeem of))))

@@ -1,0 +1,20 @@
+(test 1)
+(name "an-extension-giving-members-to-an-alias-the-document-declares-refuses")
+(note "The document declaring an alias gives it nothing at all, so an extension headed by an alias refuses at the load in that document. `App.Num` is an alias the document declares, and the extension gives it a member and no claim.")
+
+(program
+  (warp 1)
+  (type App.Num Int)
+  (extension
+    (head App.Num)
+    (procedure m
+      (parameter of (type App.Num))
+      (returns Int)
+      (body
+        (return 7))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

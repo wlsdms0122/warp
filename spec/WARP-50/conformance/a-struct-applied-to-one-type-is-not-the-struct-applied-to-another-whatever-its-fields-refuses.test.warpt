@@ -1,0 +1,20 @@
+(test 1)
+(name "a-struct-applied-to-one-type-is-not-the-struct-applied-to-another-whatever-its-fields-refuses")
+(note "`App.Tagged` lists `Tag`, which no field writes. Mentions applied to two tags are two types though their fields are alike, so one does not stand where the other is declared.")
+
+(program
+  (warp 1)
+  (struct App.A)
+  (struct App.B)
+  (struct App.Tagged
+    (typeParameter Tag)
+    (typeParameter Raw)
+    (field raw (some Raw)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let a (type (named App.Tagged App.A Int)) (struct (field raw 1)))
+      (let b (type (named App.Tagged App.B Int)) a)
+      (return 1))))
+(expect (refuses build))

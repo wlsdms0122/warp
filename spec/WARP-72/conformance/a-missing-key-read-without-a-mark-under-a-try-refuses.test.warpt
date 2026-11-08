@@ -1,0 +1,21 @@
+(test 1)
+(name "a-missing-key-read-without-a-mark-under-a-try-refuses")
+(note "`d` holds the key `\"a\"` alone and the body reads `d[\"b\"]` without `?`, which stops the run. The abort after it makes the try one a run may reach, and no catch holds a refusal, so the run refuses rather than answering \"rescued\".")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (var tried)
+      (let d (type (dictionary String Int)) (dictionary (entry "a" 1)))
+      (try
+        (body
+          (let v (path d (index "b")))
+          (call Standard.Control.abort "after"))
+        (catch
+          (set tried "rescued")))
+      (return tried))))
+(expect (refuses run))

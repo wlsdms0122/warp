@@ -1,0 +1,21 @@
+(test 1)
+(name "a-type-member-given-to-int-is-named-by-its-spelling")
+(note "An extension gives Int the type member Kind as String, so its spelling is `Int.Kind`, an alias of String. A parameter of it takes \"z\".")
+
+(program
+  (warp 1)
+  (extension
+    (head Int)
+    (type Kind String))
+  (procedure App.take
+    (parameter x (type Int.Kind))
+    (returns String)
+    (body
+      (return x)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let taken (call App.take "z"))
+      (return taken))))
+(expect (answers "z"))

@@ -1,0 +1,23 @@
+(test 1)
+(name "a-struct-literal-at-a-call-joins-what-two-fields-on-one-type-parameter-read-as")
+(note "A struct literal is handed where `App.Pair<some T>` is declared, and both its fields stand on `T`, one reading `Int` and one `Int?`. `Int?` accepts `Int`, so the two join to `Int?`, which fills `T`, and the call returns the first.")
+
+(program
+  (warp 1)
+  (struct App.Pair
+    (typeParameter T)
+    (field first (some T))
+    (field second (some T)))
+  (procedure App.firstOf
+    (parameter pair (type (named App.Pair (some T))))
+    (returns (some T))
+    (body
+      (return (path pair (field first)))))
+  (procedure entry
+    (access public)
+    (parameter other (type (optional Int)))
+    (returns (optional Int))
+    (body
+      (return (call App.firstOf (struct (field first 1) (field second other)))))))
+(arguments (argument other 2))
+(expect (answers 1))

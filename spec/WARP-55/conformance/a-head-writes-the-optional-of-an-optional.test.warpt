@@ -1,0 +1,20 @@
+(test 1)
+(name "a-head-writes-the-optional-of-an-optional")
+(note "A head's Optional is written by its `?`, and an Optional of an Optional by two, as a type is: `some W??` is a head. A reading of `Int??` reaches `Optional.label`, given under it.")
+
+(program
+  (warp 1)
+  (extension
+    (head (optional (optional (some W))))
+    (procedure label
+      (parameter it (type (optional (optional (some W)))))
+      (returns String)
+      (body
+        (return "twice"))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let maybe (type (optional (optional Int))) 5)
+      (return (call Optional.label maybe)))))
+(expect (answers "twice"))

@@ -1,0 +1,26 @@
+(test 1)
+(name "a-switch-whose-default-finishes-is-no-leave")
+(note "Every arm returns and the `default` finishes, so not every way leaves and the switch may finish. The statement after it is reached: handed `yellow`, the entry returns 3.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red)
+    (case yellow))
+  (procedure entry
+    (access public)
+    (parameter light (type App.Light))
+    (returns Int)
+    (body
+      (switch light
+        (case green
+          (then
+            (return 1)))
+        (case red
+          (then
+            (return 2)))
+        (default))
+      (return 3))))
+(arguments (argument light (struct App.Light.yellow)))
+(expect (answers 3))

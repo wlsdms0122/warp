@@ -1,0 +1,15 @@
+(test 1)
+(name "concurrent-all-over-nothing-returns-an-empty-list")
+(note "all returns each piece's return value in the pieces' order, so over no piece it returns a list holding nothing. Only a race needs pieces.")
+
+(program
+  (warp 1)
+  (import Standard.Concurrent.all)
+  (procedure entry
+    (access public)
+    (isolated)
+    (returns (array Any))
+    (failing concurrent_failed)
+    (body
+      (return (call Standard.Concurrent.all (array))))))
+(expect (answers (array)))

@@ -1,0 +1,13 @@
+(test 1)
+(name "indexing-bytes-reads-an-int")
+(note "An element of bytes is an `Int`, so reading one needs no conversion and no special procedure.")
+
+(program
+  (warp 1)
+  (const data x"6869")
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (path data (index 1))))))
+(expect (answers 105))

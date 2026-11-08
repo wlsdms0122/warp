@@ -1,0 +1,15 @@
+(test 1)
+(name "null-written-optional-holds-null-as-its-some")
+(note "`Null?` is a type: its none is `null` and its some of `null` is `Some` holding `null`. The host hands that some at a `Null?` parameter, and it is not the same as `null`.")
+
+(program
+  (warp 1)
+  (import Standard.Logic.equal)
+  (procedure entry
+    (access public)
+    (parameter x (type (optional Null)))
+    (returns Bool)
+    (body
+      (return (call Standard.Logic.equal x null)))))
+(arguments (argument x (struct Some (field wrapped null))))
+(expect (answers false))

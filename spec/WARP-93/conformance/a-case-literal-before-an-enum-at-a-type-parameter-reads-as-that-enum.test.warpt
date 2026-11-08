@@ -1,0 +1,22 @@
+(test 1)
+(name "a-case-literal-before-an-enum-at-a-type-parameter-reads-as-that-enum")
+(note "`App.first` takes two values of `some T`, and the call hands the case literal first and `light`, an `App.Light`, after it. What fills `T` is read off the whole call, so the literal is read as `App.Light` whatever position it stands at, and the call returns it.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure App.first
+    (parameter a (type (some T)))
+    (parameter b (type (some T)))
+    (returns (some T))
+    (body
+      (return a)))
+  (procedure entry
+    (access public)
+    (returns App.Light)
+    (body
+      (let light (type App.Light) (case green))
+      (return (call App.first (case red) light)))))
+(expect (answers (struct App.Light.red)))

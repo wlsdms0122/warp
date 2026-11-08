@@ -1,0 +1,14 @@
+(test 1)
+(name "contains-asks-a-collection")
+(note "contains returns whether an array holds an element, by the language's one sameness.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.contains)
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (body
+      (let held (call Standard.Collection.contains (array 1 2 3) 2))
+      (return held))))
+(expect (answers true))

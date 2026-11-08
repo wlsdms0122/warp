@@ -1,0 +1,24 @@
+(test 1)
+(name "a-claim-returning-another-type-for-self-or-null-refuses")
+(note "`App.Find.find` returns `Self?`, which the claim about `Int` reads as `Int?`. `Int.find` returns `String?`, which that does not take, so the claim does not hold and refuses at the build, at the claim.")
+
+(program
+  (warp 1)
+  (contract App.Find
+    (procedure find
+      (parameter of (type Self))
+      (returns (optional Self))))
+  (extension
+    (head Int)
+    (satisfies App.Find)
+    (procedure find
+      (parameter of (type Int))
+      (returns (optional String))
+      (body
+        (return "s"))))
+  (procedure entry
+    (access public)
+    (returns (optional Int))
+    (body
+      (return (call App.Find.find 5)))))
+(expect (refuses build))

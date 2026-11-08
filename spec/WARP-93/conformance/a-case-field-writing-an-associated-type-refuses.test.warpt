@@ -1,0 +1,21 @@
+(test 1)
+(name "a-case-field-writing-an-associated-type-refuses")
+(note "A value of an enum carries nothing of what the enum was applied to, so what fills its parameters is read off its fields, as a struct's is. A field writing the associated type `some C.Item` refuses at the load.")
+
+(program
+  (warp 1)
+  (enum App.Holder
+    (typeParameter C App.Container)
+    (case empty)
+    (case one (field item (some C.Item))))
+  (contract App.Container
+    (type Item)
+    (procedure first
+      (parameter of (type Self))
+      (returns Self.Item)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

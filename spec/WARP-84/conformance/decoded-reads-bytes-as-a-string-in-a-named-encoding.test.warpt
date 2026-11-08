@@ -1,0 +1,13 @@
+(test 1)
+(name "decoded-reads-bytes-as-a-string-in-a-named-encoding")
+(note "Bytes are not text and no encoding is assumed. Reading them as a string is a procedure that names its encoding. decoded and encoded are the two directions of one mapping, utf8 first.")
+
+(program
+  (warp 1)
+  (import Standard.Text.decoded)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (return (call Standard.Text.decoded x"6869" "utf8")))))
+(expect (answers "hi"))

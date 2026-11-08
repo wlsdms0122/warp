@@ -1,0 +1,27 @@
+(test 1)
+(name "the-object-of-a-switch-over-an-enum-taking-type-parameters")
+(note "The switch takes apart an `App.Result<Int, String>`, and operation 17 names the enum bare, `App.Result`, since a value carries nothing of what the enum was applied to and the run matches its spelling by name.")
+
+(program
+  (warp 1)
+  (enum App.Result
+    (typeParameter T)
+    (typeParameter E)
+    (case failure (field error (some E)))
+    (case success (field value (some T))))
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (parameter r (type (named App.Result Int String)))
+    (returns Int)
+    (body
+      (switch r
+        (case failure
+          (then
+            (return 0)))
+        (case success
+          (bind value v)
+          (then
+            (return v)))))))
+(expect (builds (dictionary (entry "addressTable" (array (array 0 (array) false) (array 1 (array) false))) (entry "claims" (array)) (entry "constants" (array)) (entry "contracts" (array)) (entry "dependencies" (array)) (entry "document" (array x"f88244b8c7c25d2802778900532eebbf98e615b3cd148b8dd04f3657f749408b")) (entry "importedClaims" (array)) (entry "lifted" (array)) (entry "loweredTypeTable" (array)) (entry "members" (array)) (entry "numbering" (array (array) (array))) (entry "object" 1) (entry "operationTable" (array (array 1 0) (array 0 0) (array 13 0 (array 1)) (array 1 1) (array 13 0 (array 3)) (array 17 0 "App.Result" (array (array "failure" (array) (array (array (array) 2))) (array "success" (array (array "value" 1)) (array (array (array) 4)))) (array)))) (entry "rows" (array (array "entry" (array (array (array "r" (array 4))) 5 (array 1 (array)) 1 1 (array) (array)) 2 (array 0 (array (array (array) 5)) (array 2 (array 0) (array) (array) (array) (array "r" "v")))))) (entry "typeMembers" (array)) (entry "typeNumbering" (array)) (entry "typeTable" (array (array 15 "E") (array 15 "T") (array 4) (array 6) (array 14 "App.Result" (array 2 3)) (array 4))) (entry "types" (array (array "App.Result" (array 20 (array (array "failure" (array (array "error" 0))) (array "success" (array (array "value" 1)))) (array "T" "E") (array))))) (entry "valueTable" (array (array 2 0))) (entry "variables" (array)))))

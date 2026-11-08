@@ -1,0 +1,5 @@
+(test 1)
+(name "a-path-beginning-with-brackets-refuses")
+(note "A path begins with its head, a name a scope holds, so `[0]` is no path though `a[0]` is.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "let" "a") (entry "value" (array 5 6))) (dictionary (entry "value" (dictionary (entry "return" (dictionary (entry "ref" "[0]")))))))) (entry "returns" "Int"))))) (entry "warp" 1)))
+(expect (refuses load))

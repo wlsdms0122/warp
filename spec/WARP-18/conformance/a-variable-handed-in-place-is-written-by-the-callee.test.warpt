@@ -1,0 +1,19 @@
+(test 1)
+(name "a-variable-handed-in-place-is-written-by-the-callee")
+(note "A parameter typed `inout` takes the caller's variable rather than its value. The callee writes the box, and the caller reads what was written.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure bump
+    (parameter count (type (inout Int)))
+    (body
+      (set count (call Standard.Numeric.plus count 1))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var n 10)
+      (call bump n)
+      (return n))))
+(expect (answers 11))

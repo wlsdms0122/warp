@@ -1,0 +1,21 @@
+(test 1)
+(name "a-loops-name-leaves-the-outer-variable-to-write-after-the-loop")
+(note "A loop's name binds nothing after the loop, so in an arm where `x` names a loop, a write of `x` after the loop writes the variable around the arm.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var x 1)
+      (conditional
+        (when true)
+        (then
+          (let x
+            (loop
+              (while false)
+              (body)))
+          (set x 2)))
+      (return x))))
+(expect (answers 2))

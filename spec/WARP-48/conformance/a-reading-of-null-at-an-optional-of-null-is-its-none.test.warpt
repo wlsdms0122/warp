@@ -1,0 +1,18 @@
+(test 1)
+(name "a-reading-of-null-at-an-optional-of-null-is-its-none")
+(note "An Optional takes three readings in order, and a reading of `Null` is its none before a reading `T` takes is its some. At `Null?`, `n`, read as `Null`, is the none, `null`, and not `Some` holding `null`.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter x (type (optional Null)))
+    (returns Any)
+    (body
+      (return x)))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let n (type Null) null)
+      (return (call App.f n)))))
+(expect (answers null))

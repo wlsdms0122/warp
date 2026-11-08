@@ -1,0 +1,18 @@
+(test 1)
+(name "a-value-from-outside-is-fitted-at-every-depth")
+(note "The door leaves out a field the declaration never named at whatever depth a struct, a list or an Optional holds it. The `App.Row` inside a list inside a field of `App.Outer` arrives without `extra`.")
+
+(program
+  (warp 1)
+  (struct App.Outer
+    (field rows (array (optional App.Row))))
+  (struct App.Row
+    (field id String))
+  (procedure entry
+    (access public)
+    (parameter o (type App.Outer))
+    (returns App.Outer)
+    (body
+      (return o))))
+(arguments (argument o (struct App.Outer (field rows (array (struct App.Row (field extra 1) (field id "a")) null)))))
+(expect (answers (struct App.Outer (field rows (array (struct App.Row (field id "a")) null)))))

@@ -1,0 +1,22 @@
+(test 1)
+(name "a-vocabulary-imports-what-its-procedure-sends")
+(note "What a native procedure declares it sends is used as a body's sends are, so the module it stands in lists each under `imports`. `App.h` sends `Standard.Math.floored`, and the vocabulary lists it; a reader that did not count declared sends would take the list for one saying more than the module uses.")
+
+(vocabulary
+  (import Standard.Math.floored)
+  (procedure App.h
+    (const)
+    (isolated)
+    (returns Int)
+    (answers 6)
+    (sends Standard.Math.floored)))
+
+(program
+  (warp 1)
+  (import App.h)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.h)))))
+(expect (answers 6))

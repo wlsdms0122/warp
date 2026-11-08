@@ -1,0 +1,17 @@
+(test 1)
+(name "type-on-a-statement-binding-a-loop-refuses")
+(note "A loop's statement name binds its round, and what the round holds is the loop's to say. Writing `type` on that statement refuses at the load.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let r
+        (type Int)
+        (loop
+          (while false)
+          (body 1)))
+      (return 1))))
+(expect (refuses load))

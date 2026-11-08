@@ -1,0 +1,22 @@
+(test 1)
+(name "a-zero-divisor-under-a-try-refuses")
+(note "Dividing by zero under `dividedBy` stops the run. The abort after it makes the try one a run may reach, and no catch holds a refusal, so the run refuses rather than answering \"rescued\".")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (import Standard.Numeric.dividedBy)
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (var tried)
+      (let zero 0)
+      (try
+        (body
+          (let v (call Standard.Numeric.dividedBy 1 zero))
+          (call Standard.Control.abort "after"))
+        (catch
+          (set tried "rescued")))
+      (return tried))))
+(expect (refuses run))

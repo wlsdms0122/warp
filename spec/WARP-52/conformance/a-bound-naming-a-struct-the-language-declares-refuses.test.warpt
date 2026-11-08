@@ -1,0 +1,17 @@
+(test 1)
+(name "a-bound-naming-a-struct-the-language-declares-refuses")
+(note "A bound names a contract, and `Failure` is a struct the language declares, which the load knows is no contract, so the bound refuses there.")
+
+(program
+  (warp 1)
+  (procedure App.same
+    (parameter x (type (some T Failure)))
+    (returns (some T))
+    (body
+      (return x)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

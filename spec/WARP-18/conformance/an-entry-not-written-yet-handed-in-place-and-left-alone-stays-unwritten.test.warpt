@@ -1,0 +1,44 @@
+(test 1)
+(name "an-entry-not-written-yet-handed-in-place-and-left-alone-stays-unwritten")
+(note "App.touch takes an entry of a dictionary in place at its own some T. The entry is not written yet and App.touch writes nothing, so the entry stays unwritten, and the dictionary is returned as it was.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure App.h
+    (parameter n (type (some T)))
+    (parameter j)
+    (returns (some T))
+    (body
+      (var cell n)
+      (let c
+        (closure
+          (parameter y (type (some T)))
+          (returns Int)
+          (body
+            (set cell y)
+            (return 0))))
+      (return cell)))
+  (procedure App.touch
+    (parameter x (type (inout (some T))))
+    (parameter n (type (some T)))
+    (parameter j)
+    (parameter stop (type Bool))
+    (returns Int)
+    (failing aborted)
+    (body
+      (let y (call App.h n j))
+      (conditional
+        (when stop)
+        (then
+          (call Standard.Control.abort "boom")))
+      (return 0)))
+  (procedure entry
+    (access public)
+    (returns (dictionary String Int))
+    (failing aborted)
+    (body
+      (var d (type (dictionary String Int)) (dictionary (entry "a" 1)))
+      (call App.touch (path d (index "new")) 2 3 false)
+      (return d))))
+(expect (answers (dictionary (entry "a" 1))))

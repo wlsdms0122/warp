@@ -1,0 +1,13 @@
+(test 1)
+(name "an-enum-writing-no-case-refuses")
+(note "`(enum App.Light)` writes `enum: {}`, an enum with no case. The type with no value is spelled `Never`, and an enum with no case would be a second spelling of it, so the load refuses.")
+
+(program
+  (warp 1)
+  (enum App.Light)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

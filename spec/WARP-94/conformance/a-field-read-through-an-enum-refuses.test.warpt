@@ -1,0 +1,16 @@
+(test 1)
+(name "a-field-read-through-an-enum-refuses")
+(note "An enum declares no field of its own, since which fields a value carries is its case's. A dot on a reading of `App.Target` reads nothing, so the build refuses it, though the value is a `remote`.")
+
+(program
+  (warp 1)
+  (enum App.Target
+    (case local)
+    (case remote (field host String) (field port Int)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let target (type App.Target) (case remote (field host "a") (field port 8080)))
+      (return (path target (field port))))))
+(expect (refuses build))

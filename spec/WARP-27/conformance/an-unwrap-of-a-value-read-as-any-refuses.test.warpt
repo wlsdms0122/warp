@@ -1,0 +1,17 @@
+(test 1)
+(name "an-unwrap-of-a-value-read-as-any-refuses")
+(note "`of` must read an Optional. `o` is written with no type and reads `Any`, which is no Optional though it may hold null, so the build refuses the unwrap: a cast says what it is first.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter o)
+    (returns Int)
+    (body
+      (let x
+        (unwrap o
+          (else
+            (return 0))))
+      (return 1))))
+(expect (refuses build))

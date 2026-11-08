@@ -1,0 +1,15 @@
+(test 1)
+(name "a-struct-literal-a-name-declares-takes-the-name")
+(note "A struct literal written where a name declares a struct is judged field by field and takes the name. The entry returns it as `Any`, and it is a struct named `App.P`.")
+
+(program
+  (warp 1)
+  (struct App.P
+    (field x Int))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let p (type App.P) (struct (field x 1)))
+      (return p))))
+(expect (answers (struct App.P (field x 1))))

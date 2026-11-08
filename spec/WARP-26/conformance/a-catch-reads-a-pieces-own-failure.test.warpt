@@ -1,0 +1,41 @@
+(test 1)
+(name "a-catch-reads-a-pieces-own-failure")
+(note "What concurrent_failed gathers under each piece is the failure that piece raised, a `Failure` like every failure a catch binds, so a catch reads a piece's own type through details once a cast says it is one.")
+
+(program
+  (warp 1)
+  (import Standard.Concurrent.allKeyed)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (isolated)
+    (returns (optional String))
+    (failing cast_refused)
+    (body
+      (var tried)
+      (let caught
+        (try
+          (body
+            (call Standard.Concurrent.allKeyed
+              (dictionary
+                (entry "fine"
+                  (closure
+                    (const)
+                    (isolated)
+                    (returns String)
+                    (body
+                      (return "ok"))))
+                (entry "fragile"
+                  (closure
+                    (const)
+                    (isolated)
+                    (returns Never)
+                    (failing aborted)
+                    (body
+                      (call Standard.Control.abort "on purpose")))))))
+          (catch
+            (let failures (as (path caught (field details) (index "failures")) (dictionary String Any)))
+            (let piece (as (path failures (index "fragile")) Failure))
+            (set tried (path piece (field type))))))
+      (return tried))))
+(expect (answers "aborted"))

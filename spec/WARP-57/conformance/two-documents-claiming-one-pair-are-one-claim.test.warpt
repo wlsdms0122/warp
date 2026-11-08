@@ -1,0 +1,61 @@
+(test 1)
+(name "two-documents-claiming-one-pair-are-one-claim")
+(note "Two documents making one claim are one claim to a document reaching both by what they name: the program calls `One.mark` and `Two.mark`, and the card conforms to App.Describable.")
+
+(documents
+  (document
+    (warp 1)
+    (contract App.Describable
+      (procedure describe
+        (parameter of (type Self))
+        (returns String))))
+  (document
+    (warp 1)
+    (struct T.Card
+      (field rank Int)
+      (procedure describe
+        (parameter of (type T.Card))
+        (returns String)
+        (body
+          (return "card")))))
+  (document
+    (warp 1)
+    (import App.Describable)
+    (import T.Card)
+    (extension
+      (head T.Card)
+      (satisfies App.Describable))
+    (procedure One.mark
+      (access public)
+      (returns Int)
+      (body
+        (return 1))))
+  (document
+    (warp 1)
+    (import App.Describable)
+    (import T.Card)
+    (extension
+      (head T.Card)
+      (satisfies App.Describable))
+    (procedure Two.mark
+      (access public)
+      (returns Int)
+      (body
+        (return 1)))))
+
+(program
+  (warp 1)
+  (import App.Describable.describe)
+  (import One.mark)
+  (import T.Card)
+  (import Two.mark)
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let one (call One.mark))
+      (let two (call Two.mark))
+      (let card (as (struct (field rank 1)) T.Card))
+      (return (call App.Describable.describe card)))))
+(expect (answers "card"))

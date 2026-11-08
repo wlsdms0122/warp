@@ -1,0 +1,26 @@
+(test 1)
+(name "a-default-taking-one-case-runs-for-it")
+(note "The arms name `green` and `red`, so the `default` takes `yellow` alone, which is one case and enough for a run to reach it. Handed `yellow`, the switch runs the `default`.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red)
+    (case yellow))
+  (procedure entry
+    (access public)
+    (parameter light (type App.Light))
+    (returns String)
+    (body
+      (switch light
+        (case green
+          (then
+            (return "go")))
+        (case red
+          (then
+            (return "stop")))
+        (default
+          (return "wait"))))))
+(arguments (argument light (struct App.Light.yellow)))
+(expect (answers "wait"))

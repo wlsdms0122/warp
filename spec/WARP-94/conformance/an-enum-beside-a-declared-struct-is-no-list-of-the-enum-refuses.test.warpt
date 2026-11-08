@@ -1,0 +1,25 @@
+(test 1)
+(name "an-enum-beside-a-declared-struct-is-no-list-of-the-enum-refuses")
+(note "An enum beside a declared struct joins to `Any`, so the list of `light` and `point` reads `Array<Any>`. `App.count` asks a list of `App.Light`, which that is not, so the build refuses the call.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (struct App.Point
+    (field x Int))
+  (procedure App.count
+    (parameter lights (type (array App.Light)))
+    (returns Int)
+    (body
+      (return 2)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let light (type App.Light) (case red))
+      (let point (type App.Point) (struct (field x 1)))
+      (let both (array light point))
+      (return (call App.count both)))))
+(expect (refuses build))

@@ -1,0 +1,23 @@
+(test 1)
+(name "a-type-member-read-where-its-head-does-not-take-the-type-refuses")
+(note "App.Wrapper is given the type member Item under the head `App.Wrapper<Int>` alone. `App.Wrapper<String>.Item` applies the type to String, which that head does not take, so no type member Item is there and the build refuses.")
+
+(program
+  (warp 1)
+  (struct App.Wrapper
+    (typeParameter T)
+    (field item (some T)))
+  (extension
+    (head (named App.Wrapper Int))
+    (type Item String))
+  (procedure App.take
+    (parameter x (type (member (named App.Wrapper String) Item)))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

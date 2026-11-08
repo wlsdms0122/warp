@@ -1,0 +1,20 @@
+(test 1)
+(name "a-cast-between-an-enum-and-a-declared-struct-refuses")
+(note "`light` is read as `App.Light`, and no value of an enum is a value of a declared struct. The cast to `App.Point` names a type no value it reads is, so the build refuses it.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (struct App.Point
+    (field x Int))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing cast_refused)
+    (body
+      (let light (type App.Light) (case red))
+      (let point (as light App.Point))
+      (return 1))))
+(expect (refuses build))

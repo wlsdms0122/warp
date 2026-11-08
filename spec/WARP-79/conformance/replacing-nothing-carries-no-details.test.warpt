@@ -1,0 +1,20 @@
+(test 1)
+(name "replacing-nothing-carries-no-details")
+(note "`replacing` on a target holding no characters fails with `aborted`, the failure of `Standard.Control.abort`, which carries nothing beside its message, so its `details` hold nothing.")
+
+(program
+  (warp 1)
+  (import Standard.Text.replacing)
+  (procedure entry
+    (access public)
+    (returns (optional (dictionary String Any)))
+    (body
+      (var tried)
+      (let caught
+        (try
+          (body
+            (call Standard.Text.replacing "abc" "" "x"))
+          (catch
+            (set tried (path caught (field details))))))
+      (return tried))))
+(expect (answers (dictionary)))

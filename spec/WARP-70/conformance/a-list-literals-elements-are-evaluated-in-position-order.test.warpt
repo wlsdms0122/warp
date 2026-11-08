@@ -1,0 +1,20 @@
+(test 1)
+(name "a-list-literals-elements-are-evaluated-in-position-order")
+(note "A list literal evaluates its elements in position order. Both elements fail, and the catch sees the first one's failure.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (returns (optional String))
+    (body
+      (var seen)
+      (let caught
+        (try
+          (body
+            (let made (type (array String)) (array (call Standard.Control.abort "first") (call Standard.Control.abort "second"))))
+          (catch
+            (set seen (path caught (field message))))))
+      (return seen))))
+(expect (answers "first"))

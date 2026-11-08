@@ -1,0 +1,19 @@
+(test 1)
+(name "a-name-that-is-not-a-contracts-joined-with-and-refuses")
+(note "`&` joins the names of contracts. A declared type joined into one is not, and the declaration is refused at the build.")
+
+(program
+  (warp 1)
+  (struct Card
+    (field last String))
+  (contract Text)
+  (extension
+    (head String)
+    (satisfies Text))
+  (procedure entry
+    (access public)
+    (parameter it (type (composition Card Text)))
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

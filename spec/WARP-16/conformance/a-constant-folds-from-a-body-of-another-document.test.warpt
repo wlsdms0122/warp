@@ -1,0 +1,28 @@
+(test 1)
+(name "a-constant-folds-from-a-body-of-another-document")
+(note "A constant folds from a body in another document of the link, since the document it is written in is what the compiled document is made from. The body runs at the build and the constant is its return value.")
+
+(documents
+  (document
+    (warp 1)
+    (import Standard.Numeric.times)
+    (procedure K.twice
+      (const)
+      (isolated)
+      (parameter of (type Int))
+      (returns Int)
+      (body
+        (return (call Standard.Numeric.times of 2))))))
+
+(program
+  (warp 1)
+  (import K.twice)
+  (const twelve (call K.twice 6))
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (returns Int)
+    (body
+      (return twelve))))
+(expect (answers 12))

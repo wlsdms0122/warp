@@ -1,0 +1,13 @@
+(test 1)
+(name "var-written-outside-a-declared-field-refuses")
+(note "`var` is written on a field of a declared type and nowhere else, since only such a field is written through. A parameter written `var` is refused at the load.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter count (type (var Int)))
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

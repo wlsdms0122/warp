@@ -1,0 +1,44 @@
+(test 1)
+(name "a-case-literal-field-at-a-contract-holds-the-type-it-was-read-as")
+(note "Where a reading meets a contract at a part of a case literal, the value is held beside that reading. `maybe` reads `Int?` and holds `5`, and the case literal writes it at `it`, declared `App.Described`, so the field holds `Int?` and the call through the contract on what the arm binds reaches the Optional's row, though the value is `5`.")
+
+(program
+  (warp 1)
+  (enum App.Slot
+    (case empty)
+    (case one (field it App.Described)))
+  (contract App.Described
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head Int)
+    (satisfies App.Described)
+    (procedure describe
+      (parameter of (type Int))
+      (returns String)
+      (body
+        (return "a number"))))
+  (extension
+    (head (optional Int))
+    (satisfies App.Described)
+    (procedure describe
+      (parameter of (type (optional Int)))
+      (returns String)
+      (body
+        (return "a number or none"))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let maybe (type (optional Int)) 5)
+      (let s (type App.Slot) (case one (field it maybe)))
+      (switch s
+        (case empty
+          (then
+            (return "empty")))
+        (case one
+          (bind it x)
+          (then
+            (return (call App.Described.describe x))))))))
+(expect (answers "a number or none"))

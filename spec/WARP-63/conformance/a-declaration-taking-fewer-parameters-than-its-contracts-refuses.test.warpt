@@ -1,0 +1,26 @@
+(test 1)
+(name "a-declaration-taking-fewer-parameters-than-its-contracts-refuses")
+(note "A declaration satisfying a contract's procedure takes exactly the contract's positions. `App.Card.label` takes its own type and nothing after it where the contract asks an `Int` too, so the claim refuses at the build.")
+
+(program
+  (warp 1)
+  (struct App.Card
+    (satisfies App.Labelled)
+    (field last String)
+    (procedure label
+      (parameter of (type App.Card))
+      (returns String)
+      (body
+        (return (path of (field last))))))
+  (contract App.Labelled
+    (procedure label
+      (parameter of (type Self))
+      (parameter a (type Int))
+      (returns String)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (return (call App.Labelled.label (as (struct (field last "42")) App.Card) 1)))))
+(expect (refuses build))

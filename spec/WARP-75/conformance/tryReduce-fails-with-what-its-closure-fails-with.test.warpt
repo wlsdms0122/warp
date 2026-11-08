@@ -1,0 +1,34 @@
+(test 1)
+(name "tryReduce-fails-with-what-its-closure-fails-with")
+(note "`Standard.Collection.tryReduce` takes a procedure that may fail and declares `failing: anything`, so the procedure's failure is the call's: the closure aborts with `side` on the first element, and the catch reads its message.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.tryReduce)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (returns (optional String))
+    (body
+      (var failed)
+      (let caught
+        (try
+          (body
+            (call Standard.Collection.tryReduce
+              (array 1 2)
+              0
+              (closure
+                (const)
+                (isolated)
+                (parameter carried (type Int))
+                (parameter x (type Int))
+                (returns Int)
+                (failing aborted)
+                (body
+                  (call Standard.Control.abort "side")))))
+          (catch
+            (set failed (path caught (field message))))))
+      (return failed))))
+(expect (answers "side"))

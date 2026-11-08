@@ -1,0 +1,13 @@
+(test 1)
+(name "double-arithmetic-with-no-finite-result-refuses")
+(note "Floating-point arithmetic that reaches infinity has no result a document can carry, so it refuses at the run rather than returning a value that exists only until it is written down.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.times)
+  (procedure entry
+    (access public)
+    (returns Double)
+    (body
+      (return (call Standard.Numeric.times 1e+308 10.0)))))
+(expect (refuses run))

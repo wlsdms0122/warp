@@ -1,0 +1,32 @@
+(warp 1)
+(import Standard.Text.joined)
+(import Standard.Text.text)
+(import Time.wait)
+(import flow.Outcome)
+(import flow.Runnable)
+(import flow.succeeded)
+
+(struct flow.Sleep
+  (satisfies flow.Runnable)
+  (field id String)
+  (field ms Int)
+  (procedure describe
+    (const)
+    (parameter of (type flow.Sleep))
+    (returns String)
+    (body
+      (return (call Standard.Text.joined (array "sleep " (call Standard.Text.text (path of (field ms)))) ""))))
+  (procedure run
+    (parameter of (type flow.Sleep))
+    (returns flow.Outcome)
+    (failing cast_refused)
+    (body
+      (call Time.wait (path of (field ms)))
+      (return (call flow.succeeded (path of (field id)) (path of (field ms)) (call Standard.Text.joined (array "slept " (call Standard.Text.text (path of (field ms))) " ms") ""))))))
+
+(procedure flow.Sleep.parse
+  (parameter of (type (dictionary String Any)))
+  (returns flow.Sleep)
+  (failing cast_refused)
+  (body
+    (return (as (struct (field id (as (path of (index "id")) String)) (field ms (as (path of (index "ms")) Int))) flow.Sleep))))

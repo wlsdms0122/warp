@@ -1,0 +1,20 @@
+(test 1)
+(name "a-member-under-a-bare-name-taking-an-alias-of-its-type-first-refuses")
+(note "Under the bare name of a type listing no type parameters, a member's first parameter writes the type's name, and one written otherwise refuses at the load. `App.Num` is an alias of `Int`, and a member given under `Int` takes `App.Num` first, which is the type written by another name.")
+
+(program
+  (warp 1)
+  (type App.Num Int)
+  (extension
+    (head Int)
+    (procedure twice
+      (parameter of (type App.Num))
+      (returns Int)
+      (body
+        (return 2))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call Int.twice 1)))))
+(expect (refuses load))

@@ -1,0 +1,45 @@
+(test 1)
+(name "a-claim-imported-stands-apart-from-the-names")
+(note "A claim imported stands under `importedClaims`, apart from the names, so it shares no order with `T.Card.describe`. The program calls the member and, through the claim, the contract's procedure.")
+
+(documents
+  (document
+    (warp 1)
+    (contract App.Describable
+      (procedure describe
+        (parameter of (type Self))
+        (returns String))))
+  (document
+    (warp 1)
+    (struct T.Card
+      (field rank Int)
+      (procedure describe
+        (parameter of (type T.Card))
+        (returns String)
+        (body
+          (return "card")))))
+  (document
+    (warp 1)
+    (import App.Describable)
+    (import T.Card)
+    (extension
+      (head T.Card)
+      (satisfies App.Describable))))
+
+(program
+  (warp 1)
+  (import App.Describable.describe)
+  (import Standard.Text.joined)
+  (import T.Card)
+  (import T.Card.describe)
+  (import T.Card App.Describable)
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let card (as (struct (field rank 1)) T.Card))
+      (let one (call T.Card.describe card))
+      (let two (call App.Describable.describe card))
+      (return (call Standard.Text.joined (array one two) " ")))))
+(expect (answers "card card"))

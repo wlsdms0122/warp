@@ -1,0 +1,19 @@
+(test 1)
+(name "a-return-inside-a-closure-returns-from-the-closure")
+(note "A leave does not cross a closure's edge: the closure's `return 1` returns from the closure, and the entry goes on to return 2.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let f
+        (closure
+          (returns Int)
+          (body
+            (return 1))))
+      (let v (apply f))
+      (return (call Standard.Numeric.plus v 1)))))
+(expect (answers 2))

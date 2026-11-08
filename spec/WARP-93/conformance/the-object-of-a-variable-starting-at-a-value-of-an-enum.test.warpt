@@ -1,0 +1,16 @@
+(test 1)
+(name "the-object-of-a-variable-starting-at-a-value-of-an-enum")
+(note "A module variable starting at a case literal starts a run holding a value of the enum, which `valueTable` writes as a struct, tag 7, under the case's spelling. No tag of its own is needed.")
+
+(program
+  (warp 1)
+  (var start (type App.Target) (case remote (field host "a") (field port 8080)))
+  (enum App.Target
+    (case local)
+    (case remote (field host String) (field port Int)))
+  (procedure entry
+    (access public)
+    (returns App.Target)
+    (body
+      (return start))))
+(expect (builds (dictionary (entry "addressTable" (array (array 0 (array) false))) (entry "claims" (array)) (entry "constants" (array)) (entry "contracts" (array)) (entry "dependencies" (array)) (entry "document" (array x"6aa983e11dbd85051e52157fc6a5c6132ab3b823d3867a96e3b5375ef8afe5c0")) (entry "importedClaims" (array)) (entry "lifted" (array)) (entry "loweredTypeTable" (array)) (entry "members" (array)) (entry "numbering" (array (array) (array))) (entry "object" 1) (entry "operationTable" (array (array 1 0) (array 13 0 (array 0)))) (entry "rows" (array (array "entry" (array (array) 2 (array 1 (array)) 0 0 (array) (array)) 2 (array 0 (array (array (array) 1)) (array 1 (array) (array (array 0 0)) (array) (array) (array "start")))))) (entry "typeMembers" (array)) (entry "typeNumbering" (array)) (entry "typeTable" (array (array 6) (array 4) (array 14 "App.Target"))) (entry "types" (array (array "App.Target" (array 20 (array (array "local" (array)) (array "remote" (array (array "host" 0) (array "port" 1)))))))) (entry "valueTable" (array (array 4 "a") (array 2 8080) (array 7 "App.Target.remote" (array "host" "port") (array 0 1)))) (entry "variables" (array (array "start" 2))))))

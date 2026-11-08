@@ -1,0 +1,22 @@
+(test 1)
+(name "an-int-past-its-largest-under-a-try-refuses")
+(note "Adding one to the largest `Int` is arithmetic past what an `Int` holds, which stops the run. The abort after it makes the try one a run may reach, and no catch holds a refusal, so the run refuses rather than answering \"rescued\".")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (var tried)
+      (let big 9223372036854775807)
+      (try
+        (body
+          (let v (call Standard.Numeric.plus big 1))
+          (call Standard.Control.abort "after"))
+        (catch
+          (set tried "rescued")))
+      (return tried))))
+(expect (refuses run))

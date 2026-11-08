@@ -1,0 +1,19 @@
+(test 1)
+(name "a-case-from-outside-as-a-dictionarys-value-is-fitted-to-its-case")
+(note "The host hands a dictionary whose value is `App.Target.remote` carrying a field `tls` the case never names. The door fits a value to its case at whatever depth a dictionary's value holds it, so `tls` is left out and the dictionary is the one the entry builds.")
+
+(program
+  (warp 1)
+  (import Standard.Logic.equal)
+  (enum App.Target
+    (case local)
+    (case remote (field host String) (field port Int)))
+  (procedure entry
+    (access public)
+    (parameter d)
+    (returns Bool)
+    (body
+      (let built (type (dictionary String App.Target)) (dictionary (entry "a" (case remote (field host "h") (field port 1)))))
+      (return (call Standard.Logic.equal d built)))))
+(arguments (argument d (dictionary (entry "a" (struct App.Target.remote (field host "h") (field port 1) (field tls true))))))
+(expect (answers true))

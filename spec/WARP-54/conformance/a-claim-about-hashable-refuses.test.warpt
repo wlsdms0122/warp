@@ -1,0 +1,16 @@
+(test 1)
+(name "a-claim-about-hashable-refuses")
+(note "A bare head is a type's name or a `language-name` that names a type, and `Hashable` is the contract the language declares and names no type. A claim about what the head grammar does not give refuses at the load.")
+
+(program
+  (warp 1)
+  (contract App.Marked)
+  (extension
+    (head Hashable)
+    (satisfies App.Marked))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

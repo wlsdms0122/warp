@@ -1,0 +1,21 @@
+(test 1)
+(name "a-generic-body-appending-its-parameter-to-a-list-of-its-optional-promotes-it")
+(note "Inside a declaration taking `some T`, a list holding null and the parameter reads `Array<some T?>`. Handed in place to `append`, the list fills `Element` with `some T?` exactly, and the parameter appended stands there as its some, so the call builds.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.append)
+  (procedure App.put
+    (parameter x (type (some T)))
+    (returns (array Any))
+    (body
+      (var ys (array null x))
+      (call Standard.Collection.append ys x)
+      (return ys)))
+  (procedure entry
+    (access public)
+    (returns (array Any))
+    (body
+      (let ys (call App.put 3))
+      (return ys))))
+(expect (answers (array null 3 3)))

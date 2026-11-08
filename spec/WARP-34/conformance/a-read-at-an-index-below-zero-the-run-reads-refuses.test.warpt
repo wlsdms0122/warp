@@ -1,0 +1,15 @@
+(test 1)
+(name "a-read-at-an-index-below-zero-the-run-reads-refuses")
+(note "On a list an integer below zero is no position, and one the run reads refuses at the run as a position past the end does. Handed -1, `xs[at]` refuses at the run.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter at (type Int))
+    (returns Int)
+    (body
+      (let xs (array 1 2))
+      (return (path xs (index at))))))
+(arguments (argument at -1))
+(expect (refuses run))

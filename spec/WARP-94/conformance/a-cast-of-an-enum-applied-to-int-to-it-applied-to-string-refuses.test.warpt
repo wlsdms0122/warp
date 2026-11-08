@@ -1,0 +1,28 @@
+(test 1)
+(name "a-cast-of-an-enum-applied-to-int-to-it-applied-to-string-refuses")
+(note "Two applications of one enum to different types are two types, so a reading of `App.Result<Int, String>` cast to `App.Result<String, String>` names a type no value it reads is, though the `failure` `r` holds carries no `Int`. The build refuses the cast.")
+
+(program
+  (warp 1)
+  (enum App.Result
+    (typeParameter T)
+    (typeParameter E)
+    (case failure (field error (some E)))
+    (case success (field value (some T))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let r (type (named App.Result Int String)) (case failure (field error "x")))
+      (let s (as r (named App.Result String String)))
+      (switch s
+        (case failure
+          (bind error e)
+          (then
+            (return e)))
+        (case success
+          (bind value v)
+          (then
+            (return v)))))))
+(expect (refuses build))

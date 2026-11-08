@@ -1,0 +1,26 @@
+(test 1)
+(name "a-slot-naming-another-documents-type-member-takes-its-type")
+(note "The document beside the program gives App.Box the type member Item as Int, and the program writes its spelling `App.Box.Item` as a parameter's type, listing it among its imports. The build resolves the name to the type member and reads it as Int, so the parameter takes 7.")
+
+(documents
+  (document
+    (warp 1)
+    (struct App.Box
+      (field item Int)
+      (type Item Int))))
+
+(program
+  (warp 1)
+  (import App.Box.Item)
+  (procedure App.take
+    (parameter item (type App.Box.Item))
+    (returns Int)
+    (body
+      (return item)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let taken (call App.take 7))
+      (return taken))))
+(expect (answers 7))

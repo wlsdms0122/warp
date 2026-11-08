@@ -1,0 +1,15 @@
+(test 1)
+(name "an-enum-value-is-handed-to-the-host-as-a-struct-under-its-case")
+(note "A value of an enum is a struct under its case's spelling, its fields the values the case carries, and a host is handed one in that shape. The entry returns a `remote`, so the host receives the struct `App.Target.remote` with its two fields.")
+
+(program
+  (warp 1)
+  (enum App.Target
+    (case local)
+    (case remote (field host String) (field port Int)))
+  (procedure entry
+    (access public)
+    (returns App.Target)
+    (body
+      (return (case remote (field host "a") (field port 8080))))))
+(expect (answers (struct App.Target.remote (field host "a") (field port 8080))))

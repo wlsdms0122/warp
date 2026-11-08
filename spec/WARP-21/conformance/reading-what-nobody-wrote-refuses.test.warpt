@@ -1,0 +1,12 @@
+(test 1)
+(name "reading-what-nobody-wrote-refuses")
+(note "Every ref resolves to a parameter, a constant, or a statement written before it. A name nobody wrote resolves nowhere.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (return ghost))))
+(expect (refuses load))

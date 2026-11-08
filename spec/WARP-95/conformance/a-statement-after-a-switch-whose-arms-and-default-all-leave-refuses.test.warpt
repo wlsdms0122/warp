@@ -1,0 +1,27 @@
+(test 1)
+(name "a-statement-after-a-switch-whose-arms-and-default-all-leave-refuses")
+(note "Every arm returns and the `default` returns too, so the switch never finishes and nothing may follow it. The text shows it, so the load refuses the statement after it.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red)
+    (case yellow))
+  (procedure entry
+    (access public)
+    (parameter light (type App.Light))
+    (returns Int)
+    (body
+      (switch light
+        (case green
+          (then
+            (return 1)))
+        (case red
+          (then
+            (return 2)))
+        (default
+          (return 0)))
+      (return 3))))
+(arguments (argument light (struct App.Light.yellow)))
+(expect (refuses load))

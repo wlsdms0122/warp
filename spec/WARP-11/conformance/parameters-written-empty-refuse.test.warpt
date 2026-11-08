@@ -1,0 +1,5 @@
+(test 1)
+(name "parameters-written-empty-refuse")
+(note "A procedure taking nothing writes no `parameters`, so `parameters: []` says it a second way.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" 1)))))) (entry "parameters" (array)) (entry "returns" "Int"))))) (entry "warp" 1)))
+(expect (refuses load))

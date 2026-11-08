@@ -1,0 +1,14 @@
+(test 1)
+(name "a-write-under-an-int-key-makes-the-entry")
+(note "A write through brackets on a dictionary lands on the entry under the key between them, made where the dictionary does not hold it yet, whatever the key type.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (var d (type (dictionary Int String)) (dictionary))
+      (set (path d (index 5)) "five")
+      (return (path d (index 5))))))
+(expect (answers "five"))

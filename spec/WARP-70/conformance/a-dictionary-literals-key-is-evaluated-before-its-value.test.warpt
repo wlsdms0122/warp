@@ -1,0 +1,20 @@
+(test 1)
+(name "a-dictionary-literals-key-is-evaluated-before-its-value")
+(note "A dictionary literal evaluates its entries in position order, each key before its value. The key and the value each fail, and the catch sees the key's failure.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (returns (optional String))
+    (body
+      (var seen)
+      (let caught
+        (try
+          (body
+            (let made (type (dictionary String Int)) (dictionary (entry (call Standard.Control.abort "key") (call Standard.Control.abort "value")))))
+          (catch
+            (set seen (path caught (field message))))))
+      (return seen))))
+(expect (answers "key"))

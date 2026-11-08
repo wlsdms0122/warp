@@ -1,0 +1,5 @@
+(test 1)
+(name "a-module-variable-writing-a-type-and-no-start-refuses")
+(note "A module variable is `{ type, value }` with both keys written. `{ type: Int }` writes no start, and a module variable always writes its start, as a constant does.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" 1)))))) (entry "returns" "Int"))))) (entry "var" (dictionary (entry "v" (dictionary (entry "type" "Int"))))) (entry "warp" 1)))
+(expect (refuses load))

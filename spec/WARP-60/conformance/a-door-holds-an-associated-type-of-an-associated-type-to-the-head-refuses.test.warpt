@@ -1,0 +1,75 @@
+(test 1)
+(name "a-door-holds-an-associated-type-of-an-associated-type-to-the-head-refuses")
+(note "An outer of a struct no claim makes Hashable arrives where `some N: Lib.Nested` is declared; the head `App.Outer<some T: Hashable>` does not take it, so the door refuses.")
+
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Container
+      (type Item)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item)))
+    (contract Lib.Nested
+      (type Inner Lib.Container)
+      (procedure inner
+        (parameter of (type Self))
+        (returns Self.Inner)))
+    (procedure Lib.deep
+      (access public)
+      (parameter n (type (some N Lib.Nested)))
+      (returns (some N.Inner.Item))
+      (body
+        (let i (call Lib.Nested.inner n))
+        (return (call Lib.firstOf i))))
+    (procedure Lib.firstOf
+      (access public)
+      (parameter c (type (some C Lib.Container)))
+      (returns (some C.Item))
+      (body
+        (return (call Lib.Container.first c)))))
+  (document
+    (warp 1)
+    (import Lib.Container)
+    (import Lib.Nested)
+    (struct App.Box
+      (typeParameter T)
+      (field item (some T)))
+    (struct App.Outer
+      (typeParameter T)
+      (field inner (named App.Box (some T))))
+    (struct App.Plain
+      (field x Int))
+    (extension
+      (head (named App.Box (some T Hashable)))
+      (satisfies Lib.Container)
+      (type Item (some T))
+      (procedure first
+        (access public)
+        (parameter of (type (named App.Box (some T))))
+        (returns (some T))
+        (body
+          (return (path of (field item))))))
+    (extension
+      (head (named App.Outer (some T Hashable)))
+      (satisfies Lib.Nested)
+      (type Inner (named App.Box (some T)))
+      (procedure inner
+        (access public)
+        (parameter of (type (named App.Outer (some T))))
+        (returns (named App.Box (some T)))
+        (body
+          (return (path of (field inner))))))))
+
+(program
+  (warp 1)
+  (import Lib.Nested)
+  (import Lib.deep)
+  (procedure entry
+    (access public)
+    (parameter n (type (some N Lib.Nested)))
+    (returns (some N.Inner.Item))
+    (body
+      (return (call Lib.deep n)))))
+(arguments (argument n (struct App.Outer (field inner (struct App.Box (field item (struct App.Plain (field x 1))))))))
+(expect (refuses run))

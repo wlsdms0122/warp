@@ -1,0 +1,21 @@
+(test 1)
+(name "a-path-written-from-any-into-a-list-of-a-parameter-refuses")
+(note "App.g writes junk, read as Any, into cell[0], where cell is a list of T. What the path reaches is T, which takes only a value of it, so the write refuses at the build.")
+
+(program
+  (warp 1)
+  (procedure App.g
+    (parameter x (type (some T)))
+    (parameter junk)
+    (returns (array (some T)))
+    (body
+      (var cell (array x))
+      (set (path cell (index 0)) junk)
+      (return cell)))
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (body
+      (let r (call App.g 1 "s"))
+      (return r))))
+(expect (refuses build))

@@ -1,0 +1,20 @@
+(test 1)
+(name "type-on-a-statement-binding-an-unwrap-refuses")
+(note "An unwrap's statement name binds its payload, and what the payload holds is the type written for what the unwrap takes apart. Writing `type` on that statement refuses at the load.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter o (type (optional Int)))
+    (returns Int)
+    (body
+      (var n 0)
+      (let x
+        (type Int)
+        (unwrap o
+          (then
+            (set n x))))
+      (return n))))
+(arguments (argument o 5))
+(expect (refuses load))

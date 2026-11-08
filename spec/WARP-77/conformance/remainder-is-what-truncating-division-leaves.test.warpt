@@ -1,0 +1,14 @@
+(test 1)
+(name "remainder-is-what-truncating-division-leaves")
+(note "remainder returns what is left of an integer division.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.remainder)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let left (call Standard.Numeric.remainder 7 3))
+      (return left))))
+(expect (answers 1))

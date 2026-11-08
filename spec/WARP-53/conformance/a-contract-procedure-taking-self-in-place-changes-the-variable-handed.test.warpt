@@ -1,0 +1,30 @@
+(test 1)
+(name "a-contract-procedure-taking-self-in-place-changes-the-variable-handed")
+(note "`App.Bumpable.bump` takes `inout Self`, and `Bank.Counter.bump` adds one to the count of the counter it is handed in place. `App.twice` takes a `some T` in place and calls through the contract twice on it, and what fills `T` there, `Bank.Counter`, picks the row. Each call changes the variable `entry` handed, so its count reads 2.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (struct Bank.Counter
+    (satisfies App.Bumpable)
+    (field count (var Int))
+    (procedure bump
+      (parameter of (type (inout Bank.Counter)))
+      (body
+        (set (path of (field count)) (call Standard.Numeric.plus (path of (field count)) 1)))))
+  (contract App.Bumpable
+    (procedure bump
+      (parameter of (type (inout Self)))))
+  (procedure App.twice
+    (parameter it (type (inout (some T App.Bumpable))))
+    (body
+      (call App.Bumpable.bump it)
+      (call App.Bumpable.bump it)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var c (type Bank.Counter) (struct (field count 0)))
+      (call App.twice c)
+      (return (path c (field count))))))
+(expect (answers 2))

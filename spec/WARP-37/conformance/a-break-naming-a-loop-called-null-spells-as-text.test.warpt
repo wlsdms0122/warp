@@ -1,0 +1,5 @@
+(test 1)
+(name "a-break-naming-a-loop-called-null-spells-as-text")
+(note "A break's operand is a name, and `null` read bare is no name, so a loop called `null` is broken with ``(break `null`)``. The writer writes that name in backticks, since it does not read back bare.")
+(text "(warp 1)\n\n(procedure entry\n  (access public)\n  (returns Int)\n  (body\n    (let `null`\n      (loop\n        (while true)\n        (body\n          (break `null`))))\n    (return 1)))\n")
+(expect (spells (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "let" "null") (entry "value" (dictionary (entry "loop" (dictionary (entry "body" (array (dictionary (entry "value" (dictionary (entry "break" "null")))))) (entry "while" true)))))) (dictionary (entry "value" (dictionary (entry "return" 1)))))) (entry "returns" "Int"))))) (entry "warp" 1))))

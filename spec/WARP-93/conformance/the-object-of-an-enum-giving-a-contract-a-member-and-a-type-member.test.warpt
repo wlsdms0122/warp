@@ -1,0 +1,31 @@
+(test 1)
+(name "the-object-of-an-enum-giving-a-contract-a-member-and-a-type-member")
+(note "`App.Light` claims `App.Container` and gives it the member `first` and the type member `Item`. The object writes the claim, the member and the type member under the enum's head as it writes a struct's.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (satisfies App.Container)
+    (case green)
+    (case red)
+    (type Item Int)
+    (procedure first
+      (const)
+      (isolated)
+      (parameter of (type App.Light))
+      (returns Int)
+      (body
+        (return 1))))
+  (contract App.Container
+    (type Item)
+    (procedure first
+      (parameter of (type Self))
+      (returns Self.Item)))
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (builds (dictionary (entry "addressTable" (array)) (entry "claims" (array (array "App.Light" (array "App.Container")))) (entry "constants" (array)) (entry "contracts" (array (array "App.Container" (array (array "Item") (array) (array (array "first" (array (array (array "of" (array 0))) 1 (array 1 (array)) 0 0 (array) (array)))))))) (entry "dependencies" (array)) (entry "document" (array x"9f9db247127a2190151caedfcc5b9f282a26496d9319db60b0900c3c1992e6c6")) (entry "importedClaims" (array)) (entry "lifted" (array)) (entry "loweredTypeTable" (array)) (entry "members" (array (array "App.Light" (array "first")))) (entry "numbering" (array (array) (array))) (entry "object" 1) (entry "operationTable" (array (array 0 0) (array 13 0 (array 0)) (array 0 1) (array 13 0 (array 2)))) (entry "rows" (array (array "App.Light.first" (array (array (array "of" (array 3))) 4 (array 1 (array)) 1 1 (array) (array)) 1 (array 0 (array (array (array) 1)) (array 1 (array 0) (array) (array) (array) (array "of")))) (array "entry" (array (array) 5 (array 1 (array)) 1 1 (array) (array)) 2 (array 0 (array (array (array) 3)) (array 0 (array) (array) (array) (array) (array)))))) (entry "typeMembers" (array (array "App.Light" (array (array "Item" 2))))) (entry "typeNumbering" (array)) (entry "typeTable" (array (array 18) (array 19 "Self" "Item") (array 4) (array 14 "App.Light") (array 4) (array 4))) (entry "types" (array (array "App.Light" (array 20 (array (array "green" (array)) (array "red" (array))))))) (entry "valueTable" (array (array 2 1) (array 2 1))) (entry "variables" (array)))))

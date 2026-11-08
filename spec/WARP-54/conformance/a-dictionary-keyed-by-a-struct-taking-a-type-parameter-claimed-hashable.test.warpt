@@ -1,0 +1,18 @@
+(test 1)
+(name "a-dictionary-keyed-by-a-struct-taking-a-type-parameter-claimed-hashable")
+(note "A claim that `App.Box` conforms to `Hashable` is about every value of it, so `App.Box<Int>` keys a dictionary.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (satisfies Hashable)
+    (field item (some T)))
+  (procedure entry
+    (access public)
+    (returns (optional Int))
+    (body
+      (let b (type (named App.Box Int)) (struct (field item 1)))
+      (let m (type (dictionary (named App.Box Int) Int)) (dictionary (entry b 7)))
+      (return (path m (index b))))))
+(expect (answers 7))

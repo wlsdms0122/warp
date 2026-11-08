@@ -1,0 +1,40 @@
+(test 1)
+(name "a-claim-under-a-structs-bare-name-and-one-under-it-applied-to-its-own-bounds-are-one-claim")
+(note "Two documents claiming one type a contract under heads that take the same values are one claim, the type applied to its own parameters under its own bounds beside the bare name among them. `App.Box` bounds `T` by `Hashable` and claims `App.Describable` in its declaration, and `App.Box<some U: Hashable>` takes every box, as `App.Box` does, so the second claim says what the first said.")
+
+(documents
+  (document
+    (warp 1)
+    (struct App.Box
+      (typeParameter T Hashable)
+      (satisfies App.Describable)
+      (field item (some T))
+      (procedure describe
+        (access public)
+        (parameter of (type (named App.Box (some T Hashable))))
+        (returns String)
+        (body
+          (return "box"))))
+    (contract App.Describable
+      (procedure describe
+        (parameter of (type Self))
+        (returns String))))
+  (document
+    (warp 1)
+    (import App.Box)
+    (import App.Describable)
+    (extension
+      (head (named App.Box (some U Hashable)))
+      (satisfies App.Describable))))
+
+(program
+  (warp 1)
+  (import App.Box)
+  (import App.Describable.describe)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let b (type (named App.Box Int)) (struct (field item 1)))
+      (return (call App.Describable.describe b)))))
+(expect (answers "box"))

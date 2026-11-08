@@ -1,0 +1,13 @@
+(test 1)
+(name "remainder-by-zero-refuses")
+(note "A zero divisor leaves nothing a remainder could be, under remainder the same as under dividedBy.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.remainder)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call Standard.Numeric.remainder 7 0)))))
+(expect (refuses run))

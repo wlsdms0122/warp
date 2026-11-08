@@ -1,0 +1,34 @@
+(test 1)
+(name "an-imported-claim-about-an-optional-stands-in-the-object-under-optional")
+(note "An object writes each claim its document imports as the two names the import writes. A claim about an Optional is imported under `Optional`, so `importedClaims` holds `[\"Optional\", \"App.Named\"]`.")
+
+(documents
+  (document
+    (warp 1)
+    (contract App.Named
+      (procedure name
+        (parameter of (type Self))
+        (returns String))))
+  (document
+    (warp 1)
+    (import App.Named)
+    (extension
+      (head (optional Int))
+      (satisfies App.Named)
+      (procedure name
+        (parameter of (type (optional Int)))
+        (returns String)
+        (body
+          (return "named"))))))
+
+(program
+  (warp 1)
+  (import App.Named.name)
+  (import Optional App.Named)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let v (type (optional Int)) 1)
+      (return (call App.Named.name v)))))
+(expect (builds (dictionary (entry "addressTable" (array (array 0 (array) false))) (entry "claims" (array)) (entry "constants" (array)) (entry "contracts" (array)) (entry "dependencies" (array x"12a2a97f444db42c5125fe2efe12aaf8c84c4e39ddf9cc3aa312dc6b0bd541eb" x"2ca097e81444f8dc4a66448d8d6832394ea6a699c793dbde141b8eb32c3c541d")) (entry "document" (array x"4d1b237762c7fe901d63fefe92ec1adb24fd82ea5b6961a33c5a82eb86ecb1cf")) (entry "importedClaims" (array (array "Optional" "App.Named"))) (entry "lifted" (array)) (entry "loweredTypeTable" (array (array 4) (array 13 0))) (entry "members" (array)) (entry "numbering" (array (array "App.Named.name") (array))) (entry "object" 1) (entry "operationTable" (array (array 0 0) (array 12 (array "App.Named" "name" (array 1) (array 1 0) (array))) (array 13 0 (array 1)))) (entry "rows" (array (array "entry" (array (array) 0 (array 1 (array)) 0 0 (array) (array)) 2 (array 0 (array (array (array (array 0 0)) 0) (array (array) 2)) (array 1 (array) (array) (array) (array) (array "v")))))) (entry "typeMembers" (array)) (entry "typeNumbering" (array)) (entry "typeTable" (array (array 6))) (entry "types" (array)) (entry "valueTable" (array (array 2 1))) (entry "variables" (array)))))

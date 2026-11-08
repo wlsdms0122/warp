@@ -1,0 +1,40 @@
+(test 1)
+(name "a-constant-folding-through-a-claim-of-a-document-it-does-not-stand-on-refuses")
+(note "A constant folds at the build, against what its document stands on. The claim that `Int` conforms to `App.Joinable`, and `Int.join` behind it, stand in a document the program never names, so the claim is not within its reach, however the host handed the documents over, and the constant refuses.")
+
+(documents
+  (document
+    (warp 1)
+    (contract App.Joinable
+      (procedure join
+        (const)
+        (isolated)
+        (parameter of (type Self))
+        (parameter other (type Self))
+        (returns Self)))
+    (procedure App.nothing))
+  (document
+    (warp 1)
+    (import App.Joinable)
+    (extension
+      (head Int)
+      (satisfies App.Joinable)
+      (procedure join
+        (const)
+        (isolated)
+        (parameter of (type Int))
+        (parameter other (type Int))
+        (returns Int)
+        (body
+          (return of))))))
+
+(program
+  (warp 1)
+  (import App.Joinable.join)
+  (const joined (call App.Joinable.join 1 2))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return joined))))
+(expect (refuses build))

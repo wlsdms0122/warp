@@ -1,0 +1,5 @@
+(test 1)
+(name "a-contracts-types-written-empty-refuse")
+(note "A contract asking no type writes no `types`, so `types: []` says it a second way.")
+(tree (dictionary (entry "contracts" (dictionary (entry "App.C" (dictionary (entry "types" (array)))))) (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" 1)))))) (entry "returns" "Int"))))) (entry "warp" 1)))
+(expect (refuses load))

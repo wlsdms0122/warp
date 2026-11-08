@@ -1,0 +1,21 @@
+(test 1)
+(name "a-try-catches-a-cast-that-did-not-match")
+(note "A cast is the author expecting a kind of data that came from outside, and being wrong about that is what the world does, so the mismatch is a failure like any other and a `try` catches it.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter payload)
+    (returns String)
+    (body
+      (var tried)
+      (try
+        (body
+          (let read (as payload String))
+          (set tried read))
+        (catch
+          (set tried "caught")))
+      (return tried))))
+(arguments (argument payload 1))
+(expect (answers "caught"))

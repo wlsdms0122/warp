@@ -1,0 +1,14 @@
+(test 1)
+(name "an-import-listed-twice-refuses")
+(note "A list the document keeps in name order holds each entry once. The imports list is a set, and `Standard.Numeric.plus` listed twice says it a second way.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call Standard.Numeric.plus 1 2)))))
+(expect (refuses load))

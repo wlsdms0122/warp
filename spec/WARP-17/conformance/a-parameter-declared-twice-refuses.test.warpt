@@ -1,0 +1,14 @@
+(test 1)
+(name "a-parameter-declared-twice-refuses")
+(note "Two parameters under one name would be one name the body reads two ways, so a declaration writing a name twice refuses at the load, before anything is judged.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter n (type Int))
+    (parameter n (type String))
+    (returns Any)
+    (body
+      (return n))))
+(expect (refuses load))

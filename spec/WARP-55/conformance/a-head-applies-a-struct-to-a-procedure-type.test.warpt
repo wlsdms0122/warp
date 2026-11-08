@@ -1,0 +1,35 @@
+(test 1)
+(name "a-head-applies-a-struct-to-a-procedure-type")
+(note "A procedure type has a string spelling like any type, so a head may apply a struct to one. The member given under `App.Box<(Int) -> Int>` takes such a box first and calls what it holds, returning 2.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field held (some T)))
+  (extension
+    (head (named App.Box (procedure (parameters Int) (returns Int))))
+    (procedure applied
+      (parameter box (type (named App.Box (procedure (parameters Int) (returns Int)))))
+      (parameter x (type Int))
+      (returns Int)
+      (body
+        (let run (path box (field held)))
+        (let made (apply run x))
+        (return made))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let box
+        (type (named App.Box (procedure (parameters Int) (returns Int))))
+        (struct
+          (field held
+            (closure
+              (parameter x (type Int))
+              (returns Int)
+              (body
+                (return x))))))
+      (let made (call App.Box.applied box 2))
+      (return made))))
+(expect (answers 2))

@@ -1,0 +1,31 @@
+(test 1)
+(name "tryUnwrapped-fails-with-what-its-closure-fails-with")
+(note "`Standard.Optional.tryUnwrapped` takes a closure that may fail and declares `failing: anything`, so on a none the closure's failure is the call's: the closure aborts with `none`, and the catch reads its message.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (import Standard.Optional.tryUnwrapped)
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (returns (optional String))
+    (body
+      (var failed)
+      (let none (type (optional Int)) null)
+      (let caught
+        (try
+          (body
+            (call Standard.Optional.tryUnwrapped none
+              (closure
+                (const)
+                (isolated)
+                (returns Int)
+                (failing aborted)
+                (body
+                  (call Standard.Control.abort "none")))))
+          (catch
+            (set failed (path caught (field message))))))
+      (return failed))))
+(expect (answers "none"))

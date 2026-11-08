@@ -1,0 +1,20 @@
+(test 1)
+(name "two-extension-keys-naming-a-type-parameter-apart-read-as-one-head-refuse")
+(note "A head's `some T` is the head's own type parameter, so `Array<some T>` and `Array<some U>` take the same values and read as one head. Two keys of one document reading as one head refuse at the load, whatever each gives.")
+
+(program
+  (warp 1)
+  (contract App.A)
+  (contract App.B)
+  (extension
+    (head (array (some T)))
+    (satisfies App.A))
+  (extension
+    (head (array (some U)))
+    (satisfies App.B))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

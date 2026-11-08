@@ -1,0 +1,32 @@
+(test 1)
+(name "an-alias-of-any-another-document-declares-at-a-contract-slot-refuses")
+(note "Lo.Loose is declared in the document beside this one and stands for Any there. The alias is judged by what it stands for wherever it is declared, so a value read as it refuses at the build where App.Shape is asked.")
+
+(documents
+  (document
+    (warp 1)
+    (type Lo.Loose Any)
+    (procedure Lo.unused
+      (returns Int)
+      (body
+        (return 0)))))
+
+(program
+  (warp 1)
+  (import Lo.Loose)
+  (struct App.Point
+    (satisfies App.Shape)
+    (field x Int))
+  (contract App.Shape)
+  (procedure App.g
+    (parameter p (type App.Shape))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let d (type Lo.Loose) 5)
+      (return (call App.g d)))))
+(expect (refuses build))

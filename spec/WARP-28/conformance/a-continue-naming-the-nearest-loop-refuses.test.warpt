@@ -1,0 +1,18 @@
+(test 1)
+(name "a-continue-naming-the-nearest-loop-refuses")
+(note "The `continue` names `w`, the loop it stands in, whose round a `continue` naming no loop ends. A document says each thing one way, and a name is for reaching past the nearest loop.")
+
+(program
+  (warp 1)
+  (import Standard.Comparable.lessThan)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let w
+        (loop
+          (while (call Standard.Comparable.lessThan (path w (field index)) 3))
+          (body
+            (continue w))))
+      (return 1))))
+(expect (refuses load))

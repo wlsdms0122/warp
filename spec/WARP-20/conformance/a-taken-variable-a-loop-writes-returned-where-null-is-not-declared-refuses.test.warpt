@@ -1,0 +1,28 @@
+(test 1)
+(name "a-taken-variable-a-loop-writes-returned-where-null-is-not-declared-refuses")
+(note "A loop's round writes an int into a variable that started null and lets a closure capture it. After the loop the variable reads Int?, which the declared return type Int does not take.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.append)
+  (import Standard.Comparable.lessThan)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var x)
+      (var i 0)
+      (var fs (type (array (procedure (parameters) (returns Int)))) (array))
+      (let w
+        (loop
+          (while (call Standard.Comparable.lessThan i 1))
+          (body
+            (set x 1)
+            (call Standard.Collection.append fs
+              (closure
+                (returns Int)
+                (body
+                  (return x))))
+            (set i 1))))
+      (return x))))
+(expect (refuses build))

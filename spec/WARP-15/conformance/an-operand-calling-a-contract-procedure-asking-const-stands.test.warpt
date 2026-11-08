@@ -1,0 +1,35 @@
+(test 1)
+(name "an-operand-calling-a-contract-procedure-asking-const-stands")
+(note "A call through a contract's procedure writing `const` stands wherever a call to a declaration that says it does. `App.tell` calls `App.Named.name` as an argument of `Standard.Text.uppercased`, an operand, and the call stands.")
+
+(program
+  (warp 1)
+  (import Standard.Text.uppercased)
+  (struct App.Thing
+    (satisfies App.Named)
+    (field id Int)
+    (procedure name
+      (const)
+      (isolated)
+      (parameter of (type App.Thing))
+      (returns String)
+      (body
+        (return "thing"))))
+  (contract App.Named
+    (procedure name
+      (const)
+      (isolated)
+      (parameter of (type Self))
+      (returns String)))
+  (procedure App.tell
+    (parameter it (type (some T App.Named)))
+    (returns String)
+    (body
+      (return (call Standard.Text.uppercased (call App.Named.name it)))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (return (call App.tell (as (struct (field id 1)) App.Thing))))))
+(expect (answers "THING"))

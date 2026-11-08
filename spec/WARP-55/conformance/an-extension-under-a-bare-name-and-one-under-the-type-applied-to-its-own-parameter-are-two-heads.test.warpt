@@ -1,0 +1,27 @@
+(test 1)
+(name "an-extension-under-a-bare-name-and-one-under-the-type-applied-to-its-own-parameter-are-two-heads")
+(note "Two keys of one document read as one head where they are one string once their type parameters are renamed. `Array` and `Array<some T>` are two strings however `T` is named, so they are two heads though both take every list, and the document gives `Array.a` under one and `Array.b` under the other.")
+
+(program
+  (warp 1)
+  (extension
+    (head Array)
+    (procedure a
+      (parameter of (type (array Any)))
+      (returns Int)
+      (body
+        (return 1))))
+  (extension
+    (head (array (some T)))
+    (procedure b
+      (parameter of (type (array (some T))))
+      (returns Int)
+      (body
+        (return 2))))
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (body
+      (let xs (type (array Int)) (array 1))
+      (return (array (call Array.a xs) (call Array.b xs))))))
+(expect (answers (array 1 2)))

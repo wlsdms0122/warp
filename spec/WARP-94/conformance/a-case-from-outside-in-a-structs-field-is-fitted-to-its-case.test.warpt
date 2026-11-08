@@ -1,0 +1,21 @@
+(test 1)
+(name "a-case-from-outside-in-a-structs-field-is-fitted-to-its-case")
+(note "The host hands `App.Lamp` whose field `light` holds `App.Light.red` carrying a field `x` the case never names, where the entry declares nothing. The door fits a value to its case at whatever depth a struct holds it, so `x` is left out and the lamp is the one the entry builds.")
+
+(program
+  (warp 1)
+  (import Standard.Logic.equal)
+  (struct App.Lamp
+    (field light App.Light))
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure entry
+    (access public)
+    (parameter lamp)
+    (returns Bool)
+    (body
+      (let built (type App.Lamp) (struct (field light (case red))))
+      (return (call Standard.Logic.equal lamp built)))))
+(arguments (argument lamp (struct App.Lamp (field light (struct App.Light.red (field x 1))))))
+(expect (answers true))

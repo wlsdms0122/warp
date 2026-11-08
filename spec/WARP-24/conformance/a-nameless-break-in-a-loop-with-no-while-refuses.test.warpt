@@ -1,0 +1,18 @@
+(test 1)
+(name "a-nameless-break-in-a-loop-with-no-while-refuses")
+(note "A `break` naming no loop ends the nearest, and the nearest is written with no `while`, which declares that it does not finish.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter done (type Bool))
+    (body
+      (loop
+        (body
+          (conditional
+            (when done)
+            (then
+              (break))))))))
+(arguments (argument done true))
+(expect (refuses load))

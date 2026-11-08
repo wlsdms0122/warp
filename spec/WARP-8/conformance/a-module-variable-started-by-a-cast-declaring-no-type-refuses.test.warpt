@@ -1,0 +1,5 @@
+(test 1)
+(name "a-module-variable-started-by-a-cast-declaring-no-type-refuses")
+(note "A module variable declares its type under `type`, and a cast in its start declares nothing: `null` read as `Int?`, written as the start alone, is a variable declaring no type, and it refuses at the load.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" (dictionary (entry "ref" "v")))))))) (entry "returns" "Int?"))))) (entry "var" (dictionary (entry "v" (dictionary (entry "as" (dictionary (entry "of" null) (entry "type" "Int?"))))))) (entry "warp" 1)))
+(expect (refuses load))

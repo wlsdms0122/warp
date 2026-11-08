@@ -1,0 +1,20 @@
+(test 1)
+(name "an-asking-cast-reads-another-enums-case-as-null")
+(note "`App.Light` and `App.Signal` declare cases of one name, and the host hands `App.Signal.red`. A value of an enum carries its case's spelling, which names `App.Signal`, so it is no value of `App.Light` and the asking cast reads it as the none.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (enum App.Signal
+    (case green)
+    (case red))
+  (procedure entry
+    (access public)
+    (parameter value)
+    (returns (optional App.Light))
+    (body
+      (return (as? value App.Light)))))
+(arguments (argument value (struct App.Signal.red)))
+(expect (answers null))

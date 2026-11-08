@@ -1,0 +1,5 @@
+(test 1)
+(name "a-some-holding-what-is-not-a-none-in-a-cases-text-refuses")
+(note "A `Some` holds `null` or a `Some` under its one field, `wrapped`. A case's text may write a struct as data, and this one writes a `Some` holding 5, which is no value, so the text refuses it as the binary does.")
+(text "(test 1)\n(expect (answers (struct Some (field wrapped 5))))\n")
+(expect (refuses load))

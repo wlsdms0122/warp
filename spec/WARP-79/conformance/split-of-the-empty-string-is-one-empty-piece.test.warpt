@@ -1,0 +1,14 @@
+(test 1)
+(name "split-of-the-empty-string-is-one-empty-piece")
+(note "A text holding no separator is one piece, the text whole, so the string holding nothing is one piece holding nothing, not a list holding nothing.")
+
+(program
+  (warp 1)
+  (import Standard.Text.split)
+  (procedure entry
+    (access public)
+    (returns (array String))
+    (failing aborted)
+    (body
+      (return (call Standard.Text.split "" ",")))))
+(expect (answers (array "")))

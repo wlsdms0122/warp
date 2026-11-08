@@ -1,0 +1,12 @@
+(test 1)
+(name "a-struct-literal-written-where-no-declared-struct-is-read-refuses")
+(note "A struct literal is read as the declared struct of the place it is written into. `entry` returns `Any`, which declares no struct, so the literal has no struct to be and refuses at the build.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (return (struct (field a 1))))))
+(expect (refuses build))

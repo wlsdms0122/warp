@@ -1,0 +1,35 @@
+(test 1)
+(name "a-row-picked-through-a-contract-fills-its-own-parameter-at-the-position-the-contract-reads")
+(note "`App.Maker.make` takes `Self` and then a `some T`, and `Bank.Card.make` takes a `some U` at that position and returns a closure taking its `some U`. The call hands \"x\" there, so it reads the position as `String`, and the row the card picks fills `U` with that. The closure holds it, so held as `Any` it is a value of `(String) -> String`, the cast to that type takes it, and applying it to \"y\" answers \"y\".")
+
+(program
+  (warp 1)
+  (struct Bank.Card
+    (satisfies App.Maker)
+    (field last String)
+    (procedure make
+      (parameter of (type Bank.Card))
+      (parameter a (type (some U)))
+      (returns Any)
+      (body
+        (return
+          (closure
+            (parameter y (type (some U)))
+            (returns (some U))
+            (body
+              (return y)))))))
+  (contract App.Maker
+    (procedure make
+      (parameter of (type Self))
+      (parameter a (type (some T)))
+      (returns Any)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let card (type Bank.Card) (struct (field last "42")))
+      (let made (call App.Maker.make card "x"))
+      (let g (as made (procedure (parameters String) (returns String))))
+      (return (apply g "y")))))
+(expect (answers "y"))

@@ -1,0 +1,23 @@
+(test 1)
+(name "a-type-member-of-a-type-applied-to-a-type-parameter-is-read-under-it")
+(note "App.first takes `App.Wrapper<some T>` and returns `App.Wrapper<some T>.Item`, which reads the head's T as the procedure's own T. A call handing a wrapper of Int fills T with Int, and the field it returns is 1.")
+
+(program
+  (warp 1)
+  (struct App.Wrapper
+    (typeParameter T)
+    (field item (some T))
+    (type Item (some T)))
+  (procedure App.first
+    (parameter w (type (named App.Wrapper (some T))))
+    (returns (member (named App.Wrapper (some T)) Item))
+    (body
+      (return (path w (field item)))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let w (type (named App.Wrapper Int)) (struct (field item 1)))
+      (let first (call App.first w))
+      (return first))))
+(expect (answers 1))

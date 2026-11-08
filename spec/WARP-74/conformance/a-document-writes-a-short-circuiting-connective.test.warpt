@@ -1,0 +1,46 @@
+(test 1)
+(name "a-document-writes-a-short-circuiting-connective")
+(note "A slot asking for an array of procedures that are const says it about every element, so calling one is read rather than run. A document can therefore write `and` itself, stopping at the first side that decides the result.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.count)
+  (import Standard.Comparable.lessThan)
+  (import Standard.Logic.not)
+  (procedure App.and
+    (const)
+    (parameter of (type (array (procedure (const) (parameters) (returns Bool)))))
+    (returns Bool)
+    (body
+      (let walk
+        (loop
+          (while (call Standard.Comparable.lessThan (path walk (field index)) (call Standard.Collection.count of)))
+          (body
+            (let side (path of (index (path walk (field index)))))
+            (let answered (apply side))
+            (conditional
+              (when (call Standard.Logic.not answered))
+              (then
+                (return false))))))
+      (return true)))
+  (procedure entry
+    (access public)
+    (const)
+    (returns Bool)
+    (body
+      (return
+        (call App.and
+          (array
+            (closure
+              (const)
+              (isolated)
+              (returns Bool)
+              (body
+                (return true)))
+            (closure
+              (const)
+              (isolated)
+              (returns Bool)
+              (body
+                (return false)))))))))
+(expect (answers false))

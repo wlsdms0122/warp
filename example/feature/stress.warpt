@@ -1,0 +1,66 @@
+(warp 1)
+(import Standard.Comparable.lessThan)
+(import Standard.Logic.notEqual)
+(import Standard.Numeric.minus)
+(import Standard.Numeric.plus)
+(import Standard.Numeric.remainder)
+
+(struct s.Answer
+  (field depth Int)
+  (field fib Int)
+  (field sum Int))
+
+(procedure entry
+  (access public)
+  (parameter fib (type (optional Int)))
+  (parameter rounds (type (optional Int)))
+  (parameter depth (type (optional Int)))
+  (returns s.Answer)
+  (failing aborted cast_refused)
+  (body
+    (var fibN (type Int) 24)
+    (conditional
+      (when (call Standard.Logic.notEqual fib null))
+      (then
+        (set fibN (as fib Int))))
+    (var roundsN (type Int) 200000)
+    (conditional
+      (when (call Standard.Logic.notEqual rounds null))
+      (then
+        (set roundsN (as rounds Int))))
+    (var depthN (type Int) 2000)
+    (conditional
+      (when (call Standard.Logic.notEqual depth null))
+      (then
+        (set depthN (as depth Int))))
+    (var sum 0)
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan (path walk (field index)) roundsN))
+        (body
+          (set sum (call Standard.Numeric.plus sum (call Standard.Numeric.remainder (path walk (field index)) 7))))))
+    (return (struct (field depth (call s.depth depthN)) (field fib (call s.fib fibN)) (field sum sum)))))
+
+(procedure s.depth
+  (access private)
+  (const)
+  (parameter n (type Int))
+  (returns Int)
+  (body
+    (conditional
+      (when (call Standard.Comparable.lessThan n 1))
+      (then
+        (return 0)))
+    (return (call Standard.Numeric.plus (call s.depth (call Standard.Numeric.minus n 1)) 1))))
+
+(procedure s.fib
+  (access private)
+  (const)
+  (parameter n (type Int))
+  (returns Int)
+  (body
+    (conditional
+      (when (call Standard.Comparable.lessThan n 2))
+      (then
+        (return n)))
+    (return (call Standard.Numeric.plus (call s.fib (call Standard.Numeric.minus n 1)) (call s.fib (call Standard.Numeric.minus n 2))))))

@@ -1,0 +1,21 @@
+(test 1)
+(name "an-unwrap-of-what-is-no-optional-refuses")
+(note "`o` reads `Int`, which is no Optional and holds no none to take apart, so the build refuses the unwrap.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter o (type Int))
+    (returns Int)
+    (body
+      (let x
+        (unwrap o
+          (then
+            (return x))))
+      (return 0)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.f 1)))))
+(expect (refuses build))

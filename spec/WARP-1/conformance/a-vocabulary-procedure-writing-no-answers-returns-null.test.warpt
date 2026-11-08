@@ -1,0 +1,19 @@
+(test 1)
+(name "a-vocabulary-procedure-writing-no-answers-returns-null")
+(note "A procedure the runner brings returns what `answers` says, and null where it writes no `answers`. `App.nothing` declares that it returns `Int?` and writes no `answers`, so the call returns null.")
+
+(vocabulary
+  (procedure App.nothing
+    (const)
+    (isolated)
+    (returns (optional Int))))
+
+(program
+  (warp 1)
+  (import App.nothing)
+  (procedure entry
+    (access public)
+    (returns (optional Int))
+    (body
+      (return (call App.nothing)))))
+(expect (answers null))

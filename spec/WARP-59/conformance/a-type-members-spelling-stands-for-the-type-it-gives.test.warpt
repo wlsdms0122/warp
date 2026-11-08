@@ -1,0 +1,21 @@
+(test 1)
+(name "a-type-members-spelling-stands-for-the-type-it-gives")
+(note "App.Box gives the type member Item as Int, and its spelling `App.Box.Item` is an alias of Int. A parameter written `App.Box.Item` takes 5, and the procedure returns it as the same type.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (field item Int)
+    (type Item Int))
+  (procedure App.take
+    (parameter item (type App.Box.Item))
+    (returns App.Box.Item)
+    (body
+      (return item)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let taken (call App.take 5))
+      (return taken))))
+(expect (answers 5))

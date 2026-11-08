@@ -1,0 +1,21 @@
+(test 1)
+(name "a-module-variable-starting-from-a-procedure-the-host-brought-refuses")
+(note "A variable's start folds from what a constant folds from. `seat` starts from `App.seat`, a procedure the host brought and declared const, so the build refuses it as it would a constant.")
+
+(vocabulary
+  (procedure App.seat
+    (const)
+    (isolated)
+    (returns Int)
+    (answers 7)))
+
+(program
+  (warp 1)
+  (import App.seat)
+  (var seat (type Int) (call App.seat))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return seat))))
+(expect (refuses build))

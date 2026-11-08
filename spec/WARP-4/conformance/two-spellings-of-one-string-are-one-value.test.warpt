@@ -1,0 +1,13 @@
+(test 1)
+(name "two-spellings-of-one-string-are-one-value")
+(note "Unicode writes é two ways and the two are different bytes. A name is held to normal form C, but a string value arrives spelled however the world spelled it. Equality reads the string as a person does.")
+
+(program
+  (warp 1)
+  (import Standard.Logic.equal)
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (body
+      (return (call Standard.Logic.equal "café" "café")))))
+(expect (answers true))

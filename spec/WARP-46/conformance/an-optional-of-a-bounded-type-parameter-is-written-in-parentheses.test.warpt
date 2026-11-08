@@ -1,0 +1,21 @@
+(test 1)
+(name "an-optional-of-a-bounded-type-parameter-is-written-in-parentheses")
+(note "`(some T: App.P)?` is the Optional of a type parameter written with its bound. `App.f` takes `1` there and returns it.")
+
+(program
+  (warp 1)
+  (contract App.P)
+  (extension
+    (head Int)
+    (satisfies App.P))
+  (procedure App.f
+    (parameter x (type (optional (some T App.P))))
+    (returns (optional (some T)))
+    (body
+      (return x)))
+  (procedure entry
+    (access public)
+    (returns (optional Int))
+    (body
+      (return (call App.f 1)))))
+(expect (answers 1))

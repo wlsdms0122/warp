@@ -1,0 +1,11 @@
+(warp 1)
+(import Standard.Numeric.plus)
+(import sh.Point)
+
+(procedure entry
+  (access public)
+  (returns Int)
+  (failing aborted cast_refused)
+  (body
+    (let p (as (struct (field x 2) (field y 3)) sh.Point))
+    (return (call Standard.Numeric.plus (path p (field x)) (path p (field y))))))

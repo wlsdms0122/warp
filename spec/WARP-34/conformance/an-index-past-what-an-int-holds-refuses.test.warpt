@@ -1,0 +1,5 @@
+(test 1)
+(name "an-index-past-what-an-int-holds-refuses")
+(note "An integer between the brackets is a position or a key and never a name, so one past what an `Int` holds, `99999999999999999999`, refuses at the load.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "let" "d") (entry "value" (array 10 20))) (dictionary (entry "value" (dictionary (entry "return" (dictionary (entry "ref" "d[99999999999999999999]")))))))) (entry "returns" "Int"))))) (entry "warp" 1)))
+(expect (refuses load))

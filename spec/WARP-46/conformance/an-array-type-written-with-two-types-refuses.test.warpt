@@ -1,0 +1,17 @@
+(test 1)
+(name "an-array-type-written-with-two-types-refuses")
+(note "An applied `Array` takes one type, so `Array<Int, Int>` is a part the table does not let it be, and the load refuses it.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter m (type (named Array Int Int)))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

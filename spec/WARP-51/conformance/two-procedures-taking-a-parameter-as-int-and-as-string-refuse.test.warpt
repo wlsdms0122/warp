@@ -1,0 +1,29 @@
+(test 1)
+(name "two-procedures-taking-a-parameter-as-int-and-as-string-refuse")
+(note "Two procedures handed at one parameter fill it with the one type both take. A closure taking `Int` and one taking `String` take no type both, so the call refuses at the build.")
+
+(program
+  (warp 1)
+  (procedure App.two
+    (parameter f (type (procedure (parameters (some T)) (returns Int))))
+    (parameter g (type (procedure (parameters (some T)) (returns Int))))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return
+        (call App.two
+          (closure
+            (parameter y (type Int))
+            (returns Int)
+            (body
+              (return 1)))
+          (closure
+            (parameter y (type String))
+            (returns Int)
+            (body
+              (return 1))))))))
+(expect (refuses build))

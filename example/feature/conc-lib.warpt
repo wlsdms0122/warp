@@ -1,0 +1,42 @@
+(warp 1)
+(import Standard.Comparable.lessThan)
+(import Standard.Concurrent.map)
+(import Standard.Numeric.plus)
+(import Standard.Numeric.times)
+
+(procedure cl.fan
+  (isolated)
+  (parameter of (type (array Int)))
+  (returns (array Int))
+  (failing concurrent_failed)
+  (body
+    (return (call Standard.Concurrent.map of
+        (closure
+          (isolated)
+          (parameter item (type Int))
+          (parameter index (type Int))
+          (returns Int)
+          (body
+            (return (call cl.square item))))))))
+
+(procedure cl.square
+  (isolated)
+  (parameter of (type Int))
+  (returns Int)
+  (body
+    (return (call Standard.Numeric.times of of))))
+
+(procedure cl.sum
+  (isolated)
+  (parameter upto (type Int))
+  (returns Int)
+  (body
+    (var i 0)
+    (var acc 0)
+    (let walk
+      (loop
+        (while (call Standard.Comparable.lessThan i upto))
+        (body
+          (set i (call Standard.Numeric.plus i 1))
+          (set acc (call Standard.Numeric.plus acc i)))))
+    (return acc)))

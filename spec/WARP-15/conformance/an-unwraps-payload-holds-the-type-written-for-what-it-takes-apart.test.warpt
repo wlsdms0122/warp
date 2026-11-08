@@ -1,0 +1,30 @@
+(test 1)
+(name "an-unwraps-payload-holds-the-type-written-for-what-it-takes-apart")
+(note "`g` writes no type, so it holds the one written where its value came from: what `o`'s type `((const) (Int) -> Int)?` holds, a `const` procedure type. So a body declared `const` may call it.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure App.f
+    (const)
+    (parameter o (type (optional (procedure (const) (parameters Int) (returns Int)))))
+    (returns Int)
+    (body
+      (let g
+        (unwrap o
+          (else
+            (return 0))))
+      (return (apply g 2))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return
+        (call App.f
+          (closure
+            (const)
+            (parameter v (type Int))
+            (returns Int)
+            (body
+              (return (call Standard.Numeric.plus v 1)))))))))
+(expect (answers 3))

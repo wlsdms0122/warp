@@ -1,0 +1,22 @@
+(test 1)
+(name "a-continue-in-a-loop-with-no-while-starts-the-next-round")
+(note "A `continue` of a loop written with no `while` starts the next round and does not end the loop, so the body still ends in a loop that does not finish. The third round returns.")
+
+(program
+  (warp 1)
+  (import Standard.Comparable.lessThan)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var i (type Int) 0)
+      (loop
+        (body
+          (set i (call Standard.Numeric.plus i 1))
+          (conditional
+            (when (call Standard.Comparable.lessThan i 3))
+            (then
+              (continue)))
+          (return i))))))
+(expect (answers 3))

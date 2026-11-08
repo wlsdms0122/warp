@@ -1,0 +1,29 @@
+(test 1)
+(name "imports-in-byte-order-put-a-capital-before-a-small-letter")
+(note "A list in name order is compared by bytes. `Z` is 0x5A and `a` is 0x61, so `Lib.Zed` comes before `Lib.alpha`, and a reader ordering by case or by locale would refuse this list.")
+
+(documents
+  (document
+    (warp 1)
+    (procedure Lib.Zed
+      (returns Int)
+      (body
+        (return 1)))
+    (procedure Lib.alpha
+      (returns Int)
+      (body
+        (return 2)))))
+
+(program
+  (warp 1)
+  (import Lib.Zed)
+  (import Lib.alpha)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let z (call Lib.Zed))
+      (let a (call Lib.alpha))
+      (return (call Standard.Numeric.plus z a)))))
+(expect (answers 3))

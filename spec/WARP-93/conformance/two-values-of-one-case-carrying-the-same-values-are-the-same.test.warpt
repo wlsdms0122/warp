@@ -1,0 +1,18 @@
+(test 1)
+(name "two-values-of-one-case-carrying-the-same-values-are-the-same")
+(note "Sameness reads a value of an enum as the struct it is. `a` and `b` are both `remote` and carry the same host and port, so they are one value.")
+
+(program
+  (warp 1)
+  (import Standard.Logic.equal)
+  (enum App.Target
+    (case local)
+    (case remote (field host String) (field port Int)))
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (body
+      (let a (type App.Target) (case remote (field host "a") (field port 8080)))
+      (let b (type App.Target) (case remote (field host "a") (field port 8080)))
+      (return (call Standard.Logic.equal a b)))))
+(expect (answers true))

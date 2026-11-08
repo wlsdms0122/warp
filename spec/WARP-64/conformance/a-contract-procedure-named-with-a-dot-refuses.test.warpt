@@ -1,0 +1,20 @@
+(test 1)
+(name "a-contract-procedure-named-with-a-dot-refuses")
+(note "A call reaches a contract's procedure by the contract's name, a dot and the procedure's. `App.P` asking `a.b` and `App.P.a` asking `b` would both be `App.P.a.b`, so a contract's procedure is named by one identifier, and the document refuses at the load.")
+
+(program
+  (warp 1)
+  (contract App.P
+    (procedure a.b
+      (parameter of (type Self))
+      (returns Int)))
+  (contract App.P.a
+    (procedure b
+      (parameter of (type Self))
+      (returns Int)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

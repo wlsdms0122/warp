@@ -1,0 +1,17 @@
+(test 1)
+(name "a-struct-from-outside-under-the-enums-own-name-refuses")
+(note "The host hands a struct under `App.Light`, the enum's own name, where the entry declares nothing. A value of an enum carries one of its cases' spellings, and an enum's name declares no struct, so the struct is under no case's spelling and the door refuses the run, as it does one under a spelling no enum declares a case under.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure entry
+    (access public)
+    (parameter light)
+    (returns Int)
+    (body
+      (return 1))))
+(arguments (argument light (struct App.Light)))
+(expect (refuses run))

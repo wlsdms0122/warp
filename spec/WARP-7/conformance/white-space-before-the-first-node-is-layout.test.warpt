@@ -1,0 +1,5 @@
+(test 1)
+(name "white-space-before-the-first-node-is-layout")
+(note "White space before a text's first element is layout, as it is between two elements and after the last, so a text led by a line feed and spaces reads as the same document.")
+(text "\n  (warp 1)\n")
+(expect (reads (dictionary (entry "imports" (array)) (entry "warp" 1))))

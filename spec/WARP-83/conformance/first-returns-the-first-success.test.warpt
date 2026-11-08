@@ -1,0 +1,33 @@
+(test 1)
+(name "first-returns-the-first-success")
+(note "`firstKeyed` returns the first piece that succeeds and asks the rest to stop. A piece that fails is not a success, so with one piece failing and one returning, the return value is the one that returned.")
+
+(program
+  (warp 1)
+  (import Standard.Concurrent.firstKeyed)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (isolated)
+    (returns Any)
+    (failing concurrent_failed)
+    (body
+      (return
+        (call Standard.Concurrent.firstKeyed
+          (dictionary
+            (entry "fine"
+              (closure
+                (const)
+                (isolated)
+                (returns Int)
+                (body
+                  (return 1))))
+            (entry "fragile"
+              (closure
+                (const)
+                (isolated)
+                (returns Never)
+                (failing aborted)
+                (body
+                  (call Standard.Control.abort "on purpose"))))))))))
+(expect (answers 1))

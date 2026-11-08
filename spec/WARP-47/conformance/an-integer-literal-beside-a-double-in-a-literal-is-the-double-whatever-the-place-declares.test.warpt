@@ -1,0 +1,15 @@
+(test 1)
+(name "an-integer-literal-beside-a-double-in-a-literal-is-the-double-whatever-the-place-declares")
+(note "A literal's parts join before they are held to what the place declares, so an integer literal beside a floating-point number is the floating-point number it names even where `Array<Any>` or `Dictionary<Hashable, String>` is declared. In `keyed` the key written `1` is `1.0`, and the later entry under `1.0` writes its value and keeps that key.")
+
+(program
+  (warp 1)
+  (import Standard.Text.text)
+  (procedure entry
+    (access public)
+    (returns (array String))
+    (body
+      (let listed (type (array Any)) (array 1 2.5))
+      (let keyed (type (dictionary Hashable String)) (dictionary (entry 1 "a") (entry 1.0 "b")))
+      (return (array (call Standard.Text.text listed) (call Standard.Text.text keyed))))))
+(expect (answers (array "[1.0,2.5]" "{1.0:\"b\"}")))

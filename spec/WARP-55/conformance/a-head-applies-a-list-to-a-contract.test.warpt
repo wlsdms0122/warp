@@ -1,0 +1,24 @@
+(test 1)
+(name "a-head-applies-a-list-to-a-contract")
+(note "What a head's brackets hold is a type written as a head writes it, and a contract's name is one, though a head naming a contract bare is about no type. So `Array<App.Described>` is a head, and a list read as `Array<App.Described>` reaches `Array.size`, given under it.")
+
+(program
+  (warp 1)
+  (contract App.Described)
+  (extension
+    (head (array App.Described))
+    (procedure size
+      (parameter of (type (array App.Described)))
+      (returns String)
+      (body
+        (return "described"))))
+  (extension
+    (head Int)
+    (satisfies App.Described))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let xs (type (array App.Described)) (array 1 2))
+      (return (call Array.size xs)))))
+(expect (answers "described"))

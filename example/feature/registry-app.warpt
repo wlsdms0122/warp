@@ -1,0 +1,28 @@
+(warp 1)
+(import Standard.Numeric.plus)
+(import reg.add)
+(import reg.fire)
+
+(struct app.Answer
+  (field fired (array Int))
+  (field seen Int))
+
+(procedure entry
+  (access public)
+  (returns app.Answer)
+  (body
+    (var seen 0)
+    (call reg.add
+      (closure
+        (returns Int)
+        (body
+          (set seen (call Standard.Numeric.plus seen 1))
+          (return seen))))
+    (call reg.add
+      (closure
+        (returns Int)
+        (body
+          (set seen (call Standard.Numeric.plus seen 10))
+          (return seen))))
+    (let fired (call reg.fire))
+    (return (struct (field fired fired) (field seen seen)))))

@@ -1,0 +1,14 @@
+(test 1)
+(name "double-remainder-of-zero-keeps-the-dividends-sign")
+(note "What is left takes the dividend's sign, so -6.0 remainder 3.0 is -0.0, which text spells. Computing it as the dividend minus the truncated quotient times the divisor gives 0.0.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.remainder)
+  (import Standard.Text.text)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (return (call Standard.Text.text (call Standard.Numeric.remainder -6.0 3.0))))))
+(expect (answers "-0.0"))

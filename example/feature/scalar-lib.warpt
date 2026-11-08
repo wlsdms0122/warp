@@ -1,0 +1,20 @@
+(warp 1)
+(contract num.Scalar)
+
+(extension
+  (head Double)
+  (satisfies num.Scalar))
+
+(extension
+  (head Int)
+  (satisfies num.Scalar))
+
+(extension
+  (head String)
+  (satisfies num.Scalar))
+
+(procedure num.first
+  (parameter of (type (array (some T num.Scalar))))
+  (returns (some T))
+  (body
+    (return (path of (index 0)))))

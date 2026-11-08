@@ -1,0 +1,15 @@
+(test 1)
+(name "a-claim-of-a-struct-the-language-declares-refuses")
+(note "A contract a claim names is a type's name or `Hashable`. `Round` is a struct the language declares and a word it reserves, so a claim naming it refuses at the load.")
+
+(program
+  (warp 1)
+  (extension
+    (head Int)
+    (satisfies Round))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

@@ -1,0 +1,16 @@
+(test 1)
+(name "a-contract-procedure-taking-the-optional-of-self-first-refuses")
+(note "A contract's procedure's first parameter's type is `Self` or `inout Self`, and one written otherwise refuses at the load. `Self?` is written otherwise, so the contract refuses where the document is read.")
+
+(program
+  (warp 1)
+  (contract App.Named
+    (procedure name
+      (parameter of (type (optional Self)))
+      (returns String)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

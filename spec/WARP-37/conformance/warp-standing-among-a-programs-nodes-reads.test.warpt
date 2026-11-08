@@ -1,0 +1,5 @@
+(test 1)
+(name "warp-standing-among-a-programs-nodes-reads")
+(note "At the top of a text `(warp 1)` stands first. Inside a case, under `program`, it is the node of one key among the others, and stands in any order among them, so a program written with `(warp 1)` last reads as the one the writer lays out with it first.")
+(text "(test 1)\n(program (procedure entry (access public) (returns Int) (body (return 1))) (warp 1))\n(expect (answers 1))\n")
+(expect (reads (dictionary (entry "expect" (dictionary (entry "answers" 1))) (entry "program" (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" 1)))))) (entry "returns" "Int"))))) (entry "warp" 1))) (entry "test" 1))))

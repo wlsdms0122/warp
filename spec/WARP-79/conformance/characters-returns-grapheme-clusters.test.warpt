@@ -1,0 +1,13 @@
+(test 1)
+(name "characters-returns-grapheme-clusters")
+(note "A character is an extended grapheme cluster, so a letter and the combining mark on it are one character, the way `count` counts them.")
+
+(program
+  (warp 1)
+  (import Standard.Text.characters)
+  (procedure entry
+    (access public)
+    (returns (array String))
+    (body
+      (return (call Standard.Text.characters "éa")))))
+(expect (answers (array "é" "a")))

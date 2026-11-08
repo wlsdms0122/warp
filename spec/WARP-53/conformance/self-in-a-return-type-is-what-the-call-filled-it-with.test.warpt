@@ -1,0 +1,25 @@
+(test 1)
+(name "self-in-a-return-type-is-what-the-call-filled-it-with")
+(note "A contract's return type written `Self` is read as what the call filled `Self` with, as any type parameter's is. Handed an integer, the call returns an integer, and a name declared `Int` takes it at the build.")
+
+(program
+  (warp 1)
+  (contract App.Copyable
+    (procedure copy
+      (parameter of (type Self))
+      (returns Self)))
+  (extension
+    (head Int)
+    (satisfies App.Copyable)
+    (procedure copy
+      (parameter of (type Int))
+      (returns Int)
+      (body
+        (return of))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let n (type Int) (call App.Copyable.copy 5))
+      (return n))))
+(expect (answers 5))

@@ -1,0 +1,22 @@
+(test 1)
+(name "a-native-procedure-reads-a-case-literal-at-its-enum-parameter")
+(note "`App.show` declares its parameter `App.Light`, a signature naming the enum. A case literal handed there is read as that enum, as at any slot of it, so the call builds and returns what the host answers.")
+
+(vocabulary
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure App.show
+    (parameter first (type App.Light))
+    (returns Int)
+    (answers 2)))
+
+(program
+  (warp 1)
+  (import App.show)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.show (case red))))))
+(expect (answers 2))

@@ -1,0 +1,15 @@
+(test 1)
+(name "an-enum-named-beginning-with-a-digit-refuses")
+(note "An enum is declared under a type's name, identifiers joined by dots. `App.2fa` holds a part beginning with a digit, which is no identifier, so the load refuses the enum.")
+
+(program
+  (warp 1)
+  (enum App.2fa
+    (case off)
+    (case on))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

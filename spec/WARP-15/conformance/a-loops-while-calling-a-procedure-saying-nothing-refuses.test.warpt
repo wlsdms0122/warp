@@ -1,0 +1,20 @@
+(test 1)
+(name "a-loops-while-calling-a-procedure-saying-nothing-refuses")
+(note "A loop's `while` is an operand, read rather than run. `App.ready` returns a `Bool`, reaches nothing and says nothing of itself, so a call of it there refuses at the build.")
+
+(program
+  (warp 1)
+  (procedure App.ready
+    (returns Bool)
+    (body
+      (return false)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (loop
+        (while (call App.ready))
+        (body
+          (break)))
+      (return 1))))
+(expect (refuses build))

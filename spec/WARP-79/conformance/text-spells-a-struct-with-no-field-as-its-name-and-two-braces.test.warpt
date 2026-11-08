@@ -1,0 +1,17 @@
+(test 1)
+(name "text-spells-a-struct-with-no-field-as-its-name-and-two-braces")
+(note "Every struct carries its name, and `text` spells a struct as its name, a space and its fields between braces, so one with no field is its name and `{}`: a case carrying nothing is `App.Target.local {}`, where an empty dictionary is `{}` alone.")
+
+(program
+  (warp 1)
+  (import Standard.Text.text)
+  (enum App.Target
+    (case local)
+    (case remote (field port Int)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let target (type App.Target) (case local))
+      (return (call Standard.Text.text target)))))
+(expect (answers "App.Target.local {}"))

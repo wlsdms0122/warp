@@ -1,0 +1,5 @@
+(test 1)
+(name "a-module-variable-declaring-no-type-refuses")
+(note "A module variable is `{ type, value }` with both keys written, so an entry written as its start alone, here the empty list, declares no type and refuses at the load, whatever the start would read as.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" (dictionary (entry "ref" "seen")))))))) (entry "returns" "Array<Int>"))))) (entry "var" (dictionary (entry "seen" (array)))) (entry "warp" 1)))
+(expect (refuses load))

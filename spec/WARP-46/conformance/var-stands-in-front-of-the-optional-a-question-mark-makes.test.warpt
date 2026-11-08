@@ -1,0 +1,17 @@
+(test 1)
+(name "var-stands-in-front-of-the-optional-a-question-mark-makes")
+(note "A mark stands in front of all of the type after it, so `var Int?` is a field of `Int?` a path writes through. A path writes null into it, and the field reads null.")
+
+(program
+  (warp 1)
+  (struct App.Slot
+    (field held (var (optional Int))))
+  (procedure entry
+    (access public)
+    (returns (optional Int))
+    (failing cast_refused)
+    (body
+      (var s (as (struct (field held 1)) App.Slot))
+      (set (path s (field held)) null)
+      (return (path s (field held))))))
+(expect (answers null))

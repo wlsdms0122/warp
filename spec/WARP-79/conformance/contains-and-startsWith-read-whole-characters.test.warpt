@@ -1,0 +1,14 @@
+(test 1)
+(name "contains-and-startsWith-read-whole-characters")
+(note "A string looked for matches whole characters. The last character of cafe-and-a-combining-acute is the accented letter, so `cafe` does not stand inside it, and a string beginning with the accented letter does not begin with a bare `e`.")
+
+(program
+  (warp 1)
+  (import Standard.Text.contains)
+  (import Standard.Text.startsWith)
+  (procedure entry
+    (access public)
+    (returns (array Bool))
+    (body
+      (return (array (call Standard.Text.contains "café" "cafe") (call Standard.Text.startsWith "étoile" "e"))))))
+(expect (answers (array false false)))

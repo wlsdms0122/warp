@@ -1,0 +1,15 @@
+(test 1)
+(name "a-write-indexes-with-a-path-that-reads-past-an-absence")
+(note "A write's own steps are unmarked, and what its brackets hold is read as a read's is, so `d[o?[\"k\"]]` writes the entry under what the marked path reads.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let o (type (optional (dictionary String Int))) (dictionary (entry "k" 3)))
+      (var d (type (dictionary (optional Int) Int)) (dictionary))
+      (set (path d (index (path o (index? "k")))) 7)
+      (return (path d (index 3))))))
+(expect (answers 7))

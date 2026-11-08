@@ -1,0 +1,27 @@
+(test 1)
+(name "select-sides-returning-two-types-neither-takes-refuses")
+(note "The two sides of select return one type, worked out from the call the way any type parameter is. One returns Int and one String, two readings that do not fit, so the call refuses at the build and does not widen to Any.")
+
+(program
+  (warp 1)
+  (import Standard.Logic.select)
+  (procedure entry
+    (access public)
+    (const)
+    (returns Any)
+    (body
+      (return
+        (call Standard.Logic.select true
+          (closure
+            (const)
+            (isolated)
+            (returns Int)
+            (body
+              (return 1)))
+          (closure
+            (const)
+            (isolated)
+            (returns String)
+            (body
+              (return "a"))))))))
+(expect (refuses build))

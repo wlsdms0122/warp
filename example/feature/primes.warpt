@@ -1,0 +1,65 @@
+(warp 1)
+(import Standard.Collection.append)
+(import Standard.Collection.count)
+(import Standard.Comparable.lessThan)
+(import Standard.Logic.equal)
+(import Standard.Logic.notEqual)
+(import Standard.Numeric.plus)
+(import Standard.Numeric.remainder)
+(import Standard.Numeric.times)
+
+(procedure entry
+  (access public)
+  (parameter below (type (optional Int)))
+  (returns (array Int))
+  (failing aborted cast_refused)
+  (body
+    (var bound (type Int) 50)
+    (conditional
+      (when (call Standard.Logic.notEqual below null))
+      (then
+        (set bound (as below Int))))
+    (var found (type (array Int)) (array))
+    (var n 2)
+    (let scan
+      (loop
+        (while (call Standard.Comparable.lessThan n bound))
+        (body
+          (conditional
+            (when (call primes.isPrime n found))
+            (then
+              (call Standard.Collection.append found n)))
+          (set n (call Standard.Numeric.plus n 1)))))
+    (return found)))
+
+(procedure primes.divides
+  (access private)
+  (const)
+  (parameter of (type Int))
+  (parameter value (type Int))
+  (returns Bool)
+  (body
+    (return (call Standard.Logic.equal (call Standard.Numeric.remainder value of) 0))))
+
+(procedure primes.isPrime
+  (access private)
+  (const)
+  (parameter n (type Int))
+  (parameter among (type (array Int)))
+  (returns Bool)
+  (body
+    (let check
+      (loop
+        (while (call Standard.Comparable.lessThan (path check (field index)) (call Standard.Collection.count among)))
+        (body
+          (let p (path among (index (path check (field index)))))
+          (conditional
+            (when (call Standard.Comparable.lessThan (call Standard.Numeric.times p p) (call Standard.Numeric.plus n 1)))
+            (then
+              (conditional
+                (when (call primes.divides p n))
+                (then
+                  (return false))))
+            (else
+              (break))))))
+    (return true)))

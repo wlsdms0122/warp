@@ -1,0 +1,60 @@
+(test 1)
+(name "a-declaration-returning-an-associated-type-two-steps-from-its-parameter")
+(note "`Use.deep2` declares it returns `some C.Item.Item`, the first of the first of `c`. A box of boxes of Int fills C, so the return value is an Int.")
+
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Container
+      (type Item)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item)))
+    (procedure Lib.firstOf
+      (access public)
+      (parameter c (type (some C Lib.Container)))
+      (returns (some C.Item))
+      (body
+        (return (call Lib.Container.first c)))))
+  (document
+    (warp 1)
+    (import Lib.Container)
+    (struct App.Box
+      (typeParameter T)
+      (satisfies Lib.Container)
+      (field item (some T))
+      (type Item (some T))
+      (procedure first
+        (access public)
+        (parameter of (type (named App.Box (some T))))
+        (returns (some T))
+        (body
+          (return (path of (field item)))))))
+  (document
+    (warp 1)
+    (import Lib.Container)
+    (import Lib.Container.first)
+    (import Lib.firstOf)
+    (procedure Use.deep2
+      (access public)
+      (parameter c (type (some C Lib.Container)))
+      (returns (some C.Item.Item))
+      (bound C.Item Lib.Container)
+      (body
+        (let y (call Lib.Container.first c))
+        (let z (call Lib.firstOf y))
+        (return z)))))
+
+(program
+  (warp 1)
+  (import App.Box)
+  (import Use.deep2)
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (let b (type (named App.Box Int)) (struct (field item 1)))
+      (let bb (type (named App.Box (named App.Box Int))) (struct (field item b)))
+      (let r (call Use.deep2 bb))
+      (return r))))
+(expect (answers 1))

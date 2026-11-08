@@ -1,0 +1,31 @@
+(test 1)
+(name "a-module-variable-started-with-a-const-closure-takes-one-that-runs")
+(note "`onTick` declares a procedure type that is neither const nor isolated, and starts as a closure declaring both, which that type takes. Every write is judged against the declared type and not against the start, so a closure reading the module variable `base`, which is not const, is written into it and called.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (var base (type Int) 1)
+  (var onTick
+    (type (procedure (parameters Int) (returns Int)))
+    (closure
+      (const)
+      (isolated)
+      (parameter n (type Int))
+      (returns Int)
+      (body
+        (return n))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (body
+      (set onTick
+        (closure
+          (parameter n (type Int))
+          (returns Int)
+          (body
+            (return (call Standard.Numeric.plus n base)))))
+      (let a (apply onTick 1))
+      (return a))))
+(expect (answers 2))

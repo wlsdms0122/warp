@@ -1,0 +1,27 @@
+(test 1)
+(name "reduce-folds-in-order")
+(note "Reduce hands its closure the carried value, then the item, and the closure declares both, in that order, under names of its own.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.reduce)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (const)
+    (returns Int)
+    (body
+      (let total
+        (call Standard.Collection.reduce
+          (array 1 2 3)
+          0
+          (closure
+            (const)
+            (isolated)
+            (parameter carried (type Int))
+            (parameter item (type Int))
+            (returns Int)
+            (body
+              (return (call Standard.Numeric.plus carried item))))))
+      (return total))))
+(expect (answers 6))

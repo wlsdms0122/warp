@@ -1,0 +1,13 @@
+(test 1)
+(name "a-key-written-between-the-brackets-of-another-type-than-the-key-refuses")
+(note "A key written between the brackets is judged against the dictionary's key type as what it is, so the string \"1\" on `Dictionary<Int, Int>` refuses at the build.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let d (type (dictionary Int Int)) (dictionary (entry 1 2)))
+      (return (path d (index "1"))))))
+(expect (refuses build))

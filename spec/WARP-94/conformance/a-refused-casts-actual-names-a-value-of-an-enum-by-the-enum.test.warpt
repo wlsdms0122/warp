@@ -1,0 +1,26 @@
+(test 1)
+(name "a-refused-casts-actual-names-a-value-of-an-enum-by-the-enum")
+(note "`cast_refused`'s `actual` names the type the value is an instance of, and a value of an enum is an instance of the enum. So the cast of `App.Signal.red` gives `App.Signal`, and never the case's spelling.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (enum App.Signal
+    (case green)
+    (case red))
+  (procedure entry
+    (access public)
+    (parameter value)
+    (returns Any)
+    (body
+      (let caught
+        (try
+          (body
+            (as value App.Light))
+          (catch
+            (return (path caught (field details) (index "actual"))))))
+      (return "no failure"))))
+(arguments (argument value (struct App.Signal.red)))
+(expect (answers "App.Signal"))

@@ -1,0 +1,17 @@
+(test 1)
+(name "var-written-on-a-parameter-refuses")
+(note "`var` is written in front of a struct field's type and nowhere else, so a parameter written `var Int` refuses at the load.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter x (type (var Int)))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

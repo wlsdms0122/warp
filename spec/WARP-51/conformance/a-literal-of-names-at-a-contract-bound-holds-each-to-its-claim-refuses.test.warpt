@@ -1,0 +1,37 @@
+(test 1)
+(name "a-literal-of-names-at-a-contract-bound-holds-each-to-its-claim-refuses")
+(note "`App.f` bounds `T` by the contract `App.Describable` and takes `Array<Array<some T>>`. The literal `[ps, qs]` handed there holds two lists of `Bank.Q`, which no document says conforms to it, though `Bank.P` does. Each name read at the parameter is held to its claim, so the call refuses at the build where `Bank.Q` has none.")
+
+(program
+  (warp 1)
+  (struct Bank.P
+    (satisfies App.Describable)
+    (field a String)
+    (procedure describe
+      (parameter of (type Bank.P))
+      (returns String)
+      (body
+        (return "p"))))
+  (struct Bank.Q
+    (field b String))
+  (contract App.Describable
+    (procedure describe
+      (const)
+      (isolated)
+      (parameter of (type Self))
+      (returns String)))
+  (procedure App.f
+    (parameter gs (type (array (array (some T App.Describable)))))
+    (returns Int)
+    (body
+      (return 0)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing cast_refused)
+    (body
+      (let ps (type (array Bank.Q)) (array (as (struct (field b "2")) Bank.Q)))
+      (let qs (type (array Bank.Q)) (array (as (struct (field b "1")) Bank.Q)))
+      (let r (call App.f (array ps qs)))
+      (return r))))
+(expect (refuses build))

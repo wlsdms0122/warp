@@ -1,0 +1,17 @@
+(test 1)
+(name "dropping-an-end-returns-the-rest")
+(note "dropFirst and dropLast return the array without one end, and a new array each time.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.dropFirst)
+  (import Standard.Collection.dropLast)
+  (procedure entry
+    (access public)
+    (returns (array (array Int)))
+    (body
+      (let items (array 1 2 3))
+      (let head (call Standard.Collection.dropFirst items))
+      (let tail (call Standard.Collection.dropLast items))
+      (return (array head tail)))))
+(expect (answers (array (array 2 3) (array 1 2))))

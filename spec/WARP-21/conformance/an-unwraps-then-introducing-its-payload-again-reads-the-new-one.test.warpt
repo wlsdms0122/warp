@@ -1,0 +1,24 @@
+(test 1)
+(name "an-unwraps-then-introducing-its-payload-again-reads-the-new-one")
+(note "An unwrap's payload stands in a scope around its `then`, as a parameter does around a body, so the `then` may introduce `x` again. From there `x` is the new one, the payload plus one: handed 5, it writes 6.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (procedure App.f
+    (parameter o (type (optional Int)))
+    (returns Int)
+    (body
+      (var n 0)
+      (let x
+        (unwrap o
+          (then
+            (let x (call Standard.Numeric.plus x 1))
+            (set n x))))
+      (return n)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.f 5)))))
+(expect (answers 6))

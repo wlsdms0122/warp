@@ -1,0 +1,40 @@
+(test 1)
+(name "a-claim-written-as-a-string-among-the-imports-refuses")
+(note "A claim imported is listed apart under `importedClaims` as its pair. The string `T.Card: App.Describable` among the imports is no `qualified-name`, and it is no name the program uses, so the list says more than the program uses. Either rule refuses it at the load.")
+
+(documents
+  (document
+    (warp 1)
+    (contract App.Describable
+      (procedure describe
+        (parameter of (type Self))
+        (returns String))))
+  (document
+    (warp 1)
+    (struct T.Card
+      (field rank Int)
+      (procedure describe
+        (parameter of (type T.Card))
+        (returns String)
+        (body
+          (return "card")))))
+  (document
+    (warp 1)
+    (import App.Describable)
+    (import T.Card)
+    (extension
+      (head T.Card)
+      (satisfies App.Describable))))
+
+(program
+  (warp 1)
+  (import App.Describable.describe)
+  (import T.Card)
+  (import `T.Card: App.Describable`)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let card (as (struct (field rank 1)) T.Card))
+      (return (call App.Describable.describe card)))))
+(expect (refuses load))

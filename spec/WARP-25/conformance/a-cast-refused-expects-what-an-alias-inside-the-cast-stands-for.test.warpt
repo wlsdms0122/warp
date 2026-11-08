@@ -1,0 +1,21 @@
+(test 1)
+(name "a-cast-refused-expects-what-an-alias-inside-the-cast-stands-for")
+(note "`expected` is the type the cast reads as, every alias in it read as what it stands for at whatever depth, so a cast to `Array<App.Id>`, `App.Id` an alias of `Int`, expects `Array<Int>`.")
+
+(program
+  (warp 1)
+  (type App.Id Int)
+  (procedure entry
+    (access public)
+    (parameter payload)
+    (returns Any)
+    (body
+      (let caught
+        (try
+          (body
+            (as payload (array App.Id)))
+          (catch
+            (return (path caught (field details) (index "expected"))))))
+      (return "no failure"))))
+(arguments (argument payload "not a list"))
+(expect (answers "Array<Int>"))

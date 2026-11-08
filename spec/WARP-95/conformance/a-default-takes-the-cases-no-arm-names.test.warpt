@@ -1,0 +1,23 @@
+(test 1)
+(name "a-default-takes-the-cases-no-arm-names")
+(note "The host hands the entry a `yellow`, as the struct `App.Light.yellow` carrying nothing. The switch names `green` alone, and its `default` takes the rest, so `yellow` runs the `default`.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red)
+    (case yellow))
+  (procedure entry
+    (access public)
+    (parameter light (type App.Light))
+    (returns String)
+    (body
+      (switch light
+        (case green
+          (then
+            (return "go")))
+        (default
+          (return "stop"))))))
+(arguments (argument light (struct App.Light.yellow)))
+(expect (answers "stop"))

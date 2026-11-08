@@ -1,0 +1,25 @@
+(test 1)
+(name "a-closure-a-generic-body-wrote-read-past-its-bounds-is-not-that-type")
+(note "App.mk returns a closure taking a list of its own some T in place, T bounded by Standard.Numeric, and it is read through Any as taking a list of strings. Reading its T as `String` is outside its bounds, so the closure is not of that type, and as? reads it as null.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric)
+  (procedure App.mk
+    (parameter x (type (some T Standard.Numeric)))
+    (returns (procedure (parameters (inout (array (some T)))) (returns Int)))
+    (body
+      (return
+        (closure
+          (parameter xs (type (inout (array (some T)))))
+          (returns Int)
+          (body
+            (return 0))))))
+  (procedure entry
+    (access public)
+    (returns (optional (procedure (parameters (inout (array String))) (returns Int))))
+    (body
+      (let a (type Any) (call App.mk 5))
+      (let f (as? a (procedure (parameters (inout (array String))) (returns Int))))
+      (return f))))
+(expect (answers null))

@@ -1,0 +1,3 @@
+(warp 1)
+(import Standard.Control.abort)
+(procedure entry (access public) (returns Int) (body (let walk (loop (while true) (body (let hit (try (body (call Standard.Control.abort "x")) (catch (return "x"))))))) (return 0)))

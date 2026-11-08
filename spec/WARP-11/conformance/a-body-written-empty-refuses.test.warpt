@@ -1,0 +1,14 @@
+(test 1)
+(name "a-body-written-empty-refuses")
+(note "A procedure whose body holds no statement writes no `body`, so `body: []` says it a second way.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (body))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

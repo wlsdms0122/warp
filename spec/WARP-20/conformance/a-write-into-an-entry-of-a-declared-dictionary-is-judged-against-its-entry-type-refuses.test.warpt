@@ -1,0 +1,14 @@
+(test 1)
+(name "a-write-into-an-entry-of-a-declared-dictionary-is-judged-against-its-entry-type-refuses")
+(note "`r` declares `Dictionary<String, Int>`, and `set r[\"x\"]` writes a string into an entry. A write is judged against the type its path reaches, an entry's included, so the write refuses at the build.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var r (type (dictionary String Int)) (dictionary (entry "x" 0)))
+      (set (path r (index "x")) "nine")
+      (return (path r (index "x"))))))
+(expect (refuses build))

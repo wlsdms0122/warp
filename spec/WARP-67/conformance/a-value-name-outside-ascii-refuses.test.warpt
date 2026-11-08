@@ -1,0 +1,13 @@
+(test 1)
+(name "a-value-name-outside-ascii-refuses")
+(note "An identifier is ASCII letters, digits and `_`, so a statement named `café`, in normal form C, refuses at the load.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let café 1)
+      (return 1))))
+(expect (refuses load))

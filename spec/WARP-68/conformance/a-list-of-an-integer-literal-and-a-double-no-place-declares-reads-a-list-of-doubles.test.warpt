@@ -1,0 +1,18 @@
+(test 1)
+(name "a-list-of-an-integer-literal-and-a-double-no-place-declares-reads-a-list-of-doubles")
+(note "A list literal's elements are no ways that meet: an integer literal beside a `Double` among them is the `Double` it names, under types. `xs` declares no type and reads `Array<Double>`, so a slot declaring `Array<Double>` takes it and the run answers 0.")
+
+(program
+  (warp 1)
+  (procedure App.g
+    (parameter xs (type (array Double)))
+    (returns Int)
+    (body
+      (return 0)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let xs (array 1 2.5))
+      (return (call App.g xs)))))
+(expect (answers 0))

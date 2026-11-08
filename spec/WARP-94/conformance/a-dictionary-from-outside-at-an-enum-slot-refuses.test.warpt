@@ -1,0 +1,17 @@
+(test 1)
+(name "a-dictionary-from-outside-at-an-enum-slot-refuses")
+(note "`light` is declared `App.Light`, which takes a value under one of its cases' spellings and no other. The host hands a dictionary, which the door holds to the slot, so the run refuses.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure entry
+    (access public)
+    (parameter light (type App.Light))
+    (returns Int)
+    (body
+      (return 1))))
+(arguments (argument light (dictionary (entry "x" 1))))
+(expect (refuses run))

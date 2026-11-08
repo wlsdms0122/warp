@@ -1,0 +1,23 @@
+(test 1)
+(name "a-catch-introducing-its-failure-again-reads-the-new-one")
+(note "A try's failure stands in a scope around its catch, so the catch may introduce `caught` again. From there `caught` is the new one and holds \"again\".")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter payload)
+    (returns String)
+    (failing (anything))
+    (body
+      (var got "none")
+      (let caught
+        (try
+          (body
+            (as payload Int))
+          (catch
+            (let caught "again")
+            (set got caught))))
+      (return got))))
+(arguments (argument payload "not an int"))
+(expect (answers "again"))

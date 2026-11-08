@@ -1,0 +1,19 @@
+(warp 1)
+(import Standard.Logic.notEqual)
+(const digits (dictionary (entry "0" 0) (entry "1" 1)))
+(const names (array "a" "b"))
+
+(struct probe.Answer
+  (field hit Bool)
+  (field name String))
+
+(procedure entry
+  (access public)
+  (parameter key (type String))
+  (parameter at (type Int))
+  (returns probe.Answer)
+  (body
+    (let table digits)
+    (let list names)
+    (let found (path table (index? key)))
+    (return (struct (field hit (call Standard.Logic.notEqual found null)) (field name (path list (index at)))))))

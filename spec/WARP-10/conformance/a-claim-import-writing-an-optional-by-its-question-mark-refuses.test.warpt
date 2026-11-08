@@ -1,0 +1,34 @@
+(test 1)
+(name "a-claim-import-writing-an-optional-by-its-question-mark-refuses")
+(note "A claim among the imports names the type a head is about by a name, and `Int?` is a head and no name, so the import `Int?: App.Named` refuses at the load.")
+
+(documents
+  (document
+    (warp 1)
+    (contract App.Named
+      (procedure name
+        (parameter of (type Self))
+        (returns String))))
+  (document
+    (warp 1)
+    (import App.Named)
+    (extension
+      (head (optional Int))
+      (satisfies App.Named)
+      (procedure name
+        (parameter of (type (optional Int)))
+        (returns String)
+        (body
+          (return "named"))))))
+
+(program
+  (warp 1)
+  (import App.Named.name)
+  (import Int? App.Named)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let v (type (optional Int)) 1)
+      (return (call App.Named.name v)))))
+(expect (refuses load))

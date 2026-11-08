@@ -1,0 +1,16 @@
+(test 1)
+(name "a-module-variable-of-an-enum-starts-at-a-case-literal")
+(note "The module variable `light` declares `App.Light`, so its start, a case literal, is read as `App.Light` and folds at the build into a value of it. A run reads it as `green`.")
+
+(program
+  (warp 1)
+  (var light (type App.Light) (case green))
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure entry
+    (access public)
+    (returns App.Light)
+    (body
+      (return light))))
+(expect (answers (struct App.Light.green)))

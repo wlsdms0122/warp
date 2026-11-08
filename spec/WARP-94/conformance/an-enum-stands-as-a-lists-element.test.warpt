@@ -1,0 +1,16 @@
+(test 1)
+(name "an-enum-stands-as-a-lists-element")
+(note "An enum's name stands wherever a type is written, a list's element among them. Each case literal in the list is read as `App.Light`, and the element at 1 reads back as `red`.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure entry
+    (access public)
+    (returns App.Light)
+    (body
+      (let lights (type (array App.Light)) (array (case green) (case red)))
+      (return (path lights (index 1))))))
+(expect (answers (struct App.Light.red)))

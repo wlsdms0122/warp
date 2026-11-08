@@ -1,0 +1,25 @@
+(test 1)
+(name "a-struct-applied-to-a-const-procedure-where-it-is-applied-to-one-saying-nothing-refuses")
+(note "A procedure type is the same type only where it declares the same constness, so `App.Box<const () -> Int>` does not stand where `App.Box<() -> Int>` is declared.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let b1
+        (type (named App.Box (procedure (const) (parameters) (returns Int))))
+        (struct
+          (field item
+            (closure
+              (const)
+              (returns Int)
+              (body
+                (return 1))))))
+      (let b2 (type (named App.Box (procedure (parameters) (returns Int)))) b1)
+      (return 1))))
+(expect (refuses build))

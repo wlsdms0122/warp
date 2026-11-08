@@ -1,0 +1,21 @@
+(test 1)
+(name "a-parameter-handed-in-place-handed-on-beside-an-empty-list")
+(note "App.g appends [] to xs, a list of lists of T handed in place. An empty list holds no element, so it is a value of Array<some T> as a write would take it, and the caller reads its list with an empty list added.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.append)
+  (procedure App.g
+    (parameter xs (type (inout (array (array (some T))))))
+    (returns Int)
+    (body
+      (call Standard.Collection.append xs (array))
+      (return 0)))
+  (procedure entry
+    (access public)
+    (returns (array (array String)))
+    (body
+      (var s (array (array "a")))
+      (call App.g s)
+      (return s))))
+(expect (answers (array (array "a") (array))))

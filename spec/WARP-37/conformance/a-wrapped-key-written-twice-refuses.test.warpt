@@ -1,0 +1,5 @@
+(test 1)
+(name "a-wrapped-key-written-twice-refuses")
+(note "A key written twice refuses, a wrapped one as a repeated one: two `(access …)` nodes in one procedure are two values under one key.")
+(text "(warp 1)\n(procedure entry (access public) (access public) (returns Int) (body (return 1)))\n")
+(expect (refuses load))

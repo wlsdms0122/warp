@@ -1,0 +1,17 @@
+(test 1)
+(name "a-head-naming-a-bounds-contracts-out-of-name-order-refuses")
+(note "A head's parts are written as a type's are, one way, so a bound's names stand in name order and `Array<some T: App.B & App.A>` is a second spelling of `Array<some T: App.A & App.B>`, which the load refuses.")
+
+(program
+  (warp 1)
+  (contract App.A)
+  (contract App.B)
+  (extension
+    (head (array (some T App.B App.A)))
+    (satisfies App.A))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

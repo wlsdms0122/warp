@@ -1,0 +1,5 @@
+(test 1)
+(name "struct-keys-stand-by-the-bytes-of-their-names")
+(note "Structs stand by name first, and names compare by their UTF-8 bytes, so `A.Z` stands before `A.a`, as 0x5a is before 0x61.")
+(bytes x"574152500107020903412e5a00000903412e610000")
+(expect (spells (dictionary (entry (struct A.Z) null) (entry (struct A.a) null))))

@@ -1,0 +1,28 @@
+(test 1)
+(name "a-same-type-keyed-by-a-parameter-no-slot-writes-refuses")
+(note "A `sameTypes` key whose parameter no slot writes refuses at the load. `Use.it` writes `some C` at its slot and keys `sameTypes` by `U.Item`, and no slot writes `some U`.")
+
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Container
+      (type Item)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item)))))
+
+(program
+  (warp 1)
+  (import Lib.Container)
+  (procedure Use.it
+    (parameter c (type (some C Lib.Container)))
+    (returns Int)
+    (sameType U.Item Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

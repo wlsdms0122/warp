@@ -1,0 +1,15 @@
+(test 1)
+(name "a-struct-naming-itself-directly-in-a-field-is-one-declaration")
+(note "A declared struct may name itself in a field at any depth, directly included. `App.Node` names itself as the type of `next`, and the document loads and runs.")
+
+(program
+  (warp 1)
+  (struct App.Node
+    (field n Int)
+    (field next App.Node))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (answers 1))

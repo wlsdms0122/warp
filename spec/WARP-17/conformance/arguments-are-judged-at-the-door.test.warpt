@@ -1,0 +1,15 @@
+(test 1)
+(name "arguments-are-judged-at-the-door")
+(note "What the host hands the entry is held to the entry's parameters and judged against them before the body sees it.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter text (type String))
+    (parameter times (type Int))
+    (returns Int)
+    (body
+      (return times))))
+(arguments (argument text "hey") (argument times 2))
+(expect (answers 2))

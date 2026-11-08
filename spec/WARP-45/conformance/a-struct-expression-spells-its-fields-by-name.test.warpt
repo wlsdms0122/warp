@@ -1,0 +1,5 @@
+(test 1)
+(name "a-struct-expression-spells-its-fields-by-name")
+(note "A struct expression writes its `field`s by name.")
+(text "(warp 1)\n(const a (struct (field x 2) (field y 1)))\n")
+(expect (spells (dictionary (entry "const" (dictionary (entry "a" (dictionary (entry "struct" (dictionary (entry "x" 2) (entry "y" 1))))))) (entry "imports" (array)) (entry "warp" 1))))

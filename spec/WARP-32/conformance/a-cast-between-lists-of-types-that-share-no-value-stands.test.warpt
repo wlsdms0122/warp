@@ -1,0 +1,15 @@
+(test 1)
+(name "a-cast-between-lists-of-types-that-share-no-value-stands")
+(note "`xs` reads `Array<Int>` and the cast names `Array<String>`. No `Int` is a `String`, and the empty list is a value of both, so the two share a value and the cast stands. Handed the empty list, it answers it.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter xs (type (array Int)))
+    (returns Any)
+    (failing cast_refused)
+    (body
+      (return (as xs (array String))))))
+(arguments (argument xs (array)))
+(expect (answers (array)))

@@ -1,0 +1,5 @@
+(test 1)
+(name "a-key-that-is-a-byte-order-mark-is-kept")
+(note "A key that is U+FEFF alone is a string with one character in it, and reads back as that string.")
+(bytes x"574152500107010503efbbbf0302")
+(expect (spells (dictionary (entry "﻿" 1))))

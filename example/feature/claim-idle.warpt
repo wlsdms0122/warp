@@ -1,0 +1,9 @@
+(warp 1)
+(import t.Card)
+
+(procedure entry
+  (access public)
+  (returns Int)
+  (body
+    (let card (as (struct (field rank 3) (field suit "clubs")) t.Card))
+    (return (path card (field rank)))))

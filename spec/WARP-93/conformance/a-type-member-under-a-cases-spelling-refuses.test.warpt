@@ -1,0 +1,19 @@
+(test 1)
+(name "a-type-member-under-a-cases-spelling-refuses")
+(note "A type member `red` of `App.Light` would be spelled `App.Light.red`, which is the spelling of the case `red`. No type member is declared under a case's spelling, and the document shows it alone, so the load refuses.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (satisfies App.Shaded)
+    (case green)
+    (case red)
+    (type red Int))
+  (contract App.Shaded
+    (type red))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

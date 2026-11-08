@@ -1,0 +1,5 @@
+(test 1)
+(name "an-interface-procedure-flagged-const-spells-as-text")
+(note "An interface writes no `const` key, a document's constants. A procedure's `(const)` is part of its signature, which an interface writes, so a const procedure reads and writes back.")
+(text "(interface 1)\n\n(procedure App.f\n  (const)\n  (returns Int))\n")
+(expect (spells (dictionary (entry "imports" (array)) (entry "interface" 1) (entry "procedures" (dictionary (entry "App.f" (dictionary (entry "const" true) (entry "returns" "Int"))))))))

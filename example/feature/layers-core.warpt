@@ -1,0 +1,22 @@
+(warp 1)
+(import Standard.Numeric.plus)
+
+(struct core.Point
+  (field x Int)
+  (field y Int))
+
+(procedure core.origin
+  (const)
+  (returns core.Point)
+  (failing cast_refused)
+  (body
+    (return (as (struct (field x 0) (field y 0)) core.Point))))
+
+(procedure core.shift
+  (parameter of (type core.Point))
+  (parameter dx (type Int))
+  (parameter dy (type Int))
+  (returns core.Point)
+  (failing cast_refused)
+  (body
+    (return (as (struct (field x (call Standard.Numeric.plus (path of (field x)) dx)) (field y (call Standard.Numeric.plus (path of (field y)) dy))) core.Point))))

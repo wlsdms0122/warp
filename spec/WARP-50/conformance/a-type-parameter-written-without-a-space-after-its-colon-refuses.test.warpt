@@ -1,0 +1,5 @@
+(test 1)
+(name "a-type-parameter-written-without-a-space-after-its-colon-refuses")
+(note "A struct's `typeParameters` entry is written one way, its name, a colon and a space, then its bound. `K:Hashable` writes no space after the colon, so it is a second spelling of `K: Hashable`, and refuses at the load.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" 1)))))) (entry "returns" "Int"))))) (entry "types" (dictionary (entry "App.Box" (dictionary (entry "struct" (dictionary (entry "x" "some K"))) (entry "typeParameters" (array "K:Hashable")))))) (entry "warp" 1)))
+(expect (refuses load))

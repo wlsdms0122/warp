@@ -1,0 +1,5 @@
+(test 1)
+(name "an-enum-case-spells-its-fields-by-name")
+(note "An enum's case writes its name, then its `field`s by name.")
+(text "(warp 1)\n\n(enum App.E\n  (case c (field x Int) (field y Int)))\n")
+(expect (spells (dictionary (entry "imports" (array)) (entry "types" (dictionary (entry "App.E" (dictionary (entry "enum" (dictionary (entry "c" (dictionary (entry "x" "Int") (entry "y" "Int"))))))))) (entry "warp" 1))))

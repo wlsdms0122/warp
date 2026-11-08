@@ -1,0 +1,29 @@
+(test 1)
+(name "a-variable-a-closure-writes-with-a-value-of-the-parameter")
+(note "A closure in App.g writes its parameter into cell, and the body calls it with x. The call judges the return value, which holds 1.")
+
+(program
+  (warp 1)
+  (procedure App.g
+    (parameter x (type (some T)))
+    (returns (some T))
+    (failing (anything))
+    (body
+      (var cell x)
+      (let c
+        (closure
+          (parameter y (type (some T)))
+          (returns Int)
+          (body
+            (set cell y)
+            (return 0))))
+      (let z (apply c x))
+      (return cell)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (body
+      (let r (call App.g 1))
+      (return r))))
+(expect (answers 1))

@@ -1,0 +1,5 @@
+(test 1)
+(name "a-text-ending-inside-a-name-refuses")
+(note "A name in backticks runs to its closing backtick, and a text that ends before it is refused.")
+(text "(warp 1)\n(const `ab")
+(expect (refuses load))

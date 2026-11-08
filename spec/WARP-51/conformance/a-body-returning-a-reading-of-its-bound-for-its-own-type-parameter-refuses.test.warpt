@@ -1,0 +1,19 @@
+(test 1)
+(name "a-body-returning-a-reading-of-its-bound-for-its-own-type-parameter-refuses")
+(note "A reading of a contract is no value of the parameter, so a body returning a name read as `Standard.Numeric` where it promises `some T: Standard.Numeric` refuses at the build.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric)
+  (procedure App.gen
+    (parameter x (type (some T Standard.Numeric)))
+    (returns (some T))
+    (body
+      (let y (type Standard.Numeric) 1)
+      (return y)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.gen 2)))))
+(expect (refuses build))

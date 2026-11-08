@@ -1,0 +1,37 @@
+(test 1)
+(name "a-constant-folding-through-a-body-that-calls-a-host-procedure-on-a-way-not-taken-folds")
+(note "A fold refuses where it calls a procedure the host brought, judged by what the fold ran. `K.pick` calls `App.seat` only where `use` is true, and the constant calls it with false, so the fold never calls `App.seat` and the constant folds to 1.")
+
+(documents
+  (document
+    (warp 1)
+    (import App.seat)
+    (procedure K.pick
+      (const)
+      (isolated)
+      (parameter use (type Bool))
+      (returns Int)
+      (body
+        (conditional
+          (when use)
+          (then
+            (return (call App.seat))))
+        (return 1)))))
+
+(vocabulary
+  (procedure App.seat
+    (const)
+    (isolated)
+    (returns Int)
+    (answers 7)))
+
+(program
+  (warp 1)
+  (import K.pick)
+  (const picked (call K.pick false))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return picked))))
+(expect (answers 1))

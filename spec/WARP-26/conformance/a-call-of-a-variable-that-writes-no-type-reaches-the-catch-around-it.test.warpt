@@ -1,0 +1,28 @@
+(test 1)
+(name "a-call-of-a-variable-that-writes-no-type-reaches-the-catch-around-it")
+(note "`f` is a `var` that writes no type, so no type is written for what it holds, and a call of it may fail with anything. The try around the call is over a body that may fail, and its catch reads the `aborted` the closure raised.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (var f)
+      (set f
+        (closure
+          (returns Int)
+          (failing aborted)
+          (body
+            (return (call Standard.Control.abort "no")))))
+      (var r (type String) "none")
+      (let tried
+        (try
+          (body
+            (let got (apply f))
+            (set r "after"))
+          (catch
+            (set r (path tried (field type))))))
+      (return r))))
+(expect (answers "aborted"))

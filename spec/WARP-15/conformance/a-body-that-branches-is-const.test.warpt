@@ -1,0 +1,31 @@
+(test 1)
+(name "a-body-that-branches-is-const")
+(note "A construct reaches nothing on its own. The closure handed to `asking` declares `const`, and a conditional is read as far as its arms are, so a body that branches and returns from an arm holds to `const` and stands in the `const` slot.")
+
+(program
+  (warp 1)
+  (procedure asking
+    (const)
+    (parameter body (type (procedure (const) (parameters) (returns String))))
+    (returns String)
+    (body
+      (let answered (apply body))
+      (return answered)))
+  (procedure entry
+    (access public)
+    (const)
+    (returns String)
+    (body
+      (let given
+        (closure
+          (const)
+          (isolated)
+          (returns String)
+          (body
+            (conditional
+              (when true)
+              (then
+                (return "taken")))
+            (return "fell through"))))
+      (return (call asking given)))))
+(expect (answers "taken"))

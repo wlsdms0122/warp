@@ -1,0 +1,14 @@
+(test 1)
+(name "null-beside-an-int-in-a-list-reads-a-list-of-the-optional")
+(note "`Null` beside `Int` reads `Int?`, so `[null, 1]` reads `Array<Int?>` and stands where `y` declares it. A join to `Any` would stand there only through a cast.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns (array (optional Int)))
+    (body
+      (let xs (array null 1))
+      (let y (type (array (optional Int))) xs)
+      (return y))))
+(expect (answers (array null 1)))

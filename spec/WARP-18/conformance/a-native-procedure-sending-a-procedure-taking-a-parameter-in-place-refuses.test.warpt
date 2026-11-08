@@ -1,0 +1,21 @@
+(test 1)
+(name "a-native-procedure-sending-a-procedure-taking-a-parameter-in-place-refuses")
+(note "A native procedure hands values to what it sends, so one declaring a send to a procedure that takes a parameter in place refuses at the build. `App.tell` declares a send to `App.bump`, whose `first` is `inout Int`.")
+
+(vocabulary
+  (procedure App.bump
+    (parameter first (type (inout Int))))
+  (procedure App.tell
+    (returns Int)
+    (answers 1)
+    (sends App.bump)))
+
+(program
+  (warp 1)
+  (import App.tell)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.tell)))))
+(expect (refuses build))

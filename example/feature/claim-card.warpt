@@ -1,0 +1,14 @@
+(warp 1)
+(import Standard.Text.joined)
+(import Standard.Text.text)
+
+(struct t.Card
+  (field rank Int)
+  (field suit String)
+  (procedure describe
+    (const)
+    (isolated)
+    (parameter of (type t.Card))
+    (returns String)
+    (body
+      (return (call Standard.Text.joined (array (call Standard.Text.text (path of (field rank))) " of " (path of (field suit))) "")))))

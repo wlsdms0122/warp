@@ -1,0 +1,26 @@
+(test 1)
+(name "an-arms-then-may-introduce-a-bound-name-again")
+(note "An arm's `then` may introduce a bound name again, as an unwrap's `then` may its payload. From there `p` is the new one, the port plus one, so handed 8080 the arm returns 8081.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (enum App.Target
+    (case local)
+    (case remote (field host String) (field port Int)))
+  (procedure entry
+    (access public)
+    (parameter target (type App.Target))
+    (returns Int)
+    (body
+      (switch target
+        (case local
+          (then
+            (return 0)))
+        (case remote
+          (bind port p)
+          (then
+            (let p (call Standard.Numeric.plus p 1))
+            (return p)))))))
+(arguments (argument target (struct App.Target.remote (field host "a") (field port 8080))))
+(expect (answers 8081))

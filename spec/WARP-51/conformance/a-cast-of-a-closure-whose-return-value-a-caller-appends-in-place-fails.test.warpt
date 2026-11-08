@@ -1,0 +1,50 @@
+(test 1)
+(name "a-cast-of-a-closure-whose-return-value-a-caller-appends-in-place-fails")
+(note "App.put appends what App.h returns to the list handed to it in place. App.h's closure sets cell from its own some T and is cast from Any to take a number, which fails with cast_refused, since only App.h's call filled its T. Nothing is appended, and the try in the entry catches the failure.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.append)
+  (procedure App.h
+    (parameter n (type (some T)))
+    (parameter junk)
+    (returns (some T))
+    (failing (anything))
+    (body
+      (var cell n)
+      (let c
+        (closure
+          (parameter y (type (some T)))
+          (returns Int)
+          (body
+            (set cell y)
+            (return 0))))
+      (let a (type Any) c)
+      (let w (as a (procedure (parameters Int) (returns Int))))
+      (let z (apply w (as junk Int)))
+      (return cell)))
+  (procedure App.put
+    (parameter n (type (some T)))
+    (parameter junk)
+    (parameter xs (type (inout (array (some T)))))
+    (returns Int)
+    (failing (anything))
+    (body
+      (let got (call App.h n junk))
+      (call Standard.Collection.append xs got)
+      (return 0)))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (var tried)
+      (let caught
+        (try
+          (body
+            (var s (array "a"))
+            (call App.put "b" 5 s)
+            (set tried s))
+          (catch
+            (set tried (path caught (field type))))))
+      (return tried))))
+(expect (answers "cast_refused"))

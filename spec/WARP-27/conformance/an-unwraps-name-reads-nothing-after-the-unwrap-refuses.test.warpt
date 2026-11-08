@@ -1,0 +1,19 @@
+(test 1)
+(name "an-unwraps-name-reads-nothing-after-the-unwrap-refuses")
+(note "An unwrap written with a `then` binds its payload in the `then` alone. After the unwrap the name reads nothing, so reading it there refuses at the load.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter o (type (optional Int)))
+    (returns Int)
+    (body
+      (var n 0)
+      (let x
+        (unwrap o
+          (then
+            (set n x))))
+      (return x))))
+(arguments (argument o 5))
+(expect (refuses load))

@@ -1,0 +1,18 @@
+(test 1)
+(name "a-case-from-outside-under-an-aliases-spelling-refuses")
+(note "`App.Place` is an alias of `App.Target`, and an alias gives an enum's cases no second spelling. Nothing declares `App.Place.remote`, so the door refuses the run.")
+
+(program
+  (warp 1)
+  (type App.Place App.Target)
+  (enum App.Target
+    (case local)
+    (case remote (field host String) (field port Int)))
+  (procedure entry
+    (access public)
+    (parameter place)
+    (returns Int)
+    (body
+      (return 1))))
+(arguments (argument place (struct App.Place.remote (field host "a") (field port 8080))))
+(expect (refuses run))

@@ -1,0 +1,27 @@
+(test 1)
+(name "a-const-body-handing-its-parameter-in-place-to-a-declaration-refuses")
+(note "A parameter handed in place is written by `set` or by being handed in place to a call, and a const body writes no name it does not own. `App.relay` hands its `inout` parameter on to `App.peek`, which is const and only reads it, so the handing alone is what the build refuses.")
+
+(program
+  (warp 1)
+  (procedure App.peek
+    (const)
+    (parameter n (type (inout Int)))
+    (returns Int)
+    (body
+      (return n)))
+  (procedure App.relay
+    (const)
+    (parameter n (type (inout Int)))
+    (returns Int)
+    (body
+      (let got (call App.peek n))
+      (return got)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var x 4)
+      (let r (call App.relay x))
+      (return r))))
+(expect (refuses build))

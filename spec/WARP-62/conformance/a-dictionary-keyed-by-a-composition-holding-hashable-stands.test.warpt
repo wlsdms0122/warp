@@ -1,0 +1,21 @@
+(test 1)
+(name "a-dictionary-keyed-by-a-composition-holding-hashable-stands")
+(note "A contract or a composition conforms to `Hashable` where it is `Hashable` or names it. `App.Named & Hashable` names it, so a dictionary keyed by it builds and the run answers 1.")
+
+(program
+  (warp 1)
+  (contract App.Named)
+  (extension
+    (head Int)
+    (satisfies App.Named))
+  (procedure App.f
+    (parameter m (type (dictionary (composition App.Named Hashable) Int)))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (answers 1))

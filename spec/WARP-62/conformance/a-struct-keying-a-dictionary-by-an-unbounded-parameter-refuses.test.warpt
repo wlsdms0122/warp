@@ -1,0 +1,16 @@
+(test 1)
+(name "a-struct-keying-a-dictionary-by-an-unbounded-parameter-refuses")
+(note "A dictionary's key conforms to `Hashable`, and a type parameter conforms to what its bounds name. `App.Cache` keys its dictionary by `K` and bounds nothing, so the declaration is refused at the build.")
+
+(program
+  (warp 1)
+  (struct App.Cache
+    (typeParameter K)
+    (typeParameter V)
+    (field table (dictionary (some K) (some V))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

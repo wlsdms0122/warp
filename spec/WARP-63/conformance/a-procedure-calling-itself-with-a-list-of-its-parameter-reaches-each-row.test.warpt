@@ -1,0 +1,46 @@
+(test 1)
+(name "a-procedure-calling-itself-with-a-list-of-its-parameter-reaches-each-row")
+(note "`App.nest` calls itself with a list of what it was given, so each call fills `T` with a list of what filled the one before: `Int`, then `Array<Int>`, then `Array<Array<Int>>`. The call through `App.Deep` at the bottom reaches the row of the list, whose member reaches the row of its element's type in turn, down to `Int`, so the depth is 3.")
+
+(program
+  (warp 1)
+  (import Int.minus)
+  (import Int.plus)
+  (import Standard.Logic.equal)
+  (contract App.Deep
+    (procedure depth
+      (parameter of (type Self))
+      (returns Int)))
+  (extension
+    (head (array (some E App.Deep)))
+    (satisfies App.Deep)
+    (procedure depth
+      (parameter of (type (array (some E))))
+      (returns Int)
+      (body
+        (let inner (call App.Deep.depth (path of (index 0))))
+        (return (call Int.plus inner 1)))))
+  (extension
+    (head Int)
+    (satisfies App.Deep)
+    (procedure depth
+      (parameter of (type Int))
+      (returns Int)
+      (body
+        (return 0))))
+  (procedure App.nest
+    (parameter x (type (some T App.Deep)))
+    (parameter n (type Int))
+    (returns Int)
+    (body
+      (conditional
+        (when (call Standard.Logic.equal n 0))
+        (then
+          (return (call App.Deep.depth x))))
+      (return (call App.nest (array x) (call Int.minus n 1)))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.nest 5 3)))))
+(expect (answers 3))

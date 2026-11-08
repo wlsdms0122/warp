@@ -1,0 +1,11 @@
+(test 1)
+(name "a-program-without-an-entry-refuses")
+(note "A runner starts a run from the procedure spelled `entry`. A document that declares none reads, compiles and links like any other, and is refused at the run, where starting from a name nothing in the link declares is refused.")
+
+(program
+  (warp 1)
+  (procedure other
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses run))

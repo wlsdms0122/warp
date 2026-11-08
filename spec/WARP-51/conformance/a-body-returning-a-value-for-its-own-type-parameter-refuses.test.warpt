@@ -1,0 +1,20 @@
+(test 1)
+(name "a-body-returning-a-value-for-its-own-type-parameter-refuses")
+(note "A declaration taking some T and returning some T returns 5. Inside the declaration T is one type the body does not know, so only a value of T can be its return value, and a call filling T with String would be handed an int.")
+
+(program
+  (warp 1)
+  (import Standard.Text.uppercased)
+  (procedure App.gen
+    (parameter x (type (some T)))
+    (returns (some T))
+    (body
+      (return 5)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let r (call App.gen "s"))
+      (let u (call Standard.Text.uppercased r))
+      (return u))))
+(expect (refuses build))

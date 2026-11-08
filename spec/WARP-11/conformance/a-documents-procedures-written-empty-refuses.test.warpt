@@ -1,0 +1,5 @@
+(test 1)
+(name "a-documents-procedures-written-empty-refuses")
+(note "A document declaring no procedure writes no `procedures`, so `procedures: {}` says it a second way, and the document refuses at the load before any run could look for an `entry`.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary)) (entry "warp" 1)))
+(expect (refuses load))

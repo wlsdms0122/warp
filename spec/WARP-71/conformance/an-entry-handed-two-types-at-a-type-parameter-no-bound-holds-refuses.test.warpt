@@ -1,0 +1,26 @@
+(test 1)
+(name "an-entry-handed-two-types-at-a-type-parameter-no-bound-holds-refuses")
+(note "`x` and `y` are both `some T`, which no bound holds, and the host hands `5` and `\"s\"`. A type parameter is one type whether a bound holds it or not, as a call reading `5` and a string there refuses at the build, so the run refuses at the door.")
+
+(program
+  (warp 1)
+  (import Standard.Text.text)
+  (procedure App.lt
+    (const)
+    (isolated)
+    (parameter a (type (some U)))
+    (parameter b (type (some U)))
+    (returns (array (some U)))
+    (body
+      (return (array a b))))
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (parameter x (type (some T)))
+    (parameter y (type (some T)))
+    (returns String)
+    (body
+      (return (call Standard.Text.text (call App.lt x y))))))
+(arguments (argument x 5) (argument y "s"))
+(expect (refuses run))

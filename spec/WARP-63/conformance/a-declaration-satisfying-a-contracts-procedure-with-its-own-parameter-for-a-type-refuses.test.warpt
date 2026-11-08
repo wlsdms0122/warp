@@ -1,0 +1,31 @@
+(test 1)
+(name "a-declaration-satisfying-a-contracts-procedure-with-its-own-parameter-for-a-type-refuses")
+(note "The contract takes an int and returns a string. The declaration satisfying it takes some T there and returns some T, which the contract's Int fills, so it returns an int where the contract writes String.")
+
+(program
+  (warp 1)
+  (import Standard.Text.uppercased)
+  (struct Bank.Card
+    (satisfies App.Describable)
+    (field last String)
+    (procedure describe
+      (parameter of (type Bank.Card))
+      (parameter x (type (some T)))
+      (returns (some T))
+      (body
+        (return x))))
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (parameter x (type Int))
+      (returns String)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let c (as (struct (field last "42")) Bank.Card))
+      (let d (call App.Describable.describe c 1))
+      (let u (call Standard.Text.uppercased d))
+      (return u))))
+(expect (refuses build))

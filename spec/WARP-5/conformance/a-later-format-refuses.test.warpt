@@ -1,0 +1,5 @@
+(test 1)
+(name "a-later-format-refuses")
+(note "A reader refuses bytes laid out by a format later than the one it implements rather than guessing at the parts it recognises. The encoding's format is its own and is not the document's `warp` key: one says how the bytes lie, the other says what the program means.")
+(bytes x"574152500200")
+(expect (refuses load))

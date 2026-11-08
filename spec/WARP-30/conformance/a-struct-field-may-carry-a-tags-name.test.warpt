@@ -1,0 +1,16 @@
+(test 1)
+(name "a-struct-field-may-carry-a-tags-name")
+(note "A struct is written under `struct`, and what stands under it are its fields, each an expression. A field may be called `ref` or `value`, and its value is still read as the expression it is.")
+
+(program
+  (warp 1)
+  (struct App.R
+    (field ref String)
+    (field value Int))
+  (procedure entry
+    (access public)
+    (returns App.R)
+    (body
+      (let n 1)
+      (return (struct (field ref "nowhere") (field value n))))))
+(expect (answers (struct App.R (field ref "nowhere") (field value 1))))

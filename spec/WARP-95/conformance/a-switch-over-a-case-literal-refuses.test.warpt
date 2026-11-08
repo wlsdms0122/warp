@@ -1,0 +1,18 @@
+(test 1)
+(name "a-switch-over-a-case-literal-refuses")
+(note "A switch's first operand is `of` whatever word it begins with, so in this switch the first `case` is a case literal at `of`. That place reads no enum, so the build refuses the literal.")
+
+(program
+  (warp 1)
+  (enum App.Target
+    (case local))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (switch
+        (case local)
+        (case local
+          (then)))
+      (return 1))))
+(expect (refuses build))

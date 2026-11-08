@@ -1,0 +1,38 @@
+(test 1)
+(name "a-cast-of-a-closure-appending-to-a-list-of-its-makers-parameter-fails")
+(note "A closure in App.g appends its parameter to cell, a list of T, and is held as Any. The call of App.g with 1 fills its T with Int, and the closure holds that, so the cast reading it as taking a string fails with cast_refused, since Int is not String, and cell holds only Int values. The try in the entry catches the failure.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.append)
+  (procedure App.g
+    (parameter x (type (some T)))
+    (returns (array (some T)))
+    (failing (anything))
+    (body
+      (var cell (array x))
+      (let c
+        (closure
+          (parameter y (type (some T)))
+          (returns Int)
+          (body
+            (call Standard.Collection.append cell y)
+            (return 0))))
+      (let a (type Any) c)
+      (let h (as a (procedure (parameters String) (returns Int))))
+      (let z (apply h "s"))
+      (return cell)))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (var tried)
+      (let caught
+        (try
+          (body
+            (let r (call App.g 1))
+            (set tried r))
+          (catch
+            (set tried (path caught (field type))))))
+      (return tried))))
+(expect (answers "cast_refused"))

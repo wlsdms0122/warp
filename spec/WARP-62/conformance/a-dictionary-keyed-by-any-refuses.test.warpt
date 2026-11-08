@@ -1,0 +1,17 @@
+(test 1)
+(name "a-dictionary-keyed-by-any-refuses")
+(note "A dictionary's key is of a type that conforms to `Hashable`, the contract the language names. `Any` conforms to no contract until a cast says what a value is, so a dictionary keyed by it refuses at the build, reached or not.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter m (type (dictionary Any Int)))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

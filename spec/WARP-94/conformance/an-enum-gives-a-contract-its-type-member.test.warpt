@@ -1,0 +1,33 @@
+(test 1)
+(name "an-enum-gives-a-contract-its-type-member")
+(note "`App.Light` claims `App.Container`, which asks a type `Item`, and gives it under `types` as `Int`, as a struct does. A call through the contract reads `Item` as `Int` for a value of the enum.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (satisfies App.Container)
+    (case green)
+    (case red)
+    (type Item Int)
+    (procedure first
+      (parameter of (type App.Light))
+      (returns Int)
+      (body
+        (return 1))))
+  (contract App.Container
+    (type Item)
+    (procedure first
+      (parameter of (type Self))
+      (returns Self.Item)))
+  (procedure App.firstOf
+    (parameter c (type (some C App.Container)))
+    (returns (some C.Item))
+    (body
+      (return (call App.Container.first c))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let light (type App.Light) (case red))
+      (return (call App.firstOf light)))))
+(expect (answers 1))

@@ -1,0 +1,30 @@
+(test 1)
+(name "tryOr-does-not-ask-past-the-first-yes")
+(note "tryOr stops at the first true as or does. The second side aborts, and a failure escaping the entry matches no expectation, so the answer shows it was never asked.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (import Standard.Logic.tryOr)
+  (procedure entry
+    (access public)
+    (returns Bool)
+    (failing (anything))
+    (body
+      (return
+        (call Standard.Logic.tryOr
+          (array
+            (closure
+              (const)
+              (isolated)
+              (returns Bool)
+              (body
+                (return true)))
+            (closure
+              (const)
+              (isolated)
+              (returns Bool)
+              (failing aborted)
+              (body
+                (call Standard.Control.abort "asked")))))))))
+(expect (answers true))

@@ -1,0 +1,19 @@
+(test 1)
+(name "a-case-from-outside-holding-what-the-slot-does-not-apply-the-enum-to-refuses")
+(note "The entry declares `App.Result<Int, String>`, and the host hands `App.Result.success` carrying a string. The enum's type parameters read as the slot applies the enum, so `value` is held to `Int`, and the door refuses the run.")
+
+(program
+  (warp 1)
+  (enum App.Result
+    (typeParameter T)
+    (typeParameter E)
+    (case failure (field error (some E)))
+    (case success (field value (some T))))
+  (procedure entry
+    (access public)
+    (parameter result (type (named App.Result Int String)))
+    (returns Int)
+    (body
+      (return 1))))
+(arguments (argument result (struct App.Result.success (field value "s"))))
+(expect (refuses run))

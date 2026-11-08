@@ -1,0 +1,26 @@
+(test 1)
+(name "map-returns-in-the-collections-order")
+(note "The concurrent reading of what each walks. Arrival order decides nothing: the result sits where its element sat.")
+
+(program
+  (warp 1)
+  (import Standard.Concurrent.map)
+  (procedure entry
+    (access public)
+    (isolated)
+    (returns (array Int))
+    (failing concurrent_failed)
+    (body
+      (let walked
+        (call Standard.Concurrent.map
+          (array 1 2 3)
+          (closure
+            (const)
+            (isolated)
+            (parameter item (type Int))
+            (parameter index (type Int))
+            (returns Int)
+            (body
+              (return item)))))
+      (return walked))))
+(expect (answers (array 1 2 3)))

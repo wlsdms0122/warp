@@ -1,0 +1,17 @@
+(test 1)
+(name "a-list-leaving-out-a-type-the-program-names-refuses")
+(note "The list is every name the program uses and does not declare, and the contract a bound names is one of them. The host lays the link from the list, so one that left `Standard.Comparable` out would be trusted and wrong.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call keep 3))))
+  (procedure keep
+    (parameter value (type (some T Standard.Comparable)))
+    (returns (some T))
+    (body
+      (return value))))
+(expect (refuses load))

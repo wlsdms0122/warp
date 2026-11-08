@@ -1,0 +1,14 @@
+(test 1)
+(name "inout-written-on-a-struct-field-refuses")
+(note "`inout` is written in front of a parameter's type, and a struct's field writes `var` and never `inout`, so the document refuses at the load.")
+
+(program
+  (warp 1)
+  (struct App.S
+    (field x (inout Int)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

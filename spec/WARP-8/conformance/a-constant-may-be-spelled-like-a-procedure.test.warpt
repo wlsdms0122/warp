@@ -1,0 +1,31 @@
+(test 1)
+(name "a-constant-may-be-spelled-like-a-procedure")
+(note "A constant and a procedure spelled alike are two declarations: a reference reads the constant and a call names the procedure. A closure each of them writes is its own.")
+
+(program
+  (warp 1)
+  (import Standard.Numeric.plus)
+  (const f
+    (closure
+      (returns Int)
+      (body
+        (return 1))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (body
+      (let held (apply f))
+      (let called (call f))
+      (return (call Standard.Numeric.plus held called))))
+  (procedure f
+    (returns Int)
+    (failing (anything))
+    (body
+      (let g
+        (closure
+          (returns Int)
+          (body
+            (return 2))))
+      (return (apply g)))))
+(expect (answers 3))

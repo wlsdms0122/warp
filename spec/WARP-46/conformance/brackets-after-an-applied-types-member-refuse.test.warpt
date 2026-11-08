@@ -1,0 +1,5 @@
+(test 1)
+(name "brackets-after-an-applied-types-member-refuse")
+(note "`App.Wrapper<String>.Item<Int>` writes brackets after the type member's name, where nothing is written, so the grammar gives it no structure and the load refuses it.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" 1)))))) (entry "parameters" (array (dictionary (entry "name" "m") (entry "type" "App.Wrapper<String>.Item<Int>")))) (entry "returns" "Int"))))) (entry "warp" 1)))
+(expect (refuses load))

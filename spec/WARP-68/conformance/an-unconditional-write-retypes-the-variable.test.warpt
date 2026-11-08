@@ -1,0 +1,15 @@
+(test 1)
+(name "an-unconditional-write-retypes-the-variable")
+(note "An unconditional write retypes a variable that declared no type: `x` starts as an int, `set x` at the top of the flow writes a string, and `x` reads `String` after it, so `uppercased` takes it and the run answers \"S\".")
+
+(program
+  (warp 1)
+  (import Standard.Text.uppercased)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (var x 1)
+      (set x "s")
+      (return (call Standard.Text.uppercased x)))))
+(expect (answers "S"))

@@ -1,0 +1,46 @@
+(test 1)
+(name "a-declaration-satisfying-a-contracts-procedure-with-a-type-not-conforming-to-it-where-it-promises-it-or-null-refuses")
+(note "The contract returns App.Sized? and the declaration satisfying it returns Bank.Coin, which no document says conforms to App.Sized.")
+
+(program
+  (warp 1)
+  (struct Bank.Box
+    (satisfies App.Shown)
+    (field n Int)
+    (procedure show
+      (parameter of (type Bank.Box))
+      (parameter n (type App.Sized))
+      (returns Bank.Coin)
+      (failing cast_refused)
+      (body
+        (let k (as (struct (field cents 9)) Bank.Coin))
+        (return k))))
+  (struct Bank.Card
+    (satisfies App.Sized)
+    (field last String)
+    (procedure size
+      (parameter of (type Bank.Card))
+      (returns Int)
+      (body
+        (return 4))))
+  (struct Bank.Coin
+    (field cents Int))
+  (contract App.Shown
+    (procedure show
+      (parameter of (type Self))
+      (parameter n (type App.Sized))
+      (returns (optional App.Sized))))
+  (contract App.Sized
+    (procedure size
+      (parameter of (type Self))
+      (returns Int)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let b (as (struct (field n 1)) Bank.Box))
+      (let c (as (struct (field last "4")) Bank.Card))
+      (let s (call App.Shown.show b c))
+      (return "ok"))))
+(expect (refuses build))

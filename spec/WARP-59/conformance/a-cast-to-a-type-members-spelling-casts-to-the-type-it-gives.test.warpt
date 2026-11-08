@@ -1,0 +1,17 @@
+(test 1)
+(name "a-cast-to-a-type-members-spelling-casts-to-the-type-it-gives")
+(note "`App.Box.Item` is an alias of Int, the type App.Box's type member Item gives, so a cast to it is a cast to Int. The string \"a\" is no Int, and `as?` reads null.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (field item Int)
+    (type Item Int))
+  (procedure entry
+    (access public)
+    (parameter value)
+    (returns (optional Int))
+    (body
+      (return (as? value App.Box.Item)))))
+(arguments (argument value "a"))
+(expect (answers null))

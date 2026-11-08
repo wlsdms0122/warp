@@ -1,0 +1,28 @@
+(test 1)
+(name "a-body-handing-its-own-type-parameter-in-place-to-a-type-refuses")
+(note "A declaration holds a value of its type parameter T in a variable and hands it in place to a parameter declared Int. In place the two sides are one type, and T is not Int inside the declaration.")
+
+(program
+  (warp 1)
+  (import Standard.Text.uppercased)
+  (procedure App.gen
+    (parameter x (type (some T)))
+    (returns (some T))
+    (body
+      (var y x)
+      (call App.poke y)
+      (return y)))
+  (procedure App.poke
+    (parameter v (type (inout Int)))
+    (returns Int)
+    (body
+      (set v 7)
+      (return 0)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let r (call App.gen "s"))
+      (let u (call Standard.Text.uppercased r))
+      (return u))))
+(expect (refuses build))

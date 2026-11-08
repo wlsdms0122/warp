@@ -1,0 +1,25 @@
+(test 1)
+(name "an-isolated-body-filters-through-a-closure-that-fails-with-nothing")
+(note "`Standard.Collection.filter` takes a procedure that is const, touches nothing and fails with nothing, and says the same of itself, so a body declaring `const` and `isolated` and no failure calls it.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.filter)
+  (import Standard.Comparable.lessThan)
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (returns (array Int))
+    (body
+      (return
+        (call Standard.Collection.filter
+          (array 1 2 3 4)
+          (closure
+            (const)
+            (isolated)
+            (parameter x (type Int))
+            (returns Bool)
+            (body
+              (return (call Standard.Comparable.lessThan 2 x)))))))))
+(expect (answers (array 3 4)))

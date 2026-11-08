@@ -1,0 +1,14 @@
+(test 1)
+(name "an-argument-the-entry-does-not-take-refuses")
+(note "The run judges an argument where a value from outside is handed, and the entry's arguments are. A string handed at the entry's `Int` parameter refuses at the run, before the body runs.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter times (type Int))
+    (returns Int)
+    (body
+      (return times))))
+(arguments (argument times "two"))
+(expect (refuses run))

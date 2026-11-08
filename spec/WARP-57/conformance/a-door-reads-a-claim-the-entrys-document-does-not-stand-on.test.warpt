@@ -1,0 +1,40 @@
+(test 1)
+(name "a-door-reads-a-claim-the-entrys-document-does-not-stand-on")
+(note "A door judges what arrives against every claim the link holds. The program stands on the contract's document alone, and the claim that `T.Card` conforms to `App.Describable` stands in a document it names nothing of. The host hands a `T.Card` where `App.Describable` is asked, and the door takes it, as the cast in a-cast-at-the-run-reads-every-claim-of-the-link does.")
+
+(documents
+  (document
+    (warp 1)
+    (contract App.Describable
+      (procedure describe
+        (parameter of (type Self))
+        (returns String))))
+  (document
+    (warp 1)
+    (struct T.Card
+      (field rank Int)
+      (procedure describe
+        (parameter of (type T.Card))
+        (returns String)
+        (body
+          (return "card")))))
+  (document
+    (warp 1)
+    (import App.Describable)
+    (import T.Card)
+    (extension
+      (head T.Card)
+      (satisfies App.Describable))))
+
+(program
+  (warp 1)
+  (import App.Describable)
+  (import App.Describable.describe)
+  (procedure entry
+    (access public)
+    (parameter it (type App.Describable))
+    (returns String)
+    (body
+      (return (call App.Describable.describe it)))))
+(arguments (argument it (struct T.Card (field rank 1))))
+(expect (answers "card"))

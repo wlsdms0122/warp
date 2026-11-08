@@ -1,0 +1,84 @@
+(test 1)
+(name "a-claim-returning-another-type-for-self-item-key-refuses")
+(note "App.DShelf gives Item as App.Card, whose Key is Int, and its `firstKey`, which the contract writes as returning `Self.Item.Key`, returns a String, so the claim refuses at the build.")
+
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Keyed
+      (type Key)
+      (procedure key
+        (parameter of (type Self))
+        (returns Self.Key)))
+    (contract Lib.Outer
+      (type Item Lib.Keyed)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item))))
+  (document
+    (warp 1)
+    (import Lib.Keyed)
+    (import Lib.Outer)
+    (struct App.Card
+      (satisfies Lib.Keyed)
+      (field k Int)
+      (type Key Int)
+      (procedure key
+        (access public)
+        (parameter of (type App.Card))
+        (returns Int)
+        (body
+          (return (path of (field k))))))
+    (struct App.Shelf
+      (satisfies Lib.Outer)
+      (field card App.Card)
+      (type Item App.Card)
+      (procedure first
+        (access public)
+        (parameter of (type App.Shelf))
+        (returns App.Card)
+        (body
+          (return (path of (field card)))))))
+  (document
+    (warp 1)
+    (import Lib.Keyed)
+    (contract Lib.Deep
+      (type Item Lib.Keyed)
+      (procedure firstKey
+        (parameter of (type Self))
+        (returns Self.Item.Key))
+      (procedure keyPlus
+        (parameter of (type Self))
+        (parameter k (type Self.Item.Key))
+        (returns Int))))
+  (document
+    (warp 1)
+    (import App.Card)
+    (import Int.plus)
+    (import Lib.Deep)
+    (struct App.DShelf
+      (satisfies Lib.Deep)
+      (field card App.Card)
+      (type Item App.Card)
+      (procedure firstKey
+        (access public)
+        (parameter of (type App.DShelf))
+        (returns String)
+        (body
+          (return "x")))
+      (procedure keyPlus
+        (access public)
+        (parameter of (type App.DShelf))
+        (parameter k (type Int))
+        (returns Int)
+        (body
+          (return (call Int.plus k 1)))))))
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

@@ -1,0 +1,16 @@
+(test 1)
+(name "a-dictionary-from-outside-at-a-declared-struct-refuses")
+(note "A declared struct takes no dictionary, so a dictionary the host hands where `App.P` is declared refuses at the run.")
+
+(program
+  (warp 1)
+  (struct App.P
+    (field x Int))
+  (procedure entry
+    (access public)
+    (parameter p (type App.P))
+    (returns Int)
+    (body
+      (return 1))))
+(arguments (argument p (dictionary (entry "x" 1))))
+(expect (refuses run))

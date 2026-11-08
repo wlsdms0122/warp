@@ -1,0 +1,39 @@
+(test 1)
+(name "concurrent-failed-says-each-pieces-message")
+(note "`concurrent_failed` is raised by the vocabulary, which writes its `message` from its `details`: `concurrent pieces failed: ` and then each piece that failed, its key as `text` spells it, `: ` and its own message, in the key order, joined by `; `.")
+
+(program
+  (warp 1)
+  (import Standard.Concurrent.allKeyed)
+  (import Standard.Control.abort)
+  (procedure entry
+    (access public)
+    (isolated)
+    (returns String)
+    (body
+      (var tried "none")
+      (let caught
+        (try
+          (body
+            (call Standard.Concurrent.allKeyed
+              (dictionary
+                (entry "b"
+                  (closure
+                    (const)
+                    (isolated)
+                    (returns Never)
+                    (failing aborted)
+                    (body
+                      (call Standard.Control.abort "second"))))
+                (entry "a"
+                  (closure
+                    (const)
+                    (isolated)
+                    (returns Never)
+                    (failing aborted)
+                    (body
+                      (call Standard.Control.abort "first")))))))
+          (catch
+            (set tried (path caught (field message))))))
+      (return tried))))
+(expect (answers "concurrent pieces failed: a: first; b: second"))

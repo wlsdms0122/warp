@@ -1,0 +1,20 @@
+(test 1)
+(name "a-cast-between-optionals-of-two-enums-stands")
+(note "`light` is read as `App.Light?`, and the cast asks `App.Signal?`. The none is a value of both, so the cast stands, and `light` holding the none casts to it.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (enum App.Signal
+    (case green)
+    (case red))
+  (procedure entry
+    (access public)
+    (returns (optional App.Signal))
+    (failing cast_refused)
+    (body
+      (let light (type (optional App.Light)) null)
+      (return (as light (optional App.Signal))))))
+(expect (answers null))

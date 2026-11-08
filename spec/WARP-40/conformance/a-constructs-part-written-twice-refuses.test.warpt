@@ -1,0 +1,5 @@
+(test 1)
+(name "a-constructs-part-written-twice-refuses")
+(note "The nodes a construct holds under its keys stand in any order, each once: two `(when …)` in one conditional are two values under one key.")
+(text "(warp 1)\n(procedure entry (body (conditional (when true) (when false))))\n")
+(expect (refuses load))

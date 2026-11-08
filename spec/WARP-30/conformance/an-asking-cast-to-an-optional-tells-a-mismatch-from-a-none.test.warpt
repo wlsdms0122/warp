@@ -1,0 +1,15 @@
+(test 1)
+(name "an-asking-cast-to-an-optional-tells-a-mismatch-from-a-none")
+(note "`as? Int?` reads `Int??`: a value that is no `Int?` is the none, `null`, and a none that is an `Int?` is the some of it, `Some` holding `null`.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter a)
+    (parameter b)
+    (returns Any)
+    (body
+      (return (array (as? a (optional Int)) (as? b (optional Int)))))))
+(arguments (argument a "five") (argument b null))
+(expect (answers (array null (struct Some (field wrapped null)))))

@@ -1,0 +1,23 @@
+(test 1)
+(name "a-contract-value-a-way-leaves-where-ways-meet-at-any-refuses")
+(note "`y` reads `Hashable` where the arm is declined and `Int` where the arm wrote `1`, so the arms meet reading `Any`. A value read as `Hashable` holds the type it was read as, which would have to drop to stand at `Any`, so the build refuses.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter p (type Hashable))
+    (parameter c (type Bool))
+    (returns Any)
+    (body
+      (var y p)
+      (conditional
+        (when c)
+        (then
+          (set y 1)))
+      (return y)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

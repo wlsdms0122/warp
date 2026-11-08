@@ -1,0 +1,25 @@
+(warp 1)
+(import Standard.Concurrent.allKeyed)
+(import cl.square)
+(import cl.sum)
+
+(procedure cm.pair
+  (isolated)
+  (parameter n (type Int))
+  (returns (dictionary String Int))
+  (failing concurrent_failed)
+  (body
+    (return (call Standard.Concurrent.allKeyed
+        (dictionary
+          (entry "sq"
+            (closure
+              (isolated)
+              (returns Int)
+              (body
+                (return (call cl.square n)))))
+          (entry "sum"
+            (closure
+              (isolated)
+              (returns Int)
+              (body
+                (return (call cl.sum n))))))))))

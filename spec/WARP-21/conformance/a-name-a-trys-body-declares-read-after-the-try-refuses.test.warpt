@@ -1,0 +1,20 @@
+(test 1)
+(name "a-name-a-trys-body-declares-read-after-the-try-refuses")
+(note "A name declared inside a try's body is read from the statement after it to the end of that body, and nowhere after. `inner` is read after the try.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (parameter payload)
+    (returns Int)
+    (body
+      (try
+        (body
+          (let inner (as payload Int)))
+        (catch
+          (let seen 1)))
+      (let read inner)
+      (return read))))
+(arguments (argument payload 1))
+(expect (refuses load))

@@ -1,0 +1,14 @@
+(test 1)
+(name "a-failing-naming-a-failure-twice-refuses")
+(note "`failing` lists its failures in name order, each once, as a procedure type's `throws(…)` does, so `[a, a]` says `[a]` a second way.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (failing a a))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

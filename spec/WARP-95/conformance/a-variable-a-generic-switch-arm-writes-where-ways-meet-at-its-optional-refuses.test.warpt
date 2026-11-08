@@ -1,0 +1,28 @@
+(test 1)
+(name "a-variable-a-generic-switch-arm-writes-where-ways-meet-at-its-optional-refuses")
+(note "`y` reads `Null` where the `green` arm leaves it and `some T` where the `red` arm writes `x`, so the ways meet reading `some T?`. A value of `some T` may be a none, which would have to become its some to stand there, so the build refuses.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure App.f
+    (parameter x (type (some T)))
+    (parameter light (type App.Light))
+    (returns (optional (some T)))
+    (body
+      (var y)
+      (switch light
+        (case green
+          (then))
+        (case red
+          (then
+            (set y x))))
+      (return y)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

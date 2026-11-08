@@ -1,0 +1,29 @@
+(test 1)
+(name "a-cast-to-a-contract-holds-a-value-to-the-head-it-settles-into")
+(note "A box holding null read as `Any` is cast to App.Describable, claimed under `App.Box<Int?>`. The value settles into the head, so it conforms, though what its parts read as is `App.Box<Null>`.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (contract App.Describable
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head (named App.Box (optional Int)))
+    (satisfies App.Describable)
+    (procedure describe
+      (parameter of (type (named App.Box (optional Int))))
+      (returns String)
+      (body
+        (return "box"))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let one (type Any) (as (struct (field item null)) (named App.Box (optional Int))))
+      (return (call App.Describable.describe (as one App.Describable))))))
+(expect (answers "box"))

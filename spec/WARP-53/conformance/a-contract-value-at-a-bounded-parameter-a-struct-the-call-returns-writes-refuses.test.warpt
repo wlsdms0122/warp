@@ -1,0 +1,43 @@
+(test 1)
+(name "a-contract-value-at-a-bounded-parameter-a-struct-the-call-returns-writes-refuses")
+(note "`App.box` returns `App.Box<some T>`, and `held`, a value of `App.Described` holding `Int?`, fills `T`. What comes back would be read as `App.Box<App.Described>` with its `item` holding no type, so the call refuses at the build.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (contract App.Described
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head Int)
+    (satisfies App.Described)
+    (procedure describe
+      (parameter of (type Int))
+      (returns String)
+      (body
+        (return "a number"))))
+  (extension
+    (head (optional Int))
+    (satisfies App.Described)
+    (procedure describe
+      (parameter of (type (optional Int)))
+      (returns String)
+      (body
+        (return "a number or none"))))
+  (procedure App.box
+    (parameter x (type (some T App.Described)))
+    (returns (named App.Box (some T)))
+    (body
+      (return (struct (field item x)))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let maybe (type (optional Int)) 5)
+      (let held (type App.Described) maybe)
+      (let b (call App.box held))
+      (return (call App.Described.describe (path b (field item)))))))
+(expect (refuses build))

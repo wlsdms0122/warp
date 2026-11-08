@@ -1,0 +1,25 @@
+(test 1)
+(name "a-catch-binds-a-failure-the-language-declares")
+(note "What a catch binds is a `Failure`, a struct the language declares, so a slot that declares `Failure` takes it as it is and reads its fields.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (procedure App.told
+    (parameter failed (type Failure))
+    (returns String)
+    (body
+      (return (path failed (field message)))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (var tried)
+      (let caught
+        (try
+          (body
+            (call Standard.Control.abort "on purpose"))
+          (catch
+            (set tried (call App.told caught)))))
+      (return tried))))
+(expect (answers "on purpose"))

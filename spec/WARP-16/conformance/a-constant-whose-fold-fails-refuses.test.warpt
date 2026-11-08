@@ -1,0 +1,26 @@
+(test 1)
+(name "a-constant-whose-fold-fails-refuses")
+(note "A failure stops a fold, nothing at the build catches it, and the build refuses whether or not anything reads the constant. `K.cast` is const and fails with `cast_refused`, and nothing reads `c`.")
+
+(documents
+  (document
+    (warp 1)
+    (procedure K.cast
+      (const)
+      (isolated)
+      (returns Int)
+      (failing cast_refused)
+      (body
+        (let a (type Any) "s")
+        (return (as a Int))))))
+
+(program
+  (warp 1)
+  (import K.cast)
+  (const c (call K.cast))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

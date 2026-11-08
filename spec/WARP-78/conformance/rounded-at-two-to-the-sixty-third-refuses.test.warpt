@@ -1,0 +1,13 @@
+(test 1)
+(name "rounded-at-two-to-the-sixty-third-refuses")
+(note "rounded returns an Int only where an Int holds the result, and no Int holds 2^63, the Double nearest the int's maximum.")
+
+(program
+  (warp 1)
+  (import Standard.Math.rounded)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call Standard.Math.rounded 9.223372036854776e+18)))))
+(expect (refuses run))

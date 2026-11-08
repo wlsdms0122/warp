@@ -1,0 +1,22 @@
+(test 1)
+(name "a-loops-name-leaves-the-outer-name-after-the-loop")
+(note "A loop's name is its round, read in the condition and the body, and binds nothing after the loop. In an arm where `x` names a loop, `x` after the loop is the `x` around the arm, which holds 5.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let x 5)
+      (var y 0)
+      (conditional
+        (when true)
+        (then
+          (let x
+            (loop
+              (while false)
+              (body)))
+          (set y x)))
+      (return y))))
+(expect (answers 5))

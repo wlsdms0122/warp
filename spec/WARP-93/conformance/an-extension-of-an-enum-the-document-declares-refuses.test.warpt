@@ -1,0 +1,18 @@
+(test 1)
+(name "an-extension-of-an-enum-the-document-declares-refuses")
+(note "A document gives an enum it declares what it gives it in the declaration, as it does a struct. An extension of `App.Light` under its bare name would be a second way to write that, so the load refuses it.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (extension
+    (head App.Light)
+    (satisfies Hashable))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

@@ -1,0 +1,17 @@
+(test 1)
+(name "a-struct-naming-itself-applied-to-a-list-of-its-parameter")
+(note "`App.Nest` names itself in a field applied to `Array<some T>`, a type that grows at every depth. A mention opens one depth at a time, so the declaration stands and a value reads its field.")
+
+(program
+  (warp 1)
+  (struct App.Nest
+    (typeParameter T)
+    (field inner (optional (named App.Nest (array (some T)))))
+    (field v (some T)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let n (type (named App.Nest Int)) (struct (field inner null) (field v 1)))
+      (return (path n (field v))))))
+(expect (answers 1))

@@ -1,0 +1,26 @@
+(test 1)
+(name "a-cast-from-a-contract-reads-a-case-of-the-enum")
+(note "`value` is read as `Hashable`, which `App.Light` claims, and the host hands it `App.Light.red`. A cast to an enum reads a value read as a contract, judges it one of the enum's cases and reads it as one, so the switch takes the `red` arm.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (satisfies Hashable)
+    (case green)
+    (case red))
+  (procedure entry
+    (access public)
+    (parameter value (type Hashable))
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let light (as value App.Light))
+      (switch light
+        (case green
+          (then
+            (return "go")))
+        (case red
+          (then
+            (return "stop")))))))
+(arguments (argument value (struct App.Light.red)))
+(expect (answers "stop"))

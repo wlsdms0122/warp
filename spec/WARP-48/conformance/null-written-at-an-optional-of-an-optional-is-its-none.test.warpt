@@ -1,0 +1,17 @@
+(test 1)
+(name "null-written-at-an-optional-of-an-optional-is-its-none")
+(note "A literal is read as its place reads it, and the literal `null` at an Optional is its outermost none at any depth. `App.f` handed `null` at `Int??` holds the none, `null`.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter x (type (optional (optional Int))))
+    (returns Any)
+    (body
+      (return x)))
+  (procedure entry
+    (access public)
+    (returns Any)
+    (body
+      (return (call App.f null)))))
+(expect (answers null))

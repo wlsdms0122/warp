@@ -1,0 +1,19 @@
+(test 1)
+(name "a-bound-beside-a-later-naming-of-a-type-parameter-refuses")
+(note "A signature bounds a type parameter beside the first `some T` its slots write. `x` names `T` first, so a bound beside the `some T` of `y` refuses at the load.")
+
+(program
+  (warp 1)
+  (import Standard.Comparable)
+  (procedure App.f
+    (parameter x (type (some T)))
+    (parameter y (type (some T Standard.Comparable)))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

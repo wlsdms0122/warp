@@ -1,0 +1,22 @@
+(test 1)
+(name "an-unwrap-taking-apart-a-call-saying-nothing-refuses")
+(note "`App.found` returns without reaching anything, and says nothing of itself. What an unwrap takes apart is an operand, which calls only a declaration that says it is const, so the call there refuses at the build.")
+
+(program
+  (warp 1)
+  (procedure App.found
+    (returns (optional Int))
+    (body
+      (return 5)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var n 0)
+      (let x
+        (unwrap
+          (call App.found)
+          (then
+            (set n x))))
+      (return n))))
+(expect (refuses build))

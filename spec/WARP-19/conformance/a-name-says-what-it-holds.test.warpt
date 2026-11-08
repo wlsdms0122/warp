@@ -1,0 +1,31 @@
+(test 1)
+(name "a-name-says-what-it-holds")
+(note "A name may say what it holds under `type`, and a name that says nothing is the type its value reads as. The closure literal `step` starts as declares `const` and `isolated`, and an `inout` slot asks for the same type the name is, so it is the name's declaration `(Int) -> Int` that lets `step` be handed to `swap`.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var step
+        (type (procedure (parameters Int) (returns Int)))
+        (closure
+          (const)
+          (isolated)
+          (parameter x (type Int))
+          (returns Int)
+          (body
+            (return x))))
+      (call swap step)
+      (return 1)))
+  (procedure swap
+    (parameter step (type (inout (procedure (parameters Int) (returns Int)))))
+    (body
+      (set step
+        (closure
+          (parameter x (type Int))
+          (returns Int)
+          (body
+            (return 9)))))))
+(expect (answers 1))

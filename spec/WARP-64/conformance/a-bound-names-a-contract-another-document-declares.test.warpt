@@ -1,0 +1,29 @@
+(test 1)
+(name "a-bound-names-a-contract-another-document-declares")
+(note "A contract is declared once under a name, and a signature in another document bounds a type parameter by it the way it would by its own: the name is listed in imports, and the bound holds the parameter to what conforms to the contract.")
+
+(documents
+  (document
+    (warp 1)
+    (contract Num.Scalar)
+    (extension
+      (head Int)
+      (satisfies Num.Scalar))
+    (extension
+      (head String)
+      (satisfies Num.Scalar))))
+
+(program
+  (warp 1)
+  (import Num.Scalar)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (return (call keep "k"))))
+  (procedure keep
+    (parameter value (type (some T Num.Scalar)))
+    (returns (some T))
+    (body
+      (return value))))
+(expect (answers "k"))

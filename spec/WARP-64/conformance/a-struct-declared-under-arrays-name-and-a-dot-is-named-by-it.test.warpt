@@ -1,0 +1,15 @@
+(test 1)
+(name "a-struct-declared-under-arrays-name-and-a-dot-is-named-by-it")
+(note "A dot is a character of a spelling and nothing more, and a mention reaches whatever declares it. `Array.Item` is a type's name, and the document declares a struct under it, so a slot naming `Array.Item` names that struct and the run answers 1.")
+
+(program
+  (warp 1)
+  (struct Array.Item
+    (field x Int))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let v (type Array.Item) (struct (field x 1)))
+      (return (path v (field x))))))
+(expect (answers 1))

@@ -1,0 +1,18 @@
+(test 1)
+(name "a-bare-contract-name-refuses")
+(note "`Comparable` is not the spelling of any declaration in the link: `Standard` declares `Standard.Comparable`, and this document declares no contract of its own. A name is looked up as written, so the bound refuses at the build.")
+
+(program
+  (warp 1)
+  (import Comparable)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call keep 3))))
+  (procedure keep
+    (parameter value (type (some T Comparable)))
+    (returns (some T))
+    (body
+      (return value))))
+(expect (refuses build))

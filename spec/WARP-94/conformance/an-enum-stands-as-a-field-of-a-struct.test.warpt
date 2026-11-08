@@ -1,0 +1,18 @@
+(test 1)
+(name "an-enum-stands-as-a-field-of-a-struct")
+(note "An enum's name stands wherever a type is written, a struct's field among them. `App.Lamp` holds an `App.Light`, so the case literal in its field is read as `App.Light`, and the field reads back as it.")
+
+(program
+  (warp 1)
+  (struct App.Lamp
+    (field light App.Light))
+  (enum App.Light
+    (case green)
+    (case red))
+  (procedure entry
+    (access public)
+    (returns App.Light)
+    (body
+      (let lamp (type App.Lamp) (struct (field light (case red))))
+      (return (path lamp (field light))))))
+(expect (answers (struct App.Light.red)))

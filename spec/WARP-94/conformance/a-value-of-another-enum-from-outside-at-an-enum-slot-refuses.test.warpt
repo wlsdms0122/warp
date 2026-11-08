@@ -1,0 +1,20 @@
+(test 1)
+(name "a-value-of-another-enum-from-outside-at-an-enum-slot-refuses")
+(note "The host hands `App.Signal.red`, a case some enum declares, where the entry declares `App.Light`. It is a value of `App.Signal` and none of `App.Light`, so the door refuses the run.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case green)
+    (case red))
+  (enum App.Signal
+    (case green)
+    (case red))
+  (procedure entry
+    (access public)
+    (parameter light (type App.Light))
+    (returns Int)
+    (body
+      (return 1))))
+(arguments (argument light (struct App.Signal.red)))
+(expect (refuses run))

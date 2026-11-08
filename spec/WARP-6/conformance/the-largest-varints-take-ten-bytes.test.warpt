@@ -1,0 +1,5 @@
+(test 1)
+(name "the-largest-varints-take-ten-bytes")
+(note "The largest zigzagged values take exactly ten bytes, the tenth carrying bit 63 alone, and read back as the Ints at either end.")
+(bytes x"5741525001060203feffffffffffffffff0103ffffffffffffffffff01")
+(expect (spells (array 9223372036854775807 -9223372036854775808)))

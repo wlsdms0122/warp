@@ -1,0 +1,28 @@
+(test 1)
+(name "an-applied-types-member-lists-the-type-and-the-type-members-spelling")
+(note "The program writes `App.Wrapper<String>.Item`, which uses two names another document declares: the type App.Wrapper, applied to String, and its type member's spelling App.Wrapper.Item. Listing both, the program builds and the parameter takes \"a\".")
+
+(documents
+  (document
+    (warp 1)
+    (struct App.Wrapper
+      (typeParameter T)
+      (field item (some T))
+      (type Item (some T)))))
+
+(program
+  (warp 1)
+  (import App.Wrapper)
+  (import App.Wrapper.Item)
+  (procedure App.echo
+    (parameter x (type (member (named App.Wrapper String) Item)))
+    (returns String)
+    (body
+      (return x)))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let echoed (call App.echo "a"))
+      (return echoed))))
+(expect (answers "a"))

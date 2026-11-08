@@ -1,0 +1,15 @@
+(test 1)
+(name "a-document-gathers-a-collections-own-elements")
+(note "gathering says which elements by position, so the result is the collection's own, spelled the way the collection is: bytes gathered are bytes. This is what lets a document write the procedures that return fewer elements or another order, since an array a body started empty has no spelling to keep.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.gathering)
+  (procedure entry
+    (access public)
+    (returns (array (array Any)))
+    (body
+      (let back (call Standard.Collection.gathering x"6869" (array 1 0)))
+      (let picked (call Standard.Collection.gathering (array "a" "b" "c") (array 2 0)))
+      (return (array back picked)))))
+(expect (answers (array x"6968" (array "c" "a"))))

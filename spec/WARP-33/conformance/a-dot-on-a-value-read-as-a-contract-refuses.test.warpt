@@ -1,0 +1,30 @@
+(test 1)
+(name "a-dot-on-a-value-read-as-a-contract-refuses")
+(note "`s` reads `App.Shape`, a contract, and the one type claiming it here has a field `x`. A contract declares procedures and types and no field, so the dot has nothing declared to be judged against and the build refuses it.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (satisfies App.Shape)
+    (field x Int)
+    (procedure size
+      (parameter of (type App.Box))
+      (returns Int)
+      (body
+        (return 1))))
+  (contract App.Shape
+    (procedure size
+      (parameter of (type Self))
+      (returns Int)))
+  (procedure App.read
+    (parameter s (type App.Shape))
+    (returns Int)
+    (body
+      (return (path s (field x)))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let b (type App.Box) (struct (field x 1)))
+      (return (call App.read b)))))
+(expect (refuses build))

@@ -1,0 +1,15 @@
+(test 1)
+(name "a-contract-procedure-taking-nothing-refuses")
+(note "A contract's procedure takes `Self` first, since what fills `Self` there picks the procedure. One declaring no parameter takes nothing first, so no call through the contract could pick a row, and the contract refuses at the load.")
+
+(program
+  (warp 1)
+  (contract App.Named
+    (procedure name
+      (returns String)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

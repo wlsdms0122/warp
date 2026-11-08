@@ -1,0 +1,31 @@
+(test 1)
+(name "a-declaration-satisfying-a-contracts-procedure-taking-in-place-where-it-hands-a-value-refuses")
+(note "The contract takes an int as a value and the declaration satisfying it takes inout Int there. A call through the contract hands a value, which has no box for the declaration to write, so the claim holds nothing and the call refuses.")
+
+(program
+  (warp 1)
+  (struct Bank.Card
+    (satisfies App.Sized)
+    (field last String)
+    (procedure size
+      (parameter of (type Bank.Card))
+      (parameter n (type (inout Int)))
+      (returns Int)
+      (body
+        (set n 9)
+        (return 7))))
+  (contract App.Sized
+    (procedure size
+      (parameter of (type Self))
+      (parameter n (type Int))
+      (returns Int)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing cast_refused)
+    (body
+      (let c (as (struct (field last "42")) Bank.Card))
+      (let k 4)
+      (let s (call App.Sized.size c k))
+      (return s))))
+(expect (refuses build))

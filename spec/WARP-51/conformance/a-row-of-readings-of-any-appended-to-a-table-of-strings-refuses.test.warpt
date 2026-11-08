@@ -1,0 +1,24 @@
+(test 1)
+(name "a-row-of-readings-of-any-appended-to-a-table-of-strings-refuses")
+(note "Standard.Collection.append fills Element from the table, a list of lists of strings, and from [src[\"a\"], src[\"b\"]], two reads of a Dictionary<String, Any>. A reading of Any below the top makes its position Any, as it does at the top, so Element reads Array<Any>, and the table handed in place is no list of it.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.append)
+  (import Standard.Collection.appending)
+  (import Standard.Collection.last)
+  (procedure entry
+    (access public)
+    (returns (array String))
+    (body
+      (let src (type (dictionary String Any)) (dictionary (entry "a" 1) (entry "b" "x")))
+      (var table (array (array "h1" "h2")))
+      (call Standard.Collection.append table (array (path src (index "a")) (path src (index "b"))))
+      (let row
+        (unwrap
+          (call Standard.Collection.last table)
+          (else
+            (return (array)))))
+      (let u (call Standard.Collection.appending row "z"))
+      (return u))))
+(expect (refuses build))

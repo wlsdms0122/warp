@@ -1,0 +1,29 @@
+(test 1)
+(name "a-declaration-satisfying-a-contracts-procedure-with-a-type-where-it-writes-a-parameter-refuses")
+(note "The contract takes some T, which is its own and no call through it fills. The declaration satisfying it takes Int there, so a call through the contract handing a string would reach a slot that refuses it.")
+
+(program
+  (warp 1)
+  (struct Bank.Card
+    (satisfies App.Sized)
+    (field last String)
+    (procedure size
+      (parameter of (type Bank.Card))
+      (parameter n (type Int))
+      (returns Int)
+      (body
+        (return 7))))
+  (contract App.Sized
+    (procedure size
+      (parameter of (type Self))
+      (parameter n (type (some T)))
+      (returns Int)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing cast_refused)
+    (body
+      (let c (as (struct (field last "42")) Bank.Card))
+      (let s (call App.Sized.size c "x"))
+      (return s))))
+(expect (refuses build))

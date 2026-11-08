@@ -1,0 +1,48 @@
+(test 1)
+(name "a-parameter-read-as-a-declared-struct-and-its-alias-keeps-the-name")
+(note "`Bank.Alias` names `Bank.Card`, a declared struct that conforms to `App.Describable`. `App.pick` takes two of `some T` and is handed a `Bank.Card` and a `Bank.Alias`. The two are one struct under one name, so `T` is that struct and keeps its name, and `App.Describable.describe` dispatches to `Bank.Card.describe`.")
+
+(program
+  (warp 1)
+  (type Bank.Alias Bank.Card)
+  (struct Bank.Card
+    (satisfies App.Describable)
+    (field last String)
+    (procedure describe
+      (const)
+      (isolated)
+      (parameter of (type Bank.Card))
+      (returns String)
+      (body
+        (return "a card"))))
+  (contract App.Describable
+    (procedure describe
+      (const)
+      (isolated)
+      (parameter of (type Self))
+      (returns String)))
+  (procedure App.pick
+    (const)
+    (isolated)
+    (parameter c (type Bool))
+    (parameter x (type (some T)))
+    (parameter y (type (some T)))
+    (returns (some T))
+    (body
+      (conditional
+        (when c)
+        (then
+          (return x)))
+      (return y)))
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let c (as (struct (field last "1")) Bank.Alias))
+      (let r (call App.pick false (as (struct (field last "42")) Bank.Card) c))
+      (let s (call App.Describable.describe r))
+      (return s))))
+(expect (answers "a card"))

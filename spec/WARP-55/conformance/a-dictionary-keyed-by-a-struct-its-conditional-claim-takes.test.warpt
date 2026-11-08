@@ -1,0 +1,25 @@
+(test 1)
+(name "a-dictionary-keyed-by-a-struct-its-conditional-claim-takes")
+(note "A dictionary type keyed by a box of Int: the head takes it, so the key conforms to Hashable.")
+
+(documents
+  (document
+    (warp 1)
+    (struct App.Box
+      (typeParameter T)
+      (field item (some T)))
+    (struct App.Plain
+      (field x Int))
+    (extension
+      (head (named App.Box (some T Hashable)))
+      (satisfies Hashable))))
+
+(program
+  (warp 1)
+  (import App.Box)
+  (procedure entry
+    (access public)
+    (returns (dictionary (named App.Box Int) String))
+    (body
+      (return (dictionary)))))
+(expect (answers (dictionary)))

@@ -1,0 +1,29 @@
+(test 1)
+(name "a-type-parameter-two-procedures-take-as-int-and-as-anything-is-int")
+(note "`App.two` takes two procedures of `some T`. The first takes `Int`, and the second writes no type and takes anything. Both take `Int`, so `T` is `Int`, and each closure stands at `(Int) -> Int`.")
+
+(program
+  (warp 1)
+  (procedure App.two
+    (parameter f (type (procedure (parameters (some T)) (returns Int))))
+    (parameter g (type (procedure (parameters (some T)) (returns Int))))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return
+        (call App.two
+          (closure
+            (parameter y (type Int))
+            (returns Int)
+            (body
+              (return 1)))
+          (closure
+            (parameter y)
+            (returns Int)
+            (body
+              (return 1))))))))
+(expect (answers 1))

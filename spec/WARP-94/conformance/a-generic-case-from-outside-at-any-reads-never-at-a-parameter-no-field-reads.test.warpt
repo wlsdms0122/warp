@@ -1,0 +1,18 @@
+(test 1)
+(name "a-generic-case-from-outside-at-any-reads-never-at-a-parameter-no-field-reads")
+(note "At `Any` the door applies an enum to what the value's fields read as, and to `Never` at a parameter no field reads. `App.Keyed` bounds `K` by `Hashable`, and `none` carries nothing, so `K` reads `Never`, which stands as any type, and the door takes the value. Read as `Any`, `K` would conform to no bound and the door would refuse it.")
+
+(program
+  (warp 1)
+  (enum App.Keyed
+    (typeParameter K Hashable)
+    (case none)
+    (case one (field key (some K))))
+  (procedure entry
+    (access public)
+    (parameter keyed)
+    (returns Int)
+    (body
+      (return 1))))
+(arguments (argument keyed (struct App.Keyed.none)))
+(expect (answers 1))

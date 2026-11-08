@@ -1,0 +1,21 @@
+(test 1)
+(name "a-procedure-returning-a-struct-of-an-empty-list-stands-at-it-applied-to-a-list-of-int")
+(note "What a call fills a parameter with from an empty list holds no element, so `App.wrap([])` returns a struct that stands where it is applied to a list of `Int`.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (typeParameter T)
+    (field item (some T)))
+  (procedure App.wrap
+    (parameter x (type (some T)))
+    (returns (named App.Box (some T)))
+    (body
+      (return (struct (field item x)))))
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (body
+      (let b (type (named App.Box (array Int))) (call App.wrap (array)))
+      (return (path b (field item))))))
+(expect (answers (array)))

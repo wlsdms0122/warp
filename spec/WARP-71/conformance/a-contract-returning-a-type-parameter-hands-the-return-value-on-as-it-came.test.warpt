@@ -1,0 +1,32 @@
+(test 1)
+(name "a-contract-returning-a-type-parameter-hands-the-return-value-on-as-it-came")
+(note "`App.Two.two` takes two of `some T` and returns `some T`, and `Bank.Card.two` returns the first. Called with 1 and 2.5, `T` is read as `Double`, so the literal 1 is the floating-point number it names, and the return value is what the call filled the parameter with, handed on as it came: the floating-point number 1.0, whose text is `1.0`.")
+
+(program
+  (warp 1)
+  (import Standard.Text.text)
+  (struct Bank.Card
+    (satisfies App.Two)
+    (field last String)
+    (procedure two
+      (parameter of (type Bank.Card))
+      (parameter a (type (some V)))
+      (parameter b (type (some V)))
+      (returns (some V))
+      (body
+        (return a))))
+  (contract App.Two
+    (procedure two
+      (parameter of (type Self))
+      (parameter a (type (some T)))
+      (parameter b (type (some T)))
+      (returns (some T))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let c (as (struct (field last "42")) Bank.Card))
+      (let t (call App.Two.two c 1 2.5))
+      (return (call Standard.Text.text t)))))
+(expect (answers "1.0"))

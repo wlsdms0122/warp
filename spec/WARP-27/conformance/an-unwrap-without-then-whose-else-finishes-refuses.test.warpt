@@ -1,0 +1,22 @@
+(test 1)
+(name "an-unwrap-without-then-whose-else-finishes-refuses")
+(note "With no `then`, `x` holds the payload after the unwrap, so a none has no way on. This `else` finishes, so the build refuses it.")
+
+(program
+  (warp 1)
+  (procedure App.f
+    (parameter o (type (optional Int)))
+    (returns Int)
+    (body
+      (var n 0)
+      (let x
+        (unwrap o
+          (else
+            (set n 1))))
+      (return n)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.f 1)))))
+(expect (refuses build))

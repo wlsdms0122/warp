@@ -1,0 +1,13 @@
+(test 1)
+(name "a-quoted-key-holds-the-marks-a-step-is-written-with")
+(note "Inside the quotes every character is the key's, so a key holding `?.` and `?[` reads the entry under that string and marks no step.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (let d (type (dictionary String Int)) (dictionary (entry "a?.b?[c]" 1)))
+      (return (path d (index "a?.b?[c]"))))))
+(expect (answers 1))

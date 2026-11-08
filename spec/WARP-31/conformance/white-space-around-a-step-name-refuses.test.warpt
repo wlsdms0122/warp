@@ -1,0 +1,5 @@
+(test 1)
+(name "white-space-around-a-step-name-refuses")
+(note "A step's name is an identifier, which holds no white space, so `a. b` is a second spelling of `a.b`.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "let" "a") (entry "value" (dictionary (entry "struct" (dictionary (entry "b" 1)))))) (dictionary (entry "value" (dictionary (entry "return" (dictionary (entry "ref" "a. b")))))))) (entry "returns" "Int"))))) (entry "warp" 1)))
+(expect (refuses load))

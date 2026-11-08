@@ -1,0 +1,21 @@
+(test 1)
+(name "a-parameter-handed-in-place-holding-a-list-of-a-parameter-or-null-takes-null")
+(note "App.gen takes Array<some T>? in place and writes null into it. Null is the none of the Optional of a list of T, whatever filled T.")
+
+(program
+  (warp 1)
+  (procedure App.gen
+    (parameter x (type (inout (optional (array (some T))))))
+    (parameter y (type (some T)))
+    (returns Int)
+    (body
+      (set x null)
+      (return 0)))
+  (procedure entry
+    (access public)
+    (returns (optional (array String)))
+    (body
+      (var s (type (optional (array String))) (array "a"))
+      (let r (call App.gen s "b"))
+      (return s))))
+(expect (answers null))

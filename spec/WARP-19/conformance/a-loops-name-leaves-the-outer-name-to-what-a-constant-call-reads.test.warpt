@@ -1,0 +1,46 @@
+(test 1)
+(name "a-loops-name-leaves-the-outer-name-to-what-a-constant-call-reads")
+(note "A loop's name binds nothing after the loop: in an arm where `f` names a loop, a call of `f` after it calls the outer `f`, bound to the `const isolated` slot `body`, so `App.asking` holds to the `const` and `isolated` it declares and a closure sending it stands in the `const isolated` slot `Standard.Logic.and` asks.")
+
+(program
+  (warp 1)
+  (import Standard.Logic.and)
+  (procedure App.asking
+    (const)
+    (isolated)
+    (parameter body (type (procedure (const) (isolated) (parameters) (returns Bool))))
+    (returns Bool)
+    (body
+      (let f body)
+      (var answered false)
+      (conditional
+        (when true)
+        (then
+          (let f
+            (loop
+              (while false)
+              (body)))
+          (set answered (apply f))))
+      (return answered)))
+  (procedure entry
+    (access public)
+    (const)
+    (returns Bool)
+    (body
+      (return
+        (call Standard.Logic.and
+          (array
+            (closure
+              (const)
+              (isolated)
+              (returns Bool)
+              (body
+                (return
+                  (call App.asking
+                    (closure
+                      (const)
+                      (isolated)
+                      (returns Bool)
+                      (body
+                        (return true)))))))))))))
+(expect (answers true))

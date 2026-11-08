@@ -1,0 +1,37 @@
+(test 1)
+(name "tryAnd-fails-with-what-its-side-fails-with")
+(note "`Standard.Logic.tryAnd` takes sides that may fail and declares `failing: anything`, so a side's failure is the call's: the first side returns true, the second aborts with `side`, and the catch reads its message.")
+
+(program
+  (warp 1)
+  (import Standard.Control.abort)
+  (import Standard.Logic.tryAnd)
+  (procedure entry
+    (access public)
+    (const)
+    (isolated)
+    (returns (optional String))
+    (body
+      (var failed)
+      (let caught
+        (try
+          (body
+            (call Standard.Logic.tryAnd
+              (array
+                (closure
+                  (const)
+                  (isolated)
+                  (returns Bool)
+                  (body
+                    (return true)))
+                (closure
+                  (const)
+                  (isolated)
+                  (returns Bool)
+                  (failing aborted)
+                  (body
+                    (call Standard.Control.abort "side"))))))
+          (catch
+            (set failed (path caught (field message))))))
+      (return failed))))
+(expect (answers "side"))

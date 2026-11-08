@@ -1,0 +1,20 @@
+(test 1)
+(name "an-enum-no-document-claims-hashable-keys-no-dictionary-refuses")
+(note "An enum conforms to `Hashable` only where a document claims it does, as a declared struct does. No document claims it for `App.Suit`, so the dictionary type keyed by it refuses at the build, though nothing reaches it.")
+
+(program
+  (warp 1)
+  (enum App.Suit
+    (case clubs)
+    (case hearts))
+  (procedure App.f
+    (parameter counts (type (dictionary App.Suit Int)))
+    (returns Int)
+    (body
+      (return 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

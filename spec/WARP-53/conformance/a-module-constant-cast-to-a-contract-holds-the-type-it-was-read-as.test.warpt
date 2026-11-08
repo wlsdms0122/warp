@@ -1,0 +1,45 @@
+(test 1)
+(name "a-module-constant-cast-to-a-contract-holds-the-type-it-was-read-as")
+(note "A value the build folds keeps the type it holds, a constant's among them. `App.maybe` returns `5` read as `Int?`, and the constant `c` casts it to `App.Described`, which holds the reading, `Int?`. The constant folds at the build and keeps that hold, so the call through the contract reaches the Optional's row, though the value is `5`.")
+
+(documents
+  (document
+    (warp 1)
+    (procedure App.maybe
+      (access public)
+      (const)
+      (isolated)
+      (returns (optional Int))
+      (body
+        (return 5)))))
+
+(program
+  (warp 1)
+  (import App.maybe)
+  (const c (as (call App.maybe) App.Described))
+  (contract App.Described
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head Int)
+    (satisfies App.Described)
+    (procedure describe
+      (parameter of (type Int))
+      (returns String)
+      (body
+        (return "a number"))))
+  (extension
+    (head (optional Int))
+    (satisfies App.Described)
+    (procedure describe
+      (parameter of (type (optional Int)))
+      (returns String)
+      (body
+        (return "a number or none"))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (return (call App.Described.describe c)))))
+(expect (answers "a number or none"))

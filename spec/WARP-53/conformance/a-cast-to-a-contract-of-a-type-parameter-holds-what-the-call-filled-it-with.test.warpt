@@ -1,0 +1,40 @@
+(test 1)
+(name "a-cast-to-a-contract-of-a-type-parameter-holds-what-the-call-filled-it-with")
+(note "`App.show` is called with `maybe`, read as `Int?` and holding `5`, so its `T` is `Int?`. The cast of `x` to `App.Described` holds the reading `T` as the call filled it, so the call through the contract reaches `Optional`'s `describe` and not `Int`'s.")
+
+(program
+  (warp 1)
+  (contract App.Described
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head Int)
+    (satisfies App.Described)
+    (procedure describe
+      (parameter of (type Int))
+      (returns String)
+      (body
+        (return "a number"))))
+  (extension
+    (head (optional Int))
+    (satisfies App.Described)
+    (procedure describe
+      (parameter of (type (optional Int)))
+      (returns String)
+      (body
+        (return "a number or none"))))
+  (procedure App.show
+    (parameter x (type (some T)))
+    (returns String)
+    (failing cast_refused)
+    (body
+      (return (call App.Described.describe (as x App.Described)))))
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let maybe (type (optional Int)) 5)
+      (return (call App.show maybe)))))
+(expect (answers "a number or none"))

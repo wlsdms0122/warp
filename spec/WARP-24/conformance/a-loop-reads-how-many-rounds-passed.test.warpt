@@ -1,0 +1,20 @@
+(test 1)
+(name "a-loop-reads-how-many-rounds-passed")
+(note "The loop's own name binds the round it is on, and the condition reads it before the round runs.")
+
+(program
+  (warp 1)
+  (import Standard.Comparable.lessThan)
+  (import Standard.Numeric.plus)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var count 0)
+      (let round
+        (loop
+          (while (call Standard.Comparable.lessThan (path round (field index)) 3))
+          (body
+            (set count (call Standard.Numeric.plus count 1)))))
+      (return count))))
+(expect (answers 3))

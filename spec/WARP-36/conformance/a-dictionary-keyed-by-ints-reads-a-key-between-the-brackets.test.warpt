@@ -1,0 +1,13 @@
+(test 1)
+(name "a-dictionary-keyed-by-ints-reads-a-key-between-the-brackets")
+(note "Brackets on a dictionary read the entry under the value between them, judged against the dictionary's key type, so `d[3]` on `Dictionary<Int, String>` reads the entry under the key 3 and no position.")
+
+(program
+  (warp 1)
+  (procedure entry
+    (access public)
+    (returns String)
+    (body
+      (let d (type (dictionary Int String)) (dictionary (entry 0 "a") (entry 3 "c")))
+      (return (path d (index 3))))))
+(expect (answers "c"))

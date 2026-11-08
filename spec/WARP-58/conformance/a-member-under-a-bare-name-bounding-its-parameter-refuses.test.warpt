@@ -1,0 +1,20 @@
+(test 1)
+(name "a-member-under-a-bare-name-bounding-its-parameter-refuses")
+(note "Under its type's bare name a member takes every value of the type first. `m` takes `Array<some T: Standard.Comparable>`, the lists whose elements order, so it refuses at the build; it is given under a head applying `Array` to what it takes.")
+
+(program
+  (warp 1)
+  (import Standard.Comparable)
+  (extension
+    (head Array)
+    (procedure m
+      (parameter of (type (array (some T Standard.Comparable))))
+      (returns Int)
+      (body
+        (return 1))))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

@@ -1,0 +1,21 @@
+(test 1)
+(name "a-private-entry-beside-another-documents-public-entry-runs-the-public-one")
+(note "A `private` declaration takes no spelling from the link, and a run starts from the `public` procedure spelled `entry`. The program's `entry` is private, and the one beside it is public, so the run starts from that one and returns 2.")
+
+(documents
+  (document
+    (warp 1)
+    (procedure entry
+      (access public)
+      (returns Int)
+      (body
+        (return 2)))))
+
+(program
+  (warp 1)
+  (procedure entry
+    (access private)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (answers 2))

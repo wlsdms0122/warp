@@ -1,0 +1,22 @@
+(test 1)
+(name "map-over-bytes-returns-an-array")
+(note "map builds new elements, so it returns what its procedure returned and not the spelling its collection arrived in: over bytes, handed back unchanged, it returns an array of Int, which a case does not match against bytes.")
+
+(program
+  (warp 1)
+  (import Standard.Collection.map)
+  (procedure entry
+    (access public)
+    (const)
+    (returns (array Int))
+    (body
+      (return
+        (call Standard.Collection.map x"0102"
+          (closure
+            (const)
+            (isolated)
+            (parameter item (type Int))
+            (returns Int)
+            (body
+              (return item))))))))
+(expect (answers (array 1 2)))

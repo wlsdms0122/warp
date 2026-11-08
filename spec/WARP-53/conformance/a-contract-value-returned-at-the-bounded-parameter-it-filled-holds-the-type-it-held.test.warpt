@@ -1,0 +1,44 @@
+(test 1)
+(name "a-contract-value-returned-at-the-bounded-parameter-it-filled-holds-the-type-it-held")
+(note "`held` is read as `App.Described` and holds `Int?`, and `plain` holds `Int`. Each fills `some T` of `App.pass` with the type it holds, and what `App.pass` returns at `T` is read as `App.Described` holding that type, so the call through the contract on what `held` gave back reaches `Optional`'s `describe`, though the value is `5`, and the one on what `plain` gave back reaches `Int`'s.")
+
+(program
+  (warp 1)
+  (contract App.Described
+    (procedure describe
+      (parameter of (type Self))
+      (returns String)))
+  (extension
+    (head Int)
+    (satisfies App.Described)
+    (procedure describe
+      (parameter of (type Int))
+      (returns String)
+      (body
+        (return "a number"))))
+  (extension
+    (head (optional Int))
+    (satisfies App.Described)
+    (procedure describe
+      (parameter of (type (optional Int)))
+      (returns String)
+      (body
+        (return "a number or none"))))
+  (procedure App.pass
+    (parameter x (type (some T App.Described)))
+    (returns (some T))
+    (body
+      (return x)))
+  (procedure entry
+    (access public)
+    (returns (array String))
+    (body
+      (let maybe (type (optional Int)) 5)
+      (let held (type App.Described) maybe)
+      (let plain (type App.Described) 5)
+      (let heldBack (call App.pass held))
+      (let plainBack (call App.pass plain))
+      (let first (call App.Described.describe heldBack))
+      (let second (call App.Described.describe plainBack))
+      (return (array first second)))))
+(expect (answers (array "a number or none" "a number")))

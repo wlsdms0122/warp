@@ -1,0 +1,14 @@
+(test 1)
+(name "floored-and-rounded-just-inside-the-ints-edge-answer")
+(note "-2^63 is the Int minimum and a Double exactly, so floored and rounded of it answer. The largest Double below 2^63 is an Int too, and floored of it answers.")
+
+(program
+  (warp 1)
+  (import Standard.Math.floored)
+  (import Standard.Math.rounded)
+  (procedure entry
+    (access public)
+    (returns (array Int))
+    (body
+      (return (array (call Standard.Math.floored -9.223372036854776e+18) (call Standard.Math.rounded -9.223372036854776e+18) (call Standard.Math.floored 9.223372036854775e+18))))))
+(expect (answers (array -9223372036854775808 -9223372036854775808 9223372036854774784)))

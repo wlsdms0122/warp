@@ -1,0 +1,13 @@
+(test 1)
+(name "some-written-in-a-module-variables-type-refuses")
+(note "A module variable's type writes no `some T`, since nothing fills one there.")
+
+(program
+  (warp 1)
+  (var v (type (some T)) 1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

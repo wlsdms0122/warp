@@ -1,0 +1,13 @@
+(test 1)
+(name "a-constant-dictionary-read-at-a-written-key-it-does-not-hold-refuses")
+(note "The path is headed by a constant and its key is written, so it folds at the build, where `digits` holds no entry under `\"7\"`. The fold finds nothing there to fold to, so the build refuses the path.")
+
+(program
+  (warp 1)
+  (const digits (dictionary (entry "0" 0) (entry "1" 1)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (path digits (index "7"))))))
+(expect (refuses build))

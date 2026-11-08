@@ -1,0 +1,46 @@
+(test 1)
+(name "a-contract-asking-isolated-lets-its-call-stand-in-an-isolated-slot")
+(note "A contract's procedure writing `isolated` touches no name another body could touch at once, so a call through it stands where a call to a declaration saying `isolated` does: the closure in `App.names` declares `isolated` and sends it, and stands in the isolated slot concurrent map asks.")
+
+(program
+  (warp 1)
+  (import Standard.Concurrent.map)
+  (import Standard.Text.text)
+  (struct App.Thing
+    (satisfies App.Named)
+    (field id Int)
+    (procedure name
+      (const)
+      (isolated)
+      (parameter of (type App.Thing))
+      (returns String)
+      (body
+        (return (call Standard.Text.text (path of (field id)))))))
+  (contract App.Named
+    (procedure name
+      (isolated)
+      (parameter of (type Self))
+      (returns String)))
+  (procedure App.names
+    (isolated)
+    (parameter of (type (array (some T App.Named))))
+    (returns (array String))
+    (failing concurrent_failed)
+    (body
+      (return
+        (call Standard.Concurrent.map of
+          (closure
+            (isolated)
+            (parameter item (type (some T)))
+            (parameter index (type Int))
+            (returns String)
+            (body
+              (return (call App.Named.name item))))))))
+  (procedure entry
+    (access public)
+    (isolated)
+    (returns (array String))
+    (failing cast_refused concurrent_failed)
+    (body
+      (return (call App.names (array (as (struct (field id 1)) App.Thing) (as (struct (field id 2)) App.Thing)))))))
+(expect (answers (array "1" "2")))

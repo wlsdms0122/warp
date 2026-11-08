@@ -1,0 +1,23 @@
+(test 1)
+(name "an-isolated-native-procedure-sending-one-not-declared-isolated-refuses")
+(note "A native procedure's sends are held to the rest of what it said. `App.tell` declares itself isolated, that it touches no name another body could touch at the same time, and declares a send to `App.log`, which does not declare so, so the build refuses `App.tell`.")
+
+(vocabulary
+  (procedure App.log
+    (returns Int)
+    (answers 0))
+  (procedure App.tell
+    (isolated)
+    (returns Int)
+    (answers 1)
+    (sends App.log)))
+
+(program
+  (warp 1)
+  (import App.tell)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return (call App.tell)))))
+(expect (refuses build))

@@ -1,0 +1,21 @@
+(test 1)
+(name "a-struct-another-document-declares-under-a-cases-spelling-refuses")
+(note "The document beside the program declares `App.Light`, and with it the spelling `App.Light.red` of its case. The program declares a struct under that spelling, so the link has two declarers of one name, and the build refuses it.")
+
+(documents
+  (document
+    (warp 1)
+    (enum App.Light
+      (case green)
+      (case red))))
+
+(program
+  (warp 1)
+  (struct App.Light.red
+    (field shade Int))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses build))

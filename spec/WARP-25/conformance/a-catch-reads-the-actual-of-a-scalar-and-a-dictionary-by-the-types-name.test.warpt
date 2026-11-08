@@ -1,0 +1,25 @@
+(test 1)
+(name "a-catch-reads-the-actual-of-a-scalar-and-a-dictionary-by-the-types-name")
+(note "`actual` names the type the value is an instance of: null is `Null`, a bool `Bool`, an int `Int`, a double `Double` and a dictionary `Dictionary`, whatever its keys and values.")
+
+(program
+  (warp 1)
+  (procedure App.actual
+    (parameter p)
+    (returns Any)
+    (body
+      (let caught
+        (try
+          (body
+            (as p String))
+          (catch
+            (return (path caught (field details) (index "actual"))))))
+      (return "no failure")))
+  (procedure entry
+    (access public)
+    (parameter d)
+    (returns (array Any))
+    (body
+      (return (array (call App.actual null) (call App.actual true) (call App.actual 1) (call App.actual 1.5) (call App.actual d))))))
+(arguments (argument d (dictionary (entry "a" 1))))
+(expect (answers (array "Null" "Bool" "Int" "Double" "Dictionary")))

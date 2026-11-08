@@ -1,0 +1,41 @@
+(test 1)
+(name "a-claim-another-document-makes-is-imported-and-holds")
+(note "The contract, the type and the claim joining them each stand in their own document. A claim declares no name, so the program reaches the document making it by writing the pair among its imports, and the claim is within its reach.")
+
+(documents
+  (document
+    (warp 1)
+    (contract App.Describable
+      (procedure describe
+        (parameter of (type Self))
+        (returns String))))
+  (document
+    (warp 1)
+    (struct T.Card
+      (field rank Int)
+      (procedure describe
+        (parameter of (type T.Card))
+        (returns String)
+        (body
+          (return "card")))))
+  (document
+    (warp 1)
+    (import App.Describable)
+    (import T.Card)
+    (extension
+      (head T.Card)
+      (satisfies App.Describable))))
+
+(program
+  (warp 1)
+  (import App.Describable.describe)
+  (import T.Card)
+  (import T.Card App.Describable)
+  (procedure entry
+    (access public)
+    (returns String)
+    (failing cast_refused)
+    (body
+      (let card (as (struct (field rank 1)) T.Card))
+      (return (call App.Describable.describe card)))))
+(expect (answers "card"))

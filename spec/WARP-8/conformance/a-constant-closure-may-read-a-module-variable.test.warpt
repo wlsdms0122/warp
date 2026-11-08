@@ -1,0 +1,20 @@
+(test 1)
+(name "a-constant-closure-may-read-a-module-variable")
+(note "A constant reads only the constants beside it, and a closure literal written in it is a procedure of its document, whose body reads what any body the document declares reads. The closure `k` holds reads the module variable `count` when it is called, which the constant itself does not read, so `k` folds and its call returns 5.")
+
+(program
+  (warp 1)
+  (const k
+    (closure
+      (returns Int)
+      (body
+        (return count))))
+  (var count (type Int) 5)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (failing (anything))
+    (body
+      (let a (apply k))
+      (return a))))
+(expect (answers 5))

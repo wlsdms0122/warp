@@ -1,0 +1,38 @@
+(test 1)
+(name "first-keyed-over-a-piece-that-refuses-before-one-succeeds-refuses")
+(note "A piece of `firstKeyed` that refuses at the run before one succeeds refuses the whole run, as under `first`. One piece divides by zero and the other loops until it is asked to stop, so no piece succeeds first.")
+
+(program
+  (warp 1)
+  (import Standard.Concurrent.firstKeyed)
+  (import Standard.Numeric.dividedBy)
+  (procedure entry
+    (access public)
+    (isolated)
+    (parameter z (type Int))
+    (returns Any)
+    (failing concurrent_failed)
+    (body
+      (return
+        (call Standard.Concurrent.firstKeyed
+          (dictionary
+            (entry "a"
+              (closure
+                (const)
+                (isolated)
+                (returns Double)
+                (body
+                  (return (call Standard.Numeric.dividedBy 1 z)))))
+            (entry "b"
+              (closure
+                (const)
+                (isolated)
+                (returns Int)
+                (body
+                  (loop
+                    (while true)
+                    (body
+                      (let round 1)))
+                  (return 1))))))))))
+(arguments (argument z 0))
+(expect (refuses run))

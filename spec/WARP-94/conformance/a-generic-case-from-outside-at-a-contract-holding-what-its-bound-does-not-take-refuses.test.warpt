@@ -1,0 +1,21 @@
+(test 1)
+(name "a-generic-case-from-outside-at-a-contract-holding-what-its-bound-does-not-take-refuses")
+(note "At a contract the door applies an enum to what the value's fields read as, as it does at `Any`. The slot is `Hashable`, `App.Keyed` claims it and bounds `K` by it, and the host hands `one` carrying an `App.Plain`, which no document claims `Hashable` for, so the door refuses the run.")
+
+(program
+  (warp 1)
+  (enum App.Keyed
+    (typeParameter K Hashable)
+    (satisfies Hashable)
+    (case none)
+    (case one (field key (some K))))
+  (struct App.Plain
+    (field x Int))
+  (procedure entry
+    (access public)
+    (parameter keyed (type Hashable))
+    (returns Int)
+    (body
+      (return 1))))
+(arguments (argument keyed (struct App.Keyed.one (field key (struct App.Plain (field x 1))))))
+(expect (refuses run))

@@ -1,0 +1,48 @@
+(test 1)
+(name "a-box-of-an-optional-is-taken-by-a-hashable-head")
+(note "A box of `Int?` is taken by `App.Box<some T: Hashable>`, since `Int?` conforms to `Hashable` by the language's claim about every Optional of what does, so `Lib.firstOf` reaches `App.Box.first` and answers the null the box holds.")
+
+(documents
+  (document
+    (warp 1)
+    (contract Lib.Container
+      (type Item)
+      (procedure first
+        (parameter of (type Self))
+        (returns Self.Item)))
+    (procedure Lib.firstOf
+      (access public)
+      (parameter c (type (some C Lib.Container)))
+      (returns (some C.Item))
+      (body
+        (return (call Lib.Container.first c)))))
+  (document
+    (warp 1)
+    (import Lib.Container)
+    (struct App.Box
+      (typeParameter T)
+      (field item (some T)))
+    (struct App.Plain
+      (field x Int))
+    (extension
+      (head (named App.Box (some T Hashable)))
+      (satisfies Lib.Container)
+      (type Item (some T))
+      (procedure first
+        (access public)
+        (parameter of (type (named App.Box (some T))))
+        (returns (some T))
+        (body
+          (return (path of (field item))))))))
+
+(program
+  (warp 1)
+  (import App.Box)
+  (import Lib.firstOf)
+  (procedure entry
+    (access public)
+    (returns (optional Int))
+    (body
+      (let b (type (named App.Box (optional Int))) (struct (field item null)))
+      (return (call Lib.firstOf b)))))
+(expect (answers null))

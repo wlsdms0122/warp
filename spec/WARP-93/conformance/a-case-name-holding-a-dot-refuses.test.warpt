@@ -1,0 +1,15 @@
+(test 1)
+(name "a-case-name-holding-a-dot-refuses")
+(note "Inside `enum` a `case` node is a case the enum declares, and its name is one identifier. `(case App.Light.red)` writes the spelling where the name stands, which is no case's name, so the load refuses it.")
+
+(program
+  (warp 1)
+  (enum App.Light
+    (case App.Light.red)
+    (case green))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

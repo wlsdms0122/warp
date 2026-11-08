@@ -1,0 +1,17 @@
+(test 1)
+(name "a-set-through-an-enum-refuses")
+(note "Nothing writes into a value of an enum through a path. `target` is a variable of `App.Target`, and a `set` through its `port` refuses at the build.")
+
+(program
+  (warp 1)
+  (enum App.Target
+    (case local)
+    (case remote (field host String) (field port Int)))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (var target (type App.Target) (case remote (field host "a") (field port 8080)))
+      (set (path target (field port)) 1)
+      (return 1))))
+(expect (refuses build))

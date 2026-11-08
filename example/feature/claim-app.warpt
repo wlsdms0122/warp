@@ -1,0 +1,32 @@
+(warp 1)
+(import Standard.Collection.map)
+(import c.Describable)
+(import c.Describable.describe)
+(import t.Card)
+(import t.Card c.Describable)
+
+(struct app.Answer
+  (field direct String)
+  (field each (array String)))
+
+(procedure app.each
+  (parameter of (type (array (some T c.Describable))))
+  (returns (array String))
+  (failing (anything))
+  (body
+    (return (call Standard.Collection.map of
+        (closure
+          (const)
+          (isolated)
+          (parameter item (type (some T)))
+          (returns String)
+          (body
+            (return (call c.Describable.describe item))))))))
+
+(procedure entry
+  (access public)
+  (returns app.Answer)
+  (failing (anything))
+  (body
+    (let cards (array (as (struct (field rank 1) (field suit "spades")) t.Card) (as (struct (field rank 12) (field suit "hearts")) t.Card)))
+    (return (struct (field direct (call c.Describable.describe (path cards (index 0)))) (field each (call app.each cards))))))

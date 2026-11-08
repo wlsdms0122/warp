@@ -1,0 +1,15 @@
+(test 1)
+(name "a-type-member-standing-for-itself-refuses")
+(note "App.Box gives the type member Item as `App.Box.Item`, its own spelling. A type member's spelling is an alias, and one that comes back to itself through what it stands for spells no type, so the load refuses it.")
+
+(program
+  (warp 1)
+  (struct App.Box
+    (field item Int)
+    (type Item App.Box.Item))
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

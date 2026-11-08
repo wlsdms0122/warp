@@ -1,0 +1,290 @@
+(warp 1)
+(import IO.clear)
+(import IO.key)
+(import IO.write)
+(import Random.int)
+(import Standard.Collection.appending)
+(import Standard.Collection.contains)
+(import Standard.Collection.count)
+(import Standard.Collection.dropLast)
+(import Standard.Collection.prepending)
+(import Standard.Comparable.lessThan)
+(import Standard.Logic.equal)
+(import Standard.Logic.notEqual)
+(import Standard.Math.floored)
+(import Standard.Numeric.dividedBy)
+(import Standard.Numeric.plus)
+(import Standard.Text.joined)
+(import Standard.Text.text)
+(import Time.wait)
+
+(struct game.Point
+  (field x Int)
+  (field y Int))
+
+(struct game.State
+  (field body (array game.Point))
+  (field direction String)
+  (field food game.Point)
+  (field height Int)
+  (field score Int)
+  (field width Int))
+
+(procedure game.crashes
+  (access private)
+  (const)
+  (parameter of (type game.State))
+  (parameter at (type game.Point))
+  (returns Bool)
+  (body
+    (var answer (type Bool) (call Standard.Collection.contains (path of (field body)) at))
+    (conditional
+      (when (call Standard.Comparable.lessThan (path at (field x)) 0))
+      (then
+        (set answer true)))
+    (conditional
+      (when (call Standard.Comparable.lessThan (path at (field y)) 0))
+      (then
+        (set answer true)))
+    (conditional
+      (when (call Standard.Comparable.lessThan (path at (field x)) (path of (field width))))
+      (then)
+      (else
+        (set answer true)))
+    (conditional
+      (when (call Standard.Comparable.lessThan (path at (field y)) (path of (field height))))
+      (then)
+      (else
+        (set answer true)))
+    (return answer)))
+
+(procedure game.frame
+  (access private)
+  (const)
+  (parameter of (type game.State))
+  (returns String)
+  (body
+    (var blank (type (array String)) (array))
+    (var x (type Int) 0)
+    (loop
+      (while (call Standard.Comparable.lessThan x (path of (field width))))
+      (body
+        (set blank (call Standard.Collection.appending blank " "))
+        (set x (call Standard.Numeric.plus x 1))))
+    (var grid (type (array (array String))) (array))
+    (var y (type Int) 0)
+    (loop
+      (while (call Standard.Comparable.lessThan y (path of (field height))))
+      (body
+        (set grid (call Standard.Collection.appending grid blank))
+        (set y (call Standard.Numeric.plus y 1))))
+    (var i (type Int) 0)
+    (loop
+      (while (call Standard.Comparable.lessThan i (call Standard.Collection.count (path of (field body)))))
+      (body
+        (let px (path of (field body) (index i) (field x)))
+        (let py (path of (field body) (index i) (field y)))
+        (set (path grid (index py) (index px)) "o")
+        (set i (call Standard.Numeric.plus i 1))))
+    (let hx (path of (field body) (index 0) (field x)))
+    (let hy (path of (field body) (index 0) (field y)))
+    (set (path grid (index hy) (index hx)) "@")
+    (let fx (path of (field food) (field x)))
+    (let fy (path of (field food) (field y)))
+    (set (path grid (index fy) (index fx)) "*")
+    (var dashes (type String) "")
+    (var d (type Int) 0)
+    (loop
+      (while (call Standard.Comparable.lessThan d (path of (field width))))
+      (body
+        (set dashes (call Standard.Text.joined (array dashes "-") ""))
+        (set d (call Standard.Numeric.plus d 1))))
+    (let border (call Standard.Text.joined (array "+" dashes "+") ""))
+    (var lines (type (array String)) (array border))
+    (var j (type Int) 0)
+    (loop
+      (while (call Standard.Comparable.lessThan j (call Standard.Collection.count grid)))
+      (body
+        (set lines (call Standard.Collection.appending lines (call Standard.Text.joined (array "|" (call Standard.Text.joined (path grid (index j)) "") "|") "")))
+        (set j (call Standard.Numeric.plus j 1))))
+    (set lines (call Standard.Collection.appending lines border))
+    (set lines (call Standard.Collection.appending lines (call Standard.Text.joined (array "score " (call Standard.Text.text (path of (field score)))) "")))
+    (return (call Standard.Text.joined lines "\n"))))
+
+(procedure game.main
+  (access public)
+  (parameter height (type Int))
+  (parameter width (type Int))
+  (failing cast_refused)
+  (body
+    (var state (type (optional game.State)) (call game.start height width))
+    (loop
+      (while (call Standard.Logic.notEqual state null))
+      (body
+        (call Time.wait 150)
+        (set state (call game.tick (as state game.State)))))))
+
+(procedure game.named
+  (access private)
+  (parameter key (type (optional String)))
+  (returns (optional String))
+  (body
+    (var answer (type (optional String)))
+    (conditional
+      (when (call Standard.Collection.contains (array "up" "down" "left" "right") key))
+      (then
+        (set answer key)))
+    (conditional
+      (when (call Standard.Logic.equal key "w"))
+      (then
+        (set answer "up")))
+    (conditional
+      (when (call Standard.Logic.equal key "s"))
+      (then
+        (set answer "down")))
+    (conditional
+      (when (call Standard.Logic.equal key "a"))
+      (then
+        (set answer "left")))
+    (conditional
+      (when (call Standard.Logic.equal key "d"))
+      (then
+        (set answer "right")))
+    (return answer)))
+
+(procedure game.opposite
+  (access private)
+  (const)
+  (parameter of (type String))
+  (returns String)
+  (body
+    (var answer (type String) "left")
+    (conditional
+      (when (call Standard.Logic.equal of "up"))
+      (then
+        (set answer "down")))
+    (conditional
+      (when (call Standard.Logic.equal of "down"))
+      (then
+        (set answer "up")))
+    (conditional
+      (when (call Standard.Logic.equal of "left"))
+      (then
+        (set answer "right")))
+    (return answer)))
+
+(procedure game.place
+  (access private)
+  (parameter avoiding (type (array game.Point)))
+  (parameter height (type Int))
+  (parameter width (type Int))
+  (returns game.Point)
+  (failing cast_refused)
+  (body
+    (var spot (call game.roll height width))
+    (loop
+      (while (call Standard.Collection.contains avoiding spot))
+      (body
+        (set spot (call game.roll height width))))
+    (return spot)))
+
+(procedure game.roll
+  (access private)
+  (parameter height (type Int))
+  (parameter width (type Int))
+  (returns game.Point)
+  (failing cast_refused)
+  (body
+    (return (as (struct (field x (call Random.int width)) (field y (call Random.int height))) game.Point))))
+
+(procedure game.start
+  (access private)
+  (parameter height (type Int))
+  (parameter width (type Int))
+  (returns game.State)
+  (failing cast_refused)
+  (body
+    (let head (as (struct (field x (call Standard.Math.floored (call Standard.Numeric.dividedBy width 2))) (field y (call Standard.Math.floored (call Standard.Numeric.dividedBy height 2)))) game.Point))
+    (let body (array head))
+    (return (as (struct (field body body) (field direction "right") (field food (call game.place body height width)) (field height height) (field score 0) (field width width)) game.State))))
+
+(procedure game.steer
+  (access private)
+  (parameter of (type String))
+  (parameter key (type (optional String)))
+  (returns String)
+  (failing cast_refused)
+  (body
+    (var answer (type String) of)
+    (let turn (call game.named key))
+    (conditional
+      (when (call Standard.Logic.notEqual turn null))
+      (then
+        (conditional
+          (when (call Standard.Logic.notEqual turn (call game.opposite of)))
+          (then
+            (set answer (as turn String))))))
+    (return answer)))
+
+(procedure game.step
+  (access private)
+  (parameter of (type game.Point))
+  (parameter direction (type String))
+  (returns game.Point)
+  (failing cast_refused)
+  (body
+    (var dx (type Int) 0)
+    (var dy (type Int) 0)
+    (conditional
+      (when (call Standard.Logic.equal direction "left"))
+      (then
+        (set dx -1)))
+    (conditional
+      (when (call Standard.Logic.equal direction "right"))
+      (then
+        (set dx 1)))
+    (conditional
+      (when (call Standard.Logic.equal direction "up"))
+      (then
+        (set dy -1)))
+    (conditional
+      (when (call Standard.Logic.equal direction "down"))
+      (then
+        (set dy 1)))
+    (return (as (struct (field x (call Standard.Numeric.plus (path of (field x)) dx)) (field y (call Standard.Numeric.plus (path of (field y)) dy))) game.Point))))
+
+(procedure game.tick
+  (access private)
+  (parameter state (type game.State))
+  (returns (optional game.State))
+  (failing cast_refused)
+  (body
+    (let key (call IO.key))
+    (conditional
+      (when (call Standard.Logic.equal key "q"))
+      (then
+        (return)))
+    (let direction (call game.steer (path state (field direction)) key))
+    (let next (call game.step (path state (field body) (index 0)) direction))
+    (conditional
+      (when (call game.crashes state next))
+      (then
+        (return)))
+    (let ate (call Standard.Logic.equal next (path state (field food))))
+    (var kept (type (array game.Point)) (call Standard.Collection.dropLast (path state (field body))))
+    (var score (type Int) (path state (field score)))
+    (conditional
+      (when ate)
+      (then
+        (set kept (path state (field body)))
+        (set score (call Standard.Numeric.plus (path state (field score)) 1))))
+    (let body (call Standard.Collection.prepending kept next))
+    (var food (type game.Point) (path state (field food)))
+    (conditional
+      (when ate)
+      (then
+        (set food (call game.place body (path state (field height)) (path state (field width))))))
+    (let moved (as (struct (field body body) (field direction direction) (field food food) (field height (path state (field height))) (field score score) (field width (path state (field width)))) game.State))
+    (call IO.clear)
+    (call IO.write (call Standard.Text.joined (array (call game.frame moved) "\n") ""))
+    (return moved)))

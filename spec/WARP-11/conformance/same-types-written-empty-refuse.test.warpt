@@ -1,0 +1,5 @@
+(test 1)
+(name "same-types-written-empty-refuse")
+(note "A signature saying no associated type is a type writes no `sameTypes`, so `sameTypes: {}` says it a second way.")
+(tree (dictionary (entry "imports" (array)) (entry "procedures" (dictionary (entry "entry" (dictionary (entry "access" "public") (entry "body" (array (dictionary (entry "value" (dictionary (entry "return" 1)))))) (entry "returns" "Int") (entry "sameTypes" (dictionary)))))) (entry "warp" 1)))
+(expect (refuses load))
