@@ -1,0 +1,5 @@
+(test 1)
+(name "a-dictionary-keyed-by-values-spells-as-text")
+(note "A dictionary is keyed by values, and each entry writes its key as the value it is: `null`, a number, a string, a list, a dictionary, a struct. The string `\"null\"` and the value `null` are two keys.")
+(text "(test 1)\n(expect (answers (dictionary (entry null 1) (entry true 2) (entry -3 3) (entry 1.5 4) (entry \"\" 5) (entry \"a\" 6) (entry \"null\" 7) (entry (array 1 2) 8) (entry (dictionary) 9) (entry (struct A.P) 10))))\n")
+(expect (spells (dictionary (entry "expect" (dictionary (entry "answers" (dictionary (entry null 1) (entry true 2) (entry -3 3) (entry 1.5 4) (entry "" 5) (entry "a" 6) (entry "null" 7) (entry (array 1 2) 8) (entry (dictionary) 9) (entry (struct A.P) 10))))) (entry "test" 1))))

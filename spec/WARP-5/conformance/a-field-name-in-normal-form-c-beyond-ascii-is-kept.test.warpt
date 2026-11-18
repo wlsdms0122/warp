@@ -1,0 +1,5 @@
+(test 1)
+(name "a-field-name-in-normal-form-c-beyond-ascii-is-kept")
+(note "A struct's field name is held to normal form C and to nothing narrower in the encoding, so `café` written composed reads and writes back.")
+(bytes x"57415250010903412e500105636166c3a90302")
+(expect (spells (struct A.P (field café 1))))

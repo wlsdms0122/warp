@@ -1,0 +1,5 @@
+(test 1)
+(name "a-string-holding-an-overlong-encoding-refuses")
+(note "UTF-8 writes each scalar in its shortest form, so C0 AF, a long spelling of `/`, is no UTF-8 and refuses.")
+(bytes x"57415250010502c0af")
+(expect (refuses load))

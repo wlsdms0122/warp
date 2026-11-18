@@ -1,0 +1,5 @@
+(test 1)
+(name "an-object-of-a-later-format-with-keys-of-its-own-refuses")
+(note "A later format may carry keys this layout does not name. The format is read before the dictionary is held to any layout, so what refuses is the number and not a key it happens to carry.")
+(object (dictionary (entry "claims" (array)) (entry "constants" (array)) (entry "contracts" (array)) (entry "dependencies" (array)) (entry "document" (array x"8af75591dda024dd54e03c9956e36ec1f1a655130299736cfaf4ba6828377f10")) (entry "importedClaims" (array)) (entry "later" null) (entry "lifted" (array)) (entry "members" (array)) (entry "numbering" (array (array) (array))) (entry "object" 2) (entry "rows" (array (array "entry" (array (array) (array (array 4))) 2 1 1 (array 1 (array)) true (array 0 (array (array (array (array (array 0 0 (array))) (array 0 (array 2 1)) "n")) (array (array 1 (array 0 (array))))) (array 1 (array) (array) (array) (array "n")))))) (entry "typeMembers" (array)) (entry "typeNumbering" (array)) (entry "types" (array)) (entry "variables" (array))))
+(expect (refuses load))

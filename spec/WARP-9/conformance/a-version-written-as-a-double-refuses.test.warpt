@@ -1,0 +1,12 @@
+(test 1)
+(name "a-version-written-as-a-double-refuses")
+(note "The version is a string. `0.1` is a Double, which a reader reading it as digits would take for the version `\"0.1\"`. It refuses at the load.")
+
+(program
+  (warp 0.1)
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

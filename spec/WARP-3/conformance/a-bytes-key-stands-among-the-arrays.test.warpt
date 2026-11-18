@@ -1,0 +1,5 @@
+(test 1)
+(name "a-bytes-key-stands-among-the-arrays")
+(note "Bytes are an array in the key order, compared element by element, so x\"02\" stands after the array [1, 2] and before every dictionary, whatever tag the binary gives it.")
+(bytes x"574152500107030602030203040302080102030407000306")
+(expect (spells (dictionary (entry (array 1 2) 1) (entry x"02" 2) (entry (dictionary) 3))))

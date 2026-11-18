@@ -1,0 +1,5 @@
+(test 1)
+(name "a-string-holding-an-encoded-surrogate-refuses")
+(note "A string is Unicode scalars, and a surrogate is none, so its three-byte encoding is no UTF-8 and refuses.")
+(bytes x"57415250010503eda080")
+(expect (refuses load))

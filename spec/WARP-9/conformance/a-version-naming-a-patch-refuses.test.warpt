@@ -1,0 +1,12 @@
+(test 1)
+(name "a-version-naming-a-patch-refuses")
+(note "A document writes the major and the minor of a release and not its patch. `\"0.1.0\"` is a string of another form, and refuses at the load.")
+
+(program
+  (warp "0.1.0")
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

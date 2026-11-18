@@ -1,0 +1,11 @@
+(test 1)
+(name "a-document-that-says-no-version-refuses")
+(note "Every document says which version it is written for, before anything else in it is read. One that does not is refused where the document is read.")
+
+(program
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (refuses load))

@@ -1,0 +1,5 @@
+(test 1)
+(name "a-struct-reads-and-writes-back")
+(note "A struct is `0x09` with its name in front and a dictionary is `0x07`, and an integer is zigzagged, so a negative one is not a longer spelling of a positive. Two rules one document cannot state apart from the bytes that hold them.")
+(bytes x"574152500109094170702e506f696e74020178030101790304")
+(expect (spells (struct App.Point (field x -1) (field y 2))))

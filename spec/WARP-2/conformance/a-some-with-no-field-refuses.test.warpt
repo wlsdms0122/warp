@@ -1,0 +1,5 @@
+(test 1)
+(name "a-some-with-no-field-refuses")
+(note "A `Some` is a struct of exactly one field, `wrapped`. These bytes are a `Some` with no field, which is no value, so the binary refuses it.")
+(bytes x"57415250010904536f6d6500")
+(expect (refuses load))

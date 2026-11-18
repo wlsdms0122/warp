@@ -1,0 +1,16 @@
+{
+  "name": "nightly",
+  "steps": [
+    {"kind": "fetch", "id": "orders", "url": "http://127.0.0.1:8765/orders.json"},
+    {"kind": "count", "id": "lines", "from": "orders"},
+    {"kind": "print", "id": "show", "from": "lines"},
+    {"kind": "write", "id": "save", "path": "out/orders.json", "from": "orders"},
+    {"kind": "shell", "id": "size", "command": "wc -c < out/orders.json"},
+    {"kind": "print", "id": "show-size", "from": "size"},
+    {"kind": "sleep", "id": "pause", "ms": 20},
+    {"kind": "fetch", "id": "missing", "url": "http://127.0.0.1:8765/nothing-here.json"},
+    {"kind": "count", "id": "uncountable", "from": "pause"},
+    {"kind": "shell", "id": "failing", "command": "exit 3"},
+    {"kind": "write", "id": "escape", "path": "../outside.txt", "from": "lines"}
+  ]
+}

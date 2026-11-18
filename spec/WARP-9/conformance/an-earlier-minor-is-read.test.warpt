@@ -1,0 +1,12 @@
+(test 1)
+(name "an-earlier-minor-is-read")
+(note "A reader reads a document of its major whose minor is no later than its release's, under major 0 as well. A document saying `\"0.0\"` is read by a reader of 0.1, and loading it writes it back as it was written.")
+
+(program
+  (warp "0.0")
+  (procedure entry
+    (access public)
+    (returns Int)
+    (body
+      (return 1))))
+(expect (answers 1))
